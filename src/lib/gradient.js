@@ -1,0 +1,77 @@
+import tinygradient from 'tinygradient';
+
+let optimizerGridGradient = tinygradient([
+  '#5A1A06', 
+  '#343127', 
+  '#38821F',
+]);
+let relicGridGradient = tinygradient('#343127', '#38821F')
+let relicColumnRanges
+
+export const Gradient = {
+  getColor: (decimal, gradient) => {
+    let color = gradient.rgbAt(decimal).toHexString()
+    return color;
+  },
+
+  getOptimizerColumnGradient: (params) => {
+    let aggs = OptimizerTabController.getAggs()
+
+    try {
+      let colId = params.column.colId
+      
+      if (params.data && aggs && OptimizerTabController.getColumnsToAggregate(true)[colId]) {
+        let min = aggs.minAgg[colId]
+        let max = aggs.maxAgg[colId]
+        let value = params.value
+        
+        var range = (value - min) / (max - min);
+        if (max == min) {
+          range = 0.5
+        }
+        // console.log(min, max, value, range);
+
+        let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
+        return {
+          backgroundColor: color
+        };
+      }
+    } catch (e) {console.error(e)}
+  },
+
+  getRelicGradient(params) {
+    let col = params.column.colId
+    let value = params.value
+    if (!relicColumnRanges) {
+      // Not maxes, just for visual representation of gradient. Calculated by low roll x 5
+      relicColumnRanges = {
+        [`augmentedStats.${Constants.Stats.HP}`]: 169.35,
+        [`augmentedStats.${Constants.Stats.ATK}`]: 84.675,
+        [`augmentedStats.${Constants.Stats.DEF}`]: 84.675,
+        [`augmentedStats.${Constants.Stats.SPD}`]: 10,
+        [`augmentedStats.${Constants.Stats.ATK_P}`]: 0.1728,
+        [`augmentedStats.${Constants.Stats.HP_P}`]: 0.1728,
+        [`augmentedStats.${Constants.Stats.DEF_P}`]: 0.216,
+        [`augmentedStats.${Constants.Stats.CR}`]: 0.1296,
+        [`augmentedStats.${Constants.Stats.CD}`]: 0.2592,
+        [`augmentedStats.${Constants.Stats.EHR}`]: 0.1728,
+        [`augmentedStats.${Constants.Stats.RES}`]: 0.1728,
+        [`augmentedStats.${Constants.Stats.BE}`]: 0.2592,
+        'os': 35,
+        'ss': 35,
+        'ds': 35,
+      }
+    }
+
+    if (value == 0) {
+      return {}
+    }
+
+    let range = value / relicColumnRanges[col]
+    let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
+
+    return {
+      backgroundColor: color
+    };
+  }
+}

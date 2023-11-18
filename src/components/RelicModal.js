@@ -1,0 +1,464 @@
+import styled from 'styled-components';
+import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, Form, InputNumber, Segmented } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
+import { AgGridReact } from 'ag-grid-react';
+
+import RelicPreview from './RelicPreview';
+import { Constants } from '../lib/constants';
+import { HeaderText } from './HeaderText';
+import { RelicAugmenter } from '../lib/relicAugmenter';
+import { Message } from '../lib/message';
+
+
+function RadioIcon(props) {
+  return (
+    <Radio.Button value={props.value} style={{height: 35, width: 50, paddingLeft: 10}}>
+      <Image
+        preview={false}
+        width={30}
+        src={props.src}
+      />
+    </Radio.Button>
+  )
+}
+
+const InputNumberStyled = styled(InputNumber)`
+  width: 90px
+`
+
+// selectedRelic, onOk, setOpen, open, type
+export default function RelicModal(props) {
+  const [relicForm] = Form.useForm();
+
+  const initialValues = useMemo(() => {
+    console.log('!!! set initial values')
+    let relic = props.selectedRelic
+    if (!relic || props.type != 'edit') {
+      return {
+        grade: 5,
+        enhance: 15
+      }
+    }
+
+    return {
+      grade: relic.grade,
+      enhance: relic.enhance,
+      set: relic.set,
+      part: relic.part,
+      mainStatType: relic.main.stat,
+      mainStatValue: relic.main.value,
+      substatType0: relic.substats[0]?.stat,
+      substatValue0: relic.substats[0]?.value,
+      substatType1: relic.substats[1]?.stat,
+      substatValue1: relic.substats[1]?.value,
+      substatType2: relic.substats[2]?.stat,
+      substatValue2: relic.substats[2]?.value,
+      substatType3: relic.substats[3]?.stat,
+      substatValue3: relic.substats[3]?.value,
+    }
+  }, [props.selectedRelic]);
+
+  const onFinish = (x) => {
+    console.log('Form finished', x);
+    if (!x.part) {
+      return Message.error('Part field is missing')
+    }
+    if (!x.mainStatType) {
+      return Message.error('Main stat is missing')
+    }
+    if (!x.mainStatValue) {
+      return Message.error('Main stat is missing')
+    }
+    if (!x.set) {
+      return Message.error('Set field is missing')
+    }
+    if (x.enhance == undefined) {
+      return Message.error('Enhance field is missing')
+    }
+    if (x.grade == undefined) {
+      return Message.error('Grade field is missing')
+    }
+    if (x.grade > 5 || x.grade < 2) {
+      return Message.error('Grade value is invalid')
+    }
+    if (x.enhance > 15 || x.enhance < 0) {
+      return Message.error('Enhance value is invalid')
+    }
+    if (!Constants.SetsRelicsNames.includes(x.set) && !Constants.SetsOrnamentsNames.includes(x.set))  {
+      return Message.error('Set value is invalid')
+    }
+    if (Constants.SetsRelicsNames.includes(x.set) && (x.part == Constants.Parts.PlanarSphere || x.part == Constants.Parts.LinkRope))  {
+      return Message.error('The selected set is not an ornament set')
+    }
+    if (Constants.SetsOrnamentsNames.includes(x.set) && (x.part == Constants.Parts.Head  || 
+                                                         x.part == Constants.Parts.Hands || 
+                                                         x.part == Constants.Parts.Body  || 
+                                                         x.part == Constants.Parts.Feet)) {
+      return Message.error('The selected set is not a relic set')
+    }
+    if (x.substatType0 != undefined && x.substatValue0 == undefined || x.substatType0 == undefined && x.substatValue0 != undefined) {
+      return Message.error('Substat 1 is invalid')
+    }
+    if (x.substatType1 != undefined && x.substatValue1 == undefined || x.substatType1 == undefined && x.substatValue1 != undefined) {
+      return Message.error('Substat 2 is invalid')
+    }
+    if (x.substatType2 != undefined && x.substatValue2 == undefined || x.substatType2 == undefined && x.substatValue2 != undefined) {
+      return Message.error('Substat 3 is invalid')
+    }
+    if (x.substatType3 != undefined && x.substatValue3 == undefined || x.substatType3 == undefined && x.substatValue3 != undefined) {
+      return Message.error('Substat 4 is invalid')
+    }
+
+    if (x.substatType3 != undefined && (x.substatType0 == undefined || x.substatType1 == undefined || x.substatType2 == undefined)) {
+      return Message.error('Substats are out of order')
+    }
+    if (x.substatType2 != undefined && (x.substatType0 == undefined || x.substatType1 == undefined)) {
+      return Message.error('Substats are out of order')
+    }
+    if (x.substatType1 != undefined && (x.substatType0 == undefined)) {
+      return Message.error('Substats are out of order')
+    }
+
+    let substatTypes = [x.substatType0, x.substatType1, x.substatType2, x.substatType3].filter(x => x != undefined)
+    if (new Set(substatTypes).size !== substatTypes.length) {
+      return Message.error('Duplicate substats, only one of each type is allowed')
+    }
+    if (substatTypes.includes(x.mainStatType)) {
+      return Message.error('Substat type is the same as the main stat')
+    }
+
+    if (x.substatValue0 >= 1000 || x.substatValue1 >= 1000 || x.substatValue2 >= 1000 || x.substatValue3 >= 1000) {
+      return Message.error('Substat value is too big')
+    }
+    if (x.mainStatValue >= 1000) {
+      return Message.error('Main stat value is too big')
+    }
+    if (x.substatValue0 <= 0 || x.substatValue1 <= 0 || x.substatValue2 <= 0 || x.substatValue3 <= 0) {
+      return Message.error('Substat values should be positive')
+    }
+    if (x.mainStatValue <= 0) {
+      return Message.error('Main stat values should be positive')
+    }
+
+    let relic = {
+      enhance: x.enhance,
+      grade: x.grade,
+      part: x.part,
+      set: x.set,
+      main: {
+        stat: x.mainStatType,
+        value: x.mainStatValue
+      }
+    }
+    let substats = []
+    if (x.substatType0 != undefined && x.substatValue0 != undefined) {
+      substats.push({
+        stat: x.substatType0,
+        value: x.substatValue0
+      })
+    }
+    if (x.substatType1 != undefined && x.substatValue1 != undefined) {
+      substats.push({
+        stat: x.substatType1,
+        value: x.substatValue1
+      })
+    }
+    if (x.substatType2 != undefined && x.substatValue2 != undefined) {
+      substats.push({
+        stat: x.substatType2,
+        value: x.substatValue2
+      })
+    }
+    if (x.substatType3 != undefined && x.substatValue3 != undefined) {
+      substats.push({
+        stat: x.substatType3,
+        value: x.substatValue3
+      })
+    }
+    relic.substats = substats
+    RelicAugmenter.augment(relic)
+
+    console.log('Completed relic', relic)
+
+    props.onOk(relic)
+    props.setOpen(false)
+  };
+  const onFinishFailed = (x) => {
+    message.error('Submit failed!');
+    props.setOpen(false)
+  };
+  const onValuesChange = (x) => {
+    console.log('Form change', x);
+  };
+
+  const handleCancel = (x) => {
+    props.setOpen(false)
+  };
+  const handleOk = (x) => {
+    relicForm.submit()
+  };
+
+  let enhanceOptions = []
+  for (let i = 15; i >= 0; i--) {
+    enhanceOptions.push({ value: i, label: '+' + i })
+  }
+
+  let setOptions = []
+  for (let entry of Object.entries(Constants.SetsRelics)) {
+    setOptions.push({
+      label: entry[1],
+      value: entry[1]
+    })
+  }
+  for (let entry of Object.entries(Constants.SetsOrnaments)) {
+    setOptions.push({
+      label: entry[1],
+      value: entry[1]
+    })
+  }
+
+  return (
+    <Form
+      form={relicForm}
+      layout="vertical"
+      preserve={false}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      onValuesChange={onValuesChange}
+      initialValues={initialValues}
+    >
+      <Modal
+        width={350}
+        centered
+        destroyOnClose
+        open={props.open}
+        onCancel={() => props.setOpen(false)}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary" onClick={handleOk}>
+            Submit
+          </Button>,
+        ]}
+      >
+        <Flex vertical gap={5}>
+          
+          <HeaderText>Part</HeaderText>
+        
+          <Form.Item size="default" name='part'>
+            <Radio.Group buttonStyle="solid">
+              <RadioIcon value={Constants.Parts.Head} src={`../assets/misc/head.png`}/>
+              <RadioIcon value={Constants.Parts.Hands} src={`../assets/misc/hands.png`}/>
+              <RadioIcon value={Constants.Parts.Body} src={`../assets/misc/body.png`}/>
+              <RadioIcon value={Constants.Parts.Feet} src={`../assets/misc/feet.png`}/>
+              <RadioIcon value={Constants.Parts.PlanarSphere} src={`../assets/misc/planarSphere.png`}/>
+              <RadioIcon value={Constants.Parts.LinkRope} src={`../assets/misc/linkRope.png`}/>
+            </Radio.Group>
+          </Form.Item>
+          
+          <HeaderText>Set</HeaderText>
+          <Form.Item size="default" name='set'>
+            <Select
+              showSearch
+              allowClear
+              style={{
+                width: 300,
+              }}
+              placeholder="Sets"
+              options={setOptions}
+              maxTagCount='responsive'>
+            </Select>
+          </Form.Item>
+          
+          <HeaderText>Enhance / Grade</HeaderText>
+        
+          <Flex gap={10}>
+            <Form.Item size="default" name='enhance'>
+              <Select
+                showSearch
+                style={{ width: 145 }}
+                options={enhanceOptions}
+              />
+            </Form.Item>    
+            <Form.Item size="default" name='grade'>
+              <Select
+                showSearch
+                style={{ width: 145 }}
+                options={[
+                  { value: 2, label: '2 star' },
+                  { value: 3, label: '3 star' },
+                  { value: 4, label: '4 star' },
+                  { value: 5, label: '5 star' },
+                ]}
+              />
+            </Form.Item>    
+          </Flex>
+          
+          <HeaderText>Main stat</HeaderText>
+          
+          <Flex gap={10}>
+            <Form.Item size="default" name='mainStatType'>
+              <Select
+                showSearch
+                allowClear
+                style={{
+                  width: 200,
+                }}
+                placeholder="Main Stat"
+                maxTagCount='responsive'>
+                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
+                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
+                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
+                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
+                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
+                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
+                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+                <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
+                <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
+                <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
+              </Select>
+            </Form.Item>
+        
+            <Form.Item size="default" name='mainStatValue'>
+              <InputNumberStyled controls={false}/>
+            </Form.Item>
+          </Flex>
+          
+          <HeaderText>Substats</HeaderText>
+        
+          <Flex gap={10}>
+            <Form.Item size="default" name='substatType0'>
+              <Select
+                showSearch
+                allowClear
+                style={{
+                  width: 200,
+                }}
+                placeholder="Substat"
+                maxTagCount='responsive'>
+                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
+                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
+                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
+                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
+                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
+                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
+                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
+                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+              </Select>
+            </Form.Item>
+        
+        
+            <Form.Item size="default" name='substatValue0'>
+              <InputNumberStyled controls={false}/>
+            </Form.Item>
+          </Flex>
+          
+          <Flex gap={10}>
+            <Form.Item size="default" name='substatType1'>
+              <Select
+                showSearch
+                allowClear
+                style={{
+                  width: 200,
+                }}
+                placeholder="Substat"
+                maxTagCount='responsive'>
+                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
+                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
+                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
+                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
+                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
+                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
+                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
+                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+              </Select>
+            </Form.Item>
+        
+            <Form.Item size="default" name='substatValue1'>
+              <InputNumberStyled controls={false}/>
+            </Form.Item>
+          </Flex>
+          
+          <Flex gap={10}>
+            <Form.Item size="default" name='substatType2'>
+              <Select
+                showSearch
+                allowClear
+                style={{
+                  width: 200,
+                }}
+                placeholder="Substat"
+                maxTagCount='responsive'>
+                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
+                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
+                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
+                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
+                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
+                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
+                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
+                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+              </Select>
+            </Form.Item>
+        
+            <Form.Item size="default" name='substatValue2'>
+              <InputNumberStyled controls={false}/>
+            </Form.Item>
+          </Flex>
+          
+          <Flex gap={10}>
+            <Form.Item size="default" name='substatType3'>
+              <Select
+                showSearch
+                allowClear
+                style={{
+                  width: 200,
+                }}
+                placeholder="Substat"
+                maxTagCount='responsive'>
+                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
+                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
+                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
+                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
+                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
+                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
+                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
+                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+              </Select>
+            </Form.Item>
+        
+            <Form.Item size="default" name='substatValue3'>
+              <InputNumberStyled controls={false}/>
+            </Form.Item>
+          </Flex>
+        </Flex>
+      </Modal>
+    </Form>
+  )
+}

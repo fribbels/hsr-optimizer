@@ -1,0 +1,66 @@
+{
+  "name": "hsr-optimizer",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@reduxjs/toolkit": "^1.9.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "ag-grid-react": "^30.2.0",
+    "antd": "^5.10.1",
+    "fast-sort": "^3.4.0",
+    "gpu.js": "^2.11.2",
+    "object-hash": "^3.0.0",
+    "path": "^0.12.7",
+    "rc-drawer": "^6.5.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.8.0",
+    "string-similarity": "^4.0.4",
+    "styled-components": "^6.0.8",
+    "tinygradient": "^1.1.5",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4",
+    "workerpool": "^6.5.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "babel-loader": "^9.1.3",
+    "json-loader": "^0.5.7",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "worker-loader": "^3.0.8"
+  }
+}

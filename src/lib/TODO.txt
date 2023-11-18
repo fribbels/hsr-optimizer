@@ -1,0 +1,44 @@
+TODO before Nov 12 - 5 DAYS LEFT
+
+TODAY:
+apply validations to form 
+confirmations
+try it out importer
+duplicate equipped safety
+
+LAST:
+tour 
+discord/github links
+apply stat decimals
+per relic hover actions
+
+THOUGHTS
+gpu slow because errors in index calcing past perm #?
+def shref?
+
+DONE
+remove level 0s
+reset buttons
+keep current filter
+grid pinned row build
+clear saves
+save filters, remove test filter fill in
+implement filter
+fully equipped icon display on characters
+fill out light cone level/eidolon stats
+recalculate stat levels per ascension
+apply permutations set filter 
+OCR:
+ocr version on importer tab
+ocr updates get rank, apply rank filter
+{NICKNAME}
+fix fonts
+lightcone pic
+apply stat decimals
+{NICKNAME}
+lc/char e/s display
+maxed main stat filter
+ocr updates UI 
+add cv / stat ratings on relics 
+add ratings to relic preview
+grid backgrounds

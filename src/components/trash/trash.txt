@@ -1,0 +1,298 @@
+
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="absolute" open={open}>
+          <Toolbar
+            sx={{
+              pr: '24px', // keep right padding when drawer closed
+            }}
+          >
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={toggleDrawer}
+              sx={{
+                marginRight: '36px',
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Dashboard
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+              <Stack
+                divider={<Divider orientation="vertical" flexItem />}
+                direction="row"
+                justifyContent="space-around"
+                alignItems="center"
+                spacing={1}>
+
+                <Stack>
+                  <ToggleButtonsMultiple>
+                  </ToggleButtonsMultiple>
+
+                  <Button variant="text" onClick={startButtonClick}>Start</Button>
+                </Stack>
+
+                <Stack>
+                  <TextField
+                    id="standard-password-input"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="standard"
+                  />
+                  <TextField
+                    id="standard-password-input"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="standard"
+                  />
+                  <TextField
+                    id="standard-password-input"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="standard"
+                  />
+                </Stack>
+                <Stack>
+                  <MultipleSelectDropdown>
+
+                  </MultipleSelectDropdown>
+                  <MultipleSelectDropdown>
+
+                  </MultipleSelectDropdown>
+                  <MultipleSelectDropdown>
+
+                  </MultipleSelectDropdown>
+                </Stack>
+              </Stack>
+            </Container>
+
+
+            <GridTest>
+            </GridTest>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <Grid container spacing={3}> */}
+              {/* <Grid item xs={12} md={8} lg={9}> */}
+              {/*   <Paper */}
+              {/*     sx={{ */}
+              {/*       p: 2, */}
+              {/*       display: 'flex', */}
+              {/*       flexDirection: 'column', */}
+              {/*       height: 240, */}
+              {/*     }} */}
+              {/*   > */}
+              {/*     <Chart /> */}
+              {/*   </Paper> */}
+              {/* </Grid> */}
+              {/* <Grid item xs={12} md={4} lg={3}> */}
+              {/*   <Paper */}
+              {/*     sx={{ */}
+              {/*       p: 2, */}
+              {/*       display: 'flex', */}
+              {/*       flexDirection: 'column', */}
+              {/*       height: 240, */}
+              {/*     }} */}
+              {/*   > */}
+              {/*     <Deposits /> */}
+              {/*   </Paper> */}
+              {/* </Grid> */}
+              {/* <Grid item xs={12}> */}
+              {/*   <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}> */}
+              {/*     <Orders /> */}
+              {/*   </Paper> */}
+              {/* </Grid> */}
+            {/* </Grid> */}
+            {/* <Copyright sx={{ pt: 4 }} /> */}
+          </Container>
+        </Box>
+      </Box>
+
+
+      
+  for (let handIndex = 0; handIndex < relics.Hands.length; handIndex++) {
+    for (let headIndex = 0; headIndex < relics.Head.length; headIndex++) {
+      for (let bodyIndex = 0; bodyIndex < relics.Body.length; bodyIndex++) {
+        for (let feetIndex = 0; feetIndex < relics.Feet.length; feetIndex++) {
+          for (let planarSphereIndex = 0; planarSphereIndex < relics.PlanarSphere.length; planarSphereIndex++) {
+            for (let linkRopeIndex = 0; linkRopeIndex < relics.LinkRope.length; linkRopeIndex++) {
+              let hands = relic.Hands[handIndex];
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  
+  
+  function preprocessCharacter(character) {
+    for (let entry of Object.entries(Stats)) {
+      if (!character.traces[entry[1]]) {
+        character.traces[entry[1]] = 0
+      }
+      if (!character.base[entry[1]]) {
+        character.base[entry[1]] = 0
+      }
+      if (!character.lightCone[entry[1]]) {
+        character.lightCone[entry[1]] = 0
+      }
+  
+      if (entry[1] != Constants.Stats.HP && 
+          entry[1] != Constants.Stats.ATK && 
+          entry[1] != Constants.Stats.DEF && 
+          entry[1] != Constants.Stats.SPD) {
+        character.traces[entry[1]] = character.traces[entry[1]] / 100
+        character.base[entry[1]] = character.base[entry[1]] / 100
+      }
+    }
+  }
+  
+  function preprocessRelic(relic) {
+    for (let entry of Object.entries(Constants.Stats)) {
+      relic.augmentedStats[entry[1]] = relic.augmentedStats[entry[1]] || 0
+      
+      if (entry[1] != Constants.Stats.HP && 
+          entry[1] != Constants.Stats.ATK && 
+          entry[1] != Constants.Stats.DEF && 
+          entry[1] != Constants.Stats.SPD) {
+        relic.augmentedStats[entry[1]] = relic.augmentedStats[entry[1]] / 100
+      }
+    }
+  }
+  
+
+  
+
+    let i = 0;
+    let increment = (WIDTH * HEIGHT)
+    let limit = permutations
+
+    function iterate() {
+      if (i >= limit) return;
+      posted++;
+
+      
+      let skip = i;
+      let result = kernel(skip);
+      
+      pool
+        .exec(PoolWorker.calculateStats, [{data: {
+          setAllowList: setAllowList,
+          relics: relics,
+          character: CharacterStats.getCharacter(),
+          Constants: Constants,
+          successes: result,
+          consts: consts,
+          WIDTH: WIDTH,
+          HEIGHT: HEIGHT,
+          skip: skip
+        }}])
+        .then(function (result) {
+          console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`);
+          
+          if (rowData.length > 100000000) {
+            console.log('too many rows')
+            optimizerGrid.current.api.setRowData(rowData)
+            pool.terminate(true); // terminate all workers when done
+            return;
+          }
+  
+          rowData.push(...result);
+          console.log('onmessage', rowData.length, posted)
+
+          posted--
+  
+          if (posted <= 0) {
+            optimizerGrid.current.api.setRowData(rowData)
+            console.log('Done', rowData.length);
+          }
+
+          i += increment;
+          if (i < limit) {
+            iterate()
+          }
+        })
+        .catch(function (err) {
+          console.error(err);
+          pool.terminate(); // terminate all workers when done
+        })
+    }
+    for (let j = 0; j < cpus; j++) {
+      iterate();
+    }

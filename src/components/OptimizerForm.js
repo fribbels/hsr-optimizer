@@ -630,7 +630,16 @@ export default function OptimizerForm() {
 
           <Flex vertical gap={35} style={{ width: panelWidth }}>
             <Flex vertical gap={defaultGap}>
-              <HeaderText>Rating Filters</HeaderText>
+              <Flex>
+                <HeaderText>Rating Filters</HeaderText>
+                <Image
+                  preview={false}
+                  width={20}
+                  src={Assets.getQuestion()}
+                  // style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
+                />
+              </Flex>
+              
               <Space align='center'>
                 <Form.Item size="default" name='minDmg'>
                   <InputNumberStyled size="small" controls={false}/>

@@ -1,4 +1,3 @@
-import { setRelics } from "../components/trash/relicsSlice"
 import { OptimizerTabController } from "./optimizerTabController"
 import { RelicAugmenter } from "./relicAugmenter"
 

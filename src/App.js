@@ -13,12 +13,9 @@ import {
 } from '@ant-design/icons';
 
 import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme, notification, message } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, notification, Typography, message } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
-import Stack from '@mui/material/Stack';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { SmileOutlined } from '@ant-design/icons';
 
 import {

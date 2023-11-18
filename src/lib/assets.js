@@ -64,6 +64,10 @@ export const Assets = {
     return '../assets/misc/blank.png'
   },
 
+  getQuestion: () => {
+    return '../assets/misc/tooltip.png'
+  },
+
   getSetImage: (set, part) => {
     if (!part) {
       part = 'base'

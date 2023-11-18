@@ -1,16 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
-import ToggleButtonsMultiple from './ToggleButtonsMultiple';
-
-import MultipleSelectDropdown from './MultipleSelectDropdown'
-import OptimizerForm from './OptimizerForm'
 
 import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import { useSelector, useDispatch } from 'react-redux'
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
-import { OptimizerTabController } from '../lib/optimizerTabController';
-import CharacterBuildPreview from './CharacterBuildPreview';
 
 import "ag-grid-community/styles/ag-theme-balham.css";
 import "../style/style.css";

@@ -1,6 +1,4 @@
 import React from 'react';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import OptimizerTab from './OptimizerTab'
 import ImportTab from './ImportTab'
 import RelicsTab from './RelicsTab'

@@ -30,7 +30,7 @@ const items = [
       // <LinkOutlined />,
     ),
     getItem(
-      <a href="https://github.com/fribbels/Fribbels-Epic-7-Optimizer" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
         Github <LinkOutlined />
       </a>,
       'link2',

@@ -72,10 +72,8 @@ const App = () => {
           }}
         >
           <Typography
-            component="h1"
-            variant="h6"
+            style={{fontWeight: 600, fontSize: 22}}
             color="inherit"
-            sx={{ flexGrow: 1 }}
           >
             Fribbels Star Rail Optimizer
           </Typography>

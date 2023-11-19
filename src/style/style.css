@@ -199,3 +199,6 @@
 .ag-cell {
   /* border-right-width: 0px !important */
 }
+.ant-popover-content p {
+  margin: 0;
+}

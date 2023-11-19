@@ -26,6 +26,7 @@ import { SaveState } from "./lib/saveState";
 import { RelicFilters } from "./lib/relicFilters";
 import { Renderer } from "./lib/renderer";
 import { Message } from "./lib/message";
+import { Hint } from "./lib/hint";
 window.Constants = Constants;
 window.Test = Test;
 window.OcrParser = OcrParser;
@@ -45,6 +46,7 @@ window.SaveState = SaveState;
 window.RelicFilters = RelicFilters;
 window.Renderer = Renderer;
 window.Message = Message;
+window.Hint = Hint;
 
 const workerpool = require('workerpool');
 window.CPUs = workerpool.cpus

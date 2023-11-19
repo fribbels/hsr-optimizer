@@ -21,6 +21,8 @@ import {
   Upload,
   Image,
   Flex,
+  Tooltip,
+  Popover,
 } from 'antd';
 import React, { useState, useMemo, useEffect } from 'react';
 import '../style/style.css'
@@ -33,6 +35,7 @@ import VerticalDivider from './VerticalDivider';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
+import { TooltipImage } from './TooltipImage';
 const { TextArea } = Input;
 const { Text } = Typography;
 
@@ -340,7 +343,10 @@ export default function OptimizerForm() {
           <VerticalDivider/>
 
           <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
-            <HeaderText>Character</HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Character</HeaderText>
+              <TooltipImage type={Hint.character()}/>
+            </Flex>
             <Flex gap={defaultGap}>
               <Form.Item size="default" name='characterId'>
                 <Select
@@ -369,8 +375,10 @@ export default function OptimizerForm() {
               </Form.Item>
             </Flex>
           
-
-            <HeaderText>Light Cone</HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Light Cone</HeaderText>
+              <TooltipImage type={Hint.lightCone()}/>
+            </Flex>
             <Flex vertical gap={defaultGap}>
               <Flex gap={defaultGap}>
                 <Form.Item size="default" name='lightCone'>
@@ -406,7 +414,10 @@ export default function OptimizerForm() {
 
           <Flex vertical gap={18}>
             <Flex vertical gap={defaultGap}>
-              <HeaderText>Main Stats</HeaderText>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Main Stats</HeaderText>
+                <TooltipImage type={Hint.mainStats()}/>
+              </Flex>
               <Form.Item size="default" name='mainBody'>
                 <Select
                   mode="multiple"
@@ -483,7 +494,10 @@ export default function OptimizerForm() {
             </Flex>
 
             <Flex vertical gap={defaultGap}>
-              <HeaderText>Sets</HeaderText>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Sets</HeaderText>
+                <TooltipImage type={Hint.sets()}/>
+              </Flex>
               <ConfigProvider
                 theme={{
                   components: {
@@ -534,7 +548,10 @@ export default function OptimizerForm() {
           <VerticalDivider/>
 
           <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
-            <HeaderText>Stat Filters</HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Stat Filters</HeaderText>
+              <TooltipImage type={Hint.ratingFilters()}/>
+            </Flex>
             <Space align='center'>
               <Form.Item size="default" name='minAtk'>
                 <InputNumberStyled size="small" controls={false}/>
@@ -630,14 +647,9 @@ export default function OptimizerForm() {
 
           <Flex vertical gap={35} style={{ width: panelWidth }}>
             <Flex vertical gap={defaultGap}>
-              <Flex>
+              <Flex justify='space-between' align='center'>
                 <HeaderText>Rating Filters</HeaderText>
-                <Image
-                  preview={false}
-                  width={20}
-                  src={Assets.getQuestion()}
-                  // style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
-                />
+                <TooltipImage type={Hint.ratingFilters()}/>
               </Flex>
               
               <Space align='center'>
@@ -671,9 +683,11 @@ export default function OptimizerForm() {
               </Space>
             </Flex>
 
-
             <Flex vertical gap={defaultGap}>
-              <HeaderText>Damage Buffs</HeaderText>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Damage Buffs</HeaderText>
+                <TooltipImage type={Hint.damageBuffs()}/>
+              </Flex>
 
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between'>
@@ -718,7 +732,10 @@ export default function OptimizerForm() {
           <VerticalDivider/>
 
           <Flex vertical gap={defaultGap} style={{ width: panelWidth }}> 
-            <HeaderText>Optimizer Options</HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Optimizer Options</HeaderText>
+              <TooltipImage type={Hint.optimizerOptions()}/>
+            </Flex>
 
             <Flex>
               <Form.Item name="rankFilter" valuePropName="checked">
@@ -809,7 +826,10 @@ export default function OptimizerForm() {
               <Button type="primary" onClick={saveCharacterClicked} style={{width: '100%'}}>
                 Save Character
               </Button> */}
-            <HeaderText>Actions</HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Actions</HeaderText>
+              <TooltipImage type={Hint.actions()}/>
+            </Flex>
             <Flex gap={defaultGap} style={{marginBottom: 2}} vertical>
               <Flex gap={defaultGap}>
                 <Button type="primary" htmlType="submit" style={{width: '100px'}} >

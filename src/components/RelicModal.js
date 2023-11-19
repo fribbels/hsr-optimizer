@@ -249,12 +249,12 @@ export default function RelicModal(props) {
         
           <Form.Item size="default" name='part'>
             <Radio.Group buttonStyle="solid">
-              <RadioIcon value={Constants.Parts.Head} src={`../assets/misc/head.png`}/>
-              <RadioIcon value={Constants.Parts.Hands} src={`../assets/misc/hands.png`}/>
-              <RadioIcon value={Constants.Parts.Body} src={`../assets/misc/body.png`}/>
-              <RadioIcon value={Constants.Parts.Feet} src={`../assets/misc/feet.png`}/>
-              <RadioIcon value={Constants.Parts.PlanarSphere} src={`../assets/misc/planarSphere.png`}/>
-              <RadioIcon value={Constants.Parts.LinkRope} src={`../assets/misc/linkRope.png`}/>
+              <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)}/>
+              <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)}/>
+              <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)}/>
+              <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)}/>
+              <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)}/>
+              <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)}/>
             </Radio.Group>
           </Form.Item>
           

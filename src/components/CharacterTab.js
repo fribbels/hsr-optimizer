@@ -336,27 +336,6 @@ export default function CharacterTab({style}) {
             <RelicPreview relic={selectedCharacter.equipped?.LinkRope}/>
           </Flex>
         </Flex>
-
-        {/* <Flex vertical justify='space-between'>
-          <Flex gap={20} justify='space-between'>
-            <Flex justify='space-between'>
-              <Flex vertical gap={20} style={{width: 200}}>
-                <Text>
-                  Jingliu
-                </Text>
-              </Flex>
-            </Flex>
-            <div style={{ width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
-              <Image
-                preview={false}
-                width={lcInnerW}
-                src={`../assets/image/light_cone_portrait/23014.png`}
-                style={{transform: `translate(${(lcInnerW - lcParentW)/2/lcInnerW * -100}%, ${(lcInnerH - lcParentH)/2/lcInnerH * -100}%)`}}
-              />
-            </div>
-          </Flex>
-          <CharacterBuildPreview build={selectedCharacter.equipped}/>
-        </Flex> */}
       </Flex>
     )
   }

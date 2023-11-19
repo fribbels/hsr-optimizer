@@ -75,7 +75,6 @@ const App = () => {
             component="h1"
             variant="h6"
             color="inherit"
-            noWrap
             sx={{ flexGrow: 1 }}
           >
             Fribbels Star Rail Optimizer
@@ -120,7 +119,6 @@ export default App;
           component="h1"
           variant="h6"
           color="inherit"
-          noWrap
           sx={{ flexGrow: 1 }}
         >
           Fribbels Star Rail Jingliu Optimizer

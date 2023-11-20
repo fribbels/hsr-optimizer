@@ -6,6 +6,8 @@ import { OcrParser } from '../lib/ocrParser';
 import VerticalDivider from './VerticalDivider';
 import { Message } from '../lib/message';
 
+import sampleSave from '../data/sample-save.json';
+
 const { Text } = Typography;
 
 const spinnerMs = 500
@@ -13,6 +15,8 @@ const spinnerMs = 500
 function tryItOutTab() {
   function tryItOutClicked() {
     console.log('TRY')
+    DB.setState(JSON.parse(JSON.stringify(sampleSave)))
+    SaveState.save()
   }
 
   return (

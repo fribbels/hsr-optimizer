@@ -72,8 +72,8 @@ export const DB = {
     for (let relic of x.relics) {
       RelicAugmenter.augment(relic)
     }
-    DB.setRelics(x.relics)
     DB.setCharacters(x.characters)
+    DB.setRelics(x.relics)
     assignRanks()
     DB.refreshCharacters()
     DB.refreshRelics()

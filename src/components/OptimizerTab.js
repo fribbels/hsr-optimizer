@@ -35,6 +35,7 @@ import OptimizerBuildPreview from './OptimizerBuildPreview';
 import "../style/style.css";
 import { HeaderText } from './HeaderText';
 import { Renderer } from '../lib/renderer';
+import { TooltipImage } from './TooltipImage';
 
 const { Text } = Typography;
 
@@ -148,9 +149,10 @@ export default function OptimizerTab({style}) {
           </div>
 
           <Flex vertical gap={defaultGap} style={{ width: 200, marginLeft: 8}}>
-            <HeaderText>
-              Details
-            </HeaderText>
+            <Flex justify='space-between' align='center'>
+              <HeaderText>Details</HeaderText>
+              <TooltipImage type={Hint.optimizationDetails()}/>
+            </Flex>
             
             <PermutationDisplayPanel 
               optimizerPermutationDetails={optimizerPermutationDetails} 

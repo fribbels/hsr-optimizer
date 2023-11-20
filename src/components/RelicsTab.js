@@ -11,6 +11,7 @@ import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
 import { StateEditor } from '../lib/stateEditor';
+import { TooltipImage } from './TooltipImage';
 
 
 export default function RelicsTab({style}) {
@@ -156,7 +157,12 @@ export default function RelicsTab({style}) {
         </Flex>
         <RelicModal selectedRelic={selectedRelic} type='add'  onOk={onAddOk}  setOpen={setAddModalOpen}  open={addModalOpen}/>
         <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
-        <RelicPreview relic={selectedRelic}/>
+        <Flex gap={10}>
+          <RelicPreview relic={selectedRelic}/>
+          <Flex style={{display: 'block'}}>
+            <TooltipImage type={Hint.relics()}/>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

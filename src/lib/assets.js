@@ -1,4 +1,8 @@
 export const Assets = {
+  getSampleSave: () => {
+    return process.env.PUBLIC_URL + `/sample-save.json`
+  },
+
   getCharacterPortrait: (character) => {
     if (!character) return ''
     return process.env.PUBLIC_URL + `/assets/${character.portrait}`

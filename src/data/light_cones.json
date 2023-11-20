@@ -344,7 +344,7 @@
         "name": "Make the World Clamor",
         "rarity": 4,
         "path": "Mage",
-        "desc": "She stood on the stage, waving at her audience, encouraging them to make their voice heard.\nSongs, shouting, or sigh — anything that makes a sound.\nVoice your thoughts, so others can come to help.\n\"Don't make your heart as cold as this concrete jungle.\"\n— Make the world clamor.",
+        "desc": "She stood on the stage, waving at her audience, encouraging them to make their voice heard.\nSongs, shouts, or laments — anything that makes a sound.\nVoice your thoughts, so others can come to help.\n\"Don't make your heart as cold as this concrete jungle.\"\n— Make the world clamor.",
         "icon": "icon/light_cone/21013.png",
         "preview": "image/light_cone_preview/21013.png",
         "portrait": "image/light_cone_portrait/21013.png"
@@ -569,6 +569,16 @@
         "preview": "image/light_cone_preview/22000.png",
         "portrait": "image/light_cone_portrait/22000.png"
     },
+    "22001": {
+        "id": "22001",
+        "name": "Hey, Over Here",
+        "rarity": 4,
+        "path": "Priest",
+        "desc": "Three girls stroll in the darkness, and the surroundings seem to gain a hint of eeriness.\n\"Huohuo, hurry up or we won't wait for you!\"\nShe steps forward confidently with her phone lifted, seemingly unaffected by the supernatural ambiance.\n\"I—I'm over here!\"\nThe girl standing ahead responds timidly.\n\"Huh? So you were in the front all along, then who is following Shangshang and me...\"\nThe perfect end for this scene would defnitely be a girlish scream.",
+        "icon": "icon/light_cone/22001.png",
+        "preview": "image/light_cone_preview/22001.png",
+        "portrait": "image/light_cone_portrait/22001.png"
+    },
     "23000": {
         "id": "23000",
         "name": "Night on the Milky Way",
@@ -738,6 +748,26 @@
         "icon": "icon/light_cone/23016.png",
         "preview": "image/light_cone_preview/23016.png",
         "portrait": "image/light_cone_portrait/23016.png"
+    },
+    "23017": {
+        "id": "23017",
+        "name": "Night of Fright",
+        "rarity": 5,
+        "path": "Priest",
+        "desc": "The girl hides behind the door and dares not move one step closer. \nPerhaps due to the fact that tonight's objective is already within her reach, her heart is actually beating faster.\n\"I'm not scared, not scared, not scared...\"\nIn darkness, silence lets out a piercing scream.\nThe girl is shivering and grasps the \"weapon\" in her hands tight, but still does not dare to approach the \"target.\"\n\"There is nothing to be s—s—scared of!\"\nThe tail behind her has finally had enough and suddenly lights up.\n\"Hurry up. You're just picking up a delivery!\"",
+        "icon": "icon/light_cone/23017.png",
+        "preview": "image/light_cone_preview/23017.png",
+        "portrait": "image/light_cone_portrait/23017.png"
+    },
+    "23018": {
+        "id": "23018",
+        "name": "An Instant Before A Gaze",
+        "rarity": 5,
+        "path": "Mage",
+        "desc": "He once heard a ballad, singing in praise of that sliver of light:\nRose blooms, to answer THEIR smile.\nDawn shines, to illuminate THEIR visage.\nMelody plays, to banish THEIR fatigue.\nBut, light, once gone, never returns. Yet, he still gallops to the far beyond.\nAll that is needed is to wait for, to believe in, and to preach about everything that is of the Beauty in this cosmos.\nEven if everything is but a fleeting instant before a gaze, he has already found the answer he sought.",
+        "icon": "icon/light_cone/23018.png",
+        "preview": "image/light_cone_preview/23018.png",
+        "portrait": "image/light_cone_portrait/23018.png"
     },
     "24000": {
         "id": "24000",

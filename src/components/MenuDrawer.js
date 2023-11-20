@@ -26,14 +26,21 @@ const items = [
       <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
         Discord <LinkOutlined />
       </a>,
-      'link1',
+      'link discord',
+      // <LinkOutlined />,
+    ),
+    getItem(
+      <a href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
+        Donate <LinkOutlined />
+      </a>,
+      'link donate',
       // <LinkOutlined />,
     ),
     getItem(
       <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
         Github <LinkOutlined />
       </a>,
-      'link2',
+      'link github',
       // <LinkOutlined />,
     ),
   ]),

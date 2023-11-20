@@ -71,6 +71,7 @@ export default function RelicsTab({style}) {
     DB.setRelicById(relic)
     setRelicRows(DB.getRelics())
     setSelectedRelic(relic)
+    SaveState.save()
     
     Message.success('Successfully added relic')
     console.log('onAddOk', relic)
@@ -83,6 +84,7 @@ export default function RelicsTab({style}) {
     DB.setRelicById(updatedRelic)
     setRelicRows(DB.getRelics())
     setSelectedRelic(updatedRelic)
+    SaveState.save()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)
@@ -106,6 +108,7 @@ export default function RelicsTab({style}) {
     StateEditor.deleteRelic(selectedRelic.id)
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
+    SaveState.save()
 
     Message.success('Successfully deleted relic')
   }

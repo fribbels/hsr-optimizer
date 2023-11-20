@@ -1024,7 +1024,7 @@
     "21007": {
         "id": "21007",
         "skill": "Cure and Repair",
-        "desc": "Increases the wearer's Outgoing Healing by #1[i]%. When using Skill, regenerates #2[i] Energy for all allies.",
+        "desc": "Increases the wearer's Outgoing Healing by #1[i]%. When using Skill, regenerates #2[f1] Energy for all allies.",
         "params": [
             [
                 0.1,
@@ -2412,6 +2412,70 @@
             ]
         ]
     },
+    "22001": {
+        "id": "22001",
+        "skill": "I'm Not Afraid!",
+        "desc": "Increases the wearer's Max HP by #1[i]%. When the wearer uses Skill, increases Outgoing Healing by #2[i]%, lasting for #3[i] turn(s).",
+        "params": [
+            [
+                0.08,
+                0.16,
+                2
+            ],
+            [
+                0.09,
+                0.19,
+                2
+            ],
+            [
+                0.1,
+                0.22,
+                2
+            ],
+            [
+                0.11,
+                0.25,
+                2
+            ],
+            [
+                0.12,
+                0.28,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.08
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.09
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.11
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.12
+                }
+            ]
+        ]
+    },
     "23000": {
         "id": "23000",
         "skill": "Meteor Swarm",
@@ -3391,7 +3455,7 @@
     "23014": {
         "id": "23014",
         "skill": "With This Evening Jade",
-        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When an ally gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%. When #2[i] stack(s) are reached, additionally enables the attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%. When #2[i] stack(s) are reached, additionally enables that attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
         "params": [
             [
                 0.2,
@@ -3534,7 +3598,7 @@
     "23016": {
         "id": "23016",
         "skill": "One At A Time",
-        "desc": "Increase the wearer's CRIT Rate by #1[i]% and their follow-up attacks' DMG by #2[i]%. After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to #4[i] stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by #3[i]%.",
+        "desc": "Increases the wearer's CRIT Rate by #1[i]% and their follow-up attacks' DMG by #2[i]%. After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to #4[i] stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by #3[i]%.",
         "params": [
             [
                 0.18,
@@ -3596,6 +3660,144 @@
                 {
                     "type": "CriticalChanceBase",
                     "value": 0.3
+                }
+            ]
+        ]
+    },
+    "23017": {
+        "id": "23017",
+        "skill": "Deep, Deep Breaths",
+        "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]%. When any ally uses their Ultimate, the wearer restores HP for the ally currently with the lowest HP percentage by an amount equal to #2[i]% of the healed ally's Max HP. When the wearer provides healing for an ally, increases the healed ally's ATK by #3[f1]%. This effect can stack up to #4[i] times and lasts for #5[i] turn(s).",
+        "params": [
+            [
+                0.12,
+                0.1,
+                0.024,
+                5,
+                2
+            ],
+            [
+                0.14,
+                0.11,
+                0.028,
+                5,
+                2
+            ],
+            [
+                0.16,
+                0.12,
+                0.032,
+                5,
+                2
+            ],
+            [
+                0.18,
+                0.13,
+                0.036,
+                5,
+                2
+            ],
+            [
+                0.2,
+                0.14,
+                0.04,
+                5,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "23018": {
+        "id": "23018",
+        "skill": "A Knight's Pilgrimage",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by #2[f2]%, up to #3[i] points of Energy.",
+        "params": [
+            [
+                0.36,
+                0.0036,
+                180
+            ],
+            [
+                0.42,
+                0.0042,
+                180
+            ],
+            [
+                0.48,
+                0.0048,
+                180
+            ],
+            [
+                0.54,
+                0.0054,
+                180
+            ],
+            [
+                0.6,
+                0.006,
+                180
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.48
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.54
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.6
                 }
             ]
         ]

@@ -102,6 +102,15 @@
         "1213": [
             "Dan Heng • Imbibitor Lunae"
         ],
+        "1215": [
+            "Hanya"
+        ],
+        "1217": [
+            "Huohuo"
+        ],
+        "1302": [
+            "Argenti"
+        ],
         "8001": [
             "{NICKNAME}"
         ],
@@ -287,6 +296,9 @@
         "22000": [
             "Before the Tutorial Mission Starts"
         ],
+        "22001": [
+            "Hey, Over Here"
+        ],
         "23000": [
             "Night on the Milky Way"
         ],
@@ -337,6 +349,12 @@
         ],
         "23016": [
             "Worrisome, Blissful"
+        ],
+        "23017": [
+            "Night of Fright"
+        ],
+        "23018": [
+            "An Instant Before A Gaze"
         ],
         "24000": [
             "On the Fall of an Aeon"
@@ -394,6 +412,12 @@
         "114": [
             "Messenger Traversing Hackerspace"
         ],
+        "115": [
+            "The Ashblazing Grand Duke"
+        ],
+        "116": [
+            "Prisoner in Deep Confinement"
+        ],
         "301": [
             "Space Sealing Station"
         ],
@@ -423,6 +447,12 @@
         ],
         "310": [
             "Broken Keel"
+        ],
+        "311": [
+            "Firmament Frontline: Glamoth"
+        ],
+        "312": [
+            "Penacony, Land of the Dreams"
         ]
     }
 }

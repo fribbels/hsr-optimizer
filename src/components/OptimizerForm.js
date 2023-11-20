@@ -36,6 +36,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
+import { SaveState } from '../lib/saveState';
 const { TextArea } = Input;
 const { Text } = Typography;
 
@@ -201,7 +202,8 @@ export default function OptimizerForm() {
     if (!OptimizerTabController.validateForm(x)) {
       return
     }
-
+    StateEditor.addFromForm(x)
+    SaveState.save()
     console.log('Form finished', x);
 
     Optimizer.optimize(x)
@@ -550,7 +552,7 @@ export default function OptimizerForm() {
           <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
             <Flex justify='space-between' align='center'>
               <HeaderText>Stat Filters</HeaderText>
-              <TooltipImage type={Hint.ratingFilters()}/>
+              <TooltipImage type={Hint.statFilters()}/>
             </Flex>
             <Space align='center'>
               <Form.Item size="default" name='minAtk'>

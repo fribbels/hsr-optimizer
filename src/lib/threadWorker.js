@@ -116,21 +116,21 @@ const calculateStats = function(e) {
       if (elementalMultipliers[6]) elementalDmg = 0.1 * Math.min(1, relicSet13 >> 1) + (base[Stats.Imaginary_DMG]  + lc[Stats.Imaginary_DMG] + sum(h, g, b, f, p, l, Stats.Imaginary_DMG) + trace[Stats.Imaginary_DMG])
 
 
-      let hero = {
-        [Stats.HP]:  (base[Stats.HP]  + lc[Stats.HP])  * (1 + 0.12 * Math.min(1, ornamentSet3 >> 1) + 0.12 * Math.min(1, relicSet9 >> 1) + sum(h, g, b, f, p, l, Stats.HP_P)  + trace[Stats.HP_P])  + sum(h, g, b, f, p, l, Stats.HP),
-        [Stats.ATK]: (base[Stats.ATK] + lc[Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSet7 >> 1) + 0.12 * Math.min(1, relicSet10 >> 1) + sum(h, g, b, f, p, l, Stats.ATK_P) + trace[Stats.ATK_P]) + sum(h, g, b, f, p, l, Stats.ATK),
-        [Stats.DEF]: (base[Stats.DEF] + lc[Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSet0 >> 1) + 0.15 * Math.min(1, relicSet6 >> 1) + sum(h, g, b, f, p, l, Stats.DEF_P) + trace[Stats.DEF_P]) + sum(h, g, b, f, p, l, Stats.DEF),
-        [Stats.SPD]: (base[Stats.SPD] + lc[Stats.SPD]) * (1 + 0.06 * Math.min(1, relicSet7 >> 1) + 0.06 * (relicSet10 >> 2) + sum(h, g, b, f, p, l, Stats.SPD_P) + trace[Stats.SPD_P]) + sum(h, g, b, f, p, l, Stats.SPD) + trace[Stats.SPD],
-        [Stats.CR]:  0.08 * Math.min(1, ornamentSet4 >> 1) + 0.08 * Math.min(1, ornamentSet6 >> 1) + (base[Stats.CR]  + lc[Stats.CR]  + sum(h, g, b, f, p, l, Stats.CR)  + trace[Stats.CR]),
-        [Stats.CD]:  0.16 * Math.min(1, ornamentSet2 >> 1) + (base[Stats.CD]  + lc[Stats.CD]  + sum(h, g, b, f, p, l, Stats.CD)  + trace[Stats.CD]),
-        [Stats.EHR]: 0.1 * Math.min(1, ornamentSet5 >> 1) + (base[Stats.EHR] + lc[Stats.EHR] + sum(h, g, b, f, p, l, Stats.EHR) + trace[Stats.EHR]),
-        [Stats.RES]: 0.1 * Math.min(1, ornamentSet1 >> 1) + (base[Stats.RES] + lc[Stats.RES] + sum(h, g, b, f, p, l, Stats.RES) + trace[Stats.RES]),
-        [Stats.BE]:  0.16 * Math.min(1, ornamentSet9 >> 1) + 0.16 * Math.min(1, relicSet12 >> 1) + 0.16 * (relicSet12 >> 2) + (base[Stats.BE]  + lc[Stats.BE]  + sum(h, g, b, f, p, l, Stats.BE)  + trace[Stats.BE]),
-        [Stats.ERR]: 0.05 * Math.min(1, ornamentSet8 >> 1) + (base[Stats.ERR] + lc[Stats.ERR] + sum(h, g, b, f, p, l, Stats.ERR) + trace[Stats.ERR]),
-        [Stats.OHB]: 0.1 * Math.min(1, relicSet11 >> 1) + (base[Stats.OHB] + lc[Stats.OHB] + sum(h, g, b, f, p, l, Stats.OHB) + trace[Stats.OHB]),
-        'ED': elementalDmg,
-        'id': x,
-      }
+      let hero = {}
+
+      hero[Stats.HP] =  (base[Stats.HP]  + lc[Stats.HP])  * (1 + 0.12 * Math.min(1, ornamentSet3 >> 1) + 0.12 * Math.min(1, relicSet9 >> 1) + sum(h, g, b, f, p, l, Stats.HP_P)  + trace[Stats.HP_P])  + sum(h, g, b, f, p, l, Stats.HP)
+      hero[Stats.ATK] = (base[Stats.ATK] + lc[Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSet7 >> 1) + 0.12 * Math.min(1, relicSet10 >> 1) + sum(h, g, b, f, p, l, Stats.ATK_P) + trace[Stats.ATK_P]) + sum(h, g, b, f, p, l, Stats.ATK)
+      hero[Stats.DEF] = (base[Stats.DEF] + lc[Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSet0 >> 1) + 0.15 * Math.min(1, relicSet6 >> 1) + sum(h, g, b, f, p, l, Stats.DEF_P) + trace[Stats.DEF_P]) + sum(h, g, b, f, p, l, Stats.DEF)
+      hero[Stats.SPD] = (base[Stats.SPD] + lc[Stats.SPD]) * (1 + 0.06 * Math.min(1, relicSet7 >> 1) + 0.06 * (relicSet10 >> 2) + sum(h, g, b, f, p, l, Stats.SPD_P) + trace[Stats.SPD_P]) + sum(h, g, b, f, p, l, Stats.SPD) + trace[Stats.SPD]
+      hero[Stats.CR] =  0.08 * Math.min(1, ornamentSet4 >> 1) + 0.08 * Math.min(1, ornamentSet6 >> 1) + (base[Stats.CR]  + lc[Stats.CR]  + sum(h, g, b, f, p, l, Stats.CR)  + trace[Stats.CR])
+      hero[Stats.CD] =  0.16 * Math.min(1, ornamentSet2 >> 1) + (base[Stats.CD]  + lc[Stats.CD]  + sum(h, g, b, f, p, l, Stats.CD)  + trace[Stats.CD])
+      hero[Stats.EHR] = 0.1 * Math.min(1, ornamentSet5 >> 1) + (base[Stats.EHR] + lc[Stats.EHR] + sum(h, g, b, f, p, l, Stats.EHR) + trace[Stats.EHR])
+      hero[Stats.RES] = 0.1 * Math.min(1, ornamentSet1 >> 1) + (base[Stats.RES] + lc[Stats.RES] + sum(h, g, b, f, p, l, Stats.RES) + trace[Stats.RES])
+      hero[Stats.BE] =  0.16 * Math.min(1, ornamentSet9 >> 1) + 0.16 * Math.min(1, relicSet12 >> 1) + 0.16 * (relicSet12 >> 2) + (base[Stats.BE]  + lc[Stats.BE]  + sum(h, g, b, f, p, l, Stats.BE)  + trace[Stats.BE])
+      hero[Stats.ERR] = 0.05 * Math.min(1, ornamentSet8 >> 1) + (base[Stats.ERR] + lc[Stats.ERR] + sum(h, g, b, f, p, l, Stats.ERR) + trace[Stats.ERR])
+      hero[Stats.OHB] = 0.1 * Math.min(1, relicSet11 >> 1) + (base[Stats.OHB] + lc[Stats.OHB] + sum(h, g, b, f, p, l, Stats.OHB) + trace[Stats.OHB])
+      hero['ED'] = elementalDmg
+      hero['id'] = x
       
       let cappedCrit = Math.min(hero[Stats.CR] + request.buffCr, 1)
       let dmg = ((1 + request.buffAtkP) * hero[Stats.ATK] + request.buffAtk) * (1 + hero[Stats.CD] + request.buffCd) * cappedCrit * (1 + elementalDmg)

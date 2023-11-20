@@ -158,6 +158,8 @@ export default function CharacterTab({style}) {
     StateEditor.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setSelectedCharacter(undefined)
+    
+    SaveState.save()
     // characterGrid.current.api.redrawRows()
 
     Message.success('Successfully removed character')
@@ -178,6 +180,8 @@ export default function CharacterTab({style}) {
 
     characterGrid.current.api.redrawRows()
     setSelectedCharacter(JSON.parse(JSON.stringify(DB.getCharacterById(selectedCharacter.id))))
+    
+    SaveState.save()
     
     Message.success('Successfully unequipped character')
   }

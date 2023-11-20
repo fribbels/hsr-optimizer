@@ -3,12 +3,12 @@ import { Flex } from "antd"
 export const Hint = {
   ratingFilters: () => {
     return {
-      title: 'TODO',
+      title: 'Rating Filters',
       content: (
         <div>
-          <p>Dmg - </p>
-          <p>Mcd - </p>
-          <p>Ehp - </p>
+          <p>Dmg - Average crit damage for ATK scaling characters based on crit rate. Calculated with ATK x CD x CR</p>
+          <p>Mcd - Stands for Max Crit Damage, representing ATK scaling damage assuming 100% crit rate. Calculated with ATK x CD</p>
+          <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated with HP / (1 - DEF/(DEF + 1000)) </p>
         </div>
       )
     }
@@ -19,10 +19,10 @@ export const Hint = {
       title: 'Damage Buffs',
       content: (
         <div>
-          <p>ATK - </p>
-          <p>ATK % - </p>
-          <p>Crit Rate % - </p>
-          <p>Crit Dmg % - </p>
+          <p>ATK - Flat attack buff</p>
+          <p>ATK % - Percent attack buff, e.g. Tingyun skill</p>
+          <p>Crit Rate % - Crit rate buff, e.g. Jingliu would want 50% here</p>
+          <p>Crit Dmg % - Crit damage buff, e.g. Yukong ultimate</p>
         </div>
       )
     }
@@ -30,10 +30,11 @@ export const Hint = {
 
   statFilters: () => {
     return {
-      title: 'TODO',
+      title: 'Stat Filters',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Min / Max filters for character stats, inclusive. The optimizer will only show results within these ranges </p>
+          <p>Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect</p>
         </div>
       )
     }
@@ -41,10 +42,10 @@ export const Hint = {
 
   mainStats: () => {
     return {
-      title: 'TODO',
+      title: 'Main Stats',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Select main stats to use for optimization search. Multiple values can be selected for more options</p>
         </div>
       )
     }
@@ -52,10 +53,12 @@ export const Hint = {
 
   sets: () => {
     return {
-      title: 'TODO',
+      title: 'Sets',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Select the relic and ornament sets to filter results by. Multiple sets can be selected for more options</p>
+
+          <p>Set effects will be accounted for in calculations, but only unconditional effects</p>
         </div>
       )
     }
@@ -63,10 +66,11 @@ export const Hint = {
 
   character: () => {
     return {
-      title: 'TODO',
+      title: 'Character',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Select the character and level / eidolon</p>
+          <p>Levels will affect base stats used in the calculation. Eidolon effects are still WIP</p>
         </div>
       )
     }
@@ -74,10 +78,11 @@ export const Hint = {
 
   lightCone: () => {
     return {
-      title: 'TODO',
+      title: 'Light Cone',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Select the light cone and level / superimposition</p>
+          <p>Levels will affect base stats used in the calculation and superimposition scale the unconditional stat effects</p>
         </div>
       )
     }
@@ -85,10 +90,13 @@ export const Hint = {
   
   actions: () => {
     return {
-      title: 'TODO',
+      title: 'Actions',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Start - Begin optimization search with the selected filters</p>
+          <p>Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search</p>
+          <p>Cancel - Cancel an in progress search and display results</p>
+          <p>Reset - Clear all filters</p>
         </div>
       )
     }
@@ -96,10 +104,13 @@ export const Hint = {
   
   optimizerOptions: () => {
     return {
-      title: 'TODO',
+      title: 'Optimizer Options',
       content: (
         <div>
-          <p>TODO</p>
+          <p>Rank filter - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
+          <p>Maxed main stat - Assume the main stat for relics are maxed</p>
+          <p>Keep current relics - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</p>
+          <p>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include</p>
         </div>
       )
     }

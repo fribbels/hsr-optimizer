@@ -265,6 +265,13 @@ function getSuperimpositions() {
       4: {[Constants.Stats.BE]: 0.35},
       5: {[Constants.Stats.BE]: 0.40},
     },
+    "22001": {
+      1: {[Constants.Stats.HP_P]: 0.08},
+      2: {[Constants.Stats.HP_P]: 0.09},
+      3: {[Constants.Stats.HP_P]: 0.10},
+      4: {[Constants.Stats.HP_P]: 0.11},
+      5: {[Constants.Stats.HP_P]: 0.12},
+    },
     "23000": {},
     "23001": {
       1: {[Constants.Stats.CR]: 0.18},
@@ -360,6 +367,14 @@ function getSuperimpositions() {
       4: {[Constants.Stats.CR]: 0.27},
       5: {[Constants.Stats.CR]: 0.30},
     },
+    "23017": {},
+    "23018": {
+      1: {[Constants.Stats.CD]: 0.36},
+      2: {[Constants.Stats.CD]: 0.42},
+      3: {[Constants.Stats.CD]: 0.48},
+      4: {[Constants.Stats.CD]: 0.54},
+      5: {[Constants.Stats.CD]: 0.60},
+    },
     "24000": {},
     "24001": {
       1: {[Constants.Stats.CR]: 0.08},
@@ -439,7 +454,7 @@ function getOverrideTraces() {
     },
     "1102": { // Seele
       [Constants.Stats.ATK_P]: 0.28,  
-      [Constants.Stats.CD]: 0.225,  
+      [Constants.Stats.CD]: 0.24,  
       [Constants.Stats.DEF_P]: 0.125,
     },
     "1103": { // Serval
@@ -555,6 +570,21 @@ function getOverrideTraces() {
     "1213": { // Dan Heng • Imbibitor Lunae
       [Constants.Stats.Imaginary_DMG]: 0.224,  
       [Constants.Stats.CR]: 0.12,  
+      [Constants.Stats.HP_P]: 0.1,
+    },
+    "1215": { // Hanya
+      [Constants.Stats.ATK_P]: 0.28,  
+      [Constants.Stats.HP_P]: 0.1,  
+      [Constants.Stats.SPD]: 9,
+    },
+    "1217": { // Huohuo
+      [Constants.Stats.HP_P]: 0.28,  
+      [Constants.Stats.RES]: 0.18,  
+      [Constants.Stats.SPD]: 5,
+    },
+    "1302": { // Argenti
+      [Constants.Stats.ATK_P]: 0.28,  
+      [Constants.Stats.Physical_DMG]: 0.144,  
       [Constants.Stats.HP_P]: 0.1,
     },
     "8001": { // Physical Trailblazer

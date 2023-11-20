@@ -3,6 +3,7 @@ import OptimizerTab from './OptimizerTab'
 import ImportTab from './ImportTab'
 import RelicsTab from './RelicsTab'
 import CharacterTab from './CharacterTab';
+import ToolsTab from './ToolsTab';
 
 const Tabs = ({activeKey}) => {
   return (
@@ -11,6 +12,7 @@ const Tabs = ({activeKey}) => {
       <RelicsTab style={{display: activeKey == '2' ? 'block' : 'none'}}/>
       <CharacterTab style={{display: activeKey == '3' ? 'block' : 'none'}}/>
       <ImportTab style={{display: activeKey == '4' ? 'block' : 'none'}}/>
+      <ToolsTab style={{display: activeKey == '6' ? 'block' : 'none'}}/>
     </>
   )
 }

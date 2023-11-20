@@ -224,13 +224,13 @@ export const OptimizerTabController = {
   validateForm: (x) => {
     console.log('validate', x)
     if (!x.lightCone || !x.lightConeLevel || !x.lightConeSuperimposition) {
-      Notifications.error('Missing light cone fields')
+      Message.error('Missing light cone fields')
       console.log('Missing light cone')
       return false;
     }
     
     if (!x.characterId || !x.characterLevel || x.characterEidolon == undefined) {
-      Notifications.error('Missing character fields')
+      Message.error('Missing character fields')
       console.log('Missing character')
       return false;
     }

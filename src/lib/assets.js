@@ -1,47 +1,44 @@
+let baseUrl = process.env.PUBLIC_URL;
+
 export const Assets = {
   getSampleSave: () => {
-    return process.env.PUBLIC_URL + `/sample-save.json`
+    return baseUrl + `/sample-save.json`
   },
 
   getCharacterPortrait: (character) => {
     if (!character) return ''
-    return process.env.PUBLIC_URL + `/assets/${character.portrait}`
+    return baseUrl + `/assets/${character.portrait}`
   },
   getCharacterPortraitById: (id) => {
     if (!id) return ''
-    // console.log('getCharacterPortraitById', id, DB.getMetadata().characters[id])
 
     let character = DB.getMetadata().characters[id]
-    return process.env.PUBLIC_URL + `/assets/${character.portrait}`
+    return baseUrl + `/assets/${character.portrait}`
   },
   getCharacterAvatarById: (id) => {
     if (!id) return ''
-    // console.log('getCharacterAvatarById', id, DB.getMetadata().characters[id])
 
-    let character = DB.getMetadata().characters[id]
-    return process.env.PUBLIC_URL + `/assets/icon/avatar/${id}.png`
+    return baseUrl + `/assets/icon/avatar/${id}.png`
   },
   getCharacterIconById: (id) => {
     if (!id) return ''
-    // console.log('getCharacterAvatarById', id, DB.getMetadata().characters[id])
 
-    let character = DB.getMetadata().characters[id]
-    return process.env.PUBLIC_URL + `/assets/icon/character/${id}.png`
+    return baseUrl + `/assets/icon/character/${id}.png`
   },
 
   getCharacterPreview: (character) => {
     if (!character) return ''
-    return process.env.PUBLIC_URL + `/assets/${character.preview}`
+    return baseUrl + `/assets/${character.preview}`
   },
 
   getLightConePortrait: (lightCone) => {
     if (!lightCone) return ''
-    return process.env.PUBLIC_URL + `/assets/image/light_cone_portrait/${lightCone.id}.png`
+    return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
   
   getPath: (path) => {
     if (!path) return ''
-    return process.env.PUBLIC_URL + `/assets/icon/path/${path}.png`
+    return baseUrl + `/assets/icon/path/${path}.png`
   },
 
   getPathFromClass: (c) => {
@@ -55,21 +52,21 @@ export const Assets = {
       'Mage': 'Erudition',
     }
     if (!c || !mapping[c]) return ''
-    return process.env.PUBLIC_URL + `/assets/icon/path/${mapping[c]}.png`
+    return baseUrl + `/assets/icon/path/${mapping[c]}.png`
   },
 
   getElement: (element) => {
     if (!element) return ''
     if (element == 'Thunder') element = 'Lightning'
-    return process.env.PUBLIC_URL + `/assets/icon/element/${element}.png`
+    return baseUrl + `/assets/icon/element/${element}.png`
   },
 
   getBlank: () => {
-    return process.env.PUBLIC_URL + '/assets/misc/blank.png'
+    return baseUrl + '/assets/misc/blank.png'
   },
 
   getQuestion: () => {
-    return process.env.PUBLIC_URL + '/assets/misc/tooltip.png'
+    return baseUrl + '/assets/misc/tooltip.png'
   },
 
   getPart: (part) => {
@@ -82,7 +79,7 @@ export const Assets = {
       [Constants.Parts.LinkRope]: 'linkRope',
     }
 
-    return process.env.PUBLIC_URL + `/assets/misc/${mapping[part]}.png`
+    return baseUrl + `/assets/misc/${mapping[part]}.png`
   },
 
   getSetImage: (set, part) => {
@@ -126,7 +123,7 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    let path = process.env.PUBLIC_URL + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
+    let path = baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
     return path;
   }
 }

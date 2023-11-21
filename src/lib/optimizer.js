@@ -1,63 +1,17 @@
-// import Worker from "worker-loader!./worker.js";
-// var webworker = new Worker();
 import { GPUOptimizer } from "./gpuOptimizer";
 import { Constants } from "./constants";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
-import { sort, inPlaceSort } from 'fast-sort';
 
 // https://stackoverflow.com/questions/31682132/compare-in-cuda-without-branching
 // let cpus = workerpool.cpus;
 
 let MAX_INT = 2147483647;
-let fakeRequest = {
-  "mainBody": [
-      "CRIT DMG"
-  ],
-  "mainFeet": [
-      "SPD"
-  ],
-  "mainPlanarSphere": [
-      "Ice DMG Boost"
-  ],
-  "mainLinkRope": [
-      "ATK%"
-  ],
-  "relicSets": [
-      [
-          "4 Piece",
-          "Hunter of Glacial Forest"
-      ]
-  ],
-  "ornamentSets": [
-      "Rutilant Arena"
-  ],
-  "minAtk": 0,
-  "maxAtk": 2147483647,
-  "minHp": 0,
-  "maxHp": 2147483647,
-  "minDef": 0,
-  "maxDef": 2147483647,
-  "minSpd": 0,
-  "maxSpd": 2147483647,
-  "minCr": 0,
-  "maxCr": 21474836.47,
-  "minCd": 0,
-  "maxCd": 21474836.47,
-  "minEhr": 0,
-  "maxEhr": 21474836.47,
-  "minRes": 0,
-  "maxRes": 21474836.47,
-  "minBe": 0,
-  "maxBe": 21474836.47,
-  "enhance": 15,
-  "mainHead": [],
-  "mainHands": []
-}
 
-let WIDTH = 256;
+let WIDTH = 512;
 let HEIGHT = WIDTH;
+let MAX_RESULTS = 5_000_000;
 
 // Flatten a relic's augmented stats + part to a single array & percents -> decimals + zeroing undefined
 function relicToArray(relic) {
@@ -122,7 +76,6 @@ export const Optimizer = {
   },
   optimize: async function(request) {
     CANCEL = false
-    // request = Object.assign({}, request, fakeRequest);
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -167,7 +120,6 @@ export const Optimizer = {
     relics = splitRelicsByPart(relics);
 
     relics = RelicFilters.applyCurrentFilter(request, relics);
-    console.log('!!!', relics)
     let relicsArrays = relicsByPartToArray(relics);
 
     let elementalMultipliers = [
@@ -221,11 +173,8 @@ export const Optimizer = {
     }
     optimizerGrid.current.api.showLoadingOverlay()
 
-
     let kernel = GPUOptimizer.createKernel2(consts);
 
-    
-    
     // const kernel = new Function('return ' + text)()({ context: gl, constants: consts });
     // console.log(kernel.toString(1235))
 
@@ -238,10 +187,14 @@ export const Optimizer = {
 
     let start = new Date();
     let lastDate = new Date();
+
+    let abortRun = false;
+
     function iterate() {
       if (CANCEL) return;
       let skip = i;
       if (i >= limit) return;
+
       i += increment;
       posted++;
 
@@ -255,8 +208,8 @@ export const Optimizer = {
       console.warn('Step time', newLastDate - lastDate, startB - startA);
       lastDate = newLastDate
 
-      // console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`);
-      console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`, result);
+      console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`);
+      // console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`, result);
       
       ThreadPool
         .exec(ThreadWorker.calculateStats, [{data: {
@@ -276,14 +229,17 @@ export const Optimizer = {
           request: request
         }}])
         .then(function (result) {
-          // if (rowData.length > 100000) {
-          //   console.log('too many rows')
-          //   optimizerGrid.current.api.setRowData(rowData)
-          //   pool.terminate(); // terminate all workers when done
-          //   return;
-          // }
+          if (abortRun) {
+            return;
+          }
+
+          if (rowData.length + result.length > MAX_RESULTS) {
+            console.log('Slicing rows because they exceed max limit')
+            result = result.slice(0, MAX_RESULTS - rowData.length)
+          }
 
           rowData.push(...result);
+
           console.log('Rows received from thread worker', rowData.length)
 
           setOptimizerPermutationResults(rowData.length)
@@ -291,7 +247,12 @@ export const Optimizer = {
 
           posted--
 
-          if (posted <= 0) {
+          if (rowData.length >= MAX_RESULTS && !abortRun) {
+            abortRun = true;
+            Message.error('Too many results, please narrow your filters')
+          }
+
+          if (posted <= 0 || abortRun) {
             let end = new Date();
             console.info('Time taken:', end - start)
             OptimizerTabController.setMetadata(consts, relics)
@@ -308,7 +269,6 @@ export const Optimizer = {
           }
 
           if (i < limit) {
-            // console.log(i, limit)
             iterate()
           }
         })
@@ -321,19 +281,6 @@ export const Optimizer = {
     for (let j = 0; j < 4; j++) {
       iterate();
     }
-
-
-
-    // for (let i = 0; i < permutations; i += (WIDTH * HEIGHT)) {
-    //   let skip = i;
-
-    //   let result = kernel(skip);
-    //   console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`);
-    //   // console.log(`Kernel results`, result);
-    //   // webworker.postMessage();
-
-    //   posted++;
-    // }
   }
 }
 
@@ -351,12 +298,6 @@ function applyMainFilter(request, relics) {
   out.push(...relics.filter(x => x.part == Constants.Parts.LinkRope).filter(x => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
 
   return out;
-  // Head: relics.filter(x => x.part == Constants.Parts.Head),
-  // Hands: relics.filter(x => x.part == Constants.Parts.Hands),
-  // Body: relics.filter(x => x.part == Constants.Parts.Body),
-  // Feet: relics.filter(x => x.part == Constants.Parts.Feet),
-  // PlanarSphere: relics.filter(x => x.part == Constants.Parts.PlanarSphere),
-  // LinkRope: relics.filter(x => x.part == Constants.Parts.LinkRope)
 }
 
 function applyRankFilter(request, relics) {
@@ -417,42 +358,6 @@ function splitRelicsByPart(relics) {
 function generateEmptyArr(n) {
   return Array(n).fill(0)
 }
-
-// let testSets = [
-//   [
-//       "4 Piece",
-//       "Eagle of Twilight Line"
-//   ],
-//   [
-//       "2 Piece (Advanced)",
-//       "Eagle of Twilight Line"
-//   ],
-//   [
-//       "2 Piece (Advanced)",
-//       "Genius of Brilliant Stars",
-//       "Messenger Traversing Hackerspace"
-//   ]
-// ]
-let testSets = [
-  [
-      "4 Piece",
-      "Hunter of Glacial Forest",
-  ],
-  // [
-  //     "2 Piece (Advanced)",
-  //     "Genius of Brilliant Stars",
-  // ],
-  // [
-  //     "2 Piece (Advanced)",
-  //     "Genius of Brilliant Stars",
-  //     "Messenger Traversing Hackerspace"
-  // ]
-]
-
-let testOrnaments = [
-  "Rutilant Arena",
-  // "Space Sealing Station"
-]
 
 // [0, 0, 0, 2, 0, 2] => [3, 3, 5, 5]
 function relicSetAllowListToIndices(arr) {
@@ -526,11 +431,8 @@ function convertRelicSetIndicesTo1D(setIndices) {
 }
 function generateOrnamentSetAllowList(request) {
   let setRequest = request.ornamentSets || [];
-  // let setRequest = testOrnaments;
 
   let len = Constants.SetsOrnamentsNames.length;
-  let relicSetAllowList = []
-  let setIndices = []
 
   if (setRequest.length == 0) {
     return Utils.arrayOfValue(len * len, 1);
@@ -552,7 +454,6 @@ function generateOrnamentSetAllowList(request) {
 function generateRelicSetAllowList(request) {
   // Init
   let setRequest = request.relicSets || [];
-  // let setRequest = testSets;
   let len = Constants.SetsRelicsNames.length;
   let relicSetAllowList = []
   let setIndices = []

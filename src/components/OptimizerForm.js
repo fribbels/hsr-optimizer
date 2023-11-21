@@ -26,7 +26,6 @@ import {
 } from 'antd';
 import React, { useState, useMemo, useEffect } from 'react';
 import '../style/style.css'
-import SmallNumberInput from './SmallNumberInput';
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
 import { Constants } from '../lib/constants';
@@ -138,8 +137,9 @@ export default function OptimizerForm() {
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters()
     if (characters && characters.length > 0) {
-      let character = Utils.randomElement(characters)
-      console.log('!! initial value', character)
+      let character = characters[0]
+      // let character = Utils.randomElement(characters)
+      console.log('Initial character', character)
       return characterOptions.find(x => x.id == character.id)
     } else {
       return Utils.randomElement(characterOptions)
@@ -151,7 +151,6 @@ export default function OptimizerForm() {
 
   const [selectedLightCone, setSelectedLightCone] = useState({id: 'None', name: 'Light Cone'});
   useEffect(() => {
-    console.log('useeffect')
   }, [selectedCharacter])
   
   const levelOptions = useMemo(() => {
@@ -300,7 +299,6 @@ export default function OptimizerForm() {
   // TODO use memo?
 
   useEffect(() => {
-    console.log('USEEFFECT!!', initialValues)
     onValuesChange({}, initialValues)
   }, [initialValues])
   

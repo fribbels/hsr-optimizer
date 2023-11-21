@@ -69,7 +69,7 @@ export const OptimizerTabController = {
     let data = event.data
     
     if (event.rowPinned == "top") {
-      console.log('!!! Top clicked', event.data)
+      console.log('Top row clicked', event.data)
       let fieldValues = OptimizerTabController.getForm()
       if (event.data && fieldValues.characterId) {
         let character = DB.getCharacterById(fieldValues.characterId);

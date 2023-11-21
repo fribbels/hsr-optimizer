@@ -1,6 +1,5 @@
 const calculateStats = function(e) {
-  // console.log("Message received from main script");
-  console.log("Message received from main script", e);
+  // console.log("Message received from main script", e);
 
   let data = e.data;
   let relics = data.relics;
@@ -88,24 +87,6 @@ const calculateStats = function(e) {
       let ornamentSet8 =  (1 >> (setP ^ 8)) +  (1 >> (setL ^ 8)) // Sprightly Vonwacq
       let ornamentSet9 =  (1 >> (setP ^ 9)) +  (1 >> (setL ^ 9)) // Talia: Kingdom of Banditry
 
-      // console.log('---')
-      // console.log({
-      //   'a': base[Stats.ATK],
-      //   'b': lc[Stats.ATK],
-      //   'c': 1 + 0.15 * (ornamentSet0 >> 1) + 0.12 * (relicSet7 >> 1),
-      //   'd': sum(h, g, b, f, p, l, Stats.ATK_P),
-      //   'e': trace[Stats.ATK_P],
-      //   'f': sum(h, g, b, f, p, l, Stats.ATK),
-      //   // 'g': sum(h, g, b, f, p, l, Stats.SPD),
-      //   'r1': relics.Head[h].augmentedStats,
-      //   'r2': relics.Hands[g].augmentedStats,
-      //   'r3': relics.Body[b].augmentedStats,
-      //   'r4': relics.Feet[f].augmentedStats,
-      //   'r5': relics.PlanarSphere[p].augmentedStats,
-      //   'r6': relics.LinkRope[l].augmentedStats,
-      //   'stat': (base[Stats.ATK] + lc[Stats.ATK]) * (1 + 0.12 * (ornamentSet7 >> 1) + 0.12 * (relicSet10 >> 1) + sum(h, g, b, f, p, l, Stats.ATK_P) + trace[Stats.ATK_P]) + sum(h, g, b, f, p, l, Stats.ATK)
-      // })
-
       let elementalDmg = 0
       if (elementalMultipliers[0]) elementalDmg = 0.1 * Math.min(1, relicSet1 >> 1) + (base[Stats.Physical_DMG]  + lc[Stats.Physical_DMG] + sum(h, g, b, f, p, l, Stats.Physical_DMG) + trace[Stats.Physical_DMG])
       if (elementalMultipliers[1]) elementalDmg = 0.1 * Math.min(1, relicSet3 >> 1) + (base[Stats.Fire_DMG]  + lc[Stats.Fire_DMG] + sum(h, g, b, f, p, l, Stats.Fire_DMG) + trace[Stats.Fire_DMG])
@@ -114,7 +95,6 @@ const calculateStats = function(e) {
       if (elementalMultipliers[4]) elementalDmg = 0.1 * Math.min(1, relicSet2 >> 1) + (base[Stats.Wind_DMG]  + lc[Stats.Wind_DMG] + sum(h, g, b, f, p, l, Stats.Wind_DMG) + trace[Stats.Wind_DMG])
       if (elementalMultipliers[5]) elementalDmg = 0.1 * Math.min(1, relicSet4 >> 1) + (base[Stats.Quantum_DMG]  + lc[Stats.Quantum_DMG] + sum(h, g, b, f, p, l, Stats.Quantum_DMG) + trace[Stats.Quantum_DMG])
       if (elementalMultipliers[6]) elementalDmg = 0.1 * Math.min(1, relicSet13 >> 1) + (base[Stats.Imaginary_DMG]  + lc[Stats.Imaginary_DMG] + sum(h, g, b, f, p, l, Stats.Imaginary_DMG) + trace[Stats.Imaginary_DMG])
-
 
       let hero = {}
 

@@ -90,7 +90,6 @@ export const DB = {
 export default DB;
 
 function assignRanks() {
-  console.log('aa', state.characters)
   for (let i = 0; i < state.characters.length; i++) {
     state.characters[i].rank = i
   }

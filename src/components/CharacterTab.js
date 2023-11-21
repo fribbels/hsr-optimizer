@@ -92,7 +92,6 @@ export default function CharacterTab({style}) {
   const columnDefs = useMemo(() => [
     {field: '', headerName: 'Image', cellRenderer: cellImageRenderer, width: 52 },
     {field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true, rowDragText: (params, dragItemCount) => {
-      console.log(params)
       return params.rowNode.data.displayName;
     }},
     {field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer},
@@ -200,7 +199,6 @@ export default function CharacterTab({style}) {
 
   function PortraitPanel(props) {
     let character = props.character
-    console.log('!!', character)
     if (!character) return ('')
     let finalStats = StatCalculator.calculate(selectedCharacter);
 

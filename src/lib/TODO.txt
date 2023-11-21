@@ -1,14 +1,7 @@
-TODO before Nov 12 - 5 DAYS LEFT
-
 TODAY:
-apply validations to form 
-confirmations
-try it out importer
-duplicate equipped safety
 
 LAST:
 tour 
-discord/github links
 apply stat decimals
 per relic hover actions
 
@@ -42,3 +35,8 @@ ocr updates UI
 add cv / stat ratings on relics 
 add ratings to relic preview
 grid backgrounds
+apply validations to form 
+confirmations
+try it out importer
+duplicate equipped safety
+discord/github links

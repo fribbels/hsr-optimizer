@@ -20,6 +20,7 @@ export const Message = {
       duration: duration || 3,
     });
   },
+  
   warning: (content, duration) => {
     console.warn('Warning message:', content)
     messageApi.open({

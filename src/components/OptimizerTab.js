@@ -23,11 +23,11 @@ import {
   Upload,
   Image,
   Flex,
+  Modal,
 } from 'antd';
 
 import styled from 'styled-components';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import { useSelector, useDispatch } from 'react-redux'
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import OptimizerBuildPreview from './OptimizerBuildPreview';

@@ -73,7 +73,6 @@ export default function RelicPreview(props) {
   if (!data) {
     return
   }
-  console.log('RelicPreview2', data)
   let enhance = data.enhance
   let part = data.part
   let set = data.set

@@ -54,10 +54,8 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          // any theme overirdes
           colorBgBase: '#182239'
         },
-        // this line sets it to dark mode
         algorithm: theme.darkAlgorithm,
       }}
     >
@@ -71,12 +69,14 @@ const App = () => {
             height: 50
           }}
         >
-          <Typography
-            style={{fontWeight: 600, fontSize: 22}}
-            color="inherit"
-          >
-            Fribbels Star Rail Optimizer
-          </Typography>
+          <a href="/">
+            <Typography
+              style={{fontWeight: 600, fontSize: 22}}
+              color="inherit"
+            >
+              Fribbels Star Rail Optimizer
+            </Typography>
+          </a>
         </Header>
         <Layout>
           <Sider
@@ -104,27 +104,3 @@ const App = () => {
   );
 };
 export default App;
-
-
-
-
-      {/* <Toolbar
-        sx={{
-          pr: '24px', // keep right padding when drawer closed
-        }}
-      >
-        <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          sx={{ flexGrow: 1 }}
-        >
-          Fribbels Star Rail Jingliu Optimizer
-        </Typography>
-      </Toolbar>
-      <Stack
-        direction="row"
-        spacing={2}>
-        <MenuDrawer setActiveKey={setActiveKey}/>
-        <ContentTabs activeKey={activeKey}/>
-      </Stack> */}

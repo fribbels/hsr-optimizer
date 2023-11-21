@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme } from 'antd';
-import { useSelector, useDispatch } from 'react-redux'
 import { OcrParser } from '../lib/ocrParser';
-import VerticalDivider from './VerticalDivider';
 import { Message } from '../lib/message';
 
 import sampleSave from '../data/sample-save.json';
@@ -14,7 +12,6 @@ const spinnerMs = 500
 
 function tryItOutTab() {
   function tryItOutClicked() {
-    console.log('TRY')
     DB.setState(JSON.parse(JSON.stringify(sampleSave)))
     SaveState.save()
   }
@@ -246,7 +243,6 @@ function loadDataTab() {
   )
 }
 
-
 function relicImporterTab() {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
@@ -428,14 +424,6 @@ export default function ImportTab({style}) {
               children: tryItOutTab(),
             }
           ]}
-          // items={new Array(3).fill(null).map((_, i) => {
-          //   const id = String(i + 1);
-          //   return {
-          //     label: `Tab ${id}`,
-          //     key: id,
-          //     children: `Content of tab ${id}`,
-          //   };
-          // })}
         />
       </Flex>
     </div>

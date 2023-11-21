@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, Form, InputNumber, Segmented } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
-import { AgGridReact } from 'ag-grid-react';
 
-import RelicPreview from './RelicPreview';
 import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
@@ -32,7 +29,6 @@ export default function RelicModal(props) {
   const [relicForm] = Form.useForm();
 
   const initialValues = useMemo(() => {
-    console.log('!!! set initial values')
     let relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
       return {

@@ -1,10 +1,40 @@
 let baseUrl = process.env.PUBLIC_URL;
-
+let pathFromClassMapping
+let iconFromStatMapping
 export const Assets = {
+  getStatIcon: (stat) => {
+    if (!iconFromStatMapping) {
+      iconFromStatMapping = {
+        [Constants.Stats.ATK]: 'IconAttack.png',
+        [Constants.Stats.DEF]: 'IconDefence.png',
+        [Constants.Stats.HP]: 'IconMaxHP.png',
+        [Constants.Stats.HP_P]: 'IconMaxHP.png',  
+        [Constants.Stats.ATK_P]: 'IconAttack.png',  
+        [Constants.Stats.DEF_P]: 'IconDefence.png',  
+        [Constants.Stats.SPD]: 'IconSpeed.png',  
+        [Constants.Stats.SPD_P]: 'IconSpeed.png',  
+        [Constants.Stats.CR]: 'IconCriticalChance.png',
+        [Constants.Stats.CD]: 'IconCriticalDamage.png',
+        [Constants.Stats.EHR]: 'IconStatusProbability.png',
+        [Constants.Stats.RES]: 'IconStatusResistance.png',
+        [Constants.Stats.BE]: 'IconBreakUp.png',
+        [Constants.Stats.ERR]: 'IconEnergyRecovery.png',
+        [Constants.Stats.OHB]: 'IconHealRatio.png',
+        [Constants.Stats.Physical_DMG]: 'IconPhysicalAddedRatio.png',
+        [Constants.Stats.Fire_DMG]: 'IconFireAddedRatio.png',
+        [Constants.Stats.Ice_DMG]: 'IconIceAddedRatio.png',
+        [Constants.Stats.Lightning_DMG]: 'IconThunderAddedRatio.png',
+        [Constants.Stats.Wind_DMG]: 'IconWindAddedRatio.png',
+        [Constants.Stats.Quantum_DMG]: 'IconQuantumAddedRatio.png',
+        [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.png',
+      }
+    }
+    if (!stat || !iconFromStatMapping[stat]) return ''
+    return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
+  },
   getSampleSave: () => {
     return baseUrl + `/sample-save.json`
   },
-
   getCharacterPortrait: (character) => {
     if (!character) return ''
     return baseUrl + `/assets/${character.portrait}`
@@ -35,24 +65,24 @@ export const Assets = {
     if (!lightCone) return ''
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
-  
   getPath: (path) => {
     if (!path) return ''
     return baseUrl + `/assets/icon/path/${path}.png`
   },
-
   getPathFromClass: (c) => {
-    let mapping = {
-      'Warrior': 'Destruction',
-      'Warlock': 'Nihility',
-      'Knight': 'Preservation',
-      'Priest': 'Abundance',
-      'Rogue': 'Hunt',
-      'Shaman': 'Harmony',
-      'Mage': 'Erudition',
+    if (!pathFromClassMapping) {
+      pathFromClassMapping = {
+        'Warrior': 'Destruction',
+        'Warlock': 'Nihility',
+        'Knight': 'Preservation',
+        'Priest': 'Abundance',
+        'Rogue': 'Hunt',
+        'Shaman': 'Harmony',
+        'Mage': 'Erudition',
+      }
     }
-    if (!c || !mapping[c]) return ''
-    return baseUrl + `/assets/icon/path/${mapping[c]}.png`
+    if (!c || !pathFromClassMapping[c]) return ''
+    return baseUrl + `/assets/icon/path/${pathFromClassMapping[c]}.png`
   },
 
   getElement: (element) => {
@@ -60,13 +90,14 @@ export const Assets = {
     if (element == 'Thunder') element = 'Lightning'
     return baseUrl + `/assets/icon/element/${element}.png`
   },
-
   getBlank: () => {
     return baseUrl + '/assets/misc/blank.png'
   },
-
   getQuestion: () => {
     return baseUrl + '/assets/misc/tooltip.png'
+  },
+  getStar: () => {
+    return baseUrl + '/assets/icon/deco/StarBig.png'
   },
 
   getPart: (part) => {

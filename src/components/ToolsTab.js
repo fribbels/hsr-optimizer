@@ -27,7 +27,7 @@ const { Text } = Typography;
 export default function ToolsTab({style}) {
   return (
     <div style={style}>
-      <Flex>
+      <Flex style={{margin: 20}}>
         <Text>Coming soon! Come drop by the <a href="https://discord.gg/rDmB4Un7qg">Discord server</a> if you have ideas or just want to hang out.</Text>
       </Flex>
     </div>

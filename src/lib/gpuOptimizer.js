@@ -1,10 +1,8 @@
 import { GPU } from 'gpu.js';
 const gpu = new GPU({
   // 'mode': 'webgl2'
-  // mode:'cpu'
+  mode: 'cpu'
 });
-
-// console.log(gpu.isGPUSupported())
 
 export const GPUOptimizer = {
   createConstants: function (

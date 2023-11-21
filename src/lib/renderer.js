@@ -20,6 +20,7 @@ import {
   Upload,
   Image,
   Flex,
+  Tag,
 } from 'antd';
 
 export const Renderer = {
@@ -112,7 +113,7 @@ export const Renderer = {
 
   scoreRenderer: (x) => {
     return Math.round(x.value)
-  }
+  },
 }
 
 function SetDisplay(props) {
@@ -124,4 +125,25 @@ function SetDisplay(props) {
   } else {
     return ''
   }
+}
+
+// For displaying stats from selectors, unused
+function statTagRenderer(props) {
+  const { label, value, closable, onClose } = props;
+  const onPreventMouseDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  return (
+    <Tag
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{display: 'flex', flexDirection: 'row', paddingInline: '3px', marginInlineEnd: '4px'}}
+    >
+      <Flex>
+        <img src={Assets.getStatIcon(value)} style={{width: 22, height: 22}}></img>
+      </Flex>
+    </Tag>
+  );
 }

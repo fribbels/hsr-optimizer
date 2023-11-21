@@ -3,6 +3,8 @@ import * as React from 'react';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
+let iconSize = 23
+
 function generateStat(stat) {
   if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
     return (
@@ -17,13 +19,16 @@ function generateStat(stat) {
     )
   }
 
-  let displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1)
+  let displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
 
   return (
     <Flex justify='space-between'>
-      <Text>
-        {Constants.StatsToReadable[stat.stat]}
-      </Text>
+      <Flex>
+        <img src={Assets.getStatIcon(stat.stat)} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+        <Text>
+          {Constants.StatsToReadable[stat.stat]}
+        </Text>
+      </Flex>
       <Text>
         {displayValue}
       </Text>
@@ -67,8 +72,15 @@ function getRelic(relic) {
   return DB.getRelicById(relic.id)
 }
 
+let gradeToColor = {
+  5: '#ba9063',
+  4: '#9e5fe8',
+  3: '#58beed',
+  2: '#63e0ac',
+}
+
 export default function RelicPreview(props) {
-  // console.log('RelicPreview', props)
+  console.log('RelicPreview', props)
   let data = getRelic(props.relic)
   if (!data) {
     return
@@ -76,6 +88,7 @@ export default function RelicPreview(props) {
   let enhance = data.enhance
   let part = data.part
   let set = data.set
+  let grade = data.grade
 
   let substats = data.substats || []
   let main = data.main || {}
@@ -85,6 +98,8 @@ export default function RelicPreview(props) {
   let equippedBy = data.equippedBy
   let equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
   // console.log(props, data)
+
+  let color = gradeToColor[grade] || ''
 
   return (
     <Card size="small" style={{ width: 200, height: 280 }}>
@@ -97,9 +112,19 @@ export default function RelicPreview(props) {
             src={relicSrc}
             fallback=''
           />
-          <Text>
-            {enhance ? `+${enhance}` : ''}
-          </Text>
+          <Flex  align='center'>
+            {
+              grade ? 
+              <div style={{width: 16, height: 16, borderRadius: '50%', background: 'rgba(0,0,0,0)', border: `2px solid ${color}`, padding: '2px', marginRight: 3}}>
+                <div style={{width: 8, height: 8, backgroundColor: color, borderRadius: '50%'}}></div>
+              </div> 
+              : ''
+              
+            }
+            <Text>
+              {enhance ? `+${enhance}` : ''}
+            </Text>
+          </Flex>
           <Image
             preview={false}
             height={50}

@@ -23,6 +23,7 @@ import {
   Flex,
   Tooltip,
   Popover,
+  Tag,
 } from 'antd';
 import React, { useState, useMemo, useEffect } from 'react';
 import '../style/style.css'
@@ -38,6 +39,7 @@ import { TooltipImage } from './TooltipImage';
 import { SaveState } from '../lib/saveState';
 const { TextArea } = Input;
 const { Text } = Typography;
+const { SHOW_CHILD } = Cascader;
 
 function generateSetsOptions() {
   let result = [
@@ -289,7 +291,7 @@ export default function OptimizerForm() {
       "predictMaxedMainStat": true,
       "rankFilter": true,
       "keepCurrentRelics": false,
-      "enhance": 15,
+      "enhance": 9,
       "grade": 5,
       "mainHead": [],
       "mainHands": []
@@ -316,6 +318,69 @@ export default function OptimizerForm() {
   function filterClicked(x) {
     console.log('Filter clicked');
     OptimizerTabController.applyRowFilters()
+  }
+
+  function ornamentSetTagRenderer(props) {
+    const { label, value, closable, onClose } = props;
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
+      >
+        <Flex>
+          <img src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
+        </Flex>
+      </Tag>
+    );
+  }
+
+  function relicSetTagRenderer(props) {
+    const { label, value, closable, onClose } = props;
+    console.log(props)
+    // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
+    // 3 -> render both, any render one, 2 -> render first twice
+    let pieces = value.split('__RC_CASCADER_SPLIT__')
+    let inner
+    if (pieces.length == 3) {
+      if (pieces[2] == 'Any') {
+        inner = (
+          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+        )
+      } else {
+        inner = [
+          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>,
+          <img src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+        ]
+      }
+    } else {
+      inner = [
+        <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>,
+        <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+      ]
+    }
+
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
+      >
+        <Flex>
+          {inner}
+        </Flex>
+      </Tag>
+    );
   }
   
   return (
@@ -412,7 +477,7 @@ export default function OptimizerForm() {
 
           <VerticalDivider/>
 
-          <Flex vertical gap={18}>
+          <Flex vertical gap={16}>
             <Flex vertical gap={defaultGap}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Main Stats</HeaderText>
@@ -461,6 +526,7 @@ export default function OptimizerForm() {
                     width: panelWidth,
                   }}
                   placeholder="Planar Sphere"
+                  listHeight={400}
                   maxTagCount='responsive'>
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
@@ -513,6 +579,8 @@ export default function OptimizerForm() {
                     <Cascader
                       placeholder="Relics"
                       options={generateSetsOptions()}
+                      showCheckedStrategy={SHOW_CHILD}
+                      tagRender={relicSetTagRenderer}
                       placement='bottomLeft'
                       maxTagCount='responsive'
                       multiple={true}
@@ -526,8 +594,9 @@ export default function OptimizerForm() {
                   mode="multiple"
                   allowClear
                   style={{
-                    width: panelWidth,
+                    width: panelWidth
                   }}
+                  tagRender={ornamentSetTagRenderer}
                   placeholder="Planar Ornaments"
                   maxTagCount='responsive'>
                   <Select.Option value={Constants.Sets.BelobogOfTheArchitects}>Belobog of the Architects</Select.Option>

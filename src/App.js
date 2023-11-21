@@ -24,21 +24,6 @@ import {
 
 const { Header, Sider, Content, Footer } = Layout;
 
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
-
 const App = () => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
@@ -90,7 +75,7 @@ const App = () => {
           >
             <Content
               style={{
-                padding: 18,
+                padding: 10,
                 margin: 0,
                 minHeight: 280,
               }}

@@ -9,7 +9,7 @@ import DB from "./db";
 
 let MAX_INT = 2147483647;
 
-let WIDTH = 512;
+let WIDTH = 256;
 let HEIGHT = WIDTH;
 let MAX_RESULTS = 5_000_000;
 

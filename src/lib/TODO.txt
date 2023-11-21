@@ -1,4 +1,9 @@
 TODAY:
+compact main stat tag
+split try into new tab
+guide tab
+relics -> inventory?
+
 
 LAST:
 tour 

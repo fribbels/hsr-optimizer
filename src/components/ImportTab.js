@@ -390,7 +390,7 @@ export default function ImportTab({style}) {
 
   return (
     <div style={style}>
-      <Flex vertical gap={5}>
+      <Flex vertical gap={5} style={{marginLeft: 20}}>
         <Tabs
           defaultActiveKey="1"
           size={tabSize}

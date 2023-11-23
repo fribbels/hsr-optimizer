@@ -25,7 +25,7 @@ import {
   Popover,
   Tag,
 } from 'antd';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Fragment } from 'react';
 import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
@@ -41,6 +41,31 @@ const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
 
+function generateOrnamentsOptions() {
+  return Object.values(Constants.SetsOrnaments).map(x => {
+    return {
+      value: x,
+      label: 
+        <Flex gap={5}>
+          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
+          <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
+            {x}
+          </div>
+        </Flex>
+    }
+  })
+}
+
+{/* <Select.Option value={Constants.Sets.BelobogOfTheArchitects}>Belobog of the Architects</Select.Option>
+<Select.Option value={Constants.Sets.BrokenKeel}>Broken Keel</Select.Option>
+<Select.Option value={Constants.Sets.CelestialDifferentiator}>Celestial Differentiator</Select.Option>
+<Select.Option value={Constants.Sets.FleetOfTheAgeless}>Fleet of the Ageless</Select.Option>
+<Select.Option value={Constants.Sets.InertSalsotto}>Inert Salsotto</Select.Option>
+<Select.Option value={Constants.Sets.PanCosmicCommercialEnterprise}>Pan-Cosmic Commercial Enterprise</Select.Option>
+<Select.Option value={Constants.Sets.RutilantArena}>Rutilant Arena</Select.Option>
+<Select.Option value={Constants.Sets.SpaceSealingStation}>Space Sealing Station</Select.Option>
+<Select.Option value={Constants.Sets.SprightlyVonwacq}>Sprightly Vonwacq</Select.Option>
+<Select.Option value={Constants.Sets.TaliaKingdomOfBanditry}>Talia: Kingdom of Banditry</Select.Option> */}
 function generateSetsOptions() {
   let result = [
     {
@@ -72,23 +97,33 @@ function generateSetsOptions() {
     label: 'Any'
   })
 
+  function generateLabel(value, parens, label) {
+    let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
+    return (
+      <Flex gap={5}>
+        <img src={imageSrc} style={{width: 26, height: 26}}></img>
+        <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
+          {parens + label}
+        </div>
+      </Flex> 
+    )
+  }
+
   for (let set of Object.entries(Constants.SetsRelics)) {
     result[0].children.push({
       value: set[1],
-      label: '(4) ' + set[1]
+      label: generateLabel(set[1], '(4) ', set[1])
     })
 
     result[1].children.push({
       value: set[1],
-      label: '(2) ' + set[1],
+      label: generateLabel(set[1], '(2) ', set[1]),
       children: childrenWithAny.map(x => {
         let parens = x.value == 'Any' ? '(0) ' : '(2) ';
-        return x.value != set[1] ? {
+        let imageSrc = x.value == 'Any' ? Assets.getBlank() : Assets.getSetImage(x.value, Constants.Parts.Head)
+        return {
           value: x.value,
-          label: parens + x.label
-        } : {
-          value: x.value,
-          label: parens + set[1]
+          label: generateLabel(x.value, parens, x.label)
         }
       })
     })
@@ -342,27 +377,29 @@ export default function OptimizerForm() {
 
   function relicSetTagRenderer(props) {
     const { label, value, closable, onClose } = props;
-    console.log(props)
     // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
     // 3 -> render both, any render one, 2 -> render first twice
     let pieces = value.split('__RC_CASCADER_SPLIT__')
     let inner
     if (pieces.length == 3) {
       if (pieces[2] == 'Any') {
-        inner = (
-          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-        )
+        inner = 
+          <React.Fragment>
+            <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          </React.Fragment>
       } else {
-        inner = [
-          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>,
-          <img src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-        ]
+        inner = 
+          <React.Fragment>
+            <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          </React.Fragment>
       }
     } else {
-      inner = [
-        <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>,
-        <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-      ]
+      inner = 
+        <React.Fragment>
+          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+        </React.Fragment>
     }
 
     const onPreventMouseDown = (event) => {
@@ -568,7 +605,7 @@ export default function OptimizerForm() {
                 theme={{
                   components: {
                     Cascader: {
-                      dropdownHeight: 500,
+                      dropdownHeight: 550,
                       controlItemWidth: 100,
                       controlWidth: 100
                     },
@@ -591,24 +628,19 @@ export default function OptimizerForm() {
 
               <Form.Item size="default" name='ornamentSets'>
                 <Select
+                  dropdownStyle={{
+                    width: 250
+                  }}
+                  listHeight={500}
                   mode="multiple"
                   allowClear
                   style={{
                     width: panelWidth
                   }}
+                  options={generateOrnamentsOptions()}
                   tagRender={ornamentSetTagRenderer}
                   placeholder="Planar Ornaments"
                   maxTagCount='responsive'>
-                  <Select.Option value={Constants.Sets.BelobogOfTheArchitects}>Belobog of the Architects</Select.Option>
-                  <Select.Option value={Constants.Sets.BrokenKeel}>Broken Keel</Select.Option>
-                  <Select.Option value={Constants.Sets.CelestialDifferentiator}>Celestial Differentiator</Select.Option>
-                  <Select.Option value={Constants.Sets.FleetOfTheAgeless}>Fleet of the Ageless</Select.Option>
-                  <Select.Option value={Constants.Sets.InertSalsotto}>Inert Salsotto</Select.Option>
-                  <Select.Option value={Constants.Sets.PanCosmicCommercialEnterprise}>Pan-Cosmic Commercial Enterprise</Select.Option>
-                  <Select.Option value={Constants.Sets.RutilantArena}>Rutilant Arena</Select.Option>
-                  <Select.Option value={Constants.Sets.SpaceSealingStation}>Space Sealing Station</Select.Option>
-                  <Select.Option value={Constants.Sets.SprightlyVonwacq}>Sprightly Vonwacq</Select.Option>
-                  <Select.Option value={Constants.Sets.TaliaKingdomOfBanditry}>Talia: Kingdom of Banditry</Select.Option>
                 </Select>
               </Form.Item>
             </Flex>

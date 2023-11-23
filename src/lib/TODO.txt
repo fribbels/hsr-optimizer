@@ -1,8 +1,9 @@
 TODAY:
-compact main stat tag
 split try into new tab
 guide tab
 relics -> inventory?
+icons for dropdown sets selector
+hover over icon for set name text/etc
 
 
 LAST:
@@ -45,3 +46,4 @@ confirmations
 try it out importer
 duplicate equipped safety
 discord/github links
+compact main stat tag

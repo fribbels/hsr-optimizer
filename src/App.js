@@ -16,6 +16,7 @@ import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme, notification, Typography, message } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
+import { Helmet } from 'react-helmet';
 import { SmileOutlined } from '@ant-design/icons';
 
 import {
@@ -43,7 +44,23 @@ const App = () => {
         },
         algorithm: theme.darkAlgorithm,
       }}
-    >
+    >      
+      <Helmet>
+        <title>Fribbels Honkai Star Rail Optimizer</title>
+        <meta name="description" content="A relic optimizer for Honkai: Star Rail" />
+        
+        {/* Open Graph Protocol metadata for link previews */}
+        <meta property="og:title" content="Fribbels Star Rail Optimizer" />
+        <meta property="og:description" content="A relic optimizer for Honkai: Star Rail" />
+        <meta property="og:image" content="URL to an image for the link preview" />
+        <meta property="og:url" content="https://fribbels.github.io/hsr-optimizer" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter Card metadata for link previews on Twitter */}
+        <meta name="twitter:title" content="Fribbels Star Rail Optimizer" />
+        <meta name="twitter:description" content="A relic optimizer for Honkai: Star Rail" />
+        <meta name="twitter:image" content="URL to an image for the link preview on Twitter." />
+      </Helmet>
       {notificationContextHolder}
       {messageContextHolder}
       <Layout style={{'minHeight': '100%'}}>

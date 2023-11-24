@@ -96,8 +96,14 @@ export const Assets = {
   getQuestion: () => {
     return baseUrl + '/assets/misc/tooltip.png'
   },
+  getLogo: () => {
+    return baseUrl + '/assets/misc/logo.png'
+  },
   getStar: () => {
     return baseUrl + '/assets/icon/deco/StarBig.png'
+  },
+  getGuideImage: (name) => {
+    return baseUrl + '/assets/guide/' + name + '.png'
   },
 
   getPart: (part) => {

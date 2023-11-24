@@ -13,10 +13,9 @@ import {
 } from '@ant-design/icons';
 
 import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme, notification, Typography, message } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, notification, Typography, message, Flex } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
-import { Helmet } from 'react-helmet';
 import { SmileOutlined } from '@ant-design/icons';
 
 import {
@@ -45,22 +44,6 @@ const App = () => {
         algorithm: theme.darkAlgorithm,
       }}
     >      
-      <Helmet>
-        <title>Fribbels Honkai Star Rail Optimizer</title>
-        <meta name="description" content="A relic optimizer for Honkai: Star Rail" />
-        
-        {/* Open Graph Protocol metadata for link previews */}
-        <meta property="og:title" content="Fribbels Star Rail Optimizer" />
-        <meta property="og:description" content="A relic optimizer for Honkai: Star Rail" />
-        <meta property="og:image" content="URL to an image for the link preview" />
-        <meta property="og:url" content="https://fribbels.github.io/hsr-optimizer" />
-        <meta property="og:type" content="website" />
-        
-        {/* Twitter Card metadata for link previews on Twitter */}
-        <meta name="twitter:title" content="Fribbels Star Rail Optimizer" />
-        <meta name="twitter:description" content="A relic optimizer for Honkai: Star Rail" />
-        <meta name="twitter:image" content="URL to an image for the link preview on Twitter." />
-      </Helmet>
       {notificationContextHolder}
       {messageContextHolder}
       <Layout style={{'minHeight': '100%'}}>
@@ -68,16 +51,20 @@ const App = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
+            padding: '0 30px',
             height: 50
           }}
         >
           <a href="/">
-            <Typography
-              style={{fontWeight: 600, fontSize: 22}}
-              color="inherit"
-            >
-              Fribbels Star Rail Optimizer
-            </Typography>
+            <Flex align='center'>
+              <img src={Assets.getLogo()} style={{width: 30, height: 30, marginRight: 20}}></img>
+              <Typography
+                style={{fontWeight: 600, fontSize: 22}}
+                color="inherit"
+              >
+                Fribbels Honkai Star Rail Optimizer
+              </Typography>
+            </Flex>
           </a>
         </Header>
         <Layout>

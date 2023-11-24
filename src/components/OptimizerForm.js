@@ -157,7 +157,7 @@ export default function OptimizerForm() {
       value.label = value.displayName;
     }
 
-    return Object.values(characterData)
+    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
   const lightConeOptions = useMemo(() => {
@@ -168,7 +168,7 @@ export default function OptimizerForm() {
       value.label = value.name;
     }
 
-    return Object.values(lcData)
+    return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
   const initialCharacter = useMemo(() => {
@@ -369,7 +369,7 @@ export default function OptimizerForm() {
         style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
       >
         <Flex>
-          <img src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
+          <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
         </Flex>
       </Tag>
     );
@@ -385,20 +385,20 @@ export default function OptimizerForm() {
       if (pieces[2] == 'Any') {
         inner = 
           <React.Fragment>
-            <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
           </React.Fragment>
       } else {
         inner = 
           <React.Fragment>
-            <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-            <img src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
           </React.Fragment>
       }
     } else {
       inner = 
         <React.Fragment>
-          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-          <img src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
         </React.Fragment>
     }
 
@@ -601,6 +601,24 @@ export default function OptimizerForm() {
                 <HeaderText>Sets</HeaderText>
                 <TooltipImage type={Hint.sets()}/>
               </Flex>
+
+              <Form.Item size="default" name='ornamentSets'>
+                <Select
+                  dropdownStyle={{
+                    width: 250
+                  }}
+                  listHeight={500}
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: panelWidth
+                  }}
+                  options={generateOrnamentsOptions()}
+                  tagRender={ornamentSetTagRenderer}
+                  placeholder="Planar Ornaments"
+                  maxTagCount='responsive'>
+                </Select>
+              </Form.Item>
               <ConfigProvider
                 theme={{
                   components: {
@@ -625,24 +643,6 @@ export default function OptimizerForm() {
                     />
                 </Form.Item>
               </ConfigProvider>
-
-              <Form.Item size="default" name='ornamentSets'>
-                <Select
-                  dropdownStyle={{
-                    width: 250
-                  }}
-                  listHeight={500}
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth
-                  }}
-                  options={generateOrnamentsOptions()}
-                  tagRender={ornamentSetTagRenderer}
-                  placeholder="Planar Ornaments"
-                  maxTagCount='responsive'>
-                </Select>
-              </Form.Item>
             </Flex>
           </Flex>
 

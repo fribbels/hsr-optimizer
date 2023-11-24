@@ -105,12 +105,10 @@ export default function RelicPreview(props) {
     <Card size="small" style={{ width: 200, height: 280 }}>
       <Flex vertical justify='space-between' style={{height: 255}}>
         <Flex justify='space-between' align='center'>
-          <Image
-            preview={false}
-            height={50}
-            width={50}
+          <img
+            style={{height: 50, width: 50}}
+            title={set} 
             src={relicSrc}
-            fallback=''
           />
           <Flex  align='center'>
             {
@@ -125,12 +123,9 @@ export default function RelicPreview(props) {
               {enhance ? `+${enhance}` : ''}
             </Text>
           </Flex>
-          <Image
-            preview={false}
-            height={50}
-            width={50}
+          <img
+            style={{height: 50, width: 50}}
             src={equippedBySrc}
-            fallback=''
           />
         </Flex>
         

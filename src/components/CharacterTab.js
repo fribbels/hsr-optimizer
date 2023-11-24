@@ -366,7 +366,7 @@ export default function CharacterTab({style}) {
     }}>
       <Flex style={{height: '100%'}} gap={8}>
         <Flex vertical gap={10}>
-          <div className="ag-theme-balham-dark" style={{display: 'block', width: 230, height: parentH - 55}}>
+          <div className="ag-theme-balham-dark" style={{display: 'block', width: 230, height: parentH - 43}}>
             <AgGridReact
               ref={characterGrid} // Ref for accessing Grid's API
 

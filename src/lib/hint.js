@@ -141,7 +141,7 @@ export const Hint = {
       content: (
         <div>
           <p>Shows how many relics are being used in the optimization search, after all filters are applied</p>
-          <p>Perms -Number of permutations that need to be searched. Narrow your filters to reduce permutations & search time</p>
+          <p>Perms - Number of permutations that need to be searched. Narrow your filters to reduce permutations & search time</p>
           <p>Searched - Number of permutations already searched</p>
           <p>Results - Number of displayed results that satisfy the stat filters</p>
         </div>

@@ -1,6 +1,9 @@
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined, LinkOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined, LinkOutlined, MenuOutlined, GithubOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu, Typography } from 'antd';
+import { DiscordIcon } from '../icons/DiscordIcon';
+import { GithubIcon } from '../icons/GithubIcon';
+import { CoffeeIcon } from '../icons/CoffeeIcon';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -12,34 +15,37 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem('Menu', 'sub1',  <AppstoreOutlined />, [
+  getItem('Menu', 'sub1',  <MenuOutlined />, [
     getItem('Optimizer', '1'), 
     getItem('Characters', '3'),
     getItem('Relics', '2'),
     getItem('Import', '4'),
-    getItem('Guide', '5'),
+    getItem('Getting started', '5'),
   ]),
-  getItem('Tools', 'sub2', <AppstoreOutlined />, [
+  getItem('Tools', 'sub2', <MenuOutlined />, [
     getItem('Coming soon', '6'),
   ]),
-  getItem('Links', 'sub4', <AppstoreOutlined />, [
+  getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
-        Discord <LinkOutlined />
+        {/* Discord <DiscordIcon style={{marginLeft: 5}} /> */}
+        <DiscordIcon style={{marginRight: 5}} /> Discord 
       </Typography.Link>,
       'link discord',
       // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
-        Donate <LinkOutlined />
+        {/* Donate <CoffeeIcon style={{marginLeft: 5}} /> */}
+        <CoffeeIcon style={{marginRight: 5}} /> Donate 
       </Typography.Link>,
       'link donate',
       // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
-        Github <LinkOutlined />
+        {/* Github <GithubIcon style={{marginLeft: 5}} /> */}
+        <GithubIcon style={{marginRight: 5}} /> Github 
       </Typography.Link>,
       'link github',
       // <LinkOutlined />,

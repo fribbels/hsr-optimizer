@@ -28,7 +28,7 @@ export default function ToolsTab({style}) {
   return (
     <div style={style}>
       <Flex style={{margin: 20}}>
-        <Text>Coming soon! Come drop by the <a href="https://discord.gg/rDmB4Un7qg">Discord server</a> if you have ideas or just want to hang out.</Text>
+        <Text>Coming soon! Come drop by the <Typography.Link target="_blank" href="https://discord.gg/rDmB4Un7qg">Discord server</Typography.Link> if you have ideas or just want to hang out.</Text>
       </Flex>
     </div>
   );

@@ -1,10 +1,7 @@
 TODAY:
 split try into new tab
 guide tab
-relics -> inventory?
-icons for dropdown sets selector
-hover over icon for set name text/etc
-
+filter light cones by path
 
 LAST:
 tour 
@@ -12,7 +9,6 @@ apply stat decimals
 per relic hover actions
 
 THOUGHTS
-gpu slow because errors in index calcing past perm #?
 def shref?
 
 DONE
@@ -47,3 +43,6 @@ try it out importer
 duplicate equipped safety
 discord/github links
 compact main stat tag
+icons for dropdown sets selector
+relics -> inventory?
+hover over icon for set name text/etc

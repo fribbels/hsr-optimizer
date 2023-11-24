@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/hsr-optimizer/static/css/main.a4e9b110.css",
-    "main.js": "/hsr-optimizer/static/js/main.847a752a.js",
+    "main.js": "/hsr-optimizer/static/js/main.8f384bcf.js",
     "static/media/logo.svg": "/hsr-optimizer/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/hsr-optimizer/index.html",
     "main.a4e9b110.css.map": "/hsr-optimizer/static/css/main.a4e9b110.css.map",
-    "main.847a752a.js.map": "/hsr-optimizer/static/js/main.847a752a.js.map"
+    "main.8f384bcf.js.map": "/hsr-optimizer/static/js/main.8f384bcf.js.map"
   },
   "entrypoints": [
     "static/css/main.a4e9b110.css",
-    "static/js/main.847a752a.js"
+    "static/js/main.8f384bcf.js"
   ]
 }

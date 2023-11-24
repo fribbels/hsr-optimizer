@@ -35,11 +35,18 @@ export const DataParser = {
     }
 
     let characterTraces = getOverrideTraces();
+    let imageOffsets = getOverrideImageOffset();
     for (let entry of Object.entries(characterTraces)) {
       let id = entry[0]
       let traceData = entry[1]
 
+      let imageOffset = {x: 0, y: 0}
+      if (imageOffsets[id] != undefined) {
+        imageOffset = imageOffsets[id]
+      }
+
       characters[id].traces = traceData
+      characters[id].imageOffset = imageOffset
       characters[id].displayName = getDisplayName(characters[id])
     }
 
@@ -606,6 +613,176 @@ function getOverrideTraces() {
       [Constants.Stats.DEF_P]: 0.35,  
       [Constants.Stats.ATK_P]: 0.18,  
       [Constants.Stats.HP_P]: 0.1,
+    },
+  }
+}
+
+
+function getOverrideImageOffset() {
+  return {
+    "1001": { // March 7th
+      x: 1024, 
+      y: 1100
+    },
+    "1002": { // Dan Heng
+      x: 1024, 
+      y: 1000
+    },
+    "1003": { // Himeko
+      x: 1024, 
+      y: 1100
+    },
+    "1004": { // Welt
+      x: 885, 
+      y: 1000
+    },
+    "1005": { // Kafka
+      x: 980, 
+      y: 1024
+    },
+    "1006": { // Silver Wolf
+      x: 1010, 
+      y: 1024
+    },
+    "1008": { // Arlan
+      x: 1240, 
+      y: 1024
+    },
+    "1009": { // Asta
+      x: 1050, 
+      y: 1000
+    },
+    "1013": { // Herta
+      x: 970, 
+      y: 1010
+    },
+    "1101": { // Bronya
+      x: 950, 
+      y: 1180
+    },
+    "1102": { // Seele
+      x: 850, 
+      y: 1060
+    },
+    "1103": { // Serval
+      x: 1050, 
+      y: 1024
+    },
+    "1104": { // Gepard
+      x: 1110, 
+      y: 1110
+    },
+    "1105": { // Natasha
+      x: 1040, 
+      y: 1024
+    },
+    "1106": { // Pela
+      x: 780, 
+      y: 1100
+    },
+    "1107": { // Clara
+      x: 940, 
+      y: 980
+    },
+    "1108": { // Sampo
+      x: 1024, 
+      y: 1024
+    },
+    "1109": { // Hook
+      x: 930, 
+      y: 1024
+    },
+    "1110": { // Lynx
+      x: 1160, 
+      y: 1000
+    },
+    "1111": { // Luka
+      x: 930, 
+      y: 1024
+    },
+    "1112": { // Topaz and Numby
+      x: 1024, 
+      y: 1024
+    },
+    "1201": { // Qingque
+      x: 1024, 
+      y: 1024
+    },
+    "1202": { // Tingyun
+      x: 1024, 
+      y: 1024
+    },
+    "1203": { // Luocha
+      x: 1024, 
+      y: 1024
+    },
+    "1204": { // Jing Yuan
+      x: 1024, 
+      y: 1024
+    },
+    "1205": { // Blade
+      x: 1054, 
+      y: 907
+    },
+    "1206": { // Sushang
+      x: 1024, 
+      y: 1024
+    },
+    "1207": { // Yukong
+      x: 1024, 
+      y: 1024
+    },
+    "1208": { // Fu Xuan
+      x: 1024, 
+      y: 1024
+    },
+    "1209": { // Yanqing
+      x: 1024, 
+      y: 1024
+    },
+    "1210": { // Guinaifen
+      x: 1024, 
+      y: 1024
+    },
+    "1211": { // Bailu
+      x: 1024, 
+      y: 1024
+    },
+    "1212": { // Jingliu
+      x: 1024, 
+      y: 1024
+    },
+    "1213": { // Dan Heng • Imbibitor Lunae
+      x: 1024, 
+      y: 1024
+    },
+    "1215": { // Hanya
+      x: 1024, 
+      y: 1024
+    },
+    "1217": { // Huohuo
+      x: 1024, 
+      y: 1024
+    },
+    "1302": { // Argenti
+      x: 1024, 
+      y: 1024
+    },
+    "8001": { // Physical Trailblazer
+      x: 1024, 
+      y: 1024
+    },
+    "8002": { // Physical Trailblazer
+      x: 1024, 
+      y: 1024
+    },
+    "8003": { // Fire Trailblazer
+      x: 1024, 
+      y: 1024
+    },
+    "8004": { // Fire Trailblazer
+      x: 1024, 
+      y: 1024
     },
   }
 }

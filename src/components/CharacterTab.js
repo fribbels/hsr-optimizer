@@ -282,7 +282,9 @@ export default function CharacterTab({style}) {
             preview={false}
             width={innerW}
             src={Assets.getCharacterPortraitById(selectedCharacter.id)}
-            style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
+            // style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
+            style={{transform: `translate(${(innerW - parentW)/2/innerW * -100 - (characterMetadata.imageOffset.x - innerW)/innerW/2 * 100}%, ${((innerW - parentH)/2/innerW * -100) - (characterMetadata.imageOffset.y - innerW)/innerW/2 * 100}%)`}}
+
           />
         </div>
 

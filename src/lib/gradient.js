@@ -1,9 +1,9 @@
 import tinygradient from 'tinygradient';
 
 let optimizerGridGradient = tinygradient([
-  '#5A1A06', 
-  '#343127', 
-  '#38821F',
+  {color: '#5A1A06', pos: 0}, // red
+  {color: '#343127', pos: 0.35},
+  {color: '#38821F', pos: 1} // green
 ]);
 let relicGridGradient = tinygradient('#343127', '#38821F')
 let relicColumnRanges

@@ -28,7 +28,7 @@ export default function ToolsTab({style}) {
   return (
     <div style={style}>
       <Flex style={{margin: 20}}>
-        <Text>Coming soon! Come drop by the <Typography.Link target="_blank" href="https://discord.gg/rDmB4Un7qg">Discord server</Typography.Link> if you have ideas or just want to hang out.</Text>
+        <Text>More Star Rail tools coming soon! Drop by the <Typography.Link target="_blank" href="https://discord.gg/rDmB4Un7qg">Discord server</Typography.Link> for updates, to share ideas, or just hang out.</Text>
       </Flex>
     </div>
   );

@@ -71,62 +71,44 @@ export const PartsToReadable = {
   [Parts.LinkRope]: 'Link Rope'
 };
 
-export const Sets = {
-  'BandOfSizzlingThunder': 'Band of Sizzling Thunder',
-  'ChampionOfStreetwiseBoxing': 'Champion of Streetwise Boxing',
-  'EagleOfTwilightLine': 'Eagle of Twilight Line',
-  'FiresmithOfLavaForging': 'Firesmith Of Lava-Forging',
-  'GeniusOfBrilliantStars': 'Genius of Brilliant Stars',
-  'HunterOfGlacialForest': 'Hunter of Glacial Forest',
-  'KnightOfPurityPalace': 'Knight of Purity Palace',
-  'MessengerTraversingHackerspace': 'Messenger Traversing Hackerspace',
-  'GuardOfWutheringSnow': 'Guard of Wuthering Snow',
-  'LongevousDisciple': 'Longevous Disciple',
-  'MusketeerOfWildWheat': 'Musketeer of Wild Wheat',
-  'PasserbyOfWanderingCloud': 'Passerby of Wandering Cloud',
-  'ThiefOfShootingMeteor': 'Thief of Shooting Meteor',
-  'WastelanderOfBanditryDesert': 'Wastelander of Banditry Desert',
-
-  'BelobogOfTheArchitects': 'Belobog of the Architects',
-  'BrokenKeel': 'Broken Keel',
-  'CelestialDifferentiator': 'Celestial Differentiator',
-  'FleetOfTheAgeless': 'Fleet of the Ageless',
-  'InertSalsotto': 'Inert Salsotto',
-  'PanCosmicCommercialEnterprise': 'Pan-Cosmic Commercial Enterprise',
-  'RutilantArena': 'Rutilant Arena',
-  'SpaceSealingStation': 'Space Sealing Station',
-  'SprightlyVonwacq': 'Sprightly Vonwacq',
-  'TaliaKingdomOfBanditry': 'Talia: Kingdom of Banditry'
-}
 
 export const SetsRelics = {
-  'BandOfSizzlingThunder': 'Band of Sizzling Thunder',
+  'PasserbyOfWanderingCloud': 'Passerby of Wandering Cloud',
+  'MusketeerOfWildWheat': 'Musketeer of Wild Wheat',
+  'KnightOfPurityPalace': 'Knight of Purity Palace',
+  'HunterOfGlacialForest': 'Hunter of Glacial Forest',
   'ChampionOfStreetwiseBoxing': 'Champion of Streetwise Boxing',
-  'EagleOfTwilightLine': 'Eagle of Twilight Line',
+  'GuardOfWutheringSnow': 'Guard of Wuthering Snow',
   'FiresmithOfLavaForging': 'Firesmith Of Lava-Forging',
   'GeniusOfBrilliantStars': 'Genius of Brilliant Stars',
-  'HunterOfGlacialForest': 'Hunter of Glacial Forest',
-  'KnightOfPurityPalace': 'Knight of Purity Palace',
-  'MessengerTraversingHackerspace': 'Messenger Traversing Hackerspace',
-  'GuardOfWutheringSnow': 'Guard of Wuthering Snow',
-  'LongevousDisciple': 'Longevous Disciple',
-  'MusketeerOfWildWheat': 'Musketeer of Wild Wheat',
-  'PasserbyOfWanderingCloud': 'Passerby of Wandering Cloud',
+  'BandOfSizzlingThunder': 'Band of Sizzling Thunder',
+  'EagleOfTwilightLine': 'Eagle of Twilight Line',
   'ThiefOfShootingMeteor': 'Thief of Shooting Meteor',
-  'WastelanderOfBanditryDesert': 'Wastelander of Banditry Desert'
+  'WastelanderOfBanditryDesert': 'Wastelander of Banditry Desert',
+  'LongevousDisciple': 'Longevous Disciple',
+  'MessengerTraversingHackerspace': 'Messenger Traversing Hackerspace',
+  'TheAshblazingGrandDuke': 'The Ashblazing Grand Duke',
+  'PrisonerInDeepConfinement': 'Prisoner in Deep Confinement',
 }
 
 export const SetsOrnaments = {
-  'BelobogOfTheArchitects': 'Belobog of the Architects',
-  'BrokenKeel': 'Broken Keel',
-  'CelestialDifferentiator': 'Celestial Differentiator',
-  'FleetOfTheAgeless': 'Fleet of the Ageless',
-  'InertSalsotto': 'Inert Salsotto',
-  'PanCosmicCommercialEnterprise': 'Pan-Cosmic Commercial Enterprise',
-  'RutilantArena': 'Rutilant Arena',
   'SpaceSealingStation': 'Space Sealing Station',
+  'FleetOfTheAgeless': 'Fleet of the Ageless',
+  'PanCosmicCommercialEnterprise': 'Pan-Cosmic Commercial Enterprise',
+  'BelobogOfTheArchitects': 'Belobog of the Architects',
+  'CelestialDifferentiator': 'Celestial Differentiator',
+  'InertSalsotto': 'Inert Salsotto',
+  'TaliaKingdomOfBanditry': 'Talia: Kingdom of Banditry',
   'SprightlyVonwacq': 'Sprightly Vonwacq',
-  'TaliaKingdomOfBanditry': 'Talia: Kingdom of Banditry'
+  'RutilantArena': 'Rutilant Arena',
+  'BrokenKeel': 'Broken Keel',
+  'FirmamentFrontlineGlamoth': 'Firmament Frontline: Glamoth',
+  'PenaconyLandOfTheDreams': 'Penacony, Land of the Dreams',
+}
+
+export const Sets = {
+  ...SetsRelics,
+  ...SetsOrnaments
 }
 
 export const SetsRelicsNames = Object.values(SetsRelics)

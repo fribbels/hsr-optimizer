@@ -37,7 +37,7 @@ function generateStat(stat) {
 }
 
 function generateScores(data) {
-  if (!data || data.os == undefined || data.ss == undefined || data.ds == undefined) {
+  if (!data || data.cs == undefined || data.ss == undefined || data.ds == undefined) {
     return (
       <Flex gap={4} justify='space-between'>
         <Text>
@@ -54,11 +54,11 @@ function generateScores(data) {
   return (
     <Flex gap={4} justify='space-between'>
       <Text>
-        O/S/D Score
+        C/S/D Score
       </Text>
         
       <Text>
-        {round10ths(data.os)}/{round10ths(data.ss)}/{round10ths(data.ds)}
+        {round10ths(data.cs)}/{round10ths(data.ss)}/{round10ths(data.ds)}
       </Text>
     </Flex>
   )

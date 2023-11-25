@@ -1,15 +1,11 @@
 TODAY:
-split try into new tab
-guide tab
-filter light cones by path
+UPDATE DOCS
+analytics
 
-LAST:
-tour 
+LATER:
 apply stat decimals
 per relic hover actions
-
-THOUGHTS
-def shref?
+filter light cones by path
 
 DONE
 remove level 0s
@@ -46,3 +42,8 @@ compact main stat tag
 icons for dropdown sets selector
 relics -> inventory?
 hover over icon for set name text/etc
+split try into new tab
+guide tab
+fix set selector height
+NEW SETS 
+ornament conditional bonuses?

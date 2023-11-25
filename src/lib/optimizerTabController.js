@@ -101,6 +101,7 @@ export const OptimizerTabController = {
         [Constants.Stats.OHB]: true,
         // For custom ones remember to set the min/max in aggregate()
         'ED': true,
+        'CV': true,
         'DMG': true,
         'MCD': true,
         'EHP': true,
@@ -208,6 +209,8 @@ export const OptimizerTabController = {
     newForm.minRes = unsetMin(form.minRes, true)
     newForm.maxBe = unsetMax(form.maxBe, true)
     newForm.minBe = unsetMin(form.minBe, true)
+    newForm.maxCv = unsetMax(form.maxCv)
+    newForm.minCv = unsetMin(form.minCv)
     newForm.maxDmg = unsetMax(form.maxDmg)
     newForm.minDmg = unsetMin(form.minDmg)
     newForm.maxMcd = unsetMax(form.maxMcd)
@@ -260,6 +263,8 @@ export const OptimizerTabController = {
     x.maxBe = fixValue(x.maxBe, MAX_INT, 100)
     x.minBe = fixValue(x.minBe, 0, 100)
 
+    x.maxCv = fixValue(x.maxCv, MAX_INT)
+    x.minCv = fixValue(x.minCv, 0)
     x.maxDmg = fixValue(x.maxDmg, MAX_INT)
     x.minDmg = fixValue(x.minDmg, 0)
     x.maxMcd = fixValue(x.maxMcd, MAX_INT)
@@ -368,6 +373,8 @@ function aggregate(subArray) {
   let maxAgg = CharacterStats.getZeroes()
   minAgg['ED'] = Constants.MAX_INT
   maxAgg['ED'] = 0
+  minAgg['CV'] = Constants.MAX_INT
+  maxAgg['CV'] = 0
   minAgg['DMG'] = Constants.MAX_INT
   maxAgg['DMG'] = 0
   minAgg['MCD'] = Constants.MAX_INT
@@ -409,6 +416,7 @@ function filter(filterModel) {
       row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr &&
       row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes &&
       row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe &&
+      row['CV'] >= filterModel.minCv && row['CV'] <= filterModel.maxCv &&
       row['DMG'] >= filterModel.minDmg && row['DMG'] <= filterModel.maxDmg &&
       row['MCD'] >= filterModel.minMcd && row['MCD'] <= filterModel.maxMcd &&
       row['EHP'] >= filterModel.minEhp && row['EHP'] <= filterModel.maxEhp

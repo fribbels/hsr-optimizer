@@ -35,18 +35,18 @@ export const DataParser = {
     }
 
     let characterTraces = getOverrideTraces();
-    let imageOffsets = getOverrideImageOffset();
+    let imageCenters = getOverrideImageCenter();
     for (let entry of Object.entries(characterTraces)) {
       let id = entry[0]
       let traceData = entry[1]
 
-      let imageOffset = {x: 0, y: 0}
-      if (imageOffsets[id] != undefined) {
-        imageOffset = imageOffsets[id]
+      let imageCenter = {x: 1024, y: 1024}
+      if (imageCenters[id] != undefined) {
+        imageCenter = imageCenters[id]
       }
 
       characters[id].traces = traceData
-      characters[id].imageOffset = imageOffset
+      characters[id].imageCenter = imageCenter
       characters[id].displayName = getDisplayName(characters[id])
     }
 
@@ -618,7 +618,7 @@ function getOverrideTraces() {
 }
 
 
-function getOverrideImageOffset() {
+function getOverrideImageCenter() {
   return {
     "1001": { // March 7th
       x: 1024, 
@@ -649,7 +649,7 @@ function getOverrideImageOffset() {
       y: 1024
     },
     "1009": { // Asta
-      x: 1050, 
+      x: 1024, 
       y: 1000
     },
     "1013": { // Herta
@@ -661,7 +661,7 @@ function getOverrideImageOffset() {
       y: 1180
     },
     "1102": { // Seele
-      x: 850, 
+      x: 840, 
       y: 1060
     },
     "1103": { // Serval
@@ -693,7 +693,7 @@ function getOverrideImageOffset() {
       y: 1024
     },
     "1110": { // Lynx
-      x: 1160, 
+      x: 1180, 
       y: 1000
     },
     "1111": { // Luka
@@ -701,40 +701,40 @@ function getOverrideImageOffset() {
       y: 1024
     },
     "1112": { // Topaz and Numby
-      x: 1024, 
-      y: 1024
+      x: 1120, 
+      y: 930
     },
     "1201": { // Qingque
-      x: 1024, 
+      x: 1000, 
       y: 1024
     },
     "1202": { // Tingyun
       x: 1024, 
-      y: 1024
+      y: 950
     },
     "1203": { // Luocha
       x: 1024, 
       y: 1024
     },
     "1204": { // Jing Yuan
-      x: 1024, 
+      x: 1060, 
       y: 1024
     },
     "1205": { // Blade
-      x: 1054, 
-      y: 907
+      x: 990, 
+      y: 900
     },
     "1206": { // Sushang
-      x: 1024, 
+      x: 1100, 
       y: 1024
     },
     "1207": { // Yukong
-      x: 1024, 
-      y: 1024
+      x: 900, 
+      y: 1050
     },
     "1208": { // Fu Xuan
-      x: 1024, 
-      y: 1024
+      x: 920, 
+      y: 950
     },
     "1209": { // Yanqing
       x: 1024, 
@@ -745,43 +745,43 @@ function getOverrideImageOffset() {
       y: 1024
     },
     "1211": { // Bailu
-      x: 1024, 
-      y: 1024
+      x: 1000, 
+      y: 950
     },
     "1212": { // Jingliu
       x: 1024, 
-      y: 1024
+      y: 940
     },
     "1213": { // Dan Heng • Imbibitor Lunae
-      x: 1024, 
+      x: 1050, 
       y: 1024
     },
     "1215": { // Hanya
-      x: 1024, 
+      x: 1000, 
       y: 1024
     },
     "1217": { // Huohuo
-      x: 1024, 
+      x: 1000, 
       y: 1024
     },
     "1302": { // Argenti
+      x: 680, 
+      y: 1000
+    },
+    "8001": { // Physical Trailblazer M
+      x: 1024, 
+      y: 1100
+    }, 
+    "8002": { // Physical Trailblazer F
       x: 1024, 
       y: 1024
     },
-    "8001": { // Physical Trailblazer
-      x: 1024, 
+    "8003": { // Fire Trailblazer M
+      x: 980, 
       y: 1024
     },
-    "8002": { // Physical Trailblazer
-      x: 1024, 
-      y: 1024
-    },
-    "8003": { // Fire Trailblazer
-      x: 1024, 
-      y: 1024
-    },
-    "8004": { // Fire Trailblazer
-      x: 1024, 
+    "8004": { // Fire Trailblazer F 
+      x: 1050, 
       y: 1024
     },
   }

@@ -75,26 +75,27 @@ export default function OptimizerTab({style}) {
 
   const DIGITS_2 = 30;
   const DIGITS_3 = 34;
-  const DIGITS_4 = 39;
-  const DIGITS_5 = 59;
+  const DIGITS_4 = 54;
+  const DIGITS_5 = 60;
   const DIGITS_6 = 48;
 
   const columnDefs = useMemo(() => [
     {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
     {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
 
-    {field: Constants.Stats.ATK, valueFormatter: Renderer.floor, width: DIGITS_5, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.DEF, valueFormatter: Renderer.floor, width: DIGITS_5, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.HP, valueFormatter: Renderer.floor, width: DIGITS_5, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.SPD, valueFormatter: Renderer.floor, width: DIGITS_5, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.CR, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'CR', cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.CD, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'CD', cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.EHR, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'EHR', cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.RES, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'RES', cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.BE, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'BE', cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'ERR'},
-    {field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'OHB'},
-    {field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: 'ELEM'},
+    {field: Constants.Stats.ATK, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.DEF, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.HP, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.SPD, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.CR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CR', cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.CD, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CD', cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.EHR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'EHR', cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.RES, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'RES', cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.BE, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'BE', cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR'},
+    {field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'OHB'},
+    {field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
+    {field: 'CV', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
     {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
     {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},

@@ -87,7 +87,7 @@ export const Renderer = {
   
     let src = Assets.getSetImage(x.data.set, part)
     return (
-      <Flex justify='center' style={{marginTop: -1}}>
+      <Flex justify='center' title={x.data.set} style={{marginTop: -1}}>
         <SetDisplay asset={src} />
       </Flex>
     )

@@ -29,8 +29,7 @@ export const RelicAugmenter = {
 }
 
 function calculateRelicRatings(relic) {
-  let os = relic.augmentedStats[Constants.Stats.CD] * 100 + 
-           relic.augmentedStats[Constants.Stats.ATK_P] * 100 * 1.5 +
+  let cs = relic.augmentedStats[Constants.Stats.CD] * 100 + 
            relic.augmentedStats[Constants.Stats.CR] * 100 * 2 + 
            relic.augmentedStats[Constants.Stats.SPD] * 2.6
 
@@ -44,7 +43,7 @@ function calculateRelicRatings(relic) {
            relic.augmentedStats[Constants.Stats.BE] * 100 +
            relic.augmentedStats[Constants.Stats.SPD] * 2.6
 
-  relic.os = os           
+  relic.cs = cs           
   relic.ss = ss           
   relic.ds = ds           
 }

@@ -283,7 +283,8 @@ export default function CharacterTab({style}) {
             width={innerW}
             src={Assets.getCharacterPortraitById(selectedCharacter.id)}
             // style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
-            style={{transform: `translate(${(innerW - parentW)/2/innerW * -100 - (characterMetadata.imageOffset.x - innerW)/innerW/2 * 100}%, ${((innerW - parentH)/2/innerW * -100) - (characterMetadata.imageOffset.y - innerW)/innerW/2 * 100}%)`}}
+            style={{transform: `translate(${((innerW - parentW)/2/innerW * -100) - (characterMetadata.imageCenter.x - innerW)/innerW/2 * 100}%, 
+                                          ${((innerW - parentH)/2/innerW * -100) - (characterMetadata.imageCenter.y - innerW)/innerW/2 * 100}%)`}}
 
           />
         </div>
@@ -314,7 +315,7 @@ export default function CharacterTab({style}) {
                   </StatText>
                 </Flex>
               </Flex>
-              <Flex vertical style={{width: middleColumnWidth, paddingLeft: 8, paddingRight: 8}} gap={5}>
+              <Flex vertical style={{width: middleColumnWidth, paddingLeft: 8, paddingRight: 12}} gap={5}>
                 <StatRow stat={Constants.Stats.HP}/>
                 <StatRow stat={Constants.Stats.ATK}/>
                 <StatRow stat={Constants.Stats.DEF}/>

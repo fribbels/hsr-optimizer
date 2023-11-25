@@ -173,8 +173,8 @@
   margin-top: -6px !important;
 }
 .ag-header-cell {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
 }
 
 .ant-layout {
@@ -206,3 +206,8 @@
 a {
   color: #54aeff !important;
 } */
+
+#relicGrid .ag-header-cell {
+  font-size: 11px;
+  font-weight: 500;
+}

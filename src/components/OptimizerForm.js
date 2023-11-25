@@ -56,16 +56,6 @@ function generateOrnamentsOptions() {
   })
 }
 
-{/* <Select.Option value={Constants.Sets.BelobogOfTheArchitects}>Belobog of the Architects</Select.Option>
-<Select.Option value={Constants.Sets.BrokenKeel}>Broken Keel</Select.Option>
-<Select.Option value={Constants.Sets.CelestialDifferentiator}>Celestial Differentiator</Select.Option>
-<Select.Option value={Constants.Sets.FleetOfTheAgeless}>Fleet of the Ageless</Select.Option>
-<Select.Option value={Constants.Sets.InertSalsotto}>Inert Salsotto</Select.Option>
-<Select.Option value={Constants.Sets.PanCosmicCommercialEnterprise}>Pan-Cosmic Commercial Enterprise</Select.Option>
-<Select.Option value={Constants.Sets.RutilantArena}>Rutilant Arena</Select.Option>
-<Select.Option value={Constants.Sets.SpaceSealingStation}>Space Sealing Station</Select.Option>
-<Select.Option value={Constants.Sets.SprightlyVonwacq}>Sprightly Vonwacq</Select.Option>
-<Select.Option value={Constants.Sets.TaliaKingdomOfBanditry}>Talia: Kingdom of Banditry</Select.Option> */}
 function generateSetsOptions() {
   let result = [
     {
@@ -623,7 +613,7 @@ export default function OptimizerForm() {
                 theme={{
                   components: {
                     Cascader: {
-                      dropdownHeight: 550,
+                      dropdownHeight: 625,
                       controlItemWidth: 100,
                       controlWidth: 100
                     },
@@ -746,7 +736,7 @@ export default function OptimizerForm() {
 
           <VerticalDivider/>
 
-          <Flex vertical gap={35} style={{ width: panelWidth }}>
+          <Flex vertical gap={7} style={{ width: panelWidth }}>
             <Flex vertical gap={defaultGap}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Rating Filters</HeaderText>
@@ -754,10 +744,20 @@ export default function OptimizerForm() {
               </Flex>
               
               <Space align='center'>
+                <Form.Item size="default" name='minCv'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>CV</FormStatTextStyled>
+                <Form.Item size="default" name='maxCv'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+              
+              <Space align='center'>
                 <Form.Item size="default" name='minDmg'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>
-                <FormStatTextStyled>Dmg</FormStatTextStyled>
+                <FormStatTextStyled>DMG</FormStatTextStyled>
                 <Form.Item size="default" name='maxDmg'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>        
@@ -767,7 +767,7 @@ export default function OptimizerForm() {
                 <Form.Item size="default" name='minMcd'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>
-                <FormStatTextStyled>Mcd</FormStatTextStyled>
+                <FormStatTextStyled>MCD</FormStatTextStyled>
                 <Form.Item size="default" name='maxMcd'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>        
@@ -777,7 +777,7 @@ export default function OptimizerForm() {
                 <Form.Item size="default" name='minEhp'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>
-                <FormStatTextStyled>Ehp</FormStatTextStyled>
+                <FormStatTextStyled>EHP</FormStatTextStyled>
                 <Form.Item size="default" name='maxEhp'>
                   <InputNumberStyled size="small" controls={false}/>
                 </Form.Item>        

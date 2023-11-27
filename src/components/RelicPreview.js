@@ -5,7 +5,7 @@ const { Title, Paragraph, Text, Link } = Typography;
 
 let iconSize = 23
 
-function generateStat(stat) {
+function generateStat(stat, source, main) {
   if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
     return (
       <Flex justify='space-between'>
@@ -18,8 +18,22 @@ function generateStat(stat) {
       </Flex>
     )
   }
-
-  let displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
+  
+  let displayValue = ''
+  if (source = 'scorer') {
+    if (stat.stat == Constants.Stats.SPD) {
+      if (main) {
+        displayValue = Math.floor(stat.value)
+      } else {
+        displayValue = stat.value.toFixed(1)
+      }
+    } else {
+      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (stat.value).toFixed(1) + "%"
+    }   
+  } else {
+    displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
+  }
+  
 
   return (
     <Flex justify='space-between'>
@@ -80,9 +94,11 @@ let gradeToColor = {
 }
 
 export default function RelicPreview(props) {
-  // console.log('RelicPreview', props)
+  console.log('RelicPreview', props)
   let data = getRelic(props.relic)
-  if (!data) {
+  if (props.source == 'scorer') {
+    data = props.relic
+  } else if (!data) {
     return
   }
   let enhance = data.enhance
@@ -103,7 +119,7 @@ export default function RelicPreview(props) {
 
   return (
     <Card size="small" style={{ width: 200, height: 280 }}>
-      <Flex vertical justify='space-between' style={{height: 255}}>
+      <Flex vertical justify='space-between'  style={{height: 255}}>
         <Flex justify='space-between' align='center'>
           <img
             style={{height: 50, width: 50}}
@@ -131,20 +147,31 @@ export default function RelicPreview(props) {
         
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
         
-        {generateStat(main)}
+        {generateStat(main, props.source, true)}
 
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
 
         <Flex vertical gap={0}>
-          {generateStat(substats[0])}
-          {generateStat(substats[1])}
-          {generateStat(substats[2])}
-          {generateStat(substats[3])}
+          {generateStat(substats[0], props.source)}
+          {generateStat(substats[1], props.source)}
+          {generateStat(substats[2], props.source)}
+          {generateStat(substats[3], props.source)}
         </Flex>
+        
 
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
 
-        {generateScores(data)}
+        <Flex gap={4} justify='space-between'>
+          <Flex>
+            <img src={Assets.getStatIcon('CV')} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+            <Text>
+              Score
+            </Text>
+          </Flex>
+          <Text>
+            55 (S)
+          </Text>
+        </Flex>
       </Flex>
     </Card>
   );

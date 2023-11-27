@@ -1,0 +1,849 @@
+{
+    "21": {
+        "id": "21",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 45.158399999840185,
+                "step": 15.805440000956878
+            }
+        }
+    },
+    "22": {
+        "id": "22",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "AttackDelta",
+                "base": 22.579200000036508,
+                "step": 7.902720001293346
+            }
+        }
+    },
+    "23": {
+        "id": "23",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.012096000602469
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "CriticalChanceBase",
+                "base": 0.02073600073345,
+                "step": 0.00725800008513
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "CriticalDamageBase",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "HealRatioBase",
+                "base": 0.022118000080809,
+                "step": 0.007741000270471
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "StatusProbabilityBase",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            }
+        }
+    },
+    "24": {
+        "id": "24",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.012096000602469
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "SpeedDelta",
+                "base": 1.61280000093393,
+                "step": 1
+            }
+        }
+    },
+    "25": {
+        "id": "25",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.012096000602469
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "PhysicalAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "FireAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "IceAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "ThunderAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "WindAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "QuantumAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "ImaginaryAddedRatio",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            }
+        }
+    },
+    "26": {
+        "id": "26",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "SPRatioBase",
+                "base": 0.012442000443116,
+                "step": 0.004355000331998
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "HPAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "AttackAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.0096770003438
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "DefenceAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.012096000602469
+            }
+        }
+    },
+    "31": {
+        "id": "31",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 67.73760000057518,
+                "step": 23.70816000062041
+            }
+        }
+    },
+    "32": {
+        "id": "32",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "AttackDelta",
+                "base": 33.868800000753254,
+                "step": 11.854080001125112
+            }
+        }
+    },
+    "33": {
+        "id": "33",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.051840000785887,
+                "step": 0.018143999855965
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "CriticalChanceBase",
+                "base": 0.031104000052437,
+                "step": 0.010886001167819
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "CriticalDamageBase",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "HealRatioBase",
+                "base": 0.033178000478074,
+                "step": 0.011612000409514
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "StatusProbabilityBase",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            }
+        }
+    },
+    "34": {
+        "id": "34",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.051840000785887,
+                "step": 0.018143999855965
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "SpeedDelta",
+                "base": 2.419199999887496,
+                "step": 1
+            }
+        }
+    },
+    "35": {
+        "id": "35",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.051840000785887,
+                "step": 0.018143999855965
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "PhysicalAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "FireAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "IceAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "ThunderAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "WindAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "QuantumAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "ImaginaryAddedRatio",
+                "base": 0.037324999924749,
+                "step": 0.013064000289887
+            }
+        }
+    },
+    "36": {
+        "id": "36",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "SPRatioBase",
+                "base": 0.018662000307813,
+                "step": 0.006532000144944
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "HPAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "AttackAddedRatio",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "DefenceAddedRatio",
+                "base": 0.051840000785887,
+                "step": 0.018143999855965
+            }
+        }
+    },
+    "41": {
+        "id": "41",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 90.31680000037886,
+                "step": 31.610880001680925
+            }
+        }
+    },
+    "42": {
+        "id": "42",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "AttackDelta",
+                "base": 45.158399999840185,
+                "step": 15.805440000956878
+            }
+        }
+    },
+    "43": {
+        "id": "43",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "CriticalChanceBase",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "CriticalDamageBase",
+                "base": 0.082944000838324,
+                "step": 0.0290299996268
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "HealRatioBase",
+                "base": 0.044237000169232,
+                "step": 0.015483000548556
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "StatusProbabilityBase",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            }
+        }
+    },
+    "433": {
+        "id": "433",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            }
+        }
+    },
+    "434": {
+        "id": "434",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "CriticalChanceBase",
+                "base": 0.041472000768408,
+                "step": 0.014515000162646
+            }
+        }
+    },
+    "436": {
+        "id": "436",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HealRatioBase",
+                "base": 0.044237000169232,
+                "step": 0.015483000548556
+            }
+        }
+    },
+    "44": {
+        "id": "44",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "SpeedDelta",
+                "base": 3.225600000238046,
+                "step": 1.100000000093132
+            }
+        }
+    },
+    "441": {
+        "id": "441",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            }
+        }
+    },
+    "443": {
+        "id": "443",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            }
+        }
+    },
+    "45": {
+        "id": "45",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "PhysicalAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "FireAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "IceAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "ThunderAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "WindAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "QuantumAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "ImaginaryAddedRatio",
+                "base": 0.04976600036025,
+                "step": 0.017417999915779
+            }
+        }
+    },
+    "46": {
+        "id": "46",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.082944000838324,
+                "step": 0.0290299996268
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "SPRatioBase",
+                "base": 0.024883000878617,
+                "step": 0.008708999957889
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "HPAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "AttackAddedRatio",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "DefenceAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            }
+        }
+    },
+    "51": {
+        "id": "51",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 112.89600000041537,
+                "step": 39.513600000645965
+            }
+        }
+    },
+    "52": {
+        "id": "52",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "AttackDelta",
+                "base": 56.44799999985844,
+                "step": 19.756800000788644
+            }
+        }
+    },
+    "53": {
+        "id": "53",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.086399999912828,
+                "step": 0.030240000458434
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "CriticalChanceBase",
+                "base": 0.051840000785887,
+                "step": 0.018143999855965
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "CriticalDamageBase",
+                "base": 0.103680000873283,
+                "step": 0.036288000410423
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "HealRatioBase",
+                "base": 0.055296000558883,
+                "step": 0.019353999989107
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "StatusProbabilityBase",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            }
+        }
+    },
+    "54": {
+        "id": "54",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.086399999912828,
+                "step": 0.030240000458434
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "SpeedDelta",
+                "base": 4.031999999890104,
+                "step": 1.400000000372529
+            }
+        }
+    },
+    "55": {
+        "id": "55",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceAddedRatio",
+                "base": 0.086399999912828,
+                "step": 0.030240000458434
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "PhysicalAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "FireAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "IceAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "ThunderAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "WindAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "QuantumAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "ImaginaryAddedRatio",
+                "base": 0.062208000104874,
+                "step": 0.021773000946268
+            }
+        }
+    },
+    "56": {
+        "id": "56",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.103680000873283,
+                "step": 0.036288000410423
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "SPRatioBase",
+                "base": 0.031104000052437,
+                "step": 0.010886001167819
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "HPAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "AttackAddedRatio",
+                "base": 0.069119999650866,
+                "step": 0.024192000506446
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "DefenceAddedRatio",
+                "base": 0.086399999912828,
+                "step": 0.030240000458434
+            }
+        }
+    }
+}

@@ -149,7 +149,7 @@ export default function OptimizerTab({style}) {
               />
           </div>
 
-          <Flex vertical gap={defaultGap} style={{ width: 200, marginLeft: 8}}>
+          <Flex vertical gap={defaultGap} style={{ width: 190, marginLeft: 8}}>
             <Flex justify='space-between' align='center'>
               <HeaderText>Permutations</HeaderText>
               <TooltipImage type={Hint.optimizationDetails()}/>

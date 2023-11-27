@@ -29,7 +29,9 @@ export const Assets = {
         [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.png',
       }
     }
+    if (stat == 'CV') return baseUrl + `/assets/misc/cv.png`
     if (!stat || !iconFromStatMapping[stat]) return ''
+    
     return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
   },
   getSampleSave: () => {

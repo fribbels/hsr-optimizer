@@ -46,7 +46,7 @@ function generateOrnamentsOptions() {
     return {
       value: x,
       label: 
-        <Flex gap={5}>
+        <Flex gap={5} align='center'>
           <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
           <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
             {x}
@@ -90,7 +90,7 @@ function generateSetsOptions() {
   function generateLabel(value, parens, label) {
     let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
     return (
-      <Flex gap={5}>
+      <Flex gap={5} align='center'>
         <img src={imageSrc} style={{width: 26, height: 26}}></img>
         <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
           {parens + label}

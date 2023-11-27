@@ -3,7 +3,8 @@ import OptimizerTab from './OptimizerTab'
 import ImportTab from './ImportTab'
 import RelicsTab from './RelicsTab'
 import CharacterTab from './CharacterTab';
-import ToolsTab from './ToolsTab';
+import ComingSoonTab from './ComingSoonTab';
+import RelicScorerTab from './RelicScorerTab';
 import GettingStartedTab from './GettingStartedTab';
 
 const Tabs = ({activeKey}) => {
@@ -14,7 +15,8 @@ const Tabs = ({activeKey}) => {
       <CharacterTab style={{display: activeKey == '3' ? 'block' : 'none'}}/>
       <ImportTab style={{display: activeKey == '4' ? 'block' : 'none'}}/>
       <GettingStartedTab style={{display: activeKey == '5' ? 'block' : 'none'}}/>
-      <ToolsTab style={{display: activeKey == '6' ? 'block' : 'none'}}/>
+      <RelicScorerTab style={{display: activeKey == '6' ? 'block' : 'none'}}/>
+      <ComingSoonTab style={{display: activeKey == '7' ? 'block' : 'none'}}/>
     </>
   )
 }

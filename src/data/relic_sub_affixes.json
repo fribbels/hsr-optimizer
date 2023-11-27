@@ -1,0 +1,358 @@
+{
+    "2": {
+        "id": "2",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 13.548016000073403,
+                "step": 1.693502000765875,
+                "step_num": 2
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackDelta",
+                "base": 6.774008000502363,
+                "step": 0.846751001197845,
+                "step_num": 2
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceDelta",
+                "base": 6.774008000502363,
+                "step": 0.846751001197845,
+                "step_num": 2
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "HPAddedRatio",
+                "base": 0.013824000488967,
+                "step": 0.00172800058499,
+                "step_num": 2
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "AttackAddedRatio",
+                "base": 0.013824000488967,
+                "step": 0.00172800058499,
+                "step_num": 2
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "DefenceAddedRatio",
+                "base": 0.017280000261962,
+                "step": 0.002160000381991,
+                "step_num": 2
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "SpeedDelta",
+                "base": 1,
+                "step": 0.100000000093132,
+                "step_num": 2
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "CriticalChanceBase",
+                "base": 0.010368000715971,
+                "step": 0.001296000787988,
+                "step_num": 2
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "CriticalDamageBase",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "StatusProbabilityBase",
+                "base": 0.013824000488967,
+                "step": 0.00172800058499,
+                "step_num": 2
+            },
+            "11": {
+                "affix_id": "11",
+                "property": "StatusResistanceBase",
+                "base": 0.013824000488967,
+                "step": 0.00172800058499,
+                "step_num": 2
+            },
+            "12": {
+                "affix_id": "12",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            }
+        }
+    },
+    "3": {
+        "id": "3",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 20.32202300033532,
+                "step": 2.540253001032397,
+                "step_num": 2
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackDelta",
+                "base": 10.161012000171468,
+                "step": 1.270126000512391,
+                "step_num": 2
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceDelta",
+                "base": 10.161012000171468,
+                "step": 1.270126000512391,
+                "step_num": 2
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "HPAddedRatio",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "AttackAddedRatio",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "DefenceAddedRatio",
+                "base": 0.025920000392944,
+                "step": 0.003240000223741,
+                "step_num": 2
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "SpeedDelta",
+                "base": 1.200000000186265,
+                "step": 0.100000000093132,
+                "step_num": 2
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "CriticalChanceBase",
+                "base": 0.015552000375465,
+                "step": 0.001944000832736,
+                "step_num": 2
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "CriticalDamageBase",
+                "base": 0.031104000052437,
+                "step": 0.003888000966981,
+                "step_num": 2
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "StatusProbabilityBase",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "11": {
+                "affix_id": "11",
+                "property": "StatusResistanceBase",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "12": {
+                "affix_id": "12",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.031104000052437,
+                "step": 0.003888000966981,
+                "step_num": 2
+            }
+        }
+    },
+    "4": {
+        "id": "4",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 27.09603099990636,
+                "step": 3.387003999901935,
+                "step_num": 2
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackDelta",
+                "base": 13.548016000073403,
+                "step": 1.693502000765875,
+                "step_num": 2
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceDelta",
+                "base": 13.548016000073403,
+                "step": 1.693502000765875,
+                "step_num": 2
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "HPAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.003456000471488,
+                "step_num": 2
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "AttackAddedRatio",
+                "base": 0.027648000279441,
+                "step": 0.003456000471488,
+                "step_num": 2
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "DefenceAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.004320000065491,
+                "step_num": 2
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "SpeedDelta",
+                "base": 1.600000000558794,
+                "step": 0.200000000186265,
+                "step_num": 2
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "CriticalChanceBase",
+                "base": 0.02073600073345,
+                "step": 0.002592000877485,
+                "step_num": 2
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "CriticalDamageBase",
+                "base": 0.041472000768408,
+                "step": 0.005184000357985,
+                "step_num": 2
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "StatusProbabilityBase",
+                "base": 0.027648000279441,
+                "step": 0.003456000471488,
+                "step_num": 2
+            },
+            "11": {
+                "affix_id": "11",
+                "property": "StatusResistanceBase",
+                "base": 0.027648000279441,
+                "step": 0.003456000471488,
+                "step_num": 2
+            },
+            "12": {
+                "affix_id": "12",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.041472000768408,
+                "step": 0.005184000357985,
+                "step_num": 2
+            }
+        }
+    },
+    "5": {
+        "id": "5",
+        "affixes": {
+            "1": {
+                "affix_id": "1",
+                "property": "HPDelta",
+                "base": 33.870039001107216,
+                "step": 4.23375500086695,
+                "step_num": 2
+            },
+            "2": {
+                "affix_id": "2",
+                "property": "AttackDelta",
+                "base": 16.935019000666216,
+                "step": 2.116877000778913,
+                "step_num": 2
+            },
+            "3": {
+                "affix_id": "3",
+                "property": "DefenceDelta",
+                "base": 16.935019000666216,
+                "step": 2.116877000778913,
+                "step_num": 2
+            },
+            "4": {
+                "affix_id": "4",
+                "property": "HPAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.004320000065491,
+                "step_num": 2
+            },
+            "5": {
+                "affix_id": "5",
+                "property": "AttackAddedRatio",
+                "base": 0.034560000523925,
+                "step": 0.004320000065491,
+                "step_num": 2
+            },
+            "6": {
+                "affix_id": "6",
+                "property": "DefenceAddedRatio",
+                "base": 0.043199999956414,
+                "step": 0.00539999990724,
+                "step_num": 2
+            },
+            "7": {
+                "affix_id": "7",
+                "property": "SpeedDelta",
+                "base": 2,
+                "step": 0.300000000279397,
+                "step_num": 2
+            },
+            "8": {
+                "affix_id": "8",
+                "property": "CriticalChanceBase",
+                "base": 0.025920000392944,
+                "step": 0.003240000223741,
+                "step_num": 2
+            },
+            "9": {
+                "affix_id": "9",
+                "property": "CriticalDamageBase",
+                "base": 0.051840000785887,
+                "step": 0.006480000447482,
+                "step_num": 2
+            },
+            "10": {
+                "affix_id": "10",
+                "property": "StatusProbabilityBase",
+                "base": 0.034560000523925,
+                "step": 0.004320000065491,
+                "step_num": 2
+            },
+            "11": {
+                "affix_id": "11",
+                "property": "StatusResistanceBase",
+                "base": 0.034560000523925,
+                "step": 0.004320000065491,
+                "step_num": 2
+            },
+            "12": {
+                "affix_id": "12",
+                "property": "BreakDamageAddedRatioBase",
+                "base": 0.051840000785887,
+                "step": 0.006480000447482,
+                "step_num": 2
+            }
+        }
+    }
+}

@@ -82,6 +82,8 @@ const App = () => {
                 padding: 10,
                 margin: 0,
                 minHeight: 280,
+                marginLeft: 'auto',
+                marginRight: 'auto',
               }}
             >
               <Tabs activeKey={activeKey}/>

@@ -23,7 +23,8 @@ const items = [
     getItem('Getting started', '5'),
   ]),
   getItem('Tools', 'sub2', <MenuOutlined />, [
-    getItem('Coming soon', '6'),
+    getItem('Relic Scorer', '6'),
+    getItem('Coming soon', '7'),
   ]),
   getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(

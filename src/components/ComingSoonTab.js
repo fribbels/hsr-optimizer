@@ -24,7 +24,7 @@ import '../style/style.css'
 const { TextArea } = Input;
 const { Text } = Typography;
 
-export default function ToolsTab({style}) {
+export default function ComingSoonTab({style}) {
   return (
     <div style={style}>
       <Flex style={{margin: 20}}>

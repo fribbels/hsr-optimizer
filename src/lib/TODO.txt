@@ -1,6 +1,6 @@
 TODAY:
 UPDATE DOCS
-analytics
+update try file 
 
 LATER:
 apply stat decimals
@@ -47,3 +47,4 @@ guide tab
 fix set selector height
 NEW SETS 
 ornament conditional bonuses?
+analytics

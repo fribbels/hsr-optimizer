@@ -22,8 +22,8 @@ export default function GettingStartedTab({style}) {
   let titleStyle = {textDecoration: 'underline'}
   return (
     <div style={style}>
+    <Text>
       <Flex vertical gap={5} style={{marginLeft: 20, marginBottom: 50, width: 1000}}>
-        <Text>
           <h2>
             Try it out!
           </h2>
@@ -290,8 +290,8 @@ export default function GettingStartedTab({style}) {
           <p>
             These rating calculations are experimental and I'm open to feedback and ideas for better ways to measure relic quality. 
           </p>
-        </Text>
       </Flex>
+        </Text>
     </div>
   );
 }

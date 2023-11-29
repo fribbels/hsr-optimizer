@@ -9,6 +9,7 @@ import sampleSave from '../data/sample-save.json';
 const { Text } = Typography;
 
 export default function GettingStartedTab({style}) {
+  console.log('GettingStartedTab ')
 
   function tryItOutClicked() {
     DB.setState(JSON.parse(JSON.stringify(sampleSave)))

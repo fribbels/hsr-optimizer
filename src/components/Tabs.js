@@ -10,13 +10,13 @@ import GettingStartedTab from './GettingStartedTab';
 const Tabs = ({activeKey}) => {
   return (
     <>
-      <OptimizerTab style={{display: activeKey == '1' ? 'block' : 'none'}}/>
-      <RelicsTab style={{display: activeKey == '2' ? 'block' : 'none'}}/>
-      <CharacterTab style={{display: activeKey == '3' ? 'block' : 'none'}}/>
-      <ImportTab style={{display: activeKey == '4' ? 'block' : 'none'}}/>
-      <GettingStartedTab style={{display: activeKey == '5' ? 'block' : 'none'}}/>
-      <RelicScorerTab style={{display: activeKey == '6' ? 'block' : 'none'}}/>
-      <ComingSoonTab style={{display: activeKey == '7' ? 'block' : 'none'}}/>
+      <OptimizerTab style={{display: activeKey == 'optimizer' ? 'block' : 'none'}}/>
+      <RelicsTab style={{display: activeKey == 'relics' ? 'block' : 'none'}}/>
+      <CharacterTab style={{display: activeKey == 'characters' ? 'block' : 'none'}}/>
+      <ImportTab style={{display: activeKey == 'import' ? 'block' : 'none'}}/>
+      <GettingStartedTab style={{display: activeKey == '#getting-started' ? 'block' : 'none'}}/>
+      <RelicScorerTab style={{display: activeKey == '#scorer' ? 'block' : 'none'}}/>
+      <ComingSoonTab style={{display: activeKey == 'coming-soon' ? 'block' : 'none'}}/>
     </>
   )
 }

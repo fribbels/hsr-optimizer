@@ -1,4 +1,5 @@
-import { Divider, Flex, Image, Typography } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Divider, Flex, Image, Skeleton, Typography } from "antd";
 import RelicPreview from "./RelicPreview";
 import styled from "styled-components";
 
@@ -12,6 +13,8 @@ const StatText = styled(Text)`
 
 
 export function CharacterPreview(props) {
+  const [loading, setLoading] = useState(true);
+  const [imageStyle, setImageStyle] = useState({});
   let character = props.character
   let selectedCharacter = character
 
@@ -137,16 +140,20 @@ export function CharacterPreview(props) {
   return (
     <Flex style={{ display: selectedCharacter ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
-        <Image
-          preview={false}
-          width={innerW}
+        <img
           src={Assets.getCharacterPortraitById(selectedCharacter.id)}
-          // style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
-          style={{
-            transform: `translate(${((innerW - parentW) / 2 / innerW * -100) - (characterMetadata.imageCenter.x - innerW) / innerW / 2 * 100}%, 
+          onLoad={() => {
+            console.log('ONLOAD')
+            setLoading(false)
+            setImageStyle({
+              width: innerW,
+              transform: `translate(${((innerW - parentW) / 2 / innerW * -100) - (characterMetadata.imageCenter.x - innerW) / innerW / 2 * 100}%, 
                                   ${((innerW - parentH) / 2 / innerW * -100) - (characterMetadata.imageCenter.y - innerW) / innerW / 2 * 100}%)`
+            })
           }}
-        />
+          style={imageStyle}
+        >
+        </img>
       </div>
 
       <Flex gap={defaultGap}>

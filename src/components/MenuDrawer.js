@@ -16,15 +16,15 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem('Menu', 'sub1',  <MenuOutlined />, [
-    getItem('Optimizer', '1'), 
-    getItem('Characters', '3'),
-    getItem('Relics', '2'),
-    getItem('Import', '4'),
-    getItem('Getting started', '5'),
+    getItem('Optimizer', 'optimizer'), 
+    getItem('Characters', 'characters'),
+    getItem('Relics', 'relics'),
+    getItem('Import', 'import'),
+    getItem('Getting started', '#getting-started'),
   ]),
   getItem('Tools', 'sub2', <MenuOutlined />, [
-    getItem('Relic Scorer', '6'),
-    getItem('Coming soon', '7'),
+    getItem('Relic scorer', '#scorer'),
+    getItem('Coming soon', 'coming-soon'),
   ]),
   getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(
@@ -54,10 +54,16 @@ const items = [
   ]),
 ];
 
-const MenuDrawer = ({setActiveKey}) => {
+const MenuDrawer = ({setActiveKey, hashes}) => {
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
-    
+
+    if (hashes.includes(e.key)) {
+      history.replaceState(null, null, e.key)
+    } else {
+      history.replaceState(null, null, ' ');
+    }
+
     console.log('click ', e);
     setActiveKey(e.key)
   };

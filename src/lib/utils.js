@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 export const Utils = {
   arrayOfZeroes: (n) => {
     return new Array(n).fill(0);
@@ -42,4 +44,21 @@ export const Utils = {
   randomElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
   },
+  screenshotElement: async (element) => {
+    console.log(html2canvas)
+    let canvas = await html2canvas(element)
+
+    var MIME_TYPE = "image/png";
+    var imgURL = canvas.toDataURL(MIME_TYPE);
+    // var dlLink = document.createElement('a');
+    // dlLink.download = 'relic-scorer.png';
+    // dlLink.href = imgURL;
+    // dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+
+    // document.body.appendChild(dlLink);
+    // dlLink.click();
+    // document.body.removeChild(dlLink);
+
+    return imgURL
+  }
 }

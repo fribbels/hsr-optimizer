@@ -178,7 +178,7 @@
 }
 
 .ant-layout {
-  min-width: max-content !important;
+  min-width: inherit;
 }
 
 .ant-menu-title-content {
@@ -214,4 +214,3 @@ a {
 #characterGrid .ag-body-vertical-scroll {
   display: none;
 }
-

@@ -19,29 +19,30 @@ import {
   message,
   Upload,
   Flex,
+  Segmented,
+  theme,
+  ConfigProvider,
+  Modal,
+  Image,
 } from 'antd';
 import '../style/style.css'
 import { CharacterStats } from '../lib/characterStats';
 import { CharacterPreview } from './CharacterPreview';
+
 const { TextArea } = Input;
 const { Text } = Typography;
 
 export default function RelicScorerTab({ style }) {
+  console.log('RelicScorerTab')
+
+  const [loading, setLoading] = useState(false);
+  const [availableCharacters, setAvailableCharacters] = useState([])
 
   const [scorerForm] = Form.useForm();
   window.scorerForm = scorerForm
 
-  const [selectedCharacter, setSelectedCharacter] = useState();
-  const [loading, setLoading] = useState(false);
-
   function buttonClick() {
     setLoading(true)
-
-    setTimeout(() => {
-      setLoading(false)
-      console.warn('Timeout')
-      
-    }, 10000);
   }
 
   function onFinish(x) {
@@ -73,20 +74,77 @@ export default function RelicScorerTab({ style }) {
           data.detail_info.avatar_detail_list[2],
         ].filter(x => !!x)
 
-        console.log(characters)
+        console.log('characters', characters)
 
         let converted = characters.map(x => CharacterConverter.convert(x))
-        setSelectedCharacter(converted[3])
+        setAvailableCharacters(converted)
         console.log(converted)
+        setLoading(false)
       })
       .catch(error => {
         console.error('Fetch error:', error);
+        setLoading(false)
       });
+  }
+
+  function CharacterPreviewSelection(props) {
+    const [downloadLoading, setDownloadLoading] = useState(false);
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [modalSrc, setModalSrc] = useState();
+    const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
+
+    console.log('CharacterPreviewSelection', props)
+
+    let options = []
+    for (let i = 0; i < props.availableCharacters.length; i++) {
+      let availableCharacter = props.availableCharacters[i]
+      options.push({
+        label: (
+          <img style={{width: 100}} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+        ),
+        value: availableCharacter.id,
+      })
+    }
+
+    function selectionChange(selected) {
+      console.log('selectionChange', selected)
+      setSelectedCharacter(props.availableCharacters.find(x => x.id == selected))
+    }
+
+    async function downloadClicked() {
+      setDownloadLoading(true);
+
+      let src = await Utils.screenshotElement(document.getElementById('previewWrapper'))
+
+      setDownloadLoading(false);
+      setModalSrc(src)
+      setPreviewVisible(true)
+    }
+
+    return (
+      <Flex vertical align='center' gap={20} style={{marginBottom: 100}}>
+        <Segmented options={options} onChange={selectionChange} />
+
+        <Button 
+          type="primary" 
+          style={{ display: selectedCharacter ? 'block' : 'none'}}
+          loading={loading} 
+          onClick={downloadClicked}
+        >
+          Save as image
+        </Button>
+        <Image width={200} src={modalSrc} style={{ display: modalSrc ? 'block' : 'none' }} preview={{
+          visible: previewVisible, onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible) }}/>
+        <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
+          <CharacterPreview class='relicScorerCharacterPreview' character={selectedCharacter} source='scorer' />
+        </div>
+      </Flex>
+    )
   }
 
   return (
     <div style={style}>
-      <Flex vertical gap={10}>
+      <Flex vertical gap={20} align='center'>
         <Form
           form={scorerForm}
           onFinish={onFinish}
@@ -102,7 +160,7 @@ export default function RelicScorerTab({ style }) {
             </Button>
           </Flex>
         </Form>
-        <CharacterPreview character={selectedCharacter} source='scorer'/>
+        <CharacterPreviewSelection availableCharacters={availableCharacters}/>
       </Flex>
     </div>
   );

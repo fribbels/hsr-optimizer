@@ -24,10 +24,15 @@ import {
 
 const { Header, Sider, Content, Footer } = Layout;
 
+let hashes = [
+  '#scorer',
+  '#getting-started'
+]
+
 const App = () => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
-  const [activeKey, setActiveKey] = React.useState("1");
+  const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
 
   window.notificationApi = notificationApi
   window.messageApi = messageApi
@@ -46,16 +51,17 @@ const App = () => {
     >      
       {notificationContextHolder}
       {messageContextHolder}
-      <Layout style={{'minHeight': '100%'}}>
+      <Layout style={{'minHeight': '100%', minWidth: 1300}}>
         <Header
           style={{
             display: 'flex',
             alignItems: 'center',
             padding: '0 30px',
-            height: 50
+            height: 50,
+            width: '100%'
           }}
         >
-          <a href="/">
+          <a href="https://fribbels.github.io/hsr-optimizer">
             <Flex align='center'>
               <img src={Assets.getLogo()} style={{width: 30, height: 30, marginRight: 20}}></img>
               <Typography
@@ -67,26 +73,25 @@ const App = () => {
             </Flex>
           </a>
         </Header>
-        <Layout>
+        <Layout >
           <Sider
             width={200}
           >
-            <MenuDrawer setActiveKey={setActiveKey}/>
+            <MenuDrawer setActiveKey={setActiveKey} hashes={hashes}/>
           </Sider>
           <Layout
-            style={{
-            }}
           >
             <Content
               style={{
                 padding: 10,
                 margin: 0,
                 minHeight: 280,
+                minWidth: 1300,
                 marginLeft: 'auto',
                 marginRight: 'auto',
               }}
             >
-              <Tabs activeKey={activeKey}/>
+              <Tabs activeKey={activeKey} hashes={hashes} />
             </Content>
           </Layout>
         </Layout>

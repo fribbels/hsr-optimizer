@@ -114,11 +114,11 @@ export default function RelicScorerTab({ style }) {
     async function downloadClicked() {
       setDownloadLoading(true);
 
-      let src = await Utils.screenshotElement(document.getElementById('previewWrapper'))
-
-      setDownloadLoading(false);
-      setModalSrc(src)
-      setPreviewVisible(true)
+      Utils.screenshotElement(document.getElementById('previewWrapper')).then(src => {
+        setModalSrc(src)
+        setPreviewVisible(true)
+        setDownloadLoading(false);
+      })
     }
 
     return (
@@ -128,13 +128,14 @@ export default function RelicScorerTab({ style }) {
         <Button 
           type="primary" 
           style={{ display: selectedCharacter ? 'block' : 'none'}}
-          loading={loading} 
+          loading={downloadLoading} 
           onClick={downloadClicked}
         >
           Save as image
         </Button>
         <Image width={200} src={modalSrc} style={{ display: modalSrc ? 'block' : 'none' }} preview={{
-          visible: previewVisible, onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible) }}/>
+          visible: previewVisible, 
+          onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible) }}/>
         <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
           <CharacterPreview class='relicScorerCharacterPreview' character={selectedCharacter} source='scorer' />
         </div>

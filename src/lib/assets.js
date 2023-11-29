@@ -1,4 +1,6 @@
-let baseUrl = process.env.PUBLIC_URL;
+// let baseUrl = process.env.PUBLIC_URL;
+let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
+
 let pathFromClassMapping
 let iconFromStatMapping
 export const Assets = {
@@ -39,13 +41,13 @@ export const Assets = {
   },
   getCharacterPortrait: (character) => {
     if (!character) return ''
-    return baseUrl + `/assets/${character.portrait}`
+    return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterPortraitById: (id) => {
     if (!id) return ''
 
     let character = DB.getMetadata().characters[id]
-    return baseUrl + `/assets/${character.portrait}`
+    return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterAvatarById: (id) => {
     if (!id) return ''

@@ -96,7 +96,6 @@ export default function CharacterTab({style}) {
   const gridOptions = useMemo(() => ({
     rowHeight: 50,
     rowSelection: 'single',
-    rowDragEntireRow: true,
     rowDragManaged: true,
     animateRows: true,
     suppressDragLeaveHidesColumns: true,
@@ -112,7 +111,6 @@ export default function CharacterTab({style}) {
   const cellClickedListener = useCallback( event => {
     let data = event.data
     console.log('cellClicked', event);
-
     setSelectedCharacter(data)
   }, []);
 

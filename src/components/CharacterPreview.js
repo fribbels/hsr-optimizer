@@ -13,8 +13,11 @@ const StatText = styled(Text)`
 
 
 export function CharacterPreview(props) {
-  const [loading, setLoading] = useState(true);
-  const [imageStyle, setImageStyle] = useState({});
+  // const [loading, setLoading] = useState(true);
+  // const [imageStyle, setImageStyle] = useState({});
+  // const [imageStyle, setImageStyle] = useState({});
+  const [dummyCharacter, setDummyCharacter] = useState({})
+  // window.setLoading = setLoading
   let character = props.character
   let selectedCharacter = character
 
@@ -26,8 +29,8 @@ export function CharacterPreview(props) {
 
   let middleColumnWidth = 240;
   let lcParentH = 280;
-  let lcParentW = 230;
-  let lcInnerW = 240;
+  let lcParentW = 240;
+  let lcInnerW = 250;
   let lcInnerH = 1260 / 902 * lcInnerW;
 
   if (!character) return (
@@ -137,23 +140,38 @@ export function CharacterPreview(props) {
     )
   }
 
+  if (!dummyCharacter) {
+    setDummyCharacter(selectedCharacter)
+  }
+
+  console.log({dummyCharacter})
+            //   width: innerW,
+            //   transform: `translate(${((innerW - parentW) / 2 / innerW * -100) - (characterMetadata.imageCenter.x - innerW) / innerW / 2 * 100}%, 
+            //                       ${((innerW - parentH) / 2 / innerW * -100) - (characterMetadata.imageCenter.y - innerW) / innerW / 2 * 100}%)`
+            // })
+
   return (
     <Flex style={{ display: selectedCharacter ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
-        <img
-          src={Assets.getCharacterPortraitById(selectedCharacter.id)}
-          onLoad={() => {
-            console.log('ONLOAD')
-            setLoading(false)
-            setImageStyle({
-              width: innerW,
-              transform: `translate(${((innerW - parentW) / 2 / innerW * -100) - (characterMetadata.imageCenter.x - innerW) / innerW / 2 * 100}%, 
-                                  ${((innerW - parentH) / 2 / innerW * -100) - (characterMetadata.imageCenter.y - innerW) / innerW / 2 * 100}%)`
-            })
+        <div 
+          style={{ 
+            position: 'relative', 
+            left: dummyCharacter.id ? -DB.getMetadata().characters[dummyCharacter.id].imageCenter.x / 2 + parentW / 2 : 0, 
+            top: dummyCharacter.id ? -DB.getMetadata().characters[dummyCharacter.id].imageCenter.y / 2 + parentH / 2 : 0, width: innerW 
           }}
-          style={imageStyle}
         >
-        </img>
+          <img
+            src={Assets.getCharacterPortraitById(dummyCharacter.id)}
+            style={{ width: '100%', filter: dummyCharacter.id == selectedCharacter.id ? '' : 'blur(10px)'}}
+          >
+          </img>
+          <img 
+            src={Assets.getCharacterPortraitById(selectedCharacter.id)} 
+            style={{display: 'none'}}
+            onLoad={() => setTimeout(() => setDummyCharacter(selectedCharacter), 50)}
+          >
+          </img>
+        </div>
       </div>
 
       <Flex gap={defaultGap}>
@@ -207,7 +225,7 @@ export function CharacterPreview(props) {
           <div style={{ width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
             <img
               src={lightConeSrc}
-              style={{ width: lcInnerW, transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)` }}
+              style={{ width: lcInnerW, transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 +8}%)` }}
             />
           </div>
         </Flex>

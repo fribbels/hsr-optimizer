@@ -214,3 +214,6 @@ a {
 #characterGrid .ag-body-vertical-scroll {
   display: none;
 }
+.ag-icon-grip, .ag-drag-handle {
+  pointer-events: none
+}

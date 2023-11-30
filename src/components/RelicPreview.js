@@ -1,5 +1,6 @@
 import { Card, Col, Divider, Flex, Image, Row, Space, Typography } from 'antd';
 import * as React from 'react';
+import { RelicScorer } from '../lib/relicScorer';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -20,7 +21,7 @@ function generateStat(stat, source, main) {
   }
   
   let displayValue = ''
-  if (source = 'scorer') {
+  if (source == 'scorer') {
     if (stat.stat == Constants.Stats.SPD) {
       if (main) {
         displayValue = Math.floor(stat.value)
@@ -31,10 +32,13 @@ function generateStat(stat, source, main) {
       displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (stat.value).toFixed(1) + "%"
     }   
   } else {
-    displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
+    if (stat.stat == Constants.Stats.SPD) {
+      displayValue = stat.value.toFixed(0)
+    } else {
+      displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
+    }
   }
   
-
   return (
     <Flex justify='space-between'>
       <Flex>
@@ -116,6 +120,7 @@ export default function RelicPreview(props) {
   // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
+  let score = RelicScorer.score(data)
 
   return (
     <Card size="small" style={{ width: 200, height: 280 }}>
@@ -169,7 +174,7 @@ export default function RelicPreview(props) {
             </Text>
           </Flex>
           <Text>
-            55 (S)
+            {`${score.score} (${score.rating})`}
           </Text>
         </Flex>
       </Flex>

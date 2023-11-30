@@ -23,6 +23,7 @@ import { Renderer } from "./lib/renderer";
 import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
+import { RelicScorer } from './lib/relicScorer';
 window.Constants = Constants;
 window.OcrParser = OcrParser;
 window.DataParser = DataParser;
@@ -43,6 +44,7 @@ window.Renderer = Renderer;
 window.Message = Message;
 window.Hint = Hint;
 window.CharacterConverter = CharacterConverter
+window.RelicScorer = RelicScorer
 
 const workerpool = require('workerpool');
 window.CPUs = workerpool.cpus

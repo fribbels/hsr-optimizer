@@ -7,7 +7,7 @@ let gradeConversion
 export const CharacterConverter = {
   convert: (character) => {
     console.log(character)
-    if (!statConversion) setConstantConversions()
+    if (!statConversion) CharacterConverter.setConstantConversions()
 
     let preRelics = character.relic_list
     let preLightCone = character.equipment
@@ -36,6 +36,57 @@ export const CharacterConverter = {
         lightConeSuperimposition: lightConeSuperimposition,
       },
       equipped: equipped
+    }
+  },
+  
+  getConstantConversions: () => {
+    if (!statConversion) CharacterConverter.setConstantConversions()
+    return {
+      statConversion,
+      partConversion,
+      gradeConversion
+    }
+  },
+
+  setConstantConversions: () => {
+    statConversion = {
+      'HPAddedRatio': Constants.Stats.HP_P,
+      'AttackAddedRatio': Constants.Stats.ATK_P,
+      'DefenceAddedRatio': Constants.Stats.DEF_P,
+      'HPDelta': Constants.Stats.HP,
+      'AttackDelta': Constants.Stats.ATK,
+      'DefenceDelta': Constants.Stats.DEF,
+      'SpeedDelta': Constants.Stats.SPD,
+      'CriticalDamageBase': Constants.Stats.CD,
+      'CriticalChanceBase': Constants.Stats.CR,
+      'StatusProbabilityBase': Constants.Stats.EHR,
+      'StatusResistanceBase': Constants.Stats.RES,
+      'BreakDamageAddedRatioBase': Constants.Stats.BE,
+      'SPRatioBase': Constants.Stats.ERR,
+      'HealRatioBase': Constants.Stats.OHB,
+      'PhysicalAddedRatio': Constants.Stats.Physical_DMG,
+      'FireAddedRatio': Constants.Stats.Fire_DMG,
+      'IceAddedRatio': Constants.Stats.Ice_DMG,
+      'ThunderAddedRatio': Constants.Stats.Lightning_DMG,
+      'WindAddedRatio': Constants.Stats.Wind_DMG,
+      'QuantumAddedRatio': Constants.Stats.Quantum_DMG,
+      'ImaginaryAddedRatio': Constants.Stats.Imaginary_DMG,
+    }
+
+    partConversion = {
+      1: Constants.Parts.Head,
+      2: Constants.Parts.Hands,
+      3: Constants.Parts.Body,
+      4: Constants.Parts.Feet,
+      5: Constants.Parts.PlanarSphere,
+      6: Constants.Parts.LinkRope,
+    }
+
+    gradeConversion = {
+      6: 5,
+      5: 4,
+      4: 3,
+      3: 2
     }
   }
 }
@@ -75,12 +126,10 @@ function convertRelic(preRelic) {
     let step = sub.step
     
     let subData = metadata.relicSubAffixes[grade].affixes[subId]
-    console.log('subData', subData)
     let subStat = statConversion[subData.property]
     let subBase = subData.base
     let subStep = subData.step
     let subValue = subBase * count + subStep * step
-    console.log('subData', subBase, count, subStep, step, subValue)
 
     substats.push({
       stat: subStat,
@@ -97,51 +146,9 @@ function convertRelic(preRelic) {
     substats: substats
   }
 
-  console.log(relic)
   return RelicAugmenter.augment(relic)
 }
 
-function setConstantConversions() {
-  statConversion = {
-    'HPAddedRatio': Constants.Stats.HP_P,
-    'AttackAddedRatio': Constants.Stats.ATK_P,
-    'DefenceAddedRatio': Constants.Stats.DEF_P,
-    'HPDelta': Constants.Stats.HP,
-    'AttackDelta': Constants.Stats.ATK,
-    'DefenceDelta': Constants.Stats.DEF,
-    'SpeedDelta': Constants.Stats.SPD,
-    'CriticalDamageBase': Constants.Stats.CD,
-    'CriticalChanceBase': Constants.Stats.CR,
-    'StatusProbabilityBase': Constants.Stats.EHR,
-    'StatusResistanceBase': Constants.Stats.RES,
-    'BreakDamageAddedRatioBase': Constants.Stats.BE,
-    'SPRatioBase': Constants.Stats.ERR,
-    'HealRatioBase': Constants.Stats.OHB,
-    'PhysicalAddedRatio': Constants.Stats.Physical_DMG,
-    'FireAddedRatio': Constants.Stats.Fire_DMG,
-    'IceAddedRatio': Constants.Stats.Ice_DMG,
-    'ThunderAddedRatio': Constants.Stats.Lightning_DMG,
-    'WindAddedRatio': Constants.Stats.Wind_DMG,
-    'QuantumAddedRatio': Constants.Stats.Quantum_DMG,
-    'ImaginaryAddedRatio': Constants.Stats.Imaginary_DMG,
-  }
-
-  partConversion = {
-    1: Constants.Parts.Head,
-    2: Constants.Parts.Hands,
-    3: Constants.Parts.Body,
-    4: Constants.Parts.Feet,
-    5: Constants.Parts.PlanarSphere,
-    6: Constants.Parts.LinkRope,
-  }
-  
-  gradeConversion = {
-    6: 5,
-    5: 4,
-    4: 3,
-    3: 2
-  }
-}
 
 /*
 {

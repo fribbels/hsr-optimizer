@@ -826,27 +826,53 @@ function getScores() {
       [Constants.Stats.Imaginary_DMG]: 0,
     },
     "1002": { // Dan Heng
-      [Constants.Stats.ATK]:   0,
-      [Constants.Stats.ATK_P]: 0,  
-      [Constants.Stats.DEF]:   0,
-      [Constants.Stats.DEF_P]: 0,  
-      [Constants.Stats.HP]:    0,
-      [Constants.Stats.HP_P]:  0,  
-      [Constants.Stats.SPD]:   0,  
-      [Constants.Stats.CR]:    0,
-      [Constants.Stats.CD]:    0,
-      [Constants.Stats.EHR]:   0,
-      [Constants.Stats.RES]:   0,
-      [Constants.Stats.BE]:    0,
-      [Constants.Stats.ERR]:   0,
-      [Constants.Stats.OHB]:   0,
-      [Constants.Stats.Physical_DMG]:  0,
-      [Constants.Stats.Fire_DMG]:      0,
-      [Constants.Stats.Ice_DMG]:       0,
-      [Constants.Stats.Lightning_DMG]: 0,
-      [Constants.Stats.Wind_DMG]:      0,
-      [Constants.Stats.Quantum_DMG]:   0,
-      [Constants.Stats.Imaginary_DMG]: 0,
+      stats: {
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 1,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Stats.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Stats.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Stats.PlanarSphere]: [
+          Constants.Stats.Wind_DMG
+        ],
+        [Constants.Stats.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      sets: [
+        Constants.Sets.EagleOfTwilightLine,
+        Constants.Sets.MusketeerOfWildWheat,
+
+        Constants.Sets.RutilantArena,
+        Constants.Sets.SpaceSealingStation,
+        Constants.Sets.InertSalsotto,
+      ]
     },
     "1003": { // Himeko
       [Constants.Stats.ATK]:   0,
@@ -941,27 +967,54 @@ function getScores() {
       [Constants.Stats.Imaginary_DMG]: 0,
     },
     "1008": { // Arlan
-      [Constants.Stats.ATK]:   0,
-      [Constants.Stats.ATK_P]: 0,  
-      [Constants.Stats.DEF]:   0,
-      [Constants.Stats.DEF_P]: 0,  
-      [Constants.Stats.HP]:    0,
-      [Constants.Stats.HP_P]:  0,  
-      [Constants.Stats.SPD]:   0,  
-      [Constants.Stats.CR]:    0,
-      [Constants.Stats.CD]:    0,
-      [Constants.Stats.EHR]:   0,
-      [Constants.Stats.RES]:   0,
-      [Constants.Stats.BE]:    0,
-      [Constants.Stats.ERR]:   0,
-      [Constants.Stats.OHB]:   0,
-      [Constants.Stats.Physical_DMG]:  0,
-      [Constants.Stats.Fire_DMG]:      0,
-      [Constants.Stats.Ice_DMG]:       0,
-      [Constants.Stats.Lightning_DMG]: 0,
-      [Constants.Stats.Wind_DMG]:      0,
-      [Constants.Stats.Quantum_DMG]:   0,
-      [Constants.Stats.Imaginary_DMG]: 0,
+      stats: {
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 1,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Stats.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Stats.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Stats.PlanarSphere]: [
+          Constants.Stats.Lightning_DMG
+        ],
+        [Constants.Stats.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      sets: [
+        Constants.Sets.BandOfSizzlingThunder,
+        Constants.Sets.MusketeerOfWildWheat,
+        Constants.Sets.LongevousDisciple,
+
+        Constants.Sets.RutilantArena,
+        Constants.Sets.SpaceSealingStation,
+        Constants.Sets.InertSalsotto,
+      ]
     },
     "1009": { // Asta
       [Constants.Stats.ATK]:   0,
@@ -987,27 +1040,53 @@ function getScores() {
       [Constants.Stats.Imaginary_DMG]: 0,
     },
     "1013": { // Herta
-      [Constants.Stats.ATK]:   0,
-      [Constants.Stats.ATK_P]: 0,  
-      [Constants.Stats.DEF]:   0,
-      [Constants.Stats.DEF_P]: 0,  
-      [Constants.Stats.HP]:    0,
-      [Constants.Stats.HP_P]:  0,  
-      [Constants.Stats.SPD]:   0,  
-      [Constants.Stats.CR]:    0,
-      [Constants.Stats.CD]:    0,
-      [Constants.Stats.EHR]:   0,
-      [Constants.Stats.RES]:   0,
-      [Constants.Stats.BE]:    0,
-      [Constants.Stats.ERR]:   0,
-      [Constants.Stats.OHB]:   0,
-      [Constants.Stats.Physical_DMG]:  0,
-      [Constants.Stats.Fire_DMG]:      0,
-      [Constants.Stats.Ice_DMG]:       0,
-      [Constants.Stats.Lightning_DMG]: 0,
-      [Constants.Stats.Wind_DMG]:      0,
-      [Constants.Stats.Quantum_DMG]:   0,
-      [Constants.Stats.Imaginary_DMG]: 0,
+      stats: {
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 1,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Stats.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Stats.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Stats.PlanarSphere]: [
+          Constants.Stats.Ice_DMG
+        ],
+        [Constants.Stats.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      sets: [
+        Constants.Sets.HunterOfGlacialForest,
+        Constants.Sets.MusketeerOfWildWheat,
+        Constants.Sets.TheAshblazingGrandDuke,
+
+        Constants.Sets.SpaceSealingStation,
+        Constants.Sets.InertSalsotto,
+      ]
     },
     "1101": { // Bronya
       [Constants.Stats.ATK]:   0,
@@ -1033,27 +1112,54 @@ function getScores() {
       [Constants.Stats.Imaginary_DMG]: 0,
     },
     "1102": { // Seele
-      [Constants.Stats.ATK]:   0,
-      [Constants.Stats.ATK_P]: 0,  
-      [Constants.Stats.DEF]:   0,
-      [Constants.Stats.DEF_P]: 0,  
-      [Constants.Stats.HP]:    0,
-      [Constants.Stats.HP_P]:  0,  
-      [Constants.Stats.SPD]:   0,  
-      [Constants.Stats.CR]:    0,
-      [Constants.Stats.CD]:    0,
-      [Constants.Stats.EHR]:   0,
-      [Constants.Stats.RES]:   0,
-      [Constants.Stats.BE]:    0,
-      [Constants.Stats.ERR]:   0,
-      [Constants.Stats.OHB]:   0,
-      [Constants.Stats.Physical_DMG]:  0,
-      [Constants.Stats.Fire_DMG]:      0,
-      [Constants.Stats.Ice_DMG]:       0,
-      [Constants.Stats.Lightning_DMG]: 0,
-      [Constants.Stats.Wind_DMG]:      0,
-      [Constants.Stats.Quantum_DMG]:   0,
-      [Constants.Stats.Imaginary_DMG]: 0,
+      stats: {
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 1,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Stats.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Stats.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Stats.PlanarSphere]: [
+          Constants.Stats.Quantum_DMG
+        ],
+        [Constants.Stats.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      sets: [
+        Constants.Sets.GeniusOfBrilliantStars,
+        Constants.Sets.MusketeerOfWildWheat,
+        Constants.Sets.TheAshblazingGrandDuke,
+
+        Constants.Sets.RutilantArena,
+        Constants.Sets.SpaceSealingStation,
+        Constants.Sets.InertSalsotto,
+      ]
     },
     "1103": { // Serval
       [Constants.Stats.ATK]:   0,
@@ -1539,27 +1645,55 @@ function getScores() {
       [Constants.Stats.Imaginary_DMG]: 0,
     },
     "1212": { // Jingliu
-      [Constants.Stats.ATK]:   0.5,
-      [Constants.Stats.ATK_P]: 0.5,  
-      [Constants.Stats.DEF]:   0,
-      [Constants.Stats.DEF_P]: 0,  
-      [Constants.Stats.HP]:    0,
-      [Constants.Stats.HP_P]:  0,  
-      [Constants.Stats.SPD]:   1,  
-      [Constants.Stats.CR]:    1,
-      [Constants.Stats.CD]:    1,
-      [Constants.Stats.EHR]:   0,
-      [Constants.Stats.RES]:   0,
-      [Constants.Stats.BE]:    0,
-      [Constants.Stats.ERR]:   0,
-      [Constants.Stats.OHB]:   0,
-      [Constants.Stats.Physical_DMG]:  0,
-      [Constants.Stats.Fire_DMG]:      0,
-      [Constants.Stats.Ice_DMG]:       1,
-      [Constants.Stats.Lightning_DMG]: 0,
-      [Constants.Stats.Wind_DMG]:      0,
-      [Constants.Stats.Quantum_DMG]:   0,
-      [Constants.Stats.Imaginary_DMG]: 0,
+      stats: {
+        [Constants.Stats.ATK]:   0.5,
+        [Constants.Stats.ATK_P]: 0.5,  
+        [Constants.Stats.DEF]:   0,
+        [Constants.Stats.DEF_P]: 0,  
+        [Constants.Stats.HP]:    0,
+        [Constants.Stats.HP_P]:  0,  
+        [Constants.Stats.SPD]:   1,  
+        [Constants.Stats.CR]:    1,
+        [Constants.Stats.CD]:    1,
+        [Constants.Stats.EHR]:   0,
+        [Constants.Stats.RES]:   0,
+        [Constants.Stats.BE]:    0,
+        [Constants.Stats.ERR]:   0,
+        [Constants.Stats.OHB]:   0,
+        [Constants.Stats.Physical_DMG]:  0,
+        [Constants.Stats.Fire_DMG]:      0,
+        [Constants.Stats.Ice_DMG]:       1,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]:      0,
+        [Constants.Stats.Quantum_DMG]:   0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Stats.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Stats.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Stats.PlanarSphere]: [
+          Constants.Stats.Ice_DMG
+        ],
+        [Constants.Stats.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      sets: [
+        Constants.Sets.GeniusOfBrilliantStars,
+        Constants.Sets.HunterOfGlacialForest,
+        Constants.Sets.MessengerTraversingHackerspace,
+        Constants.Sets.MusketeerOfWildWheat,
+
+        Constants.Sets.RutilantArena,
+        Constants.Sets.SpaceSealingStation,
+        Constants.Sets.InertSalsotto,
+      ]
     },
     "1213": { // Dan Heng • Imbibitor Lunae
       [Constants.Stats.ATK]:   0,

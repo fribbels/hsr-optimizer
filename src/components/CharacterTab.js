@@ -38,7 +38,6 @@ function cellImageRenderer(params) {
 
 function cellRankRenderer(params) {
   let data = params.data
-  let characterMetadata = DB.getMetadata().characters[data.id]
   let character = DB.getCharacters().find(x => x.id == data.id)
 
   // console.log('CellRenderer', data, characterMetadata)
@@ -63,7 +62,7 @@ function cellNameRenderer(params) {
 
   return (
     <Flex align='center' justify='flex-start' style={{height: '100%', width: '100%'}}>
-      <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, lineHeight: '18px'}}>
+      <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px'}}>
         {characterName}
       </Text>
       <Flex style={{display: 'block', width: 3, height: '100%', backgroundColor: color}}>

@@ -6,6 +6,7 @@ import CharacterTab from './CharacterTab';
 import ComingSoonTab from './ComingSoonTab';
 import RelicScorerTab from './RelicScorerTab';
 import GettingStartedTab from './GettingStartedTab';
+import BetaTab from './BetaTab';
 
 const Tabs = ({activeKey}) => {
   return (
@@ -17,6 +18,7 @@ const Tabs = ({activeKey}) => {
       <GettingStartedTab style={{display: activeKey == '#getting-started' ? 'block' : 'none'}}/>
       <RelicScorerTab style={{display: activeKey == '#scorer' ? 'block' : 'none'}}/>
       <ComingSoonTab style={{display: activeKey == 'coming-soon' ? 'block' : 'none'}}/>
+      <BetaTab style={{display: activeKey == '#beta' ? 'block' : 'none'}}/>
     </>
   )
 }

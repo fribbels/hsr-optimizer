@@ -26,16 +26,16 @@ function generateStat(stat, source, main) {
       if (main) {
         displayValue = Math.floor(stat.value)
       } else {
-        displayValue = stat.value.toFixed(1)
+        displayValue = (Math.floor(stat.value * 10) / 10)
       }
     } else {
-      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (stat.value).toFixed(1) + "%"
+      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
     }   
   } else {
     if (stat.stat == Constants.Stats.SPD) {
-      displayValue = stat.value.toFixed(0)
+      displayValue = Math.floor(stat.value)
     } else {
-      displayValue = Utils.isFlat(stat.stat) ? stat.value : (stat.value).toFixed(1) + "%"
+      displayValue = Utils.isFlat(stat.stat) ? stat.value : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
     }
   }
   
@@ -98,7 +98,7 @@ let gradeToColor = {
 }
 
 export default function RelicPreview(props) {
-  // console.log('RelicPreview', props)
+  console.log('RelicPreview', props)
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic
@@ -120,7 +120,7 @@ export default function RelicPreview(props) {
   // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
-  let score = RelicScorer.score(data)
+  let score = RelicScorer.score(data, props.characterId)
 
   return (
     <Card size="small" style={{ width: 200, height: 280 }}>

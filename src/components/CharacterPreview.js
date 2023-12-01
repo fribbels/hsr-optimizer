@@ -231,15 +231,15 @@ export function CharacterPreview(props) {
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={selectedCharacter.equipped?.Head} source={props.source}/>
-          <RelicPreview relic={selectedCharacter.equipped?.Body} source={props.source} />
-          <RelicPreview relic={selectedCharacter.equipped?.PlanarSphere} source={props.source} />
+          <RelicPreview relic={selectedCharacter.equipped?.Head} source={props.source} characterId={characterId}/>
+          <RelicPreview relic={selectedCharacter.equipped?.Body} source={props.source} characterId={characterId}/>
+          <RelicPreview relic={selectedCharacter.equipped?.PlanarSphere} source={props.source} characterId={characterId}/>
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={selectedCharacter.equipped?.Hands} source={props.source} />
-          <RelicPreview relic={selectedCharacter.equipped?.Feet} source={props.source} />
-          <RelicPreview relic={selectedCharacter.equipped?.LinkRope} source={props.source} />
+          <RelicPreview relic={selectedCharacter.equipped?.Hands} source={props.source} characterId={characterId}/>
+          <RelicPreview relic={selectedCharacter.equipped?.Feet} source={props.source} characterId={characterId}/>
+          <RelicPreview relic={selectedCharacter.equipped?.LinkRope} source={props.source} characterId={characterId}/>
         </Flex>
       </Flex>
     </Flex>

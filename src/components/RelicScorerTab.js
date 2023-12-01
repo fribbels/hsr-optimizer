@@ -111,6 +111,11 @@ export default function RelicScorerTab({ style }) {
       setSelectedCharacter(props.availableCharacters.find(x => x.id == selected))
     }
 
+    function scoringClicked() {
+      setSelectedScoringAlgorithmCharacter(selectedCharacter)
+      setIsScoringModalOpen(true)
+    }
+
     async function downloadClicked() {
       setDownloadLoading(true);
 
@@ -122,20 +127,37 @@ export default function RelicScorerTab({ style }) {
     }
 
     return (
-      <Flex vertical align='center' gap={20} style={{marginBottom: 100}}>
-        <Segmented options={options} onChange={selectionChange} />
-
-        <Button 
-          type="primary" 
-          style={{ display: selectedCharacter ? 'block' : 'none'}}
-          loading={downloadLoading} 
-          onClick={downloadClicked}
-        >
-          Save as image
-        </Button>
-        <Image width={200} src={modalSrc} style={{ display: modalSrc ? 'block' : 'none' }} preview={{
-          visible: previewVisible, 
-          onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible) }}/>
+      <Flex vertical align='center' gap={20} style={{ marginBottom: 100 }}>
+        <Flex gap={30}>
+          <Button
+            type="primary"
+            style={{ width: 200 }}
+            onClick={scoringClicked}
+          >
+            Scoring algorithm
+          </Button>
+          <Button
+            type="primary"
+            style={{ display: selectedCharacter ? 'block' : 'none', width: 200 }}
+            loading={downloadLoading}
+            onClick={downloadClicked}
+          >
+            Save as image
+          </Button>
+        </Flex>
+        <Flex vertical align='center'>
+          <Segmented options={options} onChange={selectionChange} />
+          <div style={{ display: modalSrc ? 'block' : 'none', marginTop: modalSrc ? 10 : 0 }}>
+            <Image
+              width={200}
+              src={modalSrc}
+              preview={{
+                visible: previewVisible,
+                onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible)
+              }}
+            />
+          </div>
+        </Flex>
         <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
           <CharacterPreview class='relicScorerCharacterPreview' character={selectedCharacter} source='scorer' />
         </div>
@@ -145,7 +167,7 @@ export default function RelicScorerTab({ style }) {
 
   return (
     <div style={style}>
-      <Flex vertical gap={20} align='center'>
+      <Flex vertical gap={0} align='center'>
         <Form
           form={scorerForm}
           onFinish={onFinish}

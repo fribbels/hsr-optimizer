@@ -178,6 +178,11 @@ export default function CharacterTab({style}) {
     Message.success('Successfully unequipped character')
   }
 
+  function scoringAlgorithmClicked() {
+    setSelectedScoringAlgorithmCharacter(selectedCharacter)
+    setIsScoringModalOpen(true)
+  }
+
   let defaultGap = 8;
 
   let parentH = 280 * 3 + defaultGap * 2;
@@ -199,7 +204,7 @@ export default function CharacterTab({style}) {
     }}>
       <Flex style={{height: '100%'}} gap={8}>
         <Flex vertical gap={10}>
-          <div id="characterGrid" className="ag-theme-balham-dark" style={{display: 'block', width: 230, height: parentH - 43}}>
+          <div id="characterGrid" className="ag-theme-balham-dark" style={{display: 'block', width: 230, height: parentH - 85}}>
             <AgGridReact
               ref={characterGrid} // Ref for accessing Grid's API
 
@@ -218,32 +223,37 @@ export default function CharacterTab({style}) {
               onRowDragLeave={onRowDragLeave}
               />
           </div>
-          <Flex justify='space-between'>
-            
-            <Popconfirm
-              title="Confirm"
-              description="Remove this character?"
-              onConfirm={removeClicked}
-              placement="bottom"
-              okText="Yes"
-              cancelText="Cancel"
-            >
-              <Button style={{width: 110}}>
-                Remove
-              </Button>
-            </Popconfirm>
-            <Popconfirm
-              title="Confirm"
-              description="Unequip this character?"
-              onConfirm={unequipClicked}
-              placement="bottom"
-              okText="Yes"
-              cancelText="Cancel"
-            >
-              <Button style={{width: 110}}>
-                Unequip
-              </Button>
-            </Popconfirm>
+          <Flex vertical gap={10}>
+            <Flex justify='space-between'>
+
+              <Popconfirm
+                title="Confirm"
+                description="Remove this character?"
+                onConfirm={removeClicked}
+                placement="bottom"
+                okText="Yes"
+                cancelText="Cancel"
+              >
+                <Button style={{ width: 110 }}>
+                  Remove
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title="Confirm"
+                description="Unequip this character?"
+                onConfirm={unequipClicked}
+                placement="bottom"
+                okText="Yes"
+                cancelText="Cancel"
+              >
+                <Button style={{ width: 110 }}>
+                  Unequip
+                </Button>
+              </Popconfirm>
+            </Flex>
+            <Button style={{  }} onClick={scoringAlgorithmClicked}>
+              Scoring algorithm
+            </Button>
           </Flex>
         </Flex>
         <CharacterPreview character={selectedCharacter}/>

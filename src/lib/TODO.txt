@@ -1,6 +1,10 @@
 TODAY:
 UPDATE DOCS
 update try file 
+use minimum roll rounded to 10ths as baseline
+save then recalculate score
+take out scoring sets
+calc character score
 
 LATER:
 apply stat decimals

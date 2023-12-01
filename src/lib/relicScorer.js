@@ -2,7 +2,7 @@ import { CharacterConverter } from "./characterConverter"
 
 
 let minRollValue = 5.184
-let mainStatFreeRolls = 2
+let mainStatFreeRolls = 1
 let ratingToRolls = {
   'F': 1,
   'D': 2,
@@ -25,11 +25,15 @@ for (let x of Object.entries(ratingToRolls)) {
 
 export const RelicScorer = {
   score: (relic, characterId) => {
+    console.log('score', relic, characterId)
     if (relic.equippedBy) {
+      console.log('using equippedby')
+
       characterId = relic.equippedBy
     }
 
     if (!characterId) {
+      console.log('no id found')
       return {
         score: '',
         rating: ' '

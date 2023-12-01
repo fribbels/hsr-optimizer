@@ -64,6 +64,10 @@ export const Assets = {
     if (!character) return ''
     return baseUrl + `/assets/${character.preview}`
   },
+  getCharacterPreviewById: (id) => {
+    if (!id) return ''
+    return baseUrl + `/assets/image/character_preview/${id}.png`
+  },
 
   getLightConePortrait: (lightCone) => {
     if (!lightCone) return ''

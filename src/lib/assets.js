@@ -113,6 +113,12 @@ export const Assets = {
   getGuideImage: (name) => {
     return baseUrl + '/assets/guide/' + name + '.png'
   },
+  getInventory: () => {
+    return baseUrl + '/assets/icon/sign/ShopMaterialsIcon.png'
+  },
+  getStarBw: () => {
+    return baseUrl + '/assets/icon/sign/QuestMainIcon.png'
+  },
 
   getPart: (part) => {
     let mapping = {

@@ -118,7 +118,6 @@ export default function ScoringModal() {
     setSelectedScoringCharacter(character)
     if (character && character.id) {
       characterSelectorChange(character.id)
-
     }
   }
 
@@ -143,7 +142,7 @@ export default function ScoringModal() {
     }
   }
 
-  const panelWidth = 200
+  const panelWidth = 225
   const defaultGap = 5
   const selectWidth = 360
 
@@ -182,9 +181,24 @@ export default function ScoringModal() {
     )
   }
 
+  function onModalOk() {
+    console.log('Modal OK');
+    scoringAlgorithmForm.submit()
+    setIsScoringModalOpen(false)
+
+    // TODO ...
+    setTimeout(() => forceRelicScorerTabUpdate(), 100)
+    setTimeout(() => forceCharacterTabUpdate(), 100)
+  }
+
   const onFinish = (x) => {
     console.log('Form finished', x);
-    DB.getMetadata().characters[1212].scores = x
+    x.stats[Constants.Stats.ATK_P] = x.stats[Constants.Stats.ATK]
+    x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
+    x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
+
+    x.modified = true
+    DB.getMetadata().characters[selectedScoringCharacter.id].scores = x
   };
 
   const filterOption = (input, option) =>
@@ -197,7 +211,7 @@ export default function ScoringModal() {
       title='Scoring algorithm'
       open={isScoringModalOpen}
       width={800}
-      onOk={scoringAlgorithmForm.submit}
+      onOk={onModalOk}
       onCancel={handleCancel}
     >
       <Form
@@ -206,7 +220,7 @@ export default function ScoringModal() {
         onFinish={onFinish}
       >
         <Flex gap={10} vertical>
-          <Flex gap={20}>
+          <Flex gap={20} justify='space-between'>
             <Flex vertical gap={5}>
               <Form.Item size="default" name='characterId'>
                 <Select
@@ -352,6 +366,12 @@ export default function ScoringModal() {
 
         <Divider />
 
+        <p>
+          "asdf"
+        </p>
+{/* 
+        <Divider />
+
         <Flex justify='space-between' align='center'>
 
           <Flex vertical gap={1} justify='flex-start'>
@@ -402,7 +422,7 @@ export default function ScoringModal() {
               </Select>
             </Form.Item>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Form>
     </Modal>
   );

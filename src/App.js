@@ -52,36 +52,45 @@ const App = () => {
     >      
       {notificationContextHolder}
       {messageContextHolder}
-      <Layout style={{'minHeight': '100%', minWidth: 1300}}>
-        <Header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0 30px',
-            height: 50,
-            width: '100%'
-          }}
-        >
-          <a href="https://fribbels.github.io/hsr-optimizer">
-            <Flex align='center'>
-              <img src={Assets.getLogo()} style={{width: 30, height: 30, marginRight: 20}}></img>
-              <Typography
-                style={{fontWeight: 600, fontSize: 22}}
-                color="inherit"
-              >
-                Fribbels Honkai Star Rail Optimizer
-              </Typography>
-            </Flex>
-          </a>
-        </Header>
-        <Layout >
+        <Layout hasSider style={{ 'minHeight': '100%', minWidth: 1300 }}>
           <Sider
             width={200}
+            style={{
+              overflow: 'auto',
+              height: '100vh',
+              position: 'fixed',
+              left: 0,
+            }}
           >
             <MenuDrawer setActiveKey={setActiveKey} hashes={hashes}/>
           </Sider>
           <Layout
+            style={{
+              marginLeft: 200,
+            }}
           >
+
+            <Header
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0 30px',
+                height: 48,
+                width: '100%'
+              }}
+            >
+              <a href="https://fribbels.github.io/hsr-optimizer">
+                <Flex align='center'>
+                  <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
+                  <Typography
+                    style={{ fontWeight: 600, fontSize: 22 }}
+                    color="inherit"
+                  >
+                    Fribbels Honkai Star Rail Optimizer
+                  </Typography>
+                </Flex>
+              </a>
+            </Header>
             <Content
               style={{
                 padding: 10,
@@ -95,7 +104,6 @@ const App = () => {
               <Tabs activeKey={activeKey} hashes={hashes} />
             </Content>
           </Layout>
-        </Layout>
       </Layout>
     </ConfigProvider>
   );

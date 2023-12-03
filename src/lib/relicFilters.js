@@ -48,7 +48,6 @@ export const RelicFilters = {
       let allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsRelics).length)
 
       for (let relicSet of request.relicSets) {
-        console.warn('0', relicSet)
         if (relicSet[0] == '4 Piece') {
           if (relicSet.length == 1) {
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)

@@ -37,14 +37,27 @@ export const StatCalculator = {
     let characterLevel = form.characterLevel
     let characterEidolon = form.characterEidolon
 
-    let lightConeMetadata = DB.getMetadata().lightCones[form.lightCone]
-    let lightConeLevel = form.lightConeLevel
-    let lightConeSuperimposition = form.lightConeSuperimposition
 
-    if (!lightConeMetadata) return console.log('No light cone selected');
+    let lightConeMetadata; 
+    let lightConeLevel; 
+    let lightConeSuperimposition; 
+    let lightConeStats; 
+    let superimpositionStats; 
 
-    let lightConeStats = lightConeMetadata.promotions[lightConeLevel]
-    let superimpositionStats = lightConeMetadata.superimpositions[lightConeSuperimposition]
+    if (form.lightCone && form.lightCone != '0') {
+      lightConeMetadata = DB.getMetadata().lightCones[form.lightCone]
+      lightConeLevel = form.lightConeLevel
+      lightConeSuperimposition = form.lightConeSuperimposition
+      lightConeStats = lightConeMetadata.promotions[lightConeLevel]
+      superimpositionStats = lightConeMetadata.superimpositions[lightConeSuperimposition]
+    } else {
+      console.log('No light cone selected');
+      lightConeLevel = 0
+      lightConeSuperimposition = 0
+      lightConeStats = {}
+      superimpositionStats = {}
+    }
+
     let traceStats = characterMetadata.traces
     let characterStats = characterMetadata.promotions[characterLevel]
 
@@ -86,7 +99,6 @@ export const StatCalculator = {
     console.log(characterMetadata, lightConeMetadata)
     console.log(baseStats)
     console.log(relics)
-    // console.warn(base, lc, trace)
 
     function sum(relics, stat) {
       let total = 0

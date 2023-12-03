@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ErrorBoundary } from "react-error-boundary";
 import './index.css';
 import App from './App';
 
@@ -24,6 +25,7 @@ import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
+import { Typography } from 'antd';
 window.Constants = Constants;
 window.OcrParser = OcrParser;
 window.DataParser = DataParser;
@@ -58,7 +60,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   root.render(
     // <React.StrictMode>
+    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
       <App />
+    </ErrorBoundary>
     // </React.StrictMode>
   );
 });

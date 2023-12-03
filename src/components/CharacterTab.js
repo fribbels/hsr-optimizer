@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
+import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback} from 'react';
 
 import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
@@ -83,6 +83,10 @@ export default function CharacterTab({style}) {
   const [selectedCharacter, setSelectedCharacter] = useState();
   window.setSelectedCharacterPreview = setSelectedCharacter;
 
+  const [, forceUpdate] = React.useReducer(o => !o);
+  window.forceCharacterTabUpdate = () => {
+    forceUpdate()
+  }
 
   const columnDefs = useMemo(() => [
     {field: '', headerName: 'Image', cellRenderer: cellImageRenderer, width: 52 },

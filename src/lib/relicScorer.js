@@ -1,7 +1,8 @@
 import { CharacterConverter } from "./characterConverter"
 
 
-let minRollValue = 5.184
+// let minRollValue = 5.184
+let minRollValue = 5.1 // Use truncated decimal because OCR'd results show truncated
 let mainStatFreeRolls = 1
 let ratingToRolls = {
   'F': 1,
@@ -24,19 +25,67 @@ for (let x of Object.entries(ratingToRolls)) {
 
 
 export const RelicScorer = {
+  scoreCharacter: (character) => {
+    if (!character || !character.id) return {}
+
+    console.log('SCORE CHARACTER', character)
+    let relics = Object.values(character.equipped)
+    let scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
+    
+    let sum = 0
+    for (let relic of scoredRelics) {
+      sum += Number(relic.score) + Number(relic.mainStatScore)
+    }
+
+    let base = 64.8 * 4
+    let avgSubstatScore = (sum - base) / 6
+
+    let rating = 'F'
+    for (let i = 0; i < ratings.length; i++) {
+      if (avgSubstatScore >= ratings[i].threshold * minRollValue) {
+        rating = ratings[i].rating
+        if (avgSubstatScore >= ratings[i].threshold * (minRollValue + 0.5)) {
+          rating += '+'
+        }
+      }
+    }
+
+    return {
+      relics: scoredRelics,
+      totalScore: sum,
+      totalRating: rating
+    }
+  },
+
   score: (relic, characterId) => {
     console.log('score', relic, characterId)
+
+    if (!relic) {
+      return {
+        score: 0,
+        rating: 'N/A',
+        mainStatScore: 0
+      }
+    }
+
     if (relic.equippedBy) {
       console.log('using equippedby')
 
       characterId = relic.equippedBy
     }
 
+    if (relic.optimizerCharacterId) {
+      console.log('using optimizerCharacterId')
+
+      characterId = relic.optimizerCharacterId
+    }
+
     if (!characterId) {
       console.log('no id found')
       return {
-        score: '',
-        rating: ' '
+        score: 0,
+        rating: 'N/A',
+        mainStatScore: 0
       }
     }
 
@@ -60,7 +109,7 @@ export const RelicScorer = {
     let conversions = CharacterConverter.getConstantConversions()
     let relicSubAffixes = DB.getMetadata().relics.relicSubAffixes
     let discard = {[Constants.Stats.ATK]: true, [Constants.Stats.DEF]: true, [Constants.Stats.HP]: true}
-    console.warn('RELIC SCORER', relic, multipliers, relicSubAffixes)
+    console.log('Relic scorer', relic, multipliers, relicSubAffixes)
     
     let sum = 0
     for (let substat of relic.substats) {
@@ -68,8 +117,8 @@ export const RelicScorer = {
 
       console.log(substat, subdata)
       substat.scoreMeta = {
-        multiplier: multipliers[substat.stat],
-        score: discard[substat.stat] ? 0 : substat.value * multipliers[substat.stat] * scaling[substat.stat]
+        multiplier: (multipliers[substat.stat] || 0),
+        score: discard[substat.stat] ? 0 : substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
       }
       sum += substat.scoreMeta.score
       // a = {
@@ -96,11 +145,25 @@ export const RelicScorer = {
       }
     }
 
+    let mainStatScore = 0
+    let metaParts = DB.getMetadata().characters[characterId].scores.parts
+    let max = 10.368 + 3.6288 * relic.grade * 3
+    if (metaParts[relic.part]) {
+      if (metaParts[relic.part].includes(relic.main.stat)) {
+        mainStatScore = max
+      } else {
+        mainStatScore = max * multipliers[relic.main.stat]
+      }
+    }
+    
     console.log(relic.substats, ratings, sum)
 
     return {
       score: sum.toFixed(1),
-      rating: rating
+      rating: rating,
+      mainStatScore: mainStatScore,
+      part: relic.part,
+      meta: DB.getMetadata().characters[characterId].scores
     }
   }
 }

@@ -91,7 +91,7 @@ function getRelic(relic) {
 }
 
 let gradeToColor = {
-  5: '#ba9063',
+  5: '#e1a564',
   4: '#9e5fe8',
   3: '#58beed',
   2: '#63e0ac',
@@ -102,9 +102,17 @@ export default function RelicPreview(props) {
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic
-  } else if (!data) {
-    return
+  } 
+  
+  if (!data) {
+    data = {
+      enhance: 0,
+      part: undefined,
+      set: undefined,
+      grade: 0
+    }
   }
+  
   let enhance = data.enhance
   let part = data.part
   let set = data.set
@@ -120,8 +128,8 @@ export default function RelicPreview(props) {
   // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
-  let score = RelicScorer.score(data, props.characterId)
-
+  // let score = RelicScorer.score(data, props.characterId)
+  let scored = props.relic != undefined && props.score != undefined
   return (
     <Card size="small" style={{ width: 200, height: 280 }}>
       <Flex vertical justify='space-between'  style={{height: 255}}>
@@ -162,19 +170,18 @@ export default function RelicPreview(props) {
           {generateStat(substats[2], props.source)}
           {generateStat(substats[3], props.source)}
         </Flex>
-        
 
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
 
         <Flex gap={4} justify='space-between'>
           <Flex>
-            <img src={Assets.getStatIcon('CV')} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
             <Text>
-              Score
+              {(scored) ? 'Score' : ''}
             </Text>
           </Flex>
           <Text>
-            {`${score.score} (${score.rating})`}
+            {(scored) && `${props.score.score} (${props.score.rating})${props.score.meta.modified ? ' *' : ''}`}
           </Text>
         </Flex>
       </Flex>

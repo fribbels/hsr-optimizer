@@ -1,10 +1,6 @@
 TODAY:
 UPDATE DOCS
 update try file 
-use minimum roll rounded to 10ths as baseline
-save then recalculate score
-take out scoring sets
-calc character score
 
 LATER:
 apply stat decimals
@@ -52,3 +48,10 @@ fix set selector height
 NEW SETS 
 ornament conditional bonuses?
 analytics
+use minimum roll rounded to 10ths as baseline
+save then recalculate score
+calc character score
+make sidebar persistent
+filter same id from support list
+take out scoring sets
+upload file default location filter json

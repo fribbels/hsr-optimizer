@@ -36,6 +36,7 @@ import "../style/style.css";
 import { HeaderText } from './HeaderText';
 import { Renderer } from '../lib/renderer';
 import { TooltipImage } from './TooltipImage';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const { Text } = Typography;
 

@@ -24,7 +24,6 @@ const items = [
   ]),
   getItem('Tools', 'sub2', <MenuOutlined />, [
     getItem('Relic scorer', '#scorer'),
-    getItem('Beta', '#beta'),
     getItem('Coming soon', 'coming-soon'),
   ]),
   getItem('Links', 'sub4', <MenuOutlined />, [

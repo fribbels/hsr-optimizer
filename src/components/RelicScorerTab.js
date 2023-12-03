@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import {
   Button,
   Cascader,
@@ -59,10 +59,10 @@ export default function RelicScorerTab({ style }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); // Parse the response as JSON
+        return response.json();
       })
       .then(data => {
-        console.log(data); // Now you can work with the 'data' variable containing the API response
+        console.log(data);
         if (!data.status || data.status != 'SUCCESS') {
           return 'ERROR'
         }
@@ -72,7 +72,12 @@ export default function RelicScorerTab({ style }) {
           data.detail_info.avatar_detail_list[0],
           data.detail_info.avatar_detail_list[1],
           data.detail_info.avatar_detail_list[2],
-        ].filter(x => !!x)
+        ]
+        .filter(x => !!x)
+        .filter((item, index, array) => {
+          return array.findIndex((i) => i.avatar_id === item.avatar_id) === index;
+        });
+
 
         console.log('characters', characters)
 
@@ -92,6 +97,9 @@ export default function RelicScorerTab({ style }) {
     const [previewVisible, setPreviewVisible] = useState(false);
     const [modalSrc, setModalSrc] = useState();
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
+
+    const [, forceUpdate] = React.useReducer(o => !o, true);
+    window.forceRelicScorerTabUpdate = forceUpdate
 
     console.log('CharacterPreviewSelection', props)
 

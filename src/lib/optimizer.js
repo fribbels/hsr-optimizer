@@ -84,8 +84,8 @@ export const Optimizer = {
     let characterMetadata = DB.getMetadata().characters[request.characterId]
     let characterStats = characterMetadata.promotions[request.characterLevel]
 
-    console.warn(lightConeStats)
-    console.warn(characterStats)
+    console.log({lightConeStats})
+    console.log({characterStats})
 
     let element = characterMetadata.element
 

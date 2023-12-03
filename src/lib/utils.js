@@ -1,3 +1,4 @@
+import { Typography } from 'antd';
 import * as htmlToImage from 'html-to-image';
 
 export const Utils = {
@@ -46,5 +47,8 @@ export const Utils = {
   },
   screenshotElement: async (element) => {
     return await htmlToImage.toPng(element, { pixelRatio: 1.5 })
+  },
+  truncate10ths: (x) => {
+    return Math.floor(x * 10) / 10
   }
 }

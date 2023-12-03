@@ -170,14 +170,21 @@ export const OptimizerTabController = {
     let b = (((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
     let g = (((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
     let h = (((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
-    
+
+    relics.Head[h].optimizerCharacterId = 1212
+    relics.Hands[g].optimizerCharacterId = 1212
+    relics.Body[b].optimizerCharacterId = 1212
+    relics.Feet[f].optimizerCharacterId = 1212
+    relics.PlanarSphere[p].optimizerCharacterId = 1212
+    relics.LinkRope[l].optimizerCharacterId = 1212
+
     let build = {
       Head: relics.Head[h],
       Hands: relics.Hands[g],
       Body: relics.Body[b],
       Feet: relics.Feet[f],
       PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l],
+      LinkRope: relics.LinkRope[l]
     }
 
     return build;

@@ -26,19 +26,27 @@ import {
   Image,
   Divider,
   Tag,
+  Collapse,
 } from 'antd';
 import styled from 'styled-components';
 import '../style/style.css'
 import { CharacterStats } from '../lib/characterStats';
 import { CharacterPreview } from './CharacterPreview';
 import { Assets } from '../lib/assets';
+import { HeaderText } from './HeaderText';
 
 const { TextArea } = Input;
 const { Text } = Typography;
 
-
+const TitleDivider = styled(Divider)`
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+`
 const InputNumberStyled = styled(InputNumber)`
   width: 62px
+`
+const PStyled = styled.p`
+  margin: '7px 0px'
 `
 
 function generateOrnamentsOptions() {
@@ -171,7 +179,7 @@ export default function ScoringModal() {
     return (
       <Flex justify="flex-start" style={{ width: panelWidth }} align='center' gap={5}>
         <Form.Item size="default" name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} />
+          <InputNumberStyled controls={false} size="small" />
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -206,19 +214,108 @@ export default function ScoringModal() {
 
   let previewSrc = (selectedScoringCharacter && selectedScoringCharacter.id) ? Assets.getCharacterPreviewById(selectedScoringCharacter.id) : Assets.getBlank()
   
+  let methodologyCollapse = (
+    <Text>
+      <PStyled>
+        Substat scoring is calculated by <code>Score = weight * normalization * value</code>.
+        The weight of each stat is defined above.
+        The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG, with max value <code>64.8</code>.
+        As follows:
+      </PStyled>
+      <Flex justify='space-between' style={{ marginRight: 120 }}>
+        <ul>
+          <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
+          <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
+          <li><code>HP% ATK% EHR = 64.8 / 43.2 == 1.5</code></li>
+          <li><code>CR = 64.8 / 32.4 == 2</code></li>
+        </ul>
+        <ul>
+          <li><code>SPD = 64.8 / 25.032 == 2.59</code></li>
+          <li><code>OHB = 64.8 / 34.561 == 1.87</code></li>
+          <li><code>ERR = 64.8 / 19.439 == 3.33</code></li>
+          <li><code>ELEMENTAL DMG = 64.8 / 38.88 == 1.67</code></li>
+        </ul>
+      </Flex>
+      <PStyled style={{ margin: '7px 0px' }}>
+        Flat ATK/HP/DEF have a separate calculation: <code>1 / (character base * 2 * 0.01) * (64.8 / % main stat value)</code>.
+        This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
+        Double the character base is used instead of character + light cone base.
+      </PStyled>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        A letter grade is assigned based on the number of normalized min rolls of each substat.
+        The score for each min roll in theory should be equivalent to <code>5.184</code>, but is rounded down to <code>5.1</code> due to the game not displaying extra decimals.
+        The general scale for grade by rolls is <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code> with a <code>+</code> assigned for an additional half roll.
+      </PStyled>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        Character scores are calculated by <code>Score = sum(relic substat scores) + sum(main stat scores)</code>.
+        Only the head/body/sphere/rope relics have main stat scores.
+        The main stat score for a 5 star maxed relic is <code>64.8</code> if the main stat is optimal, otherwise scaled down by the stat weight.
+        Non 5 star relic scores are also scaled down by their maximum enhance.
+      </PStyled>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
+        These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
+        These rolls are multiplied by the min roll value of <code>5.1</code> for the bonus score value.
+      </PStyled>
+
+      <Flex justify='space-between' style={{ marginRight: 30 }}>
+        <ul>
+          <li><code>Body HP_P 1.280</code></li>
+          <li><code>Body ATK_P 1.278</code></li>
+          <li><code>Body DEF_P 1.305</code></li>
+          <li><code>Body CR 1.647</code></li>
+          <li><code>Body CD 1.643</code></li>
+        </ul>
+        <ul>
+          <li><code>Body OHB 1.713</code></li>
+          <li><code>Body EHR 1.653</code></li>
+          <li><code>Feet HP_P 1.045</code></li>
+          <li><code>Feet ATK_P 1.000</code></li>
+          <li><code>Feet DEF_P 1.002</code></li>
+        </ul>
+        <ul>
+          <li><code>Feet SPD 1.573</code></li>
+          <li><code>PlanarSphere HP_P 1.583</code></li>
+          <li><code>PlanarSphere ATK_P 1.545</code></li>
+          <li><code>PlanarSphere DEF_P 1.595</code></li>
+          <li><code>PlanarSphere ELEM 1.747</code></li>
+        </ul>
+        <ul>
+          <li><code>LinkRope HP_P 1.056</code></li>
+          <li><code>LinkRope ATK_P 1.016</code></li>
+          <li><code>LinkRope DEF_P 1.161</code></li>
+          <li><code>LinkRope BE 1.417</code></li>
+          <li><code>LinkRope ERR 2.000</code></li>
+        </ul>
+      </Flex>
+
+      <PStyled style={{ margin: '7px 0px' }}>
+        This scoring method is still experimental and subject to change, please come by the discord server to share any feedback!
+      </PStyled>
+    </Text>
+  )
+
   return (
     <Modal
-      title='Scoring algorithm'
       open={isScoringModalOpen}
-      width={800}
+      width={900}
+      destroyOnClose
+      centered
       onOk={onModalOk}
       onCancel={handleCancel}
     >
       <Form
         form={scoringAlgorithmForm}
+        preserve={false}
         layout="vertical"
         onFinish={onFinish}
       >
+
+        <TitleDivider>Stat weights</TitleDivider>
+
         <Flex gap={10} vertical>
           <Flex gap={20} justify='space-between'>
             <Flex vertical gap={5}>
@@ -231,7 +328,9 @@ export default function ScoringModal() {
                   options={characterOptions}
                 />
               </Form.Item>
-              <img src={previewSrc} style={{ width: panelWidth }} />
+              <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
+                <img src={previewSrc} style={{ width: panelWidth }} />
+              </div>
             </Flex>
             <Flex vertical gap={3}>
               <StatValueRow stat={Constants.Stats.ATK} />
@@ -257,7 +356,8 @@ export default function ScoringModal() {
             </Flex>
           </Flex>
         </Flex>
-        <Divider />
+
+        <TitleDivider>Optimal main stats</TitleDivider>
 
         <Flex justify='space-between'>
           <Flex vertical gap={defaultGap * 2}>
@@ -272,7 +372,6 @@ export default function ScoringModal() {
                   style={{
                     width: selectWidth,
                   }}
-                  size={"large"}
                   placeholder="Body"
                   maxTagCount='responsive'>
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
@@ -297,7 +396,6 @@ export default function ScoringModal() {
                   style={{
                     width: selectWidth,
                   }}
-                  size={"large"}
                   placeholder="Feet"
                   maxTagCount='responsive'>
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
@@ -320,7 +418,6 @@ export default function ScoringModal() {
                   style={{
                     width: selectWidth,
                   }}
-                  size={"large"}
                   placeholder="Planar Sphere"
                   listHeight={400}
                   maxTagCount='responsive'>
@@ -350,7 +447,6 @@ export default function ScoringModal() {
                   style={{
                     width: selectWidth,
                   }}
-                  size={"large"}
                   placeholder="Link Rope"
                   maxTagCount='responsive'>
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
@@ -364,11 +460,14 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <Divider />
+        <TitleDivider>Methodology</TitleDivider>
 
-        <p>
-          "asdf"
-        </p>
+        <Collapse ghost items={[{
+          key: '1',
+          label: 'Click to show details',
+          children: methodologyCollapse
+        }]}>
+        </Collapse>
 {/* 
         <Divider />
 

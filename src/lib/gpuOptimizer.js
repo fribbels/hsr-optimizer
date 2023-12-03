@@ -284,8 +284,8 @@ export const GPUOptimizer = {
 
       let cappedCrit = Math.min(cr + this.constants.buffCr, 1)
 
-      let dmg = (atk + this.constants.buffAtk + (this.constants.buffAtkP * this.constants.charBase[this.constants.ATK])) * (1 + cd + this.constants.buffCd) * cappedCrit * (1 + elementalDmg)
-      let mcd = (atk + this.constants.buffAtk + (this.constants.buffAtkP * this.constants.charBase[this.constants.ATK])) * (1 + cd + this.constants.buffCd) * (1 + elementalDmg)
+      let dmg = (atk + this.constants.buffAtk + (this.constants.buffAtkP * this.constants.charBase[this.constants.ATK] + this.constants.charLc[this.constants.ATK])) * (1 + cd + this.constants.buffCd) * cappedCrit * (1 + elementalDmg)
+      let mcd = (atk + this.constants.buffAtk + (this.constants.buffAtkP * this.constants.charBase[this.constants.ATK] + this.constants.charLc[this.constants.ATK])) * (1 + cd + this.constants.buffCd) * (1 + elementalDmg)
       let ehp = hp / (1 - def / (def + 200 + 10 * 80))
       let cv = 100 * (crSum * 2 + cdSum)
 

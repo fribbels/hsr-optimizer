@@ -119,8 +119,8 @@ const calculateStats = function(e) {
       hero['id'] = x
       
       let cappedCrit = Math.min(hero[Stats.CR] + request.buffCr, 1)
-      let dmg = (hero[Stats.ATK] + request.buffAtk + (request.buffAtkP * base[Stats.ATK])) * (1 + hero[Stats.CD] + request.buffCd) * cappedCrit * (1 + elementalDmg)
-      let mcd = (hero[Stats.ATK] + request.buffAtk + (request.buffAtkP * base[Stats.ATK])) * (1 + hero[Stats.CD] + request.buffCd) * (1 + elementalDmg)
+      let dmg = (hero[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * (1 + hero[Stats.CD] + request.buffCd) * cappedCrit * (1 + elementalDmg)
+      let mcd = (hero[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * (1 + hero[Stats.CD] + request.buffCd) * (1 + elementalDmg)
       let ehp = hero[Stats.HP] / (1 - hero[Stats.DEF] / (hero[Stats.DEF] + 200 + 10 * 80))
       let cv = 100 * (crSum * 2 + cdSum)
 

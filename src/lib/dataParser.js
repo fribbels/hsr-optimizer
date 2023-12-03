@@ -1016,8 +1016,8 @@ function getScores() {
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.75,
-        [Constants.Stats.CD]: 0.75,
+        [Constants.Stats.CR]: 0.5,
+        [Constants.Stats.CD]: 0.5,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0.75,
@@ -1558,7 +1558,7 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.CC,
+          Constants.Stats.CR,
           Constants.Stats.CD,
           Constants.Stats.EHR,
           Constants.Stats.HP_P,
@@ -2140,7 +2140,7 @@ function getScores() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.CD,
-          Constants.Stats.CC,
+          Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
@@ -2242,7 +2242,7 @@ function getScores() {
         [Constants.Parts.Body]: [
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
-          Constants.Stats.CC,
+          Constants.Stats.CR,
           Constants.Stats.CD,
         ],
         [Constants.Parts.Feet]: [

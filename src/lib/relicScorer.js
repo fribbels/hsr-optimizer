@@ -3,7 +3,49 @@ import { CharacterConverter } from "./characterConverter"
 
 // let minRollValue = 5.184
 let minRollValue = 5.1 // Use truncated decimal because OCR'd results show truncated
-let mainStatFreeRolls = 1.5
+let mainStatFreeRolls
+
+function setMainStatFreeRolls() {
+  if (!mainStatFreeRolls) {
+    mainStatFreeRolls = {
+      [Constants.Parts.Body]: {
+        [Constants.Stats.HP_P]: 1.32,
+        [Constants.Stats.ATK_P]: 1.284,
+        [Constants.Stats.DEF_P]: 1.305,
+        [Constants.Stats.CR]: 1.644,
+        [Constants.Stats.CD]: 1.658,
+        [Constants.Stats.OHB]: 1.712,
+        [Constants.Stats.EHR]: 1.668
+      },
+      [Constants.Parts.Feet]: {
+        [Constants.Stats.HP_P]: 1.058,
+        [Constants.Stats.ATK_P]: 1.019,
+        [Constants.Stats.DEF_P]: 1,
+        [Constants.Stats.SPD]: 1.567
+      },
+      [Constants.Parts.PlanarSphere]: {
+        [Constants.Stats.HP_P]: 1.583,
+        [Constants.Stats.ATK_P]: 1.559,
+        [Constants.Stats.DEF_P]: 1.587,
+        [Constants.Stats.Physical_DMG]: 1.763,
+        [Constants.Stats.Fire_DMG]: 1.763,
+        [Constants.Stats.Ice_DMG]: 1.763,
+        [Constants.Stats.Lightning_DMG]: 1.763,
+        [Constants.Stats.Wind_DMG]: 1.763,
+        [Constants.Stats.Quantum_DMG]: 1.763,
+        [Constants.Stats.Imaginary_DMG]: 1.763,
+      },
+      [Constants.Parts.LinkRope]: {
+        [Constants.Stats.HP_P]: 1.073,
+        [Constants.Stats.ATK_P]: 1.076,
+        [Constants.Stats.DEF_P]: 1.172,
+        [Constants.Stats.BE]: 1.416,
+        [Constants.Stats.ERR]: 2
+      }
+    }
+  }
+}
+
 let ratingToRolls = {
   'F': 1,
   'D': 2,
@@ -60,6 +102,8 @@ export const RelicScorer = {
   score: (relic, characterId) => {
     console.log('score', relic, characterId)
 
+    setMainStatFreeRolls()
+
     if (!relic) {
       return {
         score: 0,
@@ -93,9 +137,9 @@ export const RelicScorer = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 0,
-      [Constants.Stats.ATK]: 0,
-      [Constants.Stats.DEF]: 0,
+      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5,
@@ -108,17 +152,16 @@ export const RelicScorer = {
     let multipliers = DB.getMetadata().characters[characterId].scores.stats
     let conversions = CharacterConverter.getConstantConversions()
     let relicSubAffixes = DB.getMetadata().relics.relicSubAffixes
-    let discard = {[Constants.Stats.ATK]: true, [Constants.Stats.DEF]: true, [Constants.Stats.HP]: true}
-    console.log('Relic scorer', relic, multipliers, relicSubAffixes)
+    // console.log('Relic scorer', relic, multipliers, relicSubAffixes, scaling)
     
     let sum = 0
     for (let substat of relic.substats) {
       let subdata = Object.values(relicSubAffixes[relic.grade].affixes).find(x => conversions.statConversion[x.property] == substat.stat)
 
-      console.log(substat, subdata)
+      // console.log(substat, subdata)
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),
-        score: discard[substat.stat] ? 0 : substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
+        score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
       }
       sum += substat.scoreMeta.score
       // a = {
@@ -130,9 +173,8 @@ export const RelicScorer = {
       // }
     }
 
-
     if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-      sum += mainStatFreeRolls * minRollValue
+      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue
     }
 
     let rating = 'F'

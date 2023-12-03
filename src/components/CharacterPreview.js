@@ -116,7 +116,7 @@ export function CharacterPreview(props) {
   }
 
   function StatRow(props) {
-    console.log('StatRow', props)
+    // console.log('StatRow', props)
     let stat = props.stat
     let readableStat = stat.replace('DMG Boost', 'DMG')
     let value = finalStats[stat]

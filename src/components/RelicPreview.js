@@ -98,7 +98,7 @@ let gradeToColor = {
 }
 
 export default function RelicPreview(props) {
-  console.log('RelicPreview', props)
+  // console.log('RelicPreview', props)
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic
@@ -112,7 +112,7 @@ export default function RelicPreview(props) {
       grade: 0
     }
   }
-  
+
   let enhance = data.enhance
   let part = data.part
   let set = data.set
@@ -120,7 +120,6 @@ export default function RelicPreview(props) {
 
   let substats = data.substats || []
   let main = data.main || {}
-
   let relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
 
   let equippedBy = data.equippedBy

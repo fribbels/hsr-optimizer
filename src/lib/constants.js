@@ -71,7 +71,6 @@ export const PartsToReadable = {
   [Parts.LinkRope]: 'Link Rope'
 };
 
-
 export const SetsRelics = {
   'PasserbyOfWanderingCloud': 'Passerby of Wandering Cloud',
   'MusketeerOfWildWheat': 'Musketeer of Wild Wheat',
@@ -79,7 +78,7 @@ export const SetsRelics = {
   'HunterOfGlacialForest': 'Hunter of Glacial Forest',
   'ChampionOfStreetwiseBoxing': 'Champion of Streetwise Boxing',
   'GuardOfWutheringSnow': 'Guard of Wuthering Snow',
-  'FiresmithOfLavaForging': 'Firesmith Of Lava-Forging',
+  'FiresmithOfLavaForging': 'Firesmith of Lava-Forging',
   'GeniusOfBrilliantStars': 'Genius of Brilliant Stars',
   'BandOfSizzlingThunder': 'Band of Sizzling Thunder',
   'EagleOfTwilightLine': 'Eagle of Twilight Line',

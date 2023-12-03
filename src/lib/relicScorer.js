@@ -3,7 +3,7 @@ import { CharacterConverter } from "./characterConverter"
 
 // let minRollValue = 5.184
 let minRollValue = 5.1 // Use truncated decimal because OCR'd results show truncated
-let mainStatFreeRolls = 1
+let mainStatFreeRolls = 1.5
 let ratingToRolls = {
   'F': 1,
   'D': 2,
@@ -44,7 +44,7 @@ export const RelicScorer = {
     for (let i = 0; i < ratings.length; i++) {
       if (avgSubstatScore >= ratings[i].threshold * minRollValue) {
         rating = ratings[i].rating
-        if (avgSubstatScore >= ratings[i].threshold * (minRollValue + 0.5)) {
+        if (avgSubstatScore >= (ratings[i].threshold + 0.5) * (minRollValue)) {
           rating += '+'
         }
       }
@@ -139,7 +139,7 @@ export const RelicScorer = {
     for (let i = 0; i < ratings.length; i++) {
       if (sum >= ratings[i].threshold * minRollValue) {
         rating = ratings[i].rating
-        if (sum >= ratings[i].threshold * (minRollValue + 0.5)) {
+        if (sum >= (ratings[i].threshold + 0.5) * (minRollValue)) {
           rating += '+'
         }
       }

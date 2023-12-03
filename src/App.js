@@ -58,15 +58,14 @@ const App = () => {
             style={{
               overflow: 'auto',
               height: '100vh',
-              position: 'fixed',
-              left: 0,
+              position: 'sticky',
+              top: 0,
             }}
           >
             <MenuDrawer setActiveKey={setActiveKey} hashes={hashes}/>
           </Sider>
           <Layout
             style={{
-              marginLeft: 200,
             }}
           >
 
@@ -99,6 +98,7 @@ const App = () => {
                 minWidth: 1300,
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                overflow: 'initial',
               }}
             >
               <Tabs activeKey={activeKey} hashes={hashes} />

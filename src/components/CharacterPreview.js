@@ -130,7 +130,7 @@ export function CharacterPreview(props) {
     } else if (Utils.isFlat(stat)) {
       value = Math.floor(value)
     } else {
-      value = (value * 100).toFixed(1)
+      value = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
     if (!finalStats) return console.log('No final stats');

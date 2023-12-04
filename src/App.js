@@ -78,7 +78,7 @@ const App = () => {
                 width: '100%'
               }}
             >
-              <a href="https://fribbels.github.io/hsr-optimizer">
+              <a href="/hsr-optimizer">
                 <Flex align='center'>
                   <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
                   <Typography

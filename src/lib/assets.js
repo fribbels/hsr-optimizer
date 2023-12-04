@@ -44,7 +44,10 @@ export const Assets = {
     return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterPortraitById: (id) => {
-    if (!id) return ''
+    if (!id) {
+      console.warn('No id found')
+      return ''
+    }
 
     let character = DB.getMetadata().characters[id]
     return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`

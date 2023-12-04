@@ -103,13 +103,13 @@ export function CharacterPreview(props) {
   function SetRow() {
     return (
       <Flex justify='space-between' align='center'>
-        <img src={Assets.getInventory()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
+        <img src={Assets.getInventory()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatText>Sets</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
         <StatText>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}></img>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}></img>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}></img>
+          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
+          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
+          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
         </StatText>
       </Flex>
     )
@@ -136,7 +136,7 @@ export function CharacterPreview(props) {
     if (!finalStats) return console.log('No final stats');
     return (
       <Flex justify='space-between' align='center'>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatText>{readableStat}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
         <StatText>{`${value}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
@@ -148,7 +148,7 @@ export function CharacterPreview(props) {
     let children = []
     for (let i = 0; i < characterMetadata.rarity; i++) {
       children.push(
-        <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }}></img>
+        <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }}/>
       )
     }
     return (
@@ -181,14 +181,12 @@ export function CharacterPreview(props) {
           <img
             src={Assets.getCharacterPortraitById(dummyCharacter.id)}
             style={{ width: '100%', filter: dummyCharacter.id == selectedCharacter.id ? '' : 'blur(10px)'}}
-          >
-          </img>
+          />
           <img 
             src={Assets.getCharacterPortraitById(selectedCharacter.id)} 
             style={{display: 'none'}}
             onLoad={() => setTimeout(() => setDummyCharacter(selectedCharacter), 50)}
-          >
-          </img>
+          />
         </div>
       </div>
 

@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   root.render(
     // <React.StrictMode>
-    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
-      <App />
-    </ErrorBoundary>
+      <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
+        <App />
+      </ErrorBoundary>
     // </React.StrictMode>
   );
 });

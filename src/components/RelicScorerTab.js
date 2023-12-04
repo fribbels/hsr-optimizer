@@ -95,7 +95,7 @@ export default function RelicScorerTab({ style }) {
   function CharacterPreviewSelection(props) {
     const [downloadLoading, setDownloadLoading] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false);
-    const [modalSrc, setModalSrc] = useState();
+    const [modalSrc, setModalSrc] = useState(Assets.getBlank());
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
 
     const [, forceUpdate] = React.useReducer(o => !o, true);

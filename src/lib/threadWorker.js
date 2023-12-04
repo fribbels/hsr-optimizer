@@ -104,9 +104,9 @@ const calculateStats = function(e) {
 
       let crSum = sum(h, g, b, f, p, l, Stats.CR)
       let cdSum = sum(h, g, b, f, p, l, Stats.CD)
-      hero[Stats.HP] =  (base[Stats.HP]  + lc[Stats.HP])  * (1 + 0.12 * Math.min(1, ornamentSet1 >> 1) + 0.12 * Math.min(1, relicSet12 >> 1) + sum(h, g, b, f, p, l, Stats.HP_P)  + trace[Stats.HP_P])  + sum(h, g, b, f, p, l, Stats.HP)
-      hero[Stats.ATK] = (base[Stats.ATK] + lc[Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSet0 >> 1) + 0.12 * Math.min(1, ornamentSet10 >> 1) + 0.12 * Math.min(1, relicSet1 >> 1) + 0.12 * Math.min(1, relicSet15 >> 1) + sum(h, g, b, f, p, l, Stats.ATK_P) + trace[Stats.ATK_P]) + sum(h, g, b, f, p, l, Stats.ATK)
-      hero[Stats.DEF] = (base[Stats.DEF] + lc[Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSet3 >> 1) + 0.15 * Math.min(1, relicSet2 >> 1) + sum(h, g, b, f, p, l, Stats.DEF_P) + trace[Stats.DEF_P]) + sum(h, g, b, f, p, l, Stats.DEF)
+      hero[Stats.HP] = (base[Stats.HP] + lc[Stats.HP]) * (1 + 0.12 * Math.min(1, ornamentSet1 >> 1) + 0.12 * Math.min(1, relicSet12 >> 1) + sum(h, g, b, f, p, l, Stats.HP_P) + trace[Stats.HP_P] + lc[Stats.HP_P])  + sum(h, g, b, f, p, l, Stats.HP)
+      hero[Stats.ATK] = (base[Stats.ATK] + lc[Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSet0 >> 1) + 0.12 * Math.min(1, ornamentSet10 >> 1) + 0.12 * Math.min(1, relicSet1 >> 1) + 0.12 * Math.min(1, relicSet15 >> 1) + sum(h, g, b, f, p, l, Stats.ATK_P) + trace[Stats.ATK_P] + lc[Stats.ATK_P]) + sum(h, g, b, f, p, l, Stats.ATK)
+      hero[Stats.DEF] = (base[Stats.DEF] + lc[Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSet3 >> 1) + 0.15 * Math.min(1, relicSet2 >> 1) + sum(h, g, b, f, p, l, Stats.DEF_P) + trace[Stats.DEF_P] + lc[Stats.DEF_P]) + sum(h, g, b, f, p, l, Stats.DEF)
       hero[Stats.SPD] = (base[Stats.SPD] + lc[Stats.SPD]) * (1 + 0.06 * Math.min(1, relicSet13 >> 1) + 0.06 * (relicSet1 >> 2) + sum(h, g, b, f, p, l, Stats.SPD_P) + trace[Stats.SPD_P]) + sum(h, g, b, f, p, l, Stats.SPD) + trace[Stats.SPD]
       hero[Stats.CR] =  0.08 * Math.min(1, ornamentSet5 >> 1) + 0.08 * Math.min(1, ornamentSet8 >> 1) + (base[Stats.CR]  + lc[Stats.CR]  + crSum  + trace[Stats.CR])
       hero[Stats.CD] =  0.16 * Math.min(1, ornamentSet4 >> 1) + (base[Stats.CD]  + lc[Stats.CD]  + cdSum  + trace[Stats.CD])

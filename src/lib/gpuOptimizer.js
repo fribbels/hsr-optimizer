@@ -163,6 +163,7 @@ export const GPUOptimizer = {
           + this.constants.relicsPlanarSphere[p][this.constants.HP_P]
           + this.constants.relicsLinkRope[l][this.constants.HP_P]
           + this.constants.charTrace[this.constants.HP_P]
+          + this.constants.charLc[this.constants.HP_P]
           + 0.12 * Math.min(1, ornamentSet1 >> 1) // Fleet of the Ageless
           + 0.12 * Math.min(1, relicSet12 >> 1) // Longevous Disciple
         ) + 
@@ -186,7 +187,8 @@ export const GPUOptimizer = {
         + this.constants.relicsFeet[f][this.constants.ATK_P]  
         + this.constants.relicsPlanarSphere[p][this.constants.ATK_P] 
         + this.constants.relicsLinkRope[l][this.constants.ATK_P]
-        + this.constants.charTrace[this.constants.ATK_P] 
+        + this.constants.charTrace[this.constants.ATK_P]
+        + this.constants.charLc[this.constants.ATK_P]
         + 0.12 * Math.min(1, relicSet1 >> 1) + // Musketeer of Wild Wheat
         + 0.12 * Math.min(1, relicSet15 >> 1) + // Prisoner in Deep Confinement
         + 0.12 * Math.min(1, ornamentSet0  >> 1) // Space Sealing Station
@@ -214,6 +216,7 @@ export const GPUOptimizer = {
         + this.constants.relicsPlanarSphere[p][this.constants.DEF_P] 
         + this.constants.relicsLinkRope[l][this.constants.DEF_P]
         + this.constants.charTrace[this.constants.DEF_P]
+        + this.constants.charLc[this.constants.DEF_P]
         + 0.15 * Math.min(1, ornamentSet3 >> 1) // Belobog of the Architects
         + 0.15 * Math.min(1, relicSet2 >> 1) // Knight of Purity Palace
       ) + 
@@ -237,7 +240,8 @@ export const GPUOptimizer = {
         + this.constants.relicsFeet[f][this.constants.SPD_P] 
         + this.constants.relicsPlanarSphere[p][this.constants.SPD_P] 
         + this.constants.relicsLinkRope[l][this.constants.SPD_P]
-        + this.constants.charTrace[this.constants.SPD_P] 
+        + this.constants.charTrace[this.constants.SPD_P]
+        + this.constants.charLc[this.constants.SPD_P]
         + 0.06 * Math.min(1, relicSet13 >> 1) // Messenger Traversing Hackerspace
         + 0.06 * (relicSet1 >> 2) // Musketeer of Wild Wheat
       ) + 

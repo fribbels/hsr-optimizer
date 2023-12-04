@@ -214,3 +214,13 @@ a {
 #characterGrid .ag-body-vertical-scroll {
   display: none;
 }
+
+.ag-header-cell-menu-button {
+  opacity: 1 !important;
+  margin-bottom: 3px  !important;
+}
+
+.relicsTableHeader {
+  font-size: 10px !important;
+  font-weight: 400 !important;
+}

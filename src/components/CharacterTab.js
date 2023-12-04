@@ -89,7 +89,7 @@ export default function CharacterTab({style}) {
   }
 
   const columnDefs = useMemo(() => [
-    {field: '', headerName: 'Image', cellRenderer: cellImageRenderer, width: 52 },
+    {field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
     {field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true, rowDragText: (params, dragItemCount) => {
       return params.rowNode.data.displayName;
     }},

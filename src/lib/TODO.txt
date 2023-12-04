@@ -7,6 +7,7 @@ apply stat decimals
 per relic hover actions
 filter light cones by path
 optimize with partial build results
+easier to edit artifact
 
 DONE
 remove level 0s

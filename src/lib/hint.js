@@ -6,6 +6,7 @@ export const Hint = {
       title: 'Rating Filters',
       content: (
         <div>
+          <p>CV - Crit Value, measuring the value of crit stats on the build. Calculated using CD + CR * 2</p>
           <p>Dmg - Average crit damage for ATK scaling characters based on crit rate. Calculated with ATK x CD x CR</p>
           <p>Mcd - Stands for Max Crit Damage, representing ATK scaling damage assuming 100% crit rate. Calculated with ATK x CD</p>
           <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated with HP / (1 - DEF/(DEF + 1000)) </p>

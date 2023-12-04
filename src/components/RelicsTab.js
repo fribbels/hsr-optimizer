@@ -60,6 +60,7 @@ export default function RelicsTab({style}) {
   const defaultColDef = useMemo( ()=> ({
     sortable: true,
     width: 55,
+    headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc']
   }), []);
 

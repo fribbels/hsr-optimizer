@@ -184,7 +184,7 @@ export default function RelicScorerTab({ style }) {
           initialValues={{  }}
         >
           <Flex style={{ margin: 20, width: 1000 }} justify="center" align="center" gap={10}>
-            <Text style={{ width: 'fit-content' }}>Input ID:</Text>
+            <Text style={{ width: 'fit-content' }}>Account ID:</Text>
             <Form.Item size="default" name='scorerId'>
               <Input style={{ width: 150 }} />
             </Form.Item>

@@ -92,7 +92,7 @@ export const RelicScorer = {
       sum += Number(relic.score) + Number(relic.mainStatScore)
     }
 
-    let missingSets = 3 - countPairs(relics.map(x => x.set))
+    let missingSets = 3 - countPairs(relics.filter(x => x != undefined).map(x => x.set))
     let deduction = missingSets * minRollValue * 3
     console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
     sum = Math.max(0, sum - deduction)

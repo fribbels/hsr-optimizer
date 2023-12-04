@@ -135,8 +135,7 @@ export default function ScoringModal() {
 
   function characterSelectorChange(id) {
     setSelectedScoringCharacter(characterOptions.find(x => x.id == id))
-    let character = DB.getCharacterById(id)
-    if (character) {
+    if (id) {
       let defaultScores = JSON.parse(JSON.stringify(DB.getMetadata().characters[id].scores))
       defaultScores.characterId = id
       for (let x of Object.entries(defaultScores.stats)) {

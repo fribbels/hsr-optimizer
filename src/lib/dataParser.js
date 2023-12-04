@@ -1062,15 +1062,15 @@ function getScores() {
     },
     "1006": { // Silver Wolf
       stats: {
-        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK]: 0.5,
         [Constants.Stats.ATK_P]: 0.75,
         [Constants.Stats.DEF]: 0,
         [Constants.Stats.DEF_P]: 0,
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 1,
-        [Constants.Stats.CD]: 1,
+        [Constants.Stats.CR]: 0.75,
+        [Constants.Stats.CD]: 0.75,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -1097,6 +1097,7 @@ function getScores() {
           Constants.Stats.Quantum_DMG,
           Constants.Stats.ATK_P,
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,
@@ -1185,7 +1186,7 @@ function getScores() {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0.75,
-        [Constants.Stats.BE]: 0.75,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 1,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
@@ -1390,7 +1391,7 @@ function getScores() {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 1,
+        [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 1,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
@@ -1403,20 +1404,18 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.CD,
           Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ERR,
           Constants.Stats.ATK_P,
-          Constants.Stats.BE,
         ],
       },
       relicSets: [
@@ -1541,8 +1540,8 @@ function getScores() {
         [Constants.Stats.HP]: 0.75,
         [Constants.Stats.HP_P]: 0.75,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.75,
-        [Constants.Stats.CD]: 0.75,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0.75,
         [Constants.Stats.BE]: 0,
@@ -1558,8 +1557,6 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.CR,
-          Constants.Stats.CD,
           Constants.Stats.EHR,
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
@@ -1731,7 +1728,7 @@ function getScores() {
           Constants.Stats.SPD
         ],
         [Constants.Parts.PlanarSphere]: [
-          Constants.Stats.Quantum_DMG
+          Constants.Stats.Fire_DMG
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P
@@ -1813,7 +1810,7 @@ function getScores() {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 1,
+        [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 1,
@@ -1961,7 +1958,7 @@ function getScores() {
     "1202": { // Tingyun
       stats: {
         [Constants.Stats.ATK]: 1,
-        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.ATK_P]: 1,
         [Constants.Stats.DEF]: 0.75,
         [Constants.Stats.DEF_P]: 0.75,
         [Constants.Stats.HP]: 0.75,
@@ -2025,7 +2022,7 @@ function getScores() {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0.75,
-        [Constants.Stats.BE]: 0.75,
+        [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 1,
         [Constants.Stats.OHB]: 1,
         [Constants.Stats.Physical_DMG]: 0,
@@ -2218,15 +2215,15 @@ function getScores() {
       stats: {
         [Constants.Stats.ATK]: 0.75,
         [Constants.Stats.ATK_P]: 0.75,
-        [Constants.Stats.DEF]: 0.75,
-        [Constants.Stats.DEF_P]: 0.75,
-        [Constants.Stats.HP]: 0.75,
-        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
         [Constants.Stats.CR]: 1,
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
-        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 1,
         [Constants.Stats.OHB]: 0,
@@ -2240,19 +2237,14 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.HP_P,
-          Constants.Stats.DEF_P,
           Constants.Stats.CR,
           Constants.Stats.CD,
         ],
         [Constants.Parts.Feet]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.Imaginary_DMG,
-          Constants.Stats.HP_P,
-          Constants.Stats.DEF_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,

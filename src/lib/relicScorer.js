@@ -65,6 +65,19 @@ for (let x of Object.entries(ratingToRolls)) {
   })
 }
 
+function countPairs(arr) {
+  let pairs = 0;
+  const obj = {};
+  arr.forEach(i => {
+    if (obj[i]) {
+      pairs += 1;
+      obj[i] = 0;
+    } else {
+      obj[i] = 1;
+    }
+  });
+  return pairs;
+}
 
 export const RelicScorer = {
   scoreCharacter: (character) => {
@@ -78,6 +91,11 @@ export const RelicScorer = {
     for (let relic of scoredRelics) {
       sum += Number(relic.score) + Number(relic.mainStatScore)
     }
+
+    let missingSets = 3 - countPairs(relics.map(x => x.set))
+    let deduction = missingSets * minRollValue * 3
+    console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
+    sum = Math.max(0, sum - deduction)
 
     let base = 64.8 * 4
     let avgSubstatScore = (sum - base) / 6
@@ -156,8 +174,7 @@ export const RelicScorer = {
     
     let sum = 0
     for (let substat of relic.substats) {
-      let subdata = Object.values(relicSubAffixes[relic.grade].affixes).find(x => conversions.statConversion[x.property] == substat.stat)
-
+      // let subdata = Object.values(relicSubAffixes[relic.grade].affixes).find(x => conversions.statConversion[x.property] == substat.stat)
       // console.log(substat, subdata)
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),

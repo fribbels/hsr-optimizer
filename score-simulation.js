@@ -1,5 +1,7 @@
 // node score-simulation.js
 
+// https://www.reddit.com/r/HonkaiStarRail/comments/15f52to/relics_mainstats_and_substats_probability/
+
 let rollValue = 5.1
 let n = 5000
 

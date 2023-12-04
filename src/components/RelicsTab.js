@@ -72,8 +72,9 @@ export default function RelicsTab({style}) {
   function onAddOk(relic) {
     DB.setRelicById(relic)
     setRelicRows(DB.getRelics())
-    setSelectedRelic(relic)
     SaveState.save()
+
+    setSelectedRelic(relic)
     
     Message.success('Successfully added relic')
     console.log('onAddOk', relic)
@@ -85,8 +86,9 @@ export default function RelicsTab({style}) {
 
     DB.setRelicById(updatedRelic)
     setRelicRows(DB.getRelics())
-    setSelectedRelic(updatedRelic)
     SaveState.save()
+
+    setSelectedRelic(updatedRelic)
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)
@@ -117,6 +119,8 @@ export default function RelicsTab({style}) {
 
   return (
     <Flex style={style}>
+      <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
         <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500}}>
 
@@ -156,8 +160,6 @@ export default function RelicsTab({style}) {
             </Button>
           </Popconfirm>
         </Flex>
-        <RelicModal selectedRelic={selectedRelic} type='add'  onOk={onAddOk}  setOpen={setAddModalOpen}  open={addModalOpen}/>
-        <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
         <Flex gap={10}>
           <RelicPreview relic={selectedRelic}/>
           <Flex style={{display: 'block'}}>

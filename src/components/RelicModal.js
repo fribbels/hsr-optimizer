@@ -26,34 +26,38 @@ const InputNumberStyled = styled(InputNumber)`
 
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props) {
+  console.log('RelicModal', props)
   const [relicForm] = Form.useForm();
 
-  const initialValues = useMemo(() => {
-    let relic = props.selectedRelic
-    if (!relic || props.type != 'edit') {
-      return {
-        grade: 5,
-        enhance: 15
-      }
+  useEffect(() => {
+    let defaultValues = {
+      grade: 5,
+      enhance: 15
     }
 
-    return {
-      grade: relic.grade,
-      enhance: relic.enhance,
-      set: relic.set,
-      part: relic.part,
-      mainStatType: relic.main.stat,
-      mainStatValue: relic.main.value,
-      substatType0: relic.substats[0]?.stat,
-      substatValue0: relic.substats[0]?.value,
-      substatType1: relic.substats[1]?.stat,
-      substatValue1: relic.substats[1]?.value,
-      substatType2: relic.substats[2]?.stat,
-      substatValue2: relic.substats[2]?.value,
-      substatType3: relic.substats[3]?.stat,
-      substatValue3: relic.substats[3]?.value,
+    let relic = props.selectedRelic
+    if (!relic || props.type != 'edit') {
+
+    } else {
+      defaultValues = {
+        grade: relic.grade,
+        enhance: relic.enhance,
+        set: relic.set,
+        part: relic.part,
+        mainStatType: relic.main.stat,
+        mainStatValue: relic.main.value,
+        substatType0: relic.substats[0]?.stat,
+        substatValue0: relic.substats[0]?.value,
+        substatType1: relic.substats[1]?.stat,
+        substatValue1: relic.substats[1]?.value,
+        substatType2: relic.substats[2]?.stat,
+        substatValue2: relic.substats[2]?.value,
+        substatType3: relic.substats[3]?.stat,
+        substatValue3: relic.substats[3]?.value,
+      }
     }
-  }, [props.selectedRelic]);
+    relicForm.setFieldsValue(defaultValues)
+  }, [props.selectedRelic, props.open])
 
   const onFinish = (x) => {
     console.log('Form finished', x);
@@ -222,7 +226,6 @@ export default function RelicModal(props) {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       onValuesChange={onValuesChange}
-      initialValues={initialValues}
     >
       <Modal
         width={350}

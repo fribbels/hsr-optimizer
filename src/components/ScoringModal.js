@@ -218,9 +218,8 @@ export default function ScoringModal() {
     <Text>
       <PStyled>
         Substat scoring is calculated by <code>Score = weight * normalization * value</code>.
-        The weight of each stat is defined above.
-        The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG, with max value <code>64.8</code>.
-        As follows:
+        The weight of each stat is defined above, on a scale of 0 to 1.
+        The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value <code>64.8</code>:
       </PStyled>
       <Flex justify='space-between' style={{ marginRight: 120 }}>
         <ul>
@@ -237,9 +236,9 @@ export default function ScoringModal() {
         </ul>
       </Flex>
       <PStyled style={{ margin: '7px 0px' }}>
-        Flat ATK/HP/DEF have a separate calculation: <code>1 / (character base * 2 * 0.01) * (64.8 / % main stat value)</code>.
+        Flat ATK/HP/DEF have a separate calculation: <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>.
         This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
-        Double the character base is used instead of character + light cone base.
+        Double the character base is used instead of character + light cone base due to the variable nature of light cone stats.
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
@@ -252,7 +251,8 @@ export default function ScoringModal() {
         Character scores are calculated by <code>Score = sum(relic substat scores) + sum(main stat scores)</code>.
         Only the head/body/sphere/rope relics have main stat scores.
         The main stat score for a 5 star maxed relic is <code>64.8</code> if the main stat is optimal, otherwise scaled down by the stat weight.
-        Non 5 star relic scores are also scaled down by their maximum enhance.
+        Non 5 star relic scores are also scaled down by their maximum enhance. 
+        Characters are expected to have 3 full sets, so 3 rolls worth of score is deducted for each missing set.
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>

@@ -64,6 +64,8 @@ export default function RelicScorerTab({ style }) {
       .then(data => {
         console.log(data);
         if (!data.status || data.status != 'SUCCESS') {
+          setLoading(false)
+          Message.error('Error loading ID')
           return 'ERROR'
         }
         data = data.data
@@ -155,7 +157,7 @@ export default function RelicScorerTab({ style }) {
         </Flex>
         <Flex vertical align='center'>
           <Segmented options={options} onChange={selectionChange} />
-          <div style={{ display: modalSrc ? 'block' : 'none', marginTop: modalSrc ? 10 : 0 }}>
+          <div style={{ display: modalSrc != Assets.getBlank() ? 'block' : 'none', marginTop: modalSrc ? 10 : 0 }}>
             <Image
               width={200}
               src={modalSrc}
@@ -179,12 +181,12 @@ export default function RelicScorerTab({ style }) {
         <Form
           form={scorerForm}
           onFinish={onFinish}
-          initialValues={{ scorerId: 601069336 }}
+          initialValues={{  }}
         >
           <Flex style={{ margin: 20, width: 1000 }} justify="center" align="center" gap={10}>
             <Text style={{ width: 'fit-content' }}>Input ID:</Text>
             <Form.Item size="default" name='scorerId'>
-              <InputNumber style={{ width: 150 }} />
+              <Input style={{ width: 150 }} />
             </Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick}>
               Submit

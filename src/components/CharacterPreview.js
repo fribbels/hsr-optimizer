@@ -234,8 +234,8 @@ export function CharacterPreview(props) {
             </Flex>
 
             <Flex vertical>
-              <StatText style={{ fontSize: 18, fontWeight: 600, textAlign: 'center', color: '#e1a564' }} ellipsis={true}>
-                {`Character score: ${scoringResults.totalScore.toFixed(0)} (${scoringResults.totalRating})`}
+              <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }} ellipsis={false}>
+                {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
               </StatText>
             </Flex>
 

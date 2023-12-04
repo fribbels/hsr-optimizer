@@ -786,8 +786,8 @@ export default function OptimizerForm() {
 
             <Flex vertical gap={defaultGap}>
               <Flex justify='space-between' align='center'>
-                <HeaderText>Damage Buffs</HeaderText>
-                <TooltipImage type={Hint.damageBuffs()}/>
+                <HeaderText>Combat Buffs</HeaderText>
+                <TooltipImage type={Hint.combatBuffs()}/>
               </Flex>
 
               <Flex vertical gap={defaultGap}>

@@ -53,10 +53,17 @@ export default function GettingStartedTab({style}) {
             Importing
           </h2>
 
-          The optimizer needs a dataset of relics to run against. 
-          As of launch, I've built an OCR importer for Windows which automatically scans the relic inventory and reads stats from screenshots. 
-          This is the easiest way for now but if it doesn't work then relics can be inputted manually on the Relics tab as well.
-          
+          <p>
+            The optimizer needs a dataset of relics to run against.
+            As of launch, I've built an OCR importer for Windows which automatically scans the relic inventory and reads stats from screenshots.
+            This is the easiest way to import for now, but if it doesn't work then relics can be added manually on the Relics tab as well.
+          </p>
+
+          <p>
+            The download link to the Fribbels HSR Scanner can be found on <Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/tag/v1.0.0'>Github</Typography.Link>.
+            It currently only scans relics, but stay tuned for future updates to the scanner.
+          </p>
+
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}
           
@@ -72,8 +79,8 @@ export default function GettingStartedTab({style}) {
           <p>
             This section is where the character and light cone options are selected. 
             Both of the level options affect the base stats for the optimization search. 
-            The character eidolon option does not currently affect optimization results, but the light cone superimposition will impact final stats based on the unconditional stat increases. 
-            For example the Amber light cone at S5 gives 32% DEF unconditionally but an additional conditional 32% def at under 50% hp, so only the first 32% is applied to the final stats.
+            The character eidolon option does not currently affect optimization results, but the light cone superimposition will impact final stats based on the unconditional stat increases on the light cone.
+            For example the Amber light cone at S5 gives 32% DEF unconditionally but an additional conditional 32% def at under 50% hp, so only the first 32% is applied to character's final stats.
           </p>
 
           <h4 style={titleStyle}>
@@ -81,8 +88,8 @@ export default function GettingStartedTab({style}) {
           </h4>
 
           <p>
-            Main stat filters limit the body/feet/planar sphere/link rope stats respectively, and multiple options can be selected per slot. 
-            These options should be selected almost all characters to narrow down the desired relics to include.
+            The main stat filters restrict the input for the optimizer to the preferred body, feet, planar sphere, and link rope stats. Multiple options can be chosen for each slot.
+            In most cases, these main stats should be filled in to find best results and exclude unwanted builds.
           </p>
 
           <h4 style={titleStyle}>
@@ -92,10 +99,11 @@ export default function GettingStartedTab({style}) {
           <img src={Assets.getGuideImage('sets')} style={screenshotStyle}></img>
 
           <p>
-            The relic set filter can have a combination 2 piece sets, 4 piece sets, or be left empty. 
-            When multiple options are selected, results that match at least one of the filters are shown.
-            Unconditional stats from sets will affect the final stats of the character. 
-            For example the Hunter of Glacial Forest set increases Ice DMG by 10% unconditionally, but 25% Crit DMG conditionally, so only the Ice DMG is applied.
+            The relic set filter allows for a combination of 2-piece sets, 4-piece sets, or can be left empty.
+            When multiple options are chosen, the search results will only show builds with least one of the selected filters active.
+            Unconditional stats from sets bonuses will affect the final stats of the character.
+            For instance, the Hunter of Glacial Forest set unconditionally boosts Ice DMG by 10%, but conditionally increases Crit DMG by 25%, so only the unconditional Ice DMG boost is applied to the character's final stats.
+            Conditional set bonuses can be added to the 'Combat buffs' fields.
           </p>
 
           <h4 style={titleStyle}>
@@ -126,6 +134,7 @@ export default function GettingStartedTab({style}) {
           </p>
 
           <ul>
+            <li>CV - Crit Value, measuring the value of crit stats on the build. Calculated using <code>CD + CR * 2</code></li>
             <li>Dmg - Average crit damage for ATK scaling characters based on crit rate. Calculated using <code>ATK * CD * CR</code></li>
             <li>Mcd - Stands for Max Crit Damage, representing ATK scaling damage assuming 100% crit rate. Calculated using <code>ATK * CD</code></li>
             <li>Ehp - Effective HP, measuring how tanky a max level character is against a same level opponent. Calculated using <code>HP / (1 - DEF/(DEF + 1000))</code></li>
@@ -134,17 +143,18 @@ export default function GettingStartedTab({style}) {
           <p>
             These rating calculations are experimental and I'm open to feedback and ideas for better ways to measure builds. 
             Currently these damage ratings are mostly focused on ATK / Crit based characters, so DOT / HP scaling characters may not find Dmg / Mcd as useful.
+            More ratings are being working on for future updates.
           </p>
 
           <h4 style={titleStyle}>
-            Damage buffs
+            Combat buffs
           </h4>
           
           <p>
-            This section defines buffs to be used in the optimization request. 
+            This section defines buffs to the character to be used in the optimization calculations.
             These buffs can come from light cones/sets/teammate abilities/etc. 
-            Only the conditional light cone buffs should be applied here because unconditional stats are already added to the character.
-            These options will affect the rating calculations but NOT the result stat rows. 
+            Only conditional buffs should be applied here because unconditional stats are already added directly to the character's stats.
+            These options will affect the rating calculations but not the result stat rows - the result rows should reflect the ingame character's stat preview.
           </p>
 
           <ul>
@@ -163,10 +173,11 @@ export default function GettingStartedTab({style}) {
           </p>
           
           <ul>
-            <li>Rank filter - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</li>
+            <li>Rank filter - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters. This is useful for cases where multiple characters use the same set, but one character should be prioritized over the other.</li>
             <li>Maxed main stat - Assume the main stat for relics are maxed for their respective grades</li>
-            <li>Keep current relics - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</li>
-            <li>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include. If using non +15 relics, the 'Maxed main stat' filter might be good to enable to show maxed potential stats</li>
+            <li>Keep current relics - The character must keep its currently equipped relics, and the optimizer will try to fill in empty slots</li>
+            <li>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include. If using non +15 relics, the 'Maxed main stat' filter might be good to enable to show maxed potential stats.
+            Be careful selecting +0 relics because this increases search time.</li>
           </ul>
 
 
@@ -178,6 +189,18 @@ export default function GettingStartedTab({style}) {
           </h2>
 
           <img src={Assets.getGuideImage('results')} style={screenshotStyle}></img>
+
+          <h4 style={titleStyle}>
+            Result rows
+          </h4>
+
+          <p>
+            This section displays all the results found that match the filters.
+            Every row represents one build that was found.
+            The pinned top row shows the character's currently equipped build.
+            Clicking on each row will show the relics used in the selected build.
+            There may be multiple pages of results, so clicking a column header to sort the results by a stat or rating can make it easier to find desired builds.
+          </p>
 
           <h4 style={titleStyle}>
             Permutations
@@ -193,24 +216,13 @@ export default function GettingStartedTab({style}) {
             <li>Searched - Number of permutations completeed in an in-progress search</li>
             <li>Results - Number of displayed results that satisfy the stat filters</li>
           </ul>
-          
-          <h4 style={titleStyle}>
-            Result rows
-          </h4>
-          
-          <p>
-            This section displays all the results found that match the filters. 
-            The pinned top row shows the character's currently equipped build. 
-            Clicking on each row will show the relics used in the selected build. 
-            There may be multiple pages of results, so clicking a column header to sort the results by a stat or rating can make it easier to find desired builds.
-          </p>
 
           <h4 style={titleStyle}>
             Selected build
           </h4>
           <p>
             This section displays the selected build from the grid, and which relics are used & who they are currently equipped on. 
-            Pressing the 'Equip' button will assign the relics to the selected character in the optimizer, but doesn't actually affect the ingame account.
+            Pressing the 'Equip' button will assign the relics to the selected character in the optimizer, though the ingame character build is not affected.
           </p>
 
           <Divider style={dividerStyle}></Divider>

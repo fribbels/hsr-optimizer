@@ -21,6 +21,7 @@ export const CharacterConverter = {
     let relics = preRelics.map(x => convertRelic(x))
     let equipped = {}
     for (let relic of relics) {
+      relic.equippedBy = id
       equipped[relic.part] = relic
     }
     console.log(relics)

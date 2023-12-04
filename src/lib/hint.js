@@ -14,9 +14,9 @@ export const Hint = {
     }
   },
 
-  damageBuffs: () => {
+  combatBuffs: () => {
     return {
-      title: 'Damage Buffs',
+      title: 'Combat Buffs',
       content: (
         <div>
           <p>ATK - Flat attack buff</p>

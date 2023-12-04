@@ -133,6 +133,10 @@ export default function RelicScorerTab({ style }) {
         setModalSrc(src)
         setPreviewVisible(true)
         setDownloadLoading(false);
+      }).catch((e) => {
+        console.warn(e)
+        setDownloadLoading(false)
+        Message.warning('Error generating image')
       })
     }
 

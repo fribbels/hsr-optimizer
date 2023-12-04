@@ -141,8 +141,7 @@ export default function RelicPreview(props) {
           <Flex  align='center'>
             {
               grade ? 
-              <div style={{width: 16, height: 16, borderRadius: '50%', background: 'rgba(0,0,0,0)', border: `2px solid ${color}`, padding: '2px', marginRight: 3}}>
-                <div style={{width: 8, height: 8, backgroundColor: color, borderRadius: '50%'}}></div>
+              <div style={{width: 12, height: 12, borderRadius: '50%', background: color, border: `2px solid ${color}`, padding: '2px', marginRight: 3}}>
               </div> 
               : ''
               

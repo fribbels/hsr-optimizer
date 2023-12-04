@@ -459,7 +459,7 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>Methodology</TitleDivider>
+        <TitleDivider>Calculations</TitleDivider>
 
         <Collapse ghost items={[{
           key: '1',

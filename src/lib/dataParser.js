@@ -278,11 +278,11 @@ function getSuperimpositions() {
     },
     "21034": {},
     "22000": {
-      1: {[Constants.Stats.BE]: 0.20},
-      2: {[Constants.Stats.BE]: 0.25},
-      3: {[Constants.Stats.BE]: 0.30},
-      4: {[Constants.Stats.BE]: 0.35},
-      5: {[Constants.Stats.BE]: 0.40},
+      1: { [Constants.Stats.EHR]: 0.20},
+      2: { [Constants.Stats.EHR]: 0.25},
+      3: { [Constants.Stats.EHR]: 0.30},
+      4: { [Constants.Stats.EHR]: 0.35},
+      5: { [Constants.Stats.EHR]: 0.40},
     },
     "22001": {
       1: {[Constants.Stats.HP_P]: 0.08},

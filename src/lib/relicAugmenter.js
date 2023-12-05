@@ -5,6 +5,10 @@ export const RelicAugmenter = {
     // console.log('Augmenting relic', relic)
     let augmentedStats = {}
 
+    // Temporarily skip broken imports
+    if (relic.grade && !relic.main) {
+      return null
+    }
     let mainStat = relic.main.stat
     let mainMaxValue = relic.main.value
 

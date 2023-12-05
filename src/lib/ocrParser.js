@@ -12,8 +12,12 @@ export const OcrParser = {
     let parsedRelics = []
     for (let relic of relics) {
       let result = readRelic(relic);
-      RelicAugmenter.augment(result)
-      parsedRelics.push(result);
+      let output = RelicAugmenter.augment(result)
+
+      // Temporarily skip broken imports
+      if (output) {
+        parsedRelics.push(result);
+      }
       // console.log(result);
     }
   

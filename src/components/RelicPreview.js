@@ -147,7 +147,7 @@ export default function RelicPreview(props) {
               
             }
             <Text>
-              {enhance ? `+${enhance}` : ''}
+              {enhance != undefined ? `+${enhance}` : ''}
             </Text>
           </Flex>
           <img

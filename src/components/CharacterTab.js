@@ -86,6 +86,7 @@ export default function CharacterTab({style}) {
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
     forceUpdate()
+    characterGrid.current.api.redrawRows()
   }
 
   const columnDefs = useMemo(() => [

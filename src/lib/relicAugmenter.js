@@ -22,6 +22,10 @@ export const RelicAugmenter = {
       augmentedStats[stat] = value
     }
 
+    if (relic.enhance > 12 && relic.grade != 5) {
+      relic.grade = 5
+    } 
+
     if (!relic.id) {
       relic.id = uuidv4()
     }

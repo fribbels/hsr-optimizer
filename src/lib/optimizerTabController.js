@@ -73,7 +73,10 @@ export const OptimizerTabController = {
       let fieldValues = OptimizerTabController.getForm()
       if (event.data && fieldValues.characterId) {
         let character = DB.getCharacterById(fieldValues.characterId);
-        setOptimizerBuild(character.equipped);
+
+        if (character) {
+          setOptimizerBuild(character.equipped);
+        }
       }
       return
     }

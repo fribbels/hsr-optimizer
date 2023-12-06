@@ -25,6 +25,8 @@ export default function RelicsTab({style}) {
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  window.setEditModalOpen = setEditModalOpen
+  window.setSelectedRelic = setSelectedRelic
 
   const columnDefs = useMemo(() => [
     {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
@@ -75,20 +77,30 @@ export default function RelicsTab({style}) {
     SaveState.save()
 
     setSelectedRelic(relic)
-    
+
     Message.success('Successfully added relic')
     console.log('onAddOk', relic)
   }
+
   function onEditOk(relic) {
     relic.id = selectedRelic.id
 
     const updatedRelic = {...selectedRelic, ...relic}
+
+    if (updatedRelic.equippedBy) {
+      StateEditor.equipRelic(updatedRelic, updatedRelic.equippedBy)
+    } else {
+      StateEditor.unequipRelic(updatedRelic);
+    }
 
     DB.setRelicById(updatedRelic)
     setRelicRows(DB.getRelics())
     SaveState.save()
 
     setSelectedRelic(updatedRelic)
+
+    window.forceOptimizerBuildPreviewUpdate()
+    window.forceCharacterTabUpdate()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)

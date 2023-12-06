@@ -331,11 +331,11 @@ function getSuperimpositions() {
       5: {[Constants.Stats.ATK_P]: 0.40},
     },
     "23009": {
-      1: {[Constants.Stats.CR]: 0.18},
-      2: {[Constants.Stats.CR]: 0.21},
-      3: {[Constants.Stats.CR]: 0.24},
-      4: {[Constants.Stats.CR]: 0.27},
-      5: {[Constants.Stats.CR]: 0.30},
+      1: { [Constants.Stats.CR]: 0.18, [Constants.Stats.HP_P]: 0.18, },
+      2: { [Constants.Stats.CR]: 0.21, [Constants.Stats.HP_P]: 0.21, },
+      3: { [Constants.Stats.CR]: 0.24, [Constants.Stats.HP_P]: 0.24, },
+      4: { [Constants.Stats.CR]: 0.27, [Constants.Stats.HP_P]: 0.27, },
+      5: { [Constants.Stats.CR]: 0.30, [Constants.Stats.HP_P]: 0.30, },
     },
     "23010": {
       1: {[Constants.Stats.CD]: 0.36},

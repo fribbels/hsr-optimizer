@@ -11,6 +11,7 @@ export const OcrParser = {
   
     let parsedRelics = []
     for (let relic of relics) {
+      console.log(relic)
       let result = readRelic(relic);
       let output = RelicAugmenter.augment(result)
 

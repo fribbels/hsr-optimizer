@@ -5,6 +5,9 @@ import { RelicScorer } from '../lib/relicScorer';
 
 export default function OptimizerBuildPreview(props) {
   // console.log('OptimizerBuildPreview', props)
+  const [, forceUpdate] = React.useReducer(o => !o, true);
+  window.forceOptimizerBuildPreviewUpdate = forceUpdate
+
   let headScore = props.build ? RelicScorer.score(props.build?.Head, props.build?.optimizerCharacterId) : undefined;
   let handsScore = props.build ? RelicScorer.score(props.build?.Hands, props.build?.optimizerCharacterId) : undefined;
   let bodyScore = props.build ? RelicScorer.score(props.build?.Body, props.build?.optimizerCharacterId) : undefined;

@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Flex, Image, Row, Space, Typography } from 'antd';
+import { Card, Col, Divider, Flex, Image, Popover, Row, Space, Typography } from 'antd';
 import * as React from 'react';
 import { RelicScorer } from '../lib/relicScorer';
 
@@ -129,8 +129,17 @@ export default function RelicPreview(props) {
   let color = gradeToColor[grade] || ''
   // let score = RelicScorer.score(data, props.characterId)
   let scored = props.relic != undefined && props.score != undefined
+
+  function relicClicked() {
+    console.log(data, props)
+    if (!data || !data.part || !data.set || props.source == 'scorer') return
+
+    setSelectedRelic(data)
+    setEditModalOpen(true)
+  }
+
   return (
-    <Card size="small" style={{ width: 200, height: 280 }}>
+    <Card size="small" hoverable={props.source != 'scorer'} onClick={relicClicked} style={{ width: 200, height: 280 }}>
       <Flex vertical justify='space-between'  style={{height: 255}}>
         <Flex justify='space-between' align='center'>
           <img
@@ -147,7 +156,7 @@ export default function RelicPreview(props) {
               
             }
             <Text>
-              {enhance != undefined ? `+${enhance}` : ''}
+              {part != undefined ? `+${enhance}` : ''}
             </Text>
           </Flex>
           <img

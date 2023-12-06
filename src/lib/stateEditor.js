@@ -46,6 +46,41 @@ export const StateEditor = {
     DB.setCharacters(characters)
   },
 
+  unequipRelic: (relic) => {
+    if (!relic || !relic.id) return console.warn('No relic')
+    relic = DB.getRelicById(relic.id)
+
+    let characters = DB.getCharacters()
+    for (let character of characters) {
+      if (character.equipped && character.equipped[relic.part] && character.equipped[relic.part].id == relic.id) {
+        console.log('!!! DEBUG', character, relic)
+
+        character.equipped[relic.part].equippedBy = undefined
+        character.equipped[relic.part] = undefined
+      }
+    }
+
+    relic.equippedBy = undefined
+  },
+
+  equipRelic: (relic, characterId) => {
+    if (!relic || !relic.id) return console.warn('No relic')
+    if (!characterId) return console.warn('No character')
+    relic = DB.getRelicById(relic.id)
+
+    let prevOwnerId = relic.equippedBy;
+    let character = DB.getCharacters().find(x => x.id == characterId)
+    let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
+    let prevRelic = character.equipped[relic.part]
+    StateEditor.unequipRelic(prevRelic)
+
+    if (prevCharacter) {
+      prevCharacter.equipped[relic.part] = undefined
+    }
+    character.equipped[relic.part] = relic
+    relic.equippedBy = character.id
+  },
+
   equipRelicsToCharacter: (relics, characterId) => {
     let character = DB.getCharacters().find(x => x.id == characterId)
     if (!character) return console.warn('No character to equip to')
@@ -53,28 +88,7 @@ export const StateEditor = {
     console.log('Equipping relics to character', relics, characterId, character)
 
     for (let relic of relics) {
-      relic = DB.getRelicById(relic.id)
-      let part = relic.part 
-      let prevCharacterId = relic.equippedBy
-
-      if (prevCharacterId) {
-        let prevCharacter = DB.getCharacters().find(x => x.id == prevCharacterId)
-        prevCharacter.equipped[part] = undefined
-      }
-
-      let prevRelic = character.equipped[part]
-      if (prevRelic) {
-        prevRelic = DB.getRelicById(prevRelic.id)
-
-        if (prevRelic) {
-          console.log('Unequipping prev relic', prevRelic)
-          prevRelic.equippedBy = undefined
-        }
-      }
-
-      let relicMatch = DB.getRelicById(relic.id)
-      character.equipped[part] = relicMatch
-      relic.equippedBy = characterId
+      StateEditor.equipRelic(relic, characterId)
     }
   },
 

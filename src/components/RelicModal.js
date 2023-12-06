@@ -6,6 +6,7 @@ import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
 import { Message } from '../lib/message';
+import { StateEditor } from '../lib/stateEditor';
 
 
 function RadioIcon(props) {
@@ -26,8 +27,27 @@ const InputNumberStyled = styled(InputNumber)`
 
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props) {
-  console.log('RelicModal', props)
   const [relicForm] = Form.useForm();
+
+  const characterOptions = useMemo(() => {
+    let characters = DB.getCharacters()
+    let characterData = DB.getMetadata().characters;
+
+    let options = characters.map((character) => {
+      return {
+        value: character.id,
+        label: characterData[character.id].name
+      }
+    })
+
+    options = options.sort((a, b) => a.label.localeCompare(b.label))
+    options = [{
+      value: 'None',
+      label: 'Nobody'
+    }, ...options]
+    
+    return options
+  }, [props.selectedRelic, props.open]);
 
   useEffect(() => {
     let defaultValues = {
@@ -40,6 +60,7 @@ export default function RelicModal(props) {
 
     } else {
       defaultValues = {
+        equippedBy: relic.equippedBy == undefined ? 'None' : relic.equippedBy,
         grade: relic.grade,
         enhance: relic.enhance,
         set: relic.set,
@@ -142,6 +163,7 @@ export default function RelicModal(props) {
     }
 
     let relic = {
+      equippedBy: x.equippedBy == 'None' ? undefined : x.equippedBy,
       enhance: x.enhance,
       grade: x.grade,
       part: x.part,
@@ -178,7 +200,7 @@ export default function RelicModal(props) {
     }
     relic.substats = substats
     RelicAugmenter.augment(relic)
-
+    
     console.log('Completed relic', relic)
 
     props.onOk(relic)
@@ -218,6 +240,9 @@ export default function RelicModal(props) {
     })
   }
 
+  const filterOption = (input, option) =>
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
   return (
     <Form
       form={relicForm}
@@ -243,6 +268,16 @@ export default function RelicModal(props) {
         ]}
       >
         <Flex vertical gap={5}>
+
+          <HeaderText>Equipped by</HeaderText>
+          <Form.Item size="default" name='equippedBy'>
+            <Select
+              showSearch
+              filterOption={filterOption}
+              style={{ width: 300 }}
+              options={characterOptions}
+            />
+          </Form.Item>
           
           <HeaderText>Part</HeaderText>
         

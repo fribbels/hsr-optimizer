@@ -2579,17 +2579,17 @@ function getScores() {
       stats: {
         [Constants.Stats.ATK]: 0,
         [Constants.Stats.ATK_P]: 0,
-        [Constants.Stats.DEF]: 0,
-        [Constants.Stats.DEF_P]: 0,
-        [Constants.Stats.HP]: 0,
-        [Constants.Stats.HP_P]: 0,
-        [Constants.Stats.SPD]: 0,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
         [Constants.Stats.CR]: 0,
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
-        [Constants.Stats.RES]: 0,
+        [Constants.Stats.RES]: 0.75,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.ERR]: 1,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
         [Constants.Stats.Fire_DMG]: 0,
@@ -2601,12 +2601,18 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.HP_P,
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.HP_P
         ],
         [Constants.Parts.LinkRope]: [
+          Constants.Stats.ERR,
         ],
       },
       relicSets: [
@@ -2669,15 +2675,15 @@ function getScores() {
     },
     "1302": { // Argenti
       stats: {
-        [Constants.Stats.ATK]: 0,
-        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
         [Constants.Stats.DEF]: 0,
         [Constants.Stats.DEF_P]: 0,
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
-        [Constants.Stats.SPD]: 0,
-        [Constants.Stats.CR]: 0,
-        [Constants.Stats.CD]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
@@ -2693,12 +2699,19 @@ function getScores() {
       },
       parts: {
         [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Physical_DMG,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P
         ],
       },
       relicSets: [

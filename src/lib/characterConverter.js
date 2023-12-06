@@ -18,7 +18,7 @@ export const CharacterConverter = {
     let lightConeLevel = preLightCone.level;
     let lightConeSuperimposition = preLightCone.promotion
 
-    let relics = preRelics.map(x => convertRelic(x))
+    let relics = preRelics.map(x => convertRelic(x)).filter(x => !!x)
     let equipped = {}
     for (let relic of relics) {
       relic.equippedBy = id
@@ -93,62 +93,67 @@ export const CharacterConverter = {
 }
 
 function convertRelic(preRelic) {
-  console.log('!! DEBUG', preRelic)
-  let metadata = DB.getMetadata().relics
-  let tid = '' + preRelic.tid
+  try {
+    console.log('!! DEBUG', preRelic)
+    let metadata = DB.getMetadata().relics
+    let tid = '' + preRelic.tid
 
-  let enhance = preRelic.level
+    let enhance = preRelic.level
 
-  let setId = tid.substring(1, 4)
-  let setName = metadata.relicSets[setId].name
+    let setId = tid.substring(1, 4)
+    let setName = metadata.relicSets[setId].name
 
-  let partId = tid.substring(4, 5)
-  let partName = partConversion[partId]
+    let partId = tid.substring(4, 5)
+    let partName = partConversion[partId]
 
-  let gradeId = tid.substring(0, 1)
-  let grade = gradeConversion[gradeId]
+    let gradeId = tid.substring(0, 1)
+    let grade = gradeConversion[gradeId]
 
-  let mainId = preRelic.main_affix_id
-  let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
+    let mainId = preRelic.main_affix_id
+    let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
 
-  let mainStat = statConversion[mainData.property]
-  let mainBase = mainData.base
-  let mainStep = mainData.step
-  let mainValue = mainBase + mainStep * enhance
+    let mainStat = statConversion[mainData.property]
+    let mainBase = mainData.base
+    let mainStep = mainData.step
+    let mainValue = mainBase + mainStep * enhance
 
-  let main = {
-    stat: mainStat,
-    value: mainValue * (Utils.isFlat(mainStat) ? 1 : 100)
+    let main = {
+      stat: mainStat,
+      value: mainValue * (Utils.isFlat(mainStat) ? 1 : 100)
+    }
+
+    let substats = []
+    for (let sub of preRelic.sub_affix_list) {
+      let subId = sub.affix_id
+      let count = sub.cnt
+      let step = sub.step
+
+      let subData = metadata.relicSubAffixes[grade].affixes[subId]
+      let subStat = statConversion[subData.property]
+      let subBase = subData.base
+      let subStep = subData.step
+      let subValue = subBase * count + subStep * step
+
+      substats.push({
+        stat: subStat,
+        value: subValue * (Utils.isFlat(subStat) ? 1 : 100)
+      })
+    }
+
+    let relic = {
+      part: partName,
+      set: setName,
+      enhance: enhance,
+      grade: grade,
+      main: main,
+      substats: substats
+    }
+
+    return RelicAugmenter.augment(relic)
+  } catch (e) {
+    console.error(e)
+    return null
   }
-
-  let substats = []
-  for (let sub of preRelic.sub_affix_list) {
-    let subId = sub.affix_id
-    let count = sub.cnt
-    let step = sub.step
-    
-    let subData = metadata.relicSubAffixes[grade].affixes[subId]
-    let subStat = statConversion[subData.property]
-    let subBase = subData.base
-    let subStep = subData.step
-    let subValue = subBase * count + subStep * step
-
-    substats.push({
-      stat: subStat,
-      value: subValue * (Utils.isFlat(subStat) ? 1 : 100)
-    })
-  }
-
-  let relic = {
-    part: partName,
-    set: setName,
-    enhance: enhance,
-    grade: grade,
-    main: main,
-    substats: substats
-  }
-
-  return RelicAugmenter.augment(relic)
 }
 
 

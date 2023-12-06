@@ -2689,7 +2689,7 @@ function getScores() {
         [Constants.Stats.BE]: 0,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Physical_DMG]: 1,
         [Constants.Stats.Fire_DMG]: 0,
         [Constants.Stats.Ice_DMG]: 0,
         [Constants.Stats.Lightning_DMG]: 0,

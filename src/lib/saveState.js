@@ -18,7 +18,7 @@ export const SaveState = {
         let parsed = JSON.parse(state)
         console.log('Loaded SaveState', parsed)
   
-        DB.setState(parsed)
+        DB.setStore(parsed)
         return true
       }
   

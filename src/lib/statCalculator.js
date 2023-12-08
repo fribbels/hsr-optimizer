@@ -32,6 +32,8 @@ export const StatCalculator = {
   calculate(character) {
     if (!character) return console.log('No character selected');
 
+    const relicsById = store.getState().relicsById
+
     let form = character.form
     let characterMetadata = DB.getMetadata().characters[character.id]
     let characterLevel = form.characterLevel
@@ -61,7 +63,8 @@ export const StatCalculator = {
     let traceStats = characterMetadata.traces
     let characterStats = characterMetadata.promotions[characterLevel]
 
-    let relics = Object.values(character.equipped)
+
+    let relics = Object.values(character.equipped).map(x => relicsById[x])
 
     let element = characterMetadata.element
     let elementalMultipliers = [

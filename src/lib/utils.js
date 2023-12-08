@@ -50,5 +50,13 @@ export const Utils = {
   },
   truncate10ths: (x) => {
     return Math.floor(x * 10) / 10
-  }
+  },
+
+  collectById: (arr) => {
+    let byId = {}
+    for (let x of arr) {
+      byId[x.id] = x
+    }
+    return byId
+  },
 }

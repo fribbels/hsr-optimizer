@@ -5,10 +5,9 @@ import { Message } from './message';
 export const StateEditor = {
   addFromForm: (form) => {
     let characters = DB.getCharacters();
-    let found = characters.find(x => x.id == form.characterId)
+    let found = DB.getCharacterById(form.characterId)
     if (found) {
-      // TODO: update
-      found.form = form
+      found.form = form // TODO: update
     } else {
       DB.addCharacter({
         id: form.characterId,
@@ -17,24 +16,24 @@ export const StateEditor = {
       })
     }
 
-    console.log('Updated db characters', DB.getCharacters())
-    characterGrid.current.api.setRowData(DB.getCharacters())
+    console.log('Updated db characters', characters)
+    characterGrid.current.api.setRowData(characters)
   },
 
-  unequipCharacter: (characterId) => {
-    let character = DB.getCharacters().find(x => x.id == characterId)
+  unequipCharacter: (id) => {
+    let character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
 
     console.log('Unequipping character', characterId, character)
 
     for (let part of Object.values(Constants.Parts)) {
-      let equipped = character.equipped[part]
-      if (!equipped) continue
+      let equippedId = character.equipped[part]
+      if (!equippedId) continue
       
-      let relicMatch = DB.getRelicById(equipped.id)
+      let relicMatch = DB.getRelicById(equippedId)
 
       character.equipped[part] = undefined
-      relicMatch.equippedBy = undefined
+      if (relicMatch) relicMatch.equippedBy = undefined
     }
   },
 
@@ -77,7 +76,7 @@ export const StateEditor = {
     if (prevCharacter) {
       prevCharacter.equipped[relic.part] = undefined
     }
-    character.equipped[relic.part] = relic
+    character.equipped[relic.part] = relic.id
     relic.equippedBy = character.id
   },
 

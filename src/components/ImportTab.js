@@ -169,8 +169,7 @@ function loadDataTab() {
     setLoading2(true)
     setTimeout(() => {
       setLoading2(false)
-      DB.setState(currentSave)
-      SaveState.save()
+      DB.setStore(currentSave)
       onStepChange(2)
     }, spinnerMs);
   }

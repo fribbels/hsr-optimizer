@@ -84,7 +84,9 @@ export const RelicScorer = {
     if (!character || !character.id) return {}
 
     console.log('SCORE CHARACTER', character)
-    let relics = Object.values(character.equipped)
+    let charactersById = store.getState().charactersById
+    let relicsById = store.getState().relicsById
+    let relics = Object.values(character.equipped).map(x => relicsById[x])
     let scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
     
     let sum = 0
@@ -131,14 +133,10 @@ export const RelicScorer = {
     }
 
     if (relic.equippedBy) {
-      console.log('using equippedby')
-
       characterId = relic.equippedBy
     }
 
     if (relic.optimizerCharacterId) {
-      console.log('using optimizerCharacterId')
-
       characterId = relic.optimizerCharacterId
     }
 

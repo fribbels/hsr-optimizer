@@ -127,7 +127,6 @@ export default function RelicPreview(props) {
   // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
-  // let score = RelicScorer.score(data, props.characterId)
   let scored = props.relic != undefined && props.score != undefined
 
   function relicClicked() {

@@ -12,22 +12,25 @@ const StatText = styled(Text)`
 `
 
 
+let defaultGap = 8;
+let parentH = 280 * 3 + defaultGap * 2;
+let parentW = 150 + 200 + defaultGap;
+let innerW = 1024;
+let lcParentH = 280;
+let lcParentW = 240;
+let lcInnerW = 250;
+let lcInnerH = 1260 / 902 * lcInnerW;
+let middleColumnWidth = 240;
+
 export function CharacterPreview(props) {
-  const [dummyCharacter, setDummyCharacter] = useState({})
+  console.warn('CharacterPreview', props)
+
+  let relicsById = store(s => s.relicsById)
+  let characterTabBlur = store(s => s.characterTabBlur);
+  let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
+  let isScorer = props.source == 'scorer'
+
   let character = props.character
-  let selectedCharacter = character
-
-  let defaultGap = 8;
-
-  let parentH = 280 * 3 + defaultGap * 2;
-  let parentW = 150 + 200 + defaultGap;
-  let innerW = 1024;
-
-  let middleColumnWidth = 240;
-  let lcParentH = 280;
-  let lcParentW = 240;
-  let lcInnerW = 250;
-  let lcInnerH = 1260 / 902 * lcInnerW;
 
   if (!character) return (
     <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
@@ -55,21 +58,21 @@ export function CharacterPreview(props) {
       </Flex>
     </Flex>
   )
-  let finalStats = StatCalculator.calculate(selectedCharacter);
+  let finalStats = StatCalculator.calculate(character);
 
   console.log({ finalStats })
-  console.log({ selectedCharacter })
+  console.log({ character })
 
-  let lightConeId = selectedCharacter.form.lightCone
-  let lightConeLevel = selectedCharacter.form.lightConeLevel
-  let lightConeSuperimposition = selectedCharacter.form.lightConeSuperimposition
+  let lightConeId = character.form.lightCone
+  let lightConeLevel = character.form.lightConeLevel
+  let lightConeSuperimposition = character.form.lightConeSuperimposition
   let lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
   let lightConeName = lightConeMetadata?.name || ''
   let lightConeSrc = Assets.getLightConePortrait(lightConeMetadata)
 
-  let characterId = selectedCharacter.form.characterId
-  let characterLevel = selectedCharacter.form.characterLevel
-  let characterEidolon = selectedCharacter.form.characterEidolon
+  let characterId = character.form.characterId
+  let characterLevel = character.form.characterLevel
+  let characterEidolon = character.form.characterEidolon
   let characterMetadata = DB.getMetadata().characters[characterId]
   let characterName = characterMetadata.displayName
   let characterPath = characterMetadata.path
@@ -122,7 +125,7 @@ export function CharacterPreview(props) {
     let value = finalStats[stat]
 
     if (stat == 'CV' || stat == Constants.Stats.SPD) {
-      if (props.source == 'scorer') {
+      if (isScorer) {
         value = Utils.truncate10ths(value).toFixed(1)
       } else {
         value = value.toFixed(0)
@@ -158,34 +161,29 @@ export function CharacterPreview(props) {
     )
   }
 
-  if (!dummyCharacter) {
-    setDummyCharacter(selectedCharacter)
-  }
 
-  console.log({dummyCharacter})
-
-  let scoringResults = RelicScorer.scoreCharacter(selectedCharacter);
+  let scoringResults = RelicScorer.scoreCharacter(character);
   let scoredRelics = scoringResults.relics || []
   console.log('SCORING RESULTS', scoringResults)
 
   return (
-    <Flex style={{ display: selectedCharacter ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
+    <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
         <div 
           style={{ 
             position: 'relative', 
-            left: dummyCharacter.id ? -DB.getMetadata().characters[dummyCharacter.id].imageCenter.x / 2 + parentW / 2 : 0, 
-            top: dummyCharacter.id ? -DB.getMetadata().characters[dummyCharacter.id].imageCenter.y / 2 + parentH / 2 : 0, width: innerW 
           }}
         >
-          <img
-            src={Assets.getCharacterPortraitById(dummyCharacter.id)}
-            style={{ width: '100%', filter: dummyCharacter.id == selectedCharacter.id ? '' : 'blur(10px)'}}
-          />
           <img 
-            src={Assets.getCharacterPortraitById(selectedCharacter.id)} 
-            style={{display: 'none'}}
-            onLoad={() => setTimeout(() => setDummyCharacter(selectedCharacter), 50)}
+            src={Assets.getCharacterPortraitById(character.id)} 
+            style={{
+              position: 'absolute',
+              left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
+              top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2, 
+              width: innerW,
+              filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
+            }}
+            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 100)}
           />
         </div>
       </div>
@@ -229,8 +227,6 @@ export function CharacterPreview(props) {
               <StatRow stat={Constants.Stats.BE} source={props.source} />
               <StatRow stat={elementalDmgValue} source={props.source} />
               <StatRow stat={'CV'} source={props.source} />
-              {/* <SetRow /> */}
-
             </Flex>
 
             <Flex vertical>
@@ -251,21 +247,25 @@ export function CharacterPreview(props) {
           <div style={{ width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
             <img
               src={lightConeSrc}
-              style={{ width: lcInnerW, transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 +8}%)` }}
+              style={{ 
+                width: lcInnerW, 
+                transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '' 
+              }}
             />
           </div>
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={selectedCharacter.equipped?.Head} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
-          <RelicPreview relic={selectedCharacter.equipped?.Body} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
-          <RelicPreview relic={selectedCharacter.equipped?.PlanarSphere} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
+          <RelicPreview relic={relicsById[character.equipped?.Head]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
+          <RelicPreview relic={relicsById[character.equipped?.Body]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
+          <RelicPreview relic={relicsById[character.equipped?.PlanarSphere]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={selectedCharacter.equipped?.Hands} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
-          <RelicPreview relic={selectedCharacter.equipped?.Feet} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
-          <RelicPreview relic={selectedCharacter.equipped?.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}/>
+          <RelicPreview relic={relicsById[character.equipped?.Hands]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
+          <RelicPreview relic={relicsById[character.equipped?.Feet]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
+          <RelicPreview relic={relicsById[character.equipped?.LinkRope]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}/>
         </Flex>
       </Flex>
     </Flex>

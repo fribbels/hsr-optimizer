@@ -12,8 +12,7 @@ export default function GettingStartedTab({style}) {
   console.log('GettingStartedTab ')
 
   function tryItOutClicked() {
-    DB.setState(JSON.parse(JSON.stringify(sampleSave)))
-    SaveState.save()
+    DB.setStore(JSON.parse(JSON.stringify(sampleSave)))
 
     Message.success('Successfully loaded data')
   }

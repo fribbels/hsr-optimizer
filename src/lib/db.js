@@ -5,10 +5,14 @@ let state = {
   relics: [],
   characters: [],
   metadata: {},
-  relicsById: {}
+  relicsById: {},
+  scorerId: undefined
 }
 
 export const DB = {
+  getScorerId: () => state.scorerId,
+  setScorerId: (x) => state.scorerId = x,
+
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 
@@ -74,6 +78,7 @@ export const DB = {
     }
     DB.setCharacters(x.characters)
     DB.setRelics(x.relics)
+    DB.setScorerId(x.scorerId)
     assignRanks()
     DB.refreshCharacters()
     DB.refreshRelics()

@@ -67,8 +67,8 @@ export const PartsToReadable = {
   [Parts.Hands]: 'Hands',
   [Parts.Body]: 'Body',
   [Parts.Feet]: 'Feet',
-  [Parts.PlanarSphere]: 'Planar Sphere',
-  [Parts.LinkRope]: 'Link Rope'
+  [Parts.PlanarSphere]: 'Sphere',
+  [Parts.LinkRope]: 'Rope'
 };
 
 export const SetsRelics = {

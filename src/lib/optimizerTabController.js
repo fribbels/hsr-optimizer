@@ -62,6 +62,7 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     setPinnedRow(characterId)
     setOptimizerBuild(build);
+    relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 

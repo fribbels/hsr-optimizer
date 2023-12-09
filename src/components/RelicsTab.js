@@ -29,9 +29,10 @@ export default function RelicsTab({style}) {
   window.setSelectedRelic = setSelectedRelic
 
   const columnDefs = useMemo(() => [
+    { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
     {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
-    {field: 'part', valueFormatter: Renderer.readablePart, width: 100, filter: 'agTextColumnFilter'},
-    {field: 'enhance', width: 60, filter: 'agNumberColumnFilter'},
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 100, filter: 'agTextColumnFilter' },
+    { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
     {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
     {field: 'main.value', headerName: 'Value', filter: 'agNumberColumnFilter'},
     {field: `augmentedStats.${Constants.Stats.HP}`, headerName: 'HP', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes, filter: 'agNumberColumnFilter'},
@@ -61,7 +62,7 @@ export default function RelicsTab({style}) {
 
   const defaultColDef = useMemo( ()=> ({
     sortable: true,
-    width: 55,
+    width: 50,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc']
   }), []);

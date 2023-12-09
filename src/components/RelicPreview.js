@@ -98,7 +98,7 @@ let gradeToColor = {
 }
 
 export default function RelicPreview(props) {
-  // console.log('RelicPreview', props)
+  console.log('RelicPreview', props)
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic

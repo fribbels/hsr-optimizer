@@ -30,7 +30,6 @@ import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
 import { Constants } from '../lib/constants';
-import { StateEditor } from '../lib/stateEditor';
 import VerticalDivider from './VerticalDivider';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
@@ -228,7 +227,7 @@ export default function OptimizerForm() {
     if (!OptimizerTabController.validateForm(x)) {
       return
     }
-    StateEditor.addFromForm(x)
+    DB.addFromForm(x)
     SaveState.save()
     console.log('Form finished', x);
 

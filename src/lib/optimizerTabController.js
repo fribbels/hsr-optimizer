@@ -44,10 +44,12 @@ export const OptimizerTabController = {
   equipClicked: (x) => {
     console.log('Equip clicked');
     let formValues = OptimizerTabController.getForm()
-    if (!formValues.characterId) {
+    let characterId = formValues.characterId
+
+    if (!characterId) {
       return;
     }
-    StateEditor.addFromForm(formValues)
+    DB.addFromForm(formValues)
 
     let selectedNodes = optimizerGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
@@ -56,9 +58,8 @@ export const OptimizerTabController = {
 
     let row = selectedNodes[0].data
     let build = OptimizerTabController.calculateRelicsFromId(row.id)
-    let characterId = formValues.characterId
     
-    StateEditor.equipRelicsToCharacter(Object.values(build), characterId)
+    DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     setPinnedRow(characterId)
     setOptimizerBuild(build);
@@ -183,12 +184,12 @@ export const OptimizerTabController = {
     relics.LinkRope[l].optimizerCharacterId = characterId
 
     let build = {
-      Head: relics.Head[h],
-      Hands: relics.Hands[g],
-      Body: relics.Body[b],
-      Feet: relics.Feet[f],
-      PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l]
+      Head: relics.Head[h].id,
+      Hands: relics.Hands[g].id,
+      Body: relics.Body[b].id,
+      Feet: relics.Feet[f].id,
+      PlanarSphere: relics.PlanarSphere[p].id,
+      LinkRope: relics.LinkRope[l].id
     }
 
     return build;

@@ -11,7 +11,6 @@ import DB from '../lib/db';
 import { StatCalculator } from '../lib/statCalculator';
 import styled from 'styled-components';
 import RelicPreview from './RelicPreview';
-import { StateEditor } from '../lib/stateEditor';
 import { CharacterPreview } from './CharacterPreview';
 
 const { Text } = Typography;
@@ -156,7 +155,7 @@ export default function CharacterTab({style}) {
     let row = selectedNodes[0].data
     let id = row.id
 
-    StateEditor.removeCharacter(id)
+    DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setCharacterTabSelectedId(undefined)
     
@@ -175,7 +174,7 @@ export default function CharacterTab({style}) {
     let row = selectedNodes[0].data
     let id = row.id
 
-    StateEditor.unequipCharacter(id);
+    DB.unequipCharacter(id);
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()

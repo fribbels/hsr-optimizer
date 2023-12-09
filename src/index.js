@@ -4,6 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import './index.css';
 import App from './App';
 
+import { Pool } from './lib/pool';
 import { Constants } from './lib/constants'
 import { OcrParser } from './lib/ocrParser'
 import { DataParser } from './lib/dataParser'
@@ -14,7 +15,6 @@ import { GPUOptimizer } from './lib/gpuOptimizer'
 import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
-import { StateEditor } from './lib/stateEditor'
 import { StatCalculator } from './lib/statCalculator'
 import { ThreadWorker } from "./lib/threadWorker";
 import { Gradient } from "./lib/gradient";
@@ -26,6 +26,7 @@ import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
 import { Typography } from 'antd';
+window.Pool = Pool;
 window.Constants = Constants;
 window.OcrParser = OcrParser;
 window.DataParser = DataParser;
@@ -36,7 +37,6 @@ window.GPUOptimizer = GPUOptimizer;
 window.Utils = Utils;
 window.Assets = Assets;
 window.RelicAugmenter = RelicAugmenter;
-window.StateEditor = StateEditor;
 window.StatCalculator = StatCalculator;
 window.ThreadWorker = ThreadWorker;
 window.Gradient = Gradient;

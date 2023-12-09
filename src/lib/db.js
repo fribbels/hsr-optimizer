@@ -42,6 +42,12 @@ export const DB = {
     store.getState().setCharacters(x)
     store.getState().setCharactersById(charactersById)
   },
+  setCharacter: (x) => {
+    let charactersById = store.getState().charactersById
+    charactersById[x.id] = x
+
+    store.getState().setCharactersById(charactersById)
+  },
   addCharacter: (x) => {
     let characters = DB.getCharacters()
     characters.push(x);
@@ -66,6 +72,7 @@ export const DB = {
   },
 
   getRelics: () => Object.values(Object.values(store.getState().relicsById)),
+  getRelicsById: () => store.getState().relicsById,
   setRelics: (x) => {
     let relicsById = {}
     for (let relic of x) {
@@ -74,16 +81,13 @@ export const DB = {
     store.getState().setRelicsById(relicsById)
   },
   getRelicById: (id) => store.getState().relicsById[id],
-  setRelicById: (relic) => {
+  setRelic: (relic) => {
     if (!relic.id) return console.warn('No matching relic', relic)
-    store.getState().relicsById[relic.id] = relic
-  },
-  deleteRelicById: (id) => {
-    if (!id) return console.warn('No id')
     let relicsById = store.getState().relicsById
-    delete relicsById[id]
+    relicsById[relic.id] = relic
     store.getState().setRelicsById(relicsById)
   },
+
   refreshRelics: () => {
     if (window.setRelicRows) setRelicRows(DB.getRelics())
   },
@@ -121,6 +125,159 @@ export const DB = {
       characters: []
     })
   },
+
+  addFromForm: (form) => {
+    let characters = DB.getCharacters();
+    let found = DB.getCharacterById(form.characterId)
+    if (found) {
+      found.form = form // TODO: update
+      DB.setCharacters(characters)
+    } else {
+      DB.addCharacter({
+        id: form.characterId,
+        form: form,
+        equipped: {}
+      })
+    }
+
+    console.log('Updated db characters', characters)
+    characterGrid.current.api.setRowData(characters)
+  },
+
+  unequipCharacter: (id) => {
+    let character = DB.getCharacterById(id)
+    if (!character) return console.warn('No character to unequip')
+
+    console.log('Unequipping character', id, character)
+
+    for (let part of Object.values(Constants.Parts)) {
+      let equippedId = character.equipped[part]
+      if (!equippedId) continue
+
+      let relicMatch = DB.getRelicById(equippedId)
+
+      character.equipped[part] = undefined
+
+      if (relicMatch) {
+        relicMatch.equippedBy = undefined
+        DB.setRelic(relicMatch)
+      }
+    }
+    DB.setCharacter(character)
+  },
+
+  removeCharacter: (characterId) => {
+    DB.unequipCharacter(characterId)
+    let characters = DB.getCharacters()
+    characters = characters.filter(x => x.id != characterId)
+    DB.setCharacters(characters)
+  },
+
+  unequipRelic: (relic) => {
+    if (!relic || !relic.id) return console.warn('No relic')
+    relic = DB.getRelicById(relic.id)
+
+    console.log('UNEQUP RELIC')
+
+    let characters = DB.getCharacters()
+    for (let character of characters) {
+      if (character.equipped && character.equipped[relic.part] && character.equipped[relic.part] == relic.id) {
+        character.equipped[relic.part] = undefined
+      }
+    }
+    DB.setCharacters(characters)
+
+    relic.equippedBy = undefined
+    DB.setRelic(relic)
+  },
+
+  equipRelic: (relic, characterId) => {
+    if (!relic || !relic.id) return console.warn('No relic')
+    if (!characterId) return console.warn('No character')
+    relic = DB.getRelicById(relic.id)
+
+    let prevOwnerId = relic.equippedBy;
+    let character = DB.getCharacters().find(x => x.id == characterId)
+    let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
+    let prevRelic = character.equipped[relic.part]
+    DB.unequipRelic(prevRelic)
+
+    if (prevCharacter) {
+      prevCharacter.equipped[relic.part] = undefined
+      DB.setCharacter(prevCharacter)
+    }
+    character.equipped[relic.part] = relic.id
+    relic.equippedBy = character.id
+    DB.setCharacter(character)
+    DB.setRelic(relic)
+  },
+
+  equipRelicIdsToCharacter: (relicIds, characterId) => {
+    if (!characterId) return console.warn('No characterId to equip to')
+    console.log('Equipping relics to character', relicIds, characterId)
+
+    for (let relicId of relicIds) {
+      DB.equipRelic({ id: relicId }, characterId)
+    }
+  },
+
+  deleteRelic: (id) => {
+    if (!id) return Message.error('Unable to delete relic')
+    DB.unequipRelic({ id: id })
+    let relicsById = store.getState().relicsById
+    delete relicsById[id]
+    store.getState().setRelicsById(relicsById)
+    characterGrid.current.api.redrawRows()
+  },
+
+  mergeRelicsWithState: (newRelics) => {
+    console.log('Merging relics', newRelics)
+
+    let oldRelics = DB.getRelics()
+    let characters = DB.getCharacters()
+
+    let oldRelicHashes = {}
+    for (let oldRelic of oldRelics) {
+      let hash = hashRelic(oldRelic)
+      oldRelicHashes[hash] = oldRelic;
+    }
+
+    let replacementRelics = []
+    for (let newRelic of newRelics) {
+      let hash = hashRelic(newRelic)
+
+      let found = oldRelicHashes[hash]
+      if (found) {
+        replacementRelics.push(found)
+        delete oldRelicHashes[hash]
+      } else {
+        replacementRelics.push(newRelic)
+      }
+    }
+
+    console.log('Replacement relics', replacementRelics)
+
+    global.relicsGrid.current.api.setRowData(replacementRelics)
+    DB.setRelics(replacementRelics);
+
+
+    for (let character of characters) {
+      for (let part of Object.values(Constants.Parts)) {
+        if (character.equipped && character.equipped[part] && !DB.getRelicById(character.equipped[part].id)) {
+          character.equipped[part] = undefined
+        }
+      }
+    }
+
+    DB.setRelics(replacementRelics)
+    DB.setCharacters(characters)
+
+    characterGrid.current.api.redrawRows()
+
+    // TODO this probably shouldnt be in this file
+    let fieldValues = OptimizerTabController.getForm()
+    onOptimizerFormValuesChange({}, fieldValues);
+  }
 }
 
 export default DB;
@@ -131,4 +288,17 @@ function assignRanks(characters) {
   }
 
   return characters;
+}
+
+function hashRelic(relic) {
+  let hashObject = {
+    part: relic.part,
+    set: relic.set,
+    grade: relic.grade,
+    enhance: relic.enhance,
+    main: relic.main,
+    substats: relic.substats
+  }
+  let hash = objectHash(hashObject)
+  return hash
 }

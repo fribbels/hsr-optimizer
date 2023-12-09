@@ -6,7 +6,6 @@ import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
 import { Message } from '../lib/message';
-import { StateEditor } from '../lib/stateEditor';
 
 
 function RadioIcon(props) {

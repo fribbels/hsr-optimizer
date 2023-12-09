@@ -308,7 +308,7 @@ function relicImporterTab() {
     setLoading2(true)
     setTimeout(() => {
       setLoading2(false)
-      StateEditor.mergeRelicsWithState(currentRelics)
+      DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
       onStepChange(2)
     }, spinnerMs);

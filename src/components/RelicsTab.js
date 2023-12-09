@@ -10,7 +10,6 @@ import { HeaderText } from './HeaderText';
 import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
-import { StateEditor } from '../lib/stateEditor';
 import { TooltipImage } from './TooltipImage';
 
 
@@ -72,7 +71,7 @@ export default function RelicsTab({style}) {
   }, []);
 
   function onAddOk(relic) {
-    DB.setRelicById(relic)
+    DB.setRelic(relic)
     setRelicRows(DB.getRelics())
     SaveState.save()
 
@@ -88,12 +87,12 @@ export default function RelicsTab({style}) {
     const updatedRelic = {...selectedRelic, ...relic}
 
     if (updatedRelic.equippedBy) {
-      StateEditor.equipRelic(updatedRelic, updatedRelic.equippedBy)
+      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
     } else {
-      StateEditor.unequipRelic(updatedRelic);
+      DB.unequipRelic(updatedRelic);
     }
 
-    DB.setRelicById(updatedRelic)
+    DB.setRelic(updatedRelic)
     setRelicRows(DB.getRelics())
     SaveState.save()
 
@@ -121,7 +120,7 @@ export default function RelicsTab({style}) {
 
     if (!selectedRelic) return Message.error('No relic selected')
 
-    StateEditor.deleteRelic(selectedRelic.id)
+    DB.deleteRelic(selectedRelic.id)
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
     SaveState.save()

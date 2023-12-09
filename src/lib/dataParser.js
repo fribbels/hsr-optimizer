@@ -468,8 +468,8 @@ function getOverrideTraces() {
     },
     "1101": { // Bronya
       [Constants.Stats.Wind_DMG]: 0.224,  
-      [Constants.Stats.CD]: 0.225,  
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.CD]: 0.24,  
+      [Constants.Stats.RES]: 0.10,
     },
     "1102": { // Seele
       [Constants.Stats.ATK_P]: 0.28,  

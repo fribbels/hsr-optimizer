@@ -37,7 +37,7 @@ export const Renderer = {
   ornamentSet: (x) => {
     if (x == undefined || x.value == undefined) return '';
     let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { ornamentSets } = Utils.relicsToSetArrays(Object.values(build));
+    let { ornamentSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
     let setImages = []
   
     for (let i = 0; i < ornamentSets.length; i++) {
@@ -60,7 +60,7 @@ export const Renderer = {
   relicSet : (x) => {
     if (x == undefined || x.value == undefined) return '';
     let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { relicSets } = Utils.relicsToSetArrays(Object.values(build));
+    let { relicSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
     let setImages = []
   
     for (let i = 0; i < relicSets.length; i++) {

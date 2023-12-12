@@ -360,7 +360,6 @@ export const OptimizerTabController = {
 
 function unsetMin(value, percent) {
   if (value == undefined) return undefined
-
   return value == 0 ? undefined : (percent == true ? value * 100 : value)
 }
 function unsetMax(value, percent) {

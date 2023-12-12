@@ -4,7 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import './index.css';
 import App from './App';
 
-import { Pool } from './lib/pool';
+import { WorkerPool } from './lib/workerPool';
 import { Constants } from './lib/constants'
 import { OcrParser } from './lib/ocrParser'
 import { DataParser } from './lib/dataParser'
@@ -16,7 +16,6 @@ import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
 import { StatCalculator } from './lib/statCalculator'
-import { ThreadWorker } from "./lib/threadWorker";
 import { Gradient } from "./lib/gradient";
 import { SaveState } from "./lib/saveState";
 import { RelicFilters } from "./lib/relicFilters";
@@ -26,7 +25,7 @@ import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
 import { Typography } from 'antd';
-window.Pool = Pool;
+window.WorkerPool = WorkerPool;
 window.Constants = Constants;
 window.OcrParser = OcrParser;
 window.DataParser = DataParser;
@@ -38,7 +37,6 @@ window.Utils = Utils;
 window.Assets = Assets;
 window.RelicAugmenter = RelicAugmenter;
 window.StatCalculator = StatCalculator;
-window.ThreadWorker = ThreadWorker;
 window.Gradient = Gradient;
 window.SaveState = SaveState;
 window.RelicFilters = RelicFilters;
@@ -47,10 +45,6 @@ window.Message = Message;
 window.Hint = Hint;
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-
-const workerpool = require('workerpool');
-window.CPUs = workerpool.cpus
-window.ThreadPool = workerpool.pool();
 
 console.log('Data parser', DataParser.parse());
 SaveState.load()

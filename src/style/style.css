@@ -224,3 +224,6 @@ a {
   font-size: 10px !important;
   font-weight: 400 !important;
 }
+.ag-row {
+  border-bottom-style: unset !important;
+}

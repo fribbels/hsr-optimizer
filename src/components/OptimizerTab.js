@@ -47,29 +47,6 @@ export default function OptimizerTab({style}) {
   const [optimizerBuild, setOptimizerBuild] = useState();
   window.setOptimizerBuild = setOptimizerBuild;
 
-  const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
-  const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
-  const [optimizerPermutationDetails, setOptimizerPermutationDetails] = useState({
-    Head: 0,
-    Hands: 0,
-    Body: 0,
-    Feet: 0,
-    PlanarSphere: 0,
-    LinkRope: 0,
-    HeadTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Head).length,
-    HandsTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Hands).length,
-    BodyTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Body).length,
-    FeetTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Feet).length,
-    PlanarSphereTotal: DB.getRelics().filter(x => x.part == Constants.Parts.PlanarSphere).length,
-    LinkRopeTotal: DB.getRelics().filter(x => x.part == Constants.Parts.LinkRope).length,
-    permutations: 0,
-    searched: 0,
-    results: 0
-  });
-  window.setOptimizerPermutationSearched = setOptimizerPermutationSearched
-  window.setOptimizerPermutationResults = setOptimizerPermutationResults
-  window.setOptimizerPermutationDetails = setOptimizerPermutationDetails
-
   const cellClickedListener = useCallback(event => {
     OptimizerTabController.cellClicked(event)
   }, []);
@@ -133,7 +110,7 @@ export default function OptimizerTab({style}) {
         <OptimizerForm/>
         
         <Flex>
-          <div className="ag-theme-balham-dark" style={{width: 1035, height: 340}}>
+          <div className="ag-theme-balham-dark" style={{width: 1240, height: 340}}>
             <AgGridReact
               ref={optimizerGrid}
 
@@ -149,68 +126,10 @@ export default function OptimizerTab({style}) {
               onCellClicked={cellClickedListener}
               />
           </div>
-
-          <Flex vertical gap={defaultGap} style={{ width: 190, marginLeft: 8}}>
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Permutations</HeaderText>
-              <TooltipImage type={Hint.optimizationDetails()}/>
-            </Flex>
-            
-            <PermutationDisplayPanel 
-              optimizerPermutationDetails={optimizerPermutationDetails} 
-              searched={optimizerPermutationSearched} 
-              results={optimizerPermutationResults}
-            />
-            
-            <HeaderText>
-              Build
-            </HeaderText>
-
-            <Flex gap={defaultGap} justify='space-around'>
-              <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{width: '100px'}} >
-                Equip
-              </Button>
-            </Flex>
-          </Flex>
         </Flex>
 
         <OptimizerBuildPreview build={optimizerBuild}/>
       </Space>
     </div>
   );
-}
-
-function PermutationDisplayPanel(props) {
-  return (
-    <Flex vertical>
-      <PermutationDisplay left='Head' right={props.optimizerPermutationDetails.Head} total={props.optimizerPermutationDetails.HeadTotal}/>
-      <PermutationDisplay left='Hands' right={props.optimizerPermutationDetails.Hands} total={props.optimizerPermutationDetails.HandsTotal}/>
-      <PermutationDisplay left='Body' right={props.optimizerPermutationDetails.Body} total={props.optimizerPermutationDetails.BodyTotal}/>
-      <PermutationDisplay left='Feet' right={props.optimizerPermutationDetails.Feet} total={props.optimizerPermutationDetails.FeetTotal}/>
-      <PermutationDisplay left='Link Rope' right={props.optimizerPermutationDetails.LinkRope} total={props.optimizerPermutationDetails.LinkRopeTotal}/>
-      <PermutationDisplay left='Planar Sphere' right={props.optimizerPermutationDetails.PlanarSphere} total={props.optimizerPermutationDetails.PlanarSphereTotal}/>
-      <div style={{height: 10}}></div>
-      <PermutationDisplay left='Perms' right={props.optimizerPermutationDetails.permutations}/>
-      <PermutationDisplay left='Searched' right={props.searched}/>
-      <PermutationDisplay left='Results' right={props.results}/>
-    </Flex>
-  )
-}
-
-function PermutationDisplay(props) {
-  let rightText = props.total 
-    ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()}`
-    : `${Number(props.right).toLocaleString()}`
-
-  return (
-    <Flex justify='space-between'>
-      <Text style={{lineHeight: '24px'}}>
-        {props.left} 
-      </Text>
-      <Divider style={{margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset'}} dashed/>
-      <Text style={{lineHeight: '24px'}}>
-        {rightText}
-      </Text>
-    </Flex>
-  )
 }

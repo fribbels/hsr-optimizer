@@ -1,11 +1,11 @@
-let poolSize = 24
+let poolSize = 20
 let workers = []
 let taskQueue = []
 
-export const Pool = {
+export const WorkerPool = {
   initialize: () => {
     for (let i = 0; i < poolSize; i++) {
-      const worker = new Worker(new URL('./myWorker.js', import.meta.url));
+      const worker = new Worker(new URL('./worker/optimizerWorker.js', import.meta.url));
       workers.push(worker)
     }
   },
@@ -13,7 +13,7 @@ export const Pool = {
   nextTask: () => {
     if (taskQueue.length == 0) return;
     let { task, callback } = taskQueue.shift()
-    Pool.executeTask(task, callback)
+    WorkerPool.execute(task, callback)
   },
 
   execute: (task, callback) => {
@@ -22,14 +22,17 @@ export const Pool = {
       worker.onmessage = (message) => {
         if (callback) callback(message.data)
         workers.push(worker)
-        Pool.nextTask()
+        WorkerPool.nextTask()
       };
 
       worker.postMessage(task);
     } else {
-      // If no available workers, wait for a worker to become available
       taskQueue.push({ task, callback });
     }
+  },
+
+  cancel: () => {
+    taskQueue = []
   },
 
   state: () => {
@@ -41,9 +44,4 @@ export const Pool = {
   }
 }
 
-Pool.initialize()
-// for (let i = 0; i < 1000; i++) {
-//   Pool.executeTask({index: i}, (data) => {
-//     console.log('done', data)
-//   })
-// }
+WorkerPool.initialize()

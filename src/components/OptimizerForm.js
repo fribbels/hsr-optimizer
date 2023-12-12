@@ -40,6 +40,10 @@ const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
 
+let HorizontalDivider = styled(Divider)`
+  margin: 16px 0px;
+`
+
 function generateOrnamentsOptions() {
   return Object.values(Constants.SetsOrnaments).map(x => {
     return {
@@ -137,6 +141,29 @@ let defaultGap = 5;
 export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = optimizerForm
+
+  const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
+  const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
+  const [optimizerPermutationDetails, setOptimizerPermutationDetails] = useState({
+    Head: 0,
+    Hands: 0,
+    Body: 0,
+    Feet: 0,
+    PlanarSphere: 0,
+    LinkRope: 0,
+    HeadTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Head).length,
+    HandsTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Hands).length,
+    BodyTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Body).length,
+    FeetTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Feet).length,
+    PlanarSphereTotal: DB.getRelics().filter(x => x.part == Constants.Parts.PlanarSphere).length,
+    LinkRopeTotal: DB.getRelics().filter(x => x.part == Constants.Parts.LinkRope).length,
+    permutations: 0,
+    searched: 0,
+    results: 0
+  });
+  window.setOptimizerPermutationSearched = setOptimizerPermutationSearched
+  window.setOptimizerPermutationResults = setOptimizerPermutationResults
+  window.setOptimizerPermutationDetails = setOptimizerPermutationDetails
 
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
@@ -419,539 +446,608 @@ export default function OptimizerForm() {
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
-        <Flex gap={defaultGap}>
-          <Flex vertical gap={defaultGap}>
-            <div style={{width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
-              <Image
-                preview={false}
-                width={innerW}
-                src={Assets.getCharacterPreview(selectedCharacter)}
-                style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
-              />
-            </div>
-          </Flex>
-          
-          <VerticalDivider/>
-
-          <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Character</HeaderText>
-              <TooltipImage type={Hint.character()}/>
-            </Flex>
-            <Flex gap={defaultGap}>
-              <Form.Item size="default" name='characterId'>
-                <Select
-                  showSearch
-                  filterOption={filterOption}
-                  style={{ width: panelWidth }}
-                  onChange={characterSelectorChange}
-                  options={characterOptions}
-                />
-              </Form.Item>
-            </Flex>
-            <Flex gap={defaultGap} justify='space-between'>
-              <Form.Item size="default" name='characterLevel'>
-                <Select
-                  showSearch
-                  style={{ width: (panelWidth - defaultGap) / 2 }}
-                  options={levelOptions}
-                />
-              </Form.Item>
-              <Form.Item size="default" name='characterEidolon'>
-                <Select
-                  showSearch
-                  style={{ width: (panelWidth - defaultGap) / 2 }}
-                  options={eidolonOptions}
-                />
-              </Form.Item>
-            </Flex>
-          
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Light Cone</HeaderText>
-              <TooltipImage type={Hint.lightCone()}/>
-            </Flex>
+        <Flex vertical gap={defaultGap}>
+          <Flex gap={defaultGap}>
             <Flex vertical gap={defaultGap}>
+              <div style={{width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
+                <Image
+                  preview={false}
+                  width={innerW}
+                  src={Assets.getCharacterPreview(selectedCharacter)}
+                  style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
+                />
+              </div>
+            </Flex>
+            
+            <VerticalDivider/>
+
+            <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Character</HeaderText>
+                <TooltipImage type={Hint.character()}/>
+              </Flex>
               <Flex gap={defaultGap}>
-                <Form.Item size="default" name='lightCone'>
+                <Form.Item size="default" name='characterId'>
                   <Select
                     showSearch
                     filterOption={filterOption}
                     style={{ width: panelWidth }}
-                    onChange={lightConeSelectorChange}
-                    options={lightConeOptions}
+                    onChange={characterSelectorChange}
+                    options={characterOptions}
                   />
                 </Form.Item>
               </Flex>
               <Flex gap={defaultGap} justify='space-between'>
-                <Form.Item size="default" name='lightConeLevel'>
+                <Form.Item size="default" name='characterLevel'>
                   <Select
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={levelOptions}
                   />
                 </Form.Item>
-                <Form.Item size="default" name='lightConeSuperimposition'>
+                <Form.Item size="default" name='characterEidolon'>
                   <Select
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
-                    options={superimpositionOptions}
+                    options={eidolonOptions}
                   />
                 </Form.Item>
               </Flex>
-            </Flex>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <Flex vertical gap={16}>
-            <Flex vertical gap={defaultGap}>
+            
               <Flex justify='space-between' align='center'>
-                <HeaderText>Main Stats</HeaderText>
-                <TooltipImage type={Hint.mainStats()}/>
+                <HeaderText>Light Cone</HeaderText>
+                <TooltipImage type={Hint.lightCone()}/>
               </Flex>
-              <Form.Item size="default" name='mainBody'>
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth,
-                  }}
-                  placeholder="Body"
-                  maxTagCount='responsive'>
-                  <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                  <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                  <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
-                  <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                </Select>
-              </Form.Item>        
-              
-              <Form.Item size="default" name='mainFeet'>
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth,
-                  }}
-                  placeholder="Feet"
-                  maxTagCount='responsive'>
-                  <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                  <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                </Select>
-              </Form.Item>        
-              
-              <Form.Item size="default" name='mainPlanarSphere'>
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth,
-                  }}
-                  placeholder="Planar Sphere"
-                  listHeight={400}
-                  maxTagCount='responsive'>
-                  <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                  <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
-                  <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
-                </Select>
-              </Form.Item>        
-              
-              <Form.Item size="default" name='mainLinkRope'>
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth,
-                  }}
-                  placeholder="Link Rope"
-                  maxTagCount='responsive'>
-                  <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                  <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                  <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                  <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-                  <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
-                </Select>
-              </Form.Item>  
-            </Flex>
-
-            <Flex vertical gap={defaultGap}>
-              <Flex justify='space-between' align='center'>
-                <HeaderText>Sets</HeaderText>
-                <TooltipImage type={Hint.sets()}/>
-              </Flex>
-
-              <Form.Item size="default" name='ornamentSets'>
-                <Select
-                  dropdownStyle={{
-                    width: 250
-                  }}
-                  listHeight={500}
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: panelWidth
-                  }}
-                  options={generateOrnamentsOptions()}
-                  tagRender={ornamentSetTagRenderer}
-                  placeholder="Planar Ornaments"
-                  maxTagCount='responsive'>
-                </Select>
-              </Form.Item>
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Cascader: {
-                      dropdownHeight: 625,
-                      controlItemWidth: 100,
-                      controlWidth: 100
-                    },
-                  },
-                }}
-              >
-                <Form.Item size="default" name='relicSets'>
-                    <Cascader
-                      placeholder="Relics"
-                      options={generateSetsOptions()}
-                      showCheckedStrategy={SHOW_CHILD}
-                      tagRender={relicSetTagRenderer}
-                      placement='bottomLeft'
-                      maxTagCount='responsive'
-                      multiple={true}
-                      expandTrigger="hover"
+              <Flex vertical gap={defaultGap}>
+                <Flex gap={defaultGap}>
+                  <Form.Item size="default" name='lightCone'>
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: panelWidth }}
+                      onChange={lightConeSelectorChange}
+                      options={lightConeOptions}
                     />
-                </Form.Item>
-              </ConfigProvider>
-            </Flex>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Stat Filters</HeaderText>
-              <TooltipImage type={Hint.statFilters()}/>
-            </Flex>
-            <Space align='center'>
-              <Form.Item size="default" name='minAtk'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>ATK</FormStatTextStyled>
-              <Form.Item size="default" name='maxAtk'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-
-            <Space align='center'>
-              <Form.Item size="default" name='minHp'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>HP</FormStatTextStyled>
-              <Form.Item size="default" name='maxHp'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-
-            <Space align='center'>
-              <Form.Item size="default" name='minDef'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>DEF</FormStatTextStyled>
-              <Form.Item size="default" name='maxDef'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          
-            <Space align='center'>
-              <Form.Item size="default" name='minSpd'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>SPD</FormStatTextStyled>
-              <Form.Item size="default" name='maxSpd'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-
-            <Space align='center'>
-              <Form.Item size="default" name='minCr'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>CR</FormStatTextStyled>
-              <Form.Item size="default" name='maxCr'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          
-            <Space align='center'>
-              <Form.Item size="default" name='minCd'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>CD</FormStatTextStyled>
-              <Form.Item size="default" name='maxCd'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          
-            <Space align='center'>
-              <Form.Item size="default" name='minEhr'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>EHR</FormStatTextStyled>
-              <Form.Item size="default" name='maxEhr'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          
-            <Space align='center'>
-              <Form.Item size="default" name='minRes'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>RES</FormStatTextStyled>
-              <Form.Item size="default" name='maxRes'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          
-            <Space align='center'>
-              <Form.Item size="default" name='minBe'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>
-              <FormStatTextStyled>BE</FormStatTextStyled>
-              <Form.Item size="default" name='maxBe'>
-                <InputNumberStyled size="small" controls={false}/>
-              </Form.Item>        
-            </Space>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <Flex vertical gap={7} style={{ width: panelWidth }}>
-            <Flex vertical gap={defaultGap}>
-              <Flex justify='space-between' align='center'>
-                <HeaderText>Rating Filters</HeaderText>
-                <TooltipImage type={Hint.ratingFilters()}/>
+                  </Form.Item>
+                </Flex>
+                <Flex gap={defaultGap} justify='space-between'>
+                  <Form.Item size="default" name='lightConeLevel'>
+                    <Select
+                      showSearch
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={levelOptions}
+                    />
+                  </Form.Item>
+                  <Form.Item size="default" name='lightConeSuperimposition'>
+                    <Select
+                      showSearch
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={superimpositionOptions}
+                    />
+                  </Form.Item>
+                </Flex>
               </Flex>
-              
-              <Space align='center'>
-                <Form.Item size="default" name='minCv'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>CV</FormStatTextStyled>
-                <Form.Item size="default" name='maxCv'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-              
-              <Space align='center'>
-                <Form.Item size="default" name='minDmg'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>DMG</FormStatTextStyled>
-                <Form.Item size="default" name='maxDmg'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-
-              <Space align='center'>
-                <Form.Item size="default" name='minMcd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>MCD</FormStatTextStyled>
-                <Form.Item size="default" name='maxMcd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-              
-              <Space align='center'>
-                <Form.Item size="default" name='minEhp'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>EHP</FormStatTextStyled>
-                <Form.Item size="default" name='maxEhp'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
             </Flex>
 
-            <Flex vertical gap={defaultGap}>
-              <Flex justify='space-between' align='center'>
-                <HeaderText>Combat Buffs</HeaderText>
-                <TooltipImage type={Hint.combatBuffs()}/>
+            <VerticalDivider/>
+
+            <Flex vertical gap={16}>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Main Stats</HeaderText>
+                  <TooltipImage type={Hint.mainStats()}/>
+                </Flex>
+                <Form.Item size="default" name='mainBody'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Body"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
+                    <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                  </Select>
+                </Form.Item>        
+                
+                <Form.Item size="default" name='mainFeet'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Feet"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                  </Select>
+                </Form.Item>        
+                
+                <Form.Item size="default" name='mainPlanarSphere'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Planar Sphere"
+                    listHeight={400}
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
+                  </Select>
+                </Form.Item>        
+                
+                <Form.Item size="default" name='mainLinkRope'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Link Rope"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+                    <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
+                  </Select>
+                </Form.Item>  
               </Flex>
 
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between'>
-                  <Text>
-                    ATK
-                  </Text>
-                  <Form.Item size="default" name='buffAtk'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Sets</HeaderText>
+                  <TooltipImage type={Hint.sets()}/>
                 </Flex>
-              
-                <Flex justify='space-between'>
-                  <Text>
-                    ATK %
-                  </Text>
-                  <Form.Item size="default" name='buffAtkP'>
-                    <InputNumberStyled size="small" controls={false}/>
+
+                <Form.Item size="default" name='ornamentSets'>
+                  <Select
+                    dropdownStyle={{
+                      width: 250
+                    }}
+                    listHeight={500}
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth
+                    }}
+                    options={generateOrnamentsOptions()}
+                    tagRender={ornamentSetTagRenderer}
+                    placeholder="Planar Ornaments"
+                    maxTagCount='responsive'>
+                  </Select>
+                </Form.Item>
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Cascader: {
+                        dropdownHeight: 625,
+                        controlItemWidth: 100,
+                        controlWidth: 100
+                      },
+                    },
+                  }}
+                >
+                  <Form.Item size="default" name='relicSets'>
+                      <Cascader
+                        placeholder="Relics"
+                        options={generateSetsOptions()}
+                        showCheckedStrategy={SHOW_CHILD}
+                        tagRender={relicSetTagRenderer}
+                        placement='bottomLeft'
+                        maxTagCount='responsive'
+                        multiple={true}
+                        expandTrigger="hover"
+                      />
                   </Form.Item>
-                </Flex>
-              
-                <Flex justify='space-between'>
-                  <Text>
-                    Crit Rate %
-                  </Text>
-                  <Form.Item size="default" name='buffCr'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                </Flex>
-              
-                <Flex justify='space-between'>
-                  <Text>
-                    Crit Dmg %
-                  </Text>
-                  <Form.Item size="default" name='buffCd'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                </Flex>
+                </ConfigProvider>
               </Flex>
             </Flex>
-          </Flex>
 
-          <VerticalDivider/>
+            <VerticalDivider/>
 
-          <Flex vertical gap={defaultGap} style={{ width: panelWidth }}> 
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Optimizer Options</HeaderText>
-              <TooltipImage type={Hint.optimizerOptions()}/>
+            <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Stat Filters</HeaderText>
+                <TooltipImage type={Hint.statFilters()}/>
+              </Flex>
+              <Space align='center'>
+                <Form.Item size="default" name='minAtk'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>ATK</FormStatTextStyled>
+                <Form.Item size="default" name='maxAtk'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+
+              <Space align='center'>
+                <Form.Item size="default" name='minHp'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>HP</FormStatTextStyled>
+                <Form.Item size="default" name='maxHp'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+
+              <Space align='center'>
+                <Form.Item size="default" name='minDef'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>DEF</FormStatTextStyled>
+                <Form.Item size="default" name='maxDef'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+            
+              <Space align='center'>
+                <Form.Item size="default" name='minSpd'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>SPD</FormStatTextStyled>
+                <Form.Item size="default" name='maxSpd'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+
+              <Space align='center'>
+                <Form.Item size="default" name='minCr'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>CR</FormStatTextStyled>
+                <Form.Item size="default" name='maxCr'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+            
+              <Space align='center'>
+                <Form.Item size="default" name='minCd'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>CD</FormStatTextStyled>
+                <Form.Item size="default" name='maxCd'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+            
+              <Space align='center'>
+                <Form.Item size="default" name='minEhr'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>EHR</FormStatTextStyled>
+                <Form.Item size="default" name='maxEhr'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+            
+              <Space align='center'>
+                <Form.Item size="default" name='minRes'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>RES</FormStatTextStyled>
+                <Form.Item size="default" name='maxRes'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
+            
+              <Space align='center'>
+                <Form.Item size="default" name='minBe'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>
+                <FormStatTextStyled>BE</FormStatTextStyled>
+                <Form.Item size="default" name='maxBe'>
+                  <InputNumberStyled size="small" controls={false}/>
+                </Form.Item>        
+              </Space>
             </Flex>
 
-            <Flex>
-              <Form.Item name="rankFilter" valuePropName="checked">
-                <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  defaultChecked
-                  style={{width: 45, marginRight: 10}}
-                />
-              </Form.Item>
-              <Text>Rank filter</Text>
-            </Flex>
+            <VerticalDivider/>
 
-            <Flex>
-              <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-                <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  defaultChecked
-                  style={{width: 45, marginRight: 10}}
-                />
-              </Form.Item>
-              <Text>Maxed main stat</Text>
-            </Flex>
-
-            <Flex>
-              <Form.Item name="keepCurrentRelics" valuePropName="checked">
-                <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  defaultChecked
-                  style={{width: 45, marginRight: 10}}
-                />
-              </Form.Item>
-              <Text>Keep current relics</Text>
-            </Flex>
-
-
-            <Flex justify='space-between'>
-              <Form.Item name="enhance">
-                <Select
-                  style={{ width: (panelWidth - defaultGap) / 2 }}
-                  options={[
-                    { value: 0, label: '+0' },
-                    { value: 3, label: '+3' },
-                    { value: 6, label: '+6' },
-                    { value: 9, label: '+9' },
-                    { value: 12, label: '+12' },
-                    { value: 15, label: '+15' },
-                  ]}
-                />
-              </Form.Item>
-              
-              <Form.Item name="grade">
-                <Select
-                  style={{ width: (panelWidth - defaultGap) / 2 }}
-                  options={[
-                    { value: 2, label: '2+ stars' },
-                    { value: 3, label: '3+ stars' },
-                    { value: 4, label: '4+ stars' },
-                    { value: 5, label: '5 stars' },
-                  ]}
-                />
-              </Form.Item>
-            </Flex>
-            {/*
-              <Button type="primary" onClick={showDrawer}>
-                Advanced Options
-              </Button>
-              <Drawer
-                placement="right"
-                closable={false}
-                onClose={onClose}
-                open={open}
-                getContainer={false}
-                width={250}
-              >
-                <HeaderText>
-                  Damage Buffs 
-                  Coming Soon
-                </HeaderText>
-
-                <Divider style={{marginTop: '8px', marginBottom: '12px'}}/>
+            <Flex vertical gap={7} style={{ width: panelWidth }}>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Rating Filters</HeaderText>
+                  <TooltipImage type={Hint.ratingFilters()}/>
+                </Flex>
                 
-              </Drawer>
+                <Space align='center'>
+                  <Form.Item size="default" name='minCv'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>
+                  <FormStatTextStyled>CV</FormStatTextStyled>
+                  <Form.Item size="default" name='maxCv'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>        
+                </Space>
+                
+                <Space align='center'>
+                  <Form.Item size="default" name='minDmg'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>
+                  <FormStatTextStyled>DMG</FormStatTextStyled>
+                  <Form.Item size="default" name='maxDmg'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>        
+                </Space>
 
-              <Text>Actions</Text>
-              <Button type="primary" onClick={saveCharacterClicked} style={{width: '100%'}}>
-                Save Character
-              </Button> */}
-            <Flex justify='space-between' align='center'>
-              <HeaderText>Actions</HeaderText>
-              <TooltipImage type={Hint.actions()}/>
-            </Flex>
-            <Flex gap={defaultGap} style={{marginBottom: 2}} vertical>
-              <Flex gap={defaultGap}>
-                <Button type="primary" htmlType="submit" style={{width: '100px'}} >
-                  Start
-                </Button>
-                <Button type="primary" onClick={cancelClicked} style={{width: '100px'}} >
-                  Cancel
-                </Button>
+                <Space align='center'>
+                  <Form.Item size="default" name='minMcd'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>
+                  <FormStatTextStyled>MCD</FormStatTextStyled>
+                  <Form.Item size="default" name='maxMcd'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>        
+                </Space>
+                
+                <Space align='center'>
+                  <Form.Item size="default" name='minEhp'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>
+                  <FormStatTextStyled>EHP</FormStatTextStyled>
+                  <Form.Item size="default" name='maxEhp'>
+                    <InputNumberStyled size="small" controls={false}/>
+                  </Form.Item>        
+                </Space>
               </Flex>
-              <Flex gap={defaultGap}>
 
-                <Button type="primary" onClick={filterClicked} style={{width: '100px'}} >
-                  Filter
-                </Button>
-                <Button type="primary" onClick={resetClicked} style={{width: '100px'}} >
-                  Reset
-                </Button>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Combat Buffs</HeaderText>
+                  <TooltipImage type={Hint.combatBuffs()}/>
+                </Flex>
+
+                <Flex vertical gap={defaultGap}>
+                  <Flex justify='space-between'>
+                    <Text>
+                      ATK
+                    </Text>
+                    <Form.Item size="default" name='buffAtk'>
+                      <InputNumberStyled size="small" controls={false}/>
+                    </Form.Item>
+                  </Flex>
+                
+                  <Flex justify='space-between'>
+                    <Text>
+                      ATK %
+                    </Text>
+                    <Form.Item size="default" name='buffAtkP'>
+                      <InputNumberStyled size="small" controls={false}/>
+                    </Form.Item>
+                  </Flex>
+                
+                  <Flex justify='space-between'>
+                    <Text>
+                      Crit Rate %
+                    </Text>
+                    <Form.Item size="default" name='buffCr'>
+                      <InputNumberStyled size="small" controls={false}/>
+                    </Form.Item>
+                  </Flex>
+                
+                  <Flex justify='space-between'>
+                    <Text>
+                      Crit Dmg %
+                    </Text>
+                    <Form.Item size="default" name='buffCd'>
+                      <InputNumberStyled size="small" controls={false}/>
+                    </Form.Item>
+                  </Flex>
+                </Flex>
               </Flex>
             </Flex>
           </Flex>
+
+          <Divider />
+
+          <Flex>
+
+            <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Optimizer Options</HeaderText>
+                <TooltipImage type={Hint.optimizerOptions()} />
+              </Flex>
+
+              <Flex>
+                <Form.Item name="rankFilter" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Rank filter</Text>
+              </Flex>
+
+              <Flex>
+                <Form.Item name="predictMaxedMainStat" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Maxed main stat</Text>
+              </Flex>
+
+              <Flex>
+                <Form.Item name="keepCurrentRelics" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Keep current relics</Text>
+              </Flex>
+
+
+              <Flex justify='space-between'>
+                <Form.Item name="enhance">
+                  <Select
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={[
+                      { value: 0, label: '+0' },
+                      { value: 3, label: '+3' },
+                      { value: 6, label: '+6' },
+                      { value: 9, label: '+9' },
+                      { value: 12, label: '+12' },
+                      { value: 15, label: '+15' },
+                    ]}
+                  />
+                </Form.Item>
+
+                <Form.Item name="grade">
+                  <Select
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={[
+                      { value: 2, label: '2+ stars' },
+                      { value: 3, label: '3+ stars' },
+                      { value: 4, label: '4+ stars' },
+                      { value: 5, label: '5 stars' },
+                    ]}
+                  />
+                </Form.Item>
+              </Flex>
+              {/*
+                <Button type="primary" onClick={showDrawer}>
+                  Advanced Options
+                </Button>
+                <Drawer
+                  placement="right"
+                  closable={false}
+                  onClose={onClose}
+                  open={open}
+                  getContainer={false}
+                  width={250}
+                >
+                  <HeaderText>
+                    Damage Buffs 
+                    Coming Soon
+                  </HeaderText>
+
+                  <Divider style={{marginTop: '8px', marginBottom: '12px'}}/>
+                  
+                </Drawer>
+
+                <Text>Actions</Text>
+                <Button type="primary" onClick={saveCharacterClicked} style={{width: '100%'}}>
+                  Save Character
+                </Button> */}
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Actions</HeaderText>
+                <TooltipImage type={Hint.actions()} />
+              </Flex>
+
+              <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
+                <Flex gap={defaultGap}>
+                  <Button type="primary" htmlType="submit" style={{ width: '100px' }} >
+                    Start
+                  </Button>
+                  <Button type="primary" onClick={cancelClicked} style={{ width: '100px' }} >
+                    Cancel
+                  </Button>
+                </Flex>
+                <Flex gap={defaultGap}>
+
+                  <Button type="primary" onClick={filterClicked} style={{ width: '100px' }} >
+                    Filter
+                  </Button>
+                  <Button type="primary" onClick={resetClicked} style={{ width: '100px' }} >
+                    Reset
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
+
+            <VerticalDivider />
+
+            <Flex vertical gap={defaultGap} style={{ width: 190, marginLeft: 8 }}>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Permutations</HeaderText>
+                <TooltipImage type={Hint.optimizationDetails()} />
+              </Flex>
+
+              <HeaderText>
+                Build
+              </HeaderText>
+              <PermutationDisplayPanel
+                optimizerPermutationDetails={optimizerPermutationDetails}
+                searched={optimizerPermutationSearched}
+                results={optimizerPermutationResults}
+              />
+
+              <Flex gap={defaultGap} justify='space-around'>
+                <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }} >
+                  Equip
+                </Button>
+              </Flex>
+            </Flex>
+
+          </Flex>
+
+          <Divider />
         </Flex>
       </Form>
     </div>
   );
 };
+
+function PermutationDisplayPanel(props) {
+  return (
+    <Flex vertical>
+      <PermutationDisplay left='Head' right={props.optimizerPermutationDetails.Head} total={props.optimizerPermutationDetails.HeadTotal} />
+      <PermutationDisplay left='Hands' right={props.optimizerPermutationDetails.Hands} total={props.optimizerPermutationDetails.HandsTotal} />
+      <PermutationDisplay left='Body' right={props.optimizerPermutationDetails.Body} total={props.optimizerPermutationDetails.BodyTotal} />
+      <PermutationDisplay left='Feet' right={props.optimizerPermutationDetails.Feet} total={props.optimizerPermutationDetails.FeetTotal} />
+      <PermutationDisplay left='Link Rope' right={props.optimizerPermutationDetails.LinkRope} total={props.optimizerPermutationDetails.LinkRopeTotal} />
+      <PermutationDisplay left='Planar Sphere' right={props.optimizerPermutationDetails.PlanarSphere} total={props.optimizerPermutationDetails.PlanarSphereTotal} />
+      <div style={{ height: 10 }}></div>
+      <PermutationDisplay left='Perms' right={props.optimizerPermutationDetails.permutations} />
+      <PermutationDisplay left='Searched' right={props.searched} />
+      <PermutationDisplay left='Results' right={props.results} />
+    </Flex>
+  )
+}
+
+
+function PermutationDisplay(props) {
+  let rightText = props.total
+    ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()}`
+    : `${Number(props.right).toLocaleString()}`
+
+  return (
+    <Flex justify='space-between'>
+      <Text style={{ lineHeight: '24px' }}>
+        {props.left}
+      </Text>
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Text style={{ lineHeight: '24px' }}>
+        {rightText}
+      </Text>
+    </Flex>
+  )
+}

@@ -36,6 +36,7 @@ export const RelicAugmenter = {
   }
 }
 
+// Very meh rating, revisit at some point
 function calculateRelicRatings(relic) {
   let cs = relic.augmentedStats[Constants.Stats.CD] * 100 + 
            relic.augmentedStats[Constants.Stats.CR] * 100 * 2 + 

@@ -1,32 +1,12 @@
-import { lib } from './myLib.js'
-import { Constants } from './constants.js'
-
-let state = 0
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// self.onmessage = async function (e) {
-//   let data = e.data
-//   console.log(data)
-
-//   state += 10
-//   await sleep(200)
-
-//   self.postMessage({
-//     answer: state,
-//     // answer: data.index,
-//   });
-// }
+import { lib } from './testLib.js'
+import { Constants } from '../constants.js'
 
 self.onmessage = function (e) {
-  console.log("Message received from main script", e);
+  // console.log("Message received from main script", e);
 
   let data = e.data;
   let relics = data.relics;
   let character = data.character;
-  let Constants = data.Constants;
   let Stats = Constants.Stats;
 
   let rows = []
@@ -36,6 +16,9 @@ self.onmessage = function (e) {
   let bSize = data.consts.bSize
   let gSize = data.consts.gSize
   let hSize = data.consts.hSize
+
+  let relicSetSolutions = data.consts.relicSetSolutions
+  let ornamentSetSolutions = data.consts.ornamentSetSolutions
 
   let relicSetToIndex = data.relicSetToIndex
   let ornamentSetToIndex = data.ornamentSetToIndex
@@ -59,10 +42,7 @@ self.onmessage = function (e) {
 
   for (let row = 0; row < data.HEIGHT; row++) {
     for (let col = 0; col < data.WIDTH; col++) {
-      if (col != 1) continue
-      // let result = data.successes[row][col]
-      // if (!result) continue
-
+      
       let x = data.skip + row * data.HEIGHT + col
 
       if (x >= data.permutations) {
@@ -83,6 +63,11 @@ self.onmessage = function (e) {
 
       let setP = ornamentSetToIndex[relics.PlanarSphere[p].set]
       let setL = ornamentSetToIndex[relics.LinkRope[l].set]
+
+      let relicSetCount = data.consts.relicSetCount
+      let ornamentSetCount = data.consts.ornamentSetCount
+      let relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
+      let ornamentSetIndex = setP + setL * ornamentSetCount;
 
       let relicSet0 = (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)) // Passerby of Wandering Cloud
       let relicSet1 = (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)) // Musketeer of Wild Wheat
@@ -152,15 +137,28 @@ self.onmessage = function (e) {
       hero.MCD = mcd
       hero.EHP = ehp
 
-      rows.push(hero);
+      let result =
+        hero[Stats.HP] >= request.minHp && hero[Stats.HP] <= request.maxHp &&
+        hero[Stats.ATK] >= request.minAtk && hero[Stats.ATK] <= request.maxAtk &&
+        hero[Stats.DEF] >= request.minDef && hero[Stats.DEF] <= request.maxDef &&
+        hero[Stats.SPD] >= request.minSpd && hero[Stats.SPD] <= request.maxSpd &&
+        hero[Stats.CR] >= request.minCr && hero[Stats.CR] <= request.maxCr &&
+        hero[Stats.CD] >= request.minCd && hero[Stats.CD] <= request.maxCd &&
+        hero[Stats.EHR] >= request.minEhr && hero[Stats.EHR] <= request.maxEhr &&
+        hero[Stats.RES] >= request.minRes && hero[Stats.RES] <= request.maxRes &&
+        hero[Stats.BE] >= request.minBe && hero[Stats.BE] <= request.maxBe &&
+        cv >= request.minCv && cv <= request.maxCv &&
+        dmg >= request.minDmg && dmg <= request.maxDmg &&
+        mcd >= request.minMcd && mcd <= request.maxMcd &&
+        ehp >= request.minEhp && ehp <= request.maxEhp
+
+      if (result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {
+        rows.push(hero)
+      }
     }
   }
 
-  // postMessage(rows);
-  // return rows;
-
   self.postMessage({
     rows: rows,
-    // answer: data.index,
   });
 }

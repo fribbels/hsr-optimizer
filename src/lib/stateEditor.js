@@ -50,6 +50,8 @@ export const StateEditor = {
     if (!relic || !relic.id) return console.warn('No relic')
     relic = DB.getRelicById(relic.id)
 
+    if (!relic) return console.warn('No relic')
+
     let characters = DB.getCharacters()
     for (let character of characters) {
       if (character.equipped && character.equipped[relic.part] && character.equipped[relic.part].id == relic.id) {
@@ -67,6 +69,8 @@ export const StateEditor = {
     if (!relic || !relic.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
+
+    if (!relic) return console.warn('No relic')
 
     let prevOwnerId = relic.equippedBy;
     let character = DB.getCharacters().find(x => x.id == characterId)
@@ -166,7 +170,8 @@ function hashRelic(relic) {
     enhance: relic.enhance,
     mainstat: relic.main.stat,
     mainvalue: Math.floor(relic.main.value),
-    substats: relic.substats
+    substatValues: relic.substats.map(x => x.value),
+    substatStats: relic.substats.map(x => x.stat),
   }
   let hash = objectHash(hashObject)
   return hash

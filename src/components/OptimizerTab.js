@@ -53,8 +53,8 @@ export default function OptimizerTab({style}) {
 
   const DIGITS_2 = 30;
   const DIGITS_3 = 34;
-  const DIGITS_4 = 54;
-  const DIGITS_5 = 60;
+  const DIGITS_4 = 50;
+  const DIGITS_5 = 55;
   const DIGITS_6 = 48;
 
   const columnDefs = useMemo(() => [
@@ -77,6 +77,12 @@ export default function OptimizerTab({style}) {
     {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
     {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+    {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+    
+    {field: 'basic', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'basic'},
+    {field: 'skill', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'skill'},
+    {field: 'ult', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ult'},
+    {field: 'extra', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'extra'},
   ], []);
 
   const datasource = useMemo(() => {

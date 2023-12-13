@@ -5,7 +5,8 @@ import './index.css';
 import App from './App';
 
 import { Constants } from './lib/constants'
-import { OcrParser } from './lib/ocrParser'
+import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
+import { OcrParserKelz3 } from './lib/ocrParserKelz3';
 import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
@@ -27,7 +28,8 @@ import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
 import { Typography } from 'antd';
 window.Constants = Constants;
-window.OcrParser = OcrParser;
+window.OcrParserFribbels1 = OcrParserFribbels1;
+window.OcrParserKelz3 = OcrParserKelz3;
 window.DataParser = DataParser;
 window.OptimizerTabController = OptimizerTabController;
 window.DB = DB;

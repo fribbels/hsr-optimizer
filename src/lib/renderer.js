@@ -120,6 +120,14 @@ export const Renderer = {
     return x.value == 0 ? "" : x.value
   },
 
+  mainValueRenderer: (x) => {
+    let part = x.data.part
+    if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
+      return x.value == 0 ? "" : Math.floor(x.value)
+    }
+    return x.value == 0 ? "" : Utils.truncate10ths(x.value)
+  },
+
   hideZeroesX100Tenths: (x) => {
     return x.value == 0 ? "" : Renderer.x100Tenths(x)
   },

@@ -164,7 +164,8 @@ function hashRelic(relic) {
     set: relic.set,
     grade: relic.grade,
     enhance: relic.enhance,
-    main: relic.main,
+    mainstat: relic.main.stat,
+    mainvalue: Math.floor(relic.main.value),
     substats: relic.substats
   }
   let hash = objectHash(hashObject)

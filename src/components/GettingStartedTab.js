@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme, Divider } from 'antd';
-import { OcrParser } from '../lib/ocrParser';
+import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
 import { Message } from '../lib/message';
 
 import sampleSave from '../data/sample-save.json';

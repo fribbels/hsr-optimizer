@@ -50,5 +50,8 @@ export const Utils = {
   },
   truncate10ths: (x) => {
     return Math.floor(x * 10) / 10
+  },
+  truncate10000ths: (x) => {
+    return Math.floor(x * 10000) / 10000
   }
 }

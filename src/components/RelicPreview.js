@@ -35,7 +35,7 @@ function generateStat(stat, source, main) {
     if (stat.stat == Constants.Stats.SPD) {
       displayValue = Math.floor(stat.value)
     } else {
-      displayValue = Utils.isFlat(stat.stat) ? stat.value : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
+      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
     }
   }
   

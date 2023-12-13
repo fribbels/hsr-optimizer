@@ -46,6 +46,31 @@ export default function GettingStartedTab({style}) {
             </Button>
           </Popconfirm>
 
+
+          <Divider style={dividerStyle}></Divider>
+          {/* ======================================================================================================================= */}
+
+          <h2>
+            Importing
+          </h2>
+
+          <p>
+            The optimizer needs a dataset of relics to run against.
+            Currently there are 2 supported OCR relic scanners:
+          </p>
+
+          <ul>
+            <li>
+              Recommended: Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
+              <ul>
+                <li>Supports all 16:9 resolutions</li>
+              </ul>
+            </li>
+            <li>
+              Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
+            </li>
+          </ul>
+
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}
           
@@ -285,28 +310,8 @@ export default function GettingStartedTab({style}) {
           <p>
             These rating calculations are experimental and I'm open to feedback and ideas for better ways to measure relic quality. 
           </p>
-
-          <Divider style={dividerStyle}></Divider>
-          {/* ======================================================================================================================= */}
-
-          <h2>
-            Importing
-          </h2>
-
-          <img src={Assets.getGuideImage('scanner')} style={screenshotStyle}></img>
-
-          <p>
-            The optimizer needs a dataset of relics to run against.
-            As of launch, I've built an OCR importer for Windows which automatically scans the relic inventory and reads stats from screenshots.
-            This is the easiest way to import for now, but if it doesn't work then relics can be added manually on the Relics tab as well.
-          </p>
-
-          <p>
-            The download link to the Fribbels HSR Scanner can be found on <Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/tag/v1.0.0'>Github</Typography.Link>.
-            It currently only scans relics, but stay tuned for future updates to the scanner.
-          </p>
-      </Flex>
-        </Text>
+        </Flex>
+      </Text>
     </div>
   );
 }

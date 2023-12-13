@@ -329,16 +329,20 @@ function relicImporterTab() {
 
   function relicImporterContentUploadFile() {
     return (
-      <Flex style={{minHeight: 100}}>
+      <Flex style={{minHeight: 100, marginBottom: 30}}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run one of the HSR relic scanners:
+            Install and run one of the relic scanners. Character importing is not currently supported - only relics.
+            <div style={{height: 10}}/>
             <ul>
               <li>
-                Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
+                Recommended: Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
+                <ul>
+                  <li>Supports all 16:9 resolutions</li>
+                </ul>
               </li>
               <li>
-                Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
+                Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
               </li>
             </ul>
           </Text>

@@ -93,6 +93,19 @@ export const Renderer = {
     )
   },
 
+  characterIcon: (x) => {
+    if (x == undefined || x.value == undefined) return '';
+    let equippedBy = x.data.equippedBy
+    if (!equippedBy) return ''
+
+    let src = Assets.getCharacterAvatarById(equippedBy)
+    return (
+      <Flex justify='center' style={{ marginTop: -1 }}>
+        <SetDisplay asset={src} />
+      </Flex>
+    )
+  },
+
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return '';
     return Constants.StatsToReadable[x.value]
@@ -105,6 +118,14 @@ export const Renderer = {
 
   hideZeroes: (x) => {
     return x.value == 0 ? "" : x.value
+  },
+
+  mainValueRenderer: (x) => {
+    let part = x.data.part
+    if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
+      return x.value == 0 ? "" : Math.floor(x.value)
+    }
+    return x.value == 0 ? "" : Utils.truncate10ths(x.value)
   },
 
   hideZeroesX100Tenths: (x) => {

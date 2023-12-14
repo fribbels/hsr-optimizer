@@ -5,7 +5,8 @@ let state = {
   relics: [],
   characters: [],
   metadata: {},
-  relicsById: {}
+  relicsById: {},
+  scorerId: undefined
 }
 import { create } from 'zustand'
 
@@ -26,6 +27,9 @@ window.store = create((set) => ({
 }))
 
 export const DB = {
+  getScorerId: () => state.scorerId,
+  setScorerId: (x) => state.scorerId = x,
+
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 

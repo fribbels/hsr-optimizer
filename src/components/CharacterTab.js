@@ -158,6 +158,7 @@ export default function CharacterTab({style}) {
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setCharacterTabSelectedId(undefined)
+    relicsGrid.current.api.redrawRows()
     
     SaveState.save()
 
@@ -179,6 +180,7 @@ export default function CharacterTab({style}) {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
+    relicsGrid.current.api.redrawRows()
 
     SaveState.save()
   }

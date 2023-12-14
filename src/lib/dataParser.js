@@ -69,6 +69,7 @@ export const DataParser = {
       relics: relics
     }
     DB.setMetadata(data);
+    console.log('Metadata: ', data)
 
     return data;
   }

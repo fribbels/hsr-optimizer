@@ -3,7 +3,7 @@ import { Parts, Sets, Stats } from './constants';
 import { dblClick } from '@testing-library/user-event/dist/click';
 import { RelicAugmenter } from './relicAugmenter';
 
-export const OcrParser = {
+export const OcrParserFribbels1 = {
   parse: (json) => {
     let version = json.version;
     // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
@@ -11,7 +11,7 @@ export const OcrParser = {
   
     let parsedRelics = []
     for (let relic of relics) {
-      console.log(relic)
+      // console.log(relic)
       let result = readRelic(relic);
       let output = RelicAugmenter.augment(result)
 

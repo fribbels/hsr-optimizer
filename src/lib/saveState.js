@@ -2,7 +2,8 @@ export const SaveState = {
   save: () => {
     let state = {
       relics: DB.getRelics(),
-      characters: DB.getCharacters()
+      characters: DB.getCharacters(),
+      scorerId: DB.getScorerId(),
     }
 
     console.log('Saved state', state)

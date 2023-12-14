@@ -28,6 +28,7 @@ import {
 import '../style/style.css'
 import { CharacterStats } from '../lib/characterStats';
 import { CharacterPreview } from './CharacterPreview';
+import { SaveState } from '../lib/saveState';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -53,6 +54,9 @@ export default function RelicScorerTab({ style }) {
       method: 'POST',
       body: x.scorerId, 
     };
+
+    DB.setScorerId(x.scorerId);
+    SaveState.save()
 
     fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
       .then(response => {
@@ -178,6 +182,16 @@ export default function RelicScorerTab({ style }) {
       </Flex>
     )
   }
+  let initialId = undefined
+  let savedId = DB.getScorerId() 
+  if (savedId) {
+    try {
+      let parsed = parseInt(savedId)
+      initialId = isNaN(parsed) ? undefined : parsed
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <div style={style}>
@@ -187,7 +201,7 @@ export default function RelicScorerTab({ style }) {
         <Form
           form={scorerForm}
           onFinish={onFinish}
-          initialValues={{  }}
+          initialValues={{ scorerId: initialId }}
         >
           <Flex style={{ margin: 20, width: 1000 }} justify="center" align="center" gap={10}>
             <Text style={{ width: 'fit-content' }}>Account ID:</Text>

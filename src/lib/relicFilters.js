@@ -132,7 +132,7 @@ export const RelicFilters = {
     }
 
     function matchingRelic(part) {
-      let match = character.equipped[part] ? relics[part].find(x => x.id == character.equipped[part].id) : undefined
+      let match = character.equipped[part] ? relics[part].find(x => x.id == character.equipped[part]) : undefined
       return match ? [match] : relics[part]
     }
     

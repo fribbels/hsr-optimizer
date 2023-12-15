@@ -1,5 +1,6 @@
 import { OptimizerTabController } from "./optimizerTabController"
 import { RelicAugmenter } from "./relicAugmenter"
+import * as objectHash from 'object-hash'
 
 let state = {
   relics: [],
@@ -12,18 +13,18 @@ import { create } from 'zustand'
 
 window.store = create((set) => ({
   relicsById: {},
-  setRelicsById: (x) => set(s => ({ relicsById: x })),
+  setRelicsById: (x) => set(() => ({ relicsById: x })),
 
   characters: [],
   charactersById: {},
-  setCharactersById: (x) => set(s => ({ charactersById: x })),
-  setCharacters: (x) => set(s => ({ characters: x })),
+  setCharactersById: (x) => set(() => ({ charactersById: x })),
+  setCharacters: (x) => set(() => ({ characters: x })),
 
   characterTabSelectedId: undefined,
-  setCharacterTabSelectedId: (x) => set(s => ({ characterTabSelectedId: x })),
+  setCharacterTabSelectedId: (x) => set(() => ({ characterTabSelectedId: x })),
 
   characterTabBlur: false,
-  setCharacterTabBlur: (x) => set(s => ({ characterTabBlur: x })),
+  setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
 }))
 
 export const DB = {
@@ -181,7 +182,7 @@ export const DB = {
     if (!relic || !relic.id) return console.warn('No relic')
     relic = DB.getRelicById(relic.id)
 
-    console.log('UNEQUP RELIC')
+    console.log('UNEQUIP RELIC')
 
     let characters = DB.getCharacters()
     for (let character of characters) {
@@ -267,7 +268,7 @@ export const DB = {
 
     for (let character of characters) {
       for (let part of Object.values(Constants.Parts)) {
-        if (character.equipped && character.equipped[part] && !DB.getRelicById(character.equipped[part].id)) {
+        if (character.equipped && character.equipped[part] && !DB.getRelicById(character.equipped[part])) {
           character.equipped[part] = undefined
         }
       }
@@ -278,7 +279,7 @@ export const DB = {
 
     characterGrid.current.api.redrawRows()
 
-    // TODO this probably shouldnt be in this file
+    // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
     onOptimizerFormValuesChange({}, fieldValues);
   }
@@ -300,8 +301,10 @@ function hashRelic(relic) {
     set: relic.set,
     grade: relic.grade,
     enhance: relic.enhance,
-    main: relic.main,
-    substats: relic.substats
+    mainstat: relic.main.stat,
+    mainvalue: Math.floor(relic.main.value),
+    substatValues: relic.substats.map(x => x.value),
+    substatStats: relic.substats.map(x => x.stat),
   }
   let hash = objectHash(hashObject)
   return hash

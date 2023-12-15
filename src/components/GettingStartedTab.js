@@ -123,7 +123,7 @@ export default function GettingStartedTab({style}) {
           </p>
           
           <p>
-            Imporant note: relics typed in manually or imported with the OCR tool may be affected by hidden decimal points that aren't shown by ingame stats. 
+            Important note: relics typed in manually or imported with the OCR tool may be affected by hidden decimal points that aren't shown by ingame stats.
             For example, 5 star relics can have speed substats of values between 2.0 - 2.6, which would all show ingame as 2. 
             This means that results should be treated as minimum values, as the real value may be slightly higher ingame.
             This also means that maximum filters should be used carefully since they may be too restrictive.
@@ -219,7 +219,7 @@ export default function GettingStartedTab({style}) {
 
           <ul>
             <li>Perms - Number of permutations that need to be searched. Stricter filters will reduce permutations and search time</li>
-            <li>Searched - Number of permutations completeed in an in-progress search</li>
+            <li>Searched - Number of permutations completed in an in-progress search</li>
             <li>Results - Number of displayed results that satisfy the stat filters</li>
           </ul>
 

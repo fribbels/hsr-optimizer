@@ -24,6 +24,7 @@ import {
   Tooltip,
   Popover,
   Tag,
+  Modal,
 } from 'antd';
 import React, { useState, useMemo, useEffect, Fragment } from 'react';
 import '../style/style.css'
@@ -41,17 +42,17 @@ const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
 
 let HorizontalDivider = styled(Divider)`
-  margin: 16px 0px;
+  margin: 5px 0px;
 `
 
 function generateOrnamentsOptions() {
   return Object.values(Constants.SetsOrnaments).map(x => {
     return {
       value: x,
-      label: 
+      label:
         <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
-          <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
+          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
+          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
             {x}
           </div>
         </Flex>
@@ -94,11 +95,11 @@ function generateSetsOptions() {
     let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
     return (
       <Flex gap={5} align='center'>
-        <img src={imageSrc} style={{width: 26, height: 26}}></img>
-        <div style={{display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap'}}>
+        <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
+        <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
           {parens + label}
         </div>
-      </Flex> 
+      </Flex>
     )
   }
 
@@ -135,12 +136,28 @@ const InputNumberStyled = styled(InputNumber)`
   width: 62px
 `
 
-let panelWidth = 180;
+function FilterRow(props) {
+  return (
+    <Flex justify='space-between'>
+      <Form.Item size="default" name={`min${props.name}`}>
+        <InputNumberStyled size="small" controls={false} />
+      </Form.Item>
+      <FormStatTextStyled>{props.label}</FormStatTextStyled>
+      <Form.Item size="default" name={`max${props.name}`}>
+        <InputNumberStyled size="small" controls={false} />
+      </Form.Item>
+    </Flex>
+  )
+}
+
+let panelWidth = 220;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = optimizerForm
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
   const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
@@ -164,6 +181,74 @@ export default function OptimizerForm() {
   window.setOptimizerPermutationSearched = setOptimizerPermutationSearched
   window.setOptimizerPermutationResults = setOptimizerPermutationResults
   window.setOptimizerPermutationDetails = setOptimizerPermutationDetails
+
+  const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 5; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${i * 5}% ATK)`
+      })
+    }
+
+    return options
+  }, []);
+  const setWastelanderOfBanditryDesert = useMemo(() => {
+    return [
+      {
+        display: 'Off',
+        value: 0,
+        label: 'Off'
+      },
+      {
+        display: 'CR',
+        value: 1,
+        label: 'Debuffed (+10% CR)'
+      },
+      {
+        display: 'CR+CD',
+        value: 2,
+        label: 'Imprisoned (+10% CR + 20% CD)'
+      }
+    ]
+  }, []);
+  const setLongevousDiscipleOptions = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 2; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${i * 8}% CR)`
+      })
+    }
+
+    return options
+  }, []);
+  const setTheAshblazingGrandDukeOptions = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 8; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${6 * i}% ATK)`
+      })
+    }
+
+    return options
+  }, []);
+  const setPrisonerInDeepConfinementOptions = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 3; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${6 * i}% DEF ignore)`
+      })
+    }
+
+    return options
+  }, []);
 
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
@@ -202,10 +287,10 @@ export default function OptimizerForm() {
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
   window.setSelectedCharacter = setSelectedCharacter
 
-  const [selectedLightCone, setSelectedLightCone] = useState({id: 'None', name: 'Light Cone'});
+  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   useEffect(() => {
   }, [selectedCharacter])
-  
+
   const levelOptions = useMemo(() => {
     let levelStats = []
     for (let i = 80; i >= 1; i--) {
@@ -220,23 +305,23 @@ export default function OptimizerForm() {
 
   const superimpositionOptions = useMemo(() => {
     return [
-      {value: 1, label: 'S1'},
-      {value: 2, label: 'S2'},
-      {value: 3, label: 'S3'},
-      {value: 4, label: 'S4'},
-      {value: 5, label: 'S5'},
+      { value: 1, label: 'S1' },
+      { value: 2, label: 'S2' },
+      { value: 3, label: 'S3' },
+      { value: 4, label: 'S4' },
+      { value: 5, label: 'S5' },
     ]
   }, []);
 
   const eidolonOptions = useMemo(() => {
     return [
-      {value: 0, label: 'E0'},
-      {value: 1, label: 'E1'},
-      {value: 2, label: 'E2'},
-      {value: 3, label: 'E3'},
-      {value: 4, label: 'E4'},
-      {value: 5, label: 'E5'},
-      {value: 6, label: 'E6'},
+      { value: 0, label: 'E0' },
+      { value: 1, label: 'E1' },
+      { value: 2, label: 'E2' },
+      { value: 3, label: 'E3' },
+      { value: 4, label: 'E4' },
+      { value: 5, label: 'E5' },
+      { value: 6, label: 'E6' },
     ]
   }, []);
 
@@ -277,7 +362,7 @@ export default function OptimizerForm() {
     console.log('Unfiltered relics', relics)
 
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
-    
+
     relics = RelicFilters.applyMainFilter(request, relics)
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
@@ -307,10 +392,10 @@ export default function OptimizerForm() {
   window.onOptimizerFormValuesChange = onValuesChange;
 
   const filterOption = (input, option) =>
-  (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   let parentH = 285;
-  let parentW = 220;
+  let parentW = panelWidth;
   let innerW = 300;
 
   const initialValues = useMemo(() => {
@@ -320,7 +405,7 @@ export default function OptimizerForm() {
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
       }
     }
-    
+
     let defaultForm = {
       "characterId": initialCharacter.id,
       "mainBody": [
@@ -345,7 +430,11 @@ export default function OptimizerForm() {
       "enhance": 9,
       "grade": 5,
       "mainHead": [],
-      "mainHands": []
+      "mainHands": [],
+      "setConditionals": {
+        "The Ashblazing Grand Duke": [undefined, 2],
+        "Prisoner in Deep Confinement": [undefined, true]
+      }
     }
     return defaultForm
   }, [initialCharacter]);
@@ -354,7 +443,7 @@ export default function OptimizerForm() {
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
-  
+
 
   function cancelClicked(x) {
     console.log('Cancel clicked');
@@ -365,7 +454,7 @@ export default function OptimizerForm() {
     console.log('Reset clicked');
     OptimizerTabController.resetFilters()
   }
-  
+
   function filterClicked(x) {
     console.log('Filter clicked');
     OptimizerTabController.applyRowFilters()
@@ -382,10 +471,10 @@ export default function OptimizerForm() {
         onMouseDown={onPreventMouseDown}
         closable={closable}
         onClose={onClose}
-        style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
+        style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
       >
         <Flex>
-          <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{width: 26, height: 26}}></img>
+          <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
         </Flex>
       </Tag>
     );
@@ -399,22 +488,22 @@ export default function OptimizerForm() {
     let inner
     if (pieces.length == 3) {
       if (pieces[2] == 'Any') {
-        inner = 
+        inner =
           <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
           </React.Fragment>
       } else {
-        inner = 
+        inner =
           <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
           </React.Fragment>
       }
     } else {
-      inner = 
+      inner =
         <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         </React.Fragment>
     }
 
@@ -427,7 +516,7 @@ export default function OptimizerForm() {
         onMouseDown={onPreventMouseDown}
         closable={closable}
         onClose={onClose}
-        style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
+        style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
       >
         <Flex>
           {inner}
@@ -435,9 +524,9 @@ export default function OptimizerForm() {
       </Tag>
     );
   }
-  
+
   return (
-    <div style={{position: 'relative', overflow: 'hidden'}}>
+    <div style={{ position: 'relative', overflow: 'hidden' }}>
       <Form
         form={optimizerForm}
         layout="vertical"
@@ -449,22 +538,22 @@ export default function OptimizerForm() {
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
             <Flex vertical gap={defaultGap}>
-              <div style={{width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
+              <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
                 <Image
                   preview={false}
                   width={innerW}
                   src={Assets.getCharacterPreview(selectedCharacter)}
-                  style={{transform: `translate(${(innerW - parentW)/2/innerW * -100}%, ${(innerW - parentH)/2/innerW * -100}%)`}}
+                  style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerW - parentH) / 2 / innerW * -100}%)` }}
                 />
               </div>
             </Flex>
-            
-            <VerticalDivider/>
+
+            <VerticalDivider />
 
             <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Character</HeaderText>
-                <TooltipImage type={Hint.character()}/>
+                <TooltipImage type={Hint.character()} />
               </Flex>
               <Flex gap={defaultGap}>
                 <Form.Item size="default" name='characterId'>
@@ -493,10 +582,10 @@ export default function OptimizerForm() {
                   />
                 </Form.Item>
               </Flex>
-            
+
               <Flex justify='space-between' align='center'>
                 <HeaderText>Light Cone</HeaderText>
-                <TooltipImage type={Hint.lightCone()}/>
+                <TooltipImage type={Hint.lightCone()} />
               </Flex>
               <Flex vertical gap={defaultGap}>
                 <Flex gap={defaultGap}>
@@ -529,13 +618,13 @@ export default function OptimizerForm() {
               </Flex>
             </Flex>
 
-            <VerticalDivider/>
+            <VerticalDivider />
 
             <Flex vertical gap={16}>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText>Main Stats</HeaderText>
-                  <TooltipImage type={Hint.mainStats()}/>
+                  <TooltipImage type={Hint.mainStats()} />
                 </Flex>
                 <Form.Item size="default" name='mainBody'>
                   <Select
@@ -554,8 +643,8 @@ export default function OptimizerForm() {
                     <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
                     <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
                   </Select>
-                </Form.Item>        
-                
+                </Form.Item>
+
                 <Form.Item size="default" name='mainFeet'>
                   <Select
                     mode="multiple"
@@ -570,8 +659,8 @@ export default function OptimizerForm() {
                     <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
                     <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
                   </Select>
-                </Form.Item>        
-                
+                </Form.Item>
+
                 <Form.Item size="default" name='mainPlanarSphere'>
                   <Select
                     mode="multiple"
@@ -593,8 +682,8 @@ export default function OptimizerForm() {
                     <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
                     <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
                   </Select>
-                </Form.Item>        
-                
+                </Form.Item>
+
                 <Form.Item size="default" name='mainLinkRope'>
                   <Select
                     mode="multiple"
@@ -610,13 +699,13 @@ export default function OptimizerForm() {
                     <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
                     <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
                   </Select>
-                </Form.Item>  
+                </Form.Item>
               </Flex>
 
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText>Sets</HeaderText>
-                  <TooltipImage type={Hint.sets()}/>
+                  <TooltipImage type={Hint.sets()} />
                 </Flex>
 
                 <Form.Item size="default" name='ornamentSets'>
@@ -648,173 +737,59 @@ export default function OptimizerForm() {
                   }}
                 >
                   <Form.Item size="default" name='relicSets'>
-                      <Cascader
-                        placeholder="Relics"
-                        options={generateSetsOptions()}
-                        showCheckedStrategy={SHOW_CHILD}
-                        tagRender={relicSetTagRenderer}
-                        placement='bottomLeft'
-                        maxTagCount='responsive'
-                        multiple={true}
-                        expandTrigger="hover"
-                      />
+                    <Cascader
+                      placeholder="Relics"
+                      options={generateSetsOptions()}
+                      showCheckedStrategy={SHOW_CHILD}
+                      tagRender={relicSetTagRenderer}
+                      placement='bottomLeft'
+                      maxTagCount='responsive'
+                      multiple={true}
+                      expandTrigger="hover"
+                    />
                   </Form.Item>
                 </ConfigProvider>
               </Flex>
             </Flex>
 
-            <VerticalDivider/>
+            <VerticalDivider />
 
             <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Stat Filters</HeaderText>
-                <TooltipImage type={Hint.statFilters()}/>
+                <TooltipImage type={Hint.statFilters()} />
               </Flex>
-              <Space align='center'>
-                <Form.Item size="default" name='minAtk'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>ATK</FormStatTextStyled>
-                <Form.Item size="default" name='maxAtk'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
 
-              <Space align='center'>
-                <Form.Item size="default" name='minHp'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>HP</FormStatTextStyled>
-                <Form.Item size="default" name='maxHp'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-
-              <Space align='center'>
-                <Form.Item size="default" name='minDef'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>DEF</FormStatTextStyled>
-                <Form.Item size="default" name='maxDef'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-            
-              <Space align='center'>
-                <Form.Item size="default" name='minSpd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>SPD</FormStatTextStyled>
-                <Form.Item size="default" name='maxSpd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-
-              <Space align='center'>
-                <Form.Item size="default" name='minCr'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>CR</FormStatTextStyled>
-                <Form.Item size="default" name='maxCr'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-            
-              <Space align='center'>
-                <Form.Item size="default" name='minCd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>CD</FormStatTextStyled>
-                <Form.Item size="default" name='maxCd'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-            
-              <Space align='center'>
-                <Form.Item size="default" name='minEhr'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>EHR</FormStatTextStyled>
-                <Form.Item size="default" name='maxEhr'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-            
-              <Space align='center'>
-                <Form.Item size="default" name='minRes'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>RES</FormStatTextStyled>
-                <Form.Item size="default" name='maxRes'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
-            
-              <Space align='center'>
-                <Form.Item size="default" name='minBe'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>
-                <FormStatTextStyled>BE</FormStatTextStyled>
-                <Form.Item size="default" name='maxBe'>
-                  <InputNumberStyled size="small" controls={false}/>
-                </Form.Item>        
-              </Space>
+              <FilterRow name='Atk' label='ATK' />
+              <FilterRow name='Hp' label='HP' />
+              <FilterRow name='Def' label='DEF' />
+              <FilterRow name='Spd' label='SPD' />
+              <FilterRow name='Cr' label='CR' />
+              <FilterRow name='Cd' label='CD' />
+              <FilterRow name='Ehr' label='EHR' />
+              <FilterRow name='Res' label='RES' />
+              <FilterRow name='Be' label='BE' />
             </Flex>
 
-            <VerticalDivider/>
+            <VerticalDivider />
 
             <Flex vertical gap={7} style={{ width: panelWidth }}>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText>Rating Filters</HeaderText>
-                  <TooltipImage type={Hint.ratingFilters()}/>
+                  <TooltipImage type={Hint.ratingFilters()} />
                 </Flex>
-                
-                <Space align='center'>
-                  <Form.Item size="default" name='minCv'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                  <FormStatTextStyled>CV</FormStatTextStyled>
-                  <Form.Item size="default" name='maxCv'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>        
-                </Space>
-                
-                <Space align='center'>
-                  <Form.Item size="default" name='minDmg'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                  <FormStatTextStyled>DMG</FormStatTextStyled>
-                  <Form.Item size="default" name='maxDmg'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>        
-                </Space>
 
-                <Space align='center'>
-                  <Form.Item size="default" name='minMcd'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                  <FormStatTextStyled>MCD</FormStatTextStyled>
-                  <Form.Item size="default" name='maxMcd'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>        
-                </Space>
-                
-                <Space align='center'>
-                  <Form.Item size="default" name='minEhp'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>
-                  <FormStatTextStyled>EHP</FormStatTextStyled>
-                  <Form.Item size="default" name='maxEhp'>
-                    <InputNumberStyled size="small" controls={false}/>
-                  </Form.Item>        
-                </Space>
+                <FilterRow name='Cv' label='CV' />
+                <FilterRow name='Dmg' label='DMG' />
+                <FilterRow name='Mcd' label='MCD' />
+                <FilterRow name='Ehp' label='EHP' />
               </Flex>
 
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText>Combat Buffs</HeaderText>
-                  <TooltipImage type={Hint.combatBuffs()}/>
+                  <TooltipImage type={Hint.combatBuffs()} />
                 </Flex>
 
                 <Flex vertical gap={defaultGap}>
@@ -823,34 +798,34 @@ export default function OptimizerForm() {
                       ATK
                     </Text>
                     <Form.Item size="default" name='buffAtk'>
-                      <InputNumberStyled size="small" controls={false}/>
+                      <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
-                
+
                   <Flex justify='space-between'>
                     <Text>
                       ATK %
                     </Text>
                     <Form.Item size="default" name='buffAtkP'>
-                      <InputNumberStyled size="small" controls={false}/>
+                      <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
-                
+
                   <Flex justify='space-between'>
                     <Text>
                       Crit Rate %
                     </Text>
                     <Form.Item size="default" name='buffCr'>
-                      <InputNumberStyled size="small" controls={false}/>
+                      <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
-                
+
                   <Flex justify='space-between'>
                     <Text>
                       Crit Dmg %
                     </Text>
                     <Form.Item size="default" name='buffCd'>
-                      <InputNumberStyled size="small" controls={false}/>
+                      <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
                 </Flex>
@@ -858,10 +833,9 @@ export default function OptimizerForm() {
             </Flex>
           </Flex>
 
-          <Divider />
+          <HorizontalDivider />
 
-          <Flex>
-
+          <Flex gap={defaultGap}>
             <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Optimizer Options</HeaderText>
@@ -985,20 +959,21 @@ export default function OptimizerForm() {
 
             <VerticalDivider />
 
-            <Flex vertical gap={defaultGap} style={{ width: 190, marginLeft: 8 }}>
+            <Flex vertical gap={defaultGap} style={{ width: panelWidth }}>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Permutations</HeaderText>
                 <TooltipImage type={Hint.optimizationDetails()} />
               </Flex>
 
-              <HeaderText>
-                Build
-              </HeaderText>
               <PermutationDisplayPanel
                 optimizerPermutationDetails={optimizerPermutationDetails}
                 searched={optimizerPermutationSearched}
                 results={optimizerPermutationResults}
               />
+
+              <HeaderText>
+                Build
+              </HeaderText>
 
               <Flex gap={defaultGap} justify='space-around'>
                 <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }} >
@@ -1007,6 +982,72 @@ export default function OptimizerForm() {
               </Flex>
             </Flex>
 
+            <VerticalDivider />
+
+            <Flex vertical style={{ width: panelWidth }}>
+              <Button key="back" onClick={() => setDrawerOpen(true)}>
+                Conditional set effects
+              </Button>
+
+              <Drawer 
+                title="Basic Drawer" 
+                placement="right" 
+                onClose={() => setDrawerOpen(false)} 
+                open={drawerOpen} 
+                width={750}
+                forceRender
+              >
+                <Flex justify='center'>
+                  <Flex vertical gap={defaultGap}>
+                    <Flex gap={defaultGap} align='center' justify='flex-start'>
+                      <Text style={{ width: setConditionalsIconWidth }}></Text>
+                      <Text style={{ width: setConditionalsNameWidth }}>Relic set</Text>
+                      <Text style={{ width: setConditionalsWidth }}>4 Piece</Text>
+                    </Flex>
+                    <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
+                    <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
+                    <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
+                    <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
+                    <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
+                    <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
+                    <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
+                    <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
+                    <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
+                    <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
+                    <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
+                  </Flex>
+
+                  <VerticalDivider />
+
+                  <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
+                    <Flex gap={defaultGap} align='center' justify='flex-start'>
+                      <Text style={{ width: setConditionalsIconWidth }}></Text>
+                      <Text style={{ width: setConditionalsNameWidth }}>Ornament set</Text>
+                      <Text style={{ width: setConditionalsWidth }}>2 Piece</Text>
+                    </Flex>
+                    <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
+                    <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
+                    <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
+                  </Flex>
+                </Flex>
+              </Drawer>
+            </Flex>
+
+            <VerticalDivider />
           </Flex>
 
           <Divider />
@@ -1015,6 +1056,56 @@ export default function OptimizerForm() {
     </div>
   );
 };
+
+const setConditionalsIconWidth = 40
+const setConditionalsNameWidth = 200
+const setConditionalsWidth = 80
+
+function ConditionalSetOption(props) {
+  if (Constants.SetsRelicsNames.includes(props.set)) {
+    let inputType = (<Switch disabled={props.p4Checked} />)
+    if (props.selectOptions) {
+      inputType = (
+        <Select
+          optionLabelProp="display"
+          listHeight={500}
+          size='small'
+          style={{ width: setConditionalsWidth }}
+          dropdownStyle={{ width: 250 }}
+          options={props.selectOptions}
+        />
+      )
+    }
+
+    return (
+      <Flex gap={defaultGap} align='center' justify='flex-start'>
+        <Flex style={{ width: setConditionalsIconWidth }}>
+          <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
+        </Flex>
+        <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
+        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
+          <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
+            {inputType}
+          </Form.Item>
+        </Flex>
+      </Flex>
+    )
+  } else {
+    return (
+      <Flex gap={defaultGap} align='center' justify='flex-start'>
+        <Flex style={{ width: setConditionalsIconWidth }}>
+          <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
+        </Flex>
+        <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
+        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
+          <Form.Item name={['setConditionals', props.set, 1]} valuePropName='checked'>
+            <Switch disabled={props.p2Checked} />
+          </Form.Item>
+        </Flex>
+      </Flex>
+    )
+  }
+}
 
 function PermutationDisplayPanel(props) {
   return (

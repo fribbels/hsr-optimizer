@@ -227,3 +227,6 @@ a {
 .ag-row {
   border-bottom-style: unset !important;
 }
+.ant-select-selection-item {
+  padding-inline-end: 10px !important;
+}

@@ -45,7 +45,8 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorBgBase: '#182239'
+          colorBgBase: '#182239',
+          opacityLoading: 0.2
         },
         algorithm: theme.darkAlgorithm,
       }}

@@ -34,7 +34,7 @@ export function CharacterPreview(props) {
 
   if (!character) return (
     <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
-      <div style={{ width: parentW, height: `${parentH}px`, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
+      <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
       </div>
 
       <Flex gap={defaultGap}>

@@ -1,4 +1,4 @@
-import { inPlaceSort } from 'fast-sort';
+import {inPlaceSort} from 'fast-sort';
 import DB from './db';
 
 let relics
@@ -124,18 +124,18 @@ export const OptimizerTabController = {
   getDataSource: (newSortModel, newFilterModel) => {
     sortModel = newSortModel
     filterModel = newFilterModel
-    const dataSource = {
-      getRows: async (params) => {
+    return {
+      getRows: (params) => {
         console.log(params);
         aggs = undefined
         optimizerGrid.current.api.showLoadingOverlay()
-        
+
         // Give it time to show the loading page before we block
         Utils.sleep(100).then(x => {
           if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
             sortModel = params.sortModel[0]
             sort()
-          } 
+          }
 
           if (filterModel) {
             filter(filterModel)
@@ -149,7 +149,7 @@ export const OptimizerTabController = {
           } else {
             let subArray = rows.slice(params.startRow, params.endRow);
             aggregate(subArray)
-  
+
             params.successCallback(subArray, rows.length)
           }
           optimizerGrid.current.api.hideOverlay()
@@ -157,7 +157,6 @@ export const OptimizerTabController = {
         })
       },
     };
-    return dataSource;
   },
 
   calculateRelicsFromId: (id) => {
@@ -234,6 +233,38 @@ export const OptimizerTabController = {
     newForm.buffAtkP = unsetMin(form.buffAtkP, true)
     newForm.buffCr = unsetMin(form.buffCr, true)
     newForm.buffCd = unsetMin(form.buffCd, true)
+    if (!newForm.setConditionals) {
+      newForm.setConditionals = {
+        [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
+        [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
+        [Constants.Sets.KnightOfPurityPalace]: [undefined, true],
+        [Constants.Sets.HunterOfGlacialForest]: [undefined, true],
+        [Constants.Sets.ChampionOfStreetwiseBoxing]: [undefined, 5],
+        [Constants.Sets.GuardOfWutheringSnow]: [undefined, true],
+        [Constants.Sets.FiresmithOfLavaForging]: [undefined, true],
+        [Constants.Sets.GeniusOfBrilliantStars]: [undefined, true],
+        [Constants.Sets.BandOfSizzlingThunder]: [undefined, true],
+        [Constants.Sets.EagleOfTwilightLine]: [undefined, true],
+        [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
+        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 0],
+        [Constants.Sets.LongevousDisciple]: [undefined, 2],
+        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, true],
+        [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
+        [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
+        [Constants.Sets.SpaceSealingStation]: [undefined, true],
+        [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
+        [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
+        [Constants.Sets.BelobogOfTheArchitects]: [undefined, true],
+        [Constants.Sets.CelestialDifferentiator]: [undefined, false],
+        [Constants.Sets.InertSalsotto]: [undefined, true],
+        [Constants.Sets.TaliaKingdomOfBanditry]: [undefined, true],
+        [Constants.Sets.SprightlyVonwacq]: [undefined, true],
+        [Constants.Sets.RutilantArena]: [undefined, true],
+        [Constants.Sets.BrokenKeel]: [undefined, true],
+        [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
+        [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
+      }
+    }
     return newForm
   },
 
@@ -338,7 +369,9 @@ export const OptimizerTabController = {
   changeCharacter: (id) => {
     let character = DB.getCharacterById(id)
     if (character) {
-      optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(character.form))
+      let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
+      optimizerForm.setFieldsValue(displayFormValues)
+      console.log('Changed character form', displayFormValues)
     }
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
@@ -369,7 +402,7 @@ function unsetMax(value, percent) {
 }
 
 function fixValue(value, def, div) {
-  if (value == null || value == undefined) {
+  if (value == null) {
     return def
   }
   div = div || 1
@@ -402,7 +435,7 @@ function aggregate(subArray) {
   }
   aggs = {
     minAgg: minAgg,
-    maxAgg, maxAgg
+    maxAgg: maxAgg
   }
 }
 

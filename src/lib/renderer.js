@@ -1,27 +1,4 @@
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  ConfigProvider,
-  Space,
-  Divider,
-  Switch,
-  Row,
-  Col,
-  Typography,
-  message,
-  Upload,
-  Image,
-  Flex,
-  Tag,
-} from 'antd';
+import {Flex, Image, Tag,} from 'antd';
 
 export const Renderer = {
   floor: (x) => {
@@ -43,8 +20,7 @@ export const Renderer = {
     for (let i = 0; i < ornamentSets.length; i++) {
       while (ornamentSets[i] > 1) {
         let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == i)[0]
-        let assetValue = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
-        setImages[2] = assetValue
+        setImages[2] = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
   
         ornamentSets[i] -= 2
       }

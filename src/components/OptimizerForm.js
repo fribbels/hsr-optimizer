@@ -984,67 +984,79 @@ export default function OptimizerForm() {
 
             <VerticalDivider />
 
-            <Flex vertical style={{ width: panelWidth }}>
+            <Flex vertical style={{ width: panelWidth }} gap={defaultGap}>
               <Button key="back" onClick={() => setDrawerOpen(true)}>
                 Conditional set effects
               </Button>
 
-              <Drawer 
-                title="Basic Drawer" 
-                placement="right" 
-                onClose={() => setDrawerOpen(false)} 
-                open={drawerOpen} 
-                width={750}
-                forceRender
+              <Button key="x" onClick={() => setDrawerOpen(true)}>
+                Character passive effects
+              </Button>
+
+              <ConfigProvider
+                theme={{
+                  token: {
+                    opacityLoading: 0.15
+                  }
+                }}
               >
-                <Flex justify='center'>
-                  <Flex vertical gap={defaultGap}>
-                    <Flex gap={defaultGap} align='center' justify='flex-start'>
-                      <Text style={{ width: setConditionalsIconWidth }}></Text>
-                      <Text style={{ width: setConditionalsNameWidth }}>Relic set</Text>
-                      <Text style={{ width: setConditionalsWidth }}>4 Piece</Text>
+                <Drawer
+                  title="Conditional set effects"
+                  placement="right"
+                  onClose={() => setDrawerOpen(false)}
+                  open={drawerOpen}
+                  width={750}
+                  forceRender
+                >
+                  <Flex justify='center'>
+                    <Flex vertical gap={defaultGap}>
+                      <Flex gap={defaultGap} align='center' justify='flex-start'>
+                        <Text style={{ width: setConditionalsIconWidth }}></Text>
+                        <Text style={{ width: setConditionalsNameWidth }}></Text>
+                        <Text style={{ marginLeft: 'auto' }}>4 Piece</Text>
+                      </Flex>
+                      <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
+                      <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
+                      <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
+                      <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
+                      <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
+                      <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
+                      <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
+                      <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
+                      <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
+                      <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
+                      <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
                     </Flex>
-                    <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
-                    <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
-                    <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
-                    <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
-                    <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
-                    <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
-                    <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
-                    <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
-                    <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
-                    <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
-                    <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
-                  </Flex>
 
-                  <VerticalDivider />
+                    <VerticalDivider />
 
-                  <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
-                    <Flex gap={defaultGap} align='center' justify='flex-start'>
-                      <Text style={{ width: setConditionalsIconWidth }}></Text>
-                      <Text style={{ width: setConditionalsNameWidth }}>Ornament set</Text>
-                      <Text style={{ width: setConditionalsWidth }}>2 Piece</Text>
+                    <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
+                      <Flex gap={defaultGap} align='center' justify='flex-start'>
+                        <Text style={{ width: setConditionalsIconWidth }}></Text>
+                        <Text style={{ width: setConditionalsNameWidth }}></Text>
+                        <Text style={{ marginLeft: 'auto' }}>2 Piece</Text>
+                      </Flex>
+                      <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
+                      <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
+                      <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
                     </Flex>
-                    <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
-                    <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
-                    <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
                   </Flex>
-                </Flex>
-              </Drawer>
+                </Drawer>
+              </ConfigProvider>
             </Flex>
 
             <VerticalDivider />

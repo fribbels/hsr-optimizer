@@ -25,6 +25,7 @@ import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
+import { CharacterConditionals } from './lib/characterConditionals';
 import { Typography } from 'antd';
 window.WorkerPool = WorkerPool;
 window.Constants = Constants;
@@ -47,6 +48,7 @@ window.Message = Message;
 window.Hint = Hint;
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
+window.CharacterConditionals = CharacterConditionals
 
 console.log('Data parser', DataParser.parse());
 SaveState.load()

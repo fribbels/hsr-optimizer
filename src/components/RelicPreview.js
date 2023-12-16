@@ -10,12 +10,9 @@ function generateStat(stat, source, main) {
   if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
     return (
       <Flex justify='space-between'>
-        <Text>
-          <span>&shy;</span>
-        </Text>
-        <Text>
-          <span>&shy;</span>
-        </Text>
+        <Flex>
+          <img src={Assets.getBlank()} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+        </Flex>
       </Flex>
     )
   }
@@ -99,6 +96,8 @@ let gradeToColor = {
 
 export default function RelicPreview(props) {
   // console.log('RelicPreview', props)
+  const [hovered, setHovered] = React.useState(false);
+
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic
@@ -138,7 +137,14 @@ export default function RelicPreview(props) {
   }
 
   return (
-    <Card size="small" hoverable={props.source != 'scorer'} onClick={relicClicked} style={{ width: 200, height: 280 }}>
+    <Card
+      size="small"
+      hoverable={props.source != 'scorer'}
+      onClick={relicClicked}
+      style={{ width: 200, height: 280 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <Flex vertical justify='space-between'  style={{height: 255}}>
         <Flex justify='space-between' align='center'>
           <img

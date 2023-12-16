@@ -265,6 +265,7 @@ export const OptimizerTabController = {
         [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
       }
     }
+    console.warn('!!!!', form, newForm)
     return newForm
   },
 
@@ -394,11 +395,11 @@ export const OptimizerTabController = {
 
 function unsetMin(value, percent) {
   if (value == undefined) return undefined
-  return value == 0 ? undefined : (percent == true ? value * 100 : value)
+  return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(1))
 }
 function unsetMax(value, percent) {
   if (value == undefined) return undefined
-  return value == Constants.MAX_INT ? undefined : (percent == true ? value * 100 : value)
+  return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(1))
 }
 
 function fixValue(value, def, div) {

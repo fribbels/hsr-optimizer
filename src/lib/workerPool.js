@@ -2,6 +2,7 @@ let poolSize = 20
 let workers = []
 let taskQueue = []
 
+
 export const WorkerPool = {
   initialize: () => {
     for (let i = 0; i < poolSize; i++) {
@@ -20,12 +21,13 @@ export const WorkerPool = {
     if (workers.length > 0) {
       const worker = workers.pop();
       worker.onmessage = (message) => {
+        console.warn('!!! worker message', message)
         if (callback) callback(message.data)
         workers.push(worker)
         WorkerPool.nextTask()
       };
 
-      worker.postMessage(task);
+      worker.postMessage(task, [task.buffer]);
     } else {
       taskQueue.push({ task, callback });
     }

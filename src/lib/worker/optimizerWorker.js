@@ -1,6 +1,5 @@
-import { lib } from './testLib.js'
 import { Constants } from '../constants.js'
-import { character } from 'stylis';
+import { BufferPacker } from '../bufferPacker.js'
 
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
   let summedStats = {}
@@ -35,13 +34,14 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
 }
 
 self.onmessage = function (e) {
-  console.log("Message received from main script", e.data);
+  console.log("Message received from main script", e);
 
   let data = e.data;
   let relics = data.relics;
   let character = data.character;
   let Stats = Constants.Stats;
   let statValues = Object.values(Stats)
+  let arr = new Float32Array(data.buffer)
 
   let headRelics = relics.Head;
   let handsRelics = relics.Hands;
@@ -94,7 +94,7 @@ self.onmessage = function (e) {
 
   for (let row = 0; row < data.HEIGHT; row++) {
     for (let col = 0; col < data.WIDTH; col++) {
-      
+
       let x = data.skip + row * data.HEIGHT + col
 
       if (x >= data.permutations) {
@@ -162,7 +162,7 @@ self.onmessage = function (e) {
       if (elementalMultipliers[5]) elementalDmg = calculatePercentStat(Stats.Quantum_DMG,   base, lc, trace, relicSum, 0.10 * p2(GeniusOfBrilliantStars))
       if (elementalMultipliers[6]) elementalDmg = calculatePercentStat(Stats.Imaginary_DMG, base, lc, trace, relicSum, 0.10 * p2(WastelanderOfBanditryDesert))
 
-      let character = {}
+      let character = relicSum
 
       let crSum = relicSum[Stats.CR]
       let cdSum = relicSum[Stats.CD]
@@ -207,12 +207,25 @@ self.onmessage = function (e) {
       character.ED = elementalDmg
       character.id = x
 
+      character.xHP = character[Stats.HP]
+      character.xATK = character[Stats.ATK]
+      character.xDEF = character[Stats.DEF]
+      character.xSPD = character[Stats.SPD]
+      character.xCR = character[Stats.CR]
+      character.xCD = character[Stats.CD]
+      character.xEHR = character[Stats.EHR]
+      character.xRES = character[Stats.RES]
+      character.xBE = character[Stats.BE]
+      character.xERR = character[Stats.ERR]
+      character.xOHB = character[Stats.OHB]
+      character.xED = character.ED
+
       let calculatedSpd = character[Stats.SPD] + 0.12*baseSpd*enabledMessengerTraversingHackerspace*p4(MessengerTraversingHackerspace)
 
       let calculated = {
         [Stats.HP]:  character[Stats.HP],
-        [Stats.ATK]: character[Stats.ATK] + baseAtk*(0.05*valueChampionOfStreetwiseBoxing*p4(ChampionOfStreetwiseBoxing) + 
-                                                     0.20*enabledBandOfSizzlingThunder*p4(BandOfSizzlingThunder) + 
+        [Stats.ATK]: character[Stats.ATK] + baseAtk*(0.05*valueChampionOfStreetwiseBoxing*p4(ChampionOfStreetwiseBoxing) +
+                                                     0.20*enabledBandOfSizzlingThunder*p4(BandOfSizzlingThunder) +
                                                      0.06*valueTheAshblazingGrandDuke*p4(TheAshblazingGrandDuke) +
                                                      0.12*(calculatedSpd >= 120 ? 1 : 0)*p2(SpaceSealingStation) +
                                                      0.08*(calculatedSpd >= 120 ? 1 : 0)*p2(FleetOfTheAgeless) +
@@ -222,11 +235,11 @@ self.onmessage = function (e) {
 
         [Stats.SPD]: calculatedSpd,
 
-        [Stats.CR]:  character[Stats.CR] + 0.10*(valueWastelanderOfBanditryDesert > 0 ? 1 : 0)*p4(WastelanderOfBanditryDesert) + 
+        [Stats.CR]:  character[Stats.CR] + 0.10*(valueWastelanderOfBanditryDesert > 0 ? 1 : 0)*p4(WastelanderOfBanditryDesert) +
                                            0.08*valueLongevousDisciple*p4(LongevousDisciple) +
                                            0.60*enabledCelestialDifferentiator*(character[Stats.CD] >= 1.20 ? 1 : 0)*p2(CelestialDifferentiator),
 
-        [Stats.CD]:  character[Stats.CD] + 0.25*enabledHunterOfGlacialForest*p4(HunterOfGlacialForest) + 
+        [Stats.CD]:  character[Stats.CD] + 0.25*enabledHunterOfGlacialForest*p4(HunterOfGlacialForest) +
                                            0.10*(valueWastelanderOfBanditryDesert == 2 ? 1 : 0)*p4(WastelanderOfBanditryDesert) +
                                            0.10*(character[Stats.RES] >= 0.30 ? 1 : 0)*p2(BrokenKeel),
 
@@ -240,7 +253,7 @@ self.onmessage = function (e) {
 
         [Stats.OHB]: character[Stats.OHB],
 
-        [Stats.ED]:  character.ED,
+        ED:  character.ED,
       }
 
       let damageBonus = 0.12*(calculated[Stats.SPD] >= 135 ? 1 : 0)*p2(FirmamentFrontlineGlamoth) +
@@ -258,10 +271,10 @@ self.onmessage = function (e) {
       character.EHP = ehp
 
       // + elementalDmg
-      character.basic = 100 * (1 + damageBonus + 0.10*p4(MusketeerOfWildWheat) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
-      character.skill = 100 * (1 + damageBonus + 0.12*p4(FiresmithOfLavaForging) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
-      character.ult =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
-      character.fua =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
+      character.BASIC = 100 * (1 + damageBonus + 0.10*p4(MusketeerOfWildWheat) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
+      character.SKILL = 100 * (1 + damageBonus + 0.12*p4(FiresmithOfLavaForging) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
+      character.ULT =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
+      character.FUA =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
 
       let result =
         character[Stats.HP]  >= request.minHp  && character[Stats.HP]  <= request.maxHp  &&
@@ -291,16 +304,17 @@ self.onmessage = function (e) {
       character.xBE = calculated[Stats.BE]
       character.xERR = calculated[Stats.ERR]
       character.xOHB = calculated[Stats.OHB]
-      character.xED = calculated[Stats.ED]
+      character.xED = calculated.ED
       if (result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {
-        rows.push(character)
+        BufferPacker.packCharacter(arr, row * data.HEIGHT + col, character);
       }
     }
   }
 
   self.postMessage({
-    rows: rows,
-  });
+    rows: [],
+    buffer: data.buffer
+  }, [data.buffer]);
 }
 
 function p4(set) {

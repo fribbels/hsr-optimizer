@@ -109,10 +109,10 @@ export default function OptimizerTab({style}) {
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
 
-    {field: 'basic', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'basic'},
-    {field: 'skill', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'skill'},
-    {field: 'ult', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ult'},
-    {field: 'fua', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'fua'},
+    {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
+    {field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL'},
+    {field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT'},
+    {field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA'},
 
     {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
@@ -156,7 +156,7 @@ export default function OptimizerTab({style}) {
 
   return (
     <div style={style}>
-      <Space direction='vertical'>
+      <Flex vertical gap={20}>
         <OptimizerForm/>
         
         <Flex>
@@ -179,7 +179,7 @@ export default function OptimizerTab({style}) {
         </Flex>
 
         <OptimizerBuildPreview build={optimizerBuild}/>
-      </Space>
+      </Flex>
     </div>
   );
 }

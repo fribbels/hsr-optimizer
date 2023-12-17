@@ -4,6 +4,7 @@ import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
 import { WorkerPool } from "./workerPool";
+import {BufferPacker} from "./bufferPacker";
 
 let MAX_INT = 2147483647;
 
@@ -187,6 +188,8 @@ export const Optimizer = {
     let resultsShown = false
 
     for (let run = 0; run < runs; run++) {
+      const arr = new Float32Array(WIDTH * HEIGHT * 20)
+
       let input = {
         setAllowList: relicSetAllowList,
         relics: relics,
@@ -200,7 +203,8 @@ export const Optimizer = {
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         elementalMultipliers: elementalMultipliers,
-        request: request
+        request: request,
+        buffer: arr.buffer
       }
 
       let callback = (result) => {
@@ -216,9 +220,13 @@ export const Optimizer = {
           console.log('Slicing rows because they exceed max limit')
           rows = rows.slice(0, MAX_RESULTS - rowData.length)
         }
-        console.log(`Optimizer status: inProgress ${inProgress}, rowData: ${rowData.length}, rows ${rows.length}`)
+        let resultArr = new Float32Array(result.buffer)
+        console.log(`Thread complete - status: inProgress ${inProgress}, rowData: ${rowData.length}, rows ${rows.length}`)
+        // console.log(`Optimizer results`, result, resultArr)
 
-        rowData.push(...rows);
+        BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, rowData);
+
+        // rowData.push(...extracted);
 
         setOptimizerPermutationResults(rowData.length)
         setOptimizerPermutationSearched(Math.min(permutations, searched))

@@ -47,6 +47,20 @@ const App = () => {
         token: {
           colorBgBase: '#182239'
         },
+        components: {
+          Slider: {
+            handleColor: '#1668DC',
+            handleActiveColor: '#1668DC',
+            trackBg: '#1668DC',
+            trackHoverBg: '#1668DC',
+            dotBorderColor: '#1668DC',
+            railHoverBg: '#ffffff80',
+            railBg: '#ffffff80',
+            handleLineWidth: 4,
+            handleLineWidthHover: 4,
+            handleSizeHover: 10
+          },
+        },
         algorithm: theme.darkAlgorithm,
       }}
     >      

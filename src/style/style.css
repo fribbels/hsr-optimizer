@@ -230,3 +230,7 @@ a {
 .ant-select-selection-item {
   padding-inline-end: 10px !important;
 }
+
+.ant-slider:hover .ant-slider-handle::after {
+  box-shadow: 0 0 0 4px #1668DC
+}

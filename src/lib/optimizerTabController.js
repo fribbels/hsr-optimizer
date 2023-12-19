@@ -265,7 +265,23 @@ export const OptimizerTabController = {
         [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
       }
     }
-    console.warn('!!!!', form, newForm)
+    if (!form.enemyLevel) {
+      newForm.enemyLevel = 94
+      newForm.enemyCount = 1
+      newForm.enemyElementalWeak = true
+      newForm.enemyQuantumWeak = true
+      newForm.enemyWeaknessBroken = false
+    }
+    let defaultOptions = CharacterConditionals.get(form).defaults()
+    if (!newForm.characterConditionals) newForm.characterConditionals = {}
+
+    for (let option of Object.keys(defaultOptions)) {
+      if (newForm.characterConditionals[option] == undefined) {
+        newForm.characterConditionals[option] = defaultOptions[option]
+      }
+    }
+
+    console.warn('!!!!', form, newForm, defaultOptions)
     return newForm
   },
 

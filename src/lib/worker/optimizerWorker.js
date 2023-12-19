@@ -1,5 +1,6 @@
 import { Constants } from '../constants.js'
 import { BufferPacker } from '../bufferPacker.js'
+import { CharacterConditionals } from "../characterConditionals.js";
 
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
   let summedStats = {}
@@ -34,7 +35,7 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
 }
 
 self.onmessage = function (e) {
-  console.log("Message received from main script", e);
+  console.log("Message received from main script", e.data);
 
   let data = e.data;
   let relics = data.relics;
@@ -73,6 +74,9 @@ self.onmessage = function (e) {
 
   let request = data.request
   let setConditionals = request.setConditionals
+  let characterConditionals = CharacterConditionals.get(request)
+  let buffCalculator = characterConditionals.buffCalculator
+  let damageCalculator = characterConditionals.damageCalculator
 
   let enabledHunterOfGlacialForest          = setConditionals[Constants.Sets.HunterOfGlacialForest][1] == true ? 1 : 0
   let enabledFiresmithOfLavaForging         = setConditionals[Constants.Sets.FiresmithOfLavaForging][1] == true ? 1 : 0
@@ -94,21 +98,20 @@ self.onmessage = function (e) {
 
   for (let row = 0; row < data.HEIGHT; row++) {
     for (let col = 0; col < data.WIDTH; col++) {
+      let index = data.skip + row * data.HEIGHT + col
 
-      let x = data.skip + row * data.HEIGHT + col
-
-      if (x >= data.permutations) {
+      if (index >= data.permutations) {
         continue;
       }
 
-      let l = (x % lSize);
-      let p = (((x - l) / lSize) % pSize);
-      let f = (((x - p * lSize - l) / (lSize * pSize)) % fSize);
-      let b = (((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
-      let g = (((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
-      let h = (((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+      let l = (index % lSize);
+      let p = (((index - l) / lSize) % pSize);
+      let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
+      let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
+      let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
+      let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
 
-      let relicSum = sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues)
+      let c = sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues)
 
       let setH = relicSetToIndex[relics.Head[h].set]
       let setG = relicSetToIndex[relics.Hands[g].set]
@@ -123,169 +126,198 @@ self.onmessage = function (e) {
       let relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
       let ornamentSetIndex = setP + setL * ornamentSetCount;
 
-      let PasserbyOfWanderingCloud       = (1 >> (setH ^ 0))  + (1 >> (setG ^ 0))  + (1 >> (setB ^ 0))  + (1 >> (setF ^ 0)) // * 4p -
-      let MusketeerOfWildWheat           = (1 >> (setH ^ 1))  + (1 >> (setG ^ 1))  + (1 >> (setB ^ 1))  + (1 >> (setF ^ 1)) // * 4p SPD 6% + basic 10%
-      let KnightOfPurityPalace           = (1 >> (setH ^ 2))  + (1 >> (setG ^ 2))  + (1 >> (setB ^ 2))  + (1 >> (setF ^ 2)) // * 4p SHIELD
-      let HunterOfGlacialForest          = (1 >> (setH ^ 3))  + (1 >> (setG ^ 3))  + (1 >> (setB ^ 3))  + (1 >> (setF ^ 3)) // * 4p (25% CD)
-      let ChampionOfStreetwiseBoxing     = (1 >> (setH ^ 4))  + (1 >> (setG ^ 4))  + (1 >> (setB ^ 4))  + (1 >> (setF ^ 4)) // * 4p (5x5% ATK)
-      let GuardOfWutheringSnow           = (1 >> (setH ^ 5))  + (1 >> (setG ^ 5))  + (1 >> (setB ^ 5))  + (1 >> (setF ^ 5)) // * 4p -
-      let FiresmithOfLavaForging         = (1 >> (setH ^ 6))  + (1 >> (setG ^ 6))  + (1 >> (setB ^ 6))  + (1 >> (setF ^ 6)) // * 4p 12% skill + (12% Fire)
-      let GeniusOfBrilliantStars         = (1 >> (setH ^ 7))  + (1 >> (setG ^ 7))  + (1 >> (setB ^ 7))  + (1 >> (setF ^ 7)) //   4p !!! todo
-      let BandOfSizzlingThunder          = (1 >> (setH ^ 8))  + (1 >> (setG ^ 8))  + (1 >> (setB ^ 8))  + (1 >> (setF ^ 8)) //   4p (20% ATK)
-      let EagleOfTwilightLine            = (1 >> (setH ^ 9))  + (1 >> (setG ^ 9))  + (1 >> (setB ^ 9))  + (1 >> (setF ^ 9)) //   4p -
-      let ThiefOfShootingMeteor          = (1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)) //  4p 16% BE
-      let WastelanderOfBanditryDesert    = (1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)) //  4p (10% CD) + (20% CR)
-      let LongevousDisciple              = (1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)) //  4p (2x8% CR)
-      let MessengerTraversingHackerspace = (1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)) //  4p (12% SPD)
-      let TheAshblazingGrandDuke         = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK)
-      let PrisonerInDeepConfinement      = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p !!! todo
+      c.sets = {}
+      let sets = c.sets
+      sets.PasserbyOfWanderingCloud       = (1 >> (setH ^ 0))  + (1 >> (setG ^ 0))  + (1 >> (setB ^ 0))  + (1 >> (setF ^ 0)) // * 4p -
+      sets.MusketeerOfWildWheat           = (1 >> (setH ^ 1))  + (1 >> (setG ^ 1))  + (1 >> (setB ^ 1))  + (1 >> (setF ^ 1)) // * 4p SPD 6% + basic 10%
+      sets.KnightOfPurityPalace           = (1 >> (setH ^ 2))  + (1 >> (setG ^ 2))  + (1 >> (setB ^ 2))  + (1 >> (setF ^ 2)) // * 4p SHIELD
+      sets.HunterOfGlacialForest          = (1 >> (setH ^ 3))  + (1 >> (setG ^ 3))  + (1 >> (setB ^ 3))  + (1 >> (setF ^ 3)) // * 4p (25% CD)
+      sets.ChampionOfStreetwiseBoxing     = (1 >> (setH ^ 4))  + (1 >> (setG ^ 4))  + (1 >> (setB ^ 4))  + (1 >> (setF ^ 4)) // * 4p (5x5% ATK)
+      sets.GuardOfWutheringSnow           = (1 >> (setH ^ 5))  + (1 >> (setG ^ 5))  + (1 >> (setB ^ 5))  + (1 >> (setF ^ 5)) // * 4p -
+      sets.FiresmithOfLavaForging         = (1 >> (setH ^ 6))  + (1 >> (setG ^ 6))  + (1 >> (setB ^ 6))  + (1 >> (setF ^ 6)) // * 4p 12% skill + (12% Fire)
+      sets.GeniusOfBrilliantStars         = (1 >> (setH ^ 7))  + (1 >> (setG ^ 7))  + (1 >> (setB ^ 7))  + (1 >> (setF ^ 7)) //   4p !!! todo
+      sets.BandOfSizzlingThunder          = (1 >> (setH ^ 8))  + (1 >> (setG ^ 8))  + (1 >> (setB ^ 8))  + (1 >> (setF ^ 8)) //   4p (20% ATK)
+      sets.EagleOfTwilightLine            = (1 >> (setH ^ 9))  + (1 >> (setG ^ 9))  + (1 >> (setB ^ 9))  + (1 >> (setF ^ 9)) //   4p -
+      sets.ThiefOfShootingMeteor          = (1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)) //  4p 16% BE
+      sets.WastelanderOfBanditryDesert    = (1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)) //  4p (10% CD) + (20% CR)
+      sets.LongevousDisciple              = (1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)) //  4p (2x8% CR)
+      sets.MessengerTraversingHackerspace = (1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)) //  4p (12% SPD)
+      sets.TheAshblazingGrandDuke         = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK)
+      sets.PrisonerInDeepConfinement      = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p !!! todo
 
-      let SpaceSealingStation           = (1 >> (setP ^ 0))  + (1 >> (setL ^ 0)) // (12% ATK)
-      let FleetOfTheAgeless             = (1 >> (setP ^ 1))  + (1 >> (setL ^ 1)) // (8% ATK)
-      let PanCosmicCommercialEnterprise = (1 >> (setP ^ 2))  + (1 >> (setL ^ 2)) // (25% ATK)
-      let BelobogOfTheArchitects        = (1 >> (setP ^ 3))  + (1 >> (setL ^ 3)) // (15% DEF)
-      let CelestialDifferentiator       = (1 >> (setP ^ 4))  + (1 >> (setL ^ 4)) // (60% CR)
-      let InertSalsotto                 = (1 >> (setP ^ 5))  + (1 >> (setL ^ 5)) // (15% ULT/FUA)
-      let TaliaKingdomOfBanditry        = (1 >> (setP ^ 6))  + (1 >> (setL ^ 6)) // (20% BE)
-      let SprightlyVonwacq              = (1 >> (setP ^ 7))  + (1 >> (setL ^ 7)) // -
-      let RutilantArena                 = (1 >> (setP ^ 8))  + (1 >> (setL ^ 8)) // (20% BASIC/SKILL)
-      let BrokenKeel                    = (1 >> (setP ^ 9))  + (1 >> (setL ^ 9)) // (10% CD)
-      let FirmamentFrontlineGlamoth     = (1 >> (setP ^ 10)) + (1 >> (setL ^ 10)) // (12%/18% DMG)
-      let PenaconyLandOfTheDreams       = (1 >> (setP ^ 11)) + (1 >> (setL ^ 11)) // -
+      sets.SpaceSealingStation           = (1 >> (setP ^ 0))  + (1 >> (setL ^ 0)) // (12% ATK)
+      sets.FleetOfTheAgeless             = (1 >> (setP ^ 1))  + (1 >> (setL ^ 1)) // (8% ATK)
+      sets.PanCosmicCommercialEnterprise = (1 >> (setP ^ 2))  + (1 >> (setL ^ 2)) // (25% ATK)
+      sets.BelobogOfTheArchitects        = (1 >> (setP ^ 3))  + (1 >> (setL ^ 3)) // (15% DEF)
+      sets.CelestialDifferentiator       = (1 >> (setP ^ 4))  + (1 >> (setL ^ 4)) // (60% CR)
+      sets.InertSalsotto                 = (1 >> (setP ^ 5))  + (1 >> (setL ^ 5)) // (15% ULT/FUA)
+      sets.TaliaKingdomOfBanditry        = (1 >> (setP ^ 6))  + (1 >> (setL ^ 6)) // (20% BE)
+      sets.SprightlyVonwacq              = (1 >> (setP ^ 7))  + (1 >> (setL ^ 7)) // -
+      sets.RutilantArena                 = (1 >> (setP ^ 8))  + (1 >> (setL ^ 8)) // (20% BASIC/SKILL)
+      sets.BrokenKeel                    = (1 >> (setP ^ 9))  + (1 >> (setL ^ 9)) // (10% CD)
+      sets.FirmamentFrontlineGlamoth     = (1 >> (setP ^ 10)) + (1 >> (setL ^ 10)) // (12%/18% DMG)
+      sets.PenaconyLandOfTheDreams       = (1 >> (setP ^ 11)) + (1 >> (setL ^ 11)) // -
 
-      let elementalDmg = 0
-      if (elementalMultipliers[0]) elementalDmg = calculatePercentStat(Stats.Physical_DMG,  base, lc, trace, relicSum, 0.10 * p2(ChampionOfStreetwiseBoxing))
-      if (elementalMultipliers[1]) elementalDmg = calculatePercentStat(Stats.Fire_DMG,      base, lc, trace, relicSum, 0.10 * p2(FiresmithOfLavaForging) + 0.10*enabledFiresmithOfLavaForging*p4(FiresmithOfLavaForging))
-      if (elementalMultipliers[2]) elementalDmg = calculatePercentStat(Stats.Ice_DMG,       base, lc, trace, relicSum, 0.10 * p2(HunterOfGlacialForest))
-      if (elementalMultipliers[3]) elementalDmg = calculatePercentStat(Stats.Lightning_DMG, base, lc, trace, relicSum, 0.10 * p2(BandOfSizzlingThunder))
-      if (elementalMultipliers[4]) elementalDmg = calculatePercentStat(Stats.Wind_DMG,      base, lc, trace, relicSum, 0.10 * p2(EagleOfTwilightLine))
-      if (elementalMultipliers[5]) elementalDmg = calculatePercentStat(Stats.Quantum_DMG,   base, lc, trace, relicSum, 0.10 * p2(GeniusOfBrilliantStars))
-      if (elementalMultipliers[6]) elementalDmg = calculatePercentStat(Stats.Imaginary_DMG, base, lc, trace, relicSum, 0.10 * p2(WastelanderOfBanditryDesert))
+      // Old elemental dmg logic -- TODO fix
 
-      let character = relicSum
+      c.ED = 0
+      if (elementalMultipliers[0]) c.ED = calculatePercentStat(Stats.Physical_DMG,  base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
+      if (elementalMultipliers[1]) c.ED = calculatePercentStat(Stats.Fire_DMG,      base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging) + 0.10*enabledFiresmithOfLavaForging*p4(sets.FiresmithOfLavaForging))
+      if (elementalMultipliers[2]) c.ED = calculatePercentStat(Stats.Ice_DMG,       base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest))
+      if (elementalMultipliers[3]) c.ED = calculatePercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder))
+      if (elementalMultipliers[4]) c.ED = calculatePercentStat(Stats.Wind_DMG,      base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine))
+      if (elementalMultipliers[5]) c.ED = calculatePercentStat(Stats.Quantum_DMG,   base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars))
+      if (elementalMultipliers[6]) c.ED = calculatePercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert))
 
-      let crSum = relicSum[Stats.CR]
-      let cdSum = relicSum[Stats.CD]
+      let crSum = c[Stats.CR]
+      let cdSum = c[Stats.CD]
+
+      // Calculate base stats
 
       let baseHp  = calculateBaseStat(Stats.HP, base, lc)
       let baseAtk = calculateBaseStat(Stats.ATK, base, lc)
       let baseDef = calculateBaseStat(Stats.DEF, base, lc)
       let baseSpd = calculateBaseStat(Stats.SPD, base, lc)
 
-      character[Stats.HP]  = calculateFlatStat2(Stats.HP,  Stats.HP_P,  baseHp,  lc, trace, relicSum, 0.12*p2(FleetOfTheAgeless) +
-                                                                                                      0.12*p2(LongevousDisciple))
+      // Calculate display stats with unconditional sets
 
-      character[Stats.ATK] = calculateFlatStat2(Stats.ATK, Stats.ATK_P, baseAtk, lc, trace, relicSum, 0.12*p2(SpaceSealingStation) +
-                                                                                                      0.12*p2(FirmamentFrontlineGlamoth) +
-                                                                                                      0.12*p2(MusketeerOfWildWheat) +
-                                                                                                      0.12*p2(PrisonerInDeepConfinement))
+      c[Stats.HP]  = calculateFlatStat2(Stats.HP,  Stats.HP_P,  baseHp,  lc, trace, c,
+        0.12*p2(sets.FleetOfTheAgeless) +
+        0.12*p2(sets.LongevousDisciple))
 
-      character[Stats.DEF] = calculateFlatStat2(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, relicSum, 0.15*p2(BelobogOfTheArchitects) +
-                                                                                                      0.15*p2(KnightOfPurityPalace))
+      c[Stats.ATK] = calculateFlatStat2(Stats.ATK, Stats.ATK_P, baseAtk, lc, trace, c,
+        0.12*p2(sets.SpaceSealingStation) +
+        0.12*p2(sets.FirmamentFrontlineGlamoth) +
+        0.12*p2(sets.MusketeerOfWildWheat) +
+        0.12*p2(sets.PrisonerInDeepConfinement))
 
-      character[Stats.SPD] = calculateFlatStat2(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, relicSum, 0.06*p2(MessengerTraversingHackerspace) +
-                                                                                                      0.06*p4(MusketeerOfWildWheat))
+      c[Stats.DEF] = calculateFlatStat2(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, c,
+        0.15*p2(sets.BelobogOfTheArchitects) +
+        0.15*p2(sets.KnightOfPurityPalace))
 
-      character[Stats.CR]  = calculatePercentStat(Stats.CR,  base, lc, trace, relicSum, 0.08*p2(InertSalsotto) +
-                                                                                        0.08*p2(RutilantArena))
+      c[Stats.SPD] = calculateFlatStat2(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
+        0.06*p2(sets.MessengerTraversingHackerspace) +
+        0.06*p4(sets.MusketeerOfWildWheat))
 
-      character[Stats.CD]  = calculatePercentStat(Stats.CD,  base, lc, trace, relicSum, 0.16*p2(CelestialDifferentiator))
+      c[Stats.CR]  = calculatePercentStat(Stats.CR,  base, lc, trace, c,
+        0.08*p2(sets.InertSalsotto) +
+        0.08*p2(sets.RutilantArena))
 
-      character[Stats.EHR] = calculatePercentStat(Stats.EHR, base, lc, trace, relicSum, 0.10*p2(PanCosmicCommercialEnterprise))
+      c[Stats.CD]  = calculatePercentStat(Stats.CD,  base, lc, trace, c,
+        0.16*p2(sets.CelestialDifferentiator))
 
-      character[Stats.RES] = calculatePercentStat(Stats.RES, base, lc, trace, relicSum, 0.10*p2(BrokenKeel))
+      c[Stats.EHR] = calculatePercentStat(Stats.EHR, base, lc, trace, c,
+        0.10*p2(sets.PanCosmicCommercialEnterprise))
 
-      character[Stats.BE]  = calculatePercentStat(Stats.BE,  base, lc, trace, relicSum, 0.16*p2(TaliaKingdomOfBanditry) +
-                                                                                        0.16*p2(ThiefOfShootingMeteor) +
-                                                                                        0.16*p4(ThiefOfShootingMeteor))
+      c[Stats.RES] = calculatePercentStat(Stats.RES, base, lc, trace, c,
+        0.10*p2(sets.BrokenKeel))
 
-      character[Stats.ERR] = calculatePercentStat(Stats.ERR, base, lc, trace, relicSum, 0.05*p2(SprightlyVonwacq) +
-                                                                                        0.05*p2(PenaconyLandOfTheDreams))
+      c[Stats.BE]  = calculatePercentStat(Stats.BE,  base, lc, trace, c,
+        0.16*p2(sets.TaliaKingdomOfBanditry) +
+        0.16*p2(sets.ThiefOfShootingMeteor) +
+        0.16*p4(sets.ThiefOfShootingMeteor))
 
-      character[Stats.OHB] = calculatePercentStat(Stats.OHB, base, lc, trace, relicSum, 0.10*p2(PasserbyOfWanderingCloud))
+      c[Stats.ERR] = calculatePercentStat(Stats.ERR, base, lc, trace, c,
+        0.05*p2(sets.SprightlyVonwacq) +
+        0.05*p2(sets.PenaconyLandOfTheDreams))
 
-      character.ED = elementalDmg
-      character.id = x
+      c[Stats.OHB] = calculatePercentStat(Stats.OHB, base, lc, trace, c,
+        0.10*p2(sets.PasserbyOfWanderingCloud))
 
-      character.xHP = character[Stats.HP]
-      character.xATK = character[Stats.ATK]
-      character.xDEF = character[Stats.DEF]
-      character.xSPD = character[Stats.SPD]
-      character.xCR = character[Stats.CR]
-      character.xCD = character[Stats.CD]
-      character.xEHR = character[Stats.EHR]
-      character.xRES = character[Stats.RES]
-      character.xBE = character[Stats.BE]
-      character.xERR = character[Stats.ERR]
-      character.xOHB = character[Stats.OHB]
-      character.xED = character.ED
+      c.id = index
 
-      let calculatedSpd = character[Stats.SPD] + 0.12*baseSpd*enabledMessengerTraversingHackerspace*p4(MessengerTraversingHackerspace)
+      // Calculate passive effects. x stores the internally calculated stats
 
-      let calculated = {
-        [Stats.HP]:  character[Stats.HP],
-        [Stats.ATK]: character[Stats.ATK] + baseAtk*(0.05*valueChampionOfStreetwiseBoxing*p4(ChampionOfStreetwiseBoxing) +
-                                                     0.20*enabledBandOfSizzlingThunder*p4(BandOfSizzlingThunder) +
-                                                     0.06*valueTheAshblazingGrandDuke*p4(TheAshblazingGrandDuke) +
-                                                     0.12*(calculatedSpd >= 120 ? 1 : 0)*p2(SpaceSealingStation) +
-                                                     0.08*(calculatedSpd >= 120 ? 1 : 0)*p2(FleetOfTheAgeless) +
-                                                     Math.min(0.25, 0.25*character[Stats.EHR])*p2(PanCosmicCommercialEnterprise)),
+      c.x  =  {}
+      let x = c.x
 
-        [Stats.DEF]: character[Stats.DEF] + baseDef*(0.15*(character[Stats.EHR] >= 0.50 ? 1 : 0)*p2(BelobogOfTheArchitects)),
 
-        [Stats.SPD]: calculatedSpd,
 
-        [Stats.CR]:  character[Stats.CR] + 0.10*(valueWastelanderOfBanditryDesert > 0 ? 1 : 0)*p4(WastelanderOfBanditryDesert) +
-                                           0.08*valueLongevousDisciple*p4(LongevousDisciple) +
-                                           0.60*enabledCelestialDifferentiator*(character[Stats.CD] >= 1.20 ? 1 : 0)*p2(CelestialDifferentiator),
+      // Calculate set effects
 
-        [Stats.CD]:  character[Stats.CD] + 0.25*enabledHunterOfGlacialForest*p4(HunterOfGlacialForest) +
-                                           0.10*(valueWastelanderOfBanditryDesert == 2 ? 1 : 0)*p4(WastelanderOfBanditryDesert) +
-                                           0.10*(character[Stats.RES] >= 0.30 ? 1 : 0)*p2(BrokenKeel),
+      x[Stats.SPD] = c[Stats.SPD] +
+        0.12*baseSpd*enabledMessengerTraversingHackerspace*p4(sets.MessengerTraversingHackerspace)
 
-        [Stats.EHR]: character[Stats.EHR],
+      x[Stats.HP] = c[Stats.HP]
 
-        [Stats.RES]: character[Stats.RES],
+      x[Stats.ATK] = c[Stats.ATK] + baseAtk*(
+        0.05*valueChampionOfStreetwiseBoxing*p4(sets.ChampionOfStreetwiseBoxing) +
+        0.20*enabledBandOfSizzlingThunder*p4(sets.BandOfSizzlingThunder) +
+        0.06*valueTheAshblazingGrandDuke*p4(sets.TheAshblazingGrandDuke) +
+        0.12*(x[Stats.SPD] >= 120 ? 1 : 0)*p2(sets.SpaceSealingStation) +
+        0.08*(x[Stats.SPD] >= 120 ? 1 : 0)*p2(sets.FleetOfTheAgeless) +
+        Math.min(0.25, 0.25*c[Stats.EHR])*p2(sets.PanCosmicCommercialEnterprise))
 
-        [Stats.BE]:  character[Stats.BE] + 0.20*(character[Stats.SPD] >= 145 ? 1 : 0)*p2(TaliaKingdomOfBanditry),
+      x[Stats.DEF] = c[Stats.DEF] + baseDef*(
+        0.15*(c[Stats.EHR] >= 0.50 ? 1 : 0)*p2(sets.BelobogOfTheArchitects))
 
-        [Stats.ERR]: character[Stats.ERR],
+      x[Stats.CR] = c[Stats.CR] +
+        0.10*(valueWastelanderOfBanditryDesert > 0 ? 1 : 0)*p4(sets.WastelanderOfBanditryDesert) +
+        0.08*valueLongevousDisciple*p4(sets.LongevousDisciple) +
+        0.60*enabledCelestialDifferentiator*(c[Stats.CD] >= 1.20 ? 1 : 0)*p2(sets.CelestialDifferentiator)
 
-        [Stats.OHB]: character[Stats.OHB],
+      x[Stats.CD] = c[Stats.CD] +
+        0.25*enabledHunterOfGlacialForest*p4(sets.HunterOfGlacialForest) +
+        0.10*(valueWastelanderOfBanditryDesert == 2 ? 1 : 0)*p4(sets.WastelanderOfBanditryDesert) +
+        0.10*(c[Stats.RES] >= 0.30 ? 1 : 0)*p2(sets.BrokenKeel)
 
-        ED:  character.ED,
-      }
+      x[Stats.EHR] = c[Stats.EHR]
 
-      let damageBonus = 0.12*(calculated[Stats.SPD] >= 135 ? 1 : 0)*p2(FirmamentFrontlineGlamoth) +
-                        0.06*(calculated[Stats.SPD] >= 160 ? 1 : 0)*p2(FirmamentFrontlineGlamoth)
+      x[Stats.RES] = c[Stats.RES]
 
-      let cappedCrit = Math.min(calculated[Stats.CR] + request.buffCr, 1)
-      let dmg = (calculated[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * ((1 - cappedCrit) + (1 + calculated[Stats.CD] + request.buffCd) * cappedCrit) * (1 + elementalDmg + damageBonus)
-      let mcd = (calculated[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * (1 + calculated[Stats.CD] + request.buffCd) * (1 + elementalDmg + damageBonus)
-      let ehp = calculated[Stats.HP] / (1 - calculated[Stats.DEF] / (calculated[Stats.DEF] + 200 + 10 * 80)) * (1 + 0.08*p2(GuardOfWutheringSnow))
+      x[Stats.BE] = c[Stats.BE] +
+        0.20*(c[Stats.SPD] >= 145 ? 1 : 0)*p2(sets.TaliaKingdomOfBanditry)
+
+      x[Stats.ERR] = c[Stats.ERR]
+
+      x[Stats.OHB] = c[Stats.OHB]
+
+      x.ED = c.ED
+      x[Stats.ATK_P] = 0
+      x[Stats.DEF_P] = 0
+      x[Stats.HP_P]  = 0
+      x[Stats.SPD_P] = 0
+
+      // Calculate ratings
+
+      let damageBonus =
+        0.12*(x[Stats.SPD] >= 135 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth) +
+        0.06*(x[Stats.SPD] >= 160 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth)
+
+      let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
+      let dmg = (x[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * ((1 - cappedCrit) + (1 + x[Stats.CD] + request.buffCd) * cappedCrit) * (1 + x.ED + damageBonus)
+      let mcd = (x[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * (1 + x[Stats.CD] + request.buffCd) * (1 + x.ED + damageBonus)
+      let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * 80)) * (1 + 0.08*p2(sets.GuardOfWutheringSnow))
       let cv = 100 * (crSum * 2 + cdSum)
 
-      character.CV = cv
-      character.DMG = dmg
-      character.MCD = mcd
-      character.EHP = ehp
+      c.CV = cv
+      c.DMG = dmg
+      c.MCD = mcd
+      c.EHP = ehp
 
-      // + elementalDmg
-      character.BASIC = 100 * (1 + damageBonus + 0.10*p4(MusketeerOfWildWheat) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
-      character.SKILL = 100 * (1 + damageBonus + 0.12*p4(FiresmithOfLavaForging) + 0.20*(calculated[Stats.CR] >= 0.70 ? 1 : 0)*p2(RutilantArena))
-      character.ULT =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
-      character.FUA =   100 * (1 + damageBonus + 0.15*(calculated[Stats.CR] >= 0.50 ? 1 : 0)*p2(InertSalsotto))
+      // Calculate character buffs
+
+      buffCalculator(c, request)
+
+      x[Stats.ATK] += x[Stats.ATK_P] * baseAtk
+      x[Stats.DEF] += x[Stats.DEF_P] * baseDef
+      x[Stats.HP]  += x[Stats.HP_P]  * baseHp
+      x[Stats.SPD] += x[Stats.SPD_P] * baseSpd
+
+      // Calculate skill damage multipliers
+
+      damageCalculator(c, request)
 
       let result =
-        character[Stats.HP]  >= request.minHp  && character[Stats.HP]  <= request.maxHp  &&
-        character[Stats.ATK] >= request.minAtk && character[Stats.ATK] <= request.maxAtk &&
-        character[Stats.DEF] >= request.minDef && character[Stats.DEF] <= request.maxDef &&
-        character[Stats.SPD] >= request.minSpd && character[Stats.SPD] <= request.maxSpd &&
-        character[Stats.CR]  >= request.minCr  && character[Stats.CR]  <= request.maxCr  &&
-        character[Stats.CD]  >= request.minCd  && character[Stats.CD]  <= request.maxCd  &&
-        character[Stats.EHR] >= request.minEhr && character[Stats.EHR] <= request.maxEhr &&
-        character[Stats.RES] >= request.minRes && character[Stats.RES] <= request.maxRes &&
-        character[Stats.BE]  >= request.minBe  && character[Stats.BE]  <= request.maxBe  &&
+        c[Stats.HP]  >= request.minHp  && c[Stats.HP]  <= request.maxHp  &&
+        c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk &&
+        c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef &&
+        c[Stats.SPD] >= request.minSpd && c[Stats.SPD] <= request.maxSpd &&
+        c[Stats.CR]  >= request.minCr  && c[Stats.CR]  <= request.maxCr  &&
+        c[Stats.CD]  >= request.minCd  && c[Stats.CD]  <= request.maxCd  &&
+        c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr &&
+        c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes &&
+        c[Stats.BE]  >= request.minBe  && c[Stats.BE]  <= request.maxBe  &&
         cv  >= request.minCv  && cv  <= request.maxCv  &&
         dmg >= request.minDmg && dmg <= request.maxDmg &&
         mcd >= request.minMcd && mcd <= request.maxMcd &&
@@ -293,20 +325,8 @@ self.onmessage = function (e) {
 
       // calculateCharacterColumns(character)
 
-      character.xHP = calculated[Stats.HP]
-      character.xATK = calculated[Stats.ATK]
-      character.xDEF = calculated[Stats.DEF]
-      character.xSPD = calculated[Stats.SPD]
-      character.xCR = calculated[Stats.CR]
-      character.xCD = calculated[Stats.CD]
-      character.xEHR = calculated[Stats.EHR]
-      character.xRES = calculated[Stats.RES]
-      character.xBE = calculated[Stats.BE]
-      character.xERR = calculated[Stats.ERR]
-      character.xOHB = calculated[Stats.OHB]
-      character.xED = calculated.ED
       if (result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {
-        BufferPacker.packCharacter(arr, row * data.HEIGHT + col, character);
+        BufferPacker.packCharacter(arr, row * data.HEIGHT + col, c);
       }
     }
   }
@@ -323,4 +343,7 @@ function p4(set) {
 
 function p2(set) {
   return Math.min(1, set >> 1)
+}
+
+function calculateJingliu(c) {
 }

@@ -84,8 +84,6 @@ export default function CharacterTab({style}) {
   const charactersById = store(s => s.charactersById)
   const selectedCharacter = charactersById[characterTabSelectedId]
 
-  console.warn('DEBUG!!!!', characterTabSelectedId, charactersById, selectedCharacter)
-
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
     forceUpdate()

@@ -158,6 +158,8 @@ export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = optimizerForm
 
+  const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
@@ -304,6 +306,30 @@ export default function OptimizerForm() {
     return levelStats
   }, []);
 
+  const enemyLevelOptions = useMemo(() => {
+    let levelStats = []
+    for (let i = 95; i >= 1; i--) {
+      levelStats.push({
+        value: i,
+        label: `Lv. ${i}`
+      })
+    }
+
+    return levelStats
+  }, []);
+
+  const enemyCountOptions = useMemo(() => {
+    let levelStats = []
+    for (let i = 1; i <= 5; i++) {
+      levelStats.push({
+        value: i,
+        label: `${i} target${i > 1 ? 's' : ''}`
+      })
+    }
+
+    return levelStats
+  }, []);
+
   const superimpositionOptions = useMemo(() => {
     return [
       { value: 1, label: 'S1' },
@@ -354,7 +380,7 @@ export default function OptimizerForm() {
   const onValuesChange = (changedValues, allValues) => {
     if (!changedValues) return;
     let keys = Object.keys(changedValues)
-    if (keys.length == 1 && (keys[0].startsWith('min') || keys[0].startsWith('max') || keys[0].startsWith('buff'))) {
+    if (keys.length == 1 && (keys[0].startsWith('min') || keys[0].startsWith('max') || keys[0].startsWith('buff') || keys[0] == 'characterConditionals')) {
       return;
     }
     let request = allValues
@@ -430,6 +456,7 @@ export default function OptimizerForm() {
       "keepCurrentRelics": false,
       "enhance": 9,
       "grade": 5,
+      "enemyLevel": 95,
       "mainHead": [],
       "mainHands": [],
       "setConditionals": {
@@ -833,7 +860,7 @@ export default function OptimizerForm() {
                 <TooltipImage type={Hint.optimizerOptions()} />
               </Flex>
 
-              <Flex>
+              <Flex align='center'>
                 <Form.Item name="rankFilter" valuePropName="checked">
                   <Switch
                     checkedChildren={<CheckOutlined />}
@@ -845,7 +872,7 @@ export default function OptimizerForm() {
                 <Text>Rank filter</Text>
               </Flex>
 
-              <Flex>
+              <Flex align='center'>
                 <Form.Item name="predictMaxedMainStat" valuePropName="checked">
                   <Switch
                     checkedChildren={<CheckOutlined />}
@@ -857,7 +884,7 @@ export default function OptimizerForm() {
                 <Text>Maxed main stat</Text>
               </Flex>
 
-              <Flex>
+              <Flex align='center'>
                 <Form.Item name="keepCurrentRelics" valuePropName="checked">
                   <Switch
                     checkedChildren={<CheckOutlined />}
@@ -980,9 +1007,59 @@ export default function OptimizerForm() {
 
               <HeaderText>Enemy</HeaderText>
 
-              <Button onClick={() => setDrawerOpen(true)}>
-                Enemy effects
-              </Button>
+              <Flex gap={defaultGap} justify='space-between'>
+                <Form.Item size="default" name='enemyLevel'>
+                  <Select
+                    showSearch
+                    filterOption={filterOption}
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={enemyLevelOptions}
+                  />
+                </Form.Item>
+                <Form.Item size="default" name='enemyCount'>
+                  <Select
+                    showSearch
+                    filterOption={filterOption}
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={enemyCountOptions}
+                  />
+                </Form.Item>
+              </Flex>
+
+              <Flex align='center'>
+                <Form.Item name="enemyElementalWeak" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Elemental weakness</Text>
+              </Flex>
+
+              <Flex align='center'>
+                <Form.Item name="enemyQuantumWeak" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Quantum weakness</Text>
+              </Flex>
+
+              <Flex align='center'>
+                <Form.Item name="enemyWeaknessBroken" valuePropName="checked">
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    style={{ width: 45, marginRight: 10 }}
+                  />
+                </Form.Item>
+                <Text>Weakness broken</Text>
+              </Flex>
 
               <ConfigProvider
                 theme={{
@@ -1051,7 +1128,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter)}
+              {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
             </FormCard>
           </CardRow>
         </Flex>

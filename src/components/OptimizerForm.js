@@ -330,6 +330,30 @@ export default function OptimizerForm() {
     return levelStats
   }, []);
 
+  const enemyResistanceOptions = useMemo(() => {
+    let levelStats = []
+    for (let i = 20; i <= 60; i += 20) {
+      levelStats.push({
+        value: i/100,
+        label: `${i}% RES`
+      })
+    }
+
+    return levelStats
+  }, []);
+
+  const enemyHpPercentOptions = useMemo(() => {
+    let levelStats = []
+    for (let i = 100; i >= 1; i--) {
+      levelStats.push({
+        value: i/100,
+        label: `${i}% HP`
+      })
+    }
+
+    return levelStats
+  }, []);
+
   const superimpositionOptions = useMemo(() => {
     return [
       { value: 1, label: 'S1' },
@@ -386,7 +410,7 @@ export default function OptimizerForm() {
     let request = allValues
     let relics = DB.getRelics()
     console.log('Values changed', request, changedValues)
-    console.log('Unfiltered relics', relics)
+    // console.log('Unfiltered relics', relics)
 
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
 
@@ -1026,6 +1050,25 @@ export default function OptimizerForm() {
                 </Form.Item>
               </Flex>
 
+              <Flex gap={defaultGap} justify='space-between'>
+                <Form.Item size="default" name='enemyResistance'>
+                  <Select
+                    showSearch
+                    filterOption={filterOption}
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={enemyResistanceOptions}
+                  />
+                </Form.Item>
+                <Form.Item size="default" name='enemyHpPercent'>
+                  <Select
+                    showSearch
+                    filterOption={filterOption}
+                    style={{ width: (panelWidth - defaultGap) / 2 }}
+                    options={enemyHpPercentOptions}
+                  />
+                </Form.Item>
+              </Flex>
+
               <Flex align='center'>
                 <Form.Item name="enemyElementalWeak" valuePropName="checked">
                   <Switch
@@ -1129,6 +1172,10 @@ export default function OptimizerForm() {
 
             <FormCard>
               {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
+            </FormCard>
+
+            <FormCard>
+              {' '}
             </FormCard>
           </CardRow>
         </Flex>

@@ -97,20 +97,60 @@ const characterOptionMapping = {
   1212: jingliu,
 }
 
-function jingliu(e) {
-  let talentCritBuff = talent(e, 0.50, 0.52)
-  let talentHpDrainAtkBuff = talent(e, 1.80, 1.98)
+// TODO profile & convert to array for performance?
+const baseComputedStatsObject = {
+  [Stats.HP_P]: 0,
+  [Stats.ATK_P]: 0,
+  [Stats.DEF_P]: 0,
+  [Stats.SPD_P]: 0,
+  [Stats.HP]: 0,
+  [Stats.ATK]: 0,
+  [Stats.DEF]: 0,
+  [Stats.SPD]: 0,
+  [Stats.CD]: 0,
+  [Stats.CR]: 0,
+  [Stats.EHR]: 0,
+  [Stats.RES]: 0,
+  [Stats.BE]: 0,
+  [Stats.ERR]: 0,
+  [Stats.OHB]: 0,
 
-  let basicMulti = talent(e, 1.0, 1.1)
-  let skillMulti = skill(e, 2.0, 2.2)
-  let skillMultiEnhanced = skill(e, 2.5, 2.75)
-  let ultMulti = ult(e, 3.0, 3.24)
+  DEF_SHRED: 0,
+  DMG_TAKEN_MULTI: 0,
+  ALL_DMG_MULTI: 0,
+  RES_PEN: 0,
+  DMG_RED_MULTI: 0,
+
+  BASIC_SCALING: 0,
+  SKILL_SCALING: 0,
+  ULT_SCALING: 0,
+  FUA_SCALING: 0,
+
+  BASIC_BOOST: 0,
+  SKILL_BOOST: 0,
+  ULT_BOOST: 0,
+  FUA_BOOST: 0,
+
+  BASIC_DMG: 0,
+  SKILL_DMG: 0,
+  ULT_DMG: 0,
+  FUA_DMG: 0,
+}
+
+function jingliu(e) {
+  let talentCrBuff = talent(e, 0.50, 0.52)
+  let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
+
+  let basicScaling = talent(e, 1.0, 1.1)
+  let skillScaling = skill(e, 2.0, 2.2)
+  let skillEnhancedScaling = skill(e, 2.5, 2.75)
+  let ultScaling = ult(e, 3.0, 3.24)
 
   return {
-    display: () => ( // Jingliu
+    display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='talentEnhancedState' text='Enhanced state'/>
-        <FormSlider name='talentHpDrainAtkBuff' switchName='talentHpDrainAtkBuffEnabled' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuff} />
+        <FormSlider name='talentHpDrainAtkBuff' switchName='talentHpDrainAtkBuffEnabled' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} />
         <FormSwitch name='e1CdBuff' text='E1 ult active' />
         <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' />
       </Flex>
@@ -118,28 +158,55 @@ function jingliu(e) {
     defaults: () => ({
       talentEnhancedState: true,
       talentHpDrainAtkBuffEnabled: true,
-      talentHpDrainAtkBuff: talentHpDrainAtkBuff,
+      talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
       e1CdBuff: true,
       e2SkillDmgBuff: true,
     }),
-    buffCalculator: (c, request) => {
-      let x = c.x; let sets = c.sets; let conditionals = request.characterConditionals
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
 
+      // Skills
+      x[Stats.CR]    += (r.talentEnhancedState) ? talentCrBuff : 0
+      x[Stats.ATK_P] += (r.talentEnhancedState && r.talentHpDrainAtkBuffEnabled) ? r.talentHpDrainAtkBuff : 0
 
-      x[Stats.CR]    += (conditionals.talentEnhancedState) ? talentCritBuff : 0
-      x[Stats.ATK_P] += (conditionals.talentEnhancedState && conditionals.talentHpDrainAtkBuffEnabled) ? talentHpDrainAtkBuff : 0
-      x[Stats.CD]    += (e >= 1 && conditionals.e1CdBuff) ? 0.24 : 0
+      // Traces
+      x[Stats.RES]   += (r.talentEnhancedState) ? 0.35 : 0
+      x.ULT_BOOST    += (r.talentEnhancedState) ? 0.20 : 0
+
+      // Eidolons
+      x[Stats.CD]    += (e >= 1 && e1CdBuff) ? 0.24 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+
+      x.SKILL_SCALING += (r.talentEnhancedState) ? skillEnhancedScaling : skillScaling
+      x.SKILL_SCALING += (e >= 1 && r.talentEnhancedState && request.enemyCount == 1) ? 1 : 0
+
+      x.ULT_SCALING += ultScaling
+      x.ULT_SCALING += (e >= 1 && request.enemyCount == 1) ? 1 : 0
+
+      x.FUA_SCALING += 0
+
+      // BOOST
+      x.SKILL_BOOST += (r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0
+
+      return x
     },
-    damageCalculator: (c, request) => {
-      let x = c.x; let sets = c.sets; let conditionals = request.characterConditionals
+    calculatePassives: (c, request) => {
 
-      c.BASIC = 100 * (1 + 0 + 0.10*p4(sets.MusketeerOfWildWheat)   + 0.20*(x[Stats.CR] >= 0.70 ? 1 : 0)*p2(sets.RutilantArena))
-      c.SKILL = 100 * (1 + 0 + 0.12*p4(sets.FiresmithOfLavaForging) + 0.20*(x[Stats.CR] >= 0.70 ? 1 : 0)*p2(sets.RutilantArena))
-      c.ULT =   100 * (1 + 0 + 0.15*(x[Stats.CR] >= 0.50 ? 1 : 0)*p2(c.sets.InertSalsotto))
-      c.FUA =   100 * (1 + 0 + 0.15*(x[Stats.CR] >= 0.50 ? 1 : 0)*p2(c.sets.InertSalsotto))
+    },
+    calculateBaseMultis: (c, request) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += 0
     }
   }
 }
+
 function basic(e, value1, value2) {
   return e >= 5 ? value2 : value1
 }

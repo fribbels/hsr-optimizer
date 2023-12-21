@@ -36,6 +36,7 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
 
 self.onmessage = function (e) {
   console.warn("Message received from main script", e.data);
+  console.warn("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   let data = e.data;
   let relics = data.relics;
@@ -360,19 +361,18 @@ self.onmessage = function (e) {
       let defReduction = 0
       let defIgnore = 0
 
-      let defMultiplier = (cLevel + 20) / ((eLevel + 20) * (1 - defReduction - defIgnore) + cLevel + 20)
       let critMultiplier = Math.min(1, x[Stats.CR]) * (1 + x[Stats.CD]) + (1 - Math.min(1, x[Stats.CR]))
       let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG
       let resMultiplier = 1 - (resistance - x.RES_PEN)
       let dmgTakenMultiplier = 1 + x.DMG_TAKEN_MULTI
       let dmgReductionMultiplier = 1
 
-      let universalMulti = critMultiplier * defMultiplier * resMultiplier * dmgTakenMultiplier * dmgReductionMultiplier * brokenMultiplier
+      let universalMulti = critMultiplier * resMultiplier * dmgTakenMultiplier * dmgReductionMultiplier * brokenMultiplier
 
-      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST)
-      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST)
-      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)
-      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)
+      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
+      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
+      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
+      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
 
       // ************************************************************
       // Filter results
@@ -407,6 +407,10 @@ self.onmessage = function (e) {
     rows: [],
     buffer: data.buffer
   }, [data.buffer]);
+}
+
+function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {
+  return (cLevel + 20) / ((eLevel + 20) * (1 - defReduction - defIgnore - additionalPen) + cLevel + 20)
 }
 
 function p4(set) {

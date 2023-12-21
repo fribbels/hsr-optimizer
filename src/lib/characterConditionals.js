@@ -16,8 +16,8 @@ const Text = styled(Typography)`
 let justify = 'flex-start'
 let align = 'center'
 let inputWidth = 75
-let numberWidth = 60
-let sliderWidth = 110
+let numberWidth = 65
+let sliderWidth = 140
 
 function FormSwitch(props) {
   return (
@@ -51,51 +51,71 @@ function FormNumberPercent(props) {
 }
 
 function FormSlider(props) {
-  const [disabled, setDisabled] = useState(false);
-  const onChange = (checked) => {
-    setDisabled(!checked);
+  const [inputValue, setInputValue] = useState(1);
+  const onChange = (newValue) => {
+    setInputValue(newValue);
   };
 
+  let multiplier = (props.percent ? 100 : 1)
+  let step = props.percent ? 0.01 : 1
+  let symbol = props.percent ? '%' : ''
+
   return (
-    <Flex vertical gap={10} style={{marginBottom: 5}}>
+    <Flex vertical gap={5} style={{marginBottom: 0}}>
       <Flex justify={justify} align={align}>
         <div style={{minWidth: inputWidth, display: 'block'}}>
-          <Form.Item name={['characterConditionals', props.switchName]} valuePropName='checked'>
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              checked={!disabled}
+          <Form.Item name={['characterConditionals', props.name]}>
+            <InputNumber
+              min={props.min}
+              max={props.max}
+              controls={false}
+              size='small'
+              style={{
+                width: numberWidth,
+              }}
+              parser={(value) => value == null || value == '' ? 0 : precisionRound(value / multiplier) }
+              formatter={(value) => `${precisionRound(value * multiplier)}`}
+              addonAfter={symbol}
               onChange={onChange}
             />
           </Form.Item>
         </div>
         <Text>{props.text}</Text>
       </Flex>
-      <Flex align='center' justify='space-between' style={{height: 10}}>
-        <Text>{`${props.min * 100}%`}</Text>
+      <Flex align='center' justify='flex-start' gap={10}>
         <Form.Item name={['characterConditionals', props.name]}>
           <Slider
             min={props.min}
             max={props.max}
-            step={0.01}
-            tooltip={{
-              formatter: (value) => `${Math.round(value * 100)}%`
-            }}
-            disabled={disabled}
+            step={step}
+            value={typeof inputValue === 'number' ? inputValue : 0}
             style={{
-              width: sliderWidth
+              minWidth: sliderWidth,
+              marginTop: 0,
+              marginBottom: 0,
+              marginLeft: 1
             }}
+            tooltip={{
+              formatter: (value) => `${precisionRound(value * multiplier)}${symbol}`
+            }}
+            onChange={onChange}
           />
         </Form.Item>
-        <Text>{`${props.max * 100}%`}</Text>
+        <Text style={{minWidth: 20, marginBottom: 2, textAlign: 'center'}}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>
       </Flex>
     </Flex>
   )
 }
 
+function precisionRound(number, precision = 8) {
+  let factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
+
 const characterOptionMapping = {
   1212: jingliu,
-  1302: argenti,
+  1302: argenti, // verify ult dmg
+  1008: arlan,
 }
 
 // TODO profile & convert to array for performance?
@@ -137,56 +157,109 @@ const baseComputedStatsObject = {
   SKILL_DMG: 0,
   ULT_DMG: 0,
   FUA_DMG: 0,
+
+  BASIC_DEF_PEN: 0,
+  SKILL_DEF_PEN: 0,
+  ULT_DEF_PEN: 0,
+  FUA_DEF_PEN: 0,
 }
 
 
+function arlan(e) {
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.40, 2.64)
+  let ultScaling = ult(e, 3.20, 3.456)
+
+  let talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSlider name='selfCurrentHpPercent' text='Self current HP%' min={0.01} max={1.0} percent />
+      </Flex>
+    ),
+    defaults: () => ({
+      selfCurrentHpPercent: 1.00,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x.ELEMENTAL_DMG += Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent)
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.SKILL_BOOST += (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0
+      x.ULT_BOOST += (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += 0
+    }
+  }
+}
 
 function argenti(e) {
-  let talentMaxStacks = talent(e, 10, 12)
+  let talentMaxStacks = (e >= 4) ? 12 : 10
 
-  let basicScaling = talent(e, 1.0, 1.1)
-  let skillScaling = skill(e, 1.2, 1.32)
-  let ultScaling = ult(e, -1, -1)
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 1.20, 1.32)
+  let ultScaling = ult(e, 1.60, 1.728)
+  let ultEnhancedScaling = ult(e, 2.80, 3.024)
+  let ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
+  let talentCrStackValue = talent(e, 0.025, 0.028)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='ultEnhanced' text='Enhanced ult'/>
-        <FormSlider name='talentStacks' switchName='talentStacksEnabled' text='Talent stacks' min={0} max={talentMaxStacks} />
-        <FormSlider name='ultEnhancedExtraHits' switchName='ultEnhancedExtraHitsEnabled' text='Ult extra hits' min={0} max={6} />
-
-        <FormSwitch name='talentName' text='Text'/>
+        <FormSlider name='talentStacks' text='Talent stacks' min={0} max={talentMaxStacks} />
+        <FormSlider name='ultEnhancedExtraHits' text='Ult extra hits' min={0} max={6} />
+        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff'/>
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: value,
+      ultEnhanced: true,
+      talentStacks: talentMaxStacks,
+      ultEnhancedExtraHits: 6,
+      e2UltAtkBuff: true
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
-      x[Stats.CR]    += (r.talentName) ? -1 : -1
+      x[Stats.CR] += (r.talentStacks) * talentCrStackValue
 
       // Traces
-      x[Stats.RES]   += (r.talentName) ? -1 : -1
 
       // Eidolons
-      x[Stats.CD]    += (r.talentName) ? -1 : -1
+      x[Stats.CD] += (e >= 1) ? (r.talentStacks) * 0.04 : 0
+      x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-
       x.SKILL_SCALING += skillScaling
-
-      x.ULT_SCALING += ultScaling
-
-      x.FUA_SCALING += 0
+      x.ULT_SCALING += (r.ultEnhanced) ? ultEnhancedScaling : ultScaling
+      x.ULT_SCALING += (r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling
 
       // BOOST
-      x.SKILL_BOOST += -1
+      x.ULT_BOOST += (request.enemyHpPercent <= 0.5) ? 0.15 : 0
+      x.ULT_DEF_PEN += (e >= 6) ? 0.30 : 0
 
       return x
     },
@@ -208,23 +281,22 @@ function jingliu(e) {
   let talentCrBuff = talent(e, 0.50, 0.52)
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
 
-  let basicScaling = basic(e, 1.0, 1.1)
-  let skillScaling = skill(e, 2.0, 2.2)
-  let skillEnhancedScaling = skill(e, 2.5, 2.75)
-  let ultScaling = ult(e, 3.0, 3.24)
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.00, 2.20)
+  let skillEnhancedScaling = skill(e, 2.50, 2.75)
+  let ultScaling = ult(e, 3.00, 3.24)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='talentEnhancedState' text='Enhanced state'/>
-        <FormSlider name='talentHpDrainAtkBuff' switchName='talentHpDrainAtkBuffEnabled' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} />
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
         <FormSwitch name='e1CdBuff' text='E1 ult active' />
         <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' />
       </Flex>
     ),
     defaults: () => ({
       talentEnhancedState: true,
-      talentHpDrainAtkBuffEnabled: true,
       talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
       e1CdBuff: true,
       e2SkillDmgBuff: true,
@@ -235,7 +307,7 @@ function jingliu(e) {
 
       // Skills
       x[Stats.CR]    += (r.talentEnhancedState) ? talentCrBuff : 0
-      x[Stats.ATK_P] += (r.talentEnhancedState && r.talentHpDrainAtkBuffEnabled) ? r.talentHpDrainAtkBuff : 0
+      x[Stats.ATK_P] += (r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0
 
       // Traces
       x[Stats.RES]   += (r.talentEnhancedState) ? 0.35 : 0
@@ -274,16 +346,16 @@ function jingliu(e) {
   }
 }
 
-function basic(e, value1, value2) {
-  return e >= 5 ? value2 : value1
+function skill(e, value1, value2) {
+  return e >= 3 ? value2 : value1
 }
 
-let skill = basic
+let talent = skill
 
 function ult(e, value1, value2) {
-  return e >= 2 ? value2 : value1
+  return e >= 5 ? value2 : value1
 }
-let talent = ult
+let basic = ult
 
 function p4(set) {
   return set >> 2

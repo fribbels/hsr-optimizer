@@ -60,6 +60,9 @@ const App = () => {
             handleLineWidthHover: 4,
             handleSizeHover: 10
           },
+          InputNumber: {
+            paddingInlineSM: 4,
+          },
         },
         algorithm: theme.darkAlgorithm,
       }}

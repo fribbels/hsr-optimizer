@@ -59,9 +59,9 @@ take out scoring sets
 upload file default location filter json
 
 function defaultCharacter(e) {
-  let value = talent(e, -1, -1)
+  let value = (e >= 0) ? -1 : -1
 
-  let basicScaling = basic(e, -1, -1)
+  let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, -1, -1)
   let ultScaling = ult(e, -1, -1)
 
@@ -69,7 +69,7 @@ function defaultCharacter(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='sliderName' switchName='switchEnabledName' text='Text' min={0} max={value} />
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
       </Flex>
     ),
     defaults: () => ({
@@ -81,26 +81,14 @@ function defaultCharacter(e) {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
-      // Skills
-      x[Stats.CR]    += (r.talentName) ? -1 : -1
-
-      // Traces
-      x[Stats.RES]   += (r.talentName) ? -1 : -1
-
-      // Eidolons
-      x[Stats.CD]    += (r.talentName) ? -1 : -1
+      // Stats
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-
       x.SKILL_SCALING += skillScaling
-
       x.ULT_SCALING += ultScaling
 
-      x.FUA_SCALING += 0
-
-      // BOOST
-      x.SKILL_BOOST += -1
+      // Boost
 
       return x
     },
@@ -110,10 +98,10 @@ function defaultCharacter(e) {
     calculateBaseMultis: (c, request) => {
       let x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += 0
+      // x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      // x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      // x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
     }
   }
 }

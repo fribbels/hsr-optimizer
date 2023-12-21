@@ -96,6 +96,9 @@ self.onmessage = function (e) {
   // console.warn('!!!', enabledHunterOfGlacialForest)
   // console.warn('!!!', valueChampionOfStreetwiseBoxing)
 
+  let brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
+  let resistance = request.enemyElementalWeak ? 0 : request.enemyResistance
+
   let precomputedX = precomputeEffects(request)
 
   for (let row = 0; row < data.HEIGHT; row++) {
@@ -252,6 +255,7 @@ self.onmessage = function (e) {
       x[Stats.BE] += c[Stats.BE]
       x[Stats.ERR] += c[Stats.ERR]
       x[Stats.OHB] += c[Stats.OHB]
+      x.ELEMENTAL_DMG += c.ELEMENTAL_DMG
 
       // ************************************************************
       // Calculate passive effects & buffs. x stores the internally calculated character stats
@@ -330,6 +334,10 @@ self.onmessage = function (e) {
       c.MCD = mcd
       c.EHP = ehp
 
+      // ************************************************************
+      // Add % sum back to the base
+      // ************************************************************
+
       x[Stats.ATK] += x[Stats.ATK_P] * baseAtk
       x[Stats.DEF] += x[Stats.DEF_P] * baseDef
       x[Stats.HP]  += x[Stats.HP_P]  * baseHp
@@ -353,6 +361,18 @@ self.onmessage = function (e) {
       let defIgnore = 0
 
       let defMultiplier = (cLevel + 20) / ((eLevel + 20) * (1 - defReduction - defIgnore) + cLevel + 20)
+      let critMultiplier = Math.min(1, x[Stats.CR]) * (1 + x[Stats.CD]) + (1 - Math.min(1, x[Stats.CR]))
+      let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG
+      let resMultiplier = 1 - (resistance - x.RES_PEN)
+      let dmgTakenMultiplier = 1 + x.DMG_TAKEN_MULTI
+      let dmgReductionMultiplier = 1
+
+      let universalMulti = critMultiplier * defMultiplier * resMultiplier * dmgTakenMultiplier * dmgReductionMultiplier * brokenMultiplier
+
+      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST)
+      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST)
+      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)
+      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)
 
       // ************************************************************
       // Filter results

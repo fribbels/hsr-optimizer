@@ -95,6 +95,7 @@ function FormSlider(props) {
 
 const characterOptionMapping = {
   1212: jingliu,
+  1302: argenti,
 }
 
 // TODO profile & convert to array for performance?
@@ -115,6 +116,7 @@ const baseComputedStatsObject = {
   [Stats.ERR]: 0,
   [Stats.OHB]: 0,
 
+  ELEMENTAL_DMG: 0,
   DEF_SHRED: 0,
   DMG_TAKEN_MULTI: 0,
   ALL_DMG_MULTI: 0,
@@ -137,11 +139,76 @@ const baseComputedStatsObject = {
   FUA_DMG: 0,
 }
 
+
+
+function argenti(e) {
+  let talentMaxStacks = talent(e, 10, 12)
+
+  let basicScaling = talent(e, 1.0, 1.1)
+  let skillScaling = skill(e, 1.2, 1.32)
+  let ultScaling = ult(e, -1, -1)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='ultEnhanced' text='Enhanced ult'/>
+        <FormSlider name='talentStacks' switchName='talentStacksEnabled' text='Talent stacks' min={0} max={talentMaxStacks} />
+        <FormSlider name='ultEnhancedExtraHits' switchName='ultEnhancedExtraHitsEnabled' text='Ult extra hits' min={0} max={6} />
+
+        <FormSwitch name='talentName' text='Text'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      talentName: true,
+      switchEnabledName: true,
+      sliderName: value,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Skills
+      x[Stats.CR]    += (r.talentName) ? -1 : -1
+
+      // Traces
+      x[Stats.RES]   += (r.talentName) ? -1 : -1
+
+      // Eidolons
+      x[Stats.CD]    += (r.talentName) ? -1 : -1
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+
+      x.SKILL_SCALING += skillScaling
+
+      x.ULT_SCALING += ultScaling
+
+      x.FUA_SCALING += 0
+
+      // BOOST
+      x.SKILL_BOOST += -1
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += 0
+    }
+  }
+}
+
 function jingliu(e) {
   let talentCrBuff = talent(e, 0.50, 0.52)
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
 
-  let basicScaling = talent(e, 1.0, 1.1)
+  let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, 2.0, 2.2)
   let skillEnhancedScaling = skill(e, 2.5, 2.75)
   let ultScaling = ult(e, 3.0, 3.24)
@@ -175,7 +242,7 @@ function jingliu(e) {
       x.ULT_BOOST    += (r.talentEnhancedState) ? 0.20 : 0
 
       // Eidolons
-      x[Stats.CD]    += (e >= 1 && e1CdBuff) ? 0.24 : 0
+      x[Stats.CD]    += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -189,7 +256,7 @@ function jingliu(e) {
       x.FUA_SCALING += 0
 
       // BOOST
-      x.SKILL_BOOST += (r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0
+      x.SKILL_BOOST += (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0
 
       return x
     },
@@ -229,7 +296,7 @@ function p2(set) {
 export const CharacterConditionals = {
   get: (request) => {
     let characterFn = characterOptionMapping[request.characterId]
-    return characterFn(request)
+    return characterFn(request.characterEidolon)
   },
   getDisplayForCharacter: (id, eidolon) => {
     console.warn('getDisplayForCharacter', id)

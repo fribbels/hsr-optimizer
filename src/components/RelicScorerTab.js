@@ -196,8 +196,10 @@ export default function RelicScorerTab({ style }) {
   return (
     <div style={style}>
       <Flex vertical gap={0} align='center'>
-        <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
-
+        <Flex gap={10} vertical align='center'>
+          <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
+          <Text style={{fontSize: 20}}>The relic scorer is down for maintenance temporarily, please check back later!</Text>
+        </Flex>
         <Form
           form={scorerForm}
           onFinish={onFinish}

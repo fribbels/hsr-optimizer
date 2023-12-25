@@ -22,6 +22,7 @@ import {
   Image,
   Flex,
   Tooltip,
+  theme,
   Popover,
   Tag,
   Modal, Card,
@@ -32,6 +33,9 @@ import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
 import { Constants } from '../lib/constants';
 import VerticalDivider from './VerticalDivider';
+import FormRow from './optimizerTab/FormRow';
+import FilterContainer from './optimizerTab/FilterContainer';
+import FormCard from './optimizerTab/FormCard';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
@@ -587,8 +591,8 @@ export default function OptimizerForm() {
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
-        <Flex vertical gap={20}>
-          <CardRow gap={defaultGap}>
+        <FilterContainer >
+          <FormRow gap={defaultGap}>
             <FormCard>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
                 <Image
@@ -875,9 +879,9 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
             </FormCard>
-          </CardRow>
+          </FormRow>
 
-          <CardRow>
+          <FormRow>
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Optimizer Options</HeaderText>
@@ -1177,8 +1181,8 @@ export default function OptimizerForm() {
             <FormCard>
               {' '}
             </FormCard>
-          </CardRow>
-        </Flex>
+          </FormRow>
+        </FilterContainer>
       </Form>
     </div>
   );
@@ -1188,7 +1192,7 @@ let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px
 // let shadow = 'rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px'
 // let shadow = 'rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset'
 // let shadow = 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
-// function CardRow(props) {
+// function FormRow(props) {
 //   return (
 //     <div style={{backgroundColor: '#293a4f', padding: 20, boxShadow: shadow}}>
 //       <Flex gap={20}>
@@ -1197,27 +1201,6 @@ let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px
 //     </div>
 //   )
 // }
-function CardRow(props) {
-  return (
-    <Flex gap={20} style={{}}>
-      {props.children}
-    </Flex>
-  )
-}
-
-function FormCard(props) {
-  return (
-    <div style={{borderRadius: 5, backgroundColor: '#243356', padding: 15, boxShadow: shadow}}>
-      <Flex
-        vertical
-        style={{ width: panelWidth }}
-        gap={defaultGap}
-      >
-        {props.children}
-      </Flex>
-    </div>
-  )
-}
 
 const setConditionalsIconWidth = 40
 const setConditionalsNameWidth = 200

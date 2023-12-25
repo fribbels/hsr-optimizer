@@ -61,7 +61,7 @@ upload file default location filter json
 function defaultCharacter(e) {
   let value = (e >= 0) ? -1 : -1
 
-  let basicScaling = basic(e, 1.0, 1.1)
+  let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, -1, -1)
   let ultScaling = ult(e, -1, -1)
 
@@ -69,13 +69,13 @@ function defaultCharacter(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
       </Flex>
     ),
     defaults: () => ({
       talentName: true,
       switchEnabledName: true,
-      sliderName: value,
+      sliderName: 0,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -96,11 +96,12 @@ function defaultCharacter(e) {
 
     },
     calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
       let x = c.x
 
-      // x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      // x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      // x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
     }
   }

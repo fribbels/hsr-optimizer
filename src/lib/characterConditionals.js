@@ -124,15 +124,15 @@ const characterOptionMapping = {
   1002: danheng, // Check numbers
   1208: fuxuan, // Check numbers
   1104: gepard,
-  1210: guinaifen, // Wrong
+  1210: guinaifen, // All wrong
   1215: hanya,
   1013: herta, // Kinda complicated with hp% buffs
   1003: himeko,
   1109: hook,
   1217: huohuo,
-  1213: imbibitorlunae, // Kinda complicated with hit stacking dmg
+  1213: imbibitorlunae, // Kinda complicated with hit stacking dmg, revisit
   1204: jingyuan, // E6 not implemented
-  1005: kafka, // todo...
+  1005: kafka, // idk man
   1111: luka,
   1203: luocha,
   1110: lynx,
@@ -145,7 +145,7 @@ const characterOptionMapping = {
   1103: serval, // Revisit dots
   1006: silverwolf,
   1206: sushang,
-  1202: tingyun, // Revisit with buffs
+  1202: tingyun, // Revisit buff scaling
   1112: topaz, // Revisit with fua
   8001: physicaltrailblazer,
   8002: physicaltrailblazer,
@@ -153,7 +153,7 @@ const characterOptionMapping = {
   8004: firetrailblazer,
   1004: welt,
   1209: yanqing,
-
+  1207: yukong,
 }
 
 // TODO profile & convert to array for performance?
@@ -212,37 +212,48 @@ const baseComputedStatsObject = {
   FUA_DEF_PEN: 0,
 }
 
-function yanqing(e) {
-  let value = (e >= 0) ? -1 : -1
+function yukong(e) {
+  let skillAtkBuffValue = skill(e, 0.80, 0.88)
+  let ultCdBuffValue = skill(e, 0.65, 0.702)
+  let ultCrBuffValue = skill(e, 0.28, 0.294)
+  let talentAtkScaling = talent(e, 0.80, 0.88)
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, -1, -1)
-  let ultScaling = ult(e, -1, -1)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 3.80, 4.104)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+        <FormSwitch name='roaringBowstrings' text='Roaring bowstrings'/>
+        <FormSwitch name='ultBuff' text='Ult buff'/>
+        <FormSwitch name='initialSpeedBuff' text='Initial speed buff'/>
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      roaringBowstringsActive: true,
+      ultBuff: true,
+      initialSpeedBuff: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.ATK_P] += (r.roaringBowstrings) ? skillAtkBuffValue : 0
+      x[Stats.CR] += (r.ultBuff && r.roaringBowstrings) ? ultCrBuffValue : 0
+      x[Stats.CD] += (r.ultBuff && r.roaringBowstrings) ? ultCdBuffValue : 0
+      x[Stats.SPD_P] += (r.initialSpeedBuff) ? 0.10 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING += talentAtkScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
       // Boost
+      x.ELEMENTAL_DMG += 0.12
+      x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstrings) ? 0.30 : 0
 
       return x
     },
@@ -256,7 +267,82 @@ function yanqing(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function yanqing(e) {
+  let ultCdBuffValue = ult(e, 0.50, 0.54)
+  let talentCdBuffValue = ult(e, 0.30, 0.33)
+  let talentCrBuffValue = ult(e, 0.20, 0.21)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.20, 2.42)
+  let ultScaling = ult(e, 3.50, 3.78)
+  let fuaScaling = talent(e, 0.50, 0.55)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='ultBuffActive' text='Ult buff active'/>
+        <FormSwitch name='soulsteelBuffActive' text='Soulsteel buff active'/>
+        <FormSwitch name='critSpdBuff' text='Crit spd buff'/>
+        <FormSwitch name='e1TargetFrozen' text='E1 target frozen'/>
+        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      ultBuffActive: true,
+      soulsteelBuffActive: true,
+      critSpdBuff: true,
+      e1TargetFrozen: true,
+      e4CurrentHp80: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
+      x[Stats.CD] += (r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0
+      x[Stats.CR] += (r.soulsteelBuffActive) ? talentCrBuffValue : 0
+      x[Stats.CD] += (r.soulsteelBuffActive) ? talentCdBuffValue : 0
+      x[Stats.RES] += (r.soulsteelBuffActive) ? 0.20 : 0
+      x[Stats.SPD] += (r.critSpdBuff) ? 0.10 : 0
+      x[Stats.ERR] += (e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling
+
+      x.BASIC_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+      x.SKILL_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+      x.ULT_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+      x.FUA_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
+
+      x.BASIC_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
+      x.SKILL_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
+      x.ULT_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
+      x.FUA_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
+
+      // Boost
+      x.RES_PEN += (e >= 4 && r.e4CurrentHp80) ? 0.12 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
     }
   }
 }

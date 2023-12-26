@@ -15,12 +15,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Find and Replace
+      - name: Find and Replace homepage
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/beta-hsr-optimizer\""
           include: "package.json"
+
+      - name: Deploy gh-pages
+        uses: actions/setup-node@v3
+        with:
+          node-version: '15.x'
+      - run: npm run deploy
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main

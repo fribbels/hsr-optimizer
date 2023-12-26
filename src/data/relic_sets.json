@@ -194,7 +194,7 @@
         "name": "Thief of Shooting Meteor",
         "desc": [
             "Increases Break Effect by 16%.",
-            "Increases the wearer's Break Effect by 16%. When the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy."
+            "Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy."
         ],
         "properties": [
             [
@@ -274,8 +274,8 @@
         "id": "115",
         "name": "The Ashblazing Grand Duke",
         "desc": [
-            "Increases follow-up attack DMG dealt by 20%.",
-            "When the wearer uses follow-up attacks, increases the wearer's ATK by 6% every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+            "Increases the DMG dealt by follow-up attacks by 20%.",
+            "When the wearer uses follow-up attacks, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack."
         ],
         "properties": [
             [],

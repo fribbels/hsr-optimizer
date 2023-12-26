@@ -18,8 +18,9 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
-          replace: "\"homepage\": \"https://fribbels.github.io/beta-hsr-optimizer\""
+          replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
           include: "package.json"
+      - run: mv github/beta/* github/workflows/
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -27,5 +28,5 @@ jobs:
         with:
           source-directory: '.'
           destination-github-username: 'fribbels'
-          destination-repository-name: 'beta-hsr-optimizer'
+          destination-repository-name: 'dreary-quibbles'
           target-branch: main

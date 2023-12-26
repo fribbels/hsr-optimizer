@@ -151,7 +151,8 @@ const characterOptionMapping = {
   8002: physicaltrailblazer,
   8003: firetrailblazer,
   8004: firetrailblazer,
-
+  1004: welt,
+  1209: yanqing,
 
 }
 
@@ -209,6 +210,119 @@ const baseComputedStatsObject = {
   SKILL_DEF_PEN: 0,
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
+}
+
+function yanqing(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, -1, -1)
+  let ultScaling = ult(e, -1, -1)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='talentName' text='Text'/>
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+      </Flex>
+    ),
+    defaults: () => ({
+      talentName: true,
+      switchEnabledName: true,
+      sliderName: 0,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function welt(e) {
+  let skillExtraHitsMax = (e >= 6) ? 3 : 2
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0.72, 0.792)
+  let ultScaling = ult(e, 1.50, 1.62)
+  let talentScaling = talent(e, 0.60, 0.66)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='enemyDmgTakenDebuff' text='Enemy dmg taken debuff'/>
+        <FormSwitch name='enemySlowed' text='Enemy slowed'/>
+        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={skillExtraHitsMax} />
+        <FormSwitch name='e1EnhancedState' text='E1 enhanced state'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      enemySlowed: true,
+      enemyDmgTakenDebuff: true,
+      skillExtraHits: skillExtraHitsMax,
+      e1EnhancedState: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      x.BASIC_SCALING += (r.enemySlowed) ? talentScaling : 0
+      x.SKILL_SCALING += (r.enemySlowed) ? talentScaling : 0
+      x.ULT_SCALING += (r.enemySlowed) ? talentScaling : 0
+
+      x.BASIC_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0
+      x.SKILL_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0
+
+      x.SKILL_SCALING += r.skillExtraHits * skillScaling
+
+      // Boost
+      x.ELEMENTAL_DMG += (request.enemyWeaknessBroken) ? 0.20 : 0
+      x.DMG_TAKEN_MULTI += (r.enemyDmgTakenDebuff) ? 0.12 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
 }
 
 function firetrailblazer(e) {

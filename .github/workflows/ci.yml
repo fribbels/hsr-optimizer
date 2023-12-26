@@ -20,7 +20,7 @@ jobs:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
           include: "package.json"
-      - run: mv github/beta/* github/workflows/
+      - run: mv .github/beta/* github/workflows/
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:

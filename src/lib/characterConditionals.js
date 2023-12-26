@@ -133,7 +133,26 @@ const characterOptionMapping = {
   1213: imbibitorlunae, // Kinda complicated with hit stacking dmg
   1204: jingyuan, // E6 not implemented
   1005: kafka, // todo...
-  1111: luka, // todo...
+  1111: luka,
+  1203: luocha,
+  1110: lynx,
+  1001: march7th,
+  1105: natasha,
+  1106: pela,
+  1201: qingque,
+  1108: sampo, // Revisit dots
+  1102: seele,
+  1103: serval, // Revisit dots
+  1006: silverwolf,
+  1206: sushang,
+  1202: tingyun, // Revisit with buffs
+  1112: topaz, // Revisit with fua
+  8001: physicaltrailblazer,
+  8002: physicaltrailblazer,
+  8003: firetrailblazer,
+  8004: firetrailblazer,
+
+
 }
 
 // TODO profile & convert to array for performance?
@@ -190,6 +209,838 @@ const baseComputedStatsObject = {
   SKILL_DEF_PEN: 0,
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
+}
+
+function firetrailblazer(e) {
+  let skillDamageReductionValue = skill(e, 0.50, 0.52)
+
+  let basicAtkScaling = basic(e, 1.00, 1.10)
+  let basicDefScaling = (e >= 1) ? 0.25 : 0
+  let basicEnhancedAtkScaling = basic(e, 1.35, 1.463)
+  let basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
+  let skillScaling = skill(e, 0, 0)
+  let ultAtkScaling = ult(e, 1.00, 1.10)
+  let ultDefScaling = ult(e, 1.50, 1.65)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='enhancedBasic' text='Enhanced basic'/>
+        <FormSwitch name='skillActive' text='Skill active'/>
+        <FormSwitch name='shieldActive' text='Shield active'/>
+        <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3}/>
+      </Flex>
+    ),
+    defaults: () => ({
+      enhancedBasic: true,
+      skillActive: true,
+      shieldActive: true,
+      e6DefStacks: 3,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
+      x[Stats.ATK_P] += (r.shieldActive) ? 0.15 : 0
+
+      // Scaling
+      x.SKILL_SCALING += skillScaling
+
+      // Boost
+      x.DMG_RED_MULTI += (r.skillActive) ? skillDamageReductionValue : 0
+      x.DMG_RED_MULTI += (r.skillActive) ? 0.15 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      if (r.enhancedBasic) {
+        x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
+        x.BASIC_DMG += basicEnhancedDefScaling * x[Stats.DEF]
+      } else {
+        x.BASIC_DMG += basicAtkScaling * x[Stats.ATK]
+        x.BASIC_DMG += basicDefScaling * x[Stats.DEF]
+      }
+
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
+      x.ULT_DMG += ultDefScaling * x[Stats.DEF]
+    }
+  }
+}
+
+function physicaltrailblazer(e) {
+  let talentAtkScalingValue = talent(e, 0.20, 0.22)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 1.25, 1.375)
+  let ultScaling = ult(e, 4.5, 4.80)
+  let ultEnhancedScaling = ult(e, 2.70, 2.88)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='enhancedUlt' text='Aoe ult'/>
+        <FormSlider name='talentStacks' text='Talent stacks' min={0} max={2} />
+      </Flex>
+    ),
+    defaults: () => ({
+      talentStacks: true,
+      switchEnabledName: true,
+      sliderName: 0,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
+      x[Stats.DEF_P] += r.talentStacks * 0.10
+      x[Stats.CR] += (request.enemyWeaknessBroken) ? 0.25 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += (r.enhancedUlt) ? ultEnhancedScaling : ultScaling
+
+      // Boost
+      x.SKILL_BOOST += 0.25
+      x.ULT_BOOST += (r.enhancedUlt) ? 0.25 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function topaz(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, -1, -1)
+  let ultScaling = ult(e, -1, -1)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='talentName' text='Text'/>
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+      </Flex>
+    ),
+    defaults: () => ({
+      talentName: true,
+      switchEnabledName: true,
+      sliderName: 0,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function tingyun(e) {
+  let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
+  let skillAtkBoostMax = skill(e, 0.25, 0.27)
+  let ultDmgBoost = ult(e, 0.50, 0.56)
+  let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='benedictionBuff' text='Benediction buff'/>
+        <FormSwitch name='skillSpdBuff' text='Skill spd buff'/>
+        <FormSwitch name='ultSpdBuff' text='Ult spd buff'/>
+        <FormSwitch name='ultDmgBuff' text='Ult dmg buff'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      benedictionBuff: false,
+      skillSpdBuff: false,
+      ultSpdBuff: false,
+      ultDmgBuff: false,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.SPD] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
+      x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.BASIC_BOOST += 0.40
+      x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
+
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function sushang(e) {
+  let talentSpdBuffValue = talent(e, 0.20, 0.21)
+  let ultBuffedAtk = ult(e, 0.30, 0.324)
+  let talentSpdBuffStacksMax = (e >= 6) ? 2 : 1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.10, 2.31)
+  let skillExtraHitScaling = skill(e, 1.00, 1.10)
+  let ultScaling = ult(e, 3.20, 3.456)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='ultBuffedState' text='Ult buffed state'/>
+        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction'/>
+        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
+        <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
+        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+      </Flex>
+    ),
+    defaults: () => ({
+      ultBuffedState: true,
+      e2DmgReductionBuff: true,
+      skillExtraHits: 3,
+      skillTriggerStacks: 10,
+      talentSpdBuffStacks: talentSpdBuffStacksMax,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.BE] += (e >= 4) ? 0.40 : 0
+      x[Stats.ATK_P] += (r.ultBuffedState) ? ultBuffedAtk : 0
+      x[Stats.SPD_P] += (r.talentSpdBuffStacks) * talentSpdBuffValue
+
+      // Scaling
+      // Trace only affects stance damage not skill damage - boost this based on proportion of stance : total skill dmg
+      let originalSkillScaling = skillScaling
+      let stanceSkillScaling = 0
+      stanceSkillScaling += (r.skillExtraHits >= 1) ? skillExtraHitScaling : 0
+      stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 2) ? skillExtraHitScaling * 0.5 : 0
+      stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
+      let stanceScalingProportion = stanceSkillScaling / (stanceSkillScaling + originalSkillScaling)
+
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += originalSkillScaling
+      x.SKILL_SCALING += stanceSkillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.SKILL_BOOST += r.skillTriggerStacks * 0.025 * stanceScalingProportion
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function silverwolf(e) {
+  let skillResShredValue = skill(e, 0.10, 0.105)
+  let skillDefShredBufValue = skill(e, 0.08, 0.088)
+  let ultDefShredValue = ult(e, 0.45, 0.468)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 1.96, 2.156)
+  let ultScaling = ult(e, 3.80, 4.104)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='skillResShredDebuff' text='Skill res shred'/>
+        <FormSwitch name='skillDefShredDebuff' text='Skill def shred'/>
+        <FormSwitch name='ultDefShredDebuff' text='Ult def shred'/>
+        <FormSlider name='targetDebuffs' text='Target debuffs' min={0} max={5} />
+      </Flex>
+    ),
+    defaults: () => ({
+      skillResShredDebuff: true,
+      skillDefShredDebuff: true,
+      ultDefShredDebuff: true,
+      targetDebuffs: 5,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+      x.ULT_SCALING += (e >= 4) ? r.targetDebuffs * 0.20 : 0
+
+      // Boost
+      x.RES_PEN += (r.skillResShredDebuff) ? skillResShredValue : 0
+      x.RES_PEN += (r.skillResShredDebuff && r.targetDebuffs >= 3 ) ? 0.03 : 0
+      x.DEF_SHRED += (r.skillDefShredDebuff) ? skillDefShredBufValue : 0
+      x.DEF_SHRED += (r.ultDefShredDebuff) ? ultDefShredValue : 0
+      x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function serval(e) {
+  let talentExtraDmgScaling = talent(e, 0.72, 0.792)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 1.40, 1.54)
+  let ultScaling = ult(e, 1.80, 1.944)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='targetShocked' text='Target shocked'/>
+        <FormSwitch name='enemyDefeatedBuff' text='Enemy killed buff'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      targetShocked: true,
+      enemyDefeatedBuff: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.ATK] += (r.enemyDefeatedBuff) ? 0.20 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      x.BASIC_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
+      x.SKILL_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
+      x.ULT_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
+
+      // Boost
+      x.ELEMENTAL_DMG += (e >= 6 && r.targetShocked) ? 0.30 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function seele(e) {
+  let buffedStateDmgBuff = talent(e, 0.80, 0.88)
+  let speedBoostStacksMax = (e >= 2 ? 2 : 1)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.20, 2.42)
+  let ultScaling = ult(e, 4.25, 4.59)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='buffedState' text='Buffed state'/>
+        <FormSlider name='speedBoostStacks' text='Speed boost stacks' min={0} max={speedBoostStacksMax} />
+        <FormSwitch name='e6UltTargetDebuff' text='E6 ult debuff'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      buffedState: true,
+      speedBoostStacks: speedBoostStacksMax,
+      e6UltTargetDebuff: true
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.CR] += (e >= 1 && request.enemyHpPercent <= 0.80) ? 0.15 : 0
+      x[Stats.SPD_P] += 0.25 * r.speedBoostStacks
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.ELEMENTAL_DMG += (r.buffedState) ? buffedStateDmgBuff : 0
+      x.RES_PEN += (r.buffedState) ? 0.20 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+
+      x.BASIC_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+      x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+      x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+    }
+  }
+}
+
+function sampo(e) {
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0.56, 0.616)
+  let ultScaling = ult(e, 1.60, 1.728)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff'/>
+        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={4} />
+      </Flex>
+    ),
+    defaults: () => ({
+      targetDotTakenDebuff: true,
+      skillExtraHits: 4,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.SKILL_SCALING += (r.skillExtraHits) * skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function qingque(e) {
+  let skillStackDmg = skill(e, 0.38, 0.408)
+  let talentAtkBuff = talent(e, 0.72, 0.792)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let basicEnhancedScaling = basic(e, 2.40, 2.64)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 2.00, 2.16)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='basicEnhanced' text='Basic enhanced'/>
+        <FormSwitch name='basicEnhancedSpdBuff' text='Basic enhanced spd buff'/>
+        <FormSlider name='skillDmgIncreaseStacks' text='Skill dmg stacks' min={0} max={4} />
+      </Flex>
+    ),
+    defaults: () => ({
+      basicEnhanced: true,
+      basicEnhancedSpdBuff: true,
+      skillDmgIncreaseStacks: 4,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.ATK_P] += (r.basicEnhanced) ? talentAtkBuff : 0
+      x[Stats.SPD_P] += (r.basicEnhancedSpdBuff) ? 0.10 : 0
+
+      // Scaling
+      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += (e >= 4) ? x.BASIC_SCALING : 0
+
+      // Boost
+      x.ELEMENTAL_DMG += r.skillDmgIncreaseStacks * skillStackDmg
+      x.ULT_BOOST += (e >= 1) ? 0.10 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function pela(e) {
+  let ultDefPenValue = ult(e, 0.40, 0.42)
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.10, 2.31)
+  let ultScaling = ult(e, 1.00, 1.08)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='enemyDebuffed' text='Enemy debuffed'/>
+        <FormSwitch name='skillRemovedBuff' text='Skill removed buff'/>
+        <FormSwitch name='ultDefPenDebuff' text='Ult def pen debuff'/>
+        <FormSwitch name='e4SkillResShred' text='E4 skill res shred'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      enemyDebuffed: true,
+      skillRemovedBuff: true,
+      ultDefPenDebuff: true,
+      e4SkillResShred: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.EHR] += 0.10
+      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.BASIC_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
+      x.SKILL_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
+      x.ULT_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
+
+      x.RES_PEN += (e >= 4 && r.e4SkillResShred) ? 0.12 : 0
+      x.DEF_SHRED += (r.ultDefPenDebuff) ? ultDefPenValue : 0
+
+      x.ELEMENTAL_DMG += (r.enemyDebuffed) ? 0.20 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+
+      x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
+      x.SKILL_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
+      x.ULT_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
+    }
+  }
+}
+
+function natasha(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, -1, -1)
+  let ultScaling = ult(e, -1, -1)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+      </Flex>
+    ),
+    defaults: () => ({
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function march7th(e) {
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 1.50, 1.62)
+  let fuaScaling = talent(e, 1.00, 1.10)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+      </Flex>
+    ),
+    defaults: () => ({
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
+    }
+  }
+}
+
+function lynx(e) {
+  let skillHpPercentBuff = skill(e, 0.075, 0.08)
+  let skillHpFlatBuff = skill(e, 200, 223)
+
+  let basicScaling = basic(e, 0.50, 0.55)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='skillBuff' text='Skill buff'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      skillBuff: true,
+      e4TalentAtkBuff: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.HP_P] += (r.skillBuff) ? skillHpPercentBuff : 0
+      x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * x[Stats.HP] : 0
+      x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * x[Stats.HP] : 0
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
+}
+
+function luocha(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 2.00, 2.16)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='fieldActive' text='Field active'/>
+        <FormSwitch name='e6ResReduction' text='E6 res reduction'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      fieldActive: true,
+      e6ResReduction: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+      x[Stats.ATK_P] += (r >= 1 && r.fieldActive) ? 0.20 : 0
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+      x.RES_PEN += (e >= 6 && r.e6ResReduction) ? 0.20 : 0
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      // x.FUA_DMG += 0
+    }
+  }
 }
 
 function luka(e) {

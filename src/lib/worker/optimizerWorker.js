@@ -358,7 +358,7 @@ self.onmessage = function (e) {
       // let eLevel = 50
       let cLevel = request.characterLevel
       let eLevel = request.enemyLevel
-      let defReduction = 0
+      let defReduction = x.DEF_SHRED
       let defIgnore = 0
 
       let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG

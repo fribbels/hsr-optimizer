@@ -14,6 +14,14 @@ jobs:
                                # used in the specific "build.sh"
     steps:
       - uses: actions/checkout@v2
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
+          replace: "\"homepage\": \"https://fribbels.github.io/beta-hsr-optimizer\""
+          include: "package.json"
+
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:

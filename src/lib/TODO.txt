@@ -59,6 +59,7 @@ take out scoring sets
 upload file default location filter json
 
 
+
 function defaultCharacter(e) {
   let value = (e >= 0) ? -1 : -1
 

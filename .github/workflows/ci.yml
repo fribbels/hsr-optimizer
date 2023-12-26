@@ -20,11 +20,6 @@ jobs:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/beta-hsr-optimizer\""
           include: "package.json"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-      - run: npm run deploy
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:

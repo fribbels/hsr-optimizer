@@ -249,14 +249,19 @@ self.onmessage = function (e) {
       x[Stats.DEF] += c[Stats.DEF]
       x[Stats.HP]  += c[Stats.HP]
       x[Stats.SPD] += c[Stats.SPD]
-      x[Stats.CD] += c[Stats.CD]
-      x[Stats.CR] += c[Stats.CR]
+      x[Stats.CD]  += c[Stats.CD]
+      x[Stats.CR]  += c[Stats.CR]
       x[Stats.EHR] += c[Stats.EHR]
       x[Stats.RES] += c[Stats.RES]
-      x[Stats.BE] += c[Stats.BE]
+      x[Stats.BE]  += c[Stats.BE]
       x[Stats.ERR] += c[Stats.ERR]
       x[Stats.OHB] += c[Stats.OHB]
       x.ELEMENTAL_DMG += c.ELEMENTAL_DMG
+
+      x[Stats.ATK] += request.buffAtk
+      x[Stats.ATK] += request.buffAtkP * baseAtk
+      x[Stats.CD]  += request.buffCd
+      x[Stats.CR]  += request.buffCr
 
       // ************************************************************
       // Calculate passive effects & buffs. x stores the internally calculated character stats
@@ -323,6 +328,8 @@ self.onmessage = function (e) {
       let damageBonus =
         0.12*(x[Stats.SPD] >= 135 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth) +
         0.06*(x[Stats.SPD] >= 160 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth)
+
+      x.ELEMENTAL_DMG += damageBonus
 
       let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
       let dmg = 0 // (x[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * ((1 - cappedCrit) + (1 + x[Stats.CD] + request.buffCd) * cappedCrit) * (1 + x.ELEMENTAL_DMG + damageBonus)

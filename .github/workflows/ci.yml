@@ -23,9 +23,7 @@ jobs:
           include: "package.json"
 
       - name: Deploy gh-pages
-        uses: actions/setup-node@v3
-        with:
-          node-version: '15.x'
+        uses: actions/setup-node@v4
       - run: npm run deploy
 
       - name: Pushes to another repository

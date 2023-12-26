@@ -102,7 +102,7 @@ export default function OptimizerTab({style}) {
     {field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR'},
     {field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL'},
 
-    {field: 'ELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
+    {field: 'ED',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
     {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
     {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
     {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
@@ -124,7 +124,11 @@ export default function OptimizerTab({style}) {
     {field: 'xBE',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4},
     {field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4},
-    {field: 'xELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4},
+    {field: 'xELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5},
+    {field: 'xBASIC_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%BASIC'},
+    {field: 'xSKILL_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%SKILL'},
+    {field: 'xULT_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%ULT'},
+    {field: 'xFUA_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%FUA'},
 
   ], []);
 

@@ -4,109 +4,9 @@ import styled from "styled-components";
 import {HeaderText} from "../components/HeaderText";
 import { Constants } from './constants'
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
 
 let Stats = Constants.Stats
-const InputNumberStyled = styled(InputNumber)`
-  width: 62px
-`
-const Text = styled(Typography)`
-  white-space: pre-line;
-`
-
-let justify = 'flex-start'
-let align = 'center'
-let inputWidth = 75
-let numberWidth = 65
-let sliderWidth = 140
-
-function FormSwitch(props) {
-  return (
-    <Flex justify={justify} align={align}>
-      <div style={{minWidth: inputWidth, display: 'block'}}>
-        <Form.Item name={['characterConditionals', props.name]} valuePropName='checked'>
-          <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
-          />
-        </Form.Item>
-      </div>
-      <Text>{props.text}</Text>
-    </Flex>
-  )
-}
-
-function FormNumberPercent(props) {
-  return (
-    <div style={{minWidth: inputWidth, display: 'block'}}>
-      <Form.Item name={['characterConditionals', props.name]}>
-        <InputNumberStyled
-          size='small'
-          controls={false}
-          formatter={(value) => `${value}%`}
-          parser={(value) => value.replace('%', '')}
-        />
-      </Form.Item>
-    </div>
-  )
-}
-
-function FormSlider(props) {
-  const [inputValue, setInputValue] = useState(1);
-  const onChange = (newValue) => {
-    setInputValue(newValue);
-  };
-
-  let multiplier = (props.percent ? 100 : 1)
-  let step = props.percent ? 0.01 : 1
-  let symbol = props.percent ? '%' : ''
-
-  return (
-    <Flex vertical gap={5} style={{marginBottom: 0}}>
-      <Flex justify={justify} align={align}>
-        <div style={{minWidth: inputWidth, display: 'block'}}>
-          <Form.Item name={['characterConditionals', props.name]}>
-            <InputNumber
-              min={props.min}
-              max={props.max}
-              controls={false}
-              size='small'
-              style={{
-                width: numberWidth,
-              }}
-              parser={(value) => value == null || value == '' ? 0 : precisionRound(value / multiplier) }
-              formatter={(value) => `${precisionRound(value * multiplier)}`}
-              addonAfter={symbol}
-              onChange={onChange}
-            />
-          </Form.Item>
-        </div>
-        <Text>{props.text}</Text>
-      </Flex>
-      <Flex align='center' justify='flex-start' gap={10}>
-        <Form.Item name={['characterConditionals', props.name]}>
-          <Slider
-            min={props.min}
-            max={props.max}
-            step={step}
-            value={typeof inputValue === 'number' ? inputValue : 0}
-            style={{
-              minWidth: sliderWidth,
-              marginTop: 0,
-              marginBottom: 0,
-              marginLeft: 1
-            }}
-            tooltip={{
-              formatter: (value) => `${precisionRound(value * multiplier)}${symbol}`
-            }}
-            onChange={onChange}
-          />
-        </Form.Item>
-        <Text style={{minWidth: 20, marginBottom: 2, textAlign: 'center'}}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>
-      </Flex>
-    </Flex>
-  )
-}
-
 function precisionRound(number, precision = 8) {
   let factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
@@ -2465,26 +2365,5 @@ export const CharacterConditionals = {
         {display}
       </Flex>
     )
-    // 	enhanced skill
-    // 	crit rate%
-    // 	atk bonus
-    // 	utl dmg%
-    // 	crit dmg%,
-    // 	additional dmg vs 1
-    // 	enhanced skill
-    // 	dmg%
-    // 	atk bonus
-    // 	crit dmg%
-
-    // toggle: Spectral Transmigration -> CR + 50% + 35% RES + Ult 20%
-    // number: hp drain: 180% atk
-    // toggle E1 -> 24% CD
-    // toggle E1 single target -> 100% ATK
-    // toggle E2 -> skill +80%
-    // toggle E6 -> 50% CD
-
-    // After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.
-
-
   },
 }

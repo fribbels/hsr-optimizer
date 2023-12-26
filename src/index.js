@@ -26,6 +26,7 @@ import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
 import { CharacterConditionals } from './lib/characterConditionals';
+import { LightConeConditionals } from './lib/lightConeConditionals';
 import { BufferPacker } from './lib/bufferPacker';
 import { Typography } from 'antd';
 window.WorkerPool = WorkerPool;
@@ -50,6 +51,7 @@ window.Hint = Hint;
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
 window.CharacterConditionals = CharacterConditionals
+window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = CharacterConditionals
 
 console.log('Data parser', DataParser.parse());

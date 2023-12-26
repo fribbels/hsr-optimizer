@@ -15,7 +15,8 @@ export default function FilterContainer(props) {
         // outline: '2px solid #243356',
         overflow: 'hidden',
         borderRadius: '10px',
-        boxShadow: shadow
+        boxShadow: shadow,
+        width: 'fit-content'
       }}
     >
       {props.children}

@@ -42,6 +42,7 @@ import { OptimizerTabController } from '../lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
 import { SaveState } from '../lib/saveState';
 import {CharacterConditionals} from "../lib/characterConditionals";
+import {LightConeConditionals} from "../lib/lightConeConditionals";
 const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -163,6 +164,7 @@ export default function OptimizerForm() {
   window.optimizerForm = optimizerForm
 
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
+  const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -1179,7 +1181,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {' '}
+              {LightConeConditionals.getDisplayForLightCone(selectedCharacter.lightCone, lightConeSuperimposition)}
             </FormCard>
           </FormRow>
         </FilterContainer>

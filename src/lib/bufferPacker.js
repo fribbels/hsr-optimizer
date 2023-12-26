@@ -39,7 +39,11 @@ export const BufferPacker = {
       xBE:  arr[offset + i++],
       xERR: arr[offset + i++],
       xOHB: arr[offset + i++],
-      xED:  arr[offset + i++], // 32
+      xELEMENTAL_DMG:  arr[offset + i++], // 32
+      xBASIC_BOOST:    arr[offset + i++],
+      xSKILL_BOOST:    arr[offset + i++],
+      xULT_BOOST:      arr[offset + i++],
+      xFUA_BOOST:      arr[offset + i++],
     }
   },
 
@@ -85,6 +89,10 @@ export const BufferPacker = {
     arr[offset * SIZE + i++] = character.x[Stats.BE]
     arr[offset * SIZE + i++] = character.x[Stats.ERR]
     arr[offset * SIZE + i++] = character.x[Stats.OHB]
-    arr[offset * SIZE + i++] = character.x.ED
+    arr[offset * SIZE + i++] = character.x.ELEMENTAL_DMG
+    arr[offset * SIZE + i++] = character.x.BASIC_BOOST
+    arr[offset * SIZE + i++] = character.x.SKILL_BOOST
+    arr[offset * SIZE + i++] = character.x.ULT_BOOST
+    arr[offset * SIZE + i++] = character.x.FUA_BOOST
   }
 }

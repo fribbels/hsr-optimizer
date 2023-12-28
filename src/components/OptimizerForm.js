@@ -1198,14 +1198,13 @@ export default function OptimizerForm() {
                 </Drawer>
               </ConfigProvider>
             </FormCard>
-
             <FormCard>
               {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
             </FormCard>
 
             <FormCard>
               {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
-            </FormCard>
+            </FormCard>  
           </FormRow>
         </FilterContainer>
       </Form>

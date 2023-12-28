@@ -178,9 +178,9 @@ export const DB = {
     DB.setCharacters(characters)
   },
 
-  unequipRelic: (relic) => {
-    if (!relic || !relic.id) return console.warn('No relic')
-    relic = DB.getRelicById(relic.id)
+  unequipRelicById: (id) => {
+    if (!id) return console.warn('No relic')
+    let relic = DB.getRelicById(id)
 
     console.log('UNEQUIP RELIC')
 
@@ -205,7 +205,7 @@ export const DB = {
     let character = DB.getCharacters().find(x => x.id == characterId)
     let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
     let prevRelic = character.equipped[relic.part]
-    DB.unequipRelic(prevRelic)
+    DB.unequipRelicById(prevRelic)
 
     if (prevCharacter) {
       prevCharacter.equipped[relic.part] = undefined
@@ -228,7 +228,7 @@ export const DB = {
 
   deleteRelic: (id) => {
     if (!id) return Message.error('Unable to delete relic')
-    DB.unequipRelic({ id: id })
+    DB.unequipRelicById(id)
     let relicsById = store.getState().relicsById
     delete relicsById[id]
     store.getState().setRelicsById(relicsById)

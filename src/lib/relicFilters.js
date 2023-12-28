@@ -13,7 +13,7 @@ export const RelicFilters = {
 
       Object.values(rankedCharacter.equipped)
         .filter(x => x != null && x != undefined)
-        .map(x => higherRankedRelics[x.id] = x)
+        .map(x => higherRankedRelics[x] = true)
     }
 
     return relics = relics.filter(x => !higherRankedRelics[x.id])

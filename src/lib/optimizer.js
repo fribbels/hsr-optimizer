@@ -8,7 +8,7 @@ import {BufferPacker} from "./bufferPacker";
 
 let MAX_INT = 2147483647;
 
-let WIDTH = 100000;
+let WIDTH = 50000;
 let HEIGHT = 1;
 let MAX_RESULTS = 2_000_000;
 
@@ -226,8 +226,6 @@ export const Optimizer = {
 
         BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, rowData);
 
-        // rowData.push(...extracted);
-
         setOptimizerPermutationResults(rowData.length)
         setOptimizerPermutationSearched(Math.min(permutations, searched))
 
@@ -247,8 +245,9 @@ export const Optimizer = {
           Message.error('Too many results, please narrow your filters')
         }
       }
-
-      WorkerPool.execute(input, callback)
+      
+      // WorkerPool.execute(input, callback)
+      setTimeout(() => WorkerPool.execute(input, callback), 10 * run)
     }
   }
 }

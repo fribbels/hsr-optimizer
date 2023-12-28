@@ -316,6 +316,8 @@ self.onmessage = function (e) {
       x.FUA_BOOST +=
         0.15*(x[Stats.CR] >= 0.50 ? 1 : 0)*p2(c.sets.InertSalsotto)
 
+      x.DEF_SHRED += (enabledGeniusOfBrilliantStars && p4(c.sets.GeniusOfBrilliantStars)) ? (request.enemyQuantumWeak ? 0.20 : 0.10) : 0
+
       // These stats have no conditional set effects yet
       // x[Stats.HP_P] += 0
       // x[Stats.EHR]  += 0
@@ -364,8 +366,6 @@ self.onmessage = function (e) {
       // Calculate overall multipliers
       // ************************************************************
 
-      // let cLevel = 50
-      // let eLevel = 50
       let cLevel = request.characterLevel
       let eLevel = request.enemyLevel
       let defReduction = x.DEF_SHRED

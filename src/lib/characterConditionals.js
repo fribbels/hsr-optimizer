@@ -20,19 +20,19 @@ const characterOptionMapping = {
   1211: bailu,
   1205: blade, // Verify E6 FUA dmg
   1101: bronya, // Does E4 FUA benefit from 100% crit?
-  1107: clara, // Revisit
+  1107: clara, // Revisit fua
   1002: danheng, // Check numbers
   1208: fuxuan, // Check numbers
   1104: gepard,
-  1210: guinaifen, // All wrong
+  1210: guinaifen, // Revisit dots
   1215: hanya,
-  1013: herta, // Kinda complicated with hp% buffs
+  1013: herta, // Kinda complicated with hp% buffs, revisit
   1003: himeko,
   1109: hook,
   1217: huohuo,
   1213: imbibitorlunae, // Kinda complicated with hit stacking dmg, revisit
   1204: jingyuan, // E6 not implemented
-  1005: kafka, // idk man
+  1005: kafka, // Revisit dots
   1111: luka,
   1203: luocha,
   1110: lynx,
@@ -54,6 +54,9 @@ const characterOptionMapping = {
   1004: welt,
   1209: yanqing,
   1207: yukong,
+  1303: ruanmei,
+  1305: drratio,
+  1214: xueyi,
 }
 
 // TODO profile & convert to array for performance?
@@ -111,6 +114,141 @@ const baseComputedStatsObject = {
   SKILL_DEF_PEN: 0,
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
+}
+
+function xueyi(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      placeholder: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function drratio(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      placeholder: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function ruanmei(e) {
+  let value = (e >= 0) ? -1 : -1
+
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+      </Flex>
+    ),
+    defaults: () => ({
+      placeholder: true,
+    }),
+    precomputeEffects: (request) => {
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      // Stats
+
+      // Scaling
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      // Boost
+
+      return x
+    },
+    calculatePassives: (c, request) => {
+
+    },
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
 }
 
 function yukong(e) {

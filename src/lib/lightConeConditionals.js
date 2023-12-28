@@ -94,6 +94,61 @@ const lightConeOptionMapping = {
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
   24003: SolitaryHealing,
+
+  23019: PastSelfInMirror,
+  23020: BaptismOfPureThought,
+}
+
+function BaptismOfPureThought(s) {
+  let sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
+  let sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
+  let sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
+  s = s - 1
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc/>
+        <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc/>
+      </Flex>
+    ),
+    defaults: () => ({
+      debuffCdStacks: 3,
+      postUltBuff: true,
+    }),
+    precomputeEffects: (x, request) => {
+      let r = request.lightConeConditionals
+
+      x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
+      x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
+      x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
+    },
+    calculatePassives: (c, request) => {},
+    calculateBaseMultis: (c, request) => {}
+  }
+}
+
+function PastSelfInMirror(s) {
+  let sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
+  s = s - 1
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+        <FormSwitch name='postUltDmgBuff' text='Post ult dmg buff' lc/>
+      </Flex>
+    ),
+    defaults: () => ({
+      postUltDmgBuff: true,
+    }),
+    precomputeEffects: (x, request) => {
+      let r = request.lightConeConditionals
+
+      x.ELEMENTAL_DMG += (r.postUltDmgBuff) ? sValues[s] : 0
+    },
+    calculatePassives: (c, request) => {},
+    calculateBaseMultis: (c, request) => {}
+  }
 }
 
 function SolitaryHealing(s) {

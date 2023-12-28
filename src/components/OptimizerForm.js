@@ -281,12 +281,36 @@ export default function OptimizerForm() {
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
+  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
+  window.selectedLightCone = selectedLightCone
+  window.setSelectedLightCone = (x) => {
+    setSelectedLightCone(x)
+
+
+  }
+
+  useEffect(() => {
+    let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
+    let form = optimizerForm.getFieldsValue()
+    let defaults = lcFn.defaults()
+    let lightConeForm = form.lightConeConditionals || {}
+
+    // We can't apply the form to dynamically generated elements so we use an effect to set the form value to default
+    // Only if there's a missing field
+    Object.assign(defaults, lightConeForm)
+    if (Object.values(defaults).includes(undefined)) {
+      optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
+    }
+  }, [selectedLightCone])
+
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters()
     if (characters && characters.length > 0) {
       let character = characters[0]
       // let character = Utils.randomElement(characters)
       console.log('Initial character', character)
+      lightConeSelectorChange(character.form.lightCone)
+
       return characterOptions.find(x => x.id == character.id)
     } else {
       return Utils.randomElement(characterOptions)
@@ -295,9 +319,8 @@ export default function OptimizerForm() {
 
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
   window.setSelectedCharacter = setSelectedCharacter
-
-  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   useEffect(() => {
+
   }, [selectedCharacter])
 
   const levelOptions = useMemo(() => {
@@ -410,7 +433,7 @@ export default function OptimizerForm() {
   const onValuesChange = (changedValues, allValues) => {
     if (!changedValues) return;
     let keys = Object.keys(changedValues)
-    if (keys.length == 1 && (keys[0].startsWith('min') || keys[0].startsWith('max') || keys[0].startsWith('buff') || keys[0] == 'characterConditionals')) {
+    if (keys.length == 1 && (keys[0].startsWith('min') || keys[0].startsWith('max') || keys[0].startsWith('buff') || keys[0] == 'characterConditionals') || keys[0] == 'lightConeConditionals') {
       return;
     }
     let request = allValues
@@ -1181,7 +1204,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {LightConeConditionals.getDisplayForLightCone(selectedCharacter.lightCone, lightConeSuperimposition)}
+              {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
             </FormCard>
           </FormRow>
         </FilterContainer>

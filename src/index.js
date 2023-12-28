@@ -52,7 +52,7 @@ window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
 window.CharacterConditionals = CharacterConditionals
 window.LightConeConditionals = LightConeConditionals
-window.BufferPacker = CharacterConditionals
+window.BufferPacker = BufferPacker
 
 console.log('Data parser', DataParser.parse());
 SaveState.load()

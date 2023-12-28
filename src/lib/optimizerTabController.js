@@ -279,10 +279,17 @@ export const OptimizerTabController = {
 
     let defaultOptions = CharacterConditionals.get(form).defaults()
     if (!newForm.characterConditionals) newForm.characterConditionals = {}
-
     for (let option of Object.keys(defaultOptions)) {
       if (newForm.characterConditionals[option] == undefined) {
         newForm.characterConditionals[option] = defaultOptions[option]
+      }
+    }
+
+    let defaultLcOptions = LightConeConditionals.get(form).defaults()
+    if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
+    for (let option of Object.keys(defaultLcOptions)) {
+      if (newForm.lightConeConditionals[option] == undefined) {
+        newForm.lightConeConditionals[option] = defaultLcOptions[option]
       }
     }
 
@@ -393,7 +400,10 @@ export const OptimizerTabController = {
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       optimizerForm.setFieldsValue(displayFormValues)
-      console.log('Changed character form', displayFormValues)
+      if (character.form.lightCone) {
+        let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
+        setSelectedLightCone(lightConeMetadata)
+      }
     }
     setPinnedRow(id)
     OptimizerTabController.updateFilters()

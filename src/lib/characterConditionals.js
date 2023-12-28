@@ -100,6 +100,7 @@ const baseComputedStatsObject = {
   SKILL_BOOST: 0,
   ULT_BOOST: 0,
   FUA_BOOST: 0,
+  DOT_BOOST: 0,
 
   BASIC_DMG: 0,
   SKILL_DMG: 0,
@@ -2352,7 +2353,7 @@ export const CharacterConditionals = {
   },
   getDisplayForCharacter: (id, eidolon) => {
     console.warn('getDisplayForCharacter', id)
-    if (!id) {
+    if (!id || !characterOptionMapping[id]) {
       return (<div></div>)
     }
 

@@ -24,10 +24,12 @@ export function FormSwitch(props) {
   return (
     <Flex justify={justify} align={align}>
       <div style={{minWidth: inputWidth, display: 'block'}}>
-        <Form.Item name={['characterConditionals', props.name]} valuePropName='checked'>
+        <Form.Item name={[conditionalType(props), props.name]} valuePropName='checked'>
           <Switch
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
+            disabled={props.disabled}
+            defaultChecked={true}
           />
         </Form.Item>
       </div>
@@ -39,7 +41,7 @@ export function FormSwitch(props) {
 export function FormNumberPercent(props) {
   return (
     <div style={{minWidth: inputWidth, display: 'block'}}>
-      <Form.Item name={['characterConditionals', props.name]}>
+      <Form.Item name={[conditionalType(props), props.name]}>
         <InputNumberStyled
           size='small'
           controls={false}
@@ -65,7 +67,7 @@ export function FormSlider(props) {
     <Flex vertical gap={5} style={{marginBottom: 0}}>
       <Flex justify={justify} align={align}>
         <div style={{minWidth: inputWidth, display: 'block'}}>
-          <Form.Item name={['characterConditionals', props.name]}>
+          <Form.Item name={[conditionalType(props), props.name]}>
             <InputNumber
               min={props.min}
               max={props.max}
@@ -84,7 +86,7 @@ export function FormSlider(props) {
         <Text>{props.text}</Text>
       </Flex>
       <Flex align='center' justify='flex-start' gap={10}>
-        <Form.Item name={['characterConditionals', props.name]}>
+        <Form.Item name={[conditionalType(props), props.name]}>
           <Slider
             min={props.min}
             max={props.max}
@@ -106,4 +108,11 @@ export function FormSlider(props) {
       </Flex>
     </Flex>
   )
+}
+
+function conditionalType(props) {
+  if (props.lc) {
+    return 'lightConeConditionals'
+  }
+  return 'characterConditionals'
 }

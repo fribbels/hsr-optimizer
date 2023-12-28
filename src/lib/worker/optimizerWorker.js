@@ -1,6 +1,7 @@
 import {Constants, Stats} from '../constants.js'
 import { BufferPacker } from '../bufferPacker.js'
 import { CharacterConditionals } from "../characterConditionals.js";
+import { LightConeConditionals } from "../lightConeConditionals";
 
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
   let summedStats = {}
@@ -74,10 +75,9 @@ self.onmessage = function (e) {
 
   let request = data.request
   let setConditionals = request.setConditionals
+
   let characterConditionals = CharacterConditionals.get(request)
-  let precomputeEffects = characterConditionals.precomputeEffects
-  let calculatePassives = characterConditionals.calculatePassives
-  let calculateBaseMultis = characterConditionals.calculateBaseMultis
+  let lightConeConditionals = LightConeConditionals.get(request)
 
   let enabledHunterOfGlacialForest          = setConditionals[Constants.Sets.HunterOfGlacialForest][1] == true ? 1 : 0
   let enabledFiresmithOfLavaForging         = setConditionals[Constants.Sets.FiresmithOfLavaForging][1] == true ? 1 : 0
@@ -100,7 +100,8 @@ self.onmessage = function (e) {
   let brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
   let resistance = request.enemyElementalWeak ? 0 : request.enemyResistance
 
-  let precomputedX = precomputeEffects(request)
+  let precomputedX = characterConditionals.precomputeEffects(request)
+  lightConeConditionals.precomputeEffects(precomputedX, request)
 
   for (let row = 0; row < data.HEIGHT; row++) {
     for (let col = 0; col < data.WIDTH; col++) {
@@ -267,7 +268,8 @@ self.onmessage = function (e) {
       // Calculate passive effects & buffs. x stores the internally calculated character stats
       // ************************************************************
 
-      calculatePassives(c, request)
+      characterConditionals.calculatePassives(c, request)
+      lightConeConditionals.calculatePassives(c, request)
 
       // ************************************************************
       // Calculate conditional set effects
@@ -355,7 +357,8 @@ self.onmessage = function (e) {
       // Calculate skill base damage
       // ************************************************************
 
-      calculateBaseMultis(c, request)
+      characterConditionals.calculateBaseMultis(c, request)
+      lightConeConditionals.calculateBaseMultis(c, request)
 
       // ************************************************************
       // Calculate overall multipliers

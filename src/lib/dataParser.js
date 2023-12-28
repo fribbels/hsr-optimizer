@@ -132,7 +132,7 @@ function parseBaseStatsByLevel(promotions) {
 
 function getSuperimpositions() {
   return {
-    "20000": {},
+    "20000": {}, // Arrows
     "20001": {},
     "20002": {},
     "20003": {
@@ -159,7 +159,13 @@ function getSuperimpositions() {
     "20018": {},
     "20019": {},
     "20020": {},
-    "21000": {},
+    "21000": {
+      1: {[Constants.Stats.ERR]: 0.08},
+      2: {[Constants.Stats.ERR]: 0.10},
+      3: {[Constants.Stats.ERR]: 0.12},
+      4: {[Constants.Stats.ERR]: 0.14},
+      5: {[Constants.Stats.ERR]: 0.16},
+    },
     "21001": {},
     "21002": {
       1: {[Constants.Stats.DEF_P]: 0.16},
@@ -310,18 +316,18 @@ function getSuperimpositions() {
     "23003": {},
     "23004": {},
     "23005": {
-      1: {[Constants.Stats.DEF_P]: 0.24},
-      2: {[Constants.Stats.DEF_P]: 0.28},
-      3: {[Constants.Stats.DEF_P]: 0.32},
-      4: {[Constants.Stats.DEF_P]: 0.36},
-      5: {[Constants.Stats.DEF_P]: 0.40},
+      1: {[Constants.Stats.DEF_P]: 0.24, [Constants.Stats.EHR]: 0.24},
+      2: {[Constants.Stats.DEF_P]: 0.28, [Constants.Stats.EHR]: 0.28},
+      3: {[Constants.Stats.DEF_P]: 0.32, [Constants.Stats.EHR]: 0.32},
+      4: {[Constants.Stats.DEF_P]: 0.36, [Constants.Stats.EHR]: 0.36},
+      5: {[Constants.Stats.DEF_P]: 0.40, [Constants.Stats.EHR]: 0.40},
     },
     "23006": {},
     "23007": {
-      1: {[Constants.Stats.EHR]: 0.20},
-      2: {[Constants.Stats.EHR]: 0.25},
-      3: {[Constants.Stats.EHR]: 0.30},
-      4: {[Constants.Stats.EHR]: 0.35},
+      1: {[Constants.Stats.EHR]: 0.24},
+      2: {[Constants.Stats.EHR]: 0.28},
+      3: {[Constants.Stats.EHR]: 0.32},
+      4: {[Constants.Stats.EHR]: 0.36},
       5: {[Constants.Stats.EHR]: 0.40},
     },
     "23008": {
@@ -346,11 +352,11 @@ function getSuperimpositions() {
       5: {[Constants.Stats.CD]: 0.60},
     },
     "23011": {
-      1: {[Constants.Stats.HP_P]: 0.24},
-      2: {[Constants.Stats.HP_P]: 0.28},
-      3: {[Constants.Stats.HP_P]: 0.32},
-      4: {[Constants.Stats.HP_P]: 0.36},
-      5: {[Constants.Stats.HP_P]: 0.40},
+      1: {[Constants.Stats.HP_P]: 0.24, [Constants.Stats.ERR]: 0.12},
+      2: {[Constants.Stats.HP_P]: 0.28, [Constants.Stats.ERR]: 0.14},
+      3: {[Constants.Stats.HP_P]: 0.32, [Constants.Stats.ERR]: 0.16},
+      4: {[Constants.Stats.HP_P]: 0.36, [Constants.Stats.ERR]: 0.18},
+      5: {[Constants.Stats.HP_P]: 0.40, [Constants.Stats.ERR]: 0.20},
     },
     "23012": {
       1: {[Constants.Stats.CD]: 0.30},
@@ -360,14 +366,14 @@ function getSuperimpositions() {
       5: {[Constants.Stats.CD]: 0.50},
     },
     "23013": {
-      1: {[Constants.Stats.HP_P]: 0.18},
-      2: {[Constants.Stats.HP_P]: 0.21},
-      3: {[Constants.Stats.HP_P]: 0.24},
-      4: {[Constants.Stats.HP_P]: 0.27},
-      5: {[Constants.Stats.HP_P]: 0.30},
+      1: {[Constants.Stats.HP_P]: 0.18, [Constants.Stats.OHB]: 0.12},
+      2: {[Constants.Stats.HP_P]: 0.21, [Constants.Stats.OHB]: 0.14},
+      3: {[Constants.Stats.HP_P]: 0.24, [Constants.Stats.OHB]: 0.16},
+      4: {[Constants.Stats.HP_P]: 0.27, [Constants.Stats.OHB]: 0.18},
+      5: {[Constants.Stats.HP_P]: 0.30, [Constants.Stats.OHB]: 0.20},
     },
     "23014": {
-      1: {[Constants.Stats.CD]: 0.2},
+      1: {[Constants.Stats.CD]: 0.20},
       2: {[Constants.Stats.CD]: 0.23},
       3: {[Constants.Stats.CD]: 0.26},
       4: {[Constants.Stats.CD]: 0.29},
@@ -387,7 +393,13 @@ function getSuperimpositions() {
       4: {[Constants.Stats.CR]: 0.27},
       5: {[Constants.Stats.CR]: 0.30},
     },
-    "23017": {},
+    "23017": {
+      1: {[Constants.Stats.ERR]: 0.12},
+      2: {[Constants.Stats.ERR]: 0.14},
+      3: {[Constants.Stats.ERR]: 0.16},
+      4: {[Constants.Stats.ERR]: 0.18},
+      5: {[Constants.Stats.ERR]: 0.20},
+    },
     "23018": {
       1: {[Constants.Stats.CD]: 0.36},
       2: {[Constants.Stats.CD]: 0.42},

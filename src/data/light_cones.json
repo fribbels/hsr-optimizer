@@ -574,7 +574,7 @@
         "name": "Hey, Over Here",
         "rarity": 4,
         "path": "Priest",
-        "desc": "Three girls stroll in the darkness, and the surroundings seem to gain a hint of eeriness.\n\"Huohuo, hurry up or we won't wait for you!\"\nShe steps forward confidently with her phone lifted, seemingly unaffected by the supernatural ambiance.\n\"I—I'm over here!\"\nThe girl standing ahead responds timidly.\n\"Huh? So you were in the front all along, then who is following Shangshang and me...\"\nThe perfect end for this scene would defnitely be a girlish scream.",
+        "desc": "Three girls stroll in the darkness, and the surroundings seem to gain a hint of eeriness.\n\"Huohuo, hurry up, or we won't wait for you!\"\nShe steps forward confidently with her phone clutched in her hand, seemingly unaffected by the paranormal ambiance.\n\"I—I'm over here!\"\nThe girl standing ahead responds timidly.\n\"Huh? So you were in the front all along, then who is following Shangshang and me...\"\nThe perfect end for this scene would definitely be a girlish scream.",
         "icon": "icon/light_cone/22001.png",
         "preview": "image/light_cone_preview/22001.png",
         "portrait": "image/light_cone_portrait/22001.png"
@@ -768,6 +768,26 @@
         "icon": "icon/light_cone/23018.png",
         "preview": "image/light_cone_preview/23018.png",
         "portrait": "image/light_cone_portrait/23018.png"
+    },
+    "23019": {
+        "id": "23019",
+        "name": "Past Self in Mirror",
+        "rarity": 5,
+        "path": "Shaman",
+        "desc": "She once loved to seal the moment when plum blossoms were on the verge of wilting and keep them close to her.\nIt has been many years since then. Many lifeforms — rambunctious, sweet, and everything in between — have bloomed from her hands, but the plum blossoms still wilt at their preordained times.\nIt has been many years since then. Her visage in the mirror seems untouched by time. But, in the grand scheme of the cosmos, is she too destined to last for but a fleeting moment?\n\"If all is set for eventual demise, what purpose, then, does creation serve?\"\nAfter a silence that seems to stretch to eternity, the winds blow, the petals fall, and the reflection in the mirror tenders the same answer as always.\n\"For the day when plum blossoms are no longer kept.\"\nShe deftly caresses the icy surface of the mirror. Such soliloquies have happened too many times for her to count.",
+        "icon": "icon/light_cone/23019.png",
+        "preview": "image/light_cone_preview/23019.png",
+        "portrait": "image/light_cone_portrait/23019.png"
+    },
+    "23020": {
+        "id": "23020",
+        "name": "Baptism of Pure Thought",
+        "rarity": 5,
+        "path": "Rogue",
+        "desc": "The afternoon sunshine is just right, and the floral scents fill the air.\nThough he tries to keep his thoughts pure, cognitive stagnancy inevitably attracts particulates of mind like gathered dust.\n\"Healing one's thoughts is just as vital as the maintenance of one's health.\"\nThe fools' clamoring fades alongside fatigue as he sinks into the water, letting all thoughts loose, his mind elucidated and ordered.\n\"Truth eludes all filths, accepting only those of pure thoughts.\"",
+        "icon": "icon/light_cone/23020.png",
+        "preview": "image/light_cone_preview/23020.png",
+        "portrait": "image/light_cone_portrait/23020.png"
     },
     "24000": {
         "id": "24000",

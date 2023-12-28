@@ -2415,7 +2415,7 @@
     "22001": {
         "id": "22001",
         "skill": "I'm Not Afraid!",
-        "desc": "Increases the wearer's Max HP by #1[i]%. When the wearer uses Skill, increases Outgoing Healing by #2[i]%, lasting for #3[i] turn(s).",
+        "desc": "Increases the wearer's Max HP by #1[i]%. When the wearer uses their Skill, increases Outgoing Healing by #2[i]%, lasting for #3[i] turn(s).",
         "params": [
             [
                 0.08,
@@ -3598,7 +3598,7 @@
     "23016": {
         "id": "23016",
         "skill": "One At A Time",
-        "desc": "Increases the wearer's CRIT Rate by #1[i]% and their follow-up attacks' DMG by #2[i]%. After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to #4[i] stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by #3[i]%.",
+        "desc": "Increase the wearer's CRIT Rate by #1[i]% and their follow-up attacks' DMG by #2[i]%. After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to #4[i] stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by #3[i]%.",
         "params": [
             [
                 0.18,
@@ -3802,10 +3802,163 @@
             ]
         ]
     },
+    "23019": {
+        "id": "23019",
+        "skill": "The Plum Fragrance In My Bones",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s). Should the wearer's Break Effect exceed or equal #4[i]%, 1 Skill Point will be recovered. At the start of each wave, all allies regenerate #5[f1] Energy immediately. Effects of the same type cannot stack.",
+        "params": [
+            [
+                0.6,
+                0.24,
+                3,
+                1.5,
+                10
+            ],
+            [
+                0.7,
+                0.28,
+                3,
+                1.5,
+                12.5
+            ],
+            [
+                0.8,
+                0.32,
+                3,
+                1.5,
+                15
+            ],
+            [
+                0.9,
+                0.36,
+                3,
+                1.5,
+                17.5
+            ],
+            [
+                1,
+                0.4,
+                3,
+                1.5,
+                20
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.6
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.7
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.8
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.9
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 1
+                }
+            ]
+        ]
+    },
+    "23020": {
+        "id": "23020",
+        "skill": "Mental Training",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by #2[i]%, stacking up to #3[i] times. When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
+        "params": [
+            [
+                0.2,
+                0.08,
+                3,
+                0.36,
+                0.24,
+                2
+            ],
+            [
+                0.23,
+                0.09,
+                3,
+                0.42,
+                0.28,
+                2
+            ],
+            [
+                0.26,
+                0.1,
+                3,
+                0.48,
+                0.32,
+                2
+            ],
+            [
+                0.29,
+                0.11,
+                3,
+                0.54,
+                0.36,
+                2
+            ],
+            [
+                0.32,
+                0.12,
+                3,
+                0.6,
+                0.4,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.23
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.26
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.29
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
     "24000": {
         "id": "24000",
         "skill": "Moth to Flames",
-        "desc": "Whenever the wearer attacks, their ATK is increased by #1[i]% in this battle. This effect can stack up to #2[i] time(s). When the wearer inflicts Weakness Break on enemies, the wearer's DMG increases by #3[i]% for #4[i] turn(s).",
+        "desc": "Whenever the wearer attacks, their ATK is increased by #1[i]% in this battle. This effect can stack up to #2[i] time(s). After a character inflicts Weakness Break on an enemy, the wearer's DMG increases by #3[i]% for #4[i] turn(s).",
         "params": [
             [
                 0.08,

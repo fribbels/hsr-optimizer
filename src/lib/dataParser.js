@@ -407,6 +407,20 @@ function getSuperimpositions() {
       4: {[Constants.Stats.CD]: 0.54},
       5: {[Constants.Stats.CD]: 0.60},
     },
+    "23019": {
+      1: {[Constants.Stats.BE]: 0.60},
+      2: {[Constants.Stats.BE]: 0.70},
+      3: {[Constants.Stats.BE]: 0.80},
+      4: {[Constants.Stats.BE]: 0.90},
+      5: {[Constants.Stats.BE]: 1.00},
+    },
+    "23020": {
+      1: {[Constants.Stats.CD]: 0.20},
+      2: {[Constants.Stats.CD]: 0.23},
+      3: {[Constants.Stats.CD]: 0.26},
+      4: {[Constants.Stats.CD]: 0.29},
+      5: {[Constants.Stats.CD]: 0.32},
+    },
     "24000": {},
     "24001": {
       1: {[Constants.Stats.CR]: 0.08},
@@ -604,9 +618,14 @@ function getOverrideTraces() {
       [Constants.Stats.CR]: 0.12,  
       [Constants.Stats.HP_P]: 0.1,
     },
+    "1214": { // Xueyi
+      [Constants.Stats.Quantum_DMG]: 0.08,
+      [Constants.Stats.HP_P]: 0.18,
+      [Constants.Stats.BE]: 0.373,
+    },
     "1215": { // Hanya
-      [Constants.Stats.ATK_P]: 0.28,  
-      [Constants.Stats.HP_P]: 0.1,  
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.HP_P]: 0.1,
       [Constants.Stats.SPD]: 9,
     },
     "1217": { // Huohuo
@@ -615,9 +634,19 @@ function getOverrideTraces() {
       [Constants.Stats.SPD]: 5,
     },
     "1302": { // Argenti
-      [Constants.Stats.ATK_P]: 0.28,  
-      [Constants.Stats.Physical_DMG]: 0.144,  
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.Physical_DMG]: 0.144,
       [Constants.Stats.HP_P]: 0.1,
+    },
+    "1303": { // Ruan Mei
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.DEF_P]: 0.225,
+      [Constants.Stats.SPD]: 5,
+    },
+    "1305": { // Dr Ratio
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.CR]: 0.12,
+      [Constants.Stats.DEF_P]: 0.125,
     },
     "8001": { // Physical Trailblazer
       [Constants.Stats.ATK_P]: 0.28,  
@@ -781,8 +810,12 @@ function getOverrideImageCenter() {
       x: 1050, 
       y: 1024
     },
+    "1214": { // Xueyi
+      x: 1000,
+      y: 1024
+    },
     "1215": { // Hanya
-      x: 1000, 
+      x: 1000,
       y: 1024
     },
     "1217": { // Huohuo
@@ -790,7 +823,15 @@ function getOverrideImageCenter() {
       y: 1024
     },
     "1302": { // Argenti
-      x: 680, 
+      x: 680,
+      y: 1000
+    },
+    "1303": { // Ruan Mei
+      x: 1060,
+      y: 1050
+    },
+    "1305": { // Dr Ratio
+      x: 900,
       y: 1000
     },
     "8001": { // Physical Trailblazer M
@@ -2588,6 +2629,52 @@ function getScores() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ]
     },
+    "1214": { // Xueyi
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0.75,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ]
+    },
     "1215": { // Hanya
       stats: {
         [Constants.Stats.ATK]: 0,
@@ -2722,6 +2809,97 @@ function getScores() {
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.Physical_DMG,
           Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ]
+    },
+    "1303": { // Ruan Mei
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.HP_P
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.SPD
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ERR,
+          Constants.Stats.BE
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ]
+    },
+    "1305": { // Dr Ratio
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P

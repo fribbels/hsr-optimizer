@@ -19,7 +19,7 @@ const items = [
     getItem('Optimizer', 'optimizer'), 
     getItem('Characters', 'characters'),
     getItem('Relics', 'relics'),
-    getItem('Import', 'import'),
+    getItem('Import / Save', 'import'),
     getItem('Getting started', '#getting-started'),
   ]),
   getItem('Tools', 'sub2', <MenuOutlined />, [

@@ -90,7 +90,7 @@ export default function RelicsTab({style}) {
     if (updatedRelic.equippedBy) {
       DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
     } else {
-      DB.unequipRelic(updatedRelic);
+      DB.unequipRelicById(updatedRelic.id);
     }
 
     DB.setRelic(updatedRelic)

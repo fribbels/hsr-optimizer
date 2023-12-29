@@ -55,9 +55,9 @@ const App = () => {
             trackHoverBg: '#1668DC',
             dotBorderColor: '#1668DC',
             railHoverBg: '#ffffff80',
-            railBg: '#ffffff80',
-            handleLineWidth: 4,
-            handleLineWidthHover: 4,
+            railBg: '#ffffff12',
+            handleLineWidth: 0,
+            handleLineWidthHover: 0,
             handleSizeHover: 10
           },
           InputNumber: {
@@ -69,7 +69,7 @@ const App = () => {
     >      
       {notificationContextHolder}
       {messageContextHolder}
-        <Layout hasSider style={{ 'minHeight': '100%', minWidth: 1300 }}>
+        <Layout hasSider style={{ 'minHeight': '100%' }}>
           <Sider
             width={200}
             style={{

@@ -10,13 +10,13 @@ export default function FilterContainer(props) {
   return (
     <Flex
       vertical
-      gap={20}
       style={{
         // outline: '2px solid #243356',
         overflow: 'hidden',
         borderRadius: '10px',
         boxShadow: shadow,
-        width: 'fit-content'
+        width: 'fit-content',
+        paddingTop: 10
       }}
     >
       {props.children}

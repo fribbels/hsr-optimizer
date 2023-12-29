@@ -78,8 +78,8 @@ export const Optimizer = {
   optimize: async function(request) {
     CANCEL = false
 
-    setOptimizerPermutationResults(0)
-    setOptimizerPermutationSearched(0)
+    store.getState().setPermutationsSearched(0)
+    store.getState().setPermutationsResults(0)
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -124,6 +124,7 @@ export const Optimizer = {
     relics = splitRelicsByPart(relics);
 
     relics = RelicFilters.applyCurrentFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics);
     let relicsArrays = relicsByPartToArray(relics);
 
     let elementalMultipliers = [
@@ -188,7 +189,7 @@ export const Optimizer = {
     let resultsShown = false
 
     for (let run = 0; run < runs; run++) {
-      const arr = new Float32Array(WIDTH * HEIGHT * 20)
+      const arr = new Float32Array(WIDTH * HEIGHT * 40)
 
       let input = {
         setAllowList: relicSetAllowList,
@@ -226,8 +227,8 @@ export const Optimizer = {
 
         BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, rowData);
 
-        setOptimizerPermutationResults(rowData.length)
-        setOptimizerPermutationSearched(Math.min(permutations, searched))
+        store.getState().setPermutationsResults(rowData.length)
+        store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           OptimizerTabController.setMetadata(consts, relics)
@@ -247,7 +248,7 @@ export const Optimizer = {
       }
       
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback), 10 * run)
+      setTimeout(() => WorkerPool.execute(input, callback), 100 * run)
     }
   }
 }

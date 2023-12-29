@@ -23,7 +23,7 @@ import {
   Upload,
   Image,
   Flex,
-  Modal,
+  Modal, Affix,
 } from 'antd';
 
 import styled from 'styled-components';
@@ -37,6 +37,7 @@ import { HeaderText } from './HeaderText';
 import { Renderer } from '../lib/renderer';
 import { TooltipImage } from './TooltipImage';
 import { ErrorBoundary } from 'react-error-boundary';
+import PermutationDisplayPanel from "./optimizerTab/PermutationDisplayPanel";
 
 const { Text } = Typography;
 
@@ -159,29 +160,33 @@ export default function OptimizerTab({style}) {
 
   return (
     <div style={style}>
-      <Flex vertical gap={20}>
-        <OptimizerForm/>
-        
-        <Flex>
-          <div className="ag-theme-balham-dark" style={{width: 1240, height: 340}}>
-            <AgGridReact
-              ref={optimizerGrid}
+      <Flex style={{marginBottom: 10}}>
+        <Flex vertical gap={10}>
+          <OptimizerForm/>
 
-              gridOptions={gridOptions}
+          <Flex>
+            <div id="optimizerGridContainer" className="ag-theme-balham-dark" style={{width: 1225, height: 500}}>
+              <AgGridReact
+                ref={optimizerGrid}
 
-              columnDefs={columnDefs}
-              defaultColDef={defaultColDef}
-              
-              animateRows={false}
-              rowSelection='single'
-              headerHeight={24}
+                gridOptions={gridOptions}
 
-              onCellClicked={cellClickedListener}
+                columnDefs={columnDefs}
+                defaultColDef={defaultColDef}
+
+                animateRows={false}
+                rowSelection='single'
+                headerHeight={24}
+
+                onCellClicked={cellClickedListener}
               />
-          </div>
+            </div>
+          </Flex>
+
+          <OptimizerBuildPreview build={optimizerBuild}/>
         </Flex>
 
-        <OptimizerBuildPreview build={optimizerBuild}/>
+        <PermutationDisplayPanel />
       </Flex>
     </div>
   );

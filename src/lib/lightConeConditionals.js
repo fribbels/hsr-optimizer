@@ -90,13 +90,12 @@ const lightConeOptionMapping = {
   23016: WorrisomeBlissful,
   23017: NightOfFright,
   23018: AnInstantBeforeAGaze,
+  23019: PastSelfInMirror,
+  23020: BaptismOfPureThought,
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
   24003: SolitaryHealing,
-
-  23019: PastSelfInMirror,
-  23020: BaptismOfPureThought,
 }
 
 function BaptismOfPureThought(s) {

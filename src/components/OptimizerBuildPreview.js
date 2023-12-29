@@ -1,4 +1,4 @@
-import { Row, Space } from 'antd';
+import {Flex, Row, Space} from 'antd';
 import * as React from 'react';
 import RelicPreview from './RelicPreview';
 import { RelicScorer } from '../lib/relicScorer';
@@ -18,13 +18,13 @@ export default function OptimizerBuildPreview(props) {
   let planarSphereScore = props.build ? RelicScorer.score(relicsById[props.build?.PlanarSphere], characterId) : undefined;
   let linkRopeScore = props.build ? RelicScorer.score(relicsById[props.build?.LinkRope], characterId) : undefined;
   return (
-    <Space>
+    <Flex gap={5} id="optimizerBuildPreviewContainer">
       <RelicPreview relic={relicsById[props.build?.Head]} score={headScore}/>
       <RelicPreview relic={relicsById[props.build?.Hands]} score={handsScore}/>
       <RelicPreview relic={relicsById[props.build?.Body]} score={bodyScore}/>
       <RelicPreview relic={relicsById[props.build?.Feet]} score={feetScore}/>
       <RelicPreview relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
       <RelicPreview relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
-    </Space>
+    </Flex>
   );
 }

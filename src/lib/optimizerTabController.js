@@ -310,7 +310,18 @@ export const OptimizerTabController = {
       console.log('Missing character')
       return false;
     }
-    
+
+    if (!x.weights || !x.weights.topPercent) {
+      Message.error('Substat weight filter should have a Top % value greater than 0%. Make sure to set the Top % value with your substat weights.', 10)
+      console.log('Top percent')
+      return false;
+    }
+
+    if (x.weights.topPercent > 0 && Object.values(Constants.Stats).map(stat => x.weights[stat]).filter(x => !!x).length == 0) {
+      Message.error('Top % of weighted relics was selected but all weights are set to 0. Make sure to set the substat weights for your character.', 10)
+      console.log('Top percent')
+      return false;
+    }
     return true
   },
   

@@ -1,4 +1,68 @@
 export const RelicFilters = {
+  applyTopFilter: (request, relics) => {
+    let weights = request.weights || {}
+    let statScalings = {
+      [Constants.Stats.HP_P]: 64.8 / 43.2,
+      [Constants.Stats.ATK_P]: 64.8 / 43.2,
+      [Constants.Stats.DEF_P]: 64.8 / 54,
+      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
+      [Constants.Stats.CR]: 64.8 / 32.4,
+      [Constants.Stats.CD]: 64.8 / 64.8,
+      [Constants.Stats.OHB]: 64.8 / 34.5,
+      [Constants.Stats.EHR]: 64.8 / 43.2,
+      [Constants.Stats.RES]: 64.8 / 43.2,
+      [Constants.Stats.SPD]: 64.8 / 25,
+      [Constants.Stats.BE]: 64.8 / 64.8,
+    }
+
+    let substatWeights = {
+      [Constants.Stats.HP_P]: 'atk' || 0,
+      [Constants.Stats.ATK_P]: weights[Constants.Stats.ATK_P] || 0,
+      [Constants.Stats.DEF_P]: weights[Constants.Stats.DEF_P] || 0,
+      [Constants.Stats.SPD_P]: weights[Constants.Stats.SPD_P] || 0,
+      [Constants.Stats.HP]: weights[Constants.Stats.HP] || 0,
+      [Constants.Stats.ATK]: weights[Constants.Stats.ATK] || 0,
+      [Constants.Stats.DEF]: weights[Constants.Stats.DEF] || 0,
+      [Constants.Stats.SPD]: weights[Constants.Stats.SPD] || 0,
+      [Constants.Stats.CD]: weights[Constants.Stats.CD] || 0,
+      [Constants.Stats.CR]: weights[Constants.Stats.CR] || 0,
+      [Constants.Stats.EHR]: weights[Constants.Stats.EHR] || 0,
+      [Constants.Stats.RES]: weights[Constants.Stats.RES] || 0,
+      [Constants.Stats.BE]: weights[Constants.Stats.BE] || 0,
+    }
+
+    weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P]
+    weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
+    weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
+
+    for (let weight of Object.keys(weights)) {
+      if (weights[weight] == undefined) {
+        weights[weight] = 0
+      }
+    }
+    for (let part of Object.values(Constants.Parts)) {
+      let partition = relics[part]
+      for (let relic of partition) {
+        let sum = 0
+        for (let substat of relic.substats) {
+          let weight = weights[substat.stat] || 0
+          let scale = statScalings[substat.stat] || 0
+          let value = substat.value || 0
+          sum += value * weight * scale
+        }
+        relic.weightScore = sum
+      }
+      let index = Math.ceil(weights.topPercent / 100 * partition.length)
+      relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
+    }
+    console.log('!!! top filter', request)
+    console.log('!!! top filter', relics)
+
+    return relics
+  },
+
   applyRankFilter: (request, relics) => {
     if (!request.rankFilter) return relics;
 
@@ -19,7 +83,6 @@ export const RelicFilters = {
     return relics = relics.filter(x => !higherRankedRelics[x.id])
   },
 
-  
   applyMainFilter: (request, relics) => {
     let out = []
     out.push(...relics.filter(x => x.part == Constants.Parts.Head))

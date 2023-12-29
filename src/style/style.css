@@ -234,7 +234,9 @@ a {
 .ant-slider:hover .ant-slider-handle::after {
   box-shadow: 0 0 0 4px #1668DC
 }
-
+.ant-slider-handle::after {
+  background-color: #1668dc !important;
+}
 .ant-input-number-group-addon {
   padding: 0 3px !important;
 }

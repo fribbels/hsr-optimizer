@@ -9,7 +9,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "ag-grid-react": "^30.2.0",
-    "antd": "^5.11.5",
+    "antd": "^5.12.5",
     "btoa": "^1.2.1",
     "fast-sort": "^3.4.0",
     "gpu.js": "^2.11.2",

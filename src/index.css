@@ -16,5 +16,4 @@ html, body, #root, #app, #app>div {
   margin:0;
   height: 100vh !important;
   min-width: fit-content !important;
-  font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif !important;
 }

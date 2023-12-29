@@ -7,12 +7,12 @@ let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px
 export default function FormRow(props) {
   return (
     <Flex gap={0} vertical style={{
+      paddingTop: 5
     }}>
       <Flex // Top bar
         style={{
-          height: 40,
-          backgroundColor: '#243356',
-          paddingLeft: 20,
+          height: 20,
+          paddingLeft: 15,
         }}
         // justify='space-around'
         align='center'

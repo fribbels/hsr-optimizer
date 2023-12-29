@@ -10,6 +10,7 @@ let state = {
   scorerId: undefined
 }
 import { create } from 'zustand'
+import {Constants} from "./constants";
 
 window.store = create((set) => ({
   relicsById: {},
@@ -25,6 +26,31 @@ window.store = create((set) => ({
 
   characterTabBlur: false,
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
+
+  permutationDetails: {
+    Head: 0,
+    Hands: 0,
+    Body: 0,
+    Feet: 0,
+    PlanarSphere: 0,
+    LinkRope: 0,
+    HeadTotal: 0,
+    HandsTotal: 0,
+    BodyTotal: 0,
+    FeetTotal: 0,
+    PlanarSphereTotal: 0,
+    LinkRopeTotal: 0,
+  },
+  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+
+  permutations: 0,
+  setPermutations: (x) => set(() => ({ permutations: x })),
+
+  permutationsSearched: 0,
+  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+
+  permutationsResults: 0,
+  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
 }))
 
 export const DB = {

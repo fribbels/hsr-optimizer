@@ -696,6 +696,10 @@ function sushang(e) {
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
       </Flex>
     ),
     defaults: () => ({

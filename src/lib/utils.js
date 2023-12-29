@@ -60,5 +60,9 @@ export const Utils = {
   },
   truncate10000ths: (x) => {
     return Math.floor(x * 10000) / 10000
-  }
+  },
+  precisionRound(number, precision = 8) {
+    let factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  },
 }

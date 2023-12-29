@@ -12,7 +12,7 @@ let mediumWidth = panelWidth * 2 + defaultPadding * 2 + 10
 
 export default function FormCard(props) {
   return (
-    <div style={{borderRadius: 5, backgroundColor: '#243356', padding: defaultPadding, boxShadow: shadow}}>
+    <div style={{borderRadius: 5, backgroundColor: '#243356', height: 350, padding: defaultPadding, boxShadow: shadow}}>
       <Flex
         vertical
         style={{ width: props.medium ? mediumWidth : smallWidth }}

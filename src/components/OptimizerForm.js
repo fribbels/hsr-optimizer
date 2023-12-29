@@ -617,7 +617,7 @@ export default function OptimizerForm() {
         initialValues={initialValues}
       >
         <FilterContainer >
-          <FormRow gap={defaultGap}>
+          <FormRow gap={defaultGap} title='Character options'>
             <FormCard>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
                 <Image
@@ -697,216 +697,6 @@ export default function OptimizerForm() {
               </Flex>
             </FormCard>
 
-            <FormCard>
-              <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
-                  <HeaderText>Main Stats</HeaderText>
-                  <TooltipImage type={Hint.mainStats()} />
-                </Flex>
-                <Form.Item size="default" name='mainBody'>
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    style={{
-                      width: panelWidth,
-                    }}
-                    placeholder="Body"
-                    maxTagCount='responsive'>
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                    <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
-                    <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                  </Select>
-                </Form.Item>
-
-                <Form.Item size="default" name='mainFeet'>
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    style={{
-                      width: panelWidth,
-                    }}
-                    placeholder="Feet"
-                    maxTagCount='responsive'>
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                  </Select>
-                </Form.Item>
-
-                <Form.Item size="default" name='mainPlanarSphere'>
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    style={{
-                      width: panelWidth,
-                    }}
-                    placeholder="Planar Sphere"
-                    listHeight={400}
-                    maxTagCount='responsive'>
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
-                  </Select>
-                </Form.Item>
-
-                <Form.Item size="default" name='mainLinkRope'>
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    style={{
-                      width: panelWidth,
-                    }}
-                    placeholder="Link Rope"
-                    maxTagCount='responsive'>
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-                    <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
-                  </Select>
-                </Form.Item>
-              </Flex>
-
-              <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
-                  <HeaderText>Sets</HeaderText>
-                  <TooltipImage type={Hint.sets()} />
-                </Flex>
-
-                <Form.Item size="default" name='ornamentSets'>
-                  <Select
-                    dropdownStyle={{
-                      width: 250
-                    }}
-                    listHeight={500}
-                    mode="multiple"
-                    allowClear
-                    style={{
-                      width: panelWidth
-                    }}
-                    options={generateOrnamentsOptions()}
-                    tagRender={ornamentSetTagRenderer}
-                    placeholder="Planar Ornaments"
-                    maxTagCount='responsive'>
-                  </Select>
-                </Form.Item>
-                <ConfigProvider
-                  theme={{
-                    components: {
-                      Cascader: {
-                        dropdownHeight: 625,
-                        controlItemWidth: 100,
-                        controlWidth: 100
-                      },
-                    },
-                  }}
-                >
-                  <Form.Item size="default" name='relicSets'>
-                    <Cascader
-                      placeholder="Relics"
-                      options={generateSetsOptions()}
-                      showCheckedStrategy={SHOW_CHILD}
-                      tagRender={relicSetTagRenderer}
-                      placement='bottomLeft'
-                      maxTagCount='responsive'
-                      multiple={true}
-                      expandTrigger="hover"
-                    />
-                  </Form.Item>
-                </ConfigProvider>
-              </Flex>
-            </FormCard>
-
-            <FormCard>
-              <Flex justify='space-between' align='center'>
-                <HeaderText>Stat Filters</HeaderText>
-                <TooltipImage type={Hint.statFilters()} />
-              </Flex>
-
-              <FilterRow name='Atk' label='ATK' />
-              <FilterRow name='Hp' label='HP' />
-              <FilterRow name='Def' label='DEF' />
-              <FilterRow name='Spd' label='SPD' />
-              <FilterRow name='Cr' label='CR' />
-              <FilterRow name='Cd' label='CD' />
-              <FilterRow name='Ehr' label='EHR' />
-              <FilterRow name='Res' label='RES' />
-              <FilterRow name='Be' label='BE' />
-            </FormCard>
-
-            <FormCard>
-              <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
-                  <HeaderText>Rating Filters</HeaderText>
-                  <TooltipImage type={Hint.ratingFilters()} />
-                </Flex>
-
-                <FilterRow name='Cv' label='CV' />
-                <FilterRow name='Dmg' label='DMG' />
-                <FilterRow name='Mcd' label='MCD' />
-                <FilterRow name='Ehp' label='EHP' />
-              </Flex>
-
-              <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
-                  <HeaderText>Combat Buffs</HeaderText>
-                  <TooltipImage type={Hint.combatBuffs()} />
-                </Flex>
-
-                <Flex vertical gap={defaultGap}>
-                  <Flex justify='space-between'>
-                    <Text>
-                      ATK
-                    </Text>
-                    <Form.Item size="default" name='buffAtk'>
-                      <InputNumberStyled size="small" controls={false} />
-                    </Form.Item>
-                  </Flex>
-
-                  <Flex justify='space-between'>
-                    <Text>
-                      ATK %
-                    </Text>
-                    <Form.Item size="default" name='buffAtkP'>
-                      <InputNumberStyled size="small" controls={false} />
-                    </Form.Item>
-                  </Flex>
-
-                  <Flex justify='space-between'>
-                    <Text>
-                      Crit Rate %
-                    </Text>
-                    <Form.Item size="default" name='buffCr'>
-                      <InputNumberStyled size="small" controls={false} />
-                    </Form.Item>
-                  </Flex>
-
-                  <Flex justify='space-between'>
-                    <Text>
-                      Crit Dmg %
-                    </Text>
-                    <Form.Item size="default" name='buffCd'>
-                      <InputNumberStyled size="small" controls={false} />
-                    </Form.Item>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </FormCard>
-          </FormRow>
-
-          <FormRow>
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Optimizer Options</HeaderText>
@@ -1050,8 +840,253 @@ export default function OptimizerForm() {
                 </Button>
               </Flex>
             </FormCard>
+          </FormRow>
+
+          <FormRow title='Relic & stat filters'>
+            <FormCard>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Main Stats</HeaderText>
+                  <TooltipImage type={Hint.mainStats()} />
+                </Flex>
+                <Form.Item size="default" name='mainBody'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Body"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
+                    <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item size="default" name='mainFeet'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Feet"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item size="default" name='mainPlanarSphere'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Planar Sphere"
+                    listHeight={400}
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item size="default" name='mainLinkRope'>
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth,
+                    }}
+                    placeholder="Link Rope"
+                    maxTagCount='responsive'>
+                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
+                    <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Flex>
+
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Sets</HeaderText>
+                  <TooltipImage type={Hint.sets()} />
+                </Flex>
+
+                <Form.Item size="default" name='ornamentSets'>
+                  <Select
+                    dropdownStyle={{
+                      width: 250
+                    }}
+                    listHeight={500}
+                    mode="multiple"
+                    allowClear
+                    style={{
+                      width: panelWidth
+                    }}
+                    options={generateOrnamentsOptions()}
+                    tagRender={ornamentSetTagRenderer}
+                    placeholder="Planar Ornaments"
+                    maxTagCount='responsive'>
+                  </Select>
+                </Form.Item>
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Cascader: {
+                        dropdownHeight: 625,
+                        controlItemWidth: 100,
+                        controlWidth: 100
+                      },
+                    },
+                  }}
+                >
+                  <Form.Item size="default" name='relicSets'>
+                    <Cascader
+                      placeholder="Relics"
+                      options={generateSetsOptions()}
+                      showCheckedStrategy={SHOW_CHILD}
+                      tagRender={relicSetTagRenderer}
+                      placement='bottomLeft'
+                      maxTagCount='responsive'
+                      multiple={true}
+                      expandTrigger="hover"
+                    />
+                  </Form.Item>
+                </ConfigProvider>
+              </Flex>
+            </FormCard>
+            <FormCard>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Substat Roll Filter</HeaderText>
+                  <TooltipImage type={Hint.mainStats()} />
+                </Flex>
+
+                <Flex align='center'>
+                  <Text
+                    style={{
+                      width: 30,
+                      marginRight: 5
+                    }}
+                  >
+                    Atk
+                  </Text>
+                  <Form.Item name='Test'>
+                    <Slider
+                      min={0}
+                      max={1}
+                      step={0.25}
+                      style={{
+                        minWidth: 100
+                      }}
+                    />
+                  </Form.Item>
+                </Flex>
+              </Flex>
+            </FormCard>
 
             <FormCard>
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Stat Filters</HeaderText>
+                <TooltipImage type={Hint.statFilters()} />
+              </Flex>
+
+              <FilterRow name='Atk' label='ATK' />
+              <FilterRow name='Hp' label='HP' />
+              <FilterRow name='Def' label='DEF' />
+              <FilterRow name='Spd' label='SPD' />
+              <FilterRow name='Cr' label='CR' />
+              <FilterRow name='Cd' label='CD' />
+              <FilterRow name='Ehr' label='EHR' />
+              <FilterRow name='Res' label='RES' />
+              <FilterRow name='Be' label='BE' />
+            </FormCard>
+
+            <FormCard>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Rating Filters</HeaderText>
+                  <TooltipImage type={Hint.ratingFilters()} />
+                </Flex>
+
+                <FilterRow name='Cv' label='CV' />
+                <FilterRow name='Dmg' label='DMG' />
+                <FilterRow name='Mcd' label='MCD' />
+                <FilterRow name='Ehp' label='EHP' />
+              </Flex>
+            </FormCard>
+
+            <FormCard>
+              <Flex vertical gap={defaultGap}>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText>Combat Buffs</HeaderText>
+                  <TooltipImage type={Hint.combatBuffs()} />
+                </Flex>
+
+                <Flex vertical gap={defaultGap}>
+                  <Flex justify='space-between'>
+                    <Text>
+                      ATK
+                    </Text>
+                    <Form.Item size="default" name='buffAtk'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      ATK %
+                    </Text>
+                    <Form.Item size="default" name='buffAtkP'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      Crit Rate %
+                    </Text>
+                    <Form.Item size="default" name='buffCr'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      Crit Dmg %
+                    </Text>
+                    <Form.Item size="default" name='buffCd'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </FormCard>
+          </FormRow>
+
+          <FormRow title='Passive effects'>
+
+
+          <FormCard>
               <HeaderText>Conditionals</HeaderText>
 
               <Button onClick={() => setDrawerOpen(true)}>
@@ -1198,6 +1233,7 @@ export default function OptimizerForm() {
                 </Drawer>
               </ConfigProvider>
             </FormCard>
+
             <FormCard>
               {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
             </FormCard>
@@ -1205,6 +1241,7 @@ export default function OptimizerForm() {
             <FormCard>
               {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
             </FormCard>  
+            
           </FormRow>
         </FilterContainer>
       </Form>

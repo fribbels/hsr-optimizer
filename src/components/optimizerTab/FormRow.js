@@ -22,7 +22,7 @@ export default function FormRow(props) {
             fontSize: 20,
           }}
         >
-          Character stats
+          {props.title}
         </Text>
       </Flex>
 

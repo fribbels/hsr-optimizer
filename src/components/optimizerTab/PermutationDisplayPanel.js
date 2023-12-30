@@ -8,7 +8,7 @@ const { Text } = Typography;
 
 function PermutationDisplay(props) {
   let rightText = props.total
-    ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()}`
+    ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()} - (${Math.ceil(Number(props.right) / Number(props.total) * 100)}%)`
     : `${Number(props.right).toLocaleString()}`
 
   return (
@@ -48,8 +48,8 @@ export default function PermutationDisplayPanel(props) {
               <PermutationDisplay left='Hands' right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left='Body' right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left='Feet' right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left='Link Rope' right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
-              <PermutationDisplay left='Planar Sphere' right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left='Rope' right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
+              <PermutationDisplay left='Sphere' right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
             </Flex>
 
             <Flex vertical>
@@ -59,7 +59,7 @@ export default function PermutationDisplayPanel(props) {
             </Flex>
 
             <Flex justify='space-between' align='center' style={{marginTop: 10}}>
-              <HeaderText>Optimize</HeaderText>
+              <HeaderText>Controls</HeaderText>
               <TooltipImage type={Hint.actions()} />
             </Flex>
 

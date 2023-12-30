@@ -112,6 +112,9 @@ export const Optimizer = {
     // TODO validate lc
     // Pre-split filters
     let relics = DB.getRelics();
+
+    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
+
     relics = JSON.parse(JSON.stringify(relics))
     relics = RelicFilters.applyEnhanceFilter(request, relics);
     relics = applyMainFilter(request, relics);
@@ -124,7 +127,8 @@ export const Optimizer = {
     relics = splitRelicsByPart(relics);
 
     relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+
     let relicsArrays = relicsByPartToArray(relics);
 
     let elementalMultipliers = [

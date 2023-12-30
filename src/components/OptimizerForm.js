@@ -468,7 +468,7 @@ export default function OptimizerForm() {
 
     relics = RelicFilters.splitRelicsByPart(relics)
     relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
 
     let permutationDetails = {
       Head: relics.Head.length,
@@ -533,8 +533,27 @@ export default function OptimizerForm() {
       "enhance": 9,
       "grade": 5,
       "enemyLevel": 95,
+      "enemyCount": 1,
+      "enemyResistance": 0.2,
+      "enemyHpPercent": 1.0,
       "mainHead": [],
       "mainHands": [],
+      "weights": {
+        [Constants.Stats.HP_P]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF_P]: 1,
+        [Constants.Stats.SPD_P]: 1,
+        [Constants.Stats.HP]: 1,
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.DEF]: 1,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.EHR]: 1,
+        [Constants.Stats.RES]: 1,
+        [Constants.Stats.BE]: 1,
+        topPercent: 100
+      },
       "setConditionals": {
         "The Ashblazing Grand Duke": [undefined, 2],
         "Prisoner in Deep Confinement": [undefined, true]
@@ -762,7 +781,7 @@ export default function OptimizerForm() {
               </Flex>
 
               <Flex justify='space-between' align='center'>
-                <HeaderText>Light Cone</HeaderText>
+                <HeaderText>Light cone</HeaderText>
                 <TooltipImage type={Hint.lightCone()} />
               </Flex>
               <Flex vertical gap={defaultGap}>
@@ -885,7 +904,7 @@ export default function OptimizerForm() {
 
             <FormCard>
               <Flex justify='space-between' align='center'>
-                <HeaderText>Optimizer Options</HeaderText>
+                <HeaderText>Optimizer options</HeaderText>
                 <TooltipImage type={Hint.optimizerOptions()} />
               </Flex>
 
@@ -989,7 +1008,7 @@ export default function OptimizerForm() {
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
-                  <HeaderText>Main Stats</HeaderText>
+                  <HeaderText>Main stats</HeaderText>
                   <TooltipImage type={Hint.mainStats()} />
                 </Flex>
                 <Form.Item size="default" name='mainBody'>
@@ -1128,7 +1147,7 @@ export default function OptimizerForm() {
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
-                  <HeaderText>Substat Weight Filter</HeaderText>
+                  <HeaderText>Substat weight filter</HeaderText>
                   {/*<TooltipImage type={Hint.mainStats()} />*/}
                 </Flex>
 
@@ -1151,7 +1170,7 @@ export default function OptimizerForm() {
 
             <FormCard>
               <Flex justify='space-between' align='center'>
-                <HeaderText>Stat Filters</HeaderText>
+                <HeaderText>Stat filters</HeaderText>
                 <TooltipImage type={Hint.statFilters()} />
               </Flex>
               <Flex vertical gap={5}>
@@ -1170,7 +1189,7 @@ export default function OptimizerForm() {
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
-                  <HeaderText>Rating Filters</HeaderText>
+                  <HeaderText>Rating filters</HeaderText>
                   <TooltipImage type={Hint.ratingFilters()} />
                 </Flex>
 
@@ -1184,7 +1203,7 @@ export default function OptimizerForm() {
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
-                  <HeaderText>Combat Buffs</HeaderText>
+                  <HeaderText>Combat buffs</HeaderText>
                   <TooltipImage type={Hint.combatBuffs()} />
                 </Flex>
 

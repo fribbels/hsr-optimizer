@@ -1,5 +1,5 @@
 export const RelicFilters = {
-  applyTopFilter: (request, relics) => {
+  applyTopFilter: (request, relics, originalRelics) => {
     let weights = request.weights || {}
     let statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
@@ -54,7 +54,7 @@ export const RelicFilters = {
         }
         relic.weightScore = sum
       }
-      let index = Math.ceil(weights.topPercent / 100 * partition.length)
+      let index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
       relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
     }
     console.log('!!! top filter', request)

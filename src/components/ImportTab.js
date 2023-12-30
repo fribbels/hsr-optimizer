@@ -99,7 +99,7 @@ function clearDataTab() {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-      DB.resetState()
+      DB.resetStore()
 
       Message.success('Cleared data')
     }, spinnerMs);

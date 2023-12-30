@@ -53,8 +53,12 @@ export function FormStatRollSliderTopPercent(props) {
           size='small'
           style={{width: 50, marginRight: 5}}
           controls={false}
-          // addonAfter={'%'}
-          onChange={onChange}
+          min={1}
+          max={100}
+          onChange={(x) => {
+            onChange(x)
+            onOptimizerFormValuesChange(x, optimizerForm.getFieldsValue(), true)
+          }}
           parser={(value) => value == null || value == '' ? 0 : Utils.precisionRound(value) }
           formatter={(value) => `${Utils.precisionRound(value)}`}
         />
@@ -63,7 +67,7 @@ export function FormStatRollSliderTopPercent(props) {
       <Flex align='center' justify='flex-start' gap={10}>
         <Form.Item name={['weights', 'topPercent']}>
           <Slider
-            min={0}
+            min={1}
             max={100}
             step={1}
             style={{

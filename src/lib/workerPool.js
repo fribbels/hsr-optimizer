@@ -1,6 +1,7 @@
 let poolSize = 20
 let workers = []
 let taskQueue = []
+let taskStatus = {}
 
 export const WorkerPool = {
   initialize: () => {
@@ -16,7 +17,10 @@ export const WorkerPool = {
     WorkerPool.execute(task, callback)
   },
 
-  execute: (task, callback) => {
+  execute: (task, callback, id) => {
+    if (taskStatus[id] == undefined) taskStatus[id] = true
+    if (taskStatus[id] == false) return
+
     if (workers.length > 0) {
       const worker = workers.pop();
       worker.onmessage = (message) => {
@@ -32,7 +36,8 @@ export const WorkerPool = {
     }
   },
 
-  cancel: () => {
+  cancel: (id) => {
+    taskStatus[id] = false
     taskQueue = []
   },
 

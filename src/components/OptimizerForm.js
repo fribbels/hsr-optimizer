@@ -44,6 +44,7 @@ import { SaveState } from '../lib/saveState';
 import {CharacterConditionals} from "../lib/characterConditionals";
 import {LightConeConditionals} from "../lib/lightConeConditionals";
 import {FormStatRollSlider, FormStatRollSliderTopPercent} from "./optimizerTab/FormStatRollSlider";
+import {v4 as uuidv4} from "uuid";
 const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -169,6 +170,7 @@ export default function OptimizerForm() {
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [optimizationId, setOptimizationId] = useState();
 
   // const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
   // const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
@@ -431,6 +433,10 @@ export default function OptimizerForm() {
     SaveState.save()
     console.log('Form finished', x);
 
+    let optimizationId = uuidv4()
+    setOptimizationId(optimizationId)
+    x.optimizationId = optimizationId
+
     Optimizer.optimize(x)
   };
 
@@ -571,7 +577,7 @@ export default function OptimizerForm() {
   function cancelClicked(x) {
     // document.getElementById("optimizerBuildPreviewContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
     console.log('Cancel clicked');
-    Optimizer.cancel()
+    Optimizer.cancel(optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
 

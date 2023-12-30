@@ -70,9 +70,9 @@ function characterToArrays(character) {
 let CANCEL = false;
 
 export const Optimizer = {
-  cancel: () => {
+  cancel: (id) => {
     CANCEL = true
-    WorkerPool.cancel()
+    WorkerPool.cancel(id)
   },
 
   optimize: async function(request) {
@@ -192,8 +192,9 @@ export const Optimizer = {
 
     let resultsShown = false
 
+
     for (let run = 0; run < runs; run++) {
-      const arr = new Float32Array(WIDTH * HEIGHT * 40)
+      const arr = new Float32Array(WIDTH * HEIGHT * 40) // todo reuse these
 
       let input = {
         setAllowList: relicSetAllowList,
@@ -250,9 +251,10 @@ export const Optimizer = {
           Message.error('Too many results, please narrow your filters')
         }
       }
+
       
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback), 100 * run)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), run * 10)
     }
   }
 }

@@ -263,6 +263,8 @@ self.onmessage = function (e) {
       x[Stats.ATK] += request.buffAtkP * baseAtk
       x[Stats.CD]  += request.buffCd
       x[Stats.CR]  += request.buffCr
+      x[Stats.SPD] += request.buffSpdP * baseSpd + request.buffSpd
+      x[Stats.BE]  += request.buffBe
 
       // ************************************************************
       // Calculate passive effects & buffs. x stores the internally calculated character stats
@@ -368,20 +370,21 @@ self.onmessage = function (e) {
 
       let cLevel = request.characterLevel
       let eLevel = request.enemyLevel
-      let defReduction = x.DEF_SHRED
+      let defReduction = x.DEF_SHRED + request.buffDefShred
       let defIgnore = 0
 
-      let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG
-      let resMultiplier = 1 - (resistance - x.RES_PEN)
+      let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG + request.buffDmgBoost
+      let resMultiplier = 1 - (resistance - x.RES_PEN - request.buffResPen)
       let dmgTakenMultiplier = 1 + x.DMG_TAKEN_MULTI
       let dmgReductionMultiplier = 1
 
-      let universalMulti = resMultiplier * dmgTakenMultiplier * dmgReductionMultiplier * brokenMultiplier
+      let universalMulti = resMultiplier * dmgReductionMultiplier * brokenMultiplier
 
-      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
-      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
-      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)   * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)   * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
+      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY)
+      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY)
+      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)   * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY)
+      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)   * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY)
+      x.DOT_DMG   *= universalMulti * (dmgBoostMultiplier + x.DOT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN) * (1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY)
 
       // ************************************************************
       // Filter results
@@ -419,7 +422,7 @@ self.onmessage = function (e) {
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {
-  return (cLevel + 20) / ((eLevel + 20) * (1 - defReduction - defIgnore - additionalPen) + cLevel + 20)
+  return (cLevel + 20) / ((eLevel + 20) * Math.max(0, 1 - defReduction - defIgnore - additionalPen) + cLevel + 20)
 }
 
 function p4(set) {

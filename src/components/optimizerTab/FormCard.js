@@ -12,14 +12,24 @@ let mediumWidth = panelWidth * 2 + defaultPadding * 2 + 10
 
 export default function FormCard(props) {
   return (
-    <div style={{borderRadius: 5, backgroundColor: '#243356', height: props.height || 350, padding: defaultPadding, boxShadow: shadow, overflow: props.style?.overflow}}>
+    <Flex
+      style={{
+        borderRadius: 5,
+        backgroundColor: '#243356',
+        height: props.height || 350,
+        padding: defaultPadding,
+        boxShadow: shadow,
+        overflow: props.style?.overflow
+      }}
+    >
       <Flex
         vertical
         style={{ width: props.medium ? mediumWidth : smallWidth }}
         gap={defaultGap}
+        justify={props.justify || undefined}
       >
         {props.children}
       </Flex>
-    </div>
+    </Flex>
   )
 }

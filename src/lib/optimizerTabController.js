@@ -233,6 +233,12 @@ export const OptimizerTabController = {
     newForm.buffAtkP = unsetMin(form.buffAtkP, true)
     newForm.buffCr = unsetMin(form.buffCr, true)
     newForm.buffCd = unsetMin(form.buffCd, true)
+    newForm.buffSpd = unsetMin(form.buffSpd)
+    newForm.buffSpdP = unsetMin(form.buffSpdP, true)
+    newForm.buffBe = unsetMin(form.buffBe, true)
+    newForm.buffDmgBoost = unsetMin(form.buffDmgBoost, true)
+    newForm.buffDefShred = unsetMin(form.buffDefShred, true)
+    newForm.buffResPen = unsetMin(form.buffResPen, true)
     if (!newForm.setConditionals) {
       newForm.setConditionals = {
         [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
@@ -290,6 +296,25 @@ export const OptimizerTabController = {
     for (let option of Object.keys(defaultLcOptions)) {
       if (newForm.lightConeConditionals[option] == undefined) {
         newForm.lightConeConditionals[option] = defaultLcOptions[option]
+      }
+    }
+
+    if (!newForm.weights) {
+      newForm.weights = {
+        [Constants.Stats.HP_P]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF_P]: 1,
+        [Constants.Stats.SPD_P]: 1,
+        [Constants.Stats.HP]: 1,
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.DEF]: 1,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.EHR]: 1,
+        [Constants.Stats.RES]: 1,
+        [Constants.Stats.BE]: 1,
+        topPercent: 100
       }
     }
 
@@ -360,6 +385,12 @@ export const OptimizerTabController = {
     x.buffAtkP = fixValue(x.buffAtkP, 0, 100)
     x.buffCr = fixValue(x.buffCr, 0, 100)
     x.buffCd = fixValue(x.buffCd, 0, 100)
+    x.buffSpd = fixValue(x.buffSpd, 0)
+    x.buffSpdP = fixValue(x.buffSpdP, 0, 100)
+    x.buffBe = fixValue(x.buffBe, 0, 100)
+    x.buffDmgBoost = fixValue(x.buffDmgBoost, 0, 100)
+    x.buffDefShred = fixValue(x.buffDefShred, 0, 100)
+    x.buffResPen = fixValue(x.buffResPen, 0, 100)
 
     x.mainHead = x.mainHead || []
     x.mainHands = x.mainHands || []
@@ -415,6 +446,12 @@ export const OptimizerTabController = {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
         setSelectedLightCone(lightConeMetadata)
       }
+    } else {
+      let displayFormValues = OptimizerTabController.getDisplayFormValues({
+        characterId: id,
+        characterEidolon: 0
+      })
+      optimizerForm.setFieldsValue(displayFormValues)
     }
     setPinnedRow(id)
     OptimizerTabController.updateFilters()

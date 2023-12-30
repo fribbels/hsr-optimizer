@@ -536,7 +536,7 @@ function getOverrideTraces() {
     "1109": { // Hook
       [Constants.Stats.ATK_P]: 0.28,  
       [Constants.Stats.HP_P]: 0.18,  
-      [Constants.Stats.CD]: 0.125,
+      [Constants.Stats.CD]: 0.133,
     },
     "1110": { // Lynx
       [Constants.Stats.HP_P]: 0.28,  

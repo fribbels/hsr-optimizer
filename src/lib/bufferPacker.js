@@ -17,7 +17,7 @@ export const BufferPacker = {
       [Constants.Stats.EHR]:   arr[offset + i++],
       [Constants.Stats.RES]:   arr[offset + i++],
       [Constants.Stats.BE]:    arr[offset + i++],
-      [Constants.Stats.ERR]:   arr[offset + i++],
+      [Constants.Stats.ERR]:   arr[offset + i++], // 10
       [Constants.Stats.OHB]:   arr[offset + i++],
       ED:    arr[offset + i++],
       CV:    arr[offset + i++],
@@ -28,6 +28,7 @@ export const BufferPacker = {
       SKILL: arr[offset + i++],
       ULT:   arr[offset + i++],
       FUA:   arr[offset + i++], // 20
+      DOT:   arr[offset + i++],
       xHP:  arr[offset + i++],
       xATK: arr[offset + i++],
       xDEF: arr[offset + i++],
@@ -36,14 +37,15 @@ export const BufferPacker = {
       xCD:  arr[offset + i++],
       xEHR: arr[offset + i++],
       xRES: arr[offset + i++],
-      xBE:  arr[offset + i++],
+      xBE:  arr[offset + i++], // 30
       xERR: arr[offset + i++],
       xOHB: arr[offset + i++],
-      xELEMENTAL_DMG:  arr[offset + i++], // 32
+      xELEMENTAL_DMG:  arr[offset + i++],
       xBASIC_BOOST:    arr[offset + i++],
       xSKILL_BOOST:    arr[offset + i++],
       xULT_BOOST:      arr[offset + i++],
       xFUA_BOOST:      arr[offset + i++],
+      xDOT_BOOST:      arr[offset + i++],
     }
   },
 
@@ -78,6 +80,7 @@ export const BufferPacker = {
     arr[offset * SIZE + i++] = character.x.SKILL_DMG
     arr[offset * SIZE + i++] = character.x.ULT_DMG
     arr[offset * SIZE + i++] = character.x.FUA_DMG
+    arr[offset * SIZE + i++] = character.x.DOT_DMG
     arr[offset * SIZE + i++] = character.x[Stats.HP]
     arr[offset * SIZE + i++] = character.x[Stats.ATK]
     arr[offset * SIZE + i++] = character.x[Stats.DEF]
@@ -94,5 +97,6 @@ export const BufferPacker = {
     arr[offset * SIZE + i++] = character.x.SKILL_BOOST
     arr[offset * SIZE + i++] = character.x.ULT_BOOST
     arr[offset * SIZE + i++] = character.x.FUA_BOOST
+    arr[offset * SIZE + i++] = character.x.DOT_BOOST
   }
 }

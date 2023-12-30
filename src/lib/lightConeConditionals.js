@@ -12,6 +12,8 @@ function precisionRound(number, precision = 8) {
   return Math.round(number * factor) / factor;
 }
 
+let defaultGap = 5
+
 const lightConeOptionMapping = {
   20000: Arrows,
   20001: Cornucopia,
@@ -106,7 +108,7 @@ function BaptismOfPureThought(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc/>
         <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc/>
       </Flex>
@@ -133,7 +135,7 @@ function PastSelfInMirror(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postUltDmgBuff' text='Post ult dmg buff' lc/>
       </Flex>
     ),
@@ -156,7 +158,7 @@ function SolitaryHealing(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postUltDotDmgBuff' text='Post ult dot dmg buff' lc/>
       </Flex>
     ),
@@ -179,7 +181,7 @@ function TextureOfMemories(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='activeShieldDmgDecrease' text='Active shield dmg decrease' lc/>
       </Flex>
     ),
@@ -203,7 +205,7 @@ function CruisingInTheStellarSea(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyHp50CrBoost' text='Enemy HP <= 50% cr boost' lc/>
         <FormSwitch name='enemyDefeatedAtkBuff' text='Enemy defeated atk buff' lc/>
       </Flex>
@@ -230,7 +232,7 @@ function OnTheFallOfAnAeon(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='atkBoostStacks' text='Atk boost stacks' min={0} max={4} lc/>
         <FormSwitch name='weaknessBreakDmgBuff' text='Weakness break dmg buff' lc/>
       </Flex>
@@ -256,7 +258,7 @@ function AnInstantBeforeAGaze(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='maxEnergyUltDmgStacks' text='Max energy' min={0} max={180} lc/>
       </Flex>
     ),
@@ -279,7 +281,7 @@ function NightOfFright(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='atkBuffStacks' text="Atk buff stacks" min={0} max={5} lc/>
       </Flex>
     ),
@@ -303,7 +305,7 @@ function WorrisomeBlissful(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc/>
         <FormSlider name='targetTameStacks' text="Target tame stacks" min={0} max={2} lc/>
       </Flex>
@@ -330,7 +332,7 @@ function BrighterThanTheSun(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='dragonsCallStacks' text="Dragon's call stacks" min={0} max={2} lc/>
       </Flex>
     ),
@@ -355,7 +357,7 @@ function IShallBeMyOwnSword(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc/>
         <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc/>
       </Flex>
@@ -381,7 +383,7 @@ function TimeWaitsForNoOne(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='healingBasedDmgProc' text='Healing based dmg proc (not implemented)' lc/>
       </Flex>
     ),
@@ -402,7 +404,7 @@ function SleepLikeTheDead(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='missedCritCrBuff' text='Missed crit cr buff' lc/>
       </Flex>
     ),
@@ -425,7 +427,7 @@ function SheAlreadyShutHerEyes(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='hpLostDmgBuff' text='Hp lost dmg buff' lc/>
       </Flex>
     ),
@@ -449,7 +451,7 @@ function BeforeDawn(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='skillUltDmgBoost' text='Skill/ult dmg boost' lc/>
         <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc/>
       </Flex>
@@ -476,7 +478,7 @@ function TheUnreachableSide(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='dmgBuff' text='Hp consumed or attacked dmg buff' lc/>
       </Flex>
     ),
@@ -499,7 +501,7 @@ function EchoesOfTheCoffin(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postUltSpdBuff' text='Post ult spd buff' lc/>
       </Flex>
     ),
@@ -523,7 +525,7 @@ function IncessantRain(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemy3DebuffsCrBoost' text='Enemy <= 3 debuffs cr boost' lc/>
         <FormSwitch name='targetCodeDebuff' text='Target code debuff' lc/>
       </Flex>
@@ -551,7 +553,7 @@ function PatienceIsAllYouNeed(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='dmgBoost' text='Dmg boost' lc/>
         <FormSlider name='spdStacks' text='Spd stacks' min={0} max={3} lc/>
         <FormSwitch name='dotEffect' text='Dot effect (not implemented)' lc/>
@@ -579,7 +581,7 @@ function MomentOfVictory(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='selfAttackedDefBuff' text='Self attacked def buff' lc/>
       </Flex>
     ),
@@ -602,7 +604,7 @@ function InTheNameOfTheWorld(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyDebuffedDmgBoost' text='Enemy debuffed dmg boost' lc/>
         <FormSwitch name='skillAtkBoost' text='Skill atk boost (not implemented)' lc/>
       </Flex>
@@ -628,7 +630,7 @@ function ButTheBattleIsntOver(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postSkillDmgBuff' text='Post skill dmg buff' lc/>
       </Flex>
     ),
@@ -652,7 +654,7 @@ function SomethingIrreplaceable(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='dmgBuff' text='Enemy defeated or self hit dmg buff' lc/>
       </Flex>
     ),
@@ -676,7 +678,7 @@ function InTheNight(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='spdScalingBuffs' text='Speed scaling buffs enabled' lc/>
       </Flex>
     ),
@@ -707,7 +709,7 @@ function NightOnTheMilkyWay(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyCountAtkBuff' text='Enemy count atk buff' lc/>
         <FormSwitch name='enemyWeaknessBreakDmgBuff' text='Enemy weakness break dmg buff' lc/>
       </Flex>
@@ -733,7 +735,7 @@ function HeyOverHere(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postSkillHealBuff' text='Post skill heal buff' lc/>
       </Flex>
     ),
@@ -756,7 +758,7 @@ function BeforeTheTutorialMissionStarts(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -775,7 +777,7 @@ function TodayIsAnotherPeacefulDay(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='maxEnergyStacks' text='Max energy' min={0} max={160} lc/>
       </Flex>
     ),
@@ -798,7 +800,7 @@ function NowhereToRun(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -818,7 +820,7 @@ function CarveTheMoonWeaveTheClouds(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='atkBuffActive' text='Atk buff active' lc/>
         <FormSwitch name='cdBuffActive' text='Cd buff active' lc/>
       </Flex>
@@ -844,7 +846,7 @@ function ReturnToDarkness(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -863,7 +865,7 @@ function ThisIsMe(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='defScalingUltDmg' text='Def scaling ult dmg (not implemented)' lc/>
       </Flex>
     ),
@@ -889,7 +891,7 @@ function WeWillMeetAgain(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='extraDmgProc' text='Additional dmg proc' lc/>
       </Flex>
     ),
@@ -913,7 +915,7 @@ function WarmthShortensColdNights(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -933,7 +935,7 @@ function TheSeriousnessOfBreakfast(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='dmgBoost' text='Dmg boost' lc/>
         <FormSlider name='defeatedEnemyAtkStacks' text='Defeated enemy atk stacks' min={0} max={3} lc/>
       </Flex>
@@ -959,7 +961,7 @@ function WoofWalkTime(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyBurnedBleeding' text='Enemy burned / bleeding' lc/>
       </Flex>
     ),
@@ -982,7 +984,7 @@ function PastAndFuture(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1002,7 +1004,7 @@ function RiverFlowsInSpring(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='spdDmgBuff' text='Spd / dmg buff active' lc/>
       </Flex>
     ),
@@ -1026,7 +1028,7 @@ function WeAreWildfire(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='initialDmgReductionBuff' text='Initial dmg reduction buff' lc/>
       </Flex>
     ),
@@ -1049,7 +1051,7 @@ function Fermata(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyShockWindShear' text='Enemy shocked / wind sheared' lc/>
       </Flex>
     ),
@@ -1072,7 +1074,7 @@ function QuidProQuo(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1091,7 +1093,7 @@ function GeniusesRepose(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='defeatedEnemyCdBuff' text='Defeated enemy cd buff' lc/>
       </Flex>
     ),
@@ -1114,7 +1116,7 @@ function UnderTheBlueSky(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='defeatedEnemyCrBuff' text='Defeated enemy cr buff' lc/>
       </Flex>
     ),
@@ -1137,7 +1139,7 @@ function DanceDanceDance(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1156,7 +1158,7 @@ function SubscribeForMore(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='maxEnergyDmgBoost' text='Max energy dmg boost' lc/>
       </Flex>
     ),
@@ -1182,7 +1184,7 @@ function TrendOfTheUniversalMarket(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1201,7 +1203,7 @@ function ResolutionShinesAsPearlsOfSweat(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='targetEnsnared' text='Target ensnared' lc/>
       </Flex>
     ),
@@ -1225,7 +1227,7 @@ function PerfectTiming(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='resToHealingBoost' text='Res to healing boost' lc/>
       </Flex>
     ),
@@ -1252,7 +1254,7 @@ function MakeTheWorldClamor(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc/>
       </Flex>
     ),
@@ -1275,7 +1277,7 @@ function ASecretVow(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyHpHigherDmgBoost' text='Enemy HP % higher dmg boost' lc/>
       </Flex>
     ),
@@ -1285,7 +1287,7 @@ function ASecretVow(s) {
     precomputeEffects: (x, request) => {
       let r = request.lightConeConditionals
 
-      x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost)
+      x.ELEMENTAL_DMG += sValues[s]
       x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost) ? sValues[s] : 0
     },
     calculatePassives: (c, request) => {},
@@ -1299,7 +1301,7 @@ function PlanetaryRendezvous(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='alliesSameElement' text='Allies same element dmg boost' lc/>
       </Flex>
     ),
@@ -1322,7 +1324,7 @@ function Swordplay(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='sameTargetHitStacks' text='Same target hit stacks' min={0} max={5} lc/>
       </Flex>
     ),
@@ -1345,7 +1347,7 @@ function LandausChoice(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1366,7 +1368,7 @@ function EyesOfThePrey(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1387,7 +1389,7 @@ function SharedFeeling(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1408,7 +1410,7 @@ function TheBirthOfTheSelf(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyHp50FuaBuff' text='Enemy HP < 50% fua buff' lc/>
       </Flex>
     ),
@@ -1433,7 +1435,7 @@ function TheMolesWelcomeYou(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='atkBuffStacks' text='Atk buff stacks' min={0} max={3} lc/>
       </Flex>
     ),
@@ -1456,7 +1458,7 @@ function MemoriesOfThePast(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1475,7 +1477,7 @@ function OnlySilenceRemains(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemies2CrBuff' text='<= 2 enemies cr buff' lc/>
       </Flex>
     ),
@@ -1498,7 +1500,7 @@ function DayOneOfMyNewLife(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='dmgResBuff' text='Dmg RES buff' lc/>
       </Flex>
     ),
@@ -1521,7 +1523,7 @@ function GoodNightAndSleepWell(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSlider name='debuffStacksDmgIncrease' text='Debuff stacks dmg increase' min={0} max={3} lc/>
       </Flex>
     ),
@@ -1544,7 +1546,7 @@ function PostOpConversation(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postUltHealingBoost' text='Post ult healing boost' lc/>
       </Flex>
     ),
@@ -1567,7 +1569,7 @@ function Sagacity(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='postUltAtkBuff' text='Post ult atk buff' lc/>
       </Flex>
     ),
@@ -1590,7 +1592,7 @@ function Mediation(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='initialSpdBuff' text='Initial spd buff' lc/>
       </Flex>
     ),
@@ -1613,7 +1615,7 @@ function HiddenShadow(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='basicAtkBuff' text='Basic atk buff' lc/>
       </Flex>
     ),
@@ -1636,7 +1638,7 @@ function Pioneering(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1655,7 +1657,7 @@ function MutualDemise(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='selfHp80CrBuff' text='Self HP <80% cr buff' lc/>
       </Flex>
     ),
@@ -1678,7 +1680,7 @@ function Multiplication(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1697,7 +1699,7 @@ function Adversarial(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='defeatedEnemySpdBuff' text='Defeated enemy spd buff' lc/>
       </Flex>
     ),
@@ -1720,7 +1722,7 @@ function Passkey(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1739,7 +1741,7 @@ function MeshingCogs(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1758,7 +1760,7 @@ function Loop(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemySlowedDmgBuff' text='Enemy slowed dmg buff' lc/>
       </Flex>
     ),
@@ -1781,7 +1783,7 @@ function Defense(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1800,7 +1802,7 @@ function ShatteredHome(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='enemyHp50Buff' text='Enemy HP >50% dmg buff' lc/>
       </Flex>
     ),
@@ -1823,7 +1825,7 @@ function FineFruit(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
       </Flex>
     ),
     defaults: () => ({
@@ -1841,7 +1843,7 @@ function DartingArrow(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='defeatedEnemyAtkBuff' text='Atk buff on kill' lc/>
       </Flex>
     ),
@@ -1864,7 +1866,7 @@ function DataBank(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc/>
       </Flex>
     ),
@@ -1887,7 +1889,7 @@ function Chorus(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='inBattleAtkBuff' text='In battle atk buff' lc/>
       </Flex>
     ),
@@ -1910,7 +1912,7 @@ function Void(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='initialEhrBuff' text='Initial EHR buff' lc/>
       </Flex>
     ),
@@ -1934,7 +1936,7 @@ function Amber(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='hp50DefBuff' text='HP <50% def buff' lc/>
       </Flex>
     ),
@@ -1957,7 +1959,7 @@ function CollapsingSky(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='basicSkillDmgBuff' text='Basic/Skill dmg buff' lc/>
       </Flex>
     ),
@@ -1981,7 +1983,7 @@ function Cornucopia(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='healingBuff' text='Healing buff' lc/>
       </Flex>
     ),
@@ -2004,7 +2006,7 @@ function Arrows(s) {
 
   return {
     display: () => (
-      <Flex vertical gap={10} >
+      <Flex vertical gap={defaultGap} >
         <FormSwitch name='critBuff' text='Initial crit buff' lc/>
       </Flex>
     ),
@@ -2024,13 +2026,23 @@ function Arrows(s) {
 export const LightConeConditionals = {
   get: (request) => {
     let lcFn = lightConeOptionMapping[request.lightCone]
+    if (!lcFn) {
+      return {
+        display: () => (
+          <Flex vertical gap={5}>
+            <HeaderText>Light cone passives</HeaderText>
+          </Flex>
+        ),
+        defaults: () => ({})
+      }
+    }
     return lcFn(request.lightConeSuperimposition)
   },
   getDisplayForLightCone: (id, superimposition) => {
     console.warn('getDisplayForLightCone', id)
     if (!id || !lightConeOptionMapping[id]) {
       return (
-        <Flex vertical gap={10}>
+        <Flex vertical gap={5}>
           <HeaderText>Light cone passives</HeaderText>
         </Flex>
       )
@@ -2040,7 +2052,7 @@ export const LightConeConditionals = {
     let display = lcFn(superimposition).display()
 
     return (
-      <Flex vertical gap={10}>
+      <Flex vertical gap={5}>
         <HeaderText>Light cone passives</HeaderText>
         {display}
       </Flex>

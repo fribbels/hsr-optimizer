@@ -7,7 +7,7 @@ let justify = 'flex-start'
 let align = 'center'
 let inputWidth = 75
 let numberWidth = 65
-let sliderWidth = 140
+let sliderWidth = 145
 
 const InputNumberStyled = styled(InputNumber)`
   width: 62px
@@ -85,7 +85,7 @@ export function FormSlider(props) {
         </div>
         <Text>{props.text}</Text>
       </Flex>
-      <Flex align='center' justify='flex-start' gap={10}>
+      <Flex align='center' justify='flex-start' gap={10} style={{height: 14}}>
         <Form.Item name={[conditionalType(props), props.name]}>
           <Slider
             min={props.min}

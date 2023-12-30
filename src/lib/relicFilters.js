@@ -195,8 +195,11 @@ export const RelicFilters = {
     }
 
     function matchingRelic(part) {
-      let match = character.equipped[part] ? relics[part].find(x => x.id == character.equipped[part]) : undefined
-      return match ? [match] : relics[part]
+      if (!character.equipped[part]) {
+        return relics[part]
+      }
+      let match = relics[part].find(x => x.id == character.equipped[part])
+      return match ? [match] : []
     }
     
     return {
@@ -207,21 +210,6 @@ export const RelicFilters = {
       PlanarSphere: matchingRelic(Constants.Parts.PlanarSphere),
       LinkRope: matchingRelic(Constants.Parts.LinkRope)
     }
-    // let matchingHead = character.equipped.Head ? relics.Head.find(x => x.id == character.equipped.Head.id) : undefined
-    // let matchingHands = character.equipped.Hands ? relics.Hands.find(x => x.id == character.equipped.Hands.id) : undefined
-    // let matchingBody = relics.Body.find(x => x.id == character.equipped.Body.id)
-    // let matchingFeet = relics.Feet.find(x => x.id == character.equipped.Feet.id)
-    // let matchingPlanarSphere = relics.PlanarSphere.find(x => x.id == character.equipped.PlanarSphere.id)
-    // let matchingLinkRope = relics.LinkRope.find(x => x.id == character.equipped.LinkRope.id)
-
-    // return {
-    //   Head: matchingHead ? [matchingHead] : relics.Head,
-    //   Hands: matchingHands ? [matchingHands] : relics.Hands,
-    //   Body: matchingBody ? [matchingBody] : relics.Body,
-    //   Feet: matchingFeet ? [matchingFeet] : relics.Feet,
-    //   PlanarSphere: matchingPlanarSphere ? [matchingPlanarSphere] : relics.PlanarSphere,
-    //   LinkRope: matchingLinkRope ? [matchingLinkRope] : relics.LinkRope
-    // }
   },
   
   splitRelicsByPart: (relics) => {

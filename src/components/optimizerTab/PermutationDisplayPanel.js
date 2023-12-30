@@ -34,9 +34,9 @@ export default function PermutationDisplayPanel(props) {
   const permutationsResults = store(s => s.permutationsResults)
 
   return (
-    <Flex vertical>
-      <Flex style={{position: 'sticky', top: 10, paddingLeft: 10}}>
-        <FormCard height={600}>
+    <Flex vertical style={{overflow: 'clip'}}>
+      <Flex style={{position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10}}>
+        <FormCard height={500}>
           <Flex vertical gap={10}>
             <Flex justify='space-between' align='center'>
               <HeaderText>Permutations</HeaderText>
@@ -58,7 +58,7 @@ export default function PermutationDisplayPanel(props) {
               <PermutationDisplay left='Results' right={permutationsResults} />
             </Flex>
 
-            <Flex justify='space-between' align='center' style={{marginTop: 20}}>
+            <Flex justify='space-between' align='center' style={{marginTop: 10}}>
               <HeaderText>Optimize</HeaderText>
               <TooltipImage type={Hint.actions()} />
             </Flex>
@@ -70,10 +70,10 @@ export default function PermutationDisplayPanel(props) {
                 </Button>
               </Flex>
               <Flex gap={defaultGap}>
-                <Button type="primary" onClick={optimizerCancelClicked} style={{ width: '100px' }} >
+                <Button onClick={optimizerCancelClicked} style={{ width: '100px' }} >
                   Cancel
                 </Button>
-                <Button type="primary" onClick={optimizerResetClicked} style={{ width: '100px' }} >
+                <Button onClick={optimizerResetClicked} style={{ width: '100px' }} >
                   Reset
                 </Button>
               </Flex>
@@ -81,15 +81,15 @@ export default function PermutationDisplayPanel(props) {
               </Flex>
             </Flex>
 
-            <Flex justify='space-between' align='center' style={{marginTop: 20}}>
+            <Flex justify='space-between' align='center' style={{marginTop: 10}}>
               <HeaderText>Results</HeaderText>
               {/*<TooltipImage type={Hint.actions()} />*/}
             </Flex>
             <Flex gap={defaultGap} justify='space-around'>
-              <Button type="primary" onClick={optimizerFilterClicked} style={{ width: '100px' }} >
+              <Button onClick={optimizerFilterClicked} style={{ width: '100px' }} >
                 Filter
               </Button>
-              <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }} >
+              <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }} >
                 Equip
               </Button>
             </Flex>

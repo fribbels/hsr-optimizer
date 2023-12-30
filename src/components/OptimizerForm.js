@@ -36,7 +36,7 @@ import VerticalDivider from './VerticalDivider';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import {CheckOutlined, CloseOutlined, SearchOutlined, SettingOutlined} from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
@@ -421,7 +421,7 @@ export default function OptimizerForm() {
   }
 
   const onFinish = (x) => {
-    document.getElementById("optimizerBuildPreviewContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
+    // document.getElementById("optimizerGridContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
 
     OptimizerTabController.fixForm(x);
     if (!OptimizerTabController.validateForm(x)) {
@@ -550,6 +550,7 @@ export default function OptimizerForm() {
 
 
   function cancelClicked(x) {
+    // document.getElementById("optimizerBuildPreviewContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
     console.log('Cancel clicked');
     Optimizer.cancel()
   }
@@ -648,6 +649,72 @@ export default function OptimizerForm() {
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
+
+        <ConfigProvider
+          theme={{
+            token: {
+              opacityLoading: 0.15
+            }
+          }}
+        >
+          <Drawer
+            title="Conditional set effects"
+            placement="right"
+            onClose={() => setDrawerOpen(false)}
+            open={drawerOpen}
+            width={750}
+            forceRender
+          >
+            <Flex justify='center'>
+              <Flex vertical gap={defaultGap}>
+                <Flex gap={defaultGap} align='center' justify='flex-start'>
+                  <Text style={{ width: setConditionalsIconWidth }}></Text>
+                  <Text style={{ width: setConditionalsNameWidth }}></Text>
+                  <Text style={{ marginLeft: 'auto' }}>4 Piece</Text>
+                </Flex>
+                <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
+                <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
+                <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
+                <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
+                <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
+                <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
+                <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
+                <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
+                <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
+                <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
+                <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
+              </Flex>
+
+              <VerticalDivider />
+
+              <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
+                <Flex gap={defaultGap} align='center' justify='flex-start'>
+                  <Text style={{ width: setConditionalsIconWidth }}></Text>
+                  <Text style={{ width: setConditionalsNameWidth }}></Text>
+                  <Text style={{ marginLeft: 'auto' }}>2 Piece</Text>
+                </Flex>
+                <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
+                <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
+                <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
+              </Flex>
+            </Flex>
+          </Drawer>
+        </ConfigProvider>
+
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
             <FormCard style={{overflow: 'hidden'}}>
@@ -729,6 +796,93 @@ export default function OptimizerForm() {
               </Flex>
             </FormCard>
 
+
+
+            <FormCard>
+              {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
+            </FormCard>
+
+            <FormCard justify='space-between'>
+              {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
+
+              <Flex vertical gap={5} style={{marginBottom: 5}}>
+                <HeaderText style={{}}>Enemy options</HeaderText>
+
+                <Flex gap={defaultGap} justify='space-between'>
+                  <Form.Item size="default" name='enemyLevel'>
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={enemyLevelOptions}
+                    />
+                  </Form.Item>
+                  <Form.Item size="default" name='enemyCount'>
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={enemyCountOptions}
+                    />
+                  </Form.Item>
+                </Flex>
+
+                <Flex gap={defaultGap} justify='space-between'>
+                  <Form.Item size="default" name='enemyResistance'>
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={enemyResistanceOptions}
+                    />
+                  </Form.Item>
+                  <Form.Item size="default" name='enemyHpPercent'>
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: (panelWidth - defaultGap) / 2 }}
+                      options={enemyHpPercentOptions}
+                    />
+                  </Form.Item>
+                </Flex>
+
+                <Flex align='center'>
+                  <Form.Item name="enemyElementalWeak" valuePropName="checked">
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      defaultChecked
+                      style={{ width: 45, marginRight: 10 }}
+                    />
+                  </Form.Item>
+                  <Text>Elemental weakness</Text>
+                </Flex>
+
+                <Flex align='center'>
+                  <Form.Item name="enemyQuantumWeak" valuePropName="checked">
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      defaultChecked
+                      style={{ width: 45, marginRight: 10 }}
+                    />
+                  </Form.Item>
+                  <Text>Quantum weakness</Text>
+                </Flex>
+
+                <Flex align='center'>
+                  <Form.Item name="enemyWeaknessBroken" valuePropName="checked">
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      style={{ width: 45, marginRight: 10 }}
+                    />
+                  </Form.Item>
+                  <Text>Weakness broken</Text>
+                </Flex>
+              </Flex>
+            </FormCard>
+
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Optimizer Options</HeaderText>
@@ -771,6 +925,10 @@ export default function OptimizerForm() {
                 <Text>Keep current relics</Text>
               </Flex>
 
+              <Flex justify='space-between' align='center' style={{marginTop: 15}}>
+                <HeaderText>Relic enhance / rarity</HeaderText>
+                {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
+              </Flex>
 
               <Flex justify='space-between'>
                 <Form.Item name="enhance">
@@ -812,12 +970,12 @@ export default function OptimizerForm() {
                   width={250}
                 >
                   <HeaderText>
-                    Damage Buffs 
+                    Damage Buffs
                     Coming Soon
                   </HeaderText>
 
                   <Divider style={{marginTop: '8px', marginBottom: '12px'}}/>
-                  
+
                 </Drawer>
 
                 <Text>Actions</Text>
@@ -958,7 +1116,15 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </ConfigProvider>
               </Flex>
+
+              <Button
+                onClick={() => setDrawerOpen(true)}
+                icon={<SettingOutlined />}
+              >
+                Conditional set effects
+              </Button>
             </FormCard>
+
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
@@ -1061,7 +1227,7 @@ export default function OptimizerForm() {
 
                   <Flex justify='space-between'>
                     <Text>
-                      Spd
+                      SPD
                     </Text>
                     <Form.Item size="default" name='buffSpd'>
                       <InputNumberStyled size="small" controls={false} />
@@ -1070,7 +1236,34 @@ export default function OptimizerForm() {
 
                   <Flex justify='space-between'>
                     <Text>
-                      Def shred %
+                      SPD %
+                    </Text>
+                    <Form.Item size="default" name='buffSpdP'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      BE %
+                    </Text>
+                    <Form.Item size="default" name='buffBe'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      Dmg Boost %
+                    </Text>
+                    <Form.Item size="default" name='buffDmgBoost'>
+                      <InputNumberStyled size="small" controls={false} />
+                    </Form.Item>
+                  </Flex>
+
+                  <Flex justify='space-between'>
+                    <Text>
+                      Def Shred %
                     </Text>
                     <Form.Item size="default" name='buffDefShred'>
                       <InputNumberStyled size="small" controls={false} />
@@ -1079,7 +1272,7 @@ export default function OptimizerForm() {
 
                   <Flex justify='space-between'>
                     <Text>
-                      Res pen %
+                      Res Pen %
                     </Text>
                     <Form.Item size="default" name='buffResPen'>
                       <InputNumberStyled size="small" controls={false} />
@@ -1088,167 +1281,6 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
             </FormCard>
-          </FormRow>
-
-          <FormRow title='Passive effects'>
-
-
-          <FormCard>
-              <HeaderText>Conditionals</HeaderText>
-
-              <Button onClick={() => setDrawerOpen(true)}>
-                Conditional set effects
-              </Button>
-
-              <HeaderText>Enemy</HeaderText>
-
-              <Flex gap={defaultGap} justify='space-between'>
-                <Form.Item size="default" name='enemyLevel'>
-                  <Select
-                    showSearch
-                    filterOption={filterOption}
-                    style={{ width: (panelWidth - defaultGap) / 2 }}
-                    options={enemyLevelOptions}
-                  />
-                </Form.Item>
-                <Form.Item size="default" name='enemyCount'>
-                  <Select
-                    showSearch
-                    filterOption={filterOption}
-                    style={{ width: (panelWidth - defaultGap) / 2 }}
-                    options={enemyCountOptions}
-                  />
-                </Form.Item>
-              </Flex>
-
-              <Flex gap={defaultGap} justify='space-between'>
-                <Form.Item size="default" name='enemyResistance'>
-                  <Select
-                    showSearch
-                    filterOption={filterOption}
-                    style={{ width: (panelWidth - defaultGap) / 2 }}
-                    options={enemyResistanceOptions}
-                  />
-                </Form.Item>
-                <Form.Item size="default" name='enemyHpPercent'>
-                  <Select
-                    showSearch
-                    filterOption={filterOption}
-                    style={{ width: (panelWidth - defaultGap) / 2 }}
-                    options={enemyHpPercentOptions}
-                  />
-                </Form.Item>
-              </Flex>
-
-              <Flex align='center'>
-                <Form.Item name="enemyElementalWeak" valuePropName="checked">
-                  <Switch
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    defaultChecked
-                    style={{ width: 45, marginRight: 10 }}
-                  />
-                </Form.Item>
-                <Text>Elemental weakness</Text>
-              </Flex>
-
-              <Flex align='center'>
-                <Form.Item name="enemyQuantumWeak" valuePropName="checked">
-                  <Switch
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    defaultChecked
-                    style={{ width: 45, marginRight: 10 }}
-                  />
-                </Form.Item>
-                <Text>Quantum weakness</Text>
-              </Flex>
-
-              <Flex align='center'>
-                <Form.Item name="enemyWeaknessBroken" valuePropName="checked">
-                  <Switch
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    style={{ width: 45, marginRight: 10 }}
-                  />
-                </Form.Item>
-                <Text>Weakness broken</Text>
-              </Flex>
-
-              <ConfigProvider
-                theme={{
-                  token: {
-                    opacityLoading: 0.15
-                  }
-                }}
-              >
-                <Drawer
-                  title="Conditional set effects"
-                  placement="right"
-                  onClose={() => setDrawerOpen(false)}
-                  open={drawerOpen}
-                  width={750}
-                  forceRender
-                >
-                  <Flex justify='center'>
-                    <Flex vertical gap={defaultGap}>
-                      <Flex gap={defaultGap} align='center' justify='flex-start'>
-                        <Text style={{ width: setConditionalsIconWidth }}></Text>
-                        <Text style={{ width: setConditionalsNameWidth }}></Text>
-                        <Text style={{ marginLeft: 'auto' }}>4 Piece</Text>
-                      </Flex>
-                      <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
-                      <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
-                      <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
-                      <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
-                      <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
-                      <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
-                      <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
-                      <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
-                      <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
-                      <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
-                      <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
-                    </Flex>
-
-                    <VerticalDivider />
-
-                    <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
-                      <Flex gap={defaultGap} align='center' justify='flex-start'>
-                        <Text style={{ width: setConditionalsIconWidth }}></Text>
-                        <Text style={{ width: setConditionalsNameWidth }}></Text>
-                        <Text style={{ marginLeft: 'auto' }}>2 Piece</Text>
-                      </Flex>
-                      <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
-                      <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
-                      <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
-                    </Flex>
-                  </Flex>
-                </Drawer>
-              </ConfigProvider>
-            </FormCard>
-
-            <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
-            </FormCard>
-
-            <FormCard>
-              {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
-            </FormCard>  
-            
           </FormRow>
         </FilterContainer>
       </Form>

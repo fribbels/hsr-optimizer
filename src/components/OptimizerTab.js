@@ -105,14 +105,15 @@ export default function OptimizerTab({style}) {
 
     {field: 'ED',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
     {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
-    {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
-    {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
+    // {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
+    // {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
 
     {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
     {field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL'},
     {field: 'ULT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT'},
     {field: 'FUA',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA'},
+    {field: 'DOT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT'},
 
     {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
@@ -130,6 +131,7 @@ export default function OptimizerTab({style}) {
     {field: 'xSKILL_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%SKILL'},
     {field: 'xULT_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%ULT'},
     {field: 'xFUA_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%FUA'},
+    {field: 'xDOT_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%DOT'},
 
   ], []);
 

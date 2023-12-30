@@ -7,10 +7,6 @@ import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
 
 let Stats = Constants.Stats
-function precisionRound(number, precision = 8) {
-  let factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-}
 
 const characterOptionMapping = {
   1212: jingliu,
@@ -18,13 +14,13 @@ const characterOptionMapping = {
   1008: arlan,
   1009: asta,
   1211: bailu,
-  1205: blade, // Verify E6 FUA dmg
-  1101: bronya, // Does E4 FUA benefit from 100% crit?
+  1205: blade,
+  1101: bronya,
   1107: clara, // Revisit fua
-  1002: danheng, // Check numbers
-  1208: fuxuan, // Check numbers
+  1002: danheng,
+  1208: fuxuan,
   1104: gepard,
-  1210: guinaifen, // Revisit dots
+  1210: guinaifen,
   1215: hanya,
   1013: herta, // Kinda complicated with hp% buffs, revisit
   1003: himeko,
@@ -32,7 +28,7 @@ const characterOptionMapping = {
   1217: huohuo,
   1213: imbibitorlunae, // Kinda complicated with hit stacking dmg, revisit
   1204: jingyuan, // E6 not implemented
-  1005: kafka, // Revisit dots
+  1005: kafka,
   1111: luka,
   1203: luocha,
   1110: lynx,
@@ -40,9 +36,9 @@ const characterOptionMapping = {
   1105: natasha,
   1106: pela,
   1201: qingque,
-  1108: sampo, // Revisit dots
+  1108: sampo,
   1102: seele,
-  1103: serval, // Revisit dots
+  1103: serval,
   1006: silverwolf,
   1206: sushang,
   1202: tingyun, // Revisit buff scaling
@@ -98,6 +94,7 @@ const baseComputedStatsObject = {
   SKILL_SCALING: 0,
   ULT_SCALING: 0,
   FUA_SCALING: 0,
+  DOT_SCALING: 0,
 
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,
@@ -105,15 +102,23 @@ const baseComputedStatsObject = {
   FUA_BOOST: 0,
   DOT_BOOST: 0,
 
+  BASIC_VULNERABILITY: 0,
+  SKILL_VULNERABILITY: 0,
+  ULT_VULNERABILITY: 0,
+  FUA_VULNERABILITY: 0,
+  DOT_VULNERABILITY: 0,
+
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,
   FUA_DMG: 0,
+  DOT_DMG: 0,
 
   BASIC_DEF_PEN: 0,
   SKILL_DEF_PEN: 0,
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
+  DOT_DEF_PEN: 0,
 }
 
 function xueyi(e) {
@@ -531,9 +536,8 @@ function physicaltrailblazer(e) {
       </Flex>
     ),
     defaults: () => ({
-      talentStacks: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      enhancedUlt: true,
+      talentStacks: 2,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -818,6 +822,7 @@ function serval(e) {
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.40, 1.54)
   let ultScaling = ult(e, 1.80, 1.944)
+  let dotScaling = skill(e, 1.04, 1.144)
 
   return {
     display: () => (
@@ -835,12 +840,13 @@ function serval(e) {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.ATK] += (r.enemyDefeatedBuff) ? 0.20 : 0
+      x[Stats.ATK_P] += (r.enemyDefeatedBuff) ? 0.20 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling
 
       x.BASIC_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
       x.SKILL_SCALING += (r.targetShocked) ? talentExtraDmgScaling : 0
@@ -861,7 +867,7 @@ function serval(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -925,9 +931,12 @@ function seele(e) {
 }
 
 function sampo(e) {
+  let dotVulnerabilityValue = ult(e, 0.30, 0.32)
+
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0.56, 0.616)
   let ultScaling = ult(e, 1.60, 1.728)
+  let dotScaling = talent(e, 0.52, 0.572)
 
   return {
     display: () => (
@@ -951,8 +960,11 @@ function sampo(e) {
       x.SKILL_SCALING += skillScaling
       x.SKILL_SCALING += (r.skillExtraHits) * skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling
+      x.DOT_SCALING += (e >= 6) ? 0.15 : 0
 
       // Boost
+      x.DOT_VULNERABILITY += (r.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
 
       return x
     },
@@ -966,6 +978,7 @@ function sampo(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -1294,6 +1307,7 @@ function luka(e) {
   let basicEnhancedScaling = basic(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
   let skillScaling = skill(e, 1.20, 1.32)
   let ultScaling = ult(e, 3.30, 3.564)
+  let dotScaling = skill(e, 3.38, 3.718)
 
   return {
     display: () => (
@@ -1324,6 +1338,7 @@ function luka(e) {
       x.BASIC_SCALING += (r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling
 
       // Boost
       x.DMG_TAKEN_MULTI += (r.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
@@ -1341,29 +1356,28 @@ function luka(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
     }
   }
 }
 
 function kafka(e) {
-  let value = (e >= 0) ? -1 : -1
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, -1, -1)
-  let ultScaling = ult(e, -1, -1)
+  let skillScaling = skill(e, 1.60, 1.76)
+  let ultScaling = ult(e, 0.80, 0.864)
+  let fuaScaling = talent(e, 1.40, 1.596)
+  let dotScaling = ult(e, 2.90, 3.183)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+        <FormSwitch name='e1DotDmgReceivedDebuff' text='E1 dot dmg debuff'/>
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      e1DotDmgReceivedDebuff: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -1375,8 +1389,13 @@ function kafka(e) {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling
+      x.DOT_SCALING += dotScaling
 
       // Boost
+      x.DOT_VULNERABILITY += (e >= 1 && r.e1DotDmgReceivedDebuff) ? 0.30 : 0
+      x.DOT_BOOST += (e >= 2) ? 0.25 : 0
+      x.DOT_SCALING += (e >= 6) ? 1.56 : 0
 
       return x
     },
@@ -1390,7 +1409,8 @@ function kafka(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -1562,6 +1582,7 @@ function hook(e) {
   let skillScaling = skill(e, 2.40, 2.64)
   let skillEnhancedScaling = skill(e, 2.80, 3.08)
   let ultScaling = ult(e, 4.00, 4.32)
+  let dotScaling = skill(e, 0.65, 0.715)
 
   return {
     display: () => (
@@ -1587,6 +1608,7 @@ function hook(e) {
       x.BASIC_SCALING += (r.targetBurned) ? targetBurnedExtraScaling : 0
       x.SKILL_SCALING += (r.targetBurned) ? targetBurnedExtraScaling : 0
       x.ULT_SCALING += (r.targetBurned) ? targetBurnedExtraScaling : 0
+      x.DOT_SCALING += dotScaling
 
       // Boost
       x.SKILL_BOOST += (e >= 1 && r.enhancedSkill) ? 0.20 : 0
@@ -1604,6 +1626,7 @@ function hook(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -1612,6 +1635,7 @@ function himeko(e) {
   let skillScaling = skill(e, 2.00, 2.20)
   let ultScaling = ult(e, 2.30, 2.484)
   let fuaScaling = talent(e, 1.40, 1.54)
+  let dotScaling = 0.30
 
   return {
     display: () => (
@@ -1642,6 +1666,7 @@ function himeko(e) {
       x.ULT_SCALING += ultScaling
       x.ULT_SCALING += (e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0
       x.FUA_SCALING += fuaScaling
+      x.DOT_SCALING += dotScaling
 
       // Boost
       x.SKILL_BOOST += (r.targetBurned) ? 0.20 : 0
@@ -1660,6 +1685,7 @@ function himeko(e) {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -1792,17 +1818,20 @@ function guinaifen(e) {
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.20, 1.32)
   let ultScaling = ult(e, 1.20, 1.296)
+  let dotScaling = skill(e, 2.182, 2.40)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
         <FormSlider name='talentDebuffStacks' text='Talent debuff stacks' min={0} max={talentDebuffMax} />
         <FormSwitch name='enemyBurned' text='Enemy burned'/>
+        <FormSwitch name='e2BurnMultiBoost' text='E2 burn multi boost'/>
       </Flex>
     ),
     defaults: () => ({
       talentDebuffStacks: talentDebuffMax,
       enemyBurned: true,
+      e2BurnMultiBoost: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -1814,9 +1843,13 @@ function guinaifen(e) {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling
+      x.DOT_SCALING += (e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0
+
 
       // Boost
       x.ELEMENTAL_DMG += (r.enemyBurned) ? 0.20 : 0
+      x.DMG_TAKEN_MULTI += r.talentDebuffStacks * talentDebuffDmgIncreaseValue
 
       return x
     },
@@ -1830,7 +1863,7 @@ function guinaifen(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -1905,7 +1938,6 @@ function fuxuan(e) {
       // Stats
       x[Stats.CD] += (e >= 1) ? 0.30 : 0
       x[Stats.CR] += (r.skillActive) ? skillCrBuffValue : 0
-      x[Stats.HP_P] += (r.skillActive) ? skillHpBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -1913,7 +1945,6 @@ function fuxuan(e) {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      x.ULT_BOOST += (e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0
       x.DMG_RED_MULTI += talentDmgReductionValue
 
       return x
@@ -1925,8 +1956,11 @@ function fuxuan(e) {
       let r = request.characterConditionals
       let x = c.x
 
+      x[Stats.HP] += (r.skillActive) ? skillHpBuffValue * x[Stats.HP] : 0
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.HP]
+      x.ULT_DMG += (e >= 6) ? 2.00 * r.e6TeamHpLostPercent * x[Stats.HP] : 0
     }
   }
 }
@@ -2050,6 +2084,7 @@ function bronya(e) {
   let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
+  let fuaScaling = basicScaling * 0.80
 
   return {
     display: () => (
@@ -2081,6 +2116,7 @@ function bronya(e) {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
+      x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
 
       // Boost
       x.ELEMENTAL_DMG += 0.10
@@ -2100,7 +2136,7 @@ function bronya(e) {
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.FUA_DMG += (e >= 4) ? x.BASIC_SCALING * x[Stats.ATK] * 0.8 : 0
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -2161,8 +2197,6 @@ function blade(e) {
       } else {
         x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       }
-
-      x.SKILL_DMG += 0
 
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultHpScaling * x[Stats.HP]
@@ -2240,6 +2274,7 @@ function asta(e) {
   let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, 0.50, 0.55)
   let ultScaling = ult(e, 0, 0)
+  let dotScaling = basic(e, 0.50, 0.55)
 
   return {
     display: () => (
@@ -2268,6 +2303,7 @@ function asta(e) {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling
 
       // Boost
       x.ELEMENTAL_DMG += 0.18
@@ -2283,7 +2319,7 @@ function asta(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += 0
-      x.FUA_DMG += 0
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
@@ -2496,14 +2532,18 @@ export const CharacterConditionals = {
   getDisplayForCharacter: (id, eidolon) => {
     console.warn('getDisplayForCharacter', id)
     if (!id || !characterOptionMapping[id]) {
-      return (<div></div>)
+      return (
+        <Flex vertical gap={5}>
+          <HeaderText>Character passives</HeaderText>
+        </Flex>
+      )
     }
 
     let characterFn = characterOptionMapping[id]
     let display = characterFn(eidolon).display()
 
     return (
-      <Flex vertical gap={10}>
+      <Flex vertical gap={5}>
         <HeaderText>Character passives</HeaderText>
         {display}
       </Flex>

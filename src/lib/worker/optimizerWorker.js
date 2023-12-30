@@ -84,13 +84,13 @@ self.onmessage = function (e) {
   let enabledGeniusOfBrilliantStars         = setConditionals[Constants.Sets.GeniusOfBrilliantStars][1] == true ? 1 : 0
   let enabledBandOfSizzlingThunder          = setConditionals[Constants.Sets.BandOfSizzlingThunder][1] == true ? 1 : 0
   let enabledMessengerTraversingHackerspace = setConditionals[Constants.Sets.MessengerTraversingHackerspace][1] == true ? 1 : 0
-  let enabledPrisonerInDeepConfinement      = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1] == true ? 1 : 0
   let enabledCelestialDifferentiator        = setConditionals[Constants.Sets.CelestialDifferentiator][1] == true ? 1 : 0
 
   let valueChampionOfStreetwiseBoxing  = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1]
   let valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1]
   let valueLongevousDisciple           = setConditionals[Constants.Sets.LongevousDisciple][1]
   let valueTheAshblazingGrandDuke      = setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+  let valuePrisonerInDeepConfinement   = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1]
 
   // console.warn('!!!', request)
   // console.warn('!!!', setConditionals)
@@ -142,15 +142,15 @@ self.onmessage = function (e) {
       sets.ChampionOfStreetwiseBoxing     = (1 >> (setH ^ 4))  + (1 >> (setG ^ 4))  + (1 >> (setB ^ 4))  + (1 >> (setF ^ 4)) // * 4p (5x5% ATK)
       sets.GuardOfWutheringSnow           = (1 >> (setH ^ 5))  + (1 >> (setG ^ 5))  + (1 >> (setB ^ 5))  + (1 >> (setF ^ 5)) // * 4p -
       sets.FiresmithOfLavaForging         = (1 >> (setH ^ 6))  + (1 >> (setG ^ 6))  + (1 >> (setB ^ 6))  + (1 >> (setF ^ 6)) // * 4p 12% skill + (12% Fire)
-      sets.GeniusOfBrilliantStars         = (1 >> (setH ^ 7))  + (1 >> (setG ^ 7))  + (1 >> (setB ^ 7))  + (1 >> (setF ^ 7)) //   4p !!! todo
+      sets.GeniusOfBrilliantStars         = (1 >> (setH ^ 7))  + (1 >> (setG ^ 7))  + (1 >> (setB ^ 7))  + (1 >> (setF ^ 7)) //   4p done
       sets.BandOfSizzlingThunder          = (1 >> (setH ^ 8))  + (1 >> (setG ^ 8))  + (1 >> (setB ^ 8))  + (1 >> (setF ^ 8)) //   4p (20% ATK)
       sets.EagleOfTwilightLine            = (1 >> (setH ^ 9))  + (1 >> (setG ^ 9))  + (1 >> (setB ^ 9))  + (1 >> (setF ^ 9)) //   4p -
       sets.ThiefOfShootingMeteor          = (1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)) //  4p 16% BE
       sets.WastelanderOfBanditryDesert    = (1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)) //  4p (10% CD) + (20% CR)
       sets.LongevousDisciple              = (1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)) //  4p (2x8% CR)
       sets.MessengerTraversingHackerspace = (1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)) //  4p (12% SPD)
-      sets.TheAshblazingGrandDuke         = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK)
-      sets.PrisonerInDeepConfinement      = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p !!! todo
+      sets.TheAshblazingGrandDuke         = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK) todo
+      sets.PrisonerInDeepConfinement      = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p done
 
       sets.SpaceSealingStation           = (1 >> (setP ^ 0))  + (1 >> (setL ^ 0)) // (12% ATK)
       sets.FleetOfTheAgeless             = (1 >> (setP ^ 1))  + (1 >> (setL ^ 1)) // (8% ATK)
@@ -319,6 +319,8 @@ self.onmessage = function (e) {
         0.15*(x[Stats.CR] >= 0.50 ? 1 : 0)*p2(c.sets.InertSalsotto)
 
       x.DEF_SHRED += (enabledGeniusOfBrilliantStars && p4(c.sets.GeniusOfBrilliantStars)) ? (request.enemyQuantumWeak ? 0.20 : 0.10) : 0
+
+      x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
 
       // These stats have no conditional set effects yet
       // x[Stats.HP_P] += 0

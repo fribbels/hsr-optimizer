@@ -338,7 +338,7 @@ function relicImporterTab() {
       <Flex style={{minHeight: 100, marginBottom: 30}}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run one of the relic scanners. Character importing is not currently supported - only relics.
+            Install and run one of the relic scanners. Character importing is currently supported for the Kel-Z scanner only.
             <div style={{height: 10}}/>
             <ul>
               <li>

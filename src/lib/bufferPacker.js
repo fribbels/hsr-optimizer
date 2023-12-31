@@ -98,5 +98,13 @@ export const BufferPacker = {
     arr[offset * SIZE + i++] = character.x.ULT_BOOST
     arr[offset * SIZE + i++] = character.x.FUA_BOOST
     arr[offset * SIZE + i++] = character.x.DOT_BOOST
+  },
+
+  cleanFloatBuffer: (buffer) => {
+    new Float32Array(buffer).fill(0);
+  },
+
+  createFloatBuffer: (length) => {
+    return new Float32Array(length * SIZE).buffer
   }
 }

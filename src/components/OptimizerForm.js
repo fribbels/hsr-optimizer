@@ -53,6 +53,17 @@ let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
+const options = [
+  {
+    label: 'Combat',
+    value: 'Apple',
+  },
+  {
+    label: 'Display',
+    value: 'Pear',
+  },
+];
+
 function generateOrnamentsOptions() {
   return Object.values(Constants.SetsOrnaments).map(x => {
     return {
@@ -293,8 +304,6 @@ export default function OptimizerForm() {
   window.selectedLightCone = selectedLightCone
   window.setSelectedLightCone = (x) => {
     setSelectedLightCone(x)
-
-
   }
 
   useEffect(() => {
@@ -412,6 +421,14 @@ export default function OptimizerForm() {
       { value: 6, label: 'E6' },
     ]
   }, []);
+
+  const [value3, setValue3] = useState('Apple');
+  const onChange3 = ({ target: { value } }) => {
+    console.log('radio3 checked', value);
+    setValue3(value);
+  };
+
+  const statDisplay = Form.useWatch('statDisplay', optimizerForm);
 
   function characterSelectorChange(id) {
     setSelectedCharacter(characterOptions.find(x => x.id == id))
@@ -982,6 +999,24 @@ export default function OptimizerForm() {
                   />
                 </Form.Item>
               </Flex>
+
+              <Flex justify='space-between' align='center' style={{marginTop: 15}}>
+                <HeaderText>Stat display</HeaderText>
+                {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
+              </Flex>
+
+              <Form.Item name="statDisplay">
+                <Radio.Group
+                  onChange={onChange3}
+                  optionType="button"
+                  buttonStyle="solid"
+                  style={{width: '100%', display: 'flex'}}
+                >
+                  <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value={'base'} defaultChecked>Base stats</Radio>
+                  <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value={'combat'}>Combat stats</Radio>
+                </Radio.Group>
+              </Form.Item>
+
               {/*
                 <Button type="primary" onClick={showDrawer}>
                   Advanced Options
@@ -1297,7 +1332,7 @@ export default function OptimizerForm() {
 
                   <Flex justify='space-between'>
                     <Text>
-                      Res Pen %
+                      RES Pen %
                     </Text>
                     <Form.Item size="default" name='buffResPen'>
                       <InputNumberStyled size="small" controls={false} />

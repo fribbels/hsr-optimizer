@@ -1,5 +1,6 @@
 let poolSize = 20
 let workers = []
+let buffers = []
 let taskQueue = []
 let taskStatus = {}
 
@@ -23,10 +24,22 @@ export const WorkerPool = {
 
     if (workers.length > 0) {
       const worker = workers.pop();
+
+      let buffer
+      if (buffers.length > 0) {
+        buffer = buffers.pop()
+        BufferPacker.cleanFloatBuffer(buffer)
+      } else {
+        buffer = BufferPacker.createFloatBuffer(50000)
+      }
+
+      task.buffer = buffer
+
       worker.onmessage = (message) => {
         console.log('worker message', message)
         if (callback) callback(message.data)
         workers.push(worker)
+        buffers.push(message.data.buffer)
         WorkerPool.nextTask()
       };
 
@@ -45,7 +58,8 @@ export const WorkerPool = {
     console.log({
       poolSize,
       workers,
-      taskQueue
+      taskQueue,
+      buffers
     })
   }
 }

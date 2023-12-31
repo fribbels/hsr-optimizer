@@ -37,6 +37,11 @@ export const OptimizerTabController = {
     rows = x
   },
 
+  setTopRow: (x) => {
+    delete x.id
+    optimizerGrid.current.api.setPinnedTopRowData([x]);
+  },
+
   getRows: () => {
     return rows
   },
@@ -61,7 +66,7 @@ export const OptimizerTabController = {
     
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
-    setPinnedRow(characterId)
+    // setPinnedRow(characterId)
     setOptimizerBuild(build);
     relicsGrid.current.api.redrawRows()
     SaveState.save()
@@ -153,7 +158,7 @@ export const OptimizerTabController = {
             params.successCallback(subArray, rows.length)
           }
           optimizerGrid.current.api.hideOverlay()
-          OptimizerTabController.refreshPinned()
+          // OptimizerTabController.refreshPinned()
         })
       },
     };
@@ -297,6 +302,10 @@ export const OptimizerTabController = {
       if (newForm.lightConeConditionals[option] == undefined) {
         newForm.lightConeConditionals[option] = defaultLcOptions[option]
       }
+    }
+
+    if (!newForm.statDisplay) {
+      newForm.statDisplay = 'base'
     }
 
     if (!newForm.weights) {

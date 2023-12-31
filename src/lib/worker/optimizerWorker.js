@@ -53,13 +53,14 @@ self.onmessage = function (e) {
   let planarSphereRelics = relics.PlanarSphere;
   let linkRopeRelics = relics.LinkRope;
 
-  let rows = []
-  let lSize = data.consts.lSize
-  let pSize = data.consts.pSize
-  let fSize = data.consts.fSize
-  let bSize = data.consts.bSize
-  let gSize = data.consts.gSize
-  let hSize = data.consts.hSize
+  let topRow = data.topRow
+
+  let lSize = topRow ? 1 : data.consts.lSize
+  let pSize = topRow ? 1 : data.consts.pSize
+  let fSize = topRow ? 1 : data.consts.fSize
+  let bSize = topRow ? 1 : data.consts.bSize
+  let gSize = topRow ? 1 : data.consts.gSize
+  let hSize = topRow ? 1 : data.consts.hSize
 
   let relicSetSolutions = data.consts.relicSetSolutions
   let ornamentSetSolutions = data.consts.ornamentSetSolutions
@@ -73,6 +74,7 @@ self.onmessage = function (e) {
   let lc = character.lightCone
   let base = character.base
 
+  let bypassFilters = data.bypassFilters
   let request = data.request
   let setConditionals = request.setConditionals
 
@@ -189,6 +191,7 @@ self.onmessage = function (e) {
       let baseAtk = calculateBaseStat(Stats.ATK, base, lc)
       let baseDef = calculateBaseStat(Stats.DEF, base, lc)
       let baseSpd = calculateBaseStat(Stats.SPD, base, lc)
+      c.baseAtk = baseAtk
 
       // ************************************************************
       // Calculate display stats with unconditional sets
@@ -318,6 +321,9 @@ self.onmessage = function (e) {
       x.FUA_BOOST +=
         0.15*(x[Stats.CR] >= 0.50 ? 1 : 0)*p2(c.sets.InertSalsotto)
 
+      x.FUA_BOOST +=
+        0.20*p2(c.sets.TheAshblazingGrandDuke)
+
       x.DEF_SHRED += (enabledGeniusOfBrilliantStars && p4(c.sets.GeniusOfBrilliantStars)) ? (request.enemyQuantumWeak ? 0.20 : 0.10) : 0
 
       x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
@@ -376,23 +382,22 @@ self.onmessage = function (e) {
       let defIgnore = 0
 
       let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG + request.buffDmgBoost
-      let resMultiplier = 1 - (resistance - x.RES_PEN - request.buffResPen)
       let dmgTakenMultiplier = 1 + x.DMG_TAKEN_MULTI
       let dmgReductionMultiplier = 1
 
-      let universalMulti = resMultiplier * dmgReductionMultiplier * brokenMultiplier
+      let universalMulti = dmgReductionMultiplier * brokenMultiplier
 
-      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY)
-      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY)
-      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)   * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY)
-      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)   * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY)
-      x.DOT_DMG   *= universalMulti * (dmgBoostMultiplier + x.DOT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN) * (1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY)
+      x.BASIC_DMG *= universalMulti * (dmgBoostMultiplier + x.BASIC_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.BASIC_RES_PEN))
+      x.SKILL_DMG *= universalMulti * (dmgBoostMultiplier + x.SKILL_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.SKILL_RES_PEN))
+      x.ULT_DMG   *= universalMulti * (dmgBoostMultiplier + x.ULT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)   * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.ULT_RES_PEN))
+      x.FUA_DMG   *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)   * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)   * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.FUA_RES_PEN))
+      x.DOT_DMG   *= universalMulti * (dmgBoostMultiplier + x.DOT_BOOST)   * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN) * (1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.DOT_RES_PEN))
 
       // ************************************************************
       // Filter results
       // ************************************************************
 
-      let result =
+      let result = topRow || (
         c[Stats.HP]  >= request.minHp  && c[Stats.HP]  <= request.maxHp  &&
         c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk &&
         c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef &&
@@ -406,9 +411,10 @@ self.onmessage = function (e) {
         dmg >= request.minDmg && dmg <= request.maxDmg &&
         mcd >= request.minMcd && mcd <= request.maxMcd &&
         ehp >= request.minEhp && ehp <= request.maxEhp
+      )
 
       // ************************************************************
-      // Pack passing results into the ArrayBuffer to return
+      // Pack the passing results into the ArrayBuffer to return
       // ************************************************************
 
       if (result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {

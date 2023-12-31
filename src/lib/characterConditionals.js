@@ -8,6 +8,20 @@ import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditional
 
 let Stats = Constants.Stats
 
+
+// Remove the ashblazing set atk bonus only when calc-ing fua attacks
+function calculateAshblazingSet(c, request, hitMulti) {
+  let enabled = p4(c.sets.TheAshblazingGrandDuke)
+  let valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+  let ashblazingAtk = 0.06*valueTheAshblazingGrandDuke*enabled*c.baseAtk * enabled
+  let ashblazingMulti = hitMulti * enabled * c.baseAtk
+
+  return {
+    ashblazingMulti,
+    ashblazingAtk
+  }
+}
+
 const characterOptionMapping = {
   1212: jingliu,
   1302: argenti,
@@ -42,7 +56,7 @@ const characterOptionMapping = {
   1006: silverwolf,
   1206: sushang,
   1202: tingyun, // Revisit buff scaling
-  1112: topaz, // Revisit with fua
+  1112: topaz,
   8001: physicaltrailblazer,
   8002: physicaltrailblazer,
   8003: firetrailblazer,
@@ -119,6 +133,12 @@ const baseComputedStatsObject = {
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
   DOT_DEF_PEN: 0,
+
+  BASIC_RES_PEN: 0,
+  SKILL_RES_PEN: 0,
+  ULT_RES_PEN: 0,
+  FUA_RES_PEN: 0,
+  DOT_RES_PEN: 0,
 }
 
 function xueyi(e) {
@@ -574,23 +594,34 @@ function physicaltrailblazer(e) {
 }
 
 function topaz(e) {
-  let value = (e >= 0) ? -1 : -1
+  let proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
+  let enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
+  let enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, -1, -1)
-  let ultScaling = ult(e, -1, -1)
+  let skillScaling = skill(e, 1.50, 1.65)
+  let ultScaling = ult(e, 0, 0)
+  let fuaScaling = talent(e, 1.50, 1.65)
+
+  // 0.18
+  let fuaHitCountMulti = 0.06 *
+    (1*1/7 + 2*1/7 + 3*1/7 + 4*1/7 + 5*1/7 + 6*1/7 + 7*1/7)
+  // 0.252
+  let fuaEnhancedHitCountMulti = 0.06 *
+    (1*1/10 + 2*1/10 + 3*1/10 + 4*1/10 + 5*1/10 + 6*1/10 + 7*1/10 + 8*3/10)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+        <FormSwitch name='enemyProofOfDebtDebuff' text='Target proof of debt debuff'/>
+        <FormSwitch name='numbyEnhancedState' text='Numby enhanced state'/>
+        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} />
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      enemyProofOfDebtDebuff: true,
+      numbyEnhancedState: true,
+      e1DebtorStacks: 2,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -601,9 +632,14 @@ function topaz(e) {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.SKILL_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
+      x.FUA_SCALING += fuaScaling
+      x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
 
       // Boost
+      x.FUA_VULNERABILITY += (r.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0
+      x.ELEMENTAL_DMG += (request.enemyElementalWeak) ? 0.15 : 0
+      x.FUA_CD_BOOST += (e >= 1) ? 0.25 * r.e1DebtorStacks : 0
 
       return x
     },
@@ -614,10 +650,34 @@ function topaz(e) {
       let r = request.characterConditionals
       let x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+      let hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      x.SKILL_DMG = x.FUA_DMG
+      // Basic atk is only one hit, doesnt proc ashblazing
+      x.BASIC_DMG = x.BASIC_SCALING * (x[Stats.ATK] - ashblazingAtk)
+
+      // Copy fua boosts to skill/basic
+      x.SKILL_BOOST = x.FUA_BOOST
+      x.SKILL_VULNERABILITY = x.FUA_VULNERABILITY
+      x.SKILL_DEF_PEN = x.FUA_DEF_PEN
+      x.SKILL_CD_BOOST = x.FUA_CD_BOOST
+      x.SKILL_CR_BOOST = x.FUA_CR_BOOST
+
+      x.BASIC_BOOST = x.FUA_BOOST
+      x.BASIC_VULNERABILITY = x.FUA_VULNERABILITY
+      x.BASIC_DEF_PEN = x.FUA_DEF_PEN
+      x.BASIC_CD_BOOST = x.FUA_CD_BOOST
+      x.BASIC_CR_BOOST = x.FUA_CR_BOOST
+
+      // Her ult buff only applies to the skill/fua not basic
+      x.FUA_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
+      x.SKILL_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
+
+      // Her e6 only applies to skill/fua not basic
+      x.SKILL_RES_PEN += (e >= 6) ? 0.10 : 0
+      x.FUA_RES_PEN += (e >= 6) ? 0.10 : 0
     }
   }
 }
@@ -699,10 +759,6 @@ function sushang(e) {
         <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction'/>
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
       </Flex>
     ),
@@ -2020,7 +2076,7 @@ function clara(e) {
   let ultDmgReductionValue = ult(e, 0.25, 0.27)
   let ultFuaExtraScaling = ult(e, 1.60, 1.728)
 
-  let basicScaling = basic(e, 1.0, 1.1)
+  let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.20, 1.32)
   let fuaScaling = talent(e, 1.60, 1.76)
 

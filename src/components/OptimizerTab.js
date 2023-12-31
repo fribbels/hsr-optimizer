@@ -37,7 +37,7 @@ import { HeaderText } from './HeaderText';
 import { Renderer } from '../lib/renderer';
 import { TooltipImage } from './TooltipImage';
 import { ErrorBoundary } from 'react-error-boundary';
-import PermutationDisplayPanel from "./optimizerTab/PermutationDisplayPanel";
+import Sidebar from "./optimizerTab/Sidebar";
 
 const { Text } = Typography;
 
@@ -188,7 +188,7 @@ export default function OptimizerTab({style}) {
           <OptimizerBuildPreview build={optimizerBuild}/>
         </Flex>
 
-        <PermutationDisplayPanel />
+        <Sidebar />
       </Flex>
     </div>
   );

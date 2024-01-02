@@ -136,7 +136,7 @@ export const DB = {
     for (let relic of x.relics) {
       RelicAugmenter.augment(relic)
       let char = charactersById[relic.equippedBy]
-      if (char) {
+      if (char && !char.equipped[relic.part]) {
         char.equipped[relic.part] = relic.id
       } else {
         relic.equippedBy = undefined
@@ -291,12 +291,22 @@ export const DB = {
     global.relicsGrid.current.api.setRowData(replacementRelics)
     DB.setRelics(replacementRelics);
 
-
+    // Clean up any deleted relic ids that are still equipped
     for (let character of characters) {
       for (let part of Object.values(Constants.Parts)) {
         if (character.equipped && character.equipped[part] && !DB.getRelicById(character.equipped[part])) {
           character.equipped[part] = undefined
         }
+      }
+    }
+
+    // Clean up relics that are double equipped
+    for (let relic of DB.getRelics()) {
+      if (!relic.equippedBy) continue
+
+      let character = DB.getCharacterById(relic.equippedBy)
+      if (!character || !character.equipped[relic.part] == relic.id) {
+        relic.equippedBy = undefined
       }
     }
 

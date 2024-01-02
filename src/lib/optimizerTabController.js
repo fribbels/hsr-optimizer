@@ -308,6 +308,10 @@ export const OptimizerTabController = {
       newForm.statDisplay = 'base'
     }
 
+    if (![1, 3, 5].includes(newForm.enemyCount)) {
+      newForm.enemyCount = 1
+    }
+
     if (!newForm.weights) {
       newForm.weights = {
         [Constants.Stats.HP_P]: 1,

@@ -366,7 +366,7 @@ export default function OptimizerForm() {
 
   const enemyCountOptions = useMemo(() => {
     let levelStats = []
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 5; i+=2) {
       levelStats.push({
         value: i,
         label: `${i} target${i > 1 ? 's' : ''}`
@@ -1001,7 +1001,7 @@ export default function OptimizerForm() {
               </Flex>
 
               <Flex justify='space-between' align='center' style={{marginTop: 15}}>
-                <HeaderText>Stat display</HeaderText>
+                <HeaderText>Stat display (Not done yet)</HeaderText>
                 {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
               </Flex>
 

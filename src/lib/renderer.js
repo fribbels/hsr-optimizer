@@ -96,6 +96,14 @@ export const Renderer = {
     return x.value == 0 ? "" : x.value
   },
 
+  hideZeroesFloor: (x) => {
+    return x.value == 0 ? "" : Math.floor(x.value)
+  },
+
+  hideZeroes10ths: (x) => {
+    return x.value == 0 ? "" : Utils.precisionRound(Math.floor(x.value * 10) / 10)
+  },
+
   mainValueRenderer: (x) => {
     let part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {

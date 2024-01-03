@@ -65,4 +65,7 @@ export const Utils = {
     let factor = Math.pow(10, precision);
     return Math.round(number * factor) / factor;
   },
+  flipMapping: (obj) => {
+    return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
+  }
 }

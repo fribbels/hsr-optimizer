@@ -24,6 +24,39 @@ const InputNumberStyled = styled(InputNumber)`
   width: 90px
 `
 
+function renderMainStat(relic) {
+  let mainStat = relic.main?.stat
+  let mainValue = relic.main?.value
+
+  if (!mainStat) return {}
+
+  return renderStat(mainStat, mainValue)
+}
+
+function renderSubstat(relic, index) {
+  let substat = relic.substats[index]
+  if (!substat || !substat.stat) return {}
+
+  let stat = substat.stat
+  let value = substat.value
+
+  return renderStat(stat, value)
+}
+
+function renderStat(stat, value) {
+  if (Utils.isFlat(stat) && stat != Constants.Stats.SPD) {
+    return {
+      stat: stat,
+      value: Math.floor(value)
+    }
+  } else {
+    return {
+      stat: stat,
+      value: Utils.precisionRound(Math.floor(value * 10) / 10)
+    }
+  }
+}
+
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props) {
   const [relicForm] = Form.useForm();
@@ -64,16 +97,16 @@ export default function RelicModal(props) {
         enhance: relic.enhance,
         set: relic.set,
         part: relic.part,
-        mainStatType: relic.main.stat,
-        mainStatValue: relic.main.value,
-        substatType0: relic.substats[0]?.stat,
-        substatValue0: relic.substats[0]?.value,
-        substatType1: relic.substats[1]?.stat,
-        substatValue1: relic.substats[1]?.value,
-        substatType2: relic.substats[2]?.stat,
-        substatValue2: relic.substats[2]?.value,
-        substatType3: relic.substats[3]?.stat,
-        substatValue3: relic.substats[3]?.value,
+        mainStatType: renderMainStat(relic).stat,
+        mainStatValue: renderMainStat(relic).value,
+        substatType0:  renderSubstat(relic, 0).stat,
+        substatValue0: renderSubstat(relic, 0).value,
+        substatType1:  renderSubstat(relic, 1).stat,
+        substatValue1: renderSubstat(relic, 1).value,
+        substatType2:  renderSubstat(relic, 2).stat,
+        substatValue2: renderSubstat(relic, 2).value,
+        substatType3:  renderSubstat(relic, 3).stat,
+        substatValue3: renderSubstat(relic, 3).value,
       }
     }
     relicForm.setFieldsValue(defaultValues)

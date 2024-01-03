@@ -188,15 +188,12 @@ function readRelic(relic) {
   let part = partMatches.bestMatch.target
 
   let setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map(x => x[1]))
-  // console.log('setMatches', setMatches, setMatches.bestMatchIndex);
   let set = relicSetList[setMatches.bestMatchIndex][2];
-  // console.log('set', set);
 
   let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15);
   let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5);
 
   let parsedStats = readStats(relic, part, grade, enhance);
-  // console.log(parsedStats);
 
   let id
   if (characterList.find(x => x.name == relic.location)) {
@@ -239,7 +236,6 @@ function readStats(relic, part, grade, enhance) {
       value: value
     })
   }
-
 
   let rawMainstat = relic.mainstat
   let parsedMainStat

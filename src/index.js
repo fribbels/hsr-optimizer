@@ -29,6 +29,7 @@ import { CharacterConditionals } from './lib/characterConditionals';
 import { LightConeConditionals } from './lib/lightConeConditionals';
 import { BufferPacker } from './lib/bufferPacker';
 import { Typography } from 'antd';
+import { RelicRollFixer } from "./lib/relicRollFixer";
 window.WorkerPool = WorkerPool;
 window.Constants = Constants;
 window.OcrParserFribbels1 = OcrParserFribbels1;
@@ -53,6 +54,7 @@ window.RelicScorer = RelicScorer
 window.CharacterConditionals = CharacterConditionals
 window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
+window.RelicRollFixer = RelicRollFixer
 
 console.log('Data parser', DataParser.parse());
 SaveState.load()

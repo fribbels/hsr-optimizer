@@ -9,7 +9,9 @@ export const RelicAugmenter = {
     if (relic.grade && !relic.main) {
       return null
     }
+
     let mainStat = relic.main.stat
+    relic.main.value = RelicRollFixer.fixMainStatvalue(relic)
     let mainMaxValue = relic.main.value
 
     augmentedStats.mainStat = mainStat
@@ -17,6 +19,7 @@ export const RelicAugmenter = {
 
     for (let substat of relic.substats) {
       let stat = substat.stat
+      substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
       let value = substat.value
 
       augmentedStats[stat] = value

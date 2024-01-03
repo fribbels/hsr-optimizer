@@ -105,6 +105,8 @@ self.onmessage = function (e) {
   let precomputedX = characterConditionals.precomputeEffects(request)
   lightConeConditionals.precomputeEffects(precomputedX, request)
 
+  let combatDisplay = request.statDisplay == 'combat'
+
   for (let row = 0; row < data.HEIGHT; row++) {
     for (let col = 0; col < data.WIDTH; col++) {
       let index = data.skip + row * data.HEIGHT + col
@@ -397,20 +399,25 @@ self.onmessage = function (e) {
       // Filter results
       // ************************************************************
 
+      let statCompare = combatDisplay ? x : c
+
       let result = topRow || (
-        c[Stats.HP]  >= request.minHp  && c[Stats.HP]  <= request.maxHp  &&
-        c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk &&
-        c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef &&
-        c[Stats.SPD] >= request.minSpd && c[Stats.SPD] <= request.maxSpd &&
-        c[Stats.CR]  >= request.minCr  && c[Stats.CR]  <= request.maxCr  &&
-        c[Stats.CD]  >= request.minCd  && c[Stats.CD]  <= request.maxCd  &&
-        c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr &&
-        c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes &&
-        c[Stats.BE]  >= request.minBe  && c[Stats.BE]  <= request.maxBe  &&
+        statCompare[Stats.HP]  >= request.minHp  && statCompare[Stats.HP]  <= request.maxHp  &&
+        statCompare[Stats.ATK] >= request.minAtk && statCompare[Stats.ATK] <= request.maxAtk &&
+        statCompare[Stats.DEF] >= request.minDef && statCompare[Stats.DEF] <= request.maxDef &&
+        statCompare[Stats.SPD] >= request.minSpd && statCompare[Stats.SPD] <= request.maxSpd &&
+        statCompare[Stats.CR]  >= request.minCr  && statCompare[Stats.CR]  <= request.maxCr  &&
+        statCompare[Stats.CD]  >= request.minCd  && statCompare[Stats.CD]  <= request.maxCd  &&
+        statCompare[Stats.EHR] >= request.minEhr && statCompare[Stats.EHR] <= request.maxEhr &&
+        statCompare[Stats.RES] >= request.minRes && statCompare[Stats.RES] <= request.maxRes &&
+        statCompare[Stats.BE]  >= request.minBe  && statCompare[Stats.BE]  <= request.maxBe  &&
         cv  >= request.minCv  && cv  <= request.maxCv  &&
-        dmg >= request.minDmg && dmg <= request.maxDmg &&
-        mcd >= request.minMcd && mcd <= request.maxMcd &&
-        ehp >= request.minEhp && ehp <= request.maxEhp
+        ehp >= request.minEhp && ehp <= request.maxEhp &&
+        x.BASIC_DMG >= request.minBasic && x.BASIC_DMG <= request.maxBasic &&
+        x.SKILL_DMG >= request.minSkill && x.SKILL_DMG <= request.maxSkill &&
+        x.ULT_DMG >= request.minUlt && x.ULT_DMG <= request.maxUlt &&
+        x.FUA_DMG >= request.minFua && x.FUA_DMG <= request.maxFua &&
+        x.DOT_DMG >= request.minDot && x.DOT_DMG <= request.maxDot
       )
 
       // ************************************************************

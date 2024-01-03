@@ -112,9 +112,27 @@ export const OptimizerTabController = {
         // For custom ones remember to set the min/max in aggregate()
         'ED': true,
         'CV': true,
-        'DMG': true,
-        'MCD': true,
         'EHP': true,
+
+        'BASIC': true,
+        'SKILL': true,
+        'ULT': true,
+        'FUA': true,
+        'DOT': true,
+
+        'xATK': true,
+        'xDEF': true,
+        'xHP': true,
+        'xSPD': true,
+        'xCR': true,
+        'xCD': true,
+        'xEHR': true,
+        'xRES': true,
+        'xBE': true,
+        'xERR': true,
+        'xOHB': true,
+        'xELEMENTAL_DMG': true,
+
       }
       columnsToAggregate = Object.keys(columnsToAggregateMap)
     }
@@ -234,6 +252,18 @@ export const OptimizerTabController = {
     newForm.minMcd = unsetMin(form.minMcd)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
+
+    newForm.maxBasic = unsetMax(form.maxBasic)
+    newForm.minBasic = unsetMin(form.minBasic)
+    newForm.maxSkill = unsetMax(form.maxSkill)
+    newForm.minSkill = unsetMin(form.minSkill)
+    newForm.maxUlt = unsetMax(form.maxUlt)
+    newForm.minUlt = unsetMin(form.minUlt)
+    newForm.maxFua = unsetMax(form.maxFua)
+    newForm.minFua = unsetMin(form.minFua)
+    newForm.maxDot = unsetMax(form.maxDot)
+    newForm.minDot = unsetMin(form.minDot)
+
     newForm.buffAtk = unsetMin(form.buffAtk)
     newForm.buffAtkP = unsetMin(form.buffAtkP, true)
     newForm.buffCr = unsetMin(form.buffCr, true)
@@ -394,6 +424,17 @@ export const OptimizerTabController = {
     x.maxEhp = fixValue(x.maxEhp, MAX_INT)
     x.minEhp = fixValue(x.minEhp, 0)
 
+    x.maxBasic = fixValue(x.maxBasic, MAX_INT)
+    x.minBasic = fixValue(x.minBasic, 0)
+    x.maxSkill = fixValue(x.maxSkill, MAX_INT)
+    x.minSkill = fixValue(x.minSkill, 0)
+    x.maxUlt = fixValue(x.maxUlt, MAX_INT)
+    x.minUlt = fixValue(x.minUlt, 0)
+    x.maxFua = fixValue(x.maxFua, MAX_INT)
+    x.minFua = fixValue(x.minFua, 0)
+    x.maxDot = fixValue(x.maxDot, MAX_INT)
+    x.minDot = fixValue(x.minDot, 0)
+
     x.buffAtk = fixValue(x.buffAtk, 0)
     x.buffAtkP = fixValue(x.buffAtkP, 0, 100)
     x.buffCr = fixValue(x.buffCr, 0, 100)
@@ -451,6 +492,7 @@ export const OptimizerTabController = {
   },
 
   changeCharacter: (id) => {
+    console.log('ChangeCharacter')
     let character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
@@ -459,12 +501,14 @@ export const OptimizerTabController = {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
         setSelectedLightCone(lightConeMetadata)
       }
+      store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0
       })
       optimizerForm.setFieldsValue(displayFormValues)
+      store.getState().setStatDisplay('base')
     }
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
@@ -502,10 +546,16 @@ function fixValue(value, def, div) {
   return value / div
 }
 
+
 function aggregate(subArray) {
   let minAgg = CharacterStats.getZeroes()
   for (let column of OptimizerTabController.getColumnsToAggregate()) {
     minAgg[column] = Constants.MAX_INT
+  }
+
+  function setMinMax(name) {
+    minAgg[name] = Constants.MAX_INT
+    maxAgg[name] = 0
   }
 
   let maxAgg = CharacterStats.getZeroes()
@@ -519,6 +569,26 @@ function aggregate(subArray) {
   maxAgg['MCD'] = 0
   minAgg['EHP'] = Constants.MAX_INT
   maxAgg['EHP'] = 0
+
+
+  setMinMax('BASIC')
+  setMinMax('SKILL')
+  setMinMax('ULT')
+  setMinMax('FUA')
+  setMinMax('DOT')
+  setMinMax('xATK')
+  setMinMax('xDEF')
+  setMinMax('xHP')
+  setMinMax('xSPD')
+  setMinMax('xCR')
+  setMinMax('xCD')
+  setMinMax('xEHR')
+  setMinMax('xRES')
+  setMinMax('xBE')
+  setMinMax('xERR')
+  setMinMax('xOHB')
+  setMinMax('xELEMENTAL_DMG')
+
   for (let row of subArray) {
     for (let column of OptimizerTabController.getColumnsToAggregate()) {
       let value = row[column]

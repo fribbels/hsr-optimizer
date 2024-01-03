@@ -51,6 +51,9 @@ window.store = create((set) => ({
 
   permutationsResults: 0,
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+
+  statDisplay: 'base',
+  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
 }))
 
 export const DB = {

@@ -183,6 +183,9 @@ export default function OptimizerForm() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [optimizationId, setOptimizationId] = useState();
 
+  const statDisplay = store(s => s.statDisplay)
+  const setStatDisplay = store(s => s.setStatDisplay)
+
   // const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
   // const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
   // const [optimizerPermutationDetails, setOptimizerPermutationDetails] = useState({
@@ -320,6 +323,18 @@ export default function OptimizerForm() {
     }
   }, [selectedLightCone])
 
+  // const statDisplayValue = Form.useWatch('statDisplay', optimizerForm);
+  // useEffect(() => {
+  //   setStatDisplay(statDisplayValue)
+  // }, [statDisplayValue])
+
+  const onChangeStatDisplay = ({ target: { value } }) => {
+    console.log('radio3 checked', value);
+    setStatDisplay(value);
+  };
+
+  window.getVal = () => statDisplay
+
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters()
     if (characters && characters.length > 0) {
@@ -327,6 +342,7 @@ export default function OptimizerForm() {
       // let character = Utils.randomElement(characters)
       console.log('Initial character', character)
       lightConeSelectorChange(character.form.lightCone)
+      setStatDisplay(character.form.statDisplay || 'base')
 
       return characterOptions.find(x => x.id == character.id)
     } else {
@@ -422,13 +438,6 @@ export default function OptimizerForm() {
     ]
   }, []);
 
-  const [value3, setValue3] = useState('Apple');
-  const onChange3 = ({ target: { value } }) => {
-    console.log('radio3 checked', value);
-    setValue3(value);
-  };
-
-  const statDisplay = Form.useWatch('statDisplay', optimizerForm);
 
   function characterSelectorChange(id) {
     setSelectedCharacter(characterOptions.find(x => x.id == id))
@@ -472,11 +481,11 @@ export default function OptimizerForm() {
         keys[0].startsWith('max') ||
         keys[0].startsWith('buff') ||
         keys[0].startsWith('weights') ||
+        keys[0].startsWith('statDisplay') ||
         keys[0] == 'characterConditionals' ||
         keys[0] == 'lightConeConditionals')) {
       return;
     }
-    let date1 = new Date()
     let request = allValues
     let relics = DB.getRelics()
     console.log('Values changed', request, changedValues)
@@ -510,8 +519,6 @@ export default function OptimizerForm() {
     store.getState().setPermutationDetails(permutationDetails)
     store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
 
-    let date2 = new Date()
-    console.warn(date2.getTime()-date1.getTime())
     console.log('Filtered relics', relics, permutationDetails)
   }
   window.onOptimizerFormValuesChange = onValuesChange;
@@ -1001,13 +1008,13 @@ export default function OptimizerForm() {
               </Flex>
 
               <Flex justify='space-between' align='center' style={{marginTop: 15}}>
-                <HeaderText>Stat display (Not done yet)</HeaderText>
+                <HeaderText>Stat display</HeaderText>
                 {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
               </Flex>
 
               <Form.Item name="statDisplay">
                 <Radio.Group
-                  onChange={onChange3}
+                  onChange={onChangeStatDisplay}
                   optionType="button"
                   buttonStyle="solid"
                   style={{width: '100%', display: 'flex'}}
@@ -1235,9 +1242,12 @@ export default function OptimizerForm() {
                 </Flex>
 
                 <FilterRow name='Cv' label='CV' />
-                <FilterRow name='Dmg' label='DMG' />
-                <FilterRow name='Mcd' label='MCD' />
                 <FilterRow name='Ehp' label='EHP' />
+                <FilterRow name='Basic' label='BASIC' />
+                <FilterRow name='Skill' label='SKILL' />
+                <FilterRow name='Ult' label='ULT' />
+                <FilterRow name='Fua' label='FUA' />
+                <FilterRow name='Dot' label='DOT' />
               </Flex>
             </FormCard>
 

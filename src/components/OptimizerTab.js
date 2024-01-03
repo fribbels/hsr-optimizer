@@ -54,8 +54,8 @@ export default function OptimizerTab({style}) {
 
   const DIGITS_2 = 30;
   const DIGITS_3 = 34;
-  const DIGITS_4 = 47;
-  const DIGITS_5 = 55;
+  const DIGITS_4 = 50;
+  const DIGITS_5 = 60;
   const DIGITS_6 = 48;
 
   // const columnDefs = useMemo(() => [
@@ -87,7 +87,10 @@ export default function OptimizerTab({style}) {
   // ], []);
 
 
-  const columnDefs = useMemo(() => [
+  const statDisplay = store(s => s.statDisplay)
+  const setStatDisplay = store(s => s.setStatDisplay)
+
+  let baseColumnDefs = [
     {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
     {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
 
@@ -105,8 +108,6 @@ export default function OptimizerTab({style}) {
 
     {field: 'ED',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
     {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
-    // {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
-    // {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
 
     {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
@@ -114,26 +115,49 @@ export default function OptimizerTab({style}) {
     {field: 'ULT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT'},
     {field: 'FUA',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA'},
     {field: 'DOT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT'},
+  ]
 
-    {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xHP',  valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xSPD', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xCR',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xCD',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xEHR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xRES', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xBE',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4},
-    {field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4},
-    {field: 'xELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5},
-    {field: 'xBASIC_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%BASIC'},
-    {field: 'xSKILL_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%SKILL'},
-    {field: 'xULT_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%ULT'},
-    {field: 'xFUA_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%FUA'},
-    {field: 'xDOT_BOOST',  valueFormatter: Renderer.x100Tenths, width: DIGITS_5, headerName: '+%DOT'},
+  let combatColumnDefs = [
+    {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
+    {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
 
-  ], []);
+    {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ ATK'},
+    {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ DEF'},
+    {field: 'xHP',  valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ HP'},
+    {field: 'xSPD', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ SPD'},
+    {field: 'xCR',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ CR'},
+    {field: 'xCD',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ CD'},
+    {field: 'xEHR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ EHR'},
+    {field: 'xRES', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ RES'},
+    {field: 'xBE',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ BE'},
+    {field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ERR'},
+    {field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ HEAL'},
+
+    {field: 'xELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM'},
+    {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
+    {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+
+    {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
+    {field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL'},
+    {field: 'ULT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT'},
+    {field: 'FUA',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA'},
+    {field: 'DOT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT'},
+  ]
+
+
+
+  // useEffect(() => {
+  //   console.log('!!!!', optimizerGrid)
+  //   if (!optimizerGrid.current || !optimizerGrid.current.api) return
+  //
+  //   if (statDisplay == 'combat') {
+  //     optimizerGrid.current.api.setGridOption('columnDefs', combatColumnDefs)
+  //   } else {
+  //     optimizerGrid.current.api.setGridOption('columnDefs', baseColumnDefs)
+  //   }
+  // }, [statDisplay])
+
+  const columnDefs = useMemo(() => statDisplay == 'combat' ? combatColumnDefs : baseColumnDefs, [statDisplay]);
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource();

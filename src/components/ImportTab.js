@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme } from 'antd';
 import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
+import { OcrParserKelz3 } from '../lib/ocrParserKelz3';
 import { Message } from '../lib/message';
+import { DB } from '../lib/db';
 
 const { Text } = Typography;
 
@@ -258,6 +260,7 @@ function loadDataTab() {
 function relicImporterTab() {
   const [current, setCurrent] = useState(0);
   const [currentRelics, setCurrentRelics] = useState([]);
+  const [currentCharacters, setCurrentCharacters] = useState([]);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   
@@ -283,20 +286,23 @@ function relicImporterTab() {
           setTimeout(() => {
             setLoading1(false)
             setCurrentRelics(undefined)
+            setCurrentCharacters(undefined)
             onStepChange(1)
           }, spinnerMs);
           return
         }
 
-        let relics = []
+        let relics = [], characters = []
         if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
           relics = OcrParserFribbels1.parse(json);
         } else if (json.source == 'HSR-Scanner' && json.version == 3) {
           relics = OcrParserKelz3.parse(json);
+          characters = OcrParserKelz3.parseCharacters(json);
         } else {
           setTimeout(() => {
             setLoading1(false)
             setCurrentRelics(undefined)
+            setCurrentCharacters(undefined)
             onStepChange(1)
           }, spinnerMs);
           return
@@ -305,6 +311,7 @@ function relicImporterTab() {
         setTimeout(() => {
           setLoading1(false)
           setCurrentRelics(relics)
+          setCurrentCharacters(characters)
           onStepChange(1)
         }, spinnerMs);
       };
@@ -320,7 +327,7 @@ function relicImporterTab() {
     setLoading2(true)
     setTimeout(() => {
       setLoading2(false)
-      DB.mergeRelicsWithState(currentRelics)
+      DB.mergeRelicsWithState(currentRelics, currentCharacters)
       SaveState.save()
       onStepChange(2)
     }, spinnerMs);
@@ -331,7 +338,7 @@ function relicImporterTab() {
       <Flex style={{minHeight: 100, marginBottom: 30}}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run one of the relic scanners. Character importing is not currently supported - only relics.
+            Install and run one of the relic scanners. Character importing is currently supported for the Kel-Z scanner only.
             <div style={{height: 10}}/>
             <ul>
               <li>

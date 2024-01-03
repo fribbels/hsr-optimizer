@@ -11,6 +11,7 @@ let state = {
 }
 import { create } from 'zustand'
 import {Constants} from "./constants";
+import {getDefaultForm} from "../lib/defaultForm";
 
 window.store = create((set) => ({
   relicsById: {},
@@ -164,12 +165,17 @@ export const DB = {
     let characters = DB.getCharacters();
     let found = DB.getCharacterById(form.characterId)
     if (found) {
-      found.form = form // TODO: update
+      found.form = {
+        ...found.form,
+        ...form
+      }
       DB.setCharacters(characters)
     } else {
+      const defaultForm = getDefaultForm({ id: form.characterId })
+
       DB.addCharacter({
         id: form.characterId,
-        form: form,
+        form: {...defaultForm, ...form},
         equipped: {}
       })
     }
@@ -264,10 +270,17 @@ export const DB = {
     characterGrid.current.api.redrawRows()
   },
 
-  mergeRelicsWithState: (newRelics) => {
-    console.log('Merging relics', newRelics)
+  mergeRelicsWithState: (newRelics, newCharacters) => {
+    console.log('Merging relics', newRelics, newCharacters)
 
     let oldRelics = DB.getRelics()
+
+    if (newCharacters) {
+      for (const character of newCharacters) {
+        DB.addFromForm(character)
+      }
+    }
+
     let characters = DB.getCharacters()
 
     let oldRelicHashes = {}
@@ -281,11 +294,23 @@ export const DB = {
       let hash = hashRelic(newRelic)
 
       let found = oldRelicHashes[hash]
+      let stableRelicId
       if (found) {
         replacementRelics.push(found)
+        stableRelicId = found.id
         delete oldRelicHashes[hash]
       } else {
+        stableRelicId = newRelic.id
         replacementRelics.push(newRelic)
+      }
+
+      if (newRelic.equippedBy) {
+        let character = characters.find(x => x.id == newRelic.equippedBy)
+        if (character) {
+          character.equipped[newRelic.part] = stableRelicId
+        } else {
+          console.error('No character to equip relic to', newRelic)
+        }
       }
     }
 

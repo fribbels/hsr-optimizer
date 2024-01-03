@@ -75,7 +75,7 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
-  optimize: async function(request) {
+  optimize: async function(request, topRow) {
     CANCEL = false
 
     store.getState().setPermutationsSearched(0)
@@ -109,10 +109,9 @@ export const Optimizer = {
       }
     }
 
-    // TODO validate lc
-    // Pre-split filters
     let relics = DB.getRelics();
 
+    // Pre-split filters
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
 
     relics = JSON.parse(JSON.stringify(relics))
@@ -192,9 +191,49 @@ export const Optimizer = {
 
     let resultsShown = false
 
+    // Create a special optimization request for the top row, ignoring filters and with a custom callback
+    function handleTopRow() {
+      let relics = DB.getRelics();
+      relics = relics.filter(x => x.equippedBy == request.characterId)
+      relics = addMainStatToAugmentedStats(relics);
+      if (relics.length < 6) return
+
+      relics = splitRelicsByPart(relics);
+
+      let callback = (result) => {
+        let resultArr = new Float32Array(result.buffer)
+        console.log(`Top row complete`)
+
+        let rowData = []
+        BufferPacker.extractArrayToResults(resultArr, 1, rowData);
+        if (rowData.length > 0) {
+          OptimizerTabController.setTopRow(rowData[0])
+        }
+      }
+
+      let input = {
+        topRow: true, // Skip all filters for top row
+        setAllowList: relicSetAllowList,
+        relics: relics,
+        character: baseStats,
+        Constants: Constants,
+        consts: consts,
+        WIDTH: WIDTH,
+        HEIGHT: HEIGHT,
+        skip: 0,
+        permutations: 1,
+        relicSetToIndex: Constants.RelicSetToIndex,
+        ornamentSetToIndex: Constants.OrnamentSetToIndex,
+        elementalMultipliers: elementalMultipliers,
+        request: request,
+      }
+
+      WorkerPool.execute(input, callback, request.optimizationId)
+    }
+    handleTopRow()
 
     for (let run = 0; run < runs; run++) {
-      const arr = new Float32Array(WIDTH * HEIGHT * 40) // todo reuse these
+      // const arr = new Float32Array(WIDTH * HEIGHT * 40) // todo reuse these
 
       let input = {
         setAllowList: relicSetAllowList,
@@ -210,7 +249,6 @@ export const Optimizer = {
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         elementalMultipliers: elementalMultipliers,
         request: request,
-        buffer: arr.buffer
       }
 
       let callback = (result) => {
@@ -254,7 +292,7 @@ export const Optimizer = {
 
       
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), run * 10)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 50)
     }
   }
 }

@@ -1,5 +1,5 @@
-import {Button, Divider, Flex, Typography} from "antd";
-import React from "react";
+import {Button, Divider, Flex, Radio, Typography} from "antd";
+import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
 import FormCard from "./FormCard";
 import {HeaderText} from "../HeaderText";
 import {TooltipImage} from "../TooltipImage";
@@ -26,7 +26,7 @@ function PermutationDisplay(props) {
 
 let defaultGap = 5
 
-export default function PermutationDisplayPanel(props) {
+export default function Sidebar(props) {
 
   const permutationDetails = store(s => s.permutationDetails)
   const permutations = store(s => s.permutations)

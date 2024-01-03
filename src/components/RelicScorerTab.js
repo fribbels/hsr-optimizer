@@ -58,7 +58,8 @@ export default function RelicScorerTab({ style }) {
     DB.setScorerId(x.scorerId);
     SaveState.save()
 
-    fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
+    fetch('http://127.0.0.1:5000/getAccount', options)
+    // fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -74,14 +75,14 @@ export default function RelicScorerTab({ style }) {
         }
         data = data.data
         let characters = [
-          data.detail_info.assist_avatar,
-          data.detail_info.avatar_detail_list[0],
-          data.detail_info.avatar_detail_list[1],
-          data.detail_info.avatar_detail_list[2],
+          data.detailInfo.assistAvatar,
+          data.detailInfo.avatarDetailList[0],
+          data.detailInfo.avatarDetailList[1],
+          data.detailInfo.avatarDetailList[2],
         ]
         .filter(x => !!x)
         .filter((item, index, array) => {
-          return array.findIndex((i) => i.avatar_id === item.avatar_id) === index;
+          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
         });
 
 

@@ -1,12 +1,29 @@
 import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
-import React, {useState} from "react";
-import styled from "styled-components";
+import React from "react";
 import {HeaderText} from "../components/HeaderText";
 import { Constants } from './constants'
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
 
 let Stats = Constants.Stats
+
+let precisionRound = (number, precision = 8) => {
+  let factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
+
+const ASHBLAZING_ATK_STACK = 0.06
+// Remove the ashblazing set atk bonus only when calc-ing fua attacks
+function calculateAshblazingSet(c, request, hitMulti) {
+  let enabled = p4(c.sets.TheAshblazingGrandDuke)
+  let valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+  let ashblazingAtk = 0.06*valueTheAshblazingGrandDuke*enabled*c.baseAtk * enabled
+  let ashblazingMulti = hitMulti * enabled * c.baseAtk
+
+  return {
+    ashblazingMulti,
+    ashblazingAtk
+  }
+}
 
 const characterOptionMapping = {
   1212: jingliu,
@@ -16,18 +33,18 @@ const characterOptionMapping = {
   1211: bailu,
   1205: blade,
   1101: bronya,
-  1107: clara, // Revisit fua
+  1107: clara,
   1002: danheng,
   1208: fuxuan,
   1104: gepard,
   1210: guinaifen,
   1215: hanya,
-  1013: herta, // Kinda complicated with hp% buffs, revisit
+  1013: herta,
   1003: himeko,
   1109: hook,
   1217: huohuo,
-  1213: imbibitorlunae, // Kinda complicated with hit stacking dmg, revisit
-  1204: jingyuan, // E6 not implemented
+  1213: imbibitorlunae, // Simplified stacking logic, revisit
+  1204: jingyuan,
   1005: kafka,
   1111: luka,
   1203: luocha,
@@ -41,8 +58,8 @@ const characterOptionMapping = {
   1103: serval,
   1006: silverwolf,
   1206: sushang,
-  1202: tingyun, // Revisit buff scaling
-  1112: topaz, // Revisit with fua
+  1202: tingyun,
+  1112: topaz,
   8001: physicaltrailblazer,
   8002: physicaltrailblazer,
   8003: firetrailblazer,
@@ -119,36 +136,61 @@ const baseComputedStatsObject = {
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
   DOT_DEF_PEN: 0,
+
+  BASIC_RES_PEN: 0,
+  SKILL_RES_PEN: 0,
+  ULT_RES_PEN: 0,
+  FUA_RES_PEN: 0,
+  DOT_RES_PEN: 0,
 }
 
 function xueyi(e) {
-  let value = (e >= 0) ? -1 : -1
+  let ultBoostMax = ult(e, 0.60, 0.648)
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  let skillScaling = skill(e, 1.40, 1.54)
+  let ultScaling = ult(e, 2.50, 2.70)
+  let fuaScaling = talent(e, 0.90, 0.99)
+
+  let hitMultiByFuaHits = {
+    0: 0,
+    1: ASHBLAZING_ATK_STACK * (1*1/1), // 0.06
+    2: ASHBLAZING_ATK_STACK * (1*1/2 + 2*1/2), // 0.09
+    3: ASHBLAZING_ATK_STACK * (1*1/3 + 2*1/3 + 3*1/3) // 0.12
+  }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+        <FormSwitch name='enemyToughness50' text='Enemy toughness >= 50%'/>
+        <FormSlider name='toughnessReductionDmgBoost' text='Ult toughness based dmg boost' min={0} max={ultBoostMax} percent />
+        <FormSlider name='fuaHits' text='Fua hits' min={0} max={3} />
+        <FormSwitch name='e2BeBuff' text='E2 break effect buff'/>
       </Flex>
     ),
     defaults: () => ({
-      placeholder: true,
+      enemyToughness50: true,
+      toughnessReductionDmgBoost: ultBoostMax,
+      fuaHits: 3,
+      e2BeBuff: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.40 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling * r.fuaHits
 
       // Boost
+      x.ULT_BOOST += (r.enemyToughness50) ? 0.10 : 0
+      x.ULT_BOOST += r.toughnessReductionDmgBoost
+      x.FUA_BOOST += (e >= 1) ? 0.40 : 0
 
       return x
     },
@@ -159,28 +201,50 @@ function xueyi(e) {
       let r = request.characterConditionals
       let x = c.x
 
+      x.ELEMENTAL_DMG += Math.min(2.40, x[Stats.BE])
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+
+      let hitMulti = hitMultiByFuaHits[r.fuaHits]
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function drratio(e) {
-  let value = (e >= 0) ? -1 : -1
+  let maxDebuffStacksMax = (e >= 1) ? 10 : 6
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  let skillScaling = skill(e, 1.50, 1.65)
+  let ultScaling = ult(e, 2.40, 2.592)
+  let fuaScaling = talent(e, 2.70, 2.97)
+
+  function e2FuaRatio(procs, fua = true) {
+    return fua
+      ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
+      : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
+  }
+
+  let baseHitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+  let fuaMultiByDebuffs = {
+    0: ASHBLAZING_ATK_STACK * (1*1/1), // 0
+    1: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(1, true) + 2*e2FuaRatio(1, false)), // 2
+    2: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(2, true) + 5*e2FuaRatio(2, false)), // 2 + 3
+    3: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(3, true) + 9*e2FuaRatio(3, false)), // 2 + 3 + 4
+    4: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(4, true) + 14*e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
+  }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+        <FormSlider name='enemyDebuffStacks' text='Enemy debuff stacks' min={0} max={maxDebuffStacksMax} />
       </Flex>
     ),
     defaults: () => ({
-      placeholder: true,
+      enemyDebuffStacks: maxDebuffStacksMax,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -192,8 +256,13 @@ function drratio(e) {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling
 
       // Boost
+      x.SKILL_CR_BOOST += r.enemyDebuffStacks * 0.025
+      x.SKILL_CD_BOOST += r.enemyDebuffStacks * 0.05
+      x.ELEMENTAL_DMG += (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0
+      x.FUA_BOOST += (e >= 6) ? 0.50 : 0
 
       return x
     },
@@ -207,12 +276,20 @@ function drratio(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      if (e >= 2) {
+        let hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      } else {
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      }
     }
   }
 }
 
 function ruanmei(e) {
-  let value = (e >= 0) ? -1 : -1
+  let fieldResPenValue = ult(e, 0.25, 0.27)
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
@@ -221,17 +298,21 @@ function ruanmei(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='placeholder' text='Placeholder, not done yet'/>
+        <FormSwitch name='ultFieldActive' text='Ult field active'/>
+        <FormSwitch name='e4BeBuff' text='E4 break effect buff'/>
       </Flex>
     ),
     defaults: () => ({
-      placeholder: true,
+      ultFieldActive: true,
+      e4BeBuff: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.BE] += 0.20
+      x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 1.00 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -239,6 +320,9 @@ function ruanmei(e) {
       x.ULT_SCALING += ultScaling
 
       // Boost
+      x.RES_PEN += (r.ultFieldActive) ? fieldResPenValue : 0
+      x.DEF_SHRED += (e >= 1 && r.ultFieldActive) ? 0.20 : 0
+      x[Stats.ATK_P] += (e >= 2 && request.enemyWeaknessBroken) ? 0.40 : 0
 
       return x
     },
@@ -248,6 +332,9 @@ function ruanmei(e) {
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
+
+      let beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
+      x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -325,6 +412,8 @@ function yanqing(e) {
   let ultScaling = ult(e, 3.50, 3.78)
   let fuaScaling = talent(e, 0.50, 0.55)
 
+  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+
   return {
     display: () => (
       <Flex vertical gap={10} >
@@ -386,7 +475,9 @@ function yanqing(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
@@ -574,23 +665,37 @@ function physicaltrailblazer(e) {
 }
 
 function topaz(e) {
-  let value = (e >= 0) ? -1 : -1
+  let proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
+  let enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
+  let enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, -1, -1)
-  let ultScaling = ult(e, -1, -1)
+  let skillScaling = skill(e, 1.50, 1.65)
+  let ultScaling = ult(e, 0, 0)
+  let fuaScaling = talent(e, 1.50, 1.65)
+
+  // 0.06
+  let basicHitCountMulti = ASHBLAZING_ATK_STACK *
+    (1*1/1)
+  // 0.18
+  let fuaHitCountMulti = ASHBLAZING_ATK_STACK *
+    (1*1/7 + 2*1/7 + 3*1/7 + 4*1/7 + 5*1/7 + 6*1/7 + 7*1/7)
+  // 0.252
+  let fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
+    (1*1/10 + 2*1/10 + 3*1/10 + 4*1/10 + 5*1/10 + 6*1/10 + 7*1/10 + 8*3/10)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+        <FormSwitch name='enemyProofOfDebtDebuff' text='Target proof of debt debuff'/>
+        <FormSwitch name='numbyEnhancedState' text='Numby enhanced state'/>
+        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} />
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      enemyProofOfDebtDebuff: true,
+      numbyEnhancedState: true,
+      e1DebtorStacks: 2,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -601,9 +706,14 @@ function topaz(e) {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.SKILL_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
+      x.FUA_SCALING += fuaScaling
+      x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
 
       // Boost
+      x.FUA_VULNERABILITY += (r.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0
+      x.ELEMENTAL_DMG += (request.enemyElementalWeak) ? 0.15 : 0
+      x.FUA_CD_BOOST += (e >= 1) ? 0.25 * r.e1DebtorStacks : 0
 
       return x
     },
@@ -614,10 +724,35 @@ function topaz(e) {
       let r = request.characterConditionals
       let x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+      let hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      let ashblazingFuaData = calculateAshblazingSet(c, request, hitMulti)
+      let ashblazingBasicData = calculateAshblazingSet(c, request, basicHitCountMulti)
+
+
+      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingFuaData.ashblazingAtk + ashblazingFuaData.ashblazingMulti)
+      x.SKILL_DMG = x.FUA_DMG
+
+      // Copy fua boosts to skill/basic
+      x.SKILL_BOOST = x.FUA_BOOST
+      x.SKILL_VULNERABILITY = x.FUA_VULNERABILITY
+      x.SKILL_DEF_PEN = x.FUA_DEF_PEN
+      x.SKILL_CD_BOOST = x.FUA_CD_BOOST
+      x.SKILL_CR_BOOST = x.FUA_CR_BOOST
+
+      x.BASIC_BOOST = x.FUA_BOOST
+      x.BASIC_VULNERABILITY = x.FUA_VULNERABILITY
+      x.BASIC_DEF_PEN = x.FUA_DEF_PEN
+      x.BASIC_CD_BOOST = x.FUA_CD_BOOST
+      x.BASIC_CR_BOOST = x.FUA_CR_BOOST
+
+      // Her ult buff only applies to the skill/fua not basic
+      x.FUA_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
+      x.SKILL_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
+
+      // Her e6 only applies to skill/fua not basic
+      x.SKILL_RES_PEN += (e >= 6) ? 0.10 : 0
+      x.FUA_RES_PEN += (e >= 6) ? 0.10 : 0
     }
   }
 }
@@ -653,6 +788,7 @@ function tingyun(e) {
 
       // Stats
       x[Stats.SPD] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
+      x[Stats.SPD] += (r.skillSpdBuff) ? 0.20 : 0
       x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
 
       // Scaling
@@ -663,7 +799,6 @@ function tingyun(e) {
       // Boost
       x.BASIC_BOOST += 0.40
       x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
-
 
       return x
     },
@@ -677,7 +812,6 @@ function tingyun(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
     }
   }
 }
@@ -699,10 +833,6 @@ function sushang(e) {
         <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction'/>
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
       </Flex>
     ),
@@ -992,6 +1122,14 @@ function qingque(e) {
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 2.00, 2.16)
 
+  let hitMultiByTargetsBlast = {
+    1: ASHBLAZING_ATK_STACK * (1*1/1), // 0.06
+    3: ASHBLAZING_ATK_STACK * (2*1/1), // 0.12
+    5: ASHBLAZING_ATK_STACK * (2*1/1)  // 0.12
+  }
+
+  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1*1/1)
+
   return {
     display: () => (
       <Flex vertical gap={10} >
@@ -1035,7 +1173,15 @@ function qingque(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+
+      if (r.basicEnhanced) {
+        let hitMulti = hitMultiByTargetsBlast[request.enemyCount]
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      } else {
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      }
     }
   }
 }
@@ -1157,6 +1303,8 @@ function march7th(e) {
   let ultScaling = ult(e, 1.50, 1.62)
   let fuaScaling = talent(e, 1.00, 1.10)
 
+  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+
   return {
     display: () => (
       <Flex vertical gap={10} >
@@ -1187,10 +1335,12 @@ function march7th(e) {
       let r = request.characterConditionals
       let x = c.x
 
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
     }
   }
@@ -1370,6 +1520,9 @@ function kafka(e) {
   let fuaScaling = talent(e, 1.40, 1.596)
   let dotScaling = ult(e, 2.90, 3.183)
 
+  let hitMulti = ASHBLAZING_ATK_STACK *
+    (1*0.15 + 2*0.15 + 3*0.15 + 4*0.15 + 5*0.15 + 6*0.25)
+
   return {
     display: () => (
       <Flex vertical gap={10} >
@@ -1406,43 +1559,47 @@ function kafka(e) {
       let r = request.characterConditionals
       let x = c.x
 
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
 
 function jingyuan(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.00, 1.10)
   let ultScaling = ult(e, 2.00, 2.16)
   let fuaScaling = talent(e, 0.66, 0.726)
 
+  let hitMulti = 0
+
   return {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='skillCritBuff' text='Skill cr buff'/>
-        <FormSlider name='talentHitsPerAction' text='Talent hits per action' min={3} max={10} />
-        <FormSlider name='talentAttacks' text='Talent attacks' min={0} max={10} />
-        <FormSwitch name='e2TalentBuff' text='E2 fua buff'/>
-        <FormSwitch name='e6TalentDebuff' text='E6 fua debuff'/>
+        <FormSlider name='talentHitsPerAction' text='Talent stacks' min={3} max={10} />
+        <FormSlider name='talentAttacks' text='Talent hit on target' min={0} max={10} />
+        <FormSwitch name='e2DmgBuff' text='E2 dmg buff'/>
+        <FormSlider name='e6FuaVulnerabilityStacks' text='E6 vulnerable stacks (applies to all hits)' min={0} max={3} />
       </Flex>
     ),
     defaults: () => ({
       skillCritBuff: true,
       talentHitsPerAction: 10,
       talentAttacks: 10,
-      e2TalentBuff: true,
-      e6TalentDebuff: true
+      e2DmgBuff: true,
+      e6FuaVulnerabilityStacks: 3
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
+
+      r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
       // Stats
       x[Stats.CR] += (r.skillCritBuff) ? 0.10 : 0
@@ -1455,9 +1612,31 @@ function jingyuan(e) {
 
       // Boost
       x.FUA_CD_BOOST += (r.talentHitsPerAction >= 6) ? 0.25 : 0
-      x.BASIC_BOOST += (e >= 2 && r.e2TalentBuff) ? 0.20 : 0
-      x.SKILL_BOOST += (e >= 2 && r.e2TalentBuff) ? 0.20 : 0
-      x.ULT_BOOST += (e >= 2 && r.e2TalentBuff) ? 0.20 : 0
+      x.BASIC_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
+      x.SKILL_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
+      x.ULT_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
+
+      x.FUA_VULNERABILITY += (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0
+
+      // Lightning lord calcs
+      let stacks = r.talentHitsPerAction
+      let hits = r.talentAttacks
+      let stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
+      let stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
+      let stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
+
+      // Calc stacks on miss
+      let ashblazingStacks = stacksPerMiss * (stacks - hits)
+
+      // Calc stacks on hit
+      ashblazingStacks += stacksPreHit
+      let atkBoostSum = 0
+      for (let i = 0; i < hits; i++) {
+        atkBoostSum += Math.min(8, ashblazingStacks) * (1/hits)
+        ashblazingStacks += stacksPerHit
+      }
+
+      hitMulti = atkBoostSum * 0.06
 
       return x
     },
@@ -1471,13 +1650,17 @@ function jingyuan(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * r.talentAttacks * x[Stats.ATK]
+
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * r.talentAttacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function imbibitorlunae(e) {
-  let value = (e >= 0) ? -1 : -1
+  let righteousHeartStackMax = (e >= 1) ? 10 : 6
+  let outroarStackCdValue = skill(e, 0.12, 0.132)
+  let righteousHeartDmgValue = talent(e, 0.10, 0.11)
 
   let basicScaling = basic(e, 1.00, 1.10)
   let basicEnhanced1Scaling = basic(e, 2.60, 2.86)
@@ -1489,27 +1672,39 @@ function imbibitorlunae(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentName' text='Text'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={0} percent />
+        <FormSlider name='basicEnhancements' text='Basic enhancements' min={0} max={3} />
+        <FormSlider name='skillOutroarStacks' text='Outroar stacks (applied to all hits)' min={0} max={4} />
+        <FormSlider name='talentRighteousHeartStacks' text='Righteous Heart stacks (applied to all hits)' min={0} max={righteousHeartStackMax} />
+        <FormSlider name='e6ResPenStacks' text='E6 RES pen stacks' min={0} max={3} />
       </Flex>
     ),
     defaults: () => ({
-      talentName: true,
-      switchEnabledName: true,
-      sliderName: 0,
+      basicEnhancements: 3,
+      skillOutroarStacks: 4,
+      talentRighteousHeartStacks: righteousHeartStackMax,
+      e6ResPenStacks: 3,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.CD] += (request.enemyElementalWeak) ? 0.24 : 0
+      x[Stats.CD] += r.skillOutroarStacks * outroarStackCdValue
 
       // Scaling
-      x.BASIC_SCALING += basicScaling
+      x.BASIC_SCALING += {
+        0: basicScaling,
+        1: basicEnhanced1Scaling,
+        2: basicEnhanced2Scaling,
+        3: basicEnhanced3Scaling,
+      }[r.basicEnhancements]
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
       // Boost
+      x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
+      x.BASIC_RES_PEN += (e >= 6 && r.basicEnhancements == 3) ? 0.20 * r.e6ResPenStacks : 0
 
       return x
     },
@@ -1521,9 +1716,7 @@ function imbibitorlunae(e) {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
     }
   }
 }
@@ -1637,6 +1830,12 @@ function himeko(e) {
   let fuaScaling = talent(e, 1.40, 1.54)
   let dotScaling = 0.30
 
+  let hitMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1*0.20 + 2*0.20 + 3*0.20 + 4*0.40), // 0.168
+    3: ASHBLAZING_ATK_STACK * (2*0.20 + 5*0.20 + 8*0.20 + 8*0.40), // 0.372
+    5: ASHBLAZING_ATK_STACK * (3*0.20 + 8*0.20 + 8*0.20 + 8*0.40), // 0.42
+  }
+
   return {
     display: () => (
       <Flex vertical gap={10} >
@@ -1684,8 +1883,11 @@ function himeko(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+
+      let hitMulti = hitMultiByTargets[request.enemyCount]
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
@@ -1695,6 +1897,12 @@ function herta(e) {
   let skillScaling = skill(e, 1.00, 1.10)
   let ultScaling = ult(e, 2.00, 2.16)
   let fuaScaling = talent(e, 0.40, 0.43)
+
+  let hitMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1*1/1),
+    3: ASHBLAZING_ATK_STACK * (2*1/1),
+    5: ASHBLAZING_ATK_STACK * (3*1/1)
+  }
 
   return {
     display: () => (
@@ -1725,8 +1933,9 @@ function herta(e) {
       x.BASIC_SCALING += (e >= 1 && request.enemyHpPercent <= 0.50) ? 0.40 : 0
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += fuaScaling
 
-      x.SKILL_BOOST += (request.enemyHpPercent >= 0.50) ? 0.20 : 0
+      x.SKILL_BOOST += (request.enemyHpPercent >= 0.50) ? 0.45 : 0
 
       // Boost
       x.ULT_BOOST += (r.targetFrozen) ? 0.20 : 0
@@ -1744,7 +1953,10 @@ function herta(e) {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
+
+      let hitMulti = hitMultiByTargets[request.enemyCount]
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
@@ -2020,9 +2232,17 @@ function clara(e) {
   let ultDmgReductionValue = ult(e, 0.25, 0.27)
   let ultFuaExtraScaling = ult(e, 1.60, 1.728)
 
-  let basicScaling = basic(e, 1.0, 1.1)
+  let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.20, 1.32)
   let fuaScaling = talent(e, 1.60, 1.76)
+
+  let hitMultiByTargetsBlast = {
+    1: ASHBLAZING_ATK_STACK * (1*1/1),
+    3: ASHBLAZING_ATK_STACK * (2*1/1),
+    5: ASHBLAZING_ATK_STACK * (2*1/1) // Clara is 1 hit blast when enhanced
+  }
+
+  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1*1/1)
 
   return {
     display: () => (
@@ -2070,7 +2290,15 @@ function clara(e) {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+
+      // Calc ashblazing: ult buff -> blast, unbuffed -> single
+      if (r.ultBuff) {
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargetsBlast[request.enemyCount])
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      } else {
+        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      }
     }
   }
 }
@@ -2085,6 +2313,8 @@ function bronya(e) {
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
   let fuaScaling = basicScaling * 0.80
+
+  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
 
   return {
     display: () => (
@@ -2135,8 +2365,10 @@ function bronya(e) {
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
@@ -2153,6 +2385,12 @@ function blade(e) {
   let ultLostHpScaling = ult(e, 1.00, 1.08)
   let fuaAtkScaling = talent(e, 0.44, 0.484)
   let fuaHpScaling = talent(e, 1.10, 1.21)
+
+  let hitMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1*0.33 + 2*0.33 + 3*0.34),
+    3: ASHBLAZING_ATK_STACK * (2*0.33 + 5*0.33 + 8*0.34),
+    5: ASHBLAZING_ATK_STACK * (3*0.33 + 8*0.33 + 8*0.34),
+  }
 
   return {
     display: () => (
@@ -2203,7 +2441,10 @@ function blade(e) {
       x.ULT_DMG += ultLostHpScaling * r.hpPercentLostTotal * x[Stats.HP]
       x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
-      x.FUA_DMG += fuaAtkScaling * x[Stats.ATK]
+      let hitMulti = hitMultiByTargets[request.enemyCount]
+      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
     }

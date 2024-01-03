@@ -9,14 +9,14 @@ export const CharacterConverter = {
     console.log(character)
     if (!statConversion) CharacterConverter.setConstantConversions()
 
-    let preRelics = character.relic_list
+    let preRelics = character.relicList || []
     let preLightCone = character.equipment
     let characterLevel = character.level
     let characterEidolon = character.promotion
-    let id = '' + character.avatar_id
-    let lightConeId = '' + preLightCone.tid;
-    let lightConeLevel = preLightCone.level;
-    let lightConeSuperimposition = preLightCone.promotion
+    let id = '' + character.avatarId
+    let lightConeId = preLightCone ? '' + preLightCone.tid : undefined;
+    let lightConeLevel = preLightCone ? preLightCone.level : undefined;
+    let lightConeSuperimposition = preLightCone ? preLightCone.promotion : undefined
 
     let relics = preRelics.map(x => convertRelic(x)).filter(x => !!x)
     let equipped = {}
@@ -109,7 +109,7 @@ function convertRelic(preRelic) {
     let gradeId = tid.substring(0, 1)
     let grade = gradeConversion[gradeId]
 
-    let mainId = preRelic.main_affix_id
+    let mainId = preRelic.mainAffixId
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
 
     let mainStat = statConversion[mainData.property]
@@ -123,8 +123,8 @@ function convertRelic(preRelic) {
     }
 
     let substats = []
-    for (let sub of preRelic.sub_affix_list) {
-      let subId = sub.affix_id
+    for (let sub of preRelic.subAffixList) {
+      let subId = sub.affixId
       let count = sub.cnt
       let step = sub.step
 

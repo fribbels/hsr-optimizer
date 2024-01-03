@@ -55,6 +55,9 @@ window.store = create((set) => ({
 
   statDisplay: 'base',
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+
+  activeKey: 'optimizer',
+  setActiveKey: (x) => set(() => ({ activeKey: x })),
 }))
 
 export const DB = {
@@ -296,6 +299,10 @@ export const DB = {
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (newRelic.equippedBy && newCharacters) {
+          found.equippedBy = newRelic.equippedBy
+          newRelic = found
+        }
         replacementRelics.push(found)
         stableRelicId = found.id
         delete oldRelicHashes[hash]
@@ -304,7 +311,7 @@ export const DB = {
         replacementRelics.push(newRelic)
       }
 
-      if (newRelic.equippedBy) {
+      if (newRelic.equippedBy && newCharacters) {
         let character = characters.find(x => x.id == newRelic.equippedBy)
         if (character) {
           character.equipped[newRelic.part] = stableRelicId
@@ -333,7 +340,7 @@ export const DB = {
       if (!relic.equippedBy) continue
 
       let character = DB.getCharacterById(relic.equippedBy)
-      if (!character || !character.equipped[relic.part] == relic.id) {
+      if (!character || character.equipped[relic.part] != relic.id) {
         relic.equippedBy = undefined
       }
     }

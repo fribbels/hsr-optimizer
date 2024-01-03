@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme } from 'antd';
+import {Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme, Divider} from 'antd';
 import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
 import { OcrParserKelz3 } from '../lib/ocrParserKelz3';
 import { Message } from '../lib/message';
@@ -114,7 +114,7 @@ function clearDataTab() {
       </Text>
       <Popconfirm
         title="Erase all data"
-        description="Are you sure to clear all relics and characters?"
+        description="Are you sure you want to clear all relics and characters?"
         onConfirm={clearDataClicked}
         placement="bottom"
         okText="Yes"
@@ -298,6 +298,7 @@ function relicImporterTab() {
         } else if (json.source == 'HSR-Scanner' && json.version == 3) {
           relics = OcrParserKelz3.parse(json);
           characters = OcrParserKelz3.parseCharacters(json);
+          characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
         } else {
           setTimeout(() => {
             setLoading1(false)
@@ -323,7 +324,17 @@ function relicImporterTab() {
     onStepChange(0)
   }
 
-  function mergeConfirmed() {
+  function mergeRelicsConfirmed() {
+    setLoading2(true)
+    setTimeout(() => {
+      setLoading2(false)
+      DB.mergeRelicsWithState(currentRelics)
+      SaveState.save()
+      onStepChange(2)
+    }, spinnerMs);
+  }
+
+  function mergeCharactersConfirmed() {
     setLoading2(true)
     setTimeout(() => {
       setLoading2(false)
@@ -332,6 +343,8 @@ function relicImporterTab() {
       onStepChange(2)
     }, spinnerMs);
   }
+
+
 
   function relicImporterContentUploadFile() {
     return (
@@ -381,14 +394,33 @@ function relicImporterTab() {
     }
 
     return (
-      <Flex style={{minHeight: 100}}>
+      <Flex style={{minHeight: 250}}>
         <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
           <Text>
-            File contains {currentRelics.length} relics. Merge into your current save?
+            File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
           </Text>
-          <Button style={{width: 200}} type="primary" onClick={mergeConfirmed} loading={loading2}>
+
+          <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
+
+          <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Merge relics
           </Button>
+
+          <Divider/>
+          <Text>Import relics and characters. This will overwrite your saved optimizer builds with your ingame builds! Recommended for first time import only.</Text>
+
+          <Popconfirm
+            title="Overwrite optimizer builds"
+            description="Are you sure you want to overwrite your optimizer builds with ingame builds?"
+            onConfirm={mergeCharactersConfirmed}
+            placement="bottom"
+            okText="Yes"
+            cancelText="Cancel"
+          >
+            <Button style={{width: 200}} type="primary" loading={loading2}>
+              Merge relics & characters
+            </Button>
+          </Popconfirm>
         </Flex>
       </Flex>
     )
@@ -430,12 +462,12 @@ function relicImporterTab() {
   )
 }
 
-export default function ImportTab({style}) {
+export default function ImportTab(props) {
   // Test
   let tabSize = 'large'
 
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
       <Flex vertical gap={5} style={{marginLeft: 20, width: 1200}}>
         <Tabs
           defaultActiveKey="1"

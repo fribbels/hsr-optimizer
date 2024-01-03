@@ -33,7 +33,11 @@ let hashes = [
 const App = () => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
-  const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
+  // const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
+
+
+  const activeKey = store(s => s.activeKey)
+  const setActiveKey = store(s => s.setActiveKey)
 
   window.notificationApi = notificationApi
   window.messageApi = messageApi
@@ -79,7 +83,7 @@ const App = () => {
               top: 0,
             }}
           >
-            <MenuDrawer setActiveKey={setActiveKey} hashes={hashes}/>
+            <MenuDrawer hashes={hashes}/>
           </Sider>
           <Layout
             style={{
@@ -118,7 +122,7 @@ const App = () => {
                 overflow: 'initial',
               }}
             >
-              <Tabs activeKey={activeKey} hashes={hashes} />
+              <Tabs hashes={hashes} />
             </Content>
           </Layout>
       </Layout>

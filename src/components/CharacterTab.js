@@ -72,7 +72,7 @@ function cellNameRenderer(params) {
 }
 
 
-export default function CharacterTab({style}) {
+export default function CharacterTab(props) {
   const characterGrid = useRef(); // Optional - for accessing Grid's API
   window.characterGrid = characterGrid;
 
@@ -202,7 +202,7 @@ export default function CharacterTab({style}) {
 
   return (
     <div style={{
-      ...style,
+      ...{display: props.active ? 'block' : 'none'},
       ...{
         height: '100%'
       }

@@ -54,7 +54,9 @@ const items = [
   ]),
 ];
 
-const MenuDrawer = ({setActiveKey, hashes}) => {
+const MenuDrawer = ({hashes}) => {
+  const setActiveKey = store(s => s.setActiveKey)
+
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
 

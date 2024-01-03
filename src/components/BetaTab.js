@@ -36,7 +36,7 @@ const { TextArea } = Input;
 const { Text } = Typography;
 
 
-export default function BetaTab({ style }) {
+export default function BetaTab(props) {
   console.log('Beta Tab')
 
   const showModal = () => {
@@ -44,7 +44,7 @@ export default function BetaTab({ style }) {
   };
 
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
       <Flex vertical gap={20} align='center'>
         <Button type="primary" onClick={showModal}>
           Open Modal

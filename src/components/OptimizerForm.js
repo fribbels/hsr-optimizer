@@ -170,7 +170,7 @@ function FilterRow(props) {
   )
 }
 
-let panelWidth = 200;
+let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
@@ -803,7 +803,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard justify='space-between'>
-              {LightConeConditionals.getDisplayForLightCone(selectedLightCone.id, lightConeSuperimposition)}
+              {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
 
               <Flex vertical gap={5} style={{marginBottom: 5}}>
                 <HeaderText style={{}}>Enemy options</HeaderText>

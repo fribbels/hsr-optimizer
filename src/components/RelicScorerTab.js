@@ -33,7 +33,7 @@ import { SaveState } from '../lib/saveState';
 const { TextArea } = Input;
 const { Text } = Typography;
 
-export default function RelicScorerTab({ style }) {
+export default function RelicScorerTab(props) {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false);
@@ -75,7 +75,7 @@ export default function RelicScorerTab({ style }) {
         }
         data = data.data
         let characters = [
-          data.detailInfo.assistAvatar,
+          data.detailInfo.avatarDetailList[3],
           data.detailInfo.avatarDetailList[0],
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
@@ -90,8 +90,8 @@ export default function RelicScorerTab({ style }) {
 
         let converted = characters.map(x => CharacterConverter.convert(x))
         setAvailableCharacters(converted)
-        console.log(converted)
         setLoading(false)
+        console.log(converted)
       })
       .catch(error => {
         console.error('Fetch error:', error);
@@ -195,7 +195,7 @@ export default function RelicScorerTab({ style }) {
   }
 
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>

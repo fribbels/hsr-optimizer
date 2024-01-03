@@ -41,7 +41,8 @@ import Sidebar from "./optimizerTab/Sidebar";
 
 const { Text } = Typography;
 
-export default function OptimizerTab({style}) {
+export default function OptimizerTab(props) {
+  console.log('OptimizerTab', props)
   const optimizerGrid = useRef();
   window.optimizerGrid = optimizerGrid;
 
@@ -185,7 +186,7 @@ export default function OptimizerTab({style}) {
   let defaultGap = 5;
 
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
       <Flex style={{marginBottom: 10}}>
         <Flex vertical gap={10}>
           <OptimizerForm/>

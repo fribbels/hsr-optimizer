@@ -13,7 +13,7 @@ import { Message } from '../lib/message';
 import { TooltipImage } from './TooltipImage';
 
 
-export default function RelicsTab({style}) {
+export default function RelicsTab(props) {
   const gridRef = useRef();
   global.relicsGrid = gridRef;
 
@@ -130,7 +130,7 @@ export default function RelicsTab({style}) {
   }
 
   return (
-    <Flex style={style}>
+    <Flex style={{display: props.active ? 'block' : 'none'}}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>

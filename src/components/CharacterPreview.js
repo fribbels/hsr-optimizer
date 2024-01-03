@@ -58,7 +58,32 @@ export function CharacterPreview(props) {
       </Flex>
     </Flex>
   )
-  let finalStats = StatCalculator.calculate(character);
+
+
+  let displayRelics
+  let scoringResults
+  let finalStats
+  if (isScorer) {
+    let relicsArray = Object.values(character.equipped)
+    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray);
+    displayRelics = character.equipped
+    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped));
+  } else {
+    scoringResults = RelicScorer.scoreCharacter(character);
+    displayRelics = {
+      Head: relicsById[character.equipped?.Head],
+      Hands: relicsById[character.equipped?.Hands],
+      Body: relicsById[character.equipped?.Body],
+      Feet: relicsById[character.equipped?.Feet],
+      PlanarSphere: relicsById[character.equipped?.PlanarSphere],
+      LinkRope: relicsById[character.equipped?.LinkRope],
+    }
+    finalStats = StatCalculator.calculate(character);
+  }
+  let scoredRelics = scoringResults.relics || []
+
+  console.log('SCORING RESULTS', scoringResults)
+
 
   console.log({ finalStats })
   console.log({ character })
@@ -97,9 +122,6 @@ export function CharacterPreview(props) {
     lightConeMetadata,
     characterMetadata
   })
-  function isFlat(stat) {
-    return
-  }
 
   let iconSize = 25
 
@@ -160,11 +182,6 @@ export function CharacterPreview(props) {
       </Flex>
     )
   }
-
-
-  let scoringResults = RelicScorer.scoreCharacter(character);
-  let scoredRelics = scoringResults.relics || []
-  console.log('SCORING RESULTS', scoringResults)
 
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
@@ -257,15 +274,15 @@ export function CharacterPreview(props) {
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={relicsById[character.equipped?.Head]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
-          <RelicPreview relic={relicsById[character.equipped?.Body]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
-          <RelicPreview relic={relicsById[character.equipped?.PlanarSphere]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
+          <RelicPreview relic={displayRelics.Head} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
+          <RelicPreview relic={displayRelics.Body} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
+          <RelicPreview relic={displayRelics.PlanarSphere} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={relicsById[character.equipped?.Hands]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
-          <RelicPreview relic={relicsById[character.equipped?.Feet]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
-          <RelicPreview relic={relicsById[character.equipped?.LinkRope]} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}/>
+          <RelicPreview relic={displayRelics.Hands} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
+          <RelicPreview relic={displayRelics.Feet} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
+          <RelicPreview relic={displayRelics.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}/>
         </Flex>
       </Flex>
     </Flex>

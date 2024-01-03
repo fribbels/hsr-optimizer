@@ -80,15 +80,11 @@ function countPairs(arr) {
 }
 
 export const RelicScorer = {
-  scoreCharacter: (character) => {
+  scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
 
-    console.log('SCORE CHARACTER', character)
-    let charactersById = store.getState().charactersById
-    let relicsById = store.getState().relicsById
-    let relics = Object.values(character.equipped).map(x => relicsById[x])
     let scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
-    
+
     let sum = 0
     for (let relic of scoredRelics) {
       sum += Number(relic.score) + Number(relic.mainStatScore)
@@ -117,6 +113,16 @@ export const RelicScorer = {
       totalScore: sum,
       totalRating: rating
     }
+  },
+
+  scoreCharacter: (character) => {
+    if (!character || !character.id) return {}
+
+    console.log('SCORE CHARACTER', character)
+    let relicsById = store.getState().relicsById
+    let relics = Object.values(character.equipped).map(x => relicsById[x])
+
+    return RelicScorer.scoreCharacterWithRelics(character, relics)
   },
 
   score: (relic, characterId) => {

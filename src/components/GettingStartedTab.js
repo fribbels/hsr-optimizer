@@ -8,7 +8,7 @@ import sampleSave from '../data/sample-save.json';
 
 const { Text } = Typography;
 
-export default function GettingStartedTab({style}) {
+export default function GettingStartedTab(props) {
   console.log('GettingStartedTab ')
 
   function tryItOutClicked() {
@@ -21,7 +21,7 @@ export default function GettingStartedTab({style}) {
   let dividerStyle = {marginTop: 40};
   let titleStyle = {textDecoration: 'underline'}
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
     <Text>
       <Flex vertical gap={5} style={{marginLeft: 20, marginBottom: 50, width: 1000}}>
           <h2>

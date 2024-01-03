@@ -154,7 +154,7 @@ const lightConeList = Object.values(lightCones)
 
 function readCharacter(character, lightCone) {
   const newCharacter = {...formTemplate}
-  lightCone = lightCone || {key: 'Multiplication', level: 80, superimposition: 5}
+  lightCone = lightCone || undefined
 
   // Lookup character & light cone ids
   let characterId
@@ -167,16 +167,17 @@ function readCharacter(character, lightCone) {
   } else {
     characterId = characterList.find(x => x.name == character.key).id
   }
-  
-  const lightConeId = lightConeList.find(x => x.name == lightCone.key).id
+
+  let lcKey = lightCone?.key
+  const lightConeId = lightConeList.find(x => x.name == lcKey)?.id
 
   // Set information
   newCharacter.characterId = characterId
   newCharacter.characterLevel = character.level
   newCharacter.characterEidolon = character.eidolon
   newCharacter.lightCone = lightConeId
-  newCharacter.lightConeLevel = lightCone.level
-  newCharacter.lightConeSuperimposition = lightCone.superimposition
+  newCharacter.lightConeLevel = lightCone?.level || 0
+  newCharacter.lightConeSuperimposition = lightCone?.superimposition || 0
 
   return newCharacter
 }
@@ -197,6 +198,23 @@ function readRelic(relic) {
   let parsedStats = readStats(relic, part, grade, enhance);
   // console.log(parsedStats);
 
+  let id
+  if (characterList.find(x => x.name == relic.location)) {
+    id = characterList.find(x => x.name == relic.location).id
+  } else {
+    if (location == 'TrailblazerPreservation' && store.getState().charactersById[8003]) {
+      id = 8003
+    } else {
+      id = 8004
+    }
+
+    if (location == 'TrailblazerDestruction' && store.getState().charactersById[8001]) {
+      id = 8001
+    } else {
+      id = 8002
+    }
+  }
+
   return {
     part: part,
     set: set,
@@ -204,7 +222,7 @@ function readRelic(relic) {
     grade: grade,
     main: parsedStats.main,
     substats: parsedStats.substats,
-    equippedBy: relic.location === "" ? undefined : characterList.find(x => x.name == relic.location).id,
+    equippedBy: relic.location === "" ? undefined : id,
   }
 }
 

@@ -326,7 +326,7 @@ self.onmessage = function (e) {
       x.FUA_BOOST +=
         0.20*p2(c.sets.TheAshblazingGrandDuke)
 
-      x.DEF_SHRED += (enabledGeniusOfBrilliantStars && p4(c.sets.GeniusOfBrilliantStars)) ? (request.enemyQuantumWeak ? 0.20 : 0.10) : 0
+      x.DEF_SHRED += p4(c.sets.GeniusOfBrilliantStars) ? (enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
 
       x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
 
@@ -348,14 +348,10 @@ self.onmessage = function (e) {
       x.ELEMENTAL_DMG += damageBonus
 
       let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
-      let dmg = 0 // (x[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * ((1 - cappedCrit) + (1 + x[Stats.CD] + request.buffCd) * cappedCrit) * (1 + x.ELEMENTAL_DMG + damageBonus)
-      let mcd = 0 // (x[Stats.ATK] + request.buffAtk + (request.buffAtkP * (base[Stats.ATK] + lc[Stats.ATK]))) * (1 + x[Stats.CD] + request.buffCd) * (1 + x.ELEMENTAL_DMG + damageBonus)
       let ehp = 0 // x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * 80)) * (1 + 0.08*p2(sets.GuardOfWutheringSnow))
       let cv = 100 * (crSum * 2 + cdSum)
 
       c.CV = cv
-      c.DMG = dmg
-      c.MCD = mcd
       c.EHP = ehp
 
       // ************************************************************
@@ -384,7 +380,6 @@ self.onmessage = function (e) {
       let defIgnore = 0
 
       let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG + request.buffDmgBoost
-      let dmgTakenMultiplier = 1 + x.DMG_TAKEN_MULTI
       let dmgReductionMultiplier = 1
 
       let universalMulti = dmgReductionMultiplier * brokenMultiplier
@@ -401,7 +396,7 @@ self.onmessage = function (e) {
 
       let statCompare = combatDisplay ? x : c
 
-      let result = topRow || (
+      let result = (
         statCompare[Stats.HP]  >= request.minHp  && statCompare[Stats.HP]  <= request.maxHp  &&
         statCompare[Stats.ATK] >= request.minAtk && statCompare[Stats.ATK] <= request.maxAtk &&
         statCompare[Stats.DEF] >= request.minDef && statCompare[Stats.DEF] <= request.maxDef &&
@@ -424,7 +419,7 @@ self.onmessage = function (e) {
       // Pack the passing results into the ArrayBuffer to return
       // ************************************************************
 
-      if (result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {
+      if (topRow || result && (relicSetSolutions[relicSetIndex] == 1) && (ornamentSetSolutions[ornamentSetIndex] == 1)) {
         BufferPacker.packCharacter(arr, row * data.HEIGHT + col, c);
       }
     }

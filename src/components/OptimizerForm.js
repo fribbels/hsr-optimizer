@@ -46,6 +46,7 @@ import {LightConeConditionals} from "../lib/lightConeConditionals";
 import {FormStatRollSlider, FormStatRollSliderTopPercent} from "./optimizerTab/FormStatRollSlider";
 import {v4 as uuidv4} from "uuid";
 import {getDefaultForm} from "../lib/defaultForm";
+import {FormSetConditionals} from "./optimizerTab/FormSetConditionals";
 const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -147,7 +148,6 @@ function generateSetsOptions() {
 }
 
 const FormStatTextStyled = styled(Text)`
-  width: 40px;
   display: block;
   text-align: center;
 `
@@ -181,106 +181,12 @@ export default function OptimizerForm() {
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [optimizationId, setOptimizationId] = useState();
+  let setConditionalSetEffectsDrawerOpen = store(s => s.setConditionalSetEffectsDrawerOpen);
 
   const statDisplay = store(s => s.statDisplay)
   const setStatDisplay = store(s => s.setStatDisplay)
 
-  // const [optimizerPermutationSearched, setOptimizerPermutationSearched] = useState(0)
-  // const [optimizerPermutationResults, setOptimizerPermutationResults] = useState(0)
-  // const [optimizerPermutationDetails, setOptimizerPermutationDetails] = useState({
-  //   Head: 0,
-  //   Hands: 0,
-  //   Body: 0,
-  //   Feet: 0,
-  //   PlanarSphere: 0,
-  //   LinkRope: 0,
-  //   HeadTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Head).length,
-  //   HandsTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Hands).length,
-  //   BodyTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Body).length,
-  //   FeetTotal: DB.getRelics().filter(x => x.part == Constants.Parts.Feet).length,
-  //   PlanarSphereTotal: DB.getRelics().filter(x => x.part == Constants.Parts.PlanarSphere).length,
-  //   LinkRopeTotal: DB.getRelics().filter(x => x.part == Constants.Parts.LinkRope).length,
-  //   permutations: 0,
-  //   searched: 0,
-  //   results: 0
-  // });
-  // const permutationDetails = store(s => s.permutationDetails)
-  // const setPermutationDetails = store(s => s.setPermutationDetails)
-
-  // window.setOptimizerPermutationSearched = setOptimizerPermutationSearched
-  // window.setOptimizerPermutationResults = setOptimizerPermutationResults
-  // window.setOptimizerPermutationDetails = setPermutationDetails
-
-
-  const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
-    let options = []
-    for (let i = 0; i <= 5; i++) {
-      options.push({
-        display: i + 'x',
-        value: i,
-        label: `${i} stacks (+${i * 5}% ATK)`
-      })
-    }
-
-    return options
-  }, []);
-  const setWastelanderOfBanditryDesert = useMemo(() => {
-    return [
-      {
-        display: 'Off',
-        value: 0,
-        label: 'Off'
-      },
-      {
-        display: 'CR',
-        value: 1,
-        label: 'Debuffed (+10% CR)'
-      },
-      {
-        display: 'CR+CD',
-        value: 2,
-        label: 'Imprisoned (+10% CR + 20% CD)'
-      }
-    ]
-  }, []);
-  const setLongevousDiscipleOptions = useMemo(() => {
-    let options = []
-    for (let i = 0; i <= 2; i++) {
-      options.push({
-        display: i + 'x',
-        value: i,
-        label: `${i} stacks (+${i * 8}% CR)`
-      })
-    }
-
-    return options
-  }, []);
-  const setTheAshblazingGrandDukeOptions = useMemo(() => {
-    let options = []
-    for (let i = 0; i <= 8; i++) {
-      options.push({
-        display: i + 'x',
-        value: i,
-        label: `${i} stacks (+${6 * i}% ATK)`
-      })
-    }
-
-    return options
-  }, []);
-  const setPrisonerInDeepConfinementOptions = useMemo(() => {
-    let options = []
-    for (let i = 0; i <= 3; i++) {
-      options.push({
-        display: i + 'x',
-        value: i,
-        label: `${i} stacks (+${6 * i}% DEF ignore)`
-      })
-    }
-
-    return options
-  }, []);
+  const [optimizationId, setOptimizationId] = useState();
 
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
@@ -323,11 +229,6 @@ export default function OptimizerForm() {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     }
   }, [selectedLightCone])
-
-  // const statDisplayValue = Form.useWatch('statDisplay', optimizerForm);
-  // useEffect(() => {
-  //   setStatDisplay(statDisplayValue)
-  // }, [statDisplayValue])
 
   const onChangeStatDisplay = ({ target: { value } }) => {
     console.log('radio3 checked', value);
@@ -649,71 +550,7 @@ export default function OptimizerForm() {
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
-
-        <ConfigProvider
-          theme={{
-            token: {
-              opacityLoading: 0.15
-            }
-          }}
-        >
-          <Drawer
-            title="Conditional set effects"
-            placement="right"
-            onClose={() => setDrawerOpen(false)}
-            open={drawerOpen}
-            width={750}
-            forceRender
-          >
-            <Flex justify='center'>
-              <Flex vertical gap={defaultGap}>
-                <Flex gap={defaultGap} align='center' justify='flex-start'>
-                  <Text style={{ width: setConditionalsIconWidth }}></Text>
-                  <Text style={{ width: setConditionalsNameWidth }}></Text>
-                  <Text style={{ marginLeft: 'auto' }}>4 Piece</Text>
-                </Flex>
-                <ConditionalSetOption set={Constants.Sets.PasserbyOfWanderingCloud} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.MusketeerOfWildWheat} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.KnightOfPurityPalace} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.HunterOfGlacialForest} />
-                <ConditionalSetOption set={Constants.Sets.ChampionOfStreetwiseBoxing} selectOptions={setChampionOfStreetwiseBoxingOptions} />
-                <ConditionalSetOption set={Constants.Sets.GuardOfWutheringSnow} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.FiresmithOfLavaForging} />
-                <ConditionalSetOption set={Constants.Sets.GeniusOfBrilliantStars} />
-                <ConditionalSetOption set={Constants.Sets.BandOfSizzlingThunder} />
-                <ConditionalSetOption set={Constants.Sets.EagleOfTwilightLine} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.ThiefOfShootingMeteor} p4Checked />
-                <ConditionalSetOption set={Constants.Sets.WastelanderOfBanditryDesert} selectOptions={setWastelanderOfBanditryDesert} />
-                <ConditionalSetOption set={Constants.Sets.LongevousDisciple} selectOptions={setLongevousDiscipleOptions} />
-                <ConditionalSetOption set={Constants.Sets.MessengerTraversingHackerspace} />
-                <ConditionalSetOption set={Constants.Sets.TheAshblazingGrandDuke} selectOptions={setTheAshblazingGrandDukeOptions} />
-                <ConditionalSetOption set={Constants.Sets.PrisonerInDeepConfinement} selectOptions={setPrisonerInDeepConfinementOptions}/>
-              </Flex>
-
-              <VerticalDivider />
-
-              <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
-                <Flex gap={defaultGap} align='center' justify='flex-start'>
-                  <Text style={{ width: setConditionalsIconWidth }}></Text>
-                  <Text style={{ width: setConditionalsNameWidth }}></Text>
-                  <Text style={{ marginLeft: 'auto' }}>2 Piece</Text>
-                </Flex>
-                <ConditionalSetOption set={Constants.Sets.SpaceSealingStation} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.FleetOfTheAgeless} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.PanCosmicCommercialEnterprise} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.BelobogOfTheArchitects} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.CelestialDifferentiator} />
-                <ConditionalSetOption set={Constants.Sets.InertSalsotto} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.TaliaKingdomOfBanditry} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.SprightlyVonwacq} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.RutilantArena} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.BrokenKeel} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.FirmamentFrontlineGlamoth} p2Checked />
-                <ConditionalSetOption set={Constants.Sets.PenaconyLandOfTheDreams} p2Checked />
-              </Flex>
-            </Flex>
-          </Drawer>
-        </ConfigProvider>
+        <FormSetConditionals />
 
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
@@ -856,18 +693,6 @@ export default function OptimizerForm() {
                     />
                   </Form.Item>
                   <Text>Elemental weakness</Text>
-                </Flex>
-
-                <Flex align='center'>
-                  <Form.Item name="enemyQuantumWeak" valuePropName="checked">
-                    <Switch
-                      checkedChildren={<CheckOutlined />}
-                      unCheckedChildren={<CloseOutlined />}
-                      defaultChecked
-                      style={{ width: 45, marginRight: 10 }}
-                    />
-                  </Form.Item>
-                  <Text>Quantum weakness</Text>
                 </Flex>
 
                 <Flex align='center'>
@@ -1136,7 +961,7 @@ export default function OptimizerForm() {
               </Flex>
 
               <Button
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => setConditionalSetEffectsDrawerOpen(true)}
                 icon={<SettingOutlined />}
               >
                 Conditional set effects
@@ -1323,52 +1148,3 @@ let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px
 //   )
 // }
 
-const setConditionalsIconWidth = 40
-const setConditionalsNameWidth = 200
-const setConditionalsWidth = 80
-
-function ConditionalSetOption(props) {
-  if (Constants.SetsRelicsNames.includes(props.set)) {
-    let inputType = (<Switch disabled={props.p4Checked} />)
-    if (props.selectOptions) {
-      inputType = (
-        <Select
-          optionLabelProp="display"
-          listHeight={500}
-          size='small'
-          style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 250 }}
-          options={props.selectOptions}
-        />
-      )
-    }
-
-    return (
-      <Flex gap={defaultGap} align='center' justify='flex-start'>
-        <Flex style={{ width: setConditionalsIconWidth }}>
-          <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
-        </Flex>
-        <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
-        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-          <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
-            {inputType}
-          </Form.Item>
-        </Flex>
-      </Flex>
-    )
-  } else {
-    return (
-      <Flex gap={defaultGap} align='center' justify='flex-start'>
-        <Flex style={{ width: setConditionalsIconWidth }}>
-          <img src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)} style={{ width: 36, height: 36 }}></img>
-        </Flex>
-        <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
-        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-          <Form.Item name={['setConditionals', props.set, 1]} valuePropName='checked'>
-            <Switch disabled={props.p2Checked} />
-          </Form.Item>
-        </Flex>
-      </Flex>
-    )
-  }
-}

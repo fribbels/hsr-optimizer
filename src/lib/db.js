@@ -13,6 +13,10 @@ import { create } from 'zustand'
 import {Constants} from "./constants";
 import {getDefaultForm} from "../lib/defaultForm";
 
+// Usage
+// let characterTabBlur = store(s => s.characterTabBlur);
+// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
+
 window.store = create((set) => ({
   relicsById: {},
   setRelicsById: (x) => set(() => ({ relicsById: x })),
@@ -58,6 +62,9 @@ window.store = create((set) => ({
 
   activeKey: 'optimizer',
   setActiveKey: (x) => set(() => ({ activeKey: x })),
+
+  conditionalSetEffectsDrawerOpen: false,
+  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
 }))
 
 export const DB = {

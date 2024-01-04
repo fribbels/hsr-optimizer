@@ -329,7 +329,7 @@ function relicsByPartToArray(relics) {
 
 function addMainStatToAugmentedStats(relics) {
   relics = relics.map(x => structuredClone(x))
-  
+
   for (let relic of relics) {
     relic.augmentedStats[relic.augmentedStats.mainStat] = relic.augmentedStats.mainValue
   }

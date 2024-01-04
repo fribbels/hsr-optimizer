@@ -58,7 +58,7 @@ export function getDefaultForm(initialCharacter) {
       [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
       [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 0],
       [Constants.Sets.LongevousDisciple]: [undefined, 2],
-      [Constants.Sets.MessengerTraversingHackerspace]: [undefined, true],
+      [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
       [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
       [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
       [Constants.Sets.SpaceSealingStation]: [undefined, true],

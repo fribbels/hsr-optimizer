@@ -313,7 +313,6 @@ export const OptimizerTabController = {
       newForm.enemyResistance = 0.2
       newForm.enemyHpPercent = 1.0
       newForm.enemyElementalWeak = true
-      newForm.enemyQuantumWeak = true
       newForm.enemyWeaknessBroken = false
       newForm.enemyElementalResistance = false
     }

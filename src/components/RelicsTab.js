@@ -134,7 +134,7 @@ export default function RelicsTab(props) {
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500}}>
+        <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500, resize: 'vertical', overflow: 'hidden'}}>
 
           <AgGridReact
               ref={gridRef} // Ref for accessing Grid's API

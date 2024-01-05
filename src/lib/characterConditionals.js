@@ -2776,7 +2776,7 @@ export const CharacterConditionals = {
     return characterFn(request.characterEidolon)
   },
   getDisplayForCharacter: (id, eidolon) => {
-    console.warn('getDisplayForCharacter', id)
+    // console.log('getDisplayForCharacter', id)
     if (!id || !characterOptionMapping[id]) {
       return (
         <Flex justify='space-between' align='center'>

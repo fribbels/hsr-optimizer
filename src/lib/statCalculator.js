@@ -114,7 +114,6 @@ export const StatCalculator = {
     let crSum = sum(relics, Constants.Stats.CR)
     let cdSum = sum(relics, Constants.Stats.CD)
 
-    console.warn(base[Constants.Stats.HP], base[Constants.Stats.HP], lc[Constants.Stats.HP], Math.min(1, ornamentSets[1] >> 1), Math.min(1, relicSets[12] >> 1), sum(relics, Constants.Stats.HP_P), trace[Constants.Stats.HP_P], sum(relics, Constants.Stats.HP))
     let hero = {
       [Constants.Stats.HP]: (base[Constants.Stats.HP] + lc[Constants.Stats.HP]) * (1 + 0.12 * Math.min(1, ornamentSets[1] >> 1) + 0.12 * Math.min(1, relicSets[12] >> 1) + sum(relics, Constants.Stats.HP_P) + trace[Constants.Stats.HP_P] + lc[Constants.Stats.HP_P])  + sum(relics, Constants.Stats.HP),
       [Constants.Stats.ATK]: (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSets[0] >> 1) + 0.12 * Math.min(1, ornamentSets[10] >> 1) + 0.12 * Math.min(1, relicSets[1] >> 1) + 0.12 * Math.min(1, relicSets[15] >> 1) + sum(relics, Constants.Stats.ATK_P) + trace[Constants.Stats.ATK_P] + lc[Constants.Stats.ATK_P]) + sum(relics, Constants.Stats.ATK),
@@ -162,6 +161,19 @@ export const StatCalculator = {
     hero.ULT = 0
     hero.FUA = 0
     hero.DOT = 0
+    hero.xATK = 0
+    hero.xDEF = 0
+    hero.xHP = 0
+    hero.xSPD = 0
+    hero.xCR = 0
+    hero.xCD = 0
+    hero.xEHR = 0
+    hero.xRES = 0
+    hero.xBE = 0
+    hero.xERR = 0
+    hero.xOHB = 0
+    hero.xELEMENTAL_DMG = 0
+
 
     return hero;
   },

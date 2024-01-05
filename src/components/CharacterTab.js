@@ -3,8 +3,6 @@ import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback} f
 import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
-import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
-
 import "ag-grid-community/styles/ag-theme-balham.css";
 import "../style/style.css";
 import DB from '../lib/db';

@@ -1,22 +1,9 @@
 import logo from './logo.svg';
 
 import React, {useEffect} from "react"
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-
-import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme, notification, Typography, message, Flex } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
-import { SmileOutlined } from '@ant-design/icons';
 
 import {
   ConfigProvider,

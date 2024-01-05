@@ -126,7 +126,7 @@ export const RelicScorer = {
   },
 
   score: (relic, characterId) => {
-    console.log('score', relic, characterId)
+    // console.log('score', relic, characterId)
 
     setMainStatFreeRolls()
 
@@ -219,7 +219,7 @@ export const RelicScorer = {
       }
     }
     
-    console.log(relic.substats, ratings, sum)
+    // console.log(relic.substats, ratings, sum)
 
     return {
       score: sum.toFixed(1),

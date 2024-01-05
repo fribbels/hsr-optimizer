@@ -39,7 +39,7 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     delete x.id
-    optimizerGrid.current.api.setPinnedTopRowData([x]);
+    optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
   getRows: () => {
@@ -141,7 +141,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    optimizerGrid.current.api.setDatasource(OptimizerTabController.getDataSource(sortModel, filterModel));
+    optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -638,5 +638,5 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  optimizerGrid.current.api.setPinnedTopRowData([stats]);
+  optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
 }

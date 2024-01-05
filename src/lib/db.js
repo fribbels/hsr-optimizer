@@ -194,7 +194,7 @@ export const DB = {
     }
 
     console.log('Updated db characters', characters)
-    characterGrid.current.api.setRowData(characters)
+    characterGrid.current.api.updateGridOptions({ rowData: characters })
   },
 
   unequipCharacter: (id) => {
@@ -333,7 +333,8 @@ export const DB = {
 
     console.log('Replacement relics', replacementRelics)
 
-    global.relicsGrid.current.api.setRowData(replacementRelics)
+    global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+
     DB.setRelics(replacementRelics);
 
     // Clean up any deleted relic ids that are still equipped

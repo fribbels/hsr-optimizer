@@ -82,7 +82,7 @@ export const FormSetConditionals = (props) => {
     return options
   }, []);
 
-  let defaultMessage = 'Enabled by default - effects will apply to calculations.'
+  let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
   return (
     <ConfigProvider
@@ -326,6 +326,7 @@ function ConditionalSetOption(props) {
       <Popover
         content={content}
         title={props.set}
+        mouseEnterDelay={0.5}
         overlayStyle={{
           width: 600
         }}
@@ -349,6 +350,7 @@ function ConditionalSetOption(props) {
       <Popover
         content={content}
         title={props.set}
+        mouseEnterDelay={0.5}
         overlayStyle={{
           width: 600
         }}

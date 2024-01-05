@@ -22,7 +22,7 @@ let lcInnerH = 1260 / 902 * lcInnerW;
 let middleColumnWidth = 240;
 
 export function CharacterPreview(props) {
-  console.warn('CharacterPreview', props)
+  console.log('CharacterPreview', props)
 
   let relicsById = store(s => s.relicsById)
   let characterTabBlur = store(s => s.characterTabBlur);

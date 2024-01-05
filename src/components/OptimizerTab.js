@@ -171,6 +171,7 @@ export default function OptimizerTab(props) {
     rowModelType: 'infinite',
     datasource: datasource,
     paginationPageSize: 500,
+    paginationPageSizeSelector: [100, 500, 1000],
     cacheBlockSize: 500,
     suppressDragLeaveHidesColumns: true,
     suppressScrollOnNewData: true,
@@ -192,7 +193,7 @@ export default function OptimizerTab(props) {
           <OptimizerForm/>
 
           <Flex>
-            <div id="optimizerGridContainer" className="ag-theme-balham-dark" style={{width: 1225, height: 500}}>
+            <div id="optimizerGridContainer" className="ag-theme-balham-dark" style={{width: 1225, minHeight: 500, resize: 'vertical', overflow: 'hidden'}}>
               <AgGridReact
                 ref={optimizerGrid}
 

@@ -30,13 +30,13 @@ export const WorkerPool = {
         buffer = buffers.pop()
         BufferPacker.cleanFloatBuffer(buffer)
       } else {
-        buffer = BufferPacker.createFloatBuffer(50000)
+        buffer = BufferPacker.createFloatBuffer(100000)
       }
 
       task.buffer = buffer
 
       worker.onmessage = (message) => {
-        console.log('worker message', message)
+        // console.log('worker message', message)
         if (callback) callback(message.data)
         workers.push(worker)
         buffers.push(message.data.buffer)

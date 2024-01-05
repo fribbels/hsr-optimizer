@@ -95,7 +95,7 @@ let gradeToColor = {
 }
 
 export default function RelicPreview(props) {
-  console.log('RelicPreview', props)
+  // console.log('RelicPreview', props)
   // const [hovered, setHovered] = React.useState(false);
 
   let data = getRelic(props.relic)

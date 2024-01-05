@@ -8,7 +8,7 @@ import {BufferPacker} from "./bufferPacker";
 
 let MAX_INT = 2147483647;
 
-let WIDTH = 50000;
+let WIDTH = 100000;
 let HEIGHT = 1;
 let MAX_RESULTS = 2_000_000;
 
@@ -111,13 +111,14 @@ export const Optimizer = {
 
     let relics = DB.getRelics();
 
+    relics = JSON.parse(JSON.stringify(relics))
+    relics = RelicFilters.applyEnhanceFilter(request, relics);
+    relics = RelicFilters.applyRankFilter(request, relics);
+
     // Pre-split filters
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
 
-    relics = JSON.parse(JSON.stringify(relics))
-    relics = RelicFilters.applyEnhanceFilter(request, relics);
     relics = applyMainFilter(request, relics);
-    relics = RelicFilters.applyRankFilter(request, relics);
     relics = addMainStatToAugmentedStats(relics);
     relics = applyMaxedMainStatsFilter(request, relics);
     relics = RelicFilters.applySetFilter(request, relics)
@@ -183,7 +184,7 @@ export const Optimizer = {
 
     optimizerGrid.current.api.showLoadingOverlay()
 
-    let rowData = []
+    let results = []
     let increment = (WIDTH * HEIGHT)
     let searched = 0
     let runs = Math.ceil(permutations / increment) 
@@ -253,7 +254,6 @@ export const Optimizer = {
       }
 
       let callback = (result) => {
-        let rows = result.rows
         searched += increment
         inProgress -= 1
 
@@ -261,33 +261,29 @@ export const Optimizer = {
           return
         }
 
-        if (rowData.length + rows.length > MAX_RESULTS) {
-          console.log('Slicing rows because they exceed max limit')
-          rows = rows.slice(0, MAX_RESULTS - rowData.length)
-        }
         let resultArr = new Float32Array(result.buffer)
-        console.log(`Thread complete - status: inProgress ${inProgress}, rowData: ${rowData.length}, rows ${rows.length}`)
         // console.log(`Optimizer results`, result, resultArr)
 
-        BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, rowData);
+        BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
 
-        store.getState().setPermutationsResults(rowData.length)
+        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}}`)
+
+        store.getState().setPermutationsResults(results.length)
         store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           OptimizerTabController.setMetadata(consts, relics)
-          OptimizerTabController.setRows(rowData)
+          OptimizerTabController.setRows(results)
 
-          optimizerGrid.current.api.setDatasource(OptimizerTabController.getDataSource());
-
-          console.log('Done', rowData.length);
+          optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          console.log('Done', results.length);
           resultsShown = true
           return
         }
 
-        if ((rowData.length >= MAX_RESULTS) && !CANCEL) {
+        if ((results.length >= MAX_RESULTS) && !CANCEL) {
           CANCEL = true;
-          Message.error('Too many results, please narrow your filters')
+          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to reduce results', 10)
         }
       }
 

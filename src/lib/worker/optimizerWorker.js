@@ -31,8 +31,8 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
 }
 
 self.onmessage = function (e) {
-  console.warn("Message received from main script", e.data);
-  console.warn("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
+  // console.warn("Message received from main script", e.data);
+  // console.warn("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   let data = e.data;
   let relics = data.relics;

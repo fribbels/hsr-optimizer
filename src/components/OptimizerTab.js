@@ -107,9 +107,10 @@ export default function OptimizerTab(props) {
     {field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR'},
     {field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL'},
 
-    {field: 'ED',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
-    {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
-    {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+    {field: 'ED',      valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
+    {field: 'CV',      valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
+    {field: 'EHP',     valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+    {field: 'WEIGHT',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT'},
 
     {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
     {field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL'},
@@ -137,6 +138,7 @@ export default function OptimizerTab(props) {
     {field: 'xELEMENTAL_DMG',  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM'},
     {field: 'CV',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
     {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
+    {field: 'WEIGHT',  valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT'},
 
     {field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC'},
     {field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL'},
@@ -193,7 +195,7 @@ export default function OptimizerTab(props) {
           <OptimizerForm/>
 
           <Flex>
-            <div id="optimizerGridContainer" className="ag-theme-balham-dark" style={{width: 1225, minHeight: 500, resize: 'vertical', overflow: 'hidden'}}>
+            <div id="optimizerGridContainer" className="ag-theme-balham-dark" style={{width: 1225, minHeight: 300, height: 600, resize: 'vertical', overflow: 'hidden'}}>
               <AgGridReact
                 ref={optimizerGrid}
 

@@ -7,7 +7,8 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>CV - Crit Value, measuring the value of crit stats on the build. Calculated using CD + CR * 2</p>
-          <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated with HP / (1 - DEF/(DEF + 1000)) </p>
+          <p>Weight - Sum of substat weights of all 6 relics, from the Substat weight filter</p>
+          <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives</p>
           <p>Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options.</p>
         </Flex>
       )
@@ -32,7 +33,6 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>Min / Max filters for character stats, inclusive. The optimizer will only show results within these ranges </p>
           <p>Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect</p>
-          <br/>
           <p>NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals.</p>
         </Flex>
       )
@@ -69,7 +69,7 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>Select the character and level / eidolon</p>
-          <p>Levels will affect base stats used in the calculation. Eidolon effects are still WIP</p>
+          <p>Levels will affect base stats used in the calculation. Eidolon effects are applied under the Character passives panel.</p>
         </Flex>
       )
     }
@@ -105,7 +105,7 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>Select the light cone and level / superimposition</p>
-          <p>Levels will affect base stats used in the calculation and superimposition scale the unconditional stat effects</p>
+          <p>Levels will affect base stats used in the calculation. Superimposition and passive effects are applied under the Light cone passives panel.</p>
         </Flex>
       )
     }

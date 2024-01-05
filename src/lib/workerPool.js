@@ -1,4 +1,5 @@
-let poolSize = 20
+let poolSize = (navigator.hardwareConcurrency || 4) - 1
+console.log('Using pool size ' + poolSize)
 let workers = []
 let buffers = []
 let taskQueue = []

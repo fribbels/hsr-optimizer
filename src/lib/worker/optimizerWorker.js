@@ -6,13 +6,22 @@ import { LightConeConditionals } from "../lightConeConditionals";
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
   let summedStats = {}
   for (let stat of statValues) {
-    summedStats[stat] = headRelics[h].augmentedStats[stat] +
+    summedStats[stat] =
+      headRelics[h].augmentedStats[stat] +
       handsRelics[g].augmentedStats[stat] +
       bodyRelics[b].augmentedStats[stat] +
       feetRelics[f].augmentedStats[stat] +
       planarSphereRelics[p].augmentedStats[stat] +
       linkRopeRelics[l].augmentedStats[stat]
   }
+  summedStats.WEIGHT =
+    headRelics[h].weightScore +
+    handsRelics[g].weightScore +
+    bodyRelics[b].weightScore +
+    feetRelics[f].weightScore +
+    planarSphereRelics[p].weightScore +
+    linkRopeRelics[l].weightScore
+
   return summedStats
 }
 
@@ -31,7 +40,7 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
 }
 
 self.onmessage = function (e) {
-  // console.warn("Message received from main script", e.data);
+  console.warn("Message received from main script", e.data);
   // console.warn("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   let data = e.data;
@@ -405,6 +414,7 @@ self.onmessage = function (e) {
         statCompare[Stats.BE]  >= request.minBe  && statCompare[Stats.BE]  <= request.maxBe  &&
         cv  >= request.minCv  && cv  <= request.maxCv  &&
         ehp >= request.minEhp && ehp <= request.maxEhp &&
+        c.WEIGHT  >= request.minWeight  && c.WEIGHT  <= request.maxWeight  &&
         x.BASIC_DMG >= request.minBasic && x.BASIC_DMG <= request.maxBasic &&
         x.SKILL_DMG >= request.minSkill && x.SKILL_DMG <= request.maxSkill &&
         x.ULT_DMG >= request.minUlt && x.ULT_DMG <= request.maxUlt &&

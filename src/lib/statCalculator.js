@@ -145,17 +145,14 @@ export const StatCalculator = {
     if (elementalMultipliers[6]) elementalDmg = 0.1 * Math.min(1, relicSets[11] >> 1) + (base[Constants.Stats.Imaginary_DMG]  + lc[Constants.Stats.Imaginary_DMG] + sum(relics, Constants.Stats.Imaginary_DMG) + trace[Constants.Stats.Imaginary_DMG])
 
     let cappedCrit = Math.min(hero[Constants.Stats.CR] + form.buffCr, 1)
-    let dmg = (hero[Constants.Stats.ATK] + form.buffAtk + (form.buffAtkP * (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]))) * (1 + hero[Constants.Stats.CD] + form.buffCd) * cappedCrit * (1 + elementalDmg)
-    let mcd = (hero[Constants.Stats.ATK] + form.buffAtk + (form.buffAtkP * (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]))) * (1 + hero[Constants.Stats.CD] + form.buffCd) * (1 + elementalDmg)
     let ehp = hero[Constants.Stats.HP] / (1 - hero[Constants.Stats.DEF] / (hero[Constants.Stats.DEF] + 200 + 10 * 80))
     let cv = 100 * (crSum * 2 + cdSum)
 
     hero.ED = elementalDmg
     hero.CV = cv
-    hero.DMG = dmg
-    hero.MCD = mcd
     hero.EHP = ehp
 
+    hero.WEIGHT = 0
     hero.BASIC = 0
     hero.SKILL = 0
     hero.ULT = 0

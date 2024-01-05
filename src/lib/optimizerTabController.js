@@ -112,6 +112,7 @@ export const OptimizerTabController = {
         // For custom ones remember to set the min/max in aggregate()
         'ED': true,
         'CV': true,
+        'WEIGHT': true,
         'EHP': true,
 
         'BASIC': true,
@@ -176,7 +177,7 @@ export const OptimizerTabController = {
             params.successCallback(subArray, rows.length)
           }
           optimizerGrid.current.api.hideOverlay()
-          OptimizerTabController.refreshPinned()
+          OptimizerTabController.redrawRows()
         })
       },
     };
@@ -246,6 +247,8 @@ export const OptimizerTabController = {
     newForm.minBe = unsetMin(form.minBe, true)
     newForm.maxCv = unsetMax(form.maxCv)
     newForm.minCv = unsetMin(form.minCv)
+    newForm.maxWeight = unsetMax(form.maxWeight)
+    newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxDmg = unsetMax(form.maxDmg)
     newForm.minDmg = unsetMin(form.minDmg)
     newForm.maxMcd = unsetMax(form.maxMcd)
@@ -416,6 +419,8 @@ export const OptimizerTabController = {
 
     x.maxCv = fixValue(x.maxCv, MAX_INT)
     x.minCv = fixValue(x.minCv, 0)
+    x.maxWeight = fixValue(x.maxWeight, MAX_INT)
+    x.minWeight = fixValue(x.minWeight, 0)
     x.maxDmg = fixValue(x.maxDmg, MAX_INT)
     x.minDmg = fixValue(x.minDmg, 0)
     x.maxMcd = fixValue(x.maxMcd, MAX_INT)
@@ -520,6 +525,10 @@ export const OptimizerTabController = {
     }
   },
 
+  redrawRows: () => {
+    optimizerGrid.current.api.redrawRows()
+  },
+
   applyRowFilters: () => {
     let fieldValues = OptimizerTabController.getForm()
     filterModel = fieldValues
@@ -562,6 +571,8 @@ function aggregate(subArray) {
   maxAgg['ED'] = 0
   minAgg['CV'] = Constants.MAX_INT
   maxAgg['CV'] = 0
+  minAgg['WEIGHT'] = Constants.MAX_INT
+  maxAgg['WEIGHT'] = 0
   minAgg['DMG'] = Constants.MAX_INT
   maxAgg['DMG'] = 0
   minAgg['MCD'] = Constants.MAX_INT
@@ -609,26 +620,58 @@ function sort() {
 }
 
 function filter(filterModel) {
+  let isCombat = filterModel.statDisplay == 'combat'
   let indices = []
-  for (let i = 0; i < rows.length; i++) {
-    let row = rows[i]
-    let valid = 
-      row[Constants.Stats.HP] >= filterModel.minHp && row[Constants.Stats.HP] <= filterModel.maxHp &&
-      row[Constants.Stats.ATK] >= filterModel.minAtk && row[Constants.Stats.ATK] <= filterModel.maxAtk &&
-      row[Constants.Stats.DEF] >= filterModel.minDef && row[Constants.Stats.DEF] <= filterModel.maxDef &&
-      row[Constants.Stats.SPD] >= filterModel.minSpd && row[Constants.Stats.SPD] <= filterModel.maxSpd &&
-      row[Constants.Stats.CR] >= filterModel.minCr && row[Constants.Stats.CR] <= filterModel.maxCr &&
-      row[Constants.Stats.CD] >= filterModel.minCd && row[Constants.Stats.CD] <= filterModel.maxCd &&
-      row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr &&
-      row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes &&
-      row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe &&
-      row['CV'] >= filterModel.minCv && row['CV'] <= filterModel.maxCv &&
-      row['DMG'] >= filterModel.minDmg && row['DMG'] <= filterModel.maxDmg &&
-      row['MCD'] >= filterModel.minMcd && row['MCD'] <= filterModel.maxMcd &&
-      row['EHP'] >= filterModel.minEhp && row['EHP'] <= filterModel.maxEhp
 
-    if (valid) {
-      indices.push(i)
+  if (isCombat) {
+    for (let i = 0; i < rows.length; i++) {
+      let row = rows[i]
+      let valid =
+        row.xHP  >= filterModel.minHp  && row.xHP  <= filterModel.maxHp &&
+        row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk &&
+        row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef &&
+        row.xSPD >= filterModel.minSpd && row.xSPD <= filterModel.maxSpd &&
+        row.xCR  >= filterModel.minCr  && row.xCR  <= filterModel.maxCr &&
+        row.xCD  >= filterModel.minCd  && row.xCD  <= filterModel.maxCd &&
+        row.xEHR >= filterModel.minEhr && row.xEHR <= filterModel.maxEhr &&
+        row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes &&
+        row.xBE  >= filterModel.minBe  && row.xBE  <= filterModel.maxBe &&
+        row.CV   >= filterModel.minCv  && row.CV   <= filterModel.maxCv &&
+        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
+        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
+        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
+        row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
+        row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
+      if (valid) {
+        indices.push(i)
+      }
+    }
+  } else {
+    for (let i = 0; i < rows.length; i++) {
+      let row = rows[i]
+      let valid =
+        row[Constants.Stats.HP]  >= filterModel.minHp  && row[Constants.Stats.HP]  <= filterModel.maxHp &&
+        row[Constants.Stats.ATK] >= filterModel.minAtk && row[Constants.Stats.ATK] <= filterModel.maxAtk &&
+        row[Constants.Stats.DEF] >= filterModel.minDef && row[Constants.Stats.DEF] <= filterModel.maxDef &&
+        row[Constants.Stats.SPD] >= filterModel.minSpd && row[Constants.Stats.SPD] <= filterModel.maxSpd &&
+        row[Constants.Stats.CR]  >= filterModel.minCr  && row[Constants.Stats.CR]  <= filterModel.maxCr &&
+        row[Constants.Stats.CD]  >= filterModel.minCd  && row[Constants.Stats.CD]  <= filterModel.maxCd &&
+        row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr &&
+        row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes &&
+        row[Constants.Stats.BE]  >= filterModel.minBe  && row[Constants.Stats.BE]  <= filterModel.maxBe &&
+        row.CV     >= filterModel.minCv     && row.CV     <= filterModel.maxCv &&
+        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
+        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
+        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
+        row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
+        row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
+      if (valid) {
+        indices.push(i)
+      }
     }
   }
 

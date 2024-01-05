@@ -5,6 +5,7 @@ import {HeaderText} from "../components/HeaderText";
 import { Constants } from './constants'
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
+import {TooltipImage} from "../components/TooltipImage";
 
 let Stats = Constants.Stats
 function precisionRound(number, precision = 8) {
@@ -2042,8 +2043,9 @@ export const LightConeConditionals = {
     console.warn('getDisplayForLightCone', id)
     if (!id || !lightConeOptionMapping[id]) {
       return (
-        <Flex vertical gap={5}>
+        <Flex justify='space-between' align='center'>
           <HeaderText>Light cone passives</HeaderText>
+          <TooltipImage type={Hint.lightConePassives()} />
         </Flex>
       )
     }
@@ -2053,7 +2055,10 @@ export const LightConeConditionals = {
 
     return (
       <Flex vertical gap={5}>
-        <HeaderText>Light cone passives</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>Light cone passives</HeaderText>
+          <TooltipImage type={Hint.lightConePassives()} />
+        </Flex>
         {display}
       </Flex>
     )

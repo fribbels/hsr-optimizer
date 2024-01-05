@@ -82,7 +82,7 @@ export const FormSetConditionals = (props) => {
     return options
   }, []);
 
-  let defaultMessage = 'Enabled by default.'
+  let defaultMessage = 'Enabled by default - effects will apply to calculations.'
 
   return (
     <ConfigProvider

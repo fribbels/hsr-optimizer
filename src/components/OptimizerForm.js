@@ -391,13 +391,14 @@ export default function OptimizerForm() {
     let request = allValues
     let relics = DB.getRelics()
     console.log('Values changed', request, changedValues)
+
     // console.log('Unfiltered relics', relics)
+    relics = RelicFilters.applyEnhanceFilter(request, relics)
+    relics = RelicFilters.applyRankFilter(request, relics)
 
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
 
     relics = RelicFilters.applyMainFilter(request, relics)
-    relics = RelicFilters.applyEnhanceFilter(request, relics)
-    relics = RelicFilters.applyRankFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 
     relics = RelicFilters.splitRelicsByPart(relics)
@@ -643,7 +644,10 @@ export default function OptimizerForm() {
               {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
 
               <Flex vertical gap={5} style={{marginBottom: 5}}>
-                <HeaderText style={{}}>Enemy options</HeaderText>
+                <Flex justify='space-between' align='center'>
+                  <HeaderText style={{}}>Enemy options</HeaderText>
+                  <TooltipImage type={Hint.enemyOptions()} />
+                </Flex>
 
                 <Flex gap={defaultGap} justify='space-between'>
                   <Form.Item size="default" name='enemyLevel'>
@@ -972,7 +976,7 @@ export default function OptimizerForm() {
               <Flex vertical gap={defaultGap}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText>Substat weight filter</HeaderText>
-                  {/*<TooltipImage type={Hint.mainStats()} />*/}
+                  <TooltipImage type={Hint.substatWeightFilter()} />
                 </Flex>
 
                 <Flex vertical gap={0}>

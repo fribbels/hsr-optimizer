@@ -65,6 +65,9 @@ window.store = create((set) => ({
 
   conditionalSetEffectsDrawerOpen: false,
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+
+  selectedScoringCharacter: undefined,
+  setSelectedScoringCharacter: (x) => set(() => ({ selectedScoringCharacter: x })),
 }))
 
 export const DB = {

@@ -196,6 +196,7 @@ export const Optimizer = {
       let relics = DB.getRelics();
       relics = relics.filter(x => x.equippedBy == request.characterId)
       relics = addMainStatToAugmentedStats(relics);
+      relics = applyMaxedMainStatsFilter(request, relics);
       if (relics.length < 6) return
 
       relics = splitRelicsByPart(relics);

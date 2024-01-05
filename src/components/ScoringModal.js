@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useState, useMemo } from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {
   Button,
   Cascader,
@@ -49,92 +49,22 @@ const PStyled = styled.p`
   margin: '7px 0px'
 `
 
-function generateOrnamentsOptions() {
-  return Object.values(Constants.SetsOrnaments).map(x => {
-    return {
-      value: x,
-      label:
-        <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
-          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-            {x}
-          </div>
-        </Flex>
-    }
-  })
-}
-
-function generateRelicsOptions() {
-  return Object.values(Constants.SetsRelics).map(x => {
-    return {
-      value: x,
-      label:
-        <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-            {x}
-          </div>
-        </Flex>
-    }
-  })
-}
-
-function ornamentSetTagRenderer(props) {
-  const { label, value, closable, onClose } = props;
-  const onPreventMouseDown = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 32, alignItems: 'center', overflow: 'hidden' }}
-    >
-      <Flex>
-        <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 40, height: 40 }}></img>
-      </Flex>
-    </Tag>
-  );
-}
-
-function relicSetTagRenderer(props) {
-  const { label, value, closable, onClose } = props;
-  const onPreventMouseDown = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 32, alignItems: 'center', overflow: 'hidden' }}
-    >
-      <Flex>
-        <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 40, height: 40 }}></img>
-      </Flex>
-    </Tag>
-  );
-}
-
 export default function ScoringModal() {
   const [scoringAlgorithmForm] = Form.useForm();
-  const [selectedScoringCharacter, setSelectedScoringCharacter] = useState();
-  window.setSelectedScoringAlgorithmCharacter = function (character) {
-    setSelectedScoringCharacter(character)
-    if (character && character.id) {
-      characterSelectorChange(character.id)
-    }
-  }
+  window.scoringAlgorithmForm = scoringAlgorithmForm
+
+  let selectedScoringCharacter = store(s => s.selectedScoringCharacter);
+  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
   window.setIsScoringModalOpen = setIsScoringModalOpen
 
-
   function characterSelectorChange(id) {
-    setSelectedScoringCharacter(characterOptions.find(x => x.id == id))
+    setSelectedScoringCharacter(id)
+  }
+
+  useEffect(() => {
+    let id = selectedScoringCharacter
     if (id) {
       let defaultScores = JSON.parse(JSON.stringify(DB.getMetadata().characters[id].scores))
       defaultScores.characterId = id
@@ -147,7 +77,7 @@ export default function ScoringModal() {
 
       console.log(defaultScores)
     }
-  }
+  }, [selectedScoringCharacter, isScoringModalOpen])
 
   const panelWidth = 225
   const defaultGap = 5
@@ -164,12 +94,6 @@ export default function ScoringModal() {
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
-  const showModal = () => {
-    setIsScoringModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsScoringModalOpen(false);
-  };
   const handleCancel = () => {
     setIsScoringModalOpen(false);
   };
@@ -205,13 +129,13 @@ export default function ScoringModal() {
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
 
     x.modified = true
-    DB.getMetadata().characters[selectedScoringCharacter.id].scores = x
+    DB.getMetadata().characters[selectedScoringCharacter].scores = x
   };
 
   const filterOption = (input, option) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-  let previewSrc = (selectedScoringCharacter && selectedScoringCharacter.id) ? Assets.getCharacterPreviewById(selectedScoringCharacter.id) : Assets.getBlank()
+  let previewSrc = (selectedScoringCharacter) ? Assets.getCharacterPreviewById(selectedScoringCharacter) : Assets.getBlank()
   
   let methodologyCollapse = (
     <Text>
@@ -467,68 +391,7 @@ export default function ScoringModal() {
           children: methodologyCollapse
         }]}>
         </Collapse>
-{/* 
-        <Divider />
-
-        <Flex justify='space-between' align='center'>
-
-          <Flex vertical gap={1} justify='flex-start'>
-            <Text style={{ marginLeft: 5 }}>
-              Relic sets
-            </Text>
-            <Form.Item size="default" name='relicSets'>
-              <Select
-                dropdownStyle={{
-                  width: 250
-                }}
-                size={"large"}
-                listHeight={800}
-                mode="multiple"
-                allowClear
-                style={{
-                  width: selectWidth
-                }}
-                options={generateRelicsOptions()}
-                tagRender={relicSetTagRenderer}
-                placeholder="Relic Sets"
-                maxTagCount='responsive'>
-              </Select>
-            </Form.Item>
-          </Flex>
-
-
-          <Flex vertical gap={1} justify='flex-start'>
-            <Text style={{ marginLeft: 5 }}>
-              Planar Ornaments
-            </Text>
-            <Form.Item size="default" name='ornamentSets'>
-              <Select
-                dropdownStyle={{
-                  width: 250
-                }}
-                size={"large"}
-                listHeight={500}
-                mode="multiple"
-                allowClear
-                style={{
-                  width: selectWidth
-                }}
-                options={generateOrnamentsOptions()}
-                tagRender={ornamentSetTagRenderer}
-                placeholder="Planar Ornaments"
-                maxTagCount='responsive'>
-              </Select>
-            </Form.Item>
-          </Flex>
-        </Flex> */}
       </Form>
     </Modal>
   );
 };
-
-
-// footer={[
-//   <Button form={scoringAlgorithmForm} key="submit" htmlType="submit">
-//       Submit
-//   </Button>
-// ]}

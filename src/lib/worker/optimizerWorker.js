@@ -348,11 +348,9 @@ self.onmessage = function (e) {
       x.ELEMENTAL_DMG += damageBonus
 
       let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
-      let ehp = 0 // x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * 80)) * (1 + 0.08*p2(sets.GuardOfWutheringSnow))
       let cv = 100 * (crSum * 2 + cdSum)
 
       c.CV = cv
-      c.EHP = ehp
 
       // ************************************************************
       // Add % sum back to the base
@@ -381,6 +379,10 @@ self.onmessage = function (e) {
 
       let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG + request.buffDmgBoost
       let dmgReductionMultiplier = 1
+
+      let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
+      ehp *= 1 / ((1 - 0.08*p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
+      c.EHP = ehp
 
       let universalMulti = dmgReductionMultiplier * brokenMultiplier
 

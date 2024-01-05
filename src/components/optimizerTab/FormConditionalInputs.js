@@ -1,4 +1,4 @@
-import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
+import {Flex, Form, InputNumber, Popover, Slider, Switch, Typography} from "antd";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import React, {useState} from "react";
 import styled from "styled-components";

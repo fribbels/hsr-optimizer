@@ -3,6 +3,7 @@ import React from "react";
 import {HeaderText} from "../components/HeaderText";
 import { Constants } from './constants'
 import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
+import {TooltipImage} from "../components/TooltipImage";
 
 let Stats = Constants.Stats
 
@@ -95,7 +96,7 @@ const baseComputedStatsObject = {
   DMG_TAKEN_MULTI: 0,
   ALL_DMG_MULTI: 0,
   RES_PEN: 0,
-  DMG_RED_MULTI: 0, // TODO should be multiplicative
+  DMG_RED_MULTI: 1,
 
   BASIC_CR_BOOST: 0,
   SKILL_CR_BOOST: 0,
@@ -584,8 +585,8 @@ function firetrailblazer(e) {
       x.SKILL_SCALING += skillScaling
 
       // Boost
-      x.DMG_RED_MULTI += (r.skillActive) ? skillDamageReductionValue : 0
-      x.DMG_RED_MULTI += (r.skillActive) ? 0.15 : 0
+      x.DMG_RED_MULTI *= (r.skillActive) ? (1 - skillDamageReductionValue) : 1
+      x.DMG_RED_MULTI *= (r.skillActive) ? (1 - 0.15) : 1
 
       return x
     },
@@ -868,6 +869,7 @@ function sushang(e) {
 
       // Boost
       x.SKILL_BOOST += r.skillTriggerStacks * 0.025 * stanceScalingProportion
+      x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
 
       return x
     },
@@ -1073,11 +1075,13 @@ function sampo(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff'/>
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={4} />
+        <FormSwitch name='targetWindShear' text='Target has wind shear'/>
       </Flex>
     ),
     defaults: () => ({
       targetDotTakenDebuff: true,
       skillExtraHits: 4,
+      targetWindShear: true
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -1095,6 +1099,7 @@ function sampo(e) {
 
       // Boost
       x.DOT_VULNERABILITY += (r.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
+      x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
 
       return x
     },
@@ -2157,7 +2162,7 @@ function fuxuan(e) {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      x.DMG_RED_MULTI += talentDmgReductionValue
+      x.DMG_RED_MULTI *= (1 - talentDmgReductionValue)
 
       return x
     },
@@ -2274,9 +2279,9 @@ function clara(e) {
       x.FUA_SCALING += r.ultBuff ? ultFuaExtraScaling : 0
 
       // Boost
-      x.DMG_RED_MULTI += 0.10
-      x.DMG_RED_MULTI += r.ultBuff ? ultDmgReductionValue : 0
-      x.DMG_RED_MULTI += (e >= 4 && r.e4DmgReductionBuff) ? 0.30 : 0
+      x.DMG_RED_MULTI *= (1 - 0.10)
+      x.DMG_RED_MULTI *= r.ultBuff ? (1 - ultDmgReductionValue) : 1
+      x.DMG_RED_MULTI *= (e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1
       x.FUA_BOOST += 0.30
 
       return x
@@ -2487,7 +2492,7 @@ function bailu(e) {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      x.DMG_RED_MULTI += (r.talentDmgReductionBuff) ? 0.10 : 0
+      x.DMG_RED_MULTI *= (r.talentDmgReductionBuff) ? (1 - 0.10) : 1
       x.ALL_DMG_MULTI += (e >= 4) ? r.e4SkillHealingDmgBuffStacks * 0.10 : 0
 
       return x
@@ -2774,8 +2779,9 @@ export const CharacterConditionals = {
     console.warn('getDisplayForCharacter', id)
     if (!id || !characterOptionMapping[id]) {
       return (
-        <Flex vertical gap={5}>
+        <Flex justify='space-between' align='center'>
           <HeaderText>Character passives</HeaderText>
+          <TooltipImage type={Hint.characterPassives()} />
         </Flex>
       )
     }
@@ -2785,7 +2791,10 @@ export const CharacterConditionals = {
 
     return (
       <Flex vertical gap={5}>
-        <HeaderText>Character passives</HeaderText>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>Character passives</HeaderText>
+          <TooltipImage type={Hint.characterPassives()} />
+        </Flex>
         {display}
       </Flex>
     )

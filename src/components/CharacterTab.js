@@ -79,6 +79,8 @@ export default function CharacterTab(props) {
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
+  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+
   const characterTabSelectedId = store(s => s.characterTabSelectedId)
   const setCharacterTabSelectedId = store(s => s.setCharacterTabSelectedId)
   const charactersById = store(s => s.charactersById)
@@ -184,7 +186,8 @@ export default function CharacterTab(props) {
   }
 
   function scoringAlgorithmClicked() {
-    setSelectedScoringAlgorithmCharacter(characterTabSelectedId)
+    console.log('Scoring algorithm clicked', characterTabSelectedId)
+    setSelectedScoringCharacter(characterTabSelectedId)
     setIsScoringModalOpen(true)
   }
 

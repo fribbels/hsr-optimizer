@@ -62,12 +62,18 @@ const App = () => {
       {messageContextHolder}
         <Layout hasSider style={{ 'minHeight': '100%' }}>
           <Sider
-            width={200}
+            width={170}
             style={{
               overflow: 'auto',
               height: '100vh',
               position: 'sticky',
               top: 0,
+            }}
+            breakpoint="xxl"
+            collapsedWidth="50"
+            onBreakpoint={(broken) => {
+            }}
+            onCollapse={(collapsed, type) => {
             }}
           >
             <MenuDrawer hashes={hashes}/>

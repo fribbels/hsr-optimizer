@@ -240,3 +240,11 @@ a {
 .ant-input-number-group-addon {
   padding: 0 3px !important;
 }
+
+.ant-menu-submenu-title {
+  padding-left: 10px !important;
+}
+.ant-menu-item-only-child {
+  padding-left: 34px !important;
+
+}

@@ -87,7 +87,7 @@ function saveDataTab() {
         Save your optimizer data to a file.
       </Text>
       <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{width: 200}}>
-        Save Data
+        Save data
       </Button>
     </Flex>
   )
@@ -121,7 +121,7 @@ function clearDataTab() {
         cancelText="Cancel"
       >
         <Button type="primary" loading={loading} style={{width: 200}}>
-          Clear Data
+          Clear data
         </Button>
       </Popconfirm>
     </Flex>
@@ -148,14 +148,26 @@ function loadDataTab() {
         console.log('Uploaded file', fileUploadText);
 
 
-        let save = JSON.parse(fileUploadText)
-        console.log('Parsed save', save);
+        let json = JSON.parse(fileUploadText)
+        console.log('Parsed json', json);
+
+
+        if (json.fileType || json.source) {
+          setLoading1(true)
+
+          setTimeout(() => {
+            setLoading1(false)
+            setCurrentSave(undefined)
+            onStepChange(1)
+          }, spinnerMs);
+          return
+        }
 
         setLoading1(true)
         
         setTimeout(() => {
           setLoading1(false)
-          setCurrentSave(save)
+          setCurrentSave(json)
           onStepChange(1)
         }, spinnerMs);
       };
@@ -189,7 +201,7 @@ function loadDataTab() {
             onClick={onUploadClick}
             beforeUpload={beforeUpload}>
             <Button style={{width: 200}} icon={<UploadOutlined />} loading={loading1}>
-              Load Save Data
+              Load save data
             </Button>
           </Upload>
         </Flex>
@@ -202,7 +214,7 @@ function loadDataTab() {
       return (
         <Flex style={{minHeight: 100}}>
           <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
-            Invalid save file, please try a different file
+            Invalid save file, please try a different file. Did you mean to use Relic Importer tab?
           </Flex>
         </Flex>
       )
@@ -403,7 +415,7 @@ function relicImporterTab() {
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
 
           <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
-            Merge relics
+            Import relics
           </Button>
 
           <Divider/>
@@ -418,7 +430,7 @@ function relicImporterTab() {
             cancelText="Cancel"
           >
             <Button style={{width: 200}} type="primary" loading={loading2}>
-              Merge relics & characters
+              Import relics & characters
             </Button>
           </Popconfirm>
         </Flex>

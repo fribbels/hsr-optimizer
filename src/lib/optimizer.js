@@ -283,7 +283,7 @@ export const Optimizer = {
 
         if ((results.length >= MAX_RESULTS) && !CANCEL) {
           CANCEL = true;
-          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to reduce results', 10)
+          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
         }
       }
 

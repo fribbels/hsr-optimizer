@@ -11,7 +11,6 @@ const StatText = styled(Text)`
   font-weight: 400;
 `
 
-
 let defaultGap = 8;
 let parentH = 280 * 3 + defaultGap * 2;
 let parentW = 150 + 200 + defaultGap;
@@ -59,7 +58,6 @@ export function CharacterPreview(props) {
     </Flex>
   )
 
-
   let displayRelics
   let scoringResults
   let finalStats
@@ -83,7 +81,6 @@ export function CharacterPreview(props) {
   let scoredRelics = scoringResults.relics || []
 
   console.log('SCORING RESULTS', scoringResults)
-
 
   console.log({ finalStats })
   console.log({ character })

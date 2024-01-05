@@ -176,7 +176,7 @@ export const OptimizerTabController = {
             params.successCallback(subArray, rows.length)
           }
           optimizerGrid.current.api.hideOverlay()
-          // OptimizerTabController.refreshPinned()
+          OptimizerTabController.refreshPinned()
         })
       },
     };
@@ -360,7 +360,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.warn('!!!!', form, newForm, defaultOptions)
+    console.log('Form update', form, newForm, defaultOptions)
     return newForm
   },
 
@@ -568,7 +568,6 @@ function aggregate(subArray) {
   maxAgg['MCD'] = 0
   minAgg['EHP'] = Constants.MAX_INT
   maxAgg['EHP'] = 0
-
 
   setMinMax('BASIC')
   setMinMax('SKILL')

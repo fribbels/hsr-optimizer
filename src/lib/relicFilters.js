@@ -17,22 +17,6 @@ export const RelicFilters = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    let substatWeights = {
-      [Constants.Stats.HP_P]: 'atk' || 0,
-      [Constants.Stats.ATK_P]: weights[Constants.Stats.ATK_P] || 0,
-      [Constants.Stats.DEF_P]: weights[Constants.Stats.DEF_P] || 0,
-      [Constants.Stats.SPD_P]: weights[Constants.Stats.SPD_P] || 0,
-      [Constants.Stats.HP]: weights[Constants.Stats.HP] || 0,
-      [Constants.Stats.ATK]: weights[Constants.Stats.ATK] || 0,
-      [Constants.Stats.DEF]: weights[Constants.Stats.DEF] || 0,
-      [Constants.Stats.SPD]: weights[Constants.Stats.SPD] || 0,
-      [Constants.Stats.CD]: weights[Constants.Stats.CD] || 0,
-      [Constants.Stats.CR]: weights[Constants.Stats.CR] || 0,
-      [Constants.Stats.EHR]: weights[Constants.Stats.EHR] || 0,
-      [Constants.Stats.RES]: weights[Constants.Stats.RES] || 0,
-      [Constants.Stats.BE]: weights[Constants.Stats.BE] || 0,
-    }
-
     weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P]
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
@@ -57,8 +41,6 @@ export const RelicFilters = {
       let index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
       relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
     }
-    console.log('!!! top filter', request)
-    console.log('!!! top filter', relics)
 
     return relics
   },

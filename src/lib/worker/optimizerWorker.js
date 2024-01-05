@@ -16,12 +16,7 @@ function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSp
   return summedStats
 }
 
-function calculateFlatStat(stat, statP, base, lc, trace, relicSum, setEffects) {
-  let result = (base[stat] + lc[stat]) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
-  return result
-}
-
-function calculateFlatStat2(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
+function calculateFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
   let result = (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
   return result
 }
@@ -199,21 +194,21 @@ self.onmessage = function (e) {
       // Calculate display stats with unconditional sets
       // ************************************************************
 
-      c[Stats.HP]  = calculateFlatStat2(Stats.HP,  Stats.HP_P,  baseHp,  lc, trace, c,
+      c[Stats.HP]  = calculateFlatStat(Stats.HP,  Stats.HP_P,  baseHp,  lc, trace, c,
         0.12*p2(sets.FleetOfTheAgeless) +
         0.12*p2(sets.LongevousDisciple))
 
-      c[Stats.ATK] = calculateFlatStat2(Stats.ATK, Stats.ATK_P, baseAtk, lc, trace, c,
+      c[Stats.ATK] = calculateFlatStat(Stats.ATK, Stats.ATK_P, baseAtk, lc, trace, c,
         0.12*p2(sets.SpaceSealingStation) +
         0.12*p2(sets.FirmamentFrontlineGlamoth) +
         0.12*p2(sets.MusketeerOfWildWheat) +
         0.12*p2(sets.PrisonerInDeepConfinement))
 
-      c[Stats.DEF] = calculateFlatStat2(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, c,
+      c[Stats.DEF] = calculateFlatStat(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, c,
         0.15*p2(sets.BelobogOfTheArchitects) +
         0.15*p2(sets.KnightOfPurityPalace))
 
-      c[Stats.SPD] = calculateFlatStat2(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
+      c[Stats.SPD] = calculateFlatStat(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
         0.06*p2(sets.MessengerTraversingHackerspace) +
         0.06*p4(sets.MusketeerOfWildWheat))
 

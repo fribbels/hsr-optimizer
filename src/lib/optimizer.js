@@ -235,8 +235,6 @@ export const Optimizer = {
     handleTopRow()
 
     for (let run = 0; run < runs; run++) {
-      // const arr = new Float32Array(WIDTH * HEIGHT * 40) // todo reuse these
-
       let input = {
         setAllowList: relicSetAllowList,
         relics: relics,
@@ -283,13 +281,14 @@ export const Optimizer = {
 
         if ((results.length >= MAX_RESULTS) && !CANCEL) {
           CANCEL = true;
+          Optimizer.cancel(request.optimizationId)
           Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
         }
       }
 
       
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 50)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 100)
     }
   }
 }

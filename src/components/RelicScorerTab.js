@@ -39,6 +39,9 @@ export default function RelicScorerTab(props) {
   const [loading, setLoading] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([])
 
+  let scorerId = store(s => s.scorerId);
+  let setScorerId = store(s => s.setScorerId);
+
   const [scorerForm] = Form.useForm();
   window.scorerForm = scorerForm
 
@@ -55,7 +58,7 @@ export default function RelicScorerTab(props) {
       body: x.scorerId, 
     };
 
-    DB.setScorerId(x.scorerId);
+    setScorerId(x.scorerId);
     SaveState.save()
 
     fetch('http://127.0.0.1:5000/getAccount', options)
@@ -131,7 +134,7 @@ export default function RelicScorerTab(props) {
       setIsScoringModalOpen(true)
     }
 
-    async function downloadClicked() {
+    async function downloadClicked() { // deprecated
       setDownloadLoading(true);
 
       Utils.screenshotElement(document.getElementById('previewWrapper')).then(src => {
@@ -155,14 +158,6 @@ export default function RelicScorerTab(props) {
           >
             Scoring algorithm
           </Button>
-          <Button
-            type="primary"
-            style={{ display: selectedCharacter ? 'block' : 'none', width: 200 }}
-            loading={downloadLoading}
-            onClick={downloadClicked}
-          >
-            Save as image
-          </Button>
         </Flex>
         <Flex vertical align='center'>
           <Segmented options={options} onChange={selectionChange} />
@@ -184,7 +179,7 @@ export default function RelicScorerTab(props) {
     )
   }
   let initialId = undefined
-  let savedId = DB.getScorerId() 
+  let savedId = scorerId
   if (savedId) {
     try {
       let parsed = parseInt(savedId)
@@ -199,7 +194,6 @@ export default function RelicScorerTab(props) {
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
-          <Text style={{fontSize: 20}}>The relic scorer is down for maintenance temporarily, please check back later!</Text>
         </Flex>
         <Form
           form={scorerForm}

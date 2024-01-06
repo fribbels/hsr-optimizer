@@ -94,7 +94,6 @@ export const CharacterConverter = {
 
 function convertRelic(preRelic) {
   try {
-    console.log('!! DEBUG', preRelic)
     let metadata = DB.getMetadata().relics
     let tid = '' + preRelic.tid
 

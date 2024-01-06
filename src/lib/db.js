@@ -63,6 +63,9 @@ window.store = create((set) => ({
   activeKey: 'optimizer',
   setActiveKey: (x) => set(() => ({ activeKey: x })),
 
+  scorerId: undefined,
+  setScorerId: (x) => set(() => ({ scorerId: x })),
+
   conditionalSetEffectsDrawerOpen: false,
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
 
@@ -71,8 +74,7 @@ window.store = create((set) => ({
 }))
 
 export const DB = {
-  getScorerId: () => state.scorerId,
-  setScorerId: (x) => state.scorerId = x,
+  getScorerId: () => store.getState().scorerId,
 
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
@@ -159,10 +161,13 @@ export const DB = {
         relic.equippedBy = undefined
       }
     }
+
+    store.getState().setScorerId(x.scorerId)
+
     assignRanks(x.characters)
     DB.setRelics(x.relics)
     DB.setCharacters(x.characters)
-    
+
     DB.refreshCharacters()
     DB.refreshRelics()
     SaveState.save()

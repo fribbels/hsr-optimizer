@@ -20,7 +20,7 @@ export const RelicRollFixer = {
     let base = affix.base
     let totalValue = base + step * enhance
 
-    return Utils.isFlat(stat) ? totalValue : totalValue * 100
+    return Utils.isFlat(stat) ? Utils.precisionRound(totalValue, 5) : Utils.precisionRound(totalValue * 100, 5)
   },
 
   fixSubStatValue: (stat, value, grade) => {

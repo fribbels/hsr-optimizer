@@ -28,6 +28,7 @@ export function getDefaultForm(initialCharacter) {
     "enemyHpPercent": 1.0,
     "mainHead": [],
     "mainHands": [],
+    "statDisplay": 'base',
     "weights": {
       [Constants.Stats.HP_P]: 1,
       [Constants.Stats.ATK_P]: 1,

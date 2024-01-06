@@ -61,8 +61,12 @@ export const OcrParserKelz3 = {
         lightCone = json.light_cones.find(x => x.location == character.key)
       }
 
-      let result = readCharacter(character, lightCone);
-      parsedCharacters.push(result);
+      try {
+        let result = readCharacter(character, lightCone);
+        parsedCharacters.push(result);
+      } catch (e) {
+        Message.warning(`Error reading a character [${character?.key}], try running the scanner again with a dark background to improve scan accuracy`, 10)
+      }
     }
 
     return parsedCharacters

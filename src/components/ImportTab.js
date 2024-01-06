@@ -286,47 +286,53 @@ function relicImporterTab() {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
-        let fileUploadText = reader.result;
-        // console.log('Uploaded text relicImporterTab', fileUploadText);
-        
-        let json = JSON.parse(fileUploadText);
-        console.log('JSON', json);
+        try {
+          let fileUploadText = reader.result;
+          // console.log('Uploaded text relicImporterTab', fileUploadText);
 
-        setLoading1(true)
+          let json = JSON.parse(fileUploadText);
+          console.log('JSON', json);
 
-        if (!json) {
+          setLoading1(true)
+
+          if (!json) {
+            setTimeout(() => {
+              setLoading1(false)
+              setCurrentRelics(undefined)
+              setCurrentCharacters(undefined)
+              onStepChange(1)
+            }, spinnerMs);
+            return
+          }
+
+          let relics = [], characters = []
+          if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
+            relics = OcrParserFribbels1.parse(json);
+          } else if (json.source == 'HSR-Scanner' && json.version == 3) {
+            relics = OcrParserKelz3.parse(json);
+            characters = OcrParserKelz3.parseCharacters(json);
+            characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+          } else {
+            setTimeout(() => {
+              setLoading1(false)
+              setCurrentRelics(undefined)
+              setCurrentCharacters(undefined)
+              onStepChange(1)
+            }, spinnerMs);
+            return
+          }
+
           setTimeout(() => {
             setLoading1(false)
-            setCurrentRelics(undefined)
-            setCurrentCharacters(undefined)
+            setCurrentRelics(relics)
+            setCurrentCharacters(characters)
             onStepChange(1)
           }, spinnerMs);
-          return
-        }
 
-        let relics = [], characters = []
-        if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
-          relics = OcrParserFribbels1.parse(json);
-        } else if (json.source == 'HSR-Scanner' && json.version == 3) {
-          relics = OcrParserKelz3.parse(json);
-          characters = OcrParserKelz3.parseCharacters(json);
-          characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-        } else {
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentRelics(undefined)
-            setCurrentCharacters(undefined)
-            onStepChange(1)
-          }, spinnerMs);
-          return
+        } catch (e) {
+          Message.error(e.message, 10)
+          Message.error('Error occured while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
-
-        setTimeout(() => {
-          setLoading1(false)
-          setCurrentRelics(relics)
-          setCurrentCharacters(characters)
-          onStepChange(1)
-        }, spinnerMs);
       };
       return false;
     });

@@ -17,6 +17,13 @@ import {getDefaultForm} from "../lib/defaultForm";
 // let characterTabBlur = store(s => s.characterTabBlur);
 // let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
 
+// TODO clean up
+let hashes = [
+  '#scorer',
+  '#getting-started',
+  '#beta'
+]
+
 window.store = create((set) => ({
   relicsById: {},
   setRelicsById: (x) => set(() => ({ relicsById: x })),
@@ -60,7 +67,7 @@ window.store = create((set) => ({
   statDisplay: 'base',
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
 
-  activeKey: 'optimizer',
+  activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
   setActiveKey: (x) => set(() => ({ activeKey: x })),
 
   scorerId: undefined,

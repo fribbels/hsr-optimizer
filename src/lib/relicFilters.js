@@ -1,4 +1,50 @@
 export const RelicFilters = {
+  applyTopFilter: (request, relics, originalRelics) => {
+    let weights = request.weights || {}
+    let statScalings = {
+      [Constants.Stats.HP_P]: 64.8 / 43.2,
+      [Constants.Stats.ATK_P]: 64.8 / 43.2,
+      [Constants.Stats.DEF_P]: 64.8 / 54,
+      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
+      [Constants.Stats.CR]: 64.8 / 32.4,
+      [Constants.Stats.CD]: 64.8 / 64.8,
+      [Constants.Stats.OHB]: 64.8 / 34.5,
+      [Constants.Stats.EHR]: 64.8 / 43.2,
+      [Constants.Stats.RES]: 64.8 / 43.2,
+      [Constants.Stats.SPD]: 64.8 / 25,
+      [Constants.Stats.BE]: 64.8 / 64.8,
+    }
+
+    weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P]
+    weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
+    weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
+
+    for (let weight of Object.keys(weights)) {
+      if (weights[weight] == undefined) {
+        weights[weight] = 0
+      }
+    }
+    for (let part of Object.values(Constants.Parts)) {
+      let partition = relics[part]
+      for (let relic of partition) {
+        let sum = 0
+        for (let substat of relic.substats) {
+          let weight = weights[substat.stat] || 0
+          let scale = statScalings[substat.stat] || 0
+          let value = substat.value || 0
+          sum += value * weight * scale
+        }
+        relic.weightScore = sum
+      }
+      let index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
+      relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
+    }
+
+    return relics
+  },
+
   applyRankFilter: (request, relics) => {
     if (!request.rankFilter) return relics;
 
@@ -13,13 +59,12 @@ export const RelicFilters = {
 
       Object.values(rankedCharacter.equipped)
         .filter(x => x != null && x != undefined)
-        .map(x => higherRankedRelics[x.id] = x)
+        .map(x => higherRankedRelics[x] = true)
     }
 
     return relics = relics.filter(x => !higherRankedRelics[x.id])
   },
 
-  
   applyMainFilter: (request, relics) => {
     let out = []
     out.push(...relics.filter(x => x.part == Constants.Parts.Head))
@@ -132,8 +177,11 @@ export const RelicFilters = {
     }
 
     function matchingRelic(part) {
-      let match = character.equipped[part] ? relics[part].find(x => x.id == character.equipped[part].id) : undefined
-      return match ? [match] : relics[part]
+      if (!character.equipped[part]) {
+        return relics[part]
+      }
+      let match = relics[part].find(x => x.id == character.equipped[part])
+      return match ? [match] : []
     }
     
     return {
@@ -144,21 +192,6 @@ export const RelicFilters = {
       PlanarSphere: matchingRelic(Constants.Parts.PlanarSphere),
       LinkRope: matchingRelic(Constants.Parts.LinkRope)
     }
-    // let matchingHead = character.equipped.Head ? relics.Head.find(x => x.id == character.equipped.Head.id) : undefined
-    // let matchingHands = character.equipped.Hands ? relics.Hands.find(x => x.id == character.equipped.Hands.id) : undefined
-    // let matchingBody = relics.Body.find(x => x.id == character.equipped.Body.id)
-    // let matchingFeet = relics.Feet.find(x => x.id == character.equipped.Feet.id)
-    // let matchingPlanarSphere = relics.PlanarSphere.find(x => x.id == character.equipped.PlanarSphere.id)
-    // let matchingLinkRope = relics.LinkRope.find(x => x.id == character.equipped.LinkRope.id)
-
-    // return {
-    //   Head: matchingHead ? [matchingHead] : relics.Head,
-    //   Hands: matchingHands ? [matchingHands] : relics.Hands,
-    //   Body: matchingBody ? [matchingBody] : relics.Body,
-    //   Feet: matchingFeet ? [matchingFeet] : relics.Feet,
-    //   PlanarSphere: matchingPlanarSphere ? [matchingPlanarSphere] : relics.PlanarSphere,
-    //   LinkRope: matchingLinkRope ? [matchingLinkRope] : relics.LinkRope
-    // }
   },
   
   splitRelicsByPart: (relics) => {

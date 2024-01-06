@@ -33,11 +33,14 @@ import { SaveState } from '../lib/saveState';
 const { TextArea } = Input;
 const { Text } = Typography;
 
-export default function RelicScorerTab({ style }) {
+export default function RelicScorerTab(props) {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([])
+
+  let scorerId = store(s => s.scorerId);
+  let setScorerId = store(s => s.setScorerId);
 
   const [scorerForm] = Form.useForm();
   window.scorerForm = scorerForm
@@ -55,9 +58,10 @@ export default function RelicScorerTab({ style }) {
       body: x.scorerId, 
     };
 
-    DB.setScorerId(x.scorerId);
+    setScorerId(x.scorerId);
     SaveState.save()
 
+    // fetch('http://127.0.0.1:5000/getAccount', options)
     fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
       .then(response => {
         if (!response.ok) {
@@ -74,14 +78,14 @@ export default function RelicScorerTab({ style }) {
         }
         data = data.data
         let characters = [
-          data.detail_info.assist_avatar,
-          data.detail_info.avatar_detail_list[0],
-          data.detail_info.avatar_detail_list[1],
-          data.detail_info.avatar_detail_list[2],
+          data.detailInfo.avatarDetailList[3],
+          data.detailInfo.avatarDetailList[0],
+          data.detailInfo.avatarDetailList[1],
+          data.detailInfo.avatarDetailList[2],
         ]
         .filter(x => !!x)
         .filter((item, index, array) => {
-          return array.findIndex((i) => i.avatar_id === item.avatar_id) === index;
+          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
         });
 
 
@@ -89,8 +93,8 @@ export default function RelicScorerTab({ style }) {
 
         let converted = characters.map(x => CharacterConverter.convert(x))
         setAvailableCharacters(converted)
-        console.log(converted)
         setLoading(false)
+        console.log(converted)
       })
       .catch(error => {
         console.error('Fetch error:', error);
@@ -130,7 +134,7 @@ export default function RelicScorerTab({ style }) {
       setIsScoringModalOpen(true)
     }
 
-    async function downloadClicked() {
+    async function downloadClicked() { // deprecated
       setDownloadLoading(true);
 
       Utils.screenshotElement(document.getElementById('previewWrapper')).then(src => {
@@ -154,14 +158,6 @@ export default function RelicScorerTab({ style }) {
           >
             Scoring algorithm
           </Button>
-          <Button
-            type="primary"
-            style={{ display: selectedCharacter ? 'block' : 'none', width: 200 }}
-            loading={downloadLoading}
-            onClick={downloadClicked}
-          >
-            Save as image
-          </Button>
         </Flex>
         <Flex vertical align='center'>
           <Segmented options={options} onChange={selectionChange} />
@@ -183,7 +179,7 @@ export default function RelicScorerTab({ style }) {
     )
   }
   let initialId = undefined
-  let savedId = DB.getScorerId() 
+  let savedId = scorerId
   if (savedId) {
     try {
       let parsed = parseInt(savedId)
@@ -194,11 +190,10 @@ export default function RelicScorerTab({ style }) {
   }
 
   return (
-    <div style={style}>
+    <div style={{display: props.active ? 'block' : 'none'}}>
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
-          <Text style={{fontSize: 20}}>The relic scorer is down for maintenance temporarily, please check back later!</Text>
         </Flex>
         <Form
           form={scorerForm}

@@ -1,22 +1,9 @@
 import logo from './logo.svg';
 
 import React, {useEffect} from "react"
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-
-import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme, notification, Typography, message, Flex } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
-import { SmileOutlined } from '@ant-design/icons';
 
 import {
   ConfigProvider,
@@ -33,7 +20,11 @@ let hashes = [
 const App = () => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
-  const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
+  // const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
+
+
+  const activeKey = store(s => s.activeKey)
+  const setActiveKey = store(s => s.setActiveKey)
 
   window.notificationApi = notificationApi
   window.messageApi = messageApi
@@ -47,22 +38,45 @@ const App = () => {
         token: {
           colorBgBase: '#182239'
         },
+        components: {
+          Slider: {
+            handleColor: '#1668DC',
+            handleActiveColor: '#1668DC',
+            trackBg: '#1668DC',
+            trackHoverBg: '#1668DC',
+            dotBorderColor: '#1668DC',
+            railHoverBg: '#ffffff80',
+            railBg: '#ffffff12',
+            handleLineWidth: 0,
+            handleLineWidthHover: 0,
+            handleSizeHover: 10
+          },
+          InputNumber: {
+            paddingInlineSM: 4,
+          },
+        },
         algorithm: theme.darkAlgorithm,
       }}
     >      
       {notificationContextHolder}
       {messageContextHolder}
-        <Layout hasSider style={{ 'minHeight': '100%', minWidth: 1300 }}>
+        <Layout hasSider style={{ 'minHeight': '100%' }}>
           <Sider
-            width={200}
+            width={170}
             style={{
               overflow: 'auto',
               height: '100vh',
               position: 'sticky',
               top: 0,
             }}
+            breakpoint="xxl"
+            collapsedWidth="50"
+            onBreakpoint={(broken) => {
+            }}
+            onCollapse={(collapsed, type) => {
+            }}
           >
-            <MenuDrawer setActiveKey={setActiveKey} hashes={hashes}/>
+            <MenuDrawer hashes={hashes}/>
           </Sider>
           <Layout
             style={{
@@ -101,11 +115,12 @@ const App = () => {
                 overflow: 'initial',
               }}
             >
-              <Tabs activeKey={activeKey} hashes={hashes} />
+              <Tabs hashes={hashes} />
             </Content>
           </Layout>
       </Layout>
     </ConfigProvider>
   );
 };
+
 export default App;

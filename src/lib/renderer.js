@@ -1,27 +1,4 @@
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  ConfigProvider,
-  Space,
-  Divider,
-  Switch,
-  Row,
-  Col,
-  Typography,
-  message,
-  Upload,
-  Image,
-  Flex,
-  Tag,
-} from 'antd';
+import {Flex, Image, Tag,} from 'antd';
 
 export const Renderer = {
   floor: (x) => {
@@ -37,14 +14,13 @@ export const Renderer = {
   ornamentSet: (x) => {
     if (x == undefined || x.value == undefined) return '';
     let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { ornamentSets } = Utils.relicsToSetArrays(Object.values(build));
+    let { ornamentSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
     let setImages = []
   
     for (let i = 0; i < ornamentSets.length; i++) {
       while (ornamentSets[i] > 1) {
         let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == i)[0]
-        let assetValue = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
-        setImages[2] = assetValue
+        setImages[2] = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
   
         ornamentSets[i] -= 2
       }
@@ -60,7 +36,7 @@ export const Renderer = {
   relicSet : (x) => {
     if (x == undefined || x.value == undefined) return '';
     let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { relicSets } = Utils.relicsToSetArrays(Object.values(build));
+    let { relicSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
     let setImages = []
   
     for (let i = 0; i < relicSets.length; i++) {
@@ -118,6 +94,14 @@ export const Renderer = {
 
   hideZeroes: (x) => {
     return x.value == 0 ? "" : x.value
+  },
+
+  hideZeroesFloor: (x) => {
+    return x.value == 0 ? "" : Math.floor(x.value)
+  },
+
+  hideZeroes10ths: (x) => {
+    return x.value == 0 ? "" : Utils.precisionRound(Math.floor(x.value * 10) / 10)
   },
 
   mainValueRenderer: (x) => {

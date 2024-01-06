@@ -111,7 +111,7 @@
   border: none;
 }
 .ag-theme-balham .ag-row-odd {
-  background-color: #f7f7f7
+  background-color: #960303
 }
 
 .ag-theme-balham .ag-row-hover {
@@ -223,4 +223,28 @@ a {
 .relicsTableHeader {
   font-size: 10px !important;
   font-weight: 400 !important;
+}
+.ag-row {
+  border-bottom-style: unset !important;
+}
+.ant-select-selection-item {
+  padding-inline-end: 10px !important;
+}
+
+.ant-slider:hover .ant-slider-handle::after {
+  box-shadow: 0 0 0 4px #1668DC
+}
+.ant-slider-handle::after {
+  background-color: #1668dc !important;
+}
+.ant-input-number-group-addon {
+  padding: 0 3px !important;
+}
+
+.ant-menu-submenu-title {
+  padding-left: 10px !important;
+}
+.ant-menu-item-only-child {
+  padding-left: 34px !important;
+
 }

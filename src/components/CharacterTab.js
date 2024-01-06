@@ -3,15 +3,12 @@ import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback} f
 import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
-import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
-
 import "ag-grid-community/styles/ag-theme-balham.css";
 import "../style/style.css";
 import DB from '../lib/db';
 import { StatCalculator } from '../lib/statCalculator';
 import styled from 'styled-components';
 import RelicPreview from './RelicPreview';
-import { StateEditor } from '../lib/stateEditor';
 import { CharacterPreview } from './CharacterPreview';
 
 const { Text } = Typography;
@@ -73,15 +70,19 @@ function cellNameRenderer(params) {
 }
 
 
-export default function CharacterTab({style}) {
+export default function CharacterTab(props) {
   const characterGrid = useRef(); // Optional - for accessing Grid's API
   window.characterGrid = characterGrid;
 
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  const [selectedCharacter, setSelectedCharacter] = useState();
-  window.setSelectedCharacterPreview = setSelectedCharacter;
+  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+
+  const characterTabSelectedId = store(s => s.characterTabSelectedId)
+  const setCharacterTabSelectedId = store(s => s.setCharacterTabSelectedId)
+  const charactersById = store(s => s.charactersById)
+  const selectedCharacter = charactersById[characterTabSelectedId]
 
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
@@ -112,10 +113,12 @@ export default function CharacterTab({style}) {
     cellStyle: {display: 'flex'}
   }), []);
 
-  const cellClickedListener = useCallback( event => {
-    let data = event.data
+  const cellClickedListener = useCallback(event => {
     console.log('cellClicked', event);
-    setSelectedCharacter(data)
+    let data = event.data
+
+    store.getState().setCharacterTabBlur(store.getState().characterTabSelectedId == data.id ? false : true) // Only blur if different character
+    setCharacterTabSelectedId(data.id)
   }, []);
 
   function drag(event, index) {
@@ -126,12 +129,10 @@ export default function CharacterTab({style}) {
   }
 
   const onRowDragEnd = useCallback( event => {
-    console.log('onRowDragEnd', event, event.overIndex);
     drag(event, event.overIndex)
   }, []);
 
   const onRowDragLeave = useCallback( event => {
-    console.log('onRowDragLeave', event, event.overIndex);
     if (event.overIndex == 0) {
       drag(event, 0)
     } else if (event.overIndex == -1 && event.vDirection == 'down') {
@@ -152,41 +153,39 @@ export default function CharacterTab({style}) {
     let row = selectedNodes[0].data
     let id = row.id
 
-    StateEditor.removeCharacter(id)
+    DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
-    setSelectedCharacter(undefined)
-
+    setCharacterTabSelectedId(undefined)
     relicsGrid.current.api.redrawRows()
+    
     SaveState.save()
-    // characterGrid.current.api.redrawRows()
 
     Message.success('Successfully removed character')
   }
 
   function unequipClicked() {
+    console.log('unequipClicked', DB.getCharacterById(characterTabSelectedId))
+
     let selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
-
     let row = selectedNodes[0].data
     let id = row.id
 
-    StateEditor.unequipCharacter(id);
-
-    console.log('unequipClicked', DB.getCharacterById(selectedCharacter.id))
+    DB.unequipCharacter(id);
 
     characterGrid.current.api.redrawRows()
-    setSelectedCharacter(JSON.parse(JSON.stringify(DB.getCharacterById(selectedCharacter.id))))
-
-    relicsGrid.current.api.redrawRows()
-    SaveState.save()
-    
+    window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
+    relicsGrid.current.api.redrawRows()
+
+    SaveState.save()
   }
 
   function scoringAlgorithmClicked() {
-    setSelectedScoringAlgorithmCharacter(selectedCharacter)
+    console.log('Scoring algorithm clicked', characterTabSelectedId)
+    setSelectedScoringCharacter(characterTabSelectedId)
     setIsScoringModalOpen(true)
   }
 
@@ -204,7 +203,7 @@ export default function CharacterTab({style}) {
 
   return (
     <div style={{
-      ...style,
+      ...{display: props.active ? 'block' : 'none'},
       ...{
         height: '100%'
       }

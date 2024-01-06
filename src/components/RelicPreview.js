@@ -10,12 +10,9 @@ function generateStat(stat, source, main) {
   if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
     return (
       <Flex justify='space-between'>
-        <Text>
-          <span>&shy;</span>
-        </Text>
-        <Text>
-          <span>&shy;</span>
-        </Text>
+        <Flex>
+          <img src={Assets.getBlank()} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+        </Flex>
       </Flex>
     )
   }
@@ -99,6 +96,8 @@ let gradeToColor = {
 
 export default function RelicPreview(props) {
   // console.log('RelicPreview', props)
+  // const [hovered, setHovered] = React.useState(false);
+
   let data = getRelic(props.relic)
   if (props.source == 'scorer') {
     data = props.relic
@@ -127,7 +126,6 @@ export default function RelicPreview(props) {
   // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
-  // let score = RelicScorer.score(data, props.characterId)
   let scored = props.relic != undefined && props.score != undefined
 
   function relicClicked() {
@@ -139,7 +137,14 @@ export default function RelicPreview(props) {
   }
 
   return (
-    <Card size="small" hoverable={props.source != 'scorer'} onClick={relicClicked} style={{ width: 200, height: 280 }}>
+    <Card
+      size="small"
+      hoverable={props.source != 'scorer'}
+      onClick={relicClicked}
+      style={{ width: 200, height: 280 }}
+      // onMouseEnter={() => setHovered(true)}
+      // onMouseLeave={() => setHovered(false)}
+    >
       <Flex vertical justify='space-between'  style={{height: 255}}>
         <Flex justify='space-between' align='center'>
           <img
@@ -150,7 +155,7 @@ export default function RelicPreview(props) {
           <Flex  align='center'>
             {
               grade ? 
-              <div style={{width: 12, height: 12, borderRadius: '50%', background: color, border: `2px solid ${color}`, padding: '2px', marginRight: 3}}>
+              <div style={{width: 12, height: 12, borderRadius: '50%', background: color, marginRight: 3}}>
               </div> 
               : ''
               

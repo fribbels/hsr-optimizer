@@ -19,7 +19,7 @@ const items = [
     getItem('Optimizer', 'optimizer'), 
     getItem('Characters', 'characters'),
     getItem('Relics', 'relics'),
-    getItem('Import', 'import'),
+    getItem('Import / Save', 'import'),
     getItem('Getting started', '#getting-started'),
   ]),
   getItem('Tools', 'sub2', <MenuOutlined />, [
@@ -54,7 +54,9 @@ const items = [
   ]),
 ];
 
-const MenuDrawer = ({setActiveKey, hashes}) => {
+const MenuDrawer = ({hashes}) => {
+  const setActiveKey = store(s => s.setActiveKey)
+
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
 

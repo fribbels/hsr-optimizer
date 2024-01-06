@@ -10,11 +10,10 @@ import { HeaderText } from './HeaderText';
 import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
-import { StateEditor } from '../lib/stateEditor';
 import { TooltipImage } from './TooltipImage';
 
 
-export default function RelicsTab({style}) {
+export default function RelicsTab(props) {
   const gridRef = useRef();
   global.relicsGrid = gridRef;
 
@@ -35,10 +34,10 @@ export default function RelicsTab({style}) {
     { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
     {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
     {field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.HP}`, headerName: 'HP', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.ATK}`, headerName: 'ATK', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.DEF}`, headerName: 'DEF', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.SPD}`, headerName: 'SPD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes, filter: 'agNumberColumnFilter'},
+    {field: `augmentedStats.${Constants.Stats.HP}`, headerName: 'HP', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
+    {field: `augmentedStats.${Constants.Stats.ATK}`, headerName: 'ATK', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
+    {field: `augmentedStats.${Constants.Stats.DEF}`, headerName: 'DEF', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
+    {field: `augmentedStats.${Constants.Stats.SPD}`, headerName: 'SPD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10ths, filter: 'agNumberColumnFilter'},
     {field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: 'ATK %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
     {field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
     {field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: 'DEF %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
@@ -73,7 +72,7 @@ export default function RelicsTab({style}) {
   }, []);
 
   function onAddOk(relic) {
-    DB.setRelicById(relic)
+    DB.setRelic(relic)
     setRelicRows(DB.getRelics())
     SaveState.save()
 
@@ -89,12 +88,12 @@ export default function RelicsTab({style}) {
     const updatedRelic = {...selectedRelic, ...relic}
 
     if (updatedRelic.equippedBy) {
-      StateEditor.equipRelic(updatedRelic, updatedRelic.equippedBy)
+      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
     } else {
-      StateEditor.unequipRelic(updatedRelic);
+      DB.unequipRelicById(updatedRelic.id);
     }
 
-    DB.setRelicById(updatedRelic)
+    DB.setRelic(updatedRelic)
     setRelicRows(DB.getRelics())
     SaveState.save()
 
@@ -122,7 +121,7 @@ export default function RelicsTab({style}) {
 
     if (!selectedRelic) return Message.error('No relic selected')
 
-    StateEditor.deleteRelic(selectedRelic.id)
+    DB.deleteRelic(selectedRelic.id)
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
     SaveState.save()
@@ -131,11 +130,11 @@ export default function RelicsTab({style}) {
   }
 
   return (
-    <Flex style={style}>
+    <Flex style={{display: props.active ? 'block' : 'none'}}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500}}>
+        <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500, resize: 'vertical', overflow: 'hidden'}}>
 
           <AgGridReact
               ref={gridRef} // Ref for accessing Grid's API

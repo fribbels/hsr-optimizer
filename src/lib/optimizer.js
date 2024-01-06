@@ -3,14 +3,13 @@ import { Constants } from "./constants";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
-
-// https://stackoverflow.com/questions/31682132/compare-in-cuda-without-branching
-// let cpus = workerpool.cpus;
+import { WorkerPool } from "./workerPool";
+import {BufferPacker} from "./bufferPacker";
 
 let MAX_INT = 2147483647;
 
-let WIDTH = 256;
-let HEIGHT = WIDTH;
+let WIDTH = 100000;
+let HEIGHT = 1;
 let MAX_RESULTS = 2_000_000;
 
 // Flatten a relic's augmented stats + part to a single array & percents -> decimals + zeroing undefined
@@ -71,11 +70,16 @@ function characterToArrays(character) {
 let CANCEL = false;
 
 export const Optimizer = {
-  cancel: () => {
+  cancel: (id) => {
     CANCEL = true
+    WorkerPool.cancel(id)
   },
-  optimize: async function(request) {
+
+  optimize: async function(request, topRow) {
     CANCEL = false
+
+    store.getState().setPermutationsSearched(0)
+    store.getState().setPermutationsResults(0)
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -105,13 +109,16 @@ export const Optimizer = {
       }
     }
 
-    // TODO validate lc
-    // Pre-split filters
     let relics = DB.getRelics();
+
     relics = JSON.parse(JSON.stringify(relics))
     relics = RelicFilters.applyEnhanceFilter(request, relics);
-    relics = applyMainFilter(request, relics);
     relics = RelicFilters.applyRankFilter(request, relics);
+
+    // Pre-split filters
+    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
+
+    relics = applyMainFilter(request, relics);
     relics = addMainStatToAugmentedStats(relics);
     relics = applyMaxedMainStatsFilter(request, relics);
     relics = RelicFilters.applySetFilter(request, relics)
@@ -120,6 +127,8 @@ export const Optimizer = {
     relics = splitRelicsByPart(relics);
 
     relics = RelicFilters.applyCurrentFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+
     let relicsArrays = relicsByPartToArray(relics);
 
     let elementalMultipliers = [
@@ -142,7 +151,6 @@ export const Optimizer = {
     
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
-    // let { ornamentSetAllowList, ornamentSetSolutions } = generateOrnamentSetAllowList(request)
     
     let hSize = relicsArrays.Head.length
     let gSize = relicsArrays.Hands.length
@@ -171,121 +179,118 @@ export const Optimizer = {
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
     }
+
+    if (CANCEL) return;
+
     optimizerGrid.current.api.showLoadingOverlay()
 
-    let kernel = GPUOptimizer.createKernel2(consts);
-
-    // const kernel = new Function('return ' + text)()({ context: gl, constants: consts });
-    // console.log(kernel.toString(1235))
-
-    let rowData = []
-    let posted = 0;
-
-    let i = 0;
+    let results = []
     let increment = (WIDTH * HEIGHT)
-    let limit = permutations
+    let searched = 0
+    let runs = Math.ceil(permutations / increment) 
+    let inProgress = runs
 
-    let start = new Date();
-    let lastDate = new Date();
+    let resultsShown = false
 
-    let abortRun = false;
+    // Create a special optimization request for the top row, ignoring filters and with a custom callback
+    function handleTopRow() {
+      let relics = DB.getRelics();
+      relics = relics.filter(x => x.equippedBy == request.characterId)
+      relics = addMainStatToAugmentedStats(relics);
+      relics = applyMaxedMainStatsFilter(request, relics);
+      if (relics.length < 6) return
 
-    function iterate() {
-      if (CANCEL) return;
-      let skip = i;
-      if (i >= limit) return;
+      relics = splitRelicsByPart(relics);
 
-      i += increment;
-      posted++;
+      let callback = (result) => {
+        let resultArr = new Float32Array(result.buffer)
+        console.log(`Top row complete`)
 
-      // console.log(kernel.toString(1))
-      let startA = new Date()
-      let result = kernel(skip);
-      if (result.toArray) result = result.toArray()
-      let startB = new Date()
+        let rowData = []
+        BufferPacker.extractArrayToResults(resultArr, 1, rowData);
+        if (rowData.length > 0) {
+          OptimizerTabController.setTopRow(rowData[0])
+        }
+      }
 
-      let newLastDate = new Date()
-      console.warn('Step time', newLastDate - lastDate, startB - startA);
-      lastDate = newLastDate
+      let input = {
+        topRow: true, // Skip all filters for top row
+        setAllowList: relicSetAllowList,
+        relics: relics,
+        character: baseStats,
+        Constants: Constants,
+        consts: consts,
+        WIDTH: WIDTH,
+        HEIGHT: HEIGHT,
+        skip: 0,
+        permutations: 1,
+        relicSetToIndex: Constants.RelicSetToIndex,
+        ornamentSetToIndex: Constants.OrnamentSetToIndex,
+        elementalMultipliers: elementalMultipliers,
+        request: request,
+      }
 
-      console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`);
-      // console.log(`Kernel result skip ${skip} -> ${skip + (WIDTH * HEIGHT)} / ${permutations}`, result);
-      
-      ThreadPool
-        .exec(ThreadWorker.calculateStats, [{data: {
-          setAllowList: relicSetAllowList,
-          relics: relics,
-          character: baseStats,
-          Constants: Constants,
-          successes: result,
-          consts: consts,
-          WIDTH: WIDTH,
-          HEIGHT: HEIGHT,
-          skip: skip,
-          permutations: permutations,
-          relicSetToIndex: Constants.RelicSetToIndex,
-          ornamentSetToIndex: Constants.OrnamentSetToIndex,
-          elementalMultipliers: elementalMultipliers,
-          request: request
-        }}])
-        .then(function (result) {
-          if (abortRun) {
-            return;
-          }
-
-          if (rowData.length + result.length > MAX_RESULTS) {
-            console.log('Slicing rows because they exceed max limit')
-            result = result.slice(0, MAX_RESULTS - rowData.length)
-          }
-
-          rowData.push(...result);
-
-          console.log('Rows received from thread worker', rowData.length)
-
-          setOptimizerPermutationResults(rowData.length)
-          setOptimizerPermutationSearched(Math.min(permutations, i))
-
-          posted--
-
-          if (rowData.length >= MAX_RESULTS && !abortRun) {
-            abortRun = true;
-            Message.error('Too many results, please narrow your filters')
-          }
-
-          if (posted <= 0 || abortRun) {
-            let end = new Date();
-            console.info('Time taken:', end - start)
-            OptimizerTabController.setMetadata(consts, relics)
-            OptimizerTabController.setRows(rowData)
-
-            optimizerGrid.current.api.setDatasource(OptimizerTabController.getDataSource());
-            // optimizerGrid.current.api.setRowData(rowData)
-            // setOptimizerRows(rowData)
-            // DB.rows = rowData
-
-            console.log('Done', rowData.length);
-            kernel.destroy()
-            return;
-          }
-
-          if (i < limit) {
-            iterate()
-          }
-        })
-        .catch(function (err) {
-          console.error(err);
-          pool.terminate(); // terminate all workers when done
-        })
+      WorkerPool.execute(input, callback, request.optimizationId)
     }
-    
-    for (let j = 0; j < 4; j++) {
-      iterate();
+    handleTopRow()
+
+    for (let run = 0; run < runs; run++) {
+      let input = {
+        setAllowList: relicSetAllowList,
+        relics: relics,
+        character: baseStats,
+        Constants: Constants,
+        consts: consts,
+        WIDTH: WIDTH,
+        HEIGHT: HEIGHT,
+        skip: run * increment,
+        permutations: permutations,
+        relicSetToIndex: Constants.RelicSetToIndex,
+        ornamentSetToIndex: Constants.OrnamentSetToIndex,
+        elementalMultipliers: elementalMultipliers,
+        request: request,
+      }
+
+      let callback = (result) => {
+        searched += increment
+        inProgress -= 1
+
+        if (CANCEL && resultsShown) {
+          return
+        }
+
+        let resultArr = new Float32Array(result.buffer)
+        // console.log(`Optimizer results`, result, resultArr)
+
+        BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
+
+        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}}`)
+
+        store.getState().setPermutationsResults(results.length)
+        store.getState().setPermutationsSearched(Math.min(permutations, searched))
+
+        if (inProgress == 0 || CANCEL) {
+          OptimizerTabController.setMetadata(consts, relics)
+          OptimizerTabController.setRows(results)
+
+          optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          console.log('Done', results.length);
+          resultsShown = true
+          return
+        }
+
+        if ((results.length >= MAX_RESULTS) && !CANCEL) {
+          CANCEL = true;
+          Optimizer.cancel(request.optimizationId)
+          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
+        }
+      }
+
+      
+      // WorkerPool.execute(input, callback)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 100)
     }
   }
-}
-
-function applyEnhanceFilter(request, relics) {
-  return relics.filter(x => x.enhance >= request.enhance);
 }
 
 function applyMainFilter(request, relics) {
@@ -300,27 +305,8 @@ function applyMainFilter(request, relics) {
   return out;
 }
 
-function applyRankFilter(request, relics) {
-  let characters = DB.getCharacters()
-  let characterId = request.characterId;
-  let higherRankedRelics = {}
-  for (let i = 0; i < characters.length; i++) {
-    let rankedCharacter = characters[i]
-    if (rankedCharacter.id == characterId) {
-      break
-    }
-
-    Object.values(rankedCharacter.equipped)
-      .filter(x => x != null && x != undefined)
-      .map(x => higherRankedRelics[x.id] = x)
-  }
-
-  return relics = relics.filter(x => !higherRankedRelics[x.id])
-}
-
 function applyMaxedMainStatsFilter(request, relics) {
   if (request.predictMaxedMainStat) {
-    // relics.map(x => x.main.value = StatCalculator.getMaxedMainStat(x))
     relics.map(x => x.augmentedStats[x.main.stat] = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
   }
   return relics
@@ -338,6 +324,8 @@ function relicsByPartToArray(relics) {
 }
 
 function addMainStatToAugmentedStats(relics) {
+  relics = relics.map(x => structuredClone(x))
+
   for (let relic of relics) {
     relic.augmentedStats[relic.augmentedStats.mainStat] = relic.augmentedStats.mainValue
   }
@@ -573,9 +561,6 @@ function generateRelicSetAllowList(request) {
     }
   }
   let relicSetSolutions = convertRelicSetIndicesTo1D(setIndices);
-  // console.log('allowList', relicSetAllowList, request)
-  // console.log('setIndices', setIndices)
-  // console.log('setSolutions', relicSetSolutions)
 
   relicSetAllowList = [...new Set(relicSetAllowList)]
   return {

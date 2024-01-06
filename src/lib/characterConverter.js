@@ -9,14 +9,14 @@ export const CharacterConverter = {
     console.log(character)
     if (!statConversion) CharacterConverter.setConstantConversions()
 
-    let preRelics = character.relic_list
+    let preRelics = character.relicList || []
     let preLightCone = character.equipment
     let characterLevel = character.level
-    let characterEidolon = character.promotion
-    let id = '' + character.avatar_id
-    let lightConeId = '' + preLightCone.tid;
-    let lightConeLevel = preLightCone.level;
-    let lightConeSuperimposition = preLightCone.promotion
+    let characterEidolon = character.rank || 0
+    let id = '' + character.avatarId
+    let lightConeId = preLightCone ? '' + preLightCone.tid : undefined;
+    let lightConeLevel = preLightCone ? preLightCone.level : 0;
+    let lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 
     let relics = preRelics.map(x => convertRelic(x)).filter(x => !!x)
     let equipped = {}
@@ -94,7 +94,6 @@ export const CharacterConverter = {
 
 function convertRelic(preRelic) {
   try {
-    console.log('!! DEBUG', preRelic)
     let metadata = DB.getMetadata().relics
     let tid = '' + preRelic.tid
 
@@ -109,7 +108,7 @@ function convertRelic(preRelic) {
     let gradeId = tid.substring(0, 1)
     let grade = gradeConversion[gradeId]
 
-    let mainId = preRelic.main_affix_id
+    let mainId = preRelic.mainAffixId
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
 
     let mainStat = statConversion[mainData.property]
@@ -123,15 +122,16 @@ function convertRelic(preRelic) {
     }
 
     let substats = []
-    for (let sub of preRelic.sub_affix_list) {
-      let subId = sub.affix_id
+    for (let sub of preRelic.subAffixList) {
+      let subId = sub.affixId
       let count = sub.cnt
-      let step = sub.step
+      let step = sub.step || 0
 
       let subData = metadata.relicSubAffixes[grade].affixes[subId]
       let subStat = statConversion[subData.property]
       let subBase = subData.base
       let subStep = subData.step
+
       let subValue = subBase * count + subStep * step
 
       substats.push({
@@ -155,137 +155,3 @@ function convertRelic(preRelic) {
     return null
   }
 }
-
-
-/*
-{
-    "id": "1212",
-    "form": {
-        "characterId": "1212",
-        "characterLevel": 80,
-        "characterEidolon": 1,
-        "lightCone": "23014",
-        "lightConeLevel": 80,
-        "lightConeSuperimposition": 1,
-        "mainBody": [
-            "CRIT DMG"
-        ],
-        "mainFeet": [
-            "SPD"
-        ],
-        "mainPlanarSphere": [
-            "Ice DMG Boost"
-        ],
-        "mainLinkRope": [
-            "ATK%"
-        ],
-        "ornamentSets": [
-            "Rutilant Arena"
-        ],
-        "relicSets": [
-            [
-                "4 Piece",
-                "Hunter of Glacial Forest"
-            ]
-        ],
-        "minAtk": 0,
-        "maxAtk": 2147483647,
-        "minHp": 0,
-        "maxHp": 2147483647,
-        "minDef": 0,
-        "maxDef": 2147483647,
-        "minSpd": 134,
-        "maxSpd": 2147483647,
-        "minCr": 0,
-        "maxCr": 2147483647,
-        "minCd": 0,
-        "maxCd": 2147483647,
-        "minEhr": 0,
-        "maxEhr": 2147483647,
-        "minRes": 0,
-        "maxRes": 2147483647,
-        "minBe": 0,
-        "maxBe": 2147483647,
-        "minCv": 0,
-        "maxCv": 2147483647,
-        "minDmg": 11000,
-        "maxDmg": 2147483647,
-        "minMcd": 0,
-        "maxMcd": 2147483647,
-        "minEhp": 0,
-        "maxEhp": 2147483647,
-        "buffAtk": 0,
-        "buffAtkP": 0,
-        "buffCr": 0.5,
-        "buffCd": 0,
-        "rankFilter": true,
-        "predictMaxedMainStat": true,
-        "keepCurrentRelics": false,
-        "enhance": 15,
-        "grade": 5,
-        "mainHead": [],
-        "mainHands": []
-    },
-    "equipped": {
-        "Head": {
-            "part": "Head",
-            "set": "Hunter of Glacial Forest",
-            "enhance": 15,
-            "grade": 5,
-            "main": {
-                "stat": "HP",
-                "value": 705
-            },
-            "substats": [
-                {
-                    "stat": "CRIT Rate",
-                    "value": 11
-                },
-                {
-                    "stat": "CRIT DMG",
-                    "value": 10.3
-                },
-                {
-                    "stat": "Effect RES",
-                    "value": 3.4
-                },
-                {
-                    "stat": "Break Effect",
-                    "value": 5.1
-                }
-            ],
-            "id": "cd85c14c-a662-4413-a149-a379e6d538d3",
-            "augmentedStats": {
-                "mainStat": "HP",
-                "mainValue": 705,
-                "CRIT Rate": 0.11,
-                "CRIT DMG": 0.10300000000000001,
-                "Effect RES": 0.034,
-                "Break Effect": 0.051,
-                "HP%": 0,
-                "ATK%": 0,
-                "DEF%": 0,
-                "SPD%": 0,
-                "HP": 0,
-                "ATK": 0,
-                "DEF": 0,
-                "SPD": 0,
-                "Effect Hit Rate": 0,
-                "Energy Regeneration Rate": 0,
-                "Outgoing Healing Boost": 0,
-                "Physical DMG Boost": 0,
-                "Fire DMG Boost": 0,
-                "Ice DMG Boost": 0,
-                "Lightning DMG Boost": 0,
-                "Wind DMG Boost": 0,
-                "Quantum DMG Boost": 0,
-                "Imaginary DMG Boost": 0
-            },
-            "os": 32.3,
-            "ss": 5.1000000000000005,
-            "ds": 5.1,
-            "cs": 32.3,
-            "equippedBy": "1212"
-        },  "rank": 0
-}
-*/

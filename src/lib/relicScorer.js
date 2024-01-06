@@ -80,13 +80,11 @@ function countPairs(arr) {
 }
 
 export const RelicScorer = {
-  scoreCharacter: (character) => {
+  scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
 
-    console.log('SCORE CHARACTER', character)
-    let relics = Object.values(character.equipped)
     let scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
-    
+
     let sum = 0
     for (let relic of scoredRelics) {
       sum += Number(relic.score) + Number(relic.mainStatScore)
@@ -117,8 +115,18 @@ export const RelicScorer = {
     }
   },
 
+  scoreCharacter: (character) => {
+    if (!character || !character.id) return {}
+
+    console.log('SCORE CHARACTER', character)
+    let relicsById = store.getState().relicsById
+    let relics = Object.values(character.equipped).map(x => relicsById[x])
+
+    return RelicScorer.scoreCharacterWithRelics(character, relics)
+  },
+
   score: (relic, characterId) => {
-    console.log('score', relic, characterId)
+    // console.log('score', relic, characterId)
 
     setMainStatFreeRolls()
 
@@ -131,14 +139,10 @@ export const RelicScorer = {
     }
 
     if (relic.equippedBy) {
-      console.log('using equippedby')
-
       characterId = relic.equippedBy
     }
 
     if (relic.optimizerCharacterId) {
-      console.log('using optimizerCharacterId')
-
       characterId = relic.optimizerCharacterId
     }
 
@@ -215,7 +219,7 @@ export const RelicScorer = {
       }
     }
     
-    console.log(relic.substats, ratings, sum)
+    // console.log(relic.substats, ratings, sum)
 
     return {
       score: sum.toFixed(1),

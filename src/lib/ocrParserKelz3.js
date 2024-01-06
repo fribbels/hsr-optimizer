@@ -3,12 +3,24 @@ import { Parts, Sets, Stats } from './constants';
 import { dblClick } from '@testing-library/user-event/dist/click';
 import { RelicAugmenter } from './relicAugmenter';
 
+import characters from '../data/characters.json';
+import lightCones from '../data/light_cones.json';
+
 let substatMapping;
 let mainstatMapping;
 let partMapping;
 let gradeMapping;
 let affixMapping;
 let metadata
+
+const formTemplate = {
+  "characterId": "1204",
+  "characterLevel": 80,
+  "characterEidolon": 0,
+  "lightCone": "23010",
+  "lightConeLevel": 80,
+  "lightConeSuperimposition": 1,
+}
 
 export const OcrParserKelz3 = {
   parse: (json) => {
@@ -30,6 +42,30 @@ export const OcrParserKelz3 = {
     }
 
     return parsedRelics
+  },
+
+  parseCharacters: (json) => {
+    OcrParserKelz3.initialize()
+    let version = json.version;
+    // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
+    let characters = json.characters;
+    if (!characters) {
+      return []
+    }
+
+    let parsedCharacters = []
+    for (let character of characters) {
+      let lightCone = undefined
+      if (json.light_cones) {
+        // Find their light cone
+        lightCone = json.light_cones.find(x => x.location == character.key)
+      }
+
+      let result = readCharacter(character, lightCone);
+      parsedCharacters.push(result);
+    }
+
+    return parsedCharacters
   },
 
   initialize: () => {
@@ -113,21 +149,68 @@ export const OcrParserKelz3 = {
   }
 }
 
+const characterList = Object.values(characters)
+const lightConeList = Object.values(lightCones)
+
+function readCharacter(character, lightCone) {
+  const newCharacter = {...formTemplate}
+  lightCone = lightCone || undefined
+
+  // Lookup character & light cone ids
+  let characterId
+  if (character.key.startsWith("Trailblazer")) {
+    if (character.key == "TrailblazerPreservation") {
+      characterId = characterList.find(x => x.tag == "playergirl2").id
+    } else {
+      characterId = characterList.find(x => x.tag == "playergirl").id
+    }
+  } else {
+    characterId = characterList.find(x => x.name == character.key).id
+  }
+
+  let lcKey = lightCone?.key
+  const lightConeId = lightConeList.find(x => x.name == lcKey)?.id
+
+  // Set information
+  newCharacter.characterId = characterId
+  newCharacter.characterLevel = character.level
+  newCharacter.characterEidolon = character.eidolon
+  newCharacter.lightCone = lightConeId
+  newCharacter.lightConeLevel = lightCone?.level || 0
+  newCharacter.lightConeSuperimposition = lightCone?.superimposition || 0
+
+  return newCharacter
+}
+
 function readRelic(relic) {
   let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts));
   // console.log('partMatches', partMatches);
   let part = partMatches.bestMatch.target
 
   let setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map(x => x[1]))
-  // console.log('setMatches', setMatches, setMatches.bestMatchIndex);
   let set = relicSetList[setMatches.bestMatchIndex][2];
-  // console.log('set', set);
 
   let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15);
   let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5);
 
   let parsedStats = readStats(relic, part, grade, enhance);
-  // console.log(parsedStats);
+
+  let id
+  if (characterList.find(x => x.name == relic.location)) {
+    id = characterList.find(x => x.name == relic.location).id
+  } else {
+    if (location == 'TrailblazerPreservation' && store.getState().charactersById[8003]) {
+      id = 8003
+    } else {
+      id = 8004
+    }
+
+    if (location == 'TrailblazerDestruction' && store.getState().charactersById[8001]) {
+      id = 8001
+    } else {
+      id = 8002
+    }
+  }
 
   return {
     part: part,
@@ -135,7 +218,8 @@ function readRelic(relic) {
     enhance: enhance,
     grade: grade,
     main: parsedStats.main,
-    substats: parsedStats.substats
+    substats: parsedStats.substats,
+    equippedBy: relic.location === "" ? undefined : id,
   }
 }
 
@@ -152,7 +236,6 @@ function readStats(relic, part, grade, enhance) {
       value: value
     })
   }
-
 
   let rawMainstat = relic.mainstat
   let parsedMainStat

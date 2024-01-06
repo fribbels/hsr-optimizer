@@ -4,6 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import './index.css';
 import App from './App';
 
+import { WorkerPool } from './lib/workerPool';
 import { Constants } from './lib/constants'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from './lib/ocrParserKelz3';
@@ -15,9 +16,7 @@ import { GPUOptimizer } from './lib/gpuOptimizer'
 import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
-import { StateEditor } from './lib/stateEditor'
 import { StatCalculator } from './lib/statCalculator'
-import { ThreadWorker } from "./lib/threadWorker";
 import { Gradient } from "./lib/gradient";
 import { SaveState } from "./lib/saveState";
 import { RelicFilters } from "./lib/relicFilters";
@@ -26,7 +25,12 @@ import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
 import { RelicScorer } from './lib/relicScorer';
+import { CharacterConditionals } from './lib/characterConditionals';
+import { LightConeConditionals } from './lib/lightConeConditionals';
+import { BufferPacker } from './lib/bufferPacker';
 import { Typography } from 'antd';
+import { RelicRollFixer } from "./lib/relicRollFixer";
+window.WorkerPool = WorkerPool;
 window.Constants = Constants;
 window.OcrParserFribbels1 = OcrParserFribbels1;
 window.OcrParserKelz3 = OcrParserKelz3;
@@ -38,9 +42,7 @@ window.GPUOptimizer = GPUOptimizer;
 window.Utils = Utils;
 window.Assets = Assets;
 window.RelicAugmenter = RelicAugmenter;
-window.StateEditor = StateEditor;
 window.StatCalculator = StatCalculator;
-window.ThreadWorker = ThreadWorker;
 window.Gradient = Gradient;
 window.SaveState = SaveState;
 window.RelicFilters = RelicFilters;
@@ -49,10 +51,10 @@ window.Message = Message;
 window.Hint = Hint;
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-
-const workerpool = require('workerpool');
-window.CPUs = workerpool.cpus
-window.ThreadPool = workerpool.pool();
+window.CharacterConditionals = CharacterConditionals
+window.LightConeConditionals = LightConeConditionals
+window.BufferPacker = BufferPacker
+window.RelicRollFixer = RelicRollFixer
 
 console.log('Data parser', DataParser.parse());
 SaveState.load()

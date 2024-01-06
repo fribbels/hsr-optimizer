@@ -249,10 +249,6 @@ export const OptimizerTabController = {
     newForm.minCv = unsetMin(form.minCv)
     newForm.maxWeight = unsetMax(form.maxWeight)
     newForm.minWeight = unsetMin(form.minWeight)
-    newForm.maxDmg = unsetMax(form.maxDmg)
-    newForm.minDmg = unsetMin(form.minDmg)
-    newForm.maxMcd = unsetMax(form.maxMcd)
-    newForm.minMcd = unsetMin(form.minMcd)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
 
@@ -421,10 +417,6 @@ export const OptimizerTabController = {
     x.minCv = fixValue(x.minCv, 0)
     x.maxWeight = fixValue(x.maxWeight, MAX_INT)
     x.minWeight = fixValue(x.minWeight, 0)
-    x.maxDmg = fixValue(x.maxDmg, MAX_INT)
-    x.minDmg = fixValue(x.minDmg, 0)
-    x.maxMcd = fixValue(x.maxMcd, MAX_INT)
-    x.minMcd = fixValue(x.minMcd, 0)
     x.maxEhp = fixValue(x.maxEhp, MAX_INT)
     x.minEhp = fixValue(x.minEhp, 0)
 
@@ -573,10 +565,6 @@ function aggregate(subArray) {
   maxAgg['CV'] = 0
   minAgg['WEIGHT'] = Constants.MAX_INT
   maxAgg['WEIGHT'] = 0
-  minAgg['DMG'] = Constants.MAX_INT
-  maxAgg['DMG'] = 0
-  minAgg['MCD'] = Constants.MAX_INT
-  maxAgg['MCD'] = 0
   minAgg['EHP'] = Constants.MAX_INT
   maxAgg['EHP'] = 0
 

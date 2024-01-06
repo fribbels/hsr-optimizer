@@ -63,6 +63,7 @@ export default function GettingStartedTab(props) {
               Recommended: Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
               <ul>
                 <li>Supports all 16:9 resolutions</li>
+                <li>Supports character and light cone imports</li>
               </ul>
             </li>
             <li>
@@ -84,9 +85,8 @@ export default function GettingStartedTab(props) {
           </h4>
           <p>
             This section is where the character and light cone options are selected. 
-            Both of the level options affect the base stats for the optimization search. 
-            The character eidolon option does not currently affect optimization results, but the light cone superimposition will impact final stats based on the unconditional stat increases on the light cone.
-            For example the Amber light cone at S5 gives 32% DEF unconditionally but an additional conditional 32% def at under 50% hp, so only the first 32% is applied to character's final stats.
+            Both of the level options affect the base stats for the optimization search.
+            Character eidolon effects are selectable from the Character passives section.
           </p>
 
           <h4 style={titleStyle}>
@@ -107,9 +107,7 @@ export default function GettingStartedTab(props) {
           <p>
             The relic set filter allows for a combination of 2-piece sets, 4-piece sets, or can be left empty.
             When multiple options are chosen, the search results will only show builds with least one of the selected filters active.
-            Unconditional stats from sets bonuses will affect the final stats of the character.
-            For instance, the Hunter of Glacial Forest set unconditionally boosts Ice DMG by 10%, but conditionally increases Crit DMG by 25%, so only the unconditional Ice DMG boost is applied to the character's final stats.
-            Conditional set bonuses can be added to the 'Combat buffs' fields.
+            Conditional set effects can be customized from the menu.
           </p>
 
           <h4 style={titleStyle}>
@@ -123,33 +121,10 @@ export default function GettingStartedTab(props) {
           </p>
           
           <p>
-            Important note: relics typed in manually or imported with the OCR tool may be affected by hidden decimal points that aren't shown by ingame stats.
+            Important note: relics typed in manually or imported with the OCR tool may be affected by hidden decimal points for speed that aren't shown by ingame stats.
             For example, 5 star relics can have speed substats of values between 2.0 - 2.6, which would all show ingame as 2. 
-            This means that results should be treated as minimum values, as the real value may be slightly higher ingame.
-            This also means that maximum filters should be used carefully since they may be too restrictive.
-          </p>
-
-          <h4 style={titleStyle}>
-            Rating filters
-          </h4>
-
-          <p>
-            This section defines filters for calculated ratings for optimization results. 
-            These are calculated values which don't show ingame, but are useful for comparing multiple builds. 
-            Note that the actual values may be multiplied by a power of 10 scaling factor to visually fit the numbers in the columns.
-          </p>
-
-          <ul>
-            <li>CV - Crit Value, measuring the value of crit stats on the build. Calculated using <code>CD + CR * 2</code></li>
-            <li>Dmg - Average crit damage for ATK scaling characters based on crit rate. Calculated using <code>ATK * CD * CR</code></li>
-            <li>Mcd - Stands for Max Crit Damage, representing ATK scaling damage assuming 100% crit rate. Calculated using <code>ATK * CD</code></li>
-            <li>Ehp - Effective HP, measuring how tanky a max level character is against a same level opponent. Calculated using <code>HP / (1 - DEF/(DEF + 1000))</code></li>
-          </ul>
-          
-          <p>
-            These rating calculations are experimental and I'm open to feedback and ideas for better ways to measure builds. 
-            Currently these damage ratings are mostly focused on ATK / Crit based characters, so DOT / HP scaling characters may not find Dmg / Mcd as useful.
-            More ratings are being working on for future updates.
+            This means that speed results should be treated as minimum values, as the real value may be slightly higher ingame.
+            This also means that maximum filters on speed should be used carefully since they may be too restrictive.
           </p>
 
           <h4 style={titleStyle}>
@@ -158,17 +133,9 @@ export default function GettingStartedTab(props) {
           
           <p>
             This section defines buffs to the character to be used in the optimization calculations.
-            These buffs can come from light cones/sets/teammate abilities/etc. 
-            Only conditional buffs should be applied here because unconditional stats are already added directly to the character's stats.
-            These options will affect the rating calculations but not the result stat rows - the result rows should reflect the ingame character's stat preview.
+            These buffs can come from teammate abilities/light cones etc.
+            Only team buffs should be entered here since the selected character's own passives should already be accounted for.
           </p>
-
-          <ul>
-            <li>ATK - Flat attack buff, e.g. Tingyun's skill which buffs ATK capped by her own ATK</li>
-            <li>ATK % - Percent attack buff, e.g. Bronya's ultimate</li>
-            <li>Crit Rate % - Crit rate buff, e.g. Jingliu would want 50% here from her own passive</li>
-            <li>Crit Dmg % - Crit damage buff, e.g. The Hunter of Glacial Forest set which has a 25% Crit DMG buff</li>
-          </ul>
 
           <h4 style={titleStyle}>
             Optimizer options
@@ -183,9 +150,8 @@ export default function GettingStartedTab(props) {
             <li>Maxed main stat - Assume the main stat for relics are maxed for their respective grades</li>
             <li>Keep current relics - The character must keep its currently equipped relics, and the optimizer will try to fill in empty slots</li>
             <li>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include. If using non +15 relics, the 'Maxed main stat' filter might be good to enable to show maxed potential stats.
-            Be careful selecting +0 relics because this increases search time.</li>
+            Be careful selecting +0 relics because this increases search time if you imported all relics.</li>
           </ul>
-
 
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}

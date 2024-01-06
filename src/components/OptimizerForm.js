@@ -183,6 +183,9 @@ export default function OptimizerForm() {
 
   let setConditionalSetEffectsDrawerOpen = store(s => s.setConditionalSetEffectsDrawerOpen);
 
+  const activeKey = store(s => s.activeKey)
+  const characters = store(s => s.characters)
+
   const statDisplay = store(s => s.statDisplay)
   const setStatDisplay = store(s => s.setStatDisplay)
 
@@ -248,15 +251,19 @@ export default function OptimizerForm() {
 
       return characterOptions.find(x => x.id == character.id)
     } else {
-      return Utils.randomElement(characterOptions)
+
     }
   }, []);
 
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
   window.setSelectedCharacter = setSelectedCharacter
-  useEffect(() => {
 
-  }, [selectedCharacter])
+  useEffect(() => {
+    if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
+      console.log('Switched to optimizesr tab with no selected character, picking the first', activeKey, characters)
+      characterSelectorChange(characters[0].id)
+    }
+  }, [activeKey])
 
   const levelOptions = useMemo(() => {
     let levelStats = []
@@ -373,7 +380,7 @@ export default function OptimizerForm() {
   };
 
   const onValuesChange = (changedValues, allValues, bypass) => {
-    if (!changedValues) return;
+    if (!changedValues || !allValues || !allValues.characterId) return;
     let keys = Object.keys(changedValues)
     if (bypass) {
       // Allow certain values to refresh permutations.
@@ -634,10 +641,8 @@ export default function OptimizerForm() {
               </Flex>
             </FormCard>
 
-
-
             <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter.id, characterEidolon)}
+              {CharacterConditionals.getDisplayForCharacter(selectedCharacter?.id, characterEidolon)}
             </FormCard>
 
             <FormCard justify='space-between'>

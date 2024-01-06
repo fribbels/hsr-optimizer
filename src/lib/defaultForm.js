@@ -1,6 +1,6 @@
 export function getDefaultForm(initialCharacter) {
   return {
-    "characterId": initialCharacter.id,
+    "characterId": initialCharacter?.id,
     "mainBody": [
     ],
     "mainFeet": [

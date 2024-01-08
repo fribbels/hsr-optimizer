@@ -179,6 +179,7 @@ export const Optimizer = {
     if (permutations == 0) {
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
+      return
     }
 
     if (CANCEL) return;

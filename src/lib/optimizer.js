@@ -174,10 +174,12 @@ export const Optimizer = {
       elementalMultipliers
     );
 
+    OptimizerTabController.setMetadata(consts, relics)
+
     if (permutations == 0) {
-      OptimizerTabController.setMetadata(consts, relics)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
+      return
     }
 
     if (CANCEL) return;
@@ -203,7 +205,7 @@ export const Optimizer = {
       relics = splitRelicsByPart(relics);
 
       let callback = (result) => {
-        let resultArr = new Float32Array(result.buffer)
+        let resultArr = new Float64Array(result.buffer)
         console.log(`Top row complete`)
 
         let rowData = []
@@ -259,7 +261,7 @@ export const Optimizer = {
           return
         }
 
-        let resultArr = new Float32Array(result.buffer)
+        let resultArr = new Float64Array(result.buffer)
         // console.log(`Optimizer results`, result, resultArr)
 
         BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
@@ -270,7 +272,6 @@ export const Optimizer = {
         store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
-          OptimizerTabController.setMetadata(consts, relics)
           OptimizerTabController.setRows(results)
 
           optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })

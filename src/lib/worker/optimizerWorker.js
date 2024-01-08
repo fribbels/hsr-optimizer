@@ -274,6 +274,7 @@ self.onmessage = function (e) {
       x[Stats.CR]  += request.buffCr
       x[Stats.SPD] += request.buffSpdP * baseSpd + request.buffSpd
       x[Stats.BE]  += request.buffBe
+      x.ELEMENTAL_DMG += request.buffDmgBoost
 
       // ************************************************************
       // Calculate passive effects & buffs. x stores the internally calculated character stats
@@ -288,6 +289,7 @@ self.onmessage = function (e) {
 
       x[Stats.SPD_P] +=
         0.12*enabledMessengerTraversingHackerspace*p4(sets.MessengerTraversingHackerspace)
+      x[Stats.SPD] += x[Stats.SPD_P] * baseSpd
 
       x[Stats.ATK_P] +=
         0.05*valueChampionOfStreetwiseBoxing*p4(sets.ChampionOfStreetwiseBoxing) +
@@ -296,9 +298,13 @@ self.onmessage = function (e) {
         0.12*(x[Stats.SPD] >= 120 ? 1 : 0)*p2(sets.SpaceSealingStation) +
         0.08*(x[Stats.SPD] >= 120 ? 1 : 0)*p2(sets.FleetOfTheAgeless) +
         Math.min(0.25, 0.25*c[Stats.EHR])*p2(sets.PanCosmicCommercialEnterprise)
+      x[Stats.ATK] += x[Stats.ATK_P] * baseAtk
 
       x[Stats.DEF_P] +=
         0.15*(c[Stats.EHR] >= 0.50 ? 1 : 0)*p2(sets.BelobogOfTheArchitects)
+      x[Stats.DEF] += x[Stats.DEF_P] * baseDef
+
+      x[Stats.HP]  += x[Stats.HP_P]  * baseHp
 
       x[Stats.CR] +=
         0.10*(valueWastelanderOfBanditryDesert > 0 ? 1 : 0)*p4(sets.WastelanderOfBanditryDesert) +
@@ -334,6 +340,10 @@ self.onmessage = function (e) {
 
       x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
 
+      x.ELEMENTAL_DMG +=
+        0.12*(x[Stats.SPD] >= 135 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth) +
+        0.06*(x[Stats.SPD] >= 160 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth)
+
       // These stats have no conditional set effects yet
       // x[Stats.HP_P] += 0
       // x[Stats.EHR]  += 0
@@ -345,26 +355,9 @@ self.onmessage = function (e) {
       // Calculate ratings
       // ************************************************************
 
-      let damageBonus =
-        0.12*(x[Stats.SPD] >= 135 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth) +
-        0.06*(x[Stats.SPD] >= 160 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth)
-
-      x.ELEMENTAL_DMG += damageBonus
-      x.ELEMENTAL_DMG += request.buffDmgBoost
-
       let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
       let cv = 100 * (crSum * 2 + cdSum)
-
       c.CV = cv
-
-      // ************************************************************
-      // Add % sum back to the base
-      // ************************************************************
-
-      x[Stats.ATK] += x[Stats.ATK_P] * baseAtk
-      x[Stats.DEF] += x[Stats.DEF_P] * baseDef
-      x[Stats.HP]  += x[Stats.HP_P]  * baseHp
-      x[Stats.SPD] += x[Stats.SPD_P] * baseSpd
 
       // ************************************************************
       // Calculate skill base damage

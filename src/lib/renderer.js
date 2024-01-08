@@ -119,6 +119,10 @@ export const Renderer = {
   scoreRenderer: (x) => {
     return Math.round(x.value)
   },
+
+  hideNaNAndRound: (x) => {
+    return isNaN(x.value) ? '' :  Math.round(x.value)
+  },
 }
 
 function SetDisplay(props) {

@@ -60,6 +60,7 @@ export const Gradient = {
         'cs': 35,
         'ss': 35,
         'ds': 35,
+        'relicsTabWeight': 120,
       }
     }
 

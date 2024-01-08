@@ -126,7 +126,7 @@ export const RelicScorer = {
   },
 
   score: (relic, characterId) => {
-    // console.log('score', relic, characterId)
+    console.log('score', relic, characterId)
 
     setMainStatFreeRolls()
 
@@ -138,13 +138,13 @@ export const RelicScorer = {
       }
     }
 
-    if (relic.equippedBy) {
-      characterId = relic.equippedBy
-    }
+    // if (relic.equippedBy) {
+    //   characterId = relic.equippedBy
+    // }
 
-    if (relic.optimizerCharacterId) {
-      characterId = relic.optimizerCharacterId
-    }
+    // if (relic.optimizerCharacterId) {
+    //   characterId = relic.optimizerCharacterId
+    // }
 
     if (!characterId) {
       console.log('no id found')
@@ -178,8 +178,6 @@ export const RelicScorer = {
     
     let sum = 0
     for (let substat of relic.substats) {
-      // let subdata = Object.values(relicSubAffixes[relic.grade].affixes).find(x => conversions.statConversion[x.property] == substat.stat)
-      // console.log(substat, subdata)
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),
         score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
@@ -218,8 +216,6 @@ export const RelicScorer = {
         mainStatScore = max * multipliers[relic.main.stat]
       }
     }
-    
-    // console.log(relic.substats, ratings, sum)
 
     return {
       score: sum.toFixed(1),

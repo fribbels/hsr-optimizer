@@ -107,6 +107,7 @@ export default function RelicScorerTab(props) {
     const [previewVisible, setPreviewVisible] = useState(false);
     const [modalSrc, setModalSrc] = useState(Assets.getBlank());
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
+    let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
 
     const [, forceUpdate] = React.useReducer(o => !o, true);
     window.forceRelicScorerTabUpdate = forceUpdate
@@ -130,7 +131,7 @@ export default function RelicScorerTab(props) {
     }
 
     function scoringClicked() {
-      setSelectedScoringAlgorithmCharacter(selectedCharacter)
+      setSelectedScoringCharacter(selectedCharacter?.id)
       setIsScoringModalOpen(true)
     }
 

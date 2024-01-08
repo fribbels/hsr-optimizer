@@ -67,5 +67,8 @@ export const Utils = {
   },
   flipMapping: (obj) => {
     return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
+  },
+  clone: (obj) => {
+    return structuredClone(obj)
   }
 }

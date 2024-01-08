@@ -20,7 +20,7 @@ export const Hint = {
       title: 'Combat buffs',
       content: (
         <Flex vertical gap={10}>
-          <p>Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives are already included in calculations.</p>
+          <p>Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations.</p>
         </Flex>
       )
     }

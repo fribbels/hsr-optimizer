@@ -19,8 +19,9 @@ export const RelicRollFixer = {
     let step = affix.step
     let base = affix.base
     let totalValue = base + step * enhance
+    let scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
 
-    return Utils.isFlat(stat) ? Utils.precisionRound(totalValue, 5) : Utils.precisionRound(totalValue * 100, 5)
+    return Utils.precisionRound(scaledValue, 5)
   },
 
   fixSubStatValue: (stat, value, grade) => {
@@ -50,9 +51,10 @@ export const RelicRollFixer = {
     let step = matched.step
 
     let oneRoll = base + step * 2
-    let totalValue = Utils.precisionRound(oneRoll * rolls, 7)
+    let totalValue = oneRoll * rolls
+    let scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
 
-    return Utils.isFlat(stat) ? totalValue : totalValue * 100
+    return Utils.precisionRound(scaledValue, 5)
   },
 
   initialize: () => {

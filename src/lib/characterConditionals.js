@@ -1,4 +1,4 @@
-import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
+import {ConfigProvider, Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
 import React from "react";
 import {HeaderText} from "../components/HeaderText";
 import { Constants } from './constants'
@@ -166,21 +166,21 @@ function xueyi(e) {
         <FormSwitch name='enemyToughness50' text='Enemy toughness >= 50%'/>
         <FormSlider name='toughnessReductionDmgBoost' text='Ult toughness based dmg boost' min={0} max={ultBoostMax} percent />
         <FormSlider name='fuaHits' text='Fua hits' min={0} max={3} />
-        <FormSwitch name='e2BeBuff' text='E2 break effect buff'/>
+        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
       enemyToughness50: true,
       toughnessReductionDmgBoost: ultBoostMax,
       fuaHits: 3,
-      e2BeBuff: true,
+      e4BeBuff: true,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.40 : 0
+      x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -300,7 +300,7 @@ function ruanmei(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='ultFieldActive' text='Ult field active'/>
-        <FormSwitch name='e4BeBuff' text='E4 break effect buff'/>
+        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -421,8 +421,8 @@ function yanqing(e) {
         <FormSwitch name='ultBuffActive' text='Ult buff active'/>
         <FormSwitch name='soulsteelBuffActive' text='Soulsteel buff active'/>
         <FormSwitch name='critSpdBuff' text='Crit spd buff'/>
-        <FormSwitch name='e1TargetFrozen' text='E1 target frozen'/>
-        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%'/>
+        <FormSwitch name='e1TargetFrozen' text='E1 target frozen' disabled={e < 1}/>
+        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -497,7 +497,7 @@ function welt(e) {
         <FormSwitch name='enemyDmgTakenDebuff' text='Enemy dmg taken debuff'/>
         <FormSwitch name='enemySlowed' text='Enemy slowed'/>
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={skillExtraHitsMax} />
-        <FormSwitch name='e1EnhancedState' text='E1 enhanced state'/>
+        <FormSwitch name='e1EnhancedState' text='E1 enhanced state' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -564,7 +564,7 @@ function firetrailblazer(e) {
         <FormSwitch name='enhancedBasic' text='Enhanced basic'/>
         <FormSwitch name='skillActive' text='Skill active'/>
         <FormSwitch name='shieldActive' text='Shield active'/>
-        <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3}/>
+        <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3} disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -690,7 +690,7 @@ function topaz(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='enemyProofOfDebtDebuff' text='Target proof of debt debuff'/>
         <FormSwitch name='numbyEnhancedState' text='Numby enhanced state'/>
-        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} />
+        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} disabled={e < 1}/>
       </Flex>
     ),
     defaults: () => ({
@@ -831,10 +831,10 @@ function sushang(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='ultBuffedState' text='Ult buffed state'/>
-        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction'/>
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1017,7 +1017,7 @@ function seele(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='buffedState' text='Buffed state'/>
         <FormSlider name='speedBoostStacks' text='Speed boost stacks' min={0} max={speedBoostStacksMax} />
-        <FormSwitch name='e6UltTargetDebuff' text='E6 ult debuff'/>
+        <FormSwitch name='e6UltTargetDebuff' text='E6 ult debuff' disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1204,7 +1204,7 @@ function pela(e) {
         <FormSwitch name='enemyDebuffed' text='Enemy debuffed'/>
         <FormSwitch name='skillRemovedBuff' text='Skill removed buff'/>
         <FormSwitch name='ultDefPenDebuff' text='Ult def pen debuff'/>
-        <FormSwitch name='e4SkillResShred' text='E4 skill res shred'/>
+        <FormSwitch name='e4SkillResShred' text='E4 skill res shred' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1415,7 +1415,7 @@ function luocha(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='fieldActive' text='Field active'/>
-        <FormSwitch name='e6ResReduction' text='E6 res reduction'/>
+        <FormSwitch name='e6ResReduction' text='E6 res reduction' disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1470,8 +1470,8 @@ function luka(e) {
         <FormSwitch name='basicEnhanced' text='Basic enhanced'/>
         <FormSwitch name='targetUltDebuffed' text='Target ult debuffed'/>
         <FormSlider name='basicEnhancedExtraHits' text='Basic extra hits' min={0} max={3} />
-        <FormSwitch name='e1TargetBleeding' text='E1 target bleeding'/>
-        <FormSlider name='e4TalentStacks' text='E4 talent stacks' min={0} max={4} />
+        <FormSwitch name='e1TargetBleeding' text='E1 target bleeding' disabled={e < 1}/>
+        <FormSlider name='e4TalentStacks' text='E4 talent stacks' min={0} max={4} disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1531,7 +1531,7 @@ function kafka(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='e1DotDmgReceivedDebuff' text='E1 dot dmg debuff'/>
+        <FormSwitch name='e1DotDmgReceivedDebuff' text='E1 dot dmg debuff' disabled={e < 1}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1589,8 +1589,8 @@ function jingyuan(e) {
         <FormSwitch name='skillCritBuff' text='Skill cr buff'/>
         <FormSlider name='talentHitsPerAction' text='Talent stacks' min={3} max={10} />
         <FormSlider name='talentAttacks' text='Talent hit on target' min={0} max={10} />
-        <FormSwitch name='e2DmgBuff' text='E2 dmg buff'/>
-        <FormSlider name='e6FuaVulnerabilityStacks' text='E6 vulnerable stacks (applies to all hits)' min={0} max={3} />
+        <FormSwitch name='e2DmgBuff' text='E2 dmg buff' disabled={e < 2}/>
+        <FormSlider name='e6FuaVulnerabilityStacks' text='E6 vulnerable stacks (applies to all hits)' min={0} max={3}  disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1680,7 +1680,7 @@ function imbibitorlunae(e) {
         <FormSlider name='basicEnhancements' text='Basic enhancements' min={0} max={3} />
         <FormSlider name='skillOutroarStacks' text='Outroar stacks (applied to all hits)' min={0} max={4} />
         <FormSlider name='talentRighteousHeartStacks' text='Righteous Heart stacks (applied to all hits)' min={0} max={righteousHeartStackMax} />
-        <FormSlider name='e6ResPenStacks' text='E6 RES pen stacks' min={0} max={3} />
+        <FormSlider name='e6ResPenStacks' text='E6 RES pen stacks' min={0} max={3} disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1738,7 +1738,7 @@ function huohuo(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='ultBuff' text='Ult buff'/>
         <FormSwitch name='skillBuff' text='Skill buff'/>
-        <FormSwitch name='e6DmgBuff' text='E6 dmg buff'/>
+        <FormSwitch name='e6DmgBuff' text='E6 dmg buff' disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1846,8 +1846,8 @@ function himeko(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='targetBurned' text='Target burned'/>
         <FormSwitch name='selfCurrentHp80Percent' text='Self HP >= 80%'/>
-        <FormSwitch name='e1TalentSpdBuff' text='E1 spd buff'/>
-        <FormSlider name='e6UltExtraHits' text='E6 ult extra hits' min={0} max={2} />
+        <FormSwitch name='e1TalentSpdBuff' text='E1 spd buff' disabled={e < 1}/>
+        <FormSlider name='e6UltExtraHits' text='E6 ult extra hits' min={0} max={2} disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1914,8 +1914,8 @@ function herta(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='techniqueBuff' text='Technique buff'/>
         <FormSwitch name='targetFrozen' text='Target frozen'/>
-        <FormSlider name='e2TalentCritStacks' text='E2 talent crit stacks' min={0} max={5} />
-        <FormSwitch name='e6UltAtkBuff' text='E6 ult atk buff'/>
+        <FormSlider name='e2TalentCritStacks' text='E2 talent crit stacks' min={0} max={5} disabled={e < 2}/>
+        <FormSwitch name='e6UltAtkBuff' text='E6 ult atk buff' disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -1983,7 +1983,7 @@ function hanya(e) {
         <FormSwitch name='ultBuff' text='Ult buff active'/>
         <FormSwitch name='targetBurdenActive' text='Target burden active'/>
         <FormSwitch name='burdenAtkBuff' text='Burden atk buff'/>
-        <FormSwitch name='e2SkillSpdBuff' text='E2 skill spd buff'/>
+        <FormSwitch name='e2SkillSpdBuff' text='E2 skill spd buff' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2042,7 +2042,7 @@ function guinaifen(e) {
       <Flex vertical gap={10} >
         <FormSlider name='talentDebuffStacks' text='Talent debuff stacks' min={0} max={talentDebuffMax} />
         <FormSwitch name='enemyBurned' text='Enemy burned'/>
-        <FormSwitch name='e2BurnMultiBoost' text='E2 burn multi boost'/>
+        <FormSwitch name='e2BurnMultiBoost' text='E2 burn multi boost' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2141,7 +2141,7 @@ function fuxuan(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='skillActive' text='Skill active'/>
-        <FormSlider name='e6TeamHpLostPercent' text='E6 team hp lost' min={0} max={1.2} percent />
+        <FormSlider name='e6TeamHpLostPercent' text='E6 team hp lost' min={0} max={1.2} percent disabled={e < 6}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2254,8 +2254,8 @@ function clara(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='ultBuff' text='Ult buff'/>
         <FormSwitch name='talentEnemyMarked' text='Enemy marked'/>
-        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff'/>
-        <FormSwitch name='e4DmgReductionBuff' text='E4 dmg reduction buff'/>
+        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2}/>
+        <FormSwitch name='e4DmgReductionBuff' text='E4 dmg reduction buff' disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2328,7 +2328,7 @@ function bronya(e) {
         <FormSwitch name='battleStartDefBuff' text='Battle start DEF buff'/>
         <FormSwitch name='skillBuff' text='Skill buff'/>
         <FormSwitch name='ultBuff' text='Ult buff'/>
-        <FormSwitch name='e2SkillSpdBuff' text='E2 skill SPD buff'/>
+        <FormSwitch name='e2SkillSpdBuff' text='E2 skill SPD buff' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2402,12 +2402,13 @@ function blade(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='enhancedStateActive' text='Enhanced state'/>
         <FormSlider name='hpPercentLostTotal' text='HP% lost total' min={0} max={hpPercentLostTotalMax} percent />
-        <FormSlider name='e4MaxHpIncreaseStacks' text='E4 max HP stacks' min={0} max={2} />
+        <FormSlider name='e4MaxHpIncreaseStacks' text='E4 max HP stacks' min={0} max={2} disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
       enhancedStateActive: true,
       hpPercentLostTotal: hpPercentLostTotalMax,
+      e4MaxHpIncreaseStacks: 2,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
@@ -2468,8 +2469,8 @@ function bailu(e) {
       <Flex vertical gap={10} >
         <FormSwitch name='healingMaxHpBuff' text='Healing max HP buff'/>
         <FormSwitch name='talentDmgReductionBuff' text='Talent dmg reduced'/>
-        <FormSwitch name='e2UltHealingBuff' text='E2 ult heal buff'/>
-        <FormSlider name='e4SkillHealingDmgBuffStacks' text='E4 dmg buff stacks' min={0} max={3} />
+        <FormSwitch name='e2UltHealingBuff' text='E2 ult heal buff' disabled={e < 2}/>
+        <FormSlider name='e4SkillHealingDmgBuffStacks' text='E4 dmg buff stacks' min={0} max={3} disabled={e < 4}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2542,7 +2543,7 @@ function asta(e) {
       // Stats
       x[Stats.ATK_P] += (r.talentBuffStacks) * talentStacksAtkBuff
       x[Stats.DEF_P] += (r.talentBuffStacks) * talentStacksDefBuff
-      x[Stats.ERR] += (r.talentBuffStacks >= 2) ? 0.15 : 0
+      x[Stats.ERR] += (e >= 4 && r.talentBuffStacks >= 2) ? 0.15 : 0
       x[Stats.SPD] += (r.ultSpdBuff) ? ultSpdBuffValue : 0
 
       // Scaling
@@ -2634,7 +2635,7 @@ function argenti(e) {
         <FormSwitch name='ultEnhanced' text='Enhanced ult'/>
         <FormSlider name='talentStacks' text='Talent stacks' min={0} max={talentMaxStacks} />
         <FormSlider name='ultEnhancedExtraHits' text='Ult extra hits' min={0} max={6} />
-        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff'/>
+        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2695,9 +2696,9 @@ function jingliu(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSwitch name='talentEnhancedState' text='Enhanced state'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
-        <FormSwitch name='e1CdBuff' text='E1 ult active' />
-        <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' />
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent/>
+        <FormSwitch name='e1CdBuff' text='E1 ult active' disabled={e < 1}/>
+        <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' disabled={e < 2}/>
       </Flex>
     ),
     defaults: () => ({
@@ -2790,13 +2791,21 @@ export const CharacterConditionals = {
     let display = characterFn(eidolon).display()
 
     return (
-      <Flex vertical gap={5}>
-        <Flex justify='space-between' align='center'>
-          <HeaderText>Character passives</HeaderText>
-          <TooltipImage type={Hint.characterPassives()} />
+      <ConfigProvider
+        theme={{
+          token: {
+            opacityLoading: 0.15
+          }
+        }}
+      >
+        <Flex vertical gap={5}>
+          <Flex justify='space-between' align='center'>
+            <HeaderText>Character passives</HeaderText>
+            <TooltipImage type={Hint.characterPassives()} />
+          </Flex>
+          {display}
         </Flex>
-        {display}
-      </Flex>
+      </ConfigProvider>
     )
   },
 }

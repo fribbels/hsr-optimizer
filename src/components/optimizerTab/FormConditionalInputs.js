@@ -29,7 +29,7 @@ export function FormSwitch(props) {
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             disabled={props.disabled}
-            defaultChecked={true}
+            defaultChecked={props.disabled ? false : true}
           />
         </Form.Item>
       </div>
@@ -80,6 +80,7 @@ export function FormSlider(props) {
               formatter={(value) => `${precisionRound(value * multiplier)}`}
               addonAfter={symbol}
               onChange={onChange}
+              disabled={props.disabled}
             />
           </Form.Item>
         </div>
@@ -102,6 +103,7 @@ export function FormSlider(props) {
               formatter: (value) => `${precisionRound(value * multiplier)}${symbol}`
             }}
             onChange={onChange}
+            disabled={props.disabled}
           />
         </Form.Item>
         <Text style={{minWidth: 20, marginBottom: 2, textAlign: 'center'}}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>

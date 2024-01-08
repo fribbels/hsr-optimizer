@@ -350,6 +350,7 @@ self.onmessage = function (e) {
         0.06*(x[Stats.SPD] >= 160 ? 1 : 0)*p2(sets.FirmamentFrontlineGlamoth)
 
       x.ELEMENTAL_DMG += damageBonus
+      x.ELEMENTAL_DMG += request.buffDmgBoost
 
       let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
       let cv = 100 * (crSum * 2 + cdSum)
@@ -381,7 +382,7 @@ self.onmessage = function (e) {
       let defReduction = x.DEF_SHRED + request.buffDefShred
       let defIgnore = 0
 
-      let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG + request.buffDmgBoost
+      let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG
       let dmgReductionMultiplier = 1
 
       let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))

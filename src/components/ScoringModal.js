@@ -70,7 +70,7 @@ export default function ScoringModal() {
       defaultScores.characterId = id
       for (let x of Object.entries(defaultScores.stats)) {
         if (x[1] == 0) {
-          defaultScores.stats[x[0]] = undefined
+          defaultScores.stats[x[0]] = null
         }
       }
       scoringAlgorithmForm.setFieldsValue(defaultScores)

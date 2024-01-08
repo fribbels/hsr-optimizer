@@ -296,6 +296,8 @@ export const DB = {
   },
 
   mergeRelicsWithState: (newRelics, newCharacters) => {
+    newRelics = Utils.clone(newRelics)
+    newCharacters = Utils.clone(newCharacters)
     console.log('Merging relics', newRelics, newCharacters)
 
     let oldRelics = DB.getRelics()

@@ -48,7 +48,7 @@ self.onmessage = function (e) {
   let character = data.character;
   let Stats = Constants.Stats;
   let statValues = Object.values(Stats)
-  let arr = new Float32Array(data.buffer)
+  let arr = new Float64Array(data.buffer)
 
   let headRelics = relics.Head;
   let handsRelics = relics.Hands;

@@ -94,10 +94,10 @@ export const BufferPacker = {
   },
 
   cleanFloatBuffer: (buffer) => {
-    new Float32Array(buffer).fill(0);
+    new Float64Array(buffer).fill(0);
   },
 
   createFloatBuffer: (length) => {
-    return new Float32Array(length * SIZE).buffer
+    return new Float64Array(length * SIZE).buffer
   }
 }

@@ -38,7 +38,7 @@ export const OptimizerTabController = {
   },
 
   setTopRow: (x) => {
-    delete x.id
+    // delete x.id
     optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
@@ -66,7 +66,7 @@ export const OptimizerTabController = {
     
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
-    // setPinnedRow(characterId)
+    OptimizerTabController.setTopRow(row)
     setOptimizerBuild(build);
     relicsGrid.current.api.redrawRows()
     SaveState.save()

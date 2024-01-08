@@ -1262,8 +1262,8 @@ function natasha(e) {
   let value = (e >= 0) ? -1 : -1
 
   let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, -1, -1)
-  let ultScaling = ult(e, -1, -1)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (

@@ -138,20 +138,18 @@ export const RelicScorer = {
       }
     }
 
-    // if (relic.equippedBy) {
-    //   characterId = relic.equippedBy
-    // }
-
-    // if (relic.optimizerCharacterId) {
-    //   characterId = relic.optimizerCharacterId
-    // }
-
     if (!characterId) {
-      console.log('no id found')
-      return {
-        score: 0,
-        rating: 'N/A',
-        mainStatScore: 0
+      if (relic.optimizerCharacterId) {
+        characterId = relic.optimizerCharacterId
+      } else if (relic.equippedBy) {
+        characterId = relic.equippedBy
+      } else {
+        console.log('no id found')
+        return {
+          score: 0,
+          rating: 'N/A',
+          mainStatScore: 0
+        }
       }
     }
 

@@ -27,6 +27,20 @@ export default function RelicFilterBar(props) {
       }
     })
   }
+  function generateTextTags(arr, width) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: (
+          <Flex style={{width: width}} justify='space-around'>
+            <Text style={{fontSize: 20}}>
+              {x}
+            </Text>
+          </Flex>
+        )
+      }
+    })
+  }
 
   let tagsData = generateImageTags(Object.values(Constants.SetsRelics), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
   let tags2Data = generateImageTags(Object.values(Constants.SetsOrnaments), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
@@ -34,6 +48,7 @@ export default function RelicFilterBar(props) {
   let tags3Data = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
 
   let tags4Data = generateImageTags(Object.values(Constants.Stats), (x) => Assets.getStatIcon(x))
+  let tags5Data = generateTextTags(['+0', '+3', '+6', '+9', '+12', '+15'], 100)
 
   function characterSelectorChange(id) {
     let relics = Object.values(store.getState().relicsById)
@@ -78,6 +93,7 @@ export default function RelicFilterBar(props) {
       <FilterRow tags={tags2Data}/>
       <FilterRow tags={tags3Data}/>
       <FilterRow tags={tags4Data}/>
+      <FilterRow tags={tags5Data}/>
     </Flex>
   )
 }

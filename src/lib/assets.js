@@ -122,6 +122,9 @@ export const Assets = {
   getStarBw: () => {
     return baseUrl + '/assets/icon/sign/QuestMainIcon.png'
   },
+  getMisc: (filename) => {
+    return baseUrl + '/assets/misc/' + filename
+  },
 
   getPart: (part) => {
     let mapping = {

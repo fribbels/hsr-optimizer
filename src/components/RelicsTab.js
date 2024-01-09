@@ -12,6 +12,7 @@ import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
 import { TooltipImage } from './TooltipImage';
 import {RelicScorer} from "../lib/relicScorer";
+import RelicFilterBar from "./RelicFilterBar";
 
 
 export default function RelicsTab(props) {
@@ -27,19 +28,6 @@ export default function RelicsTab(props) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   window.setEditModalOpen = setEditModalOpen
   window.setSelectedRelic = setSelectedRelic
-
-
-
-  const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
-
-    for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
-    }
-
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
-  }, []);
 
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
@@ -145,47 +133,14 @@ export default function RelicsTab(props) {
     Message.success('Successfully deleted relic')
   }
 
-  function characterSelectorChange(id) {
-    let relics = Object.values(store.getState().relicsById)
-    console.log('idChange', id, relics)
-
-    let scoring = DB.getMetadata().characters[id].scores
-
-    for (let relic of relics) {
-      let scoringResult = RelicScorer.score(relic, id)
-      console.log(scoringResult)
-      let subScore = parseFloat(scoringResult.score)
-      let mainScore = 0
-      if (Utils.hasMainStat([relic.part])) {
-        if (scoring.parts[relic.part].includes(relic.main.stat)) {
-          mainScore = 64.8
-        } else {
-          mainScore = scoring.stats[relic.main.stat] * 64.8
-        }
-      } else {
-        mainScore = 64.8
-      }
-        // + scoringResult.mainStatScore
-
-      relic.relicsTabWeight = Utils.precisionRound(subScore + mainScore)
-    }
-
-    DB.setRelics(relics)
-    relicsGrid.current.api.redrawRows()
-  }
 
   return (
     <Flex style={{display: props.active ? 'block' : 'none'}}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
-        <Select
-          showSearch
-          filterOption={Utils.characterNameFilterOption}
-          style={{ width: 200 }}
-          onChange={characterSelectorChange}
-          options={characterOptions}
-        />
+
+        <RelicFilterBar/>
 
         <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500, resize: 'vertical', overflow: 'hidden'}}>
 

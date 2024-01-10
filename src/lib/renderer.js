@@ -11,50 +11,62 @@ export const Renderer = {
     return (x.value * 100).toFixed(1)
   },
 
-  ornamentSet: (x) => {
+  relicSet: (x) => {
     if (x == undefined || x.value == undefined) return '';
-    let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { ornamentSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
-    let setImages = []
-  
-    for (let i = 0; i < ornamentSets.length; i++) {
-      while (ornamentSets[i] > 1) {
-        let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == i)[0]
-        setImages[2] = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
-  
-        ornamentSets[i] -= 2
-      }
-    }
-  
-    return (
-      <Flex justify='center' style={{marginTop: -1}}>
-        <SetDisplay asset={setImages[2]} />
-      </Flex>
-    )
-  },
+    let i = x.value
 
-  relicSet : (x) => {
-    if (x == undefined || x.value == undefined) return '';
-    let build = OptimizerTabController.calculateRelicsFromId(x.data.id)
-    let { relicSets } = Utils.relicsToSetArrays(Object.values(build).map(x => DB.getRelicById(x)));
+    let count = Object.values(Constants.SetsRelics).length
     let setImages = []
-  
-    for (let i = 0; i < relicSets.length; i++) {
-      while (relicSets[i] > 1) {
-        let setName = Object.entries(Constants.RelicSetToIndex).find(x => x[1] == i)[0]
+
+    let s1 = i % count
+    let s2 = ((i - s1) / count) % count
+    let s3 = ((i - s2 * count - s1) / (count * count)) % count
+    let s4 = ((i - s3 * count * count - s2 * count - s1) / (count * count * count)) % count
+
+    let relicSets = [s1, s2, s3, s4]
+
+    while (relicSets.length > 0) {
+      let value = relicSets[0]
+      if (relicSets.lastIndexOf(value)) {
+        let setName = Object.entries(Constants.RelicSetToIndex).find(x => x[1] == value)[0]
         let assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
-  
-        relicSets[i] -= 2
+
+        let otherIndex = relicSets.indexOf(value)
+        relicSets.splice(otherIndex, 1)
       }
+      relicSets.splice(0, 1)
     }
-  
+
     return (
       <Flex justify='center' style={{marginTop: -1}}>
         <SetDisplay asset={setImages[0]} />
         <SetDisplay asset={setImages[1]} />
       </Flex>
     )
+  },
+
+  ornamentSet: (x) => {
+    if (x == undefined || x.value == undefined) return '';
+    let i = x.value
+
+    let ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+    let setImage
+
+    let s1 = i % ornamentSetCount;
+    let s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount;
+
+    if (s1 == s2) {
+      let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == s1)[0]
+      setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
+      return (
+        <Flex justify='center' style={{marginTop: -1}}>
+          <SetDisplay asset={setImage} />
+        </Flex>
+      )
+    } else {
+      return ''
+    }
   },
 
   anySet: (x) => {

@@ -141,6 +141,9 @@ self.onmessage = function (e) {
       let relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
       let ornamentSetIndex = setP + setL * ornamentSetCount;
 
+      c.relicSetIndex = relicSetIndex
+      c.ornamentSetIndex = ornamentSetIndex
+
       c.sets = {}
       let sets = c.sets
       sets.PasserbyOfWanderingCloud       = (1 >> (setH ^ 0))  + (1 >> (setG ^ 0))  + (1 >> (setB ^ 0))  + (1 >> (setF ^ 0)) // * 4p -

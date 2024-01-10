@@ -92,8 +92,8 @@ export default function OptimizerTab(props) {
   const setStatDisplay = store(s => s.setStatDisplay)
 
   let baseColumnDefs = [
-    {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
-    {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
+    {field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
+    {field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
 
     {field: Constants.Stats.ATK, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.DEF, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
@@ -120,8 +120,8 @@ export default function OptimizerTab(props) {
   ]
 
   let combatColumnDefs = [
-    {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
-    {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
+    {field: 'relicSetIndex', cellRenderer: Renderer.relicSet2, width: 70, headerName: 'Set'},
+    {field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet2, width: 50, headerName: 'Set'},
 
     {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ ATK'},
     {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ DEF'},

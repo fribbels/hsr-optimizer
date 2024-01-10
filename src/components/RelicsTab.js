@@ -111,7 +111,7 @@ export default function RelicsTab(props) {
     {field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon},
     {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
     {field: 'part', valueFormatter: Renderer.readablePart, width: 100, filter: 'agTextColumnFilter'},
-    {field: 'enhance', width: 60, filter: 'agNumberColumnFilter', filterParams: {maxNumConditions: 20}},
+    {field: 'enhance', width: 60, filter: 'agNumberColumnFilter'},
     {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
     {field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter'},
     {field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
@@ -145,7 +145,8 @@ export default function RelicsTab(props) {
     sortable: true,
     width: 50,
     headerClass: 'relicsTableHeader',
-    sortingOrder: ['desc', 'asc']
+    sortingOrder: ['desc', 'asc'],
+    filterParams: {maxNumConditions: 100}
   }), []);
 
   const cellClickedListener = useCallback( event => {

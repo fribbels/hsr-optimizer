@@ -49,8 +49,8 @@ export default function RelicFilterBar(props) {
 
   let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
   let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-  let mainStatsData = generateImageTags(Object.values(Constants.MainStats), (x) => Assets.getStatIcon(x, true))
-  let subStatsData = generateImageTags(Object.values(Constants.SubStats), (x) => Assets.getStatIcon(x, true))
+  let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true))
+  let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true))
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   function characterSelectorChange(id) {
@@ -145,14 +145,16 @@ function FilterRow(props) {
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t !== tag);
+      : selectedTags.filter((t) => t != tag);
 
     let clonedFilters = Utils.clone(relicTabFilters)
     clonedFilters[props.name] = nextSelectedTags
-    setRelicTabFilters(clonedFilters)
+    console.log('Relic tab filters', props.name, clonedFilters);
 
-    console.log('Relic tab filters', clonedFilters);
+    setRelicTabFilters(clonedFilters)
   };
+
+  console.log(props.name, selectedTags)
 
   return (
     <Flex>

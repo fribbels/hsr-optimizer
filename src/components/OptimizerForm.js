@@ -47,6 +47,7 @@ import {FormStatRollSlider, FormStatRollSliderTopPercent} from "./optimizerTab/F
 import {v4 as uuidv4} from "uuid";
 import {getDefaultForm} from "../lib/defaultForm";
 import {FormSetConditionals} from "./optimizerTab/FormSetConditionals";
+import {RelicFilters} from "../lib/relicFilters";
 const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -396,8 +397,11 @@ export default function OptimizerForm() {
       return;
     }
     let request = allValues
-    let relics = DB.getRelics()
+
     console.log('Values changed', request, changedValues)
+
+    let relics = Utils.clone(DB.getRelics())
+    RelicFilters.calculateWeightScore(request, relics)
 
     // console.log('Unfiltered relics', relics)
     relics = RelicFilters.applyEnhanceFilter(request, relics)

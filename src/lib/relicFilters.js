@@ -1,5 +1,5 @@
 export const RelicFilters = {
-  applyTopFilter: (request, relics, originalRelics) => {
+  calculateWeightScore: (request, relics) => {
     let weights = request.weights || {}
     let statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
@@ -26,18 +26,26 @@ export const RelicFilters = {
         weights[weight] = 0
       }
     }
+
+    for (let relic of relics) {
+      let sum = 0
+      for (let substat of relic.substats) {
+        let weight = weights[substat.stat] || 0
+        let scale = statScalings[substat.stat] || 0
+        let value = substat.value || 0
+        sum += value * weight * scale
+      }
+      relic.weightScore = sum
+    }
+
+    return relics
+  },
+
+  applyTopFilter: (request, relics, originalRelics) => {
+    let weights = request.weights || {}
+
     for (let part of Object.values(Constants.Parts)) {
       let partition = relics[part]
-      for (let relic of partition) {
-        let sum = 0
-        for (let substat of relic.substats) {
-          let weight = weights[substat.stat] || 0
-          let scale = statScalings[substat.stat] || 0
-          let value = substat.value || 0
-          sum += value * weight * scale
-        }
-        relic.weightScore = sum
-      }
       let index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
       relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
     }

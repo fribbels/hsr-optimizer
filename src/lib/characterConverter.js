@@ -97,7 +97,7 @@ function convertRelic(preRelic) {
     let metadata = DB.getMetadata().relics
     let tid = '' + preRelic.tid
 
-    let enhance = preRelic.level
+    let enhance = preRelic.level || 0
 
     let setId = tid.substring(1, 4)
     let setName = metadata.relicSets[setId].name

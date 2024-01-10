@@ -1,8 +1,8 @@
-import { GPU } from 'gpu.js';
-const gpu = new GPU({
-  // 'mode': 'webgl2'
-  mode: 'cpu'
-});
+// Deprecated
+// const gpu = new GPU({
+//   // 'mode': 'webgl2'
+//   mode: 'cpu'
+// });
 
 export const GPUOptimizer = {
   createConstants: function (
@@ -98,6 +98,8 @@ export const GPUOptimizer = {
     console.log('GPU Constants', consts);
     return consts;
   },
+
+  // Deprecated
   createKernel2: function(
     consts
   ) {

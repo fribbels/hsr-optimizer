@@ -5,6 +5,7 @@ import { Utils } from './utils';
 import DB from "./db";
 import { WorkerPool } from "./workerPool";
 import {BufferPacker} from "./bufferPacker";
+import {RelicFilters} from "./relicFilters";
 
 let MAX_INT = 2147483647;
 
@@ -109,9 +110,9 @@ export const Optimizer = {
       }
     }
 
-    let relics = DB.getRelics();
+    let relics = Utils.clone(DB.getRelics());
+    RelicFilters.calculateWeightScore(request, relics)
 
-    relics = JSON.parse(JSON.stringify(relics))
     relics = RelicFilters.applyEnhanceFilter(request, relics);
     relics = RelicFilters.applyRankFilter(request, relics);
 
@@ -196,7 +197,8 @@ export const Optimizer = {
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     function handleTopRow() {
-      let relics = DB.getRelics();
+      let relics = Utils.clone(DB.getRelics());
+      RelicFilters.calculateWeightScore(request, relics)
       relics = relics.filter(x => x.equippedBy == request.characterId)
       relics = addMainStatToAugmentedStats(relics);
       relics = applyMaxedMainStatsFilter(request, relics);

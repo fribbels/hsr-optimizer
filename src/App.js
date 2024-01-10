@@ -69,12 +69,12 @@ const App = () => {
               position: 'sticky',
               top: 0,
             }}
-            breakpoint="xxl"
-            collapsedWidth="50"
-            onBreakpoint={(broken) => {
-            }}
-            onCollapse={(collapsed, type) => {
-            }}
+            // breakpoint="xxl"
+            // collapsedWidth="50"
+            // onBreakpoint={(broken) => {
+            // }}
+            // onCollapse={(collapsed, type) => {
+            // }}
           >
             <MenuDrawer hashes={hashes}/>
           </Sider>

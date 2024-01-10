@@ -442,7 +442,7 @@ function yanqing(e) {
       x[Stats.CR] += (r.soulsteelBuffActive) ? talentCrBuffValue : 0
       x[Stats.CD] += (r.soulsteelBuffActive) ? talentCdBuffValue : 0
       x[Stats.RES] += (r.soulsteelBuffActive) ? 0.20 : 0
-      x[Stats.SPD] += (r.critSpdBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (r.critSpdBuff) ? 0.10 : 0
       x[Stats.ERR] += (e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0
 
       // Scaling
@@ -735,17 +735,20 @@ function topaz(e) {
       x.SKILL_DMG = x.FUA_DMG
 
       // Copy fua boosts to skill/basic
-      x.SKILL_BOOST = x.FUA_BOOST
+      // BOOSTS get added, while vulnerability / def pen gets replaced (?)
+      x.SKILL_BOOST += x.FUA_BOOST
+      x.SKILL_CD_BOOST += x.FUA_CD_BOOST
+      x.SKILL_CR_BOOST += x.FUA_CR_BOOST
       x.SKILL_VULNERABILITY = x.FUA_VULNERABILITY
       x.SKILL_DEF_PEN = x.FUA_DEF_PEN
-      x.SKILL_CD_BOOST = x.FUA_CD_BOOST
-      x.SKILL_CR_BOOST = x.FUA_CR_BOOST
+      x.SKILL_RES_PEN = x.FUA_RES_PEN
 
-      x.BASIC_BOOST = x.FUA_BOOST
+      x.BASIC_BOOST += x.FUA_BOOST
+      x.BASIC_CD_BOOST += x.FUA_CD_BOOST
+      x.BASIC_CR_BOOST += x.FUA_CR_BOOST
       x.BASIC_VULNERABILITY = x.FUA_VULNERABILITY
       x.BASIC_DEF_PEN = x.FUA_DEF_PEN
-      x.BASIC_CD_BOOST = x.FUA_CD_BOOST
-      x.BASIC_CR_BOOST = x.FUA_CR_BOOST
+      x.BASIC_RES_PEN = x.FUA_RES_PEN
 
       // Her ult buff only applies to the skill/fua not basic
       x.FUA_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
@@ -788,8 +791,8 @@ function tingyun(e) {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.SPD] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
-      x[Stats.SPD] += (r.skillSpdBuff) ? 0.20 : 0
+      x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
+      x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
       x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
 
       // Scaling

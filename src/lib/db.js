@@ -78,6 +78,15 @@ window.store = create((set) => ({
 
   selectedScoringCharacter: undefined,
   setSelectedScoringCharacter: (x) => set(() => ({ selectedScoringCharacter: x })),
+
+  relicTabFilters: {
+    set: [],
+    part: [],
+    enhance: [],
+    mainStats: [],
+    subStats: [],
+  },
+  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
 }))
 
 export const DB = {

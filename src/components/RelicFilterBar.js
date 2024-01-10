@@ -1,11 +1,16 @@
-import {Flex, Select, Space, Typography} from "antd";
+import {Button, Flex, Select, Space, Typography} from "antd";
 import React, {useMemo, useState} from "react";
 import {RelicScorer} from "../lib/relicScorer";
 import CheckableTag from "antd/lib/tag/CheckableTag";
+import {HeaderText} from "./HeaderText";
 
 const { Text } = Typography;
 
+let tagHeight = 34
+
 export default function RelicFilterBar(props) {
+  let setRelicTabFilters = store(s => s.setRelicTabFilters);
+
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
 
@@ -22,19 +27,19 @@ export default function RelicFilterBar(props) {
       return {
         key: x,
         display: (
-          <img style={{width: 40}} src={srcFn(x)}/>
+          <img style={{width: tagHeight}} src={srcFn(x)}/>
         )
       }
     })
   }
-  function generateTextTags(arr, width) {
+  function generateTextTags(arr, width) { // arr contains [key, value]
     return arr.map(x => {
       return {
-        key: x,
+        key: x[0],
         display: (
-          <Flex style={{width: width}} justify='space-around'>
+          <Flex style={{width: width, height: tagHeight}} justify='space-around'>
             <Text style={{fontSize: 20}}>
-              {x}
+              {x[1]}
             </Text>
           </Flex>
         )
@@ -42,13 +47,11 @@ export default function RelicFilterBar(props) {
     })
   }
 
-  let tagsData = generateImageTags(Object.values(Constants.SetsRelics), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
-  let tags2Data = generateImageTags(Object.values(Constants.SetsOrnaments), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
-
-  let tags3Data = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-
-  let tags4Data = generateImageTags(Object.values(Constants.Stats), (x) => Assets.getStatIcon(x))
-  let tags5Data = generateTextTags(['+0', '+3', '+6', '+9', '+12', '+15'], 100)
+  let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
+  let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
+  let mainStatsData = generateImageTags(Object.values(Constants.MainStats), (x) => Assets.getStatIcon(x, true))
+  let subStatsData = generateImageTags(Object.values(Constants.SubStats), (x) => Assets.getStatIcon(x, true))
+  let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   function characterSelectorChange(id) {
     let relics = Object.values(store.getState().relicsById)
@@ -79,50 +82,103 @@ export default function RelicFilterBar(props) {
     relicsGrid.current.api.redrawRows()
   }
 
-  return (
-    <Flex vertical gap={5}>
-      <Select
-        showSearch
-        filterOption={Utils.characterNameFilterOption}
-        style={{ width: 200 }}
-        onChange={characterSelectorChange}
-        options={characterOptions}
-      />
+  function clearClicked() {
+    setRelicTabFilters({
+      set: [],
+      part: [],
+      enhance: [],
+      mainStats: [],
+      subStats: [],
+    })
+  }
 
-      <FilterRow tags={tagsData}/>
-      <FilterRow tags={tags2Data}/>
-      <FilterRow tags={tags3Data}/>
-      <FilterRow tags={tags4Data}/>
-      <FilterRow tags={tags5Data}/>
+  return (
+    <Flex vertical gap={2}>
+      <Flex gap={10}>
+        <Button style={{width: 200}} onClick={clearClicked}>
+          Clear filters
+        </Button>
+        <Select
+          showSearch
+          filterOption={Utils.characterNameFilterOption}
+          style={{ width: 200 }}
+          onChange={characterSelectorChange}
+          options={characterOptions}
+        />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Set</HeaderText>
+        <FilterRow name='set' tags={setsData} flexBasis='6.25%'/>
+      </Flex>
+
+      <Flex gap={10}>
+        <Flex vertical flex={1}>
+          <HeaderText>Part</HeaderText>
+          <FilterRow name='part' tags={partsData} flexBasis='15%'/>
+        </Flex>
+        <Flex vertical style={{height: '100%'}} flex={1}>
+          <HeaderText>Enhance</HeaderText>
+          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
+        </Flex>
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Main stats</HeaderText>
+        <FilterRow name='mainStats' tags={mainStatsData} />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Substats</HeaderText>
+        <FilterRow name='subStats' tags={subStatsData} />
+      </Flex>
     </Flex>
   )
 }
 
-
 function FilterRow(props) {
-  const [selectedTags, setSelectedTags] = useState([]);
+  let relicTabFilters = store(s => s.relicTabFilters);
+  let setRelicTabFilters = store(s => s.setRelicTabFilters);
+
+  let selectedTags = relicTabFilters[props.name]
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
       : selectedTags.filter((t) => t !== tag);
-    console.log('You are interested in: ', nextSelectedTags);
-    setSelectedTags(nextSelectedTags);
+
+    let clonedFilters = Utils.clone(relicTabFilters)
+    clonedFilters[props.name] = nextSelectedTags
+    setRelicTabFilters(clonedFilters)
+
+    console.log('Relic tab filters', clonedFilters);
   };
 
   return (
     <Flex>
-      <Flex style={{ height: 50, backgroundColor: '#243356', boxShadow:'0px 0px 0px 1px #3F5A96 inset', borderRadius: 6, overflow: 'hidden' }}>
+      <Flex
+        style={{
+          flexWrap: 'wrap',
+          flexGrow: 1,
+          backgroundColor: '#243356',
+          boxShadow:'0px 0px 0px 1px #3F5A96 inset',
+          borderRadius: 6,
+          overflow: 'hidden'
+        }}
+      >
         {props.tags.map((tag) => (
           <CheckableTag
             key={tag.key}
             checked={selectedTags.includes(tag.key)}
             onChange={(checked) => handleChange(tag.key, checked)}
-            style={{boxShadow:'1px 0px 0px 0px #3F5A96'}}
+            style={{
+              flex: 1,
+              flexBasis: props.flexBasis,
+              boxShadow: '1px 1px 0px 0px #3F5A96'
+            }}
           >
             <Flex align='center' justify='space-around' style={{height: '100%'}}>
               {tag.display}
-
             </Flex>
           </CheckableTag>
         ))}
@@ -130,15 +186,3 @@ function FilterRow(props) {
     </Flex>
   )
 }
-
-function FilterBarItem(props) {
-  return (
-    <Flex style={{width: 100, backgroundColor: '#243356'}}>
-      <Text>
-        {props.text}
-      </Text>
-    </Flex>
-  )
-}
-
-// #1668DC

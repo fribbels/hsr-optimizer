@@ -23,6 +23,43 @@ export const Stats = {
   Imaginary_DMG: 'Imaginary DMG Boost'
 }
 
+export const MainStats = [
+  [Stats.HP_P],
+  [Stats.ATK_P],
+  [Stats.DEF_P],
+  [Stats.HP],
+  [Stats.ATK],
+  [Stats.SPD],
+  [Stats.CR],
+  [Stats.CD],
+  [Stats.EHR],
+  [Stats.BE],
+  [Stats.ERR],
+  [Stats.OHB],
+  [Stats.Physical_DMG],
+  [Stats.Fire_DMG],
+  [Stats.Ice_DMG],
+  [Stats.Lightning_DMG],
+  [Stats.Wind_DMG],
+  [Stats.Quantum_DMG],
+  [Stats.Imaginary_DMG],
+]
+
+export const SubStats = [
+  [Stats.HP_P],
+  [Stats.ATK_P],
+  [Stats.DEF_P],
+  [Stats.HP],
+  [Stats.ATK],
+  [Stats.DEF],
+  [Stats.SPD],
+  [Stats.CR],
+  [Stats.CD],
+  [Stats.EHR],
+  [Stats.RES],
+  [Stats.BE],
+]
+
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',
   [Stats.ATK_P]: 'ATK %',
@@ -32,8 +69,8 @@ export const StatsToReadable = {
   [Stats.ATK]: 'ATK',
   [Stats.DEF]: 'DEF',
   [Stats.SPD]: 'SPD',
-  [Stats.CD]: 'CRIT DMG',
   [Stats.CR]: 'CRIT Rate',
+  [Stats.CD]: 'CRIT DMG',
   [Stats.EHR]: 'Effect Hit Rate',
   [Stats.RES]: 'Effect RES',
   [Stats.BE]: 'Break Effect',
@@ -149,6 +186,8 @@ export const Constants = {
   Sets,
   Parts,
   Stats,
+  MainStats,
+  SubStats,
   StatsToIndex,
   SetsOrnaments,
   SetsRelics,

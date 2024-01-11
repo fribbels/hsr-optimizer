@@ -57,7 +57,7 @@ export default function RelicFilterBar(props) {
     let relics = Object.values(store.getState().relicsById)
     console.log('idChange', id)
 
-    let scoring = DB.getMetadata().characters[id].scores
+    let scoring = Utils.clone(DB.getMetadata().characters[id].scores)
     let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
     let level80Stats = DB.getMetadata().characters[id].promotions[80]
     scoring.stats[Constants.Stats.HP]  = scoring.stats[Constants.Stats.HP_P]   * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)

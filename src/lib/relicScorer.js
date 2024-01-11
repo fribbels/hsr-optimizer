@@ -126,7 +126,7 @@ export const RelicScorer = {
   },
 
   score: (relic, characterId) => {
-    console.log('score', relic, characterId)
+    // console.log('score', relic, characterId)
 
     setMainStatFreeRolls()
 
@@ -170,9 +170,6 @@ export const RelicScorer = {
     }
 
     let multipliers = DB.getMetadata().characters[characterId].scores.stats
-    let conversions = CharacterConverter.getConstantConversions()
-    let relicSubAffixes = DB.getMetadata().relics.relicSubAffixes
-    // console.log('Relic scorer', relic, multipliers, relicSubAffixes, scaling)
     
     let sum = 0
     for (let substat of relic.substats) {
@@ -181,13 +178,6 @@ export const RelicScorer = {
         score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
       }
       sum += substat.scoreMeta.score
-      // a = {
-      //   "affix_id": "12",
-      //   "property": "BreakDamageAddedRatioBase",
-      //   "base": 0.051840000785887,
-      //   "step": 0.006480000447482,
-      //   "step_num": 2
-      // }
     }
 
     if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {

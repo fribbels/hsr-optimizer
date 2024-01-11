@@ -177,6 +177,8 @@ export const DB = {
         relic.equippedBy = undefined
       }
       relic.relicsTabWeight = 0
+      relic.bestCaseWeight = 0
+      relic.averageCaseWeight = 0
     }
 
     store.getState().setScorerId(x.scorerId)

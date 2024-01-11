@@ -37,8 +37,8 @@ export default function RelicFilterBar(props) {
       return {
         key: x[0],
         display: (
-          <Flex style={{width: width, height: tagHeight}} justify='space-around'>
-            <Text style={{fontSize: 20}}>
+          <Flex style={{width: width, height: tagHeight}} justify='space-around' align='center'>
+            <Text style={{fontSize: 18}}>
               {x[1]}
             </Text>
           </Flex>
@@ -55,13 +55,17 @@ export default function RelicFilterBar(props) {
 
   function characterSelectorChange(id) {
     let relics = Object.values(store.getState().relicsById)
-    console.log('idChange', id, relics)
+    console.log('idChange', id)
 
     let scoring = DB.getMetadata().characters[id].scores
+    let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
+    let level80Stats = DB.getMetadata().characters[id].promotions[80]
+    scoring.stats[Constants.Stats.HP]  = scoring.stats[Constants.Stats.HP_P]   * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+    scoring.stats[Constants.Stats.ATK] = scoring.stats[Constants.Stats.ATK_P]  * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+    scoring.stats[Constants.Stats.DEF] = scoring.stats[Constants.Stats.DEF_P]  * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
     for (let relic of relics) {
       let scoringResult = RelicScorer.score(relic, id)
-      console.log(scoringResult)
       let subScore = parseFloat(scoringResult.score)
       let mainScore = 0
       if (Utils.hasMainStat([relic.part])) {
@@ -73,12 +77,50 @@ export default function RelicFilterBar(props) {
       } else {
         mainScore = 64.8
       }
-      // + scoringResult.mainStatScore
+
+      // Predict substat scores
+      let substats = relic.substats
+      let substatScoreEntries = Object.entries(scoring.stats)
+        .filter(x => possibleSubstats[x[0]])
+        .filter(x => !substats.map(x => x.stat).includes(x[0])) // Exclude already existing substats
+        .sort((a, b) => b[1] - a[1])
+
+      let bestUnobtainedSubstat = substatScoreEntries[0]
+      let finalSubstats = [...substats.map(x => x.stat), bestUnobtainedSubstat[0]]
+      let finalSubstatWeights = finalSubstats.map(x => scoring.stats[x])
+      let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
+      let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
+
+      let extraRolls = 0
+
+      let missingSubstats = (4 - substats.length)
+      let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
+
+      for (let i = 0; i < missingSubstats; i++) {
+        extraRolls += 1 * bestUnobtainedSubstat[1]
+      }
+
+      for (let i = 0; i < missingRolls; i++) {
+        extraRolls += bestOverallSubstatWeight
+      }
+
 
       relic.relicsTabWeight = Utils.precisionRound(subScore + mainScore)
+      relic.bestCaseWeight = relic.relicsTabWeight + extraRolls * 6.48
+      relic.averageCaseWeight = relic.relicsTabWeight + extraRolls * 6.48 * avgWeight
     }
 
     DB.setRelics(relics)
+
+    relicsGrid.current.api.applyColumnState({
+      defaultState: { sort: null },
+    });
+
+    relicsGrid.current.api.applyColumnState({
+      state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
+      defaultState: { sort: null },
+    });
+
     relicsGrid.current.api.redrawRows()
   }
 
@@ -95,16 +137,6 @@ export default function RelicFilterBar(props) {
   return (
     <Flex vertical gap={2}>
       <Flex gap={10}>
-        <Button style={{width: 200}} onClick={clearClicked}>
-          Clear filters
-        </Button>
-        <Select
-          showSearch
-          filterOption={Utils.characterNameFilterOption}
-          style={{ width: 200 }}
-          onChange={characterSelectorChange}
-          options={characterOptions}
-        />
       </Flex>
 
       <Flex vertical>
@@ -132,6 +164,24 @@ export default function RelicFilterBar(props) {
         <HeaderText>Substats</HeaderText>
         <FilterRow name='subStats' tags={subStatsData} />
       </Flex>
+
+      <Flex gap={10}>
+        <Flex vertical flex={1}>
+          <HeaderText>Scoring character</HeaderText>
+          <Select
+            showSearch
+            filterOption={Utils.characterNameFilterOption}
+            onChange={characterSelectorChange}
+            options={characterOptions}
+          />
+        </Flex>
+        <Flex vertical style={{height: '100%'}} flex={1}>
+          <HeaderText>Actions</HeaderText>
+          <Button  onClick={clearClicked}>
+            Clear filters
+          </Button>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }
@@ -153,8 +203,6 @@ function FilterRow(props) {
 
     setRelicTabFilters(clonedFilters)
   };
-
-  console.log(props.name, selectedTags)
 
   return (
     <Flex>

@@ -60,7 +60,9 @@ export const Gradient = {
         'cs': 35,
         'ss': 35,
         'ds': 35,
-        'relicsTabWeight': 120,
+        'relicsTabWeight': 64.8,
+        'bestCaseWeight': 64.8,
+        'averageCaseWeight': 64.8,
       }
     }
 
@@ -68,7 +70,13 @@ export const Gradient = {
       return {}
     }
 
-    let range = value / relicColumnRanges[col]
+    let range
+    if (col == 'relicsTabWeight' || col == 'bestCaseWeight' || col == 'averageCaseWeight') {
+      range = Math.max(0, value-64.8) / relicColumnRanges[col]
+    } else {
+      range = value / relicColumnRanges[col]
+    }
+
     let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
 
     return {

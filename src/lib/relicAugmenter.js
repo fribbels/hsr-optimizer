@@ -10,6 +10,10 @@ export const RelicAugmenter = {
       return null
     }
 
+    relic.relicsTabWeight = 0
+    relic.bestCaseWeight = 0
+    relic.averageCaseWeight = 0
+
     let mainStat = relic.main.stat
     relic.main.value = RelicRollFixer.fixMainStatvalue(relic)
     let mainMaxValue = relic.main.value

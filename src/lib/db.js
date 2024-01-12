@@ -141,7 +141,7 @@ export const DB = {
     }
   },
 
-  getRelics: () => Object.values(Object.values(store.getState().relicsById)),
+  getRelics: () => Object.values(store.getState().relicsById),
   getRelicsById: () => store.getState().relicsById,
   setRelics: (x) => {
     let relicsById = {}
@@ -193,9 +193,6 @@ export const DB = {
       } else {
         relic.equippedBy = undefined
       }
-      relic.relicsTabWeight = 0
-      relic.bestCaseWeight = 0
-      relic.averageCaseWeight = 0
     }
 
     store.getState().setScorerId(x.scorerId)
@@ -387,8 +384,6 @@ export const DB = {
 
     console.log('Replacement relics', replacementRelics)
 
-    global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
-
     DB.setRelics(replacementRelics);
 
     // Clean up any deleted relic ids that are still equipped
@@ -413,6 +408,8 @@ export const DB = {
     DB.setRelics(replacementRelics)
     DB.setCharacters(characters)
 
+    global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+
     characterGrid.current.api.redrawRows()
 
     // TODO this probably shouldn't be in this file
@@ -423,7 +420,7 @@ export const DB = {
   // These relics have accurate speed values from relic scorer import
   // We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
   mergeVerifiedRelicsWithState: (newRelics) => {
-    let oldRelics = DB.getRelics()
+    let oldRelics = Utils.clone(DB.getRelics())
     newRelics = Utils.clone(newRelics)
 
     // part set grade mainstat substatStats
@@ -439,6 +436,7 @@ export const DB = {
     let addedNewRelics = []
 
     for (let newRelic of newRelics) {
+      newRelic.equippedBy = undefined
       let partialHash = partialHashRelic(newRelic)
       let partialMatches = oldRelicPartialHashes[partialHash] || []
 
@@ -493,6 +491,7 @@ export const DB = {
 
     oldRelics.map(x => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
+    DB.refreshRelics()
     characterGrid.current.api.redrawRows()
 
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)

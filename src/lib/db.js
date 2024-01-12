@@ -325,13 +325,16 @@ export const DB = {
     characterGrid.current.api.redrawRows()
   },
 
+  // These relics are missing speed decimals from OCR importer
+  // We overwrite any existing relics with imported ones
   mergeRelicsWithState: (newRelics, newCharacters) => {
+    let oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics)
     newCharacters = Utils.clone(newCharacters)
+
     console.log('Merging relics', newRelics, newCharacters)
 
-    let oldRelics = DB.getRelics()
-
+    // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
         DB.addFromForm(character)
@@ -340,6 +343,7 @@ export const DB = {
 
     let characters = DB.getCharacters()
 
+    // Generate a hash of existing relics for easy lookup
     let oldRelicHashes = {}
     for (let oldRelic of oldRelics) {
       let hash = hashRelic(oldRelic)
@@ -350,21 +354,27 @@ export const DB = {
     for (let newRelic of newRelics) {
       let hash = hashRelic(newRelic)
 
+      // Compare new relic hashes to old relic hashes
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
         if (newRelic.equippedBy && newCharacters) {
+          // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy
           newRelic = found
         }
+
+        // Save the old relic because it may already be scorer-verified, delete the hash to prevent duplicates
         replacementRelics.push(found)
         stableRelicId = found.id
         delete oldRelicHashes[hash]
       } else {
+        // No match found - save the new relic
         stableRelicId = newRelic.id
         replacementRelics.push(newRelic)
       }
 
+      // Update the character's equipped inventory
       if (newRelic.equippedBy && newCharacters) {
         let character = characters.find(x => x.id == newRelic.equippedBy)
         if (character) {
@@ -408,7 +418,87 @@ export const DB = {
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
     onOptimizerFormValuesChange({}, fieldValues);
-  }
+  },
+
+  // These relics have accurate speed values from relic scorer import
+  // We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+  mergeVerifiedRelicsWithState: (newRelics) => {
+    let oldRelics = DB.getRelics()
+    newRelics = Utils.clone(newRelics)
+
+    // part set grade mainstat substatStats
+    let oldRelicPartialHashes = {}
+    for (let oldRelic of oldRelics) {
+      let hash = partialHashRelic(oldRelic)
+      if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
+      oldRelicPartialHashes[hash].push(oldRelic);
+    }
+
+    // Tracking these for debug / logging
+    let updatedOldRelics = []
+    let addedNewRelics = []
+
+    for (let newRelic of newRelics) {
+      let partialHash = partialHashRelic(newRelic)
+      let partialMatches = oldRelicPartialHashes[partialHash]
+
+      let match
+      for (let partialMatch of partialMatches) {
+        if (newRelic.enhance < partialMatch.enhance) continue
+        if (newRelic.substats.length < partialMatch.substats.length) continue
+
+        let exit = false
+        let upgrades = 0
+        for (let i = 0; i < partialMatch.substats.length; i++) {
+          let matchSubstat = partialMatch.substats[i]
+          let newSubstat = newRelic.substats[i]
+
+          // Different substats mean different relics - break
+          if (matchSubstat.type != newSubstat.type) { exit = true; break }
+          if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
+
+          // Track if the number of stat increases make sense
+          if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
+            upgrades++
+          }
+        }
+
+        if (exit) continue
+
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance/3)*3 - Math.floor(partialMatch.enhance/3)*3)/3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        if (upgrades > possibleUpgrades) continue
+
+        // If it passes all the tests, keep it
+        match = partialMatch
+        break
+      }
+
+      if (match) {
+        match.substats = newRelic.substats
+        match.main = newRelic.main
+        match.enhance = newRelic.enhance
+        match.verified = true
+
+        updatedOldRelics.push(match)
+      } else {
+        oldRelics.push(newRelic)
+        newRelic.verified = true
+
+        addedNewRelics.push(newRelic)
+      }
+    }
+
+    console.warn('addedNewRelics', addedNewRelics)
+    console.warn('updatedOldRelics', updatedOldRelics)
+
+    oldRelics.map(x => RelicAugmenter.augment(x))
+    DB.setRelics(oldRelics)
+    characterGrid.current.api.redrawRows()
+
+    // TODO this probably shouldn't be in this file
+    let fieldValues = OptimizerTabController.getForm()
+    onOptimizerFormValuesChange({}, fieldValues);
+  },
 }
 
 export default DB;
@@ -422,6 +512,19 @@ function assignRanks(characters) {
 }
 
 function hashRelic(relic) {
+  let substatValues = []
+  let substatStats = []
+
+  for (let substat of relic.substats) {
+    if (substat.type == Constants.Stats.SPD) {
+      // Speed values we floor to an int
+      substatValues.push(Math.floor(substat.value))
+    } else {
+      // Other values we match to 1 decimal point due to OCR
+      substatValues.push(Utils.precisionRound(Utils.truncate10ths(substat.value)))
+    }
+    substatStats.push(substat.type)
+  }
   let hashObject = {
     part: relic.part,
     set: relic.set,
@@ -429,9 +532,43 @@ function hashRelic(relic) {
     enhance: relic.enhance,
     mainstat: relic.main.stat,
     mainvalue: Math.floor(relic.main.value),
-    substatValues: relic.substats.map(x => x.value),
-    substatStats: relic.substats.map(x => x.stat),
+    substatValues: substatValues, // Match to 1 decimal point
+    substatStats: substatStats,
   }
+  let hash = objectHash(hashObject)
+  return hash
+}
+
+// -1: old > new, 0: old == new, 1, new > old
+function compareSameTypeSubstat(oldSubstat, newSubstat) {
+  let oldValue
+  let newValue
+  if (Utils.isFlat(oldSubstat.stat)) {
+    // Flat atk/def/hp/spd values we floor to an int
+    oldValue = Math.floor(oldSubstat.value)
+    newValue = Math.floor(newSubstat.value)
+  } else {
+    // Other values we match to 1 decimal point due to OCR
+    oldValue = Utils.precisionRound(Utils.truncate10ths(oldSubstat.value))
+    newValue = Utils.precisionRound(Utils.truncate10ths(newSubstat.value))
+  }
+
+  if (oldValue == newValue) return 0
+  if (oldValue < newValue) return 1
+  return -1
+}
+
+function partialHashRelic(relic) {
+  let baseSubstatCount = relic.grade == 5 ? 3 : 2
+
+  let hashObject = {
+    part: relic.part,
+    set: relic.set,
+    grade: relic.grade,
+    mainstat: relic.main.stat,
+    substatStats: relic.substats.slice(0, baseSubstatCount).map(x => x.stat)
+  }
+
   let hash = objectHash(hashObject)
   return hash
 }

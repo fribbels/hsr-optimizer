@@ -31,32 +31,34 @@ export function CharacterPreview(props) {
 
   let character = props.character
 
-  if (!character) return (
-    <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
-      <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
-      </div>
+  if (!character) {
+    return (
+      <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+        <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
+        </div>
 
-      <Flex gap={defaultGap}>
-        <Flex vertical gap={defaultGap} align='center' style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
-          <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
-            <Flex></Flex>
+        <Flex gap={defaultGap}>
+          <Flex vertical gap={defaultGap} align='center' style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
+            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
+              <Flex></Flex>
+            </Flex>
+          </Flex>
+
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview />
+            <RelicPreview />
+            <RelicPreview />
+          </Flex>
+
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview />
+            <RelicPreview />
+            <RelicPreview />
           </Flex>
         </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview />
-          <RelicPreview />
-          <RelicPreview />
-        </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview />
-          <RelicPreview />
-          <RelicPreview />
-        </Flex>
       </Flex>
-    </Flex>
-  )
+    )
+  }
 
   let displayRelics
   let scoringResults

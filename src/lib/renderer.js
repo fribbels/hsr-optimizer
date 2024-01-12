@@ -32,7 +32,7 @@ export const Renderer = {
         let assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
-        let otherIndex = relicSets.indexOf(value)
+        let otherIndex = relicSets.lastIndexOf(value)
         relicSets.splice(otherIndex, 1)
       }
       relicSets.splice(0, 1)

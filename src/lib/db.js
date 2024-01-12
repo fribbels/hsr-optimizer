@@ -199,7 +199,7 @@ export const DB = {
     }
 
     store.getState().setScorerId(x.scorerId)
-    store.getState().setScoringMetadataOverrides(x.scoreOverrides)
+    store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

@@ -4,7 +4,7 @@ export const SaveState = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
       scorerId: store.getState().scorerId,
-      scoreOverrides: store.getState().scoringMetadataOverrides,
+      scoringMetadataOverrides: store.getState().scoringMetadataOverrides,
     }
 
     console.log('Saved state', state)

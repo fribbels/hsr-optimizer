@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useState, useReducer } from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import {
   Button,
   Cascader,
@@ -116,6 +116,10 @@ export default function RelicScorerTab(props) {
     window.forceRelicScorerTabUpdate = forceUpdate
 
     console.log('CharacterPreviewSelection', props)
+
+    useEffect(() => {
+      setSelectedScoringCharacter(selectedCharacter?.id)
+    }, [selectedCharacter])
 
     let options = []
     for (let i = 0; i < props.availableCharacters.length; i++) {

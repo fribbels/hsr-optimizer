@@ -440,7 +440,7 @@ export const DB = {
 
     for (let newRelic of newRelics) {
       let partialHash = partialHashRelic(newRelic)
-      let partialMatches = oldRelicPartialHashes[partialHash]
+      let partialMatches = oldRelicPartialHashes[partialHash] || []
 
       let match
       for (let partialMatch of partialMatches) {
@@ -494,6 +494,9 @@ export const DB = {
     oldRelics.map(x => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
     characterGrid.current.api.redrawRows()
+
+    if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
+    if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
 
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()

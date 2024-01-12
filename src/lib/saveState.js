@@ -3,7 +3,8 @@ export const SaveState = {
     let state = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
-      scorerId: DB.getScorerId(),
+      scorerId: store.getState().scorerId,
+      scoreOverrides: store.getState().scoringMetadataOverrides,
     }
 
     console.log('Saved state', state)

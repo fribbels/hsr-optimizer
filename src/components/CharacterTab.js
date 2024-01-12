@@ -19,7 +19,6 @@ const props = {
 
 function cellImageRenderer(params) {
   let data = params.data
-  let characterMetadata = DB.getMetadata().characters[data.id]
   let characterIconSrc = Assets.getCharacterAvatarById(data.id)
 
   // console.log('CellRenderer', data, characterMetadata)

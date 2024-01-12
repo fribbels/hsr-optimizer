@@ -10,12 +10,8 @@ let state = {
   scorerId: undefined
 }
 import { create } from 'zustand'
-import {Constants} from "./constants";
-import {getDefaultForm} from "../lib/defaultForm";
-
-// Usage
-// let characterTabBlur = store(s => s.characterTabBlur);
-// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
+import {Constants} from './constants';
+import {getDefaultForm} from './defaultForm';
 
 // TODO clean up
 let hashes = [
@@ -23,6 +19,13 @@ let hashes = [
   '#getting-started',
   '#beta'
 ]
+
+// React usage
+// let characterTabBlur = store(s => s.characterTabBlur);
+// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
+
+// Nonreactive usage
+// store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
   relicsById: {},
@@ -73,6 +76,9 @@ window.store = create((set) => ({
   scorerId: undefined,
   setScorerId: (x) => set(() => ({ scorerId: x })),
 
+  scoringMetadataOverrides: {},
+  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+
   conditionalSetEffectsDrawerOpen: false,
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
 
@@ -90,8 +96,6 @@ window.store = create((set) => ({
 }))
 
 export const DB = {
-  getScorerId: () => store.getState().scorerId,
-
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 
@@ -158,7 +162,20 @@ export const DB = {
     if (window.setRelicRows) setRelicRows(DB.getRelics())
   },
 
+  // Mostly for debugging
   getState: () => store.getState(),
+
+  getScoringMetadata: (id) => {
+    let defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+    let scoringMetadataOverrides = store.getState().scoringMetadataOverrides[id]
+
+    return scoringMetadataOverrides || defaultScoringMetadata
+  },
+  updateCharacterScoreOverrides: (id, updated) => {
+    let overrides = store.getState().scoringMetadataOverrides
+    overrides[id] = updated
+    store.getState().setScoringMetadataOverrides(overrides)
+  },
 
   setStore: (x) => {
     console.log('Set state', x)
@@ -182,6 +199,7 @@ export const DB = {
     }
 
     store.getState().setScorerId(x.scorerId)
+    store.getState().setScoringMetadataOverrides(x.scoreOverrides)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

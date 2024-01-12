@@ -10,6 +10,7 @@ let tagHeight = 34
 
 export default function RelicFilterBar(props) {
   let setRelicTabFilters = store(s => s.setRelicTabFilters);
+  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
 
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
@@ -57,22 +58,24 @@ export default function RelicFilterBar(props) {
     let relics = Object.values(store.getState().relicsById)
     console.log('idChange', id)
 
-    let scoring = Utils.clone(DB.getMetadata().characters[id].scores)
+    setSelectedScoringCharacter(id)
+
+    let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
     let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
     let level80Stats = DB.getMetadata().characters[id].promotions[80]
-    scoring.stats[Constants.Stats.HP]  = scoring.stats[Constants.Stats.HP_P]   * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-    scoring.stats[Constants.Stats.ATK] = scoring.stats[Constants.Stats.ATK_P]  * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-    scoring.stats[Constants.Stats.DEF] = scoring.stats[Constants.Stats.DEF_P]  * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+    scoringMetadata.stats[Constants.Stats.HP]  = scoringMetadata.stats[Constants.Stats.HP_P]   * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P]  * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P]  * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
     for (let relic of relics) {
       let scoringResult = RelicScorer.score(relic, id)
       let subScore = parseFloat(scoringResult.score)
       let mainScore = 0
       if (Utils.hasMainStat([relic.part])) {
-        if (scoring.parts[relic.part].includes(relic.main.stat)) {
+        if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
           mainScore = 64.8
         } else {
-          mainScore = scoring.stats[relic.main.stat] * 64.8
+          mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
         }
       } else {
         mainScore = 64.8
@@ -80,14 +83,14 @@ export default function RelicFilterBar(props) {
 
       // Predict substat scores
       let substats = relic.substats
-      let substatScoreEntries = Object.entries(scoring.stats)
+      let substatScoreEntries = Object.entries(scoringMetadata.stats)
         .filter(x => possibleSubstats[x[0]])
         .filter(x => !substats.map(x => x.stat).includes(x[0])) // Exclude already existing substats
         .sort((a, b) => b[1] - a[1])
 
       let bestUnobtainedSubstat = substatScoreEntries[0]
       let finalSubstats = [...substats.map(x => x.stat), bestUnobtainedSubstat[0]]
-      let finalSubstatWeights = finalSubstats.map(x => scoring.stats[x])
+      let finalSubstatWeights = finalSubstats.map(x => scoringMetadata.stats[x])
       let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
       let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
 
@@ -134,14 +137,37 @@ export default function RelicFilterBar(props) {
     })
   }
 
+  function scoringClicked() {
+    setIsScoringModalOpen(true)
+  }
+
   return (
     <Flex vertical gap={2}>
       <Flex gap={10}>
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Set</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis='6.25%'/>
+        <Flex vertical flex={1}>
+          <HeaderText>Relic recommendation character</HeaderText>
+          <Flex gap={10}>
+            <Select
+              showSearch
+              filterOption={Utils.characterNameFilterOption}
+              onChange={characterSelectorChange}
+              options={characterOptions}
+              style={{flex: 1}}
+            />
+            <Button
+              onClick={scoringClicked}
+              style={{flex: 1}}
+            >
+              Scoring algorithm
+            </Button>
+          </Flex>
+        </Flex>
+        <Flex vertical style={{height: '100%'}} flex={1}>
+          <HeaderText>Actions</HeaderText>
+          <Button  onClick={clearClicked}>
+            Clear filters
+          </Button>
+        </Flex>
       </Flex>
 
       <Flex gap={10}>
@@ -156,6 +182,11 @@ export default function RelicFilterBar(props) {
       </Flex>
 
       <Flex vertical>
+        <HeaderText>Set</HeaderText>
+        <FilterRow name='set' tags={setsData} flexBasis='6.25%'/>
+      </Flex>
+
+      <Flex vertical>
         <HeaderText>Main stats</HeaderText>
         <FilterRow name='mainStats' tags={mainStatsData} />
       </Flex>
@@ -163,24 +194,6 @@ export default function RelicFilterBar(props) {
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
         <FilterRow name='subStats' tags={subStatsData} />
-      </Flex>
-
-      <Flex gap={10}>
-        <Flex vertical flex={1}>
-          <HeaderText>Scoring character</HeaderText>
-          <Select
-            showSearch
-            filterOption={Utils.characterNameFilterOption}
-            onChange={characterSelectorChange}
-            options={characterOptions}
-          />
-        </Flex>
-        <Flex vertical style={{height: '100%'}} flex={1}>
-          <HeaderText>Actions</HeaderText>
-          <Button  onClick={clearClicked}>
-            Clear filters
-          </Button>
-        </Flex>
       </Flex>
     </Flex>
   )

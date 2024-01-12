@@ -88,7 +88,6 @@ export default function RelicScorerTab(props) {
           return array.findIndex((i) => i.avatarId === item.avatarId) === index;
         });
 
-
         console.log('characters', characters)
 
         let converted = characters.map(x => CharacterConverter.convert(x))
@@ -119,7 +118,9 @@ export default function RelicScorerTab(props) {
       let availableCharacter = props.availableCharacters[i]
       options.push({
         label: (
-          <img style={{width: 100}} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+          <Flex align='center'>
+            <img style={{width: 100}} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+          </Flex>
         ),
         value: availableCharacter.id,
       })

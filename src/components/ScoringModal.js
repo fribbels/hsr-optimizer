@@ -63,19 +63,25 @@ export default function ScoringModal() {
     setSelectedScoringCharacter(id)
   }
 
+  // Cleans up 0's to not show up on the form
+  function getScoringValuesForDisplay(scoringMetadata) {
+    for (let x of Object.entries(scoringMetadata.stats)) {
+      if (x[1] == 0) {
+        scoringMetadata.stats[x[0]] = null
+      }
+    }
+
+    return scoringMetadata
+  }
+
   useEffect(() => {
     let id = selectedScoringCharacter
     if (id) {
-      let defaultScores = JSON.parse(JSON.stringify(DB.getMetadata().characters[id].scores))
-      defaultScores.characterId = id
-      for (let x of Object.entries(defaultScores.stats)) {
-        if (x[1] == 0) {
-          defaultScores.stats[x[0]] = null
-        }
-      }
-      scoringAlgorithmForm.setFieldsValue(defaultScores)
+      let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
+      scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
-      console.log(defaultScores)
+      console.log('Scoring modal opening set as:', scoringMetadata)
     }
   }, [selectedScoringCharacter, isScoringModalOpen])
 
@@ -93,10 +99,6 @@ export default function ScoringModal() {
 
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
-
-  const handleCancel = () => {
-    setIsScoringModalOpen(false);
-  };
 
   function StatValueRow(props) {
     return (
@@ -123,13 +125,30 @@ export default function ScoringModal() {
   }
 
   const onFinish = (x) => {
+    if (!selectedScoringCharacter) return;
+
     console.log('Form finished', x);
     x.stats[Constants.Stats.ATK_P] = x.stats[Constants.Stats.ATK]
     x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
 
     x.modified = true
-    DB.getMetadata().characters[selectedScoringCharacter].scores = x
+
+    DB.updateCharacterScoreOverrides(selectedScoringCharacter, x)
+  };
+
+  const handleResetDefault = () => {
+    if (!selectedScoringCharacter) return;
+
+    let defaultScoringMetadata = DB.getMetadata().characters[selectedScoringCharacter].scoringMetadata
+    let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+
+    DB.updateCharacterScoreOverrides(selectedScoringCharacter, defaultScoringMetadata)
+    scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+  };
+
+  const handleCancel = () => {
+    setIsScoringModalOpen(false);
   };
 
   const filterOption = (input, option) =>
@@ -229,6 +248,17 @@ export default function ScoringModal() {
       centered
       onOk={onModalOk}
       onCancel={handleCancel}
+      footer={[
+        <Button key="back" onClick={handleCancel}>
+          Cancel
+        </Button>,
+        <Button key="default" onClick={handleResetDefault}>
+          Reset to default
+        </Button>,
+        <Button key="submit" type="primary" onClick={onModalOk}>
+          Save changes
+        </Button>,
+      ]}
     >
       <Form
         form={scoringAlgorithmForm}

@@ -169,7 +169,7 @@ export const RelicScorer = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    let multipliers = DB.getMetadata().characters[characterId].scores.stats
+    let multipliers = DB.getScoringMetadata(characterId).stats
     
     let sum = 0
     for (let substat of relic.substats) {
@@ -195,7 +195,7 @@ export const RelicScorer = {
     }
 
     let mainStatScore = 0
-    let metaParts = DB.getMetadata().characters[characterId].scores.parts
+    let metaParts = DB.getScoringMetadata(characterId).parts
     let max = 10.368 + 3.6288 * relic.grade * 3
     if (metaParts[relic.part]) {
       if (metaParts[relic.part].includes(relic.main.stat)) {
@@ -210,7 +210,7 @@ export const RelicScorer = {
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
-      meta: DB.getMetadata().characters[characterId].scores
+      meta: DB.getScoringMetadata(characterId)
     }
   }
 }

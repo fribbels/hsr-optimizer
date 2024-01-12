@@ -39,7 +39,7 @@ export const DataParser = {
 
     let characterTraces = getOverrideTraces();
     let imageCenters = getOverrideImageCenter();
-    let scores = getScores()
+    let scoringMetadata = getScoringMetadata()
     for (let entry of Object.entries(characterTraces)) {
       let id = entry[0]
       let traceData = entry[1]
@@ -51,8 +51,9 @@ export const DataParser = {
 
       characters[id].traces = traceData
       characters[id].imageCenter = imageCenter
-      characters[id].scores = scores[id]
       characters[id].displayName = getDisplayName(characters[id])
+      characters[id].scoringMetadata = scoringMetadata[id]
+      characters[id].scoringMetadata.characterId = id
     }
 
     let relics = {
@@ -854,7 +855,7 @@ function getOverrideImageCenter() {
 }
 
 
-function getScores() {
+function getScoringMetadata() {
   return {
     "1001": { // March 7th
       stats: {
@@ -1074,7 +1075,7 @@ function getScores() {
         [Constants.Stats.CD]: 0.5,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0.75,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,

@@ -161,6 +161,7 @@ export default function RelicScorerTab(props) {
 
       console.log('importClicked', availableCharacters, newRelics)
       DB.mergeVerifiedRelicsWithState(newRelics)
+      SaveState.save()
     }
 
     return (

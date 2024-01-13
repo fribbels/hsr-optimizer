@@ -361,7 +361,7 @@ export const DB = {
           newRelic = found
         }
 
-        // Save the old relic because it may already be scorer-verified, delete the hash to prevent duplicates
+        // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
         replacementRelics.push(found)
         stableRelicId = found.id
         delete oldRelicHashes[hash]
@@ -452,7 +452,7 @@ export const DB = {
           let newSubstat = newRelic.substats[i]
 
           // Different substats mean different relics - break
-          if (matchSubstat.type != newSubstat.type) { exit = true; break }
+          if (matchSubstat.stat != newSubstat.stat) { exit = true; break }
           if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
 
           // Track if the number of stat increases make sense
@@ -475,13 +475,13 @@ export const DB = {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-        match.verified = true
 
+        match.verified = true
         updatedOldRelics.push(match)
       } else {
         oldRelics.push(newRelic)
-        newRelic.verified = true
 
+        newRelic.verified = true
         addedNewRelics.push(newRelic)
       }
     }
@@ -518,14 +518,14 @@ function hashRelic(relic) {
   let substatStats = []
 
   for (let substat of relic.substats) {
-    if (substat.type == Constants.Stats.SPD) {
-      // Speed values we floor to an int
+    if (Utils.isFlat(substat.stat)) {
+      // Flat atk/def/hp/spd values we floor to an int
       substatValues.push(Math.floor(substat.value))
     } else {
       // Other values we match to 1 decimal point due to OCR
       substatValues.push(Utils.precisionRound(Utils.truncate10ths(substat.value)))
     }
-    substatStats.push(substat.type)
+    substatStats.push(substat.stat)
   }
   let hashObject = {
     part: relic.part,

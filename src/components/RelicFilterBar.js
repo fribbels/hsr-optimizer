@@ -12,6 +12,8 @@ export default function RelicFilterBar(props) {
   let setRelicTabFilters = store(s => s.setRelicTabFilters);
   let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
 
+  let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+
   const characterOptions = useMemo(() => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
 
@@ -59,6 +61,7 @@ export default function RelicFilterBar(props) {
     console.log('idChange', id)
 
     setSelectedScoringCharacter(id)
+    setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
     let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
@@ -141,6 +144,10 @@ export default function RelicFilterBar(props) {
     setIsScoringModalOpen(true)
   }
 
+  function rescoreClicked() {
+    characterSelectorChange(currentlySelectedCharacterId)
+  }
+
   return (
     <Flex vertical gap={2}>
       <Flex gap={10}>
@@ -155,8 +162,14 @@ export default function RelicFilterBar(props) {
               style={{flex: 1}}
             />
             <Button
+              onClick={rescoreClicked}
+              style={{flex: 1, padding: '0px'}}
+            >
+              Reapply scores
+            </Button>
+            <Button
               onClick={scoringClicked}
-              style={{flex: 1}}
+              style={{flex: 1, padding: '0px'}}
             >
               Scoring algorithm
             </Button>

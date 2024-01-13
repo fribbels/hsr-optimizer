@@ -110,7 +110,7 @@ export default function RelicsTab(props) {
   const columnDefs = useMemo(() => [
     {field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon},
     {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
-    {field: 'part', valueFormatter: Renderer.readablePart, width: 100, filter: 'agTextColumnFilter'},
+    {field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter'},
     {field: 'enhance', width: 60, filter: 'agNumberColumnFilter'},
     {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
     {field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter'},

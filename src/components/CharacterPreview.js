@@ -253,7 +253,7 @@ export function CharacterPreview(props) {
 
             <Flex vertical>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }} ellipsis={true}>
-                {lightConeName}
+                {`${lightConeName}`}&nbsp;
               </StatText>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                 {`Lv${lightConeLevel} S${lightConeSuperimposition}`}

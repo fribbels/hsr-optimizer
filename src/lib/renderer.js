@@ -135,6 +135,21 @@ export const Renderer = {
   hideNaNAndRound: (x) => {
     return isNaN(x.value) ? '' :  Math.round(x.value)
   },
+
+  renderSubstatNumber: (substat, relic) => {
+    if (substat.stat == Constants.Stats.SPD) {
+      if (relic.verified) {
+        return Utils.truncate10ths(substat.value).toFixed(1)
+      }
+      return Math.floor(substat.value)
+    }
+
+    return Utils.isFlat(substat.stat) ? Math.floor(substat.value) : Utils.truncate10ths(substat.value).toFixed(1)
+  },
+
+  renderMainStatNumber: (mainstat, relic) => {
+    return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
+  }
 }
 
 function SetDisplay(props) {

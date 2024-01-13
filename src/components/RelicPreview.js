@@ -1,12 +1,14 @@
-import { Card, Col, Divider, Flex, Image, Popover, Row, Space, Typography } from 'antd';
+import {Card, Col, Divider, Flex, Image, Popover, Row, Space, Tooltip, Typography} from 'antd';
 import * as React from 'react';
 import { RelicScorer } from '../lib/relicScorer';
+import {Renderer} from "../lib/renderer";
+import {CheckCircleFilled, CheckCircleOutlined, CheckCircleTwoTone} from "@ant-design/icons";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 let iconSize = 23
 
-function generateStat(stat, source, main) {
+function generateStat(stat, source, main, relic) {
   if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
     return (
       <Flex justify='space-between'>
@@ -17,25 +19,14 @@ function generateStat(stat, source, main) {
     )
   }
   
-  let displayValue = ''
-  if (source == 'scorer') {
-    if (stat.stat == Constants.Stats.SPD) {
-      if (main) {
-        displayValue = Math.floor(stat.value)
-      } else {
-        displayValue = (Math.floor(stat.value * 10) / 10)
-      }
-    } else {
-      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
-    }   
+  let displayValue
+  if (main) {
+    displayValue = Renderer.renderMainStatNumber(stat, relic)
   } else {
-    if (stat.stat == Constants.Stats.SPD) {
-      displayValue = Math.floor(stat.value)
-    } else {
-      displayValue = Utils.isFlat(stat.stat) ? Math.floor(stat.value) : (Math.floor(stat.value * 10) / 10).toFixed(1) + "%"
-    }
+    displayValue = Renderer.renderSubstatNumber(stat, relic)
   }
-  
+  displayValue += Utils.isFlat(stat.stat) ? '' : '%'
+
   return (
     <Flex justify='space-between'>
       <Flex>
@@ -51,34 +42,6 @@ function generateStat(stat, source, main) {
   )
 }
 
-function generateScores(data) {
-  if (!data || data.cs == undefined || data.ss == undefined || data.ds == undefined) {
-    return (
-      <Flex gap={4} justify='space-between'>
-        <Text>
-          <span>&shy;</span>
-        </Text>
-          
-        <Text>
-          <span>&shy;</span>
-        </Text>
-      </Flex>
-    )
-  }
-
-  return (
-    <Flex gap={4} justify='space-between'>
-      <Text>
-        C/S/D Score
-      </Text>
-        
-      <Text>
-        {round10ths(data.cs)}/{round10ths(data.ss)}/{round10ths(data.ds)}
-      </Text>
-    </Flex>
-  )
-}
-
 function getRelic(relic) {
   if (!relic || !relic.id) {
     return {substats: []}
@@ -88,8 +51,8 @@ function getRelic(relic) {
 }
 
 let gradeToColor = {
-  5: '#e1a564',
-  4: '#9e5fe8',
+  5: '#efb679',
+  4: '#cc52f1',
   3: '#58beed',
   2: '#63e0ac',
 }
@@ -98,13 +61,13 @@ export default function RelicPreview(props) {
   // console.log('RelicPreview', props)
   // const [hovered, setHovered] = React.useState(false);
 
-  let data = getRelic(props.relic)
+  let relic = getRelic(props.relic)
   if (props.source == 'scorer') {
-    data = props.relic
+    relic = props.relic
   } 
   
-  if (!data) {
-    data = {
+  if (!relic) {
+    relic = {
       enhance: 0,
       part: undefined,
       set: undefined,
@@ -112,27 +75,26 @@ export default function RelicPreview(props) {
     }
   }
 
-  let enhance = data.enhance
-  let part = data.part
-  let set = data.set
-  let grade = data.grade
+  let enhance = relic.enhance
+  let part = relic.part
+  let set = relic.set
+  let grade = relic.grade
 
-  let substats = data.substats || []
-  let main = data.main || {}
+  let substats = relic.substats || []
+  let main = relic.main || {}
   let relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
 
-  let equippedBy = data.equippedBy
+  let equippedBy = relic.equippedBy
   let equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
-  // console.log(props, data)
 
   let color = gradeToColor[grade] || ''
   let scored = props.relic != undefined && props.score != undefined
 
   function relicClicked() {
-    console.log(data, props)
-    if (!data || !data.part || !data.set || props.source == 'scorer') return
+    console.log(relic, props)
+    if (!relic || !relic.part || !relic.set || props.source == 'scorer') return
 
-    setSelectedRelic(data)
+    setSelectedRelic(relic)
     setEditModalOpen(true)
   }
 
@@ -152,17 +114,22 @@ export default function RelicPreview(props) {
             title={set} 
             src={relicSrc}
           />
-          <Flex  align='center'>
-            {
-              grade ? 
-              <div style={{width: 12, height: 12, borderRadius: '50%', background: color, marginRight: 3}}>
-              </div> 
-              : ''
-              
-            }
-            <Text>
-              {part != undefined ? `+${enhance}` : ''}
-            </Text>
+          <Flex vertical align='center'>
+            {/*<CheckCircleFilled style={{color: 'green'}}/>twoToneColor="#52c41a"*/}
+
+            <Flex align='center' gap={5}>
+              {
+                relic.verified
+                  ?
+                  <Tooltip title="Substats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
+                  : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
+              }
+              <Flex style={{width: 30}} justify='space-around'>
+                <Text>
+                  {part != undefined ? `+${enhance}` : ''}
+                </Text>
+              </Flex>
+            </Flex>
           </Flex>
           <img
             style={{height: 50, width: 50}}
@@ -172,15 +139,15 @@ export default function RelicPreview(props) {
         
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
         
-        {generateStat(main, props.source, true)}
+        {generateStat(main, props.source, true, relic)}
 
         <Divider style={{margin: '6px 0px 6px 0px'}}/>
 
         <Flex vertical gap={0}>
-          {generateStat(substats[0], props.source)}
-          {generateStat(substats[1], props.source)}
-          {generateStat(substats[2], props.source)}
-          {generateStat(substats[3], props.source)}
+          {generateStat(substats[0], props.source, false, relic)}
+          {generateStat(substats[1], props.source, false, relic)}
+          {generateStat(substats[2], props.source, false, relic)}
+          {generateStat(substats[3], props.source, false, relic)}
         </Flex>
 
         <Divider style={{margin: '6px 0px 6px 0px'}}/>

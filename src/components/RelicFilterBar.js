@@ -65,6 +65,8 @@ export default function RelicFilterBar(props) {
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   function characterSelectorChange(id) {
+    if (!id) return
+
     let relics = Object.values(store.getState().relicsById)
     console.log('idChange', id)
 

@@ -110,6 +110,7 @@ export default function RelicsTab(props) {
   const columnDefs = useMemo(() => [
     {field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon},
     {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
+    {field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter'},
     {field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter'},
     {field: 'enhance', width: 60, filter: 'agNumberColumnFilter'},
     {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
@@ -144,7 +145,7 @@ export default function RelicsTab(props) {
 
   const defaultColDef = useMemo( ()=> ({
     sortable: true,
-    width: 50,
+    width: 45,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: {maxNumConditions: 100}

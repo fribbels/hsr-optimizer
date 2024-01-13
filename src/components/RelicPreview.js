@@ -50,13 +50,6 @@ function getRelic(relic) {
   return DB.getRelicById(relic.id)
 }
 
-let gradeToColor = {
-  5: '#efb679',
-  4: '#cc52f1',
-  3: '#58beed',
-  2: '#63e0ac',
-}
-
 export default function RelicPreview(props) {
   // console.log('RelicPreview', props)
   // const [hovered, setHovered] = React.useState(false);
@@ -87,7 +80,6 @@ export default function RelicPreview(props) {
   let equippedBy = relic.equippedBy
   let equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
 
-  let color = gradeToColor[grade] || ''
   let scored = props.relic != undefined && props.score != undefined
 
   function relicClicked() {
@@ -115,15 +107,8 @@ export default function RelicPreview(props) {
             src={relicSrc}
           />
           <Flex vertical align='center'>
-            {/*<CheckCircleFilled style={{color: 'green'}}/>twoToneColor="#52c41a"*/}
-
             <Flex align='center' gap={5}>
-              {
-                relic.verified
-                  ?
-                  <Tooltip mouseEnterDelay={0.4} title="Substats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
-                  : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
-              }
+              {Renderer.renderGrade(relic)}
               <Flex style={{width: 30}} justify='space-around'>
                 <Text>
                   {part != undefined ? `+${enhance}` : ''}

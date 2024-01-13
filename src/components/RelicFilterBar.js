@@ -184,7 +184,7 @@ export default function RelicFilterBar(props) {
           </Flex>
         </Flex>
         <Flex vertical style={{height: '100%'}} flex={1}>
-          <HeaderText>Actions</HeaderText>
+          <HeaderText>Filter actions</HeaderText>
           <Button  onClick={clearClicked}>
             Clear filters
           </Button>
@@ -239,34 +239,32 @@ function FilterRow(props) {
   };
 
   return (
-    <Flex>
-      <Flex
-        style={{
-          flexWrap: 'wrap',
-          flexGrow: 1,
-          backgroundColor: '#243356',
-          boxShadow:'0px 0px 0px 1px #3F5A96 inset',
-          borderRadius: 6,
-          overflow: 'hidden'
-        }}
-      >
-        {props.tags.map((tag) => (
-          <CheckableTag
-            key={tag.key}
-            checked={selectedTags.includes(tag.key)}
-            onChange={(checked) => handleChange(tag.key, checked)}
-            style={{
-              flex: 1,
-              flexBasis: props.flexBasis,
-              boxShadow: '1px 1px 0px 0px #3F5A96'
-            }}
-          >
-            <Flex align='center' justify='space-around' style={{height: '100%'}}>
-              {tag.display}
-            </Flex>
-          </CheckableTag>
-        ))}
-      </Flex>
+    <Flex
+      style={{
+        flexWrap: 'wrap',
+        flexGrow: 1,
+        backgroundColor: '#243356',
+        boxShadow:'0px 0px 0px 1px #3F5A96 inset',
+        borderRadius: 6,
+        overflow: 'hidden'
+      }}
+    >
+      {props.tags.map((tag) => (
+        <CheckableTag
+          key={tag.key}
+          checked={selectedTags.includes(tag.key)}
+          onChange={(checked) => handleChange(tag.key, checked)}
+          style={{
+            flex: 1,
+            flexBasis: props.flexBasis,
+            boxShadow: '1px 1px 0px 0px #3F5A96'
+          }}
+        >
+          <Flex align='center' justify='space-around' style={{height: '100%'}}>
+            {tag.display}
+          </Flex>
+        </CheckableTag>
+      ))}
     </Flex>
   )
 }

@@ -1,4 +1,6 @@
-import {Flex, Image, Tag,} from 'antd';
+import {Flex, Image, Tag, Tooltip,} from 'antd';
+import {CheckCircleFilled} from "@ant-design/icons";
+import * as React from "react";
 
 export const Renderer = {
   floor: (x) => {
@@ -149,7 +151,28 @@ export const Renderer = {
 
   renderMainStatNumber: (mainstat, relic) => {
     return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
-  }
+  },
+
+  renderGradeCell: (x) => {
+    let relic = x.data
+    return Renderer.renderGrade(relic)
+  },
+  renderGrade: (relic) => {
+    let color = gradeToColor[relic.grade] || ''
+    return (
+      relic.verified
+        ?
+        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
+        : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
+    )
+  },
+}
+
+let gradeToColor = {
+  5: '#efb679',
+  4: '#cc52f1',
+  3: '#58beed',
+  2: '#63e0ac',
 }
 
 function SetDisplay(props) {

@@ -145,12 +145,10 @@ export function CharacterPreview(props) {
     let readableStat = stat.replace('DMG Boost', 'DMG')
     let value = finalStats[stat]
 
-    if (stat == 'CV' || stat == Constants.Stats.SPD) {
-      if (isScorer) {
-        value = Utils.truncate10ths(value).toFixed(1)
-      } else {
-        value = value.toFixed(0)
-      }
+    if (stat == 'CV') {
+      value = Utils.truncate10ths(value).toFixed(1)
+    } else if (stat == Constants.Stats.SPD) {
+      value = Utils.truncate10ths(value).toFixed(1)
     } else if (Utils.isFlat(stat)) {
       value = Math.floor(value)
     } else {

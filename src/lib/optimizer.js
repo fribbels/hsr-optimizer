@@ -289,9 +289,8 @@ export const Optimizer = {
         }
       }
 
-      
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 100)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10*run)
     }
   }
 }

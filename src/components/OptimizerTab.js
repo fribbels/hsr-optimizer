@@ -120,8 +120,8 @@ export default function OptimizerTab(props) {
   ]
 
   let combatColumnDefs = [
-    {field: 'relicSetIndex', cellRenderer: Renderer.relicSet2, width: 70, headerName: 'Set'},
-    {field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet2, width: 50, headerName: 'Set'},
+    {field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
+    {field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
 
     {field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ ATK'},
     {field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ DEF'},

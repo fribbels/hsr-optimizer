@@ -121,7 +121,7 @@ export default function RelicPreview(props) {
               {
                 relic.verified
                   ?
-                  <Tooltip title="Substats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
+                  <Tooltip mouseEnterDelay={0.4} title="Substats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
                   : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
               }
               <Flex style={{width: 30}} justify='space-around'>

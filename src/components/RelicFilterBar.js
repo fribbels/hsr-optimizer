@@ -1,4 +1,4 @@
-import {Button, Flex, Select, Space, Typography} from "antd";
+import {Button, Flex, Select, Space, Tooltip, Typography} from "antd";
 import React, {useMemo, useState} from "react";
 import {RelicScorer} from "../lib/relicScorer";
 import CheckableTag from "antd/lib/tag/CheckableTag";
@@ -25,13 +25,21 @@ export default function RelicFilterBar(props) {
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
-  function generateImageTags(arr, srcFn) {
+  function generateImageTags(arr, srcFn, tooltip) {
     return arr.map(x => {
       return {
         key: x,
-        display: (
-          <img style={{width: tagHeight}} src={srcFn(x)}/>
-        )
+        display:
+          tooltip ?
+          (
+            <Tooltip title={x} mouseEnterDelay={0.4}>
+              <img style={{width: tagHeight}} src={srcFn(x)}/>
+            </Tooltip>
+          )
+          :
+          (
+            <img style={{width: tagHeight}} src={srcFn(x)}/>
+          )
       }
     })
   }
@@ -50,10 +58,10 @@ export default function RelicFilterBar(props) {
     })
   }
 
-  let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
-  let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-  let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true))
-  let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true))
+  let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
+  let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
+  let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
+  let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   function characterSelectorChange(id) {

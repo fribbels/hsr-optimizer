@@ -70,5 +70,11 @@ export const Utils = {
   },
   clone: (obj) => {
     return structuredClone(obj)
-  }
+  },
+  characterNameFilterOption: (input, option) => {
+    return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+  },
+  hasMainStat: (part) => {
+    return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
+  },
 }

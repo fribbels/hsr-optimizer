@@ -169,27 +169,15 @@ export const RelicScorer = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    let multipliers = DB.getMetadata().characters[characterId].scores.stats
-    let conversions = CharacterConverter.getConstantConversions()
-    let relicSubAffixes = DB.getMetadata().relics.relicSubAffixes
-    // console.log('Relic scorer', relic, multipliers, relicSubAffixes, scaling)
+    let multipliers = DB.getScoringMetadata(characterId).stats
     
     let sum = 0
     for (let substat of relic.substats) {
-      // let subdata = Object.values(relicSubAffixes[relic.grade].affixes).find(x => conversions.statConversion[x.property] == substat.stat)
-      // console.log(substat, subdata)
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),
         score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
       }
       sum += substat.scoreMeta.score
-      // a = {
-      //   "affix_id": "12",
-      //   "property": "BreakDamageAddedRatioBase",
-      //   "base": 0.051840000785887,
-      //   "step": 0.006480000447482,
-      //   "step_num": 2
-      // }
     }
 
     if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
@@ -207,7 +195,7 @@ export const RelicScorer = {
     }
 
     let mainStatScore = 0
-    let metaParts = DB.getMetadata().characters[characterId].scores.parts
+    let metaParts = DB.getScoringMetadata(characterId).parts
     let max = 10.368 + 3.6288 * relic.grade * 3
     if (metaParts[relic.part]) {
       if (metaParts[relic.part].includes(relic.main.stat)) {
@@ -216,15 +204,13 @@ export const RelicScorer = {
         mainStatScore = max * multipliers[relic.main.stat]
       }
     }
-    
-    // console.log(relic.substats, ratings, sum)
 
     return {
       score: sum.toFixed(1),
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
-      meta: DB.getMetadata().characters[characterId].scores
+      meta: DB.getScoringMetadata(characterId)
     }
   }
 }

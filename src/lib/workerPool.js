@@ -1,4 +1,5 @@
 let poolSize = (navigator.hardwareConcurrency || 4) - 1
+let initialized = 0
 console.log('Using pool size ' + poolSize)
 let workers = []
 let buffers = []
@@ -7,9 +8,10 @@ let taskStatus = {}
 
 export const WorkerPool = {
   initialize: () => {
-    for (let i = 0; i < poolSize; i++) {
+    if (initialized < poolSize) {
       const worker = new Worker(new URL('./worker/optimizerWorker.js', import.meta.url));
       workers.push(worker)
+      initialized++
     }
   },
 
@@ -22,6 +24,8 @@ export const WorkerPool = {
   execute: (task, callback, id) => {
     if (taskStatus[id] == undefined) taskStatus[id] = true
     if (taskStatus[id] == false) return
+
+    WorkerPool.initialize()
 
     if (workers.length > 0) {
       const worker = workers.pop();

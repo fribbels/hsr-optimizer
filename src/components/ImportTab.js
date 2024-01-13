@@ -381,6 +381,9 @@ function relicImporterTab() {
               <li>
                 Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
               </li>
+              <li>
+                Alternatively, use the Relic Scorer tab to import relics from your profile, with accurate speed substats
+              </li>
             </ul>
           </Text>
           <Text>

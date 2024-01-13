@@ -4,7 +4,7 @@ let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
 let pathFromClassMapping
 let iconFromStatMapping
 export const Assets = {
-  getStatIcon: (stat) => {
+  getStatIcon: (stat, percented) => {
     if (!iconFromStatMapping) {
       iconFromStatMapping = {
         [Constants.Stats.ATK]: 'IconAttack.png',
@@ -32,6 +32,9 @@ export const Assets = {
       }
     }
     if (stat == 'CV') return baseUrl + `/assets/misc/cv.png`
+    if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/assets/misc/IconMaxHPPercent.png`
+    if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/assets/misc/IconAttackPercent.png`
+    if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/assets/misc/IconDefencePercent.png`
     if (!stat || !iconFromStatMapping[stat]) return ''
     
     return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
@@ -121,6 +124,9 @@ export const Assets = {
   },
   getStarBw: () => {
     return baseUrl + '/assets/icon/sign/QuestMainIcon.png'
+  },
+  getMisc: (filename) => {
+    return baseUrl + '/assets/misc/' + filename
   },
 
   getPart: (part) => {

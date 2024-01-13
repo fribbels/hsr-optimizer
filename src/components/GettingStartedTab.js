@@ -255,26 +255,6 @@ export default function GettingStartedTab(props) {
             Relics should be updated occasionally with the importer to add in newly acquired relics.
             Clicking columns will sort the relics grid.
           </p>
-
-          <h4 style={titleStyle}>
-            Scores
-          </h4>
-
-          <p>
-            This section displays ratings for each relic, based on their substats. 
-            O/S/D score stands for Offense / Support / DOT score. These are experimental measures of stat values for rating relic substats.
-            The multipliers are based off substat : main stat value ratio.
-          </p>
-
-          <ul>
-            <li>Offense score = <code>(CD * 1) + (ATK% * 1.5) + (CR * 2) + (SPD * 2.6)</code></li>
-            <li>Support score = <code>(DEF% * 1.2) + (HP% * 1.5) + (RES * 1.5) + (SPD * 2.6)</code></li>
-            <li>DOT score = <code>(ATK% * 1.5) + (EHR * 1.5) + (BE * 1) + (SPD * 2.6)</code></li>
-          </ul>
-
-          <p>
-            These rating calculations are experimental and I'm open to feedback and ideas for better ways to measure relic quality. 
-          </p>
         </Flex>
       </Text>
     </div>

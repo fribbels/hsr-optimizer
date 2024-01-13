@@ -31,32 +31,34 @@ export function CharacterPreview(props) {
 
   let character = props.character
 
-  if (!character) return (
-    <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
-      <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
-      </div>
+  if (!character) {
+    return (
+      <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+        <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
+        </div>
 
-      <Flex gap={defaultGap}>
-        <Flex vertical gap={defaultGap} align='center' style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
-          <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
-            <Flex></Flex>
+        <Flex gap={defaultGap}>
+          <Flex vertical gap={defaultGap} align='center' style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
+            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
+              <Flex></Flex>
+            </Flex>
+          </Flex>
+
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview />
+            <RelicPreview />
+            <RelicPreview />
+          </Flex>
+
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview />
+            <RelicPreview />
+            <RelicPreview />
           </Flex>
         </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview />
-          <RelicPreview />
-          <RelicPreview />
-        </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview />
-          <RelicPreview />
-          <RelicPreview />
-        </Flex>
       </Flex>
-    </Flex>
-  )
+    )
+  }
 
   let displayRelics
   let scoringResults
@@ -143,12 +145,10 @@ export function CharacterPreview(props) {
     let readableStat = stat.replace('DMG Boost', 'DMG')
     let value = finalStats[stat]
 
-    if (stat == 'CV' || stat == Constants.Stats.SPD) {
-      if (isScorer) {
-        value = Utils.truncate10ths(value).toFixed(1)
-      } else {
-        value = value.toFixed(0)
-      }
+    if (stat == 'CV') {
+      value = Utils.truncate10ths(value).toFixed(1)
+    } else if (stat == Constants.Stats.SPD) {
+      value = Utils.truncate10ths(value).toFixed(1)
     } else if (Utils.isFlat(stat)) {
       value = Math.floor(value)
     } else {
@@ -251,7 +251,7 @@ export function CharacterPreview(props) {
 
             <Flex vertical>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }} ellipsis={true}>
-                {lightConeName}
+                {`${lightConeName}`}&nbsp;
               </StatText>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                 {`Lv${lightConeLevel} S${lightConeSuperimposition}`}

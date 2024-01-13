@@ -145,11 +145,9 @@ export const Hint = {
       title: 'Relics',
       content: (
         <Flex vertical gap={10}>
-          <p>O/S/D score stands for Offense / Support / DOT score. These are experimental measures of stat values for rating relic substats</p>
-          <p>The multipliers are based off substat : main stat value ratio</p>
-          <p>Offense score = (CD x 1) + (ATK% x 1.5) + (CR x 2) + (SPD x 2.6)</p>
-          <p>Support score = (DEF% x 1.2) + (HP% x 1.5) + (RES x 1.5) + (SPD x 2.6)</p>
-          <p>DOT score = (ATK% x 1.5) + (EHR x 1.5) + (BE x 1) + (SPD x 2.6)</p>
+          <p>Weight - The relic's current weight as defined by the scoring algorithm + 64.8 weight for an appropriate main stat</p>
+          <p>Avg case - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
+          <p>Best case - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
         </Flex>
       )
     }

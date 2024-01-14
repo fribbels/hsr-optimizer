@@ -175,6 +175,8 @@ export const DB = {
     let overrides = store.getState().scoringMetadataOverrides
     overrides[id] = updated
     store.getState().setScoringMetadataOverrides(overrides)
+
+    SaveState.save()
   },
 
   setStore: (x) => {

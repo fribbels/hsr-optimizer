@@ -113,6 +113,9 @@ export const Assets = {
   getLogo: () => {
     return baseUrl + '/assets/misc/logo.png'
   },
+  getDiscord: () => {
+    return baseUrl + '/assets/misc/badgediscord.png'
+  },
   getStar: () => {
     return baseUrl + '/assets/icon/deco/StarBig.png'
   },

@@ -132,7 +132,19 @@ export default function ScoringModal() {
     x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
 
-    x.modified = true
+    let defaultScoringMetadata = DB.getMetadata().characters[selectedScoringCharacter].scoringMetadata
+
+    function nullUndefinedToZero(x) {
+      if (x == null || x == undefined) return 0
+      return x
+    }
+
+    x.modified = false
+    for (let stat of Object.values(Constants.Stats)) {
+      if (nullUndefinedToZero(x.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+        x.modified = true
+      }
+    }
 
     DB.updateCharacterScoreOverrides(selectedScoringCharacter, x)
   };

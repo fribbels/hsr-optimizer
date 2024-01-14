@@ -87,22 +87,31 @@ const App = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '0 30px',
+                paddingLeft: '30px',
+                paddingRight: '0px',
                 height: 48,
                 width: '100%'
               }}
             >
-              <a href="/hsr-optimizer">
-                <Flex align='center'>
-                  <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
-                  <Typography
-                    style={{ fontWeight: 600, fontSize: 22 }}
-                    color="inherit"
-                  >
-                    Fribbels Honkai Star Rail Optimizer
-                  </Typography>
-                </Flex>
-              </a>
+              <Flex align='center' justify='space-between' style={{width: '100%'}}>
+                <a href="/hsr-optimizer">
+                  <Flex align='center'>
+                    <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
+                    <Typography
+                      style={{ fontWeight: 600, fontSize: 22 }}
+                      color="inherit"
+                    >
+                      Fribbels Honkai Star Rail Optimizer
+                    </Typography>
+                  </Flex>
+                </a>
+
+                <a href="https://discord.gg/rDmB4Un7qg" target="_blank">
+                  <Flex>
+                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
+                  </Flex>
+                </a>
+              </Flex>
             </Header>
             <Content
               style={{

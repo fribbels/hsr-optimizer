@@ -293,13 +293,23 @@ export const DB = {
     let prevOwnerId = relic.equippedBy;
     let character = DB.getCharacters().find(x => x.id == characterId)
     let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
-    let prevRelic = character.equipped[relic.part]
-    DB.unequipRelicById(prevRelic)
+    let prevRelic = DB.getRelicById(character.equipped[relic.part])
 
-    if (prevCharacter) {
+    if (prevRelic){
+      DB.unequipRelicById(prevRelic.id)
+    }
+
+    if (prevRelic && prevCharacter){
+      prevCharacter.equipped[relic.part] = prevRelic.id
+      prevRelic.equippedBy = prevCharacter.id
+      DB.setCharacter(prevCharacter)
+      DB.setRelic(prevRelic)
+    }
+    else if (prevCharacter) {
       prevCharacter.equipped[relic.part] = undefined
       DB.setCharacter(prevCharacter)
     }
+
     character.equipped[relic.part] = relic.id
     relic.equippedBy = character.id
     DB.setCharacter(character)

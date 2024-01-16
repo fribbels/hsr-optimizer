@@ -2689,6 +2689,7 @@ function argenti(e) {
 function jingliu(e) {
   let talentCrBuff = talent(e, 0.50, 0.52)
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
+  talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 2.00, 2.20)
@@ -2724,6 +2725,7 @@ function jingliu(e) {
 
       // Eidolons
       x[Stats.CD]    += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
+      x[Stats.CD]    += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling

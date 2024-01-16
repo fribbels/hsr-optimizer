@@ -7,9 +7,9 @@ export const Assets = {
   getStatIcon: (stat, percented) => {
     if (!iconFromStatMapping) {
       iconFromStatMapping = {
+        [Constants.Stats.HP]: 'IconMaxHP.png',
         [Constants.Stats.ATK]: 'IconAttack.png',
         [Constants.Stats.DEF]: 'IconDefence.png',
-        [Constants.Stats.HP]: 'IconMaxHP.png',
         [Constants.Stats.HP_P]: 'IconMaxHP.png',  
         [Constants.Stats.ATK_P]: 'IconAttack.png',  
         [Constants.Stats.DEF_P]: 'IconDefence.png',  

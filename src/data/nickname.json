@@ -121,16 +121,16 @@
             "Dr. Ratio"
         ],
         "8001": [
-            "Caelus (Destruction)"
+            "{NICKNAME}"
         ],
         "8002": [
-            "Stelle (Destruction)"
+            "{NICKNAME}"
         ],
         "8003": [
-            "Caelus (Preservation)"
+            "{NICKNAME}"
         ],
         "8004": [
-            "Stelle (Preservation)"
+            "{NICKNAME}"
         ]
     },
     "light_cones": {

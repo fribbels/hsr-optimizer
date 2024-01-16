@@ -1931,7 +1931,7 @@
     },
     "8001": {
         "id": "8001",
-        "name": "{NICKNAME}",
+        "name": "Caelus (Destruction)",
         "tag": "playerboy",
         "rarity": 5,
         "path": "Warrior",
@@ -1981,7 +1981,7 @@
     },
     "8002": {
         "id": "8002",
-        "name": "{NICKNAME}",
+        "name": "Stelle (Destruction)",
         "tag": "playergirl",
         "rarity": 5,
         "path": "Warrior",
@@ -2031,7 +2031,7 @@
     },
     "8003": {
         "id": "8003",
-        "name": "{NICKNAME}",
+        "name": "Caelus (Preservation)",
         "tag": "playerboy2",
         "rarity": 5,
         "path": "Knight",
@@ -2080,7 +2080,7 @@
     },
     "8004": {
         "id": "8004",
-        "name": "{NICKNAME}",
+        "name": "Stelle (Preservation)",
         "tag": "playergirl2",
         "rarity": 5,
         "path": "Knight",

@@ -1,4 +1,4 @@
-import {inPlaceSort} from 'fast-sort';
+import { inPlaceSort } from 'fast-sort';
 import DB from './db';
 
 let relics
@@ -63,7 +63,7 @@ export const OptimizerTabController = {
 
     let row = selectedNodes[0].data
     let build = OptimizerTabController.calculateRelicsFromId(row.id)
-    
+
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
@@ -74,7 +74,7 @@ export const OptimizerTabController = {
 
   cellClicked: (event) => {
     let data = event.data
-    
+
     if (event.rowPinned == "top") {
       console.log('Top row clicked', event.data)
       let fieldValues = OptimizerTabController.getForm()
@@ -87,7 +87,7 @@ export const OptimizerTabController = {
       }
       return
     }
-    
+
     console.log('cellClicked', event);
 
     let build = OptimizerTabController.calculateRelicsFromId(data.id)
@@ -370,7 +370,7 @@ export const OptimizerTabController = {
       console.log('Missing light cone')
       return false;
     }
-    
+
     if (!x.characterId || !x.characterLevel || x.characterEidolon == undefined) {
       Message.error('Missing character fields')
       console.log('Missing character')
@@ -390,7 +390,7 @@ export const OptimizerTabController = {
     }
     return true
   },
-  
+
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT;
 
@@ -506,6 +506,7 @@ export const OptimizerTabController = {
       optimizerForm.setFieldsValue(displayFormValues)
       store.getState().setStatDisplay('base')
     }
+
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
   },
@@ -615,20 +616,20 @@ function filter(filterModel) {
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i]
       let valid =
-        row.xHP  >= filterModel.minHp  && row.xHP  <= filterModel.maxHp &&
+        row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp &&
         row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk &&
         row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef &&
         row.xSPD >= filterModel.minSpd && row.xSPD <= filterModel.maxSpd &&
-        row.xCR  >= filterModel.minCr  && row.xCR  <= filterModel.maxCr &&
-        row.xCD  >= filterModel.minCd  && row.xCD  <= filterModel.maxCd &&
+        row.xCR >= filterModel.minCr && row.xCR <= filterModel.maxCr &&
+        row.xCD >= filterModel.minCd && row.xCD <= filterModel.maxCd &&
         row.xEHR >= filterModel.minEhr && row.xEHR <= filterModel.maxEhr &&
         row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes &&
-        row.xBE  >= filterModel.minBe  && row.xBE  <= filterModel.maxBe &&
-        row.CV   >= filterModel.minCv  && row.CV   <= filterModel.maxCv &&
-        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe &&
+        row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv &&
+        row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp &&
         row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
-        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
-        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic &&
+        row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill &&
         row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
         row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
         row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
@@ -640,20 +641,20 @@ function filter(filterModel) {
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i]
       let valid =
-        row[Constants.Stats.HP]  >= filterModel.minHp  && row[Constants.Stats.HP]  <= filterModel.maxHp &&
+        row[Constants.Stats.HP] >= filterModel.minHp && row[Constants.Stats.HP] <= filterModel.maxHp &&
         row[Constants.Stats.ATK] >= filterModel.minAtk && row[Constants.Stats.ATK] <= filterModel.maxAtk &&
         row[Constants.Stats.DEF] >= filterModel.minDef && row[Constants.Stats.DEF] <= filterModel.maxDef &&
         row[Constants.Stats.SPD] >= filterModel.minSpd && row[Constants.Stats.SPD] <= filterModel.maxSpd &&
-        row[Constants.Stats.CR]  >= filterModel.minCr  && row[Constants.Stats.CR]  <= filterModel.maxCr &&
-        row[Constants.Stats.CD]  >= filterModel.minCd  && row[Constants.Stats.CD]  <= filterModel.maxCd &&
+        row[Constants.Stats.CR] >= filterModel.minCr && row[Constants.Stats.CR] <= filterModel.maxCr &&
+        row[Constants.Stats.CD] >= filterModel.minCd && row[Constants.Stats.CD] <= filterModel.maxCd &&
         row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr &&
         row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes &&
-        row[Constants.Stats.BE]  >= filterModel.minBe  && row[Constants.Stats.BE]  <= filterModel.maxBe &&
-        row.CV     >= filterModel.minCv     && row.CV     <= filterModel.maxCv &&
-        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe &&
+        row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv &&
+        row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp &&
         row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
-        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
-        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic &&
+        row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill &&
         row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
         row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
         row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot

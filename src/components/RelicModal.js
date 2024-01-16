@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, Form, InputNumber, Segmented } from 'antd';
-import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 
 import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
@@ -10,7 +10,7 @@ import { Message } from '../lib/message';
 
 function RadioIcon(props) {
   return (
-    <Radio.Button value={props.value} style={{height: 35, width: 50, paddingLeft: 10}}>
+    <Radio.Button value={props.value} style={{ height: 35, width: 50, paddingLeft: 10 }}>
       <Image
         preview={false}
         width={30}
@@ -68,7 +68,7 @@ export default function RelicModal(props) {
     let options = characters.map((character) => {
       return {
         value: character.id,
-        label: characterData[character.id].name
+        label: characterData[character.id].displayName
       }
     })
 
@@ -77,7 +77,7 @@ export default function RelicModal(props) {
       value: 'None',
       label: 'Nobody'
     }, ...options]
-    
+
     return options
   }, [props.selectedRelic, props.open]);
 
@@ -99,13 +99,13 @@ export default function RelicModal(props) {
         part: relic.part,
         mainStatType: renderMainStat(relic).stat,
         mainStatValue: renderMainStat(relic).value,
-        substatType0:  renderSubstat(relic, 0).stat,
+        substatType0: renderSubstat(relic, 0).stat,
         substatValue0: renderSubstat(relic, 0).value,
-        substatType1:  renderSubstat(relic, 1).stat,
+        substatType1: renderSubstat(relic, 1).stat,
         substatValue1: renderSubstat(relic, 1).value,
-        substatType2:  renderSubstat(relic, 2).stat,
+        substatType2: renderSubstat(relic, 2).stat,
         substatValue2: renderSubstat(relic, 2).value,
-        substatType3:  renderSubstat(relic, 3).stat,
+        substatType3: renderSubstat(relic, 3).stat,
         substatValue3: renderSubstat(relic, 3).value,
       }
     }
@@ -138,16 +138,16 @@ export default function RelicModal(props) {
     if (x.enhance > 15 || x.enhance < 0) {
       return Message.error('Enhance value is invalid')
     }
-    if (!Constants.SetsRelicsNames.includes(x.set) && !Constants.SetsOrnamentsNames.includes(x.set))  {
+    if (!Constants.SetsRelicsNames.includes(x.set) && !Constants.SetsOrnamentsNames.includes(x.set)) {
       return Message.error('Set value is invalid')
     }
-    if (Constants.SetsRelicsNames.includes(x.set) && (x.part == Constants.Parts.PlanarSphere || x.part == Constants.Parts.LinkRope))  {
+    if (Constants.SetsRelicsNames.includes(x.set) && (x.part == Constants.Parts.PlanarSphere || x.part == Constants.Parts.LinkRope)) {
       return Message.error('The selected set is not an ornament set')
     }
-    if (Constants.SetsOrnamentsNames.includes(x.set) && (x.part == Constants.Parts.Head  || 
-                                                         x.part == Constants.Parts.Hands || 
-                                                         x.part == Constants.Parts.Body  || 
-                                                         x.part == Constants.Parts.Feet)) {
+    if (Constants.SetsOrnamentsNames.includes(x.set) && (x.part == Constants.Parts.Head ||
+      x.part == Constants.Parts.Hands ||
+      x.part == Constants.Parts.Body ||
+      x.part == Constants.Parts.Feet)) {
       return Message.error('The selected set is not a relic set')
     }
     if (x.substatType0 != undefined && x.substatValue0 == undefined || x.substatType0 == undefined && x.substatValue0 != undefined) {
@@ -232,7 +232,7 @@ export default function RelicModal(props) {
     }
     relic.substats = substats
     RelicAugmenter.augment(relic)
-    
+
     console.log('Completed relic', relic)
 
     props.onOk(relic)
@@ -310,20 +310,20 @@ export default function RelicModal(props) {
               options={characterOptions}
             />
           </Form.Item>
-          
+
           <HeaderText>Part</HeaderText>
-        
+
           <Form.Item size="default" name='part'>
             <Radio.Group buttonStyle="solid">
-              <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)}/>
-              <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)}/>
-              <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)}/>
-              <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)}/>
-              <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)}/>
-              <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)}/>
+              <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
+              <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
+              <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
+              <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
+              <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
+              <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
             </Radio.Group>
           </Form.Item>
-          
+
           <HeaderText>Set</HeaderText>
           <Form.Item size="default" name='set'>
             <Select
@@ -337,9 +337,9 @@ export default function RelicModal(props) {
               maxTagCount='responsive'>
             </Select>
           </Form.Item>
-          
+
           <HeaderText>Enhance / Grade</HeaderText>
-        
+
           <Flex gap={10}>
             <Form.Item size="default" name='enhance'>
               <Select
@@ -347,7 +347,7 @@ export default function RelicModal(props) {
                 style={{ width: 145 }}
                 options={enhanceOptions}
               />
-            </Form.Item>    
+            </Form.Item>
             <Form.Item size="default" name='grade'>
               <Select
                 showSearch
@@ -359,11 +359,11 @@ export default function RelicModal(props) {
                   { value: 5, label: '5 star' },
                 ]}
               />
-            </Form.Item>    
+            </Form.Item>
           </Flex>
-          
+
           <HeaderText>Main stat</HeaderText>
-          
+
           <Flex gap={10}>
             <Form.Item size="default" name='mainStatType'>
               <Select
@@ -395,14 +395,14 @@ export default function RelicModal(props) {
                 <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
               </Select>
             </Form.Item>
-        
+
             <Form.Item size="default" name='mainStatValue'>
-              <InputNumberStyled controls={false}/>
+              <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
-          
+
           <HeaderText>Substats</HeaderText>
-        
+
           <Flex gap={10}>
             <Form.Item size="default" name='substatType0'>
               <Select
@@ -427,13 +427,13 @@ export default function RelicModal(props) {
                 <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
               </Select>
             </Form.Item>
-        
-        
+
+
             <Form.Item size="default" name='substatValue0'>
-              <InputNumberStyled controls={false}/>
+              <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
-          
+
           <Flex gap={10}>
             <Form.Item size="default" name='substatType1'>
               <Select
@@ -458,12 +458,12 @@ export default function RelicModal(props) {
                 <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
               </Select>
             </Form.Item>
-        
+
             <Form.Item size="default" name='substatValue1'>
-              <InputNumberStyled controls={false}/>
+              <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
-          
+
           <Flex gap={10}>
             <Form.Item size="default" name='substatType2'>
               <Select
@@ -488,12 +488,12 @@ export default function RelicModal(props) {
                 <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
               </Select>
             </Form.Item>
-        
+
             <Form.Item size="default" name='substatValue2'>
-              <InputNumberStyled controls={false}/>
+              <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
-          
+
           <Flex gap={10}>
             <Form.Item size="default" name='substatType3'>
               <Select
@@ -518,9 +518,9 @@ export default function RelicModal(props) {
                 <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
               </Select>
             </Form.Item>
-        
+
             <Form.Item size="default" name='substatValue3'>
-              <InputNumberStyled controls={false}/>
+              <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
         </Flex>

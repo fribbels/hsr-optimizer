@@ -1107,11 +1107,11 @@ function getScoringMetadata() {
     "1006": { // Silver Wolf
       stats: {
         [Constants.Stats.ATK]: 0.5,
-        [Constants.Stats.ATK_P]: 0.75,
-        [Constants.Stats.DEF]: 0,
-        [Constants.Stats.DEF_P]: 0,
-        [Constants.Stats.HP]: 0,
-        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
         [Constants.Stats.SPD]: 1,
         [Constants.Stats.CR]: 0.75,
         [Constants.Stats.CD]: 0.75,

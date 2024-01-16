@@ -246,6 +246,7 @@ export default function OptimizerForm() {
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
   window.setSelectedCharacter = setSelectedCharacter
 
+  // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
   const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
   if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {

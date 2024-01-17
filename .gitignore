@@ -131,3 +131,6 @@ dist
 .pnp.*
 .DS_Store
 .idea*
+
+# VSCode settings ignore
+.vscode

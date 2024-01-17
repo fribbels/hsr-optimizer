@@ -1,4 +1,6 @@
 import tinygradient from 'tinygradient';
+import { Constants } from "./constants";
+import { OptimizerTabController } from "./optimizerTabController";
 
 let optimizerGridGradient = tinygradient([
   {color: '#5A1A06', pos: 0}, // red
@@ -10,8 +12,7 @@ let relicColumnRanges
 
 export const Gradient = {
   getColor: (decimal, gradient) => {
-    let color = gradient.rgbAt(decimal).toHexString()
-    return color;
+    return gradient.rgbAt(decimal).toHexString();
   },
 
   getOptimizerColumnGradient: (params) => {
@@ -25,7 +26,7 @@ export const Gradient = {
         let max = aggs.maxAgg[colId]
         let value = params.value
         
-        var range = (value - min) / (max - min);
+        let range = (value - min) / (max - min);
         if (max == min) {
           range = 0.5
         }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import {Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme, Divider} from 'antd';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd';
 import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
 import { OcrParserKelz3 } from '../lib/ocrParserKelz3';
 import { Message } from '../lib/message';
 import { DB } from '../lib/db';
+import { SaveState } from "../lib/saveState";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
@@ -27,7 +29,7 @@ const saveFile = async (blob, suggestedName) => {
   if (supportsFileSystemAccess) {
     try {
       // Show the file save dialog.
-      const handle = await showSaveFilePicker({
+      const handle = await window.showSaveFilePicker({
         suggestedName,
         types: [{
           description: 'JSON',
@@ -38,10 +40,10 @@ const saveFile = async (blob, suggestedName) => {
       const writable = await handle.createWritable();
       await writable.write(blob);
       await writable.close();
-      return;
+
     } catch (err) {
       console.warn(err.name, err.message);
-      return;
+
     }
   } else {
     // Fallback if the File System Access API is not supported…
@@ -140,7 +142,7 @@ function loadDataTab() {
   };
 
   function beforeUpload(file) {
-    return new Promise((resolve) => {
+    return new Promise(() => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
@@ -282,7 +284,7 @@ function kelZImporterTab() {
   };
 
   function beforeUpload(file) {
-    return new Promise((resolve) => {
+    return new Promise(() => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
@@ -328,7 +330,7 @@ function kelZImporterTab() {
 
         } catch (e) {
           Message.error(e.message, 10)
-          Message.error('Error occured while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
+          Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
       };
       return false;
@@ -481,7 +483,7 @@ function fribbelsImporterTab() {
   };
 
   function beforeUpload(file) {
-    return new Promise((resolve) => {
+    return new Promise(() => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
@@ -526,7 +528,7 @@ function fribbelsImporterTab() {
 
         } catch (e) {
           Message.error(e.message, 10)
-          Message.error('Error occured while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
+          Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
       };
       return false;
@@ -546,18 +548,6 @@ function fribbelsImporterTab() {
       onStepChange(2)
     }, spinnerMs);
   }
-
-  function mergeCharactersConfirmed() {
-    setLoading2(true)
-    setTimeout(() => {
-      setLoading2(false)
-      DB.mergeRelicsWithState(currentRelics, currentCharacters)
-      SaveState.save()
-      onStepChange(2)
-    }, spinnerMs);
-  }
-
-
 
   function fribbelsImporterContentUploadFile() {
     return (
@@ -691,4 +681,7 @@ export default function ImportTab(props) {
       </Flex>
     </div>
   );
+}
+ImportTab.propTypes = {
+  active: PropTypes.bool,
 }

@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Divider, Flex, Image, Skeleton, Typography } from "antd";
+import React from 'react';
+import { Divider, Flex, Image, Typography } from "antd";
 import RelicPreview from "./RelicPreview";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+import { RelicScorer } from "../lib/relicScorer";
+import { StatCalculator } from "../lib/statCalculator";
+import { DB } from "../lib/db";
+import { Assets } from "../lib/assets";
+import { Utils } from "../lib/utils";
+import { Constants } from "../lib/constants";
 
 const { Text } = Typography;
 
@@ -24,12 +31,12 @@ let middleColumnWidth = 240;
 export function CharacterPreview(props) {
   console.log('CharacterPreview', props)
 
-  let relicsById = store(s => s.relicsById)
-  let characterTabBlur = store(s => s.characterTabBlur);
-  let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
-  let isScorer = props.source == 'scorer'
+  const { source, character } = props;
 
-  let character = props.character
+  let relicsById = global.store(s => s.relicsById)
+  let characterTabBlur = global.store(s => s.characterTabBlur);
+  let setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
+  let isScorer = source == 'scorer'
 
   if (!character) {
     return (
@@ -124,24 +131,8 @@ export function CharacterPreview(props) {
 
   let iconSize = 25
 
-  function SetRow() {
-    return (
-      <Flex justify='space-between' align='center'>
-        <img src={Assets.getInventory()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatText>Sets</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-        </StatText>
-      </Flex>
-    )
-  }
-
   function StatRow(props) {
-    // console.log('StatRow', props)
-    let stat = props.stat
+    const { stat } = props
     let readableStat = stat.replace('DMG Boost', 'DMG')
     let value = finalStats[stat]
 
@@ -165,6 +156,9 @@ export function CharacterPreview(props) {
       </Flex>
     )
   }
+  StatRow.propTypes = {
+    stat: PropTypes.string,
+  };
 
   function Rarity() {
     let children = []
@@ -285,3 +279,7 @@ export function CharacterPreview(props) {
     </Flex>
   )
 }
+CharacterPreview.propTypes = {
+  source: PropTypes.string,
+  character: PropTypes.object
+};

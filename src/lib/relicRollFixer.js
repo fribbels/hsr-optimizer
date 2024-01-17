@@ -1,3 +1,8 @@
+import DB from "./db";
+import { Utils } from "./utils";
+import { Constants } from "./constants";
+import { CharacterConverter } from "./characterConverter";
+
 let optimizerStatToJsonSubStat
 let optimizerStatToAffixStat
 let optimizerPartToPartId
@@ -14,7 +19,7 @@ export const RelicRollFixer = {
     let query = `${grade}${partId}`
     let affixes = DB.getMetadata().relics.relicMainAffixes[query].affixes
     let affix = Object.values(affixes).find(x => x.property == optimizerStatToAffixStat[stat])
-    if (!affix) return value
+    if (!affix) return 0
 
     let step = affix.step
     let base = affix.base

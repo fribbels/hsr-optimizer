@@ -1,50 +1,19 @@
-import { PlusOutlined } from '@ant-design/icons';
-import React, { useState, useMemo } from 'react';
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Space,
-  Switch,
-  TreeSelect,
-  Row,
-  Typography,
-  message,
-  Upload,
-  Flex,
-  Segmented,
-  theme,
-  ConfigProvider,
-  Modal,
-  Image,
-  Divider,
-  Tag,
-} from 'antd';
-import styled from 'styled-components';
+import React from 'react';
 import '../style/style.css'
-import { CharacterStats } from '../lib/characterStats';
-import { CharacterPreview } from './CharacterPreview';
-
-const { TextArea } = Input;
-const { Text } = Typography;
-
+import { Button, Flex } from "antd";
+import PropTypes from "prop-types"
 
 export default function BetaTab(props) {
+  const { active } = props
+
   console.log('Beta Tab')
 
   const showModal = () => {
-    setIsScoringModalOpen(true);
+    global.setIsScoringModalOpen(true);
   };
 
   return (
-    <div style={{display: props.active ? 'block' : 'none'}}>
+    <div style={{display: active ? 'block' : 'none'}}>
       <Flex vertical gap={20} align='center'>
         <Button type="primary" onClick={showModal}>
           Open Modal
@@ -52,11 +21,8 @@ export default function BetaTab(props) {
       </Flex>
     </div>
   );
+}
+
+BetaTab.propTypes = {
+  active: PropTypes.bool
 };
-
-
-            // footer={[
-            //   <Button form={scoringAlgorithmForm} key="submit" htmlType="submit">
-            //       Submit
-            //   </Button>
-            // ]}

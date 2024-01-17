@@ -1,19 +1,19 @@
-import styled from 'styled-components';
-import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, InputNumber, Segmented, Popconfirm } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { Button, Flex, Popconfirm } from 'antd';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import RelicPreview from './RelicPreview';
 import { Constants } from '../lib/constants';
-import { HeaderText } from './HeaderText';
 import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
 import { TooltipImage } from './TooltipImage';
-import { RelicScorer } from "../lib/relicScorer";
 import RelicFilterBar from "./RelicFilterBar";
-
+import DB from "../lib/db";
+import { Renderer } from "../lib/renderer";
+import { SaveState } from "../lib/saveState";
+import { Hint } from "../lib/hint";
+import PropTypes from "prop-types";
 
 export default function RelicsTab(props) {
   const gridRef = useRef();
@@ -29,13 +29,13 @@ export default function RelicsTab(props) {
   window.setEditModalOpen = setEditModalOpen
   window.setSelectedRelic = setSelectedRelic
 
-  let relicTabFilters = store(s => s.relicTabFilters);
+  let relicTabFilters = global.store(s => s.relicTabFilters);
   useEffect(() => {
-    if (!relicsGrid?.current?.api) return
-    console.log('!!!!!', relicTabFilters)
+    if (!global.relicsGrid?.current?.api) return
+    console.log('RelicTabFilters', relicTabFilters)
 
     if (Object.values(relicTabFilters).filter(x => x.length > 0).length == 0) {
-      relicsGrid.current.api.setFilterModel(null)
+      global.relicsGrid.current.api.setFilterModel(null)
       return;
     }
 
@@ -104,7 +104,7 @@ export default function RelicsTab(props) {
     console.log('FilterModel', filterModel)
 
     // Apply to grid
-    relicsGrid.current.api.setFilterModel(filterModel);
+    global.relicsGrid.current.api.setFilterModel(filterModel);
   }, [relicTabFilters])
 
   const columnDefs = useMemo(() => [
@@ -197,17 +197,17 @@ export default function RelicsTab(props) {
     console.log('onEditOk', updatedRelic)
   }
 
-  function editClicked(x) {
+  function editClicked() {
     console.log('edit clicked');
     setEditModalOpen(true)
   }
 
-  function addClicked(x) {
+  function addClicked() {
     console.log('add clicked');
     setAddModalOpen(true)
   }
 
-  function deleteClicked(x) {
+  function deleteClicked() {
     console.log('delete clicked');
 
     if (!selectedRelic) return Message.error('No relic selected')
@@ -277,4 +277,7 @@ export default function RelicsTab(props) {
       </Flex>
     </Flex>
   );
-};
+}
+RelicsTab.propTypes = {
+  active: PropTypes.bool,
+}

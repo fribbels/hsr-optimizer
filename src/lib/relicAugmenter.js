@@ -1,4 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Constants } from "./constants";
+import { RelicRollFixer } from "./relicRollFixer";
+import { Utils } from "./utils";
 
 export const RelicAugmenter = {
   augment: function(relic) {
@@ -24,9 +27,7 @@ export const RelicAugmenter = {
     for (let substat of relic.substats) {
       let stat = substat.stat
       substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
-      let value = substat.value
-
-      augmentedStats[stat] = value
+      augmentedStats[stat] = substat.value
     }
 
     if (relic.enhance > 12 && relic.grade != 5) {
@@ -65,22 +66,11 @@ function calculateRelicRatings(relic) {
   relic.ds = ds           
 }
 
-function isFlat(stat) {
-  if (
-    stat == Constants.Stats.HP ||
-    stat == Constants.Stats.ATK || 
-    stat == Constants.Stats.DEF || 
-    stat == Constants.Stats.SPD
-  ) {
-    return true;
-  }
-  return false;
-}
 function fixAugmentedStats(relics) {
   return relics.map(x => {
     for (let stat of Object.values(Constants.Stats)) {
       x.augmentedStats[stat] = x.augmentedStats[stat] || 0
-      if (!isFlat(stat)) {
+      if (!Utils.isFlat(stat)) {
         if (x.augmentedStats.mainStat == stat) {
           x.augmentedStats.mainValue = x.augmentedStats.mainValue / 100
         }

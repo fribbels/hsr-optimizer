@@ -1,17 +1,14 @@
-import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
-import React, {useState} from "react";
-import styled from "styled-components";
-import {HeaderText} from "../components/HeaderText";
+/* eslint-disable no-unused-vars  */
+
+import { Flex } from "antd";
+import React from "react";
+import { HeaderText } from "../components/HeaderText";
 import { Constants } from './constants'
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
-import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
-import {TooltipImage} from "../components/TooltipImage";
+import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "../components/TooltipImage";
+import { Hint } from "./hint";
 
 let Stats = Constants.Stats
-function precisionRound(number, precision = 8) {
-  let factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-}
 
 let defaultGap = 5
 

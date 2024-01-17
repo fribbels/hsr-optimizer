@@ -1,9 +1,10 @@
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined, LinkOutlined, MenuOutlined, GithubOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu, Typography } from 'antd';
 import { DiscordIcon } from '../icons/DiscordIcon';
 import { GithubIcon } from '../icons/GithubIcon';
 import { CoffeeIcon } from '../icons/CoffeeIcon';
+import PropTypes from "prop-types";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -29,33 +30,28 @@ const items = [
   getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
-        {/* Discord <DiscordIcon style={{marginLeft: 5}} /> */}
         <DiscordIcon style={{ marginRight: 5 }} /> Discord
       </Typography.Link>,
       'link discord',
-      // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
-        {/* Donate <CoffeeIcon style={{marginLeft: 5}} /> */}
         <CoffeeIcon style={{ marginRight: 5 }} /> Donate
       </Typography.Link>,
       'link donate',
-      // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
-        {/* Github <GithubIcon style={{marginLeft: 5}} /> */}
         <GithubIcon style={{ marginRight: 5 }} /> Github
       </Typography.Link>,
       'link github',
-      // <LinkOutlined />,
     ),
   ]),
 ];
 
-const MenuDrawer = ({ hashes }) => {
-  const [activeKey, setActiveKey] = store(s => [s.activeKey, s.setActiveKey])
+const MenuDrawer = (props) => {
+  const { hashes } = props
+  const [activeKey, setActiveKey] = global.store(s => [s.activeKey, s.setActiveKey])
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
@@ -67,6 +63,7 @@ const MenuDrawer = ({ hashes }) => {
     }
     setActiveKey(e.key)
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -94,4 +91,8 @@ const MenuDrawer = ({ hashes }) => {
     </ConfigProvider>
   );
 };
+MenuDrawer.propTypes = {
+  hashes: PropTypes.array,
+}
+
 export default MenuDrawer;

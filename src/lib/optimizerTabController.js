@@ -1,5 +1,13 @@
 import { inPlaceSort } from 'fast-sort';
 import DB from './db';
+import { Message } from "./message";
+import { SaveState } from "./saveState";
+import { Constants } from "./constants";
+import { Utils } from "./utils";
+import { LightConeConditionals } from "./lightConeConditionals";
+import { CharacterConditionals } from "./characterConditionals";
+import { CharacterStats } from "./characterStats";
+import { StatCalculator } from "./statCalculator";
 
 let relics
 let consts
@@ -39,14 +47,14 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     // delete x.id
-    optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
   getRows: () => {
     return rows
   },
 
-  equipClicked: (x) => {
+  equipClicked: () => {
     console.log('Equip clicked');
     let formValues = OptimizerTabController.getForm()
     let characterId = formValues.characterId
@@ -56,7 +64,7 @@ export const OptimizerTabController = {
     }
     DB.addFromForm(formValues)
 
-    let selectedNodes = optimizerGrid.current.api.getSelectedNodes()
+    let selectedNodes = global.optimizerGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
@@ -67,8 +75,8 @@ export const OptimizerTabController = {
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
-    setOptimizerBuild(build);
-    relicsGrid.current.api.redrawRows()
+    global.setOptimizerBuild(build);
+    global.relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 
@@ -82,7 +90,7 @@ export const OptimizerTabController = {
         let character = DB.getCharacterById(fieldValues.characterId);
 
         if (character) {
-          setOptimizerBuild(character.equipped);
+          global.setOptimizerBuild(character.equipped);
         }
       }
       return
@@ -92,7 +100,7 @@ export const OptimizerTabController = {
 
     let build = OptimizerTabController.calculateRelicsFromId(data.id)
     console.log('build', build)
-    setOptimizerBuild(build);
+    global.setOptimizerBuild(build);
   },
 
   getColumnsToAggregate: (map) => {
@@ -142,7 +150,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -152,10 +160,10 @@ export const OptimizerTabController = {
       getRows: (params) => {
         console.log(params);
         aggs = undefined
-        optimizerGrid.current.api.showLoadingOverlay()
+        global.optimizerGrid.current.api.showLoadingOverlay()
 
         // Give it time to show the loading page before we block
-        Utils.sleep(100).then(x => {
+        Utils.sleep(100).then(() => {
           if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
             sortModel = params.sortModel[0]
             sort()
@@ -176,7 +184,7 @@ export const OptimizerTabController = {
 
             params.successCallback(subArray, rows.length)
           }
-          optimizerGrid.current.api.hideOverlay()
+          global.optimizerGrid.current.api.hideOverlay()
           OptimizerTabController.redrawRows()
         })
       },
@@ -207,20 +215,18 @@ export const OptimizerTabController = {
     relics.PlanarSphere[p].optimizerCharacterId = characterId
     relics.LinkRope[l].optimizerCharacterId = characterId
 
-    let build = {
+    return {
       Head: relics.Head[h].id,
       Hands: relics.Hands[g].id,
       Body: relics.Body[b].id,
       Feet: relics.Feet[f].id,
       PlanarSphere: relics.PlanarSphere[p].id,
       LinkRope: relics.LinkRope[l].id
-    }
-
-    return build;
+    };
   },
 
   getForm: () => {
-    let form = optimizerForm.getFieldsValue();
+    let form = global.optimizerForm.getFieldsValue();
     return OptimizerTabController.fixForm(form);
   },
 
@@ -455,7 +461,7 @@ export const OptimizerTabController = {
   updateFilters: () => {
     if (window.optimizerForm) {
       let fieldValues = OptimizerTabController.getForm()
-      onOptimizerFormValuesChange({}, fieldValues);
+      global.onOptimizerFormValuesChange({}, fieldValues);
     }
   },
 
@@ -483,7 +489,7 @@ export const OptimizerTabController = {
       "mainHands": []
     }
 
-    optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
+    global.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
     OptimizerTabController.updateFilters()
   },
 
@@ -492,19 +498,19 @@ export const OptimizerTabController = {
     let character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
-      optimizerForm.setFieldsValue(displayFormValues)
+      global.optimizerForm.setFieldsValue(displayFormValues)
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        setSelectedLightCone(lightConeMetadata)
+        global.setSelectedLightCone(lightConeMetadata)
       }
-      store.getState().setStatDisplay(character.form.statDisplay || 'base')
+      global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0
       })
-      optimizerForm.setFieldsValue(displayFormValues)
-      store.getState().setStatDisplay('base')
+      global.optimizerForm.setFieldsValue(displayFormValues)
+      global.store.getState().setStatDisplay('base')
     }
 
     setPinnedRow(id)
@@ -519,7 +525,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    optimizerGrid.current.api.redrawRows()
+    global.optimizerGrid.current.api.redrawRows()
   },
 
   applyRowFilters: () => {
@@ -670,5 +676,5 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
 }

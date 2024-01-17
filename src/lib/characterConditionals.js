@@ -1,9 +1,10 @@
-import {ConfigProvider, Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
+import { ConfigProvider, Flex } from "antd";
 import React from "react";
-import {HeaderText} from "../components/HeaderText";
+import { HeaderText } from "../components/HeaderText";
 import { Constants } from './constants'
-import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
-import {TooltipImage} from "../components/TooltipImage";
+import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "../components/TooltipImage";
+import { Hint } from "./hint";
 
 let Stats = Constants.Stats
 
@@ -195,9 +196,6 @@ function xueyi(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -267,9 +265,6 @@ function drratio(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -327,11 +322,7 @@ function ruanmei(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       let beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
@@ -389,11 +380,7 @@ function yukong(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -466,11 +453,7 @@ function yanqing(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -532,11 +515,7 @@ function welt(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -589,9 +568,6 @@ function firetrailblazer(e) {
       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - 0.15) : 1
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -651,11 +627,7 @@ function physicaltrailblazer(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -672,15 +644,16 @@ function topaz(e) {
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.50, 1.65)
-  let ultScaling = ult(e, 0, 0)
   let fuaScaling = talent(e, 1.50, 1.65)
 
   // 0.06
   let basicHitCountMulti = ASHBLAZING_ATK_STACK *
     (1*1/1)
+
   // 0.18
   let fuaHitCountMulti = ASHBLAZING_ATK_STACK *
     (1*1/7 + 2*1/7 + 3*1/7 + 4*1/7 + 5*1/7 + 6*1/7 + 7*1/7)
+
   // 0.252
   let fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
     (1*1/10 + 2*1/10 + 3*1/10 + 4*1/10 + 5*1/10 + 6*1/10 + 7*1/10 + 8*3/10)
@@ -717,9 +690,6 @@ function topaz(e) {
       x.FUA_CD_BOOST += (e >= 1) ? 0.25 * r.e1DebtorStacks : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -762,10 +732,10 @@ function topaz(e) {
 }
 
 function tingyun(e) {
-  let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
   let skillAtkBoostMax = skill(e, 0.25, 0.27)
   let ultDmgBoost = ult(e, 0.50, 0.56)
-  let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+  // let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
+  // let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
@@ -806,11 +776,7 @@ function tingyun(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -876,11 +842,7 @@ function sushang(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -936,11 +898,7 @@ function silverwolf(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -992,11 +950,7 @@ function serval(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1046,9 +1000,6 @@ function seele(e) {
       x.RES_PEN += (r.buffedState) ? 0.20 : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -1106,11 +1057,7 @@ function sampo(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1170,9 +1117,6 @@ function qingque(e) {
       x.ULT_BOOST += (e >= 1) ? 0.10 : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -1243,11 +1187,7 @@ function pela(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1262,8 +1202,6 @@ function pela(e) {
 }
 
 function natasha(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
@@ -1275,8 +1213,7 @@ function natasha(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -1290,11 +1227,7 @@ function natasha(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1320,8 +1253,7 @@ function march7th(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -1336,11 +1268,7 @@ function march7th(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
@@ -1389,9 +1317,6 @@ function lynx(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -1408,8 +1333,6 @@ function lynx(e) {
 }
 
 function luocha(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 2.00, 2.16)
@@ -1442,11 +1365,7 @@ function luocha(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1504,11 +1423,7 @@ function luka(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1560,11 +1475,7 @@ function kafka(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
@@ -1648,9 +1559,6 @@ function jingyuan(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -1716,11 +1624,7 @@ function imbibitorlunae(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1731,10 +1635,7 @@ function imbibitorlunae(e) {
 
 function huohuo(e) {
   let ultBuffValue = ult(e, 0.40, 0.432)
-
   let basicScaling = basic(e, 0.50, 0.55)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -1755,6 +1656,7 @@ function huohuo(e) {
 
       // Stats
       x[Stats.SPD_P] += (e >= 1 && r.skillBuff) ? 0.12 : 0
+      x[Stats.ATK_P] += (r.ultBuff) ? ultBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -1764,11 +1666,7 @@ function huohuo(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
@@ -1817,11 +1715,7 @@ function hook(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1881,11 +1775,7 @@ function himeko(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1951,11 +1841,7 @@ function herta(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2015,9 +1901,6 @@ function hanya(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2073,11 +1956,7 @@ function guinaifen(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2100,8 +1979,7 @@ function gepard(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -2116,11 +1994,7 @@ function gepard(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x[Stats.ATK] += 0.35 * x[Stats.DEF]
@@ -2168,9 +2042,6 @@ function fuxuan(e) {
       x.DMG_RED_MULTI *= (1 - talentDmgReductionValue)
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -2222,11 +2093,7 @@ function danheng(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2289,9 +2156,6 @@ function clara(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2318,8 +2182,6 @@ function bronya(e) {
   let ultCdBoostBaseValue = ult(e, 0.20, 0.216)
 
   let basicScaling = basic(e, 1.0, 1.1)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
   let fuaScaling = basicScaling * 0.80
 
   let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
@@ -2361,9 +2223,6 @@ function bronya(e) {
       x.ELEMENTAL_DMG += (r.skillBuff) ? skillDmgBoostValue : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -2431,9 +2290,6 @@ function blade(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2461,8 +2317,6 @@ function blade(e) {
 }
 
 function bailu(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
@@ -2501,10 +2355,7 @@ function bailu(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2560,10 +2411,7 @@ function asta(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2608,10 +2456,7 @@ function arlan(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2672,10 +2517,7 @@ function argenti(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2743,10 +2585,7 @@ function jingliu(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2770,10 +2609,6 @@ let basic = ult
 
 function p4(set) {
   return set >> 2
-}
-
-function p2(set) {
-  return Math.min(1, set >> 1)
 }
 
 export const CharacterConditionals = {

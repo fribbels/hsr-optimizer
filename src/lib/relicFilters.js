@@ -1,3 +1,7 @@
+import { Constants } from "./constants";
+import DB from "./db";
+import { Utils } from "./utils";
+
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
     let weights = request.weights || {}
@@ -66,11 +70,11 @@ export const RelicFilters = {
       }
 
       Object.values(rankedCharacter.equipped)
-        .filter(x => x != null && x != undefined)
+        .filter(x => x != null)
         .map(x => higherRankedRelics[x] = true)
     }
 
-    return relics = relics.filter(x => !higherRankedRelics[x.id])
+    return relics.filter(x => !higherRankedRelics[x.id])
   },
 
   applyMainFilter: (request, relics) => {
@@ -136,11 +140,7 @@ export const RelicFilters = {
           relic.part == Constants.Parts.Hands || 
           relic.part == Constants.Parts.Body || 
           relic.part == Constants.Parts.Feet) {
-          if (allowedSets[Constants.RelicSetToIndex[relic.set]] != 1) {
-            return false
-          } else {
-            return true
-          }
+          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1;
         } else {
           return true
         }
@@ -162,11 +162,7 @@ export const RelicFilters = {
         if (
           relic.part == Constants.Parts.PlanarSphere || 
           relic.part == Constants.Parts.LinkRope) {
-          if (allowedSets[Constants.OrnamentSetToIndex[relic.set]] != 1) {
-            return false
-          } else {
-            return true
-          }
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1;
         } else {
           return true
         }

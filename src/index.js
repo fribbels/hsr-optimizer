@@ -30,6 +30,7 @@ import { LightConeConditionals } from './lib/lightConeConditionals';
 import { BufferPacker } from './lib/bufferPacker';
 import { Typography } from 'antd';
 import { RelicRollFixer } from "./lib/relicRollFixer";
+
 window.WorkerPool = WorkerPool;
 window.Constants = Constants;
 window.OcrParserFribbels1 = OcrParserFribbels1;
@@ -59,14 +60,12 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse());
 SaveState.load()
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function() {
   const root = ReactDOM.createRoot(document.getElementById('root'));
 
   root.render(
-    // <React.StrictMode>
-      <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
-        <App />
-      </ErrorBoundary>
-    // </React.StrictMode>
+    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
+      <App />
+    </ErrorBoundary>
   );
 });

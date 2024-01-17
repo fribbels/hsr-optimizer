@@ -1,27 +1,25 @@
-import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
-import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
-import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import { Button, Flex, Image, Popconfirm, Typography } from 'antd';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
 import "ag-grid-community/styles/ag-theme-balham.css";
 import "../style/style.css";
 import DB from '../lib/db';
-import { StatCalculator } from '../lib/statCalculator';
-import styled from 'styled-components';
-import RelicPreview from './RelicPreview';
 import { CharacterPreview } from './CharacterPreview';
+import { Assets } from "../lib/assets";
+import { SaveState } from "../lib/saveState";
+import { Message } from "../lib/message";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
-
-const props = {
-  name: 'file',
-};
 
 function cellImageRenderer(params) {
   let data = params.data
   let characterIconSrc = Assets.getCharacterAvatarById(data.id)
 
   // console.log('CellRenderer', data, characterMetadata)
+
   return (
     <Image
       preview={false}
@@ -76,11 +74,11 @@ export default function CharacterTab(props) {
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+  const setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
 
-  const characterTabSelectedId = store(s => s.characterTabSelectedId)
-  const setCharacterTabSelectedId = store(s => s.setCharacterTabSelectedId)
-  const charactersById = store(s => s.charactersById)
+  const characterTabSelectedId = global.store(s => s.characterTabSelectedId)
+  const setCharacterTabSelectedId = global.store(s => s.setCharacterTabSelectedId)
+  const charactersById = global.store(s => s.charactersById)
   const selectedCharacter = charactersById[characterTabSelectedId]
 
   const [, forceUpdate] = React.useReducer(o => !o);
@@ -91,11 +89,7 @@ export default function CharacterTab(props) {
 
   const columnDefs = useMemo(() => [
     { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    {
-      field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true, rowDragText: (params, dragItemCount) => {
-        return params.rowNode.data.displayName;
-      }
-    },
+    { field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
     { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], []);
 
@@ -118,12 +112,12 @@ export default function CharacterTab(props) {
     console.log('cellClicked', event);
     let data = event.data
 
-    store.getState().setCharacterTabBlur(store.getState().characterTabSelectedId == data.id ? false : true) // Only blur if different character
+    global.store.getState().setCharacterTabBlur(global.store.getState().characterTabSelectedId != data.id) // Only blur if different character
     setCharacterTabSelectedId(data.id)
   }, []);
 
   // TODO: implement routing to handle this
-  const [setActiveKey, setSelectedOptimizerCharacter] = store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
+  const [setActiveKey, setSelectedOptimizerCharacter] = global.store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
   const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
     setSelectedOptimizerCharacter(charactersById[e.data.id]);
@@ -167,7 +161,7 @@ export default function CharacterTab(props) {
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setCharacterTabSelectedId(undefined)
-    relicsGrid.current.api.redrawRows()
+    global.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
 
@@ -189,7 +183,7 @@ export default function CharacterTab(props) {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
-    relicsGrid.current.api.redrawRows()
+    global.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
   }
@@ -197,20 +191,12 @@ export default function CharacterTab(props) {
   function scoringAlgorithmClicked() {
     console.log('Scoring algorithm clicked', characterTabSelectedId)
     setSelectedScoringCharacter(characterTabSelectedId)
-    setIsScoringModalOpen(true)
+    global.setIsScoringModalOpen(true)
   }
 
   let defaultGap = 8;
 
   let parentH = 280 * 3 + defaultGap * 2;
-  let parentW = 150 + 200 + defaultGap;
-  let innerW = 1024;
-
-  let middleColumnWidth = 240;
-  let lcParentH = 280;
-  let lcParentW = 230;
-  let lcInnerW = 240;
-  let lcInnerH = 1260 / 902 * lcInnerW;
 
   return (
     <div style={{
@@ -279,3 +265,6 @@ export default function CharacterTab(props) {
     </div>
   );
 }
+CharacterTab.propTypes = {
+  active: PropTypes.bool,
+};

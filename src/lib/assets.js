@@ -1,4 +1,6 @@
-// let baseUrl = process.env.PUBLIC_URL;
+import { Constants } from "./constants";
+
+// let baseUrl = process.env.PUBLIC_URL // Local testing;
 let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
 
 let pathFromClassMapping
@@ -42,9 +44,9 @@ export const Assets = {
   getSampleSave: () => {
     return baseUrl + `/sample-save.json`
   },
-  getCharacterPortrait: (character) => {
-    if (!character) return ''
-    return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
+  getCharacterPortrait: (characterId) => {
+    if (!characterId) return ''
+    return baseUrl + `/assets/image/character_portrait_resized/resized${characterId}.png`
   },
   getCharacterPortraitById: (id) => {
     if (!id) {
@@ -52,7 +54,6 @@ export const Assets = {
       return ''
     }
 
-    let character = DB.getMetadata().characters[id]
     return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterAvatarById: (id) => {
@@ -190,7 +191,6 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    let path = baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
-    return path;
+    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`;
   }
 }

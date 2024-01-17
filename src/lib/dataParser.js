@@ -1,13 +1,12 @@
 import characters from '../data/characters.json';
 import characterPromotions from '../data/character_promotions.json';
 import lightCones from '../data/light_cones.json';
-import lightConeRanks from '../data/light_cone_ranks.json';
 import lightConePromotions from '../data/light_cone_promotions.json';
-import nicknames from '../data/nickname.json';
 import relicMainAffixes from '../data/relic_main_affixes.json';
 import relicSubAffixes from '../data/relic_sub_affixes.json';
 import relicSets from '../data/relic_sets.json';
-import { SaveState } from './saveState';
+import { Constants } from "./constants";
+import DB from "./db";
 
 export const DataParser = {
   parse: () => {

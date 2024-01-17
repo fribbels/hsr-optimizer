@@ -1,15 +1,18 @@
-import {Card, Col, Divider, Flex, Image, Popover, Row, Space, Tooltip, Typography} from 'antd';
+import { Card, Divider, Flex, Typography } from 'antd';
 import * as React from 'react';
-import { RelicScorer } from '../lib/relicScorer';
-import {Renderer} from "../lib/renderer";
-import {CheckCircleFilled, CheckCircleOutlined, CheckCircleTwoTone} from "@ant-design/icons";
+import { Renderer } from "../lib/renderer";
+import { Assets } from "../lib/assets";
+import { Utils } from "../lib/utils";
+import { Constants } from "../lib/constants";
+import DB from "../lib/db";
+import PropTypes from "prop-types";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Text } = Typography;
 
-let iconSize = 23
+const iconSize = 23
 
 function generateStat(stat, source, main, relic) {
-  if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
+  if (!stat || !stat.stat || stat.value == null) {
     return (
       <Flex justify='space-between'>
         <Flex>
@@ -21,7 +24,7 @@ function generateStat(stat, source, main, relic) {
   
   let displayValue
   if (main) {
-    displayValue = Renderer.renderMainStatNumber(stat, relic)
+    displayValue = Renderer.renderMainStatNumber(stat)
   } else {
     displayValue = Renderer.renderSubstatNumber(stat, relic)
   }
@@ -71,7 +74,6 @@ export default function RelicPreview(props) {
   let enhance = relic.enhance
   let part = relic.part
   let set = relic.set
-  let grade = relic.grade
 
   let substats = relic.substats || []
   let main = relic.main || {}
@@ -86,8 +88,8 @@ export default function RelicPreview(props) {
     console.log(relic, props)
     if (!relic || !relic.part || !relic.set || props.source == 'scorer') return
 
-    setSelectedRelic(relic)
-    setEditModalOpen(true)
+    global.setSelectedRelic(relic)
+    global.setEditModalOpen(true)
   }
 
   return (
@@ -152,8 +154,9 @@ export default function RelicPreview(props) {
     </Card>
   );
 }
-
-function round10ths(x) {
-  return Math.round(x);
-} 
-
+RelicPreview.propTypes = {
+  relic: PropTypes.object,
+  source: PropTypes.string,
+  characterId: PropTypes.string,
+  score: PropTypes.object,
+}

@@ -1,41 +1,13 @@
-import { PlusOutlined } from '@ant-design/icons';
-import React, {useState, useMemo, useEffect} from 'react';
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Space,
-  Switch,
-  TreeSelect,
-  Row,
-  Typography,
-  message,
-  Upload,
-  Flex,
-  Segmented,
-  theme,
-  ConfigProvider,
-  Modal,
-  Image,
-  Divider,
-  Tag,
-  Collapse,
-} from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography, } from 'antd';
 import styled from 'styled-components';
 import '../style/style.css'
-import { CharacterStats } from '../lib/characterStats';
-import { CharacterPreview } from './CharacterPreview';
 import { Assets } from '../lib/assets';
-import { HeaderText } from './HeaderText';
+import { Utils } from "../lib/utils";
+import DB from "../lib/db";
+import { Constants } from "../lib/constants";
+import PropTypes from "prop-types";
 
-const { TextArea } = Input;
 const { Text } = Typography;
 
 const TitleDivider = styled(Divider)`
@@ -46,15 +18,14 @@ const InputNumberStyled = styled(InputNumber)`
   width: 62px
 `
 const PStyled = styled.p`
-  margin: '7px 0px'
 `
 
 export default function ScoringModal() {
   const [scoringAlgorithmForm] = Form.useForm();
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
-  let selectedScoringCharacter = store(s => s.selectedScoringCharacter);
-  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+  let selectedScoringCharacter = global.store(s => s.selectedScoringCharacter);
+  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
   window.setIsScoringModalOpen = setIsScoringModalOpen
@@ -90,14 +61,7 @@ export default function ScoringModal() {
   const selectWidth = 360
 
   const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
-
-    for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
-    }
-
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
+    return Utils.generateCharacterOptions()
   }, []);
 
   function StatValueRow(props) {
@@ -113,15 +77,19 @@ export default function ScoringModal() {
       </Flex>
     )
   }
+  StatValueRow.propTypes = {
+    stat: PropTypes.string,
+  }
+
 
   function onModalOk() {
     console.log('Modal OK');
     scoringAlgorithmForm.submit()
     setIsScoringModalOpen(false)
 
-    // TODO ...
-    setTimeout(() => forceRelicScorerTabUpdate(), 100)
-    setTimeout(() => forceCharacterTabUpdate(), 100)
+    // TODO revisit force renders
+    setTimeout(() => global.forceRelicScorerTabUpdate(), 100)
+    setTimeout(() => global.forceCharacterTabUpdate(), 100)
   }
 
   const onFinish = (x) => {
@@ -135,7 +103,7 @@ export default function ScoringModal() {
     let defaultScoringMetadata = DB.getMetadata().characters[selectedScoringCharacter].scoringMetadata
 
     function nullUndefinedToZero(x) {
-      if (x == null || x == undefined) return 0
+      if (x == null) return 0
       return x
     }
 
@@ -437,4 +405,4 @@ export default function ScoringModal() {
       </Form>
     </Modal>
   );
-};
+}

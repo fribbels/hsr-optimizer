@@ -1,3 +1,8 @@
+import { Constants } from "./constants";
+import DB from "./db";
+import { CharacterStats } from "./characterStats";
+import { Utils } from "./utils";
+
 let maxedMainStats
 
 export const StatCalculator = {
@@ -35,7 +40,6 @@ export const StatCalculator = {
     let form = character.form
     let characterMetadata = DB.getMetadata().characters[character.id]
     let characterLevel = form.characterLevel
-    let characterEidolon = form.characterEidolon
 
     let lightConeMetadata;
     let lightConeLevel;
@@ -144,7 +148,7 @@ export const StatCalculator = {
     if (elementalMultipliers[5]) elementalDmg = 0.1 * Math.min(1, relicSets[7] >> 1) + (base[Constants.Stats.Quantum_DMG]  + lc[Constants.Stats.Quantum_DMG] + sum(relics, Constants.Stats.Quantum_DMG) + trace[Constants.Stats.Quantum_DMG])
     if (elementalMultipliers[6]) elementalDmg = 0.1 * Math.min(1, relicSets[11] >> 1) + (base[Constants.Stats.Imaginary_DMG]  + lc[Constants.Stats.Imaginary_DMG] + sum(relics, Constants.Stats.Imaginary_DMG) + trace[Constants.Stats.Imaginary_DMG])
 
-    let cappedCrit = Math.min(hero[Constants.Stats.CR] + form.buffCr, 1)
+    // let cappedCrit = Math.min(hero[Constants.Stats.CR] + form.buffCr, 1)
     let ehp = hero[Constants.Stats.HP] / (1 - hero[Constants.Stats.DEF] / (hero[Constants.Stats.DEF] + 200 + 10 * 80))
     let cv = 100 * (crSum * 2 + cdSum)
 
@@ -178,7 +182,7 @@ export const StatCalculator = {
   calculate(character) {
     if (!character) return console.log('No character selected');
 
-    const relicsById = store.getState().relicsById
+    const relicsById = global.store.getState().relicsById
     let relics = Object.values(character.equipped).map(x => relicsById[x])
 
     return StatCalculator.calculateCharacterWithRelics(character, relics)

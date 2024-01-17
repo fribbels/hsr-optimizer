@@ -1,45 +1,16 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
-
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import OptimizerForm from './OptimizerForm'
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  ConfigProvider,
-  Space,
-  Divider,
-  Switch,
-  Row,
-  Col,
-  Typography,
-  message,
-  Upload,
-  Image,
-  Flex,
-  Modal, Affix,
-} from 'antd';
-
-import styled from 'styled-components';
-import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import { Flex, } from 'antd';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import OptimizerBuildPreview from './OptimizerBuildPreview';
-
 import "../style/style.css";
-import { HeaderText } from './HeaderText';
 import { Renderer } from '../lib/renderer';
-import { TooltipImage } from './TooltipImage';
-import { ErrorBoundary } from 'react-error-boundary';
 import Sidebar from "./optimizerTab/Sidebar";
-
-const { Text } = Typography;
+import PropTypes from "prop-types";
+import { Constants } from "../lib/constants";
+import { Gradient } from "../lib/gradient";
 
 export default function OptimizerTab(props) {
   console.log('OptimizerTab', props)
@@ -53,43 +24,10 @@ export default function OptimizerTab(props) {
     OptimizerTabController.cellClicked(event)
   }, []);
 
-  const DIGITS_2 = 30;
-  const DIGITS_3 = 34;
   const DIGITS_4 = 50;
   const DIGITS_5 = 60;
-  const DIGITS_6 = 48;
 
-  // const columnDefs = useMemo(() => [
-  //   {field: 'id', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
-  //   {field: 'id', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set'},
-
-  //   {field: Constants.Stats.ATK, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.DEF, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.HP, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.SPD, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.CR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CR', cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.CD, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CD', cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.EHR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'EHR', cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.RES, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'RES', cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.BE, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'BE', cellStyle: Gradient.getOptimizerColumnGradient},
-  //   {field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR'},
-  //   {field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL'},
-  //   {field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM'},
-  //   {field: 'CV', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV'},
-  //   {field: 'DMG', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DMG'},
-  //   {field: 'MCD', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'MCD'},
-  //   {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
-  //   {field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP'},
-
-  //   {field: 'basic', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'basic'},
-  //   {field: 'skill', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'skill'},
-  //   {field: 'ult', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ult'},
-  //   {field: 'fua', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'fua'},
-  // ], []);
-
-
-  const statDisplay = store(s => s.statDisplay)
-  const setStatDisplay = store(s => s.setStatDisplay)
+  const statDisplay = global.store(s => s.statDisplay)
 
   let baseColumnDefs = [
     {field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set'},
@@ -147,19 +85,6 @@ export default function OptimizerTab(props) {
     {field: 'DOT',   valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT'},
   ]
 
-
-
-  // useEffect(() => {
-  //   console.log('!!!!', optimizerGrid)
-  //   if (!optimizerGrid.current || !optimizerGrid.current.api) return
-  //
-  //   if (statDisplay == 'combat') {
-  //     optimizerGrid.current.api.setGridOption('columnDefs', combatColumnDefs)
-  //   } else {
-  //     optimizerGrid.current.api.setGridOption('columnDefs', baseColumnDefs)
-  //   }
-  // }, [statDisplay])
-
   const columnDefs = useMemo(() => statDisplay == 'combat' ? combatColumnDefs : baseColumnDefs, [statDisplay]);
 
   const datasource = useMemo(() => {
@@ -185,8 +110,6 @@ export default function OptimizerTab(props) {
     sortable: true,
     sortingOrder: ['desc', 'asc']
   }), []);
-
-  let defaultGap = 5;
 
   return (
     <div style={{display: props.active ? 'block' : 'none'}}>
@@ -220,4 +143,7 @@ export default function OptimizerTab(props) {
       </Flex>
     </div>
   );
+}
+OptimizerTab.propTypes = {
+  active: PropTypes.bool,
 }

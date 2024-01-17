@@ -4,10 +4,11 @@ import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
 import { WorkerPool } from "./workerPool";
-import {BufferPacker} from "./bufferPacker";
-import {RelicFilters} from "./relicFilters";
-
-let MAX_INT = 2147483647;
+import { BufferPacker } from "./bufferPacker";
+import { RelicFilters } from "./relicFilters";
+import { CharacterStats } from "./characterStats";
+import { Message } from "./message";
+import { StatCalculator } from "./statCalculator";
 
 let WIDTH = 100000;
 let HEIGHT = 1;
@@ -76,11 +77,11 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
-  optimize: async function(request, topRow) {
+  optimize: function(request) {
     CANCEL = false
 
-    store.getState().setPermutationsSearched(0)
-    store.getState().setPermutationsResults(0)
+    global.store.getState().setPermutationsSearched(0)
+    global.store.getState().setPermutationsResults(0)
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -185,7 +186,7 @@ export const Optimizer = {
 
     if (CANCEL) return;
 
-    optimizerGrid.current.api.showLoadingOverlay()
+    global.optimizerGrid.current.api.showLoadingOverlay()
 
     let results = []
     let increment = (WIDTH * HEIGHT)
@@ -270,13 +271,13 @@ export const Optimizer = {
 
         console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}}`)
 
-        store.getState().setPermutationsResults(results.length)
-        store.getState().setPermutationsSearched(Math.min(permutations, searched))
+        global.store.getState().setPermutationsResults(results.length)
+        global.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           OptimizerTabController.setRows(results)
 
-          optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length);
           resultsShown = true
           return

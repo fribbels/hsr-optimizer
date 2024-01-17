@@ -1,9 +1,12 @@
-import {Button, Divider, Flex, Radio, Typography} from "antd";
-import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
+import { Button, Divider, Flex, Typography } from "antd";
+import React from 'react';
 import FormCard from "./FormCard";
-import {HeaderText} from "../HeaderText";
-import {TooltipImage} from "../TooltipImage";
-import {OptimizerTabController} from "../../lib/optimizerTabController";
+import { HeaderText } from "../HeaderText";
+import { TooltipImage } from "../TooltipImage";
+import { OptimizerTabController } from "../../lib/optimizerTabController";
+import { Hint } from "../../lib/hint";
+import PropTypes from "prop-types";
+
 const { Text } = Typography;
 
 function PermutationDisplay(props) {
@@ -23,15 +26,21 @@ function PermutationDisplay(props) {
     </Flex>
   )
 }
+PermutationDisplay.propTypes = {
+  total: PropTypes.number,
+  right: PropTypes.number,
+  left: PropTypes.string
+}
+
 
 let defaultGap = 5
 
-export default function Sidebar(props) {
+export default function Sidebar() {
 
-  const permutationDetails = store(s => s.permutationDetails)
-  const permutations = store(s => s.permutations)
-  const permutationsSearched = store(s => s.permutationsSearched)
-  const permutationsResults = store(s => s.permutationsResults)
+  const permutationDetails = global.store(s => s.permutationDetails)
+  const permutations = global.store(s => s.permutations)
+  const permutationsSearched = global.store(s => s.permutationsSearched)
+  const permutationsResults = global.store(s => s.permutationsResults)
 
   return (
     <Flex vertical style={{overflow: 'clip'}}>

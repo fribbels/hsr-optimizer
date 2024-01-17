@@ -160,28 +160,6 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
   RelicSetToIndex[SetsRelicsNames[i]] = i
 }
 
-// let StatMaxes = {
-//   [Stats.HP_P]: 43.2,
-//   [Stats.ATK_P]: 43.2,
-//   [Stats.DEF_P]: 54,
-//   [Stats.HP]: 705,
-//   [Stats.ATK]: 352,
-//   [Stats.CR]: 32.4,
-//   [Stats.CD]: 64.8,
-//   [Stats.OHB]: 34.5,
-//   [Stats.EHR]: 43.2,
-//   [Stats.SPD]: 25,
-//   [Stats.BE]: 64.8,
-//   [Stats.ERR]: 19.4,
-//   [Stats.Physical_DMG]: 38.8,
-//   [Stats.Fire_DMG]: 38.8,
-//   [Stats.Ice_DMG]: 38.8,
-//   [Stats.Lightning_DMG]: 38.8,
-//   [Stats.Wind_DMG]: 38.8,
-//   [Stats.Quantum_DMG]: 38.8,
-//   [Stats.Imaginary_DMG]: 38.8,
-// }
-
 export const Constants = {
   Sets,
   Parts,

@@ -1,12 +1,9 @@
 import stringSimilarity from 'string-similarity';
 import { Parts, Sets, Stats } from './constants';
-import { dblClick } from '@testing-library/user-event/dist/click';
 import { RelicAugmenter } from './relicAugmenter';
 
 export const OcrParserFribbels1 = {
   parse: (json) => {
-    let version = json.version;
-    // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
     let relics = json.relics;
   
     let parsedRelics = []
@@ -80,6 +77,7 @@ function readStats(relic) {
       value: value
     }
 
+    // TODO not sure if accurate anymore - check on its decimals
     if (!main) {
       main = fixMainStat(parsedStat, relic)
     } else {
@@ -90,10 +88,6 @@ function readStats(relic) {
     main,
     substats
   }
-}
-
-function readStat(stat) {
-  stat = stat.trim().split()
 }
 
 let relicSetList = Object.entries(Sets)
@@ -112,7 +106,7 @@ function lowerAlphaNumericPercent(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '')
 }
 
-function fixMainStat(parsedStat, relic) {
+function fixMainStat(parsedStat) {
   return parsedStat
 }
 

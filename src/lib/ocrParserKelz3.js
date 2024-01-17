@@ -1,15 +1,16 @@
 import stringSimilarity from 'string-similarity';
-import { Parts, Sets, Stats } from './constants';
-import { dblClick } from '@testing-library/user-event/dist/click';
+import { Constants, Parts, Sets } from './constants';
 import { RelicAugmenter } from './relicAugmenter';
 
 import characters from '../data/characters.json';
 import lightCones from '../data/light_cones.json';
+import DB from "./db";
+import { Utils } from "./utils";
+import { Message } from "./message";
 
 let substatMapping;
 let mainstatMapping;
 let partMapping;
-let gradeMapping;
 let affixMapping;
 let metadata
 
@@ -25,8 +26,6 @@ const formTemplate = {
 export const OcrParserKelz3 = {
   parse: (json) => {
     OcrParserKelz3.initialize()
-    let version = json.version;
-    // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
     let relics = json.relics;
 
     let parsedRelics = []
@@ -46,8 +45,6 @@ export const OcrParserKelz3 = {
 
   parseCharacters: (json) => {
     OcrParserKelz3.initialize()
-    let version = json.version;
-    // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
     let characters = json.characters;
     if (!characters) {
       return []
@@ -117,13 +114,6 @@ export const OcrParserKelz3 = {
         [Constants.Parts.Feet]: 4,
         [Constants.Parts.PlanarSphere]: 5,
         [Constants.Parts.LinkRope]: 6,
-      }
-
-      gradeMapping = {
-        5: 6,
-        4: 5,
-        3: 4,
-        2: 3
       }
 
       affixMapping = {
@@ -203,13 +193,13 @@ function readRelic(relic) {
   if (characterList.find(x => x.name == relic.location)) {
     id = characterList.find(x => x.name == relic.location).id
   } else {
-    if (location == 'TrailblazerPreservation' && store.getState().charactersById[8003]) {
+    if (relic.location == 'TrailblazerPreservation' && global.store.getState().charactersById[8003]) {
       id = 8003
     } else {
       id = 8004
     }
 
-    if (location == 'TrailblazerDestruction' && store.getState().charactersById[8001]) {
+    if (relic.location == 'TrailblazerDestruction' && global.store.getState().charactersById[8001]) {
       id = 8001
     } else {
       id = 8002
@@ -274,10 +264,6 @@ function readStats(relic, part, grade, enhance) {
   }
 }
 
-function readStat(stat) {
-  stat = stat.trim().split()
-}
-
 let relicSetList = Object.entries(Sets)
 for (let set of relicSetList) {
   set[2] = set[1]
@@ -285,11 +271,6 @@ for (let set of relicSetList) {
 }
 
 
-let statList = Object.entries(Stats)
-
 function lowerAlphaNumeric(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')
-}
-function lowerAlphaNumericPercent(str) {
-  return str.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '')
 }

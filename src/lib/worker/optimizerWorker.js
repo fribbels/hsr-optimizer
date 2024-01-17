@@ -1,4 +1,4 @@
-import {Constants, Stats} from '../constants.js'
+import { Constants } from '../constants.js'
 import { BufferPacker } from '../bufferPacker.js'
 import { CharacterConditionals } from "../characterConditionals.js";
 import { LightConeConditionals } from "../lightConeConditionals";
@@ -26,13 +26,11 @@ function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSp
 }
 
 function calculateFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
-  let result = (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
-  return result
+  return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
 }
 
 function calculateBaseStat(stat, base, lc) {
-  let result = (base[stat] + lc[stat])
-  return result
+  return base[stat] + lc[stat]
 }
 
 function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
@@ -78,7 +76,6 @@ self.onmessage = function (e) {
   let lc = character.lightCone
   let base = character.base
 
-  let bypassFilters = data.bypassFilters
   let request = data.request
   let setConditionals = request.setConditionals
 
@@ -283,8 +280,9 @@ self.onmessage = function (e) {
       // Calculate passive effects & buffs. x stores the internally calculated character stats
       // ************************************************************
 
-      characterConditionals.calculatePassives(c, request)
-      lightConeConditionals.calculatePassives(c, request)
+      // No longer needed
+      // characterConditionals.calculatePassives(c, request)
+      // lightConeConditionals.calculatePassives(c, request)
 
       // ************************************************************
       // Calculate conditional set effects
@@ -358,7 +356,6 @@ self.onmessage = function (e) {
       // Calculate ratings
       // ************************************************************
 
-      let cappedCrit = Math.min(x[Stats.CR] + request.buffCr, 1)
       let cv = 100 * (crSum * 2 + cdSum)
       c.CV = cv
 

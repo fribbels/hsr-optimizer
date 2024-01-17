@@ -1,3 +1,4 @@
+import React from "react";
 import { Flex } from "antd"
 
 export const Hint = {

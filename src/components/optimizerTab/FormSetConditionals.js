@@ -1,8 +1,11 @@
-import {ConfigProvider, Drawer, Flex, Form, Popover, Select, Switch, Tooltip, Typography} from "antd";
-import {Constants} from "../../lib/constants";
+import { ConfigProvider, Drawer, Flex, Form, Popover, Select, Switch, Typography } from "antd";
+import { Constants } from "../../lib/constants";
 import VerticalDivider from "../VerticalDivider";
-import React, {useMemo} from "react";
-import {HeaderText} from "../HeaderText";
+import React, { useMemo } from "react";
+import { HeaderText } from "../HeaderText";
+import PropTypes from "prop-types";
+import { Assets } from "../../lib/assets";
+
 const { Text } = Typography;
 
 const setConditionalsIconWidth = 40
@@ -10,9 +13,9 @@ const setConditionalsNameWidth = 200
 const setConditionalsWidth = 80
 const defaultGap = 5
 
-export const FormSetConditionals = (props) => {
-  let conditionalSetEffectsDrawerOpen = store(s => s.conditionalSetEffectsDrawerOpen);
-  let setConditionalSetEffectsDrawerOpen = store(s => s.setConditionalSetEffectsDrawerOpen);
+export const FormSetConditionals = () => {
+  let conditionalSetEffectsDrawerOpen = global.store(s => s.conditionalSetEffectsDrawerOpen);
+  let setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
     let options = []
@@ -369,4 +372,12 @@ function ConditionalSetOption(props) {
       </Popover>
     )
   }
+}
+ConditionalSetOption.propTypes = {
+  description: PropTypes.string,
+  p2Checked: PropTypes.bool,
+  p4Checked: PropTypes.bool,
+  set: PropTypes.string,
+  conditional: PropTypes.string,
+  selectOptions: PropTypes.array,
 }

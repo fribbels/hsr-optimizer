@@ -1,7 +1,8 @@
-import {Flex, Form, InputNumber, Popover, Slider, Switch, Typography} from "antd";
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
+import { Flex, Form, InputNumber, Slider, Switch, Typography } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 let justify = 'flex-start'
 let align = 'center'
@@ -9,9 +10,6 @@ let inputWidth = 75
 let numberWidth = 65
 let sliderWidth = 145
 
-const InputNumberStyled = styled(InputNumber)`
-  width: 62px
-`
 const Text = styled(Typography)`
   white-space: pre-line;
 `
@@ -29,7 +27,7 @@ export function FormSwitch(props) {
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             disabled={props.disabled}
-            defaultChecked={props.disabled ? false : true}
+            defaultChecked={!props.disabled}
           />
         </Form.Item>
       </div>
@@ -37,20 +35,10 @@ export function FormSwitch(props) {
     </Flex>
   )
 }
-
-export function FormNumberPercent(props) {
-  return (
-    <div style={{minWidth: inputWidth, display: 'block'}}>
-      <Form.Item name={[conditionalType(props), props.name]}>
-        <InputNumberStyled
-          size='small'
-          controls={false}
-          formatter={(value) => `${value}%`}
-          parser={(value) => value.replace('%', '')}
-        />
-      </Form.Item>
-    </div>
-  )
+FormSwitch.propTypes = {
+  disabled: PropTypes.bool,
+  text: PropTypes.string,
+  name: PropTypes.string,
 }
 
 export function FormSlider(props) {
@@ -111,6 +99,15 @@ export function FormSlider(props) {
     </Flex>
   )
 }
+FormSlider.propTypes = {
+  disabled: PropTypes.bool,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  text: PropTypes.string,
+  name: PropTypes.string,
+  percent: PropTypes.bool,
+}
+
 
 function conditionalType(props) {
   if (props.lc) {

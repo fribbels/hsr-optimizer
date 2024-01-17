@@ -1,12 +1,14 @@
 import styled from 'styled-components';
-import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, Form, InputNumber, Segmented } from 'antd';
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-
+import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd';
+import React, { useEffect, useMemo } from 'react';
 import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
 import { Message } from '../lib/message';
-
+import PropTypes from "prop-types";
+import { Utils } from "../lib/utils";
+import DB from "../lib/db";
+import { Assets } from "../lib/assets";
 
 function RadioIcon(props) {
   return (
@@ -18,6 +20,10 @@ function RadioIcon(props) {
       />
     </Radio.Button>
   )
+}
+RadioIcon.propTypes = {
+  value: PropTypes.string,
+  src: PropTypes.string,
 }
 
 const InputNumberStyled = styled(InputNumber)`
@@ -89,7 +95,7 @@ export default function RelicModal(props) {
 
     let relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
-
+      // Ignore
     } else {
       defaultValues = {
         equippedBy: relic.equippedBy == undefined ? 'None' : relic.equippedBy,
@@ -238,18 +244,18 @@ export default function RelicModal(props) {
     props.onOk(relic)
     props.setOpen(false)
   };
-  const onFinishFailed = (x) => {
-    message.error('Submit failed!');
+  const onFinishFailed = () => {
+    Message.error('Submit failed!');
     props.setOpen(false)
   };
   const onValuesChange = (x) => {
     console.log('Form change', x);
   };
 
-  const handleCancel = (x) => {
+  const handleCancel = () => {
     props.setOpen(false)
   };
-  const handleOk = (x) => {
+  const handleOk = () => {
     relicForm.submit()
   };
 
@@ -288,7 +294,7 @@ export default function RelicModal(props) {
         width={350}
         centered
         destroyOnClose
-        open={props.open}
+        open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={[
           <Button key="back" onClick={handleCancel}>
@@ -527,4 +533,11 @@ export default function RelicModal(props) {
       </Modal>
     </Form>
   )
+}
+RelicModal.propTypes = {
+  selectedRelic: PropTypes.object,
+  type: PropTypes.string,
+  onOk: PropTypes.func,
+  setOpen: PropTypes.func,
+  open: PropTypes.bool,
 }

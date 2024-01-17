@@ -1,5 +1,6 @@
-import { Typography } from 'antd';
 import * as htmlToImage from 'html-to-image';
+import DB from "./db";
+import { Constants } from "./constants";
 
 export const Utils = {
   arrayOfZeroes: (n) => {
@@ -32,15 +33,10 @@ export const Utils = {
     }
   },
   isFlat: (stat) => {
-    if (
-      stat == Constants.Stats.HP ||
-      stat == Constants.Stats.ATK || 
-      stat == Constants.Stats.DEF || 
-      stat == Constants.Stats.SPD
-    ) {
-      return true;
-    }
-    return false;
+    return stat == Constants.Stats.HP ||
+      stat == Constants.Stats.ATK ||
+      stat == Constants.Stats.DEF ||
+      stat == Constants.Stats.SPD;
   },
   randomElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
@@ -76,5 +72,15 @@ export const Utils = {
   },
   hasMainStat: (part) => {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
+  },
+  generateCharacterOptions: () => {
+    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
+
+    for (let value of Object.values(characterData)) {
+      value.value = value.id;
+      value.label = value.displayName;
+    }
+
+    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   },
 }

@@ -1,6 +1,10 @@
-import {Flex, Image, Tag, Tooltip,} from 'antd';
-import {CheckCircleFilled} from "@ant-design/icons";
+import { Flex, Image, Tooltip, } from 'antd';
+import { CheckCircleFilled } from "@ant-design/icons";
 import * as React from "react";
+import { Constants } from "./constants";
+import { Assets } from "./assets";
+import { Utils } from "./utils";
+import PropTypes from "prop-types";
 
 export const Renderer = {
   floor: (x) => {
@@ -149,7 +153,7 @@ export const Renderer = {
     return Utils.isFlat(substat.stat) ? Math.floor(substat.value) : Utils.truncate10ths(substat.value).toFixed(1)
   },
 
-  renderMainStatNumber: (mainstat, relic) => {
+  renderMainStatNumber: (mainstat) => {
     return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
   },
 
@@ -185,24 +189,6 @@ function SetDisplay(props) {
     return ''
   }
 }
-
-// For displaying stats from selectors, unused
-function statTagRenderer(props) {
-  const { label, value, closable, onClose } = props;
-  const onPreventMouseDown = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{display: 'flex', flexDirection: 'row', paddingInline: '3px', marginInlineEnd: '4px'}}
-    >
-      <Flex>
-        <img src={Assets.getStatIcon(value)} style={{width: 22, height: 22}}></img>
-      </Flex>
-    </Tag>
-  );
+SetDisplay.propTypes = {
+  asset: PropTypes.string,
 }

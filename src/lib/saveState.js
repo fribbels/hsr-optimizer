@@ -1,10 +1,12 @@
+import DB from "./db";
+
 export const SaveState = {
   save: () => {
     let state = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
-      scorerId: store.getState().scorerId,
-      scoringMetadataOverrides: store.getState().scoringMetadataOverrides,
+      scorerId: global.store.getState().scorerId,
+      scoringMetadataOverrides: global.store.getState().scoringMetadataOverrides,
     }
 
     console.log('Saved state', state)

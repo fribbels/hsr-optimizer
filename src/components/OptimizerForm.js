@@ -1,42 +1,27 @@
 import {
   Button,
-  Divider,
   Cascader,
-  Checkbox,
-  DatePicker,
+  ConfigProvider,
+  Divider,
+  Flex,
   Form,
-  Input,
+  Image,
   InputNumber,
   Radio,
   Select,
-  Slider,
-  Drawer,
-  ConfigProvider,
-  Space,
   Switch,
-  Row,
-  Col,
-  Typography,
-  message,
-  Upload,
-  Image,
-  Flex,
-  Tooltip,
-  theme,
-  Popover,
   Tag,
-  Modal, Card,
+  Typography,
 } from 'antd';
-import React, { useState, useMemo, useEffect, Fragment } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
 import { Constants } from '../lib/constants';
-import VerticalDivider from './VerticalDivider';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
-import { CheckOutlined, CloseOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
@@ -48,7 +33,13 @@ import { v4 as uuidv4 } from "uuid";
 import { getDefaultForm } from "../lib/defaultForm";
 import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
 import { RelicFilters } from "../lib/relicFilters";
-const { TextArea } = Input;
+import { Assets } from "../lib/assets";
+import PropTypes from "prop-types";
+import DB from "../lib/db";
+import { Message } from "../lib/message";
+import { Utils } from "../lib/utils";
+import { Hint } from "../lib/hint";
+
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
 
@@ -85,12 +76,6 @@ function generateSetsOptions() {
     }
   ];
 
-  let children = Object.entries(Constants.SetsRelics).map(set => {
-    return {
-      value: set[1],
-      label: set[1]
-    }
-  })
   let childrenWithAny = Object.entries(Constants.SetsRelics).map(set => {
     return {
       value: set[1],
@@ -125,7 +110,6 @@ function generateSetsOptions() {
       label: generateLabel(set[1], '(2) ', set[1]),
       children: childrenWithAny.map(x => {
         let parens = x.value == 'Any' ? '(0) ' : '(2) ';
-        let imageSrc = x.value == 'Any' ? Assets.getBlank() : Assets.getSetImage(x.value, Constants.Parts.Head)
         return {
           value: x.value,
           label: generateLabel(x.value, parens, x.label)
@@ -159,6 +143,11 @@ function FilterRow(props) {
     </Flex>
   )
 }
+FilterRow.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+}
+
 
 let panelWidth = 203;
 let defaultGap = 5;
@@ -172,12 +161,12 @@ export default function OptimizerForm() {
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
 
-  let setConditionalSetEffectsDrawerOpen = store(s => s.setConditionalSetEffectsDrawerOpen);
+  let setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
 
-  const activeKey = store(s => s.activeKey)
-  const characters = store(s => s.characters) // characters set in this localStorage instance
-  const statDisplay = store(s => s.statDisplay)
-  const setStatDisplay = store(s => s.setStatDisplay)
+  const activeKey = global.store(s => s.activeKey)
+  const characters = global.store(s => s.characters) // characters set in this localStorage instance
+  const statDisplay = global.store(s => s.statDisplay)
+  const setStatDisplay = global.store(s => s.setStatDisplay)
   const allCharacters = DB.getMetadata().characters;
 
 
@@ -217,7 +206,7 @@ export default function OptimizerForm() {
     let defaults = lcFn.defaults()
     let lightConeForm = form.lightConeConditionals || {}
 
-    // We can't apply the form to dynamically generated elements so we use an effect to set the form value to default
+    // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
     // Only if there's a missing field
     Object.assign(defaults, lightConeForm)
     if (Object.values(defaults).includes(undefined)) {
@@ -231,7 +220,6 @@ export default function OptimizerForm() {
   };
 
   window.getVal = () => statDisplay
-
 
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
@@ -248,7 +236,7 @@ export default function OptimizerForm() {
 
   // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
-  const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
+  const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = global.store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
   useEffect(() => {
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
@@ -370,8 +358,8 @@ export default function OptimizerForm() {
     Optimizer.optimize(x)
   };
 
-  const onFinishFailed = (x) => {
-    message.error('Submit failed!');
+  const onFinishFailed = () => {
+    Message.error('Submit failed!');
   };
 
   const onValuesChange = (changedValues, allValues, bypass) => {
@@ -423,8 +411,8 @@ export default function OptimizerForm() {
       PlanarSphereTotal: preFilteredRelicsByPart[Constants.Parts.PlanarSphere].length,
       LinkRopeTotal: preFilteredRelicsByPart[Constants.Parts.LinkRope].length
     }
-    store.getState().setPermutationDetails(permutationDetails)
-    store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
+    global.store.getState().setPermutationDetails(permutationDetails)
+    global.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
 
     console.log('Filtered relics', relics, permutationDetails)
   }
@@ -448,39 +436,38 @@ export default function OptimizerForm() {
 
     return getDefaultForm(initialCharacter)
   }, [initialCharacter]);
-  // TODO use memo?
 
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
 
 
-  function cancelClicked(x) {
+  function cancelClicked() {
     console.log('Cancel clicked');
     Optimizer.cancel(optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
 
-  function resetClicked(x) {
+  function resetClicked() {
     console.log('Reset clicked');
     OptimizerTabController.resetFilters()
   }
   window.optimizerResetClicked = resetClicked
 
-  function filterClicked(x) {
+  function filterClicked() {
     console.log('Filter clicked');
     OptimizerTabController.applyRowFilters()
   }
   window.optimizerFilterClicked = filterClicked
 
-  function startClicked(x) {
+  function startClicked() {
     console.log('Start clicked');
     optimizerForm.submit()
   }
   window.optimizerStartClicked = startClicked
 
-  function ornamentSetTagRenderer(props) {
-    const { label, value, closable, onClose } = props;
+  function OrnamentSetTagRenderer(props) {
+    const { value, closable, onClose } = props;
     const onPreventMouseDown = (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -498,9 +485,15 @@ export default function OptimizerForm() {
       </Tag>
     );
   }
+  OrnamentSetTagRenderer.propTypes = {
+    value: PropTypes.string,
+    closable: PropTypes.bool,
+    onClose: PropTypes.func,
+  }
 
-  function relicSetTagRenderer(props) {
-    const { label, value, closable, onClose } = props;
+  function RelicSetTagRenderer(props) {
+    const { value, closable, onClose } = props;
+    // The value comes in as:
     // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
     // 3 -> render both, any render one, 2 -> render first twice
     let pieces = value.split('__RC_CASCADER_SPLIT__')
@@ -524,6 +517,11 @@ export default function OptimizerForm() {
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         </React.Fragment>
+    }
+    RelicSetTagRenderer.propTypes = {
+      value: PropTypes.string,
+      closable: PropTypes.bool,
+      onClose: PropTypes.func,
     }
 
     const onPreventMouseDown = (event) => {
@@ -934,7 +932,7 @@ export default function OptimizerForm() {
                       width: panelWidth
                     }}
                     options={generateOrnamentsOptions()}
-                    tagRender={ornamentSetTagRenderer}
+                    tagRender={OrnamentSetTagRenderer}
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
                   </Select>
@@ -955,7 +953,7 @@ export default function OptimizerForm() {
                       placeholder="Relics"
                       options={generateSetsOptions()}
                       showCheckedStrategy={SHOW_CHILD}
-                      tagRender={relicSetTagRenderer}
+                      tagRender={RelicSetTagRenderer}
                       placement='bottomLeft'
                       maxTagCount='responsive'
                       multiple={true}
@@ -1137,20 +1135,5 @@ export default function OptimizerForm() {
         </FilterContainer>
       </Form>
     </div>
-  );
-};
-let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
-// let shadow = 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'
-// let shadow = 'rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px'
-// let shadow = 'rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset'
-// let shadow = 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
-// function FormRow(props) {
-//   return (
-//     <div style={{backgroundColor: '#293a4f', padding: 20, boxShadow: shadow}}>
-//       <Flex gap={20}>
-//         {props.children}
-//       </Flex>
-//     </div>
-//   )
-// }
-
+  )
+}

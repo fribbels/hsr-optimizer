@@ -1,4 +1,4 @@
-import {Stats} from "./constants";
+import { Constants, Stats } from "./constants";
 
 const SIZE = 35
 

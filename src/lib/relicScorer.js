@@ -1,8 +1,7 @@
-import { CharacterConverter } from "./characterConverter"
+import { Constants } from "./constants";
+import DB from "./db";
 
-
-// let minRollValue = 5.184
-let minRollValue = 5.1 // Use truncated decimal because OCR'd results show truncated
+let minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
 let mainStatFreeRolls
 
 function setMainStatFreeRolls() {
@@ -119,7 +118,7 @@ export const RelicScorer = {
     if (!character || !character.id) return {}
 
     console.log('SCORE CHARACTER', character)
-    let relicsById = store.getState().relicsById
+    let relicsById = global.store.getState().relicsById
     let relics = Object.values(character.equipped).map(x => relicsById[x])
 
     return RelicScorer.scoreCharacterWithRelics(character, relics)

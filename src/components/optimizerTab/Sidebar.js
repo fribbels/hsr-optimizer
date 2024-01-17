@@ -74,15 +74,15 @@ export default function Sidebar() {
 
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button type="primary" onClick={optimizerStartClicked} style={{ width: '205px' }} >
+                <Button type="primary" onClick={global.optimizerStartClicked} style={{ width: '205px' }} >
                   Start
                 </Button>
               </Flex>
               <Flex gap={defaultGap}>
-                <Button onClick={optimizerCancelClicked} style={{ width: '100px' }} >
+                <Button onClick={global.optimizerCancelClicked} style={{ width: '100px' }} >
                   Cancel
                 </Button>
-                <Button onClick={optimizerResetClicked} style={{ width: '100px' }} >
+                <Button onClick={global.optimizerResetClicked} style={{ width: '100px' }} >
                   Reset
                 </Button>
               </Flex>
@@ -95,7 +95,7 @@ export default function Sidebar() {
               {/*<TooltipImage type={Hint.actions()} />*/}
             </Flex>
             <Flex gap={defaultGap} justify='space-around'>
-              <Button onClick={optimizerFilterClicked} style={{ width: '100px' }} >
+              <Button onClick={global.optimizerFilterClicked} style={{ width: '100px' }} >
                 Filter
               </Button>
               <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }} >

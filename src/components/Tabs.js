@@ -22,7 +22,7 @@ const Tabs = () => {
   let optimizerActive = activeKey == 'optimizer'
   let charactersActive = activeKey == 'characters'
   let relicsActive = activeKey == 'relics'
-  let databaseActive = activeKey == 'database'
+  let importActive = activeKey == 'import'
   let gettingStartedActive = activeKey == '#getting-started'
   let scorerActive = activeKey == '#scorer'
   let comingSoonActive = activeKey == 'coming-soon'
@@ -55,10 +55,10 @@ const Tabs = () => {
   let importDisplay = useMemo(() => {
     return (
       <ErrorBoundary fallback={defaultError()}>
-        <ImportTab active={databaseActive}/>
+        <ImportTab active={importActive}/>
       </ErrorBoundary>
     )
-  }, [databaseActive])
+  }, [importActive])
 
   let gettingStartedDisplay = useMemo(() => {
     return (

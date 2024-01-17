@@ -50,7 +50,7 @@ export default function GettingStartedTab(props) {
           {/* ======================================================================================================================= */}
 
           <h2>
-            Importing your database
+            Importing
           </h2>
 
           <p>

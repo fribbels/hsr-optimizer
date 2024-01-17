@@ -54,7 +54,7 @@ export default function GettingStartedTab(props) {
           </h2>
 
           <p>
-            The optimizer needs a dataset of relics to run against.
+            The optimizer needs a database of relics to run against.
             Currently there are 2 supported OCR relic scanners:
           </p>
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button, Select, Modal, message, Avatar, Flex, Radio, Upload, Image, InputNumber, Segmented, Popconfirm } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import RelicPreview from './RelicPreview';
@@ -11,7 +11,7 @@ import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';
 import { TooltipImage } from './TooltipImage';
-import {RelicScorer} from "../lib/relicScorer";
+import { RelicScorer } from "../lib/relicScorer";
 import RelicFilterBar from "./RelicFilterBar";
 
 
@@ -108,31 +108,31 @@ export default function RelicsTab(props) {
   }, [relicTabFilters])
 
   const columnDefs = useMemo(() => [
-    {field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon},
-    {field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter'},
-    {field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter'},
-    {field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter'},
-    {field: 'enhance', width: 60, filter: 'agNumberColumnFilter'},
-    {field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter'},
-    {field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: 'ATK %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: 'DEF %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.HP}`, headerName: 'HP', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.ATK}`, headerName: 'ATK', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.DEF}`, headerName: 'DEF', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.SPD}`, headerName: 'SPD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10ths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.CR}`, headerName: 'CR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.CD}`, headerName: 'CD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'EHR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
-    {field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter'},
+    { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
+    { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
+    { field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter' },
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
+    { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
+    { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
+    { field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: 'ATK %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: 'DEF %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.HP}`, headerName: 'HP', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.ATK}`, headerName: 'ATK', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.DEF}`, headerName: 'DEF', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.SPD}`, headerName: 'SPD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10ths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.CR}`, headerName: 'CR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.CD}`, headerName: 'CD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'EHR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     // {field: `cs`, headerName: 'CScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
     // {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
     // {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-    {field: `relicsTabWeight`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70},
-    {field: `averageCaseWeight`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70},
-    {field: `bestCaseWeight`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70},
+    { field: `relicsTabWeight`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
+    { field: `averageCaseWeight`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
+    { field: `bestCaseWeight`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
   ], []);
 
   const gridOptions = useMemo(() => ({
@@ -143,17 +143,23 @@ export default function RelicsTab(props) {
     suppressCellFocus: true
   }), []);
 
-  const defaultColDef = useMemo( ()=> ({
+  const defaultColDef = useMemo(() => ({
     sortable: true,
     width: 45,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
-    filterParams: {maxNumConditions: 100}
+    filterParams: { maxNumConditions: 100 }
   }), []);
 
-  const cellClickedListener = useCallback( event => {
+  const cellClickedListener = useCallback(event => {
     console.log('cellClicked', event);
     setSelectedRelic(event.data)
+  }, []);
+
+  const onCellDoubleClickedListener = useCallback(e => {
+    console.log('cellDblClicked', e);
+    setSelectedRelic(e.data);
+    setEditModalOpen(true);
   }, []);
 
   function onAddOk(relic) {
@@ -170,7 +176,7 @@ export default function RelicsTab(props) {
   function onEditOk(relic) {
     relic.id = selectedRelic.id
 
-    const updatedRelic = {...selectedRelic, ...relic}
+    const updatedRelic = { ...selectedRelic, ...relic }
 
     if (updatedRelic.equippedBy) {
       DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
@@ -195,12 +201,12 @@ export default function RelicsTab(props) {
     console.log('edit clicked');
     setEditModalOpen(true)
   }
-  
+
   function addClicked(x) {
     console.log('add clicked');
     setAddModalOpen(true)
   }
-  
+
   function deleteClicked(x) {
     console.log('delete clicked');
 
@@ -216,36 +222,37 @@ export default function RelicsTab(props) {
 
 
   return (
-    <Flex style={{display: props.active ? 'block' : 'none', width: 1250}}>
+    <Flex style={{ display: props.active ? 'block' : 'none', width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
 
-        <RelicFilterBar/>
+        <RelicFilterBar />
 
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{width: 1250, height: 500, resize: 'vertical', overflow: 'hidden'}}>
+        <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1250, height: 500, resize: 'vertical', overflow: 'hidden' }}>
 
           <AgGridReact
-              ref={gridRef} // Ref for accessing Grid's API
+            ref={gridRef} // Ref for accessing Grid's API
 
-              rowData={relicRows} // Row Data for Rows
-              gridOptions={gridOptions}
+            rowData={relicRows} // Row Data for Rows
+            gridOptions={gridOptions}
 
-              columnDefs={columnDefs} // Column Defs for Columns
-              defaultColDef={defaultColDef} // Default Column Properties
+            columnDefs={columnDefs} // Column Defs for Columns
+            defaultColDef={defaultColDef} // Default Column Properties
 
-              animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-              headerHeight={24}
-              rowSelection='multiple' // Options - allows click selection of rows
+            animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+            headerHeight={24}
+            rowSelection='multiple' // Options - allows click selection of rows
 
-              onCellClicked={cellClickedListener} // Optional - registering for Grid Event
-              />
+            onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+            onCellDoubleClicked={onCellDoubleClickedListener}
+          />
         </div>
         <Flex gap={10}>
-          <Button type="primary" onClick={editClicked} style={{width: '150px'}} >
+          <Button type="primary" onClick={editClicked} style={{ width: '150px' }} >
             Edit Relic
           </Button>
-          <Button type="primary" onClick={addClicked} style={{width: '150px'}} >
+          <Button type="primary" onClick={addClicked} style={{ width: '150px' }} >
             Add New Relic
           </Button>
           <Popconfirm
@@ -256,15 +263,15 @@ export default function RelicsTab(props) {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button type="primary" style={{width: '150px'}} >
+            <Button type="primary" style={{ width: '150px' }} >
               Delete Relic
             </Button>
           </Popconfirm>
         </Flex>
         <Flex gap={10}>
-          <RelicPreview relic={selectedRelic}/>
-          <Flex style={{display: 'block'}}>
-            <TooltipImage type={Hint.relics()}/>
+          <RelicPreview relic={selectedRelic} />
+          <Flex style={{ display: 'block' }}>
+            <TooltipImage type={Hint.relics()} />
           </Flex>
         </Flex>
       </Flex>

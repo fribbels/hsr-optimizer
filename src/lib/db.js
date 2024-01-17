@@ -7,11 +7,12 @@ let state = {
   characters: [],
   metadata: {},
   relicsById: {},
-  scorerId: undefined
+  scorerId: undefined,
+  selectedOptimizerCharacter: undefined
 }
 import { create } from 'zustand'
-import {Constants} from './constants';
-import {getDefaultForm} from './defaultForm';
+import { Constants } from './constants';
+import { getDefaultForm } from './defaultForm';
 
 // TODO clean up
 let hashes = [
@@ -85,6 +86,9 @@ window.store = create((set) => ({
   selectedScoringCharacter: undefined,
   setSelectedScoringCharacter: (x) => set(() => ({ selectedScoringCharacter: x })),
 
+  selectedOptimizerCharacter: undefined,
+  setSelectedOptimizerCharacter: char => set(() => ({ selectedOptimizerCharacter: char })),
+
   relicTabFilters: {
     set: [],
     part: [],
@@ -146,7 +150,7 @@ export const DB = {
   setRelics: (x) => {
     let relicsById = {}
     for (let relic of x) {
-      relicsById[relic.id] = relic 
+      relicsById[relic.id] = relic
     }
     store.getState().setRelicsById(relicsById)
   },
@@ -229,7 +233,7 @@ export const DB = {
 
       DB.addCharacter({
         id: form.characterId,
-        form: {...defaultForm, ...form},
+        form: { ...defaultForm, ...form },
         equipped: {}
       })
     }
@@ -475,7 +479,7 @@ export const DB = {
 
         if (exit) continue
 
-        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance/3)*3 - Math.floor(partialMatch.enhance/3)*3)/3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
         if (upgrades > possibleUpgrades) continue
 
         // If it passes all the tests, keep it

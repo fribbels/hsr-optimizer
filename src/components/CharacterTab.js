@@ -1,4 +1,4 @@
-import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback} from 'react';
+import React, { useState, useRef, useReducer, useEffect, useMemo, useCallback } from 'react';
 
 import { Flex, Image, InputNumber, Space, Button, Divider, Typography, Popconfirm } from 'antd';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
@@ -23,12 +23,12 @@ function cellImageRenderer(params) {
 
   // console.log('CellRenderer', data, characterMetadata)
   return (
-      <Image
-        preview={false}
-        width={50}
-        src={characterIconSrc}
-        style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
-      />
+    <Image
+      preview={false}
+      width={50}
+      src={characterIconSrc}
+      style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
+    />
   )
 }
 
@@ -38,7 +38,7 @@ function cellRankRenderer(params) {
 
   // console.log('CellRenderer', data, characterMetadata)
   return (
-    <Text style={{ height: '100%'}}>
+    <Text style={{ height: '100%' }}>
       {character.rank + 1}
     </Text>
   )
@@ -54,14 +54,14 @@ function cellNameRenderer(params) {
   let color = '#81d47e'
   if (equippedNumber < 6) color = '#eae084'
   if (equippedNumber < 1) color = '#d72f2f'
-  
+
 
   return (
-    <Flex align='center' justify='flex-start' style={{height: '100%', width: '100%'}}>
-      <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px'}}>
+    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
+      <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
         {characterName}
       </Text>
-      <Flex style={{display: 'block', width: 3, height: '100%', backgroundColor: color}}>
+      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color }}>
 
       </Flex>
     </Flex>
@@ -90,11 +90,13 @@ export default function CharacterTab(props) {
   }
 
   const columnDefs = useMemo(() => [
-    {field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    {field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true, rowDragText: (params, dragItemCount) => {
-      return params.rowNode.data.displayName;
-    }},
-    {field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer},
+    { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
+    {
+      field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true, rowDragText: (params, dragItemCount) => {
+        return params.rowNode.data.displayName;
+      }
+    },
+    { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], []);
 
   const gridOptions = useMemo(() => ({
@@ -106,10 +108,10 @@ export default function CharacterTab(props) {
     suppressScrollOnNewData: true,
     suppressCellFocus: true
   }), []);
-  
+
   const defaultColDef = useMemo(() => ({
     sortable: false,
-    cellStyle: {display: 'flex'}
+    cellStyle: { display: 'flex' }
   }), []);
 
   const cellClickedListener = useCallback(event => {
@@ -120,6 +122,16 @@ export default function CharacterTab(props) {
     setCharacterTabSelectedId(data.id)
   }, []);
 
+  // TODO: implement routing to handle this
+  const [setActiveKey, setSelectedOptimizerCharacter] = store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
+  const cellDoubleClickedListener = useCallback(e => {
+    // setSelectedChar
+    setSelectedOptimizerCharacter(charactersById[e.data.id]);
+
+    // set view
+    setActiveKey('optimizer');
+  }, []);
+
   function drag(event, index) {
     const dragged = event.node.data;
     DB.insertCharacter(dragged.id, index);
@@ -127,11 +139,11 @@ export default function CharacterTab(props) {
     characterGrid.current.api.redrawRows()
   }
 
-  const onRowDragEnd = useCallback( event => {
+  const onRowDragEnd = useCallback(event => {
     drag(event, event.overIndex)
   }, []);
 
-  const onRowDragLeave = useCallback( event => {
+  const onRowDragLeave = useCallback(event => {
     if (event.overIndex == 0) {
       drag(event, 0)
     } else if (event.overIndex == -1 && event.vDirection == 'down') {
@@ -156,7 +168,7 @@ export default function CharacterTab(props) {
     setCharacterRows(DB.getCharacters())
     setCharacterTabSelectedId(undefined)
     relicsGrid.current.api.redrawRows()
-    
+
     SaveState.save()
 
     Message.success('Successfully removed character')
@@ -198,18 +210,18 @@ export default function CharacterTab(props) {
   let lcParentH = 280;
   let lcParentW = 230;
   let lcInnerW = 240;
-  let lcInnerH = 1260/902 * lcInnerW;
+  let lcInnerH = 1260 / 902 * lcInnerW;
 
   return (
     <div style={{
-      ...{display: props.active ? 'block' : 'none'},
+      ...{ display: props.active ? 'block' : 'none' },
       ...{
         height: '100%'
       }
     }}>
-      <Flex style={{height: '100%'}} gap={8}>
+      <Flex style={{ height: '100%' }} gap={8}>
         <Flex vertical gap={10}>
-          <div id="characterGrid" className="ag-theme-balham-dark" style={{display: 'block', width: 230, height: parentH - 85}}>
+          <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
             <AgGridReact
               ref={characterGrid} // Ref for accessing Grid's API
 
@@ -224,9 +236,10 @@ export default function CharacterTab(props) {
               headerHeight={24}
 
               onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+              onCellDoubleClicked={cellDoubleClickedListener}
               onRowDragEnd={onRowDragEnd}
               onRowDragLeave={onRowDragLeave}
-              />
+            />
           </div>
           <Flex vertical gap={10}>
             <Flex justify='space-between'>
@@ -256,12 +269,12 @@ export default function CharacterTab(props) {
                 </Button>
               </Popconfirm>
             </Flex>
-            <Button style={{  }} onClick={scoringAlgorithmClicked}>
+            <Button style={{}} onClick={scoringAlgorithmClicked}>
               Scoring algorithm
             </Button>
           </Flex>
         </Flex>
-        <CharacterPreview character={selectedCharacter}/>
+        <CharacterPreview character={selectedCharacter} />
       </Flex>
     </div>
   );

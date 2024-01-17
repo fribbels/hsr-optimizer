@@ -36,18 +36,18 @@ import VerticalDivider from './VerticalDivider';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
-import {CheckOutlined, CloseOutlined, SearchOutlined, SettingOutlined} from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
 import { SaveState } from '../lib/saveState';
-import {CharacterConditionals} from "../lib/characterConditionals";
-import {LightConeConditionals} from "../lib/lightConeConditionals";
-import {FormStatRollSlider, FormStatRollSliderTopPercent} from "./optimizerTab/FormStatRollSlider";
-import {v4 as uuidv4} from "uuid";
-import {getDefaultForm} from "../lib/defaultForm";
-import {FormSetConditionals} from "./optimizerTab/FormSetConditionals";
-import {RelicFilters} from "../lib/relicFilters";
+import { CharacterConditionals } from "../lib/characterConditionals";
+import { LightConeConditionals } from "../lib/lightConeConditionals";
+import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
+import { v4 as uuidv4 } from "uuid";
+import { getDefaultForm } from "../lib/defaultForm";
+import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
+import { RelicFilters } from "../lib/relicFilters";
 const { TextArea } = Input;
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -55,17 +55,6 @@ const { SHOW_CHILD } = Cascader;
 let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
-
-const options = [
-  {
-    label: 'Combat',
-    value: 'Apple',
-  },
-  {
-    label: 'Display',
-    value: 'Pear',
-  },
-];
 
 function generateOrnamentsOptions() {
   return Object.values(Constants.SetsOrnaments).map(x => {
@@ -175,6 +164,7 @@ let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
+  console.log('======================================================================= RENDER')
   console.log('OptimizerForm')
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = optimizerForm
@@ -185,15 +175,16 @@ export default function OptimizerForm() {
   let setConditionalSetEffectsDrawerOpen = store(s => s.setConditionalSetEffectsDrawerOpen);
 
   const activeKey = store(s => s.activeKey)
-  const characters = store(s => s.characters)
-
+  const characters = store(s => s.characters) // characters set in this localStorage instance
   const statDisplay = store(s => s.statDisplay)
   const setStatDisplay = store(s => s.setStatDisplay)
+  const allCharacters = DB.getMetadata().characters;
+
 
   const [optimizationId, setOptimizationId] = useState();
 
   const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
+    let characterData = JSON.parse(JSON.stringify(allCharacters));
 
     for (let value of Object.values(characterData)) {
       value.value = value.id;
@@ -241,27 +232,32 @@ export default function OptimizerForm() {
 
   window.getVal = () => statDisplay
 
+
   const initialCharacter = useMemo(() => {
-    let characters = DB.getCharacters()
+    let characters = DB.getCharacters(); // retrieve instance localStore saved chars
     if (characters && characters.length > 0) {
-      let character = characters[0]
-      // let character = Utils.randomElement(characters)
-      console.log('Initial character', character)
+      let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
       setStatDisplay(character.form.statDisplay || 'base')
-
       return characterOptions.find(x => x.id == character.id)
-    } else {
-
     }
   }, []);
 
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
   window.setSelectedCharacter = setSelectedCharacter
 
+  // TODO: refactor if/when view-routing/deep-linking implemented
+  // coming from char tab
+  const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
+  useEffect(() => {
+    if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
+      characterSelectorChange(selectedOptimizerCharacter.id);
+      setSelectedOptimizerCharacter(null);
+    }
+  }, [selectedOptimizerCharacter]);
+
   useEffect(() => {
     if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
-      console.log('Switched to optimizesr tab with no selected character, picking the first', activeKey, characters)
       characterSelectorChange(characters[0].id)
     }
   }, [activeKey])
@@ -292,7 +288,7 @@ export default function OptimizerForm() {
 
   const enemyCountOptions = useMemo(() => {
     let levelStats = []
-    for (let i = 1; i <= 5; i+=2) {
+    for (let i = 1; i <= 5; i += 2) {
       levelStats.push({
         value: i,
         label: `${i} target${i > 1 ? 's' : ''}`
@@ -306,7 +302,7 @@ export default function OptimizerForm() {
     let levelStats = []
     for (let i = 20; i <= 60; i += 20) {
       levelStats.push({
-        value: i/100,
+        value: i / 100,
         label: `${i}% RES`
       })
     }
@@ -318,7 +314,7 @@ export default function OptimizerForm() {
     let levelStats = []
     for (let i = 100; i >= 1; i--) {
       levelStats.push({
-        value: i/100,
+        value: i / 100,
         label: `${i}% HP`
       })
     }
@@ -359,8 +355,6 @@ export default function OptimizerForm() {
   }
 
   const onFinish = (x) => {
-    // document.getElementById("optimizerGridContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
-
     OptimizerTabController.fixForm(x);
     if (!OptimizerTabController.validateForm(x)) {
       return
@@ -387,13 +381,13 @@ export default function OptimizerForm() {
       // Allow certain values to refresh permutations.
       // Sliders should only update at the end of the drag
     } else if (keys.length == 1 && (
-        keys[0].startsWith('min') ||
-        keys[0].startsWith('max') ||
-        keys[0].startsWith('buff') ||
-        keys[0].startsWith('weights') ||
-        keys[0].startsWith('statDisplay') ||
-        keys[0] == 'characterConditionals' ||
-        keys[0] == 'lightConeConditionals')) {
+      keys[0].startsWith('min') ||
+      keys[0].startsWith('max') ||
+      keys[0].startsWith('buff') ||
+      keys[0].startsWith('weights') ||
+      keys[0].startsWith('statDisplay') ||
+      keys[0] == 'characterConditionals' ||
+      keys[0] == 'lightConeConditionals')) {
       return;
     }
     let request = allValues
@@ -403,7 +397,6 @@ export default function OptimizerForm() {
     let relics = Utils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
 
-    // console.log('Unfiltered relics', relics)
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
 
@@ -463,7 +456,6 @@ export default function OptimizerForm() {
 
 
   function cancelClicked(x) {
-    // document.getElementById("optimizerBuildPreviewContainer").scrollIntoView({behavior: 'instant', block: 'nearest'})
     console.log('Cancel clicked');
     Optimizer.cancel(optimizationId)
   }
@@ -566,8 +558,8 @@ export default function OptimizerForm() {
 
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
-            <FormCard style={{overflow: 'hidden'}}>
-              <div style={{ width: `${parentW}px`, height: `${parentH}px`,  borderRadius: '10px' }}>
+            <FormCard style={{ overflow: 'hidden' }}>
+              <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
                 <Image
                   preview={false}
                   width={innerW}
@@ -652,7 +644,7 @@ export default function OptimizerForm() {
             <FormCard justify='space-between'>
               {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
 
-              <Flex vertical gap={5} style={{marginBottom: 5}}>
+              <Flex vertical gap={5} style={{ marginBottom: 5 }}>
                 <Flex justify='space-between' align='center'>
                   <HeaderText style={{}}>Enemy options</HeaderText>
                   <TooltipImage type={Hint.enemyOptions()} />
@@ -763,7 +755,7 @@ export default function OptimizerForm() {
                 <Text>Keep current relics</Text>
               </Flex>
 
-              <Flex justify='space-between' align='center' style={{marginTop: 15}}>
+              <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>
                 <HeaderText>Relic enhance / rarity</HeaderText>
                 {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
               </Flex>
@@ -796,7 +788,7 @@ export default function OptimizerForm() {
                 </Form.Item>
               </Flex>
 
-              <Flex justify='space-between' align='center' style={{marginTop: 15}}>
+              <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>
                 <HeaderText>Stat display</HeaderText>
                 {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
               </Flex>
@@ -806,10 +798,10 @@ export default function OptimizerForm() {
                   onChange={onChangeStatDisplay}
                   optionType="button"
                   buttonStyle="solid"
-                  style={{width: '100%', display: 'flex'}}
+                  style={{ width: '100%', display: 'flex' }}
                 >
-                  <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value={'base'} defaultChecked>Base stats</Radio>
-                  <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value={'combat'}>Combat stats</Radio>
+                  <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'base'} defaultChecked>Base stats</Radio>
+                  <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'combat'}>Combat stats</Radio>
                 </Radio.Group>
               </Form.Item>
 
@@ -999,9 +991,9 @@ export default function OptimizerForm() {
                   <FormStatRollSlider text='RES' name={Constants.Stats.RES} />
                   <FormStatRollSlider text='BE' name={Constants.Stats.BE} />
                 </Flex>
-                <HorizontalDivider/>
+                <HorizontalDivider />
                 <Text>Top % of weighted relics</Text>
-                <FormStatRollSliderTopPercent/>
+                <FormStatRollSliderTopPercent />
               </Flex>
             </FormCard>
 

@@ -119,7 +119,7 @@ function convertRelic(preRelic) {
 
     let main = {
       stat: mainStat,
-      value: mainValue * (Utils.isFlat(mainStat) ? 1 : 100)
+      value: Utils.precisionRound(mainValue * (Utils.isFlat(mainStat) ? 1 : 100), 5)
     }
 
     let substats = []
@@ -137,7 +137,7 @@ function convertRelic(preRelic) {
 
       substats.push({
         stat: subStat,
-        value: subValue * (Utils.isFlat(subStat) ? 1 : 100)
+        value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5)
       })
     }
 

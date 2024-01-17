@@ -989,9 +989,9 @@ export default function OptimizerForm() {
                 </Flex>
 
                 <Flex vertical gap={0}>
+                  <FormStatRollSlider text='HP' name={Constants.Stats.HP_P} />
                   <FormStatRollSlider text='ATK' name={Constants.Stats.ATK_P} />
                   <FormStatRollSlider text='DEF' name={Constants.Stats.DEF_P} />
-                  <FormStatRollSlider text='HP' name={Constants.Stats.HP_P} />
                   <FormStatRollSlider text='SPD' name={Constants.Stats.SPD} />
                   <FormStatRollSlider text='CR' name={Constants.Stats.CR} />
                   <FormStatRollSlider text='CD' name={Constants.Stats.CD} />
@@ -1011,8 +1011,8 @@ export default function OptimizerForm() {
                 <TooltipImage type={Hint.statFilters()} />
               </Flex>
               <Flex vertical gap={5}>
-                <FilterRow name='Atk' label='ATK' />
                 <FilterRow name='Hp' label='HP' />
+                <FilterRow name='Atk' label='ATK' />
                 <FilterRow name='Def' label='DEF' />
                 <FilterRow name='Spd' label='SPD' />
                 <FilterRow name='Cr' label='CR' />

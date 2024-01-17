@@ -1473,7 +1473,7 @@ function MemoriesOfThePast(s) {
 }
 
 function OnlySilenceRemains(s) {
-  let sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
+  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
   s = s - 1
 
   return {

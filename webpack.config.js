@@ -1,11 +1,19 @@
+const path = require('path');
+
 module.exports = {
+  entry: './index.tsx', // change entry point to .tsx
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  devtool: 'source-map',
   module: {
-    entry: './index.js',
-    output: {
-      filename: 'bundle.js',
-      path: path.resolve(__dirname, 'dist'),
-    },
     rules: [
+      {
+        test: /\.tsx?$/, // add this rule to handle .ts and .tsx files
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
@@ -28,5 +36,8 @@ module.exports = {
         },
       },
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };

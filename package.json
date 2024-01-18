@@ -66,6 +66,8 @@
     "eslint": "^8.56.0",
     "gh-pages": "^6.1.0",
     "json-loader": "^0.5.7",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"

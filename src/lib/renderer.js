@@ -17,6 +17,11 @@ export const Renderer = {
     return (x.value * 100).toFixed(1)
   },
 
+  tenths: (x) => {
+    if (x == undefined || x.value == undefined) return '';
+    return (x.value).toFixed(1)
+  },
+
   relicSet: (x) => {
     if (x == undefined || x.value == undefined) return '';
     let i = x.value

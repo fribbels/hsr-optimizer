@@ -36,7 +36,7 @@ export default function OptimizerTab(props) {
     {field: Constants.Stats.ATK, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.DEF, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.HP,  valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
-    {field: Constants.Stats.SPD, valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
+    {field: Constants.Stats.SPD, valueFormatter: Renderer.tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.CR,  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CR', cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.CD,  valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'CD', cellStyle: Gradient.getOptimizerColumnGradient},
     {field: Constants.Stats.EHR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'EHR', cellStyle: Gradient.getOptimizerColumnGradient},

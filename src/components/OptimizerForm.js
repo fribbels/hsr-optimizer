@@ -214,11 +214,6 @@ export default function OptimizerForm() {
     }
   }, [selectedLightCone])
 
-  // const onChangeStatDisplay = ({ target: { value } }) => {
-  //   console.log('radio3 checked', value);
-  //   setStatDisplay(value);
-  // };
-
   window.getVal = () => statDisplay
 
   const initialCharacter = useMemo(() => {

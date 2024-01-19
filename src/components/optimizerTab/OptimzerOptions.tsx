@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Flex, Form, Radio, Select, Switch, Typography } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
@@ -10,16 +11,14 @@ import FormCard from './FormCard';
 
 const { Text } = Typography;
 
-/* eslint-disable react/prop-types */
 const OptimzerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
   const setStatDisplay = global.store(s => s.setStatDisplay);
 
   const onChangeStatDisplay = (e: Event) => {
-    const { target: { value } } = e as Event;
+    const { target: { value } } = e;
     console.log('radio3 checked', value);
     setStatDisplay(value);
   };
-
 
   return (
     <FormCard>
@@ -62,6 +61,18 @@ const OptimzerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number })
           />
         </Form.Item>
         <Text>Keep current relics</Text>
+      </Flex>
+
+      <Flex align='center'>
+        <Form.Item name="includeEquippedRelics" valuePropName="checked">
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            defaultChecked
+            style={{ width: 45, marginRight: 10 }}
+          />
+        </Form.Item>
+        <Text>Use equipped</Text>
       </Flex>
 
       <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>

@@ -292,7 +292,7 @@ export default function RelicModal(props) {
       let mainStatValue = Constants.MainStatsValues[mainStatType][grade]['base'] + Constants.MainStatsValues[mainStatType][grade]['increment'] * enhance;
 
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
-        mainStatValue = Math.floor(mainStatValue * 10) / 10;
+        mainStatValue = Utils.truncate10ths(mainStatValue);
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue);
       } else {
@@ -437,7 +437,7 @@ export default function RelicModal(props) {
                 placeholder="Main Stat"
                 maxTagCount='responsive'
                 options={mainStatOptions}
-                disabled={mainStatOptions.length <= 1}/>
+                disabled={mainStatOptions.length <= 1} />
             </Form.Item>
 
             <Form.Item size="default" name='mainStatValue'>

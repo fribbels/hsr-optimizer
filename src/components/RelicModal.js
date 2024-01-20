@@ -89,7 +89,13 @@ export default function RelicModal(props) {
   }, [props.selectedRelic, props.open]);
 
   useEffect(() => {
-    let defaultValues = {}
+    let defaultValues = {
+      grade: 5,
+      enhance: 15,
+      part: Constants.Parts.Head,
+      mainStatType: Constants.Stats.HP,
+      mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5]['base'] + Constants.MainStatsValues[Constants.Stats.HP][5]['increment'] * 15),
+    }
 
     let relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
@@ -430,7 +436,8 @@ export default function RelicModal(props) {
                 }}
                 placeholder="Main Stat"
                 maxTagCount='responsive'
-                options={mainStatOptions} />
+                options={mainStatOptions}
+                disabled={mainStatOptions.length <= 1}/>
             </Form.Item>
 
             <Form.Item size="default" name='mainStatValue'>

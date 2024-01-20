@@ -93,12 +93,6 @@ export const RelicFilters = {
     return relics.filter(x => x.enhance >= request.enhance);
   },
 
-  /**
-   * If `false`, remove relics equipped by a character.
-   * @param {*} request
-   * @param {*} relics
-   * @returns [] of relics
-   */
   applyEquippedFilter: (request, relics) => {
     if (request.includeEquippedRelics)
       return relics;

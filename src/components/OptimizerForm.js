@@ -375,8 +375,7 @@ export default function OptimizerForm() {
     }
     let request = allValues
 
-    console.log('Values changed', request)
-    console.log('Values changed', changedValues)
+    console.log('Values changed', request, changedValues);
 
     let relics = Utils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
@@ -385,6 +384,9 @@ export default function OptimizerForm() {
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
 
+    // sub-set based on enhance/rank filters
+    // set used in OptimizerForm to display number of permutations
+    // set used in lib/optimizer.js to calculate permutations
     DB.setFilteredRelics(relics);
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
 
@@ -410,8 +412,6 @@ export default function OptimizerForm() {
     }
     global.store.getState().setPermutationDetails(permutationDetails)
     global.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
-
-    console.log('Filtered relics', relics, permutationDetails)
   }
   window.onOptimizerFormValuesChange = onValuesChange;
 

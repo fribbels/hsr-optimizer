@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from "react-error-boundary";
-import './index.css';
+import './style/style.css';
 import App from './App';
 
 import { WorkerPool } from './lib/workerPool';
@@ -60,7 +60,7 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse());
 SaveState.load()
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const root = ReactDOM.createRoot(document.getElementById('root'));
 
   root.render(

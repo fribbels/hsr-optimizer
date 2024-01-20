@@ -284,10 +284,14 @@ export default function RelicModal(props) {
     let grade = relicForm.getFieldValue('grade');
 
     if (mainStatType != undefined && enhance != undefined && grade != undefined) {
+      const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG];
+      const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD];
+
       let mainStatValue = Constants.MainStatsValues[mainStatType][grade]['base'] + Constants.MainStatsValues[mainStatType][grade]['increment'] * enhance;
-      if ([Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG,].includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
+
+      if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Math.floor(mainStatValue * 10) / 10;
-      } else if ([Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD].includes(mainStatType)) {
+      } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue);
       } else {
         mainStatValue = mainStatValue.toFixed(1);

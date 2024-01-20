@@ -111,7 +111,7 @@ export const Hint = {
       )
     }
   },
-  
+
   actions: () => {
     return {
       title: 'Actions',
@@ -125,17 +125,18 @@ export const Hint = {
       )
     }
   },
-  
+
   optimizerOptions: () => {
     return {
       title: 'Optimizer options',
       content: (
         <Flex vertical gap={10}>
-          <p>Rank filter - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
-          <p>Maxed main stat - Assume the main stat for relics are maxed</p>
-          <p>Keep current relics - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</p>
-          <p>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include</p>
-          <p>Stat display - Select which format of stats to apply to filters and display in the table. Base stats are the values you would see in the ingame character menu. Combat stats take into account all the buffs and passives applied to the character in combat as they perform an attack.</p>
+          <p><strong>Rank filter</strong> - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
+          <p><strong>Maxed main stat</strong> - Assume the main stat for relics are maxed</p>
+          <p><strong>Keep current relics</strong> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</p>
+          <p><strong>Use equipped</strong> - If OFF, Optimizer will NOT consider relics currently equipped by a character</p>
+          <p><strong>Enhance / grade</strong> - Select the minimum enhance to search for and minimum stars for relics to include</p>
+          <p><strong>Stat display</strong> - Select which format of stats to apply to filters and display in the table. Base stats are the values you would see in the ingame character menu. Combat stats take into account all the buffs and passives applied to the character in combat as they perform an attack.</p>
         </Flex>
       )
     }
@@ -153,7 +154,7 @@ export const Hint = {
       )
     }
   },
-  
+
   optimizationDetails: () => {
     return {
       title: 'Optimization details',

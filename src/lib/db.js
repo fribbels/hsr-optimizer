@@ -100,6 +100,7 @@ window.store = create((set) => ({
     subStats: [],
   },
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
 }))
 
 export const DB = {
@@ -164,6 +165,10 @@ export const DB = {
     relicsById[relic.id] = relic
     global.store.getState().setRelicsById(relicsById)
   },
+  setFilteredRelics: (relics) => {
+    global.store.getState().setFilteredRelics(relics)
+  },
+  getFilteredRelics: () => global.store.getState().filteredRelics,
 
   refreshRelics: () => {
     if (window.setRelicRows) global.setRelicRows(DB.getRelics())
@@ -302,11 +307,11 @@ export const DB = {
     let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
     let prevRelic = DB.getRelicById(character.equipped[relic.part])
 
-    if (prevRelic){
+    if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    if (prevRelic && prevCharacter){
+    if (prevRelic && prevCharacter) {
       prevCharacter.equipped[relic.part] = prevRelic.id
       prevRelic.equippedBy = prevCharacter.id
       DB.setCharacter(prevCharacter)

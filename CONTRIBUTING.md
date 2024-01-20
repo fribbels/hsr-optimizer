@@ -44,12 +44,18 @@ git checkout -b [feature|fix]/[your-branch-name]
 ## Commit Message Format
 Each commit message consists of a **header**, a **body**, and a **footer**. The header has a special format that includes a **type**, a **scope**, and a **subject**:
 
-The header is mandatory and the scope of the header is optional.
+***The header is mandatory and the scope of the header is optional.***
+```
+<header>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
 
 Any line of the commit message cannot be longer than 100 characters! This allows the message to be easier to read on GitHub as well as in various git tools.
 
-#### Type
-Must be one of the following:
+#### Type: must be one of the following:
 
 - **feat**: A new feature
 - **fix**: A bug fix
@@ -62,6 +68,11 @@ Must be one of the following:
 
 #### Scope
 The scope could be anything specifying the place of the commit change. For example *component, utils, core, etc*.
+
+Scope can reference the issue your commit is addressing. In the following example, github will parse `#15` to link back to [Issue 15](https://github.com/fribbels/hsr-optimizer/issues/15) in the backlog.
+```
+feat(#15): foo bar baz
+```
 
 #### Subject
 The subject contains a succinct description of the change:
@@ -78,3 +89,26 @@ The footer should contain any information about Breaking Changes and is also the
 
 Breaking Changes should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then used for this.
 
+##### Examples:
+Standard commit message:
+```
+feat(#46): enable double-click navigation from Character to Optimizer
+```
+
+Commit message with header & body:
+```
+fix(schema): fixes metadata filtering when using Optimizer side-bar
+
+changes to schema require a rebuild/re-import
+```
+
+Breaking Change commit message:
+```
+BREAKING CHANGE
+
+fix(dependencies): upgrade typescript to latest
+
+current types are compatible
+
+new types must use latest typing syntax!
+```

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd';
 import React, { useEffect, useMemo } from 'react';
-import { Constants } from '../lib/constants';
+import { Constants } from '../lib/constants.ts';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
 import { Message } from '../lib/message';

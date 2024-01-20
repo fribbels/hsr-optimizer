@@ -1,12 +1,16 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.tsx', // change entry point to .tsx
+  entry: './index.js', // change entry point to .tsx
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'source-map',
+  compilerOptions: {
+    baseUrl: "src"
+  },
+  include: ["src"],
   module: {
     rules: [
       {

@@ -1,5 +1,5 @@
 import { GPUOptimizer } from "./gpuOptimizer";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
@@ -61,7 +61,7 @@ function characterToArrays(character) {
     result.base[i] = character.base[stat] || 0
     result.traces[i] = character.traces[stat] || 0
     result.lightCone[i] = character.lightCone[stat] || 0
-    
+
   }
 
   console.log('Convert', character, result);
@@ -77,7 +77,7 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
-  optimize: function(request) {
+  optimize: function (request) {
     CANCEL = false
 
     global.store.getState().setPermutationsSearched(0)
@@ -90,8 +90,8 @@ export const Optimizer = {
     let characterMetadata = DB.getMetadata().characters[request.characterId]
     let characterStats = characterMetadata.promotions[request.characterLevel]
 
-    console.log({lightConeStats})
-    console.log({characterStats})
+    console.log({ lightConeStats })
+    console.log({ characterStats })
 
     let element = characterMetadata.element
 
@@ -150,10 +150,10 @@ export const Optimizer = {
     console.log('Optimize relics arrays', relicsArrays)
     console.log('Optimize character', character)
     console.log('Optimize elemental multipliers', elementalMultipliers)
-    
+
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
-    
+
     let hSize = relicsArrays.Head.length
     let gSize = relicsArrays.Hands.length
     let bSize = relicsArrays.Body.length
@@ -165,13 +165,13 @@ export const Optimizer = {
 
     console.log(`Building kernel, permutations: ${permutations}, blocksize: ${WIDTH * HEIGHT}`)
     let consts = GPUOptimizer.createConstants(
-      HEIGHT, 
-      WIDTH, 
-      request, 
-      relicsArrays, 
-      character, 
-      relicSetAllowList, 
-      relicSetSolutions, 
+      HEIGHT,
+      WIDTH,
+      request,
+      relicsArrays,
+      character,
+      relicSetAllowList,
+      relicSetSolutions,
       ornamentSetSolutions,
       elementalMultipliers
     );
@@ -191,7 +191,7 @@ export const Optimizer = {
     let results = []
     let increment = (WIDTH * HEIGHT)
     let searched = 0
-    let runs = Math.ceil(permutations / increment) 
+    let runs = Math.ceil(permutations / increment)
     let inProgress = runs
 
     let resultsShown = false
@@ -291,7 +291,7 @@ export const Optimizer = {
       }
 
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10*run)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10 * run)
     }
   }
 }
@@ -413,8 +413,8 @@ function convertRelicSetIndicesTo1D(setIndices) {
     let y = setIndices[i] // [5,5,2,3]
     let permutations = permutator(y)
     for (let x of permutations) {
-      let index1D = x[0] + x[1]*Math.pow(len, 1) + x[2]*Math.pow(len, 2) + x[3]*Math.pow(len, 3)
-      arr[index1D] = 1 
+      let index1D = x[0] + x[1] * Math.pow(len, 1) + x[2] * Math.pow(len, 2) + x[3] * Math.pow(len, 3)
+      arr[index1D] = 1
     }
   }
 
@@ -475,7 +475,7 @@ function generateRelicSetAllowList(request) {
         setIndices.push(indices);
       }
     }
-    
+
     if (setArr[0] == '2 Piece') {
       // ok
       if (setArr.length == 1) {
@@ -517,7 +517,7 @@ function generateRelicSetAllowList(request) {
           let indices = relicSetAllowListToIndices(arr)
           setIndices.push(indices);
         }
-        
+
         // 2 + 0
         let arr = generateEmptyArr(len)
         arr[index] = 2
@@ -542,7 +542,7 @@ function generateRelicSetAllowList(request) {
             let indices = relicSetAllowListToIndices(arr)
             setIndices.push(indices);
           }
-          
+
           // 2 + 0
           let arr = generateEmptyArr(len)
           arr[index] = 2

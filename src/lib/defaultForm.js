@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 
 export function getDefaultForm(initialCharacter) {
   return {

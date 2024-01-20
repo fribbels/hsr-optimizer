@@ -16,7 +16,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
-import { Constants } from '../lib/constants';
+import { Constants } from '../lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';

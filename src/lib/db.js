@@ -2,7 +2,7 @@ import { OptimizerTabController } from "./optimizerTabController"
 import { RelicAugmenter } from "./relicAugmenter"
 import * as objectHash from 'object-hash'
 import { create } from 'zustand'
-import { Constants } from './constants';
+import { Constants } from './constants.ts';
 import { getDefaultForm } from './defaultForm';
 import { Utils } from "./utils";
 import { SaveState } from "./saveState";
@@ -302,11 +302,11 @@ export const DB = {
     let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
     let prevRelic = DB.getRelicById(character.equipped[relic.part])
 
-    if (prevRelic){
+    if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    if (prevRelic && prevCharacter){
+    if (prevRelic && prevCharacter) {
       prevCharacter.equipped[relic.part] = prevRelic.id
       prevRelic.equippedBy = prevCharacter.id
       DB.setCharacter(prevCharacter)

@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort';
 import DB from './db';
 import { Message } from "./message";
 import { SaveState } from "./saveState";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { Utils } from "./utils";
 import { LightConeConditionals } from "./lightConeConditionals";
 import { CharacterConditionals } from "./characterConditionals";

@@ -1,11 +1,11 @@
 import stringSimilarity from 'string-similarity';
-import { Parts, Sets, Stats } from './constants';
+import { Parts, Sets, Stats } from './constants.ts';
 import { RelicAugmenter } from './relicAugmenter';
 
 export const OcrParserFribbels1 = {
   parse: (json) => {
     let relics = json.relics;
-  
+
     let parsedRelics = []
     for (let relic of relics) {
       // console.log(relic)
@@ -18,7 +18,7 @@ export const OcrParserFribbels1 = {
       }
       // console.log(result);
     }
-  
+
     return parsedRelics
   }
 }
@@ -64,13 +64,13 @@ function readStats(relic) {
     let statResult = statList[statMatches.bestMatchIndex][1];
 
     if (statResult == Stats.ATK_P && !percent) statResult = Stats.ATK;
-    if (statResult == Stats.ATK   &&  percent) statResult = Stats.ATK_P;
+    if (statResult == Stats.ATK && percent) statResult = Stats.ATK_P;
 
     if (statResult == Stats.HP_P && !percent) statResult = Stats.HP;
-    if (statResult == Stats.HP   &&  percent) statResult = Stats.HP_P;
+    if (statResult == Stats.HP && percent) statResult = Stats.HP_P;
 
     if (statResult == Stats.DEF_P && !percent) statResult = Stats.DEF;
-    if (statResult == Stats.DEF   &&  percent) statResult = Stats.DEF_P;
+    if (statResult == Stats.DEF && percent) statResult = Stats.DEF_P;
 
     let parsedStat = {
       stat: statResult,

@@ -1,11 +1,11 @@
 import { RelicAugmenter } from "./relicAugmenter"
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { Utils } from "./utils";
 import DB from "./db";
 
 let statConversion
 let partConversion
-let gradeConversion 
+let gradeConversion
 
 export const CharacterConverter = {
   convert: (character) => {
@@ -42,7 +42,7 @@ export const CharacterConverter = {
       equipped: equipped
     }
   },
-  
+
   getConstantConversions: () => {
     if (!statConversion) CharacterConverter.setConstantConversions()
     return {

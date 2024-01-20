@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Flex, Form, Radio, Select, Switch, Typography } from 'antd';
+import { Flex, Form, Radio, RadioChangeEvent, Select, Switch, Typography } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 import { Hint } from "../../lib/hint";
@@ -14,9 +14,8 @@ const { Text } = Typography;
 const OptimzerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
   const setStatDisplay = global.store(s => s.setStatDisplay);
 
-  const onChangeStatDisplay = (e: Event) => {
+  const onChangeStatDisplay = (e: RadioChangeEvent) => {
     const { target: { value } } = e;
-    console.log('radio3 checked', value);
     setStatDisplay(value);
   };
 

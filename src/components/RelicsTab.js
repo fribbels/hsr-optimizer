@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react';
 
 import RelicPreview from './RelicPreview';
-import { Constants } from '../lib/constants';
+import { Constants } from '../lib/constants.ts';
 import RelicModal from './RelicModal';
 import { Gradient } from '../lib/gradient';
 import { Message } from '../lib/message';

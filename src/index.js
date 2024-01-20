@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 
 import { WorkerPool } from './lib/workerPool';
-import { Constants } from './lib/constants'
+import { Constants } from './lib/constants.ts'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from './lib/ocrParserKelz3';
 import { DataParser } from './lib/dataParser'
@@ -24,7 +24,7 @@ import { Renderer } from "./lib/renderer";
 import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
-import { RelicScorer } from './lib/relicScorer';
+import { RelicScorer } from './lib/relicScorer.ts';
 import { CharacterConditionals } from './lib/characterConditionals';
 import { LightConeConditionals } from './lib/lightConeConditionals';
 import { BufferPacker } from './lib/bufferPacker';
@@ -60,7 +60,7 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse());
 SaveState.load()
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const root = ReactDOM.createRoot(document.getElementById('root'));
 
   root.render(

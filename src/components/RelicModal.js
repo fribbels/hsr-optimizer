@@ -121,7 +121,6 @@ export default function RelicModal(props) {
 
   useEffect(() => {
     let mainStatOptions = [];
-    console.log("selected relic", props.selectedRelic)
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map(entry => ({
         label: entry[1],

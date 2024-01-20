@@ -1,4 +1,4 @@
-import { Constants, Stats } from "./constants";
+import { Constants, Stats } from "./constants.ts";
 
 const SIZE = 35
 
@@ -11,38 +11,38 @@ export const BufferPacker = {
     offset = offset * SIZE
     return {
       id: arr[offset], // 0
-      [Constants.Stats.HP]:    arr[offset + 1],
-      [Constants.Stats.ATK]:   arr[offset + 2],
-      [Constants.Stats.DEF]:   arr[offset + 3],
-      [Constants.Stats.SPD]:   arr[offset + 4],
-      [Constants.Stats.CD]:    arr[offset + 5],
-      [Constants.Stats.CR]:    arr[offset + 6],
-      [Constants.Stats.EHR]:   arr[offset + 7],
-      [Constants.Stats.RES]:   arr[offset + 8],
-      [Constants.Stats.BE]:    arr[offset + 9],
-      [Constants.Stats.ERR]:   arr[offset + 10], // 10
-      [Constants.Stats.OHB]:   arr[offset + 11],
-      ED:     arr[offset + 12],
-      CV:     arr[offset + 13],
+      [Constants.Stats.HP]: arr[offset + 1],
+      [Constants.Stats.ATK]: arr[offset + 2],
+      [Constants.Stats.DEF]: arr[offset + 3],
+      [Constants.Stats.SPD]: arr[offset + 4],
+      [Constants.Stats.CD]: arr[offset + 5],
+      [Constants.Stats.CR]: arr[offset + 6],
+      [Constants.Stats.EHR]: arr[offset + 7],
+      [Constants.Stats.RES]: arr[offset + 8],
+      [Constants.Stats.BE]: arr[offset + 9],
+      [Constants.Stats.ERR]: arr[offset + 10], // 10
+      [Constants.Stats.OHB]: arr[offset + 11],
+      ED: arr[offset + 12],
+      CV: arr[offset + 13],
       WEIGHT: arr[offset + 14],
-      EHP:    arr[offset + 15],
-      BASIC:  arr[offset + 16],
-      SKILL:  arr[offset + 17],
-      ULT:    arr[offset + 18],
-      FUA:    arr[offset + 19],
-      DOT:    arr[offset + 20], // 20
-      xHP:    arr[offset + 21],
-      xATK:   arr[offset + 22],
-      xDEF:   arr[offset + 23],
-      xSPD:   arr[offset + 24],
-      xCR:    arr[offset + 25],
-      xCD:    arr[offset + 26],
-      xEHR:   arr[offset + 27],
-      xRES:   arr[offset + 28],
-      xBE:    arr[offset + 29],
-      xERR:   arr[offset + 30], // 30
-      xOHB:   arr[offset + 31],
-      xELEMENTAL_DMG:  arr[offset + 32],
+      EHP: arr[offset + 15],
+      BASIC: arr[offset + 16],
+      SKILL: arr[offset + 17],
+      ULT: arr[offset + 18],
+      FUA: arr[offset + 19],
+      DOT: arr[offset + 20], // 20
+      xHP: arr[offset + 21],
+      xATK: arr[offset + 22],
+      xDEF: arr[offset + 23],
+      xSPD: arr[offset + 24],
+      xCR: arr[offset + 25],
+      xCD: arr[offset + 26],
+      xEHR: arr[offset + 27],
+      xRES: arr[offset + 28],
+      xBE: arr[offset + 29],
+      xERR: arr[offset + 30], // 30
+      xOHB: arr[offset + 31],
+      xELEMENTAL_DMG: arr[offset + 32],
       relicSetIndex: arr[offset + 33],
       ornamentSetIndex: arr[offset + 34],
     }

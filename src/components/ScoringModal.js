@@ -5,7 +5,7 @@ import '../style/style.css'
 import { Assets } from '../lib/assets';
 import { Utils } from "../lib/utils";
 import DB from "../lib/db";
-import { Constants } from "../lib/constants";
+import { Constants } from "../lib/constants.ts";
 import PropTypes from "prop-types";
 
 const { Text } = Typography;
@@ -135,7 +135,7 @@ export default function ScoringModal() {
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   let previewSrc = (selectedScoringCharacter) ? Assets.getCharacterPreviewById(selectedScoringCharacter) : Assets.getBlank()
-  
+
   let methodologyCollapse = (
     <Text>
       <PStyled>
@@ -173,7 +173,7 @@ export default function ScoringModal() {
         Character scores are calculated by <code>Score = sum(relic substat scores) + sum(main stat scores)</code>.
         Only the head/body/sphere/rope relics have main stat scores.
         The main stat score for a 5 star maxed relic is <code>64.8</code> if the main stat is optimal, otherwise scaled down by the stat weight.
-        Non 5 star relic scores are also scaled down by their maximum enhance. 
+        Non 5 star relic scores are also scaled down by their maximum enhance.
         Characters are expected to have 3 full sets, so 3 rolls worth of score is deducted for each missing set.
       </PStyled>
 

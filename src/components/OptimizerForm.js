@@ -13,7 +13,6 @@ import {
   Typography,
 } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
 import { Constants } from '../lib/constants.ts';

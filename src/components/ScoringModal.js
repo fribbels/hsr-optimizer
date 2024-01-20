@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography, } from 'antd';
 import styled from 'styled-components';
-import '../style/style.css'
+
 import { Assets } from '../lib/assets';
 import { Utils } from "../lib/utils";
 import DB from "../lib/db";

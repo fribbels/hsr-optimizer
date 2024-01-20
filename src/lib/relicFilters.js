@@ -101,8 +101,6 @@ export const RelicFilters = {
     window.store.getState().characters.forEach(char => {
       blacklist = blacklist.concat(Object.values(char.equipped));
     });
-    console.log('blacklist', blacklist);
-    console.log(`luocha's hat in blacklist? ${blacklist.includes("0c73d48f-4e8d-4a8d-95df-cbf49d7558bb")}`)
     const ret = relics.filter(x => !blacklist.includes(x.id));
     return ret;
   },

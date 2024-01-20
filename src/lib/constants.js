@@ -136,7 +136,7 @@ export const PartsMainStats = {
   [Parts.Body]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.OHB, Stats.EHR],
   [Parts.Feet]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD],
   [Parts.PlanarSphere]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG],
-  [Parts.LinkRope]: [Stats.BE, Stats.ERR, Stats.HP_P, Stats.ATK_P, Stats.DEF_P],
+  [Parts.LinkRope]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR],
 }
 
 export const SetsRelics = {

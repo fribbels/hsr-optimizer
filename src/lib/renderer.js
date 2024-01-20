@@ -1,7 +1,7 @@
 import { Flex, Image, Tooltip, } from 'antd';
 import { CheckCircleFilled } from "@ant-design/icons";
 import * as React from "react";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { Assets } from "./assets";
 import { Utils } from "./utils";
 import PropTypes from "prop-types";
@@ -50,7 +50,7 @@ export const Renderer = {
     }
 
     return (
-      <Flex justify='center' style={{marginTop: -1}}>
+      <Flex justify='center' style={{ marginTop: -1 }}>
         <SetDisplay asset={setImages[0]} />
         <SetDisplay asset={setImages[1]} />
       </Flex>
@@ -71,7 +71,7 @@ export const Renderer = {
       let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == s1)[0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
-        <Flex justify='center' style={{marginTop: -1}}>
+        <Flex justify='center' style={{ marginTop: -1 }}>
           <SetDisplay asset={setImage} />
         </Flex>
       )
@@ -83,10 +83,10 @@ export const Renderer = {
   anySet: (x) => {
     if (x == undefined || x.value == undefined) return '';
     let part = x.data.part
-  
+
     let src = Assets.getSetImage(x.data.set, part)
     return (
-      <Flex justify='center' title={x.data.set} style={{marginTop: -1}}>
+      <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
       </Flex>
     )
@@ -144,7 +144,7 @@ export const Renderer = {
   },
 
   hideNaNAndRound: (x) => {
-    return isNaN(x.value) ? '' :  Math.round(x.value)
+    return isNaN(x.value) ? '' : Math.round(x.value)
   },
 
   renderSubstatNumber: (substat, relic) => {
@@ -171,8 +171,8 @@ export const Renderer = {
     return (
       relic.verified
         ?
-        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
-        : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
+        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
+        : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
     )
   },
 }

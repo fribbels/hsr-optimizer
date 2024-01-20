@@ -1,5 +1,5 @@
 import stringSimilarity from 'string-similarity';
-import { Constants, Parts, Sets } from './constants';
+import { Constants, Parts, Sets } from './constants.ts';
 import { RelicAugmenter } from './relicAugmenter';
 
 import characters from '../data/characters.json';
@@ -147,7 +147,7 @@ const characterList = Object.values(characters)
 const lightConeList = Object.values(lightCones)
 
 function readCharacter(character, lightCone) {
-  const newCharacter = {...formTemplate}
+  const newCharacter = { ...formTemplate }
   lightCone = lightCone || undefined
 
   // Lookup character & light cone ids

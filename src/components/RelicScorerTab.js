@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Flex, Form, Input, Segmented, Typography, } from 'antd';
-import '../style/style.css'
 import { CharacterPreview } from './CharacterPreview';
 import { SaveState } from '../lib/saveState';
 import { Message } from "../lib/message";
@@ -33,7 +32,7 @@ export default function RelicScorerTab(props) {
 
     const options = {
       method: 'POST',
-      body: x.scorerId, 
+      body: x.scorerId,
     };
 
     setScorerId(x.scorerId);
@@ -61,10 +60,10 @@ export default function RelicScorerTab(props) {
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
         ]
-        .filter(x => !!x)
-        .filter((item, index, array) => {
-          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
-        });
+          .filter(x => !!x)
+          .filter((item, index, array) => {
+            return array.findIndex((i) => i.avatarId === item.avatarId) === index;
+          });
 
         console.log('characters', characters)
 
@@ -103,7 +102,7 @@ export default function RelicScorerTab(props) {
       options.push({
         label: (
           <Flex align='center'>
-            <img style={{width: 100}} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+            <img style={{ width: 100 }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
           </Flex>
         ),
         value: availableCharacter.id,
@@ -128,7 +127,7 @@ export default function RelicScorerTab(props) {
 
     return (
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100 }}>
-        <Flex gap={30} style={{display: (availableCharacters.length > 0) ? 'block' : 'none'}}>
+        <Flex gap={30} style={{ display: (availableCharacters.length > 0) ? 'block' : 'none' }}>
           <Button onClick={importClicked}>
             Import relics into optimizer
           </Button>
@@ -160,7 +159,7 @@ export default function RelicScorerTab(props) {
   }
 
   return (
-    <div style={{display: props.active ? 'block' : 'none'}}>
+    <div style={{ display: props.active ? 'block' : 'none' }}>
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
@@ -186,7 +185,7 @@ export default function RelicScorerTab(props) {
             </Button>
           </Flex>
         </Form>
-        <CharacterPreviewSelection availableCharacters={availableCharacters}/>
+        <CharacterPreviewSelection availableCharacters={availableCharacters} />
       </Flex>
     </div>
   );

@@ -1,7 +1,9 @@
-import { Constants } from "./constants";
-import DB from "./db";
+import { Constants } from "lib/constants";
+import { Character } from "types/Character";
 
-let minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
+import DB from "./db.js";
+
+const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
 let mainStatFreeRolls
 
 function setMainStatFreeRolls() {
@@ -45,7 +47,7 @@ function setMainStatFreeRolls() {
   }
 }
 
-let ratingToRolls = {
+const ratingToRolls = {
   'F': 1,
   'D': 2,
   'C': 3,
@@ -56,8 +58,8 @@ let ratingToRolls = {
   'SSS': 8,
   'WTF': 9,
 }
-let ratings = []
-for (let x of Object.entries(ratingToRolls)) {
+const ratings: { threshold: number, rating: string }[] = [];
+for (const x of Object.entries(ratingToRolls)) {
   ratings.push({
     threshold: x[1],
     rating: x[0]
@@ -82,20 +84,20 @@ export const RelicScorer = {
   scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
 
-    let scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
+    const scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
 
     let sum = 0
-    for (let relic of scoredRelics) {
+    for (const relic of scoredRelics) {
       sum += Number(relic.score) + Number(relic.mainStatScore)
     }
 
-    let missingSets = 3 - countPairs(relics.filter(x => x != undefined).map(x => x.set))
-    let deduction = missingSets * minRollValue * 3
+    const missingSets = 3 - countPairs(relics.filter(x => x != undefined).map(x => x.set))
+    const deduction = missingSets * minRollValue * 3
     console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
     sum = Math.max(0, sum - deduction)
 
-    let base = 64.8 * 4
-    let avgSubstatScore = (sum - base) / 6
+    const base = 64.8 * 4
+    const avgSubstatScore = (sum - base) / 6
 
     let rating = 'F'
     for (let i = 0; i < ratings.length; i++) {
@@ -114,12 +116,12 @@ export const RelicScorer = {
     }
   },
 
-  scoreCharacter: (character) => {
+  scoreCharacter: (character: Character) => {
     if (!character || !character.id) return {}
 
     console.log('SCORE CHARACTER', character)
-    let relicsById = global.store.getState().relicsById
-    let relics = Object.values(character.equipped).map(x => relicsById[x])
+    const relicsById = global.store.getState().relicsById
+    const relics = Object.values(character.equipped).map(x => relicsById[x])
 
     return RelicScorer.scoreCharacterWithRelics(character, relics)
   },
@@ -152,7 +154,7 @@ export const RelicScorer = {
       }
     }
 
-    let scaling = {
+    const scaling = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
@@ -168,10 +170,10 @@ export const RelicScorer = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    let multipliers = DB.getScoringMetadata(characterId).stats
-    
+    const multipliers = DB.getScoringMetadata(characterId).stats
+
     let sum = 0
-    for (let substat of relic.substats) {
+    for (const substat of relic.substats) {
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),
         score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
@@ -194,8 +196,8 @@ export const RelicScorer = {
     }
 
     let mainStatScore = 0
-    let metaParts = DB.getScoringMetadata(characterId).parts
-    let max = 10.368 + 3.6288 * relic.grade * 3
+    const metaParts = DB.getScoringMetadata(characterId).parts
+    const max = 10.368 + 3.6288 * relic.grade * 3
     if (metaParts[relic.part]) {
       if (metaParts[relic.part].includes(relic.main.stat)) {
         mainStatScore = max

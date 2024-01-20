@@ -1,27 +1,28 @@
 export const Stats = {
-  HP_P: 'HP%',
   ATK_P: 'ATK%',
-  DEF_P: 'DEF%',
-  SPD_P: 'SPD%',
-  HP: 'HP',
   ATK: 'ATK',
-  DEF: 'DEF',
-  SPD: 'SPD',
+  BE: 'Break Effect',
   CD: 'CRIT DMG',
   CR: 'CRIT Rate',
+  DEF_P: 'DEF%',
+  DEF: 'DEF',
   EHR: 'Effect Hit Rate',
-  RES: 'Effect RES',
-  BE: 'Break Effect',
   ERR: 'Energy Regeneration Rate',
+  Fire_DMG: 'Fire DMG Boost',
+  HP_P: 'HP%',
+  HP: 'HP',
+  Ice_DMG: 'Ice DMG Boost',
+  Imaginary_DMG: 'Imaginary DMG Boost',
+  Lightning_DMG: 'Lightning DMG Boost',
   OHB: 'Outgoing Healing Boost',
   Physical_DMG: 'Physical DMG Boost',
-  Fire_DMG: 'Fire DMG Boost',
-  Ice_DMG: 'Ice DMG Boost',
-  Lightning_DMG: 'Lightning DMG Boost',
-  Wind_DMG: 'Wind DMG Boost',
   Quantum_DMG: 'Quantum DMG Boost',
-  Imaginary_DMG: 'Imaginary DMG Boost'
-}
+  RES: 'Effect RES',
+  SPD_P: 'SPD%',
+  SPD: 'SPD',
+  Wind_DMG: 'Wind DMG Boost'
+};
+export type Stats = typeof Stats[keyof typeof Stats];
 
 export const MainStats = [
   Stats.HP_P,
@@ -43,7 +44,8 @@ export const MainStats = [
   Stats.Wind_DMG,
   Stats.Quantum_DMG,
   Stats.Imaginary_DMG,
-]
+];
+export type MainStats = typeof MainStats[number];
 
 export const MainStatsValues = {
   [Stats.HP_P]: { '5': { 'base': 6.912, 'increment': 2.4192 }, '4': { 'base': 5.5296, 'increment': 1.9354 }, '3': { 'base': 4.1472, 'increment': 1.4515 }, '2': { 'base': 2.7648, 'increment': 0.9677 } },
@@ -68,19 +70,20 @@ export const MainStatsValues = {
 }
 
 export const SubStats = [
-  Stats.HP_P,
   Stats.ATK_P,
-  Stats.DEF_P,
-  Stats.HP,
   Stats.ATK,
-  Stats.DEF,
-  Stats.SPD,
-  Stats.CR,
-  Stats.CD,
-  Stats.EHR,
-  Stats.RES,
   Stats.BE,
-]
+  Stats.CD,
+  Stats.CR,
+  Stats.DEF_P,
+  Stats.DEF,
+  Stats.EHR,
+  Stats.HP_P,
+  Stats.HP,
+  Stats.RES,
+  Stats.SPD,
+];
+export type SubStats = typeof SubStats[number];
 
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',
@@ -107,7 +110,7 @@ export const StatsToReadable = {
   [Stats.Imaginary_DMG]: 'Imaginary DMG'
 }
 
-export var StatsToIndex = {
+export const StatsToIndex = {
 
 }
 let i = 0;
@@ -121,6 +124,8 @@ export const Parts = {
   PlanarSphere: 'PlanarSphere',
   LinkRope: 'LinkRope'
 };
+export type Parts = typeof Parts[keyof typeof Parts];
+
 export const PartsToReadable = {
   [Parts.Head]: 'Head',
   [Parts.Hands]: 'Hands',
@@ -129,6 +134,7 @@ export const PartsToReadable = {
   [Parts.PlanarSphere]: 'Sphere',
   [Parts.LinkRope]: 'Rope'
 };
+export type PartsToReadable = typeof PartsToReadable[keyof typeof PartsToReadable];
 
 export const PartsMainStats = {
   [Parts.Head]: [Stats.HP],
@@ -156,7 +162,8 @@ export const SetsRelics = {
   'MessengerTraversingHackerspace': 'Messenger Traversing Hackerspace',
   'TheAshblazingGrandDuke': 'The Ashblazing Grand Duke',
   'PrisonerInDeepConfinement': 'Prisoner in Deep Confinement',
-}
+};
+export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics];
 
 export const SetsOrnaments = {
   'SpaceSealingStation': 'Space Sealing Station',
@@ -171,12 +178,14 @@ export const SetsOrnaments = {
   'BrokenKeel': 'Broken Keel',
   'FirmamentFrontlineGlamoth': 'Firmament Frontline: Glamoth',
   'PenaconyLandOfTheDreams': 'Penacony, Land of the Dreams',
-}
+};
+export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments];
 
 export const Sets = {
   ...SetsRelics,
   ...SetsOrnaments
 }
+export type Sets = typeof Sets[keyof typeof Sets];
 
 export const SetsRelicsNames = Object.values(SetsRelics)
 export const SetsOrnamentsNames = Object.values(SetsOrnaments)

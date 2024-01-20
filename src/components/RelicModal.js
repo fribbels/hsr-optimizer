@@ -89,10 +89,7 @@ export default function RelicModal(props) {
   }, [props.selectedRelic, props.open]);
 
   useEffect(() => {
-    let defaultValues = {
-      grade: 5,
-      enhance: 15
-    }
+    let defaultValues = {}
 
     let relic = props.selectedRelic
     if (!relic || props.type != 'edit') {

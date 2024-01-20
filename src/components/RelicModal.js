@@ -120,10 +120,23 @@ export default function RelicModal(props) {
   }, [props.selectedRelic, props.open])
 
   useEffect(() => {
+    let mainStatOptions = [];
+    console.log("selected relic", props.selectedRelic)
+    if (props.selectedRelic?.part) {
+      mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map(entry => ({
+        label: entry[1],
+        value: entry[1]
+      }));
+    }
+    setMainStatOptions(mainStatOptions || []);
+    relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat);
+  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat]);
+
+  useEffect(() => {
     if (mainStatOptions.length > 0) {
       relicForm.setFieldValue('mainStatType', mainStatOptions[0].value);
     }
-  }, [mainStatOptions, relicForm]);
+  }, [relicForm.part]);
 
   const onFinish = (x) => {
     console.log('Form finished', x);
@@ -263,6 +276,7 @@ export default function RelicModal(props) {
         value: entry[1]
       }));
       setMainStatOptions(mainStatOptions);
+      relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value);
     }
 
     let mainStatType = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType');

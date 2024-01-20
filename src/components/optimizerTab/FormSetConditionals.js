@@ -1,5 +1,5 @@
 import { ConfigProvider, Drawer, Flex, Form, Popover, Select, Switch, Typography } from "antd";
-import { Constants } from "../../lib/constants";
+import { Constants } from "../../lib/constants.ts";
 import VerticalDivider from "../VerticalDivider";
 import React, { useMemo } from "react";
 import { HeaderText } from "../HeaderText";

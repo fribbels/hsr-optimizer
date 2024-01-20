@@ -1,6 +1,6 @@
 import * as htmlToImage from 'html-to-image';
 import DB from "./db";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 
 export const Utils = {
   arrayOfZeroes: (n) => {

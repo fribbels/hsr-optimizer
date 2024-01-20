@@ -5,7 +5,7 @@ import lightConePromotions from '../data/light_cone_promotions.json';
 import relicMainAffixes from '../data/relic_main_affixes.json';
 import relicSubAffixes from '../data/relic_sub_affixes.json';
 import relicSets from '../data/relic_sets.json';
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import DB from "./db";
 
 export const DataParser = {

@@ -1,5 +1,5 @@
 import { GPUOptimizer } from "./gpuOptimizer";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";

@@ -1,11 +1,11 @@
 import tinygradient from 'tinygradient';
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { OptimizerTabController } from "./optimizerTabController";
 
 let optimizerGridGradient = tinygradient([
-  {color: '#5A1A06', pos: 0}, // red
-  {color: '#343127', pos: 0.35},
-  {color: '#38821F', pos: 1} // green
+  { color: '#5A1A06', pos: 0 }, // red
+  { color: '#343127', pos: 0.35 },
+  { color: '#38821F', pos: 1 } // green
 ]);
 let relicGridGradient = tinygradient('#343127', '#38821F')
 let relicColumnRanges
@@ -20,12 +20,12 @@ export const Gradient = {
 
     try {
       let colId = params.column.colId
-      
+
       if (params.data && aggs && OptimizerTabController.getColumnsToAggregate(true)[colId]) {
         let min = aggs.minAgg[colId]
         let max = aggs.maxAgg[colId]
         let value = params.value
-        
+
         let range = (value - min) / (max - min);
         if (max == min) {
           range = 0.5
@@ -37,7 +37,7 @@ export const Gradient = {
           backgroundColor: color
         };
       }
-    } catch (e) {console.error(e)}
+    } catch (e) { console.error(e) }
   },
 
   getRelicGradient(params) {
@@ -73,7 +73,7 @@ export const Gradient = {
 
     let range
     if (col == 'relicsTabWeight' || col == 'bestCaseWeight' || col == 'averageCaseWeight') {
-      range = Math.max(0, value-64.8) / relicColumnRanges[col]
+      range = Math.max(0, value - 64.8) / relicColumnRanges[col]
     } else {
       range = value / relicColumnRanges[col]
     }

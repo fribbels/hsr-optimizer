@@ -1,7 +1,7 @@
 import { Flex } from 'antd';
 import * as React from 'react';
 import RelicPreview from './RelicPreview';
-import { RelicScorer } from '../lib/relicScorer';
+import { RelicScorer } from '../lib/relicScorer.ts';
 import DB from "../lib/db";
 import { OptimizerTabController } from "../lib/optimizerTabController";
 import PropTypes from "prop-types";
@@ -25,10 +25,10 @@ export default function OptimizerBuildPreview(props) {
 
   return (
     <Flex gap={5} id="optimizerBuildPreviewContainer">
-      <RelicPreview relic={relicsById[props.build?.Head]} score={headScore}/>
-      <RelicPreview relic={relicsById[props.build?.Hands]} score={handsScore}/>
-      <RelicPreview relic={relicsById[props.build?.Body]} score={bodyScore}/>
-      <RelicPreview relic={relicsById[props.build?.Feet]} score={feetScore}/>
+      <RelicPreview relic={relicsById[props.build?.Head]} score={headScore} />
+      <RelicPreview relic={relicsById[props.build?.Hands]} score={handsScore} />
+      <RelicPreview relic={relicsById[props.build?.Body]} score={bodyScore} />
+      <RelicPreview relic={relicsById[props.build?.Feet]} score={feetScore} />
       <RelicPreview relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
       <RelicPreview relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
     </Flex>

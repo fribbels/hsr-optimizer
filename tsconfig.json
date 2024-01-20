@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "./src/types",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ]
+    },
+    "module": "commonjs",
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}

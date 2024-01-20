@@ -1,6 +1,6 @@
 import DB from "./db";
 import { Utils } from "./utils";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { CharacterConverter } from "./characterConverter";
 
 let optimizerStatToJsonSubStat

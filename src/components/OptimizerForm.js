@@ -13,14 +13,13 @@ import {
   Typography,
 } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import '../style/style.css'
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
-import { Constants } from '../lib/constants';
+import { Constants } from '../lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
-import OptimizerOptions from './optimizerTab/OptimizerOptions.js';
+import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from '../lib/optimizerTabController';

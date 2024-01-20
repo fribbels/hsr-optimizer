@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 
 // This is a leftover relic of the gpu experiment, all that's left is this which creates a request object to send to
 // the worker threads

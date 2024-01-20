@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort';
 import DB from './db';
 import { Message } from "./message";
 import { SaveState } from "./saveState";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { Utils } from "./utils";
 import { LightConeConditionals } from "./lightConeConditionals";
 import { CharacterConditionals } from "./characterConditionals";
@@ -468,25 +468,26 @@ export const OptimizerTabController = {
   resetFilters: () => {
     let fieldValues = OptimizerTabController.getForm()
     let newForm = {
+      "characterEidolon": fieldValues.characterEidolon,
       "characterId": fieldValues.characterId,
       "characterLevel": fieldValues.characterLevel,
-      "characterEidolon": fieldValues.characterEidolon,
+      "enhance": 15,
+      "grade": 5,
+      "includeEquippedRelics": true,
+      "keepCurrentRelics": false,
       "lightCone": fieldValues.lightCone,
       "lightConeLevel": fieldValues.lightConeLevel,
       "lightConeSuperimposition": fieldValues.lightConeSuperimposition,
       "mainBody": [],
       "mainFeet": [],
-      "mainPlanarSphere": [],
-      "mainLinkRope": [],
-      "relicSets": [],
-      "ornamentSets": [],
-      "rankFilter": true,
-      "predictMaxedMainStat": true,
-      "keepCurrentRelics": false,
-      "enhance": 15,
-      "grade": 5,
+      "mainHands": [],
       "mainHead": [],
-      "mainHands": []
+      "mainLinkRope": [],
+      "mainPlanarSphere": [],
+      "ornamentSets": [],
+      "predictMaxedMainStat": true,
+      "rankFilter": true,
+      "relicSets": [],
     }
 
     global.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))

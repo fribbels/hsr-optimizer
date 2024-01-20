@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import DB from "./db";
 import { Utils } from "./utils";
 

@@ -2,7 +2,7 @@ import { OptimizerTabController } from "./optimizerTabController"
 import { RelicAugmenter } from "./relicAugmenter"
 import * as objectHash from 'object-hash'
 import { create } from 'zustand'
-import { Constants } from './constants';
+import { Constants } from './constants.ts';
 import { getDefaultForm } from './defaultForm';
 import { Utils } from "./utils";
 import { SaveState } from "./saveState";

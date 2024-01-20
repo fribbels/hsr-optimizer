@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
@@ -12,11 +12,11 @@ export const Assets = {
         [Constants.Stats.HP]: 'IconMaxHP.png',
         [Constants.Stats.ATK]: 'IconAttack.png',
         [Constants.Stats.DEF]: 'IconDefence.png',
-        [Constants.Stats.HP_P]: 'IconMaxHP.png',  
-        [Constants.Stats.ATK_P]: 'IconAttack.png',  
-        [Constants.Stats.DEF_P]: 'IconDefence.png',  
-        [Constants.Stats.SPD]: 'IconSpeed.png',  
-        [Constants.Stats.SPD_P]: 'IconSpeed.png',  
+        [Constants.Stats.HP_P]: 'IconMaxHP.png',
+        [Constants.Stats.ATK_P]: 'IconAttack.png',
+        [Constants.Stats.DEF_P]: 'IconDefence.png',
+        [Constants.Stats.SPD]: 'IconSpeed.png',
+        [Constants.Stats.SPD_P]: 'IconSpeed.png',
         [Constants.Stats.CR]: 'IconCriticalChance.png',
         [Constants.Stats.CD]: 'IconCriticalDamage.png',
         [Constants.Stats.EHR]: 'IconStatusProbability.png',
@@ -38,7 +38,7 @@ export const Assets = {
     if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/assets/misc/IconAttackPercent.png`
     if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/assets/misc/IconDefencePercent.png`
     if (!stat || !iconFromStatMapping[stat]) return ''
-    
+
     return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
   },
   getSampleSave: () => {
@@ -167,7 +167,7 @@ export const Assets = {
       [Constants.Sets.MessengerTraversingHackerspace]: '114',
       [Constants.Sets.TheAshblazingGrandDuke]: '115',
       [Constants.Sets.PrisonerInDeepConfinement]: '116',
-      
+
       [Constants.Sets.SpaceSealingStation]: '301',
       [Constants.Sets.FleetOfTheAgeless]: '302',
       [Constants.Sets.PanCosmicCommercialEnterprise]: '303',

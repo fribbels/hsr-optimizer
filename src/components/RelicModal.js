@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Constants } from '../lib/constants';
 import { HeaderText } from './HeaderText';
 import { RelicAugmenter } from '../lib/relicAugmenter';
@@ -66,6 +66,7 @@ function renderStat(stat, value) {
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props) {
   const [relicForm] = Form.useForm();
+  const [mainStatOptions, setMainStatOptions] = useState([]);
 
   const characterOptions = useMemo(() => {
     let characters = DB.getCharacters()
@@ -117,6 +118,12 @@ export default function RelicModal(props) {
     }
     relicForm.setFieldsValue(defaultValues)
   }, [props.selectedRelic, props.open])
+
+  useEffect(() => {
+    if (mainStatOptions.length > 0) {
+      relicForm.setFieldValue('mainStatType', mainStatOptions[0].value);
+    }
+  }, [mainStatOptions, relicForm]);
 
   const onFinish = (x) => {
     console.log('Form finished', x);
@@ -249,7 +256,30 @@ export default function RelicModal(props) {
     props.setOpen(false)
   };
   const onValuesChange = (x) => {
-    console.log('Form change', x);
+    let mainStatOptions = [];
+    if (x.part) {
+      mainStatOptions = Object.entries(Constants.PartsMainStats[x.part]).map(entry => ({
+        label: entry[1],
+        value: entry[1]
+      }));
+      setMainStatOptions(mainStatOptions);
+    }
+
+    let mainStatType = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType');
+    let enhance = relicForm.getFieldValue('enhance');
+    let grade = relicForm.getFieldValue('grade');
+
+    if (mainStatType != undefined && enhance != undefined && grade != undefined) {
+      let mainStatValue = Constants.MainStatsValues[mainStatType][grade]['base'] + Constants.MainStatsValues[mainStatType][grade]['increment'] * enhance;
+      if ([Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG,].includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
+        mainStatValue = Math.floor(mainStatValue * 10) / 10;
+      } else if ([Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD].includes(mainStatType)) {
+        mainStatValue = Math.floor(mainStatValue);
+      } else {
+        mainStatValue = mainStatValue.toFixed(1);
+      }
+      relicForm.setFieldValue('mainStatValue', mainStatValue);
+    }
   };
 
   const handleCancel = () => {
@@ -273,6 +303,13 @@ export default function RelicModal(props) {
   }
   for (let entry of Object.entries(Constants.SetsOrnaments)) {
     setOptions.push({
+      label: entry[1],
+      value: entry[1]
+    })
+  }
+  let substatOptions = []
+  for (let entry of Object.entries(Constants.SubStats)) {
+    substatOptions.push({
       label: entry[1],
       value: entry[1]
     })
@@ -374,36 +411,16 @@ export default function RelicModal(props) {
             <Form.Item size="default" name='mainStatType'>
               <Select
                 showSearch
-                allowClear
                 style={{
                   width: 200,
                 }}
                 placeholder="Main Stat"
-                maxTagCount='responsive'>
-                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
-                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
-                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
-                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
-                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
-                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
-                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-                <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
-                <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
-                <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
-              </Select>
+                maxTagCount='responsive'
+                options={mainStatOptions} />
             </Form.Item>
 
             <Form.Item size="default" name='mainStatValue'>
-              <InputNumberStyled controls={false} />
+              <InputNumberStyled controls={false} disabled />
             </Form.Item>
           </Flex>
 
@@ -418,20 +435,8 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'>
-                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
-                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
-                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
-                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
-                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
-                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
-                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
-                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-              </Select>
+                maxTagCount='responsive'
+                options={substatOptions} />
             </Form.Item>
 
 
@@ -449,20 +454,8 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'>
-                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
-                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
-                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
-                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
-                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
-                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
-                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
-                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-              </Select>
+                maxTagCount='responsive'
+                options={substatOptions} />
             </Form.Item>
 
             <Form.Item size="default" name='substatValue1'>
@@ -479,20 +472,8 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'>
-                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
-                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
-                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
-                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
-                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
-                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
-                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
-                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-              </Select>
+                maxTagCount='responsive'
+                options={substatOptions} />
             </Form.Item>
 
             <Form.Item size="default" name='substatValue2'>
@@ -509,20 +490,8 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'>
-                <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
-                <Select.Option value={Constants.Stats.HP_P}>HP %</Select.Option>
-                <Select.Option value={Constants.Stats.ATK_P}>ATK %</Select.Option>
-                <Select.Option value={Constants.Stats.DEF_P}>DEF %</Select.Option>
-                <Select.Option value={Constants.Stats.HP}>HP</Select.Option>
-                <Select.Option value={Constants.Stats.ATK}>ATK</Select.Option>
-                <Select.Option value={Constants.Stats.DEF}>DEF</Select.Option>
-                <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
-                <Select.Option value={Constants.Stats.RES}>Effect RES</Select.Option>
-                <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-              </Select>
+                maxTagCount='responsive'
+                options={substatOptions} />
             </Form.Item>
 
             <Form.Item size="default" name='substatValue3'>

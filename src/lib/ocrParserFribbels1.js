@@ -1,14 +1,11 @@
 import stringSimilarity from 'string-similarity';
-import { Parts, Sets, Stats } from './constants';
-import { dblClick } from '@testing-library/user-event/dist/click';
+import { Parts, Sets, Stats } from './constants.ts';
 import { RelicAugmenter } from './relicAugmenter';
 
 export const OcrParserFribbels1 = {
   parse: (json) => {
-    let version = json.version;
-    // console.log(stringSimilarity.compareTwoStrings(version, '0.2'))
     let relics = json.relics;
-  
+
     let parsedRelics = []
     for (let relic of relics) {
       // console.log(relic)
@@ -21,7 +18,7 @@ export const OcrParserFribbels1 = {
       }
       // console.log(result);
     }
-  
+
     return parsedRelics
   }
 }
@@ -67,19 +64,20 @@ function readStats(relic) {
     let statResult = statList[statMatches.bestMatchIndex][1];
 
     if (statResult == Stats.ATK_P && !percent) statResult = Stats.ATK;
-    if (statResult == Stats.ATK   &&  percent) statResult = Stats.ATK_P;
+    if (statResult == Stats.ATK && percent) statResult = Stats.ATK_P;
 
     if (statResult == Stats.HP_P && !percent) statResult = Stats.HP;
-    if (statResult == Stats.HP   &&  percent) statResult = Stats.HP_P;
+    if (statResult == Stats.HP && percent) statResult = Stats.HP_P;
 
     if (statResult == Stats.DEF_P && !percent) statResult = Stats.DEF;
-    if (statResult == Stats.DEF   &&  percent) statResult = Stats.DEF_P;
+    if (statResult == Stats.DEF && percent) statResult = Stats.DEF_P;
 
     let parsedStat = {
       stat: statResult,
       value: value
     }
 
+    // TODO not sure if accurate anymore - check on its decimals
     if (!main) {
       main = fixMainStat(parsedStat, relic)
     } else {
@@ -90,10 +88,6 @@ function readStats(relic) {
     main,
     substats
   }
-}
-
-function readStat(stat) {
-  stat = stat.trim().split()
 }
 
 let relicSetList = Object.entries(Sets)
@@ -112,7 +106,7 @@ function lowerAlphaNumericPercent(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '')
 }
 
-function fixMainStat(parsedStat, relic) {
+function fixMainStat(parsedStat) {
   return parsedStat
 }
 

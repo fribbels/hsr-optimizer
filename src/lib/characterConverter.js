@@ -1,8 +1,11 @@
 import { RelicAugmenter } from "./relicAugmenter"
+import { Constants } from "./constants.ts";
+import { Utils } from "./utils";
+import DB from "./db";
 
 let statConversion
 let partConversion
-let gradeConversion 
+let gradeConversion
 
 export const CharacterConverter = {
   convert: (character) => {
@@ -11,7 +14,6 @@ export const CharacterConverter = {
 
     let preRelics = character.relicList || []
     let preLightCone = character.equipment
-    let characterLevel = character.level
     let characterEidolon = character.rank || 0
     let id = '' + character.avatarId
     let lightConeId = preLightCone ? '' + preLightCone.tid : undefined;
@@ -40,7 +42,7 @@ export const CharacterConverter = {
       equipped: equipped
     }
   },
-  
+
   getConstantConversions: () => {
     if (!statConversion) CharacterConverter.setConstantConversions()
     return {

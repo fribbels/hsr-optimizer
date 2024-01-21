@@ -1,13 +1,14 @@
 import { GPUOptimizer } from "./gpuOptimizer";
-import { Constants } from "./constants";
+import { Constants } from "./constants.ts";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
 import DB from "./db";
 import { WorkerPool } from "./workerPool";
-import {BufferPacker} from "./bufferPacker";
-import {RelicFilters} from "./relicFilters";
-
-let MAX_INT = 2147483647;
+import { BufferPacker } from "./bufferPacker";
+import { RelicFilters } from "./relicFilters";
+import { CharacterStats } from "./characterStats";
+import { Message } from "./message";
+import { StatCalculator } from "./statCalculator";
 
 let WIDTH = 100000;
 let HEIGHT = 1;
@@ -60,7 +61,7 @@ function characterToArrays(character) {
     result.base[i] = character.base[stat] || 0
     result.traces[i] = character.traces[stat] || 0
     result.lightCone[i] = character.lightCone[stat] || 0
-    
+
   }
 
   console.log('Convert', character, result);
@@ -76,11 +77,36 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
-  optimize: async function(request, topRow) {
+  getFilteredRelics: (request) => {
+    let relics = Utils.clone(DB.getRelics());
+    RelicFilters.calculateWeightScore(request, relics)
+
+    relics = RelicFilters.applyEquippedFilter(request, relics); // will reduce iterations if "off" is selected
+    relics = RelicFilters.applyEnhanceFilter(request, relics);
+    relics = RelicFilters.applyRankFilter(request, relics);
+
+    // Pre-split filters
+    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
+
+    relics = RelicFilters.applyMainFilter(request, relics);
+    relics = addMainStatToAugmentedStats(relics);
+    relics = applyMaxedMainStatsFilter(request, relics);
+    relics = RelicFilters.applySetFilter(request, relics)
+
+    // Post-split filters
+    relics = splitRelicsByPart(relics);
+
+    relics = RelicFilters.applyCurrentFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+
+    return [relics, preFilteredRelicsByPart];
+  },
+
+  optimize: function (request) {
     CANCEL = false
 
-    store.getState().setPermutationsSearched(0)
-    store.getState().setPermutationsResults(0)
+    global.store.getState().setPermutationsSearched(0)
+    global.store.getState().setPermutationsResults(0)
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -89,8 +115,8 @@ export const Optimizer = {
     let characterMetadata = DB.getMetadata().characters[request.characterId]
     let characterStats = characterMetadata.promotions[request.characterLevel]
 
-    console.log({lightConeStats})
-    console.log({characterStats})
+    console.log({ lightConeStats })
+    console.log({ characterStats })
 
     let element = characterMetadata.element
 
@@ -110,25 +136,7 @@ export const Optimizer = {
       }
     }
 
-    let relics = Utils.clone(DB.getRelics());
-    RelicFilters.calculateWeightScore(request, relics)
-
-    relics = RelicFilters.applyEnhanceFilter(request, relics);
-    relics = RelicFilters.applyRankFilter(request, relics);
-
-    // Pre-split filters
-    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
-
-    relics = applyMainFilter(request, relics);
-    relics = addMainStatToAugmentedStats(relics);
-    relics = applyMaxedMainStatsFilter(request, relics);
-    relics = RelicFilters.applySetFilter(request, relics)
-
-    // Post-split filters
-    relics = splitRelicsByPart(relics);
-
-    relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+    const [relics] = this.getFilteredRelics(request);
 
     let relicsArrays = relicsByPartToArray(relics);
 
@@ -149,10 +157,11 @@ export const Optimizer = {
     console.log('Optimize relics arrays', relicsArrays)
     console.log('Optimize character', character)
     console.log('Optimize elemental multipliers', elementalMultipliers)
-    
+
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
-    
+    console.log('relicSetAllowList, relicSetSolutions', relicSetAllowList, relicSetSolutions)
+
     let hSize = relicsArrays.Head.length
     let gSize = relicsArrays.Hands.length
     let bSize = relicsArrays.Body.length
@@ -164,13 +173,13 @@ export const Optimizer = {
 
     console.log(`Building kernel, permutations: ${permutations}, blocksize: ${WIDTH * HEIGHT}`)
     let consts = GPUOptimizer.createConstants(
-      HEIGHT, 
-      WIDTH, 
-      request, 
-      relicsArrays, 
-      character, 
-      relicSetAllowList, 
-      relicSetSolutions, 
+      HEIGHT,
+      WIDTH,
+      request,
+      relicsArrays,
+      character,
+      relicSetAllowList,
+      relicSetSolutions,
       ornamentSetSolutions,
       elementalMultipliers
     );
@@ -185,12 +194,12 @@ export const Optimizer = {
 
     if (CANCEL) return;
 
-    optimizerGrid.current.api.showLoadingOverlay()
+    global.optimizerGrid.current.api.showLoadingOverlay()
 
     let results = []
     let increment = (WIDTH * HEIGHT)
     let searched = 0
-    let runs = Math.ceil(permutations / increment) 
+    let runs = Math.ceil(permutations / increment)
     let inProgress = runs
 
     let resultsShown = false
@@ -268,15 +277,15 @@ export const Optimizer = {
 
         BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
 
-        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}}`)
+        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-        store.getState().setPermutationsResults(results.length)
-        store.getState().setPermutationsSearched(Math.min(permutations, searched))
+        global.store.getState().setPermutationsResults(results.length)
+        global.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           OptimizerTabController.setRows(results)
 
-          optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length);
           resultsShown = true
           return
@@ -290,21 +299,9 @@ export const Optimizer = {
       }
 
       // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10*run)
+      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10 * run)
     }
   }
-}
-
-function applyMainFilter(request, relics) {
-  let out = []
-  out.push(...relics.filter(x => x.part == Constants.Parts.Head).filter(x => request.mainHead.length == 0 || request.mainHead.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Hands).filter(x => request.mainHands.length == 0 || request.mainHands.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Body).filter(x => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Feet).filter(x => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.PlanarSphere).filter(x => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.LinkRope).filter(x => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
-
-  return out;
 }
 
 function applyMaxedMainStatsFilter(request, relics) {
@@ -412,8 +409,8 @@ function convertRelicSetIndicesTo1D(setIndices) {
     let y = setIndices[i] // [5,5,2,3]
     let permutations = permutator(y)
     for (let x of permutations) {
-      let index1D = x[0] + x[1]*Math.pow(len, 1) + x[2]*Math.pow(len, 2) + x[3]*Math.pow(len, 3)
-      arr[index1D] = 1 
+      let index1D = x[0] + x[1] * Math.pow(len, 1) + x[2] * Math.pow(len, 2) + x[3] * Math.pow(len, 3)
+      arr[index1D] = 1
     }
   }
 
@@ -474,7 +471,7 @@ function generateRelicSetAllowList(request) {
         setIndices.push(indices);
       }
     }
-    
+
     if (setArr[0] == '2 Piece') {
       // ok
       if (setArr.length == 1) {
@@ -516,7 +513,7 @@ function generateRelicSetAllowList(request) {
           let indices = relicSetAllowListToIndices(arr)
           setIndices.push(indices);
         }
-        
+
         // 2 + 0
         let arr = generateEmptyArr(len)
         arr[index] = 2
@@ -541,7 +538,7 @@ function generateRelicSetAllowList(request) {
             let indices = relicSetAllowListToIndices(arr)
             setIndices.push(indices);
           }
-          
+
           // 2 + 0
           let arr = generateEmptyArr(len)
           arr[index] = 2

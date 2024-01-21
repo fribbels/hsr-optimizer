@@ -1,36 +1,13 @@
-import { PlusOutlined } from '@ant-design/icons';
-import React, {useState, useReducer, useEffect} from 'react';
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Space,
-  Switch,
-  TreeSelect,
-  Row,
-  Typography,
-  message,
-  Upload,
-  Flex,
-  Segmented,
-  theme,
-  ConfigProvider,
-  Modal,
-  Image,
-} from 'antd';
-import '../style/style.css'
-import { CharacterStats } from '../lib/characterStats';
+import React, { useEffect, useState } from 'react';
+import { Button, Flex, Form, Input, Segmented, Typography, } from 'antd';
 import { CharacterPreview } from './CharacterPreview';
 import { SaveState } from '../lib/saveState';
+import { Message } from "../lib/message";
+import { CharacterConverter } from "../lib/characterConverter";
+import { Assets } from "../lib/assets";
+import PropTypes from "prop-types";
+import DB from "../lib/db";
 
-const { TextArea } = Input;
 const { Text } = Typography;
 
 export default function RelicScorerTab(props) {
@@ -39,8 +16,8 @@ export default function RelicScorerTab(props) {
   const [loading, setLoading] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([])
 
-  let scorerId = store(s => s.scorerId);
-  let setScorerId = store(s => s.setScorerId);
+  let scorerId = global.store(s => s.scorerId);
+  let setScorerId = global.store(s => s.setScorerId);
 
   const [scorerForm] = Form.useForm();
   window.scorerForm = scorerForm
@@ -55,13 +32,13 @@ export default function RelicScorerTab(props) {
 
     const options = {
       method: 'POST',
-      body: x.scorerId, 
+      body: x.scorerId,
     };
 
     setScorerId(x.scorerId);
     SaveState.save()
 
-    // fetch('http://127.0.0.1:5000/getAccount', options)
+    // fetch('http://127.0.0.1:5000/getAccount', options) // Local testing
     fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
       .then(response => {
         if (!response.ok) {
@@ -83,10 +60,10 @@ export default function RelicScorerTab(props) {
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
         ]
-        .filter(x => !!x)
-        .filter((item, index, array) => {
-          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
-        });
+          .filter(x => !!x)
+          .filter((item, index, array) => {
+            return array.findIndex((i) => i.avatarId === item.avatarId) === index;
+          });
 
         console.log('characters', characters)
 
@@ -102,16 +79,14 @@ export default function RelicScorerTab(props) {
   }
 
   function scoringClicked() {
-    setIsScoringModalOpen(true)
+    global.setIsScoringModalOpen(true)
   }
 
   function CharacterPreviewSelection(props) {
-    const [downloadLoading, setDownloadLoading] = useState(false);
-    const [previewVisible, setPreviewVisible] = useState(false);
-    const [modalSrc, setModalSrc] = useState(Assets.getBlank());
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
-    let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+    let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
 
+    // TODO: Revisit if force updates are necessary
     const [, forceUpdate] = React.useReducer(o => !o, true);
     window.forceRelicScorerTabUpdate = forceUpdate
 
@@ -127,7 +102,7 @@ export default function RelicScorerTab(props) {
       options.push({
         label: (
           <Flex align='center'>
-            <img style={{width: 100}} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+            <img style={{ width: 100 }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
           </Flex>
         ),
         value: availableCharacter.id,
@@ -138,20 +113,6 @@ export default function RelicScorerTab(props) {
       console.log('selectionChange', selected)
       setSelectedCharacter(availableCharacters.find(x => x.id == selected))
       setSelectedScoringCharacter(selected)
-    }
-
-    async function downloadClicked() { // deprecated
-      setDownloadLoading(true);
-
-      Utils.screenshotElement(document.getElementById('previewWrapper')).then(src => {
-        setModalSrc(src)
-        setPreviewVisible(true)
-        setDownloadLoading(false);
-      }).catch((e) => {
-        console.warn(e)
-        setDownloadLoading(false)
-        Message.warning('Error generating image')
-      })
     }
 
     async function importClicked() {
@@ -166,26 +127,14 @@ export default function RelicScorerTab(props) {
 
     return (
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100 }}>
-        <Flex gap={30} style={{display: (availableCharacters.length > 0) ? 'block' : 'none'}}>
+        <Flex gap={30} style={{ display: (availableCharacters.length > 0) ? 'block' : 'none' }}>
           <Button onClick={importClicked}>
             Import relics into optimizer
           </Button>
         </Flex>
 
         <Flex vertical align='center'>
-
           <Segmented options={options} onChange={selectionChange} />
-
-          <div style={{ display: modalSrc != Assets.getBlank() ? 'block' : 'none', marginTop: modalSrc ? 10 : 0 }}>
-            <Image
-              width={200}
-              src={modalSrc}
-              preview={{
-                visible: previewVisible,
-                onVisibleChange: (visible, prevVisible) => setPreviewVisible(visible)
-              }}
-            />
-          </div>
         </Flex>
         <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
           <CharacterPreview class='relicScorerCharacterPreview' character={selectedCharacter} source='scorer' />
@@ -193,6 +142,11 @@ export default function RelicScorerTab(props) {
       </Flex>
     )
   }
+  CharacterPreviewSelection.propTypes = {
+    availableCharacters: PropTypes.array,
+  }
+
+
   let initialId = undefined
   let savedId = scorerId
   if (savedId) {
@@ -205,7 +159,7 @@ export default function RelicScorerTab(props) {
   }
 
   return (
-    <div style={{display: props.active ? 'block' : 'none'}}>
+    <div style={{ display: props.active ? 'block' : 'none' }}>
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
@@ -231,8 +185,11 @@ export default function RelicScorerTab(props) {
             </Button>
           </Flex>
         </Form>
-        <CharacterPreviewSelection availableCharacters={availableCharacters}/>
+        <CharacterPreviewSelection availableCharacters={availableCharacters} />
       </Flex>
     </div>
   );
-};
+}
+RelicScorerTab.propTypes = {
+  active: PropTypes.bool,
+}

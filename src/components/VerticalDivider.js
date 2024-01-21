@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Flex, Image, Row, Space, Typography } from 'antd';
+import { Divider, Flex } from 'antd';
 import * as React from 'react';
 
 export default function VerticalDivider() {

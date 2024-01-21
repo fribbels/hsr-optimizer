@@ -1,9 +1,10 @@
-import {ConfigProvider, Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
+import { ConfigProvider, Flex } from "antd";
 import React from "react";
-import {HeaderText} from "../components/HeaderText";
-import { Constants } from './constants'
-import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
-import {TooltipImage} from "../components/TooltipImage";
+import { HeaderText } from "../components/HeaderText";
+import { Constants } from './constants.ts'
+import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "../components/TooltipImage";
+import { Hint } from "./hint";
 
 let Stats = Constants.Stats
 
@@ -17,7 +18,7 @@ const ASHBLAZING_ATK_STACK = 0.06
 function calculateAshblazingSet(c, request, hitMulti) {
   let enabled = p4(c.sets.TheAshblazingGrandDuke)
   let valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
-  let ashblazingAtk = 0.06*valueTheAshblazingGrandDuke*enabled*c.baseAtk * enabled
+  let ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * c.baseAtk * enabled
   let ashblazingMulti = hitMulti * enabled * c.baseAtk
 
   return {
@@ -155,18 +156,18 @@ function xueyi(e) {
 
   let hitMultiByFuaHits = {
     0: 0,
-    1: ASHBLAZING_ATK_STACK * (1*1/1), // 0.06
-    2: ASHBLAZING_ATK_STACK * (1*1/2 + 2*1/2), // 0.09
-    3: ASHBLAZING_ATK_STACK * (1*1/3 + 2*1/3 + 3*1/3) // 0.12
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
+    2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
+    3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3) // 0.12
   }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enemyToughness50' text='Enemy toughness >= 50%'/>
+        <FormSwitch name='enemyToughness50' text='Enemy toughness >= 50%' />
         <FormSlider name='toughnessReductionDmgBoost' text='Ult toughness based dmg boost' min={0} max={ultBoostMax} percent />
         <FormSlider name='fuaHits' text='Fua hits' min={0} max={3} />
-        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4}/>
+        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -194,9 +195,6 @@ function xueyi(e) {
       x.FUA_BOOST += (e >= 1) ? 0.40 : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -230,13 +228,13 @@ function drratio(e) {
       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
   }
 
-  let baseHitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+  let baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
   let fuaMultiByDebuffs = {
-    0: ASHBLAZING_ATK_STACK * (1*1/1), // 0
-    1: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(1, true) + 2*e2FuaRatio(1, false)), // 2
-    2: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(2, true) + 5*e2FuaRatio(2, false)), // 2 + 3
-    3: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(3, true) + 9*e2FuaRatio(3, false)), // 2 + 3 + 4
-    4: ASHBLAZING_ATK_STACK * (1*e2FuaRatio(4, true) + 14*e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
+    0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
+    1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
+    2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
+    3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
+    4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
   }
 
   return {
@@ -270,9 +268,6 @@ function drratio(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -302,8 +297,8 @@ function ruanmei(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultFieldActive' text='Ult field active'/>
-        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4}/>
+        <FormSwitch name='ultFieldActive' text='Ult field active' />
+        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -330,11 +325,7 @@ function ruanmei(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       let beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
@@ -360,9 +351,9 @@ function yukong(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='roaringBowstrings' text='Roaring bowstrings'/>
-        <FormSwitch name='ultBuff' text='Ult buff'/>
-        <FormSwitch name='initialSpeedBuff' text='Initial speed buff'/>
+        <FormSwitch name='roaringBowstrings' text='Roaring bowstrings' />
+        <FormSwitch name='ultBuff' text='Ult buff' />
+        <FormSwitch name='initialSpeedBuff' text='Initial speed buff' />
       </Flex>
     ),
     defaults: () => ({
@@ -392,11 +383,7 @@ function yukong(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -416,16 +403,16 @@ function yanqing(e) {
   let ultScaling = ult(e, 3.50, 3.78)
   let fuaScaling = talent(e, 0.50, 0.55)
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultBuffActive' text='Ult buff active'/>
-        <FormSwitch name='soulsteelBuffActive' text='Soulsteel buff active'/>
-        <FormSwitch name='critSpdBuff' text='Crit spd buff'/>
-        <FormSwitch name='e1TargetFrozen' text='E1 target frozen' disabled={e < 1}/>
-        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%' disabled={e < 4}/>
+        <FormSwitch name='ultBuffActive' text='Ult buff active' />
+        <FormSwitch name='soulsteelBuffActive' text='Soulsteel buff active' />
+        <FormSwitch name='critSpdBuff' text='Crit spd buff' />
+        <FormSwitch name='e1TargetFrozen' text='E1 target frozen' disabled={e < 1} />
+        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -469,11 +456,7 @@ function yanqing(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -497,10 +480,10 @@ function welt(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enemyDmgTakenDebuff' text='Enemy dmg taken debuff'/>
-        <FormSwitch name='enemySlowed' text='Enemy slowed'/>
+        <FormSwitch name='enemyDmgTakenDebuff' text='Enemy dmg taken debuff' />
+        <FormSwitch name='enemySlowed' text='Enemy slowed' />
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={skillExtraHitsMax} />
-        <FormSwitch name='e1EnhancedState' text='E1 enhanced state' disabled={e < 4}/>
+        <FormSwitch name='e1EnhancedState' text='E1 enhanced state' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -535,11 +518,7 @@ function welt(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -564,10 +543,10 @@ function firetrailblazer(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enhancedBasic' text='Enhanced basic'/>
-        <FormSwitch name='skillActive' text='Skill active'/>
-        <FormSwitch name='shieldActive' text='Shield active'/>
-        <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3} disabled={e < 6}/>
+        <FormSwitch name='enhancedBasic' text='Enhanced basic' />
+        <FormSwitch name='skillActive' text='Skill active' />
+        <FormSwitch name='shieldActive' text='Shield active' />
+        <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3} disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -592,9 +571,6 @@ function firetrailblazer(e) {
       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - 0.15) : 1
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -626,7 +602,7 @@ function physicaltrailblazer(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enhancedUlt' text='Aoe ult'/>
+        <FormSwitch name='enhancedUlt' text='Aoe ult' />
         <FormSlider name='talentStacks' text='Talent stacks' min={0} max={2} />
       </Flex>
     ),
@@ -654,11 +630,7 @@ function physicaltrailblazer(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -675,25 +647,26 @@ function topaz(e) {
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.50, 1.65)
-  let ultScaling = ult(e, 0, 0)
   let fuaScaling = talent(e, 1.50, 1.65)
 
   // 0.06
   let basicHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1*1/1)
+    (1 * 1 / 1)
+
   // 0.18
   let fuaHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1*1/7 + 2*1/7 + 3*1/7 + 4*1/7 + 5*1/7 + 6*1/7 + 7*1/7)
+    (1 * 1 / 7 + 2 * 1 / 7 + 3 * 1 / 7 + 4 * 1 / 7 + 5 * 1 / 7 + 6 * 1 / 7 + 7 * 1 / 7)
+
   // 0.252
   let fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1*1/10 + 2*1/10 + 3*1/10 + 4*1/10 + 5*1/10 + 6*1/10 + 7*1/10 + 8*3/10)
+    (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enemyProofOfDebtDebuff' text='Target proof of debt debuff'/>
-        <FormSwitch name='numbyEnhancedState' text='Numby enhanced state'/>
-        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} disabled={e < 1}/>
+        <FormSwitch name='enemyProofOfDebtDebuff' text='Target proof of debt debuff' />
+        <FormSwitch name='numbyEnhancedState' text='Numby enhanced state' />
+        <FormSlider name='e1DebtorStacks' text='E1 debtor stacks' min={0} max={2} disabled={e < 1} />
       </Flex>
     ),
     defaults: () => ({
@@ -720,9 +693,6 @@ function topaz(e) {
       x.FUA_CD_BOOST += (e >= 1) ? 0.25 * r.e1DebtorStacks : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -765,10 +735,10 @@ function topaz(e) {
 }
 
 function tingyun(e) {
-  let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
   let skillAtkBoostMax = skill(e, 0.25, 0.27)
   let ultDmgBoost = ult(e, 0.50, 0.56)
-  let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+  // let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
+  // let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
@@ -777,10 +747,10 @@ function tingyun(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='benedictionBuff' text='Benediction buff'/>
-        <FormSwitch name='skillSpdBuff' text='Skill spd buff'/>
-        <FormSwitch name='ultSpdBuff' text='Ult spd buff'/>
-        <FormSwitch name='ultDmgBuff' text='Ult dmg buff'/>
+        <FormSwitch name='benedictionBuff' text='Benediction buff' />
+        <FormSwitch name='skillSpdBuff' text='Skill spd buff' />
+        <FormSwitch name='ultSpdBuff' text='Ult spd buff' />
+        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' />
       </Flex>
     ),
     defaults: () => ({
@@ -809,11 +779,7 @@ function tingyun(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -836,11 +802,11 @@ function sushang(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultBuffedState' text='Ult buffed state'/>
+        <FormSwitch name='ultBuffedState' text='Ult buffed state' />
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction' disabled={e < 2}/>
+        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -879,11 +845,7 @@ function sushang(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -906,9 +868,9 @@ function silverwolf(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='skillResShredDebuff' text='Skill res shred'/>
-        <FormSwitch name='skillDefShredDebuff' text='Skill def shred'/>
-        <FormSwitch name='ultDefShredDebuff' text='Ult def shred'/>
+        <FormSwitch name='skillResShredDebuff' text='Skill res shred' />
+        <FormSwitch name='skillDefShredDebuff' text='Skill def shred' />
+        <FormSwitch name='ultDefShredDebuff' text='Ult def shred' />
         <FormSlider name='targetDebuffs' text='Target debuffs' min={0} max={5} />
       </Flex>
     ),
@@ -932,18 +894,14 @@ function silverwolf(e) {
 
       // Boost
       x.RES_PEN += (r.skillResShredDebuff) ? skillResShredValue : 0
-      x.RES_PEN += (r.skillResShredDebuff && r.targetDebuffs >= 3 ) ? 0.03 : 0
+      x.RES_PEN += (r.skillResShredDebuff && r.targetDebuffs >= 3) ? 0.03 : 0
       x.DEF_SHRED += (r.skillDefShredDebuff) ? skillDefShredBufValue : 0
       x.DEF_SHRED += (r.ultDefShredDebuff) ? ultDefShredValue : 0
       x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -965,8 +923,8 @@ function serval(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='targetShocked' text='Target shocked'/>
-        <FormSwitch name='enemyDefeatedBuff' text='Enemy killed buff'/>
+        <FormSwitch name='targetShocked' text='Target shocked' />
+        <FormSwitch name='enemyDefeatedBuff' text='Enemy killed buff' />
       </Flex>
     ),
     defaults: () => ({
@@ -995,11 +953,7 @@ function serval(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1021,9 +975,9 @@ function seele(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='buffedState' text='Buffed state'/>
+        <FormSwitch name='buffedState' text='Buffed state' />
         <FormSlider name='speedBoostStacks' text='Speed boost stacks' min={0} max={speedBoostStacksMax} />
-        <FormSwitch name='e6UltTargetDebuff' text='E6 ult debuff' disabled={e < 6}/>
+        <FormSwitch name='e6UltTargetDebuff' text='E6 ult debuff' disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1049,9 +1003,6 @@ function seele(e) {
       x.RES_PEN += (r.buffedState) ? 0.20 : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -1079,9 +1030,9 @@ function sampo(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff'/>
+        <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff' />
         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={4} />
-        <FormSwitch name='targetWindShear' text='Target has wind shear'/>
+        <FormSwitch name='targetWindShear' text='Target has wind shear' />
       </Flex>
     ),
     defaults: () => ({
@@ -1109,11 +1060,7 @@ function sampo(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1134,18 +1081,18 @@ function qingque(e) {
   let ultScaling = ult(e, 2.00, 2.16)
 
   let hitMultiByTargetsBlast = {
-    1: ASHBLAZING_ATK_STACK * (1*1/1), // 0.06
-    3: ASHBLAZING_ATK_STACK * (2*1/1), // 0.12
-    5: ASHBLAZING_ATK_STACK * (2*1/1)  // 0.12
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
+    5: ASHBLAZING_ATK_STACK * (2 * 1 / 1)  // 0.12
   }
 
-  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1*1/1)
+  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='basicEnhanced' text='Basic enhanced'/>
-        <FormSwitch name='basicEnhancedSpdBuff' text='Basic enhanced spd buff'/>
+        <FormSwitch name='basicEnhanced' text='Basic enhanced' />
+        <FormSwitch name='basicEnhancedSpdBuff' text='Basic enhanced spd buff' />
         <FormSlider name='skillDmgIncreaseStacks' text='Skill dmg stacks' min={0} max={4} />
       </Flex>
     ),
@@ -1173,9 +1120,6 @@ function qingque(e) {
       x.ULT_BOOST += (e >= 1) ? 0.10 : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -1207,10 +1151,10 @@ function pela(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enemyDebuffed' text='Enemy debuffed'/>
-        <FormSwitch name='skillRemovedBuff' text='Skill removed buff'/>
-        <FormSwitch name='ultDefPenDebuff' text='Ult def pen debuff'/>
-        <FormSwitch name='e4SkillResShred' text='E4 skill res shred' disabled={e < 4}/>
+        <FormSwitch name='enemyDebuffed' text='Enemy debuffed' />
+        <FormSwitch name='skillRemovedBuff' text='Skill removed buff' />
+        <FormSwitch name='ultDefPenDebuff' text='Ult def pen debuff' />
+        <FormSwitch name='e4SkillResShred' text='E4 skill res shred' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -1246,11 +1190,7 @@ function pela(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1265,8 +1205,6 @@ function pela(e) {
 }
 
 function natasha(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
@@ -1278,8 +1216,7 @@ function natasha(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -1293,11 +1230,7 @@ function natasha(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1314,7 +1247,7 @@ function march7th(e) {
   let ultScaling = ult(e, 1.50, 1.62)
   let fuaScaling = talent(e, 1.00, 1.10)
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -1323,8 +1256,7 @@ function march7th(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -1339,11 +1271,7 @@ function march7th(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
@@ -1368,7 +1296,7 @@ function lynx(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='skillBuff' text='Skill buff'/>
+        <FormSwitch name='skillBuff' text='Skill buff' />
       </Flex>
     ),
     defaults: () => ({
@@ -1392,9 +1320,6 @@ function lynx(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -1411,8 +1336,6 @@ function lynx(e) {
 }
 
 function luocha(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 2.00, 2.16)
@@ -1420,8 +1343,8 @@ function luocha(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='fieldActive' text='Field active'/>
-        <FormSwitch name='e6ResReduction' text='E6 res reduction' disabled={e < 6}/>
+        <FormSwitch name='fieldActive' text='Field active' />
+        <FormSwitch name='e6ResReduction' text='E6 res reduction' disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1445,11 +1368,7 @@ function luocha(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1473,11 +1392,11 @@ function luka(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='basicEnhanced' text='Basic enhanced'/>
-        <FormSwitch name='targetUltDebuffed' text='Target ult debuffed'/>
+        <FormSwitch name='basicEnhanced' text='Basic enhanced' />
+        <FormSwitch name='targetUltDebuffed' text='Target ult debuffed' />
         <FormSlider name='basicEnhancedExtraHits' text='Basic extra hits' min={0} max={3} />
-        <FormSwitch name='e1TargetBleeding' text='E1 target bleeding' disabled={e < 1}/>
-        <FormSlider name='e4TalentStacks' text='E4 talent stacks' min={0} max={4} disabled={e < 4}/>
+        <FormSwitch name='e1TargetBleeding' text='E1 target bleeding' disabled={e < 1} />
+        <FormSlider name='e4TalentStacks' text='E4 talent stacks' min={0} max={4} disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -1507,11 +1426,7 @@ function luka(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1532,12 +1447,12 @@ function kafka(e) {
   let dotScaling = ult(e, 2.90, 3.183)
 
   let hitMulti = ASHBLAZING_ATK_STACK *
-    (1*0.15 + 2*0.15 + 3*0.15 + 4*0.15 + 5*0.15 + 6*0.25)
+    (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='e1DotDmgReceivedDebuff' text='E1 dot dmg debuff' disabled={e < 1}/>
+        <FormSwitch name='e1DotDmgReceivedDebuff' text='E1 dot dmg debuff' disabled={e < 1} />
       </Flex>
     ),
     defaults: () => ({
@@ -1563,11 +1478,7 @@ function kafka(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
@@ -1592,11 +1503,11 @@ function jingyuan(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='skillCritBuff' text='Skill cr buff'/>
+        <FormSwitch name='skillCritBuff' text='Skill cr buff' />
         <FormSlider name='talentHitsPerAction' text='Talent stacks' min={3} max={10} />
         <FormSlider name='talentAttacks' text='Talent hit on target' min={0} max={10} />
-        <FormSwitch name='e2DmgBuff' text='E2 dmg buff' disabled={e < 2}/>
-        <FormSlider name='e6FuaVulnerabilityStacks' text='E6 vulnerable stacks (applies to all hits)' min={0} max={3}  disabled={e < 6}/>
+        <FormSwitch name='e2DmgBuff' text='E2 dmg buff' disabled={e < 2} />
+        <FormSlider name='e6FuaVulnerabilityStacks' text='E6 vulnerable stacks (applies to all hits)' min={0} max={3} disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1643,16 +1554,13 @@ function jingyuan(e) {
       ashblazingStacks += stacksPreHit
       let atkBoostSum = 0
       for (let i = 0; i < hits; i++) {
-        atkBoostSum += Math.min(8, ashblazingStacks) * (1/hits)
+        atkBoostSum += Math.min(8, ashblazingStacks) * (1 / hits)
         ashblazingStacks += stacksPerHit
       }
 
       hitMulti = atkBoostSum * 0.06
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -1686,7 +1594,7 @@ function imbibitorlunae(e) {
         <FormSlider name='basicEnhancements' text='Basic enhancements' min={0} max={3} />
         <FormSlider name='skillOutroarStacks' text='Outroar stacks (applied to all hits)' min={0} max={4} />
         <FormSlider name='talentRighteousHeartStacks' text='Righteous Heart stacks (applied to all hits)' min={0} max={righteousHeartStackMax} />
-        <FormSlider name='e6ResPenStacks' text='E6 RES pen stacks' min={0} max={3} disabled={e < 6}/>
+        <FormSlider name='e6ResPenStacks' text='E6 RES pen stacks' min={0} max={3} disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1719,11 +1627,7 @@ function imbibitorlunae(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1734,17 +1638,14 @@ function imbibitorlunae(e) {
 
 function huohuo(e) {
   let ultBuffValue = ult(e, 0.40, 0.432)
-
   let basicScaling = basic(e, 0.50, 0.55)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultBuff' text='Ult buff'/>
-        <FormSwitch name='skillBuff' text='Skill buff'/>
-        <FormSwitch name='e6DmgBuff' text='E6 dmg buff' disabled={e < 6}/>
+        <FormSwitch name='ultBuff' text='Ult buff' />
+        <FormSwitch name='skillBuff' text='Skill buff' />
+        <FormSwitch name='e6DmgBuff' text='E6 dmg buff' disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1758,6 +1659,7 @@ function huohuo(e) {
 
       // Stats
       x[Stats.SPD_P] += (e >= 1 && r.skillBuff) ? 0.12 : 0
+      x[Stats.ATK_P] += (r.ultBuff) ? ultBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -1767,11 +1669,7 @@ function huohuo(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
@@ -1791,8 +1689,8 @@ function hook(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enhancedSkill' text='Enhanced skill'/>
-        <FormSwitch name='targetBurned' text='Target burned'/>
+        <FormSwitch name='enhancedSkill' text='Enhanced skill' />
+        <FormSwitch name='targetBurned' text='Target burned' />
       </Flex>
     ),
     defaults: () => ({
@@ -1820,11 +1718,7 @@ function hook(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1842,18 +1736,18 @@ function himeko(e) {
   let dotScaling = 0.30
 
   let hitMultiByTargets = {
-    1: ASHBLAZING_ATK_STACK * (1*0.20 + 2*0.20 + 3*0.20 + 4*0.40), // 0.168
-    3: ASHBLAZING_ATK_STACK * (2*0.20 + 5*0.20 + 8*0.20 + 8*0.40), // 0.372
-    5: ASHBLAZING_ATK_STACK * (3*0.20 + 8*0.20 + 8*0.20 + 8*0.40), // 0.42
+    1: ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.20 + 3 * 0.20 + 4 * 0.40), // 0.168
+    3: ASHBLAZING_ATK_STACK * (2 * 0.20 + 5 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.372
+    5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='targetBurned' text='Target burned'/>
-        <FormSwitch name='selfCurrentHp80Percent' text='Self HP >= 80%'/>
-        <FormSwitch name='e1TalentSpdBuff' text='E1 spd buff' disabled={e < 1}/>
-        <FormSlider name='e6UltExtraHits' text='E6 ult extra hits' min={0} max={2} disabled={e < 6}/>
+        <FormSwitch name='targetBurned' text='Target burned' />
+        <FormSwitch name='selfCurrentHp80Percent' text='Self HP >= 80%' />
+        <FormSwitch name='e1TalentSpdBuff' text='E1 spd buff' disabled={e < 1} />
+        <FormSlider name='e6UltExtraHits' text='E6 ult extra hits' min={0} max={2} disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1884,11 +1778,7 @@ function himeko(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1910,18 +1800,18 @@ function herta(e) {
   let fuaScaling = talent(e, 0.40, 0.43)
 
   let hitMultiByTargets = {
-    1: ASHBLAZING_ATK_STACK * (1*1/1),
-    3: ASHBLAZING_ATK_STACK * (2*1/1),
-    5: ASHBLAZING_ATK_STACK * (3*1/1)
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
+    5: ASHBLAZING_ATK_STACK * (3 * 1 / 1)
   }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='techniqueBuff' text='Technique buff'/>
-        <FormSwitch name='targetFrozen' text='Target frozen'/>
-        <FormSlider name='e2TalentCritStacks' text='E2 talent crit stacks' min={0} max={5} disabled={e < 2}/>
-        <FormSwitch name='e6UltAtkBuff' text='E6 ult atk buff' disabled={e < 6}/>
+        <FormSwitch name='techniqueBuff' text='Technique buff' />
+        <FormSwitch name='targetFrozen' text='Target frozen' />
+        <FormSlider name='e2TalentCritStacks' text='E2 talent crit stacks' min={0} max={5} disabled={e < 2} />
+        <FormSwitch name='e6UltAtkBuff' text='E6 ult atk buff' disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -1954,11 +1844,7 @@ function herta(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -1986,10 +1872,10 @@ function hanya(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultBuff' text='Ult buff active'/>
-        <FormSwitch name='targetBurdenActive' text='Target burden active'/>
-        <FormSwitch name='burdenAtkBuff' text='Burden atk buff'/>
-        <FormSwitch name='e2SkillSpdBuff' text='E2 skill spd buff' disabled={e < 2}/>
+        <FormSwitch name='ultBuff' text='Ult buff active' />
+        <FormSwitch name='targetBurdenActive' text='Target burden active' />
+        <FormSwitch name='burdenAtkBuff' text='Burden atk buff' />
+        <FormSwitch name='e2SkillSpdBuff' text='E2 skill spd buff' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2018,9 +1904,6 @@ function hanya(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2047,8 +1930,8 @@ function guinaifen(e) {
     display: () => (
       <Flex vertical gap={10} >
         <FormSlider name='talentDebuffStacks' text='Talent debuff stacks' min={0} max={talentDebuffMax} />
-        <FormSwitch name='enemyBurned' text='Enemy burned'/>
-        <FormSwitch name='e2BurnMultiBoost' text='E2 burn multi boost' disabled={e < 2}/>
+        <FormSwitch name='enemyBurned' text='Enemy burned' />
+        <FormSwitch name='e2BurnMultiBoost' text='E2 burn multi boost' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2076,11 +1959,7 @@ function guinaifen(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2103,8 +1982,7 @@ function gepard(e) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (request) => {
-      let r = request.characterConditionals
+    precomputeEffects: () => {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -2119,11 +1997,7 @@ function gepard(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x[Stats.ATK] += 0.35 * x[Stats.DEF]
@@ -2146,8 +2020,8 @@ function fuxuan(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='skillActive' text='Skill active'/>
-        <FormSlider name='e6TeamHpLostPercent' text='E6 team hp lost' min={0} max={1.2} percent disabled={e < 6}/>
+        <FormSwitch name='skillActive' text='Skill active' />
+        <FormSlider name='e6TeamHpLostPercent' text='E6 team hp lost' min={0} max={1.2} percent disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
@@ -2172,9 +2046,6 @@ function fuxuan(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2198,8 +2069,8 @@ function danheng(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentPenBuff' text='Talent pen buff'/>
-        <FormSwitch name='enemySlowed' text='Enemy slowed'/>
+        <FormSwitch name='talentPenBuff' text='Talent pen buff' />
+        <FormSwitch name='enemySlowed' text='Enemy slowed' />
       </Flex>
     ),
     defaults: () => ({
@@ -2225,11 +2096,7 @@ function danheng(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2248,20 +2115,20 @@ function clara(e) {
   let fuaScaling = talent(e, 1.60, 1.76)
 
   let hitMultiByTargetsBlast = {
-    1: ASHBLAZING_ATK_STACK * (1*1/1),
-    3: ASHBLAZING_ATK_STACK * (2*1/1),
-    5: ASHBLAZING_ATK_STACK * (2*1/1) // Clara is 1 hit blast when enhanced
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
+    5: ASHBLAZING_ATK_STACK * (2 * 1 / 1) // Clara is 1 hit blast when enhanced
   }
 
-  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1*1/1)
+  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultBuff' text='Ult buff'/>
-        <FormSwitch name='talentEnemyMarked' text='Enemy marked'/>
-        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2}/>
-        <FormSwitch name='e4DmgReductionBuff' text='E4 dmg reduction buff' disabled={e < 4}/>
+        <FormSwitch name='ultBuff' text='Ult buff' />
+        <FormSwitch name='talentEnemyMarked' text='Enemy marked' />
+        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2} />
+        <FormSwitch name='e4DmgReductionBuff' text='E4 dmg reduction buff' disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -2292,9 +2159,6 @@ function clara(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
       let x = c.x
@@ -2321,20 +2185,18 @@ function bronya(e) {
   let ultCdBoostBaseValue = ult(e, 0.20, 0.216)
 
   let basicScaling = basic(e, 1.0, 1.1)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
   let fuaScaling = basicScaling * 0.80
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1*1/1)
+  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='techniqueBuff' text='Technique buff'/>
-        <FormSwitch name='battleStartDefBuff' text='Battle start DEF buff'/>
-        <FormSwitch name='skillBuff' text='Skill buff'/>
-        <FormSwitch name='ultBuff' text='Ult buff'/>
-        <FormSwitch name='e2SkillSpdBuff' text='E2 skill SPD buff' disabled={e < 2}/>
+        <FormSwitch name='techniqueBuff' text='Technique buff' />
+        <FormSwitch name='battleStartDefBuff' text='Battle start DEF buff' />
+        <FormSwitch name='skillBuff' text='Skill buff' />
+        <FormSwitch name='ultBuff' text='Ult buff' />
+        <FormSwitch name='e2SkillSpdBuff' text='E2 skill SPD buff' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2364,9 +2226,6 @@ function bronya(e) {
       x.ELEMENTAL_DMG += (r.skillBuff) ? skillDmgBoostValue : 0
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -2398,17 +2257,17 @@ function blade(e) {
   let fuaHpScaling = talent(e, 1.10, 1.21)
 
   let hitMultiByTargets = {
-    1: ASHBLAZING_ATK_STACK * (1*0.33 + 2*0.33 + 3*0.34),
-    3: ASHBLAZING_ATK_STACK * (2*0.33 + 5*0.33 + 8*0.34),
-    5: ASHBLAZING_ATK_STACK * (3*0.33 + 8*0.33 + 8*0.34),
+    1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
+    3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
+    5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
   }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enhancedStateActive' text='Enhanced state'/>
+        <FormSwitch name='enhancedStateActive' text='Enhanced state' />
         <FormSlider name='hpPercentLostTotal' text='HP% lost total' min={0} max={hpPercentLostTotalMax} percent />
-        <FormSlider name='e4MaxHpIncreaseStacks' text='E4 max HP stacks' min={0} max={2} disabled={e < 4}/>
+        <FormSlider name='e4MaxHpIncreaseStacks' text='E4 max HP stacks' min={0} max={2} disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -2433,9 +2292,6 @@ function blade(e) {
       x.FUA_BOOST += 0.20
 
       return x
-    },
-    calculatePassives: (c, request) => {
-
     },
     calculateBaseMultis: (c, request) => {
       let r = request.characterConditionals
@@ -2464,8 +2320,6 @@ function blade(e) {
 }
 
 function bailu(e) {
-  let value = (e >= 0) ? -1 : -1
-
   let basicScaling = basic(e, 1.0, 1.1)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
@@ -2473,10 +2327,10 @@ function bailu(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='healingMaxHpBuff' text='Healing max HP buff'/>
-        <FormSwitch name='talentDmgReductionBuff' text='Talent dmg reduced'/>
-        <FormSwitch name='e2UltHealingBuff' text='E2 ult heal buff' disabled={e < 2}/>
-        <FormSlider name='e4SkillHealingDmgBuffStacks' text='E4 dmg buff stacks' min={0} max={3} disabled={e < 4}/>
+        <FormSwitch name='healingMaxHpBuff' text='Healing max HP buff' />
+        <FormSwitch name='talentDmgReductionBuff' text='Talent dmg reduced' />
+        <FormSwitch name='e2UltHealingBuff' text='E2 ult heal buff' disabled={e < 2} />
+        <FormSlider name='e4SkillHealingDmgBuffStacks' text='E4 dmg buff stacks' min={0} max={3} disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -2504,10 +2358,7 @@ function bailu(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2534,7 +2385,7 @@ function asta(e) {
       <Flex vertical gap={10} >
         <FormSlider name='skillExtraDmgHits' text='Skill extra hits' min={0} max={skillExtraDmgHitsMax} />
         <FormSlider name='talentBuffStacks' text='Talent ATK buff stacks' min={0} max={5} />
-        <FormSwitch name='ultSpdBuff' text='Ult SPD buff active'/>
+        <FormSwitch name='ultSpdBuff' text='Ult SPD buff active' />
       </Flex>
     ),
     defaults: () => ({
@@ -2563,10 +2414,7 @@ function asta(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2611,10 +2459,7 @@ function arlan(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2638,10 +2483,10 @@ function argenti(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='ultEnhanced' text='Enhanced ult'/>
+        <FormSwitch name='ultEnhanced' text='Enhanced ult' />
         <FormSlider name='talentStacks' text='Talent stacks' min={0} max={talentMaxStacks} />
         <FormSlider name='ultEnhancedExtraHits' text='Ult extra hits' min={0} max={6} />
-        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2}/>
+        <FormSwitch name='e2UltAtkBuff' text='E2 ult ATK buff' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2675,10 +2520,7 @@ function argenti(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2702,10 +2544,10 @@ function jingliu(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentEnhancedState' text='Enhanced state'/>
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent/>
-        <FormSwitch name='e1CdBuff' text='E1 ult active' disabled={e < 1}/>
-        <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' disabled={e < 2}/>
+        <FormSwitch name='talentEnhancedState' text='Enhanced state' />
+        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
+        <FormSwitch name='e1CdBuff' text='E1 ult active' disabled={e < 1} />
+        <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2719,16 +2561,16 @@ function jingliu(e) {
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
-      x[Stats.CR]    += (r.talentEnhancedState) ? talentCrBuff : 0
+      x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
       x[Stats.ATK_P] += (r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0
 
       // Traces
-      x[Stats.RES]   += (r.talentEnhancedState) ? 0.35 : 0
-      x.ULT_BOOST    += (r.talentEnhancedState) ? 0.20 : 0
+      x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
+      x.ULT_BOOST += (r.talentEnhancedState) ? 0.20 : 0
 
       // Eidolons
-      x[Stats.CD]    += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
-      x[Stats.CD]    += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
+      x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
+      x[Stats.CD] += (e >= 6 && r.talentEnhancedState) ? 0.50 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -2746,10 +2588,7 @@ function jingliu(e) {
 
       return x
     },
-    calculatePassives: (c, request) => {
-
-    },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c) => {
       let x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -2773,10 +2612,6 @@ let basic = ult
 
 function p4(set) {
   return set >> 2
-}
-
-function p2(set) {
-  return Math.min(1, set >> 1)
 }
 
 export const CharacterConditionals = {

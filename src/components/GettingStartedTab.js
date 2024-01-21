@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme, Divider } from 'antd';
-import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
+import React from 'react';
+import { Button, Divider, Flex, Popconfirm, Typography } from 'antd';
 import { Message } from '../lib/message';
 
 import sampleSave from '../data/sample-save.json';
+import DB from "../lib/db";
+import PropTypes from "prop-types";
+import { Assets } from "../lib/assets";
 
 const { Text } = Typography;
 
@@ -54,7 +55,7 @@ export default function GettingStartedTab(props) {
           </h2>
 
           <p>
-            The optimizer needs a dataset of relics to run against.
+            The optimizer needs a database of relics to run against.
             Currently there are 2 supported OCR relic scanners:
           </p>
 
@@ -260,3 +261,6 @@ export default function GettingStartedTab(props) {
     </div>
   );
 }
+GettingStartedTab.propTypes = {
+  active: PropTypes.bool,
+};

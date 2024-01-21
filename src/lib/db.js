@@ -1,17 +1,21 @@
 import { OptimizerTabController } from "./optimizerTabController"
 import { RelicAugmenter } from "./relicAugmenter"
 import * as objectHash from 'object-hash'
+import { create } from 'zustand'
+import { Constants } from './constants.ts';
+import { getDefaultForm } from './defaultForm';
+import { Utils } from "./utils";
+import { SaveState } from "./saveState";
+import { Message } from "./message";
 
 let state = {
   relics: [],
   characters: [],
   metadata: {},
   relicsById: {},
-  scorerId: undefined
+  scorerId: undefined,
+  selectedOptimizerCharacter: undefined
 }
-import { create } from 'zustand'
-import {Constants} from './constants';
-import {getDefaultForm} from './defaultForm';
 
 // TODO clean up
 let hashes = [
@@ -85,6 +89,9 @@ window.store = create((set) => ({
   selectedScoringCharacter: undefined,
   setSelectedScoringCharacter: (x) => set(() => ({ selectedScoringCharacter: x })),
 
+  selectedOptimizerCharacter: undefined,
+  setSelectedOptimizerCharacter: char => set(() => ({ selectedOptimizerCharacter: char })),
+
   relicTabFilters: {
     set: [],
     part: [],
@@ -93,14 +100,15 @@ window.store = create((set) => ({
     subStats: [],
   },
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
 }))
 
 export const DB = {
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 
-  getCharacters: () => store.getState().characters,
-  getCharacterById: (id) => store.getState().charactersById[id],
+  getCharacters: () => global.store.getState().characters,
+  getCharacterById: (id) => global.store.getState().charactersById[id],
 
   setCharacters: (x) => {
     let charactersById = {}
@@ -109,14 +117,14 @@ export const DB = {
     }
 
     assignRanks(x)
-    store.getState().setCharacters(x)
-    store.getState().setCharactersById(charactersById)
+    global.store.getState().setCharacters(x)
+    global.store.getState().setCharactersById(charactersById)
   },
   setCharacter: (x) => {
-    let charactersById = store.getState().charactersById
+    let charactersById = global.store.getState().charactersById
     charactersById[x.id] = x
 
-    store.getState().setCharactersById(charactersById)
+    global.store.getState().setCharactersById(charactersById)
   },
   addCharacter: (x) => {
     let characters = DB.getCharacters()
@@ -137,44 +145,44 @@ export const DB = {
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {
-      setCharacterRows(DB.getCharacters())
+      global.setCharacterRows(DB.getCharacters())
     }
   },
 
-  getRelics: () => Object.values(store.getState().relicsById),
-  getRelicsById: () => store.getState().relicsById,
+  getRelics: () => Object.values(global.store.getState().relicsById),
+  getRelicsById: () => global.store.getState().relicsById,
   setRelics: (x) => {
     let relicsById = {}
     for (let relic of x) {
-      relicsById[relic.id] = relic 
+      relicsById[relic.id] = relic
     }
-    store.getState().setRelicsById(relicsById)
+    global.store.getState().setRelicsById(relicsById)
   },
-  getRelicById: (id) => store.getState().relicsById[id],
+  getRelicById: (id) => global.store.getState().relicsById[id],
   setRelic: (relic) => {
     if (!relic.id) return console.warn('No matching relic', relic)
-    let relicsById = store.getState().relicsById
+    let relicsById = global.store.getState().relicsById
     relicsById[relic.id] = relic
-    store.getState().setRelicsById(relicsById)
+    global.store.getState().setRelicsById(relicsById)
   },
 
   refreshRelics: () => {
-    if (window.setRelicRows) setRelicRows(DB.getRelics())
+    if (window.setRelicRows) global.setRelicRows(DB.getRelics())
   },
 
   // Mostly for debugging
-  getState: () => store.getState(),
+  getState: () => global.store.getState(),
 
   getScoringMetadata: (id) => {
     let defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
-    let scoringMetadataOverrides = store.getState().scoringMetadataOverrides[id]
+    let scoringMetadataOverrides = global.store.getState().scoringMetadataOverrides[id]
 
     return scoringMetadataOverrides || defaultScoringMetadata
   },
   updateCharacterScoreOverrides: (id, updated) => {
-    let overrides = store.getState().scoringMetadataOverrides
+    let overrides = global.store.getState().scoringMetadataOverrides
     overrides[id] = updated
-    store.getState().setScoringMetadataOverrides(overrides)
+    global.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.save()
   },
@@ -197,8 +205,8 @@ export const DB = {
       }
     }
 
-    store.getState().setScorerId(x.scorerId)
-    store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
+    global.store.getState().setScorerId(x.scorerId)
+    global.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -229,13 +237,13 @@ export const DB = {
 
       DB.addCharacter({
         id: form.characterId,
-        form: {...defaultForm, ...form},
+        form: { ...defaultForm, ...form },
         equipped: {}
       })
     }
 
     console.log('Updated db characters', characters)
-    characterGrid.current.api.updateGridOptions({ rowData: characters })
+    global.characterGrid.current.api.updateGridOptions({ rowData: characters })
   },
 
   unequipCharacter: (id) => {
@@ -293,13 +301,23 @@ export const DB = {
     let prevOwnerId = relic.equippedBy;
     let character = DB.getCharacters().find(x => x.id == characterId)
     let prevCharacter = DB.getCharacters().find(x => x.id == prevOwnerId)
-    let prevRelic = character.equipped[relic.part]
-    DB.unequipRelicById(prevRelic)
+    let prevRelic = DB.getRelicById(character.equipped[relic.part])
 
-    if (prevCharacter) {
+    if (prevRelic) {
+      DB.unequipRelicById(prevRelic.id)
+    }
+
+    if (prevRelic && prevCharacter) {
+      prevCharacter.equipped[relic.part] = prevRelic.id
+      prevRelic.equippedBy = prevCharacter.id
+      DB.setCharacter(prevCharacter)
+      DB.setRelic(prevRelic)
+    }
+    else if (prevCharacter) {
       prevCharacter.equipped[relic.part] = undefined
       DB.setCharacter(prevCharacter)
     }
+
     character.equipped[relic.part] = relic.id
     relic.equippedBy = character.id
     DB.setCharacter(character)
@@ -318,10 +336,10 @@ export const DB = {
   deleteRelic: (id) => {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
-    let relicsById = store.getState().relicsById
+    let relicsById = global.store.getState().relicsById
     delete relicsById[id]
-    store.getState().setRelicsById(relicsById)
-    characterGrid.current.api.redrawRows()
+    global.store.getState().setRelicsById(relicsById)
+    global.characterGrid.current.api.redrawRows()
   },
 
   // These relics are missing speed decimals from OCR importer
@@ -412,11 +430,11 @@ export const DB = {
 
     global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
 
-    characterGrid.current.api.redrawRows()
+    global.characterGrid.current.api.redrawRows()
 
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
-    onOptimizerFormValuesChange({}, fieldValues);
+    global.onOptimizerFormValuesChange({}, fieldValues);
   },
 
   // These relics have accurate speed values from relic scorer import
@@ -465,7 +483,7 @@ export const DB = {
 
         if (exit) continue
 
-        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance/3)*3 - Math.floor(partialMatch.enhance/3)*3)/3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
         if (upgrades > possibleUpgrades) continue
 
         // If it passes all the tests, keep it
@@ -494,14 +512,14 @@ export const DB = {
     oldRelics.map(x => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
     DB.refreshRelics()
-    characterGrid.current.api.redrawRows()
+    global.characterGrid.current.api.redrawRows()
 
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
 
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
-    onOptimizerFormValuesChange({}, fieldValues);
+    global.onOptimizerFormValuesChange({}, fieldValues);
   },
 }
 
@@ -539,8 +557,7 @@ function hashRelic(relic) {
     substatValues: substatValues, // Match to 1 decimal point
     substatStats: substatStats,
   }
-  let hash = objectHash(hashObject)
-  return hash
+  return objectHash(hashObject)
 }
 
 // -1: old > new, 0: old == new, 1, new > old
@@ -573,6 +590,5 @@ function partialHashRelic(relic) {
     substatStats: relic.substats.slice(0, baseSubstatCount).map(x => x.stat)
   }
 
-  let hash = objectHash(hashObject)
-  return hash
+  return objectHash(hashObject)
 }

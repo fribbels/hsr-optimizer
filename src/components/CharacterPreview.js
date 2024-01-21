@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Divider, Flex, Image, Skeleton, Typography } from "antd";
-import RelicPreview from "./RelicPreview";
-import styled from "styled-components";
+import React from 'react';
+import { Divider, Flex, Image, Typography } from 'antd';
+import RelicPreview from './RelicPreview';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { RelicScorer } from '../lib/relicScorer.ts';
+import { StatCalculator } from '../lib/statCalculator';
+import { DB } from '../lib/db';
+import { Assets } from '../lib/assets';
+import { Utils } from '../lib/utils';
+import { Constants } from '../lib/constants.ts';
 
 const { Text } = Typography;
 
@@ -24,12 +31,12 @@ let middleColumnWidth = 240;
 export function CharacterPreview(props) {
   console.log('CharacterPreview', props)
 
-  let relicsById = store(s => s.relicsById)
-  let characterTabBlur = store(s => s.characterTabBlur);
-  let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
-  let isScorer = props.source == 'scorer'
+  const { source, character } = props;
 
-  let character = props.character
+  let relicsById = global.store(s => s.relicsById)
+  let characterTabBlur = global.store(s => s.characterTabBlur);
+  let setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
+  let isScorer = source == 'scorer'
 
   if (!character) {
     return (
@@ -124,24 +131,8 @@ export function CharacterPreview(props) {
 
   let iconSize = 25
 
-  function SetRow() {
-    return (
-      <Flex justify='space-between' align='center'>
-        <img src={Assets.getInventory()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatText>Sets</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-          <img src={Assets.getSetImage(Constants.Sets.MusketeerOfWildWheat, Constants.Parts.Head)} style={{ width: iconSize, height: iconSize }}/>
-        </StatText>
-      </Flex>
-    )
-  }
-
   function StatRow(props) {
-    // console.log('StatRow', props)
-    let stat = props.stat
+    const { stat } = props
     let readableStat = stat.replace('DMG Boost', 'DMG')
     let value = finalStats[stat]
 
@@ -158,19 +149,22 @@ export function CharacterPreview(props) {
     if (!finalStats) return console.log('No final stats');
     return (
       <Flex justify='space-between' align='center'>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <StatText>{readableStat}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
         <StatText>{`${value}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
       </Flex>
     )
   }
+  StatRow.propTypes = {
+    stat: PropTypes.string,
+  };
 
   function Rarity() {
     let children = []
     for (let i = 0; i < characterMetadata.rarity; i++) {
       children.push(
-        <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }}/>
+        <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }} />
       )
     }
     return (
@@ -183,17 +177,17 @@ export function CharacterPreview(props) {
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
-        <div 
-          style={{ 
-            position: 'relative', 
+        <div
+          style={{
+            position: 'relative',
           }}
         >
-          <img 
-            src={Assets.getCharacterPortraitById(character.id)} 
+          <img
+            src={Assets.getCharacterPortraitById(character.id)}
             style={{
               position: 'absolute',
               left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-              top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2, 
+              top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
               width: innerW,
               filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
             }}
@@ -261,10 +255,10 @@ export function CharacterPreview(props) {
           <div style={{ width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
             <img
               src={lightConeSrc}
-              style={{ 
-                width: lcInnerW, 
+              style={{
+                width: lcInnerW,
                 transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '' 
+                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
               }}
             />
           </div>
@@ -279,9 +273,13 @@ export function CharacterPreview(props) {
         <Flex vertical gap={defaultGap}>
           <RelicPreview relic={displayRelics.Hands} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
           <RelicPreview relic={displayRelics.Feet} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
-          <RelicPreview relic={displayRelics.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}/>
+          <RelicPreview relic={displayRelics.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)} />
         </Flex>
       </Flex>
     </Flex>
   )
 }
+CharacterPreview.propTypes = {
+  source: PropTypes.string,
+  character: PropTypes.object
+};

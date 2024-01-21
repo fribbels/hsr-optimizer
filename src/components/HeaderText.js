@@ -1,7 +1,6 @@
-import {
-  Typography,
-} from 'antd';
+import { Typography, } from 'antd';
 import styled from 'styled-components';
+
 const { Text } = Typography;
 
 export const HeaderText = styled(Text)`

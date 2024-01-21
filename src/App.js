@@ -1,15 +1,10 @@
-import logo from './logo.svg';
-
-import React, {useEffect} from "react"
-import { Breadcrumb, Layout, Menu, theme, notification, Typography, message, Flex } from 'antd';
+import React, { useEffect } from "react"
+import { ConfigProvider, Flex, Layout, message, notification, theme, Typography } from 'antd';
 import MenuDrawer from './components/MenuDrawer'
 import Tabs from './components/Tabs'
+import { Assets } from "./lib/assets";
 
-import {
-  ConfigProvider,
-} from 'antd';
-
-const { Header, Sider, Content, Footer } = Layout;
+const { Header, Sider, Content } = Layout;
 
 let hashes = [
   '#scorer',
@@ -20,11 +15,6 @@ let hashes = [
 const App = () => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
-  // const [activeKey, setActiveKey] = React.useState(hashes.includes(window.location.hash) ? window.location.hash : 'optimizer');
-
-
-  const activeKey = store(s => s.activeKey)
-  const setActiveKey = store(s => s.setActiveKey)
 
   window.notificationApi = notificationApi
   window.messageApi = messageApi
@@ -106,7 +96,7 @@ const App = () => {
                   </Flex>
                 </a>
 
-                <a href="https://discord.gg/rDmB4Un7qg" target="_blank">
+                <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
                   <Flex>
                     <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
                   </Flex>

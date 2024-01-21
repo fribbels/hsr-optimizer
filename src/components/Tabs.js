@@ -17,7 +17,7 @@ let defaultError = () => {
   )
 }
 const Tabs = () => {
-  const activeKey = store(s => s.activeKey)
+  const activeKey = global.store(s => s.activeKey)
 
   let optimizerActive = activeKey == 'optimizer'
   let charactersActive = activeKey == 'characters'

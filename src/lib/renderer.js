@@ -1,6 +1,10 @@
-import {Flex, Image, Tag, Tooltip,} from 'antd';
-import {CheckCircleFilled} from "@ant-design/icons";
+import { Flex, Image, Tooltip, } from 'antd';
+import { CheckCircleFilled } from "@ant-design/icons";
 import * as React from "react";
+import { Constants } from "./constants.ts";
+import { Assets } from "./assets";
+import { Utils } from "./utils";
+import PropTypes from "prop-types";
 
 export const Renderer = {
   floor: (x) => {
@@ -11,6 +15,11 @@ export const Renderer = {
   x100Tenths: (x) => {
     if (x == undefined || x.value == undefined) return '';
     return (x.value * 100).toFixed(1)
+  },
+
+  tenths: (x) => {
+    if (x == undefined || x.value == undefined) return '';
+    return (x.value).toFixed(1)
   },
 
   relicSet: (x) => {
@@ -41,7 +50,7 @@ export const Renderer = {
     }
 
     return (
-      <Flex justify='center' style={{marginTop: -1}}>
+      <Flex justify='center' style={{ marginTop: -1 }}>
         <SetDisplay asset={setImages[0]} />
         <SetDisplay asset={setImages[1]} />
       </Flex>
@@ -62,7 +71,7 @@ export const Renderer = {
       let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == s1)[0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
-        <Flex justify='center' style={{marginTop: -1}}>
+        <Flex justify='center' style={{ marginTop: -1 }}>
           <SetDisplay asset={setImage} />
         </Flex>
       )
@@ -74,10 +83,10 @@ export const Renderer = {
   anySet: (x) => {
     if (x == undefined || x.value == undefined) return '';
     let part = x.data.part
-  
+
     let src = Assets.getSetImage(x.data.set, part)
     return (
-      <Flex justify='center' title={x.data.set} style={{marginTop: -1}}>
+      <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
       </Flex>
     )
@@ -135,7 +144,7 @@ export const Renderer = {
   },
 
   hideNaNAndRound: (x) => {
-    return isNaN(x.value) ? '' :  Math.round(x.value)
+    return isNaN(x.value) ? '' : Math.round(x.value)
   },
 
   renderSubstatNumber: (substat, relic) => {
@@ -149,7 +158,7 @@ export const Renderer = {
     return Utils.isFlat(substat.stat) ? Math.floor(substat.value) : Utils.truncate10ths(substat.value).toFixed(1)
   },
 
-  renderMainStatNumber: (mainstat, relic) => {
+  renderMainStatNumber: (mainstat) => {
     return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
   },
 
@@ -162,8 +171,8 @@ export const Renderer = {
     return (
       relic.verified
         ?
-        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{fontSize: '14px', color: color}}/></Tooltip>
-        : <div style={{width: 14, height: 14, borderRadius: '50%', background: color}}/>
+        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
+        : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
     )
   },
 }
@@ -185,24 +194,6 @@ function SetDisplay(props) {
     return ''
   }
 }
-
-// For displaying stats from selectors, unused
-function statTagRenderer(props) {
-  const { label, value, closable, onClose } = props;
-  const onPreventMouseDown = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{display: 'flex', flexDirection: 'row', paddingInline: '3px', marginInlineEnd: '4px'}}
-    >
-      <Flex>
-        <img src={Assets.getStatIcon(value)} style={{width: 22, height: 22}}></img>
-      </Flex>
-    </Tag>
-  );
+SetDisplay.propTypes = {
+  asset: PropTypes.string,
 }

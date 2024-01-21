@@ -1,28 +1,27 @@
-import {Button, Flex, Select, Space, Tooltip, Typography} from "antd";
-import React, {useMemo, useState} from "react";
-import {RelicScorer} from "../lib/relicScorer";
+import { Button, Flex, Select, Tooltip, Typography } from "antd";
+import React, { useMemo, useState } from "react";
+import { RelicScorer } from "../lib/relicScorer.ts";
 import CheckableTag from "antd/lib/tag/CheckableTag";
-import {HeaderText} from "./HeaderText";
+import { HeaderText } from "./HeaderText";
+import DB from "../lib/db";
+import { Utils } from "../lib/utils";
+import { Constants } from "../lib/constants.ts";
+import { Assets } from "../lib/assets";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
-let tagHeight = 34
+const tagHeight = 34
+const imgWidth = 34
 
-export default function RelicFilterBar(props) {
-  let setRelicTabFilters = store(s => s.setRelicTabFilters);
-  let setSelectedScoringCharacter = store(s => s.setSelectedScoringCharacter);
+export default function RelicFilterBar() {
+  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
+  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
 
   let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
   const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
-
-    for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
-    }
-
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
+    return Utils.generateCharacterOptions();
   }, []);
 
   function generateImageTags(arr, srcFn, tooltip) {
@@ -31,15 +30,15 @@ export default function RelicFilterBar(props) {
         key: x,
         display:
           tooltip ?
-          (
-            <Tooltip title={x} mouseEnterDelay={0.4}>
-              <img style={{width: tagHeight}} src={srcFn(x)}/>
-            </Tooltip>
-          )
-          :
-          (
-            <img style={{width: tagHeight}} src={srcFn(x)}/>
-          )
+            (
+              <Tooltip title={x} mouseEnterDelay={0.4}>
+                <img style={{ width: imgWidth }} src={srcFn(x)} />
+              </Tooltip>
+            )
+            :
+            (
+              <img style={{ width: imgWidth }} src={srcFn(x)} />
+            )
       }
     })
   }
@@ -48,8 +47,8 @@ export default function RelicFilterBar(props) {
       return {
         key: x[0],
         display: (
-          <Flex style={{width: width, height: tagHeight}} justify='space-around' align='center'>
-            <Text style={{fontSize: 18}}>
+          <Flex style={{ width: width, height: tagHeight }} justify='space-around' align='center'>
+            <Text style={{ fontSize: 18 }}>
               {x[1]}
             </Text>
           </Flex>
@@ -67,7 +66,7 @@ export default function RelicFilterBar(props) {
   function characterSelectorChange(id) {
     if (!id) return
 
-    let relics = Object.values(store.getState().relicsById)
+    let relics = Object.values(global.store.getState().relicsById)
     console.log('idChange', id)
 
     setSelectedScoringCharacter(id)
@@ -76,9 +75,9 @@ export default function RelicFilterBar(props) {
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
     let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
     let level80Stats = DB.getMetadata().characters[id].promotions[80]
-    scoringMetadata.stats[Constants.Stats.HP]  = scoringMetadata.stats[Constants.Stats.HP_P]   * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P]  * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P]  * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
     for (let relic of relics) {
       let scoringResult = RelicScorer.score(relic, id)
@@ -128,16 +127,16 @@ export default function RelicFilterBar(props) {
 
     DB.setRelics(relics)
 
-    relicsGrid.current.api.applyColumnState({
+    global.relicsGrid.current.api.applyColumnState({
       defaultState: { sort: null },
     });
 
-    relicsGrid.current.api.applyColumnState({
+    global.relicsGrid.current.api.applyColumnState({
       state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
       defaultState: { sort: null },
     });
 
-    relicsGrid.current.api.redrawRows()
+    global.relicsGrid.current.api.redrawRows()
   }
 
   function clearClicked() {
@@ -151,7 +150,7 @@ export default function RelicFilterBar(props) {
   }
 
   function scoringClicked() {
-    setIsScoringModalOpen(true)
+    global.setIsScoringModalOpen(true)
   }
 
   function rescoreClicked() {
@@ -169,25 +168,25 @@ export default function RelicFilterBar(props) {
               filterOption={Utils.characterNameFilterOption}
               onChange={characterSelectorChange}
               options={characterOptions}
-              style={{flex: 1}}
+              style={{ flex: 1 }}
             />
             <Button
               onClick={rescoreClicked}
-              style={{flex: 1, padding: '0px'}}
+              style={{ flex: 1, padding: '0px' }}
             >
               Reapply scores
             </Button>
             <Button
               onClick={scoringClicked}
-              style={{flex: 1, padding: '0px'}}
+              style={{ flex: 1, padding: '0px' }}
             >
               Scoring algorithm
             </Button>
           </Flex>
         </Flex>
-        <Flex vertical style={{height: '100%'}} flex={1}>
+        <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Filter actions</HeaderText>
-          <Button  onClick={clearClicked}>
+          <Button onClick={clearClicked}>
             Clear filters
           </Button>
         </Flex>
@@ -196,17 +195,17 @@ export default function RelicFilterBar(props) {
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
-          <FilterRow name='part' tags={partsData} flexBasis='15%'/>
+          <FilterRow name='part' tags={partsData} flexBasis='15%' />
         </Flex>
-        <Flex vertical style={{height: '100%'}} flex={1}>
+        <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Enhance</HeaderText>
-          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
+          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%' />
         </Flex>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis='6.25%'/>
+        <FilterRow name='set' tags={setsData} flexBasis='6.25%' />
       </Flex>
 
       <Flex vertical>
@@ -223,8 +222,8 @@ export default function RelicFilterBar(props) {
 }
 
 function FilterRow(props) {
-  let relicTabFilters = store(s => s.relicTabFilters);
-  let setRelicTabFilters = store(s => s.setRelicTabFilters);
+  let relicTabFilters = global.store(s => s.relicTabFilters);
+  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
 
   let selectedTags = relicTabFilters[props.name]
 
@@ -246,7 +245,7 @@ function FilterRow(props) {
         flexWrap: 'wrap',
         flexGrow: 1,
         backgroundColor: '#243356',
-        boxShadow:'0px 0px 0px 1px #3F5A96 inset',
+        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
         borderRadius: 6,
         overflow: 'hidden'
       }}
@@ -262,7 +261,7 @@ function FilterRow(props) {
             boxShadow: '1px 1px 0px 0px #3F5A96'
           }}
         >
-          <Flex align='center' justify='space-around' style={{height: '100%'}}>
+          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
             {tag.display}
           </Flex>
         </CheckableTag>
@@ -270,3 +269,10 @@ function FilterRow(props) {
     </Flex>
   )
 }
+FilterRow.propTypes = {
+  name: PropTypes.string,
+  tags: PropTypes.array,
+  flexBasis: PropTypes.string,
+}
+
+

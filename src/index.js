@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from "react-error-boundary";
-import './index.css';
+import './style/style.css';
 import App from './App';
 
 import { WorkerPool } from './lib/workerPool';
-import { Constants } from './lib/constants'
+import { Constants } from './lib/constants.ts'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from './lib/ocrParserKelz3';
 import { DataParser } from './lib/dataParser'
@@ -24,12 +24,13 @@ import { Renderer } from "./lib/renderer";
 import { Message } from "./lib/message";
 import { Hint } from "./lib/hint";
 import { CharacterConverter } from "./lib/characterConverter";
-import { RelicScorer } from './lib/relicScorer';
+import { RelicScorer } from './lib/relicScorer.ts';
 import { CharacterConditionals } from './lib/characterConditionals';
 import { LightConeConditionals } from './lib/lightConeConditionals';
 import { BufferPacker } from './lib/bufferPacker';
 import { Typography } from 'antd';
 import { RelicRollFixer } from "./lib/relicRollFixer";
+
 window.WorkerPool = WorkerPool;
 window.Constants = Constants;
 window.OcrParserFribbels1 = OcrParserFribbels1;
@@ -59,14 +60,12 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse());
 SaveState.load()
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function () {
   const root = ReactDOM.createRoot(document.getElementById('root'));
 
   root.render(
-    // <React.StrictMode>
-      <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
-        <App />
-      </ErrorBoundary>
-    // </React.StrictMode>
+    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
+      <App />
+    </ErrorBoundary>
   );
 });

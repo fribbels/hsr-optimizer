@@ -1,3 +1,5 @@
+import { BufferPacker } from "./bufferPacker";
+
 let poolSize = (navigator.hardwareConcurrency || 4) - 1
 let initialized = 0
 console.log('Using pool size ' + poolSize)

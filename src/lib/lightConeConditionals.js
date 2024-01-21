@@ -1,17 +1,14 @@
-import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
-import React, {useState} from "react";
-import styled from "styled-components";
-import {HeaderText} from "../components/HeaderText";
-import { Constants } from './constants'
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
-import {FormSlider, FormSwitch} from "../components/optimizerTab/FormConditionalInputs";
-import {TooltipImage} from "../components/TooltipImage";
+/* eslint-disable no-unused-vars  */
+
+import { Flex } from "antd";
+import React from "react";
+import { HeaderText } from "../components/HeaderText";
+import { Constants } from './constants.ts'
+import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "../components/TooltipImage";
+import { Hint } from "./hint";
 
 let Stats = Constants.Stats
-function precisionRound(number, precision = 8) {
-  let factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-}
 
 let defaultGap = 5
 
@@ -105,13 +102,12 @@ function BaptismOfPureThought(s) {
   let sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
   let sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
   let sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc/>
-        <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc/>
+        <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc />
+        <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -125,19 +121,18 @@ function BaptismOfPureThought(s) {
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
       x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function PastSelfInMirror(s) {
-  let sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
+  const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltDmgBuff' text='Post ult dmg buff' lc/>
+        <FormSwitch name='postUltDmgBuff' text='Post ult dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -148,19 +143,18 @@ function PastSelfInMirror(s) {
 
       x.ELEMENTAL_DMG += (r.postUltDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SolitaryHealing(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltDotDmgBuff' text='Post ult dot dmg buff' lc/>
+        <FormSwitch name='postUltDotDmgBuff' text='Post ult dot dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -171,19 +165,18 @@ function SolitaryHealing(s) {
 
       x.DOT_BOOST += r.postUltDotDmgBuff ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TextureOfMemories(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='activeShieldDmgDecrease' text='Active shield dmg decrease' lc/>
+        <FormSwitch name='activeShieldDmgDecrease' text='Active shield dmg decrease' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -194,21 +187,20 @@ function TextureOfMemories(s) {
 
       x.DMG_RED_MULTI += (r.activeShieldDmgDecrease) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function CruisingInTheStellarSea(s) {
   let sValuesCr = [0.08, 0.10, 0.12, 0.14, 0.16]
   let sValuesAtk = [0.20, 0.25, 0.30, 0.35, 0.40]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHp50CrBoost' text='Enemy HP <= 50% cr boost' lc/>
-        <FormSwitch name='enemyDefeatedAtkBuff' text='Enemy defeated atk buff' lc/>
+        <FormSwitch name='enemyHp50CrBoost' text='Enemy HP <= 50% cr boost' lc />
+        <FormSwitch name='enemyDefeatedAtkBuff' text='Enemy defeated atk buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -221,21 +213,20 @@ function CruisingInTheStellarSea(s) {
       x[Stats.CR] += (r.enemyHp50CrBoost && request.enemyHpPercent <= 0.50) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function OnTheFallOfAnAeon(s) {
   let sValuesAtkStacks = [0.08, 0.10, 0.12, 0.14, 0.16]
   let sValuesDmgBuff = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='atkBoostStacks' text='Atk boost stacks' min={0} max={4} lc/>
-        <FormSwitch name='weaknessBreakDmgBuff' text='Weakness break dmg buff' lc/>
+        <FormSlider name='atkBoostStacks' text='Atk boost stacks' min={0} max={4} lc />
+        <FormSwitch name='weaknessBreakDmgBuff' text='Weakness break dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -248,19 +239,18 @@ function OnTheFallOfAnAeon(s) {
       x[Stats.ATK_P] += r.atkBoostStacks * sValuesAtkStacks[s]
       x.ELEMENTAL_DMG += (r.weaknessBreakDmgBuff) ? sValuesDmgBuff[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function AnInstantBeforeAGaze(s) {
-  let sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
-  s = s - 1
+  const sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='maxEnergyUltDmgStacks' text='Max energy' min={0} max={180} lc/>
+        <FormSlider name='maxEnergyUltDmgStacks' text='Max energy' min={0} max={180} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -271,19 +261,18 @@ function AnInstantBeforeAGaze(s) {
 
       x.ULT_BOOST += r.maxEnergyUltDmgStacks * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function NightOfFright(s) {
-  let sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
-  s = s - 1
+  const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='atkBuffStacks' text="Atk buff stacks" min={0} max={5} lc/>
+        <FormSlider name='atkBuffStacks' text="Atk buff stacks" min={0} max={5} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -294,21 +283,20 @@ function NightOfFright(s) {
 
       x[Stats.ATK_P] += r.atkBuffStacks * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function WorrisomeBlissful(s) {
   let sValuesFuaDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
   let sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc/>
-        <FormSlider name='targetTameStacks' text="Target tame stacks" min={0} max={2} lc/>
+        <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc />
+        <FormSlider name='targetTameStacks' text="Target tame stacks" min={0} max={2} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -321,20 +309,19 @@ function WorrisomeBlissful(s) {
       x[Stats.CD] += r.targetTameStacks * sValuesCd[s]
       x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function BrighterThanTheSun(s) {
   let sValuesAtk = [0.18, 0.21, 0.24, 0.27, 0.30]
   let sValuesErr = [0.06, 0.07, 0.08, 0.09, 0.10]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='dragonsCallStacks' text="Dragon's call stacks" min={0} max={2} lc/>
+        <FormSlider name='dragonsCallStacks' text="Dragon's call stacks" min={0} max={2} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -346,21 +333,20 @@ function BrighterThanTheSun(s) {
       x[Stats.ATK_P] += r.dragonsCallStacks * sValuesAtk[s]
       x[Stats.ERR] += r.dragonsCallStacks * sValuesErr[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function IShallBeMyOwnSword(s) {
   let sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
   let sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc/>
-        <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc/>
+        <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc />
+        <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -373,40 +359,38 @@ function IShallBeMyOwnSword(s) {
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function TimeWaitsForNoOne(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function TimeWaitsForNoOne(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='healingBasedDmgProc' text='Healing based dmg proc (not implemented)' lc/>
+        <FormSwitch name='healingBasedDmgProc' text='Healing based dmg proc (not implemented)' lc />
       </Flex>
     ),
     defaults: () => ({
       healingBasedDmgProc: false,
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SleepLikeTheDead(s) {
-  let sValues = [0.36, 0.42, 0.48, 0.54, 0.60]
-  s = s - 1
+  const sValues = [0.36, 0.42, 0.48, 0.54, 0.60]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='missedCritCrBuff' text='Missed crit cr buff' lc/>
+        <FormSwitch name='missedCritCrBuff' text='Missed crit cr buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -417,19 +401,18 @@ function SleepLikeTheDead(s) {
 
       x[Stats.CR] += (r.missedCritCrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SheAlreadyShutHerEyes(s) {
-  let sValues = [0.09, 0.105, 0.12, 0.135, 0.15]
-  s = s - 1
+  const sValues = [0.09, 0.105, 0.12, 0.135, 0.15]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='hpLostDmgBuff' text='Hp lost dmg buff' lc/>
+        <FormSwitch name='hpLostDmgBuff' text='Hp lost dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -440,21 +423,20 @@ function SheAlreadyShutHerEyes(s) {
 
       x.ELEMENTAL_DMG += (r.hpLostDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function BeforeDawn(s) {
   let sValuesSkillUltDmg = [0.18, 0.21, 0.24, 0.27, 0.30]
   let sValuesFuaDmg = [0.48, 0.56, 0.64, 0.72, 0.80]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='skillUltDmgBoost' text='Skill/ult dmg boost' lc/>
-        <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc/>
+        <FormSwitch name='skillUltDmgBoost' text='Skill/ult dmg boost' lc />
+        <FormSwitch name='fuaDmgBoost' text='Fua dmg boost' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -468,19 +450,18 @@ function BeforeDawn(s) {
       x.ULT_BOOST += (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0
       x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TheUnreachableSide(s) {
-  let sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
+  const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgBuff' text='Hp consumed or attacked dmg buff' lc/>
+        <FormSwitch name='dmgBuff' text='Hp consumed or attacked dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -491,19 +472,18 @@ function TheUnreachableSide(s) {
 
       x.ELEMENTAL_DMG += (r.dmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function EchoesOfTheCoffin(s) {
-  let sValues = [12, 14, 16, 18, 20]
-  s = s - 1
+  const sValues = [12, 14, 16, 18, 20]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltSpdBuff' text='Post ult spd buff' lc/>
+        <FormSwitch name='postUltSpdBuff' text='Post ult spd buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -514,21 +494,20 @@ function EchoesOfTheCoffin(s) {
 
       x[Stats.SPD] += (r.postUltSpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function IncessantRain(s) {
   let sValuesCr = [0.12, 0.14, 0.16, 0.18, 0.20]
   let sValuesDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemy3DebuffsCrBoost' text='Enemy <= 3 debuffs cr boost' lc/>
-        <FormSwitch name='targetCodeDebuff' text='Target code debuff' lc/>
+        <FormSwitch name='enemy3DebuffsCrBoost' text='Enemy <= 3 debuffs cr boost' lc />
+        <FormSwitch name='targetCodeDebuff' text='Target code debuff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -541,8 +520,8 @@ function IncessantRain(s) {
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
       x.ELEMENTAL_DMG += (r.targetCodeDebuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
@@ -550,14 +529,13 @@ function PatienceIsAllYouNeed(s) {
   let sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   let sValuesSpd = [0.048, 0.056, 0.064, 0.072, 0.08]
 
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgBoost' text='Dmg boost' lc/>
-        <FormSlider name='spdStacks' text='Spd stacks' min={0} max={3} lc/>
-        <FormSwitch name='dotEffect' text='Dot effect (not implemented)' lc/>
+        <FormSwitch name='dmgBoost' text='Dmg boost' lc />
+        <FormSlider name='spdStacks' text='Spd stacks' min={0} max={3} lc />
+        <FormSwitch name='dotEffect' text='Dot effect (not implemented)' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -571,19 +549,18 @@ function PatienceIsAllYouNeed(s) {
       x[Stats.SPD_P] += r.spdStacks * sValuesSpd[s]
       x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function MomentOfVictory(s) {
-  let sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
+  const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='selfAttackedDefBuff' text='Self attacked def buff' lc/>
+        <FormSwitch name='selfAttackedDefBuff' text='Self attacked def buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -594,20 +571,19 @@ function MomentOfVictory(s) {
 
       x[Stats.DEF_P] += (r.selfAttackedDefBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function InTheNameOfTheWorld(s) {
   let sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyDebuffedDmgBoost' text='Enemy debuffed dmg boost' lc/>
-        <FormSwitch name='skillAtkBoost' text='Skill atk boost (not implemented)' lc/>
+        <FormSwitch name='enemyDebuffedDmgBoost' text='Enemy debuffed dmg boost' lc />
+        <FormSwitch name='skillAtkBoost' text='Skill atk boost (not implemented)' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -619,20 +595,19 @@ function InTheNameOfTheWorld(s) {
 
       x.ELEMENTAL_DMG += (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function ButTheBattleIsntOver(s) {
   let sValuesErr = [0.10, 0.12, 0.14, 0.16, 0.18]
   let sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postSkillDmgBuff' text='Post skill dmg buff' lc/>
+        <FormSwitch name='postSkillDmgBuff' text='Post skill dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -644,19 +619,18 @@ function ButTheBattleIsntOver(s) {
       x[Stats.ERR] += sValuesErr[s]
       x.ELEMENTAL_DMG += (r.postSkillDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SomethingIrreplaceable(s) {
-  let sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
-  s = s - 1
+  const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgBuff' text='Enemy defeated or self hit dmg buff' lc/>
+        <FormSwitch name='dmgBuff' text='Enemy defeated or self hit dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -667,29 +641,28 @@ function SomethingIrreplaceable(s) {
 
       x.ELEMENTAL_DMG += (r.dmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function InTheNight(s) {
   let sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
   let sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='spdScalingBuffs' text='Speed scaling buffs enabled' lc/>
+        <FormSwitch name='spdScalingBuffs' text='Speed scaling buffs enabled' lc />
       </Flex>
     ),
     defaults: () => ({
       spdScalingBuffs: true,
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
+    calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (c, request) => {
       let r = request.lightConeConditionals
       let x = c.x
@@ -706,13 +679,12 @@ function InTheNight(s) {
 function NightOnTheMilkyWay(s) {
   let sValuesAtk = [0.09, 0.105, 0.12, 0.135, 0.15]
   let sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyCountAtkBuff' text='Enemy count atk buff' lc/>
-        <FormSwitch name='enemyWeaknessBreakDmgBuff' text='Enemy weakness break dmg buff' lc/>
+        <FormSwitch name='enemyCountAtkBuff' text='Enemy count atk buff' lc />
+        <FormSwitch name='enemyWeaknessBreakDmgBuff' text='Enemy weakness break dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -725,19 +697,18 @@ function NightOnTheMilkyWay(s) {
       x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? request.enemyCount * sValuesAtk[s] : 0
       x.ELEMENTAL_DMG += (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function HeyOverHere(s) {
-  let sValues = [0.16, 0.19, 0.22, 0.25, 0.28]
-  s = s - 1
+  const sValues = [0.16, 0.19, 0.22, 0.25, 0.28]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postSkillHealBuff' text='Post skill heal buff' lc/>
+        <FormSwitch name='postSkillHealBuff' text='Post skill heal buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -748,14 +719,13 @@ function HeyOverHere(s) {
 
       x[Stats.OHB] += (r.postSkillHealBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function BeforeTheTutorialMissionStarts(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function BeforeTheTutorialMissionStarts(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -764,22 +734,21 @@ function BeforeTheTutorialMissionStarts(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TodayIsAnotherPeacefulDay(s) {
-  let sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
-  s = s - 1
+  const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='maxEnergyStacks' text='Max energy' min={0} max={160} lc/>
+        <FormSlider name='maxEnergyStacks' text='Max energy' min={0} max={160} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -790,14 +759,13 @@ function TodayIsAnotherPeacefulDay(s) {
 
       x.ELEMENTAL_DMG += r.maxEnergyStacks * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function NowhereToRun(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function NowhereToRun(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -806,24 +774,23 @@ function NowhereToRun(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function CarveTheMoonWeaveTheClouds(s) {
   let sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
   let sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='atkBuffActive' text='Atk buff active' lc/>
-        <FormSwitch name='cdBuffActive' text='Cd buff active' lc/>
+        <FormSwitch name='atkBuffActive' text='Atk buff active' lc />
+        <FormSwitch name='cdBuffActive' text='Cd buff active' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -836,14 +803,13 @@ function CarveTheMoonWeaveTheClouds(s) {
       x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
       x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function ReturnToDarkness(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function ReturnToDarkness(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -852,34 +818,34 @@ function ReturnToDarkness(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function ThisIsMe(s) {
-  let sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
-  s = s - 1
+function ThisIsMe(/* s */) {
+  // const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defScalingUltDmg' text='Def scaling ult dmg (not implemented)' lc/>
+        <FormSwitch name='defScalingUltDmg' text='Def scaling ult dmg (not implemented)' lc />
       </Flex>
     ),
     defaults: () => ({
       defScalingUltDmg: false,
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
+    calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (c, request) => {
-      let r = request.lightConeConditionals
-      let x = c.x
+      console.warn('not implemented', c, request)
+      // let r = request.lightConeConditionals
+      // let x = c.x
 
       // x.ULT_DEF_SCALING += (r.defScalingUltDmg) ? sValues[s] : 0
     }
@@ -887,13 +853,12 @@ function ThisIsMe(s) {
 }
 
 function WeWillMeetAgain(s) {
-  let sValues = [0.48, 0.60, 0.72, 0.84, 0.96]
-  s = s - 1
+  const sValues = [0.48, 0.60, 0.72, 0.84, 0.96]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='extraDmgProc' text='Additional dmg proc' lc/>
+        <FormSwitch name='extraDmgProc' text='Additional dmg proc' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -905,14 +870,13 @@ function WeWillMeetAgain(s) {
       x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
       x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function WarmthShortensColdNights(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function WarmthShortensColdNights(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -921,24 +885,23 @@ function WarmthShortensColdNights(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TheSeriousnessOfBreakfast(s) {
   let sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   let sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgBoost' text='Dmg boost' lc/>
-        <FormSlider name='defeatedEnemyAtkStacks' text='Defeated enemy atk stacks' min={0} max={3} lc/>
+        <FormSwitch name='dmgBoost' text='Dmg boost' lc />
+        <FormSlider name='defeatedEnemyAtkStacks' text='Defeated enemy atk stacks' min={0} max={3} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -951,19 +914,18 @@ function TheSeriousnessOfBreakfast(s) {
       x[Stats.ATK_P] += r.defeatedEnemyAtkStacks * sValuesStacks[s]
       x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmgBoost[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function WoofWalkTime(s) {
-  let sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-  s = s - 1
+  const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyBurnedBleeding' text='Enemy burned / bleeding' lc/>
+        <FormSwitch name='enemyBurnedBleeding' text='Enemy burned / bleeding' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -974,14 +936,13 @@ function WoofWalkTime(s) {
 
       x.ELEMENTAL_DMG += (r.enemyBurnedBleeding) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function PastAndFuture(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function PastAndFuture(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -990,23 +951,22 @@ function PastAndFuture(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function RiverFlowsInSpring(s) {
   let sValuesSpd = [0.08, 0.09, 0.10, 0.11, 0.12]
   let sValuesDmg = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='spdDmgBuff' text='Spd / dmg buff active' lc/>
+        <FormSwitch name='spdDmgBuff' text='Spd / dmg buff active' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1018,19 +978,18 @@ function RiverFlowsInSpring(s) {
       x[Stats.SPD_P] += (r.spdDmgBuff) ? sValuesSpd[s] : 0
       x.ELEMENTAL_DMG += (r.spdDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function WeAreWildfire(s) {
-  let sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-  s = s - 1
+  const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='initialDmgReductionBuff' text='Initial dmg reduction buff' lc/>
+        <FormSwitch name='initialDmgReductionBuff' text='Initial dmg reduction buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1041,19 +1000,18 @@ function WeAreWildfire(s) {
 
       x.DMG_RED_MULTI += (r.initialDmgReductionBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Fermata(s) {
-  let sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-  s = s - 1
+  const sValues = [0.16, 0.20, 0.24, 0.28, 0.32];
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyShockWindShear' text='Enemy shocked / wind sheared' lc/>
+        <FormSwitch name='enemyShockWindShear' text='Enemy shocked / wind sheared' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1064,14 +1022,13 @@ function Fermata(s) {
 
       x.ELEMENTAL_DMG += (r.enemyShockWindShear) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function QuidProQuo(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function QuidProQuo(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1080,22 +1037,21 @@ function QuidProQuo(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function GeniusesRepose(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemyCdBuff' text='Defeated enemy cd buff' lc/>
+        <FormSwitch name='defeatedEnemyCdBuff' text='Defeated enemy cd buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1106,19 +1062,18 @@ function GeniusesRepose(s) {
 
       x[Stats.CD] += (r.defeatedEnemyCdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function UnderTheBlueSky(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemyCrBuff' text='Defeated enemy cr buff' lc/>
+        <FormSwitch name='defeatedEnemyCrBuff' text='Defeated enemy cr buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1129,14 +1084,13 @@ function UnderTheBlueSky(s) {
 
       x[Stats.CR] += (r.defeatedEnemyCrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function DanceDanceDance(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function DanceDanceDance(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1145,22 +1099,21 @@ function DanceDanceDance(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SubscribeForMore(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='maxEnergyDmgBoost' text='Max energy dmg boost' lc/>
+        <FormSwitch name='maxEnergyDmgBoost' text='Max energy dmg boost' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1174,14 +1127,13 @@ function SubscribeForMore(s) {
       x.BASIC_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
       x.SKILL_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function TrendOfTheUniversalMarket(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function TrendOfTheUniversalMarket(/* s */) {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1190,22 +1142,21 @@ function TrendOfTheUniversalMarket(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function ResolutionShinesAsPearlsOfSweat(s) {
-  let sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
-  s = s - 1
+  const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='targetEnsnared' text='Target ensnared' lc/>
+        <FormSwitch name='targetEnsnared' text='Target ensnared' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1216,29 +1167,28 @@ function ResolutionShinesAsPearlsOfSweat(s) {
 
       x.DEF_SHRED += (r.targetEnsnared) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function PerfectTiming(s) {
-  let sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
+  const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
   let sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='resToHealingBoost' text='Res to healing boost' lc/>
+        <FormSwitch name='resToHealingBoost' text='Res to healing boost' lc />
       </Flex>
     ),
     defaults: () => ({
       resToHealingBoost: true,
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
+    calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (c, request) => {
       let r = request.lightConeConditionals
       let x = c.x
@@ -1250,13 +1200,12 @@ function PerfectTiming(s) {
 }
 
 function MakeTheWorldClamor(s) {
-  let sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
-  s = s - 1
+  const sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc/>
+        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1267,19 +1216,18 @@ function MakeTheWorldClamor(s) {
 
       x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function ASecretVow(s) {
-  let sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-  s = s - 1
+  const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHpHigherDmgBoost' text='Enemy HP % higher dmg boost' lc/>
+        <FormSwitch name='enemyHpHigherDmgBoost' text='Enemy HP % higher dmg boost' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1291,19 +1239,18 @@ function ASecretVow(s) {
       x.ELEMENTAL_DMG += sValues[s]
       x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function PlanetaryRendezvous(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='alliesSameElement' text='Allies same element dmg boost' lc/>
+        <FormSwitch name='alliesSameElement' text='Allies same element dmg boost' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1314,19 +1261,18 @@ function PlanetaryRendezvous(s) {
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Swordplay(s) {
-  let sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-  s = s - 1
+  const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='sameTargetHitStacks' text='Same target hit stacks' min={0} max={5} lc/>
+        <FormSlider name='sameTargetHitStacks' text='Same target hit stacks' min={0} max={5} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1337,14 +1283,13 @@ function Swordplay(s) {
 
       x.ELEMENTAL_DMG += (r.sameTargetHitStacks) * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function LandausChoice(s) {
-  let sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
-  s = s - 1
+  const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
 
   return {
     display: () => (
@@ -1353,19 +1298,18 @@ function LandausChoice(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (x, /* request */) => {
+      // let r = request.lightConeConditionals
 
       x.DMG_RED_MULTI += sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function EyesOfThePrey(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
@@ -1374,19 +1318,18 @@ function EyesOfThePrey(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (x, /* request */) => {
+      // let r = request.lightConeConditionals
 
       x.DOT_BOOST += sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function SharedFeeling(s) {
-  let sValues = [0.10, 0.125, 0.15, 0.175, 0.20]
-  s = s - 1
+  const sValues = [0.10, 0.125, 0.15, 0.175, 0.20]
 
   return {
     display: () => (
@@ -1395,24 +1338,23 @@ function SharedFeeling(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (x, /* request */) => {
+      // let r = request.lightConeConditionals
 
       x[Stats.OHB] += sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TheBirthOfTheSelf(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHp50FuaBuff' text='Enemy HP < 50% fua buff' lc/>
+        <FormSwitch name='enemyHp50FuaBuff' text='Enemy HP < 50% fua buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1425,19 +1367,18 @@ function TheBirthOfTheSelf(s) {
       x.FUA_BOOST += sValues[s]
       x.FUA_BOOST += (r.enemyHp50FuaBuff && request.enemyHpPercent < 0.50) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function TheMolesWelcomeYou(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='atkBuffStacks' text='Atk buff stacks' min={0} max={3} lc/>
+        <FormSlider name='atkBuffStacks' text='Atk buff stacks' min={0} max={3} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1448,14 +1389,13 @@ function TheMolesWelcomeYou(s) {
 
       x[Stats.ATK_P] += (r.atkBuffStacks) * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function MemoriesOfThePast(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function MemoriesOfThePast() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1464,22 +1404,21 @@ function MemoriesOfThePast(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function OnlySilenceRemains(s) {
   let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemies2CrBuff' text='<= 2 enemies cr buff' lc/>
+        <FormSwitch name='enemies2CrBuff' text='<= 2 enemies cr buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1490,19 +1429,18 @@ function OnlySilenceRemains(s) {
 
       x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function DayOneOfMyNewLife(s) {
-  let sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
-  s = s - 1
+  const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgResBuff' text='Dmg RES buff' lc/>
+        <FormSwitch name='dmgResBuff' text='Dmg RES buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1513,19 +1451,18 @@ function DayOneOfMyNewLife(s) {
 
       x.DMG_RED_MULTI += (r.dmgResBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function GoodNightAndSleepWell(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSlider name='debuffStacksDmgIncrease' text='Debuff stacks dmg increase' min={0} max={3} lc/>
+        <FormSlider name='debuffStacksDmgIncrease' text='Debuff stacks dmg increase' min={0} max={3} lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1536,19 +1473,18 @@ function GoodNightAndSleepWell(s) {
 
       x.ELEMENTAL_DMG += r.debuffStacksDmgIncrease * sValues[s]
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function PostOpConversation(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltHealingBoost' text='Post ult healing boost' lc/>
+        <FormSwitch name='postUltHealingBoost' text='Post ult healing boost' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1559,19 +1495,18 @@ function PostOpConversation(s) {
 
       x[Stats.OHB] += (r.postUltHealingBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Sagacity(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltAtkBuff' text='Post ult atk buff' lc/>
+        <FormSwitch name='postUltAtkBuff' text='Post ult atk buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1582,19 +1517,18 @@ function Sagacity(s) {
 
       x[Stats.ATK_P] += (r.postUltAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Mediation(s) {
-  let sValues = [12, 14, 16, 18, 20]
-  s = s - 1
+  const sValues = [12, 14, 16, 18, 20]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='initialSpdBuff' text='Initial spd buff' lc/>
+        <FormSwitch name='initialSpdBuff' text='Initial spd buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1605,19 +1539,18 @@ function Mediation(s) {
 
       x[Stats.SPD] += (r.initialSpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function HiddenShadow(s) {
-  let sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
-  s = s - 1
+  const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='basicAtkBuff' text='Basic atk buff' lc/>
+        <FormSwitch name='basicAtkBuff' text='Basic atk buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1628,14 +1561,13 @@ function HiddenShadow(s) {
 
       x.BASIC_BOOST += (r.basicAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function Pioneering(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function Pioneering() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1644,22 +1576,21 @@ function Pioneering(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function MutualDemise(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='selfHp80CrBuff' text='Self HP <80% cr buff' lc/>
+        <FormSwitch name='selfHp80CrBuff' text='Self HP <80% cr buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1670,14 +1601,13 @@ function MutualDemise(s) {
 
       x[Stats.CR] += (r.selfHp80CrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function Multiplication(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function Multiplication() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1686,22 +1616,21 @@ function Multiplication(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Adversarial(s) {
-  let sValues = [0.10, 0.12, 0.14, 0.16, 0.18]
-  s = s - 1
+  const sValues = [0.10, 0.12, 0.14, 0.16, 0.18]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemySpdBuff' text='Defeated enemy spd buff' lc/>
+        <FormSwitch name='defeatedEnemySpdBuff' text='Defeated enemy spd buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1712,14 +1641,13 @@ function Adversarial(s) {
 
       x[Stats.SPD_P] += (r.defeatedEnemySpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function Passkey(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function Passkey() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1728,17 +1656,16 @@ function Passkey(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function MeshingCogs(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function MeshingCogs() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1747,22 +1674,21 @@ function MeshingCogs(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Loop(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemySlowedDmgBuff' text='Enemy slowed dmg buff' lc/>
+        <FormSwitch name='enemySlowedDmgBuff' text='Enemy slowed dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1773,14 +1699,13 @@ function Loop(s) {
 
       x.ELEMENTAL_DMG += (r.enemySlowedDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function Defense(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function Defense() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1789,22 +1714,21 @@ function Defense(s) {
     ),
     defaults: () => ({
     }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+    precomputeEffects: (/* x, request */) => {
+      // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function ShatteredHome(s) {
-  let sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-  s = s - 1
+  const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHp50Buff' text='Enemy HP >50% dmg buff' lc/>
+        <FormSwitch name='enemyHp50Buff' text='Enemy HP >50% dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1815,14 +1739,13 @@ function ShatteredHome(s) {
 
       x.ELEMENTAL_DMG += (r.enemyHp50Buff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
-function FineFruit(s) {
-  let sValues = [0, 0, 0, 0, 0]
-  s = s - 1
+function FineFruit() {
+  // const sValues = [0, 0, 0, 0, 0]
 
   return {
     display: () => (
@@ -1832,20 +1755,19 @@ function FineFruit(s) {
     defaults: () => ({
       name: true,
     }),
-    precomputeEffects: (x, request) => {},
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    precomputeEffects: (x, request) => { console.warn('not implemented', x, request) },
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function DartingArrow(s) {
-  let sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-  s = s - 1
+  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemyAtkBuff' text='Atk buff on kill' lc/>
+        <FormSwitch name='defeatedEnemyAtkBuff' text='Atk buff on kill' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1856,19 +1778,18 @@ function DartingArrow(s) {
 
       x[Stats.ATK_P] += (r.defeatedEnemyAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function DataBank(s) {
-  let sValues = [0.28, 0.35, 0.42, 0.49, 0.56]
-  s = s - 1
+  const sValues = [0.28, 0.35, 0.42, 0.49, 0.56]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc/>
+        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1879,19 +1800,18 @@ function DataBank(s) {
 
       x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Chorus(s) {
-  let sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
-  s = s - 1
+  const sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='inBattleAtkBuff' text='In battle atk buff' lc/>
+        <FormSwitch name='inBattleAtkBuff' text='In battle atk buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1902,19 +1822,18 @@ function Chorus(s) {
 
       x[Stats.ATK_P] += (r.inBattleAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Void(s) {
-  let sValues = [0.20,0.25,0,30,0.35,0.40]
-  s = s - 1
+  const sValues = [0.20, 0.25, 0, 30, 0.35, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='initialEhrBuff' text='Initial EHR buff' lc/>
+        <FormSwitch name='initialEhrBuff' text='Initial EHR buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1925,20 +1844,19 @@ function Void(s) {
 
       x[Stats.EHR] += (r.initialEhrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 
 function Amber(s) {
-  let sValues = [0.16,0.20,0.24,0.28,0.32]
-  s = s - 1
+  const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='hp50DefBuff' text='HP <50% def buff' lc/>
+        <FormSwitch name='hp50DefBuff' text='HP <50% def buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1949,19 +1867,18 @@ function Amber(s) {
 
       x[Stats.DEF_P] += (r.hp50DefBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function CollapsingSky(s) {
-  let sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-  s = s - 1
+  const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='basicSkillDmgBuff' text='Basic/Skill dmg buff' lc/>
+        <FormSwitch name='basicSkillDmgBuff' text='Basic/Skill dmg buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1973,19 +1890,18 @@ function CollapsingSky(s) {
       x.BASIC_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
       x.SKILL_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Cornucopia(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='healingBuff' text='Healing buff' lc/>
+        <FormSwitch name='healingBuff' text='Healing buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -1996,19 +1912,18 @@ function Cornucopia(s) {
 
       x[Stats.OHB] += (r.healingBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
 function Arrows(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-  s = s - 1
+  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   return {
     display: () => (
       <Flex vertical gap={defaultGap} >
-        <FormSwitch name='critBuff' text='Initial crit buff' lc/>
+        <FormSwitch name='critBuff' text='Initial crit buff' lc />
       </Flex>
     ),
     defaults: () => ({
@@ -2019,8 +1934,8 @@ function Arrows(s) {
 
       x[Stats.CR] += (r.critBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => {},
-    calculateBaseMultis: (c, request) => {}
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
   }
 }
 
@@ -2037,10 +1952,9 @@ export const LightConeConditionals = {
         defaults: () => ({})
       }
     }
-    return lcFn(request.lightConeSuperimposition)
+    return lcFn(request.lightConeSuperimposition - 1)
   },
   getDisplayForLightCone: (id, superimposition) => {
-    // console.log('getDisplayForLightCone', id)
     if (!id || !lightConeOptionMapping[id]) {
       return (
         <Flex justify='space-between' align='center'>
@@ -2051,7 +1965,7 @@ export const LightConeConditionals = {
     }
 
     let lcFn = lightConeOptionMapping[id]
-    let display = lcFn(superimposition).display()
+    let display = lcFn(superimposition - 1).display()
 
     return (
       <Flex vertical gap={5}>

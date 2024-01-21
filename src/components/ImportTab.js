@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { UploadOutlined, DownloadOutlined, AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import {Button, Popconfirm, message, Flex, Upload, Radio, Tabs, Typography, Steps, theme, Divider} from 'antd';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd';
 import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
 import { OcrParserKelz3 } from '../lib/ocrParserKelz3';
 import { Message } from '../lib/message';
 import { DB } from '../lib/db';
+import { SaveState } from "../lib/saveState";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
@@ -27,7 +29,7 @@ const saveFile = async (blob, suggestedName) => {
   if (supportsFileSystemAccess) {
     try {
       // Show the file save dialog.
-      const handle = await showSaveFilePicker({
+      const handle = await window.showSaveFilePicker({
         suggestedName,
         types: [{
           description: 'JSON',
@@ -38,10 +40,10 @@ const saveFile = async (blob, suggestedName) => {
       const writable = await handle.createWritable();
       await writable.write(blob);
       await writable.close();
-      return;
+
     } catch (err) {
       console.warn(err.name, err.message);
-      return;
+
     }
   } else {
     // Fallback if the File System Access API is not supported…
@@ -140,7 +142,7 @@ function loadDataTab() {
   };
 
   function beforeUpload(file) {
-    return new Promise((resolve) => {
+    return new Promise(() => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
@@ -269,26 +271,25 @@ function loadDataTab() {
   )
 }
 
-function relicImporterTab() {
+function kelZImporterTab() {
   const [current, setCurrent] = useState(0);
   const [currentRelics, setCurrentRelics] = useState([]);
   const [currentCharacters, setCurrentCharacters] = useState([]);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  
+
   const onStepChange = (value) => {
     console.log('onStepChange:', value);
     setCurrent(value);
   };
 
   function beforeUpload(file) {
-    return new Promise((resolve) => {
+    return new Promise(() => {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
         try {
           let fileUploadText = reader.result;
-          // console.log('Uploaded text relicImporterTab', fileUploadText);
 
           let json = JSON.parse(fileUploadText);
           console.log('JSON', json);
@@ -306,9 +307,7 @@ function relicImporterTab() {
           }
 
           let relics = [], characters = []
-          if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
-            relics = OcrParserFribbels1.parse(json);
-          } else if (json.source == 'HSR-Scanner' && json.version == 3) {
+          if (json.source == 'HSR-Scanner' && json.version == 3) {
             relics = OcrParserKelz3.parse(json);
             characters = OcrParserKelz3.parseCharacters(json);
             characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
@@ -331,7 +330,7 @@ function relicImporterTab() {
 
         } catch (e) {
           Message.error(e.message, 10)
-          Message.error('Error occured while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
+          Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
       };
       return false;
@@ -362,32 +361,209 @@ function relicImporterTab() {
     }, spinnerMs);
   }
 
-
-
-  function relicImporterContentUploadFile() {
+  function kelZImporterContentUploadFile() {
     return (
       <Flex style={{minHeight: 100, marginBottom: 30}}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run one of the relic scanners. Character importing is currently supported for the Kel-Z scanner only.
-            <div style={{height: 10}}/>
-            <ul>
-              <li>
-                Recommended: Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
-                <ul>
-                  <li>Supports all 16:9 resolutions</li>
-                </ul>
-              </li>
-              <li>
-                Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
-              </li>
-              <li>
-                Alternatively, use the Relic Scorer tab to import relics from your profile, with accurate speed substats
-              </li>
-            </ul>
+            Install and run Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>).
           </Text>
           <Text>
-            Upload the json file generated by the scanner.
+            It supports character and light cones imports and all 16:9 resolutions.
+          </Text>
+          <Text>
+            Upload the json file generated by Kel-Z HSR Scanner:
+          </Text>
+          <Upload
+            accept=".json"
+            name= 'file'
+            onClick={onUploadClick}
+            beforeUpload={beforeUpload}>
+            <Button style={{width: 210}} icon={<UploadOutlined />} loading={loading1}>
+              Upload HSRScanData file
+            </Button>
+          </Upload>
+        </Flex>
+      </Flex>
+    )
+  }
+
+  function confirmRelicMerge() {
+    if (!currentRelics || !currentRelics.length) {
+      return (
+        <Flex style={{minHeight: 100}}>
+          <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+            Invalid HSRScanData file, please try a different file
+          </Flex>
+        </Flex>
+      )
+    }
+
+    return (
+      <Flex style={{minHeight: 250}}>
+        <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+          <Text>
+            File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
+          </Text>
+
+          <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
+
+          <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+            Import relics
+          </Button>
+
+          <Divider/>
+          <Text>
+            Import relics and characters.
+          </Text>
+
+          <Popconfirm
+            title="Overwrite optimizer builds"
+            description="Are you sure you want to overwrite your optimizer builds with ingame builds?"
+            onConfirm={mergeCharactersConfirmed}
+            placement="bottom"
+            okText="Yes"
+            cancelText="Cancel"
+          >
+            <Button style={{width: 200}} type="primary" loading={loading2}>
+              Import relics & characters
+            </Button>
+          </Popconfirm>
+        </Flex>
+      </Flex>
+    )
+  }
+
+  function mergeCompleted() {
+    return (
+      <Flex style={{minHeight: 100}}>
+        <Flex vertical gap={10} style={{display: current >= 2 ? 'flex' : 'none'}}>
+          <Text>
+            Done!
+          </Text>
+          <Text>
+            The Relic scorer can be used to import accurate speed substats
+          </Text>
+        </Flex>
+      </Flex>
+    )
+  }
+
+  return (
+    <Flex gap={5}>
+      <Steps
+        direction="vertical"
+        current={current}
+        items={[
+          {
+            title: '',
+            description: kelZImporterContentUploadFile(),
+          },
+          {
+            title: '',
+            description: confirmRelicMerge(),
+          },
+          {
+            title: '',
+            description: mergeCompleted(),
+          },
+        ]}
+      />
+    </Flex>
+  )
+}
+
+function fribbelsImporterTab() {
+  const [current, setCurrent] = useState(0);
+  const [currentRelics, setCurrentRelics] = useState([]);
+  const [currentCharacters, setCurrentCharacters] = useState([]);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
+  const onStepChange = (value) => {
+    console.log('onStepChange:', value);
+    setCurrent(value);
+  };
+
+  function beforeUpload(file) {
+    return new Promise(() => {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        try {
+          let fileUploadText = reader.result;
+          // console.log('Uploaded text relicImporterTab', fileUploadText);
+
+          let json = JSON.parse(fileUploadText);
+          console.log('JSON', json);
+
+          setLoading1(true)
+
+          if (!json) {
+            setTimeout(() => {
+              setLoading1(false)
+              setCurrentRelics(undefined)
+              setCurrentCharacters(undefined)
+              onStepChange(1)
+            }, spinnerMs);
+            return
+          }
+
+          let relics = [], characters = []
+          if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
+            relics = OcrParserFribbels1.parse(json);
+          } else {
+            setTimeout(() => {
+              setLoading1(false)
+              setCurrentRelics(undefined)
+              setCurrentCharacters(undefined)
+              onStepChange(1)
+            }, spinnerMs);
+            return
+          }
+
+          setTimeout(() => {
+            setLoading1(false)
+            setCurrentRelics(relics)
+            setCurrentCharacters(characters)
+            onStepChange(1)
+          }, spinnerMs);
+
+        } catch (e) {
+          Message.error(e.message, 10)
+          Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
+        }
+      };
+      return false;
+    });
+  }
+
+  function onUploadClick() {
+    onStepChange(0)
+  }
+
+  function mergeRelicsConfirmed() {
+    setLoading2(true)
+    setTimeout(() => {
+      setLoading2(false)
+      DB.mergeRelicsWithState(currentRelics)
+      SaveState.save()
+      onStepChange(2)
+    }, spinnerMs);
+  }
+
+  function fribbelsImporterContentUploadFile() {
+    return (
+      <Flex style={{minHeight: 100, marginBottom: 30}}>
+        <Flex vertical gap={10}>
+          <Text>
+            Install and run Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>).
+          </Text>
+          <Text>
+            The Kel-Z importer is recommended for scanning speed & character imports. This importer can be used as a backup if that doesn't work.
+          </Text>
+          <Text>
+            Upload the json file generated by the scanner:
           </Text>
           <Upload
             accept=".json"
@@ -426,22 +602,6 @@ function relicImporterTab() {
           <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
-
-          <Divider/>
-          <Text>Import relics and characters. This will overwrite your saved optimizer builds with your ingame builds! Recommended for first time import only.</Text>
-
-          <Popconfirm
-            title="Overwrite optimizer builds"
-            description="Are you sure you want to overwrite your optimizer builds with ingame builds?"
-            onConfirm={mergeCharactersConfirmed}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
-          >
-            <Button style={{width: 200}} type="primary" loading={loading2}>
-              Import relics & characters
-            </Button>
-          </Popconfirm>
         </Flex>
       </Flex>
     )
@@ -453,6 +613,9 @@ function relicImporterTab() {
         <Flex vertical gap={10} style={{display: current >= 2 ? 'flex' : 'none'}}>
           <Text>
             Done!
+          </Text>
+          <Text>
+            The Relic scorer can be used to import accurate speed substats
           </Text>
         </Flex>
       </Flex>
@@ -467,7 +630,7 @@ function relicImporterTab() {
         items={[
           {
             title: '',
-            description: relicImporterContentUploadFile(),
+            description: fribbelsImporterContentUploadFile(),
           },
           {
             title: '',
@@ -498,23 +661,28 @@ export default function ImportTab(props) {
           }}
           items={[
             {
-              label: 'Relic importer',
+              label: 'Kel-Z scanner importer (Recommended)',
               key: 0,
-              children: relicImporterTab(),
+              children: kelZImporterTab(),
             },
             {
-              label: 'Load data',
+              label: 'Fribbels scanner importer',
               key: 1,
-              children: loadDataTab(),
+              children: fribbelsImporterTab(),
             },
             {
-              label: 'Save data',
+              label: 'Save optimizer data',
               key: 2,
               children: saveDataTab(),
             },
             {
-              label: 'Clear data',
+              label: 'Load optimizer data',
               key: 3,
+              children: loadDataTab(),
+            },
+            {
+              label: 'Clear optimizer data',
+              key: 4,
               children: clearDataTab(),
             },
           ]}
@@ -522,4 +690,7 @@ export default function ImportTab(props) {
       </Flex>
     </div>
   );
+}
+ImportTab.propTypes = {
+  active: PropTypes.bool,
 }

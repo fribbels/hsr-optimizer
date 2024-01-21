@@ -1,27 +1,30 @@
-import {Card, Col, Divider, Flex, Image, Popover, Row, Space, Tooltip, Typography} from 'antd';
+import { Card, Divider, Flex, Typography } from 'antd';
 import * as React from 'react';
-import { RelicScorer } from '../lib/relicScorer';
-import {Renderer} from "../lib/renderer";
-import {CheckCircleFilled, CheckCircleOutlined, CheckCircleTwoTone} from "@ant-design/icons";
+import { Renderer } from "../lib/renderer";
+import { Assets } from "../lib/assets";
+import { Utils } from "../lib/utils";
+import { Constants } from "../lib/constants.ts";
+import DB from "../lib/db";
+import PropTypes from "prop-types";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Text } = Typography;
 
-let iconSize = 23
+const iconSize = 23
 
 function generateStat(stat, source, main, relic) {
-  if (!stat || !stat.stat || stat.value == null || stat.value == undefined) {
+  if (!stat || !stat.stat || stat.value == null) {
     return (
       <Flex justify='space-between'>
         <Flex>
-          <img src={Assets.getBlank()} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+          <img src={Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
         </Flex>
       </Flex>
     )
   }
-  
+
   let displayValue
   if (main) {
-    displayValue = Renderer.renderMainStatNumber(stat, relic)
+    displayValue = Renderer.renderMainStatNumber(stat)
   } else {
     displayValue = Renderer.renderSubstatNumber(stat, relic)
   }
@@ -30,7 +33,7 @@ function generateStat(stat, source, main, relic) {
   return (
     <Flex justify='space-between'>
       <Flex>
-        <img src={Assets.getStatIcon(stat.stat)} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+        <img src={Assets.getStatIcon(stat.stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
         <Text>
           {Constants.StatsToReadable[stat.stat]}
         </Text>
@@ -44,8 +47,8 @@ function generateStat(stat, source, main, relic) {
 
 function getRelic(relic) {
   if (!relic || !relic.id) {
-    return {substats: []}
-  } 
+    return { substats: [] }
+  }
 
   return DB.getRelicById(relic.id)
 }
@@ -57,8 +60,8 @@ export default function RelicPreview(props) {
   let relic = getRelic(props.relic)
   if (props.source == 'scorer') {
     relic = props.relic
-  } 
-  
+  }
+
   if (!relic) {
     relic = {
       enhance: 0,
@@ -71,7 +74,6 @@ export default function RelicPreview(props) {
   let enhance = relic.enhance
   let part = relic.part
   let set = relic.set
-  let grade = relic.grade
 
   let substats = relic.substats || []
   let main = relic.main || {}
@@ -86,8 +88,8 @@ export default function RelicPreview(props) {
     console.log(relic, props)
     if (!relic || !relic.part || !relic.set || props.source == 'scorer') return
 
-    setSelectedRelic(relic)
-    setEditModalOpen(true)
+    global.setSelectedRelic(relic)
+    global.setEditModalOpen(true)
   }
 
   return (
@@ -96,20 +98,20 @@ export default function RelicPreview(props) {
       hoverable={props.source != 'scorer'}
       onClick={relicClicked}
       style={{ width: 200, height: 280 }}
-      // onMouseEnter={() => setHovered(true)}
-      // onMouseLeave={() => setHovered(false)}
+    // onMouseEnter={() => setHovered(true)}
+    // onMouseLeave={() => setHovered(false)}
     >
-      <Flex vertical justify='space-between'  style={{height: 255}}>
+      <Flex vertical justify='space-between' style={{ height: 255 }}>
         <Flex justify='space-between' align='center'>
           <img
-            style={{height: 50, width: 50}}
-            title={set} 
+            style={{ height: 50, width: 50 }}
+            title={set}
             src={relicSrc}
           />
           <Flex vertical align='center'>
             <Flex align='center' gap={5}>
               {Renderer.renderGrade(relic)}
-              <Flex style={{width: 30}} justify='space-around'>
+              <Flex style={{ width: 30 }} justify='space-around'>
                 <Text>
                   {part != undefined ? `+${enhance}` : ''}
                 </Text>
@@ -117,16 +119,16 @@ export default function RelicPreview(props) {
             </Flex>
           </Flex>
           <img
-            style={{height: 50, width: 50}}
+            style={{ height: 50, width: 50 }}
             src={equippedBySrc}
           />
         </Flex>
-        
-        <Divider style={{margin: '6px 0px 6px 0px'}}/>
-        
+
+        <Divider style={{ margin: '6px 0px 6px 0px' }} />
+
         {generateStat(main, props.source, true, relic)}
 
-        <Divider style={{margin: '6px 0px 6px 0px'}}/>
+        <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
         <Flex vertical gap={0}>
           {generateStat(substats[0], props.source, false, relic)}
@@ -135,11 +137,11 @@ export default function RelicPreview(props) {
           {generateStat(substats[3], props.source, false, relic)}
         </Flex>
 
-        <Divider style={{margin: '6px 0px 6px 0px'}}/>
+        <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
         <Flex gap={4} justify='space-between'>
           <Flex>
-            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{width: iconSize, height: iconSize, marginRight: 3}}></img>
+            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
             <Text>
               {(scored) ? 'Score' : ''}
             </Text>
@@ -152,8 +154,9 @@ export default function RelicPreview(props) {
     </Card>
   );
 }
-
-function round10ths(x) {
-  return Math.round(x);
-} 
-
+RelicPreview.propTypes = {
+  relic: PropTypes.object,
+  source: PropTypes.string,
+  characterId: PropTypes.string,
+  score: PropTypes.object,
+}

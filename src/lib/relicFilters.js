@@ -1,3 +1,7 @@
+import { Constants } from "./constants.ts";
+import DB from "./db";
+import { Utils } from "./utils";
+
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
     let weights = request.weights || {}
@@ -66,11 +70,11 @@ export const RelicFilters = {
       }
 
       Object.values(rankedCharacter.equipped)
-        .filter(x => x != null && x != undefined)
+        .filter(x => x != null)
         .map(x => higherRankedRelics[x] = true)
     }
 
-    return relics = relics.filter(x => !higherRankedRelics[x.id])
+    return relics.filter(x => !higherRankedRelics[x.id])
   },
 
   applyMainFilter: (request, relics) => {
@@ -81,12 +85,27 @@ export const RelicFilters = {
     out.push(...relics.filter(x => x.part == Constants.Parts.Feet).filter(x => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
     out.push(...relics.filter(x => x.part == Constants.Parts.PlanarSphere).filter(x => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
     out.push(...relics.filter(x => x.part == Constants.Parts.LinkRope).filter(x => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
-  
+
     return out;
   },
 
   applyEnhanceFilter: (request, relics) => {
     return relics.filter(x => x.enhance >= request.enhance);
+  },
+
+  applyEquippedFilter: (request, relics) => {
+    if (request.includeEquippedRelics)
+      return relics;
+
+    const characterId = request.characterId || "99999999";
+    // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
+    let blacklist = [];
+    window.store.getState().characters.forEach(char => {
+      if (char.id == characterId) return;
+      blacklist = blacklist.concat(Object.values(char.equipped));
+    });
+    const ret = relics.filter(x => !blacklist.includes(x.id));
+    return ret;
   },
 
   applyGradeFilter: (request, relics) => {
@@ -132,15 +151,11 @@ export const RelicFilters = {
 
       return relics.filter(relic => {
         if (
-          relic.part == Constants.Parts.Head || 
-          relic.part == Constants.Parts.Hands || 
-          relic.part == Constants.Parts.Body || 
+          relic.part == Constants.Parts.Head ||
+          relic.part == Constants.Parts.Hands ||
+          relic.part == Constants.Parts.Body ||
           relic.part == Constants.Parts.Feet) {
-          if (allowedSets[Constants.RelicSetToIndex[relic.set]] != 1) {
-            return false
-          } else {
-            return true
-          }
+          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1;
         } else {
           return true
         }
@@ -160,13 +175,9 @@ export const RelicFilters = {
 
       return relics.filter(relic => {
         if (
-          relic.part == Constants.Parts.PlanarSphere || 
+          relic.part == Constants.Parts.PlanarSphere ||
           relic.part == Constants.Parts.LinkRope) {
-          if (allowedSets[Constants.OrnamentSetToIndex[relic.set]] != 1) {
-            return false
-          } else {
-            return true
-          }
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1;
         } else {
           return true
         }
@@ -191,7 +202,7 @@ export const RelicFilters = {
       let match = relics[part].find(x => x.id == character.equipped[part])
       return match ? [match] : []
     }
-    
+
     return {
       Head: matchingRelic(Constants.Parts.Head),
       Hands: matchingRelic(Constants.Parts.Hands),
@@ -201,7 +212,7 @@ export const RelicFilters = {
       LinkRope: matchingRelic(Constants.Parts.LinkRope)
     }
   },
-  
+
   splitRelicsByPart: (relics) => {
     return {
       Head: relics.filter(x => x.part == Constants.Parts.Head),

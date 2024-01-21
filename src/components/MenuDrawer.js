@@ -1,9 +1,10 @@
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined, LinkOutlined, MenuOutlined, GithubOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu, Typography } from 'antd';
 import { DiscordIcon } from '../icons/DiscordIcon';
 import { GithubIcon } from '../icons/GithubIcon';
 import { CoffeeIcon } from '../icons/CoffeeIcon';
+import PropTypes from "prop-types";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -15,8 +16,8 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem('Menu', 'sub1',  <MenuOutlined />, [
-    getItem('Optimizer', 'optimizer'), 
+  getItem('Menu', 'sub1', <MenuOutlined />, [
+    getItem('Optimizer', 'optimizer'),
     getItem('Characters', 'characters'),
     getItem('Relics', 'relics'),
     getItem('Import / Save', 'import'),
@@ -29,33 +30,30 @@ const items = [
   getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
-        {/* Discord <DiscordIcon style={{marginLeft: 5}} /> */}
-        <DiscordIcon style={{marginRight: 5}} /> Discord 
+        <DiscordIcon style={{ marginRight: 5 }} /> Discord
       </Typography.Link>,
       'link discord',
-      // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
-        {/* Donate <CoffeeIcon style={{marginLeft: 5}} /> */}
-        <CoffeeIcon style={{marginRight: 5}} /> Donate 
+        <CoffeeIcon style={{ marginRight: 5 }} /> Donate
       </Typography.Link>,
       'link donate',
-      // <LinkOutlined />,
     ),
     getItem(
       <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
-        {/* Github <GithubIcon style={{marginLeft: 5}} /> */}
-        <GithubIcon style={{marginRight: 5}} /> Github 
+        <GithubIcon style={{ marginRight: 5 }} /> Github
       </Typography.Link>,
       'link github',
-      // <LinkOutlined />,
     ),
   ]),
 ];
 
-const MenuDrawer = ({hashes}) => {
-  const setActiveKey = store(s => s.setActiveKey)
+const MenuDrawer = (props) => {
+  const { hashes } = props
+
+  const activeKey = global.store(s => s.activeKey)
+  const setActiveKey = global.store(s => s.setActiveKey)
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
@@ -65,10 +63,9 @@ const MenuDrawer = ({hashes}) => {
     } else {
       history.replaceState(null, null, ' ');
     }
-
-    console.log('click ', e);
     setActiveKey(e.key)
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -81,7 +78,7 @@ const MenuDrawer = ({hashes}) => {
     >
       <Menu
         onClick={onClick}
-        // inlineIndent={15} 
+        // inlineIndent={15}
         style={{
           height: '100%',
           overflow: 'auto'
@@ -89,10 +86,15 @@ const MenuDrawer = ({hashes}) => {
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1', 'sub2', 'sub4']}
+        selectedKeys={activeKey}
         mode="inline"
         items={items}
       />
     </ConfigProvider>
   );
 };
+MenuDrawer.propTypes = {
+  hashes: PropTypes.array,
+}
+
 export default MenuDrawer;

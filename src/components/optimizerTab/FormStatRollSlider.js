@@ -1,12 +1,9 @@
-import {Flex, Form, InputNumber, Slider, Switch, Typography} from "antd";
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
+import { Flex, Form, InputNumber, Slider, Typography } from "antd";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Utils } from "../../lib/utils";
+import PropTypes from "prop-types";
 
-let justify = 'flex-start'
-let align = 'center'
-let inputWidth = 75
-let numberWidth = 65
 let sliderWidth = 130
 const Text = styled(Typography)`
   white-space: pre-line;
@@ -32,15 +29,20 @@ export function FormStatRollSlider(props) {
               marginBottom: 0,
               marginLeft: 0,
             }}
-            onChangeComplete={(x) => onOptimizerFormValuesChange(x, optimizerForm.getFieldsValue(), true)}
+            onChangeComplete={(x) => global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)}
           />
         </Form.Item>
       </Flex>
     </Flex>
   )
 }
+FormStatRollSlider.propTypes = {
+  text: PropTypes.string,
+  name: PropTypes.string,
+}
 
-export function FormStatRollSliderTopPercent(props) {
+
+export function FormStatRollSliderTopPercent() {
   const [inputValue, setInputValue] = useState(1);
   const onChange = (newValue) => {
     setInputValue(newValue);
@@ -57,7 +59,7 @@ export function FormStatRollSliderTopPercent(props) {
           max={100}
           onChange={(x) => {
             onChange(x)
-            onOptimizerFormValuesChange(x, optimizerForm.getFieldsValue(), true)
+            global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)
           }}
           parser={(value) => value == null || value == '' ? 0 : Utils.precisionRound(value) }
           formatter={(value) => `${Utils.precisionRound(value)}`}
@@ -82,7 +84,7 @@ export function FormStatRollSliderTopPercent(props) {
             }}
             value={typeof inputValue === 'number' ? inputValue : 0}
             onChange={onChange}
-            onChangeComplete={(x) => onOptimizerFormValuesChange(x, optimizerForm.getFieldsValue(), true)}
+            onChangeComplete={(x) => global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)}
           />
         </Form.Item>
       </Flex>

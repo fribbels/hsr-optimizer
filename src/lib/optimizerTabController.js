@@ -1,5 +1,13 @@
-import {inPlaceSort} from 'fast-sort';
+import { inPlaceSort } from 'fast-sort';
 import DB from './db';
+import { Message } from "./message";
+import { SaveState } from "./saveState";
+import { Constants } from "./constants.ts";
+import { Utils } from "./utils";
+import { LightConeConditionals } from "./lightConeConditionals";
+import { CharacterConditionals } from "./characterConditionals";
+import { CharacterStats } from "./characterStats";
+import { StatCalculator } from "./statCalculator";
 
 let relics
 let consts
@@ -39,14 +47,14 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     // delete x.id
-    optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
   getRows: () => {
     return rows
   },
 
-  equipClicked: (x) => {
+  equipClicked: () => {
     console.log('Equip clicked');
     let formValues = OptimizerTabController.getForm()
     let characterId = formValues.characterId
@@ -56,25 +64,25 @@ export const OptimizerTabController = {
     }
     DB.addFromForm(formValues)
 
-    let selectedNodes = optimizerGrid.current.api.getSelectedNodes()
+    let selectedNodes = global.optimizerGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
 
     let row = selectedNodes[0].data
     let build = OptimizerTabController.calculateRelicsFromId(row.id)
-    
+
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
-    setOptimizerBuild(build);
-    relicsGrid.current.api.redrawRows()
+    global.setOptimizerBuild(build);
+    global.relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 
   cellClicked: (event) => {
     let data = event.data
-    
+
     if (event.rowPinned == "top") {
       console.log('Top row clicked', event.data)
       let fieldValues = OptimizerTabController.getForm()
@@ -82,17 +90,17 @@ export const OptimizerTabController = {
         let character = DB.getCharacterById(fieldValues.characterId);
 
         if (character) {
-          setOptimizerBuild(character.equipped);
+          global.setOptimizerBuild(character.equipped);
         }
       }
       return
     }
-    
+
     console.log('cellClicked', event);
 
     let build = OptimizerTabController.calculateRelicsFromId(data.id)
     console.log('build', build)
-    setOptimizerBuild(build);
+    global.setOptimizerBuild(build);
   },
 
   getColumnsToAggregate: (map) => {
@@ -142,7 +150,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -152,10 +160,10 @@ export const OptimizerTabController = {
       getRows: (params) => {
         console.log(params);
         aggs = undefined
-        optimizerGrid.current.api.showLoadingOverlay()
+        global.optimizerGrid.current.api.showLoadingOverlay()
 
         // Give it time to show the loading page before we block
-        Utils.sleep(100).then(x => {
+        Utils.sleep(100).then(() => {
           if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
             sortModel = params.sortModel[0]
             sort()
@@ -176,7 +184,7 @@ export const OptimizerTabController = {
 
             params.successCallback(subArray, rows.length)
           }
-          optimizerGrid.current.api.hideOverlay()
+          global.optimizerGrid.current.api.hideOverlay()
           OptimizerTabController.redrawRows()
         })
       },
@@ -207,20 +215,18 @@ export const OptimizerTabController = {
     relics.PlanarSphere[p].optimizerCharacterId = characterId
     relics.LinkRope[l].optimizerCharacterId = characterId
 
-    let build = {
+    return {
       Head: relics.Head[h].id,
       Hands: relics.Hands[g].id,
       Body: relics.Body[b].id,
       Feet: relics.Feet[f].id,
       PlanarSphere: relics.PlanarSphere[p].id,
       LinkRope: relics.LinkRope[l].id
-    }
-
-    return build;
+    };
   },
 
   getForm: () => {
-    let form = optimizerForm.getFieldsValue();
+    let form = global.optimizerForm.getFieldsValue();
     return OptimizerTabController.fixForm(form);
   },
 
@@ -370,7 +376,7 @@ export const OptimizerTabController = {
       console.log('Missing light cone')
       return false;
     }
-    
+
     if (!x.characterId || !x.characterLevel || x.characterEidolon == undefined) {
       Message.error('Missing character fields')
       console.log('Missing character')
@@ -390,7 +396,7 @@ export const OptimizerTabController = {
     }
     return true
   },
-  
+
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT;
 
@@ -455,35 +461,36 @@ export const OptimizerTabController = {
   updateFilters: () => {
     if (window.optimizerForm) {
       let fieldValues = OptimizerTabController.getForm()
-      onOptimizerFormValuesChange({}, fieldValues);
+      global.onOptimizerFormValuesChange({}, fieldValues);
     }
   },
 
   resetFilters: () => {
     let fieldValues = OptimizerTabController.getForm()
     let newForm = {
+      "characterEidolon": fieldValues.characterEidolon,
       "characterId": fieldValues.characterId,
       "characterLevel": fieldValues.characterLevel,
-      "characterEidolon": fieldValues.characterEidolon,
+      "enhance": 15,
+      "grade": 5,
+      "includeEquippedRelics": true,
+      "keepCurrentRelics": false,
       "lightCone": fieldValues.lightCone,
       "lightConeLevel": fieldValues.lightConeLevel,
       "lightConeSuperimposition": fieldValues.lightConeSuperimposition,
       "mainBody": [],
       "mainFeet": [],
-      "mainPlanarSphere": [],
-      "mainLinkRope": [],
-      "relicSets": [],
-      "ornamentSets": [],
-      "rankFilter": true,
-      "predictMaxedMainStat": true,
-      "keepCurrentRelics": false,
-      "enhance": 15,
-      "grade": 5,
+      "mainHands": [],
       "mainHead": [],
-      "mainHands": []
+      "mainLinkRope": [],
+      "mainPlanarSphere": [],
+      "ornamentSets": [],
+      "predictMaxedMainStat": true,
+      "rankFilter": true,
+      "relicSets": [],
     }
 
-    optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
+    global.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
     OptimizerTabController.updateFilters()
   },
 
@@ -492,20 +499,21 @@ export const OptimizerTabController = {
     let character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
-      optimizerForm.setFieldsValue(displayFormValues)
+      global.optimizerForm.setFieldsValue(displayFormValues)
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        setSelectedLightCone(lightConeMetadata)
+        global.setSelectedLightCone(lightConeMetadata)
       }
-      store.getState().setStatDisplay(character.form.statDisplay || 'base')
+      global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0
       })
-      optimizerForm.setFieldsValue(displayFormValues)
-      store.getState().setStatDisplay('base')
+      global.optimizerForm.setFieldsValue(displayFormValues)
+      global.store.getState().setStatDisplay('base')
     }
+
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
   },
@@ -518,7 +526,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    optimizerGrid.current.api.redrawRows()
+    global.optimizerGrid.current.api.redrawRows()
   },
 
   applyRowFilters: () => {
@@ -615,20 +623,20 @@ function filter(filterModel) {
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i]
       let valid =
-        row.xHP  >= filterModel.minHp  && row.xHP  <= filterModel.maxHp &&
+        row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp &&
         row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk &&
         row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef &&
         row.xSPD >= filterModel.minSpd && row.xSPD <= filterModel.maxSpd &&
-        row.xCR  >= filterModel.minCr  && row.xCR  <= filterModel.maxCr &&
-        row.xCD  >= filterModel.minCd  && row.xCD  <= filterModel.maxCd &&
+        row.xCR >= filterModel.minCr && row.xCR <= filterModel.maxCr &&
+        row.xCD >= filterModel.minCd && row.xCD <= filterModel.maxCd &&
         row.xEHR >= filterModel.minEhr && row.xEHR <= filterModel.maxEhr &&
         row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes &&
-        row.xBE  >= filterModel.minBe  && row.xBE  <= filterModel.maxBe &&
-        row.CV   >= filterModel.minCv  && row.CV   <= filterModel.maxCv &&
-        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe &&
+        row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv &&
+        row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp &&
         row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
-        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
-        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic &&
+        row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill &&
         row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
         row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
         row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
@@ -640,20 +648,20 @@ function filter(filterModel) {
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i]
       let valid =
-        row[Constants.Stats.HP]  >= filterModel.minHp  && row[Constants.Stats.HP]  <= filterModel.maxHp &&
+        row[Constants.Stats.HP] >= filterModel.minHp && row[Constants.Stats.HP] <= filterModel.maxHp &&
         row[Constants.Stats.ATK] >= filterModel.minAtk && row[Constants.Stats.ATK] <= filterModel.maxAtk &&
         row[Constants.Stats.DEF] >= filterModel.minDef && row[Constants.Stats.DEF] <= filterModel.maxDef &&
         row[Constants.Stats.SPD] >= filterModel.minSpd && row[Constants.Stats.SPD] <= filterModel.maxSpd &&
-        row[Constants.Stats.CR]  >= filterModel.minCr  && row[Constants.Stats.CR]  <= filterModel.maxCr &&
-        row[Constants.Stats.CD]  >= filterModel.minCd  && row[Constants.Stats.CD]  <= filterModel.maxCd &&
+        row[Constants.Stats.CR] >= filterModel.minCr && row[Constants.Stats.CR] <= filterModel.maxCr &&
+        row[Constants.Stats.CD] >= filterModel.minCd && row[Constants.Stats.CD] <= filterModel.maxCd &&
         row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr &&
         row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes &&
-        row[Constants.Stats.BE]  >= filterModel.minBe  && row[Constants.Stats.BE]  <= filterModel.maxBe &&
-        row.CV     >= filterModel.minCv     && row.CV     <= filterModel.maxCv &&
-        row.EHP    >= filterModel.minEhp    && row.EHP    <= filterModel.maxEhp &&
+        row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe &&
+        row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv &&
+        row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp &&
         row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight &&
-        row.BASIC  >= filterModel.minBasic  && row.BASIC  <= filterModel.maxBasic &&
-        row.SKILL  >= filterModel.minSkill  && row.SKILL  <= filterModel.maxSkill &&
+        row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic &&
+        row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill &&
         row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt &&
         row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua &&
         row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
@@ -669,5 +677,5 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
 }

@@ -1955,7 +1955,6 @@ export const LightConeConditionals = {
     return lcFn(request.lightConeSuperimposition - 1)
   },
   getDisplayForLightCone: (id, superimposition) => {
-    // console.log('getDisplayForLightCone', id)
     if (!id || !lightConeOptionMapping[id]) {
       return (
         <Flex justify='space-between' align='center'>

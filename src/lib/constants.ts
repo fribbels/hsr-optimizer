@@ -47,6 +47,28 @@ export const MainStats = [
 ];
 export type MainStats = typeof MainStats[number];
 
+export const MainStatsValues = {
+  [Stats.HP_P]: { '5': { 'base': 6.912, 'increment': 2.4192 }, '4': { 'base': 5.5296, 'increment': 1.9354 }, '3': { 'base': 4.1472, 'increment': 1.4515 }, '2': { 'base': 2.7648, 'increment': 0.9677 } },
+  [Stats.ATK_P]: { '5': { 'base': 6.912, 'increment': 2.4192 }, '4': { 'base': 5.5296, 'increment': 1.9354 }, '3': { 'base': 4.1472, 'increment': 1.4515 }, '2': { 'base': 2.7648, 'increment': 0.9677 } },
+  [Stats.DEF_P]: { '5': { 'base': 8.64, 'increment': 3.024 }, '4': { 'base': 6.912, 'increment': 2.4192 }, '3': { 'base': 5.184, 'increment': 1.8144 }, '2': { 'base': 3.456, 'increment': 1.2096 } },
+  [Stats.HP]: { '5': { 'base': 112.896, 'increment': 39.5136 }, '4': { 'base': 90.3168, 'increment': 31.61088 }, '3': { 'base': 67.7376, 'increment': 23.70816 }, '2': { 'base': 45.1584, 'increment': 15.80544 } },
+  [Stats.ATK]: { '5': { 'base': 56.448, 'increment': 19.7568 }, '4': { 'base': 45.1584, 'increment': 15.80544 }, '3': { 'base': 33.8688, 'increment': 11.85408 }, '2': { 'base': 22.5792, 'increment': 7.90272 } },
+  [Stats.SPD]: { '5': { 'base': 4.032, 'increment': 1.4 }, '4': { 'base': 3.226, 'increment': 1.1 }, '3': { 'base': 2.419, 'increment': 1.0 }, '2': { 'base': 1.613, 'increment': 1.0 } },
+  [Stats.CR]: { '5': { 'base': 5.184, 'increment': 1.8144 }, '4': { 'base': 4.1472, 'increment': 1.4515 }, '3': { 'base': 3.1104, 'increment': 1.0886 }, '2': { 'base': 2.0736, 'increment': 0.7258 } },
+  [Stats.CD]: { '5': { 'base': 10.368, 'increment': 3.6288 }, '4': { 'base': 8.2944, 'increment': 2.9030 }, '3': { 'base': 6.2208, 'increment': 2.1773 }, '2': { 'base': 4.1472, 'increment': 1.4515 } },
+  [Stats.EHR]: { '5': { 'base': 6.912, 'increment': 2.4192 }, '4': { 'base': 5.5296, 'increment': 1.9354 }, '3': { 'base': 4.1472, 'increment': 1.4515 }, '2': { 'base': 2.7648, 'increment': 0.9677 } },
+  [Stats.BE]: { '5': { 'base': 10.3680, 'increment': 3.6288 }, '4': { 'base': 8.2944, 'increment': 2.9030 }, '3': { 'base': 6.2208, 'increment': 2.1773 }, '2': { 'base': 4.1472, 'increment': 1.4515 } },
+  [Stats.ERR]: { '5': { 'base': 3.1104, 'increment': 1.0886 }, '4': { 'base': 2.4883, 'increment': 0.8709 }, '3': { 'base': 1.8662, 'increment': 0.6532 }, '2': { 'base': 1.2442, 'increment': 0.4355 } },
+  [Stats.OHB]: { '5': { 'base': 5.5296, 'increment': 1.9354 }, '4': { 'base': 4.4237, 'increment': 1.5483 }, '3': { 'base': 3.3178, 'increment': 1.1612 }, '2': { 'base': 2.2118, 'increment': 0.7741 } },
+  [Stats.Physical_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Fire_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Ice_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Lightning_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Wind_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Quantum_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+  [Stats.Imaginary_DMG]: { '5': { 'base': 6.2208, 'increment': 2.1773 }, '4': { 'base': 4.9766, 'increment': 1.7418 }, '3': { 'base': 3.7325, 'increment': 1.3064 }, '2': { 'base': 2.4883, 'increment': 0.8709 } },
+}
+
 export const SubStats = [
   Stats.ATK_P,
   Stats.ATK,
@@ -114,6 +136,15 @@ export const PartsToReadable = {
 };
 export type PartsToReadable = typeof PartsToReadable[keyof typeof PartsToReadable];
 
+export const PartsMainStats = {
+  [Parts.Head]: [Stats.HP],
+  [Parts.Hands]: [Stats.ATK],
+  [Parts.Body]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.OHB, Stats.EHR],
+  [Parts.Feet]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD],
+  [Parts.PlanarSphere]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG],
+  [Parts.LinkRope]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR],
+}
+
 export const SetsRelics = {
   'PasserbyOfWanderingCloud': 'Passerby of Wandering Cloud',
   'MusketeerOfWildWheat': 'Musketeer of Wild Wheat',
@@ -174,6 +205,7 @@ export const Constants = {
   Parts,
   Stats,
   MainStats,
+  MainStatsValues,
   SubStats,
   StatsToIndex,
   SetsOrnaments,
@@ -182,6 +214,7 @@ export const Constants = {
   SetsOrnamentsNames,
   StatsToReadable,
   PartsToReadable,
+  PartsMainStats,
   RelicSetToIndex,
   OrnamentSetToIndex,
   // StatMaxes,

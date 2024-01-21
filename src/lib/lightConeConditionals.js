@@ -1,4 +1,5 @@
-/* eslint-disable no-unused-vars  */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Flex } from "antd";
 import React from "react";
@@ -121,8 +122,8 @@ function BaptismOfPureThought(s) {
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
       x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -143,8 +144,8 @@ function PastSelfInMirror(s) {
 
       x.ELEMENTAL_DMG += (r.postUltDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -165,8 +166,8 @@ function SolitaryHealing(s) {
 
       x.DOT_BOOST += r.postUltDotDmgBuff ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -187,8 +188,8 @@ function TextureOfMemories(s) {
 
       x.DMG_RED_MULTI += (r.activeShieldDmgDecrease) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -213,8 +214,8 @@ function CruisingInTheStellarSea(s) {
       x[Stats.CR] += (r.enemyHp50CrBoost && request.enemyHpPercent <= 0.50) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -239,8 +240,8 @@ function OnTheFallOfAnAeon(s) {
       x[Stats.ATK_P] += r.atkBoostStacks * sValuesAtkStacks[s]
       x.ELEMENTAL_DMG += (r.weaknessBreakDmgBuff) ? sValuesDmgBuff[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -261,8 +262,8 @@ function AnInstantBeforeAGaze(s) {
 
       x.ULT_BOOST += r.maxEnergyUltDmgStacks * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -283,8 +284,8 @@ function NightOfFright(s) {
 
       x[Stats.ATK_P] += r.atkBuffStacks * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -309,8 +310,8 @@ function WorrisomeBlissful(s) {
       x[Stats.CD] += r.targetTameStacks * sValuesCd[s]
       x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -333,8 +334,8 @@ function BrighterThanTheSun(s) {
       x[Stats.ATK_P] += r.dragonsCallStacks * sValuesAtk[s]
       x[Stats.ERR] += r.dragonsCallStacks * sValuesErr[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -359,8 +360,8 @@ function IShallBeMyOwnSword(s) {
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -379,8 +380,8 @@ function TimeWaitsForNoOne(/* s */) {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -401,8 +402,8 @@ function SleepLikeTheDead(s) {
 
       x[Stats.CR] += (r.missedCritCrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -423,8 +424,8 @@ function SheAlreadyShutHerEyes(s) {
 
       x.ELEMENTAL_DMG += (r.hpLostDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -450,8 +451,8 @@ function BeforeDawn(s) {
       x.ULT_BOOST += (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0
       x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -472,8 +473,8 @@ function TheUnreachableSide(s) {
 
       x.ELEMENTAL_DMG += (r.dmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -494,8 +495,8 @@ function EchoesOfTheCoffin(s) {
 
       x[Stats.SPD] += (r.postUltSpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -520,8 +521,8 @@ function IncessantRain(s) {
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
       x.ELEMENTAL_DMG += (r.targetCodeDebuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -549,8 +550,8 @@ function PatienceIsAllYouNeed(s) {
       x[Stats.SPD_P] += r.spdStacks * sValuesSpd[s]
       x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -571,8 +572,8 @@ function MomentOfVictory(s) {
 
       x[Stats.DEF_P] += (r.selfAttackedDefBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -595,8 +596,8 @@ function InTheNameOfTheWorld(s) {
 
       x.ELEMENTAL_DMG += (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -619,8 +620,8 @@ function ButTheBattleIsntOver(s) {
       x[Stats.ERR] += sValuesErr[s]
       x.ELEMENTAL_DMG += (r.postSkillDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -641,8 +642,8 @@ function SomethingIrreplaceable(s) {
 
       x.ELEMENTAL_DMG += (r.dmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -662,7 +663,7 @@ function InTheNight(s) {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
+    calculatePassives: (c, request) => {  },
     calculateBaseMultis: (c, request) => {
       let r = request.lightConeConditionals
       let x = c.x
@@ -697,8 +698,8 @@ function NightOnTheMilkyWay(s) {
       x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? request.enemyCount * sValuesAtk[s] : 0
       x.ELEMENTAL_DMG += (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -719,8 +720,8 @@ function HeyOverHere(s) {
 
       x[Stats.OHB] += (r.postSkillHealBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -737,8 +738,8 @@ function BeforeTheTutorialMissionStarts(/* s */) {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -759,8 +760,8 @@ function TodayIsAnotherPeacefulDay(s) {
 
       x.ELEMENTAL_DMG += r.maxEnergyStacks * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -777,8 +778,8 @@ function NowhereToRun(/* s */) {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -803,8 +804,8 @@ function CarveTheMoonWeaveTheClouds(s) {
       x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
       x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -821,8 +822,8 @@ function ReturnToDarkness(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -841,9 +842,9 @@ function ThisIsMe(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
+    calculatePassives: (c, request) => {  },
     calculateBaseMultis: (c, request) => {
-      console.warn('not implemented', c, request)
+
       // let r = request.lightConeConditionals
       // let x = c.x
 
@@ -870,8 +871,8 @@ function WeWillMeetAgain(s) {
       x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
       x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -888,8 +889,8 @@ function WarmthShortensColdNights(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -914,8 +915,8 @@ function TheSeriousnessOfBreakfast(s) {
       x[Stats.ATK_P] += r.defeatedEnemyAtkStacks * sValuesStacks[s]
       x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmgBoost[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -936,8 +937,8 @@ function WoofWalkTime(s) {
 
       x.ELEMENTAL_DMG += (r.enemyBurnedBleeding) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -954,8 +955,8 @@ function PastAndFuture(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -978,8 +979,8 @@ function RiverFlowsInSpring(s) {
       x[Stats.SPD_P] += (r.spdDmgBuff) ? sValuesSpd[s] : 0
       x.ELEMENTAL_DMG += (r.spdDmgBuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1000,8 +1001,8 @@ function WeAreWildfire(s) {
 
       x.DMG_RED_MULTI += (r.initialDmgReductionBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1022,8 +1023,8 @@ function Fermata(s) {
 
       x.ELEMENTAL_DMG += (r.enemyShockWindShear) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1040,8 +1041,8 @@ function QuidProQuo(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1062,8 +1063,8 @@ function GeniusesRepose(s) {
 
       x[Stats.CD] += (r.defeatedEnemyCdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1084,8 +1085,8 @@ function UnderTheBlueSky(s) {
 
       x[Stats.CR] += (r.defeatedEnemyCrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1102,8 +1103,8 @@ function DanceDanceDance(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1127,8 +1128,8 @@ function SubscribeForMore(s) {
       x.BASIC_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
       x.SKILL_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1145,8 +1146,8 @@ function TrendOfTheUniversalMarket(/* s */) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1167,8 +1168,8 @@ function ResolutionShinesAsPearlsOfSweat(s) {
 
       x.DEF_SHRED += (r.targetEnsnared) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1188,7 +1189,7 @@ function PerfectTiming(s) {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
+    calculatePassives: (c, request) => {  },
     calculateBaseMultis: (c, request) => {
       let r = request.lightConeConditionals
       let x = c.x
@@ -1216,8 +1217,8 @@ function MakeTheWorldClamor(s) {
 
       x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1239,8 +1240,8 @@ function ASecretVow(s) {
       x.ELEMENTAL_DMG += sValues[s]
       x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1261,8 +1262,8 @@ function PlanetaryRendezvous(s) {
 
       x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1283,8 +1284,8 @@ function Swordplay(s) {
 
       x.ELEMENTAL_DMG += (r.sameTargetHitStacks) * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1303,8 +1304,8 @@ function LandausChoice(s) {
 
       x.DMG_RED_MULTI += sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1323,8 +1324,8 @@ function EyesOfThePrey(s) {
 
       x.DOT_BOOST += sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1343,8 +1344,8 @@ function SharedFeeling(s) {
 
       x[Stats.OHB] += sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1367,8 +1368,8 @@ function TheBirthOfTheSelf(s) {
       x.FUA_BOOST += sValues[s]
       x.FUA_BOOST += (r.enemyHp50FuaBuff && request.enemyHpPercent < 0.50) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1389,8 +1390,8 @@ function TheMolesWelcomeYou(s) {
 
       x[Stats.ATK_P] += (r.atkBuffStacks) * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1407,8 +1408,8 @@ function MemoriesOfThePast() {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1429,8 +1430,8 @@ function OnlySilenceRemains(s) {
 
       x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1451,8 +1452,8 @@ function DayOneOfMyNewLife(s) {
 
       x.DMG_RED_MULTI += (r.dmgResBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1473,8 +1474,8 @@ function GoodNightAndSleepWell(s) {
 
       x.ELEMENTAL_DMG += r.debuffStacksDmgIncrease * sValues[s]
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1495,8 +1496,8 @@ function PostOpConversation(s) {
 
       x[Stats.OHB] += (r.postUltHealingBoost) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1517,8 +1518,8 @@ function Sagacity(s) {
 
       x[Stats.ATK_P] += (r.postUltAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1539,8 +1540,8 @@ function Mediation(s) {
 
       x[Stats.SPD] += (r.initialSpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1561,8 +1562,8 @@ function HiddenShadow(s) {
 
       x.BASIC_BOOST += (r.basicAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1579,8 +1580,8 @@ function Pioneering() {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1601,8 +1602,8 @@ function MutualDemise(s) {
 
       x[Stats.CR] += (r.selfHp80CrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1619,8 +1620,8 @@ function Multiplication() {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1641,8 +1642,8 @@ function Adversarial(s) {
 
       x[Stats.SPD_P] += (r.defeatedEnemySpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1659,8 +1660,8 @@ function Passkey() {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1677,8 +1678,8 @@ function MeshingCogs() {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1699,8 +1700,8 @@ function Loop(s) {
 
       x.ELEMENTAL_DMG += (r.enemySlowedDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1717,8 +1718,8 @@ function Defense() {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1739,8 +1740,8 @@ function ShatteredHome(s) {
 
       x.ELEMENTAL_DMG += (r.enemyHp50Buff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1755,9 +1756,9 @@ function FineFruit() {
     defaults: () => ({
       name: true,
     }),
-    precomputeEffects: (x, request) => { console.warn('not implemented', x, request) },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    precomputeEffects: (x, request) => {  },
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1778,8 +1779,8 @@ function DartingArrow(s) {
 
       x[Stats.ATK_P] += (r.defeatedEnemyAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1800,8 +1801,8 @@ function DataBank(s) {
 
       x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1822,8 +1823,8 @@ function Chorus(s) {
 
       x[Stats.ATK_P] += (r.inBattleAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1844,8 +1845,8 @@ function Void(s) {
 
       x[Stats.EHR] += (r.initialEhrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1867,8 +1868,8 @@ function Amber(s) {
 
       x[Stats.DEF_P] += (r.hp50DefBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1890,8 +1891,8 @@ function CollapsingSky(s) {
       x.BASIC_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
       x.SKILL_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1912,8 +1913,8 @@ function Cornucopia(s) {
 
       x[Stats.OHB] += (r.healingBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 
@@ -1934,8 +1935,8 @@ function Arrows(s) {
 
       x[Stats.CR] += (r.critBuff) ? sValues[s] : 0
     },
-    calculatePassives: (c, request) => { console.warn('not implemented', c, request) },
-    calculateBaseMultis: (c, request) => { console.warn('not implemented', c, request) }
+    calculatePassives: (c, request) => {  },
+    calculateBaseMultis: (c, request) => {  }
   }
 }
 

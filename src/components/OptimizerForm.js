@@ -15,7 +15,16 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { Optimizer } from '../lib/optimizer';
 import styled from 'styled-components';
-import { Constants } from '../lib/constants.ts';
+import {
+  Constants,
+  levelOptions,
+  enemyLevelOptions,
+  enemyCountOptions,
+  enemyResistanceOptions,
+  enemyHpPercentOptions,
+  superimpositionOptions,
+  eidolonOptions
+} from '../lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
@@ -242,88 +251,6 @@ export default function OptimizerForm() {
     }
   }, [activeKey])
 
-  const levelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 80; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyLevelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 95; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyCountOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 1; i <= 5; i += 2) {
-      levelStats.push({
-        value: i,
-        label: `${i} target${i > 1 ? 's' : ''}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyResistanceOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 20; i <= 60; i += 20) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% RES`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyHpPercentOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 100; i >= 1; i--) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% HP`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const superimpositionOptions = useMemo(() => {
-    return [
-      { value: 1, label: 'S1' },
-      { value: 2, label: 'S2' },
-      { value: 3, label: 'S3' },
-      { value: 4, label: 'S4' },
-      { value: 5, label: 'S5' },
-    ]
-  }, []);
-
-  const eidolonOptions = useMemo(() => {
-    return [
-      { value: 0, label: 'E0' },
-      { value: 1, label: 'E1' },
-      { value: 2, label: 'E2' },
-      { value: 3, label: 'E3' },
-      { value: 4, label: 'E4' },
-      { value: 5, label: 'E5' },
-      { value: 6, label: 'E6' },
-    ]
-  }, []);
-
 
   function characterSelectorChange(id) {
     setSelectedCharacter(characterOptions.find(x => x.id == id))
@@ -404,6 +331,7 @@ export default function OptimizerForm() {
   let innerH = 400;
 
   const initialValues = useMemo(() => {
+    console.log('initialValues', selectedCharacter);
     if (selectedCharacter) {
       let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
       if (matchingCharacter) {

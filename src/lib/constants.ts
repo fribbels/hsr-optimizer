@@ -220,3 +220,87 @@ export const Constants = {
   // StatMaxes,
   MAX_INT: 2147483647,
 }
+
+
+
+export const levelOptions = (() => {
+  const levelStats = []
+  for (let i = 80; i >= 1; i--) {
+    levelStats.push({
+      value: i,
+      label: `Lv. ${i}`
+    })
+  }
+
+  return levelStats
+})();
+
+export const enemyLevelOptions = (() => {
+  const levelStats = []
+  for (let i = 95; i >= 1; i--) {
+    levelStats.push({
+      value: i,
+      label: `Lv. ${i}`
+    })
+  }
+
+  return levelStats
+})();
+
+export const enemyCountOptions = (() => {
+  const levelStats = []
+  for (let i = 1; i <= 5; i += 2) {
+    levelStats.push({
+      value: i,
+      label: `${i} target${i > 1 ? 's' : ''}`
+    })
+  }
+
+  return levelStats
+})();
+
+export const enemyResistanceOptions = (() => {
+  const levelStats = []
+  for (let i = 20; i <= 60; i += 20) {
+    levelStats.push({
+      value: i / 100,
+      label: `${i}% RES`
+    })
+  }
+
+  return levelStats
+})();
+
+export const enemyHpPercentOptions = (() => {
+  const levelStats = []
+  for (let i = 100; i >= 1; i--) {
+    levelStats.push({
+      value: i / 100,
+      label: `${i}% HP`
+    })
+  }
+
+  return levelStats
+})();
+
+export const superimpositionOptions = (() => {
+  return [
+    { value: 1, label: 'S1' },
+    { value: 2, label: 'S2' },
+    { value: 3, label: 'S3' },
+    { value: 4, label: 'S4' },
+    { value: 5, label: 'S5' },
+  ]
+})();
+
+export const eidolonOptions = (() => {
+  return [
+    { value: 0, label: 'E0' },
+    { value: 1, label: 'E1' },
+    { value: 2, label: 'E2' },
+    { value: 3, label: 'E3' },
+    { value: 4, label: 'E4' },
+    { value: 5, label: 'E5' },
+    { value: 6, label: 'E6' },
+  ]
+})();

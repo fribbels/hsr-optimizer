@@ -51,7 +51,9 @@ const items = [
 
 const MenuDrawer = (props) => {
   const { hashes } = props
-  const [activeKey, setActiveKey] = global.store(s => [s.activeKey, s.setActiveKey])
+
+  const activeKey = global.store(s => s.activeKey)
+  const setActiveKey = global.store(s => s.setActiveKey)
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return

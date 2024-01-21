@@ -36,6 +36,7 @@ import PropTypes from "prop-types";
 import DB from "../lib/db";
 import { Message } from "../lib/message";
 import { Hint } from "../lib/hint";
+import { Utils } from "../lib/utils";
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -158,27 +159,15 @@ export default function OptimizerForm() {
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
 
-  let setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
+  const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
 
   const activeKey = global.store(s => s.activeKey)
   const characters = global.store(s => s.characters) // characters set in this localStorage instance
-  const statDisplay = global.store(s => s.statDisplay)
   const setStatDisplay = global.store(s => s.setStatDisplay)
-  const allCharacters = DB.getMetadata().characters;
-
 
   const [optimizationId, setOptimizationId] = useState();
 
-  const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(allCharacters));
-
-    for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
-    }
-
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
-  }, []);
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -211,8 +200,6 @@ export default function OptimizerForm() {
     }
   }, [selectedLightCone])
 
-  window.getVal = () => statDisplay
-
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
     if (characters && characters.length > 0) {
@@ -228,7 +215,8 @@ export default function OptimizerForm() {
 
   // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
-  const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = global.store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
+  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
+  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
   useEffect(() => {
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
@@ -417,7 +405,6 @@ export default function OptimizerForm() {
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
-
 
   function cancelClicked() {
     console.log('Cancel clicked');

@@ -26,6 +26,7 @@ export const RelicAugmenter = {
 
     for (let substat of relic.substats) {
       let stat = substat.stat
+      substat.value = Utils.precisionRound(substat.value)
       substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
       augmentedStats[stat] = substat.value
     }

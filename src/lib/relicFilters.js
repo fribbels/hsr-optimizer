@@ -93,6 +93,21 @@ export const RelicFilters = {
     return relics.filter(x => x.enhance >= request.enhance);
   },
 
+  applyEquippedFilter: (request, relics) => {
+    if (request.includeEquippedRelics)
+      return relics;
+
+    const characterId = request.characterId || "99999999";
+    // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
+    let blacklist = [];
+    window.store.getState().characters.forEach(char => {
+      if (char.id == characterId) return;
+      blacklist = blacklist.concat(Object.values(char.equipped));
+    });
+    const ret = relics.filter(x => !blacklist.includes(x.id));
+    return ret;
+  },
+
   applyGradeFilter: (request, relics) => {
     return relics.filter(x => x.grade ? x.grade >= request.grade : true);
   },

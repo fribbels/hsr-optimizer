@@ -77,6 +77,31 @@ export const Optimizer = {
     WorkerPool.cancel(id)
   },
 
+  getFilteredRelics: (request) => {
+    let relics = Utils.clone(DB.getRelics());
+    RelicFilters.calculateWeightScore(request, relics)
+
+    relics = RelicFilters.applyEquippedFilter(request, relics); // will reduce iterations if "off" is selected
+    relics = RelicFilters.applyEnhanceFilter(request, relics);
+    relics = RelicFilters.applyRankFilter(request, relics);
+
+    // Pre-split filters
+    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
+
+    relics = RelicFilters.applyMainFilter(request, relics);
+    relics = addMainStatToAugmentedStats(relics);
+    relics = applyMaxedMainStatsFilter(request, relics);
+    relics = RelicFilters.applySetFilter(request, relics)
+
+    // Post-split filters
+    relics = splitRelicsByPart(relics);
+
+    relics = RelicFilters.applyCurrentFilter(request, relics);
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+
+    return [relics, preFilteredRelicsByPart];
+  },
+
   optimize: function (request) {
     CANCEL = false
 
@@ -111,25 +136,7 @@ export const Optimizer = {
       }
     }
 
-    let relics = Utils.clone(DB.getRelics());
-    RelicFilters.calculateWeightScore(request, relics)
-
-    relics = RelicFilters.applyEnhanceFilter(request, relics);
-    relics = RelicFilters.applyRankFilter(request, relics);
-
-    // Pre-split filters
-    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
-
-    relics = applyMainFilter(request, relics);
-    relics = addMainStatToAugmentedStats(relics);
-    relics = applyMaxedMainStatsFilter(request, relics);
-    relics = RelicFilters.applySetFilter(request, relics)
-
-    // Post-split filters
-    relics = splitRelicsByPart(relics);
-
-    relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+    const [relics] = this.getFilteredRelics(request);
 
     let relicsArrays = relicsByPartToArray(relics);
 
@@ -153,6 +160,7 @@ export const Optimizer = {
 
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
+    console.log('relicSetAllowList, relicSetSolutions', relicSetAllowList, relicSetSolutions)
 
     let hSize = relicsArrays.Head.length
     let gSize = relicsArrays.Hands.length
@@ -269,7 +277,7 @@ export const Optimizer = {
 
         BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
 
-        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}}`)
+        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
         global.store.getState().setPermutationsResults(results.length)
         global.store.getState().setPermutationsSearched(Math.min(permutations, searched))
@@ -294,18 +302,6 @@ export const Optimizer = {
       setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10 * run)
     }
   }
-}
-
-function applyMainFilter(request, relics) {
-  let out = []
-  out.push(...relics.filter(x => x.part == Constants.Parts.Head).filter(x => request.mainHead.length == 0 || request.mainHead.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Hands).filter(x => request.mainHands.length == 0 || request.mainHands.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Body).filter(x => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.Feet).filter(x => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.PlanarSphere).filter(x => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
-  out.push(...relics.filter(x => x.part == Constants.Parts.LinkRope).filter(x => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
-
-  return out;
 }
 
 function applyMaxedMainStatsFilter(request, relics) {

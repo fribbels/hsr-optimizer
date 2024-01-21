@@ -100,6 +100,7 @@ window.store = create((set) => ({
     subStats: [],
   },
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
 }))
 
 export const DB = {

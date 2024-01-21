@@ -2126,5 +2126,29 @@
         "icon": "icon/character/8004.png",
         "preview": "image/character_preview/8004.png",
         "portrait": "image/character_portrait/8004.png"
+    },
+    "1307": {
+        "id": "1307",
+        "rarity": 5,
+        "path": "Warlock",
+        "element": "Wind",
+        "max_sp": 0,
+        "name": "Black Swan"
+    },
+    "1306": {
+        "id": "1306",
+        "rarity": 5,
+        "path": "Shaman",
+        "element": "Quantum",
+        "max_sp": 0,
+        "name": "Sparkle"
+    },
+    "1312": {
+        "id": "1312",
+        "rarity": 4,
+        "path": "Warrior",
+        "element": "Ice",
+        "max_sp": 0,
+        "name": "Misha"
     }
 }

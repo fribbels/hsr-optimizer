@@ -72,6 +72,9 @@ const characterOptionMapping = {
   1303: ruanmei,
   1305: drratio,
   1214: xueyi,
+  1306: sparkle,
+  1307: blackswan,
+  1312: misha,
 }
 
 // TODO profile & convert to array for performance?
@@ -2595,6 +2598,105 @@ function jingliu(e) {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += 0
+    }
+  }
+}
+
+function blackswan(e) {
+  let basicScaling = basic(e, 0, 0)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+      </Flex>
+    ),
+    defaults: () => ({
+    }),
+    precomputeEffects: (request) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      return x
+    },
+    calculateBaseMultis: (c) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function sparkle(e) {
+  let basicScaling = basic(e, 0, 0)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+      </Flex>
+    ),
+    defaults: () => ({
+    }),
+    precomputeEffects: (request) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      return x
+    },
+    calculateBaseMultis: (c) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    }
+  }
+}
+
+function misha(e) {
+  let basicScaling = basic(e, 0, 0)
+  let skillScaling = skill(e, 0, 0)
+  let ultScaling = ult(e, 0, 0)
+
+  return {
+    display: () => (
+      <Flex vertical gap={10} >
+      </Flex>
+    ),
+    defaults: () => ({
+    }),
+    precomputeEffects: (request) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let r = request.characterConditionals
+      let x = Object.assign({}, baseComputedStatsObject)
+
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.ULT_SCALING += ultScaling
+
+      return x
+    },
+    calculateBaseMultis: (c) => {
+      let x = c.x
+
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     }
   }
 }

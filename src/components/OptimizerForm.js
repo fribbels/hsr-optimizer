@@ -525,7 +525,7 @@ export default function OptimizerForm() {
                 <Image
                   preview={false}
                   width={innerW}
-                  src={Assets.getCharacterPreview(selectedCharacter)}
+                  src={Assets.getCharacterPreviewById(selectedCharacter.id)}
                   style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
                 />
               </div>

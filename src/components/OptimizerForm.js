@@ -31,12 +31,10 @@ import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab
 import { v4 as uuidv4 } from "uuid";
 import { getDefaultForm } from "../lib/defaultForm";
 import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
-import { RelicFilters } from "../lib/relicFilters";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
 import DB from "../lib/db";
 import { Message } from "../lib/message";
-import { Utils } from "../lib/utils";
 import { Hint } from "../lib/hint";
 
 const { Text } = Typography;
@@ -376,24 +374,7 @@ export default function OptimizerForm() {
 
     console.log('Values changed', request, changedValues);
 
-    let relics = Utils.clone(DB.getRelics())
-    RelicFilters.calculateWeightScore(request, relics)
-
-    relics = RelicFilters.applyEquippedFilter(request, relics);
-    relics = RelicFilters.applyEnhanceFilter(request, relics)
-    relics = RelicFilters.applyRankFilter(request, relics)
-
-    // sub-set based on enhance/rank filters
-    // set used in OptimizerForm to display number of permutations
-    // set used in lib/optimizer.js to calculate permutations
-    DB.setFilteredRelics(relics);
-    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
-
-    relics = RelicFilters.applyMainFilter(request, relics)
-    relics = RelicFilters.applySetFilter(request, relics)
-    relics = RelicFilters.splitRelicsByPart(relics)
-    relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
     let permutationDetails = {
       Head: relics.Head.length,

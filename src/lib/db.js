@@ -165,10 +165,6 @@ export const DB = {
     relicsById[relic.id] = relic
     global.store.getState().setRelicsById(relicsById)
   },
-  setFilteredRelics: (relics) => {
-    global.store.getState().setFilteredRelics(relics)
-  },
-  getFilteredRelics: () => global.store.getState().filteredRelics,
 
   refreshRelics: () => {
     if (window.setRelicRows) global.setRelicRows(DB.getRelics())

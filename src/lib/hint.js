@@ -131,7 +131,7 @@ export const Hint = {
       title: 'Optimizer options',
       content: (
         <Flex vertical gap={10}>
-          <p><strong>Rank filter</strong> - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
+          <p><strong>Character rank filter</strong> - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
           <p><strong>Maxed main stat</strong> - Assume the main stat for relics are maxed</p>
           <p><strong>Keep current relics</strong> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</p>
           <p><strong>Use equipped</strong> - If OFF, Optimizer will NOT consider relics currently equipped by a character</p>

@@ -27,6 +27,18 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
       </Flex>
 
       <Flex align='center'>
+          <Form.Item name="predictMaxedMainStat" valuePropName="checked">
+              <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                  defaultChecked
+                  style={{ width: 45, marginRight: 10 }}
+              />
+          </Form.Item>
+          <Text>Maxed main stat</Text>
+      </Flex>
+
+      <Flex align='center'>
         <Form.Item name="rankFilter" valuePropName="checked">
           <Switch
             checkedChildren={<CheckOutlined />}
@@ -35,31 +47,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
             style={{ width: 45, marginRight: 10 }}
           />
         </Form.Item>
-        <Text>Rank filter</Text>
-      </Flex>
-
-      <Flex align='center'>
-        <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-          <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
-            defaultChecked
-            style={{ width: 45, marginRight: 10 }}
-          />
-        </Form.Item>
-        <Text>Maxed main stat</Text>
-      </Flex>
-
-      <Flex align='center'>
-        <Form.Item name="keepCurrentRelics" valuePropName="checked">
-          <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
-            defaultChecked
-            style={{ width: 45, marginRight: 10 }}
-          />
-        </Form.Item>
-        <Text>Keep current relics</Text>
+        <Text>Character rank filter</Text>
       </Flex>
 
       <Flex align='center'>
@@ -72,6 +60,18 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
           />
         </Form.Item>
         <Text>Use equipped</Text>
+      </Flex>
+
+      <Flex align='center'>
+        <Form.Item name="keepCurrentRelics" valuePropName="checked">
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            defaultChecked
+            style={{ width: 45, marginRight: 10 }}
+          />
+        </Form.Item>
+        <Text>Keep current relics</Text>
       </Flex>
 
       <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>

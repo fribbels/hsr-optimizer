@@ -223,7 +223,7 @@ export const DB = {
     })
   },
 
-  addFromForm: (form) => {
+  addFromForm: (form, fromOptimizer) => {
     let characters = DB.getCharacters();
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -243,7 +243,10 @@ export const DB = {
     }
 
     console.log('Updated db characters', characters)
-    global.characterGrid.current.api.updateGridOptions({ rowData: characters })
+
+    // TODO: after render optimization, global.characterGrid is possibly undefined
+    if (fromOptimizer !== true)
+      global.characterGrid.current.api.updateGridOptions({ rowData: characters })
   },
 
   unequipCharacter: (id) => {

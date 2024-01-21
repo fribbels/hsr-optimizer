@@ -179,7 +179,8 @@ export default function OptimizerForm() {
   const [optimizationId, setOptimizationId] = useState();
 
   const characterOptions = useMemo(() => {
-    let characterData = JSON.parse(JSON.stringify(allCharacters));
+    console.log('useMemo::characterOptions', allCharacters);
+    const characterData = JSON.parse(JSON.stringify(allCharacters));
 
     for (let value of Object.values(characterData)) {
       value.value = value.id;
@@ -190,6 +191,7 @@ export default function OptimizerForm() {
   }, []);
 
   const lightConeOptions = useMemo(() => {
+    console.log('useMemo::lightConeOptions', DB.getMetadata().lightCones);
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
 
     for (let value of Object.values(lcData)) {
@@ -207,6 +209,7 @@ export default function OptimizerForm() {
   }
 
   useEffect(() => {
+    console.log('useEffect::selectedLightCone', selectedLightCone);
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
@@ -223,6 +226,7 @@ export default function OptimizerForm() {
   window.getVal = () => statDisplay
 
   const initialCharacter = useMemo(() => {
+    console.log('useMemo::initialCharacter');
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
     if (characters && characters.length > 0) {
       let character = characters[0];
@@ -239,6 +243,7 @@ export default function OptimizerForm() {
   // coming from char tab
   const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = global.store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
   useEffect(() => {
+    console.log('useEffect::selectedOptimizerCharacter', selectedOptimizerCharacter);
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
       setSelectedOptimizerCharacter(null);
@@ -246,6 +251,7 @@ export default function OptimizerForm() {
   }, [selectedOptimizerCharacter]);
 
   useEffect(() => {
+    console.log('useEffect::activeKey', activeKey)
     if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
       characterSelectorChange(characters[0].id)
     }
@@ -266,7 +272,7 @@ export default function OptimizerForm() {
     if (!OptimizerTabController.validateForm(x)) {
       return
     }
-    DB.addFromForm(x)
+    DB.addFromForm(x, true)
     SaveState.save()
     console.log('Form finished', x);
 

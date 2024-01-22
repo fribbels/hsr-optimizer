@@ -10,10 +10,10 @@ function run() {
     return Math.round(number * factor) / factor;
   }
 
-  const lcName = 'Reforged Remembrance'
-  const id = '23022'
+  const lcName = 'Earthly Escapade'
+  const id = '23021'
   const rarity = 5
-  const path = 'Warlock'
+  const path = 'Shaman'
 
   const convertedLightCone = {
     [id]: {

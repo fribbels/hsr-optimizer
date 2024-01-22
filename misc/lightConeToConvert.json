@@ -1,57 +1,67 @@
 {
-  "Name": "Reforged Remembrance",
-  "Desc": "Light the candles, spread the cards, breathe the fragrance...\\nThese broken memories become faces in the dancing light.\\nThe apparitions that emerge from flames tell her of pasts fondly recalled.\\nTime is sheared. The moment is frozen. She turns these most precious instants into crystallizations of eternity.\\n\\n<i>\"There is too much lost, and too little that remains... We nurture remembrance against the cruelties of time.\"</i>",
+  "Name": "Earthly Escapade",
+  "Desc": "Just as fireworks can flicker, she too can shift between ten different colors in a minute.\\n\\nWhen the light show nears its end, she sits high above, regarding the bustling masses beneath her feet with boredom.\\nThoughts flow and vanish, and slyness circulates across myriad eyes like a dancing kaleidoscope.\\n<i>\"I've made my decision. This is how we're going to have fun today!\"</i>\\n\\nBouncing and hopping, she glides through the crowds, her golden-red tail flitting in and out of sight.\\n<i>\"Keep up! The brightest fireworks are just about to begin!\"</i>",
   "Rarity": "CombatPowerLightconeRarity5",
-  "BaseType": "Warlock",
+  "BaseType": "Shaman",
   "Refinements": {
-    "Name": "Crystallize",
-    "Desc": "Increases wearer's Effect Hit Rate by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>. When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, they will individually gain 1 stack of Prophet. This effect can stack up to <unbreak>#4[i]</unbreak> times. In a single battle, each type of DoT can only generate 1 stack of Prophet. Every stack of Prophet increases wearer's ATK by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color> and the DoT dealt will ignore <color=#f29e38ff><unbreak>#3[f1]%</unbreak></color> of the target's DEF.",
+    "Name": "Capriciousness",
+    "Desc": "Increases the wearer's CRIT DMG by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>. The wearer gains Mask at the beginning of the battle for <unbreak>#6[i]</unbreak> turn(s). While the wearer has Mask, the wearer's allies have their CRIT Rate increased by <color=#f29e38ff><unbreak>#5[i]%</unbreak></color> and CRIT DMG increased by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>. Every time the wearer recovers a Skill Point (including Skill Points exceeding the limit), they gain a stack of Radiant Flame, and when the wearer has <unbreak>#4[i]</unbreak> Radiant Flame stacks, removes all the stacks and gains Mask for <unbreak>#3[i]</unbreak> turn(s).",
     "Level": {
       "1": {
         "ParamList": [
-          0.40000000037252903,
-          0.05000000004656613,
-          0.07199999992735684,
-          4
+          0.3200000002980232,
+          0.2800000002607703,
+          4,
+          4,
+          0.10000000009313226,
+          3
         ]
       },
       "2": {
         "ParamList": [
-          0.45000000041909516,
-          0.060000000055879354,
-          0.07899999944493175,
-          4
+          0.3900000003632158,
+          0.3500000003259629,
+          4,
+          4,
+          0.11000000010244548,
+          3
         ]
       },
       "3": {
         "ParamList": [
-          0.5000000004656613,
-          0.07000000006519258,
-          0.08599999966099858,
-          4
+          0.4600000004284084,
+          0.4200000003911555,
+          4,
+          4,
+          0.12000000011175871,
+          3
         ]
       },
       "4": {
         "ParamList": [
-          0.5500000005122274,
-          0.0800000000745058,
-          0.09299999987706542,
-          4
+          0.530000000493601,
+          0.49000000045634806,
+          4,
+          4,
+          0.13000000012107193,
+          3
         ]
       },
       "5": {
         "ParamList": [
           0.6000000005587935,
-          0.09000000008381903,
-          0.10000000009313226,
-          4
+          0.5600000005215406,
+          4,
+          4,
+          0.14000000013038516,
+          3
         ]
       }
     }
   },
   "Stats": [
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
@@ -60,21 +70,21 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111001,
+          "ItemID": 114011,
           "ItemNum": 8
         }
       ],
       "PlayerLevelRequire": 15,
       "MaxLevel": 20,
-      "BaseHP": 48,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 26.40000000037253,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 52.80000000074506,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 24,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 21,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 1,
       "PromotionCostList": [
         {
@@ -84,26 +94,26 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110221,
+          "ItemID": 110231,
           "ItemNum": 4
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111001,
+          "ItemID": 114011,
           "ItemNum": 12
         }
       ],
       "WorldLevelRequire": 1,
       "MaxLevel": 30,
-      "BaseHP": 105.6000000005588,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 58.080000000074506,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 116.16000000014901,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 52.80000000074506,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 46.200000000186265,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 2,
       "PromotionCostList": [
         {
@@ -113,26 +123,26 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110222,
+          "ItemID": 110232,
           "ItemNum": 4
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111002,
+          "ItemID": 114012,
           "ItemNum": 8
         }
       ],
       "WorldLevelRequire": 2,
       "MaxLevel": 40,
-      "BaseHP": 182.40000000037253,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 100.32000000029802,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 200.64000000059605,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 91.20000000018626,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 79.80000000074506,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 3,
       "PromotionCostList": [
         {
@@ -142,26 +152,26 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110222,
+          "ItemID": 110232,
           "ItemNum": 8
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111002,
+          "ItemID": 114012,
           "ItemNum": 12
         }
       ],
       "WorldLevelRequire": 3,
       "MaxLevel": 50,
-      "BaseHP": 259.20000000018626,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 142.56000000052154,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 285.12000000011176,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 129.6000000005588,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 113.40000000037253,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 4,
       "PromotionCostList": [
         {
@@ -171,26 +181,26 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110223,
+          "ItemID": 110233,
           "ItemNum": 5
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111003,
+          "ItemID": 114013,
           "ItemNum": 6
         }
       ],
       "WorldLevelRequire": 4,
       "MaxLevel": 60,
-      "BaseHP": 336,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 184.80000000074506,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 369.6000000005588,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 168,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 147,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 5,
       "PromotionCostList": [
         {
@@ -200,34 +210,34 @@
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110223,
+          "ItemID": 110233,
           "ItemNum": 10
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 111003,
+          "ItemID": 114013,
           "ItemNum": 8
         }
       ],
       "WorldLevelRequire": 5,
       "MaxLevel": 70,
-      "BaseHP": 412.80000000074506,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 227.04000000003725,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 454.0800000000745,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 206.40000000037253,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 180.6000000005588,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 23022,
+      "EquipmentID": 23021,
       "Promotion": 6,
       "PromotionCostList": [],
       "WorldLevelRequire": 5,
       "MaxLevel": 80,
-      "BaseHP": 489.6000000005588,
-      "BaseHPAdd": 7.2000000001862645,
-      "BaseAttack": 269.28000000026077,
-      "BaseAttackAdd": 3.9600000008940697,
+      "BaseHP": 538.5600000005215,
+      "BaseHPAdd": 7.920000000856817,
+      "BaseAttack": 244.80000000074506,
+      "BaseAttackAdd": 3.6000000005587935,
       "BaseDefence": 214.20000000018626,
       "BaseDefenceAdd": 3.1500000001396984
     }

@@ -828,5 +828,17 @@
         "icon": "icon/light_cone/24003.png",
         "preview": "image/light_cone_preview/24003.png",
         "portrait": "image/light_cone_portrait/24003.png"
+    },
+    "23022": {
+        "id": "23022",
+        "rarity": 5,
+        "path": "Warlock",
+        "name": "Reforged Remembrance"
+    },
+    "23021": {
+        "id": "23021",
+        "rarity": 5,
+        "path": "Shaman",
+        "name": "Earthly Escapade"
     }
 }

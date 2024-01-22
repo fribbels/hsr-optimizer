@@ -410,6 +410,20 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CD]: 0.29 },
       5: { [Constants.Stats.CD]: 0.32 },
     },
+    "23021": { // Earthly Escapade
+      1: { [Constants.Stats.CD]: 0.32 },
+      2: { [Constants.Stats.CD]: 0.39 },
+      3: { [Constants.Stats.CD]: 0.46 },
+      4: { [Constants.Stats.CD]: 0.53 },
+      5: { [Constants.Stats.CD]: 0.60 },
+    },
+    "23022": { // Reforged Remembrance
+      1: { [Constants.Stats.EHR]: 0.40 },
+      2: { [Constants.Stats.EHR]: 0.45 },
+      3: { [Constants.Stats.EHR]: 0.50 },
+      4: { [Constants.Stats.EHR]: 0.55 },
+      5: { [Constants.Stats.EHR]: 0.60 },
+    },
     "24000": {},
     "24001": {
       1: { [Constants.Stats.CR]: 0.08 },

@@ -102,6 +102,8 @@ const baseComputedStatsObject = {
   RES_PEN: 0,
   DMG_RED_MULTI: 1,
 
+  DOT_DMG_TAKEN_MULTI: 0,
+
   BASIC_CR_BOOST: 0,
   SKILL_CR_BOOST: 0,
   ULT_CR_BOOST: 0,
@@ -2603,16 +2605,31 @@ function jingliu(e) {
 }
 
 function blackswan(e) {
-  let basicScaling = basic(e, 0, 0)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  let arcanaStackMultiplier = talent(e, 0.12, 0.132)
+  let stack3ArcanaBlastDmg = talent(e, 1.80, 1.98)
+  let epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
+  let defShredValue = skill(e, 0.208, 0.22)
+
+  let basicScaling = basic(e, 0.60, 0.66)
+  let skillScaling = skill(e, 0.90, 0.99)
+  let ultScaling = ult(e, 1.20, 1.30)
+  let dotScaling = talent(e, 2.40, 2.64)
+
 
   return {
     display: () => (
       <Flex vertical gap={10} >
+        <FormSwitch name='epiphanyDebuff' text='Epiphany debuff' />
+        <FormSwitch name='defDecreaseDebuff' text='Def decrease debuff' />
+        <FormSlider name='arcanaStacks' text='Arcana stacks' min={0} max={50} />
+        <FormSwitch name='e1ResReduction' text='E1 RES reduction' disabled={e < 1} />
       </Flex>
     ),
     defaults: () => ({
+      epiphanyDebuff: true,
+      defDecreaseDebuff: true,
+      arcanaStacks: 7,
+      e1ResReduction: true
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -2622,35 +2639,72 @@ function blackswan(e) {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
+      x.DOT_SCALING += dotScaling + arcanaStackMultiplier * r.arcanaStacks
+      x.DOT_SCALING += (r.arcanaStacks >= 3) ? stack3ArcanaBlastDmg : 0
+
+      x.DOT_DEF_PEN += (r.arcanaStacks >= 7) ? 0.20 : 0
+      x.DEF_SHRED += (r.defDecreaseDebuff) ? defShredValue : 0
+      x.DOT_VULNERABILITY += (r.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0
+
+      x.RES_PEN += (e >= 1 && r.e1ResReduction) ? 0.25 : 0
 
       return x
     },
     calculateBaseMultis: (c) => {
       let x = c.x
 
+      x.ELEMENTAL_DMG += Math.min(0.72, 0.60 * x[Stats.EHR])
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     }
   }
 }
 
 function sparkle(e) {
-  let basicScaling = basic(e, 0, 0)
+  let skillCdBuffScaling = skill(e, 0.24, 0.264)
+  let skillCdBuffBase = skill(e, 0.45, 0.486)
+  let cipherTalentStackBoost = ult(e, 0.10, 0.108)
+  let talentBaseStackBoost = ult(e, 0.06, 0.066)
+
+  let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 0, 0)
   let ultScaling = ult(e, 0, 0)
+
+  let atkBoostByQuantumAllies = {
+    0: 0,
+    1: 0.05,
+    2: 0.15,
+    3: 0.30
+  }
 
   return {
     display: () => (
       <Flex vertical gap={10} >
+        <FormSwitch name='skillCdBuff' text='Skill CD buff' />
+        <FormSwitch name='cipherBuff' text='Cipher buff' />
+        <FormSlider name='talentStacks' text='Talent DMG stacks' min={0} max={3} />
+        <FormSlider name='quantumAllies' text='Quantum allies' min={0} max={3} />
       </Flex>
     ),
     defaults: () => ({
+      skillCdBuff: true,
+      cipherBuff: true,
+      talentStacks: 3,
+      quantumAllies: 3,
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
+
+      x[Stats.ATK_P] += 0.15 + (atkBoostByQuantumAllies[r.quantumAllies] || 0)
+      x[Stats.ATK_P] += (e >= 1 && r.cipherBuff) ? 0.40 : 0
+
+      x.ELEMENTAL_DMG += (r.cipherBuff) ? r.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost) : r.talentStacks * talentBaseStackBoost
+      x.DEF_SHRED += (e >= 2) ? 0.08 * r.talentStacks : 0
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -2658,8 +2712,12 @@ function sparkle(e) {
 
       return x
     },
-    calculateBaseMultis: (c) => {
+    calculateBaseMultis: (c, request) => {
+      let r = request.characterConditionals
       let x = c.x
+
+      x[Stats.CD] += (r.skillCdBuff) ? skillCdBuffBase + skillCdBuffScaling * x[Stats.CD] : 0
+      x[Stats.CD] += (e >= 6 && r.skillCdBuff) ? 0.30 * x[Stats.CD] : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2669,25 +2727,39 @@ function sparkle(e) {
 }
 
 function misha(e) {
-  let basicScaling = basic(e, 0, 0)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  let basicScaling = basic(e, 1.00, 1.10)
+  let skillScaling = skill(e, 2.00, 2.20)
+  let ultStackScaling = ult(e, 0.60, 0.65)
+  ultStackScaling += (e >= 4 ? 0.06 : 0)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
+        <FormSlider name='ultHitsOnTarget' text='Ult hits on target' min={1} max={10} />
+        <FormSwitch name='enemyFrozen' text='Enemy frozen' />
+        <FormSwitch name='e2DefReduction' text='E2 def reduction' disabled={e < 2} />
+        <FormSwitch name='e6UltDmgBoost' text='E6 ult dmg boost' disabled={e < 6} />
       </Flex>
     ),
     defaults: () => ({
+      ultHitsOnTarget: 10,
+      enemyFrozen: true,
+      e2DefReduction: true,
+      e6UltDmgBoost: true,
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
+      x[Stats.CD] += (r.enemyFrozen) ? 0.30 : 0
+
+      x.DEF_SHRED += (e >= 2 && r.e2DefReduction) ? 0.16 : 0
+      x.ELEMENTAL_DMG += (e >= 6 && r.e6UltDmgBoost) ? 0.30 : 0
+
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+      x.ULT_SCALING += ultStackScaling * (r.ultHitsOnTarget)
 
       return x
     },

@@ -64,7 +64,7 @@ export default function OptimizerTab(props) {
     { field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ ATK' },
     { field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ DEF' },
     { field: 'xHP', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ HP' },
-    { field: 'xSPD', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ SPD' },
+    { field: 'xSPD', valueFormatter: Renderer.tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ SPD' },
     { field: 'xCR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ CR' },
     { field: 'xCD', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ CD' },
     { field: 'xEHR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ EHR' },

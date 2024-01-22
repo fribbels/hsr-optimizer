@@ -96,6 +96,8 @@ const lightConeOptionMapping = {
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
   24003: SolitaryHealing,
+  23021: EarthlyEscapade,
+  23022: ReforgedRemembrance,
 }
 
 function BaptismOfPureThought(s) {
@@ -1933,6 +1935,54 @@ function Arrows(s) {
       let r = request.lightConeConditionals
 
       x[Stats.CR] += (r.critBuff) ? sValues[s] : 0
+    },
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
+  }
+}
+
+function ReforgedRemembrance(s) {
+  let sValuesAtk = [0.05, 0.06, 0.07, 0.08, 0.09]
+  let sValuesDotPen = [0.072, 0.079, 0.086, 0.093, 0.10]
+
+  return {
+    display: () => (
+      <Flex vertical gap={defaultGap} >
+        <FormSlider name='prophetStacks' text='Prophet stacks' min={0} max={4} lc />
+      </Flex>
+    ),
+    defaults: () => ({
+      prophetStacks: 4,
+    }),
+    precomputeEffects: (x, request) => {
+      let r = request.lightConeConditionals
+
+      x[Stats.ATK_P] += r.prophetStacks * sValuesAtk[s]
+      x.DOT_DEF_PEN += r.prophetStacks * sValuesDotPen[s]
+    },
+    calculatePassives: (/*c, request */) => { },
+    calculateBaseMultis: (/* c, request */) => { }
+  }
+}
+
+function EarthlyEscapade(s) {
+  const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
+  const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
+
+  return {
+    display: () => (
+      <Flex vertical gap={defaultGap} >
+        <FormSwitch name='maskActive' text='Mask active' lc />
+      </Flex>
+    ),
+    defaults: () => ({
+      maskActive: true,
+    }),
+    precomputeEffects: (x, request) => {
+      let r = request.lightConeConditionals
+
+      x[Stats.CR] += (r.maskActive) ? sValuesCr[s] : 0
+      x[Stats.CD] += (r.maskActive) ? sValuesCd[s] : 0
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

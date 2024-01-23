@@ -16,10 +16,16 @@ const tagHeight = 34
 const imgWidth = 34
 
 export default function RelicFilterBar() {
-  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  let setFocusCharacter = global.store(s => s.setFocusCharacter);
+  const setRelicTabFilters = global.store(s => s.setRelicTabFilters);
+  const setFocusCharacter = global.store(s => s.setFocusCharacter);
+  const focusCharacter = global.store(s => s.focusCharacter);
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
-  let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  if (focusCharacter && focusCharacter !== currentlySelectedCharacterId) {
+    // TODO: find a better way to prevent UI thrash, NPEs on global.current.api.blah
+    // sets focusCharacter & currentlySelectedCharacterId in execution
+    setTimeout(() => { characterSelectorChange(focusCharacter) }, 100);
+  }
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions();
@@ -175,6 +181,7 @@ export default function RelicFilterBar() {
               onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}
+              defaultValue={focusCharacter}
             />
             <Button
               onClick={rescoreClicked}

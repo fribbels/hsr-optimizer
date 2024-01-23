@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 
 
 export default function RelicsTab(props) {
+  console.log('======================================================================= RENDER RelicsTab');
   const gridRef = useRef();
   global.relicsGrid = gridRef;
 
@@ -38,7 +39,7 @@ export default function RelicsTab(props) {
     }
 
     // Calculate filter conditions
-    let filterModel = {}
+    const filterModel = {}
 
     filterModel.set = {
       conditions: relicTabFilters.set.map(x => ({
@@ -69,7 +70,7 @@ export default function RelicsTab(props) {
     }
 
     // Substats have to filter augmented stats individually
-    for (let substatFilter of relicTabFilters.subStats) {
+    for (const substatFilter of relicTabFilters.subStats) {
       filterModel[`augmentedStats.${substatFilter}`] = {
         filterType: 'number',
         type: 'greaterThan',

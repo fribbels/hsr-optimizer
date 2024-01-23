@@ -4,37 +4,19 @@ import { Card, Divider, Flex, Typography } from 'antd';
 
 import { Renderer } from "lib/renderer";
 import { Assets } from "lib/assets";
-import DB from "lib/db";
 import { iconSize } from 'lib/constantsUi';
-
 import GenerateStat from 'components/relicPreview/GenerateStat';
 
 const { Text } = Typography;
 
-
-
-
-function getRelic(relic) {
-  if (!relic || !relic.id) {
-    return { substats: [] }
-  }
-
-  return DB.getRelicById(relic.id)
-}
-
 const RelicPreview = ({
-  relic = {},
+  relic,
+  // characterId = undefined, // CharacterPreview by way of RelicScorerTab
   score = undefined,
   source = '',
   setSelectedRelic = () => { },
   setEditModalOpen = () => { }
 }) => {
-  relic = getRelic(relic);
-
-  // if (source == 'scorer') {
-  //   relic = props.relic
-  // }
-
   relic = {
     enhance: 0,
     part: undefined,

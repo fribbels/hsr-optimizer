@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography, } from 'antd';
 import styled from 'styled-components';
-
-import { Assets } from '../lib/assets';
-import { Utils } from "../lib/utils";
-import DB from "../lib/db";
-import { Constants } from "../lib/constants.ts";
 import PropTypes from "prop-types";
+
+import { Assets } from 'lib/assets';
+import { Utils } from "lib/utils";
+import DB from "lib/db";
+import { Constants } from "lib/constants.ts";
 
 const { Text } = Typography;
 

@@ -48,6 +48,8 @@ import { Hint } from "lib/hint";
 
 import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
 import FilterRow from './optimizerForm/FilterRow.tsx';
+import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
+import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -56,130 +58,34 @@ let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
-function generateOrnamentsOptions() {
-  return Object.values(Constants.SetsOrnaments).map(x => {
-    return {
-      value: x,
-      label:
-        <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
-          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-            {x}
-          </div>
-        </Flex>
-    }
-  })
-}
-
-function generateSetsOptions() {
-  let result = [
-    {
-      value: '4 Piece',
-      label: '4 Piece',
-      children: []
-    },
-    {
-      value: '2 Piece',
-      label: '2 Piece',
-      children: []
-    }
-  ];
-
-  let childrenWithAny = Object.entries(Constants.SetsRelics).map(set => {
-    return {
-      value: set[1],
-      label: set[1]
-    }
-  })
-  childrenWithAny.push({
-    value: 'Any',
-    label: 'Any'
-  })
-
-  function generateLabel(value, parens, label) {
-    let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
-    return (
-      <Flex gap={5} align='center'>
-        <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
-        <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-          {parens + label}
-        </div>
-      </Flex>
-    )
-  }
-
-  for (let set of Object.entries(Constants.SetsRelics)) {
-    result[0].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(4) ', set[1])
-    })
-
-    result[1].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(2) ', set[1]),
-      children: childrenWithAny.map(x => {
-        let parens = x.value == 'Any' ? '(0) ' : '(2) ';
-        return {
-          value: x.value,
-          label: generateLabel(x.value, parens, x.label)
-        }
-      })
-    })
-  }
-
-  return result;
-}
-
-
-// const InputNumberStyled = styled(InputNumber)`
-//   width: 62px
-// `
-
-// function FilterRow(props) {
-//   return (
-//     <Flex justify='space-between'>
-//       <Form.Item size="default" name={`min${props.name}`}>
-//         <InputNumberStyled size="small" controls={false} />
-//       </Form.Item>
-//       <FormStatTextStyled>{props.label}</FormStatTextStyled>
-//       <Form.Item size="default" name={`max${props.name}`}>
-//         <InputNumberStyled size="small" controls={false} />
-//       </Form.Item>
-//     </Flex>
-//   )
-// }
-// FilterRow.propTypes = {
-//   name: PropTypes.string,
-//   label: PropTypes.string,
-// }
 
 
 let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER OptimizerForm')
-  console.log('OptimizerForm')
+  console.log('======================================================================= RENDER OptimizerForm');
   const [optimizerForm] = Form.useForm();
-  window.optimizerForm = optimizerForm
+  window.optimizerForm = optimizerForm;
 
+
+  // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
-
-  let setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
-
+  const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
   const activeKey = global.store(s => s.activeKey)
   const characters = global.store(s => s.characters) // characters set in this localStorage instance
-  const statDisplay = global.store(s => s.statDisplay)
-  const setStatDisplay = global.store(s => s.setStatDisplay)
   const allCharacters = DB.getMetadata().characters;
-
-
   const [optimizationId, setOptimizationId] = useState();
+  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
+  // TODO: refactor if/when view-routing/deep-linking implemented
+  // coming from char tab
+  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
+  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
 
   const characterOptions = useMemo(() => {
     const characterData = JSON.parse(JSON.stringify(allCharacters));
-    console.log('useMemo::characterOptions', characterData);
+    console.log('useMemo::characterOptions');
 
     for (let value of Object.values(characterData)) {
       value.value = value.id;
@@ -191,7 +97,7 @@ export default function OptimizerForm() {
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
-    console.log('useMemo::lightConeOptions', lcData);
+    console.log('useMemo::lightConeOptions');
 
     for (let value of Object.values(lcData)) {
       value.value = value.id;
@@ -201,25 +107,17 @@ export default function OptimizerForm() {
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
-  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
-  window.selectedLightCone = selectedLightCone
-  window.setSelectedLightCone = (x) => {
-    setSelectedLightCone(x)
-  }
-
   const characterSelectorChange = useCallback(id => {
     setSelectedCharacter(characterOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(id)
+    OptimizerTabController.changeCharacter(id, setSelectedLightCone);
   }, [characterOptions]);
 
   const lightConeSelectorChange = useCallback(id => {
     setSelectedLightCone(lightConeOptions.find(x => x.id == id))
   }, [lightConeOptions]);
 
-
-  // useEffect(() => {
   useMemo(() => {
-    console.log('useEffect::selectedLightCone', selectedLightCone);
+    console.log('useEffect::selectedLightCone');
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
@@ -231,9 +129,7 @@ export default function OptimizerForm() {
     if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     }
-  }, [optimizerForm, selectedLightCone])
-
-  window.getVal = () => statDisplay
+  }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
     console.log('useMemo::initialCharacter');
@@ -241,19 +137,13 @@ export default function OptimizerForm() {
     if (characters && characters.length > 0) {
       let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
-      setStatDisplay(character.form.statDisplay || 'base')
       return characterOptions.find(x => x.id == character.id)
     }
-  }, [characterOptions, lightConeSelectorChange, setStatDisplay]);
-
+  }, [characterOptions, lightConeSelectorChange]);
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
 
-  // TODO: refactor if/when view-routing/deep-linking implemented
-  // coming from char tab
-  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
   useEffect(() => {
-    console.log('useEffect::selectedOptimizerCharacter selectedOptimizerCharacter changed', selectedOptimizerCharacter);
+    console.log('useEffect::selectedOptimizerCharacter selectedOptimizerCharacter changed');
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
       setSelectedOptimizerCharacter(null);
@@ -306,7 +196,7 @@ export default function OptimizerForm() {
     }
     let request = allValues
 
-    console.log('Values changed', request, changedValues);
+    console.log('@onValuesChange'/* , request, changedValues */);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
@@ -726,7 +616,7 @@ export default function OptimizerForm() {
                     style={{
                       width: panelWidth
                     }}
-                    options={generateOrnamentsOptions()}
+                    options={GenerateOrnamentsOptions()}
                     tagRender={OrnamentSetTagRenderer}
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
@@ -746,7 +636,7 @@ export default function OptimizerForm() {
                 <Form.Item size="default" name='relicSets'>
                   <Cascader
                     placeholder="Relics"
-                    options={generateSetsOptions()}
+                    options={GenerateSetsOptions()}
                     showCheckedStrategy={SHOW_CHILD}
                     tagRender={RelicSetTagRenderer}
                     placement='bottomLeft'

@@ -60,22 +60,25 @@ window.store = create((set) => ({
     PlanarSphereTotal: 0,
     LinkRopeTotal: 0,
   },
-  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+  setPermutationDetails: (x) => set(() => { console.log('@permutationDetails'); return { permutationDetails: x } }),
 
   permutations: 0,
-  setPermutations: (x) => set(() => ({ permutations: x })),
+  setPermutations: (x) => set(() => { console.log('@permutations'); return { permutations: x } }),
 
   permutationsSearched: 0,
-  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+  setPermutationsSearched: (x) => set(() => { console.log('@permutationsSearched'); return { permutationsSearched: x } }),
 
   permutationsResults: 0,
-  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+  setPermutationsResults: (x) => set(() => { console.log('@permutationsResults'); return { permutationsResults: x } }),
 
   statDisplay: 'base',
-  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setStatDisplay: (x) => set(() => { console.log('@statDisplay'); return { statDisplay: x } }),
 
   activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
-  setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setActiveKey: (x) => set(() => {
+    console.log('---- Set active key', x);
+    return { activeKey: x };
+  }),
 
   scorerId: undefined,
   setScorerId: (x) => set(() => ({ scorerId: x })),

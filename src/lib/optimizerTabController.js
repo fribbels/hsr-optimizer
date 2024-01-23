@@ -364,7 +364,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update', form, newForm, defaultOptions)
+    console.log('Form update'/* , form, newForm, defaultOptions */)
     return newForm
   },
 
@@ -465,6 +465,7 @@ export const OptimizerTabController = {
   },
 
   resetFilters: () => {
+    console.info('@resetFilters');
     let fieldValues = OptimizerTabController.getForm()
     let newForm = {
       "characterEidolon": fieldValues.characterEidolon,
@@ -493,7 +494,7 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  changeCharacter: (id) => {
+  changeCharacter: (id, setSelectedLightCone) => {
     console.log('ChangeCharacter')
     let character = DB.getCharacterById(id)
     if (character) {
@@ -501,7 +502,7 @@ export const OptimizerTabController = {
       global.optimizerForm.setFieldsValue(displayFormValues)
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        global.setSelectedLightCone(lightConeMetadata)
+        setSelectedLightCone(lightConeMetadata)
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {

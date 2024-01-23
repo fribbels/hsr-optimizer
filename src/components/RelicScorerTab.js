@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Flex, Form, Input, Segmented, Typography, } from 'antd';
-import { CharacterPreview } from './CharacterPreview';
-import { SaveState } from '../lib/saveState';
-import { Message } from "../lib/message";
-import { CharacterConverter } from "../lib/characterConverter";
-import { Assets } from "../lib/assets";
+import { CharacterPreview } from 'components/CharacterPreview';
+import { SaveState } from 'lib/saveState';
+import { Message } from "lib/message";
+import { CharacterConverter } from "lib/characterConverter";
+import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
-import DB from "../lib/db";
+import DB from "lib/db";
 
 const { Text } = Typography;
 

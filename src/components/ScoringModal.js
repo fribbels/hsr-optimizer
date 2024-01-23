@@ -54,7 +54,7 @@ export default function ScoringModal() {
 
       console.log('Scoring modal opening set as:', scoringMetadata)
     }
-  }, [selectedScoringCharacter, isScoringModalOpen])
+  }, [selectedScoringCharacter, isScoringModalOpen, scoringAlgorithmForm])
 
   const panelWidth = 225
   const defaultGap = 5

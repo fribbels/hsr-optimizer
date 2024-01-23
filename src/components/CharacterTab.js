@@ -113,7 +113,7 @@ export default function CharacterTab(props) {
 
     global.store.getState().setCharacterTabBlur(global.store.getState().characterTabSelectedId != data.id) // Only blur if different character
     setCharacterTabSelectedId(data.id)
-  }, []);
+  }, [setCharacterTabSelectedId]);
 
   // TODO: implement routing to handle this
   // const [setActiveKey, setSelectedOptimizerCharacter] = global.store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);

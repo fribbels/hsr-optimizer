@@ -94,7 +94,7 @@ export default function RelicScorerTab(props) {
 
     useEffect(() => {
       setSelectedScoringCharacter(selectedCharacter?.id)
-    }, [selectedCharacter])
+    }, [selectedCharacter, setSelectedScoringCharacter])
 
     let options = []
     for (let i = 0; i < props.availableCharacters.length; i++) {

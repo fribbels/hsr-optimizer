@@ -12,7 +12,7 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Optimizer } from 'lib/optimizer';
 import styled from 'styled-components';
 import {
@@ -187,7 +187,7 @@ export default function OptimizerForm() {
     }
 
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
-  }, []);
+  }, [allCharacters]);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -207,6 +207,16 @@ export default function OptimizerForm() {
     setSelectedLightCone(x)
   }
 
+  const characterSelectorChange = useCallback(id => {
+    setSelectedCharacter(characterOptions.find(x => x.id == id))
+    OptimizerTabController.changeCharacter(id)
+  }, [characterOptions]);
+
+  const lightConeSelectorChange = useCallback(id => {
+    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
+  }, [lightConeOptions]);
+
+
   // useEffect(() => {
   useMemo(() => {
     console.log('useEffect::selectedLightCone', selectedLightCone);
@@ -221,7 +231,7 @@ export default function OptimizerForm() {
     if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     }
-  }, [selectedLightCone])
+  }, [optimizerForm, selectedLightCone])
 
   window.getVal = () => statDisplay
 
@@ -234,22 +244,9 @@ export default function OptimizerForm() {
       setStatDisplay(character.form.statDisplay || 'base')
       return characterOptions.find(x => x.id == character.id)
     }
-  }, []);
-
-  // let initialCharacter;
-  // useEffect(() => {
-  //   console.log('useEffect::initialCharacter');
-  //   let characters = DB.getCharacters(); // retrieve instance localStore saved chars
-  //   if (characters && characters.length > 0) {
-  //     let character = characters[0];
-  //     lightConeSelectorChange(character.form.lightCone)
-  //     setStatDisplay(character.form.statDisplay || 'base')
-  //     initialCharacter = characterOptions.find(x => x.id == character.id)
-  //   }
-  // }, [selectedCharacter]);
+  }, [characterOptions, lightConeSelectorChange, setStatDisplay]);
 
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
-  // window.setSelectedCharacter = setSelectedCharacter
 
   // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
@@ -261,24 +258,15 @@ export default function OptimizerForm() {
       characterSelectorChange(selectedOptimizerCharacter.id);
       setSelectedOptimizerCharacter(null);
     }
-  }, [selectedOptimizerCharacter]);
+  }, [characterSelectorChange, selectedOptimizerCharacter, setSelectedOptimizerCharacter, selectedCharacter.id]);
 
   useEffect(() => {
     console.log('useEffect::activeKey', activeKey)
     if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
       characterSelectorChange(characters[0].id)
     }
-  }, [activeKey])
+  }, [activeKey, characters, characterSelectorChange, selectedCharacter])
 
-
-  function characterSelectorChange(id) {
-    setSelectedCharacter(characterOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(id)
-  }
-
-  function lightConeSelectorChange(id) {
-    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
-  }
 
   const onFinish = (x) => {
     OptimizerTabController.fixForm(x);
@@ -359,7 +347,7 @@ export default function OptimizerForm() {
     }
 
     return getDefaultForm(initialCharacter)
-  }, [initialCharacter]);
+  }, [initialCharacter, selectedCharacter]);
 
   useEffect(() => {
     onValuesChange({}, initialValues)

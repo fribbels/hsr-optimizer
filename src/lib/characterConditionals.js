@@ -214,7 +214,8 @@ function xueyi(e) {
 }
 
 function drratio(e) {
-  let maxDebuffStacksMax = (e >= 1) ? 10 : 6
+  let debuffStacksMax = 5
+  let summationStacksMax = (e >= 1) ? 10 : 6
 
   let basicScaling = basic(e, 1.00, 1.10)
   let skillScaling = skill(e, 1.50, 1.65)
@@ -239,17 +240,21 @@ function drratio(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSlider name='enemyDebuffStacks' text='Enemy debuff stacks' min={0} max={maxDebuffStacksMax} />
+        <FormSlider name='summationStacks' text='Summation stacks' min={0} max={summationStacksMax} />
+        <FormSlider name='enemyDebuffStacks' text='Enemy debuffs' min={0} max={debuffStacksMax} />
       </Flex>
     ),
     defaults: () => ({
-      enemyDebuffStacks: maxDebuffStacksMax,
+      enemyDebuffStacks: debuffStacksMax,
+      summationStacks: summationStacksMax,
     }),
     precomputeEffects: (request) => {
       let r = request.characterConditionals
       let x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.CR] += r.summationStacks * 0.025
+      x[Stats.CD] += r.summationStacks * 0.05
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -258,8 +263,6 @@ function drratio(e) {
       x.FUA_SCALING += fuaScaling
 
       // Boost
-      x.SKILL_CR_BOOST += r.enemyDebuffStacks * 0.025
-      x.SKILL_CD_BOOST += r.enemyDebuffStacks * 0.05
       x.ELEMENTAL_DMG += (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0
       x.FUA_BOOST += (e >= 6) ? 0.50 : 0
 

@@ -4,7 +4,6 @@ import { Button, Flex, Image, Popconfirm, Typography } from 'antd';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import "ag-grid-community/styles/ag-theme-balham.css";
-import "../style/style.css";
 import DB from '../lib/db';
 import { CharacterPreview } from './CharacterPreview';
 import { Assets } from "../lib/assets";
@@ -117,14 +116,15 @@ export default function CharacterTab(props) {
   }, []);
 
   // TODO: implement routing to handle this
-  const [setActiveKey, setSelectedOptimizerCharacter] = global.store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
-  const cellDoubleClickedListener = useCallback(e => {
+  // const [setActiveKey, setSelectedOptimizerCharacter] = global.store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
+  const setActiveKey = global.store(s => s.setActiveKey);
+  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
+  const cellDoubleClickedListener = e => {
     // setSelectedChar
     setSelectedOptimizerCharacter(charactersById[e.data.id]);
-
     // set view
     setActiveKey('optimizer');
-  }, []);
+  };
 
   function drag(event, index) {
     const dragged = event.node.data;
@@ -183,7 +183,11 @@ export default function CharacterTab(props) {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
-    global.relicsGrid.current.api.redrawRows()
+
+    // Char and Relic tab are never mounted together - this is unavailble
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.redrawRows()
+    }
 
     SaveState.save()
   }

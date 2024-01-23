@@ -440,7 +440,7 @@ function getOverrideTraces() {
     "1001": { // March 7th
       [Constants.Stats.Ice_DMG]: 0.224,
       [Constants.Stats.DEF_P]: 0.225,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1002": { // Dan Heng
       [Constants.Stats.Wind_DMG]: 0.224,
@@ -450,12 +450,12 @@ function getOverrideTraces() {
     "1003": { // Himeko
       [Constants.Stats.Fire_DMG]: 0.224,
       [Constants.Stats.ATK_P]: 0.18,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1004": { // Welt
       [Constants.Stats.ATK_P]: 0.28,
       [Constants.Stats.Imaginary_DMG]: 0.144,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1005": { // Kafka
       [Constants.Stats.ATK_P]: 0.28,
@@ -495,17 +495,17 @@ function getOverrideTraces() {
     "1103": { // Serval
       [Constants.Stats.CR]: 0.187,
       [Constants.Stats.EHR]: 0.18,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1104": { // Gepard
       [Constants.Stats.Ice_DMG]: 0.224,
-      [Constants.Stats.RES]: 0.12,
+      [Constants.Stats.RES]: 0.18,
       [Constants.Stats.DEF_P]: 0.125,
     },
     "1105": { // Natasha
       [Constants.Stats.HP_P]: 0.28,
       [Constants.Stats.DEF_P]: 0.125,
-      [Constants.Stats.RES]: 0.12,
+      [Constants.Stats.RES]: 0.18,
     },
     "1106": { // Pela
       [Constants.Stats.Ice_DMG]: 0.224,
@@ -520,7 +520,7 @@ function getOverrideTraces() {
     "1108": { // Sampo
       [Constants.Stats.ATK_P]: 0.28,
       [Constants.Stats.EHR]: 0.18,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1109": { // Hook
       [Constants.Stats.ATK_P]: 0.28,
@@ -553,7 +553,7 @@ function getOverrideTraces() {
       [Constants.Stats.Lightning_DMG]: 0.08,
     },
     "1203": { // Luocha
-      [Constants.Stats.ATK_P]: 0.3,
+      [Constants.Stats.ATK_P]: 0.28,
       [Constants.Stats.HP_P]: 0.18,
       [Constants.Stats.DEF_P]: 0.125,
     },
@@ -595,7 +595,7 @@ function getOverrideTraces() {
     "1211": { // Bailu
       [Constants.Stats.HP_P]: 0.28,
       [Constants.Stats.DEF_P]: 0.225,
-      [Constants.Stats.RES]: 0.067,
+      [Constants.Stats.RES]: 0.1,
     },
     "1212": { // Jingliu
       [Constants.Stats.HP_P]: 0.10,

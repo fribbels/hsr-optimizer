@@ -76,7 +76,6 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
     global.setOptimizerBuild(build);
-    global.relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 
@@ -677,5 +676,8 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
+  if (global.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
+    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  }
 }

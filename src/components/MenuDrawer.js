@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { ConfigProvider, Menu, Typography } from 'antd';
+import { /* ConfigProvider, */ Menu, Typography } from 'antd';
 import { DiscordIcon } from '../icons/DiscordIcon';
 import { GithubIcon } from '../icons/GithubIcon';
 import { CoffeeIcon } from '../icons/CoffeeIcon';
@@ -50,8 +50,8 @@ const items = [
 ];
 
 const MenuDrawer = (props) => {
-  const { hashes } = props
-  const [activeKey, setActiveKey] = global.store(s => [s.activeKey, s.setActiveKey])
+  const { hashes } = props;
+  const [activeKey, setActiveKey] = global.store(s => [s.activeKey, s.setActiveKey]);
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
@@ -63,17 +63,21 @@ const MenuDrawer = (props) => {
     }
     setActiveKey(e.key)
   };
-
+  function callback(
+    id, // the "id" prop of the Profiler tree that has just committed
+    phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+    actualDuration, // time spent rendering the committed update
+    baseDuration, // estimated time to render the entire subtree without memoization
+    startTime, // when React began rendering this update
+    commitTime, // when React committed this update
+    interactions // the Set of interactions belonging to this update
+  ) {
+    console.log('===================================================================================================')
+    console.log(`MenuDrawer id: ${id} :: phase [${phase}] :: interactions ${interactions}`);
+    console.log('===================================================================================================')
+  }
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Menu: {
-            margin: 2
-          },
-        },
-      }}
-    >
+    <Profiler id="MenuDrawer" onRender={callback}>
       <Menu
         onClick={onClick}
         // inlineIndent={15}
@@ -88,7 +92,7 @@ const MenuDrawer = (props) => {
         mode="inline"
         items={items}
       />
-    </ConfigProvider>
+    </Profiler>
   );
 };
 MenuDrawer.propTypes = {

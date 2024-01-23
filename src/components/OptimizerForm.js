@@ -1,19 +1,19 @@
 import {
   Button,
   Cascader,
-  ConfigProvider,
+  // ConfigProvider,
   Divider,
   Flex,
   Form,
   Image,
-  InputNumber,
+  // InputNumber,
   Select,
   Switch,
   Tag,
   Typography,
 } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Optimizer } from '../lib/optimizer';
+import { Optimizer } from 'lib/optimizer';
 import styled from 'styled-components';
 import {
   Constants,
@@ -24,27 +24,30 @@ import {
   enemyHpPercentOptions,
   superimpositionOptions,
   eidolonOptions
-} from '../lib/constants.ts';
+} from 'lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
-import { OptimizerTabController } from '../lib/optimizerTabController';
+import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
-import { SaveState } from '../lib/saveState';
-import { CharacterConditionals } from "../lib/characterConditionals";
-import { LightConeConditionals } from "../lib/lightConeConditionals";
+import { SaveState } from 'lib/saveState';
+import { CharacterConditionals } from "lib/characterConditionals";
+import { LightConeConditionals } from "lib/lightConeConditionals";
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
 import { v4 as uuidv4 } from "uuid";
-import { getDefaultForm } from "../lib/defaultForm";
+import { getDefaultForm } from "lib/defaultForm";
 import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
-import { Assets } from "../lib/assets";
+import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
-import DB from "../lib/db";
-import { Message } from "../lib/message";
-import { Hint } from "../lib/hint";
+import DB from "lib/db";
+import { Message } from "lib/message";
+import { Hint } from "lib/hint";
+
+import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
+import FilterRow from './optimizerForm/FilterRow.tsx';
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -127,39 +130,35 @@ function generateSetsOptions() {
   return result;
 }
 
-const FormStatTextStyled = styled(Text)`
-  display: block;
-  text-align: center;
-`
 
-const InputNumberStyled = styled(InputNumber)`
-  width: 62px
-`
+// const InputNumberStyled = styled(InputNumber)`
+//   width: 62px
+// `
 
-function FilterRow(props) {
-  return (
-    <Flex justify='space-between'>
-      <Form.Item size="default" name={`min${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-      <FormStatTextStyled>{props.label}</FormStatTextStyled>
-      <Form.Item size="default" name={`max${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-    </Flex>
-  )
-}
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
-}
+// function FilterRow(props) {
+//   return (
+//     <Flex justify='space-between'>
+//       <Form.Item size="default" name={`min${props.name}`}>
+//         <InputNumberStyled size="small" controls={false} />
+//       </Form.Item>
+//       <FormStatTextStyled>{props.label}</FormStatTextStyled>
+//       <Form.Item size="default" name={`max${props.name}`}>
+//         <InputNumberStyled size="small" controls={false} />
+//       </Form.Item>
+//     </Flex>
+//   )
+// }
+// FilterRow.propTypes = {
+//   name: PropTypes.string,
+//   label: PropTypes.string,
+// }
 
 
 let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER')
+  console.log('======================================================================= RENDER OptimizerForm')
   console.log('OptimizerForm')
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = optimizerForm
@@ -179,8 +178,8 @@ export default function OptimizerForm() {
   const [optimizationId, setOptimizationId] = useState();
 
   const characterOptions = useMemo(() => {
-    console.log('useMemo::characterOptions', allCharacters);
     const characterData = JSON.parse(JSON.stringify(allCharacters));
+    console.log('useMemo::characterOptions', characterData);
 
     for (let value of Object.values(characterData)) {
       value.value = value.id;
@@ -191,8 +190,8 @@ export default function OptimizerForm() {
   }, []);
 
   const lightConeOptions = useMemo(() => {
-    console.log('useMemo::lightConeOptions', DB.getMetadata().lightCones);
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
+    console.log('useMemo::lightConeOptions', lcData);
 
     for (let value of Object.values(lcData)) {
       value.value = value.id;
@@ -208,7 +207,8 @@ export default function OptimizerForm() {
     setSelectedLightCone(x)
   }
 
-  useEffect(() => {
+  // useEffect(() => {
+  useMemo(() => {
     console.log('useEffect::selectedLightCone', selectedLightCone);
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
@@ -236,14 +236,27 @@ export default function OptimizerForm() {
     }
   }, []);
 
+  // let initialCharacter;
+  // useEffect(() => {
+  //   console.log('useEffect::initialCharacter');
+  //   let characters = DB.getCharacters(); // retrieve instance localStore saved chars
+  //   if (characters && characters.length > 0) {
+  //     let character = characters[0];
+  //     lightConeSelectorChange(character.form.lightCone)
+  //     setStatDisplay(character.form.statDisplay || 'base')
+  //     initialCharacter = characterOptions.find(x => x.id == character.id)
+  //   }
+  // }, [selectedCharacter]);
+
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
-  window.setSelectedCharacter = setSelectedCharacter
+  // window.setSelectedCharacter = setSelectedCharacter
 
   // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
-  const [selectedOptimizerCharacter, setSelectedOptimizerCharacter] = global.store(s => [s.selectedOptimizerCharacter, s.setSelectedOptimizerCharacter]);
+  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
+  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
   useEffect(() => {
-    console.log('useEffect::selectedOptimizerCharacter', selectedOptimizerCharacter);
+    console.log('useEffect::selectedOptimizerCharacter selectedOptimizerCharacter changed', selectedOptimizerCharacter);
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
       setSelectedOptimizerCharacter(null);
@@ -272,7 +285,7 @@ export default function OptimizerForm() {
     if (!OptimizerTabController.validateForm(x)) {
       return
     }
-    DB.addFromForm(x, true)
+    DB.addFromForm(x)
     SaveState.save()
     console.log('Form finished', x);
 
@@ -731,7 +744,7 @@ export default function OptimizerForm() {
                     maxTagCount='responsive'>
                   </Select>
                 </Form.Item>
-                <ConfigProvider
+                {/* <ConfigProvider
                   theme={{
                     components: {
                       Cascader: {
@@ -741,20 +754,20 @@ export default function OptimizerForm() {
                       },
                     },
                   }}
-                >
-                  <Form.Item size="default" name='relicSets'>
-                    <Cascader
-                      placeholder="Relics"
-                      options={generateSetsOptions()}
-                      showCheckedStrategy={SHOW_CHILD}
-                      tagRender={RelicSetTagRenderer}
-                      placement='bottomLeft'
-                      maxTagCount='responsive'
-                      multiple={true}
-                      expandTrigger="hover"
-                    />
-                  </Form.Item>
-                </ConfigProvider>
+                > */}
+                <Form.Item size="default" name='relicSets'>
+                  <Cascader
+                    placeholder="Relics"
+                    options={generateSetsOptions()}
+                    showCheckedStrategy={SHOW_CHILD}
+                    tagRender={RelicSetTagRenderer}
+                    placement='bottomLeft'
+                    maxTagCount='responsive'
+                    multiple={true}
+                    expandTrigger="hover"
+                  />
+                </Form.Item>
+                {/* </ConfigProvider> */}
               </Flex>
 
               <Button

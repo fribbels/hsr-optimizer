@@ -123,7 +123,7 @@ export default function CharacterTab(props) {
     setSelectedOptimizerCharacter(charactersById[e.data.id]);
     // set view
     setActiveKey('optimizer');
-  });
+  }, [charactersById, setActiveKey, setSelectedOptimizerCharacter]);
 
   function drag(event, index) {
     const dragged = event.node.data;

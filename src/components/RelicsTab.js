@@ -23,11 +23,8 @@ export default function RelicsTab(props) {
   window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState();
-
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  window.setEditModalOpen = setEditModalOpen
-  window.setSelectedRelic = setSelectedRelic
 
   let relicTabFilters = global.store(s => s.relicTabFilters);
   useEffect(() => {
@@ -269,7 +266,11 @@ export default function RelicsTab(props) {
           </Popconfirm>
         </Flex>
         <Flex gap={10}>
-          <RelicPreview relic={selectedRelic} />
+          <RelicPreview
+            relic={selectedRelic}
+            setSelectedRelic={setSelectedRelic}
+            setEditModalOpen={setEditModalOpen}
+          />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>

@@ -67,7 +67,7 @@ let defaultGap = 5;
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm');
   const [optimizerForm] = Form.useForm();
-  window.optimizerForm = optimizerForm;
+  window.optimizerForm = global.optimizerForm = optimizerForm;
 
 
   // hooks

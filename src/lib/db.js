@@ -518,14 +518,13 @@ export const DB = {
     oldRelics.map(x => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
     DB.refreshRelics()
-    global.characterGrid.current.api.redrawRows()
+
+    if (global.characterGrid?.current?.api) {
+      global.characterGrid.current.api.redrawRows()
+    }
 
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
-
-    // TODO this probably shouldn't be in this file
-    let fieldValues = OptimizerTabController.getForm()
-    global.onOptimizerFormValuesChange({}, fieldValues);
   },
 }
 

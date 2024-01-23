@@ -3019,6 +3019,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.Wind_DMG,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,

@@ -45,6 +45,7 @@ import PropTypes from "prop-types";
 import DB from "lib/db";
 import { Message } from "lib/message";
 import { Hint } from "lib/hint";
+import { Utils } from 'lib/utils.js';
 
 import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
 import FilterRow from './optimizerForm/FilterRow.tsx';
@@ -75,29 +76,16 @@ export default function OptimizerForm() {
   const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
   const activeKey = global.store(s => s.activeKey)
   const characters = global.store(s => s.characters) // characters set in this localStorage instance
-  const allCharacters = DB.getMetadata().characters;
   const [optimizationId, setOptimizationId] = useState();
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   // TODO: refactor if/when view-routing/deep-linking implemented
   // coming from char tab
   const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
   const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
-
-  const characterOptions = useMemo(() => {
-    const characterData = JSON.parse(JSON.stringify(allCharacters));
-    console.log('useMemo::characterOptions');
-
-    for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
-    }
-
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
-  }, [allCharacters]);
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
-    console.log('useMemo::lightConeOptions');
 
     for (let value of Object.values(lcData)) {
       value.value = value.id;
@@ -117,7 +105,6 @@ export default function OptimizerForm() {
   }, [lightConeOptions]);
 
   useMemo(() => {
-    console.log('useEffect::selectedLightCone');
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
@@ -132,7 +119,6 @@ export default function OptimizerForm() {
   }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
-    console.log('useMemo::initialCharacter');
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
     if (characters && characters.length > 0) {
       let character = characters[0];
@@ -143,7 +129,6 @@ export default function OptimizerForm() {
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
 
   useEffect(() => {
-    console.log('useEffect::selectedOptimizerCharacter selectedOptimizerCharacter changed');
     if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
       characterSelectorChange(selectedOptimizerCharacter.id);
       setSelectedOptimizerCharacter(null);
@@ -151,7 +136,6 @@ export default function OptimizerForm() {
   }, [characterSelectorChange, selectedOptimizerCharacter, setSelectedOptimizerCharacter, selectedCharacter.id]);
 
   useEffect(() => {
-    console.log('useEffect::activeKey', activeKey)
     if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
       characterSelectorChange(characters[0].id)
     }
@@ -242,7 +226,6 @@ export default function OptimizerForm() {
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
-
 
   function cancelClicked() {
     console.log('Cancel clicked');
@@ -363,7 +346,7 @@ export default function OptimizerForm() {
                 <Image
                   preview={false}
                   width={innerW}
-                  src={Assets.getCharacterPreview(selectedCharacter)}
+                  src={Assets.getCharacterPreviewById(selectedCharacter.id)}
                   style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
                 />
               </div>

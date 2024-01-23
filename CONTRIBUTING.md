@@ -8,10 +8,10 @@ We love your input! We want to make contributing to this project as easy and tra
 - Proposing new features
 - Becoming a maintainer
 
-## We Develop with Github
+## We develop with Github
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
-## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
+## We use [Github Flow](https://docs.github.com/en/get-started/using-github/github-flow), so all code changes happen through pull requests
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from `beta`.
@@ -27,7 +27,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 ## Write bug reports with detail, background, and sample code
 Bugs should include reproduction steps, screenshots, and if possible, the metadata to reproduce the issue.  Exporting the HSR Optimizer database is a great start; attach it to your new issue!
 
-## Use a Consistent Coding Style
+## Use a consistent coding style
 * 2 spaces for indentation rather than tabs
 * You can try running `npm run lint` for style unification
 
@@ -41,7 +41,7 @@ After you have forked the repo and switched to the `beta` branch, create your wo
 git checkout -b [feature|fix]/[your-branch-name]
 ```
 
-## Commit Message Format
+## Commit message format
 Each commit message consists of a **header**, a **body**, and a **footer**. The header has a special format that includes a **type**, a **scope**, and a **subject**:
 
 ***The header is mandatory and the scope of the header is optional.***

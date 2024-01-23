@@ -52,7 +52,6 @@ function cellNameRenderer(params) {
   if (equippedNumber < 6) color = '#eae084'
   if (equippedNumber < 1) color = '#d72f2f'
 
-
   return (
     <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
       <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
@@ -67,6 +66,7 @@ function cellNameRenderer(params) {
 
 
 export default function CharacterTab(props) {
+  console.log('CharacterTab')
   const characterGrid = useRef(); // Optional - for accessing Grid's API
   window.characterGrid = characterGrid;
 
@@ -116,15 +116,14 @@ export default function CharacterTab(props) {
   }, [setCharacterTabSelectedId]);
 
   // TODO: implement routing to handle this
-  // const [setActiveKey, setSelectedOptimizerCharacter] = global.store(s => [s.setActiveKey, s.setSelectedOptimizerCharacter]);
   const setActiveKey = global.store(s => s.setActiveKey);
   const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
-  const cellDoubleClickedListener = e => {
+  const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
     setSelectedOptimizerCharacter(charactersById[e.data.id]);
     // set view
     setActiveKey('optimizer');
-  };
+  });
 
   function drag(event, index) {
     const dragged = event.node.data;

@@ -431,9 +431,15 @@ export const DB = {
     DB.setRelics(replacementRelics)
     DB.setCharacters(characters)
 
-    global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+    // only valid when on relics tab
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+    }
 
-    global.characterGrid.current.api.redrawRows()
+    // only valid when on character tab
+    if (global.characterGrid?.current?.api) {
+      global.characterGrid.current.api.redrawRows()
+    }
 
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()

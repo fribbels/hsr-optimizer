@@ -7,6 +7,7 @@ import { Assets } from 'lib/assets';
 import { Utils } from "lib/utils";
 import DB from "lib/db";
 import { Constants } from "lib/constants.ts";
+import { usePublish } from 'hooks/usePublish';
 
 const { Text } = Typography;
 
@@ -21,6 +22,8 @@ const PStyled = styled.p`
 `
 
 export default function ScoringModal() {
+  const pubRefreshRelicsScore = usePublish();
+
   const [scoringAlgorithmForm] = Form.useForm();
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
@@ -83,13 +86,10 @@ export default function ScoringModal() {
 
 
   function onModalOk() {
-    console.log('Modal OK');
-    scoringAlgorithmForm.submit()
-    setIsScoringModalOpen(false)
-
-    // TODO revisit force renders
-    setTimeout(() => global.forceRelicScorerTabUpdate(), 100)
-    setTimeout(() => global.forceCharacterTabUpdate(), 100)
+    console.log('onModalOk OK');
+    scoringAlgorithmForm.submit();
+    setIsScoringModalOpen(false);
+    pubRefreshRelicsScore('refreshRelicsScore', 'null');
   }
 
   const onFinish = (x) => {

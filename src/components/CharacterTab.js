@@ -10,6 +10,7 @@ import { Assets } from "../lib/assets";
 import { SaveState } from "../lib/saveState";
 import { Message } from "../lib/message";
 import PropTypes from "prop-types";
+import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
@@ -66,7 +67,13 @@ function cellNameRenderer(params) {
 
 
 export default function CharacterTab(props) {
-  console.log('CharacterTab')
+  console.log('CharacterTab');
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { window.forceCharacterTabUpdate() }, 100);
+  });
+
   const characterGrid = useRef(); // Optional - for accessing Grid's API
   window.characterGrid = characterGrid;
 
@@ -82,8 +89,15 @@ export default function CharacterTab(props) {
 
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
+    console.log('__________ CharacterTab forceCharacterTabUpdate')
     forceUpdate()
-    characterGrid.current.api.redrawRows()
+
+    // no charGrid in scorer tab
+    if (characterGrid?.current?.api?.redrawRows) {
+      characterGrid.current.api.redrawRows()
+    } else {
+      console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
+    }
   }
 
   const columnDefs = useMemo(() => [

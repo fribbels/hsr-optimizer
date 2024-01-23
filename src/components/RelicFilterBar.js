@@ -8,6 +8,7 @@ import { Utils } from "../lib/utils";
 import { Constants } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
+import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
@@ -62,6 +63,11 @@ export default function RelicFilterBar() {
   let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { characterSelectorChange(currentlySelectedCharacterId) }, 100);
+  });
 
   function characterSelectorChange(id) {
     if (!id) return

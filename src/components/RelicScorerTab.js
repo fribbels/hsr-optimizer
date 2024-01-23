@@ -7,6 +7,7 @@ import { CharacterConverter } from "lib/characterConverter";
 import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
 import DB from "lib/db";
+import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
@@ -88,7 +89,15 @@ export default function RelicScorerTab(props) {
 
     // TODO: Revisit if force updates are necessary
     const [, forceUpdate] = React.useReducer(o => !o, true);
-    window.forceRelicScorerTabUpdate = forceUpdate
+    window.forceRelicScorerTabUpdate = () => {
+      console.log('RelicScorerTab ::::: forceRelicScorerTabUpdate')
+      forceUpdate();
+    }
+
+    useSubscribe('refreshRelicsScore', () => {
+      // TODO: understand why setTimeout is needed and refactor
+      setTimeout(() => { forceUpdate() }, 100);
+    });
 
     console.log('CharacterPreviewSelection', props)
 

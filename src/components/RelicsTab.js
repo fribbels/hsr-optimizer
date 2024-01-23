@@ -15,6 +15,7 @@ import { SaveState } from "../lib/saveState";
 import { Hint } from "../lib/hint";
 import PropTypes from "prop-types";
 
+
 export default function RelicsTab(props) {
   const gridRef = useRef();
   global.relicsGrid = gridRef;
@@ -26,7 +27,7 @@ export default function RelicsTab(props) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
 
-  let relicTabFilters = global.store(s => s.relicTabFilters);
+  const relicTabFilters = global.store(s => s.relicTabFilters);
   useEffect(() => {
     if (!global.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)

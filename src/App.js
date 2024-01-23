@@ -1,26 +1,20 @@
-import React, { useEffect } from "react"
-import { ConfigProvider, Flex, Layout, message, /* notification,  */theme, Typography } from 'antd';
-import MenuDrawer from './components/MenuDrawer'
-import Tabs from './components/Tabs'
-import { Assets } from "./lib/assets";
+import React from "react";
+import { ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd';
+import MenuDrawer from 'components/MenuDrawer'
+import Tabs from 'components/Tabs'
+import { Assets } from "lib/assets";
 
 const { Header, Sider, Content } = Layout;
 
-let hashes = [
+const hashes = [
   '#scorer',
   '#getting-started',
   '#beta'
-]
+];
 
 const App = () => {
-  // const [notificationApi, notificationContextHolder] = notification.useNotification();
   const [messageApi, messageContextHolder] = message.useMessage();
-
-  // window.notificationApi = notificationApi
-  window.messageApi = messageApi
-
-  useEffect(() => {
-  }, [])
+  window.messageApi = messageApi;
 
   return (
     <ConfigProvider
@@ -61,7 +55,6 @@ const App = () => {
         algorithm: theme.darkAlgorithm,
       }}
     >
-      {/* {notificationContextHolder} */}
       {messageContextHolder}
       <Layout hasSider style={{ 'minHeight': '100%' }}>
         <Sider
@@ -72,12 +65,6 @@ const App = () => {
             position: 'sticky',
             top: 0,
           }}
-        // breakpoint="xxl"
-        // collapsedWidth="50"
-        // onBreakpoint={(broken) => {
-        // }}
-        // onCollapse={(collapsed, type) => {
-        // }}
         >
           <MenuDrawer hashes={hashes} />
         </Sider>

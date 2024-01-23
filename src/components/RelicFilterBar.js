@@ -17,7 +17,7 @@ const imgWidth = 34
 
 export default function RelicFilterBar() {
   let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+  let setFocusCharacter = global.store(s => s.setFocusCharacter);
 
   let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
@@ -75,7 +75,7 @@ export default function RelicFilterBar() {
     let relics = Object.values(global.store.getState().relicsById)
     console.log('idChange', id)
 
-    setSelectedScoringCharacter(id)
+    setFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))

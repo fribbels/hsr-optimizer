@@ -80,12 +80,10 @@ export default function CharacterTab(props) {
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  const setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
-
-  const characterTabSelectedId = global.store(s => s.characterTabSelectedId)
-  const setCharacterTabSelectedId = global.store(s => s.setCharacterTabSelectedId)
+  const focusCharacter = global.store(s => s.focusCharacter)
+  const setFocusCharacter = global.store(s => s.setFocusCharacter);
   const charactersById = global.store(s => s.charactersById)
-  const selectedCharacter = charactersById[characterTabSelectedId]
+  const selectedCharacter = charactersById[focusCharacter]
 
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
@@ -122,22 +120,23 @@ export default function CharacterTab(props) {
   }), []);
 
   const cellClickedListener = useCallback(event => {
-    console.log('cellClicked', event);
     let data = event.data
 
-    global.store.getState().setCharacterTabBlur(global.store.getState().characterTabSelectedId != data.id) // Only blur if different character
-    setCharacterTabSelectedId(data.id)
-  }, [setCharacterTabSelectedId]);
+    // global.store.getState().setCharacterTabBlur(global.store.getState().focusCharacter != data.id) // Only blur if different character
+    setFocusCharacter(data.id)
+    console.log(`@CharacterTab::setFocusCharacter - [${data.id}]`, event.data);
+  }, [setFocusCharacter]);
 
   // TODO: implement routing to handle this
   const setActiveKey = global.store(s => s.setActiveKey);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
+
   const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
-    setSelectedOptimizerCharacter(charactersById[e.data.id]);
+    setFocusCharacter(e.data.id);
     // set view
     setActiveKey('optimizer');
-  }, [charactersById, setActiveKey, setSelectedOptimizerCharacter]);
+    console.log(`@CharacterTab.cellDoubleClickedListener::setFocusCharacter - focus [${e.data.id}]`, e.data);
+  }, [charactersById, setActiveKey, setFocusCharacter]);
 
   function drag(event, index) {
     const dragged = event.node.data;
@@ -173,7 +172,7 @@ export default function CharacterTab(props) {
 
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
-    setCharacterTabSelectedId(undefined)
+    setFocusCharacter(undefined)
     global.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
@@ -182,7 +181,7 @@ export default function CharacterTab(props) {
   }
 
   function unequipClicked() {
-    console.log('unequipClicked', DB.getCharacterById(characterTabSelectedId))
+    console.log('unequipClicked', DB.getCharacterById(focusCharacter))
 
     let selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
@@ -206,8 +205,8 @@ export default function CharacterTab(props) {
   }
 
   function scoringAlgorithmClicked() {
-    console.log('Scoring algorithm clicked', characterTabSelectedId)
-    setSelectedScoringCharacter(characterTabSelectedId)
+    console.log('Scoring algorithm clicked', focusCharacter)
+    setFocusCharacter(focusCharacter)
     global.setIsScoringModalOpen(true)
   }
 

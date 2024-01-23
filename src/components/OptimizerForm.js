@@ -69,20 +69,14 @@ export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm();
   window.optimizerForm = global.optimizerForm = optimizerForm;
 
-
   // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
   const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
-  const activeKey = global.store(s => s.activeKey)
-  const characters = global.store(s => s.characters) // characters set in this localStorage instance
   const [optimizationId, setOptimizationId] = useState();
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
-  // TODO: refactor if/when view-routing/deep-linking implemented
-  // coming from char tab
-  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
+  const focusCharacter = global.store(s => s.focusCharacter);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -96,6 +90,7 @@ export default function OptimizerForm() {
   }, []);
 
   const characterSelectorChange = useCallback(id => {
+    console.log(`@OptimizerForm.characterSelectorChange ${id}`);
     setSelectedCharacter(characterOptions.find(x => x.id == id))
     OptimizerTabController.changeCharacter(id, setSelectedLightCone);
   }, [characterOptions]);
@@ -120,26 +115,33 @@ export default function OptimizerForm() {
 
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
+
+    if (focusCharacter) {
+      return characters.find(x => x.id == focusCharacter);
+    }
+
     if (characters && characters.length > 0) {
       let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
       return characterOptions.find(x => x.id == character.id)
     }
-  }, [characterOptions, lightConeSelectorChange]);
+  }, [characterOptions, focusCharacter, lightConeSelectorChange]);
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
 
-  useEffect(() => {
-    if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
-      characterSelectorChange(selectedOptimizerCharacter.id);
-      setSelectedOptimizerCharacter(null);
+  const initialValues = useMemo(() => {
+    if (selectedCharacter) {
+      let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
+      if (matchingCharacter) {
+        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
+      }
     }
-  }, [characterSelectorChange, selectedOptimizerCharacter, setSelectedOptimizerCharacter, selectedCharacter.id]);
+
+    return getDefaultForm(initialCharacter)
+  }, [initialCharacter, selectedCharacter]);
 
   useEffect(() => {
-    if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
-      characterSelectorChange(characters[0].id)
-    }
-  }, [activeKey, characters, characterSelectorChange, selectedCharacter])
+    onValuesChange({}, initialValues)
+  }, [initialValues])
 
 
   const onFinish = (x) => {
@@ -178,13 +180,13 @@ export default function OptimizerForm() {
       keys[0] == 'lightConeConditionals')) {
       return;
     }
-    let request = allValues
+    const request = allValues
 
     console.log('@onValuesChange'/* , request, changedValues */);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
-    let permutationDetails = {
+    const permutationDetails = {
       Head: relics.Head.length,
       Hands: relics.Hands.length,
       Body: relics.Body.length,
@@ -211,21 +213,7 @@ export default function OptimizerForm() {
   let innerW = 350;
   let innerH = 400;
 
-  const initialValues = useMemo(() => {
-    console.log('initialValues', selectedCharacter);
-    if (selectedCharacter) {
-      let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
-      if (matchingCharacter) {
-        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
-      }
-    }
 
-    return getDefaultForm(initialCharacter)
-  }, [initialCharacter, selectedCharacter]);
-
-  useEffect(() => {
-    onValuesChange({}, initialValues)
-  }, [initialValues])
 
   function cancelClicked() {
     console.log('Cancel clicked');

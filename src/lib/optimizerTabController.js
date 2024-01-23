@@ -159,7 +159,11 @@ export const OptimizerTabController = {
       getRows: (params) => {
         console.log(params);
         aggs = undefined
-        global.optimizerGrid.current.api.showLoadingOverlay()
+
+        // fast clickers can race unmount/remount and cause NPE here.
+        if (global?.optimizerGrid?.current?.api) {
+          global.optimizerGrid.current.api.showLoadingOverlay()
+        }
 
         // Give it time to show the loading page before we block
         Utils.sleep(100).then(() => {
@@ -183,7 +187,11 @@ export const OptimizerTabController = {
 
             params.successCallback(subArray, rows.length)
           }
-          global.optimizerGrid.current.api.hideOverlay()
+
+          // cannot assume a fast click race-condition didn't happen
+          if (global?.optimizerGrid?.current?.api) {
+            global.optimizerGrid.current.api.hideOverlay()
+          }
           OptimizerTabController.redrawRows()
         })
       },
@@ -495,7 +503,7 @@ export const OptimizerTabController = {
   },
 
   changeCharacter: (id, setSelectedLightCone) => {
-    console.log('ChangeCharacter')
+    console.log(`@OptimzerTabController.changeCharacter(${id})`);
     let character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
@@ -506,6 +514,7 @@ export const OptimizerTabController = {
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
+      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0

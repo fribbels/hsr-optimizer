@@ -85,7 +85,7 @@ export default function RelicScorerTab(props) {
 
   function CharacterPreviewSelection(props) {
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
-    let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+    let setFocusCharacter = global.store(s => s.setFocusCharacter);
 
     // TODO: Revisit if force updates are necessary
     const [, forceUpdate] = React.useReducer(o => !o, true);
@@ -102,8 +102,8 @@ export default function RelicScorerTab(props) {
     console.log('CharacterPreviewSelection', props)
 
     useEffect(() => {
-      setSelectedScoringCharacter(selectedCharacter?.id)
-    }, [selectedCharacter, setSelectedScoringCharacter])
+      setFocusCharacter(selectedCharacter?.id)
+    }, [selectedCharacter, setFocusCharacter])
 
     let options = []
     for (let i = 0; i < props.availableCharacters.length; i++) {
@@ -121,7 +121,7 @@ export default function RelicScorerTab(props) {
     function selectionChange(selected) {
       console.log('selectionChange', selected)
       setSelectedCharacter(availableCharacters.find(x => x.id == selected))
-      setSelectedScoringCharacter(selected)
+      setFocusCharacter(selected)
     }
 
     async function importClicked() {

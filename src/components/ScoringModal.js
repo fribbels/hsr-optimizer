@@ -27,14 +27,14 @@ export default function ScoringModal() {
   const [scoringAlgorithmForm] = Form.useForm();
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
-  let selectedScoringCharacter = global.store(s => s.selectedScoringCharacter);
-  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+  let focusCharacter = global.store(s => s.focusCharacter);
+  let setFocusCharacter = global.store(s => s.setFocusCharacter);
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
   window.setIsScoringModalOpen = setIsScoringModalOpen
 
   function characterSelectorChange(id) {
-    setSelectedScoringCharacter(id)
+    setFocusCharacter(id)
   }
 
   // Cleans up 0's to not show up on the form
@@ -49,7 +49,7 @@ export default function ScoringModal() {
   }
 
   useEffect(() => {
-    let id = selectedScoringCharacter
+    let id = focusCharacter
     if (id) {
       let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
@@ -57,7 +57,7 @@ export default function ScoringModal() {
 
       console.log('Scoring modal opening set as:', scoringMetadata)
     }
-  }, [selectedScoringCharacter, isScoringModalOpen, scoringAlgorithmForm])
+  }, [focusCharacter, isScoringModalOpen, scoringAlgorithmForm])
 
   const panelWidth = 225
   const defaultGap = 5
@@ -93,14 +93,14 @@ export default function ScoringModal() {
   }
 
   const onFinish = (x) => {
-    if (!selectedScoringCharacter) return;
+    if (!focusCharacter) return;
 
     console.log('Form finished', x);
     x.stats[Constants.Stats.ATK_P] = x.stats[Constants.Stats.ATK]
     x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
 
-    let defaultScoringMetadata = DB.getMetadata().characters[selectedScoringCharacter].scoringMetadata
+    let defaultScoringMetadata = DB.getMetadata().characters[focusCharacter].scoringMetadata
 
     function nullUndefinedToZero(x) {
       if (x == null) return 0
@@ -114,16 +114,16 @@ export default function ScoringModal() {
       }
     }
 
-    DB.updateCharacterScoreOverrides(selectedScoringCharacter, x)
+    DB.updateCharacterScoreOverrides(focusCharacter, x)
   };
 
   const handleResetDefault = () => {
-    if (!selectedScoringCharacter) return;
+    if (!focusCharacter) return;
 
-    let defaultScoringMetadata = DB.getMetadata().characters[selectedScoringCharacter].scoringMetadata
+    let defaultScoringMetadata = DB.getMetadata().characters[focusCharacter].scoringMetadata
     let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
 
-    DB.updateCharacterScoreOverrides(selectedScoringCharacter, defaultScoringMetadata)
+    DB.updateCharacterScoreOverrides(focusCharacter, defaultScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   };
 
@@ -134,7 +134,7 @@ export default function ScoringModal() {
   const filterOption = (input, option) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-  let previewSrc = (selectedScoringCharacter) ? Assets.getCharacterPreviewById(selectedScoringCharacter) : Assets.getBlank()
+  let previewSrc = (focusCharacter) ? Assets.getCharacterPreviewById(focusCharacter) : Assets.getBlank()
 
   let methodologyCollapse = (
     <Text>

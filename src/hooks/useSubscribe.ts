@@ -11,5 +11,5 @@ export const useSubscribe = (eventName: string, callback) => {
   useEffect(() => {
     document.addEventListener(eventName, callback);
     return () => unsubscribe();
-  }, [eventName, callback]);
+  }, [eventName, callback]); // eslint-disable-line react-hooks/exhaustive-deps
 }

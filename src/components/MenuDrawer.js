@@ -1,6 +1,6 @@
 import React, { Profiler } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { /* ConfigProvider, */ Menu, Typography } from 'antd';
+import { Menu, Typography } from 'antd';
 import { DiscordIcon } from '../icons/DiscordIcon';
 import { GithubIcon } from '../icons/GithubIcon';
 import { CoffeeIcon } from '../icons/CoffeeIcon';
@@ -65,19 +65,9 @@ const MenuDrawer = (props) => {
     }
     setActiveKey(e.key)
   };
-  function callback(
-    // id, // the "id" prop of the Profiler tree that has just committed
-    // phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
-    // actualDuration, // time spent rendering the committed update
-    // baseDuration, // estimated time to render the entire subtree without memoization
-    // startTime, // when React began rendering this update
-    // commitTime, // when React committed this update
-    // interactions // the Set of interactions belonging to this update
-  ) {
-    // console.log(`MenuDrawer id: ${id} :: phase [${phase}] :: interactions ${interactions}`);
-  }
+
   return (
-    <Profiler id="MenuDrawer" onRender={callback}>
+    <Profiler id="MenuDrawer">
       <Menu
         onClick={onClick}
         // inlineIndent={15}

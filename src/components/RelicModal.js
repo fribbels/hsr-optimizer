@@ -86,7 +86,7 @@ export default function RelicModal(props) {
     }, ...options]
 
     return options
-  }, [/* props.selectedRelic, props.open */]);
+  }, []);
 
   useEffect(() => {
     let defaultValues = {

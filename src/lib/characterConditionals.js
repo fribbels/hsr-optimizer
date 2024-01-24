@@ -2,24 +2,24 @@ import { ConfigProvider, Flex } from "antd";
 import React from "react";
 import { HeaderText } from "../components/HeaderText";
 import { Constants } from './constants.ts'
-import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
+import { FormSlider, FormSwitch, FormSwitchWithPopover, FormSliderWithPopover } from "../components/optimizerTab/FormConditionalInputs";
 import { TooltipImage } from "../components/TooltipImage";
 import { Hint } from "./hint";
 
-let Stats = Constants.Stats
+const Stats = Constants.Stats
 
-let precisionRound = (number, precision = 8) => {
-  let factor = Math.pow(10, precision);
+const precisionRound = (number, precision = 8) => {
+  const factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 }
 
 const ASHBLAZING_ATK_STACK = 0.06
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
 function calculateAshblazingSet(c, request, hitMulti) {
-  let enabled = p4(c.sets.TheAshblazingGrandDuke)
-  let valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
-  let ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * c.baseAtk * enabled
-  let ashblazingMulti = hitMulti * enabled * c.baseAtk
+  const enabled = p4(c.sets.TheAshblazingGrandDuke)
+  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * c.baseAtk * enabled
+  const ashblazingMulti = hitMulti * enabled * c.baseAtk
 
   return {
     ashblazingMulti,
@@ -150,14 +150,14 @@ const baseComputedStatsObject = {
 }
 
 function xueyi(e) {
-  let ultBoostMax = ult(e, 0.60, 0.648)
+  const ultBoostMax = ult(e, 0.60, 0.648)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.40, 1.54)
-  let ultScaling = ult(e, 2.50, 2.70)
-  let fuaScaling = talent(e, 0.90, 0.99)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.40, 1.54)
+  const ultScaling = ult(e, 2.50, 2.70)
+  const fuaScaling = talent(e, 0.90, 0.99)
 
-  let hitMultiByFuaHits = {
+  const hitMultiByFuaHits = {
     0: 0,
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
@@ -167,10 +167,29 @@ function xueyi(e) {
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='enemyToughness50' text='Enemy toughness >= 50%' />
-        <FormSlider name='toughnessReductionDmgBoost' text='Ult toughness based dmg boost' min={0} max={ultBoostMax} percent />
-        <FormSlider name='fuaHits' text='Fua hits' min={0} max={3} />
-        <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4} />
+        <FormSwitchWithPopover
+          name='enemyToughness50'
+          title='Intrepid Rollerbearings'
+          content="If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate."
+          text='Intrepid Rollerbearings' />
+        <FormSliderWithPopover
+          name='toughnessReductionDmgBoost'
+          text='Toughness-based Ult DMG boost'
+          title="Ultimate: Divine Castigation"
+          content="Deals Quantum DMG equal to 250% of Xueyi's ATK to a single target enemy. This attack ignores Weakness Types and reduces the enemy's Toughness. When the enemy's Weakness is Broken, the Quantum Weakness Break effect is triggered. In this attack, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of 60% increase."
+          min={0} max={ultBoostMax} percent />
+        <FormSliderWithPopover
+          name='fuaHits'
+          text='Follow-up Attacks'
+          title="Talent: Karmic Perpetuation"
+          content="When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG up to 3 times, with each time dealing Quantum DMG to a single random enemy."
+          min={0} max={3} />
+        <FormSwitchWithPopover
+          name='e4BeBuff'
+          text='E4 break effect buff'
+          title="E4: Karma, Severed"
+          content="When using Ultimate, increases Break Effect by 40% for 2 turn(s)."
+          disabled={e < 4} />
       </Flex>
     ),
     defaults: () => ({
@@ -180,8 +199,8 @@ function xueyi(e) {
       e4BeBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
@@ -200,8 +219,8 @@ function xueyi(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.ELEMENTAL_DMG += Math.min(2.40, x[Stats.BE])
 
@@ -209,21 +228,21 @@ function xueyi(e) {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      let hitMulti = hitMultiByFuaHits[r.fuaHits]
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const hitMulti = hitMultiByFuaHits[r.fuaHits]
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function drratio(e) {
-  let debuffStacksMax = 5
-  let summationStacksMax = (e >= 1) ? 10 : 6
+  const debuffStacksMax = 5
+  const summationStacksMax = (e >= 1) ? 10 : 6
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.50, 1.65)
-  let ultScaling = ult(e, 2.40, 2.592)
-  let fuaScaling = talent(e, 2.70, 2.97)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.50, 1.65)
+  const ultScaling = ult(e, 2.40, 2.592)
+  const fuaScaling = talent(e, 2.70, 2.97)
 
   function e2FuaRatio(procs, fua = true) {
     return fua
@@ -231,8 +250,8 @@ function drratio(e) {
       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
   }
 
-  let baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-  let fuaMultiByDebuffs = {
+  const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const fuaMultiByDebuffs = {
     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
     1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
@@ -252,8 +271,8 @@ function drratio(e) {
       summationStacks: summationStacksMax,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += r.summationStacks * 0.025
@@ -272,18 +291,18 @@ function drratio(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       if (e >= 2) {
-        let hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       } else {
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
     }
@@ -291,11 +310,11 @@ function drratio(e) {
 }
 
 function ruanmei(e) {
-  let fieldResPenValue = ult(e, 0.25, 0.27)
+  const fieldResPenValue = ult(e, 0.25, 0.27)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -309,8 +328,8 @@ function ruanmei(e) {
       e4BeBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.BE] += 0.20
@@ -329,9 +348,9 @@ function ruanmei(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
-      let beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
+      const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
       x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
@@ -342,14 +361,14 @@ function ruanmei(e) {
 }
 
 function yukong(e) {
-  let skillAtkBuffValue = skill(e, 0.80, 0.88)
-  let ultCdBuffValue = skill(e, 0.65, 0.702)
-  let ultCrBuffValue = skill(e, 0.28, 0.294)
-  let talentAtkScaling = talent(e, 0.80, 0.88)
+  const skillAtkBuffValue = skill(e, 0.80, 0.88)
+  const ultCdBuffValue = skill(e, 0.65, 0.702)
+  const ultCrBuffValue = skill(e, 0.28, 0.294)
+  const talentAtkScaling = talent(e, 0.80, 0.88)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 3.80, 4.104)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 3.80, 4.104)
 
   return {
     display: () => (
@@ -365,8 +384,8 @@ function yukong(e) {
       initialSpeedBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r.roaringBowstrings) ? skillAtkBuffValue : 0
@@ -387,7 +406,7 @@ function yukong(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -397,16 +416,16 @@ function yukong(e) {
 }
 
 function yanqing(e) {
-  let ultCdBuffValue = ult(e, 0.50, 0.54)
-  let talentCdBuffValue = ult(e, 0.30, 0.33)
-  let talentCrBuffValue = ult(e, 0.20, 0.21)
+  const ultCdBuffValue = ult(e, 0.50, 0.54)
+  const talentCdBuffValue = ult(e, 0.30, 0.33)
+  const talentCrBuffValue = ult(e, 0.20, 0.21)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.20, 2.42)
-  let ultScaling = ult(e, 3.50, 3.78)
-  let fuaScaling = talent(e, 0.50, 0.55)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.20, 2.42)
+  const ultScaling = ult(e, 3.50, 3.78)
+  const fuaScaling = talent(e, 0.50, 0.55)
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -426,8 +445,8 @@ function yanqing(e) {
       e4CurrentHp80: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
@@ -460,25 +479,25 @@ function yanqing(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function welt(e) {
-  let skillExtraHitsMax = (e >= 6) ? 3 : 2
+  const skillExtraHitsMax = (e >= 6) ? 3 : 2
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0.72, 0.792)
-  let ultScaling = ult(e, 1.50, 1.62)
-  let talentScaling = talent(e, 0.60, 0.66)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0.72, 0.792)
+  const ultScaling = ult(e, 1.50, 1.62)
+  const talentScaling = talent(e, 0.60, 0.66)
 
   return {
     display: () => (
@@ -496,8 +515,8 @@ function welt(e) {
       e1EnhancedState: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -522,7 +541,7 @@ function welt(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -533,15 +552,15 @@ function welt(e) {
 }
 
 function firetrailblazer(e) {
-  let skillDamageReductionValue = skill(e, 0.50, 0.52)
+  const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
-  let basicAtkScaling = basic(e, 1.00, 1.10)
-  let basicDefScaling = (e >= 1) ? 0.25 : 0
-  let basicEnhancedAtkScaling = basic(e, 1.35, 1.463)
-  let basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
-  let skillScaling = skill(e, 0, 0)
-  let ultAtkScaling = ult(e, 1.00, 1.10)
-  let ultDefScaling = ult(e, 1.50, 1.65)
+  const basicAtkScaling = basic(e, 1.00, 1.10)
+  const basicDefScaling = (e >= 1) ? 0.25 : 0
+  const basicEnhancedAtkScaling = basic(e, 1.35, 1.463)
+  const basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
+  const skillScaling = skill(e, 0, 0)
+  const ultAtkScaling = ult(e, 1.00, 1.10)
+  const ultDefScaling = ult(e, 1.50, 1.65)
 
   return {
     display: () => (
@@ -559,8 +578,8 @@ function firetrailblazer(e) {
       e6DefStacks: 3,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -576,8 +595,8 @@ function firetrailblazer(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -595,12 +614,12 @@ function firetrailblazer(e) {
 }
 
 function physicaltrailblazer(e) {
-  let talentAtkScalingValue = talent(e, 0.20, 0.22)
+  const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.25, 1.375)
-  let ultScaling = ult(e, 4.5, 4.80)
-  let ultEnhancedScaling = ult(e, 2.70, 2.88)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.25, 1.375)
+  const ultScaling = ult(e, 4.5, 4.80)
+  const ultEnhancedScaling = ult(e, 2.70, 2.88)
 
   return {
     display: () => (
@@ -614,8 +633,8 @@ function physicaltrailblazer(e) {
       talentStacks: 2,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
@@ -634,7 +653,7 @@ function physicaltrailblazer(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -644,24 +663,24 @@ function physicaltrailblazer(e) {
 }
 
 function topaz(e) {
-  let proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
-  let enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
-  let enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
+  const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
+  const enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
+  const enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.50, 1.65)
-  let fuaScaling = talent(e, 1.50, 1.65)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.50, 1.65)
+  const fuaScaling = talent(e, 1.50, 1.65)
 
   // 0.06
-  let basicHitCountMulti = ASHBLAZING_ATK_STACK *
+  const basicHitCountMulti = ASHBLAZING_ATK_STACK *
     (1 * 1 / 1)
 
   // 0.18
-  let fuaHitCountMulti = ASHBLAZING_ATK_STACK *
+  const fuaHitCountMulti = ASHBLAZING_ATK_STACK *
     (1 * 1 / 7 + 2 * 1 / 7 + 3 * 1 / 7 + 4 * 1 / 7 + 5 * 1 / 7 + 6 * 1 / 7 + 7 * 1 / 7)
 
   // 0.252
-  let fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
+  const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
     (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
   return {
@@ -678,8 +697,8 @@ function topaz(e) {
       e1DebtorStacks: 2,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -698,12 +717,12 @@ function topaz(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
-      let hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      let ashblazingFuaData = calculateAshblazingSet(c, request, hitMulti)
-      let ashblazingBasicData = calculateAshblazingSet(c, request, basicHitCountMulti)
+      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      const ashblazingFuaData = calculateAshblazingSet(c, request, hitMulti)
+      const ashblazingBasicData = calculateAshblazingSet(c, request, basicHitCountMulti)
 
 
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
@@ -738,14 +757,14 @@ function topaz(e) {
 }
 
 function tingyun(e) {
-  let skillAtkBoostMax = skill(e, 0.25, 0.27)
-  let ultDmgBoost = ult(e, 0.50, 0.56)
-  // let skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
-  // let talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+  const skillAtkBoostMax = skill(e, 0.25, 0.27)
+  const ultDmgBoost = ult(e, 0.50, 0.56)
+  // const skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
+  // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -763,8 +782,8 @@ function tingyun(e) {
       ultDmgBuff: false,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
@@ -783,7 +802,7 @@ function tingyun(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -793,14 +812,14 @@ function tingyun(e) {
 }
 
 function sushang(e) {
-  let talentSpdBuffValue = talent(e, 0.20, 0.21)
-  let ultBuffedAtk = ult(e, 0.30, 0.324)
-  let talentSpdBuffStacksMax = (e >= 6) ? 2 : 1
+  const talentSpdBuffValue = talent(e, 0.20, 0.21)
+  const ultBuffedAtk = ult(e, 0.30, 0.324)
+  const talentSpdBuffStacksMax = (e >= 6) ? 2 : 1
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.10, 2.31)
-  let skillExtraHitScaling = skill(e, 1.00, 1.10)
-  let ultScaling = ult(e, 3.20, 3.456)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.10, 2.31)
+  const skillExtraHitScaling = skill(e, 1.00, 1.10)
+  const ultScaling = ult(e, 3.20, 3.456)
 
   return {
     display: () => (
@@ -820,8 +839,8 @@ function sushang(e) {
       talentSpdBuffStacks: talentSpdBuffStacksMax,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.BE] += (e >= 4) ? 0.40 : 0
@@ -830,12 +849,12 @@ function sushang(e) {
 
       // Scaling
       // Trace only affects stance damage not skill damage - boost this based on proportion of stance : total skill dmg
-      let originalSkillScaling = skillScaling
+      const originalSkillScaling = skillScaling
       let stanceSkillScaling = 0
       stanceSkillScaling += (r.skillExtraHits >= 1) ? skillExtraHitScaling : 0
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 2) ? skillExtraHitScaling * 0.5 : 0
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
-      let stanceScalingProportion = stanceSkillScaling / (stanceSkillScaling + originalSkillScaling)
+      const stanceScalingProportion = stanceSkillScaling / (stanceSkillScaling + originalSkillScaling)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += originalSkillScaling
@@ -849,7 +868,7 @@ function sushang(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -860,13 +879,13 @@ function sushang(e) {
 }
 
 function silverwolf(e) {
-  let skillResShredValue = skill(e, 0.10, 0.105)
-  let skillDefShredBufValue = skill(e, 0.08, 0.088)
-  let ultDefShredValue = ult(e, 0.45, 0.468)
+  const skillResShredValue = skill(e, 0.10, 0.105)
+  const skillDefShredBufValue = skill(e, 0.08, 0.088)
+  const ultDefShredValue = ult(e, 0.45, 0.468)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.96, 2.156)
-  let ultScaling = ult(e, 3.80, 4.104)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.96, 2.156)
+  const ultScaling = ult(e, 3.80, 4.104)
 
   return {
     display: () => (
@@ -884,8 +903,8 @@ function silverwolf(e) {
       targetDebuffs: 5,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -905,7 +924,7 @@ function silverwolf(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -916,12 +935,12 @@ function silverwolf(e) {
 }
 
 function serval(e) {
-  let talentExtraDmgScaling = talent(e, 0.72, 0.792)
+  const talentExtraDmgScaling = talent(e, 0.72, 0.792)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.40, 1.54)
-  let ultScaling = ult(e, 1.80, 1.944)
-  let dotScaling = skill(e, 1.04, 1.144)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.40, 1.54)
+  const ultScaling = ult(e, 1.80, 1.944)
+  const dotScaling = skill(e, 1.04, 1.144)
 
   return {
     display: () => (
@@ -935,8 +954,8 @@ function serval(e) {
       enemyDefeatedBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r.enemyDefeatedBuff) ? 0.20 : 0
@@ -957,7 +976,7 @@ function serval(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -968,12 +987,12 @@ function serval(e) {
 }
 
 function seele(e) {
-  let buffedStateDmgBuff = talent(e, 0.80, 0.88)
-  let speedBoostStacksMax = (e >= 2 ? 2 : 1)
+  const buffedStateDmgBuff = talent(e, 0.80, 0.88)
+  const speedBoostStacksMax = (e >= 2 ? 2 : 1)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.20, 2.42)
-  let ultScaling = ult(e, 4.25, 4.59)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.20, 2.42)
+  const ultScaling = ult(e, 4.25, 4.59)
 
   return {
     display: () => (
@@ -989,8 +1008,8 @@ function seele(e) {
       e6UltTargetDebuff: true
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (e >= 1 && request.enemyHpPercent <= 0.80) ? 0.15 : 0
@@ -1008,8 +1027,8 @@ function seele(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1023,12 +1042,12 @@ function seele(e) {
 }
 
 function sampo(e) {
-  let dotVulnerabilityValue = ult(e, 0.30, 0.32)
+  const dotVulnerabilityValue = ult(e, 0.30, 0.32)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0.56, 0.616)
-  let ultScaling = ult(e, 1.60, 1.728)
-  let dotScaling = talent(e, 0.52, 0.572)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0.56, 0.616)
+  const ultScaling = ult(e, 1.60, 1.728)
+  const dotScaling = talent(e, 0.52, 0.572)
 
   return {
     display: () => (
@@ -1044,8 +1063,8 @@ function sampo(e) {
       targetWindShear: true
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1064,7 +1083,7 @@ function sampo(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1075,21 +1094,21 @@ function sampo(e) {
 }
 
 function qingque(e) {
-  let skillStackDmg = skill(e, 0.38, 0.408)
-  let talentAtkBuff = talent(e, 0.72, 0.792)
+  const skillStackDmg = skill(e, 0.38, 0.408)
+  const talentAtkBuff = talent(e, 0.72, 0.792)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let basicEnhancedScaling = basic(e, 2.40, 2.64)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 2.00, 2.16)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 2.40, 2.64)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 2.00, 2.16)
 
-  let hitMultiByTargetsBlast = {
+  const hitMultiByTargetsBlast = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
     5: ASHBLAZING_ATK_STACK * (2 * 1 / 1)  // 0.12
   }
 
-  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -1105,8 +1124,8 @@ function qingque(e) {
       skillDmgIncreaseStacks: 4,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r.basicEnhanced) ? talentAtkBuff : 0
@@ -1125,19 +1144,19 @@ function qingque(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
       if (r.basicEnhanced) {
-        let hitMulti = hitMultiByTargetsBlast[request.enemyCount]
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        const hitMulti = hitMultiByTargetsBlast[request.enemyCount]
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       } else {
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
     }
@@ -1145,11 +1164,11 @@ function qingque(e) {
 }
 
 function pela(e) {
-  let ultDefPenValue = ult(e, 0.40, 0.42)
+  const ultDefPenValue = ult(e, 0.40, 0.42)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.10, 2.31)
-  let ultScaling = ult(e, 1.00, 1.08)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.10, 2.31)
+  const ultScaling = ult(e, 1.00, 1.08)
 
   return {
     display: () => (
@@ -1167,8 +1186,8 @@ function pela(e) {
       e4SkillResShred: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.EHR] += 0.10
@@ -1194,7 +1213,7 @@ function pela(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1208,9 +1227,9 @@ function pela(e) {
 }
 
 function natasha(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -1220,7 +1239,7 @@ function natasha(e) {
     defaults: () => ({
     }),
     precomputeEffects: () => {
-      let x = Object.assign({}, baseComputedStatsObject)
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1234,7 +1253,7 @@ function natasha(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
@@ -1245,12 +1264,12 @@ function natasha(e) {
 }
 
 function march7th(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 1.50, 1.62)
-  let fuaScaling = talent(e, 1.00, 1.10)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 1.50, 1.62)
+  const fuaScaling = talent(e, 1.00, 1.10)
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -1260,7 +1279,7 @@ function march7th(e) {
     defaults: () => ({
     }),
     precomputeEffects: () => {
-      let x = Object.assign({}, baseComputedStatsObject)
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1275,9 +1294,9 @@ function march7th(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let x = c.x
+      const x = c.x
 
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1289,12 +1308,12 @@ function march7th(e) {
 }
 
 function lynx(e) {
-  let skillHpPercentBuff = skill(e, 0.075, 0.08)
-  let skillHpFlatBuff = skill(e, 200, 223)
+  const skillHpPercentBuff = skill(e, 0.075, 0.08)
+  const skillHpFlatBuff = skill(e, 200, 223)
 
-  let basicScaling = basic(e, 0.50, 0.55)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 0.50, 0.55)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -1307,8 +1326,8 @@ function lynx(e) {
       e4TalentAtkBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.HP_P] += (r.skillBuff) ? skillHpPercentBuff : 0
@@ -1324,8 +1343,8 @@ function lynx(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * x[Stats.HP] : 0
       x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * x[Stats.HP] : 0
@@ -1339,9 +1358,9 @@ function lynx(e) {
 }
 
 function luocha(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 2.00, 2.16)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 2.00, 2.16)
 
   return {
     display: () => (
@@ -1355,8 +1374,8 @@ function luocha(e) {
       e6ResReduction: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r >= 1 && r.fieldActive) ? 0.20 : 0
@@ -1372,7 +1391,7 @@ function luocha(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1383,14 +1402,14 @@ function luocha(e) {
 }
 
 function luka(e) {
-  let basicEnhancedHitValue = basic(e, 0.20, 0.22)
-  let targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
+  const basicEnhancedHitValue = basic(e, 0.20, 0.22)
+  const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let basicEnhancedScaling = basic(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
-  let skillScaling = skill(e, 1.20, 1.32)
-  let ultScaling = ult(e, 3.30, 3.564)
-  let dotScaling = skill(e, 3.38, 3.718)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const ultScaling = ult(e, 3.30, 3.564)
+  const dotScaling = skill(e, 3.38, 3.718)
 
   return {
     display: () => (
@@ -1410,8 +1429,8 @@ function luka(e) {
       e4TalentStacks: 4,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (e >= 4) ? r.e4TalentStacks * 0.05 : 0
@@ -1430,7 +1449,7 @@ function luka(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1443,13 +1462,13 @@ function luka(e) {
 
 function kafka(e) {
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.60, 1.76)
-  let ultScaling = ult(e, 0.80, 0.864)
-  let fuaScaling = talent(e, 1.40, 1.596)
-  let dotScaling = ult(e, 2.90, 3.183)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.60, 1.76)
+  const ultScaling = ult(e, 0.80, 0.864)
+  const fuaScaling = talent(e, 1.40, 1.596)
+  const dotScaling = ult(e, 2.90, 3.183)
 
-  let hitMulti = ASHBLAZING_ATK_STACK *
+  const hitMulti = ASHBLAZING_ATK_STACK *
     (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
   return {
@@ -1462,8 +1481,8 @@ function kafka(e) {
       e1DotDmgReceivedDebuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1482,9 +1501,9 @@ function kafka(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let x = c.x
+      const x = c.x
 
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1496,10 +1515,10 @@ function kafka(e) {
 }
 
 function jingyuan(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.00, 1.10)
-  let ultScaling = ult(e, 2.00, 2.16)
-  let fuaScaling = talent(e, 0.66, 0.726)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.00, 1.10)
+  const ultScaling = ult(e, 2.00, 2.16)
+  const fuaScaling = talent(e, 0.66, 0.726)
 
   let hitMulti = 0
 
@@ -1521,8 +1540,8 @@ function jingyuan(e) {
       e6FuaVulnerabilityStacks: 3
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
@@ -1544,11 +1563,11 @@ function jingyuan(e) {
       x.FUA_VULNERABILITY += (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0
 
       // Lightning lord calcs
-      let stacks = r.talentHitsPerAction
-      let hits = r.talentAttacks
-      let stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
-      let stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
-      let stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
+      const stacks = r.talentHitsPerAction
+      const hits = r.talentAttacks
+      const stacksPerMiss = (request.enemyCount >= 3) ? 2 : 0
+      const stacksPerHit = (request.enemyCount >= 3) ? 3 : 1
+      const stacksPreHit = (request.enemyCount >= 3) ? 2 : 1
 
       // Calc stacks on miss
       let ashblazingStacks = stacksPerMiss * (stacks - hits)
@@ -1566,30 +1585,30 @@ function jingyuan(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * r.talentAttacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function imbibitorlunae(e) {
-  let righteousHeartStackMax = (e >= 1) ? 10 : 6
-  let outroarStackCdValue = skill(e, 0.12, 0.132)
-  let righteousHeartDmgValue = talent(e, 0.10, 0.11)
+  const righteousHeartStackMax = (e >= 1) ? 10 : 6
+  const outroarStackCdValue = skill(e, 0.12, 0.132)
+  const righteousHeartDmgValue = talent(e, 0.10, 0.11)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let basicEnhanced1Scaling = basic(e, 2.60, 2.86)
-  let basicEnhanced2Scaling = basic(e, 3.80, 4.18)
-  let basicEnhanced3Scaling = basic(e, 5.00, 5.50)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 3.00, 3.24)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhanced1Scaling = basic(e, 2.60, 2.86)
+  const basicEnhanced2Scaling = basic(e, 3.80, 4.18)
+  const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 3.00, 3.24)
 
   return {
     display: () => (
@@ -1607,8 +1626,8 @@ function imbibitorlunae(e) {
       e6ResPenStacks: 3,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CD] += (request.enemyElementalWeak) ? 0.24 : 0
@@ -1631,7 +1650,7 @@ function imbibitorlunae(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
@@ -1640,8 +1659,8 @@ function imbibitorlunae(e) {
 }
 
 function huohuo(e) {
-  let ultBuffValue = ult(e, 0.40, 0.432)
-  let basicScaling = basic(e, 0.50, 0.55)
+  const ultBuffValue = ult(e, 0.40, 0.432)
+  const basicScaling = basic(e, 0.50, 0.55)
 
   return {
     display: () => (
@@ -1657,8 +1676,8 @@ function huohuo(e) {
       e6DmgBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.SPD_P] += (e >= 1 && r.skillBuff) ? 0.12 : 0
@@ -1673,7 +1692,7 @@ function huohuo(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     }
@@ -1681,13 +1700,13 @@ function huohuo(e) {
 }
 
 function hook(e) {
-  let targetBurnedExtraScaling = talent(e, 1.00, 1.10)
+  const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.40, 2.64)
-  let skillEnhancedScaling = skill(e, 2.80, 3.08)
-  let ultScaling = ult(e, 4.00, 4.32)
-  let dotScaling = skill(e, 0.65, 0.715)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.40, 2.64)
+  const skillEnhancedScaling = skill(e, 2.80, 3.08)
+  const ultScaling = ult(e, 4.00, 4.32)
+  const dotScaling = skill(e, 0.65, 0.715)
 
   return {
     display: () => (
@@ -1701,8 +1720,8 @@ function hook(e) {
       targetBurned: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1722,7 +1741,7 @@ function hook(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1732,13 +1751,13 @@ function hook(e) {
   }
 }
 function himeko(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.00, 2.20)
-  let ultScaling = ult(e, 2.30, 2.484)
-  let fuaScaling = talent(e, 1.40, 1.54)
-  let dotScaling = 0.30
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.00, 2.20)
+  const ultScaling = ult(e, 2.30, 2.484)
+  const fuaScaling = talent(e, 1.40, 1.54)
+  const dotScaling = 0.30
 
-  let hitMultiByTargets = {
+  const hitMultiByTargets = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.20 + 3 * 0.20 + 4 * 0.40), // 0.168
     3: ASHBLAZING_ATK_STACK * (2 * 0.20 + 5 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.372
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
@@ -1760,8 +1779,8 @@ function himeko(e) {
       e6UltExtraHits: 2,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (r.selfCurrentHp80Percent) ? 0.15 : 0
@@ -1782,27 +1801,27 @@ function himeko(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
 
-      let hitMulti = hitMultiByTargets[request.enemyCount]
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const hitMulti = hitMultiByTargets[request.enemyCount]
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function herta(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.00, 1.10)
-  let ultScaling = ult(e, 2.00, 2.16)
-  let fuaScaling = talent(e, 0.40, 0.43)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.00, 1.10)
+  const ultScaling = ult(e, 2.00, 2.16)
+  const fuaScaling = talent(e, 0.40, 0.43)
 
-  let hitMultiByTargets = {
+  const hitMultiByTargets = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 1)
@@ -1824,8 +1843,8 @@ function herta(e) {
       e6UltAtkBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r.techniqueBuff) ? 0.40 : 0
@@ -1848,29 +1867,29 @@ function herta(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      let hitMulti = hitMultiByTargets[request.enemyCount]
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const hitMulti = hitMultiByTargets[request.enemyCount]
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     }
   }
 }
 
 function hanya(e) {
-  let ultSpdBuffValue = ult(e, 0.20, 0.21)
-  let ultAtkBuffValue = ult(e, 0.60, 0.648)
+  const ultSpdBuffValue = ult(e, 0.20, 0.21)
+  const ultAtkBuffValue = ult(e, 0.60, 0.648)
   let talentDmgBoostValue = talent(e, 0.30, 0.33)
 
   talentDmgBoostValue += (e >= 6) ? 0.10 : 0
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.40, 2.64)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.40, 2.64)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -1888,8 +1907,8 @@ function hanya(e) {
       skillSpdBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1908,8 +1927,8 @@ function hanya(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x[Stats.SPD] += (r.ultBuff) ? ultSpdBuffValue * x[Stats.SPD] : 0
 
@@ -1921,13 +1940,13 @@ function hanya(e) {
 }
 
 function guinaifen(e) {
-  let talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
-  let talentDebuffMax = (e >= 6) ? 4 : 3
+  const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
+  const talentDebuffMax = (e >= 6) ? 4 : 3
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.20, 1.32)
-  let ultScaling = ult(e, 1.20, 1.296)
-  let dotScaling = skill(e, 2.182, 2.40)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const ultScaling = ult(e, 1.20, 1.296)
+  const dotScaling = skill(e, 2.182, 2.40)
 
   return {
     display: () => (
@@ -1943,8 +1962,8 @@ function guinaifen(e) {
       e2BurnMultiBoost: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
 
@@ -1963,7 +1982,7 @@ function guinaifen(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -1974,9 +1993,9 @@ function guinaifen(e) {
 }
 
 function gepard(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.00, 2.20)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.00, 2.20)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -1986,7 +2005,7 @@ function gepard(e) {
     defaults: () => ({
     }),
     precomputeEffects: () => {
-      let x = Object.assign({}, baseComputedStatsObject)
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.RES] += 0.20
@@ -2001,7 +2020,7 @@ function gepard(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x[Stats.ATK] += 0.35 * x[Stats.DEF]
 
@@ -2012,13 +2031,13 @@ function gepard(e) {
 }
 
 function fuxuan(e) {
-  let skillCrBuffValue = skill(e, 0.12, 0.132)
-  let skillHpBuffValue = skill(e, 0.06, 0.066)
-  let talentDmgReductionValue = talent(e, 0.18, 0.196)
+  const skillCrBuffValue = skill(e, 0.12, 0.132)
+  const skillHpBuffValue = skill(e, 0.06, 0.066)
+  const talentDmgReductionValue = talent(e, 0.18, 0.196)
 
-  let basicScaling = basic(e, 0.50, 0.55)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 1.00, 1.08)
+  const basicScaling = basic(e, 0.50, 0.55)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 1.00, 1.08)
 
   return {
     display: () => (
@@ -2032,8 +2051,8 @@ function fuxuan(e) {
       e6TeamHpLostPercent: 1.2,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CD] += (e >= 1) ? 0.30 : 0
@@ -2050,8 +2069,8 @@ function fuxuan(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x[Stats.HP] += (r.skillActive) ? skillHpBuffValue * x[Stats.HP] : 0
 
@@ -2062,12 +2081,12 @@ function fuxuan(e) {
   }
 }
 function danheng(e) {
-  let extraPenValue = talent(e, 0.36, 0.396)
+  const extraPenValue = talent(e, 0.36, 0.396)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.60, 2.86)
-  let ultScaling = ult(e, 4.00, 4.32)
-  let ultExtraScaling = ult(e, 1.20, 1.296)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.60, 2.86)
+  const ultScaling = ult(e, 4.00, 4.32)
+  const ultExtraScaling = ult(e, 1.20, 1.296)
 
   return {
     display: () => (
@@ -2081,8 +2100,8 @@ function danheng(e) {
       enemySlowed: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (e >= 1 && request.enemyHpPercent >= 0.50) ? 0.12 : 0
@@ -2100,7 +2119,7 @@ function danheng(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2110,20 +2129,20 @@ function danheng(e) {
 }
 
 function clara(e) {
-  let ultDmgReductionValue = ult(e, 0.25, 0.27)
-  let ultFuaExtraScaling = ult(e, 1.60, 1.728)
+  const ultDmgReductionValue = ult(e, 0.25, 0.27)
+  const ultFuaExtraScaling = ult(e, 1.60, 1.728)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.20, 1.32)
-  let fuaScaling = talent(e, 1.60, 1.76)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const fuaScaling = talent(e, 1.60, 1.76)
 
-  let hitMultiByTargetsBlast = {
+  const hitMultiByTargetsBlast = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
     5: ASHBLAZING_ATK_STACK * (2 * 1 / 1) // Clara is 1 hit blast when enhanced
   }
 
-  let hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -2141,8 +2160,8 @@ function clara(e) {
       e4DmgReductionBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0
@@ -2163,18 +2182,18 @@ function clara(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
 
       // Calc ashblazing: ult buff -> blast, unbuffed -> single
       if (r.ultBuff) {
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargetsBlast[request.enemyCount])
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargetsBlast[request.enemyCount])
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       } else {
-        let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
     }
@@ -2182,15 +2201,15 @@ function clara(e) {
 }
 
 function bronya(e) {
-  let skillDmgBoostValue = skill(e, 0.66, 0.726)
-  let ultAtkBoostValue = ult(e, 0.55, 0.594)
-  let ultCdBoostValue = ult(e, 0.16, 0.168)
-  let ultCdBoostBaseValue = ult(e, 0.20, 0.216)
+  const skillDmgBoostValue = skill(e, 0.66, 0.726)
+  const ultAtkBoostValue = ult(e, 0.55, 0.594)
+  const ultCdBoostValue = ult(e, 0.16, 0.168)
+  const ultCdBoostBaseValue = ult(e, 0.20, 0.216)
 
-  let basicScaling = basic(e, 1.0, 1.1)
-  let fuaScaling = basicScaling * 0.80
+  const basicScaling = basic(e, 1.0, 1.1)
+  const fuaScaling = basicScaling * 0.80
 
-  let hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
     display: () => (
@@ -2210,8 +2229,8 @@ function bronya(e) {
       e2SkillSpdBuff: false,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.DEF_P] += (r.battleStartDefBuff) ? 0.20 : 0
@@ -2231,14 +2250,14 @@ function bronya(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       // Order matters?
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
@@ -2247,19 +2266,19 @@ function bronya(e) {
 }
 
 function blade(e) {
-  let enhancedStateDmgBoost = skill(e, 0.40, 0.456)
-  let hpPercentLostTotalMax = 0.90
+  const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
+  const hpPercentLostTotalMax = 0.90
 
-  let basicScaling = basic(e, 1.0, 1.1)
-  let basicEnhancedAtkScaling = skill(e, 0.40, 0.44)
-  let basicEnhancedHpScaling = skill(e, 1.00, 1.10)
-  let ultAtkScaling = ult(e, 0.40, 0.432)
-  let ultHpScaling = ult(e, 1.00, 1.08)
-  let ultLostHpScaling = ult(e, 1.00, 1.08)
-  let fuaAtkScaling = talent(e, 0.44, 0.484)
-  let fuaHpScaling = talent(e, 1.10, 1.21)
+  const basicScaling = basic(e, 1.0, 1.1)
+  const basicEnhancedAtkScaling = skill(e, 0.40, 0.44)
+  const basicEnhancedHpScaling = skill(e, 1.00, 1.10)
+  const ultAtkScaling = ult(e, 0.40, 0.432)
+  const ultHpScaling = ult(e, 1.00, 1.08)
+  const ultLostHpScaling = ult(e, 1.00, 1.08)
+  const fuaAtkScaling = talent(e, 0.44, 0.484)
+  const fuaHpScaling = talent(e, 1.10, 1.21)
 
-  let hitMultiByTargets = {
+  const hitMultiByTargets = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
     3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
@@ -2279,8 +2298,8 @@ function blade(e) {
       e4MaxHpIncreaseStacks: 2,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
@@ -2297,8 +2316,8 @@ function blade(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -2312,8 +2331,8 @@ function blade(e) {
       x.ULT_DMG += ultLostHpScaling * r.hpPercentLostTotal * x[Stats.HP]
       x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
-      let hitMulti = hitMultiByTargets[request.enemyCount]
-      let { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const hitMulti = hitMultiByTargets[request.enemyCount]
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
@@ -2323,9 +2342,9 @@ function blade(e) {
 }
 
 function bailu(e) {
-  let basicScaling = basic(e, 1.0, 1.1)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.0, 1.1)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
   return {
     display: () => (
@@ -2343,8 +2362,8 @@ function bailu(e) {
       e4SkillHealingDmgBuffStacks: 0,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.HP_P] += (r.healingMaxHpBuff) ? 0.10 : 0
@@ -2362,7 +2381,7 @@ function bailu(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += 0
@@ -2373,15 +2392,15 @@ function bailu(e) {
 }
 
 function asta(e) {
-  let ultSpdBuffValue = ult(e, 50, 52.8)
-  let talentStacksAtkBuff = talent(e, 0.14, 0.154)
-  let talentStacksDefBuff = 0.06
-  let skillExtraDmgHitsMax = (e >= 1) ? 5 : 4
+  const ultSpdBuffValue = ult(e, 50, 52.8)
+  const talentStacksAtkBuff = talent(e, 0.14, 0.154)
+  const talentStacksDefBuff = 0.06
+  const skillExtraDmgHitsMax = (e >= 1) ? 5 : 4
 
-  let basicScaling = basic(e, 1.0, 1.1)
-  let skillScaling = skill(e, 0.50, 0.55)
-  let ultScaling = ult(e, 0, 0)
-  let dotScaling = basic(e, 0.50, 0.55)
+  const basicScaling = basic(e, 1.0, 1.1)
+  const skillScaling = skill(e, 0.50, 0.55)
+  const ultScaling = ult(e, 0, 0)
+  const dotScaling = basic(e, 0.50, 0.55)
 
   return {
     display: () => (
@@ -2397,8 +2416,8 @@ function asta(e) {
       ultSpdBuff: true
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (r.talentBuffStacks) * talentStacksAtkBuff
@@ -2418,7 +2437,7 @@ function asta(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2429,11 +2448,11 @@ function asta(e) {
 }
 
 function arlan(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.40, 2.64)
-  let ultScaling = ult(e, 3.20, 3.456)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.40, 2.64)
+  const ultScaling = ult(e, 3.20, 3.456)
 
-  let talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
+  const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
   return {
     display: () => (
@@ -2445,8 +2464,8 @@ function arlan(e) {
       selfCurrentHpPercent: 1.00,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x.ELEMENTAL_DMG += Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent)
@@ -2463,7 +2482,7 @@ function arlan(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2474,14 +2493,14 @@ function arlan(e) {
 }
 
 function argenti(e) {
-  let talentMaxStacks = (e >= 4) ? 12 : 10
+  const talentMaxStacks = (e >= 4) ? 12 : 10
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 1.20, 1.32)
-  let ultScaling = ult(e, 1.60, 1.728)
-  let ultEnhancedScaling = ult(e, 2.80, 3.024)
-  let ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
-  let talentCrStackValue = talent(e, 0.025, 0.028)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const ultScaling = ult(e, 1.60, 1.728)
+  const ultEnhancedScaling = ult(e, 2.80, 3.024)
+  const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
+  const talentCrStackValue = talent(e, 0.025, 0.028)
 
   return {
     display: () => (
@@ -2499,8 +2518,8 @@ function argenti(e) {
       e2UltAtkBuff: true
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
       x[Stats.CR] += (r.talentStacks) * talentCrStackValue
@@ -2524,7 +2543,7 @@ function argenti(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2535,22 +2554,41 @@ function argenti(e) {
 }
 
 function jingliu(e) {
-  let talentCrBuff = talent(e, 0.50, 0.52)
+  const talentCrBuff = talent(e, 0.50, 0.52)
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
   talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.00, 2.20)
-  let skillEnhancedScaling = skill(e, 2.50, 2.75)
-  let ultScaling = ult(e, 3.00, 3.24)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.00, 2.20)
+  const skillEnhancedScaling = skill(e, 2.50, 2.75)
+  const ultScaling = ult(e, 3.00, 3.24)
 
   return {
     display: () => (
       <Flex vertical gap={10} >
-        <FormSwitch name='talentEnhancedState' text='Enhanced state' />
-        <FormSlider name='talentHpDrainAtkBuff' text='HP drain ATK buff' min={0} max={talentHpDrainAtkBuffMax} percent />
-        <FormSwitch name='e1CdBuff' text='E1 ult active' disabled={e < 1} />
-        <FormSwitch name='e2SkillDmgBuff' text='E2 skill buff' disabled={e < 2} />
+        <FormSwitchWithPopover
+          title="Crescent Transmigration"
+          content="When Jingliu has 2 stack(s) of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by 50%. Then, Jingliu's Skill Transcendent Flash becomes enhanced and turns into Moon On Glacial River, and becomes the only ability she can use in battle."
+          name='talentEnhancedState'
+          text='Enhanced state' />
+        <FormSwitchWithPopover
+          title="Crescent Transmigration - ATK Bonus"
+          content="When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies equal to 4% of their respective Max HP (this cannot reduce allies' HP to lower than 1). Jingliu's ATK increases by 540% of the total HP consumed from all allies in this attack, capped at 180% of her base ATK, lasting until the current attack ends. Jingliu cannot enter the Spectral Transmigration state again until the current Spectral Transmigration state ends. Syzygy can stack up to 3 times. When Syzygy stacks become 0, Jingliu will exit the Spectral Transmigration state."
+          name='talentHpDrainAtkBuff'
+          text='HP drain ATK buff'
+          min={0} max={talentHpDrainAtkBuffMax} percent />
+        <FormSwitchWithPopover
+          title="E1 - Moon Crashes Tianguan Gate"
+          content="When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK."
+          name='e1CdBuff'
+          text='E1 ult active'
+          disabled={e < 1} />
+        <FormSwitchWithPopover
+          title="E2 - Crescent Shadows Qixing Dipper"
+          content="After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
+          name='e2SkillDmgBuff'
+          text='E2 skill buff'
+          disabled={e < 2} />
       </Flex>
     ),
     defaults: () => ({
@@ -2560,8 +2598,8 @@ function jingliu(e) {
       e2SkillDmgBuff: true,
     }),
     precomputeEffects: (request) => {
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
       x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
@@ -2592,7 +2630,7 @@ function jingliu(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2603,15 +2641,15 @@ function jingliu(e) {
 }
 
 function blackswan(e) {
-  let arcanaStackMultiplier = talent(e, 0.12, 0.132)
-  let stack3ArcanaBlastDmg = talent(e, 1.80, 1.98)
-  let epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
-  let defShredValue = skill(e, 0.208, 0.22)
+  const arcanaStackMultiplier = talent(e, 0.12, 0.132)
+  const stack3ArcanaBlastDmg = talent(e, 1.80, 1.98)
+  const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
+  const defShredValue = skill(e, 0.208, 0.22)
 
-  let basicScaling = basic(e, 0.60, 0.66)
-  let skillScaling = skill(e, 0.90, 0.99)
-  let ultScaling = ult(e, 1.20, 1.30)
-  let dotScaling = talent(e, 2.40, 2.64)
+  const basicScaling = basic(e, 0.60, 0.66)
+  const skillScaling = skill(e, 0.90, 0.99)
+  const ultScaling = ult(e, 1.20, 1.30)
+  const dotScaling = talent(e, 2.40, 2.64)
 
 
   return {
@@ -2631,8 +2669,8 @@ function blackswan(e) {
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -2649,7 +2687,7 @@ function blackswan(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.ELEMENTAL_DMG += Math.min(0.72, 0.60 * x[Stats.EHR])
 
@@ -2662,16 +2700,16 @@ function blackswan(e) {
 }
 
 function sparkle(e) {
-  let skillCdBuffScaling = skill(e, 0.24, 0.264)
-  let skillCdBuffBase = skill(e, 0.45, 0.486)
-  let cipherTalentStackBoost = ult(e, 0.10, 0.108)
-  let talentBaseStackBoost = ult(e, 0.06, 0.066)
+  const skillCdBuffScaling = skill(e, 0.24, 0.264)
+  const skillCdBuffBase = skill(e, 0.45, 0.486)
+  const cipherTalentStackBoost = ult(e, 0.10, 0.108)
+  const talentBaseStackBoost = ult(e, 0.06, 0.066)
 
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 0, 0)
-  let ultScaling = ult(e, 0, 0)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 0, 0)
 
-  let atkBoostByQuantumAllies = {
+  const atkBoostByQuantumAllies = {
     0: 0,
     1: 0.05,
     2: 0.15,
@@ -2695,8 +2733,8 @@ function sparkle(e) {
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.ATK_P] += 0.15 + (atkBoostByQuantumAllies[r.quantumAllies] || 0)
       x[Stats.ATK_P] += (e >= 1 && r.cipherBuff) ? 0.40 : 0
@@ -2711,8 +2749,8 @@ function sparkle(e) {
       return x
     },
     calculateBaseMultis: (c, request) => {
-      let r = request.characterConditionals
-      let x = c.x
+      const r = request.characterConditionals
+      const x = c.x
 
       x[Stats.CD] += (r.skillCdBuff) ? skillCdBuffBase + skillCdBuffScaling * x[Stats.CD] : 0
       x[Stats.CD] += (e >= 6 && r.skillCdBuff) ? 0.30 * x[Stats.CD] : 0
@@ -2725,8 +2763,8 @@ function sparkle(e) {
 }
 
 function misha(e) {
-  let basicScaling = basic(e, 1.00, 1.10)
-  let skillScaling = skill(e, 2.00, 2.20)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.00, 2.20)
   let ultStackScaling = ult(e, 0.60, 0.65)
   ultStackScaling += (e >= 4 ? 0.06 : 0)
 
@@ -2747,8 +2785,8 @@ function misha(e) {
     }),
     precomputeEffects: (request) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      let r = request.characterConditionals
-      let x = Object.assign({}, baseComputedStatsObject)
+      const r = request.characterConditionals
+      const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.CD] += (r.enemyFrozen) ? 0.30 : 0
 
@@ -2762,7 +2800,7 @@ function misha(e) {
       return x
     },
     calculateBaseMultis: (c) => {
-      let x = c.x
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -2775,12 +2813,12 @@ function skill(e, value1, value2) {
   return e >= 3 ? value2 : value1
 }
 
-let talent = skill
+const talent = skill
 
 function ult(e, value1, value2) {
   return e >= 5 ? value2 : value1
 }
-let basic = ult
+const basic = ult
 
 function p4(set) {
   return set >> 2
@@ -2788,7 +2826,7 @@ function p4(set) {
 
 export const CharacterConditionals = {
   get: (request) => {
-    let characterFn = characterOptionMapping[request.characterId]
+    const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon)
   },
   getDisplayForCharacter: (id, eidolon) => {
@@ -2802,8 +2840,8 @@ export const CharacterConditionals = {
       )
     }
 
-    let characterFn = characterOptionMapping[id]
-    let display = characterFn(eidolon).display()
+    const characterFn = characterOptionMapping[id]
+    const display = characterFn(eidolon).display()
 
     return (
       <ConfigProvider

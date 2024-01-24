@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars  */
 
-import { Flex } from "antd";
+import { Flex, Typography } from "antd";
 import React from "react";
 import { HeaderText } from "../components/HeaderText";
 import { Constants } from './constants.ts'
@@ -2007,9 +2007,12 @@ export const LightConeConditionals = {
   getDisplayForLightCone: (id, superimposition) => {
     if (!id || !lightConeOptionMapping[id]) {
       return (
-        <Flex justify='space-between' align='center'>
-          <HeaderText>Light cone passives</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()} />
+        <Flex vertical gap={5}>
+          <Flex justify='space-between' align='center'>
+            <HeaderText>Light cone passives</HeaderText>
+            <TooltipImage type={Hint.lightConePassives()} />
+          </Flex>
+          <Typography.Text italic>Select a Light cone to view passives</Typography.Text>
         </Flex>
       )
     }

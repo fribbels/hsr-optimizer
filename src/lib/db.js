@@ -98,6 +98,8 @@ window.store = create((set) => ({
     enhance: [],
     mainStats: [],
     subStats: [],
+    grade: [],
+    verified: [],
   },
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
   setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),

@@ -8,6 +8,7 @@ import { Utils } from "../lib/utils";
 import { Constants } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
+import { Renderer } from "lib/renderer.js";
 
 const { Text } = Typography;
 
@@ -57,6 +58,26 @@ export default function RelicFilterBar() {
     })
   }
 
+  function generateGradeTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: x })
+      }
+    })
+  }
+
+  function generateVerifiedTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: -1, verified: x })
+      }
+    })
+  }
+
+  let gradeData = generateGradeTags([2,3,4,5])
+  let verifiedData = generateVerifiedTags([false,true])
   let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
@@ -146,6 +167,8 @@ export default function RelicFilterBar() {
       enhance: [],
       mainStats: [],
       subStats: [],
+      grade: [],
+      verified: []
     })
   }
 
@@ -184,11 +207,21 @@ export default function RelicFilterBar() {
             </Button>
           </Flex>
         </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
+        <Flex vertical style={{ height: '100%' }} flex={0.5}>
           <HeaderText>Filter actions</HeaderText>
-          <Button onClick={clearClicked}>
-            Clear filters
-          </Button>
+          <Flex gap={10}>
+            <Button onClick={clearClicked} style={{flexGrow: 1}}>
+              Clear filters
+            </Button>
+          </Flex>
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name='grade' tags={gradeData} flexBasis='25%' />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
         </Flex>
       </Flex>
 

@@ -102,8 +102,6 @@ const baseComputedStatsObject = {
   RES_PEN: 0,
   DMG_RED_MULTI: 1,
 
-  DOT_DMG_TAKEN_MULTI: 0,
-
   BASIC_CR_BOOST: 0,
   SKILL_CR_BOOST: 0,
   ULT_CR_BOOST: 0,
@@ -2677,7 +2675,7 @@ function sparkle(e) {
     0: 0,
     1: 0.05,
     2: 0.15,
-    3: 0.30
+    3: 0.30,
   }
 
   return {

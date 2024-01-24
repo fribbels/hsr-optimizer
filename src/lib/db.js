@@ -68,6 +68,8 @@ window.store = create((set) => ({
     enhance: [],
     mainStats: [],
     subStats: [],
+    grade: [],
+    verified: [],
   },
 
   setActiveKey: (x) => set(() => ({ activeKey: x })),

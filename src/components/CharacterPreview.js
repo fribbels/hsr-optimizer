@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Flex, Image } from 'antd';
 import PropTypes from 'prop-types';
 import { RelicScorer } from 'lib/relicScorer.ts';
 import { StatCalculator } from 'lib/statCalculator';
 import { DB } from 'lib/db';
 import { Assets } from 'lib/assets';
-
+import { Message } from 'lib/message';
 import { Constants } from 'lib/constants.ts';
 import {
   defaultGap, parentH, parentW, middleColumnWidth, innerW,
@@ -15,21 +15,50 @@ import {
 import Rarity from 'components/characterPreview/Rarity';
 import StatRow from 'components/characterPreview/StatRow';
 import StatText from 'components/characterPreview/StatText';
+import RelicModal from 'components/RelicModal';
 import RelicPreview from 'components/RelicPreview';
 
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
 
   const { source, character } = props;
+  const isScorer = source == 'scorer';
 
   const relicsById = global.store(s => s.relicsById)
   const characterTabBlur = global.store(s => s.characterTabBlur);
   const setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
-  const isScorer = source == 'scorer'
+  const [selectedRelic, setSelectedRelic] = useState();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
+
+  function onEditOk(relic) {
+    relic.id = selectedRelic.id
+
+    const updatedRelic = { ...selectedRelic, ...relic }
+
+    if (updatedRelic.equippedBy) {
+      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
+    } else {
+      DB.unequipRelicById(updatedRelic.id);
+    }
+
+    DB.setRelic(updatedRelic)
+    // setRelicRows(DB.getRelics())
+    // SaveState.save()
+
+    setSelectedRelic(updatedRelic)
+
+    window.forceOptimizerBuildPreviewUpdate()
+    window.forceCharacterTabUpdate()
+
+    Message.success('Successfully edited relic')
+    console.log('onEditOk', updatedRelic)
+  }
 
   if (!character) {
     return (
       <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+
         <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
         </div>
 
@@ -41,15 +70,15 @@ export function CharacterPreview(props) {
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview />
-            <RelicPreview />
-            <RelicPreview />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview />
-            <RelicPreview />
-            <RelicPreview />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
           </Flex>
         </Flex>
       </Flex>
@@ -103,9 +132,11 @@ export function CharacterPreview(props) {
     Imaginary: Constants.Stats.Imaginary_DMG,
   }
   const elementalDmgValue = elementToDmgValueMapping[characterElement]
-
+  console.log(displayRelics);
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
         <div
           style={{
@@ -195,15 +226,57 @@ export function CharacterPreview(props) {
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={displayRelics.Head} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
-          <RelicPreview relic={displayRelics.Body} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
-          <RelicPreview relic={displayRelics.PlanarSphere} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Head}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Head)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Body}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Body)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.PlanarSphere}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)}
+          />
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={displayRelics.Hands} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
-          <RelicPreview relic={displayRelics.Feet} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
-          <RelicPreview relic={displayRelics.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)} />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Hands}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Hands)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Feet}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Feet)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.LinkRope}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}
+          />
         </Flex>
       </Flex>
     </Flex>

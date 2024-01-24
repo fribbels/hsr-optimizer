@@ -136,7 +136,7 @@ export default function CharacterTab(props) {
     // set view
     setActiveKey('optimizer');
     console.log(`@CharacterTab.cellDoubleClickedListener::setFocusCharacter - focus [${e.data.id}]`, e.data);
-  }, [charactersById, setActiveKey, setFocusCharacter]);
+  }, [setActiveKey, setFocusCharacter]);
 
   function drag(event, index) {
     const dragged = event.node.data;

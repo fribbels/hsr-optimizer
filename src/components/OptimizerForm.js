@@ -130,14 +130,15 @@ export default function OptimizerForm() {
 
   const initialValues = useMemo(() => {
     if (selectedCharacter) {
-      let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
+      const matchingCharacter = DB.getCharacterById(selectedCharacter.id);
+      setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
       if (matchingCharacter) {
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
       }
     }
 
     return getDefaultForm(initialCharacter)
-  }, [initialCharacter, selectedCharacter]);
+  }, [initialCharacter, selectedCharacter, lightConeOptions]);
 
   useEffect(() => {
     onValuesChange({}, initialValues)

@@ -508,6 +508,7 @@ export const OptimizerTabController = {
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       global.optimizerForm.setFieldsValue(displayFormValues)
+      console.log('@changeCharacter', character);
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
         setSelectedLightCone(lightConeMetadata)

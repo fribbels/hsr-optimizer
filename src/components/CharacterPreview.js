@@ -43,13 +43,7 @@ export function CharacterPreview(props) {
     }
 
     DB.setRelic(updatedRelic)
-    // setRelicRows(DB.getRelics())
-    // SaveState.save()
-
     setSelectedRelic(updatedRelic)
-
-    window.forceOptimizerBuildPreviewUpdate()
-    window.forceCharacterTabUpdate()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)

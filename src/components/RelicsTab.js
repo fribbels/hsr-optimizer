@@ -264,9 +264,6 @@ export default function RelicsTab(props) {
 
     setSelectedRelic(updatedRelic)
 
-    window.forceOptimizerBuildPreviewUpdate()
-    window.forceCharacterTabUpdate()
-
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)
   }

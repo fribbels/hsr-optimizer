@@ -31,6 +31,7 @@
     "build": "react-scripts build",
     "lint": "eslint src/**/*.js",
     "test": "npx playwright test --trace on",
+    "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
     "eject": "react-scripts eject",

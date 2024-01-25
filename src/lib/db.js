@@ -1,20 +1,20 @@
-import { OptimizerTabController } from "./optimizerTabController"
-import { RelicAugmenter } from "./relicAugmenter"
-import * as objectHash from 'object-hash'
 import { create } from 'zustand'
-import { Constants } from './constants.ts';
-import { getDefaultForm } from './defaultForm';
-import { Utils } from "./utils";
-import { SaveState } from "./saveState";
-import { Message } from "./message";
+import * as objectHash from 'object-hash'
+import { OptimizerTabController } from "lib/optimizerTabController"
+import { RelicAugmenter } from "lib/relicAugmenter"
+import { Constants } from 'lib/constants.ts';
+import { getDefaultForm } from 'lib/defaultForm';
+import { Utils } from "lib/utils";
+import { SaveState } from "lib/saveState";
+import { Message } from "lib/message";
 
-let state = {
+const state = {
+  focusCharacter: undefined,
   relics: [],
   characters: [],
-  metadata: {},
+  metadata: {}, // generated, not saved
   relicsById: {},
   scorerId: undefined,
-  selectedOptimizerCharacter: undefined
 }
 
 // TODO clean up
@@ -32,19 +32,20 @@ let hashes = [
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
-  relicsById: {},
-  setRelicsById: (x) => set(() => ({ relicsById: x })),
+  focusCharacter: undefined,
 
+  activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
   characters: [],
   charactersById: {},
-  setCharactersById: (x) => set(() => ({ charactersById: x })),
-  setCharacters: (x) => set(() => ({ characters: x })),
-
-  characterTabSelectedId: undefined,
-  setCharacterTabSelectedId: (x) => set(() => ({ characterTabSelectedId: x })),
-
   characterTabBlur: false,
-  setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
+  conditionalSetEffectsDrawerOpen: false,
+  permutations: 0,
+  permutationsResults: 0,
+  permutationsSearched: 0,
+  relicsById: {},
+  scorerId: undefined,
+  scoringMetadataOverrides: {},
+  statDisplay: 'base',
 
   permutationDetails: {
     Head: 0,
@@ -60,37 +61,6 @@ window.store = create((set) => ({
     PlanarSphereTotal: 0,
     LinkRopeTotal: 0,
   },
-  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
-
-  permutations: 0,
-  setPermutations: (x) => set(() => ({ permutations: x })),
-
-  permutationsSearched: 0,
-  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
-
-  permutationsResults: 0,
-  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
-
-  statDisplay: 'base',
-  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
-
-  activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
-  setActiveKey: (x) => set(() => ({ activeKey: x })),
-
-  scorerId: undefined,
-  setScorerId: (x) => set(() => ({ scorerId: x })),
-
-  scoringMetadataOverrides: {},
-  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
-
-  conditionalSetEffectsDrawerOpen: false,
-  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-
-  selectedScoringCharacter: undefined,
-  setSelectedScoringCharacter: (x) => set(() => ({ selectedScoringCharacter: x })),
-
-  selectedOptimizerCharacter: undefined,
-  setSelectedOptimizerCharacter: char => set(() => ({ selectedOptimizerCharacter: char })),
 
   relicTabFilters: {
     set: [],
@@ -101,9 +71,24 @@ window.store = create((set) => ({
     grade: [],
     verified: [],
   },
-  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+
+  setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setCharacters: (x) => set(() => ({ characters: x })),
+  setCharactersById: (x) => set(() => ({ charactersById: x })),
+  setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
+  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
   setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
-}))
+  setFocusCharacter: (characterId) => set(() => ({ focusCharacter: characterId })),
+  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+  setPermutations: (x) => set(() => ({ permutations: x })),
+  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+  setRelicsById: (x) => set(() => ({ relicsById: x })),
+  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setScorerId: (x) => set(() => ({ scorerId: x })),
+  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+}));
 
 export const DB = {
   getMetadata: () => state.metadata,
@@ -245,7 +230,10 @@ export const DB = {
     }
 
     console.log('Updated db characters', characters)
-    global.characterGrid.current.api.updateGridOptions({ rowData: characters })
+
+    // TODO: after render optimization, global.characterGrid is possibly undefined
+    if (global.characterGrid?.current?.api)
+      global.characterGrid.current.api.updateGridOptions({ rowData: characters })
   },
 
   unequipCharacter: (id) => {
@@ -430,9 +418,15 @@ export const DB = {
     DB.setRelics(replacementRelics)
     DB.setCharacters(characters)
 
-    global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+    // only valid when on relics tab
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+    }
 
-    global.characterGrid.current.api.redrawRows()
+    // only valid when on character tab
+    if (global.characterGrid?.current?.api) {
+      global.characterGrid.current.api.redrawRows()
+    }
 
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
@@ -514,14 +508,13 @@ export const DB = {
     oldRelics.map(x => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
     DB.refreshRelics()
-    global.characterGrid.current.api.redrawRows()
+
+    if (global.characterGrid?.current?.api) {
+      global.characterGrid.current.api.redrawRows()
+    }
 
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
-
-    // TODO this probably shouldn't be in this file
-    let fieldValues = OptimizerTabController.getForm()
-    global.onOptimizerFormValuesChange({}, fieldValues);
   },
 }
 

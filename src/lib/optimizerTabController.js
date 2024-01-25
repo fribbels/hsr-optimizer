@@ -76,7 +76,6 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
     global.setOptimizerBuild(build);
-    global.relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 
@@ -160,7 +159,11 @@ export const OptimizerTabController = {
       getRows: (params) => {
         console.log(params);
         aggs = undefined
-        global.optimizerGrid.current.api.showLoadingOverlay()
+
+        // fast clickers can race unmount/remount and cause NPE here.
+        if (global?.optimizerGrid?.current?.api) {
+          global.optimizerGrid.current.api.showLoadingOverlay()
+        }
 
         // Give it time to show the loading page before we block
         Utils.sleep(100).then(() => {
@@ -184,7 +187,11 @@ export const OptimizerTabController = {
 
             params.successCallback(subArray, rows.length)
           }
-          global.optimizerGrid.current.api.hideOverlay()
+
+          // cannot assume a fast click race-condition didn't happen
+          if (global?.optimizerGrid?.current?.api) {
+            global.optimizerGrid.current.api.hideOverlay()
+          }
           OptimizerTabController.redrawRows()
         })
       },
@@ -365,7 +372,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update', form, newForm, defaultOptions)
+    console.log('Form update'/* , form, newForm, defaultOptions */)
     return newForm
   },
 
@@ -466,6 +473,7 @@ export const OptimizerTabController = {
   },
 
   resetFilters: () => {
+    console.info('@resetFilters');
     let fieldValues = OptimizerTabController.getForm()
     let newForm = {
       "characterEidolon": fieldValues.characterEidolon,
@@ -494,18 +502,20 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  changeCharacter: (id) => {
-    console.log('ChangeCharacter')
+  changeCharacter: (id, setSelectedLightCone) => {
+    console.log(`@OptimzerTabController.changeCharacter(${id})`);
     let character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       global.optimizerForm.setFieldsValue(displayFormValues)
+      console.log('@changeCharacter', character);
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        global.setSelectedLightCone(lightConeMetadata)
+        setSelectedLightCone(lightConeMetadata)
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
+      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0
@@ -677,5 +687,8 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
+  if (global.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
+    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  }
 }

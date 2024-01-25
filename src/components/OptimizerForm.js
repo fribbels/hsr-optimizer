@@ -1,42 +1,56 @@
 import {
   Button,
   Cascader,
-  ConfigProvider,
+  // ConfigProvider,
   Divider,
   Flex,
   Form,
   Image,
-  InputNumber,
+  // InputNumber,
   Select,
   Switch,
   Tag,
   Typography,
 } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Optimizer } from '../lib/optimizer';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Optimizer } from 'lib/optimizer';
 import styled from 'styled-components';
-import { Constants } from '../lib/constants.ts';
+import {
+  Constants,
+  levelOptions,
+  enemyLevelOptions,
+  enemyCountOptions,
+  enemyResistanceOptions,
+  enemyHpPercentOptions,
+  superimpositionOptions,
+  eidolonOptions
+} from 'lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
-import { OptimizerTabController } from '../lib/optimizerTabController';
+import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
-import { SaveState } from '../lib/saveState';
-import { CharacterConditionals } from "../lib/characterConditionals";
-import { LightConeConditionals } from "../lib/lightConeConditionals";
+import { SaveState } from 'lib/saveState';
+import { CharacterConditionals } from "lib/characterConditionals";
+import { LightConeConditionals } from "lib/lightConeConditionals";
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
 import { v4 as uuidv4 } from "uuid";
-import { getDefaultForm } from "../lib/defaultForm";
+import { getDefaultForm } from "lib/defaultForm";
 import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
-import { Assets } from "../lib/assets";
+import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
-import DB from "../lib/db";
-import { Message } from "../lib/message";
-import { Hint } from "../lib/hint";
-import { Utils } from "../lib/utils";
+import DB from "lib/db";
+import { Message } from "lib/message";
+import { Hint } from "lib/hint";
+import { Utils } from 'lib/utils.js';
+
+import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
+import FilterRow from './optimizerForm/FilterRow.tsx';
+import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
+import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -45,129 +59,24 @@ let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
-function generateOrnamentsOptions() {
-  return Object.values(Constants.SetsOrnaments).map(x => {
-    return {
-      value: x,
-      label:
-        <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
-          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-            {x}
-          </div>
-        </Flex>
-    }
-  })
-}
-
-function generateSetsOptions() {
-  let result = [
-    {
-      value: '4 Piece',
-      label: '4 Piece',
-      children: []
-    },
-    {
-      value: '2 Piece',
-      label: '2 Piece',
-      children: []
-    }
-  ];
-
-  let childrenWithAny = Object.entries(Constants.SetsRelics).map(set => {
-    return {
-      value: set[1],
-      label: set[1]
-    }
-  })
-  childrenWithAny.push({
-    value: 'Any',
-    label: 'Any'
-  })
-
-  function generateLabel(value, parens, label) {
-    let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
-    return (
-      <Flex gap={5} align='center'>
-        <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
-        <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-          {parens + label}
-        </div>
-      </Flex>
-    )
-  }
-
-  for (let set of Object.entries(Constants.SetsRelics)) {
-    result[0].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(4) ', set[1])
-    })
-
-    result[1].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(2) ', set[1]),
-      children: childrenWithAny.map(x => {
-        let parens = x.value == 'Any' ? '(0) ' : '(2) ';
-        return {
-          value: x.value,
-          label: generateLabel(x.value, parens, x.label)
-        }
-      })
-    })
-  }
-
-  return result;
-}
-
-const FormStatTextStyled = styled(Text)`
-  display: block;
-  text-align: center;
-`
-
-const InputNumberStyled = styled(InputNumber)`
-  width: 62px
-`
-
-function FilterRow(props) {
-  return (
-    <Flex justify='space-between'>
-      <Form.Item size="default" name={`min${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-      <FormStatTextStyled>{props.label}</FormStatTextStyled>
-      <Form.Item size="default" name={`max${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-    </Flex>
-  )
-}
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
-}
 
 
 let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER')
-  console.log('OptimizerForm')
+  console.log('======================================================================= RENDER OptimizerForm');
   const [optimizerForm] = Form.useForm();
-  window.optimizerForm = optimizerForm
+  window.optimizerForm = global.optimizerForm = optimizerForm;
 
+  // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
-
   const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
-
-  const activeKey = global.store(s => s.activeKey)
-  const characters = global.store(s => s.characters) // characters set in this localStorage instance
-  const setStatDisplay = global.store(s => s.setStatDisplay)
-
   const [optimizationId, setOptimizationId] = useState();
-
+  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
+  const focusCharacter = global.store(s => s.focusCharacter);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -180,13 +89,17 @@ export default function OptimizerForm() {
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
-  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
-  window.selectedLightCone = selectedLightCone
-  window.setSelectedLightCone = (x) => {
-    setSelectedLightCone(x)
-  }
+  const characterSelectorChange = useCallback(id => {
+    console.log(`@OptimizerForm.characterSelectorChange ${id}`);
+    setSelectedCharacter(characterOptions.find(x => x.id == id))
+    OptimizerTabController.changeCharacter(id, setSelectedLightCone);
+  }, [characterOptions]);
 
-  useEffect(() => {
+  const lightConeSelectorChange = useCallback(id => {
+    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
+  }, [lightConeOptions]);
+
+  useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
@@ -198,129 +111,39 @@ export default function OptimizerForm() {
     if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     }
-  }, [selectedLightCone])
+  }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
+
+    if (focusCharacter) {
+      return characters.find(x => x.id == focusCharacter);
+    }
+
     if (characters && characters.length > 0) {
       let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
-      setStatDisplay(character.form.statDisplay || 'base')
       return characterOptions.find(x => x.id == character.id)
     }
-  }, []);
-
+  }, [characterOptions, focusCharacter, lightConeSelectorChange]);
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
-  window.setSelectedCharacter = setSelectedCharacter
 
-  // TODO: refactor if/when view-routing/deep-linking implemented
-  // coming from char tab
-  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
+  const initialValues = useMemo(() => {
+    if (selectedCharacter) {
+      const matchingCharacter = DB.getCharacterById(selectedCharacter.id);
+      setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
+      if (matchingCharacter) {
+        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
+      }
+    }
+
+    return getDefaultForm(initialCharacter)
+  }, [initialCharacter, selectedCharacter, lightConeOptions]);
+
   useEffect(() => {
-    if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
-      characterSelectorChange(selectedOptimizerCharacter.id);
-      setSelectedOptimizerCharacter(null);
-    }
-  }, [selectedOptimizerCharacter]);
+    onValuesChange({}, initialValues)
+  }, [initialValues])
 
-  useEffect(() => {
-    if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
-      characterSelectorChange(characters[0].id)
-    }
-  }, [activeKey])
-
-  const levelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 80; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyLevelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 95; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyCountOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 1; i <= 5; i += 2) {
-      levelStats.push({
-        value: i,
-        label: `${i} target${i > 1 ? 's' : ''}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyResistanceOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 20; i <= 60; i += 20) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% RES`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyHpPercentOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 100; i >= 1; i--) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% HP`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const superimpositionOptions = useMemo(() => {
-    return [
-      { value: 1, label: 'S1' },
-      { value: 2, label: 'S2' },
-      { value: 3, label: 'S3' },
-      { value: 4, label: 'S4' },
-      { value: 5, label: 'S5' },
-    ]
-  }, []);
-
-  const eidolonOptions = useMemo(() => {
-    return [
-      { value: 0, label: 'E0' },
-      { value: 1, label: 'E1' },
-      { value: 2, label: 'E2' },
-      { value: 3, label: 'E3' },
-      { value: 4, label: 'E4' },
-      { value: 5, label: 'E5' },
-      { value: 6, label: 'E6' },
-    ]
-  }, []);
-
-
-  function characterSelectorChange(id) {
-    setSelectedCharacter(characterOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(id)
-  }
-
-  function lightConeSelectorChange(id) {
-    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
-  }
 
   const onFinish = (x) => {
     OptimizerTabController.fixForm(x);
@@ -358,13 +181,13 @@ export default function OptimizerForm() {
       keys[0] == 'lightConeConditionals')) {
       return;
     }
-    let request = allValues
+    const request = allValues
 
-    console.log('Values changed', request, changedValues);
+    console.log('@onValuesChange'/* , request, changedValues */);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
-    let permutationDetails = {
+    const permutationDetails = {
       Head: relics.Head.length,
       Hands: relics.Hands.length,
       Body: relics.Body.length,
@@ -391,20 +214,7 @@ export default function OptimizerForm() {
   let innerW = 350;
   let innerH = 400;
 
-  const initialValues = useMemo(() => {
-    if (selectedCharacter) {
-      let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
-      if (matchingCharacter) {
-        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
-      }
-    }
 
-    return getDefaultForm(initialCharacter)
-  }, [initialCharacter]);
-
-  useEffect(() => {
-    onValuesChange({}, initialValues)
-  }, [initialValues])
 
   function cancelClicked() {
     console.log('Cancel clicked');
@@ -778,13 +588,13 @@ export default function OptimizerForm() {
                     style={{
                       width: panelWidth
                     }}
-                    options={generateOrnamentsOptions()}
+                    options={GenerateOrnamentsOptions()}
                     tagRender={OrnamentSetTagRenderer}
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
                   </Select>
                 </Form.Item>
-                <ConfigProvider
+                {/* <ConfigProvider
                   theme={{
                     components: {
                       Cascader: {
@@ -794,20 +604,20 @@ export default function OptimizerForm() {
                       },
                     },
                   }}
-                >
-                  <Form.Item size="default" name='relicSets'>
-                    <Cascader
-                      placeholder="Relics"
-                      options={generateSetsOptions()}
-                      showCheckedStrategy={SHOW_CHILD}
-                      tagRender={RelicSetTagRenderer}
-                      placement='bottomLeft'
-                      maxTagCount='responsive'
-                      multiple={true}
-                      expandTrigger="hover"
-                    />
-                  </Form.Item>
-                </ConfigProvider>
+                > */}
+                <Form.Item size="default" name='relicSets'>
+                  <Cascader
+                    placeholder="Relics"
+                    options={GenerateSetsOptions()}
+                    showCheckedStrategy={SHOW_CHILD}
+                    tagRender={RelicSetTagRenderer}
+                    placement='bottomLeft'
+                    maxTagCount='responsive'
+                    multiple={true}
+                    expandTrigger="hover"
+                  />
+                </Form.Item>
+                {/* </ConfigProvider> */}
               </Flex>
 
               <Button

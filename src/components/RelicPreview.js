@@ -1,101 +1,49 @@
-import { Card, Divider, Flex, Typography } from 'antd';
 import * as React from 'react';
-import { Renderer } from "../lib/renderer";
-import { Assets } from "../lib/assets";
-import { Utils } from "../lib/utils";
-import { Constants } from "../lib/constants.ts";
-import DB from "../lib/db";
 import PropTypes from "prop-types";
+import { Card, Divider, Flex, Typography } from 'antd';
+
+import { Renderer } from "lib/renderer";
+import { Assets } from "lib/assets";
+import { iconSize } from 'lib/constantsUi';
+import GenerateStat from 'components/relicPreview/GenerateStat';
 
 const { Text } = Typography;
 
-const iconSize = 23
+const RelicPreview = ({
+  relic,
+  // characterId = undefined, // CharacterPreview by way of RelicScorerTab
+  score = undefined,
+  source = '',
+  setSelectedRelic = () => { },
+  setEditModalOpen = () => { }
+}) => {
+  relic = {
+    enhance: 0,
+    part: undefined,
+    set: undefined,
+    grade: 0,
+    substats: [],
+    main: undefined,
+    equippedBy: undefined,
+    ...relic
+  };
 
-function generateStat(stat, source, main, relic) {
-  if (!stat || !stat.stat || stat.value == null) {
-    return (
-      <Flex justify='space-between'>
-        <Flex>
-          <img src={Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
-        </Flex>
-      </Flex>
-    )
-  }
+  const { enhance, part, set, substats, main, equippedBy } = relic;
+  const relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
+  const equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
+  const scored = relic !== undefined && score !== undefined
 
-  let displayValue
-  if (main) {
-    displayValue = Renderer.renderMainStatNumber(stat)
-  } else {
-    displayValue = Renderer.renderSubstatNumber(stat, relic)
-  }
-  displayValue += Utils.isFlat(stat.stat) ? '' : '%'
+  const relicClicked = () => {
+    if (!relic || !relic.part || !relic.set || source == 'scorer') return;
 
-  return (
-    <Flex justify='space-between'>
-      <Flex>
-        <img src={Assets.getStatIcon(stat.stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
-        <Text>
-          {Constants.StatsToReadable[stat.stat]}
-        </Text>
-      </Flex>
-      <Text>
-        {displayValue}
-      </Text>
-    </Flex>
-  )
-}
-
-function getRelic(relic) {
-  if (!relic || !relic.id) {
-    return { substats: [] }
-  }
-
-  return DB.getRelicById(relic.id)
-}
-
-export default function RelicPreview(props) {
-  // console.log('RelicPreview', props)
-  // const [hovered, setHovered] = React.useState(false);
-
-  let relic = getRelic(props.relic)
-  if (props.source == 'scorer') {
-    relic = props.relic
-  }
-
-  if (!relic) {
-    relic = {
-      enhance: 0,
-      part: undefined,
-      set: undefined,
-      grade: 0
-    }
-  }
-
-  let enhance = relic.enhance
-  let part = relic.part
-  let set = relic.set
-
-  let substats = relic.substats || []
-  let main = relic.main || {}
-  let relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
-
-  let equippedBy = relic.equippedBy
-  let equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
-
-  let scored = props.relic != undefined && props.score != undefined
-
-  function relicClicked() {
-    console.log(relic, props)
-    if (!relic || !relic.part || !relic.set || props.source == 'scorer') return
-
-    global.setSelectedRelic(relic)
-    global.setEditModalOpen(true)
+    setSelectedRelic(relic);
+    setEditModalOpen(true);
   }
 
   return (
     <Card
       size="small"
-      hoverable={props.source != 'scorer'}
+      hoverable={source != 'scorer'}
       onClick={relicClicked}
       style={{ width: 200, height: 280 }}
     // onMouseEnter={() => setHovered(true)}
@@ -126,15 +74,15 @@ export default function RelicPreview(props) {
 
         <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
-        {generateStat(main, props.source, true, relic)}
+        {GenerateStat(main, true, relic)}
 
         <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
         <Flex vertical gap={0}>
-          {generateStat(substats[0], props.source, false, relic)}
-          {generateStat(substats[1], props.source, false, relic)}
-          {generateStat(substats[2], props.source, false, relic)}
-          {generateStat(substats[3], props.source, false, relic)}
+          {GenerateStat(substats[0], false, relic)}
+          {GenerateStat(substats[1], false, relic)}
+          {GenerateStat(substats[2], false, relic)}
+          {GenerateStat(substats[3], false, relic)}
         </Flex>
 
         <Divider style={{ margin: '6px 0px 6px 0px' }} />
@@ -147,7 +95,7 @@ export default function RelicPreview(props) {
             </Text>
           </Flex>
           <Text>
-            {(scored) && `${props.score.score} (${props.score.rating})${props.score.meta.modified ? ' *' : ''}`}
+            {(scored) && `${score.score} (${score.rating})${score.meta.modified ? ' *' : ''}`}
           </Text>
         </Flex>
       </Flex>
@@ -159,4 +107,8 @@ RelicPreview.propTypes = {
   source: PropTypes.string,
   characterId: PropTypes.string,
   score: PropTypes.object,
+  setEditModalOpen: PropTypes.func,
+  setSelectedRelic: PropTypes.func,
 }
+
+export default RelicPreview;

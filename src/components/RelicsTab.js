@@ -55,20 +55,20 @@ const GradeFilter = forwardRef((props, ref) => {
 
   useEffect(() => {
     props.filterChangedCallback()
-  }, [model]);
+  }, [model, props]);
 
   let filterMessage = "No Filters Applied";
   if (isFilterActive()) {
     let gradeFilter = model.grade.length > 0 ? `Grade ${model.grade.sort().join(" or ")}` : null;
     let verifiedFilter = model.verified.length > 0 ? `${model.verified.sort().reverse().map(x => x ? "Verified" : "not Verified").join(" or ")}` : null;
-    
+
     let filters = [gradeFilter, verifiedFilter].filter(x => x);
     filterMessage = `Filtering by ${filters.join(" and ")}`;
   }
 
   return (
     <div style={{ padding: "8px" }}>
-      { filterMessage }
+      {filterMessage}
     </div>
   );
 });
@@ -79,6 +79,7 @@ GradeFilter.propTypes = {
 }
 
 export default function RelicsTab(props) {
+  console.log('======================================================================= RENDER RelicsTab');
   const gridRef = useRef();
   global.relicsGrid = gridRef;
 
@@ -86,13 +87,10 @@ export default function RelicsTab(props) {
   window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState();
-
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  window.setEditModalOpen = setEditModalOpen
-  window.setSelectedRelic = setSelectedRelic
 
-  let relicTabFilters = global.store(s => s.relicTabFilters);
+  const relicTabFilters = global.store(s => s.relicTabFilters);
   useEffect(() => {
     if (!global.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)
@@ -103,7 +101,7 @@ export default function RelicsTab(props) {
     }
 
     // Calculate filter conditions
-    let filterModel = {}
+    const filterModel = {}
 
     filterModel.set = {
       conditions: relicTabFilters.set.map(x => ({
@@ -138,7 +136,7 @@ export default function RelicsTab(props) {
     }
 
     // Substats have to filter augmented stats individually
-    for (let substatFilter of relicTabFilters.subStats) {
+    for (const substatFilter of relicTabFilters.subStats) {
       filterModel[`augmentedStats.${substatFilter}`] = {
         filterType: 'number',
         type: 'greaterThan',
@@ -177,13 +175,15 @@ export default function RelicsTab(props) {
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
-    { field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: GradeFilter, comparator: (a, b, nodeA, nodeB) => {
-      if (a === b) {
-        return (nodeA.data.verified ?? false) - (nodeB.data.verified ?? false)
-      } else {
-        return a - b
+    {
+      field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: GradeFilter, comparator: (a, b, nodeA, nodeB) => {
+        if (a === b) {
+          return (nodeA.data.verified ?? false) - (nodeB.data.verified ?? false)
+        } else {
+          return a - b
+        }
       }
-    } },
+    },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
@@ -342,7 +342,11 @@ export default function RelicsTab(props) {
           </Popconfirm>
         </Flex>
         <Flex gap={10}>
-          <RelicPreview relic={selectedRelic} />
+          <RelicPreview
+            relic={selectedRelic}
+            setSelectedRelic={setSelectedRelic}
+            setEditModalOpen={setEditModalOpen}
+          />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>

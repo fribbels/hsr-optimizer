@@ -97,9 +97,9 @@ export const StatCalculator = {
 
     let { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics);
 
-    console.log(characterMetadata, lightConeMetadata)
-    console.log(baseStats)
-    console.log(relics)
+    // console.log(characterMetadata, lightConeMetadata)
+    // console.log(baseStats)
+    // console.log(relics)
 
     function sum(relics, stat) {
       let total = 0

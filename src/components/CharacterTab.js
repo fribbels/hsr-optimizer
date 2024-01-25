@@ -4,13 +4,13 @@ import { Button, Flex, Image, Popconfirm, Typography } from 'antd';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import "ag-grid-community/styles/ag-theme-balham.css";
-import "../style/style.css";
 import DB from '../lib/db';
 import { CharacterPreview } from './CharacterPreview';
 import { Assets } from "../lib/assets";
 import { SaveState } from "../lib/saveState";
 import { Message } from "../lib/message";
 import PropTypes from "prop-types";
+import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
@@ -67,24 +67,35 @@ function cellNameRenderer(params) {
 
 
 export default function CharacterTab(props) {
-  console.log('CharacterTab')
+  console.log('CharacterTab');
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { window.forceCharacterTabUpdate() }, 100);
+  });
+
   const characterGrid = useRef(); // Optional - for accessing Grid's API
   window.characterGrid = characterGrid;
 
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  const setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
-
-  const characterTabSelectedId = global.store(s => s.characterTabSelectedId)
-  const setCharacterTabSelectedId = global.store(s => s.setCharacterTabSelectedId)
+  const focusCharacter = global.store(s => s.focusCharacter)
+  const setFocusCharacter = global.store(s => s.setFocusCharacter);
   const charactersById = global.store(s => s.charactersById)
-  const selectedCharacter = charactersById[characterTabSelectedId]
+  const selectedCharacter = charactersById[focusCharacter]
 
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
+    console.log('__________ CharacterTab forceCharacterTabUpdate')
     forceUpdate()
-    characterGrid.current.api.redrawRows()
+
+    // no charGrid in scorer tab
+    if (characterGrid?.current?.api?.redrawRows) {
+      characterGrid.current.api.redrawRows()
+    } else {
+      console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
+    }
   }
 
   const columnDefs = useMemo(() => [
@@ -109,23 +120,23 @@ export default function CharacterTab(props) {
   }), []);
 
   const cellClickedListener = useCallback(event => {
-    console.log('cellClicked', event);
     let data = event.data
 
-    global.store.getState().setCharacterTabBlur(global.store.getState().characterTabSelectedId != data.id) // Only blur if different character
-    setCharacterTabSelectedId(data.id)
-  }, []);
+    // global.store.getState().setCharacterTabBlur(global.store.getState().focusCharacter != data.id) // Only blur if different character
+    setFocusCharacter(data.id)
+    console.log(`@CharacterTab::setFocusCharacter - [${data.id}]`, event.data);
+  }, [setFocusCharacter]);
 
   // TODO: implement routing to handle this
   const setActiveKey = global.store(s => s.setActiveKey);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
+
   const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
-    setSelectedOptimizerCharacter(charactersById[e.data.id]);
-
+    setFocusCharacter(e.data.id);
     // set view
     setActiveKey('optimizer');
-  }, []);
+    console.log(`@CharacterTab.cellDoubleClickedListener::setFocusCharacter - focus [${e.data.id}]`, e.data);
+  }, [setActiveKey, setFocusCharacter]);
 
   function drag(event, index) {
     const dragged = event.node.data;
@@ -161,7 +172,7 @@ export default function CharacterTab(props) {
 
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
-    setCharacterTabSelectedId(undefined)
+    setFocusCharacter(undefined)
     global.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
@@ -170,7 +181,7 @@ export default function CharacterTab(props) {
   }
 
   function unequipClicked() {
-    console.log('unequipClicked', DB.getCharacterById(characterTabSelectedId))
+    console.log('unequipClicked', DB.getCharacterById(focusCharacter))
 
     let selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
@@ -184,14 +195,18 @@ export default function CharacterTab(props) {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
-    global.relicsGrid.current.api.redrawRows()
+
+    // Char and Relic tab are never mounted together - this is unavailble
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.redrawRows()
+    }
 
     SaveState.save()
   }
 
   function scoringAlgorithmClicked() {
-    console.log('Scoring algorithm clicked', characterTabSelectedId)
-    setSelectedScoringCharacter(characterTabSelectedId)
+    console.log('Scoring algorithm clicked', focusCharacter)
+    setFocusCharacter(focusCharacter)
     global.setIsScoringModalOpen(true)
   }
 

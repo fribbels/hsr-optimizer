@@ -30,7 +30,7 @@ export function CharacterPreview(props) {
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-
+  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
     relic.id = selectedRelic.id
 

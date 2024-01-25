@@ -246,6 +246,7 @@ export default function RelicsTab(props) {
     console.log('onAddOk', relic)
   }
 
+  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
     relic.id = selectedRelic.id
 

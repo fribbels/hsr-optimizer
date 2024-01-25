@@ -135,3 +135,7 @@ dist
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# playwright tests
+playwright-report/
+playwright/.cache/

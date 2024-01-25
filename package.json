@@ -31,8 +31,8 @@
     "build": "react-scripts build",
     "lint": "eslint src/**/*.js",
     "test": "npx playwright test --trace on",
+    "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
-    "test:watch": "nodemon --watch tests --exec 'npm test'",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -72,7 +72,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^6.1.0",
     "json-loader": "^0.5.7",
-    "nodemon": "^3.0.3",
     "react-scripts": "^5.0.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",

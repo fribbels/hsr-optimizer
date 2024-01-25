@@ -1,0 +1,27 @@
+import { test, expect } from '@playwright/test';
+
+test('Open RelicModal in edit mode from the Optimizer tab', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByRole('menuitem', { name: 'Optimizer' }).click();
+
+  await page.getByText('Jingliu').click();
+  await page.getByText('Himeko').click();
+
+  // start filter
+  await page.getByRole('button', { name: 'Start' }).click();
+
+  // click on first filtered row
+  await page.locator('div:nth-child(2) > .ant-image-img').first().click();
+
+  // relic preview renders with CRIT DMG
+  await expect(page.locator('#optimizerBuildPreviewContainer')).toContainText('CRIT DMG');
+
+  // click relic header to show edit modal
+  await page.locator('.ant-card-body > div > div').first().click();
+  await expect(page.getByRole('dialog')).toContainText('Equipped by');
+
+  // close modal
+  await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
+});
+

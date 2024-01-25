@@ -246,6 +246,7 @@ export default function RelicsTab(props) {
     console.log('onAddOk', relic)
   }
 
+  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
     relic.id = selectedRelic.id
 
@@ -262,9 +263,6 @@ export default function RelicsTab(props) {
     SaveState.save()
 
     setSelectedRelic(updatedRelic)
-
-    window.forceOptimizerBuildPreviewUpdate()
-    window.forceCharacterTabUpdate()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)

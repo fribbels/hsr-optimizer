@@ -1,12 +1,10 @@
 import {
   Button,
   Cascader,
-  // ConfigProvider,
   Divider,
   Flex,
   Form,
   Image,
-  // InputNumber,
   Select,
   Switch,
   Tag,
@@ -131,9 +129,17 @@ export default function OptimizerForm() {
   const initialValues = useMemo(() => {
     if (selectedCharacter) {
       const matchingCharacter = DB.getCharacterById(selectedCharacter.id);
-      setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
+
       if (matchingCharacter) {
+        if (matchingCharacter?.form?.lightCone) {
+          setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
+        } else {
+          console.warn(`@OptimizerForm.initialValues: No character form found for ${selectedCharacter.id}`, matchingCharacter);
+        }
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
+      } else {
+        // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
+        // console.warn(`@OptimizerForm.initialValues: No character found for ${selectedCharacter.id}`);
       }
     }
 

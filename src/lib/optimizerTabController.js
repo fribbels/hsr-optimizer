@@ -504,7 +504,7 @@ export const OptimizerTabController = {
 
   changeCharacter: (id, setSelectedLightCone) => {
     console.log(`@OptimzerTabController.changeCharacter(${id})`);
-    let character = DB.getCharacterById(id)
+    const character = DB.getCharacterById(id)
     if (character) {
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       global.optimizerForm.setFieldsValue(displayFormValues)
@@ -515,13 +515,13 @@ export const OptimizerTabController = {
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
-      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
-      let displayFormValues = OptimizerTabController.getDisplayFormValues({
-        characterId: id,
-        characterEidolon: 0
-      })
-      global.optimizerForm.setFieldsValue(displayFormValues)
-      global.store.getState().setStatDisplay('base')
+      // // console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
+      // let displayFormValues = OptimizerTabController.getDisplayFormValues({
+      //   characterId: id,
+      //   characterEidolon: 0
+      // })
+      // global.optimizerForm.setFieldsValue(displayFormValues)
+      // global.store.getState().setStatDisplay('base')
     }
 
     setPinnedRow(id)

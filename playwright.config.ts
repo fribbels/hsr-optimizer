@@ -32,15 +32,21 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: /global\.setup\.ts/,
-    },
-    {
-      name: 'chromium',
+    }, {
+      name: 'with test data',
       use: {
         ...devices['Desktop Chrome'],
         storageState: STORAGE_STATE
       },
       dependencies: ['setup'],
-    },
+    },/* {
+      name: 'NO test data',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: '!global.setup.ts',
+    }, */
+
   ],
   // Run your local dev server before starting the tests.
   webServer: {

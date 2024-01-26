@@ -33,7 +33,7 @@ export default defineConfig({
       name: 'setup',
       testMatch: /global\.setup\.ts/,
     }, {
-      name: 'with test data',
+      name: 'WITH test data',
       use: {
         ...devices['Desktop Chrome'],
         storageState: STORAGE_STATE

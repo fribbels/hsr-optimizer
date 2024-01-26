@@ -8,6 +8,8 @@ import { Utils } from "../lib/utils";
 import { Constants } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
+import { useSubscribe } from 'hooks/useSubscribe';
+import { Renderer } from "lib/renderer.js";
 
 const { Text } = Typography;
 
@@ -15,10 +17,16 @@ const tagHeight = 34
 const imgWidth = 34
 
 export default function RelicFilterBar() {
-  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+  const setRelicTabFilters = global.store(s => s.setRelicTabFilters);
+  const setFocusCharacter = global.store(s => s.setFocusCharacter);
+  const focusCharacter = global.store(s => s.focusCharacter);
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
-  let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  if (focusCharacter && focusCharacter !== currentlySelectedCharacterId) {
+    // TODO: find a better way to prevent UI thrash, NPEs on global.current.api.blah
+    // sets focusCharacter & currentlySelectedCharacterId in execution
+    setTimeout(() => { characterSelectorChange(focusCharacter) }, 100);
+  }
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions();
@@ -57,11 +65,36 @@ export default function RelicFilterBar() {
     })
   }
 
+  function generateGradeTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: x })
+      }
+    })
+  }
+
+  function generateVerifiedTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: -1, verified: x })
+      }
+    })
+  }
+
+  let gradeData = generateGradeTags([2, 3, 4, 5])
+  let verifiedData = generateVerifiedTags([false, true])
   let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { characterSelectorChange(currentlySelectedCharacterId) }, 100);
+  });
 
   function characterSelectorChange(id) {
     if (!id) return
@@ -69,7 +102,7 @@ export default function RelicFilterBar() {
     let relics = Object.values(global.store.getState().relicsById)
     console.log('idChange', id)
 
-    setSelectedScoringCharacter(id)
+    setFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
@@ -146,6 +179,8 @@ export default function RelicFilterBar() {
       enhance: [],
       mainStats: [],
       subStats: [],
+      grade: [],
+      verified: []
     })
   }
 
@@ -169,6 +204,7 @@ export default function RelicFilterBar() {
               onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}
+              defaultValue={focusCharacter}
             />
             <Button
               onClick={rescoreClicked}
@@ -184,11 +220,21 @@ export default function RelicFilterBar() {
             </Button>
           </Flex>
         </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
+        <Flex vertical style={{ height: '100%' }} flex={0.5}>
           <HeaderText>Filter actions</HeaderText>
-          <Button onClick={clearClicked}>
-            Clear filters
-          </Button>
+          <Flex gap={10}>
+            <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
+              Clear filters
+            </Button>
+          </Flex>
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name='grade' tags={gradeData} flexBasis='25%' />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
         </Flex>
       </Flex>
 

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Flex, Form, Input, Segmented, Typography, } from 'antd';
-import { CharacterPreview } from './CharacterPreview';
-import { SaveState } from '../lib/saveState';
-import { Message } from "../lib/message";
-import { CharacterConverter } from "../lib/characterConverter";
-import { Assets } from "../lib/assets";
+import { CharacterPreview } from 'components/CharacterPreview';
+import { SaveState } from 'lib/saveState';
+import { Message } from "lib/message";
+import { CharacterConverter } from "lib/characterConverter";
+import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
-import DB from "../lib/db";
+import DB from "lib/db";
+import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
@@ -84,17 +85,25 @@ export default function RelicScorerTab(props) {
 
   function CharacterPreviewSelection(props) {
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
-    let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+    let setFocusCharacter = global.store(s => s.setFocusCharacter);
 
     // TODO: Revisit if force updates are necessary
     const [, forceUpdate] = React.useReducer(o => !o, true);
-    window.forceRelicScorerTabUpdate = forceUpdate
+    window.forceRelicScorerTabUpdate = () => {
+      console.log('RelicScorerTab ::::: forceRelicScorerTabUpdate')
+      forceUpdate();
+    }
+
+    useSubscribe('refreshRelicsScore', () => {
+      // TODO: understand why setTimeout is needed and refactor
+      setTimeout(() => { forceUpdate() }, 100);
+    });
 
     console.log('CharacterPreviewSelection', props)
 
     useEffect(() => {
-      setSelectedScoringCharacter(selectedCharacter?.id)
-    }, [selectedCharacter])
+      setFocusCharacter(selectedCharacter?.id)
+    }, [selectedCharacter, setFocusCharacter])
 
     let options = []
     for (let i = 0; i < props.availableCharacters.length; i++) {
@@ -112,7 +121,7 @@ export default function RelicScorerTab(props) {
     function selectionChange(selected) {
       console.log('selectionChange', selected)
       setSelectedCharacter(availableCharacters.find(x => x.id == selected))
-      setSelectedScoringCharacter(selected)
+      setFocusCharacter(selected)
     }
 
     async function importClicked() {

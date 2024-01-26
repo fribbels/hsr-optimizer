@@ -131,3 +131,11 @@ dist
 .pnp.*
 .DS_Store
 .idea*
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# playwright tests
+playwright-report/
+playwright/.cache/

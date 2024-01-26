@@ -5,12 +5,14 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
   ],
-  plugins: ['@typescript-eslint'],
+  plugins: ["react", "react-hooks", '@typescript-eslint'],
 
   "rules": {
     // Override our default settings just for this directory
     "import/no-webpack-loader-syntax": "off",
     "react/no-unescaped-entities": "off",
+    "react-hooks/rules-of-hooks": 1,
+    "react-hooks/exhaustive-deps": 1, // 0 = off, 1 = warn, 2 = error
   },
   "env": {
     "browser": true,

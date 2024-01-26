@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { ConfigProvider, Menu, Typography } from 'antd';
+import { Menu, Typography } from 'antd';
 import { DiscordIcon } from '../icons/DiscordIcon';
 import { GithubIcon } from '../icons/GithubIcon';
 import { CoffeeIcon } from '../icons/CoffeeIcon';
@@ -67,15 +67,7 @@ const MenuDrawer = (props) => {
   };
 
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Menu: {
-            margin: 2
-          },
-        },
-      }}
-    >
+    <Profiler id="MenuDrawer">
       <Menu
         onClick={onClick}
         // inlineIndent={15}
@@ -90,7 +82,7 @@ const MenuDrawer = (props) => {
         mode="inline"
         items={items}
       />
-    </ConfigProvider>
+    </Profiler>
   );
 };
 MenuDrawer.propTypes = {

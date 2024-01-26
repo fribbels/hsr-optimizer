@@ -65,18 +65,18 @@ const saveFile = async (blob, suggestedName) => {
   }
 };
 
-function saveDataTab() {
+function SaveDataTab() {
   async function saveClicked() {
     try {
       let stateString = SaveState.save()
-  
+
       const blob = new Blob(
-        [ stateString ], 
+        [stateString],
         { type: 'text/json;charset=utf-8' }
       )
-  
+
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      
+
       Message.success('Saved data')
     } catch (e) {
       console.warn(e)
@@ -88,14 +88,14 @@ function saveDataTab() {
       <Text>
         Save your optimizer data to a file.
       </Text>
-      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{width: 200}}>
+      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: 200 }}>
         Save data
       </Button>
     </Flex>
   )
 }
 
-function clearDataTab() {
+function ClearDataTab() {
   const [loading, setLoading] = useState(false);
 
   function clearDataClicked() {
@@ -108,7 +108,7 @@ function clearDataTab() {
       Message.success('Cleared data')
     }, spinnerMs);
   }
-  
+
   return (
     <Flex vertical gap={5}>
       <Text>
@@ -122,7 +122,7 @@ function clearDataTab() {
         okText="Yes"
         cancelText="Cancel"
       >
-        <Button type="primary" loading={loading} style={{width: 200}}>
+        <Button type="primary" loading={loading} style={{ width: 200 }}>
           Clear data
         </Button>
       </Popconfirm>
@@ -130,12 +130,12 @@ function clearDataTab() {
   )
 }
 
-function loadDataTab() {
+function LoadDataTab() {
   const [current, setCurrent] = useState(0);
   const [currentSave, setCurrentSave] = useState([]);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  
+
   const onStepChange = (value) => {
     console.log('onStepChange:', value);
     setCurrent(value);
@@ -166,7 +166,7 @@ function loadDataTab() {
         }
 
         setLoading1(true)
-        
+
         setTimeout(() => {
           setLoading1(false)
           setCurrentSave(json)
@@ -190,19 +190,19 @@ function loadDataTab() {
     }, spinnerMs);
   }
 
-  function loadDataContentUploadFile() {
+  function LoadDataContentUploadFile() {
     return (
-      <Flex style={{minHeight: 100}}>
+      <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10}>
           <Text>
             Load your optimizer data from a file.
           </Text>
           <Upload
             accept=".json"
-            name= 'file'
+            name='file'
             onClick={onUploadClick}
             beforeUpload={beforeUpload}>
-            <Button style={{width: 200}} icon={<UploadOutlined />} loading={loading1}>
+            <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
               Load save data
             </Button>
           </Upload>
@@ -211,23 +211,23 @@ function loadDataTab() {
     )
   }
 
-  function confirmLoadData() {
+  function ConfirmLoadData() {
     if (!currentSave || !currentSave.relics || !currentSave.characters) {
       return (
-        <Flex style={{minHeight: 100}}>
-          <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+        <Flex style={{ minHeight: 100 }}>
+          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
             Invalid save file, please try a different file. Did you mean to use Relic Importer tab?
           </Flex>
         </Flex>
       )
     }
     return (
-      <Flex style={{minHeight: 100}}>
-        <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 100 }}>
+        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
             File contains {currentSave.relics.length} relics and {currentSave.characters.length} characters. Replace your current data with the uploaded data?
           </Text>
-          <Button style={{width: 200}} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: 200 }} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use Uploaded Data
           </Button>
         </Flex>
@@ -235,10 +235,10 @@ function loadDataTab() {
     )
   }
 
-  function loadCompleted() {
+  function LoadCompleted() {
     return (
-      <Flex style={{minHeight: 100}}>
-        <Flex vertical gap={10} style={{display: current >= 2 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 100 }}>
+        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
           <Text>
             Done!
           </Text>
@@ -255,15 +255,15 @@ function loadDataTab() {
         items={[
           {
             title: '',
-            description: loadDataContentUploadFile(),
+            description: LoadDataContentUploadFile(),
           },
           {
             title: '',
-            description: confirmLoadData(),
+            description: ConfirmLoadData(),
           },
           {
             title: '',
-            description: loadCompleted(),
+            description: LoadCompleted(),
           },
         ]}
       />
@@ -271,7 +271,7 @@ function loadDataTab() {
   )
 }
 
-function kelZImporterTab() {
+function KelZImporterTab() {
   const [current, setCurrent] = useState(0);
   const [currentRelics, setCurrentRelics] = useState([]);
   const [currentCharacters, setCurrentCharacters] = useState([]);
@@ -363,7 +363,7 @@ function kelZImporterTab() {
 
   function kelZImporterContentUploadFile() {
     return (
-      <Flex style={{minHeight: 100, marginBottom: 30}}>
+      <Flex style={{ minHeight: 100, marginBottom: 30 }}>
         <Flex vertical gap={10}>
           <Text>
             Install and run Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>).
@@ -376,11 +376,11 @@ function kelZImporterTab() {
           </Text>
           <Upload
             accept=".json"
-            name= 'file'
+            name='file'
             onClick={onUploadClick}
             beforeUpload={beforeUpload}>
-            <Button style={{width: 210}} icon={<UploadOutlined />} loading={loading1}>
-              Upload HSRScanData file
+            <Button style={{ width: 210 }} icon={<UploadOutlined />} loading={loading1}>
+              Upload HSRScanData File
             </Button>
           </Upload>
         </Flex>
@@ -391,8 +391,8 @@ function kelZImporterTab() {
   function confirmRelicMerge() {
     if (!currentRelics || !currentRelics.length) {
       return (
-        <Flex style={{minHeight: 100}}>
-          <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+        <Flex style={{ minHeight: 100 }}>
+          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
             Invalid HSRScanData file, please try a different file
           </Flex>
         </Flex>
@@ -400,19 +400,19 @@ function kelZImporterTab() {
     }
 
     return (
-      <Flex style={{minHeight: 250}}>
-        <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 250 }}>
+        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
             File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
           </Text>
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
 
-          <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+          <Button style={{ width: 200 }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
 
-          <Divider/>
+          <Divider />
           <Text>
             Import relics and characters.
           </Text>
@@ -425,7 +425,7 @@ function kelZImporterTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button style={{width: 200}} type="primary" loading={loading2}>
+            <Button style={{ width: 200 }} type="primary" loading={loading2}>
               Import relics & characters
             </Button>
           </Popconfirm>
@@ -436,8 +436,8 @@ function kelZImporterTab() {
 
   function mergeCompleted() {
     return (
-      <Flex style={{minHeight: 100}}>
-        <Flex vertical gap={10} style={{display: current >= 2 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 100 }}>
+        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
           <Text>
             Done!
           </Text>
@@ -473,7 +473,7 @@ function kelZImporterTab() {
   )
 }
 
-function fribbelsImporterTab() {
+function FribbelsImporterTab() {
   const [current, setCurrent] = useState(0);
   const [currentRelics, setCurrentRelics] = useState([]);
   const [currentCharacters, setCurrentCharacters] = useState([]);
@@ -554,7 +554,7 @@ function fribbelsImporterTab() {
 
   function fribbelsImporterContentUploadFile() {
     return (
-      <Flex style={{minHeight: 100, marginBottom: 30}}>
+      <Flex style={{ minHeight: 100, marginBottom: 30 }}>
         <Flex vertical gap={10}>
           <Text>
             Install and run Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>).
@@ -567,23 +567,23 @@ function fribbelsImporterTab() {
           </Text>
           <Upload
             accept=".json"
-            name= 'file'
+            name='file'
             onClick={onUploadClick}
             beforeUpload={beforeUpload}>
-            <Button style={{width: 200}} icon={<UploadOutlined />} loading={loading1}>
+            <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
               Upload relics file
             </Button>
           </Upload>
-        </Flex>
-      </Flex>
+        </Flex >
+      </Flex >
     )
   }
 
   function confirmRelicMerge() {
     if (!currentRelics || !currentRelics.length) {
       return (
-        <Flex style={{minHeight: 100}}>
-          <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+        <Flex style={{ minHeight: 100 }}>
+          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
             Invalid relics file, please try a different file
           </Flex>
         </Flex>
@@ -591,15 +591,15 @@ function fribbelsImporterTab() {
     }
 
     return (
-      <Flex style={{minHeight: 250}}>
-        <Flex vertical gap={10} style={{display: current >= 1 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 250 }}>
+        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
             File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
           </Text>
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
 
-          <Button style={{width: 200}} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+          <Button style={{ width: 200 }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
         </Flex>
@@ -609,8 +609,8 @@ function fribbelsImporterTab() {
 
   function mergeCompleted() {
     return (
-      <Flex style={{minHeight: 100}}>
-        <Flex vertical gap={10} style={{display: current >= 2 ? 'flex' : 'none'}}>
+      <Flex style={{ minHeight: 100 }}>
+        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
           <Text>
             Done!
           </Text>
@@ -651,8 +651,8 @@ export default function ImportTab(props) {
   let tabSize = 'large'
 
   return (
-    <div style={{display: props.active ? 'block' : 'none'}}>
-      <Flex vertical gap={5} style={{marginLeft: 20, width: 1200}}>
+    <div style={{ display: props.active ? 'block' : 'none' }}>
+      <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs
           defaultActiveKey="1"
           size={tabSize}
@@ -663,27 +663,27 @@ export default function ImportTab(props) {
             {
               label: 'Kel-Z scanner importer (Recommended)',
               key: 0,
-              children: kelZImporterTab(),
+              children: KelZImporterTab(),
             },
             {
               label: 'Fribbels scanner importer',
               key: 1,
-              children: fribbelsImporterTab(),
+              children: FribbelsImporterTab(),
             },
             {
               label: 'Save optimizer data',
               key: 2,
-              children: saveDataTab(),
+              children: SaveDataTab(),
             },
             {
               label: 'Load optimizer data',
               key: 3,
-              children: loadDataTab(),
+              children: LoadDataTab(),
             },
             {
               label: 'Clear optimizer data',
               key: 4,
-              children: clearDataTab(),
+              children: ClearDataTab(),
             },
           ]}
         />

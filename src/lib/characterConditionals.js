@@ -8,13 +8,11 @@ import { Hint } from "lib/hint";
 
 import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/character/conditionals/constants";
-
-import ColorizeNumbers from 'lib/character/utils/ColorizeNumbers';
-
+import DisplayFullPassives from 'lib/character/conditionals/DisplayFullPassives';
 import xueyi from 'lib/character/conditionals/Xueyi';
 import jingliu from 'lib/character/conditionals/Jingliu';
-const Stats = Constants.Stats
 
+const Stats = Constants.Stats
 
 export const characterOptionMapping = {
   1212: jingliu,
@@ -2645,29 +2643,6 @@ function misha(e) {
 
 
 
-const FullPassives = (content: { [key:string]: { [key: string]: string}}) => {
-  if (content) {
-    const ret = Object.keys(content).map((key) => {
-      const render = []
-      if (content[key].title) {
-        render.push(<b>{ColorizeNumbers(content[key].title)}</b>);
-      }
-      if (content[key].text) {
-        // render.length > 0 && render.push(<br/>);
-        render.push(<i>{ColorizeNumbers(content[key].text)}</i>);
-      }
-      if (content[key].content) {
-        render.push(<p>{ColorizeNumbers(content[key].content)}</p>);
-      }
-      
-      return render;
-    });
-    
-    return (<Flex vertical gap={10}>{ret}</Flex>);
-  }
-
-  return <></>;
-};
 
 
 
@@ -2715,7 +2690,7 @@ export const CharacterConditionals = {
           open={characterPassivesDrawerOpen}
           getContainer={false}
         >
-          {FullPassives(getContent())}
+          {DisplayFullPassives(getContent())}
         </Drawer>
         <Flex justify='space-between' align='center'>
           <HeaderText>Character passives</HeaderText>

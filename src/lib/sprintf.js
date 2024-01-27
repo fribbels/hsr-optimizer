@@ -1,7 +1,5 @@
-
-
 String.prototype.format = String.prototype.f = function () {
-  var s = this,
+  var s = this, // eslint-disable-line @typescript-eslint/no-this-alias
     i = arguments.length;
 
   while (i--) {

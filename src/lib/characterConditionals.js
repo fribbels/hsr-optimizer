@@ -1,33 +1,19 @@
-import { ConfigProvider, Flex } from "antd";
-import React from "react";
-import { HeaderText } from "../components/HeaderText";
-import { Constants } from './constants.ts'
-import { FormSlider, FormSwitch, FormSwitchWithPopover, FormSliderWithPopover } from "../components/optimizerTab/FormConditionalInputs";
-import { TooltipImage } from "../components/TooltipImage";
-import { Hint } from "./hint";
+import React, { useState } from "react";
+import { Drawer, Flex } from "antd";
 
+import { HeaderText } from "components/HeaderText";
+import { FormSlider, FormSwitch, FormSwitchWithPopover } from "components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "components/TooltipImage";
+import { Constants } from 'lib/constants.ts'
+import { Hint } from "lib/hint";
+
+import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/character/conditionals/utils";
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/character/conditionals/constants";
+import xueyi from 'lib/character/conditionals/Xueyi';
 const Stats = Constants.Stats
 
-const precisionRound = (number, precision = 8) => {
-  const factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-}
 
-const ASHBLAZING_ATK_STACK = 0.06
-// Remove the ashblazing set atk bonus only when calc-ing fua attacks
-function calculateAshblazingSet(c, request, hitMulti) {
-  const enabled = p4(c.sets.TheAshblazingGrandDuke)
-  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
-  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * c.baseAtk * enabled
-  const ashblazingMulti = hitMulti * enabled * c.baseAtk
-
-  return {
-    ashblazingMulti,
-    ashblazingAtk
-  }
-}
-
-const characterOptionMapping = {
+export const characterOptionMapping = {
   1212: jingliu,
   1302: argenti,
   1008: arlan,
@@ -75,164 +61,6 @@ const characterOptionMapping = {
   1306: sparkle,
   1307: blackswan,
   1312: misha,
-}
-
-// TODO profile & convert to array for performance?
-const baseComputedStatsObject = {
-  [Stats.HP_P]: 0,
-  [Stats.ATK_P]: 0,
-  [Stats.DEF_P]: 0,
-  [Stats.SPD_P]: 0,
-  [Stats.HP]: 0,
-  [Stats.ATK]: 0,
-  [Stats.DEF]: 0,
-  [Stats.SPD]: 0,
-  [Stats.CD]: 0,
-  [Stats.CR]: 0,
-  [Stats.EHR]: 0,
-  [Stats.RES]: 0,
-  [Stats.BE]: 0,
-  [Stats.ERR]: 0,
-  [Stats.OHB]: 0,
-
-  ELEMENTAL_DMG: 0,
-  DEF_SHRED: 0,
-  DMG_TAKEN_MULTI: 0,
-  ALL_DMG_MULTI: 0,
-  RES_PEN: 0,
-  DMG_RED_MULTI: 1,
-
-  BASIC_CR_BOOST: 0,
-  SKILL_CR_BOOST: 0,
-  ULT_CR_BOOST: 0,
-  FUA_CR_BOOST: 0,
-
-  BASIC_CD_BOOST: 0,
-  SKILL_CD_BOOST: 0,
-  ULT_CD_BOOST: 0,
-  FUA_CD_BOOST: 0,
-
-  BASIC_SCALING: 0,
-  SKILL_SCALING: 0,
-  ULT_SCALING: 0,
-  FUA_SCALING: 0,
-  DOT_SCALING: 0,
-
-  BASIC_BOOST: 0,
-  SKILL_BOOST: 0,
-  ULT_BOOST: 0,
-  FUA_BOOST: 0,
-  DOT_BOOST: 0,
-
-  BASIC_VULNERABILITY: 0,
-  SKILL_VULNERABILITY: 0,
-  ULT_VULNERABILITY: 0,
-  FUA_VULNERABILITY: 0,
-  DOT_VULNERABILITY: 0,
-
-  BASIC_DMG: 0,
-  SKILL_DMG: 0,
-  ULT_DMG: 0,
-  FUA_DMG: 0,
-  DOT_DMG: 0,
-
-  BASIC_DEF_PEN: 0,
-  SKILL_DEF_PEN: 0,
-  ULT_DEF_PEN: 0,
-  FUA_DEF_PEN: 0,
-  DOT_DEF_PEN: 0,
-
-  BASIC_RES_PEN: 0,
-  SKILL_RES_PEN: 0,
-  ULT_RES_PEN: 0,
-  FUA_RES_PEN: 0,
-  DOT_RES_PEN: 0,
-}
-
-function xueyi(e) {
-  const ultBoostMax = ult(e, 0.60, 0.648)
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.40, 1.54)
-  const ultScaling = ult(e, 2.50, 2.70)
-  const fuaScaling = talent(e, 0.90, 0.99)
-
-  const hitMultiByFuaHits = {
-    0: 0,
-    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
-    2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
-    3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3) // 0.12
-  }
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitchWithPopover
-          name='enemyToughness50'
-          title='Intrepid Rollerbearings'
-          content="If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate."
-          text='Intrepid Rollerbearings' />
-        <FormSliderWithPopover
-          name='toughnessReductionDmgBoost'
-          text='Toughness-based Ult DMG boost'
-          title="Ultimate: Divine Castigation"
-          content="Deals Quantum DMG equal to 250% of Xueyi's ATK to a single target enemy. This attack ignores Weakness Types and reduces the enemy's Toughness. When the enemy's Weakness is Broken, the Quantum Weakness Break effect is triggered. In this attack, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of 60% increase."
-          min={0} max={ultBoostMax} percent />
-        <FormSliderWithPopover
-          name='fuaHits'
-          text='Follow-up Attacks'
-          title="Talent: Karmic Perpetuation"
-          content="When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG up to 3 times, with each time dealing Quantum DMG to a single random enemy."
-          min={0} max={3} />
-        <FormSwitchWithPopover
-          name='e4BeBuff'
-          text='E4 break effect buff'
-          title="E4: Karma, Severed"
-          content="When using Ultimate, increases Break Effect by 40% for 2 turn(s)."
-          disabled={e < 4} />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyToughness50: true,
-      toughnessReductionDmgBoost: ultBoostMax,
-      fuaHits: 3,
-      e4BeBuff: true,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
-
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling * r.fuaHits
-
-      // Boost
-      x.ULT_BOOST += (r.enemyToughness50) ? 0.10 : 0
-      x.ULT_BOOST += r.toughnessReductionDmgBoost
-      x.FUA_BOOST += (e >= 1) ? 0.40 : 0
-
-      return x
-    },
-    calculateBaseMultis: (c, request) => {
-      const r = request.characterConditionals
-      const x = c.x
-
-      x.ELEMENTAL_DMG += Math.min(2.40, x[Stats.BE])
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      const hitMulti = hitMultiByFuaHits[r.fuaHits]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-    }
-  }
 }
 
 function drratio(e) {
@@ -2809,28 +2637,29 @@ function misha(e) {
   }
 }
 
-function skill(e, value1, value2) {
-  return e >= 3 ? value2 : value1
-}
 
-const talent = skill
 
-function ult(e, value1, value2) {
-  return e >= 5 ? value2 : value1
-}
-const basic = ult
 
-function p4(set) {
-  return set >> 2
-}
+
+
+const FullPassives = (id, eidolon) => {
+  console.log('FullPassives', id, eidolon);
+};
+
+
+
 
 export const CharacterConditionals = {
   get: (request) => {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon)
   },
-  getDisplayForCharacter: (id, eidolon) => {
-    // console.log('getDisplayForCharacter', id)
+
+  getDisplayCharacterPassives: (id, eidolon) => {
+    const [characterPassivesDrawerOpen, setCharacterPassivesDrawerOpen] = useState(false);
+    const showDrawer = () => { setCharacterPassivesDrawerOpen(true); };
+    const onClose = () => { setCharacterPassivesDrawerOpen(false); };
+  
     if (!id || !characterOptionMapping[id]) {
       return (
         <Flex justify='space-between' align='center'>
@@ -2842,23 +2671,36 @@ export const CharacterConditionals = {
 
     const characterFn = characterOptionMapping[id]
     const display = characterFn(eidolon).display()
+    const drawerContainerStyles = {
+      position: 'relative',
+      height: 320,
+      width: 203,
+      padding: 0,
+      overflow: 'hidden',
+      borderRadius: 6
+    };
 
     return (
-      <ConfigProvider
-        theme={{
-          token: {
-            opacityLoading: 0.15
-          }
-        }}
-      >
-        <Flex vertical gap={5}>
-          <Flex justify='space-between' align='center'>
-            <HeaderText>Character passives</HeaderText>
-            <TooltipImage type={Hint.characterPassives()} />
-          </Flex>
-          {display}
+      <Flex vertical gap={5} style={drawerContainerStyles}>
+        <Drawer
+          id="hsro-drawer-character-conditional"
+          title="Details"
+          placement="left"
+          closable={true}
+          onClose={onClose}
+          open={characterPassivesDrawerOpen}
+          getContainer={false}
+        >
+          {FullPassives(id, eidolon)}
+        </Drawer>
+        <Flex justify='space-between' align='center'>
+          <HeaderText>Character passives</HeaderText>
+          <TooltipImage type={Hint.characterPassives()} />
+
+          <button onClick={showDrawer}>Open</button>
         </Flex>
-      </ConfigProvider>
+        {display}
+      </Flex>
     )
   },
 }

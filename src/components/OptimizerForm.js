@@ -416,11 +416,11 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter?.id, characterEidolon)}
+              {CharacterConditionals.getDisplayCharacterPassives(selectedCharacter?.id, characterEidolon)}
             </FormCard>
 
             <FormCard justify='space-between'>
-              {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
+              {LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)}
 
               <Flex vertical gap={5} style={{ marginBottom: 5 }}>
                 <Flex justify='space-between' align='center'>
@@ -600,17 +600,6 @@ export default function OptimizerForm() {
                     maxTagCount='responsive'>
                   </Select>
                 </Form.Item>
-                {/* <ConfigProvider
-                  theme={{
-                    components: {
-                      Cascader: {
-                        dropdownHeight: 625,
-                        controlItemWidth: 100,
-                        controlWidth: 100
-                      },
-                    },
-                  }}
-                > */}
                 <Form.Item size="default" name='relicSets'>
                   <Cascader
                     placeholder="Relics"
@@ -623,7 +612,6 @@ export default function OptimizerForm() {
                     expandTrigger="hover"
                   />
                 </Form.Item>
-                {/* </ConfigProvider> */}
               </Flex>
 
               <Button

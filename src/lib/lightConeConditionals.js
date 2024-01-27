@@ -2004,7 +2004,7 @@ export const LightConeConditionals = {
     }
     return lcFn(request.lightConeSuperimposition - 1)
   },
-  getDisplayForLightCone: (id, superimposition) => {
+  getDisplayLightConePassives: (id, superimposition) => {
     if (!id || !lightConeOptionMapping[id]) {
       return (
         <Flex vertical gap={5}>

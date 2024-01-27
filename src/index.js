@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from "react-error-boundary";
 import './style/style.css';
+import './style/hsro.css';
 import App from './App';
 
 import { WorkerPool } from './lib/workerPool';

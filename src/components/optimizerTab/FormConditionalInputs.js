@@ -32,21 +32,18 @@ export function FormSwitch(props) {
           style={{ width: 45, marginRight: 10 }}
         />
       </Form.Item>
-      <Text ellipsis={true}>{props.text}</Text>
+      <Text>{props.text}</Text>
     </Flex>
 
   )
 }
 FormSwitch.propTypes = {
   disabled: PropTypes.bool,
-  text: PropTypes.string,
   name: PropTypes.string,
+  text: PropTypes.string,
 }
 export const FormSwitchWithPopover = WithPopover(FormSwitch);
-FormSwitchWithPopover.propTypes = {
-  ...FormSwitch.propTypes,
-  ...WithPopover.propTypes
-};
+FormSwitchWithPopover.propTypes = Object.assign({}, FormSwitch.propTypes, WithPopover.propTypes);
 
 
 export function FormSlider(props) {
@@ -80,7 +77,7 @@ export function FormSlider(props) {
             />
           </Form.Item>
         </div>
-        <Text ellipsis={true}>{props.text}</Text>
+        <Text>{props.text}</Text>
       </Flex>
       <Flex align='center' justify='flex-start' gap={10} style={{ height: 14 }}>
         <Form.Item name={[conditionalType(props), props.name]}>

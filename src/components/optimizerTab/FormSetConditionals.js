@@ -1,4 +1,4 @@
-import { /* ConfigProvider, */ Drawer, Flex, Form, Popover, Select, Switch, Typography } from "antd";
+import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from "antd";
 import { Constants } from "../../lib/constants.ts";
 import VerticalDivider from "../VerticalDivider";
 import React, { useMemo } from "react";
@@ -88,13 +88,6 @@ export const FormSetConditionals = () => {
   let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
   return (
-    /*     <ConfigProvider
-          theme={{
-            token: {
-              opacityLoading: 0.15
-            }
-          }}
-        > */
     <Drawer
       title="Conditional set effects"
       placement="right"
@@ -286,7 +279,6 @@ export const FormSetConditionals = () => {
         </Flex>
       </Flex>
     </Drawer>
-    /* </ConfigProvider> */
   )
 }
 

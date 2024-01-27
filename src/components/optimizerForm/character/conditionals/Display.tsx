@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex } from 'antd';
-import ColorizeNumbers from 'lib/character/utils/ColorizeNumbers';
+import ColorizeNumbers from 'components/optimizerForm/character/utils/ColorizeNumbers';
 
 const Display = (props): JSX.Element => {
   const { content } = props;
@@ -14,7 +14,9 @@ const Display = (props): JSX.Element => {
         name={key}
         title={content[key].title}
         content={ColorizeNumbers(content[key].content)}
-        text={content[key].text} />
+        text={content[key].text}
+        {...content[key]}
+        />
     );
   }
   return (<Flex vertical gap={10}>{ret}</Flex>);

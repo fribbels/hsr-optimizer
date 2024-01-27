@@ -8,7 +8,7 @@ import { Hint } from "lib/hint";
 
 import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/character/conditionals/constants";
-import DisplayFullPassives from 'lib/character/conditionals/DisplayFullPassives';
+import DisplayFullPassives from 'components/optimizerForm/character/conditionals/DisplayFullPassives';
 import xueyi from 'lib/character/conditionals/Xueyi';
 import jingliu from 'lib/character/conditionals/Jingliu';
 

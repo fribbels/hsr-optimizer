@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
-import {  FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalInputs';
+import { FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalInputs';
 import { basic, skill, talent, ult } from "lib/character/conditionals/utils";
-import { baseComputedStatsObject } from './constants';
+import { baseComputedStatsObject } from 'lib/character/conditionals/constants';
 
-import Display from './Display';
+import Display from 'components/optimizerForm/character/conditionals/Display';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 import { ConditionalMap, Form } from 'types/CharacterConditional';

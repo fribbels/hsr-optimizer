@@ -329,7 +329,15 @@ export const DB = {
     let relicsById = global.store.getState().relicsById
     delete relicsById[id]
     global.store.getState().setRelicsById(relicsById)
-    global.characterGrid.current.api.redrawRows()
+    // only valid when on relics tab
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.redrawRows()
+    }
+
+    // only valid when on character tab
+    if (global.characterGrid?.current?.api) {
+      global.characterGrid.current.api.redrawRows()
+    }
   },
 
   // These relics are missing speed decimals from OCR importer

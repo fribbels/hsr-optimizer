@@ -173,7 +173,9 @@ export default function CharacterTab(props) {
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setFocusCharacter(undefined)
-    global.relicsGrid.current.api.redrawRows()
+    if (global.relicsGrid?.current?.api) {
+      global.relicsGrid.current.api.redrawRows()
+    }
 
     SaveState.save()
 

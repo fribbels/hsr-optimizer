@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Flex } from 'antd';
 import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
-const Display = (props): JSX.Element => {
+const DisplayFormControl = (props): JSX.Element => {
   const { content } = props;
   const ret = [];
 
@@ -11,21 +11,21 @@ const Display = (props): JSX.Element => {
     const Item = content[key].formItem;
     ret.push(
       <Item
+        {...content[key]}
         name={key}
         title={content[key].title}
         content={ColorizeNumbers(content[key].content)}
         text={content[key].text}
-        {...content[key]}
         />
     );
   }
   return (<Flex vertical gap={10}>{ret}</Flex>);
 };
-Display.displayName = 'XueyiDisplay';
-Display.propTypes = {
+DisplayFormControl.displayName = 'XueyiDisplayFormControl';
+DisplayFormControl.propTypes = {
   content: PropTypes.object,
   eidolon: PropTypes.number,
   ultBoostMax: PropTypes.number,
 };
 
-export default Display;
+export default DisplayFormControl;

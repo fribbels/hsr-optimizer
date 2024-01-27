@@ -3,7 +3,7 @@ import { Flex } from 'antd';
 import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
 
-const FullPassives = (content: { [key:string]: { [key: string]: string}}) => {
+const DisplayFullPassives = (content: { [key:string]: { [key: string]: string}}) => {
   if (content) {
     const ret = Object.keys(content).map((key) => {
       const render = []
@@ -11,7 +11,6 @@ const FullPassives = (content: { [key:string]: { [key: string]: string}}) => {
         render.push(<b>{ColorizeNumbers(content[key].title)}</b>);
       }
       if (content[key].text) {
-        // render.length > 0 && render.push(<br/>);
         render.push(<i>{ColorizeNumbers(content[key].text)}</i>);
       }
       if (content[key].content) {
@@ -27,4 +26,4 @@ const FullPassives = (content: { [key:string]: { [key: string]: string}}) => {
   return null;
 };
 
-export default FullPassives
+export default DisplayFullPassives

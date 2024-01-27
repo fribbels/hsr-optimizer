@@ -2,6 +2,7 @@ import {
   Button,
   Cascader,
   Divider,
+  Drawer,
   Flex,
   Form,
   Image,
@@ -76,7 +77,7 @@ export default function OptimizerForm() {
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const focusCharacter = global.store(s => s.focusCharacter);
-  // const [characterSkillDrawerOpen, setCharacterSkillDrawerOpen] = useState(false);
+  const [characterSkillDrawerOpen, setCharacterSkillDrawerOpen] = useState(false);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -324,6 +325,10 @@ export default function OptimizerForm() {
     );
   }
 
+  const onCharacterSkillDrawerClose = () => {
+    setCharacterSkillDrawerOpen(false)
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       <Form
@@ -338,6 +343,7 @@ export default function OptimizerForm() {
 
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
+            {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
                 <Image
@@ -349,6 +355,7 @@ export default function OptimizerForm() {
               </div>
             </FormCard>
 
+            {/* Character Levels/Eids + Light Cone Superimps */}
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Character</HeaderText>
@@ -415,21 +422,32 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </Flex>
 
-                <div style={{ position: 'absolute', bottom:0}}>
+                <Flex vertical gap={5}>
+                  <Drawer
+                    title="Details"
+                    placement="left"
+                    closable={true}
+                    onClose={onCharacterSkillDrawerClose}
+                    open={characterSkillDrawerOpen}
+                    getContainer={false}
+                  >
+                    asdfasflsflj
+                  </Drawer>
                   <Button
-                    onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+                    onClick={() => setCharacterSkillDrawerOpen(true)}
                     icon={<UpCircleOutlined />}
                   >
                     Skills
                   </Button>
-                </div>
+                </Flex>
+
               </Flex>
             </FormCard>
 
             <FormCard>
               {CharacterConditionals.getDisplayCharacterPassives(selectedCharacter?.id, characterEidolon)}
             </FormCard>
-
+            {/* Light Cone Card */}
             <FormCard justify='space-between'>
               {LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)}
 

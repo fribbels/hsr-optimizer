@@ -4,7 +4,7 @@ import { FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalIn
 import { basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { baseComputedStatsObject } from 'lib/character/conditionals/constants';
 
-import Display from 'components/optimizerForm/character/conditionals/Display';
+import DisplayFormControl from 'components/optimizerForm/character/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 import { ConditionalMap, Form } from 'types/CharacterConditional';
@@ -54,7 +54,7 @@ const Jingliu = (e: Eidolon) => {
   
   return {
     getContent: () => content,
-    display: () => <Display eidolon={e} content={content} />,
+    display: () => <DisplayFormControl eidolon={e} content={content} />,
     defaults: () => ({
       talentEnhancedState: true,
       talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,

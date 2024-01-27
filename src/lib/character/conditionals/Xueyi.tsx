@@ -5,7 +5,7 @@ import { calculateAshblazingSet, basic, skill, talent, ult } from "lib/character
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, baseComputedStatsObject } from 'lib/character/conditionals/constants';
 
 import { CharacterConditional, ConditionalMap, Form } from 'types/CharacterConditional';
-import Display from 'components/optimizerForm/character/conditionals/Display';
+import DisplayFormControl from 'components/optimizerForm/character/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 
@@ -58,7 +58,7 @@ const Xueyi = (eidolon: Eidolon): CharacterConditional => {
 
   return {
     getContent: () => content,
-    display: () => <Display ultBoostMax={ultBoostMax} eidolon={eidolon} content={content} />,
+    display: () => <DisplayFormControl ultBoostMax={ultBoostMax} eidolon={eidolon} content={content} />,
     defaults: () => ({
       enemyToughness50: true,
       toughnessReductionDmgBoost: ultBoostMax,

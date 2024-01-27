@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Drawer, Flex } from "antd";
+import React from "react";
+import { Flex } from "antd";
 import { HeaderText } from "components/HeaderText";
 import { FormSlider, FormSwitch } from "components/optimizerTab/FormConditionalInputs";
 import { TooltipImage } from "components/TooltipImage";
@@ -8,7 +8,6 @@ import { Hint } from "lib/hint";
 
 import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/character/conditionals/constants";
-import DisplayFullPassives from 'components/optimizerForm/character/conditionals/DisplayFullPassives';
 import xueyi from 'lib/character/conditionals/Xueyi';
 import jingliu from 'lib/character/conditionals/Jingliu';
 
@@ -2654,10 +2653,6 @@ export const CharacterConditionals = {
   },
 
   getDisplayCharacterPassives: (id, eidolon) => {
-    const [characterPassivesDrawerOpen, setCharacterPassivesDrawerOpen] = useState(false);
-    const showDrawer = () => { setCharacterPassivesDrawerOpen(true); };
-    const onClose = () => { setCharacterPassivesDrawerOpen(false); };
-  
     if (!id || !characterOptionMapping[id]) {
       return (
         <Flex justify='space-between' align='center'>
@@ -2669,34 +2664,12 @@ export const CharacterConditionals = {
 
     const characterFn = characterOptionMapping[id]
     const display = characterFn(eidolon).display();
-    const getContent = characterFn(eidolon).getContent || function() {return null};
-    const drawerContainerStyles = {
-      position: 'relative',
-      height: 320,
-      width: 203,
-      padding: 0,
-      overflow: 'hidden',
-      borderRadius: 6
-    };
 
     return (
-      <Flex vertical gap={5} style={drawerContainerStyles}>
-        <Drawer
-          id="hsro-card-menu-drawer"
-          title="Details"
-          placement="left"
-          closable={true}
-          onClose={onClose}
-          open={characterPassivesDrawerOpen}
-          getContainer={false}
-        >
-          {DisplayFullPassives(getContent())}
-        </Drawer>
+      <Flex vertical gap={5} >
         <Flex justify='space-between' align='center'>
           <HeaderText>Character passives</HeaderText>
           <TooltipImage type={Hint.characterPassives()} />
-
-          <button onClick={showDrawer}>Open</button>
         </Flex>
         {display}
       </Flex>

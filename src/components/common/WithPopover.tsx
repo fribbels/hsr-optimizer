@@ -18,7 +18,7 @@ const WithPopover = (WrappedComponent: FC) => {
 
     return (
       <Popover
-        trigger="click"
+        trigger="hover"
         placement="left"
         content={content}
         title={props.title}

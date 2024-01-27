@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex } from 'antd';
-import ColorizeNumbers from 'components/optimizerForm/character/utils/ColorizeNumbers';
+import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
 const Display = (props): JSX.Element => {
   const { content } = props;

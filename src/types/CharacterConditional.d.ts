@@ -10,6 +10,7 @@ export type WeirdForm = Form & {
 };
 
 export interface CharacterConditional {
+  getContent: () => { [key: string]: unknown };
   display: () => JSX.Element;
   defaults: () => ConditionalMap
   // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify

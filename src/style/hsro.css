@@ -1,23 +1,31 @@
 /* drawer style overrides for OptimizerTab > cards */
-#hsro-drawer-character-conditional {
+#hsro-card-menu-drawer {
   background-color: rgb(36, 51, 86);
 }
 
-#hsro-drawer-character-conditional
+#hsro-card-menu-drawer
 .ant-drawer-header.ant-drawer-header-close-only,
-#hsro-drawer-character-conditional
-.ant-drawer-header
+#hsro-card-menu-drawer
+.ant-drawer-header,
+#hsro-card-menu-drawer
+.ant-drawer-body
 {
   padding: 0 0 5px 0;
-  width: 200px;
+  width: 203px;
 }
 
-#hsro-drawer-character-conditional
-.ant-drawer-body {
-  padding: 5px;
+/* reduce padding on drawer body to fit in Card visually */
+#hsro-card-menu-drawer
+  .ant-drawer-body {
+  padding: 0px;
 }
 
-#hsro-drawer-character-conditional
-.ant-drawer-close {
+/* move X button closer to the expected upper-left */
+#hsro-card-menu-drawer
+  .ant-drawer-close {
   padding: 0;
+}
+#hsro-card-menu-drawer
+.ant-drawer-body p {
+  margin: 0 0 1em 0;
 }

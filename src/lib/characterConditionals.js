@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Drawer, Flex } from "antd";
+// const { Text } = Typography;
 
 import { HeaderText } from "components/HeaderText";
 import { FormSlider, FormSwitch, FormSwitchWithPopover } from "components/optimizerTab/FormConditionalInputs";
@@ -2642,8 +2643,23 @@ function misha(e) {
 
 
 
-const FullPassives = (id, eidolon) => {
-  console.log('FullPassives', id, eidolon);
+const FullPassives = (content: { [key:string]: { [key: string]: string}}) => {
+  if (content) {
+    return (
+      <Flex vertical gap={10} >
+        {Object.keys(content).map((key) => {
+          return (
+            <>
+              <b>{content[key].title}</b>
+              <p>{content[key].content}</p>
+            </>
+          )
+        })}
+      </Flex>
+    )
+  }
+
+  return <></>;
 };
 
 
@@ -2670,7 +2686,8 @@ export const CharacterConditionals = {
     }
 
     const characterFn = characterOptionMapping[id]
-    const display = characterFn(eidolon).display()
+    const display = characterFn(eidolon).display();
+    const getContent = characterFn(eidolon).getContent || function() {return null};
     const drawerContainerStyles = {
       position: 'relative',
       height: 320,
@@ -2683,7 +2700,7 @@ export const CharacterConditionals = {
     return (
       <Flex vertical gap={5} style={drawerContainerStyles}>
         <Drawer
-          id="hsro-drawer-character-conditional"
+          id="hsro-card-menu-drawer"
           title="Details"
           placement="left"
           closable={true}
@@ -2691,7 +2708,7 @@ export const CharacterConditionals = {
           open={characterPassivesDrawerOpen}
           getContainer={false}
         >
-          {FullPassives(id, eidolon)}
+          {FullPassives(getContent())}
         </Drawer>
         <Flex justify='space-between' align='center'>
           <HeaderText>Character passives</HeaderText>

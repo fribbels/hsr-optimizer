@@ -9,44 +9,31 @@ import { ASHBLAZING_ATK_STACK, ComputedStatsObject, baseComputedStatsObject } fr
 import { CharacterConditional, ConditionalMap, Form } from 'types/CharacterConditional';
 
 
-const Display = (props): JSX.Element => { 
-  return (
-    <Flex vertical gap={10}>
-      <FormSwitchWithPopover {...props}
-        name='enemyToughness50'
-        title='Intrepid Rollerbearings'
-        content="If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate."
-        text='Intrepid Rollerbearings' />
-      <FormSliderWithPopover {...props}
-        name='toughnessReductionDmgBoost'
-        text='Toughness-based Ult DMG boost'
-        title="Ultimate: Divine Castigation"
-        content="Deals Quantum DMG equal to 250% of Xueyi's ATK to a single target enemy. This attack ignores Weakness Types and reduces the enemy's Toughness. When the enemy's Weakness is Broken, the Quantum Weakness Break effect is triggered. In this attack, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of 60% increase."
-        min={0} max={props.ultBoostMax} percent />
-      <FormSliderWithPopover {...props}
-        name='fuaHits'
-        text='Follow-up Attacks'
-        title="Talent: Karmic Perpetuation"
-        content="When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG up to 3 times, with each time dealing Quantum DMG to a single random enemy."
-        min={0} max={3} />
-      <FormSwitchWithPopover {...props}
-        name='e4BeBuff'
-        text='E4 break effect buff'
-        title="E4: Karma, Severed"
-        content="When using Ultimate, increases Break Effect by 40% for 2 turn(s)."
-        disabled={props.eidolon < 4} />
-    </Flex>
-  );
+const Display = (props): JSX.Element => {
+  const { content } = props;
+  const ret = [];
+
+  for (const key in content) {
+    const Item = content[key].formItem;
+    ret.push(
+      <Item
+        name={key}
+        title={content[key].title}
+        content={content[key].content}
+        text={content[key].title} />
+    );
+  }
+  return (<Flex vertical gap={10}>{ret}</Flex>);
 };
 Display.displayName = 'XueyiDisplay';
 Display.propTypes = {
-  ultBoostMax: PropTypes.number,
+  content: PropTypes.object,
   eidolon: PropTypes.number,
+  ultBoostMax: PropTypes.number,
 };
 
 const Xueyi = (eidolon: number): CharacterConditional => {
   const ultBoostMax = ult(eidolon, 0.60, 0.648)
-
   const basicScaling = basic(eidolon, 1.00, 1.10)
   const skillScaling = skill(eidolon, 1.40, 1.54)
   const ultScaling = ult(eidolon, 2.50, 2.70)
@@ -57,12 +44,43 @@ const Xueyi = (eidolon: number): CharacterConditional => {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3) // 0.12
-  }
+  };
+
+  const content = {
+    enemyToughness50 : {
+      formItem: FormSwitchWithPopover,
+      title: 'Intrepid Rollerbearings',
+      content: "If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate.",
+      text: 'Intrepid Rollerbearings',
+    },
+    toughnessReductionDmgBoost: {
+      formItem: FormSliderWithPopover,
+      title: 'Ultimate: Divine Castigation',
+      content: "Deals Quantum DMG equal to 250% of Xueyi's ATK to a single target enemy. This attack ignores Weakness Types and reduces the enemy's Toughness. When the enemy's Weakness is Broken, the Quantum Weakness Break effect is triggered. In this attack, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of 60% increase.",
+      min: 0,
+      max: ultBoostMax,
+      percent: true,
+    },
+    fuaHits: {
+      formItem: FormSliderWithPopover,
+      title: 'Talent: Karmic Perpetuation',
+      content: "When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG up to 3 times, with each time dealing Quantum DMG to a single random enemy.",
+      min: 0,
+      max: 3,
+    },
+    e4BeBuff: {
+      formItem: FormSwitchWithPopover,
+      title: 'E4: Karma, Severed',
+      content: "When using Ultimate, increases Break Effect by 40% for 2 turn(s).",
+      disabled: (eidolon < 4),
+    }
+  };
 
   type NewType = unknown;
 
   return {
-    display: () => <Display ultBoostMax={ultBoostMax} eidolon={eidolon} />,
+    getContent: () => content,
+    display: () => <Display ultBoostMax={ultBoostMax} eidolon={eidolon} content={content} />,
     defaults: () => ({
       enemyToughness50: true,
       toughnessReductionDmgBoost: ultBoostMax,

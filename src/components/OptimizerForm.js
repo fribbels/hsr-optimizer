@@ -27,7 +27,7 @@ import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
-import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, SettingOutlined, UpCircleOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
@@ -49,6 +49,7 @@ import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
 import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
+import MenuDrawer from './MenuDrawer.js';
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -75,6 +76,7 @@ export default function OptimizerForm() {
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const focusCharacter = global.store(s => s.focusCharacter);
+  const [characterSkillDrawerOpen, setCharacterSkillDrawerOpen] = useState(false);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -412,7 +414,28 @@ export default function OptimizerForm() {
                     />
                   </Form.Item>
                 </Flex>
+
+                <Flex gap={defaultGap} justify='space-between'>
+                  <Button
+                    onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+                    icon={<UpCircleOutlined />}
+                  >
+                    Skills
+                  </Button>
+                </Flex>
               </Flex>
+
+              <MenuDrawer 
+                id="hsro-card-menu-drawer"
+                title="Details"
+                placement="left"
+                closable={true}
+                onClose={() => { setCharacterSkillDrawerOpen(false) }}
+                open={characterSkillDrawerOpen}
+                getContainer={false}
+              >
+                asdasff
+              </MenuDrawer>
             </FormCard>
 
             <FormCard>

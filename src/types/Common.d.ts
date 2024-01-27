@@ -1,3 +1,4 @@
+export type Unknown = unknown;
 export type LANGUAGE = 
   'cht' |
   'cn' |

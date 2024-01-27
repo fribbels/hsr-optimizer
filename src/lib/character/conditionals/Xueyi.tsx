@@ -1,38 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Flex } from 'antd';
 import { Stats } from 'lib/constants';
 import { FormSliderWithPopover, FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalInputs';
 import { calculateAshblazingSet, basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, baseComputedStatsObject } from './constants';
 
 import { CharacterConditional, ConditionalMap, Form } from 'types/CharacterConditional';
+import Display from './Display';
+import { Eidolon } from 'types/Character';
+import { Unknown } from 'types/Common';
 
 
-const Display = (props): JSX.Element => {
-  const { content } = props;
-  const ret = [];
 
-  for (const key in content) {
-    const Item = content[key].formItem;
-    ret.push(
-      <Item
-        name={key}
-        title={content[key].title}
-        content={content[key].content}
-        text={content[key].title} />
-    );
-  }
-  return (<Flex vertical gap={10}>{ret}</Flex>);
-};
-Display.displayName = 'XueyiDisplay';
-Display.propTypes = {
-  content: PropTypes.object,
-  eidolon: PropTypes.number,
-  ultBoostMax: PropTypes.number,
-};
-
-const Xueyi = (eidolon: number): CharacterConditional => {
+const Xueyi = (eidolon: Eidolon): CharacterConditional => {
   const ultBoostMax = ult(eidolon, 0.60, 0.648)
   const basicScaling = basic(eidolon, 1.00, 1.10)
   const skillScaling = skill(eidolon, 1.40, 1.54)
@@ -76,7 +55,6 @@ const Xueyi = (eidolon: number): CharacterConditional => {
     }
   };
 
-  type NewType = unknown;
 
   return {
     getContent: () => content,
@@ -107,7 +85,7 @@ const Xueyi = (eidolon: number): CharacterConditional => {
 
       return x;
     },
-    calculateBaseMultis: (c: NewType, request: Form) => {
+    calculateBaseMultis: (c: Unknown, request: Form) => {
       const r = request.characterConditionals as { [key: string]: number }
       const x: ComputedStatsObject = c['x'];
 

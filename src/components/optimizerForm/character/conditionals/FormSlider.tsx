@@ -1,8 +1,7 @@
-import { Flex, Form, InputNumber, Slider, Switch, Typography } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import { Flex, Form, InputNumber, Slider, Typography } from "antd";
+import styled from "styled-components";
 import WithPopover from "components/common/WithPopover";
 
 const justify = 'flex-start'
@@ -19,33 +18,12 @@ function precisionRound(number, precision = 8) {
   return Math.round(number * factor) / factor;
 }
 
-export function FormSwitch(props) {
-  return (
-
-    <Flex justify={justify} align={align}>
-      <Form.Item name={[conditionalType(props), props.name]} valuePropName='checked'>
-        <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
-          disabled={props.disabled}
-          defaultChecked={!props.disabled}
-          style={{ width: 45, marginRight: 10 }}
-        />
-      </Form.Item>
-      <Text>{props.text}</Text>
-    </Flex>
-
-  )
+function conditionalType(props) {
+  if (props.lc) {
+    return 'lightConeConditionals'
+  }
+  return 'characterConditionals'
 }
-FormSwitch.propTypes = {
-  disabled: PropTypes.bool,
-  name: PropTypes.string,
-  text: PropTypes.string,
-}
-export const FormSwitchWithPopover = WithPopover(FormSwitch);
-FormSwitchWithPopover.propTypes = Object.assign({}, FormSwitch.propTypes, WithPopover.propTypes);
-export type FormSwitchWithPopoverProps = PropTypes.InferProps<typeof FormSwitchWithPopover.propTypes>
-
 
 export function FormSlider(props) {
   const [inputValue, setInputValue] = useState(1);
@@ -70,7 +48,7 @@ export function FormSlider(props) {
               style={{
                 width: numberWidth,
               }}
-              parser={(value) => value == null || value == '' ? 0 : precisionRound(value / multiplier)}
+              parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
               formatter={(value) => `${precisionRound(value * multiplier)}`}
               addonAfter={symbol}
               onChange={onChange}
@@ -112,6 +90,7 @@ FormSlider.propTypes = {
   text: PropTypes.string,
   name: PropTypes.string,
   percent: PropTypes.bool,
+  lc: PropTypes.bool,
 }
 
 export const FormSliderWithPopover = WithPopover(FormSlider);
@@ -120,9 +99,4 @@ FormSliderWithPopover.propTypes = {
   ...WithPopover.propTypes
 }
 
-function conditionalType(props) {
-  if (props.lc) {
-    return 'lightConeConditionals'
-  }
-  return 'characterConditionals'
-}
+export type FormSliderWithPopoverProps = PropTypes.InferProps<typeof FormSliderWithPopover.propTypes>

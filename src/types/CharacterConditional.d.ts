@@ -1,24 +1,44 @@
 import { ComputedStatsObject } from "lib/character/conditionals/constants";
-import { RelicSet } from "./RelicSet";
+import { RelicSet } from "types/RelicSet";
+import { FormSwitchWithPopoverProps } from "components/optimizerForm/character/conditionals/FormSwitch";
+import { FormSliderWithPopoverProps } from "components/optimizerForm/character/conditionals/FormSlider";
 
 // TODO: reset type to Form from feature/typescript-v2
 export type Form = {
-  [key: string]: unknown
+  [key: string]: unknown;
+  characterConditionals: ComputedStatsObject;
 };
 export type WeirdForm = Form & {
   characterConditionals: ComputedStatsObject;
 };
 
-export interface CharacterConditional {
-  getContent: () => { [key: string]: unknown };
-  display: () => JSX.Element;
-  defaults: () => ConditionalMap
-  // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify
-  precomputeEffects: (request: Form) => ComputedStatsObject;
+export type ContentItem = {
+  formItem: FormSwitchWithPopoverProps | FormSliderWithPopoverProps;
+  text: string;
+  title: string;
+  content: JSX.Element | string;
+  [key:string]: unknown;
+}
 
+export type ConditionalMap = {
+  [key:string]: number | boolean | string | undefined;
+};
+
+interface Conditional {
+  getContent: () => { [key: string]: unknown }[];
+  display: () => JSX.Element;
+  defaults: () => ConditionalMap;
   // TODO: purify this implmeentation
   // ComputedStatsObject arg is mutated by ref
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void;
+  calculatePassives?: () => void;
+}
+export interface CharacterConditional extends Conditional {
+  precomputeEffects: (request: Form) => ComputedStatsObject;
+}
+export interface LightConeConditional extends Conditional {
+  // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify
+  precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => void;  
 }
 
 export type StatsCollection = {
@@ -27,6 +47,11 @@ export type StatsCollection = {
   headRelics: { [key: string]: number };
   sets: { [key: string]: RelicSet };
 };
+
+export interface PrecomputedCharacterConditional {
+  DEF_SHRED: number;
+  ELEMENTAL_DMG: number;
+}
 
 export type ConditionalBuff =
   | 'arcanaStacks'
@@ -76,6 +101,7 @@ export type ConditionalBuff =
   | 'e6UltDmgBoost'
   | 'e6UltExtraHits'
   | 'e6UltTargetDebuff'
+  | 'eclipseStacks'
   | 'enemyBurned'
   | 'enemyDebuffed'
   | 'enemyDebuffStacks'
@@ -151,8 +177,5 @@ export type ConditionalBuff =
   | 'ultHitsOnTarget'
   | 'ultSpdBuff';
 
-export type ConditionalMap = {
-  [key in ConditionalBuff]?: number | boolean;
-};
 
   

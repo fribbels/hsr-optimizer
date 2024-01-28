@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars  */
 
-import { Flex, Typography } from "antd";
 import React from "react";
-import { HeaderText } from "../components/HeaderText";
-import { Constants } from './constants.ts'
-import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
-import { TooltipImage } from "../components/TooltipImage";
-import { Hint } from "./hint";
+import { Flex, Typography } from "antd";
+import { HeaderText } from "components/HeaderText";
+import { FormSlider, FormSwitch } from "components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "components/TooltipImage";
+import { Constants } from 'lib/constants.ts'
+import { Hint } from "lib/hint";
+
+import IShallBeMyOwnSword  from 'lib/lightcone/conditionals/iShallBeMyOwnSword'
 
 let Stats = Constants.Stats
 
@@ -340,31 +342,31 @@ function BrighterThanTheSun(s) {
   }
 }
 
-function IShallBeMyOwnSword(s) {
-  let sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
-  let sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
+// function IShallBeMyOwnSword(s) {
+//   let sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
+//   let sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc />
-        <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      eclipseStacks: 3,
-      maxStackDefPen: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+//   return {
+//     display: () => (
+//       <Flex vertical gap={defaultGap} >
+//         <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc />
+//         <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc />
+//       </Flex>
+//     ),
+//     defaults: () => ({
+//       eclipseStacks: 3,
+//       maxStackDefPen: true,
+//     }),
+//     precomputeEffects: (x, request) => {
+//       let r = request.lightConeConditionals
 
-      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
-      x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
+//       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
+//       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+//     },
+//     calculatePassives: (/*c, request */) => { },
+//     calculateBaseMultis: (/* c, request */) => { }
+//   }
+// }
 
 function TimeWaitsForNoOne(/* s */) {
   // const sValues = [0, 0, 0, 0, 0]
@@ -1989,9 +1991,15 @@ function EarthlyEscapade(s) {
   }
 }
 
+
+
+
+
+
 export const LightConeConditionals = {
   get: (request) => {
-    let lcFn = lightConeOptionMapping[request.lightCone]
+    let lcFn = lightConeOptionMapping[request.lightCone];
+    
     if (!lcFn) {
       return {
         display: () => (

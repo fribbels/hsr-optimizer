@@ -22,7 +22,9 @@ export const Stats = {
   SPD: 'SPD',
   Wind_DMG: 'Wind DMG Boost'
 };
-export type Stats = typeof Stats[keyof typeof Stats];
+export type StatsKeys = keyof typeof Stats;
+export type StatsValues = (typeof Stats)[StatsKeys];
+
 
 export const MainStats = [
   Stats.HP_P,

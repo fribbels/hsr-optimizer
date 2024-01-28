@@ -3,27 +3,28 @@ import PropTypes from 'prop-types';
 import { Flex } from 'antd';
 import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
-const DisplayFormControl = (props): JSX.Element => {
-  const { content } = props;
+const DisplayFormControl = ({ content }): JSX.Element => {
   const ret = [];
 
-  for (const key in content) {
-    const Item = content[key].formItem;
+  // for (const key in content) {
+  content.forEach(passive => {
+    const Item = passive.formItem;
     ret.push(
       <Item
-        {...content[key]}
-        name={key}
-        title={content[key].title}
-        content={ColorizeNumbers(content[key].content)}
-        text={content[key].text}
+        {...passive}
+        name={passive.id}
+        title={passive.title}
+        content={ColorizeNumbers(passive.content)}
+        text={passive.text}
         />
-    );
-  }
+    );    
+  });
+
   return (<Flex vertical gap={10}>{ret}</Flex>);
 };
-DisplayFormControl.displayName = 'XueyiDisplayFormControl';
+DisplayFormControl.displayName = 'DisplayFormControl';
 DisplayFormControl.propTypes = {
-  content: PropTypes.object,
+  content: PropTypes.array,
   eidolon: PropTypes.number,
   ultBoostMax: PropTypes.number,
 };

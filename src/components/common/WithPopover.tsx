@@ -6,14 +6,11 @@ const { Text } = Typography;
 const WithPopover = (WrappedComponent: FC) => {
   const Wrapped = (props) => {
     const [open, setOpen] = React.useState(false);
-    const hide = () => setOpen(false);
     const handleOpenChange = (newOpen: boolean) => { setOpen(newOpen); }
     const content =
       <Text style={{ width: 400, display: 'block' }}>
         <hr />
         {props.content}
-        <hr />
-        <a onClick={hide}>Close</a>
       </Text>;
 
     return (

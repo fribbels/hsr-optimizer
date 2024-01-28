@@ -1,16 +1,16 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
-import { FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalInputs';
+import { FormSwitchWithPopover } from 'components/optimizerForm/character/conditionals/FormSwitch';
 import { basic, skill, talent, ult } from "lib/character/conditionals/utils";
 import { baseComputedStatsObject } from 'lib/character/conditionals/constants';
 
 import DisplayFormControl from 'components/optimizerForm/character/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
-import { ConditionalMap, Form } from 'types/CharacterConditional';
+import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
 
 
-const Jingliu = (e: Eidolon) => {
+const Jingliu = (e: Eidolon): CharacterConditional => {
   const talentCrBuff = talent(e, 0.50, 0.52);
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98);
   talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0;
@@ -19,14 +19,16 @@ const Jingliu = (e: Eidolon) => {
   const skillEnhancedScaling = skill(e, 2.50, 2.75);
   const ultScaling = ult(e, 3.00, 3.24);
 
-  const content = {
-    talentEnhancedState: {
+  const content: ContentItem[] = [
+    {
+      id: 'talentEnhancedState',
       formItem: FormSwitchWithPopover,
       text: 'Enhanced state',
       title: 'Crescent Transmigration',
       content: "When Jingliu has 2 stack(s) of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by 50%. Then, Jingliu's Skill Transcendent Flash becomes enhanced and turns into Moon On Glacial River, and becomes the only ability she can use in battle.",
     },
-    talentHpDrainAtkBuff: {
+    {
+      id: 'talentHpDrainAtkBuff',
       formItem: FormSwitchWithPopover,
       text: 'HP drain ATK buff',
       title: 'Crescent Transmigration - ATK Bonus',
@@ -35,21 +37,23 @@ const Jingliu = (e: Eidolon) => {
       max: talentHpDrainAtkBuffMax,
       percent: true,
     },
-    e1CdBuff: {
+    {
+      id: 'e1CdBuff',
       formItem: FormSwitchWithPopover,
-      title: 'E1 - Moon Crashes Tianguan Gate',
-      content: "When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.",
       text: 'E1 ult active',
+      title: 'Moon Crashes Tianguan Gate',
+      content: "When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.",
       disabled: e < 1,
     },
-    e2SkillDmgBuff: {
+    {
+      id: 'e2SkillDmgBuff',
       formItem: FormSwitchWithPopover,
-      title: 'E2 - Crescent Shadows Qixing Dipper',
-      content: "After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.",
       text: 'E2 skill buff',
+      title: 'Crescent Shadows Qixing Dipper',
+      content: "After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.",
       disabled: e < 2,
     },
-  };
+  ];
   
   
   return {

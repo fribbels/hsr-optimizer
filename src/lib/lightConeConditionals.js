@@ -8,7 +8,7 @@ import { TooltipImage } from "components/TooltipImage";
 import { Constants } from 'lib/constants.ts'
 import { Hint } from "lib/hint";
 
-import IShallBeMyOwnSword  from 'lib/lightcone/conditionals/iShallBeMyOwnSword'
+import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/iShallBeMyOwnSword'
 
 let Stats = Constants.Stats
 

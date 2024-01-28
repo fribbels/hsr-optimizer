@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConditionalMap, ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
 import { FormSwitchWithPopover } from 'components/optimizerTab/FormConditionalInputs';
-import DisplayFormControl from 'components/optimizerForm/character/conditionals/DisplayFormControl';
+import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 
 import { SuperImpositionLevel } from 'types/LightCone';
 

@@ -1,7 +1,7 @@
-import { ComputedStatsObject } from "lib/character/conditionals/constants";
+import { ComputedStatsObject } from "lib/conditionals/constants";
 import { RelicSet } from "types/RelicSet";
-import { FormSwitchWithPopoverProps } from "components/optimizerForm/character/conditionals/FormSwitch";
-import { FormSliderWithPopoverProps } from "components/optimizerForm/character/conditionals/FormSlider";
+import { FormSwitchWithPopoverProps } from "components/optimizerForm/conditionals/FormSwitch";
+import { FormSliderWithPopoverProps } from "components/optimizerForm/conditionals/FormSlider";
 
 // TODO: reset type to Form from feature/typescript-v2
 export type Form = {

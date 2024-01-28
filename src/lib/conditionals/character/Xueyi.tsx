@@ -1,12 +1,12 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
-import { calculateAshblazingSet, basic, skill, talent, ult } from "lib/character/conditionals/utils";
-import { ASHBLAZING_ATK_STACK, ComputedStatsObject, baseComputedStatsObject } from 'lib/character/conditionals/constants';
-import { FormSliderWithPopover } from 'components/optimizerForm/character/conditionals/FormSlider';
-import { FormSwitchWithPopover } from 'components/optimizerForm/character/conditionals/FormSwitch';
+import { calculateAshblazingSet, basic, skill, talent, ult } from "lib/conditionals/utils";
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, baseComputedStatsObject } from 'lib/conditionals/constants';
+import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
-import DisplayFormControl from 'components/optimizerForm/character/conditionals/DisplayFormControl';
+import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 

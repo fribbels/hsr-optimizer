@@ -6,10 +6,10 @@ import { TooltipImage } from "components/TooltipImage";
 import { Constants } from 'lib/constants.ts'
 import { Hint } from "lib/hint";
 
-import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/character/conditionals/utils";
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/character/conditionals/constants";
-import xueyi from 'lib/character/conditionals/Xueyi';
-import jingliu from 'lib/character/conditionals/Jingliu';
+import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/conditionals/utils";
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
+import xueyi from 'lib/conditionals/character/Xueyi';
+import jingliu from 'lib/conditionals/character/Jingliu';
 
 const Stats = Constants.Stats
 

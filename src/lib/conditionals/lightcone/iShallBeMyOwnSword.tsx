@@ -27,7 +27,6 @@ const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
   ];
 
   return {
-    getContent: () => content,
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
       eclipseStacks: 3,

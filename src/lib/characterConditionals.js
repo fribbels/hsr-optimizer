@@ -8,8 +8,9 @@ import { Hint } from "lib/hint";
 
 import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
-import xueyi from 'lib/conditionals/character/Xueyi';
+
 import jingliu from 'lib/conditionals/character/Jingliu';
+import xueyi from 'lib/conditionals/character/Xueyi';
 
 const Stats = Constants.Stats
 

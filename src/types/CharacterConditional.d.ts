@@ -25,7 +25,7 @@ export type ConditionalMap = {
 };
 
 interface Conditional {
-  getContent: () => { [key: string]: unknown }[];
+  // getContent: () => { [key: string]: unknown }[];
   display: () => JSX.Element;
   defaults: () => ConditionalMap;
   // TODO: purify this implmeentation

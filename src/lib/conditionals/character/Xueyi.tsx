@@ -64,7 +64,6 @@ const Xueyi = (eidolon: Eidolon): CharacterConditional => {
   ];
 
   return {
-    getContent: () => content,
     display: () => <DisplayFormControl ultBoostMax={ultBoostMax} eidolon={eidolon} content={content} />,
     defaults: () => ({
       enemyToughness50: true,

@@ -57,7 +57,6 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
   
   
   return {
-    getContent: () => content,
     display: () => <DisplayFormControl eidolon={e} content={content} />,
     defaults: () => ({
       talentEnhancedState: true,

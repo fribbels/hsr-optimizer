@@ -1,0 +1,58 @@
+# REFACTORING CHARACTER CONDITIONALS
+
+1. fork working branch: from [https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives](https://github.com/cnojima/hsr-optimizer/tree/feature/22-improve-passives)
+
+1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.js` to `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
+    - "character-conditional controller" is a function named for the char, e.g., `function jingliu() {...}`
+
+1. copy import list from sample [`Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx) to the top of your new TSX file.
+
+``` 
+import React from 'react';
+import { Stats } from 'lib/constants';
+import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
+import { basic, skill, talent, ult } from "lib/conditionals/utils";
+import { baseComputedStatsObject } from 'lib/conditionals/constants';
+
+import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
+import { Eidolon } from 'types/Character';
+import { Unknown } from 'types/Common';
+import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
+
+```
+
+4. Refactor the `display()` function and extract the `content` array:
+```
+...
+const content = [{
+  id: 'form_control_name',
+  formItem: FormSwitchWithPopover | FormSliderWithPopover, // depends on the control being refactored
+  title: 'Text shown as title in Popover',
+  text: 'Short text shown as form control label',
+  content: 'Long form description text that may need token substitution if the value depends on eidolon level, skill level, trace unlock',
+  ... // add other values that are passed to the control as needed props
+  prop1: function|string|number|boolean,
+  prop2: function|string|number|boolean,
+}];
+
+// in the returned object, replace display() like below:
+{
+  ...
+  display: () => <DisplayFormControl eidolon={e} content={content} />,
+}
+```
+5. update typing for the functions - the existing types were inferred (badly) and are subject to change.  Please refer to `Jingliu.tsx` for quick-reference.
+
+6. link the new controller to [`lib/characterConditionals.js`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
+```
+...
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
+
+import jingliu from 'lib/conditionals/character/Jingliu';
+import xueyi from 'lib/conditionals/character/Xueyi';
+import [lowercase] from 'lib/conditionals/character/[SnakeCase]';
+...
+```
+7. test changes, confirm that values are expected and change on dependent changes (eid, stack levels, etc.)
+
+8. PR back to source feature branch.

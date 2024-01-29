@@ -39,9 +39,12 @@ const DrRatio = (e: Eidolon) => {
   };
 
   const getContentWithTalentLevel = () => {
-    const base = "When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {0}% of Dr. Ratio's ATK."
-      + "For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%."
-      + "If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead."
+    const base = [
+      "When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time,",
+      "dealing Imaginary DMG equal to {0}% of Dr. Ratio's ATK.",
+      "For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%.",
+      "If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead."
+    ].join(' ');
 
     // assume max talent level
     return base.replace('{0}', (e >= 5) ? '297' : '270')
@@ -50,6 +53,7 @@ const DrRatio = (e: Eidolon) => {
 
   const content = [{
     id: 'summationStacks',
+    name: 'summationStacks',
     formItem: FormSliderWithPopover,
     text: 'Summation stacks',
     title: 'Summation',
@@ -58,6 +62,7 @@ const DrRatio = (e: Eidolon) => {
     max: summationStacksMax
   }, {
     id: 'enemyDebuffStacks',
+    name: 'enemyDebuffStacks',
     formItem: FormSliderWithPopover,
     text: 'Enemy debuff stacks',
     title: 'Talent: Cogito, Ergo Sum',

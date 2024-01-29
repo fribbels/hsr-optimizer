@@ -9,6 +9,7 @@ import { Constants } from 'lib/constants.ts'
 import { Hint } from "lib/hint";
 
 import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/iShallBeMyOwnSword'
+import BaptismOfPureThought from 'lib/conditionals/lightcone/baptismOfPureThought'
 
 let Stats = Constants.Stats
 
@@ -102,33 +103,6 @@ const lightConeOptionMapping = {
   23022: ReforgedRemembrance,
 }
 
-function BaptismOfPureThought(s) {
-  let sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
-  let sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
-  let sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc />
-        <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      debuffCdStacks: 3,
-      postUltBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
-      x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
-      x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
 
 function PastSelfInMirror(s) {
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]

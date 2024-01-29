@@ -2,11 +2,13 @@ import { ComputedStatsObject } from "lib/conditionals/constants";
 import { RelicSet } from "types/RelicSet";
 import { FormSwitchWithPopoverProps } from "components/optimizerForm/conditionals/FormSwitch";
 import { FormSliderWithPopoverProps } from "components/optimizerForm/conditionals/FormSlider";
+import { ConditionalLightConeMap } from "components/LightConeConditionals";
 
 // TODO: reset type to Form from feature/typescript-v2
 export type Form = {
   [key: string]: unknown;
   characterConditionals: ComputedStatsObject;
+  lightConeConditionals: ConditionalLightConeMap;
 };
 export type WeirdForm = Form & {
   characterConditionals: ComputedStatsObject;
@@ -51,6 +53,7 @@ export type StatsCollection = {
 export interface PrecomputedCharacterConditional {
   DEF_SHRED: number;
   ELEMENTAL_DMG: number;
+  FUA_DEF_PEN: number;
 }
 
 export type ConditionalBuff =
@@ -65,6 +68,7 @@ export type ConditionalBuff =
   | 'burdenAtkBuff'
   | 'cipherBuff'
   | 'critSpdBuff'
+  | 'debuffCdStacks'
   | 'defDecreaseDebuff'
   | 'e1CdBuff'
   | 'e1DebtorStacks'
@@ -123,6 +127,7 @@ export type ConditionalBuff =
   | 'initialSpeedBuff'
   | 'maxStackDefPen'
   | 'numbyEnhancedState'
+  | 'postUltBuff'
   | 'quantumAllies'
   | 'roaringBowstringsActive'
   | 'selfCurrentHp80Percent'

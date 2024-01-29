@@ -1,5 +1,4 @@
 import React from 'react';
-import { Stats } from 'lib/constants';
 import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
@@ -78,7 +77,6 @@ const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals as ConditionalLightConeMap;
       x['ELEMENTAL_DMG'] += r.eclipseStacks * sValuesStackDmg[s];
       x['DEF_SHRED'] += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0;
-      x[Stats.CD] += lcRank.properties[s][0].value;
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

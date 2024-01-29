@@ -25,7 +25,6 @@ const DisplayFormControl = ({ content }): JSX.Element => {
 
   return (<Flex vertical gap={10}>{ret}</Flex>);
 };
-DisplayFormControl.displayName = 'DisplayFormControl';
 DisplayFormControl.propTypes = {
   content: PropTypes.array,
   eidolon: PropTypes.number,

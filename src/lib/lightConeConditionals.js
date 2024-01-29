@@ -2018,21 +2018,21 @@ export const LightConeConditionals = {
         <Flex vertical gap={5}>
           <Flex justify='space-between' align='center'>
             <HeaderText>Light cone passives</HeaderText>
-            <TooltipImage type={Hint.lightConePassives()} />
+            <TooltipImage type={Hint.lightConePassives()} lc />
           </Flex>
           <Typography.Text italic>Select a Light cone to view passives</Typography.Text>
         </Flex>
       )
     }
 
-    let lcFn = lightConeOptionMapping[id]
-    let display = lcFn(superimposition - 1).display()
+    let lcFn = lightConeOptionMapping[id];
+    let display = lcFn(superimposition - 1).display();
 
     return (
       <Flex vertical gap={5}>
         <Flex justify='space-between' align='center'>
           <HeaderText>Light cone passives</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()} />
+          <TooltipImage type={Hint.lightConePassives()} lc />
         </Flex>
         {display}
       </Flex>

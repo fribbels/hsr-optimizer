@@ -1,3 +1,5 @@
+export type HoyoverseId = number; // 600015194
+export type DataMineId = string; // "60012"
 export type Unknown = unknown;
 export type LANGUAGE = 
   'cht' |
@@ -15,7 +17,7 @@ export type LANGUAGE =
   'vi';
   export type GUID = string; // TODO: match to GUID format
 
-  export type HoyoverseId = number; // 600015194
+  
   export type Rarity = 2 | 3 | 4 | 5;
   
   export type AssetRelativeUrl = string;

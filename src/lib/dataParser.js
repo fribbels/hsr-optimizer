@@ -6,7 +6,7 @@ import lightConeRanks from 'data/en/light_cone_ranks.json';
 import relicMainAffixes from 'data/relic_main_affixes.json';
 import relicSubAffixes from 'data/relic_sub_affixes.json';
 import relicSets from 'data/relic_sets.json';
-// import characterSkills from 'data/en/character_skills.json'; 
+import characterSkills from 'data/en/character_skills.json'; 
 import { Constants } from "lib/constants.ts";
 import DB from "lib/db";
 
@@ -58,6 +58,7 @@ export const DataParser = {
     const data = {
       characters: characters,
       characterPromotions: characterPromotions,
+      characterSkills: characterSkills,
       nicknames: characterPromotions,
       lightCones: lightCones,
       relics: relics

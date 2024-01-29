@@ -2,7 +2,6 @@ import {
   Button,
   Cascader,
   Divider,
-  Drawer,
   Flex,
   Form,
   Image,
@@ -28,7 +27,7 @@ import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
-import { CheckOutlined, CloseOutlined, SettingOutlined, UpCircleOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
@@ -77,7 +76,6 @@ export default function OptimizerForm() {
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const focusCharacter = global.store(s => s.focusCharacter);
-  const [characterSkillDrawerOpen, setCharacterSkillDrawerOpen] = useState(false);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -103,15 +101,16 @@ export default function OptimizerForm() {
   useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
-    let defaults = lcFn.defaults()
+    let defaults = lcFn.defaults();
     let lightConeForm = form.lightConeConditionals || {}
-
     // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
     // Only if there's a missing field
     Object.assign(defaults, lightConeForm)
-    if (Object.values(defaults).includes(undefined)) {
+  console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm);
+  console.log(lcFn.defaults.valueOf());
+    // if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
-    }
+    // }
   }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
@@ -192,7 +191,7 @@ export default function OptimizerForm() {
     }
     const request = allValues
 
-    console.log('@onValuesChange'/* , request, changedValues */);
+    console.log('@onValuesChange' , request, changedValues);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
@@ -325,10 +324,6 @@ export default function OptimizerForm() {
     );
   }
 
-  const onCharacterSkillDrawerClose = () => {
-    setCharacterSkillDrawerOpen(false)
-  }
-
   return (
     <div style={{ position: 'relative' }}>
       <Form
@@ -420,25 +415,6 @@ export default function OptimizerForm() {
                       options={superimpositionOptions}
                     />
                   </Form.Item>
-                </Flex>
-
-                <Flex vertical gap={5}>
-                  <Drawer
-                    title="Details"
-                    placement="left"
-                    closable={true}
-                    onClose={onCharacterSkillDrawerClose}
-                    open={characterSkillDrawerOpen}
-                    getContainer={false}
-                  >
-                    asdfasflsflj
-                  </Drawer>
-                  <Button
-                    onClick={() => setCharacterSkillDrawerOpen(true)}
-                    icon={<UpCircleOutlined />}
-                  >
-                    Skills
-                  </Button>
                 </Flex>
 
               </Flex>

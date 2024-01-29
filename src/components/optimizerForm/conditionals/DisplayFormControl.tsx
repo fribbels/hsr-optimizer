@@ -5,6 +5,7 @@ import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
 const DisplayFormControl = ({ content }): JSX.Element => {
   const ret = [];
+  let i = 0;
 
   // for (const key in content) {
   content.forEach(passive => {
@@ -16,8 +17,10 @@ const DisplayFormControl = ({ content }): JSX.Element => {
         title={passive.title}
         content={ColorizeNumbers(passive.content)}
         text={passive.text}
+        key={i}
         />
-    );    
+    );
+    i++;
   });
 
   return (<Flex vertical gap={10}>{ret}</Flex>);

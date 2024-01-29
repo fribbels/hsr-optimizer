@@ -44,7 +44,8 @@ FormSwitch.propTypes = {
 }
 export const FormSwitchWithPopover = WithPopover(FormSwitch);
 FormSwitchWithPopover.propTypes = Object.assign({}, FormSwitch.propTypes, WithPopover.propTypes);
-export type FormSwitchWithPopoverProps = PropTypes.InferProps<typeof FormSwitchWithPopover.propTypes>
+
+// export type FormSwitchWithPopover = 
 
 
 export function FormSlider(props) {

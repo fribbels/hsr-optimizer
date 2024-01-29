@@ -121,6 +121,7 @@ export type ConditionalBuff =
   | 'healingMaxHpBuff'
   | 'hpPercentLostTotal'
   | 'initialSpeedBuff'
+  | 'maxStackDefPen'
   | 'numbyEnhancedState'
   | 'quantumAllies'
   | 'roaringBowstringsActive'

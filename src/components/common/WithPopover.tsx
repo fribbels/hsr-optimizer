@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { string } from "prop-types";
+import { object, string } from "prop-types";
 import { Popover, Typography } from "antd";
 const { Text } = Typography;
 
@@ -34,6 +34,6 @@ const WithPopover = (WrappedComponent: FC) => {
 WithPopover.displayName = 'WithPopover';
 WithPopover.propTypes = {
   title: string,
-  content: string,
+  content: object,
 };
 export default WithPopover;

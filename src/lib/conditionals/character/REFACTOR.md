@@ -20,13 +20,16 @@ import { Unknown } from 'types/Common';
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
 
 ```
+Some common/reused utils & constants live in `lib/conditionals/utils.ts` & `lib/conditionals/constants.ts`.  Import from these dependenciese (DRY this out);
 
 4. Refactor the `display()` function and extract the `content` array:
 ```
 ...
+// create new array inside controller code:
 const content = [{
   id: 'form_control_name',
-  formItem: FormSwitchWithPopover | FormSliderWithPopover, // depends on the control being refactored
+  // depends on the control being refactored
+  formItem: FormSwitchWithPopover | FormSliderWithPopover,
   title: 'Text shown as title in Popover',
   text: 'Short text shown as form control label',
   content: 'Long form description text that may need token substitution if the value depends on eidolon level, skill level, trace unlock',
@@ -43,16 +46,17 @@ const content = [{
 ```
 5. update typing for the functions - the existing types were inferred (badly) and are subject to change.  Please refer to `Jingliu.tsx` for quick-reference.
 
-6. link the new controller to [`lib/characterConditionals.js`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
+6. add the line `export default [SnakeCaseName];` to the bottom of the new controller.
+
+7. link the new controller to [`lib/characterConditionals.js`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).  ***Please alpha-order in import order***:
 ```
 ...
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
-
 import jingliu from 'lib/conditionals/character/Jingliu';
 import xueyi from 'lib/conditionals/character/Xueyi';
 import [lowercase] from 'lib/conditionals/character/[SnakeCase]';
 ...
 ```
-7. test changes, confirm that values are expected and change on dependent changes (eid, stack levels, etc.)
 
-8. PR back to source feature branch.
+8. test changes, confirm that values are expected and change on dependent changes (eid, stack levels, etc.)
+
+9. PR back to source feature branch.

@@ -13,7 +13,7 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
         isNum = true;
       } else {
         if (isNum) {
-          ret.push(<span style={{ color: color }}>{num}</span>);
+          ret.push(<span key={i} style={{ color: color }}>{num}</span>);
           num = '';
           isNum = false;
         }
@@ -22,7 +22,7 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
     }
   
     if (isNum) {
-      ret.push(<span style={{ color: color }}>{num}</span>);
+      ret.push(<span key={-1} style={{ color: color }}>{num}</span>);
     }
   }
 

@@ -9,6 +9,7 @@ import { Hint } from "lib/hint";
 import { calculateAshblazingSet, precisionRound, basic, skill, talent, ult } from "lib/conditionals/utils";
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
 
+import drratio from 'lib/conditionals/character/DrRatio';
 import jingliu from 'lib/conditionals/character/Jingliu';
 import xueyi from 'lib/conditionals/character/Xueyi';
 
@@ -64,79 +65,79 @@ export const characterOptionMapping = {
   1312: misha,
 }
 
-function drratio(e) {
-  const debuffStacksMax = 5
-  const summationStacksMax = (e >= 1) ? 10 : 6
+// function drratio(e) {
+//   const debuffStacksMax = 5
+//   const summationStacksMax = (e >= 1) ? 10 : 6
 
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.50, 1.65)
-  const ultScaling = ult(e, 2.40, 2.592)
-  const fuaScaling = talent(e, 2.70, 2.97)
+//   const basicScaling = basic(e, 1.00, 1.10)
+//   const skillScaling = skill(e, 1.50, 1.65)
+//   const ultScaling = ult(e, 2.40, 2.592)
+//   const fuaScaling = talent(e, 2.70, 2.97)
 
-  function e2FuaRatio(procs, fua = true) {
-    return fua
-      ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
-      : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
-  }
+//   function e2FuaRatio(procs, fua = true) {
+//     return fua
+//       ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
+//       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
+//   }
 
-  const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-  const fuaMultiByDebuffs = {
-    0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
-    1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
-    2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
-    3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
-    4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
-  }
+//   const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+//   const fuaMultiByDebuffs = {
+//     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
+//     1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
+//     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
+//     3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
+//     4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
+//   }
 
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSlider name='summationStacks' text='Summation stacks' min={0} max={summationStacksMax} />
-        <FormSlider name='enemyDebuffStacks' text='Enemy debuffs' min={0} max={debuffStacksMax} />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyDebuffStacks: debuffStacksMax,
-      summationStacks: summationStacksMax,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
+//   return {
+//     display: () => (
+//       <Flex vertical gap={10} >
+//         <FormSlider name='summationStacks' text='Summation stacks' min={0} max={summationStacksMax} />
+//         <FormSlider name='enemyDebuffStacks' text='Enemy debuffs' min={0} max={debuffStacksMax} />
+//       </Flex>
+//     ),
+//     defaults: () => ({
+//       enemyDebuffStacks: debuffStacksMax,
+//       summationStacks: summationStacksMax,
+//     }),
+//     precomputeEffects: (request) => {
+//       const r = request.characterConditionals
+//       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
-      x[Stats.CR] += r.summationStacks * 0.025
-      x[Stats.CD] += r.summationStacks * 0.05
+//       // Stats
+//       x[Stats.CR] += r.summationStacks * 0.025
+//       x[Stats.CD] += r.summationStacks * 0.05
 
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
+//       // Scaling
+//       x.BASIC_SCALING += basicScaling
+//       x.SKILL_SCALING += skillScaling
+//       x.ULT_SCALING += ultScaling
+//       x.FUA_SCALING += fuaScaling
 
-      // Boost
-      x.ELEMENTAL_DMG += (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0
-      x.FUA_BOOST += (e >= 6) ? 0.50 : 0
+//       // Boost
+//       x.ELEMENTAL_DMG += (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0
+//       x.FUA_BOOST += (e >= 6) ? 0.50 : 0
 
-      return x
-    },
-    calculateBaseMultis: (c, request) => {
-      const r = request.characterConditionals
-      const x = c.x
+//       return x
+//     },
+//     calculateBaseMultis: (c, request) => {
+//       const r = request.characterConditionals
+//       const x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      if (e >= 2) {
-        const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      }
-    }
-  }
-}
+//       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+//       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+//       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+//       if (e >= 2) {
+//         const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
+//         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+//         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+//       } else {
+//         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
+//         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+//       }
+//     }
+//   }
+// }
 
 function ruanmei(e) {
   const fieldResPenValue = ult(e, 0.25, 0.27)

@@ -13,6 +13,7 @@ import drratio from 'lib/conditionals/character/DrRatio';
 import jingliu from 'lib/conditionals/character/Jingliu';
 import xueyi from 'lib/conditionals/character/Xueyi';
 import ruanmei from 'lib/conditionals/character/RuanMei';
+import yukong from 'lib/conditionals/character/Yukong';
 
 const Stats = Constants.Stats
 
@@ -66,111 +67,6 @@ export const characterOptionMapping = {
   1312: misha,
 }
 
-// function ruanmei(e) {
-//   const fieldResPenValue = ult(e, 0.25, 0.27)
-
-//   const basicScaling = basic(e, 1.00, 1.10)
-//   const skillScaling = skill(e, 0, 0)
-//   const ultScaling = ult(e, 0, 0)
-
-//   return {
-//     display: () => (
-//       <Flex vertical gap={10} >
-//         <FormSwitch name='ultFieldActive' text='Ult field active' />
-//         <FormSwitch name='e4BeBuff' text='E4 break effect buff' disabled={e < 4} />
-//       </Flex>
-//     ),
-//     defaults: () => ({
-//       ultFieldActive: true,
-//       e4BeBuff: true,
-//     }),
-//     precomputeEffects: (request) => {
-//       const r = request.characterConditionals
-//       const x = Object.assign({}, baseComputedStatsObject)
-
-//       // Stats
-//       x[Stats.BE] += 0.20
-//       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 1.00 : 0
-
-//       // Scaling
-//       x.BASIC_SCALING += basicScaling
-//       x.SKILL_SCALING += skillScaling
-//       x.ULT_SCALING += ultScaling
-
-//       // Boost
-//       x.RES_PEN += (r.ultFieldActive) ? fieldResPenValue : 0
-//       x.DEF_SHRED += (e >= 1 && r.ultFieldActive) ? 0.20 : 0
-//       x[Stats.ATK_P] += (e >= 2 && request.enemyWeaknessBroken) ? 0.40 : 0
-
-//       return x
-//     },
-//     calculateBaseMultis: (c) => {
-//       const x = c.x
-
-//       const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
-//       x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
-
-//       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-//       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-//       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-//     }
-//   }
-// }
-
-function yukong(e) {
-  const skillAtkBuffValue = skill(e, 0.80, 0.88)
-  const ultCdBuffValue = skill(e, 0.65, 0.702)
-  const ultCrBuffValue = skill(e, 0.28, 0.294)
-  const talentAtkScaling = talent(e, 0.80, 0.88)
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 3.80, 4.104)
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='roaringBowstrings' text='Roaring bowstrings' />
-        <FormSwitch name='ultBuff' text='Ult buff' />
-        <FormSwitch name='initialSpeedBuff' text='Initial speed buff' />
-      </Flex>
-    ),
-    defaults: () => ({
-      roaringBowstringsActive: true,
-      ultBuff: true,
-      initialSpeedBuff: true,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.ATK_P] += (r.roaringBowstrings) ? skillAtkBuffValue : 0
-      x[Stats.CR] += (r.ultBuff && r.roaringBowstrings) ? ultCrBuffValue : 0
-      x[Stats.CD] += (r.ultBuff && r.roaringBowstrings) ? ultCdBuffValue : 0
-      x[Stats.SPD_P] += (r.initialSpeedBuff) ? 0.10 : 0
-
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.BASIC_SCALING += talentAtkScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-
-      // Boost
-      x.ELEMENTAL_DMG += 0.12
-      x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstrings) ? 0.30 : 0
-
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
-  }
-}
 
 function yanqing(e) {
   const ultCdBuffValue = ult(e, 0.50, 0.54)

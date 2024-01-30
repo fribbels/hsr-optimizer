@@ -14,6 +14,7 @@ import jingliu from 'lib/conditionals/character/Jingliu';
 import xueyi from 'lib/conditionals/character/Xueyi';
 import ruanmei from 'lib/conditionals/character/RuanMei';
 import yukong from 'lib/conditionals/character/Yukong';
+import yanqing from 'lib/conditionals/character/Yanqing';
 
 const Stats = Constants.Stats
 
@@ -68,81 +69,6 @@ export const characterOptionMapping = {
 }
 
 
-function yanqing(e) {
-  const ultCdBuffValue = ult(e, 0.50, 0.54)
-  const talentCdBuffValue = ult(e, 0.30, 0.33)
-  const talentCrBuffValue = ult(e, 0.20, 0.21)
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.20, 2.42)
-  const ultScaling = ult(e, 3.50, 3.78)
-  const fuaScaling = talent(e, 0.50, 0.55)
-
-  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='ultBuffActive' text='Ult buff active' />
-        <FormSwitch name='soulsteelBuffActive' text='Soulsteel buff active' />
-        <FormSwitch name='critSpdBuff' text='Crit spd buff' />
-        <FormSwitch name='e1TargetFrozen' text='E1 target frozen' disabled={e < 1} />
-        <FormSwitch name='e4CurrentHp80' text='E4 self HP >= 80%' disabled={e < 4} />
-      </Flex>
-    ),
-    defaults: () => ({
-      ultBuffActive: true,
-      soulsteelBuffActive: true,
-      critSpdBuff: true,
-      e1TargetFrozen: true,
-      e4CurrentHp80: true,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
-      x[Stats.CD] += (r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0
-      x[Stats.CR] += (r.soulsteelBuffActive) ? talentCrBuffValue : 0
-      x[Stats.CD] += (r.soulsteelBuffActive) ? talentCdBuffValue : 0
-      x[Stats.RES] += (r.soulsteelBuffActive) ? 0.20 : 0
-      x[Stats.SPD_P] += (r.critSpdBuff) ? 0.10 : 0
-      x[Stats.ERR] += (e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0
-
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
-
-      x.BASIC_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.SKILL_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.ULT_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-      x.FUA_SCALING += (request.enemyElementalWeak) ? 0.30 : 0
-
-      x.BASIC_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.SKILL_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.ULT_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-      x.FUA_SCALING += (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
-
-      // Boost
-      x.RES_PEN += (e >= 4 && r.e4CurrentHp80) ? 0.12 : 0
-
-      return x
-    },
-    calculateBaseMultis: (c, request) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-    }
-  }
-}
 
 function welt(e) {
   const skillExtraHitsMax = (e >= 6) ? 3 : 2

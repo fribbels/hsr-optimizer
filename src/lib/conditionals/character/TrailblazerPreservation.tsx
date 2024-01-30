@@ -6,7 +6,7 @@ import { FormSliderWithPopover } from "components/optimizerForm/conditionals/For
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 
-const FireTrailblazer = (e) => {
+const TrailblazerPreservation = (e) => {
   const skillDamageReductionValue = skillRev(e, 0.50, 0.52);
 
   const basicAtkScaling = basicRev(e, 1.00, 1.10);
@@ -94,4 +94,4 @@ const FireTrailblazer = (e) => {
   }
 }
 
-export default FireTrailblazer;
+export default TrailblazerPreservation;

@@ -16,7 +16,8 @@ import ruanmei from 'lib/conditionals/character/RuanMei';
 import yukong from 'lib/conditionals/character/Yukong';
 import yanqing from 'lib/conditionals/character/Yanqing';
 import welt from 'lib/conditionals/character/Welt';
-import firetrailblazer from 'lib/conditionals/character/TrailblazerFire';
+import firetrailblazer from 'lib/conditionals/character/TrailblazerPreservation';
+import physicaltrailblazer from 'lib/conditionals/character/TrailblazerDestruction';
 
 const Stats = Constants.Stats
 
@@ -71,116 +72,54 @@ export const characterOptionMapping = {
 }
 
 
-// function firetrailblazer(e) {
-//   const skillDamageReductionValue = skill(e, 0.50, 0.52)
+// function physicaltrailblazer(e) {
+//   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
-//   const basicAtkScaling = basic(e, 1.00, 1.10)
-//   const basicDefScaling = (e >= 1) ? 0.25 : 0
-//   const basicEnhancedAtkScaling = basic(e, 1.35, 1.463)
-//   const basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
-//   const skillScaling = skill(e, 0, 0)
-//   const ultAtkScaling = ult(e, 1.00, 1.10)
-//   const ultDefScaling = ult(e, 1.50, 1.65)
+//   const basicScaling = basic(e, 1.00, 1.10)
+//   const skillScaling = skill(e, 1.25, 1.375)
+//   const ultScaling = ult(e, 4.5, 4.80)
+//   const ultEnhancedScaling = ult(e, 2.70, 2.88)
 
 //   return {
 //     display: () => (
 //       <Flex vertical gap={10} >
-//         <FormSwitch name='enhancedBasic' text='Enhanced basic' />
-//         <FormSwitch name='skillActive' text='Skill active' />
-//         <FormSwitch name='shieldActive' text='Shield active' />
-//         <FormSlider name='e6DefStacks' text='E6 def stacks' min={0} max={3} disabled={e < 6} />
+//         <FormSwitch name='enhancedUlt' text='Aoe ult' />
+//         <FormSlider name='talentStacks' text='Talent stacks' min={0} max={2} />
 //       </Flex>
 //     ),
 //     defaults: () => ({
-//       enhancedBasic: true,
-//       skillActive: true,
-//       shieldActive: true,
-//       e6DefStacks: 3,
+//       enhancedUlt: true,
+//       talentStacks: 2,
 //     }),
 //     precomputeEffects: (request) => {
 //       const r = request.characterConditionals
 //       const x = Object.assign({}, baseComputedStatsObject)
 
 //       // Stats
-//       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
-//       x[Stats.ATK_P] += (r.shieldActive) ? 0.15 : 0
+//       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
+//       x[Stats.DEF_P] += r.talentStacks * 0.10
+//       x[Stats.CR] += (request.enemyWeaknessBroken) ? 0.25 : 0
 
 //       // Scaling
+//       x.BASIC_SCALING += basicScaling
 //       x.SKILL_SCALING += skillScaling
+//       x.ULT_SCALING += (r.enhancedUlt) ? ultEnhancedScaling : ultScaling
 
 //       // Boost
-//       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - skillDamageReductionValue) : 1
-//       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - 0.15) : 1
+//       x.SKILL_BOOST += 0.25
+//       x.ULT_BOOST += (r.enhancedUlt) ? 0.25 : 0
 
 //       return x
 //     },
-//     calculateBaseMultis: (c, request) => {
-//       const r = request.characterConditionals
+//     calculateBaseMultis: (c) => {
 //       const x = c.x
 
-//       if (r.enhancedBasic) {
-//         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
-//         x.BASIC_DMG += basicEnhancedDefScaling * x[Stats.DEF]
-//       } else {
-//         x.BASIC_DMG += basicAtkScaling * x[Stats.ATK]
-//         x.BASIC_DMG += basicDefScaling * x[Stats.DEF]
-//       }
-
+//       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
 //       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-//       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
-//       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
+//       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 //     }
 //   }
 // }
-
-function physicaltrailblazer(e) {
-  const talentAtkScalingValue = talent(e, 0.20, 0.22)
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.25, 1.375)
-  const ultScaling = ult(e, 4.5, 4.80)
-  const ultEnhancedScaling = ult(e, 2.70, 2.88)
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='enhancedUlt' text='Aoe ult' />
-        <FormSlider name='talentStacks' text='Talent stacks' min={0} max={2} />
-      </Flex>
-    ),
-    defaults: () => ({
-      enhancedUlt: true,
-      talentStacks: 2,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
-      x[Stats.DEF_P] += r.talentStacks * 0.10
-      x[Stats.CR] += (request.enemyWeaknessBroken) ? 0.25 : 0
-
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += (r.enhancedUlt) ? ultEnhancedScaling : ultScaling
-
-      // Boost
-      x.SKILL_BOOST += 0.25
-      x.ULT_BOOST += (r.enhancedUlt) ? 0.25 : 0
-
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
-  }
-}
 
 function topaz(e) {
   const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)

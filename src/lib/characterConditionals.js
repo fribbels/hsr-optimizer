@@ -20,6 +20,7 @@ import firetrailblazer from 'lib/conditionals/character/TrailblazerPreservation'
 import physicaltrailblazer from 'lib/conditionals/character/TrailblazerDestruction';
 import topaz from 'lib/conditionals/character/Topaz';
 import tingyun from 'lib/conditionals/character/Tingyun';
+import sushang from 'lib/conditionals/character/Sushang';
 
 const Stats = Constants.Stats
 
@@ -75,48 +76,59 @@ export const characterOptionMapping = {
 
 
 
-// function tingyun(e) {
-//   const skillAtkBoostMax = skill(e, 0.25, 0.27)
-//   const ultDmgBoost = ult(e, 0.50, 0.56)
-//   // const skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
-//   // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+// function sushang(e) {
+//   const talentSpdBuffValue = talent(e, 0.20, 0.21)
+//   const ultBuffedAtk = ult(e, 0.30, 0.324)
+//   const talentSpdBuffStacksMax = (e >= 6) ? 2 : 1
 
 //   const basicScaling = basic(e, 1.00, 1.10)
-//   const skillScaling = skill(e, 0, 0)
-//   const ultScaling = ult(e, 0, 0)
+//   const skillScaling = skill(e, 2.10, 2.31)
+//   const skillExtraHitScaling = skill(e, 1.00, 1.10)
+//   const ultScaling = ult(e, 3.20, 3.456)
 
 //   return {
 //     display: () => (
 //       <Flex vertical gap={10} >
-//         <FormSwitch name='benedictionBuff' text='Benediction buff' />
-//         <FormSwitch name='skillSpdBuff' text='Skill spd buff' />
-//         <FormSwitch name='ultSpdBuff' text='Ult spd buff' />
-//         <FormSwitch name='ultDmgBuff' text='Ult dmg buff' />
+//         <FormSwitch name='ultBuffedState' text='Ult buffed state' />
+//         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
+//         <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
+//         <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
+//         <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction' disabled={e < 2} />
 //       </Flex>
 //     ),
 //     defaults: () => ({
-//       benedictionBuff: false,
-//       skillSpdBuff: false,
-//       ultSpdBuff: false,
-//       ultDmgBuff: false,
+//       ultBuffedState: true,
+//       e2DmgReductionBuff: true,
+//       skillExtraHits: 3,
+//       skillTriggerStacks: 10,
+//       talentSpdBuffStacks: talentSpdBuffStacksMax,
 //     }),
 //     precomputeEffects: (request) => {
 //       const r = request.characterConditionals
 //       const x = Object.assign({}, baseComputedStatsObject)
 
 //       // Stats
-//       x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
-//       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
-//       x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
+//       x[Stats.BE] += (e >= 4) ? 0.40 : 0
+//       x[Stats.ATK_P] += (r.ultBuffedState) ? ultBuffedAtk : 0
+//       x[Stats.SPD_P] += (r.talentSpdBuffStacks) * talentSpdBuffValue
 
 //       // Scaling
+//       // Trace only affects stance damage not skill damage - boost this based on proportion of stance : total skill dmg
+//       const originalSkillScaling = skillScaling
+//       let stanceSkillScaling = 0
+//       stanceSkillScaling += (r.skillExtraHits >= 1) ? skillExtraHitScaling : 0
+//       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 2) ? skillExtraHitScaling * 0.5 : 0
+//       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
+//       const stanceScalingProportion = stanceSkillScaling / (stanceSkillScaling + originalSkillScaling)
+
 //       x.BASIC_SCALING += basicScaling
-//       x.SKILL_SCALING += skillScaling
+//       x.SKILL_SCALING += originalSkillScaling
+//       x.SKILL_SCALING += stanceSkillScaling
 //       x.ULT_SCALING += ultScaling
 
 //       // Boost
-//       x.BASIC_BOOST += 0.40
-//       x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
+//       x.SKILL_BOOST += r.skillTriggerStacks * 0.025 * stanceScalingProportion
+//       x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
 
 //       return x
 //     },
@@ -126,76 +138,10 @@ export const characterOptionMapping = {
 //       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
 //       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
 //       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+//       // x.FUA_DMG += 0
 //     }
 //   }
 // }
-
-function sushang(e) {
-  const talentSpdBuffValue = talent(e, 0.20, 0.21)
-  const ultBuffedAtk = ult(e, 0.30, 0.324)
-  const talentSpdBuffStacksMax = (e >= 6) ? 2 : 1
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.10, 2.31)
-  const skillExtraHitScaling = skill(e, 1.00, 1.10)
-  const ultScaling = ult(e, 3.20, 3.456)
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='ultBuffedState' text='Ult buffed state' />
-        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={3} />
-        <FormSlider name='skillTriggerStacks' text='Skill trigger stacks' min={0} max={10} />
-        <FormSlider name='talentSpdBuffStacks' text='Talent spd buff stacks' min={0} max={talentSpdBuffStacksMax} />
-        <FormSwitch name='e2DmgReductionBuff' text='E2 dmg reduction' disabled={e < 2} />
-      </Flex>
-    ),
-    defaults: () => ({
-      ultBuffedState: true,
-      e2DmgReductionBuff: true,
-      skillExtraHits: 3,
-      skillTriggerStacks: 10,
-      talentSpdBuffStacks: talentSpdBuffStacksMax,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.BE] += (e >= 4) ? 0.40 : 0
-      x[Stats.ATK_P] += (r.ultBuffedState) ? ultBuffedAtk : 0
-      x[Stats.SPD_P] += (r.talentSpdBuffStacks) * talentSpdBuffValue
-
-      // Scaling
-      // Trace only affects stance damage not skill damage - boost this based on proportion of stance : total skill dmg
-      const originalSkillScaling = skillScaling
-      let stanceSkillScaling = 0
-      stanceSkillScaling += (r.skillExtraHits >= 1) ? skillExtraHitScaling : 0
-      stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 2) ? skillExtraHitScaling * 0.5 : 0
-      stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
-      const stanceScalingProportion = stanceSkillScaling / (stanceSkillScaling + originalSkillScaling)
-
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += originalSkillScaling
-      x.SKILL_SCALING += stanceSkillScaling
-      x.ULT_SCALING += ultScaling
-
-      // Boost
-      x.SKILL_BOOST += r.skillTriggerStacks * 0.025 * stanceScalingProportion
-      x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
-
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
-    }
-  }
-}
 
 function silverwolf(e) {
   const skillResShredValue = skill(e, 0.10, 0.105)

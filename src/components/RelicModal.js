@@ -136,9 +136,15 @@ export default function RelicModal(props) {
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {
-      relicForm.setFieldValue('mainStatType', mainStatOptions[0].value);
+      const mainStatValues = mainStatOptions.map(item => item.value);
+      if (mainStatValues.includes(props.selectedRelic?.main?.stat)) {
+        relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat);
+      }
+      else {
+        relicForm.setFieldValue('mainStatType', mainStatOptions[0].value);
+      }
     }
-  }, [relicForm, mainStatOptions]);
+  }, [relicForm, mainStatOptions, props.selectedRelic?.main?.stat]);
 
   const onFinish = (x) => {
     console.log('Form finished', x);

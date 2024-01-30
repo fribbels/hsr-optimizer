@@ -11,9 +11,8 @@ import Sidebar from "components/optimizerTab/Sidebar";
 
 import { OptimizerTabController } from 'lib/optimizerTabController';
 
-export default function OptimizerTab(props) {
+export default function OptimizerTab() {
   console.log('======================================================================= RENDER OptimizerTab');
-  console.log('OptimizerTab', props);
   const optimizerGrid = useRef();
   window.optimizerGrid = optimizerGrid;
 
@@ -33,7 +32,7 @@ export default function OptimizerTab(props) {
 
 
   return (
-    <div style={{ display: props.active ? 'block' : 'none' }}>
+    <div>
       <Flex style={{ marginBottom: 10 }}>
         <Flex vertical gap={10}>
           <OptimizerForm />

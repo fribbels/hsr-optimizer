@@ -18,15 +18,9 @@ const imgWidth = 34
 
 export default function RelicFilterBar() {
   const setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  const setFocusCharacter = global.store(s => s.setFocusCharacter);
-  const focusCharacter = global.store(s => s.focusCharacter);
-  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  const setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
 
-  if (focusCharacter && focusCharacter !== currentlySelectedCharacterId) {
-    // TODO: find a better way to prevent UI thrash, NPEs on global.current.api.blah
-    // sets focusCharacter & currentlySelectedCharacterId in execution
-    setTimeout(() => { characterSelectorChange(focusCharacter) }, 100);
-  }
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions();
@@ -102,7 +96,7 @@ export default function RelicFilterBar() {
     let relics = Object.values(global.store.getState().relicsById)
     console.log('idChange', id)
 
-    setFocusCharacter(id)
+    setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
@@ -204,7 +198,6 @@ export default function RelicFilterBar() {
               onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}
-              defaultValue={focusCharacter}
             />
             <Button
               onClick={rescoreClicked}

@@ -1,5 +1,5 @@
 import { Button, Flex, Popconfirm } from 'antd';
-import React, { useCallback, useEffect, useMemo, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import RelicPreview from './RelicPreview';
@@ -78,7 +78,7 @@ GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
 
-export default function RelicsTab(props) {
+export default function RelicsTab() {
   console.log('======================================================================= RENDER RelicsTab');
   const gridRef = useRef();
   global.relicsGrid = gridRef;
@@ -293,7 +293,7 @@ export default function RelicsTab(props) {
 
 
   return (
-    <Flex style={{ display: props.active ? 'block' : 'none', width: 1250 }}>
+    <Flex style={{ width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>

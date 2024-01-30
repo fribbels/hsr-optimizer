@@ -15,6 +15,7 @@ import xueyi from 'lib/conditionals/character/Xueyi';
 import ruanmei from 'lib/conditionals/character/RuanMei';
 import yukong from 'lib/conditionals/character/Yukong';
 import yanqing from 'lib/conditionals/character/Yanqing';
+import welt from 'lib/conditionals/character/Welt';
 
 const Stats = Constants.Stats
 
@@ -68,67 +69,6 @@ export const characterOptionMapping = {
   1312: misha,
 }
 
-
-
-function welt(e) {
-  const skillExtraHitsMax = (e >= 6) ? 3 : 2
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.72, 0.792)
-  const ultScaling = ult(e, 1.50, 1.62)
-  const talentScaling = talent(e, 0.60, 0.66)
-
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='enemyDmgTakenDebuff' text='Enemy dmg taken debuff' />
-        <FormSwitch name='enemySlowed' text='Enemy slowed' />
-        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={skillExtraHitsMax} />
-        <FormSwitch name='e1EnhancedState' text='E1 enhanced state' disabled={e < 4} />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemySlowed: true,
-      enemyDmgTakenDebuff: true,
-      skillExtraHits: skillExtraHitsMax,
-      e1EnhancedState: true,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
-
-      x.BASIC_SCALING += (r.enemySlowed) ? talentScaling : 0
-      x.SKILL_SCALING += (r.enemySlowed) ? talentScaling : 0
-      x.ULT_SCALING += (r.enemySlowed) ? talentScaling : 0
-
-      x.BASIC_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0
-      x.SKILL_SCALING += (e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0
-
-      x.SKILL_SCALING += r.skillExtraHits * skillScaling
-
-      // Boost
-      x.ELEMENTAL_DMG += (request.enemyWeaknessBroken) ? 0.20 : 0
-      x.DMG_TAKEN_MULTI += (r.enemyDmgTakenDebuff) ? 0.12 : 0
-
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
-    }
-  }
-}
 
 function firetrailblazer(e) {
   const skillDamageReductionValue = skill(e, 0.50, 0.52)

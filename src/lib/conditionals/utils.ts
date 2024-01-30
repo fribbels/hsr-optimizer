@@ -26,26 +26,18 @@ export const p4 = (set: number): number => {
 };
 
 
-// JL, Dr.Ratio
+// normal: JL, Dr.Ratio
+// reversed: Topaz
 export const skill = (eidolon: number, value1: number, value2: number): number => {
   return eidolon >= 3 ? value2 : value1
 };
+export const talent = skill;
+export const ultRev = skill;
+export const basicRev = skill;
 
 export const ult = (eidolon: number, value1: number, value2: number): number => {
   return eidolon >= 5 ? value2 : value1
 }
-
-export const talent = skill;
 export const basic = ult;
-
-// Topaz:
-export const skillRev = (eidolon: number, value1: number, value2: number): number => {
-  return eidolon >= 5 ? value2 : value1
-};
-
-export const ultRev = (eidolon: number, value1: number, value2: number): number => {
-  return eidolon >= 3 ? value2 : value1
-}
-
-export const talentRev = skill;
-export const basicRev = ult;
+export const skillRev = ult;
+export const talentRev = ult;

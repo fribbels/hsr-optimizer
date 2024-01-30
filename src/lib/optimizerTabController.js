@@ -157,7 +157,6 @@ export const OptimizerTabController = {
     filterModel = newFilterModel
     return {
       getRows: (params) => {
-        console.log(params);
         aggs = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.
@@ -329,19 +328,23 @@ export const OptimizerTabController = {
       newForm.enemyElementalResistance = false
     }
 
-    let defaultOptions = CharacterConditionals.get(form).defaults()
-    if (!newForm.characterConditionals) newForm.characterConditionals = {}
-    for (let option of Object.keys(defaultOptions)) {
-      if (newForm.characterConditionals[option] == undefined) {
-        newForm.characterConditionals[option] = defaultOptions[option]
+    if (form.characterId) {
+      let defaultOptions = CharacterConditionals.get(form).defaults()
+      if (!newForm.characterConditionals) newForm.characterConditionals = {}
+      for (let option of Object.keys(defaultOptions)) {
+        if (newForm.characterConditionals[option] == undefined) {
+          newForm.characterConditionals[option] = defaultOptions[option]
+        }
       }
     }
 
-    let defaultLcOptions = LightConeConditionals.get(form).defaults()
-    if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
-    for (let option of Object.keys(defaultLcOptions)) {
-      if (newForm.lightConeConditionals[option] == undefined) {
-        newForm.lightConeConditionals[option] = defaultLcOptions[option]
+    if (form.lightCone) {
+      let defaultLcOptions = LightConeConditionals.get(form).defaults()
+      if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
+      for (let option of Object.keys(defaultLcOptions)) {
+        if (newForm.lightConeConditionals[option] == undefined) {
+          newForm.lightConeConditionals[option] = defaultLcOptions[option]
+        }
       }
     }
 
@@ -466,7 +469,7 @@ export const OptimizerTabController = {
   },
 
   updateFilters: () => {
-    if (window.optimizerForm) {
+    if (global.optimizerForm && global.onOptimizerFormValuesChange) {
       let fieldValues = OptimizerTabController.getForm()
       global.onOptimizerFormValuesChange({}, fieldValues);
     }
@@ -502,10 +505,14 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  changeCharacter: (id, setSelectedLightCone) => {
+  // TODO: This could probably be separated out into changeCharacter + changeLightCone?
+  // Or refactored a bit to handle both better since they both impact conditional UI generation
+  changeCharacter: (id, setSelectedLightCone, lightConeId) => {
     console.log(`@OptimzerTabController.changeCharacter(${id})`);
+
     const character = DB.getCharacterById(id)
     if (character) {
+      character.form.lightCone = lightConeId || character.form.lightCone;
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       global.optimizerForm.setFieldsValue(displayFormValues)
       console.log('@changeCharacter', character);
@@ -515,13 +522,15 @@ export const OptimizerTabController = {
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
-      // // console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
-      // let displayFormValues = OptimizerTabController.getDisplayFormValues({
-      //   characterId: id,
-      //   characterEidolon: 0
-      // })
-      // global.optimizerForm.setFieldsValue(displayFormValues)
-      // global.store.getState().setStatDisplay('base')
+      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
+      let displayFormValues = OptimizerTabController.getDisplayFormValues({
+        characterId: id,
+        characterEidolon: 0,
+        lightCone: lightConeId,
+        lightConeSuperimposition: 1,
+      })
+      global.optimizerForm.setFieldsValue(displayFormValues)
+      global.store.getState().setStatDisplay('base')
     }
 
     setPinnedRow(id)

@@ -5,7 +5,7 @@ test('Delete character from Characters tab', async ({ page }) => {
 
   // dbl-click kafka TEXT
   await page.getByRole('menuitem', { name: 'Characters' }).click();
-  await page.getByText('Jingliu').click();
+  await page.locator('#characterGrid').getByText('Jingliu').click();
   await page.getByRole('button', { name: 'Remove' }).click();
   await page.getByRole('button', { name: 'Yes' }).click();
 

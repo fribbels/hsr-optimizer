@@ -46,8 +46,6 @@ let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
-
-
 let panelWidth = 203;
 let defaultGap = 5;
 
@@ -64,6 +62,7 @@ export default function OptimizerForm() {
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
+  const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -76,15 +75,18 @@ export default function OptimizerForm() {
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   }, []);
 
+  useEffect(() => {
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone);
+  }, [optimizerTabFocusCharacter])
+
   const characterSelectorChange = useCallback(id => {
-    console.log(`@OptimizerForm.characterSelectorChange ${id}`);
-    setSelectedCharacter(characterOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(id, setSelectedLightCone);
-  }, [characterOptions]);
+    setOptimizerTabFocusCharacter(id);
+  }, [setOptimizerTabFocusCharacter]);
 
   const lightConeSelectorChange = useCallback(id => {
     setSelectedLightCone(lightConeOptions.find(x => x.id == id))
-  }, [lightConeOptions]);
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id);
+  }, [lightConeOptions, optimizerTabFocusCharacter]);
 
   useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
@@ -110,35 +112,36 @@ export default function OptimizerForm() {
     if (characters && characters.length > 0) {
       let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
+      setOptimizerTabFocusCharacter(character.id)
       return characterOptions.find(x => x.id == character.id)
     }
-  }, [characterOptions, optimizerTabFocusCharacter, lightConeSelectorChange]);
-  const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
+  }, [optimizerTabFocusCharacter, lightConeSelectorChange, setOptimizerTabFocusCharacter, characterOptions]);
 
   const initialValues = useMemo(() => {
-    if (selectedCharacter) {
-      const matchingCharacter = DB.getCharacterById(selectedCharacter.id);
+    if (optimizerTabFocusCharacter) {
+      const matchingCharacter = DB.getCharacterById(optimizerTabFocusCharacter);
 
       if (matchingCharacter) {
         if (matchingCharacter?.form?.lightCone) {
           setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
         } else {
-          console.warn(`@OptimizerForm.initialValues: No character form found for ${selectedCharacter.id}`, matchingCharacter);
+          console.warn(`@OptimizerForm.initialValues: No character form found for ${optimizerTabFocusCharacter}`, matchingCharacter);
         }
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
       } else {
         // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
-        // console.warn(`@OptimizerForm.initialValues: No character found for ${selectedCharacter.id}`);
+        // console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
       }
     }
 
     return getDefaultForm(initialCharacter)
-  }, [initialCharacter, selectedCharacter, lightConeOptions]);
+    // We only want to update this once for the initial character
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCharacter]);
 
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
-
 
   const onFinish = (x) => {
     OptimizerTabController.fixForm(x);
@@ -209,8 +212,6 @@ export default function OptimizerForm() {
   let innerW = 350;
   let innerH = 400;
 
-
-
   function cancelClicked() {
     console.log('Cancel clicked');
     Optimizer.cancel(optimizationId)
@@ -234,6 +235,14 @@ export default function OptimizerForm() {
     optimizerForm.submit()
   }
   window.optimizerStartClicked = startClicked
+
+  const characterConditionalsContent = useMemo(() => {
+    return CharacterConditionals.getDisplayForCharacter(optimizerTabFocusCharacter, characterEidolon)
+  }, [characterEidolon, optimizerTabFocusCharacter])
+
+  const lightConeConditionalsContent = useMemo(() => {
+    return LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)
+  }, [selectedLightCone, lightConeSuperimposition])
 
   function OrnamentSetTagRenderer(props) {
     const { value, closable, onClose } = props;
@@ -330,7 +339,7 @@ export default function OptimizerForm() {
                 <Image
                   preview={false}
                   width={innerW}
-                  src={Assets.getCharacterPreviewById(selectedCharacter?.id)}
+                  src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
                   style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
                 />
               </div>
@@ -405,11 +414,11 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter?.id, characterEidolon)}
+              {characterConditionalsContent}
             </FormCard>
 
             <FormCard justify='space-between'>
-              {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
+              {lightConeConditionalsContent}
 
               <Flex vertical gap={5} style={{ marginBottom: 5 }}>
                 <Flex justify='space-between' align='center'>

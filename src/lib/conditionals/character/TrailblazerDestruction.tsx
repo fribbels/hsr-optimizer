@@ -21,8 +21,8 @@ const TrailblazerDestruction = (e: Eidolon) => {
     id: 'enhancedUlt',
     name: 'Enhanced Ult',
     text: 'AoE ult',
-    title: 'AoE ult: Increases DMG by 25%',
-    content: `Deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of Trailblazer's ATK to a single enemy and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of Trailblazer's ATK to enemies adjacent to it.`
+    title: 'AoE ULT - Split DMG to adjacent enemies',
+    content: `Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to ${precisionRound(ultScaling * 100)}% of the Trailblazer's ATK to a single enemy. ::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of the Trailblazer's ATK to enemies adjacent to it.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'talentStacks',

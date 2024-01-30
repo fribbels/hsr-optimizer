@@ -19,6 +19,7 @@ import welt from 'lib/conditionals/character/Welt';
 import firetrailblazer from 'lib/conditionals/character/TrailblazerPreservation';
 import physicaltrailblazer from 'lib/conditionals/character/TrailblazerDestruction';
 import topaz from 'lib/conditionals/character/Topaz';
+import tingyun from 'lib/conditionals/character/Tingyun';
 
 const Stats = Constants.Stats
 
@@ -74,60 +75,60 @@ export const characterOptionMapping = {
 
 
 
-function tingyun(e) {
-  const skillAtkBoostMax = skill(e, 0.25, 0.27)
-  const ultDmgBoost = ult(e, 0.50, 0.56)
-  // const skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
-  // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
+// function tingyun(e) {
+//   const skillAtkBoostMax = skill(e, 0.25, 0.27)
+//   const ultDmgBoost = ult(e, 0.50, 0.56)
+//   // const skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0)
+//   // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
 
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
+//   const basicScaling = basic(e, 1.00, 1.10)
+//   const skillScaling = skill(e, 0, 0)
+//   const ultScaling = ult(e, 0, 0)
 
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='benedictionBuff' text='Benediction buff' />
-        <FormSwitch name='skillSpdBuff' text='Skill spd buff' />
-        <FormSwitch name='ultSpdBuff' text='Ult spd buff' />
-        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' />
-      </Flex>
-    ),
-    defaults: () => ({
-      benedictionBuff: false,
-      skillSpdBuff: false,
-      ultSpdBuff: false,
-      ultDmgBuff: false,
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
+//   return {
+//     display: () => (
+//       <Flex vertical gap={10} >
+//         <FormSwitch name='benedictionBuff' text='Benediction buff' />
+//         <FormSwitch name='skillSpdBuff' text='Skill spd buff' />
+//         <FormSwitch name='ultSpdBuff' text='Ult spd buff' />
+//         <FormSwitch name='ultDmgBuff' text='Ult dmg buff' />
+//       </Flex>
+//     ),
+//     defaults: () => ({
+//       benedictionBuff: false,
+//       skillSpdBuff: false,
+//       ultSpdBuff: false,
+//       ultDmgBuff: false,
+//     }),
+//     precomputeEffects: (request) => {
+//       const r = request.characterConditionals
+//       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
-      x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
-      x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
-      x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
+//       // Stats
+//       x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
+//       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
+//       x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
 
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
+//       // Scaling
+//       x.BASIC_SCALING += basicScaling
+//       x.SKILL_SCALING += skillScaling
+//       x.ULT_SCALING += ultScaling
 
-      // Boost
-      x.BASIC_BOOST += 0.40
-      x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
+//       // Boost
+//       x.BASIC_BOOST += 0.40
+//       x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
 
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+//       return x
+//     },
+//     calculateBaseMultis: (c) => {
+//       const x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
-  }
-}
+//       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+//       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+//       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+//     }
+//   }
+// }
 
 function sushang(e) {
   const talentSpdBuffValue = talent(e, 0.20, 0.21)

@@ -24,6 +24,7 @@ import sushang from 'lib/conditionals/character/Sushang';
 import silverwolf from 'lib/conditionals/character/SilverWolf';
 import serval from 'lib/conditionals/character/Serval';
 import seele from 'lib/conditionals/character/Seele';
+import sampo from 'lib/conditionals/character/Sampo';
 
 const Stats = Constants.Stats
 
@@ -78,57 +79,57 @@ export const characterOptionMapping = {
 }
 
 
-function sampo(e) {
-  const dotVulnerabilityValue = ult(e, 0.30, 0.32)
+// function sampo(e) {
+//   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
 
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.56, 0.616)
-  const ultScaling = ult(e, 1.60, 1.728)
-  const dotScaling = talent(e, 0.52, 0.572)
+//   const basicScaling = basic(e, 1.00, 1.10)
+//   const skillScaling = skill(e, 0.56, 0.616)
+//   const ultScaling = ult(e, 1.60, 1.728)
+//   const dotScaling = talent(e, 0.52, 0.572)
 
-  return {
-    display: () => (
-      <Flex vertical gap={10} >
-        <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff' />
-        <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={4} />
-        <FormSwitch name='targetWindShear' text='Target has wind shear' />
-      </Flex>
-    ),
-    defaults: () => ({
-      targetDotTakenDebuff: true,
-      skillExtraHits: 4,
-      targetWindShear: true
-    }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
+//   return {
+//     display: () => (
+//       <Flex vertical gap={10} >
+//         <FormSwitch name='targetDotTakenDebuff' text='Ult dot taken debuff' />
+//         <FormSlider name='skillExtraHits' text='Skill extra hits' min={0} max={4} />
+//         <FormSwitch name='targetWindShear' text='Target has wind shear' />
+//       </Flex>
+//     ),
+//     defaults: () => ({
+//       targetDotTakenDebuff: true,
+//       skillExtraHits: 4,
+//       targetWindShear: true
+//     }),
+//     precomputeEffects: (request) => {
+//       const r = request.characterConditionals
+//       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
+//       // Stats
 
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.SKILL_SCALING += (r.skillExtraHits) * skillScaling
-      x.ULT_SCALING += ultScaling
-      x.DOT_SCALING += dotScaling
-      x.DOT_SCALING += (e >= 6) ? 0.15 : 0
+//       // Scaling
+//       x.BASIC_SCALING += basicScaling
+//       x.SKILL_SCALING += skillScaling
+//       x.SKILL_SCALING += (r.skillExtraHits) * skillScaling
+//       x.ULT_SCALING += ultScaling
+//       x.DOT_SCALING += dotScaling
+//       x.DOT_SCALING += (e >= 6) ? 0.15 : 0
 
-      // Boost
-      x.DOT_VULNERABILITY += (r.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
-      x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
+//       // Boost
+//       x.DOT_VULNERABILITY += (r.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
+//       x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
 
-      return x
-    },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+//       return x
+//     },
+//     calculateBaseMultis: (c) => {
+//       const x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    }
-  }
-}
+//       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+//       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+//       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+//       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+//     }
+//   }
+// }
 
 function qingque(e) {
   const skillStackDmg = skill(e, 0.38, 0.408)

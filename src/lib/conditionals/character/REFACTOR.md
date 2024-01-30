@@ -11,7 +11,10 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { basic, skill, talent, ult } from "lib/conditionals/utils";
+import {
+  basic, skill, talent, ult,
+  basicRev, skillRev, talentRev, ultRev,
+} from "lib/conditionals/utils";
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
@@ -60,3 +63,25 @@ import [lowercase] from 'lib/conditionals/character/[SnakeCase]';
 8. test changes, confirm that values are expected and change on dependent changes (eid, stack levels, etc.)
 
 9. PR back to source feature branch.
+
+## Gotchas
+Some characters Eidolon 3 & 5 have differing +2 levels for their respective Skills.
+
+**The "standard" calcs (Jingliu, Dr. Ratio):**
+*Eidolon 3:*
+- Ult +2
+- Basic +2
+
+*Eidolon 5:*
+- Talent +2
+- Skill +2
+
+**The Reversed calcs (Topaz, etc.):**
+*Eidolon 3:*
+- Talent +2
+- Skill +2
+
+*Eidolon 5:*
+- Ult +2
+- Basic +2
+

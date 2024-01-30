@@ -55,7 +55,6 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
   ];
   
-  
   return {
     display: () => <DisplayFormControl eidolon={e} content={content} />,
     defaults: () => ({

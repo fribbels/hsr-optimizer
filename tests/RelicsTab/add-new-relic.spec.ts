@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('Add new relic from RelicsTab', async ({ page }) => {
   await page.goto('/');
@@ -27,7 +27,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat');
 
   // set to +12
-  await page.getByTitle('+').click();
+  await page.getByRole('dialog').getByText('+').click();
   await page.getByTitle('+12').locator('div').click();
 
   // assert main stat is flat atk
@@ -35,36 +35,39 @@ test('Add new relic from RelicsTab', async ({ page }) => {
 
   // set substats
   await page.locator('#substatType0').click();
-  await page.getByTitle('CRIT DMG').locator('div').click();
+  await page.locator('#substatType0').fill('crit dmg');
+  await page.locator('#substatType0').press('Enter');
   await page.locator('#substatValue0').fill('10');
 
   await page.locator('#substatType1').click();
-  await page.getByText('Effect Hit Rate').nth(2).click();
+  await page.locator('#substatType1').fill('effect hit rate');
+  await page.locator('#substatType1').press('Enter');
   await page.locator('#substatValue1').fill('10');
 
   await page.locator('#substatType2').click();
-  await page.getByText('ATK%').nth(3).click();
+  await page.locator('#substatType2').fill('atk%');
+  await page.locator('#substatType2').press('Enter');
   await page.locator('#substatValue2').fill('10');
 
   await page.locator('#substatType3').click();
-  // await page.getByText('DEF%').nth(3).click(); // wtf why nth(3) again?
-  await page.getByTitle('DEF%').locator('div').nth(3).click();
+  await page.locator('#substatType3').fill('def%');
+  await page.locator('#substatType3').press('Enter');
   await page.locator('#substatValue3').fill('10');
 
   await page.getByRole('button', { name: 'Submit' }).click();
 
   // assert relic added
 
-  await expect(page.locator('.ant-card-body')).toContainText('+12');
-  await expect(page.locator('.ant-card-body')).toContainText('+12ATK293CRIT DMG10.0%Effect Hit Rate10.0%ATK %10.0%DEF %10.0%');
-  await expect(page.locator('.ant-card-body')).toContainText('ATK293');
-  await expect(page.locator('.ant-card-body')).toContainText('CRIT DMG10.0%');
-  await expect(page.locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%');
-  await expect(page.locator('.ant-card-body')).toContainText('ATK %10.0%');
-  await expect(page.locator('.ant-card-body')).toContainText('DEF %10.0%');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('+12');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('+12ATK293CRIT DMG10.0%Effect Hit Rate10.0%ATK %10.0%DEF %10.0%');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('ATK293');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('CRIT DMG10.0%');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('ATK %10.0%');
+  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('DEF %10.0%');
 
   // // re-edit relic - assert values carried over
-  await page.locator('img:nth-child(3)').click();
+  await page.locator('#relics').locator('.ant-card-body').click();
   await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped' }).first()).toBeVisible();
   await expect(page.getByRole('dialog')).toContainText('Nobody');
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat');

@@ -4,8 +4,8 @@ test('Editing relics show the correct main stat at maxed value', async ({ page }
   // navigate to Relics tab
   await page.goto('/');
 
-  await page.getByText('Characters').click();
-  await page.getByText('Jingliu').click()
+  await page.getByRole('menuitem', { name: 'Characters' }).click();
+  await page.locator('#characterGrid').getByText('Jingliu').click()
 
   await page.getByText('CRIT DMG64.8%').click();
   await expect(page.locator('#mainStatValue').first()).toHaveValue('64.8');

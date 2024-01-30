@@ -5,11 +5,17 @@ import { RelicScorer } from 'lib/relicScorer.ts';
 import { StatCalculator } from 'lib/statCalculator';
 import { DB } from 'lib/db';
 import { Assets } from 'lib/assets';
-import { Message } from 'lib/message';
 import { Constants } from 'lib/constants.ts';
 import {
-  defaultGap, parentH, parentW, middleColumnWidth, innerW,
-  lcParentW, lcParentH, lcInnerW, lcInnerH,
+  defaultGap,
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  middleColumnWidth,
+  parentH,
+  parentW,
 } from 'lib/constantsUi';
 
 import Rarity from 'components/characterPreview/Rarity';
@@ -17,6 +23,7 @@ import StatRow from 'components/characterPreview/StatRow';
 import StatText from 'components/characterPreview/StatText';
 import RelicModal from 'components/RelicModal';
 import RelicPreview from 'components/RelicPreview';
+import { RelicModalController } from "../lib/relicModalController";
 
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
@@ -30,23 +37,9 @@ export function CharacterPreview(props) {
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
-    relic.id = selectedRelic.id
-
-    const updatedRelic = { ...selectedRelic, ...relic }
-
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id);
-    }
-
-    DB.setRelic(updatedRelic)
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
-
-    Message.success('Successfully edited relic')
-    console.log('onEditOk', updatedRelic)
   }
 
   if (!character) {

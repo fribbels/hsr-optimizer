@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('Open RelicModal in edit mode from the Optimizer tab', async ({ page }) => {
   await page.goto('/');
 
   await page.getByRole('menuitem', { name: 'Optimizer' }).click();
 
-  await page.getByText('Jingliu').click();
+  await page.getByTitle('Jingliu').click();
   await page.getByText('Himeko').click();
 
   // start filter

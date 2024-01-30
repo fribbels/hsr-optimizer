@@ -1,27 +1,16 @@
-import {
-  Button,
-  Cascader,
-  Divider,
-  Flex,
-  Form,
-  Image,
-  Select,
-  Switch,
-  Tag,
-  Typography,
-} from 'antd';
+import { Button, Cascader, Divider, Flex, Form, Image, Select, Switch, Tag, Typography, } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Optimizer } from 'lib/optimizer';
 import styled from 'styled-components';
 import {
   Constants,
-  levelOptions,
-  enemyLevelOptions,
+  eidolonOptions,
   enemyCountOptions,
-  enemyResistanceOptions,
   enemyHpPercentOptions,
-  superimpositionOptions,
-  eidolonOptions
+  enemyLevelOptions,
+  enemyResistanceOptions,
+  levelOptions,
+  superimpositionOptions
 } from 'lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
@@ -74,7 +63,7 @@ export default function OptimizerForm() {
   const [optimizationId, setOptimizationId] = useState();
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
-  const focusCharacter = global.store(s => s.focusCharacter);
+  const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
 
   const lightConeOptions = useMemo(() => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
@@ -114,8 +103,8 @@ export default function OptimizerForm() {
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
 
-    if (focusCharacter) {
-      return characters.find(x => x.id == focusCharacter);
+    if (optimizerTabFocusCharacter) {
+      return characters.find(x => x.id == optimizerTabFocusCharacter);
     }
 
     if (characters && characters.length > 0) {
@@ -123,7 +112,7 @@ export default function OptimizerForm() {
       lightConeSelectorChange(character.form.lightCone)
       return characterOptions.find(x => x.id == character.id)
     }
-  }, [characterOptions, focusCharacter, lightConeSelectorChange]);
+  }, [characterOptions, optimizerTabFocusCharacter, lightConeSelectorChange]);
   const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
 
   const initialValues = useMemo(() => {

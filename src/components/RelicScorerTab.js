@@ -11,7 +11,7 @@ import { useSubscribe } from 'hooks/useSubscribe';
 
 const { Text } = Typography;
 
-export default function RelicScorerTab(props) {
+export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false);
@@ -85,7 +85,7 @@ export default function RelicScorerTab(props) {
 
   function CharacterPreviewSelection(props) {
     const [selectedCharacter, setSelectedCharacter] = useState(availableCharacters[0]);
-    let setFocusCharacter = global.store(s => s.setFocusCharacter);
+    let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
 
     // TODO: Revisit if force updates are necessary
     const [, forceUpdate] = React.useReducer(o => !o, true);
@@ -102,8 +102,8 @@ export default function RelicScorerTab(props) {
     console.log('CharacterPreviewSelection', props)
 
     useEffect(() => {
-      setFocusCharacter(selectedCharacter?.id)
-    }, [selectedCharacter, setFocusCharacter])
+      setScoringAlgorithmFocusCharacter(selectedCharacter?.id)
+    }, [selectedCharacter, setScoringAlgorithmFocusCharacter])
 
     let options = []
     for (let i = 0; i < props.availableCharacters.length; i++) {
@@ -121,7 +121,7 @@ export default function RelicScorerTab(props) {
     function selectionChange(selected) {
       console.log('selectionChange', selected)
       setSelectedCharacter(availableCharacters.find(x => x.id == selected))
-      setFocusCharacter(selected)
+      setScoringAlgorithmFocusCharacter(selected)
     }
 
     async function importClicked() {
@@ -168,7 +168,7 @@ export default function RelicScorerTab(props) {
   }
 
   return (
-    <div style={{ display: props.active ? 'block' : 'none' }}>
+    <div>
       <Flex vertical gap={0} align='center'>
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>

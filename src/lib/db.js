@@ -9,7 +9,6 @@ import { SaveState } from "lib/saveState";
 import { Message } from "lib/message";
 
 const state = {
-  focusCharacter: undefined,
   relics: [],
   characters: [],
   metadata: {}, // generated, not saved
@@ -32,7 +31,9 @@ let hashes = [
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
-  focusCharacter: undefined,
+  optimizerTabFocusCharacter: undefined,
+  characterTabFocusCharacter: undefined,
+  scoringAlgorithmFocusCharacter: undefined,
 
   activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
   characters: [],
@@ -78,7 +79,9 @@ window.store = create((set) => ({
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
   setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
-  setFocusCharacter: (characterId) => set(() => ({ focusCharacter: characterId })),
+  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
+  setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
+  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
   setPermutations: (x) => set(() => ({ permutations: x })),
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),

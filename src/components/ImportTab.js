@@ -646,12 +646,12 @@ function FribbelsImporterTab() {
   )
 }
 
-export default function ImportTab(props) {
+export default function ImportTab() {
   // Test
   let tabSize = 'large'
 
   return (
-    <div style={{ display: props.active ? 'block' : 'none' }}>
+    <div>
       <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs
           defaultActiveKey="1"

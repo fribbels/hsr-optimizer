@@ -66,7 +66,7 @@ function cellNameRenderer(params) {
 }
 
 
-export default function CharacterTab(props) {
+export default function CharacterTab() {
   console.log('CharacterTab');
 
   useSubscribe('refreshRelicsScore', () => {
@@ -80,10 +80,12 @@ export default function CharacterTab(props) {
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  const focusCharacter = global.store(s => s.focusCharacter)
-  const setFocusCharacter = global.store(s => s.setFocusCharacter);
+  const characterTabFocusCharacter = global.store(s => s.characterTabFocusCharacter);
+  const setCharacterTabFocusCharacter = global.store(s => s.setCharacterTabFocusCharacter);
+  const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
+  const setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
   const charactersById = global.store(s => s.charactersById)
-  const selectedCharacter = charactersById[focusCharacter]
+  const selectedCharacter = charactersById[characterTabFocusCharacter]
 
   const [, forceUpdate] = React.useReducer(o => !o);
   window.forceCharacterTabUpdate = () => {
@@ -123,20 +125,20 @@ export default function CharacterTab(props) {
     let data = event.data
 
     // global.store.getState().setCharacterTabBlur(global.store.getState().focusCharacter != data.id) // Only blur if different character
-    setFocusCharacter(data.id)
-    console.log(`@CharacterTab::setFocusCharacter - [${data.id}]`, event.data);
-  }, [setFocusCharacter]);
+    setCharacterTabFocusCharacter(data.id)
+    console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data);
+  }, [setCharacterTabFocusCharacter]);
 
   // TODO: implement routing to handle this
   const setActiveKey = global.store(s => s.setActiveKey);
 
   const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
-    setFocusCharacter(e.data.id);
+    setOptimizerTabFocusCharacter(e.data.id);
     // set view
     setActiveKey('optimizer');
-    console.log(`@CharacterTab.cellDoubleClickedListener::setFocusCharacter - focus [${e.data.id}]`, e.data);
-  }, [setActiveKey, setFocusCharacter]);
+    console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data);
+  }, [setActiveKey, setOptimizerTabFocusCharacter]);
 
   function drag(event, index) {
     const dragged = event.node.data;
@@ -172,7 +174,7 @@ export default function CharacterTab(props) {
 
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
-    setFocusCharacter(undefined)
+    setCharacterTabFocusCharacter(undefined)
     if (global.relicsGrid?.current?.api) {
       global.relicsGrid.current.api.redrawRows()
     }
@@ -183,7 +185,7 @@ export default function CharacterTab(props) {
   }
 
   function unequipClicked() {
-    console.log('unequipClicked', DB.getCharacterById(focusCharacter))
+    console.log('unequipClicked', DB.getCharacterById(characterTabFocusCharacter))
 
     let selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
@@ -207,8 +209,8 @@ export default function CharacterTab(props) {
   }
 
   function scoringAlgorithmClicked() {
-    console.log('Scoring algorithm clicked', focusCharacter)
-    setFocusCharacter(focusCharacter)
+    console.log('Scoring algorithm clicked', characterTabFocusCharacter)
+    setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
     global.setIsScoringModalOpen(true)
   }
 
@@ -218,10 +220,7 @@ export default function CharacterTab(props) {
 
   return (
     <div style={{
-      ...{ display: props.active ? 'block' : 'none' },
-      ...{
         height: '100%'
-      }
     }}>
       <Flex style={{ height: '100%' }} gap={8}>
         <Flex vertical gap={10}>

@@ -9,7 +9,7 @@ import { Assets } from "../lib/assets";
 
 const { Text } = Typography;
 
-export default function GettingStartedTab(props) {
+export default function GettingStartedTab() {
   console.log('GettingStartedTab ')
 
   function tryItOutClicked() {
@@ -22,7 +22,7 @@ export default function GettingStartedTab(props) {
   let dividerStyle = {marginTop: 40};
   let titleStyle = {textDecoration: 'underline'}
   return (
-    <div style={{display: props.active ? 'block' : 'none'}}>
+    <div>
     <Text>
       <Flex vertical gap={5} style={{marginLeft: 20, marginBottom: 50, width: 1000}}>
           <h2>

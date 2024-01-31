@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { Button, Flex, Image, Popconfirm, Typography } from 'antd';
+import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import "ag-grid-community/styles/ag-theme-balham.css";
@@ -11,14 +11,15 @@ import { SaveState } from "../lib/saveState";
 import { Message } from "../lib/message";
 import PropTypes from "prop-types";
 import { useSubscribe } from 'hooks/useSubscribe';
+import { CameraOutlined, DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import CharacterModal from "./CharacterModal";
+import { Utils } from "../lib/utils";
 
 const { Text } = Typography;
 
 function cellImageRenderer(params) {
   let data = params.data
   let characterIconSrc = Assets.getCharacterAvatarById(data.id)
-
-  // console.log('CellRenderer', data, characterMetadata)
 
   return (
     <Image
@@ -34,7 +35,6 @@ function cellRankRenderer(params) {
   let data = params.data
   let character = DB.getCharacters().find(x => x.id == data.id)
 
-  // console.log('CellRenderer', data, characterMetadata)
   return (
     <Text style={{ height: '100%' }}>
       {character.rank + 1}
@@ -65,8 +65,13 @@ function cellNameRenderer(params) {
   )
 }
 
-
 export default function CharacterTab() {
+  const [confirmationModal, contextHolder] = Modal.useModal();
+  const [screenshotLoading, setScreenshotLoading] = useState(false);
+
+  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState();
+
   console.log('CharacterTab');
 
   useSubscribe('refreshRelicsScore', () => {
@@ -124,7 +129,8 @@ export default function CharacterTab() {
   const cellClickedListener = useCallback(event => {
     let data = event.data
 
-    // global.store.getState().setCharacterTabBlur(global.store.getState().focusCharacter != data.id) // Only blur if different character
+    // Only blur if different character
+    global.store.getState().setCharacterTabBlur(global.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data);
   }, [setCharacterTabFocusCharacter]);
@@ -151,6 +157,7 @@ export default function CharacterTab() {
     drag(event, event.overIndex)
   }, []);
 
+  // The grid can do weird things when you drag rows beyond its bounds, cap the behavior
   const onRowDragLeave = useCallback(event => {
     if (event.overIndex == 0) {
       drag(event, 0)
@@ -199,31 +206,115 @@ export default function CharacterTab() {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
-
-    // Char and Relic tab are never mounted together - this is unavailble
-    if (global.relicsGrid?.current?.api) {
-      global.relicsGrid.current.api.redrawRows()
-    }
+    global.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
   }
 
+  // Reuse the same modal for both edit/add and scroll to the selected character
+  function onCharacterModalOk(form) {
+    if (!form.characterId) {
+      return Message.error('No selected character')
+    }
+
+    const character = DB.addFromForm(form)
+    global.characterGrid.current.api.ensureIndexVisible(character.rank)
+  }
+
   function scoringAlgorithmClicked() {
-    console.log('Scoring algorithm clicked', characterTabFocusCharacter)
     setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
     global.setIsScoringModalOpen(true)
   }
 
-  let defaultGap = 8;
+  function screenshotClicked() {
+    setScreenshotLoading(true)
+    // Use a small timeout here so the spinner doesn't lag while the image is being generated
+    setTimeout(() => {
+      Utils.screenshotElementById('characterTabPreview').finally(() => {
+        setScreenshotLoading(false)
+      })
+    }, 50)
+  }
 
+  const handleActionsMenuClick = async (e) => {
+    switch(e.key) {
+      case 'add':
+        setCharacterModalInitialCharacter(null)
+        setCharacterModalOpen(true)
+        break;
+      case 'edit':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return;
+        }
+        setCharacterModalInitialCharacter(selectedCharacter)
+        setCharacterModalOpen(true)
+        break;
+      case 'unequip':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return;
+        }
+
+        if (!await confirm('Are you sure you want to unequip this character?')) return;
+        unequipClicked();
+        break;
+      case 'delete':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return;
+        }
+
+        if (!await confirm('Are you sure you want to delete this character?')) return;
+        removeClicked()
+        break;
+      default:
+        console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
+    }
+  };
+  const items = [
+    {
+      label: 'Add new character',
+      key: 'add',
+    },
+    {
+      label: 'Edit character',
+      key: 'edit',
+    },
+    {
+      label: 'Unequip character',
+      key: 'unequip',
+    },
+    {
+      label: 'Delete character',
+      key: 'delete',
+    },
+  ];
+  const actionsMenuProps = {
+    items,
+    onClick: handleActionsMenuClick,
+  };
+
+  async function confirm(content) {
+    return confirmationModal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined/>,
+      content: content,
+      okText: 'Confirm',
+      cancelText: 'Cancel',
+      centered: true
+    });
+  }
+
+  let defaultGap = 8;
   let parentH = 280 * 3 + defaultGap * 2;
 
   return (
     <div style={{
         height: '100%'
     }}>
-      <Flex style={{ height: '100%' }} gap={8}>
-        <Flex vertical gap={10}>
+      <Flex style={{ height: '100%' }}>
+        <Flex vertical gap={10} style={{ marginRight: 8 }}>
           <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
             <AgGridReact
               ref={characterGrid} // Ref for accessing Grid's API
@@ -246,39 +337,30 @@ export default function CharacterTab() {
           </div>
           <Flex vertical gap={10}>
             <Flex justify='space-between'>
-
-              <Popconfirm
-                title="Confirm"
-                description="Remove this character?"
-                onConfirm={removeClicked}
-                placement="bottom"
-                okText="Yes"
-                cancelText="Cancel"
+              <Dropdown
+                menu={actionsMenuProps}
+                trigger={['click']}
               >
                 <Button style={{ width: 110 }}>
-                  Remove
+                  Actions
+                  <DownOutlined />
                 </Button>
-              </Popconfirm>
-              <Popconfirm
-                title="Confirm"
-                description="Unequip this character?"
-                onConfirm={unequipClicked}
-                placement="bottom"
-                okText="Yes"
-                cancelText="Cancel"
-              >
-                <Button style={{ width: 110 }}>
-                  Unequip
-                </Button>
-              </Popconfirm>
+              </Dropdown>
+              <Button style={{ width: 110 }} onClick={scoringAlgorithmClicked}>
+                Scoring
+              </Button>
             </Flex>
-            <Button style={{}} onClick={scoringAlgorithmClicked}>
-              Scoring algorithm
-            </Button>
+            <Flex>
+              <Button style={{ width: '100%' }} icon={<CameraOutlined />} onClick={screenshotClicked} type='primary' loading={screenshotLoading}>
+                Screenshot
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
-        <CharacterPreview character={selectedCharacter} />
+        <CharacterPreview id='characterTabPreview' character={selectedCharacter} />
       </Flex>
+      <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
+      {contextHolder}
     </div>
   );
 }

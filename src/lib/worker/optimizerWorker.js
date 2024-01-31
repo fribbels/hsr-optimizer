@@ -157,7 +157,7 @@ self.onmessage = function (e) {
       sets.WastelanderOfBanditryDesert = (1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)) //  4p (10% CD) + (20% CR)
       sets.LongevousDisciple = (1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)) //  4p (2x8% CR)
       sets.MessengerTraversingHackerspace = (1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)) //  4p (12% SPD)
-      sets.TheAshblazingGrandDuke = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK) todo
+      sets.TheAshblazingGrandDuke = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK)
       sets.PrisonerInDeepConfinement = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p done
 
       sets.SpaceSealingStation = (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)) // (12% ATK)

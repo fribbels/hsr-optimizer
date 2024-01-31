@@ -61,19 +61,10 @@ export default function OptimizerForm() {
   const [optimizationId, setOptimizationId] = useState();
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
   const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
   const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
 
-  const lightConeOptions = useMemo(() => {
-    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
-
-    for (let value of Object.values(lcData)) {
-      value.value = value.id;
-      value.label = value.name;
-    }
-
-    return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
-  }, []);
 
   useEffect(() => {
     OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone);
@@ -203,9 +194,6 @@ export default function OptimizerForm() {
     global.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
   }
   window.onOptimizerFormValuesChange = onValuesChange;
-
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   let parentW = 233;
   let parentH = 350;
@@ -354,7 +342,7 @@ export default function OptimizerForm() {
                 <Form.Item size="default" name='characterId'>
                   <Select
                     showSearch
-                    filterOption={filterOption}
+                    filterOption={Utils.labelFilterOption}
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
@@ -387,7 +375,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='lightCone'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: panelWidth }}
                       onChange={lightConeSelectorChange}
                       options={lightConeOptions}
@@ -430,7 +418,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyLevel'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyLevelOptions}
                     />
@@ -438,7 +426,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyCount'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyCountOptions}
                     />
@@ -449,7 +437,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyResistance'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyResistanceOptions}
                     />
@@ -457,7 +445,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyHpPercent'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyHpPercentOptions}
                     />

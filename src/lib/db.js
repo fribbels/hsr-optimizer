@@ -224,19 +224,25 @@ export const DB = {
       DB.setCharacters(characters)
     } else {
       const defaultForm = getDefaultForm({ id: form.characterId })
-
-      DB.addCharacter({
+      found = {
         id: form.characterId,
         form: { ...defaultForm, ...form },
         equipped: {}
-      })
+      }
+      DB.addCharacter(found)
     }
 
     console.log('Updated db characters', characters)
 
     // TODO: after render optimization, global.characterGrid is possibly undefined
-    if (global.characterGrid?.current?.api)
+    // Since the grid resets the rows, we have to re-select the grid node and inform the character tab
+    if (global.characterGrid?.current?.api) {
       global.characterGrid.current.api.updateGridOptions({ rowData: characters })
+      global.characterGrid.current.api.forEachNode(node => node.data.id == found.id ? node.setSelected(true) : 0)
+      global.store.getState().setCharacterTabFocusCharacter(found.id)
+    }
+
+    return found
   },
 
   unequipCharacter: (id) => {

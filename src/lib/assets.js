@@ -77,7 +77,7 @@ export const Assets = {
   },
 
   getLightConePortrait: (lightCone) => {
-    if (!lightCone) return ''
+    if (!lightCone) return Assets.getBlank()
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
   getPath: (path) => {

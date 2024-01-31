@@ -34,15 +34,17 @@ export default function OptimizerBuildPreview(props) {
   const linkRopeScore = props.build ? RelicScorer.score(relicsById[props.build?.LinkRope], characterId) : undefined;
 
   return (
-    <Flex gap={5} id="optimizerBuildPreviewContainer">
+    <div>
+      <Flex gap={5} id="optimizerBuildPreviewContainer">
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Head]} score={headScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Hands]} score={handsScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Body]} score={bodyScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Feet]} score={feetScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
+      </Flex>
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Head]} score={headScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Hands]} score={handsScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Body]} score={bodyScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Feet]} score={feetScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
-    </Flex>
+    </div>
   );
 }
 OptimizerBuildPreview.propTypes = {

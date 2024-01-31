@@ -25,6 +25,8 @@ import RelicModal from 'components/RelicModal';
 import RelicPreview from 'components/RelicPreview';
 import { RelicModalController } from "../lib/relicModalController";
 
+// This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
+const backgroundColor = '#182239'
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
 
@@ -44,7 +46,7 @@ export function CharacterPreview(props) {
 
   if (!character) {
     return (
-      <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+      <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
 
         <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
         </div>
@@ -99,7 +101,7 @@ export function CharacterPreview(props) {
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
   const lightConeName = lightConeMetadata?.name || ''
-  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata)
+  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const characterId = character.form.characterId
   const characterLevel = character.form.characterLevel
@@ -121,10 +123,10 @@ export function CharacterPreview(props) {
   const elementalDmgValue = elementToDmgValueMapping[characterElement]
   console.log(displayRelics);
   return (
-    <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
+    <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
 
-      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
+      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
         <div
           style={{
             position: 'relative',
@@ -271,5 +273,6 @@ export function CharacterPreview(props) {
 }
 CharacterPreview.propTypes = {
   source: PropTypes.string,
-  character: PropTypes.object
+  character: PropTypes.object,
+  id: PropTypes.string,
 };

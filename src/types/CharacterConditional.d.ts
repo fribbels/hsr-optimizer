@@ -7,6 +7,7 @@ import { ConditionalLightConeMap } from "components/LightConeConditionals";
 // TODO: reset type to Form from feature/typescript-v2
 export type Form = {
   [key: string]: unknown;
+  enemyCount: number;
   enemyHpPercent: number;
   characterConditionals: ComputedStatsObject;
   lightConeConditionals: ConditionalLightConeMap;

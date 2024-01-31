@@ -21,7 +21,8 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
         if (
           (item[i] >= '0' && item[i] <= '9')
             || item[i] === '%'
-            || item[i] === 'E' && item[i + 1] && /[0-6]/.test(item[i + 1])
+            || (item[i] === 'A' && item[i + 1] && /[2,4,6]/.test(item[i + 1]))
+            || (item[i] === 'E' && item[i + 1] && /[0-6]/.test(item[i + 1]))
           ) {
           num += item[i];
           isNum = true;

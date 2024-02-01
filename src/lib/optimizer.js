@@ -1,4 +1,3 @@
-import { GPUOptimizer } from "./gpuOptimizer";
 import { Constants } from "./constants.ts";
 import { OptimizerTabController } from './optimizerTabController';
 import { Utils } from './utils';
@@ -10,64 +9,7 @@ import { CharacterStats } from "./characterStats";
 import { Message } from "./message";
 import { StatCalculator } from "./statCalculator";
 
-let WIDTH = 100000;
-let HEIGHT = 1;
 let MAX_RESULTS = 2_000_000;
-
-// Flatten a relic's augmented stats + part to a single array & percents -> decimals + zeroing undefined
-function relicToArray(relic) {
-  let partToNumber = {
-    [Constants.Parts.Head]: 0,
-    [Constants.Parts.Hands]: 1,
-    [Constants.Parts.Body]: 2,
-    [Constants.Parts.Feet]: 3,
-    [Constants.Parts.PlanarSphere]: 4,
-    [Constants.Parts.LinkRope]: 5
-  }
-
-  let setToNumber = {}
-  if (relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-    for (let i = 0; i < Object.values(Constants.SetsOrnaments).length; i++) {
-      setToNumber[Object.values(Constants.SetsOrnaments)[i]] = i
-    }
-  } else {
-    for (let i = 0; i < Object.values(Constants.SetsRelics).length; i++) {
-      setToNumber[Object.values(Constants.SetsRelics)[i]] = i
-    }
-  }
-
-  let result = []
-  for (let i = 0; i < Object.values(Constants.Stats).length; i++) {
-    let stat = Object.values(Constants.Stats)[i];
-    result[i] = relic.augmentedStats[stat] || 0
-  }
-
-  result.push(partToNumber[relic.part]);
-  result.push(setToNumber[relic.set]);
-
-  return result;
-}
-
-// Flatten a character's stats to arrays & percents -> decimals + zeroing undefined
-function characterToArrays(character) {
-  let result = {
-    base: [],
-    traces: [],
-    lightCone: []
-  }
-
-  for (let i = 0; i < Object.values(Constants.Stats).length; i++) {
-    let stat = Object.values(Constants.Stats)[i];
-    result.base[i] = character.base[stat] || 0
-    result.traces[i] = character.traces[stat] || 0
-    result.lightCone[i] = character.lightCone[stat] || 0
-
-  }
-
-  console.log('Convert', character, result);
-
-  return result;
-}
 
 let CANCEL = false;
 
@@ -138,8 +80,6 @@ export const Optimizer = {
 
     const [relics] = this.getFilteredRelics(request);
 
-    let relicsArrays = relicsByPartToArray(relics);
-
     let elementalMultipliers = [
       element == 'Physical' ? 1 : 0,
       element == 'Fire' ? 1 : 0,
@@ -150,41 +90,30 @@ export const Optimizer = {
       element == 'Imaginary' ? 1 : 0,
     ]
 
-    let character = characterToArrays(baseStats);
     console.log('Optimize request', request)
     console.log('Current state', Constants)
     console.log('Optimize relics', relics)
-    console.log('Optimize relics arrays', relicsArrays)
-    console.log('Optimize character', character)
+    console.log('Optimize relics arrays', relics)
     console.log('Optimize elemental multipliers', elementalMultipliers)
 
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
     console.log('relicSetAllowList, relicSetSolutions', relicSetAllowList, relicSetSolutions)
 
-    let hSize = relicsArrays.Head.length
-    let gSize = relicsArrays.Hands.length
-    let bSize = relicsArrays.Body.length
-    let fSize = relicsArrays.Feet.length
-    let pSize = relicsArrays.PlanarSphere.length
-    let lSize = relicsArrays.LinkRope.length
+    const sizes = {
+      hSize: relics.Head.length,
+      gSize: relics.Hands.length,
+      bSize: relics.Body.length,
+      fSize: relics.Feet.length,
+      pSize: relics.PlanarSphere.length,
+      lSize: relics.LinkRope.length,
+    }
 
-    let permutations = hSize * gSize * bSize * fSize * pSize * lSize;
+    let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize;
 
-    console.log(`Building kernel, permutations: ${permutations}, blocksize: ${WIDTH * HEIGHT}`)
-    let consts = GPUOptimizer.createConstants(
-      HEIGHT,
-      WIDTH,
-      request,
-      relicsArrays,
-      character,
-      relicSetAllowList,
-      relicSetSolutions,
-      ornamentSetSolutions,
-      elementalMultipliers
-    );
+    OptimizerTabController.setMetadata(sizes, relics)
 
-    OptimizerTabController.setMetadata(consts, relics)
+    console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
 
     if (permutations == 0) {
       OptimizerTabController.setRows([])
@@ -197,10 +126,7 @@ export const Optimizer = {
     global.optimizerGrid.current.api.showLoadingOverlay()
 
     let results = []
-    let increment = (WIDTH * HEIGHT)
     let searched = 0
-    let runs = Math.ceil(permutations / increment)
-    let inProgress = runs
 
     let resultsShown = false
 
@@ -228,18 +154,16 @@ export const Optimizer = {
 
       let input = {
         topRow: true, // Skip all filters for top row
-        setAllowList: relicSetAllowList,
         relics: relics,
         character: baseStats,
-        Constants: Constants,
-        consts: consts,
-        WIDTH: WIDTH,
-        HEIGHT: HEIGHT,
+        WIDTH: 1,
         skip: 0,
         permutations: 1,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         elementalMultipliers: elementalMultipliers,
+        relicSetSolutions: relicSetSolutions,
+        ornamentSetSolutions: ornamentSetSolutions,
         request: request,
       }
 
@@ -247,25 +171,39 @@ export const Optimizer = {
     }
     handleTopRow()
 
-    for (let run = 0; run < runs; run++) {
+    // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
+    let increment = 20000
+    let runSize = 0
+    let maxSize = Constants.THREAD_BUFFER_LENGTH
+
+    // Generate runs
+    let runs = []
+    for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
+      runSize = Math.min(maxSize, runSize + increment)
+      runs.push({
+        skip: currentSkip,
+        runSize: runSize,
+      })
+    }
+
+    let inProgress = runs.length
+    for (let run of runs) {
       let input = {
-        setAllowList: relicSetAllowList,
         relics: relics,
         character: baseStats,
-        Constants: Constants,
-        consts: consts,
-        WIDTH: WIDTH,
-        HEIGHT: HEIGHT,
-        skip: run * increment,
+        WIDTH: run.runSize,
+        skip: run.skip,
         permutations: permutations,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         elementalMultipliers: elementalMultipliers,
+        relicSetSolutions: relicSetSolutions,
+        ornamentSetSolutions: ornamentSetSolutions,
         request: request,
       }
 
       let callback = (result) => {
-        searched += increment
+        searched += run.runSize
         inProgress -= 1
 
         if (CANCEL && resultsShown) {
@@ -273,9 +211,9 @@ export const Optimizer = {
         }
 
         let resultArr = new Float64Array(result.buffer)
-        // console.log(`Optimizer results`, result, resultArr)
+        // console.log(`Optimizer results`, result, resultArr, run)
 
-        BufferPacker.extractArrayToResults(resultArr, WIDTH * HEIGHT, results);
+        BufferPacker.extractArrayToResults(resultArr, run.runSize, results);
 
         console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
@@ -298,8 +236,7 @@ export const Optimizer = {
         }
       }
 
-      // WorkerPool.execute(input, callback)
-      setTimeout(() => WorkerPool.execute(input, callback, request.optimizationId), 10 * run)
+      WorkerPool.execute(input, callback)
     }
   }
 }
@@ -309,17 +246,6 @@ function applyMaxedMainStatsFilter(request, relics) {
     relics.map(x => x.augmentedStats[x.main.stat] = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
   }
   return relics
-}
-
-function relicsByPartToArray(relics) {
-  return {
-    Head: relics.Head.map(x => relicToArray(x)),
-    Hands: relics.Hands.map(x => relicToArray(x)),
-    Body: relics.Body.map(x => relicToArray(x)),
-    Feet: relics.Feet.map(x => relicToArray(x)),
-    PlanarSphere: relics.PlanarSphere.map(x => relicToArray(x)),
-    LinkRope: relics.LinkRope.map(x => relicToArray(x))
-  }
 }
 
 function addMainStatToAugmentedStats(relics) {

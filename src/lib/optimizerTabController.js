@@ -26,13 +26,6 @@ export const OptimizerTabController = {
     relics = inputRelics
   },
 
-  getMetadata: () => {
-    return {
-      consts: consts,
-      relics: relics,
-    }
-  },
-
   setAggs: (x) => {
     aggs = x
   },

@@ -100,14 +100,18 @@ export const Optimizer = {
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
     console.log('relicSetAllowList, relicSetSolutions', relicSetAllowList, relicSetSolutions)
 
-    let hSize = relics.Head.length
-    let gSize = relics.Hands.length
-    let bSize = relics.Body.length
-    let fSize = relics.Feet.length
-    let pSize = relics.PlanarSphere.length
-    let lSize = relics.LinkRope.length
+    const sizes = {
+      hSize: relics.Head.length,
+      gSize: relics.Hands.length,
+      bSize: relics.Body.length,
+      fSize: relics.Feet.length,
+      pSize: relics.PlanarSphere.length,
+      lSize: relics.LinkRope.length,
+    }
 
-    let permutations = hSize * gSize * bSize * fSize * pSize * lSize;
+    let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize;
+
+    OptimizerTabController.setMetadata(sizes, relics)
 
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
 

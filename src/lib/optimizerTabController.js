@@ -21,6 +21,11 @@ let columnsToAggregate
 let columnsToAggregateMap
 
 export const OptimizerTabController = {
+  setMetadata: (inputConsts, inputRelics) => {
+    consts = inputConsts
+    relics = inputRelics
+  },
+
   setAggs: (x) => {
     aggs = x
   },

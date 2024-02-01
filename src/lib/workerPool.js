@@ -1,8 +1,10 @@
 import { BufferPacker } from "./bufferPacker";
+import { Constants } from "./constants";
 
 let poolSize = (navigator.hardwareConcurrency || 4) - 1
 let initialized = 0
 console.log('Using pool size ' + poolSize)
+// Reuse workers and buffers
 let workers = []
 let buffers = []
 let taskQueue = []
@@ -37,7 +39,7 @@ export const WorkerPool = {
         buffer = buffers.pop()
         BufferPacker.cleanFloatBuffer(buffer)
       } else {
-        buffer = BufferPacker.createFloatBuffer(100000)
+        buffer = BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
       }
 
       task.buffer = buffer
@@ -68,7 +70,7 @@ export const WorkerPool = {
       taskQueue,
       buffers
     })
-  }
+  },
 }
 
 WorkerPool.initialize()

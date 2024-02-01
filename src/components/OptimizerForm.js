@@ -30,7 +30,6 @@ import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
 import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
 import DB from "lib/db";
-import { Message } from "lib/message";
 import { Hint } from "lib/hint";
 import { Utils } from 'lib/utils.js';
 
@@ -134,26 +133,6 @@ export default function OptimizerForm() {
     onValuesChange({}, initialValues)
   }, [initialValues])
 
-  const onFinish = (x) => {
-    OptimizerTabController.fixForm(x);
-    if (!OptimizerTabController.validateForm(x)) {
-      return
-    }
-    DB.addFromForm(x)
-    SaveState.save()
-    console.log('Form finished', x);
-
-    let optimizationId = uuidv4()
-    setOptimizationId(optimizationId)
-    x.optimizationId = optimizationId
-
-    Optimizer.optimize(x)
-  };
-
-  const onFinishFailed = () => {
-    Message.error('Submit failed!');
-  };
-
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return;
     let keys = Object.keys(changedValues)
@@ -220,7 +199,25 @@ export default function OptimizerForm() {
 
   function startClicked() {
     console.log('Start clicked');
-    optimizerForm.submit()
+
+    // We dont actually want to submit the form as it would kick off a re-render
+    // Intercept the event and just call the optimizer directly
+    const form = optimizerForm.getFieldsValue()
+
+    OptimizerTabController.fixForm(form);
+    if (!OptimizerTabController.validateForm(form)) {
+      return
+    }
+
+    DB.addFromForm(form)
+    SaveState.save()
+    console.log('Form finished', form);
+
+    let optimizationId = uuidv4()
+    setOptimizationId(optimizationId)
+    form.optimizationId = optimizationId
+
+    Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
 
@@ -313,8 +310,6 @@ export default function OptimizerForm() {
       <Form
         form={optimizerForm}
         layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >

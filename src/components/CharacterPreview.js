@@ -141,7 +141,7 @@ export function CharacterPreview(props) {
               width: innerW,
               filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
             }}
-            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 100)}
+            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
           />
         </div>
       </div>

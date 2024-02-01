@@ -16,7 +16,6 @@ const { Text } = Typography;
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
-  const [screenshotLoading, setScreenshotLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState();
@@ -90,90 +89,6 @@ export default function RelicScorerTab() {
     global.setIsScoringModalOpen(true)
   }
 
-  function CharacterPreviewSelection(props) {
-    let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
-
-    // TODO: Revisit if force updates are necessary
-    const [, forceUpdate] = React.useReducer(o => !o, true);
-    window.forceRelicScorerTabUpdate = () => {
-      console.log('RelicScorerTab ::::: forceRelicScorerTabUpdate')
-      forceUpdate();
-    }
-
-    useSubscribe('refreshRelicsScore', () => {
-      // TODO: understand why setTimeout is needed and refactor
-      setTimeout(() => { forceUpdate() }, 100);
-    });
-
-    console.log('CharacterPreviewSelection', props)
-
-    useEffect(() => {
-      setScoringAlgorithmFocusCharacter(selectedCharacter?.id)
-    }, [setScoringAlgorithmFocusCharacter])
-
-    let options = []
-    for (let i = 0; i < props.availableCharacters.length; i++) {
-      let availableCharacter = props.availableCharacters[i]
-      options.push({
-        label: (
-          <Flex align='center'>
-            <img style={{ width: 100 }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
-          </Flex>
-        ),
-        value: availableCharacter.id,
-      })
-    }
-
-    function selectionChange(selected) {
-      console.log('selectionChange', selected)
-      setSelectedCharacter(props.availableCharacters.find(x => x.id == selected))
-      setScoringAlgorithmFocusCharacter(selected)
-    }
-
-    async function importClicked() {
-      let newRelics = props.availableCharacters
-      .flatMap(x => Object.values(x.equipped))
-      .filter(x => !!x)
-
-      console.log('importClicked', props.availableCharacters, newRelics)
-      DB.mergeVerifiedRelicsWithState(newRelics)
-      SaveState.save()
-    }
-
-    async function screenshotClicked() {
-      setScreenshotLoading(true)
-      // Use a small timeout here so the spinner doesn't lag while the image is being generated
-      setTimeout(() => {
-        Utils.screenshotElementById('relicScorerPreview').finally(() => {
-          setScreenshotLoading(false)
-        })
-      }, 50)
-    }
-
-    return (
-      <Flex vertical align='center' gap={5} style={{ marginBottom: 100 }}>
-        <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <Button onClick={importClicked} style={{width: 200}}>
-            Import relics into optimizer
-          </Button>
-          <Button onClick={screenshotClicked} style={{width: 200}} icon={<CameraOutlined />} loading={screenshotLoading}>
-            Screenshot
-          </Button>
-        </Flex>
-
-        <Flex vertical align='center'>
-          <Segmented options={options} onChange={selectionChange} value={selectedCharacter?.id} />
-        </Flex>
-        <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
-          <CharacterPreview class='relicScorerCharacterPreview' character={selectedCharacter} source='scorer' id='relicScorerPreview'/>
-        </div>
-      </Flex>
-    )
-  }
-  CharacterPreviewSelection.propTypes = {
-    availableCharacters: PropTypes.array,
-  }
-
   let initialId = undefined
   let savedId = scorerId
   if (savedId) {
@@ -212,11 +127,103 @@ export default function RelicScorerTab() {
             </Button>
           </Flex>
         </Form>
-        <CharacterPreviewSelection availableCharacters={availableCharacters} />
+        <CharacterPreviewSelection
+          availableCharacters={availableCharacters}
+          setSelectedCharacter={setSelectedCharacter}
+          selectedCharacter={selectedCharacter}
+        />
       </Flex>
     </div>
   );
 }
 RelicScorerTab.propTypes = {
   active: PropTypes.bool,
+}
+
+function CharacterPreviewSelection(props) {
+  let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
+
+  const [screenshotLoading, setScreenshotLoading] = useState(false);
+
+  // TODO: Revisit if force updates are necessary
+  const [, forceUpdate] = React.useReducer(o => !o, true);
+  window.forceRelicScorerTabUpdate = () => {
+    console.log('RelicScorerTab ::::: forceRelicScorerTabUpdate')
+    forceUpdate();
+  }
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { forceUpdate() }, 100);
+  });
+
+  console.log('CharacterPreviewSelection', props)
+
+  useEffect(() => {
+    setScoringAlgorithmFocusCharacter(props.selectedCharacter?.id)
+  }, [props.selectedCharacter?.id, setScoringAlgorithmFocusCharacter])
+
+  let options = []
+  for (let i = 0; i < props.availableCharacters.length; i++) {
+    let availableCharacter = props.availableCharacters[i]
+    options.push({
+      label: (
+        <Flex align='center'>
+          <img style={{ width: 100 }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+        </Flex>
+      ),
+      value: availableCharacter.id,
+    })
+  }
+
+  function selectionChange(selected) {
+    console.log('selectionChange', selected)
+    props.setSelectedCharacter(props.availableCharacters.find(x => x.id == selected))
+    setScoringAlgorithmFocusCharacter(selected)
+  }
+
+  async function importClicked() {
+    let newRelics = props.availableCharacters
+    .flatMap(x => Object.values(x.equipped))
+    .filter(x => !!x)
+
+    console.log('importClicked', props.availableCharacters, newRelics)
+    DB.mergeVerifiedRelicsWithState(newRelics)
+    SaveState.save()
+  }
+
+  async function screenshotClicked() {
+    setScreenshotLoading(true)
+    // Use a small timeout here so the spinner doesn't lag while the image is being generated
+    setTimeout(() => {
+      Utils.screenshotElementById('relicScorerPreview').finally(() => {
+        setScreenshotLoading(false)
+      })
+    }, 50)
+  }
+
+  return (
+    <Flex vertical align='center' gap={5} style={{ marginBottom: 100 }}>
+      <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+        <Button onClick={importClicked} style={{width: 200}}>
+          Import relics into optimizer
+        </Button>
+        <Button onClick={screenshotClicked} style={{width: 200}} icon={<CameraOutlined />} loading={screenshotLoading}>
+          Screenshot
+        </Button>
+      </Flex>
+
+      <Flex vertical align='center'>
+        <Segmented options={options} onChange={selectionChange} value={props.selectedCharacter?.id} />
+      </Flex>
+      <div id='previewWrapper' style={{ padding: '5px', backgroundColor: '#182239' }}>
+        <CharacterPreview class='relicScorerCharacterPreview' character={props.selectedCharacter} source='scorer' id='relicScorerPreview'/>
+      </div>
+    </Flex>
+  )
+}
+CharacterPreviewSelection.propTypes = {
+  availableCharacters: PropTypes.array,
+  selectedCharacter: PropTypes.object,
+  setSelectedCharacter: PropTypes.func,
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
+import { basic, skill, talent, ult } from 'lib/conditionals/utils';
 import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
@@ -12,15 +12,15 @@ import { Eidolon } from 'types/Character'
 import { Form, PrecomputedCharacterConditional } from 'types/CharacterConditional';
 
 const Topaz = (e: Eidolon) => {
-  const proofOfDebtFuaVulnerability = skillRev(e, 0.50, 0.55)
-  const enhancedStateFuaScalingBoost = ultRev(e, 1.50, 1.65)
-  const enhancedStateFuaCdBoost = ultRev(e, 0.25, 0.275)
+  const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
+  const enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
+  const enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const skillScaling = skillRev(e, 1.50, 1.65)
-  const fuaScaling = talentRev(e, 1.50, 1.65)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.50, 1.65)
+  const fuaScaling = talent(e, 1.50, 1.65)
 
-  const fuaEnhancedHitCount = ultRev(e, 2, 3);
+  const fuaEnhancedHitCount = ult(e, 2, 3);
 
   // 0.06
   const basicHitCountMulti = ASHBLAZING_ATK_STACK *

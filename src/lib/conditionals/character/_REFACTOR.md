@@ -85,3 +85,38 @@ Some characters Eidolon 3 & 5 have differing +2 levels for their respective Skil
 - Ult +2
 - Basic +2
 
+
+
+
+## e3/e5 +2 is not consistent char to char
+
+| e3 skill/talent +2 | e3 ult/basic +2 |
+| -----------------  | --------------- |
+| Argenti | Misha
+| Arlan |
+| Asta |
+| Bailu | Blade
+| Black Swan |
+| Clara | Bronya
+| Dan Heng | Dr. Ratio
+| DHIL | Gepard
+| Fu Xuan | Jingliu |
+| Guinaifen | Jing Yuan 
+| Hanya |Huohuo
+| Herta | March 7th
+| Himeko| QQ
+| Hook | Ruan Mei
+| Kafka | Sushang
+| Luka | Tingyun
+| Luocha
+| Lynx
+| Natasha
+| Pela
+| Sampo
+| Seele
+| Serval
+| Silver Wolf 
+| Sparkle
+| Topaz
+| TB: Destruction
+| TB: Preservation

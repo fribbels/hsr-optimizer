@@ -5,7 +5,6 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants';
 import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 import { Stats } from 'lib/constants';
 import { Eidolon } from 'types/Character';
-// import getContentFromCharacterSkill from './getContentFromCharacterSkill';
 
 const Yukong = (e: Eidolon) => {
   const skillAtkBuffValue = skillRev(e, 0.80, 0.88)

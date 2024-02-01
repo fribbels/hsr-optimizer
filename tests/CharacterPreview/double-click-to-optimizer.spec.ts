@@ -9,7 +9,7 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   await expect(page.locator('#optimizerGridContainer')).toBeVisible();
   await expect(page.getByRole('main')).toContainText('Kafka');
   // chacater passives rendered
-  await expect(page.getByRole('main')).toContainText('E1 dot dmg debuff');
+  await expect(page.getByRole('main')).toContainText('E1 DoT DMG Debuff');
   // lightcone passives rendered
   await expect(page.getByRole('main')).toContainText('Enemy shocked / wind sheared');
   // enemy options rendered
@@ -25,8 +25,8 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   // dbl-click on blade image
   await page.locator('div').filter({ hasText: /^5Blade$/ }).getByRole('img').dblclick();
   await expect(page.getByRole('main')).toContainText('Blade');
-  await expect(page.getByRole('main')).toContainText('Enhanced state');
-  await expect(page.getByRole('main')).toContainText('Enemy HP % higher dmg boost');
+  await expect(page.getByRole('main')).toContainText('Enhanced State');
+  await expect(page.getByRole('main')).toContainText('HP% Lost Total');
   await expect(page.getByRole('main')).toContainText('Elemental weakness');
   await expect(page.getByRole('main')).toContainText('Maxed main stat');
 });

@@ -6,7 +6,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "ag-grid-react": "^31.0.1",
-    "antd": "^5.12.7",
+    "antd": "^5.13.3",
     "btoa": "^1.2.1",
     "fast-sort": "^3.4.0",
     "html-to-image": "^1.11.11",

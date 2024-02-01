@@ -5,11 +5,17 @@ import { RelicScorer } from 'lib/relicScorer.ts';
 import { StatCalculator } from 'lib/statCalculator';
 import { DB } from 'lib/db';
 import { Assets } from 'lib/assets';
-import { Message } from 'lib/message';
 import { Constants } from 'lib/constants.ts';
 import {
-  defaultGap, parentH, parentW, middleColumnWidth, innerW,
-  lcParentW, lcParentH, lcInnerW, lcInnerH,
+  defaultGap,
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  middleColumnWidth,
+  parentH,
+  parentW,
 } from 'lib/constantsUi';
 
 import Rarity from 'components/characterPreview/Rarity';
@@ -17,7 +23,10 @@ import StatRow from 'components/characterPreview/StatRow';
 import StatText from 'components/characterPreview/StatText';
 import RelicModal from 'components/RelicModal';
 import RelicPreview from 'components/RelicPreview';
+import { RelicModalController } from "../lib/relicModalController";
 
+// This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
+const backgroundColor = '#182239'
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
 
@@ -30,28 +39,14 @@ export function CharacterPreview(props) {
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
-    relic.id = selectedRelic.id
-
-    const updatedRelic = { ...selectedRelic, ...relic }
-
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id);
-    }
-
-    DB.setRelic(updatedRelic)
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
-
-    Message.success('Successfully edited relic')
-    console.log('onEditOk', updatedRelic)
   }
 
   if (!character) {
     return (
-      <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+      <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
 
         <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
         </div>
@@ -106,7 +101,7 @@ export function CharacterPreview(props) {
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
   const lightConeName = lightConeMetadata?.name || ''
-  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata)
+  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const characterId = character.form.characterId
   const characterLevel = character.form.characterLevel
@@ -128,10 +123,10 @@ export function CharacterPreview(props) {
   const elementalDmgValue = elementToDmgValueMapping[characterElement]
   console.log(displayRelics);
   return (
-    <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
+    <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
 
-      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
+      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
         <div
           style={{
             position: 'relative',
@@ -146,7 +141,7 @@ export function CharacterPreview(props) {
               width: innerW,
               filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
             }}
-            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 100)}
+            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
           />
         </div>
       </div>
@@ -278,5 +273,6 @@ export function CharacterPreview(props) {
 }
 CharacterPreview.propTypes = {
   source: PropTypes.string,
-  character: PropTypes.object
+  character: PropTypes.object,
+  id: PropTypes.string,
 };

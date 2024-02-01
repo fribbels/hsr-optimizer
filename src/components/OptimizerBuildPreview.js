@@ -5,32 +5,16 @@ import { Flex } from 'antd';
 import RelicModal from 'components/RelicModal';
 import RelicPreview from 'components/RelicPreview';
 import DB from "lib/db";
-import { Message } from 'lib/message';
 import { OptimizerTabController } from "lib/optimizerTabController";
 import { RelicScorer } from 'lib/relicScorer.ts';
+import { RelicModalController } from "../lib/relicModalController";
 
 export default function OptimizerBuildPreview(props) {
   console.log('OptimizerBuildPreview', props);
 
-  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
-    relic.id = selectedRelic.id
-    const updatedRelic = { ...selectedRelic, ...relic }
-
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id);
-    }
-
-    DB.setRelic(updatedRelic);
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic);
     setSelectedRelic(updatedRelic)
-
-    // window.forceOptimizerBuildPreviewUpdate()
-    // window.forceCharacterTabUpdate()
-
-    Message.success('Successfully edited relic')
-    console.log('onEditOk', updatedRelic)
   }
 
   // TODO: Force update was a band-aid fix, revisit if we actually need to
@@ -50,15 +34,17 @@ export default function OptimizerBuildPreview(props) {
   const linkRopeScore = props.build ? RelicScorer.score(relicsById[props.build?.LinkRope], characterId) : undefined;
 
   return (
-    <Flex gap={5} id="optimizerBuildPreviewContainer">
+    <div>
+      <Flex gap={5} id="optimizerBuildPreviewContainer">
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Head]} score={headScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Hands]} score={handsScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Body]} score={bodyScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Feet]} score={feetScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
+      </Flex>
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Head]} score={headScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Hands]} score={handsScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Body]} score={bodyScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.Feet]} score={feetScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.PlanarSphere]} score={planarSphereScore} />
-      <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[props.build?.LinkRope]} score={linkRopeScore} />
-    </Flex>
+    </div>
   );
 }
 OptimizerBuildPreview.propTypes = {

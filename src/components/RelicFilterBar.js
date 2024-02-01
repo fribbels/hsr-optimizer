@@ -194,7 +194,7 @@ export default function RelicFilterBar() {
           <Flex gap={10}>
             <Select
               showSearch
-              filterOption={Utils.characterNameFilterOption}
+              filterOption={Utils.labelFilterOption}
               onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}

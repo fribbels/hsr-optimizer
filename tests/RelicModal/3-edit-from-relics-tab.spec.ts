@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page }) => {
   // navigate to Relics tab
@@ -6,9 +6,8 @@ test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page
 
   // got relics tab
   await page.getByRole('menuitem', { name: 'Relics' }).click();
-
-  await page.locator('.ag-cell').first().click();
-  await page.locator('.ant-card-body > div > div').first().click();
+  await page.locator('div').filter({ hasText: /^Head15HP70511\.010\.43\.55\.2000$/ }).getByRole('img').first().click();
+  await page.getByText('+15HP705CRIT Rate11.0%CRIT').click();
 
   await expect(page.getByRole('dialog')).toContainText('Equipped by');
   await expect(page.getByRole('dialog')).toContainText('+15');

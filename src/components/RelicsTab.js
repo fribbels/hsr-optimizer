@@ -14,6 +14,7 @@ import { Renderer } from "../lib/renderer";
 import { SaveState } from "../lib/saveState";
 import { Hint } from "../lib/hint";
 import PropTypes from "prop-types";
+import { RelicModalController } from "../lib/relicModalController";
 
 const GradeFilter = forwardRef((props, ref) => {
   const [model, setModel] = useState(null);
@@ -84,7 +85,7 @@ export default function RelicsTab() {
   global.relicsGrid = gridRef;
 
   const [relicRows, setRelicRows] = useState(DB.getRelics());
-  window.setRelicRows = setRelicRows
+  global.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -248,24 +249,8 @@ export default function RelicsTab() {
 
   // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
-    relic.id = selectedRelic.id
-
-    const updatedRelic = { ...selectedRelic, ...relic }
-
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id);
-    }
-
-    DB.setRelic(updatedRelic)
-    setRelicRows(DB.getRelics())
-    SaveState.save()
-
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
-
-    Message.success('Successfully edited relic')
-    console.log('onEditOk', updatedRelic)
   }
 
   function editClicked() {

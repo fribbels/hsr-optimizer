@@ -47,7 +47,7 @@ export default Tabs;
 function TabRenderer(props) {
   return (
     <ErrorBoundary fallback={defaultError}>
-      <div style={{display: props.activeKey === props.tabKey ? 'contents' : 'none'}}>
+      <div style={{display: props.activeKey === props.tabKey ? 'contents' : 'none'}} id={props.tabKey}>
         {props.content}
       </div>
     </ErrorBoundary >

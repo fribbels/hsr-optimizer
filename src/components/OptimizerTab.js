@@ -30,7 +30,6 @@ export default function OptimizerTab() {
   }, []);
   gridOptions.datasource = datasource;
 
-
   return (
     <div>
       <Flex style={{ marginBottom: 10 }}>

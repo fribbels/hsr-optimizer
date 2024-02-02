@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -47,7 +46,7 @@ export default (e: Eidolon) => {
     name: 'ultSpdBuff',
     text: 'Ult SPD buff active',
     title: 'Ult SPD buff active',
-    content: `Increases SPD by ${precisionRound(ultSpdBuffValue * 100)}% during Ultimate.`,
+    content: `Increases SPD by ${precisionRound(ultSpdBuffValue)} during Ultimate.`,
   }];
 
   return {

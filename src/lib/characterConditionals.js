@@ -2604,7 +2604,6 @@ function jingliu(e) {
 
 function blackswan(e) {
   let arcanaStackMultiplier = talent(e, 0.12, 0.132)
-  let stack3ArcanaBlastDmg = talent(e, 1.80, 1.98)
   let epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
   let defShredValue = skill(e, 0.208, 0.22)
 
@@ -2638,7 +2637,6 @@ function blackswan(e) {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
       x.DOT_SCALING += dotScaling + arcanaStackMultiplier * r.arcanaStacks
-      x.DOT_SCALING += (r.arcanaStacks >= 3) ? stack3ArcanaBlastDmg : 0
 
       x.DOT_DEF_PEN += (r.arcanaStacks >= 7) ? 0.20 : 0
       x.DEF_SHRED += (r.defDecreaseDebuff) ? defShredValue : 0

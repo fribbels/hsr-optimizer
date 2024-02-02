@@ -63,7 +63,6 @@ export type ConditionalBuff =
   | 'basicEnhanced'
   | 'basicEnhancedExtraHits'
   | 'basicEnhancedSpdBuff'
-  | 'basicEnhancements'
   | 'battleStartDefBuff'
   | 'benedictionBuff'
   | 'buffedState'

@@ -5,7 +5,7 @@ import CheckableTag from "antd/lib/tag/CheckableTag";
 import { HeaderText } from "./HeaderText";
 import DB from "../lib/db";
 import { Utils } from "../lib/utils";
-import { Constants } from "../lib/constants.ts";
+import { Constants, Stats } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
 import { useSubscribe } from 'hooks/useSubscribe';
@@ -27,20 +27,36 @@ export default function RelicFilterBar() {
   }, []);
 
   function generateImageTags(arr, srcFn, tooltip) {
+    function generateDisplay(key) {
+      // QOL to colorize elemental stat images instead of using the substat images
+      const overrides = {
+        [Stats.Physical_DMG]: 'Physical',
+        [Stats.Fire_DMG]: 'Fire',
+        [Stats.Ice_DMG]: 'Ice',
+        [Stats.Lightning_DMG]: 'Lightning',
+        [Stats.Wind_DMG]: 'Wind',
+        [Stats.Quantum_DMG]: 'Quantum',
+        [Stats.Imaginary_DMG]: 'Imaginary',
+      }
+
+      const width = overrides[key] ? 30 : imgWidth
+      const src = Assets.getElement(overrides[key]) || srcFn(key)
+
+      return tooltip ?
+        (
+          <Tooltip title={key} mouseEnterDelay={0.2}>
+            <img style={{ width: width }} src={src} />
+          </Tooltip>
+        )
+        :
+        (
+          <img style={{ width: width }} src={src} />
+        )
+    }
     return arr.map(x => {
       return {
         key: x,
-        display:
-          tooltip ?
-            (
-              <Tooltip title={x} mouseEnterDelay={0.4}>
-                <img style={{ width: imgWidth }} src={srcFn(x)} />
-              </Tooltip>
-            )
-            :
-            (
-              <img style={{ width: imgWidth }} src={srcFn(x)} />
-            )
+        display: generateDisplay(x)
       }
     })
   }

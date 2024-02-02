@@ -11,7 +11,7 @@ import { SaveState } from "../lib/saveState";
 import { Message } from "../lib/message";
 import PropTypes from "prop-types";
 import { useSubscribe } from 'hooks/useSubscribe';
-import { CameraOutlined, DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import CharacterModal from "./CharacterModal";
 import { Utils } from "../lib/utils";
 
@@ -68,6 +68,7 @@ function cellNameRenderer(params) {
 export default function CharacterTab() {
   const [confirmationModal, contextHolder] = Modal.useModal();
   const [screenshotLoading, setScreenshotLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState();
@@ -226,12 +227,23 @@ export default function CharacterTab() {
     global.setIsScoringModalOpen(true)
   }
 
-  function screenshotClicked() {
+  function clipboardClicked() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      Utils.screenshotElementById('characterTabPreview').finally(() => {
+      Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
+      })
+    }, 50)
+  }
+
+  function downloadClicked() {
+    setDownloadLoading(true)
+    // Use a small timeout here so the spinner doesn't lag while the image is being generated
+    setTimeout(() => {
+      const name = selectedCharacter ? DB.getMetadata().characters[selectedCharacter.id].displayName : null
+      Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
+        setDownloadLoading(false)
       })
     }, 50)
   }
@@ -314,7 +326,7 @@ export default function CharacterTab() {
         height: '100%'
     }}>
       <Flex style={{ height: '100%' }}>
-        <Flex vertical gap={10} style={{ marginRight: 8 }}>
+        <Flex vertical gap={8} style={{ marginRight: 8 }}>
           <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
             <AgGridReact
               ref={characterGrid} // Ref for accessing Grid's API
@@ -335,25 +347,26 @@ export default function CharacterTab() {
               onRowDragLeave={onRowDragLeave}
             />
           </div>
-          <Flex vertical gap={10}>
-            <Flex justify='space-between'>
+          <Flex vertical gap={8}>
+            <Flex justify='space-between' gap={8}>
               <Dropdown
                 menu={actionsMenuProps}
                 trigger={['click']}
               >
-                <Button style={{ width: 110 }}>
+                <Button style={{ width: '100%' }}>
                   Actions
                   <DownOutlined />
                 </Button>
               </Dropdown>
-              <Button style={{ width: 110 }} onClick={scoringAlgorithmClicked}>
+              <Button style={{ width: '100%' }} onClick={scoringAlgorithmClicked}>
                 Scoring
               </Button>
             </Flex>
-            <Flex>
-              <Button style={{ width: '100%' }} icon={<CameraOutlined />} onClick={screenshotClicked} type='primary' loading={screenshotLoading}>
-                Screenshot
+            <Flex gap={8}>
+              <Button style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked} type='primary' loading={screenshotLoading}>
+                Copy screenshot
               </Button>
+              <Button style={{ width: 40}} type="primary" icon={<DownloadOutlined />}  onClick={downloadClicked} loading={downloadLoading}/>
             </Flex>
           </Flex>
         </Flex>

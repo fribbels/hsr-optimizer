@@ -568,6 +568,18 @@ export default function OptimizerForm() {
                   <HeaderText>Sets</HeaderText>
                   <TooltipImage type={Hint.sets()} />
                 </Flex>
+                <Form.Item size="default" name='relicSets'>
+                  <Cascader
+                    placeholder="Relics"
+                    options={GenerateSetsOptions()}
+                    showCheckedStrategy={SHOW_CHILD}
+                    tagRender={RelicSetTagRenderer}
+                    placement='bottomLeft'
+                    maxTagCount='responsive'
+                    multiple={true}
+                    expandTrigger="hover"
+                  />
+                </Form.Item>
 
                 <Form.Item size="default" name='ornamentSets'>
                   <Select
@@ -585,18 +597,6 @@ export default function OptimizerForm() {
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
                   </Select>
-                </Form.Item>
-                <Form.Item size="default" name='relicSets'>
-                  <Cascader
-                    placeholder="Relics"
-                    options={GenerateSetsOptions()}
-                    showCheckedStrategy={SHOW_CHILD}
-                    tagRender={RelicSetTagRenderer}
-                    placement='bottomLeft'
-                    maxTagCount='responsive'
-                    multiple={true}
-                    expandTrigger="hover"
-                  />
                 </Form.Item>
               </Flex>
 

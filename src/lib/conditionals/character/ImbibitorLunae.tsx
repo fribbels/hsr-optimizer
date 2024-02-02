@@ -67,7 +67,7 @@ export default(e: Eidolon) => {
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
-      basicEnhancements: 3,
+      basicEnhanced: 3,
       skillOutroarStacks: 4,
       talentRighteousHeartStacks: righteousHeartStackMax,
       e6ResPenStacks: 3,
@@ -86,13 +86,13 @@ export default(e: Eidolon) => {
         1: basicEnhanced1Scaling,
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
-      }[r.basicEnhancements]
+      }[r.basicEnhanced]
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
       // Boost
       x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
-      x.BASIC_RES_PEN += (e >= 6 && r.basicEnhancements == 3) ? 0.20 * r.e6ResPenStacks : 0
+      x.BASIC_RES_PEN += (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0
 
       return x
     },

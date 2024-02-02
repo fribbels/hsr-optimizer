@@ -178,7 +178,6 @@ export const DB = {
   },
 
   setStore: (x) => {
-    console.log('Set state', x)
     let charactersById = {}
     for (let character of x.characters) {
       character.equipped = {}

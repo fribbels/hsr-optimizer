@@ -1,12 +1,15 @@
 /* eslint-disable no-unused-vars  */
 
-import { Flex, Typography } from "antd";
 import React from "react";
-import { HeaderText } from "../components/HeaderText";
-import { Constants } from './constants.ts'
-import { FormSlider, FormSwitch } from "../components/optimizerTab/FormConditionalInputs";
-import { TooltipImage } from "../components/TooltipImage";
-import { Hint } from "./hint";
+import { Flex, Typography } from "antd";
+import { HeaderText } from "components/HeaderText";
+import { FormSlider, FormSwitch } from "components/optimizerTab/FormConditionalInputs";
+import { TooltipImage } from "components/TooltipImage";
+import { Constants } from 'lib/constants.ts'
+import { Hint } from "lib/hint";
+
+import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/iShallBeMyOwnSword'
+import BaptismOfPureThought from 'lib/conditionals/lightcone/baptismOfPureThought'
 
 let Stats = Constants.Stats
 
@@ -100,33 +103,6 @@ const lightConeOptionMapping = {
   23022: ReforgedRemembrance,
 }
 
-function BaptismOfPureThought(s) {
-  let sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
-  let sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
-  let sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='debuffCdStacks' text='Debuff cd stacks' min={0} max={3} lc />
-        <FormSwitch name='postUltBuff' text='Disputation ult cd / fua def pen buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      debuffCdStacks: 3,
-      postUltBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
-      x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
-      x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
 
 function PastSelfInMirror(s) {
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
@@ -340,31 +316,31 @@ function BrighterThanTheSun(s) {
   }
 }
 
-function IShallBeMyOwnSword(s) {
-  let sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
-  let sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
+// function IShallBeMyOwnSword(s) {
+//   let sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
+//   let sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20]
 
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc />
-        <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      eclipseStacks: 3,
-      maxStackDefPen: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
+//   return {
+//     display: () => (
+//       <Flex vertical gap={defaultGap} >
+//         <FormSlider name='eclipseStacks' text='Eclipse stacks' min={0} max={3} lc />
+//         <FormSwitch name='maxStackDefPen' text='Max stack def pen' lc />
+//       </Flex>
+//     ),
+//     defaults: () => ({
+//       eclipseStacks: 3,
+//       maxStackDefPen: true,
+//     }),
+//     precomputeEffects: (x, request) => {
+//       let r = request.lightConeConditionals
 
-      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
-      x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
+//       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
+//       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+//     },
+//     calculatePassives: (/*c, request */) => { },
+//     calculateBaseMultis: (/* c, request */) => { }
+//   }
+// }
 
 function TimeWaitsForNoOne(/* s */) {
   // const sValues = [0, 0, 0, 0, 0]
@@ -1989,9 +1965,15 @@ function EarthlyEscapade(s) {
   }
 }
 
+
+
+
+
+
 export const LightConeConditionals = {
   get: (request) => {
-    let lcFn = lightConeOptionMapping[request.lightCone]
+    let lcFn = lightConeOptionMapping[request.lightCone];
+    
     if (!lcFn) {
       return {
         display: () => (
@@ -2004,27 +1986,27 @@ export const LightConeConditionals = {
     }
     return lcFn(request.lightConeSuperimposition - 1)
   },
-  getDisplayForLightCone: (id, superimposition) => {
+  getDisplayLightConePassives: (id, superimposition) => {
     if (!id || !lightConeOptionMapping[id]) {
       return (
         <Flex vertical gap={5}>
           <Flex justify='space-between' align='center'>
             <HeaderText>Light cone passives</HeaderText>
-            <TooltipImage type={Hint.lightConePassives()} />
+            <TooltipImage type={Hint.lightConePassives()} lc />
           </Flex>
           <Typography.Text italic>Select a Light cone to view passives</Typography.Text>
         </Flex>
       )
     }
 
-    let lcFn = lightConeOptionMapping[id]
-    let display = lcFn(superimposition - 1).display()
+    let lcFn = lightConeOptionMapping[id];
+    let display = lcFn(superimposition - 1).display();
 
     return (
       <Flex vertical gap={5}>
         <Flex justify='space-between' align='center'>
           <HeaderText>Light cone passives</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()} />
+          <TooltipImage type={Hint.lightConePassives()} lc />
         </Flex>
         {display}
       </Flex>

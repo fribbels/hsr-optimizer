@@ -38,6 +38,7 @@ import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 
+
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
 
@@ -81,15 +82,16 @@ export default function OptimizerForm() {
   useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
-    let defaults = lcFn.defaults()
+    let defaults = lcFn.defaults();
     let lightConeForm = form.lightConeConditionals || {}
-
     // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
     // Only if there's a missing field
     Object.assign(defaults, lightConeForm)
-    if (Object.values(defaults).includes(undefined)) {
+  console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm);
+  console.log(lcFn.defaults.valueOf());
+    // if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
-    }
+    // }
   }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
@@ -151,7 +153,7 @@ export default function OptimizerForm() {
     }
     const request = allValues
 
-    console.log('@onValuesChange'/* , request, changedValues */);
+    console.log('@onValuesChange' , request, changedValues);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
@@ -226,7 +228,7 @@ export default function OptimizerForm() {
   }, [characterEidolon, optimizerTabFocusCharacter])
 
   const lightConeConditionalsContent = useMemo(() => {
-    return LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)
+    return LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)
   }, [selectedLightCone, lightConeSuperimposition])
 
   function OrnamentSetTagRenderer(props) {
@@ -317,6 +319,7 @@ export default function OptimizerForm() {
 
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
+            {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
                 <Image
@@ -328,6 +331,7 @@ export default function OptimizerForm() {
               </div>
             </FormCard>
 
+            {/* Character Levels/Eids + Light Cone Superimps */}
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Character</HeaderText>
@@ -393,13 +397,14 @@ export default function OptimizerForm() {
                     />
                   </Form.Item>
                 </Flex>
+
               </Flex>
             </FormCard>
 
             <FormCard>
               {characterConditionalsContent}
             </FormCard>
-
+            {/* Light Cone Card */}
             <FormCard justify='space-between'>
               {lightConeConditionalsContent}
 
@@ -581,17 +586,6 @@ export default function OptimizerForm() {
                     maxTagCount='responsive'>
                   </Select>
                 </Form.Item>
-                {/* <ConfigProvider
-                  theme={{
-                    components: {
-                      Cascader: {
-                        dropdownHeight: 625,
-                        controlItemWidth: 100,
-                        controlWidth: 100
-                      },
-                    },
-                  }}
-                > */}
                 <Form.Item size="default" name='relicSets'>
                   <Cascader
                     placeholder="Relics"
@@ -604,7 +598,6 @@ export default function OptimizerForm() {
                     expandTrigger="hover"
                   />
                 </Form.Item>
-                {/* </ConfigProvider> */}
               </Flex>
 
               <Button

@@ -33,6 +33,7 @@
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
+    "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"

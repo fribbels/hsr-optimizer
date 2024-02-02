@@ -3,43 +3,50 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import WithPopover from "components/common/WithPopover";
 
-let justify = 'flex-start'
-let align = 'center'
-let inputWidth = 75
-let numberWidth = 65
-let sliderWidth = 145
+const justify = 'flex-start'
+const align = 'center'
+const inputWidth = 75
+const numberWidth = 65
+const sliderWidth = 145
 
 const Text = styled(Typography)`
   white-space: pre-line;
 `
 function precisionRound(number, precision = 8) {
-  let factor = Math.pow(10, precision);
+  const factor = Math.pow(10, precision);
   return Math.round(number * factor) / factor;
 }
 
 export function FormSwitch(props) {
   return (
+
     <Flex justify={justify} align={align}>
-      <div style={{minWidth: inputWidth, display: 'block'}}>
-        <Form.Item name={[conditionalType(props), props.name]} valuePropName='checked'>
-          <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
-            disabled={props.disabled}
-            defaultChecked={!props.disabled}
-          />
-        </Form.Item>
-      </div>
+      <Form.Item name={[conditionalType(props), props.name]} valuePropName='checked'>
+        <Switch
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<CloseOutlined />}
+          disabled={props.disabled}
+          defaultChecked={!props.disabled}
+          style={{ width: 45, marginRight: 10 }}
+        />
+      </Form.Item>
       <Text>{props.text}</Text>
     </Flex>
+
   )
 }
 FormSwitch.propTypes = {
   disabled: PropTypes.bool,
-  text: PropTypes.string,
   name: PropTypes.string,
+  text: PropTypes.string,
 }
+export const FormSwitchWithPopover = WithPopover(FormSwitch);
+FormSwitchWithPopover.propTypes = Object.assign({}, FormSwitch.propTypes, WithPopover.propTypes);
+
+// export type FormSwitchWithPopover = 
+
 
 export function FormSlider(props) {
   const [inputValue, setInputValue] = useState(1);
@@ -47,14 +54,14 @@ export function FormSlider(props) {
     setInputValue(newValue);
   };
 
-  let multiplier = (props.percent ? 100 : 1)
-  let step = props.percent ? 0.01 : 1
-  let symbol = props.percent ? '%' : ''
+  const multiplier = (props.percent ? 100 : 1)
+  const step = props.percent ? 0.01 : 1
+  const symbol = props.percent ? '%' : ''
 
   return (
-    <Flex vertical gap={5} style={{marginBottom: 0}}>
+    <Flex vertical gap={5} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
-        <div style={{minWidth: inputWidth, display: 'block'}}>
+        <div style={{ minWidth: inputWidth, display: 'block' }}>
           <Form.Item name={[conditionalType(props), props.name]}>
             <InputNumber
               min={props.min}
@@ -64,7 +71,7 @@ export function FormSlider(props) {
               style={{
                 width: numberWidth,
               }}
-              parser={(value) => value == null || value == '' ? 0 : precisionRound(value / multiplier) }
+              parser={(value) => value == null || value == '' ? 0 : precisionRound(value / multiplier)}
               formatter={(value) => `${precisionRound(value * multiplier)}`}
               addonAfter={symbol}
               onChange={onChange}
@@ -74,7 +81,7 @@ export function FormSlider(props) {
         </div>
         <Text>{props.text}</Text>
       </Flex>
-      <Flex align='center' justify='flex-start' gap={10} style={{height: 14}}>
+      <Flex align='center' justify='flex-start' gap={10} style={{ height: 14 }}>
         <Form.Item name={[conditionalType(props), props.name]}>
           <Slider
             min={props.min}
@@ -94,7 +101,7 @@ export function FormSlider(props) {
             disabled={props.disabled}
           />
         </Form.Item>
-        <Text style={{minWidth: 20, marginBottom: 2, textAlign: 'center'}}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>
+        <Text style={{ minWidth: 20, marginBottom: 2, textAlign: 'center' }}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>
       </Flex>
     </Flex>
   )
@@ -108,6 +115,11 @@ FormSlider.propTypes = {
   percent: PropTypes.bool,
 }
 
+export const FormSliderWithPopover = WithPopover(FormSlider);
+FormSliderWithPopover.propTypes = {
+  ...FormSlider.propTypes,
+  ...WithPopover.propTypes
+}
 
 function conditionalType(props) {
   if (props.lc) {

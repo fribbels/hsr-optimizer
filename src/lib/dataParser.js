@@ -1,12 +1,14 @@
-import characters from '../data/characters.json';
-import characterPromotions from '../data/character_promotions.json';
-import lightCones from '../data/light_cones.json';
-import lightConePromotions from '../data/light_cone_promotions.json';
-import relicMainAffixes from '../data/relic_main_affixes.json';
-import relicSubAffixes from '../data/relic_sub_affixes.json';
-import relicSets from '../data/relic_sets.json';
-import { Constants } from "./constants.ts";
-import DB from "./db";
+import characters from 'data/characters.json';
+import characterPromotions from 'data/character_promotions.json';
+import lightCones from 'data/light_cones.json';
+import lightConePromotions from 'data/light_cone_promotions.json';
+import lightConeRanks from 'data/en/light_cone_ranks.json';
+import relicMainAffixes from 'data/relic_main_affixes.json';
+import relicSubAffixes from 'data/relic_sub_affixes.json';
+import relicSets from 'data/relic_sets.json';
+import characterSkills from 'data/en/character_skills.json'; 
+import { Constants } from "lib/constants.ts";
+import DB from "lib/db";
 
 export const DataParser = {
   parse: () => {
@@ -18,19 +20,22 @@ export const DataParser = {
       delete characterData.skill_trees
     }
 
-    const lightConeSuperimpositions = getSuperimpositions()
+    const lightConeSuperimpositions = getSuperimpositions();
+    const lightConeRanks = getLightConeRanks();
     for (const [id, lcData] of Object.entries(lightCones)) {
       if (lightConeSuperimpositions[id]) {
         lcData.superimpositions = lightConeSuperimpositions[id]
       } else {
         lcData.superimpositions = {}
       }
-      lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
+      lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id]);
+      lcData.ranks = lightConeRanks[id];
     }
 
     const characterTraces = getOverrideTraces();
     const imageCenters = getOverrideImageCenter();
     const scoringMetadata = getScoringMetadata()
+
     for (const [id, traceData] of Object.entries(characterTraces)) {
       let imageCenter = { x: 1024, y: 1024 }
       if (imageCenters[id] != undefined) {
@@ -53,12 +58,12 @@ export const DataParser = {
     const data = {
       characters: characters,
       characterPromotions: characterPromotions,
+      characterSkills: characterSkills,
       nicknames: characterPromotions,
       lightCones: lightCones,
       relics: relics
     }
     DB.setMetadata(data);
-    console.log('Metadata: ', data)
 
     return data;
   }
@@ -71,6 +76,7 @@ const displayNameMapping = {
   "8004": "Stelle (Preservation)",
   "1213": "Imbibitor Lunae"
 }
+
 function getDisplayName(character) {
   if (character.id in displayNameMapping) {
     return displayNameMapping[character.id]
@@ -689,7 +695,6 @@ function getOverrideTraces() {
   }
 }
 
-
 function getOverrideImageCenter() {
   return {
     "1001": { // March 7th
@@ -882,7 +887,6 @@ function getOverrideImageCenter() {
     },
   }
 }
-
 
 function getScoringMetadata() {
   return {
@@ -3282,4 +3286,8 @@ function getScoringMetadata() {
       ]
     },
   }
+}
+
+const getLightConeRanks = () => {
+  return lightConeRanks;
 }

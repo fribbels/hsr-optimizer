@@ -12,7 +12,8 @@ import { Form } from "types/CharacterConditional";
 const Tingyun = (e: Eidolon) => {
   const skillAtkBoostMax = skill(e, 0.25, 0.27);
   const ultDmgBoost = ult(e, 0.50, 0.56);
-  const skillAtkBoostScaling = skill(e, 0.50, 0.55) + ((e >= 4) ? 0.20 : 0);
+  const skillAtkBoostScaling = skill(e, 0.50, 0.55);
+  const skillLightningDmgBoostScaling = skill(e, 0.40, 0.44) + ((e >= 4) ? 0.20 : 0);
   // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0);
 
   const basicScaling = basic(e, 1.00, 1.10);
@@ -25,7 +26,7 @@ const Tingyun = (e: Eidolon) => {
     name: 'benedictionBuff',
     text: 'Benediction buff',
     title: 'Benediction buff',
-    content: `Grants a single ally with Benediction to increase their ATK by ${precisionRound(skillAtkBoostScaling * 100)}%, up to ${precisionRound(skillAtkBoostMax * 100)}% of Tingyun's current ATK.`,
+    content: `Grants a single ally with Benediction to increase their ATK by ${precisionRound(skillAtkBoostScaling * 100)}%, up to ${precisionRound(skillAtkBoostMax * 100)}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to ${precisionRound(skillLightningDmgBoostScaling * 100)}% of that ally's ATK. This effect lasts for 3 turns.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'skillSpdBuff',
@@ -75,13 +76,14 @@ const Tingyun = (e: Eidolon) => {
       // Boost
       x.BASIC_BOOST += 0.40
       x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
+      x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling : 0
 
       return x;
     },
     calculateBaseMultis: (c) => {
       const x = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + x.BENEDICTION_LIGHTNING_DMG * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     }

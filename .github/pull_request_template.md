@@ -24,7 +24,7 @@
 - [ ] I have tested the changes locally.
 - [ ] I have reviewed the code changes.
 
-## Screenshots (if applicable)
+## Screenshots
 <!-- If the changes include any visual updates, please provide screenshots here. -->
 
 ## Additional Notes

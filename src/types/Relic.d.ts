@@ -1,12 +1,12 @@
 import { MainStats, Parts, Sets, SubStats } from "lib/constants";
-import { GUID, HSRId } from "./Common";
+import { GUID, DataMineId } from "./Common";
 
 export type RelicGrade = 2 | 3 | 4 | 5;
 export type RelicEnhance = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
 export type Relic = {
   // refactor?
-  augmentedCaseWeight?: any;
+  // augmentedCaseWeight?: any;
   averageCaseWeight?: number;
   bestCaseWeight?: number;
   cs?: number;
@@ -15,7 +15,7 @@ export type Relic = {
   ss?: number
 
   enhance: RelicEnhance;
-  equippedBy: HSRId;
+  equippedBy: DataMineId;
   grade: RelicGrade;
   id: GUID;
 

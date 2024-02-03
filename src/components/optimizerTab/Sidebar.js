@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Typography } from "antd";
+import { Button, Divider, Flex, Progress, Typography } from "antd";
 import React from 'react';
 import FormCard from "./FormCard";
 import { HeaderText } from "../HeaderText";
@@ -45,7 +45,7 @@ export default function Sidebar() {
   return (
     <Flex vertical style={{overflow: 'clip'}}>
       <Flex style={{position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10}}>
-        <FormCard height={500}>
+        <FormCard height={550}>
           <Flex vertical gap={10}>
             <Flex justify='space-between' align='center'>
               <HeaderText>Permutations</HeaderText>
@@ -65,6 +65,11 @@ export default function Sidebar() {
               <PermutationDisplay left='Perms' right={permutations} />
               <PermutationDisplay left='Searched' right={permutationsSearched} />
               <PermutationDisplay left='Results' right={permutationsResults} />
+            </Flex>
+
+            <Flex vertical>
+              <HeaderText>Progress</HeaderText>
+              <Progress percent={Math.ceil(Number(permutationsSearched) / Number(permutations) * 100)} size="small" />
             </Flex>
 
             <Flex justify='space-between' align='center' style={{marginTop: 10}}>

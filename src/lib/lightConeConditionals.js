@@ -134,8 +134,6 @@ const lightConeOptionMapping = {
 
 
 
-
-
 function HeyOverHere(s) {
   const sValues = [0.16, 0.19, 0.22, 0.25, 0.28]
 

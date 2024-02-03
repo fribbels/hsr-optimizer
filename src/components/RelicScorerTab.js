@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import DB from "lib/db";
 import { useSubscribe } from 'hooks/useSubscribe';
 import { Utils } from "../lib/utils";
-import { CameraOutlined } from "@ant-design/icons";
+import { CameraOutlined, DownloadOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -112,15 +112,14 @@ export default function RelicScorerTab() {
           initialValues={{ scorerId: initialId }}
         >
           <Flex style={{ margin: 20, width: 1000 }} justify="center" align="center" gap={10}>
-            <Text style={{ width: 'fit-content' }}>Account ID:</Text>
             <Form.Item size="default" name='scorerId'>
-              <Input style={{ width: 150 }} />
+              <Input style={{ width: 150 }} placeholder='Account ID' />
             </Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick}>
               Submit
             </Button>
             <Button
-              style={{ width: 200 }}
+              style={{ width: 150 }}
               onClick={scoringClicked}
             >
               Scoring algorithm
@@ -144,6 +143,7 @@ function CharacterPreviewSelection(props) {
   let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
 
   const [screenshotLoading, setScreenshotLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
 
   // TODO: Revisit if force updates are necessary
   const [, forceUpdate] = React.useReducer(o => !o, true);
@@ -192,12 +192,23 @@ function CharacterPreviewSelection(props) {
     SaveState.save()
   }
 
-  async function screenshotClicked() {
+  async function clipboardClicked() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      Utils.screenshotElementById('relicScorerPreview').finally(() => {
+      Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
+      })
+    }, 50)
+  }
+
+  async function downloadClicked() {
+    setDownloadLoading(true)
+    // Use a small timeout here so the spinner doesn't lag while the image is being generated
+    setTimeout(() => {
+      const name = props.selectedCharacter ? DB.getMetadata().characters[props.selectedCharacter.id].displayName : null
+      Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
+        setDownloadLoading(false)
       })
     }, 50)
   }
@@ -208,9 +219,10 @@ function CharacterPreviewSelection(props) {
         <Button onClick={importClicked} style={{width: 200}}>
           Import relics into optimizer
         </Button>
-        <Button onClick={screenshotClicked} style={{width: 200}} icon={<CameraOutlined />} loading={screenshotLoading}>
-          Screenshot
+        <Button onClick={clipboardClicked} style={{width: 200}} icon={<CameraOutlined />} loading={screenshotLoading}>
+          Copy screenshot
         </Button>
+        <Button style={{ width: 40}}  icon={<DownloadOutlined />}  onClick={downloadClicked} loading={downloadLoading}/>
       </Flex>
 
       <Flex vertical align='center'>

@@ -30,7 +30,6 @@ import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
 import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
 import DB from "lib/db";
-import { Message } from "lib/message";
 import { Hint } from "lib/hint";
 import { Utils } from 'lib/utils.js';
 
@@ -136,26 +135,6 @@ export default function OptimizerForm() {
     onValuesChange({}, initialValues)
   }, [initialValues])
 
-  const onFinish = (x) => {
-    OptimizerTabController.fixForm(x);
-    if (!OptimizerTabController.validateForm(x)) {
-      return
-    }
-    DB.addFromForm(x)
-    SaveState.save()
-    console.log('Form finished', x);
-
-    let optimizationId = uuidv4()
-    setOptimizationId(optimizationId)
-    x.optimizationId = optimizationId
-
-    Optimizer.optimize(x)
-  };
-
-  const onFinishFailed = () => {
-    Message.error('Submit failed!');
-  };
-
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return;
     let keys = Object.keys(changedValues)
@@ -222,7 +201,25 @@ export default function OptimizerForm() {
 
   function startClicked() {
     console.log('Start clicked');
-    optimizerForm.submit()
+
+    // We dont actually want to submit the form as it would kick off a re-render
+    // Intercept the event and just call the optimizer directly
+    const form = optimizerForm.getFieldsValue()
+
+    OptimizerTabController.fixForm(form);
+    if (!OptimizerTabController.validateForm(form)) {
+      return
+    }
+
+    DB.addFromForm(form)
+    SaveState.save()
+    console.log('Form finished', form);
+
+    let optimizationId = uuidv4()
+    setOptimizationId(optimizationId)
+    form.optimizationId = optimizationId
+
+    Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
 
@@ -315,8 +312,6 @@ export default function OptimizerForm() {
       <Form
         form={optimizerForm}
         layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
@@ -573,6 +568,18 @@ export default function OptimizerForm() {
                   <HeaderText>Sets</HeaderText>
                   <TooltipImage type={Hint.sets()} />
                 </Flex>
+                <Form.Item size="default" name='relicSets'>
+                  <Cascader
+                    placeholder="Relics"
+                    options={GenerateSetsOptions()}
+                    showCheckedStrategy={SHOW_CHILD}
+                    tagRender={RelicSetTagRenderer}
+                    placement='bottomLeft'
+                    maxTagCount='responsive'
+                    multiple={true}
+                    expandTrigger="hover"
+                  />
+                </Form.Item>
 
                 <Form.Item size="default" name='ornamentSets'>
                   <Select
@@ -590,18 +597,6 @@ export default function OptimizerForm() {
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
                   </Select>
-                </Form.Item>
-                <Form.Item size="default" name='relicSets'>
-                  <Cascader
-                    placeholder="Relics"
-                    options={GenerateSetsOptions()}
-                    showCheckedStrategy={SHOW_CHILD}
-                    tagRender={RelicSetTagRenderer}
-                    placement='bottomLeft'
-                    maxTagCount='responsive'
-                    multiple={true}
-                    expandTrigger="hover"
-                  />
                 </Form.Item>
               </Flex>
 

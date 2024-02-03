@@ -13,7 +13,6 @@ import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
-import { GPUOptimizer } from './lib/gpuOptimizer'
 import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
@@ -40,7 +39,6 @@ window.DataParser = DataParser;
 window.OptimizerTabController = OptimizerTabController;
 window.DB = DB;
 window.CharacterStats = CharacterStats;
-window.GPUOptimizer = GPUOptimizer;
 window.Utils = Utils;
 window.Assets = Assets;
 window.RelicAugmenter = RelicAugmenter;

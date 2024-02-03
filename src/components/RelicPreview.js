@@ -95,7 +95,7 @@ const RelicPreview = ({
             </Text>
           </Flex>
           <Text>
-            {(scored) && `${score.score} (${score.rating})${score.meta.modified ? ' *' : ''}`}
+            {(scored) && `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}`}
           </Text>
         </Flex>
       </Flex>

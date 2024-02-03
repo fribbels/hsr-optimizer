@@ -14,7 +14,7 @@ const Tingyun = (e: Eidolon) => {
   const ultDmgBoost = ult(e, 0.50, 0.56);
   const skillAtkBoostScaling = skill(e, 0.50, 0.55);
   const skillLightningDmgBoostScaling = skill(e, 0.40, 0.44) + ((e >= 4) ? 0.20 : 0);
-  // const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0);
+  const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0);
 
   const basicScaling = basic(e, 1.00, 1.10);
   const skillScaling = skill(e, 0, 0);
@@ -76,7 +76,7 @@ const Tingyun = (e: Eidolon) => {
       // Boost
       x.BASIC_BOOST += 0.40
       x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
-      x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling : 0
+      x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0
 
       return x;
     },

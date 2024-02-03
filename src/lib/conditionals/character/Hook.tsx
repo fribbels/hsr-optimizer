@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, skillRev, ultRev, talentRev, precisionRound } from "lib/conditionals/utils";
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from "lib/conditionals/utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
@@ -21,16 +21,16 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'enhancedSkill',
     name: 'enhancedSkill',
-    text: 'Enhanced Skill',
-    title: 'Enhanced Skill',
-    content: `After Ult, Skill DMG increases by ${precisionRound(skillEnhancedScaling * 100)}%.`,
+    text: 'Enhanced skill',
+    title: 'Enhanced skill',
+    content: `After using Ultimate, the next Skill to be used is Enhanced. Enhanced Skill deals Fire DMG equal to ${precisionRound(skillEnhancedScaling * 100)}% of Hook's ATK to a single enemy and reduced DMG to adjacent enemies.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'targetBurned',
     name: 'targetBurned',
-    text: 'Target Burned',
-    title: 'Target Burned',
-    content: `Increases DMG by ${precisionRound(targetBurnedExtraScaling * 100)}% against enemies affected by Burn.`,
+    text: 'Target burned',
+    title: 'Target burned',
+    content: `When attacking a target afflicted with Burn, deals Additional Fire DMG equal to ${precisionRound(targetBurnedExtraScaling * 100)}% of Hook's ATK.`,
   }];
 
 

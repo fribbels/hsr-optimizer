@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -24,16 +23,16 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'skillActive',
     name: 'skillActive',
-    text: 'Skill Active',
-    title: 'Skill Active',
-    content: `Increases CRIT Rate by ${precisionRound(skillCrBuffValue * 100)}%.`,
+    text: 'Skill active',
+    title: 'Skill active',
+    content: `While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP, and increases CRIT Rate by ${precisionRound(skillCrBuffValue * 100)}%.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e6TeamHpLostPercent',
     name: 'e6TeamHpLostPercent',
-    text: 'E6 Team HP Lost',
-    title: 'E6 Team HP Lost',
-    content: `Increases DMG by 2% per 1% HP lost by the team. Max 120%.`,
+    text: 'E6 team HP lost',
+    title: 'E6 team HP lost',
+    content: `E6: Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. Fu Xuan's Ultimate DMG will increase by 200% of this tally of HP loss. This tally is also capped at 120% of Fu Xuan's Max HP.`,
     min: 0,
     max: 1.2,
     percent: true,

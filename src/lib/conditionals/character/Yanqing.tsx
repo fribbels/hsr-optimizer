@@ -2,7 +2,7 @@ import React from 'react';
 import { Stats } from 'lib/constants';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from '../constants';
-import { calculateAshblazingSet, ultRev, basicRev, skillRev, talentRev } from '../utils';
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from '../utils';
 import { Eidolon } from 'types/Character';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 
@@ -24,36 +24,43 @@ const Yanqing = (e: Eidolon) => {
     name: 'ultBuffActive',
     text: 'Ult buff active',
     title: 'Ult buff active',
-    content: `Increases CRIT Rate by ${Math.round(ultCdBuffValue * 100)}%`,
+    content: `Increases Yanqing's CRIT Rate by 60%. When Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra ${precisionRound(ultCdBuffValue * 100)}%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'soulsteelBuffActive',
     name: 'soulsteelBuffActive',
     text: 'Soulsteel buff active',
     title: 'Soulsteel buff active',
-    content: `Increases CRIT DMG by ${Math.round(talentCrBuffValue * 100)}% and CRIT Rate by ${Math.round(talentCdBuffValue * 100)}%`,
+    content: `When Soulsteel Sync is active, Yanqing's CRIT Rate increases by ${precisionRound(talentCrBuffValue * 100)}% and his CRIT DMG increases by ${precisionRound(talentCdBuffValue * 100)}%. 
+    ::BR::
+    Before using Ultimate, when Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra ${precisionRound(ultCdBuffValue * 100)}%.
+    ::BR::
+    When Soulsteel Sync is active, Effect RES increases by 20%.
+    ::BR::
+    E2: When Soulsteel Sync is active, Energy Regeneration Rate increases by an extra 10%.
+    `,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'critSpdBuff',
     name: 'critSpdBuff',
     text: 'Crit spd buff',
     title: 'Crit spd buff',
-    content: 'Increases SPD by 10%',
+    content: 'When a CRIT Hit is triggered, increases SPD by 10% for 2 turn(s).',
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e1TargetFrozen',
     name: 'e1TargetFrozen',
     text: 'E1 target frozen',
     title: 'E1 target frozen',
-    content: 'Increases ATK by 60%',
+    content: 'When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK.',
     disabled: (e < 1)
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e4CurrentHp80',
     name: 'e4CurrentHp80',
-    text: 'E4 self HP >= 80%',
-    title: 'E4 self HP >= 80%',
-    content: 'Increases RES Pen by 12%',
+    text: 'E4 self HP ≥ 80% RES PEN buff',
+    title: 'E4 self HP ≥ 80% RES PEN buff',
+    content: 'When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%.',
     disabled: (e < 4)
   }];
 

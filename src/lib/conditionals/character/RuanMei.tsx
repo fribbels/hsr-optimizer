@@ -3,7 +3,7 @@ import { Stats } from "lib/constants";
 import { Eidolon } from "types/Character";
 import { Form } from "types/CharacterConditional";
 
-import { ult, basic, skill, precisionRound } from "../utils";
+import { basic, precisionRound, skill, ult } from "../utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 import { baseComputedStatsObject } from "../constants";
@@ -21,14 +21,16 @@ const RuanMei = (e: Eidolon) => {
     name:'ultFieldActive',
     text: 'Ult field active',
     title: 'Ult field active',
-    content: `Increases resistance penetration by ${fieldResPenValue * 100}% and defense shred by 20%`,
+    content: `While inside the field, all allies' All-Type RES PEN increases by ${precisionRound(fieldResPenValue * 100)}%.
+    ::BR::
+    E1: While the Ultimate's field is deployed, the DMG dealt by all allies ignores 20% of the target's DEF.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e4BeBuff',
     name:'e4BeBuff',
     text: 'E4 break effect buff',
     title: 'E4 break effect buff',
-    content: 'Increases break effect by 100%',
+    content: 'E4: When an enemy target\'s Weakness is Broken, Ruan Mei\'s Break Effect increases by 100% for 3 turn(s).',
     disabled: (e < 4),
   }];
 

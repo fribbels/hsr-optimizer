@@ -16,20 +16,19 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'fieldActive',
     name: 'fieldActive',
-    text: 'Field Active',
-    title: 'Field Active',
+    text: 'Field active',
+    title: 'Field active',
     content: `
-      E1: Increases ATK by 20% for 1 turn(s) after using Ultimate.
-      ::BR::
-      E4: When Luocha's Field is active, enemies become Weakened and deal 12% less DMG.
+      E1: While the Field is active, ATK of all allies increases by 20%.
     `,
+    // disabled: e < 1, Not disabling this one since technically the field can be active at E0
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e6ResReduction',
     name: 'e6ResReduction',
-    text: 'E6 RES Reduction',
-    title: 'E6 RES Reduction',
-    content: `Decreases target's RES by 20% for 1 turn(s) after using Ultimate.`,
+    text: 'E6 RES reduction',
+    title: 'E6 RES reduction',
+    content: `E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turn(s).`,
     disabled: e < 6,
   }]
 

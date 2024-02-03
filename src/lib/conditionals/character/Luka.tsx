@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, skillRev, ultRev, precisionRound } from "lib/conditionals/utils";
+import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
@@ -22,22 +22,22 @@ export default function luka(e: Eidolon) {
     formItem: FormSwitchWithPopover,
     id: 'basicEnhanced',
     name: 'basicEnhanced',
-    text: 'Basic Enhanced',
-    title: 'Basic Enhanced: Sky-Shatter Fist',
-    content: `Increases DMG by ${precisionRound(basicEnhancedHitValue * 100)}%.`,
+    text: 'Basic enhanced',
+    title: 'Basic enhanced: Sky-Shatter Fist',
+    content: `Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'targetUltDebuffed',
     name: 'targetUltDebuffed',
-    text: 'Target Ult Debuffed',
-    title: 'Target Ult Debuffed',
-    content: `Increases DMG taken by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% against enemies affected by Ultimate.`,
+    text: 'Target ult debuffed',
+    title: 'Target ult debuffed',
+    content: `Increase the target's DMG received by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% for 3 turn(s)`,
   }, {
-    FormItem: FormSliderWithPopover,
+    formItem: FormSliderWithPopover,
     id: 'basicEnhancedExtraHits',
     name: 'basicEnhancedExtraHits',
-    text: 'Basic Enhanced Extra Hits',
-    title: 'Basic Enhanced Extra Hits',
+    text: 'Enhanced basic extra hits',
+    title: 'Enhanced basic extra hits',
     content: `Increases the number of hits of Basic Enhanced.`,
     min: 0,
     max: 3,
@@ -45,9 +45,9 @@ export default function luka(e: Eidolon) {
     formItem: FormSwitchWithPopover,
     id: 'e1TargetBleeding',
     name: 'e1TargetBleeding',
-    text: 'E1 Target Bleeding',
-    title: 'E1 Target Bleeding',
-    content: `Increases Elemental DMG by 15% against enemies affected by Bleeding.`,
+    text: 'E1 target bleeding',
+    title: 'E1 target bleeding',
+    content: `E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s).`,
     disabled: e < 1,
   }, {
     formItem: FormSliderWithPopover,
@@ -55,11 +55,12 @@ export default function luka(e: Eidolon) {
     name: 'e4TalentStacks',
     text: 'E4 talent stacks',
     title: 'E4 talent stacks',
-    content: `Increases ATK by 5% per stack.`,
+    content: `E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 time(s).`,
     min: 0,
     max: 4,
     disabled: e < 4,
   }];
+
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({

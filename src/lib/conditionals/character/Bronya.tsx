@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, ultRev } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -26,37 +25,37 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'techniqueBuff',
     name: 'techniqueBuff',
-    text: 'Technique Buff',
-    title: 'Technique Buff',
-    content: `Increases ATK by ${precisionRound(0.15 * 100)}%.`,
+    text: 'Technique buff',
+    title: 'Technique buff',
+    content: `Increases all allies' ATK by ${precisionRound(0.15 * 100)}% for 2 turns at the start of the battle.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'battleStartDefBuff',
     name: 'battleStartDefBuff',
-    text: 'Battle Start DEF Buff',
-    title: 'A4: Battle Start DEF Buff',
-    content: `A4: Increases DEF by ${precisionRound(0.20 * 100)}%.`,
+    text: 'Battle start DEF buff',
+    title: 'Battle start DEF buff',
+    content: `Increases all allies' DEF by ${precisionRound(0.20 * 100)}% for 2 turns at the start of the battle.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill Buff',
-    title: 'Skill Buff',
-    content: `Increases DMG by ${precisionRound(skillDmgBoostValue * 100)}% during Skill.`,
+    text: 'Skill buff',
+    title: 'Skill buff',
+    content: `Increases DMG by ${precisionRound(skillDmgBoostValue * 100)}%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult Buff',
-    title: 'Ult Buff',
-    content: `Increases ATK by ${precisionRound(ultAtkBoostValue * 100)}% and Crit DMG by ${precisionRound(ultCdBoostValue * 100)}%.`,
+    text: 'Ult buff',
+    title: 'Ult buff',
+    content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: 'E2 Skill SPD Buff',
-    title: 'E2 Skill SPD Buff',
-    content: `Ally targeted by skill increases SPD by ${precisionRound(0.30 * 100)}%.`,
+    text: 'E2 skill SPD buff',
+    title: 'E2 skill SPD buff',
+    content: `E2: When using Skill, the target ally's SPD increases by ${precisionRound(0.30 * 100)}% after taking action, lasting for 1 turn.`,
     disabled: e < 2,
   }];
 

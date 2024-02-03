@@ -22,23 +22,26 @@ const Yukong = (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'roaringBowstrings',
     name: 'roaringBowstrings',
-    text: 'Roaring bowstrings',
-    title: `Roaring Bowstrings: Increases ATK by ${skillAtkBuffValue * 100}%`,
-    content: `Obtains 2 stack(s) of "Roaring Bowstrings" (to a maximum of 2 stacks). When "Roaring Bowstrings" is active, the ATK of all allies increases by ${precisionRound(skillAtkBuffValue * 100)}%, and every time an ally's turn (including Yukong's) ends, Yukong loses 1 stack of "Roaring Bowstrings."\nWhen it's the turn where Yukong gains "Roaring Bowstrings" by using Skill, "Roaring Bowstrings" will not be removed.`,
+    text: 'Roaring Bowstrings',
+    title: `Roaring Bowstrings`,
+    content: `When "Roaring Bowstrings" is active, the ATK of all allies increases by ${precisionRound(skillAtkBuffValue * 100)}%.
+    ::BR::
+    When "Roaring Bowstrings" is active, Yukong deals 30% more DMG to enemies.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'ultBuff',
     name: 'ultBuff',
     text: 'Ult buff',
-    title: `Increases CRIT DMG by ${precisionRound(ultCrBuffValue * 100)}% and CRIT Rate by ${ultCdBuffValue * 100}%`,
+    title: `Ult: Diving Kestrel`,
     content: `If "Roaring Bowstrings" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by ${precisionRound(ultCrBuffValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBuffValue * 100)}%. At the same time, deals Imaginary DMG equal to ${precisionRound(ultScaling * 100)}% of Yukong's ATK to a single enemy.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'initialSpeedBuff',
     name: 'initialSpeedBuff',
-    text: 'Initial speed buff',
-    title: 'Increases SPD by 10%',
-    content: `At the start of battle, increases the SPD of all allies by 10% for 2 turn(s).`,
+    text: 'E1 Initial speed buff',
+    title: 'E1 Initial speed buff',
+    content: `E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s).`,
+    disabled: e < 1
   }];
 
   return {
@@ -57,7 +60,7 @@ const Yukong = (e: Eidolon) => {
       x[Stats.ATK_P] += (r.roaringBowstrings) ? skillAtkBuffValue : 0
       x[Stats.CR] += (r.ultBuff && r.roaringBowstrings) ? ultCrBuffValue : 0
       x[Stats.CD] += (r.ultBuff && r.roaringBowstrings) ? ultCdBuffValue : 0
-      x[Stats.SPD_P] += (r.initialSpeedBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (e >= 1 && r.initialSpeedBuff) ? 0.10 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
-import { basicRev, skillRev, ultRev, talentRev, precisionRound } from '../utils';
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from '../utils';
 import { baseComputedStatsObject } from '../constants';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
@@ -15,7 +15,6 @@ const Welt = (e: Eidolon) => {
 
   const basicScaling = basicRev(e, 1.00, 1.10);
   const skillScaling = skillRev(e, 0.72, 0.792);
-  const skillScalingChance = skillRev(e, 0.75, 0.77);
   const ultScaling = ultRev(e, 1.50, 1.62);
   const talentScaling = talentRev(e, 0.60, 0.66);
 
@@ -37,9 +36,9 @@ const Welt = (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'skillExtraHits',
     name: 'skillExtraHits',
-    text: 'Skill extra hits',
+    text: 'Skill extra hits on target',
     title: 'Edge of the Void',
-    content: `Deals Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a random enemy. On hit, there is a ${precisionRound(skillScalingChance * 100)}% base chance to reduce the enemy's SPD by 10% for 2 turn(s).`,
+    content: `Deals Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to ${precisionRound(skillScaling * 100)}% of Welt's ATK to a random enemy.`,
     min: 0,
     max: skillExtraHitsMax,
   }, {
@@ -47,9 +46,9 @@ const Welt = (e: Eidolon) => {
     id: 'e1EnhancedState',
     name: 'e1EnhancedState',
     text: 'E1 enhanced state',
-    title: 'Legacy of Honor',
-    content: "After Welt uses his Ultimate, his abilities are enhanced. The next 2 time(s) he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively.",
-    disabled: (e < 4)
+    title: 'E1 Legacy of Honor',
+    content: "E1: After Welt uses his Ultimate, his abilities are enhanced. The next 2 time(s) he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively.",
+    disabled: (e < 1)
   }];
 
   return {

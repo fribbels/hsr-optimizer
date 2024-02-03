@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -25,30 +24,30 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult Buff Active',
-    title: 'Ult Buff Active',
-    content: `Ult increases SPD by ${precisionRound(ultSpdBuffValue * 100)}% and increase ATK by ${precisionRound(ultAtkBuffValue * 100)}% for 1 turn.`,
+    text: 'Ult buff active',
+    title: 'Ult buff active',
+    content: `Increases the SPD of a target ally by ${precisionRound(ultSpdBuffValue * 100)}% of Hanya's SPD and increases the same target ally's ATK by ${precisionRound(ultAtkBuffValue * 100)}%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'targetBurdenActive',
     name: 'targetBurdenActive',
-    text: 'Target Burden Active',
-    title: 'Target Burden Active',
-    content: `Increases DMG by ${precisionRound(talentDmgBoostValue * 100)}% to Burdened enemies for 2 turns.`,
+    text: 'Target Burden debuff',
+    title: 'Target Burden debuff',
+    content: `When an ally uses a Basic ATK, Skill, or Ultimate on an enemy inflicted with Burden, the DMG dealt increases by ${precisionRound(talentDmgBoostValue * 100)}% for 2 turn(s).`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'burdenAtkBuff',
     name: 'burdenAtkBuff',
-    text: 'Burden ATK Buff',
-    title: 'Burden ATK Buff',
-    content: `A2: Allies triggering Burden's Skill Point recovery effect have their ATK increased by ${precisionRound(0.10 * 100)}% for 1 turn.`,
+    text: 'Burden ATK buff',
+    title: 'Burden ATK buff',
+    content: `Allies triggering Burden's Skill Point recovery effect have their ATK increased by ${precisionRound(0.10 * 100)}% for 1 turn.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
-    text: 'E2 Skill SPD Buff',
-    title: 'E2 Skill SPD Buff',
-    content: `E2: After Skill, increases SPD by ${precisionRound(0.20 * 100)}% for 2 turns.`,
+    text: 'E2 skill SPD buff',
+    title: 'E2 skill SPD buff',
+    content: `E2: After Skill, increases SPD by ${precisionRound(0.20 * 100)}% for 1 turn.`,
     disabled: e < 2,
   }];
 

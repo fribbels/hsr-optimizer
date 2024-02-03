@@ -22,37 +22,40 @@ const SilverWolf = (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
-    text: 'Skill RES Shred',
+    text: 'Skill RES shred',
     title: 'Skill: Allow Changes? RES Shred',
-    content: `Decreases the target's RES by ${precisionRound(skillResShredValue * 100)}% for 2 turn(s) after using Skill.`,
+    content: `Decreases the target's All-Type RES of the enemy by ${precisionRound(skillResShredValue * 100)}% for 2 turn(s).
+    ::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.`,
   }, {
+    // TODO: should be talent
     formItem: FormSwitchWithPopover,
     id: 'skillDefShredDebuff',
     name: 'skillDefShredDebuff',
-    text: 'Skill DEF Shred',
-    title: 'Skill: Allow Changes? DEF Reduction',
-    content: `Decreases the target's DEF by ${precisionRound(skillDefShredBufValue * 100)}% for 2 turn(s) after using Skill.`,
+    text: 'Bug DEF shred',
+    title: 'Talent: Awaiting System Response... DEF shred',
+    content: `Silver Wolf's bug reduces the target's DEF by ${precisionRound(skillDefShredBufValue * 100)}% for 3 turn(s).`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'ultDefShredDebuff',
     name: 'ultDefShredDebuff',
-    text: 'Ult DEF Shred',
-    title: 'Ult: User Banned DEF Reduction',
-    content: `Decreases the target's DEF by ${precisionRound(ultDefShredValue * 100)}% for 2 turn(s) after using Ultimate.`,
+    text: 'Ult DEF shred',
+    title: 'Ult: User Banned DEF shred',
+    content: `Decreases the target's DEF by ${precisionRound(ultDefShredValue * 100)}% for 3 turn(s).`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'targetDebuffs',
     name: 'targetDebuffs',
     text: 'Target debuffs',
-    title: 'Target Debuffs',
+    title: 'Target debuffs',
     content: `
-      E4: Ultimate deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target.
+      If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.
       ::BR::
-      E6: Increases Elemental DMG by 20% per debuff on the target, up to 5 debuffs.
+      E4: After using her Ultimate to attack enemies, deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 time(s) during each use of her Ultimate.
+      ::BR::
+      E6: For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%.
     `,
     min: 0,
     max: 5,
-    disabled: e < 4,
   }];
 
   return {

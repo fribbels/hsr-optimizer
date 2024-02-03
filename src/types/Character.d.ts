@@ -1,11 +1,11 @@
-import { HSRId } from "./Common";
+import { DataMineId } from "./Common";
 
 
 export type Eidolon = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 
 export type Character = {
-  id: HSRId;
+  id: DataMineId;
   name: string;  // "Dan Heng"
   tag: string; // "danheng"
   rarity: number; // 4

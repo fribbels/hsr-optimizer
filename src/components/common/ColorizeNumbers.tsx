@@ -5,16 +5,13 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
   const ret = [];
   let num = '';
   let isNum = false;
+  let key = 0;
 
   if (text) {
-    // split text by "::BR::" and replace with <br />
-    // text.split('::BR::').map((item, i) => {
-    //   ret.push <React.Fragment key={i}>{item}<br /></React.Fragment>;
-    // });
-    text.split('::BR::').forEach((item, i) => {
+    text.split('::BR::').forEach((item) => {
       if (ret.length > 0) {
-        ret.push(<br key={i} />);
-        ret.push(<br key={i} />);
+        ret.push(<br key={key++} />);
+        ret.push(<br key={key++} />);
       }
 
       for (let i = 0; i < item.length; i++) {
@@ -28,7 +25,7 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
           isNum = true;
         } else {
           if (isNum) {
-            ret.push(<span key={i} style={{ color: color }}>{num}</span>);
+            ret.push(<span key={key++} style={{ color: color }}>{num}</span>);
             num = '';
             isNum = false;
           }
@@ -37,7 +34,7 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
       }
     
       if (isNum) {
-        ret.push(<span key={-1} style={{ color: color }}>{num}</span>);
+        ret.push(<span key={key++} style={{ color: color }}>{num}</span>);
       }
     });
 

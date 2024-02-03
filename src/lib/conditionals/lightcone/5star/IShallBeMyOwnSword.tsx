@@ -3,7 +3,7 @@ import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditiona
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import getContentFromLCRanks from './getContentFromLCRank';
+import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';
 import { ConditionalLightConeMap, LightConeRawRank } from 'types/LightConeConditionals';
 
@@ -40,7 +40,7 @@ const lcRank: LightConeRawRank = {
 
 
 
-const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
+export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24];
   const sValuesDefPen = [0.12, 0.14, 0.16, 0.18, 0.20];
 
@@ -51,7 +51,7 @@ const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
       name: 'eclipseStacks',
       formItem: FormSliderWithPopover,
       text: 'Eclipse stacks',
-      title: 'Eclipse stacks',
+      title: lcRank.skill,
       content: getContentFromLCRanks(s, lcRank),
       min: 0,
       max: 3,
@@ -62,7 +62,7 @@ const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
       name: 'maxStackDefPen',
       formItem: FormSwitchWithPopover,
       text: 'Max stack def pen',
-      title: 'Max stack def pen',
+      title: lcRank.skill,
       content: 'Whether the enemy has 3 stacks of Eclipse.',
     }
   ];
@@ -82,7 +82,3 @@ const IShallBeMyOwnSword = (s: SuperImpositionLevel): LightConeConditional => {
     calculateBaseMultis: (/* c, request */) => { }
   };
 };
-
-IShallBeMyOwnSword.displayName = 'I Shall Be My Own Sword';
-
-export default IShallBeMyOwnSword;

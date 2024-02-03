@@ -23,7 +23,7 @@ export default (e: Eidolon) => {
     name: 'e1DotDmgReceivedDebuff',
     text: 'E1 DoT DMG debuff',
     title: 'E1 DoT DMG debuff',
-    content: `When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
+    content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
     disabled: e < 1,
   }];
 

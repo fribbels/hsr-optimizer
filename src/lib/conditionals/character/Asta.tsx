@@ -46,7 +46,7 @@ export default (e: Eidolon) => {
     name: 'ultSpdBuff',
     text: 'Ult SPD buff active',
     title: 'Ult SPD buff active',
-    content: `Increases SPD by ${precisionRound(ultSpdBuffValue)} after Ultimate.`,
+    content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
   }];
 
   return {

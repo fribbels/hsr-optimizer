@@ -42,9 +42,9 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'ultEnhancedExtraHits',
     name: 'ultEnhancedExtraHits',
-    text: 'Ult extra hits',
-    title: 'Enhanced ult extra hits',
-    content: `Enhanced Ult extra hits random enemy for ${precisionRound(ultEnhancedExtraHitScaling * 100)}% ATK per hit.`,
+    text: 'Enhanced ult extra hits on target',
+    title: 'Enhanced ult extra hits on target',
+    content: `Enhanced Ult hits a random enemy for ${precisionRound(ultEnhancedExtraHitScaling * 100)}% ATK per hit.`,
     min: 0,
     max: 6,
   }, {

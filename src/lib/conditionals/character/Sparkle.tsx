@@ -57,7 +57,7 @@ export default (e:Eidolon) => {
     name: 'quantumAllies',
     text: 'Quantum allies',
     title: 'Quantum allies',
-    content: `Increases all allies' ATK by 15%. When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.`,
+    content: `When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.`,
     min: 0,
     max: 3,
   }];

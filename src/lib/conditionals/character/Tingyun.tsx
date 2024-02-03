@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, precisionRound, skill, ult } from "lib/conditionals/utils";
+import { basic, precisionRound, skill, ult, talent } from "lib/conditionals/utils";
 import { Eidolon } from "types/Character";
 
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";

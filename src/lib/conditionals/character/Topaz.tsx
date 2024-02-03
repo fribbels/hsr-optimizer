@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -20,8 +19,6 @@ const Topaz = (e: Eidolon) => {
   const skillScaling = skill(e, 1.50, 1.65)
   const fuaScaling = talent(e, 1.50, 1.65)
 
-  const fuaEnhancedHitCount = ult(e, 2, 3);
-
   // 0.06
   const basicHitCountMulti = ASHBLAZING_ATK_STACK *
     (1 * 1 / 1)
@@ -34,28 +31,27 @@ const Topaz = (e: Eidolon) => {
   const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
     (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
-
   const content = [{
     formItem: FormSwitchWithPopover,
     id: 'enemyProofOfDebtDebuff',
     name: 'enemyProofOfDebtDebuff',
     text: 'Enemy proof of debt debuff',
     title: 'Proof of Debt',
-    content: `Increases DMG by ${precisionRound(proofOfDebtFuaVulnerability * 100)}% against enemies affected by Proof of Debt.`,
+    content: `Inflicts a single target enemy with a Proof of Debt status, increasing the DMG it takes from follow-up attacks by ${precisionRound(proofOfDebtFuaVulnerability * 100)}%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'numbyEnhancedState',
     name: 'numbyEnhancedState',
     text: 'Numby enhanced state',
     title: 'Turn a Profit!: Ult Enhanced State',
-    content: `Numby enters the Windfall Bonanza! state and its DMG multiplier increases by ${precisionRound(enhancedStateFuaScalingBoost * 100)}% and CRIT DMG increases by ${precisionRound(enhancedStateFuaCdBoost * 100)}%. Also, when enemies with Proof of Debt are hit by an ally's Basic ATK, Skill, or Ultimate, Numby's action is Advanced Forward by 50%. Numby exits the Windfall Bonanza! state after using ${fuaEnhancedHitCount} attacks.`,
+    content: `Numby enters the Windfall Bonanza! state and its DMG multiplier increases by ${precisionRound(enhancedStateFuaScalingBoost * 100)}% and CRIT DMG increases by ${precisionRound(enhancedStateFuaCdBoost * 100)}%.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e1DebtorStacks',
     name: 'e1DebtorStacks',
     text: 'E1 Debtor stacks',
-    title: `Increases Crit DMG`,
-    content: `Increases Crit DMG by ${precisionRound(enhancedStateFuaCdBoost * 100)}%, stacks up to 2 times.`,
+    title: `E1 Increases Crit DMG`,
+    content: `E1: When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single action. The Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by 25%, stacking up to 2 time(s). When Proof of Debt is removed, the Debtor state is also removed.`,
     min: 0,
     max: 2,
     disabled: e < 1,

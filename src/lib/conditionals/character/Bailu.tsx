@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, ult } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basic, precisionRound, skill, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -20,31 +19,31 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'healingMaxHpBuff',
     name: 'healingMaxHpBuff',
-    text: 'Healing Max HP Buff',
-    title: 'Healing Max HP Buff',
-    content: `A2: When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by ${precisionRound(0.10 * 100)}% for 2 turns.`,
+    text: 'Healing max HP buff',
+    title: 'Healing max HP buff',
+    content: `When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by ${precisionRound(0.10 * 100)}% for 2 turns.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'talentDmgReductionBuff',
     name: 'talentDmgReductionBuff',
-    text: 'Talent DMG Reduction Buff',
-    title: 'Talent DMG Reduction Buff',
-    content: `A6: Characters with Invigoration take ${precisionRound(0.10 * 100)}% less DMG.`,
+    text: 'Talent DMG reduction buff',
+    title: 'Talent DMG reduction buff',
+    content: `Characters with Invigoration take ${precisionRound(0.10 * 100)}% less DMG.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2UltHealingBuff',
     name: 'e2UltHealingBuff',
-    text: 'E2 Ult Healing Buff',
-    title: 'E2 Ult Healing Buff',
-    content: `E2: Increases healing by ${precisionRound(0.15 * 100)}% during Ultimate.`,
+    text: 'E2 ult healing buff',
+    title: 'E2 ult healing buff',
+    content: `E2: Increases healing by ${precisionRound(0.15 * 100)}% after Ultimate.`,
     disabled: e < 2,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e4SkillHealingDmgBuffStacks',
     name: 'e4SkillHealingDmgBuffStacks',
-    text: 'E4 Skill Healing DMG Buff Stacks',
-    title: 'E4 Skill Healing DMG Buff Stacks',
-    content: `E4: Increases DMG by ${precisionRound(0.10 * 100)}% for every stack of Healing DMG Buff, stacks 3 times.`,
+    text: 'E4 skill healing DMG buff stacks',
+    title: 'E4 skill healing DMG buff stacks',
+    content: `E4: Every healing provided by Bailu's Skill makes the recipient deal ${precisionRound(0.10 * 100)}% more DMG for 2 turns. This effect can stack up to 3 times.`,
     min: 0,
     max: 3,
     disabled: e < 4,

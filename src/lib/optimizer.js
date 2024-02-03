@@ -98,7 +98,7 @@ export const Optimizer = {
 
     let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
-    console.log('relicSetAllowList, relicSetSolutions', relicSetAllowList, relicSetSolutions)
+    console.log('relicSetAllowList', relicSetAllowList)
 
     const sizes = {
       hSize: relics.Head.length,

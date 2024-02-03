@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
@@ -21,9 +20,9 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'selfCurrentHpPercent',
     name: 'selfCurrentHpPercent',
-    text: 'Self Current HP%',
-    title: 'Self Current HP%',
-    content: `Increases Arlan's DMG for every percent of HP below his Max HP, up to a max of ${precisionRound(talentMissingHpDmgBoostMax * 100)}% when HP is below 50%.`,
+    text: 'Self current HP%',
+    title: 'Self current HP%',
+    content: `Increases Arlan's DMG for every percent of HP below his Max HP, up to a max of ${precisionRound(talentMissingHpDmgBoostMax * 100)}% more DMG.`,
     min: 0.01,
     max: 1.0,
     percent: true,

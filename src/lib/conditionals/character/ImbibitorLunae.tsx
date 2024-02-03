@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, skillRev, ultRev, talentRev, precisionRound } from "lib/conditionals/utils";
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from "lib/conditionals/utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
 
@@ -25,44 +25,44 @@ export default(e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'basicEnhanced',
     name: 'basicEnhanced',
-    text: 'Basic enhanced',
-    title: 'Basic enhanced',
-    content: `
-      Increases DMG by ${precisionRound(basicEnhanced1Scaling * 100)}% at 1 stack, ${precisionRound(basicEnhanced2Scaling * 100)}% at 2 stacks, and ${precisionRound(basicEnhanced3Scaling * 100)}% at 3 stacks.`,
+    text: 'Basic enhancements',
+    title: 'Basic enhancements',
+    content: `0 stack(s): Uses a 2-hit attack and deals Imaginary DMG equal to ${precisionRound(basicScaling * 100)}% ATK to a single enemy target.
+    ::BR::1 stack(s): Uses a 3-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced1Scaling * 100)}% ATK to a single enemy target.
+    ::BR::2 stack(s): Uses a 5-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced2Scaling * 100)}% ATK to a single enemy target and reduced DMG to adjacent targets.
+    ::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced3Scaling * 100)}% ATK to a single enemy target and reduced DMG to adjacent targets.`,
     min: 0,
     max: 3,
   },{
     formItem: FormSliderWithPopover,
     id: 'skillOutroarStacks',
     name: 'skillOutroarStacks',
-    text: 'Outroar Stacks',
-    title: 'Outroar Stacks',
-    content: `Increases DMG by ${precisionRound(outroarStackCdValue * 100)}% per stack.`,
+    text: 'Outroar stacks',
+    title: 'Outroar stacks',
+    content: `Divine Spear or Fulgurant Leap, starting from the fourth hit, 1 stack of Outroar is gained before every hit. 
+    Each stack of Outroar increases Dan Heng • Imbibitor Lunae's CRIT DMG by ${precisionRound(outroarStackCdValue * 100)}%, for a max of 4 stacks. (applied to all hits)`,
     min: 0,
     max: 4,
   }, {
     formItem: FormSliderWithPopover,
     id: 'talentRighteousHeartStacks',
     name: 'talentRighteousHeartStacks',
-    text: 'Righteous Heart Stacks',
-    title: 'Righteous Heart Stacks',
-    content: `Increases Elemental DMG by ${precisionRound(righteousHeartDmgValue * 100)}% per stack.`,
-    disabled: e < 1,
+    text: 'Righteous Heart stacks',
+    title: 'Righteous Heart stacks',
+    content: `After each hit dealt during an attack, Dan Heng • Imbibitor Lunae gains 1 stack of Righteous Heart, increasing his DMG by ${precisionRound(righteousHeartDmgValue * 100)}%. (applied to all hits)`,
     min: 0,
     max: righteousHeartStackMax,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e6ResPenStacks',
     name: 'e6ResPenStacks',
-    text: 'E6 RES PEN Stacks',
-    title: 'E6 RES PEN Stacks',
-    content: `Decreases target's RES by 20% per stack.`,
+    text: 'E6 RES PEN stacks',
+    title: 'E6 RES PEN stacks',
+    content: `E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks.`,
     min: 0,
     max: 3,
     disabled: e < 6,
   }];
-
-
 
   return {
     display: () => <DisplayFormControl content={content} />,

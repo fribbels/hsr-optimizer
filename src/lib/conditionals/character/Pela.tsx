@@ -20,28 +20,30 @@ const Pela = (e: Eidolon) => {
     name: 'enemyDebuffed',
     text: 'Enemy debuffed',
     title: 'Enemy debuffed',
-    content: `Increases DMG by 20% against enemies affected by debuffs.`,
+    content: `Deals 20% more DMG to debuffed enemies.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'skillRemovedBuff',
     name: 'skillRemovedBuff',
-    text: 'Skill removed buff',
-    title: 'Skill removed buff',
-    content: `Increases SPD by 10% for 2 turn(s) after using Skill.`,
+    text: 'Enemy buff removed skill buff',
+    title: 'Enemy buff removed skill buff',
+    content: `Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.
+    ::BR::
+    E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s).`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'ultDefPenDebuff',
     name: 'ultDefPenDebuff',
-    text: 'Ult def pen debuff',
-    title: 'Ult def pen debuff',
-    content: `Reduces target's DEF by ${precisionRound(ultDefPenValue * 100)}% for 2 turn(s) after using Ultimate.`,
+    text: 'Ult DEF shred debuff',
+    title: 'Ult DEF shred debuff',
+    content: `When Exposed, enemies' DEF is reduced by ${precisionRound(ultDefPenValue * 100)}% for 2 turn(s).`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e4SkillResShred',
     name: 'e4SkillResShred',
-    text: 'E4 skill res shred',
-    title: 'E4 skill res shred',
-    content: `Increases RES PEN by 12% for 2 turn(s) after using Skill.`,
+    text: 'E4 skill RES shred',
+    title: 'E4 skill RES shred',
+    content: `E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s).`,
     disabled: e < 4,
   }];
 

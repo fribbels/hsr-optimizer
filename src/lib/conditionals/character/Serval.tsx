@@ -20,16 +20,16 @@ const Serval = (e:Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'targetShocked',
     name: 'targetShocked',
-    text: 'Target Shocked',
-    title: 'Target Shocked',
-    content: `Increases DMG by ${precisionRound(talentExtraDmgScaling * 100)}% against enemies affected by Shock.`,
+    text: 'Target shocked',
+    title: 'Target shocked',
+    content: `After Serval attacks, deals Additional Lightning DMG equal to ${precisionRound(talentExtraDmgScaling * 100)}% of Serval's ATK to all Shocked enemies.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'enemyDefeatedBuff',
     name: 'enemyDefeatedBuff',
-    text: 'Enemy Defeated Buff',
-    title: 'Enemy Defeated Buff',
-    content: `Increases ATK by 20% after defeating an enemy.`,
+    text: 'Enemy defeated buff',
+    title: 'Enemy defeated buff',
+    content: `Upon defeating an enemy, ATK increases by 20% for 2 turn(s).`,
   }];
 
   return {

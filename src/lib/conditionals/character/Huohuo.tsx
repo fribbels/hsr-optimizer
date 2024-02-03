@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, ult } from "lib/conditionals/utils";
+import { basic, precisionRound, ult } from "lib/conditionals/utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
@@ -15,24 +15,24 @@ export default(e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult Buff',
-    title: 'Ult Buff',
-    content: `Increases ATK by ${ultBuffValue * 100}% for 2 turn(s) after using Ultimate.`,
+    text: 'Ult buff',
+    title: 'Ult buff',
+    content: `Increases all allies' ATK by ${precisionRound(ultBuffValue * 100)}% for 2 turns after using Ultimate.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill Buff',
-    title: 'Skill Buff',
-    content: `E1: Increases SPD by 12% for 2 turn(s) after using Skill.`,
+    text: 'E1 skill buff',
+    title: 'E1 skill buff',
+    content: `E1: Increases all allies' SPD by 12% for 2 turns after using Skill.`,
     disabled: e < 1,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e6DmgBuff',
     name: 'e6DmgBuff',
-    text: 'E6 DMG Buff',
-    title: 'E6 DMG Buff',
-    content: `Increases DMG by 50% for 2 turn(s) after using Ultimate.`,
+    text: 'E6 DMG buff',
+    title: 'E6 DMG buff',
+    content: `E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.`,
     disabled: e < 6,
   }];
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -30,31 +29,31 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult Buff',
-    title: 'Ult Buff',
-    content: `Increases Svarog Counter DMG by ${precisionRound(ultFuaExtraScaling * 100)}% during Ultimate.`,
+    text: 'Ult buff',
+    title: 'Ult buff',
+    content: `Increases Svarog Counter DMG by ${precisionRound(ultFuaExtraScaling * 100)}% during Ultimate. DMG dealt to Clara is reduced by an extra ${precisionRound(ultDmgReductionValue * 100)}% for 2 turns`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'talentEnemyMarked',
     name: 'talentEnemyMarked',
-    text: 'Enemy Marked',
-    title: 'Enemy Marked',
+    text: 'Enemy marked',
+    title: 'Enemy marked',
     content: `Additionally deals Physical DMG equal to ${precisionRound(skillScaling * 100)}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
-    text: 'E2 Ult ATK Buff',
-    title: 'E2 Ult ATK Buff',
-    content: `After Ult, increases ATK by ${precisionRound(0.30 * 100)}% for 2 turns.`,
+    text: 'E2 ult ATK buff',
+    title: 'E2 ult ATK buff',
+    content: `E2: After using Ultimate, increases ATK by ${precisionRound(0.30 * 100)}% for 2 turns.`,
     disabled: e < 2,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e4DmgReductionBuff',
     name: 'e4DmgReductionBuff',
-    text: 'E4 DMG Reduction Buff',
-    title: 'E4 DMG Reduction Buff',
-    content: `Decreases DMG taken by ${precisionRound(0.30 * 100)}%.`,
+    text: 'E4 DMG reduction buff',
+    title: 'E4 DMG reduction buff',
+    content: `E4: Decreases DMG taken by ${precisionRound(0.30 * 100)}%.`,
     disabled: e < 4,
   }];
 
@@ -75,10 +74,8 @@ export default (e: Eidolon) => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      // TODO: check if this is correct
-      x.SKILL_SCALING += skillScaling + skillScaling*r.talentEnemyMarked;
-      // x.SKILL_SCALING += skillScaling
-      // x.SKILL_SCALING += r.talentEnemyMarked ? skillScaling : 0
+      x.SKILL_SCALING += skillScaling
+      x.SKILL_SCALING += r.talentEnemyMarked ? skillScaling : 0
 
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += r.ultBuff ? ultFuaExtraScaling : 0

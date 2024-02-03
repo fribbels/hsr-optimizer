@@ -1,13 +1,14 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { basic, skill, talent, ult } from "lib/conditionals/utils";
+import { basic, precisionRound, skill, talent, ult } from "lib/conditionals/utils";
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
+import { FormSliderWithPopover } from "../../../components/optimizerForm/conditionals/FormSlider.tsx";
 
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
@@ -25,14 +26,16 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       formItem: FormSwitchWithPopover,
       text: 'Enhanced state',
       title: 'Crescent Transmigration',
-      content: "When Jingliu has 2 stack(s) of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by 50%. Then, Jingliu's Skill Transcendent Flash becomes enhanced and turns into Moon On Glacial River, and becomes the only ability she can use in battle.",
+      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff)}%. 
+      Then, Jingliu's Skill "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.`,
     },
     {
       id: 'talentHpDrainAtkBuff',
-      formItem: FormSwitchWithPopover,
+      formItem: FormSliderWithPopover,
       text: 'HP drain ATK buff',
       title: 'Crescent Transmigration - ATK Bonus',
-      content: "When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies equal to 4% of their respective Max HP (this cannot reduce allies' HP to lower than 1%. Jingliu's ATK increases by 540% of the total HP consumed from all allies in this attack, capped at 180% of her base ATK, lasting until the current attack ends. Jingliu cannot enter the Spectral Transmigration state again until the current Spectral Transmigration state ends. Syzygy can stack up to 3 times. When Syzygy stacks become 0, Jingliu will exit the Spectral Transmigration state.",
+      content: `When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies and Jingliu's ATK increases based on the total HP consumed from all allies in this attack, 
+      capped at ${precisionRound(talentHpDrainAtkBuffMax * 100)}% of her base ATK, lasting until the current attack ends.`,
       min: 0,
       max: talentHpDrainAtkBuffMax,
       percent: true,
@@ -41,16 +44,16 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       id: 'e1CdBuff',
       formItem: FormSwitchWithPopover,
       text: 'E1 ult active',
-      title: 'Moon Crashes Tianguan Gate',
-      content: "When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.",
+      title: 'E1 Moon Crashes Tianguan Gate',
+      content: `E1: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.`,
       disabled: e < 1,
     },
     {
       id: 'e2SkillDmgBuff',
       formItem: FormSwitchWithPopover,
       text: 'E2 skill buff',
-      title: 'Crescent Shadows Qixing Dipper',
-      content: "After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.",
+      title: 'E2 Crescent Shadows Qixing Dipper',
+      content: `E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.`,
       disabled: e < 2,
     },
   ];

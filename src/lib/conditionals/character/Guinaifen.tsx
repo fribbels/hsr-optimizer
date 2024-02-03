@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -24,25 +23,25 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'talentDebuffStacks',
     name: 'talentDebuffStacks',
-    text: 'Talent Debuff Stacks',
-    title: 'Talent Debuff Stacks',
-    content: `Increases DMG by ${precisionRound(talentDebuffDmgIncreaseValue * 100)}% per stack. Stacks up to ${talentDebuffMax} times.`,
+    text: 'Enemy Firekiss stacks',
+    title: 'Enemy Firekiss stacks',
+    content: `While inflicted with Firekiss, the enemy receives ${precisionRound(talentDebuffDmgIncreaseValue * 100)}% increased DMG, which lasts for 3 turns and can stack up to ${precisionRound(talentDebuffMax)} times.`,
     min: 0,
     max: talentDebuffMax,
   },{
     formItem: FormSwitchWithPopover,
     id: 'enemyBurned',
     name: 'enemyBurned',
-    text: 'Enemy Burned',
-    title: 'Enemy Burned',
+    text: 'Enemy burned',
+    title: 'Enemy burned',
     content: `Increases DMG by ${precisionRound(0.20 * 100)}% against enemies affected by Burn.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2BurnMultiBoost',
     name: 'e2BurnMultiBoost',
-    text: 'E2 Burn Multi Boost',
-    title: 'E2 Burn Multi Boost',
-    content: `Increases Burn DMG by ${precisionRound(0.40 * 100)}%.`,
+    text: 'E2 burn multi boost',
+    title: 'E2 burn multi boost',
+    content: `E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%.`,
     disabled: e < 2,
   }];
 

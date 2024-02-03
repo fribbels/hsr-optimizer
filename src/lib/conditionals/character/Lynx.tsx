@@ -19,12 +19,11 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill buff',
-    title: 'Skill buff',
+    text: 'Skill max HP buff',
+    title: 'Skill max HP buff',
     content: `
-      Increases HP by ${precisionRound(skillHpPercentBuff * 100)}% + ${skillHpFlatBuff}.
-      ::BR::
-      E4: Increases target ally's ATK by 3% of Lynx's Max HP for 1 turn(s)`,
+    Applies "Survival Response" to a single target ally and increases their Max HP by ${precisionRound(skillHpPercentBuff * 100)}% of Lynx's Max HP plus ${precisionRound(skillHpFlatBuff)}.
+    ::BR::E4: When "Survival Response" is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn(s).`,
   }]
 
   return {

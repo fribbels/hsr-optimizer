@@ -107,11 +107,12 @@ self.onmessage = function (e) {
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
 
+  let date1 = new Date()
   for (let col = 0; col < data.WIDTH; col++) {
     let index = data.skip + col
 
     if (index >= data.permutations) {
-      continue;
+      break;
     }
 
     let l = (index % lSize);
@@ -438,6 +439,9 @@ self.onmessage = function (e) {
       BufferPacker.packCharacter(arr, col, c);
     }
   }
+  let date2 = new Date()
+
+  console.log('!!!', date2-date1)
 
   self.postMessage({
     rows: [],

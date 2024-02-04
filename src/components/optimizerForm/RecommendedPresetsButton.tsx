@@ -95,9 +95,9 @@ const RecommendedPresetsButton = () => {
       const key = event.key
       if (SpdValues[key]) {
         const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
-        const standardOptions = [generateStandardSpdOptions(`Standard ${character.displayName}`)]
+        // const standardOptions = [generateStandardSpdOptions(`Standard ${character.displayName}`)]
         const metadata = character.scoringMetadata
-        const presets = metadata.presets || standardOptions
+        // const presets = metadata.presets || standardOptions
         const spd = SpdValues[key].value
 
         const form = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))

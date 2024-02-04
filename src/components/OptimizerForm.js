@@ -411,7 +411,6 @@ export default function OptimizerForm() {
 
               <Flex justify='space-between' align='center'>
                 <HeaderText>Presets</HeaderText>
-                <TooltipImage type={Hint.lightCone()} />
               </Flex>
 
               <RecommendedPresetsButton />

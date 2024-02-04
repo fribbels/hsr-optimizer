@@ -37,6 +37,7 @@ import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
 import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
+import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
 
 
 const { Text } = Typography;
@@ -255,34 +256,42 @@ export default function OptimizerForm() {
     closable: PropTypes.bool,
     onClose: PropTypes.func,
   }
-
   function RelicSetTagRenderer(props) {
     const { value, closable, onClose } = props;
     // The value comes in as:
     // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
-    // 3 -> render both, any render one, 2 -> render first twice
+    /*
+    ['4 Piece', 'Passerby of Wandering Cloud']
+    ['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
+    ['2 + Any', 'Knight of Purity Palace']
+     */
+
     let pieces = value.split('__RC_CASCADER_SPLIT__')
     let inner
-    if (pieces.length == 3) {
-      if (pieces[2] == 'Any') {
-        inner =
-          <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          </React.Fragment>
-      } else {
-        inner =
-          <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          </React.Fragment>
-      }
-    } else {
+
+    if (pieces[0] == '4 Piece') {
       inner =
         <React.Fragment>
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         </React.Fragment>
     }
+
+    if (pieces[0] == '2 + 2 Piece') {
+      inner =
+        <React.Fragment>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        </React.Fragment>
+    }
+
+    if (pieces[0] == '2 + Any') {
+      inner =
+        <React.Fragment>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        </React.Fragment>
+    }
+
     RelicSetTagRenderer.propTypes = {
       value: PropTypes.string,
       closable: PropTypes.bool,
@@ -306,6 +315,7 @@ export default function OptimizerForm() {
       </Tag>
     );
   }
+
 
   return (
     <div style={{ position: 'relative' }}>
@@ -397,8 +407,13 @@ export default function OptimizerForm() {
                     />
                   </Form.Item>
                 </Flex>
-
               </Flex>
+
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Presets</HeaderText>
+              </Flex>
+
+              <RecommendedPresetsButton />
             </FormCard>
 
             <FormCard>

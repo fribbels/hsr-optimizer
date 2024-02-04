@@ -32,7 +32,7 @@ export default function OptimizerTab() {
 
   return (
     <div>
-      <Flex style={{ marginBottom: 10 }}>
+      <Flex style={{ marginBottom: 50 }}>
         <Flex vertical gap={10}>
           <OptimizerForm />
 

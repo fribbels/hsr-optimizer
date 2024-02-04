@@ -111,7 +111,7 @@ self.onmessage = function (e) {
     let index = data.skip + col
 
     if (index >= data.permutations) {
-      continue;
+      break;
     }
 
     let l = (index % lSize);

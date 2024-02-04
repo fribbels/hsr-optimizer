@@ -5,23 +5,27 @@ import { Constants } from "lib/constants";
 
 const GenerateSetsOptions = () => {
   const result = [
+    // Example: aaaa
     {
       value: '4 Piece',
       label: '4 Piece',
       children: []
     },
+    // Example: aabb
     {
-      value: '2 Piece',
-      label: '2 Piece',
+      value: '2 + 2 Piece',
+      label: '2 + 2 Piece',
+      children: []
+    },
+    // Example: aabc
+    {
+      value: '2 + Any',
+      label: '2 + Any',
       children: []
     }
   ];
 
-  const childrenWithAny = Object.entries(Constants.SetsRelics).map(set => ({ value: set[1], label: set[1] }));
-  childrenWithAny.push({
-    value: 'Any',
-    label: 'Any'
-  });
+  const tier2Children = Object.entries(Constants.SetsRelics).map(set => ({ value: set[1], label: set[1] }));
 
   const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
     const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head);
@@ -44,13 +48,18 @@ const GenerateSetsOptions = () => {
     result[1].children.push({
       value: set[1],
       label: GenerateLabel(set[1], '(2) ', set[1]),
-      children: childrenWithAny.map(x => {
+      children: tier2Children.map(x => {
         const parens = x.value == 'Any' ? '(0) ' : '(2) ';
         return {
           value: x.value,
           label: GenerateLabel(x.value, parens, x.label)
         }
       })
+    })
+
+    result[2].children.push({
+      value: set[1],
+      label: GenerateLabel(set[1], '(2) ', set[1])
     })
   }
 

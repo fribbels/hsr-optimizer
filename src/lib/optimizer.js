@@ -398,7 +398,42 @@ function generateRelicSetAllowList(request) {
       }
     }
 
-    if (setArr[0] == '2 Piece') {
+    if (setArr[0] == '2 + Any') {
+      if (setArr.length == 1) { // Is this one even possible
+        // All 2 + Any
+        for (let i = 0; i < len; i++) {
+          let arr = generateEmptyArr(len)
+          arr[i] = 4
+          relicSetAllowList.push(arr.join())
+          let indices = relicSetAllowListToIndices(arr)
+          setIndices.push(indices);
+        }
+      }
+
+      if (setArr.length == 2) {
+        let index = Constants.RelicSetToIndex[setArr[1]];
+        for (let i = 0; i < len; i++) {
+          let arr = generateEmptyArr(len)
+          arr[index] = 2
+          arr[i] += 2
+          relicSetAllowList.push(arr.join())
+          let indices = relicSetAllowListToIndices(arr)
+          setIndices.push(indices);
+        }
+
+        // 2 + 0
+        let arr = generateEmptyArr(len)
+        arr[index] = 2
+        relicSetAllowList.push(arr.join())
+        let indices = relicSetAllowListToIndices(arr)
+        // setIndices.push(indices);
+        let filledIndices = fillRelicSetArrPossibilities(indices, len)
+        setIndices.push(...filledIndices);
+      }
+    }
+
+    // '2 Piece' is deprecated, but leaving it here for compatibility
+    if (setArr[0] == '2 + 2 Piece' || setArr[0] == '2 Piece') {
       // ok
       if (setArr.length == 1) {
         // Any 2 piece + Any

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Button, Dropdown, Flex } from "antd";
+import { Button, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import DB from "../../lib/db.js";
 import { Message } from "../../lib/message.js";
@@ -119,17 +119,19 @@ const RecommendedPresetsButton = () => {
   };
 
   return (
-    <Flex>
+    <div style={{display: 'inline-block'}}>
       <Dropdown
         menu={actionsMenuProps}
         trigger={['click']}
       >
-        <Button type='primary' style={{ width: '100%' }}>
-          Recommended presets
-          <DownOutlined />
-        </Button>
+        <div style={{display: 'inline-block', width: '100%'}}>
+          <Button type='primary' style={{width: '100%'}}>
+            Recommended presets
+            <DownOutlined />
+          </Button>
+        </div>
       </Dropdown>
-    </Flex>
+    </div>
   )
 }
 

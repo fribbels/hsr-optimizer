@@ -37,7 +37,6 @@ import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
 import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
-import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
 
 
 const { Text } = Typography;
@@ -408,12 +407,6 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </Flex>
               </Flex>
-
-              <Flex justify='space-between' align='center'>
-                <HeaderText>Presets</HeaderText>
-              </Flex>
-
-              <RecommendedPresetsButton />
             </FormCard>
 
             <FormCard>

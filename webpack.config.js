@@ -11,6 +11,9 @@ module.exports = {
     baseUrl: "src"
   },
   include: ["src"],
+  devServer: {
+    inline: true
+  },
   module: {
     rules: [
       {

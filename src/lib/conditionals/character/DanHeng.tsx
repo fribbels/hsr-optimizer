@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -10,6 +9,7 @@ import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/For
 import { Eidolon } from 'types/Character'
 import { Form, PrecomputedCharacterConditional } from 'types/CharacterConditional';
 
+// TODO: missing A4 SPD buff
 export default (e: Eidolon) => {
   const extraPenValue = talent(e, 0.36, 0.396)
 
@@ -22,15 +22,15 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'talentPenBuff',
     name: 'talentPenBuff',
-    text: 'Talent PEN Buff',
-    title: 'Talent PEN Buff',
-    content: `When Dan Heng is the target of an ally's Ability, his next attack's Wind RES PEN increases by ${precisionRound(extraPenValue * 100)}%. This effect can be triggered again after 2 turn(s).`
+    text: 'Talent RES PEN buff',
+    title: 'Talent RES PEN buff',
+    content: `When Dan Heng is the target of an ally's Ability, his next attack's Wind RES PEN increases by ${precisionRound(extraPenValue * 100)}%.`
   }, {
     formItem: FormSwitchWithPopover,
     id: 'enemySlowed',
     name: 'enemySlowed',
-    text: 'Enemy Slowed',
-    title: 'Enemy Slowed',
+    text: 'Enemy slowed',
+    title: 'Enemy slowed',
     content: `Basic ATK deals 40% more damage to Slowed enemies.`
   }];
 

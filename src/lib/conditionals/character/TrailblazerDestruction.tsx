@@ -22,14 +22,15 @@ const TrailblazerDestruction = (e: Eidolon) => {
     name: 'Enhanced Ult',
     text: 'AoE ult',
     title: 'AoE ULT - Split DMG to adjacent enemies',
-    content: `Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to ${precisionRound(ultScaling * 100)}% of the Trailblazer's ATK to a single enemy. ::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of the Trailblazer's ATK to enemies adjacent to it.`,
+    content: `Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to ${precisionRound(ultScaling * 100)}% of the Trailblazer's ATK to a single enemy. 
+    ::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of the Trailblazer's ATK to enemies adjacent to it.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'talentStacks',
     name: 'Talent stacks',
     text: 'Talent stacks',
-    title: `Talent stacks: Increases ATK by ${talentAtkScalingValue * 100}% and DEF by 10%`,
-    content: `Each time after this character inflicts Weakness Break on an enemy, ATK increases by ${precisionRound(talentAtkScalingValue * 100)}}%. This effect stacks up to 2 time(s).`,
+    title: `Talent stacks`,
+    content: `Each time after this character inflicts Weakness Break on an enemy, ATK increases by ${precisionRound(talentAtkScalingValue * 100)}% and DEF increases by 10%. This effect stacks up to 2 times.`,
     min: 0,
     max: 2,
   }];

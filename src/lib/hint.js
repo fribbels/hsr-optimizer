@@ -117,10 +117,8 @@ export const Hint = {
       title: 'Actions',
       content: (
         <Flex vertical gap={10}>
-          <p>Start - Begin optimization search with the selected filters</p>
+          <p>Equip - Equip the selected relics from the grid onto the character</p>
           <p>Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search</p>
-          <p>Cancel - Cancel an in progress search and display results</p>
-          <p>Reset - Clear all filters</p>
         </Flex>
       )
     }

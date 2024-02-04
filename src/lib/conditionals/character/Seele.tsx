@@ -24,17 +24,17 @@ const Seele = (e: Eidolon) => {
     text: 'Buffed State',
     title: 'Buffed State',
     content: `
-      Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. 
+      Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by ${precisionRound(buffedStateDmgBuff * 100)}% for 1 turn(s).
       ::BR::
-      Increases Elemental DMG by ${precisionRound(buffedStateDmgBuff * 100)}% and reduces the target's RES by 20%.
+      While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
     `,
   }, {
     formItem: FormSliderWithPopover,
     id: 'speedBoostStacks',
     name: 'speedBoostStacks',
-    text: 'Speed Boost Stacks',
-    title: 'Speed Boost Stacks',
-    content: `Increases SPD by 25% per stack. Stacks up to ${speedBoostStacksMax} times.`,
+    text: 'Speed boost stacks',
+    title: 'Speed boost stacks',
+    content: `Increases SPD by 25% per stack. Stacks up to ${precisionRound(speedBoostStacksMax)} time(s).`,
     min: 0,
     max: speedBoostStacksMax,
   
@@ -43,8 +43,9 @@ const Seele = (e: Eidolon) => {
     id: 'e6UltTargetDebuff',
     name: 'e6UltTargetDebuff',
     text: 'E6 Ult Debuff',
-    title: 'E6: Shattering Shambles',
-    content: `Increases DMG by 15% against enemies affected by Seele's Ultimate.`,
+    title: 'E6 Shattering Shambles',
+    content: `E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn(s). 
+    Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.`,
     disabled: e < 6,
   }];
 

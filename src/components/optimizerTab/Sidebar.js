@@ -45,7 +45,7 @@ export default function Sidebar() {
   return (
     <Flex vertical style={{overflow: 'clip'}}>
       <Flex style={{position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10}}>
-        <FormCard height={550}>
+        <FormCard height={525}>
           <Flex vertical gap={10}>
             <Flex justify='space-between' align='center'>
               <HeaderText>Permutations</HeaderText>
@@ -69,12 +69,16 @@ export default function Sidebar() {
 
             <Flex vertical>
               <HeaderText>Progress</HeaderText>
-              <Progress percent={Math.ceil(Number(permutationsSearched) / Number(permutations) * 100)} size="small" />
+              <Progress
+                strokeColor={'#1668DC'}
+                steps={17}
+                size={[8, 5]}
+                percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+              />
             </Flex>
 
-            <Flex justify='space-between' align='center' style={{marginTop: 10}}>
+            <Flex justify='space-between' align='center' >
               <HeaderText>Controls</HeaderText>
-              <TooltipImage type={Hint.actions()} />
             </Flex>
 
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
@@ -95,9 +99,9 @@ export default function Sidebar() {
               </Flex>
             </Flex>
 
-            <Flex justify='space-between' align='center' style={{marginTop: 10}}>
+            <Flex justify='space-between' align='center'>
               <HeaderText>Results</HeaderText>
-              {/*<TooltipImage type={Hint.actions()} />*/}
+              <TooltipImage type={Hint.actions()} />
             </Flex>
             <Flex gap={defaultGap} justify='space-around'>
               <Button onClick={global.optimizerFilterClicked} style={{ width: '100px' }} >

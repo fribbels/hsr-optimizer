@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -28,31 +27,31 @@ export default(e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'targetBurned',
     name: 'targetBurned',
-    text: 'Target Burned',
-    title: 'Target Burned',
-    content: `Increases DMG by ${precisionRound(0.20 * 100)}% against enemies affected by Burn.`,
+    text: 'Target burned',
+    title: 'Target burned',
+    content: `Skill deals 20% more DMG to enemies currently afflicted with Burn.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'selfCurrentHp80Percent',
     name: 'selfCurrentHp80Percent',
-    text: 'Self HP >= 80%',
-    title: 'Self HP >= 80%',
-    content: `Increases CRIT Rate by 15% when HP is above 80%.`,
+    text: 'Self HP ≥ 80%',
+    title: 'Self HP ≥ 80%',
+    content: `When current HP percentage is 80% or higher, CRIT Rate increases by 15%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e1TalentSpdBuff',
     name: 'e1TalentSpdBuff',
-    text: 'E1 SPD Buff',
-    title: 'E1 SPD Buff',
-    content: `E1: After "Victory Rush" is triggered, Himeko's SPD increases by 20% for 2 turn(s).`,
+    text: 'E1 SPD buff',
+    title: 'E1 SPD buff',
+    content: `E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns.`,
     disabled: e < 1,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e6UltExtraHits',
     name: 'e6UltExtraHits',
-    text: 'E6 Ult Extra Hits',
-    title: 'E6 Ult Extra Hits',
-    content: `Ultimate deals DMG 2 extra times. Extra hits do ${precisionRound(0.40 * 100)}% DMG per hit.`,
+    text: 'E6 ult extra hits',
+    title: 'E6 ult extra hits',
+    content: `Ultimate deals DMG 2 extra times. Extra hits deals ${precisionRound(0.40 * 100)}% of the original DMG per hit.`,
     min: 0,
     max: 2,
     disabled: e < 6,

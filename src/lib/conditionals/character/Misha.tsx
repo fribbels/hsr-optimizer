@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, ultRev } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -21,33 +20,33 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'ultHitsOnTarget',
     name: 'ultHitsOnTarget',
-    text: 'Ult Hits on Target',
-    title: 'Ult Hits on Target',
-    content: `Increases DMG by ${precisionRound(ultStackScaling * 100)}% per hit.`,
+    text: 'Ult hits on target',
+    title: 'Ult hits on target',
+    content: `Number of Ultimate hits on the primary target, dealing DMG equal to ${precisionRound(ultStackScaling * 100)}% ATK per hit.`,
     min: 1,
     max: 10,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'enemyFrozen',
     name: 'enemyFrozen',
-    text: 'Enemy Frozen',
-    title: 'Enemy Frozen',
-    content: `A6: Frozen enemies take 30% more Crit DMG.`,
+    text: 'Enemy frozen',
+    title: 'Enemy frozen',
+    content: `When dealing DMG to Frozen enemies, increases CRIT DMG by 30%.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2DefReduction',
     name: 'e2DefReduction',
-    text: 'E2 DEF Reduction',
-    title: 'E2 DEF Reduction',
-    content: `E2: Decreases enemies' DEF by 16% for 3 turns.`,
+    text: 'E2 DEF reduction',
+    title: 'E2 DEF reduction',
+    content: `E2: Reduces the target's DEF by 16% for 3 turn(s).`,
     disabled: e < 2,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e6UltDmgBoost',
     name: 'e6UltDmgBoost',
-    text: 'E6 Ult DMG Boost',
-    title: 'E6 Ult DMG Boost',
-    content: `Increases DMG by 30% when using Ultimate until end of turn.`,
+    text: 'E6 ult DMG boost',
+    title: 'E6 ult DMG boost',
+    content: `E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn.`,
     disabled: e < 6,
   }];
 

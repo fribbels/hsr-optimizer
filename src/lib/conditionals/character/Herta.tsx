@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -28,8 +27,8 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'techniqueBuff',
     name: 'techniqueBuff',
-    text: 'Technique Buff',
-    title: 'Technique Buff',
+    text: 'Technique buff',
+    title: 'Technique buff',
     content: `Increases ATK by ${precisionRound(0.40 * 100)}% for 3 turns.`,
   }, {
     formItem: FormSwitchWithPopover,
@@ -37,14 +36,14 @@ export default (e: Eidolon) => {
     name: 'targetFrozen',
     text: 'Target frozen',
     title: 'Target frozen',
-    content: `When Ult is used, increases DMG by ${precisionRound(0.20 * 100)}% to Frozen enemies.`,
+    content: `When Ultimate is used, deals ${precisionRound(0.20 * 100)}% more DMG to Frozen enemies.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e2TalentCritStacks',
     name: 'e2TalentCritStacks',
-    text: 'E2 Talent CR Stacks',
-    title: 'E2 Talent CR Stacks',
-    content: `Increases CRIT Rate by 3% per stack. Stacks up to 5 times.`,
+    text: 'E2 talent CR stacks',
+    title: 'E2 talent CR stacks',
+    content: `E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times.`,
     min: 0,
     max: 5,
     disabled: e < 2,
@@ -52,9 +51,9 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'e6UltAtkBuff',
     name: 'e6UltAtkBuff',
-    text: 'E6 Ult ATK Buff',
-    title: 'E6 Ult ATK Buff',
-    content: `After Ult, increases ATK by ${precisionRound(0.25 * 100)}% for 1 turn.`,
+    text: 'E6 ult ATK buff',
+    title: 'E6 ult ATK buff',
+    content: `E6: After Ult, increases ATK by ${precisionRound(0.25 * 100)}% for 1 turn.`,
     disabled: e < 6,
   }];
 

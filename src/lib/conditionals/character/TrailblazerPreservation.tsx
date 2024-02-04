@@ -1,11 +1,12 @@
 import React from "react"
 import { Stats } from "lib/constants"
 import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, skillRev, ultRev } from "lib/conditionals/utils";
+import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
 import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 
+// TODO: Missing E1 dmg
 const TrailblazerPreservation = (e) => {
   const skillDamageReductionValue = skillRev(e, 0.50, 0.52);
 
@@ -22,29 +23,29 @@ const TrailblazerPreservation = (e) => {
     id: 'enhancedBasic',
     name: 'enhancedBasic',
     text: 'Enhanced basic',
-    title: `Enhanced basic: Increases ATK by ${basicEnhancedAtkScaling * 100}% and DEF by ${basicEnhancedDefScaling * 100}%`,
-    content: `Enhances the Basic ATK of all allies, increasing their ATK by ${basicEnhancedAtkScaling * 100}% and DEF by ${basicEnhancedDefScaling * 100}% for 2 turn(s).`,
+    title: `Enhanced basic`,
+    content: `Enhanced basic ATK deals Fire DMG equal to ${precisionRound(basicEnhancedAtkScaling * 100)}% of the Trailblazer's ATK to a single enemy, and reduced damage to adjacent enemies.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'skillActive',
     name: 'skillActive',
     text: 'Skill active',
-    title: `Skill active: Reduces DMG taken by ${skillDamageReductionValue * 100}%`,
-    content: `When the Skill is used, reduces all allies' DMG taken by ${skillDamageReductionValue * 100}% for 2 turn(s).`,
+    title: `Skill active`,
+    content: `When the Skill is used, reduces DMG taken by ${precisionRound(skillDamageReductionValue * 100)}%. Also reduces DMG taken by all allies by 15% for 1 turn.`,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'shieldActive',
     name: 'shieldActive',
     text: 'Shield active',
-    title: 'Shield active: Increases ATK by 15%',
-    content: `When the Shield is active, increases all allies' ATK by 15% for 2 turn(s).`,
+    title: 'Shield active',
+    content: `When the shield is active, increases ATK by 15%.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'e6DefStacks',
     name: 'e6DefStacks',
     text: 'E6 def stacks',
     title: 'E6 def stacks: Increases DEF by 10%',
-    content: `When the E6 DEF Stacks are active, increases all allies' DEF by 10% for 2 turn(s).`,
+    content: `E6: Increases DEF by 10% per stack.`,
     min: 0,
     max: 3,
     disabled: e < 6,

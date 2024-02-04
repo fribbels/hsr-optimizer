@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-import { calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils';
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -35,19 +34,21 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'enhancedStateActive',
     name: 'enhancedStateActive',
-    text: 'Enhanced State',
-    title: 'Enhanced State',
+    text: 'Hellscape state',
+    title: 'Hellscape state',
     content: `
-      Increases DMG by ${precisionRound(enhancedStateDmgBoost * 100)}%.
-      ${e >= 2 ? `::BR::Also increases CRIT Rate by ${precisionRound(0.15 * 100)}%.` : ''}
+      Increases DMG by ${precisionRound(enhancedStateDmgBoost * 100)}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turn(s).
+      ::BR::
+      E2: Increases CRIT Rate by ${precisionRound(0.15 * 100)}%.
     `,
   }, {
     formItem: FormSliderWithPopover,
     id: 'hpPercentLostTotal',
     name: 'hpPercentLostTotal',
-    text: 'HP% Lost Total',
-    title: 'HP% Lost Total',
-    content: `Increases DMG by ${precisionRound(0.10 * 100)}% for every ${precisionRound(hpPercentLostTotalMax * 100)}% HP lost.`,
+    text: 'HP% lost total',
+    title: 'HP% lost total',
+    content: `Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. 
+    The tally of Blade's HP loss in the current battle is capped at ${precisionRound(hpPercentLostTotalMax * 100)}% of his Max HP.`,
     min: 0,
     max: hpPercentLostTotalMax,
     percent: true,
@@ -55,9 +56,9 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'e4MaxHpIncreaseStacks',
     name: 'e4MaxHpIncreaseStacks',
-    text: 'E4 Max HP Stacks',
-    title: 'E4 Max HP Stacks',
-    content: `Increases HP by ${precisionRound(0.20 * 100)}%, stacks 2 times.`,
+    text: 'E4 max HP stacks',
+    title: 'E4 max HP stacks',
+    content: `E4: Increases HP by ${precisionRound(0.20 * 100)}%, stacks up to 2 times.`,
     min: 0,
     max: 2,
     disabled: e < 4,

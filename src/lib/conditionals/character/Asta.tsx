@@ -26,17 +26,17 @@ export default (e: Eidolon) => {
     formItem: FormSliderWithPopover,
     id: 'skillExtraDmgHits',
     name: 'skillExtraDmgHits',
-    text: 'Skill Extra Hits',
-    title: 'Skill Extra Hits',
-    content: `Deals 50% ATK DMG equal to a single enemy. Deals DMG for ${skillExtraDmgHitsMax} extra times to a random enemy.`,
+    text: 'Skill extra hits',
+    title: 'Skill extra hits',
+    content: `Deals 50% ATK DMG equal to a single enemy. Deals DMG for ${precisionRound(skillExtraDmgHitsMax)} extra times to a random enemy.`,
     min: 0,
     max: skillExtraDmgHitsMax,
   }, {
     formItem: FormSliderWithPopover,
     id: 'talentBuffStacks',
     name: 'talentBuffStacks',
-    text: 'Talent ATK Buff Stacks',
-    title: 'Talent ATK Buff Stacks',
+    text: 'Talent ATK buff stacks',
+    title: 'Charging ATK buff stacks',
     content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.`,
     min: 0,
     max: 5,
@@ -46,7 +46,7 @@ export default (e: Eidolon) => {
     name: 'ultSpdBuff',
     text: 'Ult SPD buff active',
     title: 'Ult SPD buff active',
-    content: `Increases SPD by ${precisionRound(ultSpdBuffValue)} during Ultimate.`,
+    content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
   }];
 
   return {

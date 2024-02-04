@@ -17,25 +17,23 @@ const Sampo = (e:Eidolon) => {
   const ultScaling = ultRev(e, 1.60, 1.728);
   const dotScaling = talentRev(e, 0.52, 0.572);
 
-  const maxExtraHits = e < 1 ? 5 : 6;
+  const maxExtraHits = e < 1 ? 4 : 5;
 
   const content = [{
     formItem: FormSwitchWithPopover,
     id: 'targetDotTakenDebuff',
     name: 'targetDotTakenDebuff',
-    text: 'Ult dot taken debuff',
-    title: 'Ult: Target Dot Taken Debuff',
-    content: `Increases DMG by ${precisionRound(dotVulnerabilityValue * 100)}% against enemies affected by Sampo's Ultimate.`,
+    text: 'Ult DoT taken debuff',
+    title: 'Ult Dot taken debuff',
+    content: `When debuffed by Sampo's Ultimate, increase the targets' DoT taken by ${precisionRound(dotVulnerabilityValue * 100)}% for 2 turn(s).`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'skillExtraHits',
     name: 'skillExtraHits',
     text: 'Skill extra hits',
-    title: 'Skill: Extra Hits',
+    title: 'Skill extra hits',
     content: `
-      Number of hits from Skill.
-      ::BR::
-      E1: Increases the number of hits from Skill by 1.
+      Number of extra hits from Skill.
       `,
     min: 1,
     max: maxExtraHits,
@@ -45,14 +43,14 @@ const Sampo = (e:Eidolon) => {
     name: 'targetWindShear',
     text: 'Target has wind shear',
     title: 'Target has wind shear',
-    content: `Decreases DMG taken by 15% if the target has Wind Shear.`,
+    content: `Enemies with Wind Shear effect deal 15% less damage to Sampo.`,
   }];
 
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
       targetDotTakenDebuff: true,
-      skillExtraHits: 4,
+      skillExtraHits: maxExtraHits,
       targetWindShear: true
     }),
     precomputeEffects: (request: Form) => {

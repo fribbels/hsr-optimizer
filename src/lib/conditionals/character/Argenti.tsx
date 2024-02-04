@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stats } from 'lib/constants';
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, talent, ult } from 'lib/conditionals/utils';
-import { precisionRound } from 'lib/conditionals/utils';
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
 
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
@@ -26,35 +25,35 @@ export default (e: Eidolon) => {
     formItem: FormSwitchWithPopover,
     id: 'ultEnhanced',
     name: 'ultEnhanced',
-    text: 'Enhanced Ult',
-    title: 'Enhanced Ult',
+    text: 'Enhanced ult',
+    title: 'Enhanced ult',
     content: `Consumes 180 Energy and deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of Argenti's ATK to all enemies,
       and further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to ${precisionRound(ultEnhancedExtraHitScaling * 100)}% of Argenti's ATK to a random enemy.`,
   }, {
     formItem: FormSliderWithPopover,
     id: 'talentStacks',
     name: 'talentStacks',
-    text: 'Talent stacks',
-    title: 'Talent stacks',
-    content: `Increases CR by ${precisionRound(talentCrStackValue * 100)}% per stack, max of ${talentMaxStacks} stacks.`,
+    text: 'Apotheosis stacks',
+    title: 'Apotheosis stacks',
+    content: `Increases CR by ${precisionRound(talentCrStackValue * 100)}% per stack, max of ${precisionRound(talentMaxStacks)} stacks.`,
     min: 0,
     max: talentMaxStacks,
   }, {
     formItem: FormSliderWithPopover,
     id: 'ultEnhancedExtraHits',
     name: 'ultEnhancedExtraHits',
-    text: 'Ult Extra Hits',
-    title: 'Ult Extra Hits',
-    content: `Enhanced Ult extra hits random enemy for ${precisionRound(ultEnhancedExtraHitScaling * 100)}% per hit.`,
+    text: 'Enhanced ult extra hits on target',
+    title: 'Enhanced ult extra hits on target',
+    content: `Enhanced Ult hits a random enemy for ${precisionRound(ultEnhancedExtraHitScaling * 100)}% ATK per hit.`,
     min: 0,
     max: 6,
   }, {
     formItem: FormSwitchWithPopover,
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
-    text: 'E2 Ult ATK buff',
-    title: 'E2 Ult ATK buff',
-    content: `If the number of enemies on the field equals to 3 or more, increases ATK by ${precisionRound(0.40 * 100)}% after Ult.`,
+    text: 'E2 ult ATK buff',
+    title: 'E2 ult ATK buff',
+    content: `E2: If the number of enemies on the field equals to 3 or more, increases ATK by ${precisionRound(0.40 * 100)}% for 1 turn.`,
     disabled: e < 2,
   }];
 

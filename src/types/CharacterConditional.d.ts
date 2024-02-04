@@ -54,8 +54,13 @@ export type StatsCollection = {
 
 export interface PrecomputedCharacterConditional {
   DEF_SHRED: number;
+  DMG_RED_MULTI: number;
+  DOT_BOOST: number;
   ELEMENTAL_DMG: number;
+  FUA_BOOST: number;
   FUA_DEF_PEN: number;
+  SKILL_BOOST: number;
+  ULT_BOOST: number;
 }
 
 export type ConditionalBuff =
@@ -63,6 +68,7 @@ export type ConditionalBuff =
   | 'basicEnhanced'
   | 'basicEnhancedExtraHits'
   | 'basicEnhancedSpdBuff'
+  | 'basicEnhancements'
   | 'battleStartDefBuff'
   | 'benedictionBuff'
   | 'buffedState'

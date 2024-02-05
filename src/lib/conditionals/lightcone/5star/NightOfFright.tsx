@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'atkBuffStacks',
     name: 'atkBuffStacks',
     formItem: FormSliderWithPopover,
-    text: 'ATK Buff Stacks',
+    text: 'ATK buff stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
     min: 0,

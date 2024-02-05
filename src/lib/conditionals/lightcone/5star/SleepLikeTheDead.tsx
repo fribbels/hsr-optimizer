@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23012",
     "skill": "Sweet Dreams",
-    "desc": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by #2[i]% for #3[i] turn(s). This effect can only trigger once every #4[i] turn(s).",
+    "desc": "When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by #2[i]% for #3[i] turn(s). This effect can only trigger once every #4[i] turn(s).",
     "params": [[0.3, 0.36, 1, 3], [0.35, 0.42, 1, 3], [0.4, 0.48, 1, 3], [0.45, 0.54, 1, 3], [0.5, 0.6, 1, 3]],
     "properties": [[{"type": "CriticalDamageBase", "value": 0.3}], [{"type": "CriticalDamageBase", "value": 0.35}], [{"type": "CriticalDamageBase", "value": 0.4}], [{"type": "CriticalDamageBase", "value": 0.45}], [{"type": "CriticalDamageBase", "value": 0.5}]]
   };
@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'missedCritCrBuff',
     name: 'missedCritCrBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Missed Crit RATE buff',
+    text: 'Missed crit CR buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

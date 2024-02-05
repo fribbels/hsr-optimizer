@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23018",
     "skill": "A Knight's Pilgrimage",
-    "desc": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by #2[f2]%, up to #3[i] points of Energy.",
+    "desc": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by #2[f2]%, up to #3[i] points of Energy.",
     "params": [[0.36, 0.0036, 180], [0.42, 0.0042, 180], [0.48, 0.0048, 180], [0.54, 0.0054, 180], [0.6, 0.006, 180]],
     "properties": [[{"type": "CriticalDamageBase", "value": 0.36}], [{"type": "CriticalDamageBase", "value": 0.42}], [{"type": "CriticalDamageBase", "value": 0.48}], [{"type": "CriticalDamageBase", "value": 0.54}], [{"type": "CriticalDamageBase", "value": 0.6}]]
   };

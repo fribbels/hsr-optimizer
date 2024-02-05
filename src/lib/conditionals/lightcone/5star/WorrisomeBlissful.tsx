@@ -1,7 +1,6 @@
 import React from 'react';
 import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';
@@ -24,18 +23,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   };
   const content: ContentItem[] = [{
     lc: true,
-    id: 'fuaDmgBoost',
-    name: 'fuaDmgBoost',
-    formItem: FormSwitchWithPopover,
-    text: 'FUA DMG Boost',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
-  }, {
-    lc: true,
     id: 'targetTameStacks',
     name: 'targetTameStacks',
     formItem: FormSliderWithPopover,
-    text: 'Target Tame Stacks',
+    text: 'Target Tame stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
     min: 0,
@@ -45,14 +36,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
-      fuaDmgBoost: true,
       targetTameStacks: 2,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.CD] += r.targetTameStacks * sValuesCd[s];
-      x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0;
+      x.FUA_BOOST += sValuesFuaDmg[s];
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

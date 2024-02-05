@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23014",
     "skill": "With This Evening Jade",
-    "desc": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%.",
+    "desc": "When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%.",
     "params": [[
           0.2, 3, 0.14, 0.12
       ],[
@@ -50,7 +50,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'eclipseStacks',
       name: 'eclipseStacks',
       formItem: FormSliderWithPopover,
-      text: 'Eclipse Stacks',
+      text: 'Eclipse stacks',
       title: lcRank.skill,
       content: getContentFromLCRanks(s, lcRank),
       min: 0,
@@ -61,7 +61,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'maxStackDefPen',
       name: 'maxStackDefPen',
       formItem: FormSwitchWithPopover,
-      text: 'Max Stack DEF Pen',
+      text: 'Max stack DEF pen',
       title: lcRank.skill,
       content: getContentFromLCRanks(s, lcRank2),
     }

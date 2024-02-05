@@ -72,6 +72,7 @@ export const gridOptions = {
   cacheBlockSize: 500,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
+  suppressMultiSort: true,
   suppressCellFocus: true
 };
 

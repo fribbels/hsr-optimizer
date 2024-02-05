@@ -57,8 +57,9 @@ const getContentFromLCRanks = (s: SuperImpositionLevel, lcRank: LightConeRawRank
           // ["#4[i]", "4"]
           let value = params[parseInt(tokenPieces) - 1];
           // change to percent
+          // TODO: This isnt correct in all cases, "There is a 100% chance" gets turned into "There is a 1% chance": Incessant Rain
           if (value < 1) {
-            value = Math.round(value * 100);
+            value = precisionRound(value * 100);
           }
           ret = ret.replace(token, value.toString());
         }
@@ -67,6 +68,12 @@ const getContentFromLCRanks = (s: SuperImpositionLevel, lcRank: LightConeRawRank
   }
 
   return ret;
+}
+
+// TODO: When I import from Utils it gives a window not found error from db.js. The typescript refactor will fix that, leaving this here for now
+function precisionRound(number, precision = 5) {
+  const factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
 }
 
 export default getContentFromLCRanks

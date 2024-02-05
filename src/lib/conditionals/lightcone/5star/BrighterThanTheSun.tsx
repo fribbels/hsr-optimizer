@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23015",
     "skill": "Defiant Till Death",
-    "desc": "Increases the wearer's CRIT Rate by #1[i]%. When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for #2[i] turns. Each stack of Dragon's Call increases the wearer's ATK by #4[i]% and Energy Regeneration Rate by #5[f1]%. Dragon's Call can be stacked up to #3[i] times.",
+    "desc": "When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for #2[i] turns. Each stack of Dragon's Call increases the wearer's ATK by #4[i]% and Energy Regeneration Rate by #5[f1]%. Dragon's Call can be stacked up to #3[i] times.",
     "params": [[0.18, 2, 2, 0.18, 0.06], [0.21, 2, 2, 0.21, 0.07], [0.24, 2, 2, 0.24, 0.08], [0.27, 2, 2, 0.27, 0.09], [0.3, 2, 2, 0.3, 0.1]],
     "properties": [[{"type": "CriticalChanceBase", "value": 0.18}], [{"type": "CriticalChanceBase", "value": 0.21}], [{"type": "CriticalChanceBase", "value": 0.24}], [{"type": "CriticalChanceBase", "value": 0.27}], [{"type": "CriticalChanceBase", "value": 0.3}]]
   };
@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'dragonsCallStacks',
     name: 'dragonsCallStacks',
     formItem: FormSliderWithPopover,
-    text: "Dragon's Call Stacks",
+    text: "Dragon's Call stacks",
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
     min: 0,

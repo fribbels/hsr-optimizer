@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23001",
     "skill": "Flowers and Butterflies",
-    "desc": "Increases the wearer's CRIT Rate by #1[i]%. While the wearer is in battle, for every #2[i] SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by #3[i]% and the CRIT DMG of their Ultimate is increased by #4[i]%. This effect can stack up to #5[i] time(s).",
+    "desc": "While the wearer is in battle, for every #2[i] SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by #3[i]% and the CRIT DMG of their Ultimate is increased by #4[i]%. This effect can stack up to #5[i] time(s).",
     "params": [[0.18, 10, 0.06, 0.12, 6], [0.21, 10, 0.07, 0.14, 6], [0.24, 10, 0.08, 0.16, 6], [0.27, 10, 0.09, 0.18, 6], [0.3, 10, 0.1, 0.2, 6]],
     "properties": [[{"type": "CriticalChanceBase", "value": 0.18}], [{"type": "CriticalChanceBase", "value": 0.21}], [{"type": "CriticalChanceBase", "value": 0.24}], [{"type": "CriticalChanceBase", "value": 0.27}], [{"type": "CriticalChanceBase", "value": 0.3}]]
   };
@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'spdScalingBuffs',
     name: 'spdScalingBuffs',
     formItem: FormSwitchWithPopover,
-    text: 'Speed Scaling Buffs Enabled',
+    text: 'Speed scaling buffs enabled',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

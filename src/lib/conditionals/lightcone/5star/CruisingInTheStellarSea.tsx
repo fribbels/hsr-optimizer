@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "24001",
     "skill": "Chase",
-    "desc": "Increases the wearer's CRIT rate by #1[i]%, and increases their CRIT rate against enemies with HP less than or equal to #2[i]% by an extra #3[i]%.",
+    "desc": "Increases the wearer's CRIT rate against enemies with HP less than or equal to #2[i]% by an extra #3[i]%.",
     "params": [[0.08, 0.5, 0.08, 0.2, 2], [0.1, 0.5, 0.1, 0.25, 2], [0.12, 0.5, 0.12, 0.3, 2], [0.14, 0.5, 0.14, 0.35, 2], [0.16, 0.5, 0.16, 0.4, 2]],
     "properties": [[{"type": "CriticalChanceBase", "value": 0.08}], [{"type": "CriticalChanceBase", "value": 0.1}], [{"type": "CriticalChanceBase", "value": 0.12}], [{"type": "CriticalChanceBase", "value": 0.14}], [{"type": "CriticalChanceBase", "value": 0.16}]]
   };
@@ -28,7 +28,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'enemyHp50CrBoost',
     name: 'enemyHp50CrBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Enemy HP <= 50% CR Boost',
+    text: 'Enemy HP ≤ 50% CR buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }, {
@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'enemyDefeatedAtkBuff',
     name: 'enemyDefeatedAtkBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Enemy Defeated ATK Buff',
+    text: 'Enemy defeated ATK buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
   }];

@@ -31,14 +31,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   const content: ContentItem[] = [{
     lc: true,
-    id: 'dmgBoost',
-    name: 'dmgBoost',
-    formItem: FormSwitchWithPopover,
-    text: 'DMD Boost',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
-  }, {
-    lc: true,
     id: 'spdStacks',
     name: 'spdStacks',
     formItem: FormSliderWithPopover,
@@ -61,15 +53,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
-      dmgBoost: true,
-      spdStacks: 0,
+      spdStacks: 3,
       dotEffect: false
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals;
 
       x[Stats.SPD_P] += r.spdStacks * sValuesSpd[s]
-      x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmg[s] : 0
+      x.ELEMENTAL_DMG += sValuesDmg[s]
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

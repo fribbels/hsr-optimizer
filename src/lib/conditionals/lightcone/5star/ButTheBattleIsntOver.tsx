@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23003",
     "skill": "Heir",
-    "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]% and regenerates 1 Skill Point when the wearer uses their Ultimate on an ally. This effect can be triggered once after every 2 uses of the wearer's Ultimate. When the wearer uses their Skill, the next ally taking action (except the wearer) deals #2[i]% more DMG for #3[i] turn(s).",
+    "desc": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals #2[i]% more DMG for #3[i] turn(s).",
     "params": [[0.1, 0.3, 1], [0.12, 0.35, 1], [0.14, 0.4, 1], [0.16, 0.45, 1], [0.18, 0.5, 1]],
     "properties": [[{"type": "SPRatioBase", "value": 0.1}], [{"type": "SPRatioBase", "value": 0.12}], [{"type": "SPRatioBase", "value": 0.14}], [{"type": "SPRatioBase", "value": 0.16}], [{"type": "SPRatioBase", "value": 0.18}]]
   };
@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'postSkillDmgBuff',
     name: 'postSkillDmgBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Post Skill DMG Buff',
+    text: 'Post skill DMG buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

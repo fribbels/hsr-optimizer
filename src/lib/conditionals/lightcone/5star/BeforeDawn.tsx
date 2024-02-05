@@ -25,16 +25,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   const content: ContentItem[] = [{
     lc: true,
-    id: 'skillUltDmgBoost',
-    name: 'skillUltDmgBoost',
-    formItem: FormSwitchWithPopover,
-    text: 'Skill/Ult DMG Boost',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
-    min: 0,
-    max: 0.3,
-  }, {
-    lc: true,
     id: 'fuaDmgBoost',
     name: 'fuaDmgBoost',
     formItem: FormSwitchWithPopover,
@@ -48,14 +38,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   return {
     display: () => <DisplayFormControl content={content} />,
     defaults: () => ({
-      skillUltDmgBoost: true,
       fuaDmgBoost: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.SKILL_BOOST += (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0
-      x.ULT_BOOST += (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0
+      x.SKILL_BOOST += sValuesSkillUltDmg[s]
+      x.ULT_BOOST += sValuesSkillUltDmg[s]
       x.FUA_BOOST += (r.fuaDmgBoost) ? sValuesFuaDmg[s] : 0
     },
     calculatePassives: (/*c, request */) => { },

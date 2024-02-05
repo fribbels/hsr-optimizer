@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23019",
     "skill": "The Plum Fragrance In My Bones",
-    "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s). Should the wearer's Break Effect exceed or equal #4[i]%, 1 Skill Point will be recovered. At the start of each wave, all allies regenerate #5[f1] Energy immediately. Effects of the same type cannot stack.",
+    "desc": "When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s).",
     "params": [
       [0.6, 0.24, 3, 1.5, 10],
       [0.7, 0.28, 3, 1.5, 12.5],
@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'postUltDmgBuff',
     name: 'postUltDmgBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Post Ult DMG Buff',
+    text: 'Post ult DMG duff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

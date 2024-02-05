@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "24002",
     "skill": "Treasure",
-    "desc": "Increases the wearer's Effect RES by #1[i]%. If the wearer is attacked and has no Shield, they gain a Shield equal to #2[i]% of their Max HP for #3[i] turn(s). This effect can only be triggered once every #4[i] turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by #5[i]%.",
+    "desc": "If the wearer is attacked and has no Shield, they gain a Shield equal to #2[i]% of their Max HP for #3[i] turn(s). This effect can only be triggered once every #4[i] turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by #5[i]%.",
     "params": [[0.08, 0.16, 2, 3, 0.12], [0.1, 0.2, 2, 3, 0.15], [0.12, 0.24, 2, 3, 0.18], [0.14, 0.28, 2, 3, 0.21], [0.16, 0.32, 2, 3, 0.24]],
     "properties": [[{"type": "StatusResistanceBase", "value": 0.08}], [{"type": "StatusResistanceBase", "value": 0.1}], [{"type": "StatusResistanceBase", "value": 0.12}], [{"type": "StatusResistanceBase", "value": 0.14}], [{"type": "StatusResistanceBase", "value": 0.16}]]
   };
@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'activeShieldDmgDecrease',
     name: 'activeShieldDmgDecrease',
     formItem: FormSwitchWithPopover,
-    text: 'Active Shield DMG Decrease',
+    text: 'Active shield DMG taken decrease',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

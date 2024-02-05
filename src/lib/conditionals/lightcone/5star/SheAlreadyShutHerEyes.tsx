@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {
     "id": "23011",
     "skill": "Visioscape",
-    "desc": "Increases the wearer's Max HP by #1[i]% and Energy Regeneration Rate by #4[i]%. When the wearer's HP is reduced, all allies' DMG dealt increases by #2[f1]%, lasting for #5[i] turn(s).\nAt the start of every wave, restores HP to all allies by an amount equal to #3[i]% of their respective lost HP.",
+    "desc": "When the wearer's HP is reduced, all allies' DMG dealt increases by #2[f1]%, lasting for #5[i] turn(s).",
     "params": [[0.24, 0.09, 0.8, 0.12, 2], [0.28, 0.105, 0.85, 0.14, 2], [0.32, 0.12, 0.9, 0.16, 2], [0.36, 0.135, 0.95, 0.18, 2], [0.4, 0.15, 1, 0.2, 2]],
     "properties": [[{"type": "HPAddedRatio", "value": 0.24}, {"type": "SPRatioBase", "value": 0.12}], [{"type": "HPAddedRatio", "value": 0.28}, {"type": "SPRatioBase", "value": 0.14}], [{"type": "HPAddedRatio", "value": 0.32}, {"type": "SPRatioBase", "value": 0.16}], [{"type": "HPAddedRatio", "value": 0.36}, {"type": "SPRatioBase", "value": 0.18}], [{"type": "HPAddedRatio", "value": 0.4}, {"type": "SPRatioBase", "value": 0.2}]]
   };
@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'hpLostDmgBuff',
     name: 'hpLostDmgBuff',
     formItem: FormSwitchWithPopover,
-    text: 'HP Lost DMG Buff',
+    text: 'HP lost DMG buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

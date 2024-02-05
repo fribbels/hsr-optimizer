@@ -3,12 +3,13 @@
 import React from 'react';
 import { Flex, Typography } from 'antd';
 import { HeaderText } from 'components/HeaderText';
-import { FormSlider, FormSwitch } from 'components/optimizerTab/FormConditionalInputs';
 import { TooltipImage } from 'components/TooltipImage';
-import { Constants } from 'lib/constants.ts'
 import { Hint } from 'lib/hint';
 
+import Adversarial from 'lib/conditionals/lightcone/3star/Adversarial';
+import Amber from 'lib/conditionals/lightcone/3star/Amber';
 import AnInstantBeforeAGaze from 'lib/conditionals/lightcone/5star/AnInstantBeforeAGaze';
+import Arrows from 'lib/conditionals/lightcone/3star/Arrows';
 import ASecretVow from 'lib/conditionals/lightcone/4star/ASecretVow';
 import BaptismOfPureThought from 'lib/conditionals/lightcone/5star/BaptismOfPureThought';
 import BeforeDawn from 'lib/conditionals/lightcone/5star/BeforeDawn';
@@ -16,39 +17,58 @@ import BeforeTheTutorialMissionStarts from 'lib/conditionals/lightcone/4star/Bef
 import BrighterThanTheSun from 'lib/conditionals/lightcone/5star/BrighterThanTheSun';
 import ButTheBattleIsntOver from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver';
 import CarveTheMoonWeaveTheClouds from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds';
+import Chorus from 'lib/conditionals/lightcone/3star/Chorus';
+import CollapsingSky from 'lib/conditionals/lightcone/3star/CollapsingSky';
+import Cornucopia from 'lib/conditionals/lightcone/3star/Cornucopia';
 import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingInTheStellarSea';
 import DanceDanceDance from 'lib/conditionals/lightcone/4star/DanceDanceDance';
+import DartingArrow from 'lib/conditionals/lightcone/3star/DartingArrow';
+import DataBank from 'lib/conditionals/lightcone/3star/DataBank';
 import DayOneOfMyNewLife from 'lib/conditionals/lightcone/4star/DayOneOfMyNewLife';
+import Defense from 'lib/conditionals/lightcone/3star/Defense';
+import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade';
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin';
 import EyesOfThePrey from 'lib/conditionals/lightcone/4star/EyesOfThePrey';
 import Fermata from 'lib/conditionals/lightcone/4star/Fermata';
+import FineFruit from 'lib/conditionals/lightcone/3star/FineFruit';
 import GeniusesRepose from 'lib/conditionals/lightcone/4star/GeniusesRepose';
 import GoodNightAndSleepWell from 'lib/conditionals/lightcone/4star/GoodNightAndSleepWell';
 import HeyOverHere from 'lib/conditionals/lightcone/4star/HeyOverHere';
+import HiddenShadow from 'lib/conditionals/lightcone/3star/HiddenShadow';
 import IncessantRain from 'lib/conditionals/lightcone/5star/IncessantRain';
 import InTheNameOfTheWorld from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld';
 import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight';
 import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword';
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice';
+import Loop from 'lib/conditionals/lightcone/3star/Loop';
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor';
+import Mediation from 'lib/conditionals/lightcone/3star/Mediation';
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast';
+import MeshingCogs from 'lib/conditionals/lightcone/3star/MeshingCogs';
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory';
+import Multiplication from 'lib/conditionals/lightcone/3star/Multiplication';
+import MutualDemise from 'lib/conditionals/lightcone/3star/MutualDemise';
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright';
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay';
 import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun';
 import OnlySilenceRemains from 'lib/conditionals/lightcone/4star/OnlySilenceRemains';
 import OnTheFallOfAnAeon from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon';
+import Passkey from 'lib/conditionals/lightcone/3star/Passkey';
 import PastAndFuture from 'lib/conditionals/lightcone/4star/PastAndFuture';
 import PastSelfInTheMirror from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror';
 import PatienceIsAllYouNeed from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed';
 import PerfectTiming from 'lib/conditionals/lightcone/4star/PerfectTiming';
+import Pioneering from 'lib/conditionals/lightcone/3star/Pioneering';
 import PlanetaryRendezvous from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous';
 import PostOpConversation from 'lib/conditionals/lightcone/4star/PostOpConversation';
 import QuidProQuo from 'lib/conditionals/lightcone/4star/QuidProQuo';
+import ReforgedRemembrance from 'lib/conditionals/lightcone/5star/ReforgedRemembrance';
 import ResolutionShinesAsPearlsOfSweat from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat';
 import ReturnToDarkness from 'lib/conditionals/lightcone/4star/ReturnToDarkness';
 import RiverFlowsInSpring from 'lib/conditionals/lightcone/4star/RiverFlowsInSpring';
+import Sagacity from 'lib/conditionals/lightcone/3star/Sagacity';
 import SharedFeeling from 'lib/conditionals/lightcone/4star/SharedFeeling';
+import ShatteredHome from 'lib/conditionals/lightcone/3star/ShatteredHome';
 import SheAlreadyShutHerEyes from 'lib/conditionals/lightcone/5star/SheAlreadyShutHerEyes';
 import SleepLikeTheDead from 'lib/conditionals/lightcone/5star/SleepLikeTheDead';
 import SolitaryHealing from 'lib/conditionals/lightcone/5star/SolitaryHealing';
@@ -65,37 +85,12 @@ import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOn
 import TodayIsAnotherPeacefulDay from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay';
 import TrendOfTheUniversalMarket from 'lib/conditionals/lightcone/4star/TrendOfTheUniversalMarket';
 import UnderTheBlueSky from 'lib/conditionals/lightcone/4star/UnderTheBlueSky';
+import Void from 'lib/conditionals/lightcone/3star/Void';
 import WarmthShortensColdNights from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights';
 import WeAreWildfire from 'lib/conditionals/lightcone/4star/WeAreWildfire';
 import WeWillMeetAgain from 'lib/conditionals/lightcone/4star/WeWillMeetAgain';
 import WoofWalkTime from 'lib/conditionals/lightcone/4star/WoofWalkTime';
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful';
-
-import Sagacity from './conditionals/lightcone/3star/Sagacity';
-import Mediation from './conditionals/lightcone/3star/Mediation';
-import HiddenShadow from './conditionals/lightcone/3star/HiddenShadow';
-import Pioneering from './conditionals/lightcone/3star/Pioneering';
-import MutualDemise from './conditionals/lightcone/3star/MutualDemise';
-import Multiplication from './conditionals/lightcone/3star/Multiplication';
-import Adversarial from './conditionals/lightcone/3star/Adversarial';
-import Passkey from './conditionals/lightcone/3star/Passkey';
-import MeshingCogs from './conditionals/lightcone/3star/MeshingCogs';
-import Loop from './conditionals/lightcone/3star/Loop';
-import Defense from './conditionals/lightcone/3star/Defense';
-import ShatteredHome from './conditionals/lightcone/3star/ShatteredHome';
-import FineFruit from './conditionals/lightcone/3star/FineFruit';
-import DartingArrow from './conditionals/lightcone/3star/DartingArrow';
-import DataBank from './conditionals/lightcone/3star/DataBank';
-import Chorus from './conditionals/lightcone/3star/Chorus';
-import Void from './conditionals/lightcone/3star/Void';
-import Amber from './conditionals/lightcone/3star/Amber';
-import CollapsingSky from './conditionals/lightcone/3star/CollapsingSky';
-import Cornucopia from './conditionals/lightcone/3star/Cornucopia';
-import Arrows from './conditionals/lightcone/3star/Arrows';
-
-const Stats = Constants.Stats
-
-const defaultGap = 5;
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -119,12 +114,12 @@ const fiveStar = {
   23018: AnInstantBeforeAGaze,
   23019: PastSelfInTheMirror,
   23020: BaptismOfPureThought,
+  23021: EarthlyEscapade,
+  23022: ReforgedRemembrance,
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
   24003: SolitaryHealing,
-  23021: EarthlyEscapade,
-  23022: ReforgedRemembrance,
 };
 
 const fourStar = {
@@ -197,61 +192,6 @@ const lightConeOptionMapping = {
   ...fourStar,
   ...threeStar
 };
-
-
-
-
-function ReforgedRemembrance(s) {
-  let sValuesAtk = [0.05, 0.06, 0.07, 0.08, 0.09]
-  let sValuesDotPen = [0.072, 0.079, 0.086, 0.093, 0.10]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='prophetStacks' text='Prophet stacks' min={0} max={4} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      prophetStacks: 4,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.ATK_P] += r.prophetStacks * sValuesAtk[s]
-      x.DOT_DEF_PEN += r.prophetStacks * sValuesDotPen[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function EarthlyEscapade(s) {
-  const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
-  const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='maskActive' text='Mask active' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      maskActive: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CR] += (r.maskActive) ? sValuesCr[s] : 0
-      x[Stats.CD] += (r.maskActive) ? sValuesCd[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-
-
-
 
 
 export const LightConeConditionals = {

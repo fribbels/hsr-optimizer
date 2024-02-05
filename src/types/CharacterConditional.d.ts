@@ -13,6 +13,7 @@ export interface PrecomputedCharacterConditional {
   DEF_SHRED: number;
   DMG_RED_MULTI: number;
   DOT_BOOST: number;
+  DOT_DEF_PEN: number;
   ELEMENTAL_DMG: number;
   FUA_BOOST: number;
   FUA_DEF_PEN: number;

@@ -28,7 +28,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'enemyDebuffedDmgBoost',
     name: 'enemyDebuffedDmgBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Enemy Debuffed DMG Boost',
+    text: 'Enemy debuffed DMG boost',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }, {
@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'skillAtkBoost',
     name: 'skillAtkBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Skill ATK Boost (not implemented)',
+    text: 'Skill ATK boost (not implemented)',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
   }];

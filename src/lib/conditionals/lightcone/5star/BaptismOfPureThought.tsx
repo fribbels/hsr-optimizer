@@ -14,7 +14,7 @@ import getContentFromLCRanks from "../getContentFromLCRank";
 const lcRank = {
   "id": "23020",
   "skill": "Mental Training",
-  "desc": "Increases the wearer's CRIT DMG by #1[i]%. For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by #2[i]%, stacking up to #3[i] times. When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
+  "desc": "For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target increases by #2[i]%, stacking up to #3[i] times.",
   "params": [
     [0.2, 0.08, 3, 0.36, 0.24, 2],
     [0.23, 0.09, 3, 0.42, 0.28, 2],
@@ -29,6 +29,10 @@ const lcRank = {
     [{"type": "CriticalDamageBase", "value": 0.29}],
     [{"type": "CriticalDamageBase", "value": 0.32}]
   ]
+};
+const lcRank2 = {
+  ...lcRank,
+  desc: "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
 };
 
 const BaptismOfPureThought = (s: SuperImpositionLevel) => {
@@ -52,8 +56,8 @@ const BaptismOfPureThought = (s: SuperImpositionLevel) => {
     id: 'postUltBuff',
     name: 'postUltBuff',
     text: 'Disputation ult cd / fua def pen buff',
-    title: lcRank.skill,
-    content: getContentFromLCRanks(s, lcRank),
+    title: lcRank2.skill,
+    content: getContentFromLCRanks(s, lcRank2),
   }]
 
   return {

@@ -121,7 +121,7 @@ export const RelicFilters = {
 
       for (let relicSet of request.relicSets) {
         if (relicSet[0] == '4 Piece') {
-          if (relicSet.length == 1) {
+          if (relicSet.length == 1) { // Is this one even possible
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
           }
           if (relicSet.length == 2) {
@@ -129,7 +129,11 @@ export const RelicFilters = {
             allowedSets[index] = 1
           }
         }
-        if (relicSet[0] == '2 Piece') {
+        if (relicSet[0] == '2 + Any') {
+          allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
+        }
+        // '2 Piece' and 'Any' is deprecated but leaving here for compatibility
+        if (relicSet[0] == '2 Piece' || relicSet[0] == '2 + 2 Piece') {
           if (relicSet.length == 1) {
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
           }

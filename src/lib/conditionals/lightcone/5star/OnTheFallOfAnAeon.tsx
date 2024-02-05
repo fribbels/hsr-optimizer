@@ -30,7 +30,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'atkBoostStacks',
     name: 'atkBoostStacks',
     formItem: FormSliderWithPopover,
-    text: 'ATK Boost Stacks',
+    text: 'ATK boost stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
     min: 0,
@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'weaknessBreakDmgBuff',
     name: 'weaknessBreakDmgBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Weakness Break DMG Buff',
+    text: 'Weakness break DMG buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
   }];

@@ -280,6 +280,7 @@ export const OptimizerTabController = {
     newForm.buffResPen = unsetMin(form.buffResPen, true)
     if (!newForm.setConditionals) {
       newForm.setConditionals = {
+        // TODO: This and defaultForm.js is kinda repetitive
         [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
         [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
         [Constants.Sets.KnightOfPurityPalace]: [undefined, true],
@@ -291,9 +292,9 @@ export const OptimizerTabController = {
         [Constants.Sets.BandOfSizzlingThunder]: [undefined, true],
         [Constants.Sets.EagleOfTwilightLine]: [undefined, true],
         [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
-        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 0],
+        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 1],
         [Constants.Sets.LongevousDisciple]: [undefined, 2],
-        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, true],
+        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
         [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
         [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
         [Constants.Sets.SpaceSealingStation]: [undefined, true],
@@ -343,6 +344,12 @@ export const OptimizerTabController = {
 
     if (!newForm.statDisplay) {
       newForm.statDisplay = 'base'
+    }
+
+    // Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
+    // Keeping this here for now
+    if (newForm.includeEquippedRelics == null) {
+      newForm.includeEquippedRelics = true
     }
 
     if (![1, 3, 5].includes(newForm.enemyCount)) {
@@ -477,6 +484,8 @@ export const OptimizerTabController = {
       "characterLevel": fieldValues.characterLevel,
       "enhance": 15,
       "grade": 5,
+      "predictMaxedMainStat": true,
+      "rankFilter": true,
       "includeEquippedRelics": true,
       "keepCurrentRelics": false,
       "lightCone": fieldValues.lightCone,
@@ -489,8 +498,6 @@ export const OptimizerTabController = {
       "mainLinkRope": [],
       "mainPlanarSphere": [],
       "ornamentSets": [],
-      "predictMaxedMainStat": true,
-      "rankFilter": true,
       "relicSets": [],
     }
 
@@ -528,6 +535,10 @@ export const OptimizerTabController = {
 
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
+  },
+
+  setSortColumn: (colId) => {
+    sortModel.colId = colId
   },
 
   refreshPinned: () => {

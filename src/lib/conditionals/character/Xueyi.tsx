@@ -4,8 +4,10 @@ import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } fro
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-
-import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
+import { ConditionalMap } from 'types/Conditionals';
+import { CharacterConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
+import { Form } from 'types/Form';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';

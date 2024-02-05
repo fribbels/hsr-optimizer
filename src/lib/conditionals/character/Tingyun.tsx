@@ -6,7 +6,7 @@ import { Eidolon } from "types/Character";
 
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import { Form } from "types/CharacterConditional";
+import { Form } from "types/Form";
 
 
 const Tingyun = (e: Eidolon) => {

@@ -1,11 +1,13 @@
 import React from 'react';
-import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
+import { Form } from 'types/Form';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';
-import { ConditionalLightConeMap, LightConeRawRank } from 'types/LightConeConditionals';
+import { ConditionalLightConeMap, LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals';
 
 
 export default (s: SuperImpositionLevel): LightConeConditional => {

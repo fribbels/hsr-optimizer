@@ -8,7 +8,8 @@ import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/For
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
 
 import { Eidolon } from 'types/Character'
-import { Form, PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { Form } from 'types/Form';
 
 export default (e: Eidolon) => {
   const talentDebuffDmgIncreaseValue = talentRev(e, 0.07, 0.076);

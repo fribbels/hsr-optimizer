@@ -1,65 +1,111 @@
 /* eslint-disable no-unused-vars  */
 
-import React from "react";
-import { Flex, Typography } from "antd";
-import { HeaderText } from "components/HeaderText";
-import { FormSlider, FormSwitch } from "components/optimizerTab/FormConditionalInputs";
-import { TooltipImage } from "components/TooltipImage";
+import React from 'react';
+import { Flex, Typography } from 'antd';
+import { HeaderText } from 'components/HeaderText';
+import { FormSlider, FormSwitch } from 'components/optimizerTab/FormConditionalInputs';
+import { TooltipImage } from 'components/TooltipImage';
 import { Constants } from 'lib/constants.ts'
-import { Hint } from "lib/hint";
+import { Hint } from 'lib/hint';
 
-import AnInstantBeforeAGaze from "lib/conditionals/lightcone/5star/AnInstantBeforeAGaze";
+import AnInstantBeforeAGaze from 'lib/conditionals/lightcone/5star/AnInstantBeforeAGaze';
+import ASecretVow from 'lib/conditionals/lightcone/4star/ASecretVow';
 import BaptismOfPureThought from 'lib/conditionals/lightcone/5star/BaptismOfPureThought';
-import BeforeDawn from "./conditionals/lightcone/5star/BeforeDawn";
-import BrighterThanTheSun from "lib/conditionals/lightcone/5star/BrighterThanTheSun";
-import ButTheBattleIsntOver from "./conditionals/lightcone/5star/ButTheBattleIsntOver";
-import CruisingInTheStellarSea from "lib/conditionals/lightcone/5star/CruisingInTheStellarSea";
-import EchoesOfTheCoffin from "./conditionals/lightcone/5star/EchoesOfTheCoffin";
-import IncessantRain from "./conditionals/lightcone/5star/IncessantRain";
-import InTheNameOfTheWorld from "./conditionals/lightcone/5star/InTheNameOfTheWorld";
-import InTheNight from "./conditionals/lightcone/5star/InTheNight";
+import BeforeDawn from 'lib/conditionals/lightcone/5star/BeforeDawn';
+import BeforeTheTutorialMissionStarts from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts';
+import BrighterThanTheSun from 'lib/conditionals/lightcone/5star/BrighterThanTheSun';
+import ButTheBattleIsntOver from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver';
+import CarveTheMoonWeaveTheClouds from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds';
+import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingInTheStellarSea';
+import DanceDanceDance from 'lib/conditionals/lightcone/4star/DanceDanceDance';
+import DayOneOfMyNewLife from 'lib/conditionals/lightcone/4star/DayOneOfMyNewLife';
+import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin';
+import EyesOfThePrey from 'lib/conditionals/lightcone/4star/EyesOfThePrey';
+import Fermata from 'lib/conditionals/lightcone/4star/Fermata';
+import GeniusesRepose from 'lib/conditionals/lightcone/4star/GeniusesRepose';
+import GoodNightAndSleepWell from 'lib/conditionals/lightcone/4star/GoodNightAndSleepWell';
+import HeyOverHere from 'lib/conditionals/lightcone/4star/HeyOverHere';
+import IncessantRain from 'lib/conditionals/lightcone/5star/IncessantRain';
+import InTheNameOfTheWorld from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld';
+import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight';
 import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword';
-import MomentOfVictory from "./conditionals/lightcone/5star/MomentOfVictory";
-import NightOfFright from "lib/conditionals/lightcone/5star/NightOfFright";
-import NightOnTheMilkyWay from "./conditionals/lightcone/5star/NightOnTheMilkyWay";
-import OnTheFallOfAnAeon from "lib/conditionals/lightcone/5star/OnTheFallOfAnAeon";
-import PastSelfInTheMirror from "lib/conditionals/lightcone/5star/PastSelfInTheMirror";
-import PatienceIsAllYouNeed from "./conditionals/lightcone/5star/PatienceIsAllYouNeed";
-import SheAlreadyShutHerEyes from "./conditionals/lightcone/5star/SheAlreadyShutHerEyes";
-import SleepLikeTheDead from "lib/conditionals/lightcone/5star/SleepLikeTheDead";
-import SolitaryHealing from "lib/conditionals/lightcone/5star/SolitaryHealing";
-import SomethingIrreplaceable from "./conditionals/lightcone/5star/SomethingIrreplaceable";
-import TextureOfMemories from "lib/conditionals/lightcone/5star/TextureOfMemories";
-import TheUnreachableSide from "lib/conditionals/lightcone/5star/TheUnreachableSide";
-import TimeWaitsForNoOne from "lib/conditionals/lightcone/5star/TimeWaitsForNoOne";
-import WorrisomeBlissful from "lib/conditionals/lightcone/5star/WorrisomeBlissful";
+import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice';
+import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor';
+import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast';
+import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory';
+import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright';
+import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay';
+import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun';
+import OnlySilenceRemains from 'lib/conditionals/lightcone/4star/OnlySilenceRemains';
+import OnTheFallOfAnAeon from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon';
+import PastAndFuture from 'lib/conditionals/lightcone/4star/PastAndFuture';
+import PastSelfInTheMirror from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror';
+import PatienceIsAllYouNeed from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed';
+import PerfectTiming from 'lib/conditionals/lightcone/4star/PerfectTiming';
+import PlanetaryRendezvous from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous';
+import PostOpConversation from 'lib/conditionals/lightcone/4star/PostOpConversation';
+import QuidProQuo from 'lib/conditionals/lightcone/4star/QuidProQuo';
+import ResolutionShinesAsPearlsOfSweat from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat';
+import ReturnToDarkness from 'lib/conditionals/lightcone/4star/ReturnToDarkness';
+import RiverFlowsInSpring from 'lib/conditionals/lightcone/4star/RiverFlowsInSpring';
+import SharedFeeling from 'lib/conditionals/lightcone/4star/SharedFeeling';
+import SheAlreadyShutHerEyes from 'lib/conditionals/lightcone/5star/SheAlreadyShutHerEyes';
+import SleepLikeTheDead from 'lib/conditionals/lightcone/5star/SleepLikeTheDead';
+import SolitaryHealing from 'lib/conditionals/lightcone/5star/SolitaryHealing';
+import SomethingIrreplaceable from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable';
+import SubscribeForMore from 'lib/conditionals/lightcone/4star/SubscribeForMore';
+import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay';
+import TextureOfMemories from 'lib/conditionals/lightcone/5star/TextureOfMemories';
+import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf';
+import TheMolesWelcomeYou from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou';
+import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSeriousnessOfBreakfast';
+import TheUnreachableSide from 'lib/conditionals/lightcone/5star/TheUnreachableSide';
+import ThisIsMe from 'lib/conditionals/lightcone/4star/ThisIsMe';
+import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne';
+import TodayIsAnotherPeacefulDay from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay';
+import TrendOfTheUniversalMarket from 'lib/conditionals/lightcone/4star/TrendOfTheUniversalMarket';
+import UnderTheBlueSky from 'lib/conditionals/lightcone/4star/UnderTheBlueSky';
+import WarmthShortensColdNights from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights';
+import WeAreWildfire from 'lib/conditionals/lightcone/4star/WeAreWildfire';
+import WeWillMeetAgain from 'lib/conditionals/lightcone/4star/WeWillMeetAgain';
+import WoofWalkTime from 'lib/conditionals/lightcone/4star/WoofWalkTime';
+import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful';
 
 const Stats = Constants.Stats
 
 const defaultGap = 5;
 
-const lightConeOptionMapping = {
-  20000: Arrows,
-  20001: Cornucopia,
-  20002: CollapsingSky,
-  20003: Amber,
-  20004: Void,
-  20005: Chorus,
-  20006: DataBank,
-  20007: DartingArrow,
-  20008: FineFruit,
-  20009: ShatteredHome,
-  20010: Defense,
-  20011: Loop,
-  20012: MeshingCogs,
-  20013: Passkey,
-  20014: Adversarial,
-  20015: Multiplication,
-  20016: MutualDemise,
-  20017: Pioneering,
-  20018: HiddenShadow,
-  20019: Mediation,
-  20020: Sagacity,
+const fiveStar = {
+  23000: NightOnTheMilkyWay,
+  23001: InTheNight,
+  23002: SomethingIrreplaceable,
+  23003: ButTheBattleIsntOver,
+  23004: InTheNameOfTheWorld, // Skill atk buff not implemented
+  23005: MomentOfVictory,
+  23006: PatienceIsAllYouNeed, // Revisit dot
+  23007: IncessantRain,
+  23008: EchoesOfTheCoffin,
+  23009: TheUnreachableSide,
+  23010: BeforeDawn,
+  23011: SheAlreadyShutHerEyes,
+  23012: SleepLikeTheDead,
+  23013: TimeWaitsForNoOne,
+  23014: IShallBeMyOwnSword,
+  23015: BrighterThanTheSun,
+  23016: WorrisomeBlissful,
+  23017: NightOfFright,
+  23018: AnInstantBeforeAGaze,
+  23019: PastSelfInTheMirror,
+  23020: BaptismOfPureThought,
+  24000: OnTheFallOfAnAeon,
+  24001: CruisingInTheStellarSea,
+  24002: TextureOfMemories,
+  24003: SolitaryHealing,
+  23021: EarthlyEscapade,
+  23022: ReforgedRemembrance,
+};
+
+const fourStar = {
   21000: PostOpConversation,
   21001: GoodNightAndSleepWell,
   21002: DayOneOfMyNewLife,
@@ -95,842 +141,42 @@ const lightConeOptionMapping = {
   21032: CarveTheMoonWeaveTheClouds,
   21033: NowhereToRun,
   21034: TodayIsAnotherPeacefulDay,
+  
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,
-  23000: NightOnTheMilkyWay,
-  23001: InTheNight,
-  23002: SomethingIrreplaceable,
-  23003: ButTheBattleIsntOver,
-  23004: InTheNameOfTheWorld, // Skill atk buff not implemented
-  23005: MomentOfVictory,
-  23006: PatienceIsAllYouNeed, // Revisit dot
-  23007: IncessantRain,
-  23008: EchoesOfTheCoffin,
-  23009: TheUnreachableSide,
-  23010: BeforeDawn,
-  23011: SheAlreadyShutHerEyes,
-  23012: SleepLikeTheDead,
-  23013: TimeWaitsForNoOne,
-  23014: IShallBeMyOwnSword,
-  23015: BrighterThanTheSun,
-  23016: WorrisomeBlissful,
-  23017: NightOfFright,
-  23018: AnInstantBeforeAGaze,
-  23019: PastSelfInTheMirror,
-  23020: BaptismOfPureThought,
-  24000: OnTheFallOfAnAeon,
-  24001: CruisingInTheStellarSea,
-  24002: TextureOfMemories,
-  24003: SolitaryHealing,
-  23021: EarthlyEscapade,
-  23022: ReforgedRemembrance,
-}
+};
+
+const threeStar = {
+  20000: Arrows,
+  20001: Cornucopia,
+  20002: CollapsingSky,
+  20003: Amber,
+  20004: Void,
+  20005: Chorus,
+  20006: DataBank,
+  20007: DartingArrow,
+  20008: FineFruit,
+  20009: ShatteredHome,
+  20010: Defense,
+  20011: Loop,
+  20012: MeshingCogs,
+  20013: Passkey,
+  20014: Adversarial,
+  20015: Multiplication,
+  20016: MutualDemise,
+  20017: Pioneering,
+  20018: HiddenShadow,
+  20019: Mediation,
+  20020: Sagacity,
+}  
+
+const lightConeOptionMapping = {
+  ...fiveStar,
+  ...fourStar,
+  ...threeStar
+};
 
 
-
-
-
-
-
-
-
-function HeyOverHere(s) {
-  const sValues = [0.16, 0.19, 0.22, 0.25, 0.28]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postSkillHealBuff' text='Post skill heal buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      postSkillHealBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.OHB] += (r.postSkillHealBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function BeforeTheTutorialMissionStarts(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      // let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function TodayIsAnotherPeacefulDay(s) {
-  const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='maxEnergyStacks' text='Max energy' min={0} max={160} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      maxEnergyStacks: 160,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += r.maxEnergyStacks * sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function NowhereToRun(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      // let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function CarveTheMoonWeaveTheClouds(s) {
-  let sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
-  let sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='atkBuffActive' text='Atk buff active' lc />
-        <FormSwitch name='cdBuffActive' text='Cd buff active' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      atkBuffActive: true,
-      cdBuffActive: false,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
-      x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function ReturnToDarkness(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function ThisIsMe(/* s */) {
-  // const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defScalingUltDmg' text='Def scaling ult dmg (not implemented)' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      defScalingUltDmg: false,
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (c, request) => {
-      console.warn('not implemented', c, request)
-      // let r = request.lightConeConditionals
-      // let x = c.x
-
-      // x.ULT_DEF_SCALING += (r.defScalingUltDmg) ? sValues[s] : 0
-    }
-  }
-}
-
-function WeWillMeetAgain(s) {
-  const sValues = [0.48, 0.60, 0.72, 0.84, 0.96]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='extraDmgProc' text='Additional dmg proc' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      extraDmgProc: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
-      x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function WarmthShortensColdNights(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function TheSeriousnessOfBreakfast(s) {
-  let sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
-  let sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgBoost' text='Dmg boost' lc />
-        <FormSlider name='defeatedEnemyAtkStacks' text='Defeated enemy atk stacks' min={0} max={3} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      dmgBoost: true,
-      defeatedEnemyAtkStacks: 3,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.ATK_P] += r.defeatedEnemyAtkStacks * sValuesStacks[s]
-      x.ELEMENTAL_DMG += (r.dmgBoost) ? sValuesDmgBoost[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function WoofWalkTime(s) {
-  const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyBurnedBleeding' text='Enemy burned / bleeding' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyBurnedBleeding: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += (r.enemyBurnedBleeding) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function PastAndFuture(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function RiverFlowsInSpring(s) {
-  let sValuesSpd = [0.08, 0.09, 0.10, 0.11, 0.12]
-  let sValuesDmg = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='spdDmgBuff' text='Spd / dmg buff active' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      spdDmgBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.SPD_P] += (r.spdDmgBuff) ? sValuesSpd[s] : 0
-      x.ELEMENTAL_DMG += (r.spdDmgBuff) ? sValuesDmg[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function WeAreWildfire(s) {
-  const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='initialDmgReductionBuff' text='Initial dmg reduction buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      initialDmgReductionBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.DMG_RED_MULTI += (r.initialDmgReductionBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function Fermata(s) {
-  const sValues = [0.16, 0.20, 0.24, 0.28, 0.32];
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyShockWindShear' text='Enemy shocked / wind sheared' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyShockWindShear: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += (r.enemyShockWindShear) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function QuidProQuo(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function GeniusesRepose(s) {
-  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemyCdBuff' text='Defeated enemy cd buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      defeatedEnemyCdBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CD] += (r.defeatedEnemyCdBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function UnderTheBlueSky(s) {
-  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='defeatedEnemyCrBuff' text='Defeated enemy cr buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      defeatedEnemyCrBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CR] += (r.defeatedEnemyCrBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function DanceDanceDance(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function SubscribeForMore(s) {
-  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='maxEnergyDmgBoost' text='Max energy dmg boost' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      maxEnergyDmgBoost: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.BASIC_BOOST += sValues[s]
-      x.SKILL_BOOST += sValues[s]
-      x.BASIC_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
-      x.SKILL_BOOST += (r.maxEnergyDmgBoost) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function TrendOfTheUniversalMarket(/* s */) {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function ResolutionShinesAsPearlsOfSweat(s) {
-  const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='targetEnsnared' text='Target ensnared' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      targetEnsnared: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.DEF_SHRED += (r.targetEnsnared) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function PerfectTiming(s) {
-  const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
-  let sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='resToHealingBoost' text='Res to healing boost' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      resToHealingBoost: true,
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (c, request) => {
-      let r = request.lightConeConditionals
-      let x = c.x
-
-      let boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])
-      x[Stats.OHB] += (r.resToHealingBoost) ? boost : 0
-    }
-  }
-}
-
-function MakeTheWorldClamor(s) {
-  const sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='ultDmgBuff' text='Ult dmg buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      ultDmgBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function ASecretVow(s) {
-  const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHpHigherDmgBoost' text='Enemy HP % higher dmg boost' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyHpHigherDmgBoost: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += sValues[s]
-      x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function PlanetaryRendezvous(s) {
-  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='alliesSameElement' text='Allies same element dmg boost' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      alliesSameElement: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function Swordplay(s) {
-  const sValues = [0.08, 0.10, 0.12, 0.14, 0.16]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='sameTargetHitStacks' text='Same target hit stacks' min={0} max={5} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      sameTargetHitStacks: 5,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += (r.sameTargetHitStacks) * sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function LandausChoice(s) {
-  const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (x, /* request */) => {
-      // let r = request.lightConeConditionals
-
-      x.DMG_RED_MULTI += sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function EyesOfThePrey(s) {
-  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (x, /* request */) => {
-      // let r = request.lightConeConditionals
-
-      x.DOT_BOOST += sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function SharedFeeling(s) {
-  const sValues = [0.10, 0.125, 0.15, 0.175, 0.20]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (x, /* request */) => {
-      // let r = request.lightConeConditionals
-
-      x[Stats.OHB] += sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function TheBirthOfTheSelf(s) {
-  const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemyHp50FuaBuff' text='Enemy HP < 50% fua buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemyHp50FuaBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.xxxxxxxxxxxxxxxxxxxxx] += (r.name) ? sValues[s] : 0
-      x.FUA_BOOST += sValues[s]
-      x.FUA_BOOST += (r.enemyHp50FuaBuff && request.enemyHpPercent < 0.50) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function TheMolesWelcomeYou(s) {
-  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='atkBuffStacks' text='Atk buff stacks' min={0} max={3} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      atkBuffStacks: 3,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.ATK_P] += (r.atkBuffStacks) * sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function MemoriesOfThePast() {
-  // const sValues = [0, 0, 0, 0, 0]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-      </Flex>
-    ),
-    defaults: () => ({
-    }),
-    precomputeEffects: (/* x, request */) => {
-      //  let r = request.lightConeConditionals
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function OnlySilenceRemains(s) {
-  let sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='enemies2CrBuff' text='<= 2 enemies cr buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      enemies2CrBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function DayOneOfMyNewLife(s) {
-  const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='dmgResBuff' text='Dmg RES buff' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      dmgResBuff: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.DMG_RED_MULTI += (r.dmgResBuff) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function GoodNightAndSleepWell(s) {
-  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSlider name='debuffStacksDmgIncrease' text='Debuff stacks dmg increase' min={0} max={3} lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      debuffStacksDmgIncrease: 3,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x.ELEMENTAL_DMG += r.debuffStacksDmgIncrease * sValues[s]
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
-
-function PostOpConversation(s) {
-  const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
-
-  return {
-    display: () => (
-      <Flex vertical gap={defaultGap} >
-        <FormSwitch name='postUltHealingBoost' text='Post ult healing boost' lc />
-      </Flex>
-    ),
-    defaults: () => ({
-      postUltHealingBoost: true,
-    }),
-    precomputeEffects: (x, request) => {
-      let r = request.lightConeConditionals
-
-      x[Stats.OHB] += (r.postUltHealingBoost) ? sValues[s] : 0
-    },
-    calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { }
-  }
-}
 
 function Sagacity(s) {
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]

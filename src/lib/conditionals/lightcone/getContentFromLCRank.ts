@@ -14,29 +14,17 @@ const lcRank = {
   "id": "23014",
   "skill": "With This Evening Jade",
   "desc": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%. When #2[i] stack(s) are reached, additionally enables that attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
-  "params": [[
-        0.2, 3, 0.14, 0.12
-    ],[
-        0.23, 3, 0.165, 0.14
-    ],[
-        0.26, 3, 0.19, 0.16
-    ],[
-        0.29, 3, 0.215, 0.18
-    ],[
-        0.32, 3, 0.24, 0.2
-    ]
+  "params": [
+    [0.2, 3, 0.14, 0.12], [0.23, 3, 0.165, 0.14],
+    [0.26, 3, 0.19, 0.16], [0.29, 3, 0.215, 0.18], [0.32, 3, 0.24, 0.2]
   ],
-  "properties": [[{
-      "type": "CriticalDamageBase", "value": 0.2
-    }],[{
-      "type": "CriticalDamageBase", "value": 0.23
-    }],[{
-      "type": "CriticalDamageBase", "value": 0.26
-    }],[{
-      "type": "CriticalDamageBase", "value": 0.29
-    }],[{
-      "type": "CriticalDamageBase", "value": 0.32
-    }]]
+  "properties": [
+    [{ "type": "CriticalDamageBase", "value": 0.2 }],
+    [{ "type": "CriticalDamageBase", "value": 0.23 }],
+    [{ "type": "CriticalDamageBase", "value": 0.26 }],
+    [{ "type": "CriticalDamageBase", "value": 0.29 }],
+    [{ "type": "CriticalDamageBase", "value": 0.32 }]
+  ]
 };
 
  * @param s 

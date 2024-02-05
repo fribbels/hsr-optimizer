@@ -5,7 +5,8 @@ import { FormSliderWithPopover } from "components/optimizerForm/conditionals/For
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
 import { SuperImpositionLevel } from "types/LightCone";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
 import { ConditionalLightConeMap } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 

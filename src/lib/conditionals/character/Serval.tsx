@@ -6,7 +6,8 @@ import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFor
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
 import { Eidolon } from "types/Character";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
 
 const Serval = (e:Eidolon) => {
   const talentExtraDmgScaling = talentRev(e, 0.72, 0.792);

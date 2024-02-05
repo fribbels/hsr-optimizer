@@ -6,7 +6,8 @@ import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFor
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
 import { Eidolon } from "types/Character";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
 
 export default (e: Eidolon) => {
   const targetBurnedExtraScaling = talentRev(e, 1.00, 1.10);

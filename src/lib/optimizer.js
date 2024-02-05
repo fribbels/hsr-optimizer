@@ -215,7 +215,7 @@ export const Optimizer = {
 
         BufferPacker.extractArrayToResults(resultArr, run.runSize, results);
 
-        console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
+        // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
         global.store.getState().setPermutationsResults(results.length)
         global.store.getState().setPermutationsSearched(Math.min(permutations, searched))

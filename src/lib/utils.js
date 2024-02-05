@@ -99,7 +99,7 @@ export const Utils = {
     return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
   },
   clone: (obj) => {
-    return structuredClone(obj)
+    return JSON.parse(JSON.stringify(obj))
   },
   labelFilterOption: (input, option) => {
     return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

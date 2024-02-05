@@ -4,7 +4,7 @@ import { DownOutlined } from "@ant-design/icons";
 import DB from "../../lib/db.js";
 import { Message } from "../../lib/message.js";
 import { getDefaultForm } from "../../lib/defaultForm.js";
-import { Constants } from "../../lib/constants.ts";
+import { Constants, Sets } from "../../lib/constants.ts";
 import { OptimizerTabController } from "../../lib/optimizerTabController.js";
 
 // 111.2 (5 actions in first four cycles)
@@ -74,6 +74,59 @@ export function generateStandardSpdOptions(label) {
   }
 }
 
+export const PresetEffects = {
+  fnAshblazingSet: (stacks) => {
+    return (form) => {
+      form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
+    }
+  },
+  PRISONER_SET: (form) => {
+    form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
+  },
+  WASTELANDER_SET: (form) => {
+    form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
+  },
+  DOT_SORT: () => {
+    setSortColumn('DOT')
+  },
+  FUA_SORT: () => {
+    setSortColumn('FUA')
+  },
+  ULT_SORT: () => {
+    setSortColumn('ULT')
+  },
+  SKILL_SORT: () => {
+    setSortColumn('SKILL')
+  },
+  BASIC_SORT: () => {
+    setSortColumn('BASIC')
+  },
+  EHP_SORT: () => {
+    setSortColumn('EHP')
+  },
+  SPD_SORT: () => {
+    setSortColumn('xSPD')
+  },
+  DEF_SORT: () => {
+    setSortColumn('xDEF')
+  },
+}
+
+
+
+function setSortColumn(columnId) {
+  const columnState = {
+    state: [
+      {
+        colId: columnId,
+        sort: 'desc'
+      }
+    ],
+    defaultState: { sort: null },
+  }
+  global.optimizerGrid.current.api.applyColumnState(columnState)
+}
+
 const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
 
@@ -82,9 +135,7 @@ const RecommendedPresetsButton = () => {
     if (!character) return []
 
     // "Standard" Placeholder for now until we have customized builds
-    const standardOptions = [generateStandardSpdOptions(`Standard ${character.displayName}`)]
-    const presets = DB.getMetadata().characters[optimizerTabFocusCharacter]?.scoringMetadata.presets
-    return presets || standardOptions
+    return [generateStandardSpdOptions(`Standard ${character.displayName}`)]
   }, [optimizerTabFocusCharacter])
 
   const actionsMenuProps = {
@@ -95,9 +146,7 @@ const RecommendedPresetsButton = () => {
       const key = event.key
       if (SpdValues[key]) {
         const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
-        // const standardOptions = [generateStandardSpdOptions(`Standard ${character.displayName}`)]
         const metadata = character.scoringMetadata
-        // const presets = metadata.presets || standardOptions
         const spd = SpdValues[key].value
 
         const form = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
@@ -106,12 +155,20 @@ const RecommendedPresetsButton = () => {
         form.mainFeet = metadata.parts[Constants.Parts.Feet]
         form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
         form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
+        form.weights = metadata.stats
+        form.weights.topPercent = 100
 
         // Not sure if we want to support set recommendations yet
         // form.ornamentSets = metadata.ornamentSets
         // form.relicSets = metadata.relicSets.map(x => ['2 + Any', x])
 
+        const presets = metadata.presets || []
+        for (const applyPreset of presets) {
+          applyPreset(form)
+        }
+
         global.optimizerForm.setFieldsValue(form)
+        global.onOptimizerFormValuesChange({}, form);
       } else {
         Message.warn('Preset not available, please select another option');
       }

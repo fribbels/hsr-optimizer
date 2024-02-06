@@ -13,8 +13,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
-
       x.DOT_BOOST += sValues[s]
     },
     calculatePassives: (/*c, request */) => { },

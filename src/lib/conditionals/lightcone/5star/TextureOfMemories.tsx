@@ -1,10 +1,12 @@
 import React from 'react';
-import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
+import { Form } from 'types/Form';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';
-import { LightConeRawRank } from 'types/LightConeConditionals';
+import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals';
 
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -36,7 +38,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.DMG_RED_MULTI += (r.activeShieldDmgDecrease) ? sValues[s] : 0
+      x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 0
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

@@ -1,5 +1,8 @@
 import React from 'react';
-import { ContentItem, Form, LightConeConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
+import { Form } from 'types/Form';
+import { LightConeConditional } from 'types/LightConeConditionals';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';

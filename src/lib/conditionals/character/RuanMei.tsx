@@ -1,7 +1,7 @@
 import React from "react";
 import { Stats } from "lib/constants";
 import { Eidolon } from "types/Character";
-import { Form } from "types/CharacterConditional";
+import { Form } from "types/Form";
 
 import { basic, precisionRound, skill, ult } from "../utils";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";

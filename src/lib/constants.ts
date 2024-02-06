@@ -164,6 +164,8 @@ export const SetsRelics = {
   'MessengerTraversingHackerspace': 'Messenger Traversing Hackerspace',
   'TheAshblazingGrandDuke': 'The Ashblazing Grand Duke',
   'PrisonerInDeepConfinement': 'Prisoner in Deep Confinement',
+  'PioneerDiverOfDeadWaters': 'Pioneer Diver of Dead Waters',
+  'WatchmakerMasterOfDreamMachinations': 'Watchmaker, Master of Dream Machinations',
 };
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics];
 

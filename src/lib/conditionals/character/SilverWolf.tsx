@@ -7,7 +7,8 @@ import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/For
 import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
 
 import { Eidolon } from "types/Character";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
 
 const SilverWolf = (e: Eidolon) => {
   const skillResShredValue = skillRev(e, 0.10, 0.105);

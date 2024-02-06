@@ -8,7 +8,7 @@ import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/For
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 
 import { Eidolon } from 'types/Character';
-import { Form } from 'types/CharacterConditional';
+import { Form } from 'types/Form';
 
 const Welt = (e: Eidolon) => {
   const skillExtraHitsMax = (e >= 6) ? 3 : 2

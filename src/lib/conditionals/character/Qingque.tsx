@@ -7,7 +7,8 @@ import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/For
 import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
 
 import { Eidolon } from "types/Character";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
 
 const Qingque = (e: Eidolon) => {
   const skillStackDmg = skill(e, 0.38, 0.408);

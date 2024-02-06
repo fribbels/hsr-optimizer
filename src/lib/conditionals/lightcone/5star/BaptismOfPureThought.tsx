@@ -5,8 +5,9 @@ import { FormSliderWithPopover } from "components/optimizerForm/conditionals/For
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
 import { SuperImpositionLevel } from "types/LightCone";
-import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
-import { ConditionalLightConeMap, LightConeRawRank } from "types/LightConeConditionals";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form';
+import { ConditionalLightConeMap } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 
 
@@ -29,7 +30,7 @@ const lcRank = {
     [{"type": "CriticalDamageBase", "value": 0.32}]
   ]
 };
-const lcRank2: LightConeRawRank = {
+const lcRank2 = {
   ...lcRank,
   desc: "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
 };

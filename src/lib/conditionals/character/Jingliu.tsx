@@ -7,7 +7,10 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
-import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
+import { ConditionalMap } from 'types/Conditionals';
+import { CharacterConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
+import { Form } from 'types/Form';
 import { FormSliderWithPopover } from "../../../components/optimizerForm/conditionals/FormSlider.tsx";
 
 

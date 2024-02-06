@@ -8,7 +8,8 @@ import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/For
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
 
 import { Eidolon } from 'types/Character'
-import { Form, PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { Form } from 'types/Form';
 
 export default (e: Eidolon) => {
   const basicScaling = basicRev(e, 1.00, 1.10);

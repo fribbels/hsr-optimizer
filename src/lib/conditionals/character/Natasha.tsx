@@ -1,14 +1,7 @@
 import React from "react";
-// import { Flex } from "antd";
 import { Stats } from "lib/constants";
 import { baseComputedStatsObject } from "lib/conditionals/constants";
 import { basic, skill, ult } from "lib/conditionals/utils";
-// import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-// import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-// import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
-
-// import { Eidolon } from "types/Character";
-// import { Form, PrecomputedCharacterConditional } from "types/CharacterConditional";
 
 export default (e) => {
   const basicScaling = basic(e, 1.00, 1.10)

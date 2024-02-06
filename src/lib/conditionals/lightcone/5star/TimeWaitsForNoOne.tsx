@@ -1,10 +1,10 @@
 import React from 'react';
-import { ContentItem, LightConeConditional } from 'types/CharacterConditional';
+import { ContentItem } from 'types/Conditionals';
 import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';
-import { LightConeRawRank } from 'types/LightConeConditionals';
+import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals';
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRank: LightConeRawRank = {

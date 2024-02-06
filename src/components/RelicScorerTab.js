@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Flex, Form, Input, Segmented, Typography, } from 'antd';
 import { CharacterPreview } from 'components/CharacterPreview';
 import { SaveState } from 'lib/saveState';
-import { Message } from "lib/message";
 import { CharacterConverter } from "lib/characterConverter";
 import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
@@ -10,9 +9,23 @@ import DB from "lib/db";
 import { useSubscribe } from 'hooks/useSubscribe';
 import { Utils } from "../lib/utils";
 import { CameraOutlined, DownloadOutlined } from "@ant-design/icons";
+import { Message } from "../lib/message";
+
+const recursiveToCamel = item => {
+  if (Array.isArray(item)) {
+    return item.map(el => recursiveToCamel(el));
+  } else if (typeof item === 'function' || item !== Object(item)) {
+    return item;
+  }
+  return Object.fromEntries(
+    Object.entries(item).map(([key, value]) => [
+      key.replace(/([-_][a-z])/gi, c => c.toUpperCase().replace(/[-_]/g, '')),
+      recursiveToCamel(value),
+    ]),
+  );
+};
 
 const { Text } = Typography;
-
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
@@ -32,7 +45,6 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     console.log('finish', x)
-    // let data = CharacterStats.getTestData()
 
     const options = {
       method: 'POST',
@@ -57,16 +69,16 @@ export default function RelicScorerTab() {
           Message.error('Error loading ID')
           return 'ERROR'
         }
-        data = data.data
+        data = recursiveToCamel(data.data)
         let characters = [
-          data.detailInfo.avatarDetailList[3],
+          data.detailInfo.assistAvatars[0],
+          data.detailInfo.assistAvatars[1],
+          data.detailInfo.assistAvatars[2],
           data.detailInfo.avatarDetailList[0],
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
+          data.detailInfo.avatarDetailList[3],
           data.detailInfo.avatarDetailList[4],
-          data.detailInfo.avatarDetailList[5],
-          data.detailInfo.avatarDetailList[6],
-          data.detailInfo.avatarDetailList[7],
         ]
           .filter(x => !!x)
           .filter((item, index, array) => {
@@ -107,6 +119,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
+        {/*<Flex gap={10} vertical align='center'>*/}
+        {/*  <Text><h2>The relic scorer is down for maintenance after the 2.0 patch - stay tuned!</h2></Text>*/}
+        {/*</Flex>*/}
         <Flex gap={10} vertical align='center'>
           <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
         </Flex>

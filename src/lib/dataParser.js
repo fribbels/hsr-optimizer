@@ -897,16 +897,16 @@ function getOverrideImageCenter() {
       y: 1000
     },
     "1306": { // Sparkle
-      x: 1024,
-      y: 1024
+      x: 1050,
+      y: 1050
     },
     "1307": { // Black Swan
-      x: 1024,
-      y: 1024
+      x: 920,
+      y: 950
     },
     "1312": { // Misha
-      x: 1024,
-      y: 1024
+      x: 1050,
+      y: 1075
     },
     "8001": { // Physical Trailblazer M
       x: 1024,

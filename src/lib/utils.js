@@ -99,6 +99,7 @@ export const Utils = {
     return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
   },
   clone: (obj) => {
+    if (!obj) return null // TODO is this a good idea
     return JSON.parse(JSON.stringify(obj))
   },
   labelFilterOption: (input, option) => {

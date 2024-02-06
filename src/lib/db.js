@@ -348,8 +348,8 @@ export const DB = {
   // We overwrite any existing relics with imported ones
   mergeRelicsWithState: (newRelics, newCharacters) => {
     let oldRelics = DB.getRelics()
-    newRelics = Utils.clone(newRelics)
-    newCharacters = Utils.clone(newCharacters)
+    newRelics = Utils.clone(newRelics) || []
+    newCharacters = Utils.clone(newCharacters) || []
 
     console.log('Merging relics', newRelics, newCharacters)
 
@@ -448,8 +448,8 @@ export const DB = {
   // These relics have accurate speed values from relic scorer import
   // We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
   mergeVerifiedRelicsWithState: (newRelics) => {
-    let oldRelics = Utils.clone(DB.getRelics())
-    newRelics = Utils.clone(newRelics)
+    let oldRelics = Utils.clone(DB.getRelics()) || []
+    newRelics = Utils.clone(newRelics) || []
 
     // part set grade mainstat substatStats
     let oldRelicPartialHashes = {}

@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'extraDmgProc',
     name: 'extraDmgProc',
     formItem: FormSwitchWithPopover,
-    text: 'Additional dmg proc',
+    text: 'Additional DMG proc',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21020",
     "skill": "Each Now Has a Role to Play",
-    "desc": "Increases the wearer's ATK by #1[i]%. When the wearer defeats an enemy, the wearer's CRIT DMG increases by #2[i]% for #3[i] turn(s).",
+    "desc": "When the wearer defeats an enemy, the wearer's CRIT DMG increases by #2[i]% for #3[i] turn(s).",
     "params": [[0.16, 0.24, 3], [0.2, 0.3, 3], [0.24, 0.36, 3], [0.28, 0.42, 3], [0.32, 0.48, 3]],
     "properties": [[{"type": "AttackAddedRatio", "value": 0.16}], [{"type": "AttackAddedRatio", "value": 0.2}], [{"type": "AttackAddedRatio", "value": 0.24}], [{"type": "AttackAddedRatio", "value": 0.28}], [{"type": "AttackAddedRatio", "value": 0.32}]]
   };

@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'initialSpdBuff',
     name: 'initialSpdBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Initial spd buff',
+    text: 'Initial SPD buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

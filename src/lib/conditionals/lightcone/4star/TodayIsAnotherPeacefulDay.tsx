@@ -16,7 +16,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     "id": "21034",
     "skill": "A Storm Is Coming",
     "desc": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by #1[i]% per point of Energy, up to #2[i] Energy.",
-    "params": [[0.02, 160], [0.025, 160], [0.03, 160], [0.035, 160], [0.04, 160]],
+    "params": [[0.002, 160], [0.0025, 160], [0.003, 160], [0.0035, 160], [0.004, 160]],
     "properties": [[], [], [], [], []]
   };
   const content = [{

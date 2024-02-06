@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'alliesSameElement',
     name: 'alliesSameElement',
     formItem: FormSwitchWithPopover,
-    text: 'Allies same element dmg boost',
+    text: 'Same element ally DMG boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

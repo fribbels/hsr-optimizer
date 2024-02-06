@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21012",
     "skill": "Spare No Effort",
-    "desc": "Increases DMG dealt by the wearer by #1[i]%. The wearer also deals an extra #2[i]% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage.",
+    "desc": "The wearer also deals an extra #2[i]% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage.",
     "params": [[0.2, 0.2], [0.25, 0.25], [0.3, 0.3], [0.35, 0.35], [0.4, 0.4]],
     "properties": [[{"type": "AllDamageTypeAddedRatio", "value": 0.2}], [{"type": "AllDamageTypeAddedRatio", "value": 0.25}], [{"type": "AllDamageTypeAddedRatio", "value": 0.3}], [{"type": "AllDamageTypeAddedRatio", "value": 0.35}], [{"type": "AllDamageTypeAddedRatio", "value": 0.4}]]
   };
@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'enemyHpHigherDmgBoost',
     name: 'enemyHpHigherDmgBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Enemy HP % higher dmg boost',
+    text: 'Enemy HP % higher DMG boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

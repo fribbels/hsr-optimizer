@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'maxEnergyDmgBoost',
     name: 'maxEnergyDmgBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Max energy dmg boost',
+    text: 'Max energy DMG boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

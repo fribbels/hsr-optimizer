@@ -18,10 +18,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   };
   const content = [{
     lc: true,
-    id: 'basicAtkBuff',
+    id: 'basicAtkBuff', // TODO: this isnt a basicAtkBuff its more like basicAtkExtraDmgProc?
     name: 'basicAtkBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Basic ATK buff',
+    text: 'Basic ATK extra DMG',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];
@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.BASIC_BOOST += (r.basicAtkBuff) ? sValues[s] : 0
+      x.BASIC_SCALING += (r.basicAtkBuff) ? sValues[s] : 0
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

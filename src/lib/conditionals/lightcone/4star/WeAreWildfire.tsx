@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'initialDmgReductionBuff',
     name: 'initialDmgReductionBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Initial dmg reduction buff',
+    text: 'Initial DMG reduction buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];
@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.DMG_RED_MULTI += (r.initialDmgReductionBuff) ? sValues[s] : 0
+      x.DMG_RED_MULTI *= (r.initialDmgReductionBuff) ? (1 - sValues[s]) : 0
     },
     calculatePassives: (/*c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { }

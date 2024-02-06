@@ -50,7 +50,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'defeatedEnemyAtkBuff',
     name: 'defeatedEnemyAtkBuff',
     formItem: FormSwitchWithPopover,
-    text: 'ATK buff on kill',
+    text: 'Defeated enemy ATK buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

@@ -1,5 +1,4 @@
 import React from "react";
-// import { Stats } from 'lib/constants'
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 import { SuperImpositionLevel } from "types/LightCone";
@@ -7,11 +6,6 @@ import { PrecomputedCharacterConditional } from "types/CharacterConditional";
 import { Form } from 'types/Form';
 import { LightConeConditional } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
-
-
-
-
-
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40];
@@ -54,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'enemyHp50Buff',
     name: 'enemyHp50Buff',
     formItem: FormSwitchWithPopover,
-    text: 'Enemy HP >50% dmg buff',
+    text: 'Enemy HP > 50% DMG buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

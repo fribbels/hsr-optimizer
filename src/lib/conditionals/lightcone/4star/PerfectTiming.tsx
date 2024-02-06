@@ -15,7 +15,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks ={
     "id": "21014",
     "skill": "Refraction of Sightline",
-    "desc": "Increases the wearer's Effect RES by #1[i]% and increases Outgoing Healing by an amount that is equal to #2[i]% of Effect RES. Outgoing Healing can be increased this way by up to #3[i]%.",
+    "desc": "Increases the wearer's Outgoing Healing by an amount that is equal to #2[i]% of Effect RES. Outgoing Healing can be increased this way by up to #3[i]%.",
     "params": [[0.16, 0.33, 0.15], [0.2, 0.36, 0.18], [0.24, 0.39, 0.21], [0.28, 0.42, 0.24], [0.32, 0.45, 0.27]],
     "properties": [[{"type": "StatusResistanceBase", "value": 0.16}], [{"type": "StatusResistanceBase", "value": 0.2}], [{"type": "StatusResistanceBase", "value": 0.24}], [{"type": "StatusResistanceBase", "value": 0.28}], [{"type": "StatusResistanceBase", "value": 0.32}]]
   };
@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'resToHealingBoost',
     name: 'resToHealingBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Res to healing boost',
+    text: 'RES to healing boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

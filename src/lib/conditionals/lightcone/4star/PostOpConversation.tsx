@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks ={
     "id": "21000",
     "skill": "Mutual Healing",
-    "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]% and increases Outgoing Healing when they use their Ultimate by #2[i]%.",
+    "desc": "Increases the wearer's Outgoing Healing when they use their Ultimate by #2[i]%.",
     "params": [[0.08, 0.12], [0.1, 0.15], [0.12, 0.18], [0.14, 0.21], [0.16, 0.24]],
     "properties": [[{"type": "SPRatioBase", "value": 0.08}], [{"type": "SPRatioBase", "value": 0.1}], [{"type": "SPRatioBase", "value": 0.12}], [{"type": "SPRatioBase", "value": 0.14}], [{"type": "SPRatioBase", "value": 0.16}]]
   };
@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'postUltHealingBoost',
     name: 'postUltHealingBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Post ult healing boost',
+    text: 'Ult healing boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

@@ -10,7 +10,6 @@ import { LightConeConditional } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 
 
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20];
   const sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24];
@@ -44,7 +43,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'cdBuffActive',
     name: 'cdBuffActive',
     formItem: FormSwitchWithPopover,
-    text: 'Cd buff active',
+    text: 'CD buff active',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }];

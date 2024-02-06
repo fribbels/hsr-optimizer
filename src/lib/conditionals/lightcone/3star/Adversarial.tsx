@@ -50,7 +50,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'defeatedEnemySpdBuff',
     name: 'defeatedEnemySpdBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Defeated enemy spd buff',
+    text: 'Defeated enemy SPD buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

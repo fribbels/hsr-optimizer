@@ -25,6 +25,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     text: 'Same target hit stacks',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
+    min: 0,
+    max: 5,
   }];
 
   return {

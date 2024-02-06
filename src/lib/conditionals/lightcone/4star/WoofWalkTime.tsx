@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21026",
     "skill": "Run!",
-    "desc": "Increases the wearer's ATK by #1[i]%, and increases their DMG to enemies afflicted with Burn or Bleed by #2[i]%. This also applies to DoT.",
+    "desc": "Increases the wearer's DMG to enemies afflicted with Burn or Bleed by #2[i]%. This also applies to DoT.",
     "params": [[0.1, 0.16], [0.125, 0.2], [0.15, 0.24], [0.175, 0.28], [0.2, 0.32]],
     "properties": [[{"type": "AttackAddedRatio", "value": 0.1}], [{"type": "AttackAddedRatio", "value": 0.125}], [{"type": "AttackAddedRatio", "value": 0.15}], [{"type": "AttackAddedRatio", "value": 0.175}], [{"type": "AttackAddedRatio", "value": 0.2}]]
   };
@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'atkBoost',
     name: 'atkBoost',
     formItem: FormSwitchWithPopover,
-    text: 'ATK boost',
+    text: 'Enemy Burn/Bleed ATK boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

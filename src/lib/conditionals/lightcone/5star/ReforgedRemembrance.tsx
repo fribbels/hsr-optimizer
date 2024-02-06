@@ -15,7 +15,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "23022",
     "skill": "Crystallize",
-    "desc": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to #4[i] time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by #2[i]% and enables the DoT dealt to ignore #3[f1]% of the target's DEF.",
+    "desc": "When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to #4[i] time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by #2[i]% and enables the DoT dealt to ignore #3[f1]% of the target's DEF.",
     "params": [[0.4, 0.05, 0.072, 4], [0.45, 0.06, 0.079, 4], [0.5, 0.07, 0.086, 4], [0.55, 0.08, 0.093, 4], [0.6, 0.09, 0.1, 4]],
     "properties": [[{"type": "StatusProbabilityBase", "value": 0.4}], [{"type": "StatusProbabilityBase", "value": 0.45}], [{"type": "StatusProbabilityBase", "value": 0.5}], [{"type": "StatusProbabilityBase", "value": 0.55}], [{"type": "StatusProbabilityBase", "value": 0.6}]]
   };

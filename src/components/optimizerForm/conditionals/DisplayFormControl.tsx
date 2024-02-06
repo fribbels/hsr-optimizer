@@ -8,7 +8,7 @@ const DisplayFormControl = ({ content }): JSX.Element => {
   let i = 0;
 
   if (!content || content.length === 0) {
-    ret.push(<div key={i++}>No passives</div>);
+    ret.push(<div key={i++}>No conditional passives</div>);
   } else {
     content.forEach(passive => {
       const Item = passive.formItem;

@@ -8,7 +8,6 @@ import { LightConeConditional } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 
 
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24];
   const lcRanks = {
@@ -23,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'debuffStacksDmgIncrease',
     name: 'debuffStacksDmgIncrease',
     formItem: FormSliderWithPopover,
-    text: 'Debuff stacks dmg increase',
+    text: 'Debuff stacks DMG increase',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
     min: 0,

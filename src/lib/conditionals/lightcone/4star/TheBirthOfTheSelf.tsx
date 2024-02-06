@@ -15,7 +15,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21006",
     "skill": "The Maiden in the Painting",
-    "desc": "Increases DMG dealt by the wearer's follow-up attacks by #1[i]%. If the current HP of the target enemy is below or equal to #2[i]%, increases DMG dealt by follow-up attacks by an extra #3[i]%.",
+    "desc": "If the current HP of the target enemy is below or equal to #2[i]%, increases DMG dealt by follow-up attacks by an extra #3[i]%.",
     "params": [[0.24, 0.5, 0.24], [0.3, 0.5, 0.3], [0.36, 0.5, 0.36], [0.42, 0.5, 0.42], [0.48, 0.5, 0.48]],
     "properties": [[], [], [], [], []]
   };

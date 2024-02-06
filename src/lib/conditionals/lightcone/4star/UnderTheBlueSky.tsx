@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21019",
     "skill": "Rye Under the Sun",
-    "desc": "Increases the wearer's ATK by #1[i]%. When the wearer defeats an enemy, the wearer's CRIT Rate increases by #2[i]% for #3[i] turn(s).",
+    "desc": "When the wearer defeats an enemy, the wearer's CRIT Rate increases by #2[i]% for #3[i] turn(s).",
     "params": [[0.16, 0.12, 3], [0.2, 0.15, 3], [0.24, 0.18, 3], [0.28, 0.21, 3], [0.32, 0.24, 3]],
     "properties": [[{"type": "AttackAddedRatio", "value": 0.16}], [{"type": "AttackAddedRatio", "value": 0.2}], [{"type": "AttackAddedRatio", "value": 0.24}], [{"type": "AttackAddedRatio", "value": 0.28}], [{"type": "AttackAddedRatio", "value": 0.32}]]
   };
@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'defeatedEnemyCrBuff',
     name: 'defeatedEnemyCrBuff',
     formItem: FormSwitchWithPopover,
-    text: 'Defeated enemy cr buff',
+    text: 'Defeated enemy CR buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

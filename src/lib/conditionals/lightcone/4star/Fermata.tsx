@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21022",
     "skill": "Semibreve Rest",
-    "desc": "Increases the Break Effect dealt by the wearer by #1[i]%, and increases their DMG to enemies afflicted with Shock or Wind Shear by #2[i]%. This also applies to DoT.",
+    "desc": "Increases the wearer's DMG to enemies afflicted with Shock or Wind Shear by #2[i]%. This also applies to DoT.",
     "params": [[0.16, 0.16], [0.2, 0.2], [0.24, 0.24], [0.28, 0.28], [0.32, 0.32]],
     "properties": [[{"type": "BreakDamageAddedRatioBase", "value": 0.16}], [{"type": "BreakDamageAddedRatioBase", "value": 0.2}], [{"type": "BreakDamageAddedRatioBase", "value": 0.24}], [{"type": "BreakDamageAddedRatioBase", "value": 0.28}], [{"type": "BreakDamageAddedRatioBase", "value": 0.32}]]
   };

@@ -9,7 +9,6 @@ import { LightConeConditional } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 
 
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.08, 0.09, 0.10, 0.11, 0.12];
   const lcRanks = {
@@ -46,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'inBattleAtkBuff',
     name: 'inBattleAtkBuff',
     formItem: FormSwitchWithPopover,
-    text: 'In battle ATK buff',
+    text: 'Initial ATK buff',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }];

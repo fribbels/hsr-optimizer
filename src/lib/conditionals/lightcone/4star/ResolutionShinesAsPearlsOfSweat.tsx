@@ -13,7 +13,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   const lcRanks = {
     "id": "21015",
     "skill": "Glance Back",
-    "desc": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a #1[i]% base chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by #2[i]% for #3[i] turn(s).",
+    "desc": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by #2[i]% for #3[i] turn(s).",
     "params": [[0.6, 0.12, 1], [0.7, 0.13, 1], [0.8, 0.14, 1], [0.9, 0.15, 1], [1, 0.16, 1]],
     "properties": [[], [], [], [], []]
   };

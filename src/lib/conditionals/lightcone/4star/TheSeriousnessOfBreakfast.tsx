@@ -29,7 +29,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'dmgBoost',
     name: 'dmgBoost',
     formItem: FormSwitchWithPopover,
-    text: 'Dmg boost',
+    text: 'DMG boost',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks),
   }, {
@@ -37,7 +37,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'defeatedEnemyAtkStacks',
     name: 'defeatedEnemyAtkStacks',
     formItem: FormSliderWithPopover,
-    text: 'Defeated enemy atk stacks',
+    text: 'Defeated enemy ATK stacks',
     title: lcRanks.skill,
     content: getContentFromLCRanks(s, lcRanks2),
     min: 0,

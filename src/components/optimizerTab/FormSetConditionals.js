@@ -84,6 +84,35 @@ export const FormSetConditionals = () => {
 
     return options
   }, []);
+  const setPioneerDiverOfDeadWaters = useMemo(() => {
+    return [
+      {
+        display: 'Off',
+        value: 0,
+        label: 'Off'
+      },
+      {
+        display: '2x',
+        value: 1,
+        label: '2 debuffs (+8% CD)'
+      },
+      {
+        display: '3x',
+        value: 2,
+        label: '3 debuffs (+12% CD)'
+      },
+      {
+        display: '2x +',
+        value: 3,
+        label: '2 debuffs, enhanced (+4% CR +16% CD)'
+      },
+      {
+        display: '3x +',
+        value: 4,
+        label: '3 debuffs, enhanced (+4% CR +24% CD)'
+      }
+    ]
+  }, []);
 
   let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
@@ -194,6 +223,17 @@ export const FormSetConditionals = () => {
             selectOptions={setPrisonerInDeepConfinementOptions}
             description="For every DoT the target enemy is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs."
             conditional={'The selected DEF% pen buff is applied to all calculations based on the number of stacks.'}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.PioneerDiverOfDeadWaters}
+            selectOptions={setPioneerDiverOfDeadWaters}
+            description="Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
+            conditional={'The selected CRIT Rate buff is applied to all calculations, and the CRIT DMG buff is applied depending on the selected option.'}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.WatchmakerMasterOfDreamMachinations}
+            description="When the wearer uses their Ultimate on an ally, Break Effect for all allies increases by 30% for 2 turn(s). This effect cannot be stacked."
+            conditional={'When enabled, Break Effect buff is applied to all calculations.'}
           />
         </Flex>
 
@@ -311,7 +351,7 @@ function ConditionalSetOption(props) {
           listHeight={500}
           size='small'
           style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 250 }}
+          dropdownStyle={{ width: 300 }}
           options={props.selectOptions}
         />
       )

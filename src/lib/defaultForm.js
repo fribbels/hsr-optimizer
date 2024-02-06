@@ -65,6 +65,8 @@ export function getDefaultForm(initialCharacter) {
       [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
       [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
       [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
+      [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
+      [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
       [Constants.Sets.SpaceSealingStation]: [undefined, true],
       [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
       [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],

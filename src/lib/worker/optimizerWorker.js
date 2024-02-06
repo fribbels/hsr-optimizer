@@ -37,6 +37,14 @@ function calculatePercentStat(stat, base, lc, trace, relicSum, setEffects) {
   return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
 }
 
+const pioneerSetIndexToCd = {
+  0: 0,
+  1: 0.08,
+  2: 0.12,
+  3: 0.16,
+  4: 0.24
+}
+
 self.onmessage = function (e) {
   // console.log("Message received from main script", e.data);
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
@@ -91,12 +99,14 @@ self.onmessage = function (e) {
   let enabledBandOfSizzlingThunder = setConditionals[Constants.Sets.BandOfSizzlingThunder][1] == true ? 1 : 0
   let enabledMessengerTraversingHackerspace = setConditionals[Constants.Sets.MessengerTraversingHackerspace][1] == true ? 1 : 0
   let enabledCelestialDifferentiator = setConditionals[Constants.Sets.CelestialDifferentiator][1] == true ? 1 : 0
+  let enabledWatchmakerMasterOfDreamMachinations = setConditionals[Constants.Sets.WatchmakerMasterOfDreamMachinations][1] == true ? 1 : 0
 
   let valueChampionOfStreetwiseBoxing = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1]
   let valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1]
   let valueLongevousDisciple = setConditionals[Constants.Sets.LongevousDisciple][1]
   let valueTheAshblazingGrandDuke = setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
   let valuePrisonerInDeepConfinement = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1]
+  let valuePioneerDiverOfDeadWaters = setConditionals[Constants.Sets.PioneerDiverOfDeadWaters][1]
 
   let brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
   let resistance = request.enemyElementalWeak ? 0 : request.enemyResistance
@@ -162,6 +172,8 @@ self.onmessage = function (e) {
     sets.MessengerTraversingHackerspace = (1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)) //  4p (12% SPD)
     sets.TheAshblazingGrandDuke = (1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)) //  4p (8*6% ATK)
     sets.PrisonerInDeepConfinement = (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)) //  4p done
+    sets.PioneerDiverOfDeadWaters = (1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16))
+    sets.WatchmakerMasterOfDreamMachinations = (1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17))
 
     sets.SpaceSealingStation = (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)) // (12% ATK)
     sets.FleetOfTheAgeless = (1 >> (setP ^ 1)) + (1 >> (setL ^ 1)) // (8% ATK)
@@ -331,15 +343,18 @@ self.onmessage = function (e) {
     x[Stats.CR] +=
       0.10 * (valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert) +
       0.08 * valueLongevousDisciple * p4(sets.LongevousDisciple) +
-      0.60 * enabledCelestialDifferentiator * (c[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+      0.60 * enabledCelestialDifferentiator * (c[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator) +
+      0.04 * (valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
 
     x[Stats.CD] +=
       0.25 * enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest) +
       0.10 * (valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert) +
-      0.10 * (c[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+      0.10 * (c[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel) +
+      pioneerSetIndexToCd[valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
 
     x[Stats.BE] +=
-      0.20 * (c[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+      0.20 * (c[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry) +
+      0.30 * enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
 
     x.BASIC_BOOST +=
       0.10 * p4(sets.MusketeerOfWildWheat) +

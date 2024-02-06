@@ -1815,7 +1815,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.FUA_SORT,
-        PresetEffects.fnAshblazingSet(1)
+        PresetEffects.fnAshblazingSet(2)
       ]
     },
     "1108": { // Sampo
@@ -2100,7 +2100,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.FUA_SORT,
-        PresetEffects.fnAshblazingSet(8)
+        PresetEffects.fnAshblazingSet(0)
       ]
     },
     "1201": { // Qingque
@@ -2319,7 +2319,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.FUA_SORT,
-        PresetEffects.fnAshblazingSet(7)
+        PresetEffects.fnAshblazingSet(8)
       ]
     },
     "1205": { // Blade

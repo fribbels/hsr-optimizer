@@ -16,8 +16,9 @@
     "module": "commonjs",
   },
   "exclude": [
-    "node_modules",
     "dist",
-    "build"
+    "build",
+    "misc",
+    "node_modules"
   ]
 }

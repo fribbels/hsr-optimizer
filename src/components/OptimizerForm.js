@@ -1,42 +1,44 @@
-import {
-  Button,
-  Cascader,
-  ConfigProvider,
-  Divider,
-  Flex,
-  Form,
-  Image,
-  InputNumber,
-  Select,
-  Switch,
-  Tag,
-  Typography,
-} from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Optimizer } from '../lib/optimizer';
+import { Button, Cascader, Divider, Flex, Form, Image, Select, Switch, Tag, Typography, } from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Optimizer } from 'lib/optimizer';
 import styled from 'styled-components';
-import { Constants } from '../lib/constants.ts';
+import {
+  Constants,
+  eidolonOptions,
+  enemyCountOptions,
+  enemyHpPercentOptions,
+  enemyLevelOptions,
+  enemyResistanceOptions,
+  levelOptions,
+  superimpositionOptions
+} from 'lib/constants.ts';
 import FormRow from './optimizerTab/FormRow';
 import FilterContainer from './optimizerTab/FilterContainer';
 import FormCard from './optimizerTab/FormCard';
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { HeaderText } from './HeaderText';
-import { OptimizerTabController } from '../lib/optimizerTabController';
+import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
-import { SaveState } from '../lib/saveState';
-import { CharacterConditionals } from "../lib/characterConditionals";
-import { LightConeConditionals } from "../lib/lightConeConditionals";
+import { SaveState } from 'lib/saveState';
+import { CharacterConditionals } from "lib/characterConditionals";
+import { LightConeConditionals } from "lib/lightConeConditionals";
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
 import { v4 as uuidv4 } from "uuid";
-import { getDefaultForm } from "../lib/defaultForm";
+import { getDefaultForm } from "lib/defaultForm";
 import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
-import { Assets } from "../lib/assets";
+import { Assets } from "lib/assets";
 import PropTypes from "prop-types";
-import DB from "../lib/db";
-import { Message } from "../lib/message";
-import { Hint } from "../lib/hint";
-import { Utils } from "../lib/utils";
+import DB from "lib/db";
+import { Hint } from "lib/hint";
+import { Utils } from 'lib/utils.js';
+
+import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
+import FilterRow from './optimizerForm/FilterRow.tsx';
+import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
+import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
+import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
+
 
 const { Text } = Typography;
 const { SHOW_CHILD } = Cascader;
@@ -45,302 +47,94 @@ let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
-function generateOrnamentsOptions() {
-  return Object.values(Constants.SetsOrnaments).map(x => {
-    return {
-      value: x,
-      label:
-        <Flex gap={5} align='center'>
-          <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
-          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-            {x}
-          </div>
-        </Flex>
-    }
-  })
-}
-
-function generateSetsOptions() {
-  let result = [
-    {
-      value: '4 Piece',
-      label: '4 Piece',
-      children: []
-    },
-    {
-      value: '2 Piece',
-      label: '2 Piece',
-      children: []
-    }
-  ];
-
-  let childrenWithAny = Object.entries(Constants.SetsRelics).map(set => {
-    return {
-      value: set[1],
-      label: set[1]
-    }
-  })
-  childrenWithAny.push({
-    value: 'Any',
-    label: 'Any'
-  })
-
-  function generateLabel(value, parens, label) {
-    let imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
-    return (
-      <Flex gap={5} align='center'>
-        <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
-        <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-          {parens + label}
-        </div>
-      </Flex>
-    )
-  }
-
-  for (let set of Object.entries(Constants.SetsRelics)) {
-    result[0].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(4) ', set[1])
-    })
-
-    result[1].children.push({
-      value: set[1],
-      label: generateLabel(set[1], '(2) ', set[1]),
-      children: childrenWithAny.map(x => {
-        let parens = x.value == 'Any' ? '(0) ' : '(2) ';
-        return {
-          value: x.value,
-          label: generateLabel(x.value, parens, x.label)
-        }
-      })
-    })
-  }
-
-  return result;
-}
-
-const FormStatTextStyled = styled(Text)`
-  display: block;
-  text-align: center;
-`
-
-const InputNumberStyled = styled(InputNumber)`
-  width: 62px
-`
-
-function FilterRow(props) {
-  return (
-    <Flex justify='space-between'>
-      <Form.Item size="default" name={`min${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-      <FormStatTextStyled>{props.label}</FormStatTextStyled>
-      <Form.Item size="default" name={`max${props.name}`}>
-        <InputNumberStyled size="small" controls={false} />
-      </Form.Item>
-    </Flex>
-  )
-}
-FilterRow.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
-}
-
-
 let panelWidth = 203;
 let defaultGap = 5;
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER')
-  console.log('OptimizerForm')
+  console.log('======================================================================= RENDER OptimizerForm');
   const [optimizerForm] = Form.useForm();
-  window.optimizerForm = optimizerForm
+  window.optimizerForm = global.optimizerForm = optimizerForm;
 
+  // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
-
   const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
-
-  const activeKey = global.store(s => s.activeKey)
-  const characters = global.store(s => s.characters) // characters set in this localStorage instance
-  const setStatDisplay = global.store(s => s.setStatDisplay)
-
   const [optimizationId, setOptimizationId] = useState();
-
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
-
-  const lightConeOptions = useMemo(() => {
-    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
-
-    for (let value of Object.values(lcData)) {
-      value.value = value.id;
-      value.label = value.name;
-    }
-
-    return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
-  }, []);
-
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
-  window.selectedLightCone = selectedLightCone
-  window.setSelectedLightCone = (x) => {
-    setSelectedLightCone(x)
-  }
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
+  const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
+  const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
+
 
   useEffect(() => {
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone);
+  }, [optimizerTabFocusCharacter])
+
+  const characterSelectorChange = useCallback(id => {
+    setOptimizerTabFocusCharacter(id);
+  }, [setOptimizerTabFocusCharacter]);
+
+  const lightConeSelectorChange = useCallback(id => {
+    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id);
+  }, [lightConeOptions, optimizerTabFocusCharacter]);
+
+  useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
-    let defaults = lcFn.defaults()
+    let defaults = lcFn.defaults();
     let lightConeForm = form.lightConeConditionals || {}
-
     // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
     // Only if there's a missing field
     Object.assign(defaults, lightConeForm)
-    if (Object.values(defaults).includes(undefined)) {
+  console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm);
+  console.log(lcFn.defaults.valueOf());
+    // if (Object.values(defaults).includes(undefined)) {
       optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
-    }
-  }, [selectedLightCone])
+    // }
+  }, [optimizerForm]);
 
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters(); // retrieve instance localStore saved chars
+
+    if (optimizerTabFocusCharacter) {
+      return characters.find(x => x.id == optimizerTabFocusCharacter);
+    }
+
     if (characters && characters.length > 0) {
       let character = characters[0];
       lightConeSelectorChange(character.form.lightCone)
-      setStatDisplay(character.form.statDisplay || 'base')
+      setOptimizerTabFocusCharacter(character.id)
       return characterOptions.find(x => x.id == character.id)
     }
-  }, []);
+  }, [optimizerTabFocusCharacter, lightConeSelectorChange, setOptimizerTabFocusCharacter, characterOptions]);
 
-  const [selectedCharacter, setSelectedCharacter] = useState(() => initialCharacter);
-  window.setSelectedCharacter = setSelectedCharacter
+  const initialValues = useMemo(() => {
+    if (optimizerTabFocusCharacter) {
+      const matchingCharacter = DB.getCharacterById(optimizerTabFocusCharacter);
 
-  // TODO: refactor if/when view-routing/deep-linking implemented
-  // coming from char tab
-  const selectedOptimizerCharacter = global.store(s => s.selectedOptimizerCharacter);
-  const setSelectedOptimizerCharacter = global.store(s => s.setSelectedOptimizerCharacter);
+      if (matchingCharacter) {
+        if (matchingCharacter?.form?.lightCone) {
+          setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
+        } else {
+          console.warn(`@OptimizerForm.initialValues: No character form found for ${optimizerTabFocusCharacter}`, matchingCharacter);
+        }
+        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
+      } else {
+        // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
+        // console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
+      }
+    }
+
+    return getDefaultForm(initialCharacter)
+    // We only want to update this once for the initial character
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCharacter]);
+
   useEffect(() => {
-    if (selectedOptimizerCharacter && selectedOptimizerCharacter.id !== selectedCharacter.id) {
-      characterSelectorChange(selectedOptimizerCharacter.id);
-      setSelectedOptimizerCharacter(null);
-    }
-  }, [selectedOptimizerCharacter]);
-
-  useEffect(() => {
-    if (activeKey == 'optimizer' && !selectedCharacter && characters && characters.length > 0 && characters[0].id) {
-      characterSelectorChange(characters[0].id)
-    }
-  }, [activeKey])
-
-  const levelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 80; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyLevelOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 95; i >= 1; i--) {
-      levelStats.push({
-        value: i,
-        label: `Lv. ${i}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyCountOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 1; i <= 5; i += 2) {
-      levelStats.push({
-        value: i,
-        label: `${i} target${i > 1 ? 's' : ''}`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyResistanceOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 20; i <= 60; i += 20) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% RES`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const enemyHpPercentOptions = useMemo(() => {
-    let levelStats = []
-    for (let i = 100; i >= 1; i--) {
-      levelStats.push({
-        value: i / 100,
-        label: `${i}% HP`
-      })
-    }
-
-    return levelStats
-  }, []);
-
-  const superimpositionOptions = useMemo(() => {
-    return [
-      { value: 1, label: 'S1' },
-      { value: 2, label: 'S2' },
-      { value: 3, label: 'S3' },
-      { value: 4, label: 'S4' },
-      { value: 5, label: 'S5' },
-    ]
-  }, []);
-
-  const eidolonOptions = useMemo(() => {
-    return [
-      { value: 0, label: 'E0' },
-      { value: 1, label: 'E1' },
-      { value: 2, label: 'E2' },
-      { value: 3, label: 'E3' },
-      { value: 4, label: 'E4' },
-      { value: 5, label: 'E5' },
-      { value: 6, label: 'E6' },
-    ]
-  }, []);
-
-
-  function characterSelectorChange(id) {
-    setSelectedCharacter(characterOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(id)
-  }
-
-  function lightConeSelectorChange(id) {
-    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
-  }
-
-  const onFinish = (x) => {
-    OptimizerTabController.fixForm(x);
-    if (!OptimizerTabController.validateForm(x)) {
-      return
-    }
-    DB.addFromForm(x)
-    SaveState.save()
-    console.log('Form finished', x);
-
-    let optimizationId = uuidv4()
-    setOptimizationId(optimizationId)
-    x.optimizationId = optimizationId
-
-    Optimizer.optimize(x)
-  };
-
-  const onFinishFailed = () => {
-    Message.error('Submit failed!');
-  };
+    onValuesChange({}, initialValues)
+  }, [initialValues])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return;
@@ -358,13 +152,13 @@ export default function OptimizerForm() {
       keys[0] == 'lightConeConditionals')) {
       return;
     }
-    let request = allValues
+    const request = allValues
 
-    console.log('Values changed', request, changedValues);
+    console.log('@onValuesChange' , request, changedValues);
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
 
-    let permutationDetails = {
+    const permutationDetails = {
       Head: relics.Head.length,
       Hands: relics.Hands.length,
       Body: relics.Body.length,
@@ -383,28 +177,10 @@ export default function OptimizerForm() {
   }
   window.onOptimizerFormValuesChange = onValuesChange;
 
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
   let parentW = 233;
   let parentH = 350;
   let innerW = 350;
   let innerH = 400;
-
-  const initialValues = useMemo(() => {
-    if (selectedCharacter) {
-      let matchingCharacter = DB.getCharacterById(selectedCharacter.id)
-      if (matchingCharacter) {
-        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
-      }
-    }
-
-    return getDefaultForm(initialCharacter)
-  }, [initialCharacter]);
-
-  useEffect(() => {
-    onValuesChange({}, initialValues)
-  }, [initialValues])
 
   function cancelClicked() {
     console.log('Cancel clicked');
@@ -426,9 +202,35 @@ export default function OptimizerForm() {
 
   function startClicked() {
     console.log('Start clicked');
-    optimizerForm.submit()
+
+    // We dont actually want to submit the form as it would kick off a re-render
+    // Intercept the event and just call the optimizer directly
+    const form = optimizerForm.getFieldsValue()
+
+    OptimizerTabController.fixForm(form);
+    if (!OptimizerTabController.validateForm(form)) {
+      return
+    }
+
+    DB.addFromForm(form)
+    SaveState.save()
+    console.log('Form finished', form);
+
+    let optimizationId = uuidv4()
+    setOptimizationId(optimizationId)
+    form.optimizationId = optimizationId
+
+    Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
+
+  const characterConditionalsContent = useMemo(() => {
+    return CharacterConditionals.getDisplayForCharacter(optimizerTabFocusCharacter, characterEidolon)
+  }, [characterEidolon, optimizerTabFocusCharacter])
+
+  const lightConeConditionalsContent = useMemo(() => {
+    return LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)
+  }, [selectedLightCone, lightConeSuperimposition])
 
   function OrnamentSetTagRenderer(props) {
     const { value, closable, onClose } = props;
@@ -454,34 +256,42 @@ export default function OptimizerForm() {
     closable: PropTypes.bool,
     onClose: PropTypes.func,
   }
-
   function RelicSetTagRenderer(props) {
     const { value, closable, onClose } = props;
     // The value comes in as:
     // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
-    // 3 -> render both, any render one, 2 -> render first twice
+    /*
+    ['4 Piece', 'Passerby of Wandering Cloud']
+    ['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
+    ['2 + Any', 'Knight of Purity Palace']
+     */
+
     let pieces = value.split('__RC_CASCADER_SPLIT__')
     let inner
-    if (pieces.length == 3) {
-      if (pieces[2] == 'Any') {
-        inner =
-          <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          </React.Fragment>
-      } else {
-        inner =
-          <React.Fragment>
-            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          </React.Fragment>
-      }
-    } else {
+
+    if (pieces[0] == '4 Piece') {
       inner =
         <React.Fragment>
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
           <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
         </React.Fragment>
     }
+
+    if (pieces[0] == '2 + 2 Piece') {
+      inner =
+        <React.Fragment>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        </React.Fragment>
+    }
+
+    if (pieces[0] == '2 + Any') {
+      inner =
+        <React.Fragment>
+          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        </React.Fragment>
+    }
+
     RelicSetTagRenderer.propTypes = {
       value: PropTypes.string,
       closable: PropTypes.bool,
@@ -506,13 +316,12 @@ export default function OptimizerForm() {
     );
   }
 
+
   return (
     <div style={{ position: 'relative' }}>
       <Form
         form={optimizerForm}
         layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
@@ -520,17 +329,19 @@ export default function OptimizerForm() {
 
         <FilterContainer>
           <FormRow gap={defaultGap} title='Character options'>
+            {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
                 <Image
                   preview={false}
                   width={innerW}
-                  src={Assets.getCharacterPreviewById(selectedCharacter?.id)}
+                  src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
                   style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
                 />
               </div>
             </FormCard>
 
+            {/* Character Levels/Eids + Light Cone Superimps */}
             <FormCard>
               <Flex justify='space-between' align='center'>
                 <HeaderText>Character</HeaderText>
@@ -540,7 +351,7 @@ export default function OptimizerForm() {
                 <Form.Item size="default" name='characterId'>
                   <Select
                     showSearch
-                    filterOption={filterOption}
+                    filterOption={Utils.labelFilterOption}
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
@@ -573,7 +384,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='lightCone'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: panelWidth }}
                       onChange={lightConeSelectorChange}
                       options={lightConeOptions}
@@ -597,14 +408,20 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </Flex>
               </Flex>
+
+              <Flex justify='space-between' align='center'>
+                <HeaderText>Presets</HeaderText>
+              </Flex>
+
+              <RecommendedPresetsButton />
             </FormCard>
 
             <FormCard>
-              {CharacterConditionals.getDisplayForCharacter(selectedCharacter?.id, characterEidolon)}
+              {characterConditionalsContent}
             </FormCard>
-
+            {/* Light Cone Card */}
             <FormCard justify='space-between'>
-              {LightConeConditionals.getDisplayForLightCone(selectedLightCone?.id, lightConeSuperimposition)}
+              {lightConeConditionalsContent}
 
               <Flex vertical gap={5} style={{ marginBottom: 5 }}>
                 <Flex justify='space-between' align='center'>
@@ -616,7 +433,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyLevel'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyLevelOptions}
                     />
@@ -624,7 +441,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyCount'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyCountOptions}
                     />
@@ -635,7 +452,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyResistance'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyResistanceOptions}
                     />
@@ -643,7 +460,7 @@ export default function OptimizerForm() {
                   <Form.Item size="default" name='enemyHpPercent'>
                     <Select
                       showSearch
-                      filterOption={filterOption}
+                      filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyHpPercentOptions}
                     />
@@ -766,6 +583,18 @@ export default function OptimizerForm() {
                   <HeaderText>Sets</HeaderText>
                   <TooltipImage type={Hint.sets()} />
                 </Flex>
+                <Form.Item size="default" name='relicSets'>
+                  <Cascader
+                    placeholder="Relics"
+                    options={GenerateSetsOptions()}
+                    showCheckedStrategy={SHOW_CHILD}
+                    tagRender={RelicSetTagRenderer}
+                    placement='bottomLeft'
+                    maxTagCount='responsive'
+                    multiple={true}
+                    expandTrigger="hover"
+                  />
+                </Form.Item>
 
                 <Form.Item size="default" name='ornamentSets'>
                   <Select
@@ -778,36 +607,12 @@ export default function OptimizerForm() {
                     style={{
                       width: panelWidth
                     }}
-                    options={generateOrnamentsOptions()}
+                    options={GenerateOrnamentsOptions()}
                     tagRender={OrnamentSetTagRenderer}
                     placeholder="Planar Ornaments"
                     maxTagCount='responsive'>
                   </Select>
                 </Form.Item>
-                <ConfigProvider
-                  theme={{
-                    components: {
-                      Cascader: {
-                        dropdownHeight: 625,
-                        controlItemWidth: 100,
-                        controlWidth: 100
-                      },
-                    },
-                  }}
-                >
-                  <Form.Item size="default" name='relicSets'>
-                    <Cascader
-                      placeholder="Relics"
-                      options={generateSetsOptions()}
-                      showCheckedStrategy={SHOW_CHILD}
-                      tagRender={RelicSetTagRenderer}
-                      placement='bottomLeft'
-                      maxTagCount='responsive'
-                      multiple={true}
-                      expandTrigger="hover"
-                    />
-                  </Form.Item>
-                </ConfigProvider>
               </Flex>
 
               <Button

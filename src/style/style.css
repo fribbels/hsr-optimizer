@@ -306,3 +306,8 @@ a {
   margin-inline-end: 0px;
   border-radius: 0px;
 }
+
+.ant-progress-text {
+  text-align: right !important;
+  padding-right: 2px !important;
+}

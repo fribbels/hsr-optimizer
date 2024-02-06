@@ -1,5 +1,5 @@
 import { Button, Flex, Popconfirm } from 'antd';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import RelicPreview from './RelicPreview';
@@ -14,22 +14,84 @@ import { Renderer } from "../lib/renderer";
 import { SaveState } from "../lib/saveState";
 import { Hint } from "../lib/hint";
 import PropTypes from "prop-types";
+import { RelicModalController } from "../lib/relicModalController";
 
-export default function RelicsTab(props) {
+const GradeFilter = forwardRef((props, ref) => {
+  const [model, setModel] = useState(null);
+
+  const isFilterActive = useCallback(() => {
+    return model != null && (model.grade.length > 0 || model.verified.length > 0);
+  }, [model])
+
+  // expose AG Grid Filter Lifecycle callbacks
+  useImperativeHandle(ref, () => {
+    return {
+      doesFilterPass(params) {
+        if (model.grade.length > 0) {
+          if (!model.grade.includes(params.data.grade)) {
+            return false;
+          }
+        }
+
+        if (model.verified.length > 0) {
+          if (!model.verified.includes(params.data.verified ?? false)) {
+            return false;
+          }
+        }
+
+        return true;
+      },
+
+      isFilterActive,
+
+      getModel() {
+        return model;
+      },
+
+      setModel(model) {
+        setModel(model);
+      }
+    }
+  });
+
+  useEffect(() => {
+    props.filterChangedCallback()
+  }, [model, props]);
+
+  let filterMessage = "No Filters Applied";
+  if (isFilterActive()) {
+    let gradeFilter = model.grade.length > 0 ? `Grade ${model.grade.sort().join(" or ")}` : null;
+    let verifiedFilter = model.verified.length > 0 ? `${model.verified.sort().reverse().map(x => x ? "Verified" : "not Verified").join(" or ")}` : null;
+
+    let filters = [gradeFilter, verifiedFilter].filter(x => x);
+    filterMessage = `Filtering by ${filters.join(" and ")}`;
+  }
+
+  return (
+    <div style={{ padding: "8px" }}>
+      {filterMessage}
+    </div>
+  );
+});
+
+GradeFilter.displayName = 'GradeFilter';
+GradeFilter.propTypes = {
+  filterChangedCallback: PropTypes.func,
+}
+
+export default function RelicsTab() {
+  console.log('======================================================================= RENDER RelicsTab');
   const gridRef = useRef();
   global.relicsGrid = gridRef;
 
   const [relicRows, setRelicRows] = useState(DB.getRelics());
-  window.setRelicRows = setRelicRows
+  global.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState();
-
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  window.setEditModalOpen = setEditModalOpen
-  window.setSelectedRelic = setSelectedRelic
 
-  let relicTabFilters = global.store(s => s.relicTabFilters);
+  const relicTabFilters = global.store(s => s.relicTabFilters);
   useEffect(() => {
     if (!global.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)
@@ -40,7 +102,7 @@ export default function RelicsTab(props) {
     }
 
     // Calculate filter conditions
-    let filterModel = {}
+    const filterModel = {}
 
     filterModel.set = {
       conditions: relicTabFilters.set.map(x => ({
@@ -60,6 +122,10 @@ export default function RelicsTab(props) {
       operator: 'OR'
     }
 
+    filterModel.grade = {
+      grade: relicTabFilters.grade,
+      verified: relicTabFilters.verified,
+    }
 
     filterModel['main.stat'] = {
       conditions: relicTabFilters.mainStats.map(x => ({
@@ -71,7 +137,7 @@ export default function RelicsTab(props) {
     }
 
     // Substats have to filter augmented stats individually
-    for (let substatFilter of relicTabFilters.subStats) {
+    for (const substatFilter of relicTabFilters.subStats) {
       filterModel[`augmentedStats.${substatFilter}`] = {
         filterType: 'number',
         type: 'greaterThan',
@@ -110,7 +176,15 @@ export default function RelicsTab(props) {
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
-    { field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter' },
+    {
+      field: 'grade', width: 60, cellRenderer: Renderer.renderGradeCell, filter: GradeFilter, comparator: (a, b, nodeA, nodeB) => {
+        if (a === b) {
+          return (nodeA.data.verified ?? false) - (nodeB.data.verified ?? false)
+        } else {
+          return a - b
+        }
+      }
+    },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
@@ -173,28 +247,10 @@ export default function RelicsTab(props) {
     console.log('onAddOk', relic)
   }
 
+  // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
-    relic.id = selectedRelic.id
-
-    const updatedRelic = { ...selectedRelic, ...relic }
-
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id);
-    }
-
-    DB.setRelic(updatedRelic)
-    setRelicRows(DB.getRelics())
-    SaveState.save()
-
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
-
-    window.forceOptimizerBuildPreviewUpdate()
-    window.forceCharacterTabUpdate()
-
-    Message.success('Successfully edited relic')
-    console.log('onEditOk', updatedRelic)
   }
 
   function editClicked() {
@@ -222,7 +278,7 @@ export default function RelicsTab(props) {
 
 
   return (
-    <Flex style={{ display: props.active ? 'block' : 'none', width: 1250 }}>
+    <Flex style={{ width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
@@ -269,7 +325,11 @@ export default function RelicsTab(props) {
           </Popconfirm>
         </Flex>
         <Flex gap={10}>
-          <RelicPreview relic={selectedRelic} />
+          <RelicPreview
+            relic={selectedRelic}
+            setSelectedRelic={setSelectedRelic}
+            setEditModalOpen={setEditModalOpen}
+          />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>

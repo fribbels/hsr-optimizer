@@ -1,12 +1,15 @@
-import characters from '../data/characters.json';
-import characterPromotions from '../data/character_promotions.json';
-import lightCones from '../data/light_cones.json';
-import lightConePromotions from '../data/light_cone_promotions.json';
-import relicMainAffixes from '../data/relic_main_affixes.json';
-import relicSubAffixes from '../data/relic_sub_affixes.json';
-import relicSets from '../data/relic_sets.json';
-import { Constants } from "./constants.ts";
-import DB from "./db";
+import characters from 'data/characters.json';
+import characterPromotions from 'data/character_promotions.json';
+import lightCones from 'data/light_cones.json';
+import lightConePromotions from 'data/light_cone_promotions.json';
+import lightConeRanks from 'data/en/light_cone_ranks.json';
+import relicMainAffixes from 'data/relic_main_affixes.json';
+import relicSubAffixes from 'data/relic_sub_affixes.json';
+import relicSets from 'data/relic_sets.json';
+import characterSkills from 'data/en/character_skills.json';
+import { Constants } from "lib/constants.ts";
+import DB from "lib/db";
+import { PresetEffects } from "../components/optimizerForm/RecommendedPresetsButton";
 
 export const DataParser = {
   parse: () => {
@@ -18,19 +21,22 @@ export const DataParser = {
       delete characterData.skill_trees
     }
 
-    const lightConeSuperimpositions = getSuperimpositions()
+    const lightConeSuperimpositions = getSuperimpositions();
+    const lightConeRanks = getLightConeRanks();
     for (const [id, lcData] of Object.entries(lightCones)) {
       if (lightConeSuperimpositions[id]) {
         lcData.superimpositions = lightConeSuperimpositions[id]
       } else {
         lcData.superimpositions = {}
       }
-      lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
+      lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id]);
+      lcData.ranks = lightConeRanks[id];
     }
 
     const characterTraces = getOverrideTraces();
     const imageCenters = getOverrideImageCenter();
     const scoringMetadata = getScoringMetadata()
+
     for (const [id, traceData] of Object.entries(characterTraces)) {
       let imageCenter = { x: 1024, y: 1024 }
       if (imageCenters[id] != undefined) {
@@ -53,12 +59,12 @@ export const DataParser = {
     const data = {
       characters: characters,
       characterPromotions: characterPromotions,
+      characterSkills: characterSkills,
       nicknames: characterPromotions,
       lightCones: lightCones,
       relics: relics
     }
     DB.setMetadata(data);
-    console.log('Metadata: ', data)
 
     return data;
   }
@@ -71,6 +77,7 @@ const displayNameMapping = {
   "8004": "Stelle (Preservation)",
   "1213": "Imbibitor Lunae"
 }
+
 function getDisplayName(character) {
   if (character.id in displayNameMapping) {
     return displayNameMapping[character.id]
@@ -273,6 +280,44 @@ function getSuperimpositions() {
       5: { [Constants.Stats.ATK_P]: 0.48 },
     },
     "21034": {},
+    "21035": {
+      1: { [Constants.Stats.BE]: 0.24 },
+      2: { [Constants.Stats.BE]: 0.30 },
+      3: { [Constants.Stats.BE]: 0.36 },
+      4: { [Constants.Stats.BE]: 0.42 },
+      5: { [Constants.Stats.BE]: 0.48 },
+    },
+    "21036": {},
+    "21037": {
+      1: { [Constants.Stats.ATK_P]: 0.12 },
+      2: { [Constants.Stats.ATK_P]: 0.14 },
+      3: { [Constants.Stats.ATK_P]: 0.16 },
+      4: { [Constants.Stats.ATK_P]: 0.18 },
+      5: { [Constants.Stats.ATK_P]: 0.20 },
+    },
+    "21038": {},
+    "21039": {
+      1: { [Constants.Stats.RES]: 0.12 },
+      2: { [Constants.Stats.RES]: 0.14 },
+      3: { [Constants.Stats.RES]: 0.16 },
+      4: { [Constants.Stats.RES]: 0.18 },
+      5: { [Constants.Stats.RES]: 0.20 },
+    },
+    "21040": {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.18 },
+      3: { [Constants.Stats.ATK_P]: 0.20 },
+      4: { [Constants.Stats.ATK_P]: 0.22 },
+      5: { [Constants.Stats.ATK_P]: 0.24 },
+    },
+    "21041": {},
+    "21042": {
+      1: { [Constants.Stats.BE]: 0.28 },
+      2: { [Constants.Stats.BE]: 0.35 },
+      3: { [Constants.Stats.BE]: 0.42 },
+      4: { [Constants.Stats.BE]: 0.49 },
+      5: { [Constants.Stats.BE]: 0.56 },
+    },
     "22000": {
       1: { [Constants.Stats.EHR]: 0.20 },
       2: { [Constants.Stats.EHR]: 0.25 },
@@ -689,7 +734,6 @@ function getOverrideTraces() {
   }
 }
 
-
 function getOverrideImageCenter() {
   return {
     "1001": { // March 7th
@@ -883,7 +927,6 @@ function getOverrideImageCenter() {
   }
 }
 
-
 function getScoringMetadata() {
   return {
     "1001": { // March 7th
@@ -937,6 +980,9 @@ function getScoringMetadata() {
         Constants.Sets.BelobogOfTheArchitects,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.DEF_SORT
       ]
     },
     "1002": { // Dan Heng
@@ -988,6 +1034,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.ULT_SORT
       ]
     },
     "1003": { // Himeko
@@ -1039,6 +1088,10 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
         Constants.Sets.InertSalsotto,
         Constants.Sets.SpaceSealingStation,
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(4)
       ]
     },
     "1004": { // Welt
@@ -1089,6 +1142,10 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.PanCosmicCommercialEnterprise,
         Constants.Sets.SpaceSealingStation,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
+        PresetEffects.WASTELANDER_SET,
       ]
     },
     "1005": { // Kafka
@@ -1142,6 +1199,11 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.TaliaKingdomOfBanditry,
+      ],
+      presets: [
+        PresetEffects.DOT_SORT,
+        PresetEffects.PRISONER_SET,
+        PresetEffects.fnAshblazingSet(6)
       ]
     },
     "1006": { // Silver Wolf
@@ -1203,6 +1265,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.TaliaKingdomOfBanditry,
+      ],
+      presets: [
+        PresetEffects.ULT_SORT
       ]
     },
     "1008": { // Arlan
@@ -1255,6 +1320,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT
       ]
     },
     "1009": { // Asta
@@ -1307,6 +1375,9 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.SPD_SORT
       ]
     },
     "1013": { // Herta
@@ -1358,6 +1429,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(4)
       ]
     },
     "1101": { // Bronya
@@ -1409,6 +1484,9 @@ function getScoringMetadata() {
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT
       ]
     },
     "1102": { // Seele
@@ -1460,6 +1538,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT
       ]
     },
     "1103": { // Serval
@@ -1510,6 +1591,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.ULT_SORT
       ]
     },
     "1104": { // Gepard
@@ -1562,6 +1646,9 @@ function getScoringMetadata() {
         Constants.Sets.BelobogOfTheArchitects,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.DEF_SORT
       ]
     },
     "1105": { // Natasha
@@ -1613,6 +1700,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT
       ]
     },
     "1106": { // Pela
@@ -1667,6 +1757,9 @@ function getScoringMetadata() {
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.SPD_SORT
       ]
     },
     "1107": { // Clara
@@ -1719,6 +1812,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(2)
       ]
     },
     "1108": { // Sampo
@@ -1776,6 +1873,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.TaliaKingdomOfBanditry,
+      ],
+      presets: [
+        PresetEffects.DOT_SORT,
+        PresetEffects.PRISONER_SET,
       ]
     },
     "1109": { // Hook
@@ -1828,6 +1929,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
       ]
     },
     "1110": { // Lynx
@@ -1879,6 +1983,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT,
       ]
     },
     "1111": { // Luka
@@ -1934,6 +2041,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.TaliaKingdomOfBanditry,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT,
       ]
     },
     "1112": { // Topaz and Numby
@@ -1987,6 +2097,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(0)
       ]
     },
     "1201": { // Qingque
@@ -2037,6 +2151,9 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.BASIC_SORT,
       ]
     },
     "1202": { // Tingyun
@@ -2091,6 +2208,9 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
       ]
     },
     "1203": { // Luocha
@@ -2141,6 +2261,10 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.SpaceSealingStation,
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
+        PresetEffects.WASTELANDER_SET,
       ]
     },
     "1204": { // Jing Yuan
@@ -2192,6 +2316,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(8)
       ]
     },
     "1205": { // Blade
@@ -2243,6 +2371,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.InertSalsotto,
         Constants.Sets.RutilantArena,
+      ],
+      presets: [
+        PresetEffects.BASIC_SORT,
       ]
     },
     "1206": { // Sushang
@@ -2293,6 +2424,9 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
       ]
     },
     "1207": { // Yukong
@@ -2346,6 +2480,10 @@ function getScoringMetadata() {
         Constants.Sets.InertSalsotto,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.ULT_SORT,
+        PresetEffects.WASTELANDER_SET,
       ]
     },
     "1208": { // Fu Xuan
@@ -2399,6 +2537,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT,
       ]
     },
     "1209": { // Yanqing
@@ -2448,6 +2589,9 @@ function getScoringMetadata() {
       ornamentSets: [
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.ULT_SORT,
       ]
     },
     "1210": { // Guinaifen
@@ -2501,6 +2645,10 @@ function getScoringMetadata() {
         Constants.Sets.PanCosmicCommercialEnterprise,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FleetOfTheAgeless,
+      ],
+      presets: [
+        PresetEffects.DOT_SORT,
+        PresetEffects.PRISONER_SET,
       ]
     },
     "1211": { // Bailu
@@ -2552,6 +2700,9 @@ function getScoringMetadata() {
         Constants.Sets.FleetOfTheAgeless,
         Constants.Sets.BrokenKeel,
         Constants.Sets.SprightlyVonwacq,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT,
       ]
     },
     "1212": { // Jingliu
@@ -2605,6 +2756,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
       ]
     },
     "1213": { // Dan Heng • Imbibitor Lunae
@@ -2657,6 +2811,10 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.InertSalsotto,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.BASIC_SORT,
+        PresetEffects.WASTELANDER_SET,
       ]
     },
     "1214": { // Xueyi
@@ -2703,6 +2861,10 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
+        PresetEffects.fnAshblazingSet(3)
       ]
     },
     "1215": { // Hanya
@@ -2748,6 +2910,9 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
       ]
     },
     "1217": { // Huohuo
@@ -2801,6 +2966,9 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.PenaconyLandOfTheDreams,
+      ],
+      presets: [
+        PresetEffects.EHP_SORT,
       ]
     },
     "1302": { // Argenti
@@ -2847,6 +3015,9 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.ULT_SORT,
       ]
     },
     "1303": { // Ruan Mei
@@ -2893,6 +3064,9 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
       ]
     },
     "1305": { // Dr Ratio
@@ -2938,6 +3112,11 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(1),
+        PresetEffects.WASTELANDER_SET,
       ]
     },
     "1306": { // Sparkle
@@ -2982,6 +3161,9 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
       ]
     },
     "1307": { // Black Swan
@@ -3028,6 +3210,10 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.PRISONER_SET,
+        PresetEffects.DOT_SORT,
       ]
     },
     "1312": { // Misha
@@ -3073,6 +3259,9 @@ function getScoringMetadata() {
       relicSets: [
       ],
       ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.ULT_SORT,
       ]
     },
     "8001": { // Physical Trailblazer M
@@ -3124,6 +3313,9 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
       ]
     },
     "8002": { // Physical Trailblazer F
@@ -3175,6 +3367,9 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
         Constants.Sets.SpaceSealingStation,
         Constants.Sets.FirmamentFrontlineGlamoth,
+      ],
+      presets: [
+        PresetEffects.SKILL_SORT,
       ]
     },
     "8003": { // Fire Trailblazer M
@@ -3227,6 +3422,9 @@ function getScoringMetadata() {
         Constants.Sets.BelobogOfTheArchitects,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.DEF_SORT,
       ]
     },
     "8004": { // Fire Trailblazer F
@@ -3279,7 +3477,14 @@ function getScoringMetadata() {
         Constants.Sets.BelobogOfTheArchitects,
         Constants.Sets.SprightlyVonwacq,
         Constants.Sets.BrokenKeel,
+      ],
+      presets: [
+        PresetEffects.DEF_SORT,
       ]
     },
   }
+}
+
+const getLightConeRanks = () => {
+  return lightConeRanks;
 }

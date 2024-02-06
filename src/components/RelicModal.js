@@ -86,7 +86,7 @@ export default function RelicModal(props) {
     }, ...options]
 
     return options
-  }, [props.selectedRelic, props.open]);
+  }, []);
 
   useEffect(() => {
     let defaultValues = {
@@ -120,7 +120,7 @@ export default function RelicModal(props) {
       }
     }
     relicForm.setFieldsValue(defaultValues)
-  }, [props.selectedRelic, props.open])
+  }, [props.selectedRelic, props.open, relicForm, props])
 
   useEffect(() => {
     let mainStatOptions = [];
@@ -132,7 +132,7 @@ export default function RelicModal(props) {
     }
     setMainStatOptions(mainStatOptions || []);
     relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat);
-  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat]);
+  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm]);
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {

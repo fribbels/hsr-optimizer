@@ -1,0 +1,4819 @@
+{
+    "20000": {
+        "id": "20000",
+        "skill": "Crisis",
+        "desc": "At the start of the battle, the wearer's CRIT Rate increases by #1[i]% for #2[i] turn(s).",
+        "params": [
+            [
+                0.12,
+                3
+            ],
+            [
+                0.15,
+                3
+            ],
+            [
+                0.18,
+                3
+            ],
+            [
+                0.21,
+                3
+            ],
+            [
+                0.24,
+                3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20001": {
+        "id": "20001",
+        "skill": "Prosperity",
+        "desc": "When the wearer uses their Skill or Ultimate, their Outgoing Healing increases by #1[i]%.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.15
+            ],
+            [
+                0.18
+            ],
+            [
+                0.21
+            ],
+            [
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20002": {
+        "id": "20002",
+        "skill": "Havoc",
+        "desc": "Increases the wearer's Basic ATK and Skill DMG by #1[i]%.",
+        "params": [
+            [
+                0.2
+            ],
+            [
+                0.25
+            ],
+            [
+                0.3
+            ],
+            [
+                0.35
+            ],
+            [
+                0.4
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20003": {
+        "id": "20003",
+        "skill": "Stasis",
+        "desc": "Increases the wearer's DEF by #1[i]%. If the wearer's current HP is lower than #2[i]%, increases their DEF by a further #3[i]%.",
+        "params": [
+            [
+                0.16,
+                0.5,
+                0.16
+            ],
+            [
+                0.2,
+                0.5,
+                0.2
+            ],
+            [
+                0.24,
+                0.5,
+                0.24
+            ],
+            [
+                0.28,
+                0.5,
+                0.28
+            ],
+            [
+                0.32,
+                0.5,
+                0.32
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "20004": {
+        "id": "20004",
+        "skill": "Fallen",
+        "desc": "At the start of the battle, the wearer's Effect Hit Rate increases by #1[i]% for #2[i] turn(s).",
+        "params": [
+            [
+                0.2,
+                3
+            ],
+            [
+                0.25,
+                3
+            ],
+            [
+                0.3,
+                3
+            ],
+            [
+                0.35,
+                3
+            ],
+            [
+                0.4,
+                3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20005": {
+        "id": "20005",
+        "skill": "Concerted",
+        "desc": "After entering battle, increases the ATK of all allies by #1[i]%. Effects of the same type cannot stack.",
+        "params": [
+            [
+                0.08
+            ],
+            [
+                0.09
+            ],
+            [
+                0.1
+            ],
+            [
+                0.11
+            ],
+            [
+                0.12
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20006": {
+        "id": "20006",
+        "skill": "Learned",
+        "desc": "Increases the wearer's Ultimate DMG by #1[i]%.",
+        "params": [
+            [
+                0.28
+            ],
+            [
+                0.35
+            ],
+            [
+                0.42
+            ],
+            [
+                0.49
+            ],
+            [
+                0.56
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20007": {
+        "id": "20007",
+        "skill": "War Cry",
+        "desc": "When the wearer defeats an enemy, increases ATK by #1[i]% for #2[i] turn(s).",
+        "params": [
+            [
+                0.24,
+                3
+            ],
+            [
+                0.3,
+                3
+            ],
+            [
+                0.36,
+                3
+            ],
+            [
+                0.42,
+                3
+            ],
+            [
+                0.48,
+                3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20008": {
+        "id": "20008",
+        "skill": "Savor",
+        "desc": "At the start of the battle, immediately regenerates #1[i] Energy for all allies.",
+        "params": [
+            [
+                6
+            ],
+            [
+                7.5
+            ],
+            [
+                9
+            ],
+            [
+                10.5
+            ],
+            [
+                12
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20009": {
+        "id": "20009",
+        "skill": "Eradication",
+        "desc": "The wearer deals #2[i]% more DMG to enemy targets whose HP percentage is greater than #1[i]%.",
+        "params": [
+            [
+                0.5,
+                0.2
+            ],
+            [
+                0.5,
+                0.25
+            ],
+            [
+                0.5,
+                0.3
+            ],
+            [
+                0.5,
+                0.35
+            ],
+            [
+                0.5,
+                0.4
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20010": {
+        "id": "20010",
+        "skill": "Revitalization",
+        "desc": "When the wearer unleashes their Ultimate, they restore HP by #1[i]% of their Max HP.",
+        "params": [
+            [
+                0.18
+            ],
+            [
+                0.21
+            ],
+            [
+                0.24
+            ],
+            [
+                0.27
+            ],
+            [
+                0.3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20011": {
+        "id": "20011",
+        "skill": "Pursuit",
+        "desc": "Increases DMG dealt from its wearer to Slowed enemies by #1[i]%.",
+        "params": [
+            [
+                0.24
+            ],
+            [
+                0.3
+            ],
+            [
+                0.36
+            ],
+            [
+                0.42
+            ],
+            [
+                0.48
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20012": {
+        "id": "20012",
+        "skill": "Fleet Triumph",
+        "desc": "After the wearer uses attacks or gets hit, additionally regenerates #1[i] Energy. This effect cannot be repeatedly triggered in a single turn.",
+        "params": [
+            [
+                4
+            ],
+            [
+                5
+            ],
+            [
+                6
+            ],
+            [
+                7
+            ],
+            [
+                8
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20013": {
+        "id": "20013",
+        "skill": "Epiphany",
+        "desc": "After the wearer uses their Skill, additionally regenerates #1[i] Energy. This effect cannot be repeatedly triggered in a single turn.",
+        "params": [
+            [
+                8
+            ],
+            [
+                9
+            ],
+            [
+                10
+            ],
+            [
+                11
+            ],
+            [
+                12
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20014": {
+        "id": "20014",
+        "skill": "Alliance",
+        "desc": "When the wearer defeats an enemy, increases SPD by #1[i]% for #2[i] turn(s).",
+        "params": [
+            [
+                0.1,
+                2
+            ],
+            [
+                0.12,
+                2
+            ],
+            [
+                0.14,
+                2
+            ],
+            [
+                0.16,
+                2
+            ],
+            [
+                0.18,
+                2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20015": {
+        "id": "20015",
+        "skill": "Denizens of Abundance",
+        "desc": "After the wearer uses their Basic ATK, their next action will be Advanced Forward by #1[i]%.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.14
+            ],
+            [
+                0.16
+            ],
+            [
+                0.18
+            ],
+            [
+                0.2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20016": {
+        "id": "20016",
+        "skill": "Legion",
+        "desc": "If the wearer's current HP is lower than #1[i]%, CRIT Rate increases by #2[i]%.",
+        "params": [
+            [
+                0.8,
+                0.12
+            ],
+            [
+                0.8,
+                0.15
+            ],
+            [
+                0.8,
+                0.18
+            ],
+            [
+                0.8,
+                0.21
+            ],
+            [
+                0.8,
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20017": {
+        "id": "20017",
+        "skill": "IPC",
+        "desc": "When the wearer Breaks an enemy's Weakness, the wearer restores HP by #1[i]% of their Max HP.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.14
+            ],
+            [
+                0.16
+            ],
+            [
+                0.18
+            ],
+            [
+                0.2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20018": {
+        "id": "20018",
+        "skill": "Mechanism",
+        "desc": "After using Skill, the wearer's next Basic ATK deals Additional DMG equal to #1[i]% of ATK to the target enemy.",
+        "params": [
+            [
+                0.6
+            ],
+            [
+                0.75
+            ],
+            [
+                0.9
+            ],
+            [
+                1.05
+            ],
+            [
+                1.2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20019": {
+        "id": "20019",
+        "skill": "Family",
+        "desc": "Upon entering battle, increases SPD of all allies by #1[i] points for #2[i] turn(s).",
+        "params": [
+            [
+                12,
+                1
+            ],
+            [
+                14,
+                1
+            ],
+            [
+                16,
+                1
+            ],
+            [
+                18,
+                1
+            ],
+            [
+                20,
+                1
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "20020": {
+        "id": "20020",
+        "skill": "Genius",
+        "desc": "When the wearer uses their Ultimate, increases ATK by #1[i]% for #2[i] turn(s).",
+        "params": [
+            [
+                0.24,
+                2
+            ],
+            [
+                0.3,
+                2
+            ],
+            [
+                0.36,
+                2
+            ],
+            [
+                0.42,
+                2
+            ],
+            [
+                0.48,
+                2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21000": {
+        "id": "21000",
+        "skill": "Mutual Healing",
+        "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]% and increases Outgoing Healing when they use their Ultimate by #2[i]%.",
+        "params": [
+            [
+                0.08,
+                0.12
+            ],
+            [
+                0.1,
+                0.15
+            ],
+            [
+                0.12,
+                0.18
+            ],
+            [
+                0.14,
+                0.21
+            ],
+            [
+                0.16,
+                0.24
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.08
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.16
+                }
+            ]
+        ]
+    },
+    "21001": {
+        "id": "21001",
+        "skill": "Toiler",
+        "desc": "For every debuff the target enemy has, the DMG dealt by the wearer increases by #1[i]%, stacking up to #2[i] time(s). This effect also applies to DoT.",
+        "params": [
+            [
+                0.12,
+                3
+            ],
+            [
+                0.15,
+                3
+            ],
+            [
+                0.18,
+                3
+            ],
+            [
+                0.21,
+                3
+            ],
+            [
+                0.24,
+                3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21002": {
+        "id": "21002",
+        "skill": "At This Very Moment",
+        "desc": "Increases the wearer's DEF by #1[i]%. After entering battle, increases All-Type RES of all allies by #2[i]%. Effects of the same type cannot stack.",
+        "params": [
+            [
+                0.16,
+                0.08
+            ],
+            [
+                0.18,
+                0.09
+            ],
+            [
+                0.2,
+                0.1
+            ],
+            [
+                0.22,
+                0.11
+            ],
+            [
+                0.24,
+                0.12
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.22
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.24
+                }
+            ]
+        ]
+    },
+    "21003": {
+        "id": "21003",
+        "skill": "Record",
+        "desc": "Increases the wearer's ATK by #1[i]%. If there are 2 or fewer enemies on the field, increases wearer's CRIT Rate by #2[i]%.",
+        "params": [
+            [
+                0.16,
+                0.12
+            ],
+            [
+                0.2,
+                0.15
+            ],
+            [
+                0.24,
+                0.18
+            ],
+            [
+                0.28,
+                0.21
+            ],
+            [
+                0.32,
+                0.24
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21004": {
+        "id": "21004",
+        "skill": "Old Photo",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer attacks, additionally regenerates #2[i] Energy. This effect cannot be repeatedly triggered in a single turn.",
+        "params": [
+            [
+                0.28,
+                4
+            ],
+            [
+                0.35,
+                5
+            ],
+            [
+                0.42,
+                6
+            ],
+            [
+                0.49,
+                7
+            ],
+            [
+                0.56,
+                8
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.49
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.56
+                }
+            ]
+        ]
+    },
+    "21005": {
+        "id": "21005",
+        "skill": "Fantastic Adventure",
+        "desc": "When the wearer uses Basic ATK, Skill, or Ultimate to attack enemies, the wearer gains one stack of Mischievous. Each stack increases the wearer's ATK by #1[i]%.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.15
+            ],
+            [
+                0.18
+            ],
+            [
+                0.21
+            ],
+            [
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21006": {
+        "id": "21006",
+        "skill": "The Maiden in the Painting",
+        "desc": "Increases DMG dealt by the wearer's follow-up attacks by #1[i]%. If the current HP of the target enemy is below or equal to #2[i]%, increases DMG dealt by follow-up attacks by an extra #3[i]%.",
+        "params": [
+            [
+                0.24,
+                0.5,
+                0.24
+            ],
+            [
+                0.3,
+                0.5,
+                0.3
+            ],
+            [
+                0.36,
+                0.5,
+                0.36
+            ],
+            [
+                0.42,
+                0.5,
+                0.42
+            ],
+            [
+                0.48,
+                0.5,
+                0.48
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21007": {
+        "id": "21007",
+        "skill": "Cure and Repair",
+        "desc": "Increases the wearer's Outgoing Healing by #1[i]%. When using Skill, regenerates #2[f1] Energy for all allies.",
+        "params": [
+            [
+                0.1,
+                2
+            ],
+            [
+                0.125,
+                2.5
+            ],
+            [
+                0.15,
+                3
+            ],
+            [
+                0.175,
+                3.5
+            ],
+            [
+                0.2,
+                4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.125
+                }
+            ],
+            [
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.15
+                }
+            ],
+            [
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.175
+                }
+            ],
+            [
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "21008": {
+        "id": "21008",
+        "skill": "Self-Confidence",
+        "desc": "Increases the wearer's Effect Hit Rate by #1[i]% and increases DoT by #2[i]%.",
+        "params": [
+            [
+                0.2,
+                0.24
+            ],
+            [
+                0.25,
+                0.3
+            ],
+            [
+                0.3,
+                0.36
+            ],
+            [
+                0.35,
+                0.42
+            ],
+            [
+                0.4,
+                0.48
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.25
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "21009": {
+        "id": "21009",
+        "skill": "Time Fleets Away",
+        "desc": "The wearer is more likely to be attacked, and DMG taken is reduced by #2[i]%.",
+        "params": [
+            [
+                2,
+                0.16
+            ],
+            [
+                2,
+                0.18
+            ],
+            [
+                2,
+                0.2
+            ],
+            [
+                2,
+                0.22
+            ],
+            [
+                2,
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21010": {
+        "id": "21010",
+        "skill": "Answers of Their Own",
+        "desc": "For each time the wearer hits the same target, DMG dealt increases by #1[i]%, stacking up to #2[i] time(s). This effect will be dispelled when the wearer changes targets.",
+        "params": [
+            [
+                0.08,
+                5
+            ],
+            [
+                0.1,
+                5
+            ],
+            [
+                0.12,
+                5
+            ],
+            [
+                0.14,
+                5
+            ],
+            [
+                0.16,
+                5
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21011": {
+        "id": "21011",
+        "skill": "Departure",
+        "desc": "After entering battle, if an ally deals the same DMG Type as the wearer, DMG dealt increases by #1[i]%.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.15
+            ],
+            [
+                0.18
+            ],
+            [
+                0.21
+            ],
+            [
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21012": {
+        "id": "21012",
+        "skill": "Spare No Effort",
+        "desc": "Increases DMG dealt by the wearer by #1[i]%. The wearer also deals an extra #2[i]% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage.",
+        "params": [
+            [
+                0.2,
+                0.2
+            ],
+            [
+                0.25,
+                0.25
+            ],
+            [
+                0.3,
+                0.3
+            ],
+            [
+                0.35,
+                0.35
+            ],
+            [
+                0.4,
+                0.4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.25
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "21013": {
+        "id": "21013",
+        "skill": "The Power of Sound",
+        "desc": "The wearer regenerates #2[i] Energy immediately upon entering battle, and increases Ultimate DMG by #1[i]%.",
+        "params": [
+            [
+                0.32,
+                20
+            ],
+            [
+                0.4,
+                23
+            ],
+            [
+                0.48,
+                26
+            ],
+            [
+                0.56,
+                29
+            ],
+            [
+                0.64,
+                32
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21014": {
+        "id": "21014",
+        "skill": "Refraction of Sightline",
+        "desc": "Increases the wearer's Effect RES by #1[i]% and increases Outgoing Healing by an amount that is equal to #2[i]% of Effect RES. Outgoing Healing can be increased this way by up to #3[i]%.",
+        "params": [
+            [
+                0.16,
+                0.33,
+                0.15
+            ],
+            [
+                0.2,
+                0.36,
+                0.18
+            ],
+            [
+                0.24,
+                0.39,
+                0.21
+            ],
+            [
+                0.28,
+                0.42,
+                0.24
+            ],
+            [
+                0.32,
+                0.45,
+                0.27
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21015": {
+        "id": "21015",
+        "skill": "Glance Back",
+        "desc": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a #1[i]% base chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by #2[i]% for #3[i] turn(s).",
+        "params": [
+            [
+                0.6,
+                0.12,
+                1
+            ],
+            [
+                0.7,
+                0.13,
+                1
+            ],
+            [
+                0.8,
+                0.14,
+                1
+            ],
+            [
+                0.9,
+                0.15,
+                1
+            ],
+            [
+                1,
+                0.16,
+                1
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21016": {
+        "id": "21016",
+        "skill": "A New Round of Shuffling",
+        "desc": "Increases the wearer's DEF by #1[i]%. When the wearer is attacked, there is a #2[i]% base chance to Burn the enemy. For each turn, the wearer deals DoT that is equal to #3[i]% of the wearer's DEF for #4[i] turn(s).",
+        "params": [
+            [
+                0.16,
+                1,
+                0.4,
+                2
+            ],
+            [
+                0.2,
+                1.05,
+                0.5,
+                2
+            ],
+            [
+                0.24,
+                1.1,
+                0.6,
+                2
+            ],
+            [
+                0.28,
+                1.15,
+                0.7,
+                2
+            ],
+            [
+                0.32,
+                1.2,
+                0.8,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21017": {
+        "id": "21017",
+        "skill": "Like Before You Leave!",
+        "desc": "Increases the DMG of the wearer's Basic ATK and Skill by #1[i]%. This effect increases by an extra #2[i]% when the wearer's current Energy reaches its max level.",
+        "params": [
+            [
+                0.24,
+                0.24
+            ],
+            [
+                0.3,
+                0.3
+            ],
+            [
+                0.36,
+                0.36
+            ],
+            [
+                0.42,
+                0.42
+            ],
+            [
+                0.48,
+                0.48
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21018": {
+        "id": "21018",
+        "skill": "Cannot Stop It!",
+        "desc": "When the wearer uses their Ultimate, all allies' actions are Advanced Forward by #1[i]%.",
+        "params": [
+            [
+                0.16
+            ],
+            [
+                0.18
+            ],
+            [
+                0.2
+            ],
+            [
+                0.22
+            ],
+            [
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21019": {
+        "id": "21019",
+        "skill": "Rye Under the Sun",
+        "desc": "Increases the wearer's ATK by #1[i]%. When the wearer defeats an enemy, the wearer's CRIT Rate increases by #2[i]% for #3[i] turn(s).",
+        "params": [
+            [
+                0.16,
+                0.12,
+                3
+            ],
+            [
+                0.2,
+                0.15,
+                3
+            ],
+            [
+                0.24,
+                0.18,
+                3
+            ],
+            [
+                0.28,
+                0.21,
+                3
+            ],
+            [
+                0.32,
+                0.24,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21020": {
+        "id": "21020",
+        "skill": "Each Now Has a Role to Play",
+        "desc": "Increases the wearer's ATK by #1[i]%. When the wearer defeats an enemy, the wearer's CRIT DMG increases by #2[i]% for #3[i] turn(s).",
+        "params": [
+            [
+                0.16,
+                0.24,
+                3
+            ],
+            [
+                0.2,
+                0.3,
+                3
+            ],
+            [
+                0.24,
+                0.36,
+                3
+            ],
+            [
+                0.28,
+                0.42,
+                3
+            ],
+            [
+                0.32,
+                0.48,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21021": {
+        "id": "21021",
+        "skill": "Enjoy With Rapture",
+        "desc": "At the start of the wearer's turn, regenerates #2[i] Energy for a randomly chosen ally (excluding the wearer) whose current Energy is lower than #1[i]%.",
+        "params": [
+            [
+                0.5,
+                8
+            ],
+            [
+                0.5,
+                10
+            ],
+            [
+                0.5,
+                12
+            ],
+            [
+                0.5,
+                14
+            ],
+            [
+                0.5,
+                16
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21022": {
+        "id": "21022",
+        "skill": "Semibreve Rest",
+        "desc": "Increases the Break Effect dealt by the wearer by #1[i]%, and increases their DMG to enemies afflicted with Shock or Wind Shear by #2[i]%. This also applies to DoT.",
+        "params": [
+            [
+                0.16,
+                0.16
+            ],
+            [
+                0.2,
+                0.2
+            ],
+            [
+                0.24,
+                0.24
+            ],
+            [
+                0.28,
+                0.28
+            ],
+            [
+                0.32,
+                0.32
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21023": {
+        "id": "21023",
+        "skill": "Teary-Eyed",
+        "desc": "At the start of the battle, the DMG dealt to all allies decreases by #2[i]% for #3[i] turn(s). At the same time, immediately restores HP to all allies equal to #1[i]% of the respective HP difference between the characters' Max HP and current HP.",
+        "params": [
+            [
+                0.3,
+                0.08,
+                5
+            ],
+            [
+                0.35,
+                0.1,
+                5
+            ],
+            [
+                0.4,
+                0.12,
+                5
+            ],
+            [
+                0.45,
+                0.14,
+                5
+            ],
+            [
+                0.5,
+                0.16,
+                5
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21024": {
+        "id": "21024",
+        "skill": "Stave Off the Lingering Cold",
+        "desc": "After entering battle, increases the wearer's SPD by #1[i]% and DMG by #2[i]%. When the wearer takes DMG, this effect will disappear. This effect will resume after the end of the wearer's next turn.",
+        "params": [
+            [
+                0.08,
+                0.12
+            ],
+            [
+                0.09,
+                0.15
+            ],
+            [
+                0.1,
+                0.18
+            ],
+            [
+                0.11,
+                0.21
+            ],
+            [
+                0.12,
+                0.24
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21025": {
+        "id": "21025",
+        "skill": "Kites From the Past",
+        "desc": "When the wearer uses their Skill, the next ally taking action (except the wearer) deals #1[i]% increased DMG for #2[i] turn(s).",
+        "params": [
+            [
+                0.16,
+                1
+            ],
+            [
+                0.2,
+                1
+            ],
+            [
+                0.24,
+                1
+            ],
+            [
+                0.28,
+                1
+            ],
+            [
+                0.32,
+                1
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21026": {
+        "id": "21026",
+        "skill": "Run!",
+        "desc": "Increases the wearer's ATK by #1[i]%, and increases their DMG to enemies afflicted with Burn or Bleed by #2[i]%. This also applies to DoT.",
+        "params": [
+            [
+                0.1,
+                0.16
+            ],
+            [
+                0.125,
+                0.2
+            ],
+            [
+                0.15,
+                0.24
+            ],
+            [
+                0.175,
+                0.28
+            ],
+            [
+                0.2,
+                0.32
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.125
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.15
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.175
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "21027": {
+        "id": "21027",
+        "skill": "Get Ready",
+        "desc": "Increases the wearer's DMG by #1[i]%. For every enemy defeated by the wearer, the wearer's ATK increases by #2[i]%, stacking up to #3[i] time(s).",
+        "params": [
+            [
+                0.12,
+                0.04,
+                3
+            ],
+            [
+                0.15,
+                0.05,
+                3
+            ],
+            [
+                0.18,
+                0.06,
+                3
+            ],
+            [
+                0.21,
+                0.07,
+                3
+            ],
+            [
+                0.24,
+                0.08,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.15
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.24
+                }
+            ]
+        ]
+    },
+    "21028": {
+        "id": "21028",
+        "skill": "Tiny Light",
+        "desc": "Increases the wearer's Max HP by #1[i]%. When using Basic ATK or Skill, restores all allies' HP by an amount equal to #2[f1]% of their respective Max HP.",
+        "params": [
+            [
+                0.16,
+                0.02
+            ],
+            [
+                0.2,
+                0.025
+            ],
+            [
+                0.24,
+                0.03
+            ],
+            [
+                0.28,
+                0.035
+            ],
+            [
+                0.32,
+                0.04
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21029": {
+        "id": "21029",
+        "skill": "A Discourse in Arms",
+        "desc": "After the wearer uses Basic ATK or Skill, deals Additional DMG equal to #1[i]% of the wearer's ATK to a random enemy that has been attacked.",
+        "params": [
+            [
+                0.48
+            ],
+            [
+                0.6
+            ],
+            [
+                0.72
+            ],
+            [
+                0.84
+            ],
+            [
+                0.96
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21030": {
+        "id": "21030",
+        "skill": "New Chapter",
+        "desc": "Increases the wearer's DEF by #1[i]%. Increases the DMG of the wearer when they use their Ultimate by #2[i]% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate.",
+        "params": [
+            [
+                0.16,
+                0.6
+            ],
+            [
+                0.2,
+                0.75
+            ],
+            [
+                0.24,
+                0.9
+            ],
+            [
+                0.28,
+                1.05
+            ],
+            [
+                0.32,
+                1.2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "21031": {
+        "id": "21031",
+        "skill": "Raging Waves",
+        "desc": "Increases the wearer's CRIT Rate by #1[i]%. After a CRIT Hit, there is a #2[i]% fixed chance to dispel 1 buff on the target enemy. This effect can only trigger 1 time per attack.",
+        "params": [
+            [
+                0.12,
+                0.16
+            ],
+            [
+                0.15,
+                0.2
+            ],
+            [
+                0.18,
+                0.24
+            ],
+            [
+                0.21,
+                0.28
+            ],
+            [
+                0.24,
+                0.32
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.15
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.24
+                }
+            ]
+        ]
+    },
+    "21032": {
+        "id": "21032",
+        "skill": "Secret",
+        "desc": "At the start of the battle and whenever the wearer's turn begins, one of the following effects is applied randomly: All allies' ATK increases by #1[i]%, all allies' CRIT DMG increases by #2[i]%, or all allies' Energy Regeneration Rate increases by #3[i]%. The applied effect cannot be identical to the last effect applied, and will replace the previous effect. The applied effect will be removed when the wearer has been knocked down. Effects of the similar type cannot be stacked.",
+        "params": [
+            [
+                0.1,
+                0.12,
+                0.06
+            ],
+            [
+                0.125,
+                0.15,
+                0.075
+            ],
+            [
+                0.15,
+                0.18,
+                0.09
+            ],
+            [
+                0.175,
+                0.21,
+                0.105
+            ],
+            [
+                0.2,
+                0.24,
+                0.12
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21033": {
+        "id": "21033",
+        "skill": "Desperate Times",
+        "desc": "Increases the wearer's ATK by #1[i]%. Whenever the wearer defeats an enemy, they restore HP equal to #2[i]% of their ATK.",
+        "params": [
+            [
+                0.24,
+                0.12
+            ],
+            [
+                0.3,
+                0.15
+            ],
+            [
+                0.36,
+                0.18
+            ],
+            [
+                0.42,
+                0.21
+            ],
+            [
+                0.48,
+                0.24
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.48
+                }
+            ]
+        ]
+    },
+    "21034": {
+        "id": "21034",
+        "skill": "A Storm Is Coming",
+        "desc": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by #1[f2]% per point of Energy, up to #2[i] Energy.",
+        "params": [
+            [
+                0.002,
+                160
+            ],
+            [
+                0.0025,
+                160
+            ],
+            [
+                0.003,
+                160
+            ],
+            [
+                0.0035,
+                160
+            ],
+            [
+                0.004,
+                160
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21035": {
+        "id": "21035",
+        "skill": "Hypothesis",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. After using Basic ATK, restores HP for the wearer by an amount equal to #2[f1]% of Max HP plus #3[i].",
+        "params": [
+            [
+                0.24,
+                0.02,
+                800
+            ],
+            [
+                0.3,
+                0.025,
+                800
+            ],
+            [
+                0.36,
+                0.03,
+                800
+            ],
+            [
+                0.42,
+                0.035,
+                800
+            ],
+            [
+                0.48,
+                0.04,
+                800
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.48
+                }
+            ]
+        ]
+    },
+    "21036": {
+        "id": "21036",
+        "skill": "Solidarity",
+        "desc": "After the wearer uses a certain type of ability such as Basic ATK, Skill, or Ultimate, all allies gain Childishness, which increases allies' DMG for the same type of ability as used by the wearer by #1[i]%. Childishness only takes effect for the most recent type of ability the wearer used and cannot be stacked.",
+        "params": [
+            [
+                0.12
+            ],
+            [
+                0.14
+            ],
+            [
+                0.16
+            ],
+            [
+                0.18
+            ],
+            [
+                0.2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21037": {
+        "id": "21037",
+        "skill": "All In",
+        "desc": "Increases the wearer's ATK by #1[i]%. When the wearer lands a CRIT hit on enemies, gains a stack of Good Fortune, stacking up to #3[i] time(s). Every stack of Good Fortune the wearer has will increase their CRIT DMG by #2[i]%. Good Fortune will be removed at the end of the wearer's turn.",
+        "params": [
+            [
+                0.12,
+                0.08,
+                4
+            ],
+            [
+                0.14,
+                0.09,
+                4
+            ],
+            [
+                0.16,
+                0.1,
+                4
+            ],
+            [
+                0.18,
+                0.11,
+                4
+            ],
+            [
+                0.2,
+                0.12,
+                4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "21038": {
+        "id": "21038",
+        "skill": "Deflagration",
+        "desc": "When the cumulative HP loss of the wearer during a single attack exceeds #1[i]% of their Max HP, or if the amount of their own HP they consume at one time is greater than #1[i]% of their Max HP, immediately heals the wearer for #3[i]% of their Max HP, and at the same time, increases the DMG they deal by #2[i]% for #4[i] turn(s). This effect can only be triggered once every #5[i] turn(s).",
+        "params": [
+            [
+                0.25,
+                0.25,
+                0.15,
+                2,
+                3
+            ],
+            [
+                0.25,
+                0.3125,
+                0.15,
+                2,
+                3
+            ],
+            [
+                0.25,
+                0.375,
+                0.15,
+                2,
+                3
+            ],
+            [
+                0.25,
+                0.4375,
+                0.15,
+                2,
+                3
+            ],
+            [
+                0.25,
+                0.5,
+                0.15,
+                2,
+                3
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21039": {
+        "id": "21039",
+        "skill": "Insight",
+        "desc": "Increases the wearer's Effect RES by #1[i]%. For every #2[i] of DEF the wearer has, increases the wearer's DMG dealt by #3[f1]%, up to a maximum DMG increase of #4[i]%.",
+        "params": [
+            [
+                0.12,
+                100,
+                0.008,
+                0.32
+            ],
+            [
+                0.14,
+                100,
+                0.009,
+                0.36
+            ],
+            [
+                0.16,
+                100,
+                0.01,
+                0.4
+            ],
+            [
+                0.18,
+                100,
+                0.011,
+                0.44
+            ],
+            [
+                0.2,
+                100,
+                0.012,
+                0.48
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "21040": {
+        "id": "21040",
+        "skill": "Stratagem",
+        "desc": "Increases the wearer's ATK by #1[i]%. When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by #2[i]% for #3[i] turn(s).",
+        "params": [
+            [
+                0.16,
+                0.2,
+                2
+            ],
+            [
+                0.18,
+                0.25,
+                2
+            ],
+            [
+                0.2,
+                0.3,
+                2
+            ],
+            [
+                0.22,
+                0.35,
+                2
+            ],
+            [
+                0.24,
+                0.4,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.22
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ]
+        ]
+    },
+    "21041": {
+        "id": "21041",
+        "skill": "Self-Amusement",
+        "desc": "When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by #1[i]%, stacking up to #2[i] time(s). This effect lasts for #3[i] turn(s). When the wearer's Effect Hit Rate is #4[i]% or higher, increases ATK by #5[i]%.",
+        "params": [
+            [
+                0.06,
+                3,
+                1,
+                0.8,
+                0.2
+            ],
+            [
+                0.07,
+                3,
+                1,
+                0.8,
+                0.24
+            ],
+            [
+                0.08,
+                3,
+                1,
+                0.8,
+                0.28
+            ],
+            [
+                0.09,
+                3,
+                1,
+                0.8,
+                0.32
+            ],
+            [
+                0.1,
+                3,
+                1,
+                0.8,
+                0.36
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "21042": {
+        "id": "21042",
+        "skill": "Inheritance",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases CRIT Rate by #2[i]%, lasting for #3[i] turn(s).",
+        "params": [
+            [
+                0.28,
+                0.15,
+                2
+            ],
+            [
+                0.35,
+                0.1875,
+                2
+            ],
+            [
+                0.42,
+                0.225,
+                2
+            ],
+            [
+                0.49,
+                0.2625,
+                2
+            ],
+            [
+                0.56,
+                0.3,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.49
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.56
+                }
+            ]
+        ]
+    },
+    "22000": {
+        "id": "22000",
+        "skill": "Quick on the Draw",
+        "desc": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer attacks DEF-reduced enemies, regenerates #2[i] Energy.",
+        "params": [
+            [
+                0.2,
+                4
+            ],
+            [
+                0.25,
+                5
+            ],
+            [
+                0.3,
+                6
+            ],
+            [
+                0.35,
+                7
+            ],
+            [
+                0.4,
+                8
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.25
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "22001": {
+        "id": "22001",
+        "skill": "I'm Not Afraid!",
+        "desc": "Increases the wearer's Max HP by #1[i]%. When the wearer uses their Skill, increases Outgoing Healing by #2[i]%, lasting for #3[i] turn(s).",
+        "params": [
+            [
+                0.08,
+                0.16,
+                2
+            ],
+            [
+                0.09,
+                0.19,
+                2
+            ],
+            [
+                0.1,
+                0.22,
+                2
+            ],
+            [
+                0.11,
+                0.25,
+                2
+            ],
+            [
+                0.12,
+                0.28,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.08
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.09
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.11
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.12
+                }
+            ]
+        ]
+    },
+    "23000": {
+        "id": "23000",
+        "skill": "Meteor Swarm",
+        "desc": "For every enemy on the field, increases the wearer's ATK by #2[f1]%, up to 5 stacks. When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by #1[i]% for 1 turn.",
+        "params": [
+            [
+                0.3,
+                0.09
+            ],
+            [
+                0.35,
+                0.105
+            ],
+            [
+                0.4,
+                0.12
+            ],
+            [
+                0.45,
+                0.135
+            ],
+            [
+                0.5,
+                0.15
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "23001": {
+        "id": "23001",
+        "skill": "Flowers and Butterflies",
+        "desc": "Increases the wearer's CRIT Rate by #1[i]%. While the wearer is in battle, for every #2[i] SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by #3[i]% and the CRIT DMG of their Ultimate is increased by #4[i]%. This effect can stack up to #5[i] time(s).",
+        "params": [
+            [
+                0.18,
+                10,
+                0.06,
+                0.12,
+                6
+            ],
+            [
+                0.21,
+                10,
+                0.07,
+                0.14,
+                6
+            ],
+            [
+                0.24,
+                10,
+                0.08,
+                0.16,
+                6
+            ],
+            [
+                0.27,
+                10,
+                0.09,
+                0.18,
+                6
+            ],
+            [
+                0.3,
+                10,
+                0.1,
+                0.2,
+                6
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.27
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.3
+                }
+            ]
+        ]
+    },
+    "23002": {
+        "id": "23002",
+        "skill": "Kinship",
+        "desc": "Increases the wearer's ATK by #1[i]%. When the wearer defeats an enemy or is hit, immediately restores HP equal to #2[i]% of the wearer's ATK. At the same time, the wearer's DMG is increased by #3[i]% until the end of their next turn. This effect cannot stack and can only trigger 1 time per turn.",
+        "params": [
+            [
+                0.24,
+                0.08,
+                0.24
+            ],
+            [
+                0.28,
+                0.09,
+                0.28
+            ],
+            [
+                0.32,
+                0.1,
+                0.32
+            ],
+            [
+                0.36,
+                0.11,
+                0.36
+            ],
+            [
+                0.4,
+                0.12,
+                0.4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "23003": {
+        "id": "23003",
+        "skill": "Heir",
+        "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]% and regenerates 1 Skill Point when the wearer uses their Ultimate on an ally. This effect can be triggered once after every 2 uses of the wearer's Ultimate. When the wearer uses their Skill, the next ally taking action (except the wearer) deals #2[i]% more DMG for #3[i] turn(s).",
+        "params": [
+            [
+                0.1,
+                0.3,
+                1
+            ],
+            [
+                0.12,
+                0.35,
+                1
+            ],
+            [
+                0.14,
+                0.4,
+                1
+            ],
+            [
+                0.16,
+                0.45,
+                1
+            ],
+            [
+                0.18,
+                0.5,
+                1
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.18
+                }
+            ]
+        ]
+    },
+    "23004": {
+        "id": "23004",
+        "skill": "Inheritor",
+        "desc": "Increases the wearer's DMG to debuffed enemies by #1[i]%. When the wearer uses their Skill, the Effect Hit Rate for this attack increases by #2[i]%, and ATK increases by #3[i]%.",
+        "params": [
+            [
+                0.24,
+                0.18,
+                0.24
+            ],
+            [
+                0.28,
+                0.21,
+                0.28
+            ],
+            [
+                0.32,
+                0.24,
+                0.32
+            ],
+            [
+                0.36,
+                0.27,
+                0.36
+            ],
+            [
+                0.4,
+                0.3,
+                0.4
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "23005": {
+        "id": "23005",
+        "skill": "Verdict",
+        "desc": "Increases the wearer's DEF by #2[i]% and Effect Hit Rate by #4[i]%. Increases the chance for the wearer to be attacked by enemies. When the wearer is attacked, increase their DEF by an extra #3[i]% until the end of the wearer's turn.",
+        "params": [
+            [
+                2,
+                0.24,
+                0.24,
+                0.24
+            ],
+            [
+                2,
+                0.28,
+                0.28,
+                0.28
+            ],
+            [
+                2,
+                0.32,
+                0.32,
+                0.32
+            ],
+            [
+                2,
+                0.36,
+                0.36,
+                0.36
+            ],
+            [
+                2,
+                0.4,
+                0.4,
+                0.4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.24
+                },
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.28
+                },
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.32
+                },
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.36
+                },
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "DefenceAddedRatio",
+                    "value": 0.4
+                },
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "23006": {
+        "id": "23006",
+        "skill": "Spider Web",
+        "desc": "Increases DMG dealt by the wearer by #2[i]%. After every attack launched by wearer, their SPD increases by #3[f1]%, stacking up to #4[i] times.\nIf the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to #1[i]% of the wearer's ATK, lasting for #5[i] turn(s).",
+        "params": [
+            [
+                0.6,
+                0.24,
+                0.048,
+                3,
+                1
+            ],
+            [
+                0.7,
+                0.28,
+                0.056,
+                3,
+                1
+            ],
+            [
+                0.8,
+                0.32,
+                0.064,
+                3,
+                1
+            ],
+            [
+                0.9,
+                0.36,
+                0.072,
+                3,
+                1
+            ],
+            [
+                1,
+                0.4,
+                0.08,
+                3,
+                1
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "AllDamageTypeAddedRatio",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "23007": {
+        "id": "23007",
+        "skill": "Mirage of Reality",
+        "desc": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer deals DMG to an enemy that currently has #4[i] or more debuffs, increases the wearer's CRIT Rate by #5[i]%. After the wearer uses their Basic ATK, Skill, or Ultimate, there is a #2[i]% base chance to implant Aether Code on a random hit target that does not yet have it. Targets with Aether Code receive #3[i]% increased DMG for 1 turn.",
+        "params": [
+            [
+                0.24,
+                1,
+                0.12,
+                3,
+                0.12
+            ],
+            [
+                0.28,
+                1,
+                0.14,
+                3,
+                0.14
+            ],
+            [
+                0.32,
+                1,
+                0.16,
+                3,
+                0.16
+            ],
+            [
+                0.36,
+                1,
+                0.18,
+                3,
+                0.18
+            ],
+            [
+                0.4,
+                1,
+                0.2,
+                3,
+                0.2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "23008": {
+        "id": "23008",
+        "skill": "Thorns",
+        "desc": "Increases the wearer's ATK by #1[i]%. After the wearer uses an attack, for each different enemy target the wearer hits, regenerates #3[f1] Energy. Each attack can regenerate Energy up to #4[i] time(s) this way. After the wearer uses their Ultimate, all allies gain #2[i] SPD for 1 turn.",
+        "params": [
+            [
+                0.24,
+                12,
+                3,
+                3
+            ],
+            [
+                0.28,
+                14,
+                3.5,
+                3
+            ],
+            [
+                0.32,
+                16,
+                4,
+                3
+            ],
+            [
+                0.36,
+                18,
+                4.5,
+                3
+            ],
+            [
+                0.4,
+                20,
+                5,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.28
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "AttackAddedRatio",
+                    "value": 0.4
+                }
+            ]
+        ]
+    },
+    "23009": {
+        "id": "23009",
+        "skill": "Unfulfilled Yearning",
+        "desc": "Increases the wearer's CRIT rate by #1[i]% and increases their Max HP by #2[i]%. When the wearer is attacked or consumes their own HP, their DMG increases by #3[i]%. This effect is removed after the wearer uses an attack.",
+        "params": [
+            [
+                0.18,
+                0.18,
+                0.24
+            ],
+            [
+                0.21,
+                0.21,
+                0.28
+            ],
+            [
+                0.24,
+                0.24,
+                0.32
+            ],
+            [
+                0.27,
+                0.27,
+                0.36
+            ],
+            [
+                0.3,
+                0.3,
+                0.4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.18
+                },
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.21
+                },
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.24
+                },
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.27
+                },
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.27
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.3
+                },
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.3
+                }
+            ]
+        ]
+    },
+    "23010": {
+        "id": "23010",
+        "skill": "Long Night",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. Increases the wearer's Skill and Ultimate DMG by #2[i]%. After the wearer uses their Skill or Ultimate, they gain Somnus Corpus. Upon triggering a follow-up attack, Somnus Corpus will be consumed and the follow-up attack DMG increases by #3[i]%.",
+        "params": [
+            [
+                0.36,
+                0.18,
+                0.48
+            ],
+            [
+                0.42,
+                0.21,
+                0.56
+            ],
+            [
+                0.48,
+                0.24,
+                0.64
+            ],
+            [
+                0.54,
+                0.27,
+                0.72
+            ],
+            [
+                0.6,
+                0.3,
+                0.8
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.48
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.54
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.6
+                }
+            ]
+        ]
+    },
+    "23011": {
+        "id": "23011",
+        "skill": "Visioscape",
+        "desc": "Increases the wearer's Max HP by #1[i]% and Energy Regeneration Rate by #4[i]%. When the wearer's HP is reduced, all allies' DMG dealt increases by #2[f1]%, lasting for #5[i] turn(s).\nAt the start of every wave, restores HP to all allies by an amount equal to #3[i]% of their respective lost HP.",
+        "params": [
+            [
+                0.24,
+                0.09,
+                0.8,
+                0.12,
+                2
+            ],
+            [
+                0.28,
+                0.105,
+                0.85,
+                0.14,
+                2
+            ],
+            [
+                0.32,
+                0.12,
+                0.9,
+                0.16,
+                2
+            ],
+            [
+                0.36,
+                0.135,
+                0.95,
+                0.18,
+                2
+            ],
+            [
+                0.4,
+                0.15,
+                1,
+                0.2,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.24
+                },
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.28
+                },
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.32
+                },
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.36
+                },
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.4
+                },
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "23012": {
+        "id": "23012",
+        "skill": "Sweet Dreams",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by #2[i]% for #3[i] turn(s). This effect can only trigger once every #4[i] turn(s).",
+        "params": [
+            [
+                0.3,
+                0.36,
+                1,
+                3
+            ],
+            [
+                0.35,
+                0.42,
+                1,
+                3
+            ],
+            [
+                0.4,
+                0.48,
+                1,
+                3
+            ],
+            [
+                0.45,
+                0.54,
+                1,
+                3
+            ],
+            [
+                0.5,
+                0.6,
+                1,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.4
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.45
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.5
+                }
+            ]
+        ]
+    },
+    "23013": {
+        "id": "23013",
+        "skill": "Morn, Noon, Dusk, and Night",
+        "desc": "Increases the wearer's Max HP by #1[i]% and Outgoing Healing by #2[i]%. When the wearer heals allies, record the amount of Outgoing Healing. When any ally launches an attack, a random attacked enemy takes Additional DMG equal to #3[i]% of the recorded Outgoing Healing value. The type of this Additional DMG is of the same Type as the wearer's. This Additional DMG is not affected by other buffs, and can only occur 1 time per turn.",
+        "params": [
+            [
+                0.18,
+                0.12,
+                0.36
+            ],
+            [
+                0.21,
+                0.14,
+                0.42
+            ],
+            [
+                0.24,
+                0.16,
+                0.48
+            ],
+            [
+                0.27,
+                0.18,
+                0.54
+            ],
+            [
+                0.3,
+                0.2,
+                0.6
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.18
+                },
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.21
+                },
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.24
+                },
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.27
+                },
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "HPAddedRatio",
+                    "value": 0.3
+                },
+                {
+                    "type": "HealRatioBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "23014": {
+        "id": "23014",
+        "skill": "With This Evening Jade",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%. When #2[i] stack(s) are reached, additionally enables that attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
+        "params": [
+            [
+                0.2,
+                3,
+                0.14,
+                0.12
+            ],
+            [
+                0.23,
+                3,
+                0.165,
+                0.14
+            ],
+            [
+                0.26,
+                3,
+                0.19,
+                0.16
+            ],
+            [
+                0.29,
+                3,
+                0.215,
+                0.18
+            ],
+            [
+                0.32,
+                3,
+                0.24,
+                0.2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.23
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.26
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.29
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "23015": {
+        "id": "23015",
+        "skill": "Defiant Till Death",
+        "desc": "Increases the wearer's CRIT Rate by #1[i]%. When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for #2[i] turns. Each stack of Dragon's Call increases the wearer's ATK by #4[i]% and Energy Regeneration Rate by #5[f1]%. Dragon's Call can be stacked up to #3[i] times.",
+        "params": [
+            [
+                0.18,
+                2,
+                2,
+                0.18,
+                0.06
+            ],
+            [
+                0.21,
+                2,
+                2,
+                0.21,
+                0.07
+            ],
+            [
+                0.24,
+                2,
+                2,
+                0.24,
+                0.08
+            ],
+            [
+                0.27,
+                2,
+                2,
+                0.27,
+                0.09
+            ],
+            [
+                0.3,
+                2,
+                2,
+                0.3,
+                0.1
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.27
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.3
+                }
+            ]
+        ]
+    },
+    "23016": {
+        "id": "23016",
+        "skill": "One At A Time",
+        "desc": "Increase the wearer's CRIT Rate by #1[i]% and their follow-up attacks' DMG by #2[i]%. After the wearer uses a follow-up attack, apply the Tame state to the target, stacking up to #4[i] stacks. When allies hit enemy targets under the Tame state, every Tame stack increases the CRIT DMG dealt by #3[i]%.",
+        "params": [
+            [
+                0.18,
+                0.3,
+                0.12,
+                2
+            ],
+            [
+                0.21,
+                0.35,
+                0.14,
+                2
+            ],
+            [
+                0.24,
+                0.4,
+                0.16,
+                2
+            ],
+            [
+                0.27,
+                0.45,
+                0.18,
+                2
+            ],
+            [
+                0.3,
+                0.5,
+                0.2,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.21
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.24
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.27
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.3
+                }
+            ]
+        ]
+    },
+    "23017": {
+        "id": "23017",
+        "skill": "Deep, Deep Breaths",
+        "desc": "Increases the wearer's Energy Regeneration Rate by #1[i]%. When any ally uses their Ultimate, the wearer restores HP for the ally currently with the lowest HP percentage by an amount equal to #2[i]% of the healed ally's Max HP. When the wearer provides healing for an ally, increases the healed ally's ATK by #3[f1]%. This effect can stack up to #4[i] times and lasts for #5[i] turn(s).",
+        "params": [
+            [
+                0.12,
+                0.1,
+                0.024,
+                5,
+                2
+            ],
+            [
+                0.14,
+                0.11,
+                0.028,
+                5,
+                2
+            ],
+            [
+                0.16,
+                0.12,
+                0.032,
+                5,
+                2
+            ],
+            [
+                0.18,
+                0.13,
+                0.036,
+                5,
+                2
+            ],
+            [
+                0.2,
+                0.14,
+                0.04,
+                5,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.16
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.18
+                }
+            ],
+            [
+                {
+                    "type": "SPRatioBase",
+                    "value": 0.2
+                }
+            ]
+        ]
+    },
+    "23018": {
+        "id": "23018",
+        "skill": "A Knight's Pilgrimage",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by #2[f2]%, up to #3[i] points of Energy.",
+        "params": [
+            [
+                0.36,
+                0.0036,
+                180
+            ],
+            [
+                0.42,
+                0.0042,
+                180
+            ],
+            [
+                0.48,
+                0.0048,
+                180
+            ],
+            [
+                0.54,
+                0.0054,
+                180
+            ],
+            [
+                0.6,
+                0.006,
+                180
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.36
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.42
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.48
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.54
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.6
+                }
+            ]
+        ]
+    },
+    "23019": {
+        "id": "23019",
+        "skill": "The Plum Fragrance In My Bones",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s). Should the wearer's Break Effect exceed or equal #4[i]%, 1 Skill Point will be recovered.\nAt the start of each wave, all allies regenerate #5[f1] Energy immediately. Effects of the same type cannot stack.",
+        "params": [
+            [
+                0.6,
+                0.24,
+                3,
+                1.5,
+                10
+            ],
+            [
+                0.7,
+                0.28,
+                3,
+                1.5,
+                12.5
+            ],
+            [
+                0.8,
+                0.32,
+                3,
+                1.5,
+                15
+            ],
+            [
+                0.9,
+                0.36,
+                3,
+                1.5,
+                17.5
+            ],
+            [
+                1,
+                0.4,
+                3,
+                1.5,
+                20
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.6
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.7
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.8
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.9
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 1
+                }
+            ]
+        ]
+    },
+    "23020": {
+        "id": "23020",
+        "skill": "Mental Training",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. For every debuff on the enemy target, the wearer's CRIT DMG dealt against this target additionally increases by #2[i]%, stacking up to #3[i] times. When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
+        "params": [
+            [
+                0.2,
+                0.08,
+                3,
+                0.36,
+                0.24,
+                2
+            ],
+            [
+                0.23,
+                0.09,
+                3,
+                0.42,
+                0.28,
+                2
+            ],
+            [
+                0.26,
+                0.1,
+                3,
+                0.48,
+                0.32,
+                2
+            ],
+            [
+                0.29,
+                0.11,
+                3,
+                0.54,
+                0.36,
+                2
+            ],
+            [
+                0.32,
+                0.12,
+                3,
+                0.6,
+                0.4,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.23
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.26
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.29
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.32
+                }
+            ]
+        ]
+    },
+    "23021": {
+        "id": "23021",
+        "skill": "Capriciousness",
+        "desc": "Increases the wearer's CRIT DMG by #1[i]%. At the start of the battle, the wearer gains Mask, lasting for #6[i] turn(s). While the wearer has Mask, the wearer's allies have their CRIT Rate increased by #5[i]% and their CRIT DMG increased by #2[i]%. For every 1 Skill Point the wearer recovers (including Skill Points that exceed the limit), they gain 1 stack of Radiant Flame. And when the wearer has #4[i] stacks of Radiant Flame, all the stacks are removed, and they gain Mask for #3[i] turn(s).",
+        "params": [
+            [
+                0.32,
+                0.28,
+                4,
+                4,
+                0.1,
+                3
+            ],
+            [
+                0.39,
+                0.35,
+                4,
+                4,
+                0.11,
+                3
+            ],
+            [
+                0.46,
+                0.42,
+                4,
+                4,
+                0.12,
+                3
+            ],
+            [
+                0.53,
+                0.49,
+                4,
+                4,
+                0.13,
+                3
+            ],
+            [
+                0.6,
+                0.56,
+                4,
+                4,
+                0.14,
+                3
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.32
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.39
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.46
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.53
+                }
+            ],
+            [
+                {
+                    "type": "CriticalDamageBase",
+                    "value": 0.6
+                }
+            ]
+        ]
+    },
+    "23022": {
+        "id": "23022",
+        "skill": "Crystallize",
+        "desc": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to #4[i] time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by #2[i]% and enables the DoT dealt to ignore #3[f1]% of the target's DEF.",
+        "params": [
+            [
+                0.4,
+                0.05,
+                0.072,
+                4
+            ],
+            [
+                0.45,
+                0.06,
+                0.079,
+                4
+            ],
+            [
+                0.5,
+                0.07,
+                0.086,
+                4
+            ],
+            [
+                0.55,
+                0.08,
+                0.093,
+                4
+            ],
+            [
+                0.6,
+                0.09,
+                0.1,
+                4
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.4
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.45
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.5
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.55
+                }
+            ],
+            [
+                {
+                    "type": "StatusProbabilityBase",
+                    "value": 0.6
+                }
+            ]
+        ]
+    },
+    "24000": {
+        "id": "24000",
+        "skill": "Moth to Flames",
+        "desc": "Whenever the wearer attacks, their ATK is increased by #1[i]% in this battle. This effect can stack up to #2[i] time(s). After a character inflicts Weakness Break on an enemy, the wearer's DMG increases by #3[i]% for #4[i] turn(s).",
+        "params": [
+            [
+                0.08,
+                4,
+                0.12,
+                2
+            ],
+            [
+                0.1,
+                4,
+                0.15,
+                2
+            ],
+            [
+                0.12,
+                4,
+                0.18,
+                2
+            ],
+            [
+                0.14,
+                4,
+                0.21,
+                2
+            ],
+            [
+                0.16,
+                4,
+                0.24,
+                2
+            ]
+        ],
+        "properties": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    "24001": {
+        "id": "24001",
+        "skill": "Chase",
+        "desc": "Increases the wearer's CRIT rate by #1[i]%, and increases their CRIT rate against enemies with HP less than or equal to #2[i]% by an extra #3[i]%. When the wearer defeats an enemy, their ATK is increased by #4[i]% for #5[i] turn(s).",
+        "params": [
+            [
+                0.08,
+                0.5,
+                0.08,
+                0.2,
+                2
+            ],
+            [
+                0.1,
+                0.5,
+                0.1,
+                0.25,
+                2
+            ],
+            [
+                0.12,
+                0.5,
+                0.12,
+                0.3,
+                2
+            ],
+            [
+                0.14,
+                0.5,
+                0.14,
+                0.35,
+                2
+            ],
+            [
+                0.16,
+                0.5,
+                0.16,
+                0.4,
+                2
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.08
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.16
+                }
+            ]
+        ]
+    },
+    "24002": {
+        "id": "24002",
+        "skill": "Treasure",
+        "desc": "Increases the wearer's Effect RES by #1[i]%. If the wearer is attacked and has no Shield, they gain a Shield equal to #2[i]% of their Max HP for #3[i] turn(s). This effect can only be triggered once every #4[i] turn(s). If the wearer has a Shield when attacked, the DMG they receive decreases by #5[i]%.",
+        "params": [
+            [
+                0.08,
+                0.16,
+                2,
+                3,
+                0.12
+            ],
+            [
+                0.1,
+                0.2,
+                2,
+                3,
+                0.15
+            ],
+            [
+                0.12,
+                0.24,
+                2,
+                3,
+                0.18
+            ],
+            [
+                0.14,
+                0.28,
+                2,
+                3,
+                0.21
+            ],
+            [
+                0.16,
+                0.32,
+                2,
+                3,
+                0.24
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.08
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.1
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.12
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.14
+                }
+            ],
+            [
+                {
+                    "type": "StatusResistanceBase",
+                    "value": 0.16
+                }
+            ]
+        ]
+    },
+    "24003": {
+        "id": "24003",
+        "skill": "Chaos Elixir",
+        "desc": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases DoT dealt by the wearer by #2[i]%, lasting for #3[i] turn(s). When a target enemy suffering from DoT imposed by the wearer is defeated, regenerates #4[f1] Energy for the wearer.",
+        "params": [
+            [
+                0.2,
+                0.24,
+                2,
+                4
+            ],
+            [
+                0.25,
+                0.3,
+                2,
+                4.5
+            ],
+            [
+                0.3,
+                0.36,
+                2,
+                5
+            ],
+            [
+                0.35,
+                0.42,
+                2,
+                5.5
+            ],
+            [
+                0.4,
+                0.48,
+                2,
+                6
+            ]
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.2
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.25
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.3
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.35
+                }
+            ],
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.4
+                }
+            ]
+        ]
+    }
+}

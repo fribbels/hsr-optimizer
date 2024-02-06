@@ -303,6 +303,44 @@
         "icon": "icon/relic/116.png",
         "guide_overview": []
     },
+    "117": {
+        "id": "117",
+        "name": "Pioneer Diver of Dead Waters",
+        "desc": [
+            "Increases DMG dealt to enemies with debuff by 12%.",
+            "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
+        ],
+        "properties": [
+            [],
+            [
+                {
+                    "type": "CriticalChanceBase",
+                    "value": 0.04
+                }
+            ]
+        ],
+        "icon": "icon/relic/117.png",
+        "guide_overview": []
+    },
+    "118": {
+        "id": "118",
+        "name": "Watchmaker, Master of Dream Machinations",
+        "desc": [
+            "Increases Break Effect by 16%.",
+            "When the wearer uses their Ultimate on an ally, Break Effect for all allies increases by 30% for 2 turn(s). This effect cannot be stacked."
+        ],
+        "properties": [
+            [
+                {
+                    "type": "BreakDamageAddedRatioBase",
+                    "value": 0.16
+                }
+            ],
+            []
+        ],
+        "icon": "icon/relic/118.png",
+        "guide_overview": []
+    },
     "301": {
         "id": "301",
         "name": "Space Sealing Station",

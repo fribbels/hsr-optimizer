@@ -1,46 +1,53 @@
-import React from 'react';
-import { Divider, Flex, Image, Typography } from 'antd';
-import RelicPreview from './RelicPreview';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import { Flex, Image } from 'antd';
 import PropTypes from 'prop-types';
-import { RelicScorer } from '../lib/relicScorer.ts';
-import { StatCalculator } from '../lib/statCalculator';
-import { DB } from '../lib/db';
-import { Assets } from '../lib/assets';
-import { Utils } from '../lib/utils';
-import { Constants } from '../lib/constants.ts';
+import { RelicScorer } from 'lib/relicScorer.ts';
+import { StatCalculator } from 'lib/statCalculator';
+import { DB } from 'lib/db';
+import { Assets } from 'lib/assets';
+import { Constants } from 'lib/constants.ts';
+import {
+  defaultGap,
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  middleColumnWidth,
+  parentH,
+  parentW,
+} from 'lib/constantsUi';
 
-const { Text } = Typography;
+import Rarity from 'components/characterPreview/Rarity';
+import StatRow from 'components/characterPreview/StatRow';
+import StatText from 'components/characterPreview/StatText';
+import RelicModal from 'components/RelicModal';
+import RelicPreview from 'components/RelicPreview';
+import { RelicModalController } from "../lib/relicModalController";
 
-const StatText = styled(Text)`
-  font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
-  font-size: 17px;
-  font-weight: 400;
-`
-
-let defaultGap = 8;
-let parentH = 280 * 3 + defaultGap * 2;
-let parentW = 150 + 200 + defaultGap;
-let innerW = 1024;
-let lcParentH = 280;
-let lcParentW = 240;
-let lcInnerW = 250;
-let lcInnerH = 1260 / 902 * lcInnerW;
-let middleColumnWidth = 240;
-
+// This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
+const backgroundColor = '#182239'
 export function CharacterPreview(props) {
-  console.log('CharacterPreview', props)
+  console.log('@CharacterPreview')
 
   const { source, character } = props;
+  const isScorer = source == 'scorer';
 
-  let relicsById = global.store(s => s.relicsById)
-  let characterTabBlur = global.store(s => s.characterTabBlur);
-  let setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
-  let isScorer = source == 'scorer'
+  const relicsById = global.store(s => s.relicsById)
+  const characterTabBlur = global.store(s => s.characterTabBlur);
+  const setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
+  const [selectedRelic, setSelectedRelic] = useState();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
+  function onEditOk(relic) {
+    const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
+    setSelectedRelic(updatedRelic)
+  }
 
   if (!character) {
     return (
-      <Flex style={{ display: 'flex', height: parentH }} gap={defaultGap}>
+      <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
+
         <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
         </div>
 
@@ -52,15 +59,15 @@ export function CharacterPreview(props) {
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview />
-            <RelicPreview />
-            <RelicPreview />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview />
-            <RelicPreview />
-            <RelicPreview />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic} />
           </Flex>
         </Flex>
       </Flex>
@@ -87,32 +94,24 @@ export function CharacterPreview(props) {
     }
     finalStats = StatCalculator.calculate(character);
   }
-  let scoredRelics = scoringResults.relics || []
+  const scoredRelics = scoringResults.relics || []
 
-  console.log('SCORING RESULTS', scoringResults)
+  const lightConeId = character.form.lightCone
+  const lightConeLevel = character.form.lightConeLevel
+  const lightConeSuperimposition = character.form.lightConeSuperimposition
+  const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
+  const lightConeName = lightConeMetadata?.name || ''
+  const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
-  console.log({ finalStats })
-  console.log({ character })
+  const characterId = character.form.characterId
+  const characterLevel = character.form.characterLevel
+  const characterEidolon = character.form.characterEidolon
+  const characterMetadata = DB.getMetadata().characters[characterId]
+  const characterName = characterMetadata.displayName
+  const characterPath = characterMetadata.path
+  const characterElement = characterMetadata.element
 
-  let lightConeId = character.form.lightCone
-  let lightConeLevel = character.form.lightConeLevel
-  let lightConeSuperimposition = character.form.lightConeSuperimposition
-  let lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  let lightConeName = lightConeMetadata?.name || ''
-  let lightConeSrc = Assets.getLightConePortrait(lightConeMetadata)
-
-  let characterId = character.form.characterId
-  let characterLevel = character.form.characterLevel
-  let characterEidolon = character.form.characterEidolon
-  let characterMetadata = DB.getMetadata().characters[characterId]
-  let characterName = characterMetadata.displayName
-  let characterPath = characterMetadata.path
-  let characterElement = characterMetadata.element
-
-  console.log('Level ' + characterLevel + ' E' + characterEidolon)
-  console.log('Level ' + lightConeLevel + ' S' + lightConeSuperimposition)
-
-  let elementToDmgValueMapping = {
+  const elementToDmgValueMapping = {
     Physical: Constants.Stats.Physical_DMG,
     Fire: Constants.Stats.Fire_DMG,
     Ice: Constants.Stats.Ice_DMG,
@@ -121,62 +120,13 @@ export function CharacterPreview(props) {
     Quantum: Constants.Stats.Quantum_DMG,
     Imaginary: Constants.Stats.Imaginary_DMG,
   }
-  let elementalDmgValue = elementToDmgValueMapping[characterElement]
-  // let cv = character.cv
-
-  console.log({
-    lightConeMetadata,
-    characterMetadata
-  })
-
-  let iconSize = 25
-
-  function StatRow(props) {
-    const { stat } = props
-    let readableStat = stat.replace('DMG Boost', 'DMG')
-    let value = finalStats[stat]
-
-    if (stat == 'CV') {
-      value = Utils.truncate10ths(value).toFixed(1)
-    } else if (stat == Constants.Stats.SPD) {
-      value = Utils.truncate10ths(value).toFixed(1)
-    } else if (Utils.isFlat(stat)) {
-      value = Math.floor(value)
-    } else {
-      value = Utils.truncate10ths(value * 100).toFixed(1)
-    }
-
-    if (!finalStats) return console.log('No final stats');
-    return (
-      <Flex justify='space-between' align='center'>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <StatText>{readableStat}</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`${value}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
-      </Flex>
-    )
-  }
-  StatRow.propTypes = {
-    stat: PropTypes.string,
-  };
-
-  function Rarity() {
-    let children = []
-    for (let i = 0; i < characterMetadata.rarity; i++) {
-      children.push(
-        <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }} />
-      )
-    }
-    return (
-      <Flex gap={0} align='center'>
-        {children}
-      </Flex>
-    )
-  }
-
+  const elementalDmgValue = elementToDmgValueMapping[characterElement]
+  console.log(displayRelics);
   return (
-    <Flex style={{ display: character ? 'flex' : 'none', height: parentH }} gap={defaultGap}>
-      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
+    <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+
+      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
         <div
           style={{
             position: 'relative',
@@ -191,7 +141,7 @@ export function CharacterPreview(props) {
               width: innerW,
               filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
             }}
-            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 100)}
+            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
           />
         </div>
       </div>
@@ -206,7 +156,7 @@ export function CharacterPreview(props) {
                   width={50}
                   src={Assets.getElement(characterElement)}
                 />
-                <Rarity />
+                <Rarity rarity={characterMetadata.rarity} />
                 <Image
                   preview={false}
                   width={50}
@@ -224,27 +174,27 @@ export function CharacterPreview(props) {
             </Flex>
 
             <Flex vertical style={{ width: middleColumnWidth, paddingLeft: 8, paddingRight: 12 }} gap={4}>
-              <StatRow stat={Constants.Stats.HP} source={props.source} />
-              <StatRow stat={Constants.Stats.ATK} source={props.source} />
-              <StatRow stat={Constants.Stats.DEF} source={props.source} />
-              <StatRow stat={Constants.Stats.SPD} source={props.source} />
-              <StatRow stat={Constants.Stats.CR} source={props.source} />
-              <StatRow stat={Constants.Stats.CD} source={props.source} />
-              <StatRow stat={Constants.Stats.EHR} source={props.source} />
-              <StatRow stat={Constants.Stats.RES} source={props.source} />
-              <StatRow stat={Constants.Stats.BE} source={props.source} />
-              <StatRow stat={elementalDmgValue} source={props.source} />
-              <StatRow stat={'CV'} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.HP} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.ATK} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.DEF} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.SPD} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.CR} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.CD} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.EHR} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.RES} source={props.source} />
+              <StatRow finalStats={finalStats} stat={Constants.Stats.BE} source={props.source} />
+              <StatRow finalStats={finalStats} stat={elementalDmgValue} source={props.source} />
+              <StatRow finalStats={finalStats} stat={'CV'} source={props.source} />
             </Flex>
 
             <Flex vertical>
-              <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }} ellipsis={false}>
+              <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
                 {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
               </StatText>
             </Flex>
 
             <Flex vertical>
-              <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }} ellipsis={true}>
+              <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                 {`${lightConeName}`}&nbsp;
               </StatText>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
@@ -265,15 +215,57 @@ export function CharacterPreview(props) {
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={displayRelics.Head} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Head)} />
-          <RelicPreview relic={displayRelics.Body} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Body)} />
-          <RelicPreview relic={displayRelics.PlanarSphere} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)} />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Head}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Head)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Body}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Body)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.PlanarSphere}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)}
+          />
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <RelicPreview relic={displayRelics.Hands} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Hands)} />
-          <RelicPreview relic={displayRelics.Feet} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.Feet)} />
-          <RelicPreview relic={displayRelics.LinkRope} source={props.source} characterId={characterId} score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)} />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Hands}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Hands)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.Feet}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.Feet)}
+          />
+          <RelicPreview
+            setEditModalOpen={setEditModalOpen}
+            setSelectedRelic={setSelectedRelic}
+            relic={displayRelics.LinkRope}
+            source={props.source}
+            characterId={characterId}
+            score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}
+          />
         </Flex>
       </Flex>
     </Flex>
@@ -281,5 +273,6 @@ export function CharacterPreview(props) {
 }
 CharacterPreview.propTypes = {
   source: PropTypes.string,
-  character: PropTypes.object
+  character: PropTypes.object,
+  id: PropTypes.string,
 };

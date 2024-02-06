@@ -182,6 +182,8 @@ let gradeToColor = {
   4: '#cc52f1',
   3: '#58beed',
   2: '#63e0ac',
+
+  [-1]: '#ffffff'
 }
 
 function SetDisplay(props) {

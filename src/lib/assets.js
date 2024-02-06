@@ -77,7 +77,7 @@ export const Assets = {
   },
 
   getLightConePortrait: (lightCone) => {
-    if (!lightCone) return ''
+    if (!lightCone) return Assets.getBlank()
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
   getPath: (path) => {
@@ -167,6 +167,8 @@ export const Assets = {
       [Constants.Sets.MessengerTraversingHackerspace]: '114',
       [Constants.Sets.TheAshblazingGrandDuke]: '115',
       [Constants.Sets.PrisonerInDeepConfinement]: '116',
+      [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
+      [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
 
       [Constants.Sets.SpaceSealingStation]: '301',
       [Constants.Sets.FleetOfTheAgeless]: '302',

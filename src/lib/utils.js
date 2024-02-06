@@ -1,6 +1,7 @@
 import * as htmlToImage from 'html-to-image';
 import DB from "./db";
 import { Constants } from "./constants.ts";
+import { Message } from "./message";
 
 export const Utils = {
   arrayOfZeroes: (n) => {
@@ -41,8 +42,41 @@ export const Utils = {
   randomElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
   },
-  screenshotElement: async (element) => {
-    return await htmlToImage.toPng(element, { pixelRatio: 1.5 })
+  screenshotElementById: async (elementId, action, characterName) => {
+    return htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
+      // Save to clipboard
+      // This is not supported in firefox, possibly other browsers too
+      if (action == 'clipboard') {
+        try {
+          let data = [new window.ClipboardItem({ [blob.type]: blob })];
+          await navigator.clipboard.write(data)
+          Message.success('Copied screenshot to clipboard')
+        } catch (e) {
+          console.error('Unable to save screenshot to clipboard')
+        }
+      }
+
+      // Save to file
+      if (action == 'download') {
+        const prefix = characterName || 'Hsr-optimizer'
+        const date = new Date().toLocaleDateString().replace(/[^apm\d]+/gi, '-')
+        const time = new Date().toLocaleTimeString('en-GB').replace(/[^apm\d]+/gi, '-')
+        const filename = `${prefix}_${date}_${time}.png`
+        const fileUrl = window.URL.createObjectURL(blob)
+        const anchorElement = document.createElement('a')
+        anchorElement.href = fileUrl
+        anchorElement.download = filename
+        anchorElement.style.display = 'none'
+        document.body.appendChild(anchorElement)
+        anchorElement.click()
+        anchorElement.remove()
+        window.URL.revokeObjectURL(fileUrl)
+        Message.success('Downloaded screenshot')
+      }
+    }).catch((e) => {
+      console.error(e)
+      Message.error('Unable to take screenshot, please try again')
+    })
   },
   truncate10ths: (x) => {
     return Math.floor(x * 10) / 10
@@ -65,9 +99,9 @@ export const Utils = {
     return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
   },
   clone: (obj) => {
-    return structuredClone(obj)
+    return JSON.parse(JSON.stringify(obj))
   },
-  characterNameFilterOption: (input, option) => {
+  labelFilterOption: (input, option) => {
     return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
   },
   hasMainStat: (part) => {
@@ -82,5 +116,15 @@ export const Utils = {
     }
 
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
+  },
+  generateLightConeOptions: () => {
+    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
+
+    for (let value of Object.values(lcData)) {
+      value.value = value.id;
+      value.label = value.name;
+    }
+
+    return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   },
 }

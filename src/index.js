@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from "react-error-boundary";
 import './style/style.css';
+import './style/hsro.css';
 import App from './App';
 
 import { WorkerPool } from './lib/workerPool';
@@ -12,7 +13,6 @@ import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
-import { GPUOptimizer } from './lib/gpuOptimizer'
 import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
@@ -39,7 +39,6 @@ window.DataParser = DataParser;
 window.OptimizerTabController = OptimizerTabController;
 window.DB = DB;
 window.CharacterStats = CharacterStats;
-window.GPUOptimizer = GPUOptimizer;
 window.Utils = Utils;
 window.Assets = Assets;
 window.RelicAugmenter = RelicAugmenter;

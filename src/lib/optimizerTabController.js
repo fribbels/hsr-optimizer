@@ -26,13 +26,6 @@ export const OptimizerTabController = {
     relics = inputRelics
   },
 
-  getMetadata: () => {
-    return {
-      consts: consts,
-      relics: relics,
-    }
-  },
-
   setAggs: (x) => {
     aggs = x
   },
@@ -76,7 +69,6 @@ export const OptimizerTabController = {
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
     global.setOptimizerBuild(build);
-    global.relicsGrid.current.api.redrawRows()
     SaveState.save()
   },
 
@@ -158,9 +150,12 @@ export const OptimizerTabController = {
     filterModel = newFilterModel
     return {
       getRows: (params) => {
-        console.log(params);
         aggs = undefined
-        global.optimizerGrid.current.api.showLoadingOverlay()
+
+        // fast clickers can race unmount/remount and cause NPE here.
+        if (global?.optimizerGrid?.current?.api) {
+          global.optimizerGrid.current.api.showLoadingOverlay()
+        }
 
         // Give it time to show the loading page before we block
         Utils.sleep(100).then(() => {
@@ -184,7 +179,11 @@ export const OptimizerTabController = {
 
             params.successCallback(subArray, rows.length)
           }
-          global.optimizerGrid.current.api.hideOverlay()
+
+          // cannot assume a fast click race-condition didn't happen
+          if (global?.optimizerGrid?.current?.api) {
+            global.optimizerGrid.current.api.hideOverlay()
+          }
           OptimizerTabController.redrawRows()
         })
       },
@@ -281,6 +280,7 @@ export const OptimizerTabController = {
     newForm.buffResPen = unsetMin(form.buffResPen, true)
     if (!newForm.setConditionals) {
       newForm.setConditionals = {
+        // TODO: This and defaultForm.js is kinda repetitive
         [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
         [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
         [Constants.Sets.KnightOfPurityPalace]: [undefined, true],
@@ -292,11 +292,13 @@ export const OptimizerTabController = {
         [Constants.Sets.BandOfSizzlingThunder]: [undefined, true],
         [Constants.Sets.EagleOfTwilightLine]: [undefined, true],
         [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
-        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 0],
+        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 1],
         [Constants.Sets.LongevousDisciple]: [undefined, 2],
-        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, true],
+        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
         [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
         [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
+        [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 4],
+        [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
         [Constants.Sets.SpaceSealingStation]: [undefined, true],
         [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
         [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
@@ -322,24 +324,34 @@ export const OptimizerTabController = {
       newForm.enemyElementalResistance = false
     }
 
-    let defaultOptions = CharacterConditionals.get(form).defaults()
-    if (!newForm.characterConditionals) newForm.characterConditionals = {}
-    for (let option of Object.keys(defaultOptions)) {
-      if (newForm.characterConditionals[option] == undefined) {
-        newForm.characterConditionals[option] = defaultOptions[option]
+    if (form.characterId) {
+      let defaultOptions = CharacterConditionals.get(form).defaults()
+      if (!newForm.characterConditionals) newForm.characterConditionals = {}
+      for (let option of Object.keys(defaultOptions)) {
+        if (newForm.characterConditionals[option] == undefined) {
+          newForm.characterConditionals[option] = defaultOptions[option]
+        }
       }
     }
 
-    let defaultLcOptions = LightConeConditionals.get(form).defaults()
-    if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
-    for (let option of Object.keys(defaultLcOptions)) {
-      if (newForm.lightConeConditionals[option] == undefined) {
-        newForm.lightConeConditionals[option] = defaultLcOptions[option]
+    if (form.lightCone) {
+      let defaultLcOptions = LightConeConditionals.get(form).defaults()
+      if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
+      for (let option of Object.keys(defaultLcOptions)) {
+        if (newForm.lightConeConditionals[option] == undefined) {
+          newForm.lightConeConditionals[option] = defaultLcOptions[option]
+        }
       }
     }
 
     if (!newForm.statDisplay) {
       newForm.statDisplay = 'base'
+    }
+
+    // Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
+    // Keeping this here for now
+    if (newForm.includeEquippedRelics == null) {
+      newForm.includeEquippedRelics = true
     }
 
     if (![1, 3, 5].includes(newForm.enemyCount)) {
@@ -365,7 +377,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update', form, newForm, defaultOptions)
+    console.log('Form update'/* , form, newForm, defaultOptions */)
     return newForm
   },
 
@@ -459,13 +471,14 @@ export const OptimizerTabController = {
   },
 
   updateFilters: () => {
-    if (window.optimizerForm) {
+    if (global.optimizerForm && global.onOptimizerFormValuesChange) {
       let fieldValues = OptimizerTabController.getForm()
       global.onOptimizerFormValuesChange({}, fieldValues);
     }
   },
 
   resetFilters: () => {
+    console.info('@resetFilters');
     let fieldValues = OptimizerTabController.getForm()
     let newForm = {
       "characterEidolon": fieldValues.characterEidolon,
@@ -473,6 +486,8 @@ export const OptimizerTabController = {
       "characterLevel": fieldValues.characterLevel,
       "enhance": 15,
       "grade": 5,
+      "predictMaxedMainStat": true,
+      "rankFilter": true,
       "includeEquippedRelics": true,
       "keepCurrentRelics": false,
       "lightCone": fieldValues.lightCone,
@@ -485,8 +500,6 @@ export const OptimizerTabController = {
       "mainLinkRope": [],
       "mainPlanarSphere": [],
       "ornamentSets": [],
-      "predictMaxedMainStat": true,
-      "rankFilter": true,
       "relicSets": [],
     }
 
@@ -494,21 +507,29 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  changeCharacter: (id) => {
-    console.log('ChangeCharacter')
-    let character = DB.getCharacterById(id)
+  // TODO: This could probably be separated out into changeCharacter + changeLightCone?
+  // Or refactored a bit to handle both better since they both impact conditional UI generation
+  changeCharacter: (id, setSelectedLightCone, lightConeId) => {
+    console.log(`@OptimzerTabController.changeCharacter(${id})`);
+
+    const character = DB.getCharacterById(id)
     if (character) {
+      character.form.lightCone = lightConeId || character.form.lightCone;
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
       global.optimizerForm.setFieldsValue(displayFormValues)
+      console.log('@changeCharacter', character);
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        global.setSelectedLightCone(lightConeMetadata)
+        setSelectedLightCone(lightConeMetadata)
       }
       global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
+      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
-        characterEidolon: 0
+        characterEidolon: 0,
+        lightCone: lightConeId,
+        lightConeSuperimposition: 1,
       })
       global.optimizerForm.setFieldsValue(displayFormValues)
       global.store.getState().setStatDisplay('base')
@@ -516,6 +537,10 @@ export const OptimizerTabController = {
 
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
+  },
+
+  setSortColumn: (colId) => {
+    sortModel.colId = colId
   },
 
   refreshPinned: () => {
@@ -677,5 +702,8 @@ function setPinnedRow(characterId) {
   let character = DB.getCharacterById(characterId)
   let stats = StatCalculator.calculate(character)
 
-  global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
+  if (global.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
+    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  }
 }

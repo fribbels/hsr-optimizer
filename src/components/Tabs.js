@@ -1,109 +1,41 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import { ErrorBoundary } from "react-error-boundary";
-import OptimizerTab from './OptimizerTab'
-import ImportTab from './ImportTab'
-import RelicsTab from './RelicsTab'
-import CharacterTab from './CharacterTab';
-import ComingSoonTab from './ComingSoonTab';
-import RelicScorerTab from './RelicScorerTab';
-import GettingStartedTab from './GettingStartedTab';
-import BetaTab from './BetaTab';
-import ScoringModal from './ScoringModal';
 import { Typography } from 'antd';
 
-let defaultError = () => {
-  return (
-    <Typography>Something went wrong</Typography>
-  )
-}
+import OptimizerTab from 'components/OptimizerTab'
+import ImportTab from 'components/ImportTab'
+import RelicsTab from 'components/RelicsTab'
+import CharacterTab from 'components/CharacterTab';
+import ComingSoonTab from 'components/ComingSoonTab';
+import RelicScorerTab from 'components/RelicScorerTab';
+import GettingStartedTab from 'components/GettingStartedTab';
+import ScoringModal from 'components/ScoringModal';
+import PropTypes from "prop-types";
+
+const defaultError = <Typography>Something went wrong</Typography>;
+
 const Tabs = () => {
   const activeKey = global.store(s => s.activeKey)
 
-  let optimizerActive = activeKey == 'optimizer'
-  let charactersActive = activeKey == 'characters'
-  let relicsActive = activeKey == 'relics'
-  let importActive = activeKey == 'import'
-  let gettingStartedActive = activeKey == '#getting-started'
-  let scorerActive = activeKey == '#scorer'
-  let comingSoonActive = activeKey == 'coming-soon'
-  let betaActive = activeKey == '#beta'
-
-  let optimizerDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <OptimizerTab active={optimizerActive}/>
-      </ErrorBoundary>
-    )
-  }, [optimizerActive])
-
-  let charactersDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <CharacterTab active={charactersActive}/>
-      </ErrorBoundary>
-    )
-  }, [charactersActive])
-
-  let relicsDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <RelicsTab active={relicsActive}/>
-      </ErrorBoundary>
-    )
-  }, [relicsActive])
-
-  let importDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <ImportTab active={importActive}/>
-      </ErrorBoundary>
-    )
-  }, [importActive])
-
-  let gettingStartedDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <GettingStartedTab active={gettingStartedActive}/>
-      </ErrorBoundary>
-    )
-  }, [gettingStartedActive])
-
-  let scorerDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <RelicScorerTab active={scorerActive}/>
-      </ErrorBoundary>
-    )
-  }, [scorerActive])
-
-  let comingSoonDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <ComingSoonTab active={comingSoonActive}/>
-      </ErrorBoundary>
-    )
-  }, [comingSoonActive])
-
-  let betaDisplay = useMemo(() => {
-    return (
-      <ErrorBoundary fallback={defaultError()}>
-        <BetaTab active={betaActive}/>
-      </ErrorBoundary>
-    )
-  }, [betaActive])
+  const optimizerTab = React.useMemo( () => <OptimizerTab/>, []);
+  const characterTab = React.useMemo( () => <CharacterTab/>, []);
+  const relicsTab = React.useMemo( () => <RelicsTab/>, []);
+  const importTab = React.useMemo( () => <ImportTab/>, []);
+  const gettingStartedTab = React.useMemo( () => <GettingStartedTab/>, []);
+  const relicScorerTab = React.useMemo( () => <RelicScorerTab/>, []);
+  const comingSoonTab = React.useMemo( () => <ComingSoonTab/>, []);
 
   return (
     <>
-      {optimizerDisplay}
-      {charactersDisplay}
-      {relicsDisplay}
-      {importDisplay}
-      {gettingStartedDisplay}
-      {scorerDisplay}
-      {comingSoonDisplay}
-      {betaDisplay}
+      <TabRenderer activeKey={activeKey} tabKey='optimizer' content={optimizerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='characters' content={characterTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='relics' content={relicsTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='import' content={importTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='#getting-started' content={gettingStartedTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='#scorer' content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey='coming-soon' content={comingSoonTab}/>
 
-      <ErrorBoundary fallback={defaultError()}>
+      <ErrorBoundary fallback={defaultError}>
         <ScoringModal />
       </ErrorBoundary >
     </>
@@ -111,3 +43,18 @@ const Tabs = () => {
 }
 
 export default Tabs;
+
+function TabRenderer(props) {
+  return (
+    <ErrorBoundary fallback={defaultError}>
+      <div style={{display: props.activeKey === props.tabKey ? 'contents' : 'none'}} id={props.tabKey}>
+        {props.content}
+      </div>
+    </ErrorBoundary >
+  )
+}
+TabRenderer.propTypes = {
+  activeKey: PropTypes.string,
+  tabKey: PropTypes.string,
+  content: PropTypes.element,
+}

@@ -5,9 +5,11 @@ import CheckableTag from "antd/lib/tag/CheckableTag";
 import { HeaderText } from "./HeaderText";
 import DB from "../lib/db";
 import { Utils } from "../lib/utils";
-import { Constants } from "../lib/constants.ts";
+import { Constants, Stats } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
+import { useSubscribe } from 'hooks/useSubscribe';
+import { Renderer } from "lib/renderer.js";
 
 const { Text } = Typography;
 
@@ -15,30 +17,46 @@ const tagHeight = 34
 const imgWidth = 34
 
 export default function RelicFilterBar() {
-  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  let setSelectedScoringCharacter = global.store(s => s.setSelectedScoringCharacter);
+  const setRelicTabFilters = global.store(s => s.setRelicTabFilters);
+  const setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
 
-  let [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions();
   }, []);
 
   function generateImageTags(arr, srcFn, tooltip) {
+    function generateDisplay(key) {
+      // QOL to colorize elemental stat images instead of using the substat images
+      const overrides = {
+        [Stats.Physical_DMG]: 'Physical',
+        [Stats.Fire_DMG]: 'Fire',
+        [Stats.Ice_DMG]: 'Ice',
+        [Stats.Lightning_DMG]: 'Lightning',
+        [Stats.Wind_DMG]: 'Wind',
+        [Stats.Quantum_DMG]: 'Quantum',
+        [Stats.Imaginary_DMG]: 'Imaginary',
+      }
+
+      const width = overrides[key] ? 30 : imgWidth
+      const src = Assets.getElement(overrides[key]) || srcFn(key)
+
+      return tooltip ?
+        (
+          <Tooltip title={key} mouseEnterDelay={0.2}>
+            <img style={{ width: width }} src={src} />
+          </Tooltip>
+        )
+        :
+        (
+          <img style={{ width: width }} src={src} />
+        )
+    }
     return arr.map(x => {
       return {
         key: x,
-        display:
-          tooltip ?
-            (
-              <Tooltip title={x} mouseEnterDelay={0.4}>
-                <img style={{ width: imgWidth }} src={srcFn(x)} />
-              </Tooltip>
-            )
-            :
-            (
-              <img style={{ width: imgWidth }} src={srcFn(x)} />
-            )
+        display: generateDisplay(x)
       }
     })
   }
@@ -57,11 +75,36 @@ export default function RelicFilterBar() {
     })
   }
 
+  function generateGradeTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: x })
+      }
+    })
+  }
+
+  function generateVerifiedTags(arr) {
+    return arr.map(x => {
+      return {
+        key: x,
+        display: Renderer.renderGrade({ grade: -1, verified: x })
+      }
+    })
+  }
+
+  let gradeData = generateGradeTags([2, 3, 4, 5])
+  let verifiedData = generateVerifiedTags([false, true])
   let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+
+  useSubscribe('refreshRelicsScore', () => {
+    // TODO: understand why setTimeout is needed and refactor
+    setTimeout(() => { characterSelectorChange(currentlySelectedCharacterId) }, 100);
+  });
 
   function characterSelectorChange(id) {
     if (!id) return
@@ -69,7 +112,7 @@ export default function RelicFilterBar() {
     let relics = Object.values(global.store.getState().relicsById)
     console.log('idChange', id)
 
-    setSelectedScoringCharacter(id)
+    setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
@@ -146,6 +189,8 @@ export default function RelicFilterBar() {
       enhance: [],
       mainStats: [],
       subStats: [],
+      grade: [],
+      verified: []
     })
   }
 
@@ -165,7 +210,7 @@ export default function RelicFilterBar() {
           <Flex gap={10}>
             <Select
               showSearch
-              filterOption={Utils.characterNameFilterOption}
+              filterOption={Utils.labelFilterOption}
               onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}
@@ -184,11 +229,21 @@ export default function RelicFilterBar() {
             </Button>
           </Flex>
         </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
+        <Flex vertical style={{ height: '100%' }} flex={0.5}>
           <HeaderText>Filter actions</HeaderText>
-          <Button onClick={clearClicked}>
-            Clear filters
-          </Button>
+          <Flex gap={10}>
+            <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
+              Clear filters
+            </Button>
+          </Flex>
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name='grade' tags={gradeData} flexBasis='25%' />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
         </Flex>
       </Flex>
 
@@ -205,7 +260,7 @@ export default function RelicFilterBar() {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis='6.25%' />
+        <FilterRow name='set' tags={setsData} flexBasis='5.55%' />
       </Flex>
 
       <Flex vertical>

@@ -1929,6 +1929,150 @@
         "preview": "image/character_preview/1305.png",
         "portrait": "image/character_portrait/1305.png"
     },
+    "1306": {
+        "id": "1306",
+        "name": "Sparkle",
+        "tag": "sparkle",
+        "rarity": 5,
+        "path": "Shaman",
+        "element": "Quantum",
+        "max_sp": 110,
+        "ranks": [
+            "130601",
+            "130602",
+            "130603",
+            "130604",
+            "130605",
+            "130606"
+        ],
+        "skills": [
+            "130601",
+            "130602",
+            "130603",
+            "130604",
+            "130606",
+            "130607"
+        ],
+        "skill_trees": [
+            "1306001",
+            "1306002",
+            "1306003",
+            "1306004",
+            "1306007",
+            "1306101",
+            "1306102",
+            "1306103",
+            "1306201",
+            "1306202",
+            "1306203",
+            "1306204",
+            "1306205",
+            "1306206",
+            "1306207",
+            "1306208",
+            "1306209",
+            "1306210"
+        ],
+        "icon": "icon/character/1306.png",
+        "preview": "image/character_preview/1306.png",
+        "portrait": "image/character_portrait/1306.png"
+    },
+    "1307": {
+        "id": "1307",
+        "name": "Black Swan",
+        "tag": "blackswan",
+        "rarity": 5,
+        "path": "Warlock",
+        "element": "Wind",
+        "max_sp": 120,
+        "ranks": [
+            "130701",
+            "130702",
+            "130703",
+            "130704",
+            "130705",
+            "130706"
+        ],
+        "skills": [
+            "130701",
+            "130702",
+            "130703",
+            "130704",
+            "130706",
+            "130707"
+        ],
+        "skill_trees": [
+            "1307001",
+            "1307002",
+            "1307003",
+            "1307004",
+            "1307007",
+            "1307101",
+            "1307102",
+            "1307103",
+            "1307201",
+            "1307202",
+            "1307203",
+            "1307204",
+            "1307205",
+            "1307206",
+            "1307207",
+            "1307208",
+            "1307209",
+            "1307210"
+        ],
+        "icon": "icon/character/1307.png",
+        "preview": "image/character_preview/1307.png",
+        "portrait": "image/character_portrait/1307.png"
+    },
+    "1312": {
+        "id": "1312",
+        "name": "Misha",
+        "tag": "misha",
+        "rarity": 4,
+        "path": "Warrior",
+        "element": "Ice",
+        "max_sp": 100,
+        "ranks": [
+            "131201",
+            "131202",
+            "131203",
+            "131204",
+            "131205",
+            "131206"
+        ],
+        "skills": [
+            "131201",
+            "131202",
+            "131203",
+            "131204",
+            "131206",
+            "131207"
+        ],
+        "skill_trees": [
+            "1312001",
+            "1312002",
+            "1312003",
+            "1312004",
+            "1312007",
+            "1312101",
+            "1312102",
+            "1312103",
+            "1312201",
+            "1312202",
+            "1312203",
+            "1312204",
+            "1312205",
+            "1312206",
+            "1312207",
+            "1312208",
+            "1312209",
+            "1312210"
+        ],
+        "icon": "icon/character/1312.png",
+        "preview": "image/character_preview/1312.png",
+        "portrait": "image/character_portrait/1312.png"
+    },
     "8001": {
         "id": "8001",
         "name": "{NICKNAME}",
@@ -2126,29 +2270,5 @@
         "icon": "icon/character/8004.png",
         "preview": "image/character_preview/8004.png",
         "portrait": "image/character_portrait/8004.png"
-    },
-    "1307": {
-        "id": "1307",
-        "rarity": 5,
-        "path": "Warlock",
-        "element": "Wind",
-        "max_sp": 0,
-        "name": "Black Swan"
-    },
-    "1306": {
-        "id": "1306",
-        "rarity": 5,
-        "path": "Shaman",
-        "element": "Quantum",
-        "max_sp": 0,
-        "name": "Sparkle"
-    },
-    "1312": {
-        "id": "1312",
-        "rarity": 4,
-        "path": "Warrior",
-        "element": "Ice",
-        "max_sp": 0,
-        "name": "Misha"
     }
 }

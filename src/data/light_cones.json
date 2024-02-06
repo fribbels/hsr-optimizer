@@ -559,6 +559,86 @@
         "preview": "image/light_cone_preview/21034.png",
         "portrait": "image/light_cone_portrait/21034.png"
     },
+    "21035": {
+        "id": "21035",
+        "name": "What Is Real?",
+        "rarity": 4,
+        "path": "Priest",
+        "desc": "\"Suppose if all the clocks are displaying the wrong time...\"\n\"If those bound to promises fulfilled their vows through betrayal...\"\n\"If those who sink into the realm of dreams never truly fell asleep...\"\n\"If the dead return to life, only to discover their names have been stripped...\"\n\"If... if...\"\nHe blows out the flame, and in darkness, there is but the eternal ticking of the timepiece.",
+        "icon": "icon/light_cone/21035.png",
+        "preview": "image/light_cone_preview/21035.png",
+        "portrait": "image/light_cone_portrait/21035.png"
+    },
+    "21036": {
+        "id": "21036",
+        "name": "Dreamville Adventure",
+        "rarity": 4,
+        "path": "Shaman",
+        "desc": "\"Hello, dear viewers! Clockie and his pals have come to see you all again!\"\n\"In the previous episode, Boss Stone discovered that Dreamville was sitting on a wealth of natural resources, and moved to seize control over the city. In response, Clockie joined forces with Brother Hanu and Origami Bird, and together, they sent Boss Stone and his goons running from Dreamville.\"\n\"But Boss Stone isn't going to be defeated that easily, and this time, he's gathered a legion of thugs to fulfill his oath of turning Dreamville into a crater. In this episode, Clockie might just be standing against the greatest threat he ever faced!\"\n\"What scheme will Clockie employ to escape from this crisis? And what new friends will join his party? Stay tuned for the latest episode of 'Dreamville Adventure'!\"",
+        "icon": "icon/light_cone/21036.png",
+        "preview": "image/light_cone_preview/21036.png",
+        "portrait": "image/light_cone_portrait/21036.png"
+    },
+    "21037": {
+        "id": "21037",
+        "name": "Final Victor",
+        "rarity": 4,
+        "path": "Rogue",
+        "desc": "\"You don't believe me?\"\nHe provocatively looks at the man before him, then draws out a revolver, empties its cylinder, and leaves a single shot in the chamber.\n\"Seems like I'll need to get you up to speed on how I do things if our cooperation were to remain amicable.\"\nHe pushes the gun into his opponent's hand, spins the cylinder, and points the barrel to his own chest.\nHe pulls the trigger repeatedly, and the smile on his face remains the same after three empty clicks.\n\"Life is a grand gamble, and I'll always be the final victor.\"",
+        "icon": "icon/light_cone/21037.png",
+        "preview": "image/light_cone_preview/21037.png",
+        "portrait": "image/light_cone_portrait/21037.png"
+    },
+    "21038": {
+        "id": "21038",
+        "name": "Flames Afar",
+        "rarity": 4,
+        "path": "Warrior",
+        "desc": "\"Package secured. I'll leave covering our retreat to you.\"\nTheir comrade's voice comes through the communicator.\nThey glance around the surroundings, watching as the savaged remnants of their enemies continue to pass through the complex architecture inside the vast and abandoned structure. They are drawing ever closer.\n\"Please hold.\"\nAfter a beat of quietude, a series of apocalyptic explosions rocket up into the sky. Waves of displaced air cast clouds of dust high across the battlefield, and smoke scatter in all directions, the blinding white cleaving light into the night.\n\"You know they purposely planted loads of gunpowder in there, right?\"\nWith a rustle, they flung open the cape as if they just finished a leisurely stroll.\n\"Of course.\"\n\"So, let's light it up. All I need to do is play the part of the match.\"",
+        "icon": "icon/light_cone/21038.png",
+        "preview": "image/light_cone_preview/21038.png",
+        "portrait": "image/light_cone_portrait/21038.png"
+    },
+    "21039": {
+        "id": "21039",
+        "name": "Destiny's Threads Forewoven",
+        "rarity": 4,
+        "path": "Knight",
+        "desc": "Destiny always tows the masses onward without reason, and she lurks within the darkness, waiting to inscribe the most crucial of instants.\nSorting, matching, shuffling, drawing... She simulates fate's hand in how it manipulates all variables for the masses, seeking the trajectory of truth beneath the visage of a disorderly exterior.\nFinally, when all the characters are in their place, she brushes over the card faces that are in stasis, and assembles the unfathomable truth.\n\"Still missing a card... So, I'll add one in.\"",
+        "icon": "icon/light_cone/21039.png",
+        "preview": "image/light_cone_preview/21039.png",
+        "portrait": "image/light_cone_portrait/21039.png"
+    },
+    "21040": {
+        "id": "21040",
+        "name": "The Day The Cosmos Fell",
+        "rarity": 4,
+        "path": "Mage",
+        "desc": "\"Molten Cheese Tart! You are in charge of disarming the planet's lookouts with your charm!\"\n\"Gray Bean Paste! You will be in charge of breaching the planet's line of defense!\"\n\"Salty Rimeplume! Bring us the head of the planet's leader!\"\n\"My lord, what are you going to do!\"\n\"I shall pretend to be an adorable kitten to befuddle these stupid humans!\"\nThat day, the Cosmos remembered... the terror of being ruled by them.",
+        "icon": "icon/light_cone/21040.png",
+        "preview": "image/light_cone_preview/21040.png",
+        "portrait": "image/light_cone_portrait/21040.png"
+    },
+    "21041": {
+        "id": "21041",
+        "name": "It's Showtime",
+        "rarity": 4,
+        "path": "Warlock",
+        "desc": "—Who witnessed his death?\n—Me! I spied it with my little eyes!\n—Who took his blood?\n—Me! I used my little saucer!\n—Who dug his grave?\n—Me! Using my chisel and shovel!\nThe wise uses all techniques in their arsenal, the sovereign soothes their heart with power, the hero views themselves to be righteous, and the Fool laughs ceaselessly—\n\"Now, let us welcome Ms. Sparkle to bring us the performance of the year — Penacony's Night of Fright!\"",
+        "icon": "icon/light_cone/21041.png",
+        "preview": "image/light_cone_preview/21041.png",
+        "portrait": "image/light_cone_portrait/21041.png"
+    },
+    "21042": {
+        "id": "21042",
+        "name": "Indelible Promise",
+        "rarity": 4,
+        "path": "Warrior",
+        "desc": "A weathered past. A sworn duty to defend home. A dream to blaze a trail across the world—\nThese were entrusted to the unworldly youth by a pair of rough, calloused hands.\n\"Soon, we'll be able to go to a larger world.\" \nThe boy happily accepted his inheritance. Guarded by youth, he could not yet feel the weight born by the object's significance.\n\"Of course. Before that time comes, however, guard this place well, Misha.\" \nHe thus engraved that promise deep inside his heart, holding to it forever and always.",
+        "icon": "icon/light_cone/21042.png",
+        "preview": "image/light_cone_preview/21042.png",
+        "portrait": "image/light_cone_portrait/21042.png"
+    },
     "22000": {
         "id": "22000",
         "name": "Before the Tutorial Mission Starts",
@@ -789,6 +869,26 @@
         "preview": "image/light_cone_preview/23020.png",
         "portrait": "image/light_cone_portrait/23020.png"
     },
+    "23021": {
+        "id": "23021",
+        "name": "Earthly Escapade",
+        "rarity": 5,
+        "path": "Shaman",
+        "desc": "Just as fireworks can flicker, she too can shift between ten different colors in a minute.\nWhen the light show nears its end, she sits high above, regarding the bustling masses beneath her feet with boredom.\nThoughts flow and vanish, and slyness circulates across myriad eyes like a dancing kaleidoscope.\n\"I've made my decision. This is how we're going to have fun today!\"\nBouncing and hopping, she glides through the crowds, her golden-red tail flitting in and out of sight.\n\"Keep up! The brightest fireworks are just about to begin!\"",
+        "icon": "icon/light_cone/23021.png",
+        "preview": "image/light_cone_preview/23021.png",
+        "portrait": "image/light_cone_portrait/23021.png"
+    },
+    "23022": {
+        "id": "23022",
+        "name": "Reforged Remembrance",
+        "rarity": 5,
+        "path": "Warlock",
+        "desc": "Light the candles, spread the cards, breathe in the fragrance...\nThese broken memories become faces in the dancing light.\nThe apparitions that emerge from flames tell her of pasts fondly recalled.\nTime is shorn. The moment is frozen. She turns these most precious instants into crystallizations of eternity.\n\"There is too much lost, and too little that remains... We nurture remembrance against the cruelties of time.\"",
+        "icon": "icon/light_cone/23022.png",
+        "preview": "image/light_cone_preview/23022.png",
+        "portrait": "image/light_cone_portrait/23022.png"
+    },
     "24000": {
         "id": "24000",
         "name": "On the Fall of an Aeon",
@@ -828,17 +928,5 @@
         "icon": "icon/light_cone/24003.png",
         "preview": "image/light_cone_preview/24003.png",
         "portrait": "image/light_cone_portrait/24003.png"
-    },
-    "23022": {
-        "id": "23022",
-        "rarity": 5,
-        "path": "Warlock",
-        "name": "Reforged Remembrance"
-    },
-    "23021": {
-        "id": "23021",
-        "rarity": 5,
-        "path": "Shaman",
-        "name": "Earthly Escapade"
     }
 }

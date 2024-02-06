@@ -61,7 +61,7 @@
                 5
             ],
             [
-                0.4038,
+                0.4037,
                 3,
                 0.3,
                 304,
@@ -75,7 +75,7 @@
                 5
             ],
             [
-                0.4513,
+                0.4512,
                 3,
                 0.3,
                 475,
@@ -1441,7 +1441,7 @@
             ],
             [
                 1.3,
-                0.6938,
+                0.6937,
                 0.4875
             ],
             [
@@ -1451,7 +1451,7 @@
             ],
             [
                 1.5,
-                0.7313,
+                0.7312,
                 0.5625
             ],
             [
@@ -1559,7 +1559,7 @@
                 0.76,
                 1,
                 2,
-                2.5738,
+                2.5737,
                 0.975
             ],
             [
@@ -1580,7 +1580,7 @@
                 0.864,
                 1,
                 2,
-                3.1828,
+                3.1827,
                 1.04
             ],
             [
@@ -1973,7 +1973,7 @@
             ],
             [
                 3.23,
-                0.9438,
+                0.9437,
                 0.4163,
                 3
             ],
@@ -1985,8 +1985,8 @@
             ],
             [
                 3.61,
-                0.9813,
-                0.4388,
+                0.9812,
+                0.4387,
                 3
             ],
             [
@@ -2537,7 +2537,7 @@
                 0.375
             ],
             [
-                0.4063
+                0.4062
             ],
             [
                 0.4375
@@ -3001,7 +3001,7 @@
             ],
             [
                 0.5,
-                0.3813
+                0.3812
             ],
             [
                 0.5,
@@ -3346,13 +3346,13 @@
                 0.225
             ],
             [
-                0.2438
+                0.2437
             ],
             [
                 0.2625
             ],
             [
-                0.2813
+                0.2812
             ],
             [
                 0.3
@@ -4204,7 +4204,7 @@
                 150
             ],
             [
-                0.3188,
+                0.3187,
                 3,
                 240
             ],
@@ -4307,7 +4307,7 @@
                 0.375
             ],
             [
-                0.4063
+                0.4062
             ],
             [
                 0.4375
@@ -4645,7 +4645,7 @@
             ],
             [
                 0.3,
-                0.4063
+                0.4062
             ],
             [
                 0.3,
@@ -6939,7 +6939,7 @@
             ],
             [
                 1,
-                0.8288
+                0.8287
             ],
             [
                 1,
@@ -7132,14 +7132,14 @@
             ],
             [
                 1.2188,
-                0.4063
+                0.4062
             ],
             [
                 1.3125,
                 0.4375
             ],
             [
-                1.4063,
+                1.4062,
                 0.4688
             ],
             [
@@ -7230,7 +7230,7 @@
                 2
             ],
             [
-                1.4063,
+                1.4062,
                 0.2344,
                 0.5,
                 2
@@ -7328,7 +7328,7 @@
             ],
             [
                 80,
-                1.4063,
+                1.4062,
                 0.5
             ],
             [
@@ -7824,7 +7824,7 @@
             ],
             [
                 0.325,
-                0.4063,
+                0.4062,
                 3,
                 0.2125
             ],
@@ -8617,7 +8617,7 @@
         "type_text": "Talent",
         "effect": "Bounce",
         "effect_text": "Bounce",
-        "simple_desc": "",
+        "simple_desc": "Summons Lightning-Lord at the start of the battle. Lightning-Lord automatically deals minor Lightning DMG to a random enemy and enemies adjacent to it.",
         "desc": "Summons Lightning-Lord at the start of the battle. Lightning-Lord has #1[i] base SPD and #4[i] base Hits Per Action. When the Lightning-Lord takes action, its hits are considered as follow-up attacks, with each hit dealing Lightning DMG equal to #2[i]% of Jing Yuan's ATK to a random single enemy, and enemies adjacent to it also receive Lightning DMG equal to #5[i]% of the DMG dealt to the target enemy.\nThe Lightning-Lord's Hits Per Action can reach a max of #6[i]. Every time Lightning-Lord's Hits Per Action increases by 1, its SPD increases by #3[i]. After the Lightning-Lord's action ends, its SPD and Hits Per Action return to their base values.\nWhen Jing Yuan is knocked down, the Lightning-Lord will disappear.\nWhen Jing Yuan is affected by Crowd Control debuff, the Lightning-Lord is unable to take action.",
         "params": [
             [
@@ -8766,7 +8766,7 @@
         "type_text": "Technique",
         "effect": "Enhance",
         "effect_text": "Enhance",
-        "simple_desc": "",
+        "simple_desc": "After using Technique, for the next battle, increases Lightning-Lord's Hits Per Action.",
         "desc": "After the Technique is used, the Lightning-Lord's Hits Per Action in the first turn increases by #1[i] at the start of the next battle.",
         "params": [
             [
@@ -9136,7 +9136,7 @@
                 3,
                 0.4125,
                 0.25,
-                1.0313
+                1.0312
             ],
             [
                 3,
@@ -9562,7 +9562,7 @@
                 2
             ],
             [
-                0.1813,
+                0.1812,
                 2
             ],
             [
@@ -9793,7 +9793,7 @@
             ],
             [
                 3.23,
-                0.2538,
+                0.2537,
                 0.5525
             ],
             [
@@ -9803,7 +9803,7 @@
             ],
             [
                 3.61,
-                0.2713,
+                0.2712,
                 0.6175
             ],
             [
@@ -10561,11 +10561,11 @@
                 0.65
             ],
             [
-                0.1813,
-                0.2438,
+                0.1812,
+                0.2437,
                 0.5625,
-                0.4063,
-                0.4063,
+                0.4062,
+                0.4062,
                 0.65
             ],
             [
@@ -10578,7 +10578,7 @@
             ],
             [
                 0.1938,
-                0.2813,
+                0.2812,
                 0.5875,
                 0.4688,
                 0.4688,
@@ -10970,7 +10970,7 @@
                 1,
                 0,
                 0,
-                0.0588,
+                0.0587,
                 3,
                 3
             ],
@@ -11142,7 +11142,7 @@
                 2
             ],
             [
-                0.0878,
+                0.0877,
                 159.9,
                 0.15,
                 2
@@ -11916,7 +11916,7 @@
                 0.9375
             ],
             [
-                2.0313,
+                2.0312,
                 1,
                 1.0156
             ],
@@ -12532,7 +12532,7 @@
             ],
             [
                 1.1375,
-                0.5688
+                0.5687
             ],
             [
                 1.225,
@@ -12540,7 +12540,7 @@
             ],
             [
                 1.3125,
-                0.6563
+                0.6562
             ],
             [
                 1.4,
@@ -12669,7 +12669,7 @@
         "effect": "Bounce",
         "effect_text": "Bounce",
         "simple_desc": "When Xueyi or her allies reduce enemy Toughness with attacks, she gains stacks of Karma. When Karma reaches the max number of stacks, immediately launches a follow-up attack, dealing minor Quantum DMG to a single enemy target, bouncing for 3 times and consuming all Karma.",
-        "desc": "When Xueyi reduces enemy Toughness with attacks, Karma will be stacked. The more Toughness is reduced, the more stacks of Karma are added, up to #1[i] stacks.\nWhen Xueyi's allies reduce enemy Toughness with attacks, Xueyi gains #3[i] stacks of Karma.\nWhen Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG for 3 times, with each time dealing Quantum DMG equal to #2[i]% of Xueyi's ATK to a single random enemy. This follow-up attack will not add Karma stacks.",
+        "desc": "When Xueyi reduces enemy Toughness with attacks, Karma will be stacked. The more Toughness is reduced, the more stacks of Karma are added, up to #1[i] stacks.\nWhen Xueyi's allies reduce enemy Toughness with attacks, Xueyi gains #3[i] stack(s) of Karma.\nWhen Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches a follow-up attack against an enemy target, dealing DMG for 3 times, with each time dealing Quantum DMG equal to #2[i]% of Xueyi's ATK to a single random enemy. This follow-up attack will not add Karma stacks.",
         "params": [
             [
                 8,
@@ -12703,7 +12703,7 @@
             ],
             [
                 8,
-                0.7313,
+                0.7312,
                 1
             ],
             [
@@ -12943,7 +12943,7 @@
             [
                 0.51,
                 2,
-                0.1813
+                0.1812
             ],
             [
                 0.54,
@@ -13025,7 +13025,7 @@
                 2
             ],
             [
-                0.2438,
+                0.2437,
                 2
             ],
             [
@@ -13033,7 +13033,7 @@
                 2
             ],
             [
-                0.2813,
+                0.2812,
                 2
             ],
             [
@@ -13153,7 +13153,7 @@
                 1
             ],
             [
-                0.1488,
+                0.1487,
                 224,
                 0.119,
                 179.2,
@@ -13296,7 +13296,7 @@
                 2
             ],
             [
-                0.1813,
+                0.1812,
                 0.34,
                 2
             ],
@@ -14285,7 +14285,7 @@
         "effect": "Enhance",
         "effect_text": "Enhance",
         "simple_desc": "The next time entering battle, automatically triggers the Skill for #1[i] time(s). After using the Technique, allies attacking enemies in Simulated Universe will always be regarded as attacking their Weakness to enter battle, and their Toughness is reduced regardless of Weakness types. For every Blessing in possession, increases Toughness-Reducing DMG and additionally deals Break DMG when breaking Weakness.",
-        "desc": "After using the Technique, gains Silken Serenade. At the start of the next battle, automatically triggers the Skill for #1[i] time(s) without consuming Skill Points.\nIn Simulated Universe, when Ruan Mei has Silken Serenade, the team actively attacking enemies will always be regarded as attacking their Weakness to enter battle, and this attack can reduce all enemies' Toughness regardless of Weakness types. When breaking Weakness, triggers Weakness Break Effect corresponding to the attacker's Type. For every Blessing in possession up to #4[i] Blessing(s), additionally increases the Toughness-Reducing DMG of this attack by #2[i]%. After breaking an enemy target's Weakness, additionally deals to the enemy target Break DMG equal to #3[i]% of Ruan Mei's Ice Break DMG.",
+        "desc": "After using the Technique, gains Silken Serenade. At the start of the next battle, automatically triggers the Skill for #1[i] time(s) without consuming Skill Points.\nIn Simulated Universe, when Ruan Mei has Silken Serenade, the team actively attacking enemies will always be regarded as attacking their Weakness to enter battle, and this attack can reduce all enemies' Toughness regardless of Weakness types. When breaking Weakness, triggers Weakness Break Effect corresponding to the attacker's Type. For every Blessing in possession (up to a maximum of #4[i] Blessings), additionally increases the Toughness-Reducing DMG of this attack by #2[i]%. After breaking an enemy target's Weakness, additionally deals to the enemy target Break DMG equal to #3[i]% of Ruan Mei's Ice Break DMG.",
         "params": [
             [
                 1,
@@ -14375,7 +14375,7 @@
                 1.3125
             ],
             [
-                1.4063
+                1.4062
             ],
             [
                 1.5
@@ -14526,7 +14526,7 @@
                 0.2
             ],
             [
-                2.5313,
+                2.5312,
                 0.4,
                 0.2
             ],
@@ -14586,8 +14586,8 @@
         "type_text": "Technique",
         "effect": "Impair",
         "effect_text": "Impair",
-        "simple_desc": "Creates a special dimension. Enemies within the dimension are Taunted. After entering battle with enemies in this dimension, there is a high chance to reduce SPD of enemy targets.",
-        "desc": "After using Technique, creates a special dimension that Taunts nearby enemies, lasting for #1[i] second(s). After entering battle with enemies in this special dimension, there is a #2[i]% base chance to reduce each single enemy target's SPD by #3[i]% for #4[i] turn(s). Only 1 dimension created by allies can exist at the same time.",
+        "simple_desc": "Creates a dimension. Enemies within the dimension are Taunted. After entering battle with enemies in this dimension, there is a high chance to reduce SPD of enemy targets.",
+        "desc": "After using Technique, creates a dimension that Taunts nearby enemies, lasting for #1[i] second(s). After entering battle with enemies in this dimension, there is a #2[i]% base chance to reduce each single enemy target's SPD by #3[i]% for #4[i] turn(s). Only 1 dimension created by allies can exist at the same time.",
         "params": [
             [
                 10,
@@ -14597,6 +14597,1239 @@
             ]
         ],
         "icon": "icon/skill/1305_technique.png"
+    },
+    "130601": {
+        "id": "130601",
+        "name": "Monodrama",
+        "max_level": 9,
+        "element": "Quantum",
+        "type": "Normal",
+        "type_text": "Basic ATK",
+        "effect": "SingleAttack",
+        "effect_text": "Single Target",
+        "simple_desc": "Deals minor Quantum DMG to a single enemy.",
+        "desc": "Deals Quantum DMG equal to #1[i]% of Sparkle's ATK to a single target enemy.",
+        "params": [
+            [
+                0.5
+            ],
+            [
+                0.6
+            ],
+            [
+                0.7
+            ],
+            [
+                0.8
+            ],
+            [
+                0.9
+            ],
+            [
+                1
+            ],
+            [
+                1.1
+            ],
+            [
+                1.2
+            ],
+            [
+                1.3
+            ]
+        ],
+        "icon": "icon/skill/1306_basic_atk.png"
+    },
+    "130602": {
+        "id": "130602",
+        "name": "Dreamdiver",
+        "max_level": 15,
+        "element": "",
+        "type": "BPSkill",
+        "type_text": "Skill",
+        "effect": "Support",
+        "effect_text": "Support",
+        "simple_desc": "Increases an ally's CRIT DMG and Advances Forward their action.",
+        "desc": "Increases the CRIT DMG of a single ally by #1[f1]% of Sparkle's CRIT DMG plus #2[f1]%, lasting for #3[i] turn(s). And at the same time, Advances Forward this ally's action by #4[i]%.\nWhen Sparkle uses this ability on herself, the Action Advance effect will not trigger.",
+        "params": [
+            [
+                0.12,
+                0.27,
+                1,
+                0.5
+            ],
+            [
+                0.132,
+                0.288,
+                1,
+                0.5
+            ],
+            [
+                0.144,
+                0.306,
+                1,
+                0.5
+            ],
+            [
+                0.156,
+                0.324,
+                1,
+                0.5
+            ],
+            [
+                0.168,
+                0.342,
+                1,
+                0.5
+            ],
+            [
+                0.18,
+                0.36,
+                1,
+                0.5
+            ],
+            [
+                0.195,
+                0.3825,
+                1,
+                0.5
+            ],
+            [
+                0.21,
+                0.405,
+                1,
+                0.5
+            ],
+            [
+                0.225,
+                0.4275,
+                1,
+                0.5
+            ],
+            [
+                0.24,
+                0.45,
+                1,
+                0.5
+            ],
+            [
+                0.252,
+                0.468,
+                1,
+                0.5
+            ],
+            [
+                0.264,
+                0.486,
+                1,
+                0.5
+            ],
+            [
+                0.276,
+                0.504,
+                1,
+                0.5
+            ],
+            [
+                0.288,
+                0.522,
+                1,
+                0.5
+            ],
+            [
+                0.3,
+                0.54,
+                1,
+                0.5
+            ]
+        ],
+        "icon": "icon/skill/1306_skill.png"
+    },
+    "130603": {
+        "id": "130603",
+        "name": "The Hero with a Thousand Faces",
+        "max_level": 15,
+        "element": "",
+        "type": "Ultra",
+        "type_text": "Ultimate",
+        "effect": "Support",
+        "effect_text": "Support",
+        "simple_desc": "Recovers Skill Points for allies, and enables the DMG Boost provided by Sparkle's Talent to be additionally enhanced.",
+        "desc": "Recovers #2[i] Skill Points for the team and grants all allies Cipher. When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by #3[f1]%, lasting for #4[i] turns.",
+        "params": [
+            [
+                2,
+                4,
+                0.06,
+                2
+            ],
+            [
+                2,
+                4,
+                0.064,
+                2
+            ],
+            [
+                2,
+                4,
+                0.068,
+                2
+            ],
+            [
+                2,
+                4,
+                0.072,
+                2
+            ],
+            [
+                2,
+                4,
+                0.076,
+                2
+            ],
+            [
+                2,
+                4,
+                0.08,
+                2
+            ],
+            [
+                2,
+                4,
+                0.085,
+                2
+            ],
+            [
+                2,
+                4,
+                0.09,
+                2
+            ],
+            [
+                2,
+                4,
+                0.095,
+                2
+            ],
+            [
+                2,
+                4,
+                0.1,
+                2
+            ],
+            [
+                2,
+                4,
+                0.104,
+                2
+            ],
+            [
+                2,
+                4,
+                0.108,
+                2
+            ],
+            [
+                2,
+                4,
+                0.112,
+                2
+            ],
+            [
+                2,
+                4,
+                0.116,
+                2
+            ],
+            [
+                2,
+                4,
+                0.12,
+                2
+            ]
+        ],
+        "icon": "icon/skill/1306_ultimate.png"
+    },
+    "130604": {
+        "id": "130604",
+        "name": "Red Herring",
+        "max_level": 15,
+        "element": "",
+        "type": "Talent",
+        "type_text": "Talent",
+        "effect": "Support",
+        "effect_text": "Support",
+        "simple_desc": "Increases the team's Max Skill Points. Whenever an ally consumes Skill Points, enables all allies to deal more damage.",
+        "desc": "While Sparkle is on the battlefield, additionally increases the max number of Skill Points by #3[i]. Whenever an ally consumes 1 Skill Point, all allies' DMG increases by #2[f1]%. This effect lasts for #1[i] turn(s) and can stack up to #4[i] time(s).",
+        "params": [
+            [
+                2,
+                0.03,
+                2,
+                3
+            ],
+            [
+                2,
+                0.033,
+                2,
+                3
+            ],
+            [
+                2,
+                0.036,
+                2,
+                3
+            ],
+            [
+                2,
+                0.039,
+                2,
+                3
+            ],
+            [
+                2,
+                0.042,
+                2,
+                3
+            ],
+            [
+                2,
+                0.045,
+                2,
+                3
+            ],
+            [
+                2,
+                0.0488,
+                2,
+                3
+            ],
+            [
+                2,
+                0.0525,
+                2,
+                3
+            ],
+            [
+                2,
+                0.0563,
+                2,
+                3
+            ],
+            [
+                2,
+                0.06,
+                2,
+                3
+            ],
+            [
+                2,
+                0.063,
+                2,
+                3
+            ],
+            [
+                2,
+                0.066,
+                2,
+                3
+            ],
+            [
+                2,
+                0.069,
+                2,
+                3
+            ],
+            [
+                2,
+                0.072,
+                2,
+                3
+            ],
+            [
+                2,
+                0.075,
+                2,
+                3
+            ]
+        ],
+        "icon": "icon/skill/1306_talent.png"
+    },
+    "130606": {
+        "id": "130606",
+        "name": "Attack",
+        "max_level": 1,
+        "element": "Quantum",
+        "type": "MazeNormal",
+        "type_text": "",
+        "effect": "MazeAttack",
+        "effect_text": "",
+        "simple_desc": "",
+        "desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+        "params": [],
+        "icon": "icon/skill/1306_basic_atk.png"
+    },
+    "130607": {
+        "id": "130607",
+        "name": "Unreliable Narrator",
+        "max_level": 1,
+        "element": "",
+        "type": "Maze",
+        "type_text": "Technique",
+        "effect": "Support",
+        "effect_text": "Support",
+        "simple_desc": "Using the Technique grants all allies Misdirect. Characters with Misdirect will not be detected by enemies, and entering battle while in Misdirect recovers Skill Points for allies.",
+        "desc": "Using the Technique grants all allies Misdirect for #2[i] seconds. Characters with Misdirect will not be detected by enemies, and entering battle in the Misdirect state recovers #1[i] Skill Point(s) for the team.",
+        "params": [
+            [
+                3,
+                20
+            ]
+        ],
+        "icon": "icon/skill/1306_technique.png"
+    },
+    "130701": {
+        "id": "130701",
+        "name": "Percipience, Silent Dawn",
+        "max_level": 9,
+        "element": "Wind",
+        "type": "Normal",
+        "type_text": "Basic ATK",
+        "effect": "SingleAttack",
+        "effect_text": "Single Target",
+        "simple_desc": "Deals minor Wind DMG to a single enemy and has a chance of applying Arcana to the target. After targets are inflicted with Wind Shear, Bleed, Burn, or Shock, each respectively has a chance of additionally applying Arcana.",
+        "desc": "Deals Wind DMG equal to #1[i]% of Black Swan's ATK to a single target enemy, with a #2[i]% base chance of inflicting 1 stack of Arcana. And if the hit target currently has Wind Shear, Bleed, Burn, or Shock applied to them, each respectively has a #3[i]% base chance of inflicting 1 extra stack of Arcana onto the enemy.",
+        "params": [
+            [
+                0.3,
+                0.5,
+                0.5
+            ],
+            [
+                0.36,
+                0.53,
+                0.53
+            ],
+            [
+                0.42,
+                0.56,
+                0.56
+            ],
+            [
+                0.48,
+                0.59,
+                0.59
+            ],
+            [
+                0.54,
+                0.62,
+                0.62
+            ],
+            [
+                0.6,
+                0.65,
+                0.65
+            ],
+            [
+                0.66,
+                0.68,
+                0.68
+            ],
+            [
+                0.72,
+                0.71,
+                0.71
+            ],
+            [
+                0.78,
+                0.74,
+                0.74
+            ]
+        ],
+        "icon": "icon/skill/1307_basic_atk.png"
+    },
+    "130702": {
+        "id": "130702",
+        "name": "Decadence, False Twilight",
+        "max_level": 15,
+        "element": "Wind",
+        "type": "BPSkill",
+        "type_text": "Skill",
+        "effect": "Blast",
+        "effect_text": "Blast",
+        "simple_desc": "Deals minor Wind DMG to a single enemy target and any adjacent targets, with a high chance of inflicting Arcana and lowering the targets' DEF.",
+        "desc": "Deals Wind DMG equal to #1[i]% of Black Swan's ATK to a single target enemy and any adjacent targets. At the same time, there is a #2[i]% base chance of inflicting 1 stack of Arcana on the target enemy and the adjacent targets. And there is a #3[i]% base chance of reducing the DEF of the target enemy and the adjacent targets by #4[f1]%, lasting for #5[i] turn(s).",
+        "params": [
+            [
+                0.45,
+                1,
+                1,
+                0.148,
+                3
+            ],
+            [
+                0.495,
+                1,
+                1,
+                0.154,
+                3
+            ],
+            [
+                0.54,
+                1,
+                1,
+                0.16,
+                3
+            ],
+            [
+                0.585,
+                1,
+                1,
+                0.166,
+                3
+            ],
+            [
+                0.63,
+                1,
+                1,
+                0.172,
+                3
+            ],
+            [
+                0.675,
+                1,
+                1,
+                0.178,
+                3
+            ],
+            [
+                0.7312,
+                1,
+                1,
+                0.1855,
+                3
+            ],
+            [
+                0.7875,
+                1,
+                1,
+                0.193,
+                3
+            ],
+            [
+                0.8438,
+                1,
+                1,
+                0.2005,
+                3
+            ],
+            [
+                0.9,
+                1,
+                1,
+                0.208,
+                3
+            ],
+            [
+                0.945,
+                1,
+                1,
+                0.214,
+                3
+            ],
+            [
+                0.99,
+                1,
+                1,
+                0.22,
+                3
+            ],
+            [
+                1.035,
+                1,
+                1,
+                0.226,
+                3
+            ],
+            [
+                1.08,
+                1,
+                1,
+                0.232,
+                3
+            ],
+            [
+                1.125,
+                1,
+                1,
+                0.238,
+                3
+            ]
+        ],
+        "icon": "icon/skill/1307_skill.png"
+    },
+    "130703": {
+        "id": "130703",
+        "name": "Bliss of Otherworld's Embrace",
+        "max_level": 15,
+        "element": "Wind",
+        "type": "Ultra",
+        "type_text": "Ultimate",
+        "effect": "AoEAttack",
+        "effect_text": "AoE",
+        "simple_desc": "Inflicts Epiphany on all enemies. Affected enemies take more DMG in their turn, and their Arcana effect is regarded as Wind Shear, Bleed, Burn, and Shock effects. In addition, when their Arcana effect is triggered at the beginning of the next turn, the Arcana stacks are not reset. Deals Wind DMG to all enemies.",
+        "desc": "Inflicts Epiphany on all enemies for #2[i] turn(s).\nEnemies affected by Epiphany take #3[i]% more DMG in their turn, and their Arcana effect is regarded as Wind Shear, Bleed, Burn, and Shock effects. In addition, when their Arcana effect is triggered at the beginning of the next turn, the Arcana stacks are not reset. The stack non-reset effect can be triggered up to #4[i] time(s) in Epiphany's duration, and its charges are replenished when Epiphany is applied again.\nDeals Wind DMG equal to #1[i]% of Black Swan's ATK to all enemies.",
+        "params": [
+            [
+                0.72,
+                2,
+                0.15,
+                1
+            ],
+            [
+                0.768,
+                2,
+                0.16,
+                1
+            ],
+            [
+                0.816,
+                2,
+                0.17,
+                1
+            ],
+            [
+                0.864,
+                2,
+                0.18,
+                1
+            ],
+            [
+                0.912,
+                2,
+                0.19,
+                1
+            ],
+            [
+                0.96,
+                2,
+                0.2,
+                1
+            ],
+            [
+                1.02,
+                2,
+                0.2125,
+                1
+            ],
+            [
+                1.08,
+                2,
+                0.225,
+                1
+            ],
+            [
+                1.14,
+                2,
+                0.2375,
+                1
+            ],
+            [
+                1.2,
+                2,
+                0.25,
+                1
+            ],
+            [
+                1.248,
+                2,
+                0.26,
+                1
+            ],
+            [
+                1.296,
+                2,
+                0.27,
+                1
+            ],
+            [
+                1.344,
+                2,
+                0.28,
+                1
+            ],
+            [
+                1.392,
+                2,
+                0.29,
+                1
+            ],
+            [
+                1.44,
+                2,
+                0.3,
+                1
+            ]
+        ],
+        "icon": "icon/skill/1307_ultimate.png"
+    },
+    "130704": {
+        "id": "130704",
+        "name": "Loom of Fate's Caprice",
+        "max_level": 15,
+        "element": "",
+        "type": "Talent",
+        "type_text": "Talent",
+        "effect": "Impair",
+        "effect_text": "Impair",
+        "simple_desc": "When an enemy target receives DoT at the start of each turn, there is a chance for it to be inflicted with Arcana. They receive Wind DoT at the start of the turn, and Black Swan triggers additional effects based on the number of Arcana stacks.",
+        "desc": "Every time an enemy target receives DoT at the start of each turn, there is a #2[i]% base chance for it to be inflicted with Arcana.\nWhile afflicted with Arcana, enemy targets receive Wind DoT equal to #1[i]% of Black Swan's ATK at the start of each turn. Each stack of Arcana increases this DoT DMG multiplier by #3[f1]%. Then Arcana resets to 1 stack. Arcana can stack up to #8[i] times.\nOnly when Arcana causes DMG at the start of an enemy target's turn, Black Swan triggers additional effects based on the number of Arcana stacks inflicted on the target:\nWhen there are #4[i] or more Arcana stacks, deals Wind DoT equal to #5[i]% of Black Swan's ATK to adjacent targets, with a #2[i]% base chance of inflicting 1 stack of Arcana on adjacent targets.\nWhen there are #6[i] or more Arcana stacks, enables the current DoT dealt this time to ignore #7[i]% of the target's and adjacent targets' DEF.",
+        "params": [
+            [
+                0.96,
+                0.5,
+                0.048,
+                3,
+                0.72,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.1184,
+                0.515,
+                0.0559,
+                3,
+                0.8388,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.2768,
+                0.53,
+                0.0638,
+                3,
+                0.9576,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.4352,
+                0.545,
+                0.0718,
+                3,
+                1.0764,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.5936,
+                0.56,
+                0.0797,
+                3,
+                1.1952,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.752,
+                0.575,
+                0.0876,
+                3,
+                1.314,
+                7,
+                0.2,
+                50
+            ],
+            [
+                1.896,
+                0.5938,
+                0.0948,
+                3,
+                1.422,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.04,
+                0.6125,
+                0.102,
+                3,
+                1.53,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.22,
+                0.6312,
+                0.111,
+                3,
+                1.665,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.4,
+                0.65,
+                0.12,
+                3,
+                1.8,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.52,
+                0.665,
+                0.126,
+                3,
+                1.89,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.64,
+                0.68,
+                0.132,
+                3,
+                1.98,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.76,
+                0.695,
+                0.138,
+                3,
+                2.07,
+                7,
+                0.2,
+                50
+            ],
+            [
+                2.88,
+                0.71,
+                0.144,
+                3,
+                2.16,
+                7,
+                0.2,
+                50
+            ],
+            [
+                3,
+                0.725,
+                0.15,
+                3,
+                2.25,
+                7,
+                0.2,
+                50
+            ]
+        ],
+        "icon": "icon/skill/1307_talent.png"
+    },
+    "130706": {
+        "id": "130706",
+        "name": "Attack",
+        "max_level": 1,
+        "element": "Wind",
+        "type": "MazeNormal",
+        "type_text": "",
+        "effect": "MazeAttack",
+        "effect_text": "",
+        "simple_desc": "",
+        "desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+        "params": [],
+        "icon": "icon/skill/1307_basic_atk.png"
+    },
+    "130707": {
+        "id": "130707",
+        "name": "From Façade to Vérité",
+        "max_level": 1,
+        "element": "",
+        "type": "Maze",
+        "type_text": "Technique",
+        "effect": "Enhance",
+        "effect_text": "Enhance",
+        "simple_desc": "After this Technique is used, at the start of the next battle, there is a high chance for each enemy to be inflicted with Arcana repeatedly until Arcana fails to be inflicted.",
+        "desc": "After this Technique is used, there is a #1[i]% base chance for each enemy to be inflicted with 1 stack of Arcana at the start of the next battle. For each successful application of Arcana on a target, inflicts another stack of Arcana on the same target. This process repeats until Arcana fails to be inflicted on this target. For each successive application of Arcana on a target, its base chance of success is equal to #2[i]% of the base chance of the previous successful infliction of Arcana on that target.",
+        "params": [
+            [
+                1.5,
+                0.5
+            ]
+        ],
+        "icon": "icon/skill/1307_technique.png"
+    },
+    "131201": {
+        "id": "131201",
+        "name": "E—Excuse Me, Please!",
+        "max_level": 9,
+        "element": "Ice",
+        "type": "Normal",
+        "type_text": "Basic ATK",
+        "effect": "SingleAttack",
+        "effect_text": "Single Target",
+        "simple_desc": "Deals minor Ice DMG to a single enemy.",
+        "desc": "Deals Ice DMG equal to #1[i]% of Misha's ATK to a single target enemy.",
+        "params": [
+            [
+                0.5
+            ],
+            [
+                0.6
+            ],
+            [
+                0.7
+            ],
+            [
+                0.8
+            ],
+            [
+                0.9
+            ],
+            [
+                1
+            ],
+            [
+                1.1
+            ],
+            [
+                1.2
+            ],
+            [
+                1.3
+            ]
+        ],
+        "icon": "icon/skill/1312_basic_atk.png"
+    },
+    "131202": {
+        "id": "131202",
+        "name": "R—Room Service",
+        "max_level": 15,
+        "element": "Ice",
+        "type": "BPSkill",
+        "type_text": "Skill",
+        "effect": "Blast",
+        "effect_text": "Blast",
+        "simple_desc": "Deals Ice DMG to an enemy and minor Ice DMG to enemies adjacent to them. In addition, increase Misha's next Ultimate's Hit Per Action.",
+        "desc": "Increases the Hits Per Action for Misha's next Ultimate by #3[i] hit(s). Deals Ice DMG equal to #1[i]% of Misha's ATK to a single target enemy, and Ice DMG equal to #2[i]% of Misha's ATK to adjacent targets.",
+        "params": [
+            [
+                1,
+                0.4,
+                1
+            ],
+            [
+                1.1,
+                0.44,
+                1
+            ],
+            [
+                1.2,
+                0.48,
+                1
+            ],
+            [
+                1.3,
+                0.52,
+                1
+            ],
+            [
+                1.4,
+                0.56,
+                1
+            ],
+            [
+                1.5,
+                0.6,
+                1
+            ],
+            [
+                1.625,
+                0.65,
+                1
+            ],
+            [
+                1.75,
+                0.7,
+                1
+            ],
+            [
+                1.875,
+                0.75,
+                1
+            ],
+            [
+                2,
+                0.8,
+                1
+            ],
+            [
+                2.1,
+                0.84,
+                1
+            ],
+            [
+                2.2,
+                0.88,
+                1
+            ],
+            [
+                2.3,
+                0.92,
+                1
+            ],
+            [
+                2.4,
+                0.96,
+                1
+            ],
+            [
+                2.5,
+                1,
+                1
+            ]
+        ],
+        "icon": "icon/skill/1312_skill.png"
+    },
+    "131203": {
+        "id": "131203",
+        "name": "G—Gonna Be Late!",
+        "max_level": 15,
+        "element": "Ice",
+        "type": "Ultra",
+        "type_text": "Ultimate",
+        "effect": "Bounce",
+        "effect_text": "Bounce",
+        "simple_desc": "Deals minor Ice DMG to single enemies. The attack bounces among enemies #1[i] times by default and up to a maximum of #5[i] times. Before each hits land, there is a minor chance to Freeze the target.",
+        "desc": "Has #1[i] Hits Per Action by default. First, uses 1 hit to deal Ice DMG equal to #2[i]% of Misha's ATK to a single target enemy. Then, the rest of the hits each deals Ice DMG equal to #2[i]% of Misha's ATK to a single random enemy. Just before each hit lands, there is a #3[f1]% base chance to Freeze the target, lasting for 1 turn.\nWhile Frozen, enemy targets cannot take any actions, and at the start of their turn, they receive Additional Ice DMG equal to #4[i]% of Misha's ATK.\nThis Ultimate can possess up to #5[i] Hits Per Action. After the Ultimate is used, its Hits Per Action will be reset to the default level.",
+        "params": [
+            [
+                3,
+                0.36,
+                0.12,
+                0.18,
+                10
+            ],
+            [
+                3,
+                0.384,
+                0.128,
+                0.192,
+                10
+            ],
+            [
+                3,
+                0.408,
+                0.136,
+                0.204,
+                10
+            ],
+            [
+                3,
+                0.432,
+                0.144,
+                0.216,
+                10
+            ],
+            [
+                3,
+                0.456,
+                0.152,
+                0.228,
+                10
+            ],
+            [
+                3,
+                0.48,
+                0.16,
+                0.24,
+                10
+            ],
+            [
+                3,
+                0.51,
+                0.17,
+                0.255,
+                10
+            ],
+            [
+                3,
+                0.54,
+                0.18,
+                0.27,
+                10
+            ],
+            [
+                3,
+                0.57,
+                0.19,
+                0.285,
+                10
+            ],
+            [
+                3,
+                0.6,
+                0.2,
+                0.3,
+                10
+            ],
+            [
+                3,
+                0.624,
+                0.208,
+                0.312,
+                10
+            ],
+            [
+                3,
+                0.648,
+                0.216,
+                0.324,
+                10
+            ],
+            [
+                3,
+                0.672,
+                0.224,
+                0.336,
+                10
+            ],
+            [
+                3,
+                0.696,
+                0.232,
+                0.348,
+                10
+            ],
+            [
+                3,
+                0.72,
+                0.24,
+                0.36,
+                10
+            ]
+        ],
+        "icon": "icon/skill/1312_ultimate.png"
+    },
+    "131204": {
+        "id": "131204",
+        "name": "Horological Escapement",
+        "max_level": 15,
+        "element": "",
+        "type": "Talent",
+        "type_text": "Talent",
+        "effect": "Enhance",
+        "effect_text": "Enhance",
+        "simple_desc": "Whenever any ally consumes 1 Skill Point, Misha's next Ultimate delivers more Hits Per Action and Misha regenerates his Energy.",
+        "desc": "Whenever any ally consumes 1 Skill Point, Misha's next Ultimate delivers #2[i] more Hit(s) Per Action and Misha regenerates #1[f1] Energy.",
+        "params": [
+            [
+                1,
+                1
+            ],
+            [
+                1.1,
+                1
+            ],
+            [
+                1.2,
+                1
+            ],
+            [
+                1.3,
+                1
+            ],
+            [
+                1.4,
+                1
+            ],
+            [
+                1.5,
+                1
+            ],
+            [
+                1.625,
+                1
+            ],
+            [
+                1.75,
+                1
+            ],
+            [
+                1.875,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                2.1,
+                1
+            ],
+            [
+                2.2,
+                1
+            ],
+            [
+                2.3,
+                1
+            ],
+            [
+                2.4,
+                1
+            ],
+            [
+                2.5,
+                1
+            ]
+        ],
+        "icon": "icon/skill/1312_talent.png"
+    },
+    "131206": {
+        "id": "131206",
+        "name": "Attack",
+        "max_level": 1,
+        "element": "Ice",
+        "type": "MazeNormal",
+        "type_text": "",
+        "effect": "MazeAttack",
+        "effect_text": "",
+        "simple_desc": "",
+        "desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+        "params": [],
+        "icon": "icon/skill/1312_basic_atk.png"
+    },
+    "131207": {
+        "id": "131207",
+        "name": "Wait, You Are So Beautiful!",
+        "max_level": 1,
+        "element": "",
+        "type": "Maze",
+        "type_text": "Technique",
+        "effect": "Impair",
+        "effect_text": "Impair",
+        "simple_desc": "Creates a dimension that stops all enemies within. Upon entering battle against enemies within the dimension, Misha's next Ultimate deals more Hits Per Action.",
+        "desc": "After using the Technique, creates a dimension that lasts for #1[i] seconds. Enemies caught in the dimension are inflicted with Dream Prison and stop all their actions. Upon entering battle against enemies afflicted with Dream Prison, increases the Hits Per Action for Misha's next Ultimate by #2[i] hit(s). Only 1 dimension created by allies can exist at the same time.",
+        "params": [
+            [
+                15,
+                2
+            ]
+        ],
+        "icon": "icon/skill/1312_technique.png"
     },
     "800101": {
         "id": "800101",
@@ -15644,7 +16877,7 @@
             ],
             [
                 0.9375,
-                1.4063
+                1.4062
             ],
             [
                 1,
@@ -16041,7 +17274,7 @@
             ],
             [
                 0.9375,
-                1.4063
+                1.4062
             ],
             [
                 1,
@@ -16259,19 +17492,5 @@
             ]
         ],
         "icon": "icon/skill/8004_basic_atk.png"
-    },
-    "909807": {
-        "id": "909807",
-        "name": "",
-        "max_level": 1,
-        "element": "",
-        "type": "Maze",
-        "type_text": "Technique",
-        "effect": "Restore",
-        "effect_text": "Restore",
-        "simple_desc": "",
-        "desc": "",
-        "params": [],
-        "icon": ""
     }
 }

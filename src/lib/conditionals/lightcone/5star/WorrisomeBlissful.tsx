@@ -3,7 +3,6 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
 import { ContentItem } from 'types/Conditionals';
 import { Form } from 'types/Form';
 import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import getContentFromLCRanks from '../getContentFromLCRank';
 import { SuperImpositionLevel } from 'types/LightCone';

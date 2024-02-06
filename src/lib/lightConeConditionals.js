@@ -38,7 +38,7 @@ import HiddenShadow from 'lib/conditionals/lightcone/3star/HiddenShadow';
 import IncessantRain from 'lib/conditionals/lightcone/5star/IncessantRain';
 import InTheNameOfTheWorld from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld';
 import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight';
-import IShallBeMyOwnSword  from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword';
+import IShallBeMyOwnSword from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword';
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice';
 import Loop from 'lib/conditionals/lightcone/3star/Loop';
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor';
@@ -91,6 +91,14 @@ import WeAreWildfire from 'lib/conditionals/lightcone/4star/WeAreWildfire';
 import WeWillMeetAgain from 'lib/conditionals/lightcone/4star/WeWillMeetAgain';
 import WoofWalkTime from 'lib/conditionals/lightcone/4star/WoofWalkTime';
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful';
+import WhatIsReal from "./conditionals/lightcone/4star/WhatIsReal";
+import DreamvilleAdventure from "./conditionals/lightcone/4star/DreamvilleAdventure";
+import FinalVictor from "./conditionals/lightcone/4star/FinalVictor";
+import FlamesAfar from "./conditionals/lightcone/4star/FlamesAfar";
+import DestinysThreadsForewoven from "./conditionals/lightcone/4star/DestinysThreadsForewoven";
+import TheDayTheCosmosFell from "./conditionals/lightcone/4star/TheDayTheCosmosFell";
+import ItsShowtime from "./conditionals/lightcone/4star/ItsShowtime";
+import IndeliblePromise from "./conditionals/lightcone/4star/IndeliblePromise";
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -158,6 +166,14 @@ const fourStar = {
   21032: CarveTheMoonWeaveTheClouds,
   21033: NowhereToRun,
   21034: TodayIsAnotherPeacefulDay,
+  21035: WhatIsReal,
+  21036: DreamvilleAdventure,
+  21037: FinalVictor,
+  21038: FlamesAfar,
+  21039: DestinysThreadsForewoven,
+  21040: TheDayTheCosmosFell,
+  21041: ItsShowtime,
+  21042: IndeliblePromise,
   
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,

@@ -3,8 +3,6 @@ import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFor
 import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
 
 import { SuperImpositionLevel } from "types/LightCone";
-import { PrecomputedCharacterConditional } from "types/CharacterConditional";
-import { Form } from 'types/Form';
 import { LightConeConditional } from "types/LightConeConditionals";
 import getContentFromLCRanks from "../getContentFromLCRank";
 
@@ -36,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       //  let r = request.lightConeConditionals
     },
     calculatePassives: (/*c, request */) => { },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (/*c: PrecomputedCharacterConditional, request: Form*/) => {
       // console.warn('not implemented', c, request);
       // let r = request.lightConeConditionals
       // let x = c.x

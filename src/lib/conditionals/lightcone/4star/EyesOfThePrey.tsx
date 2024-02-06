@@ -1,7 +1,6 @@
 import React from "react";
 import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
 import { PrecomputedCharacterConditional } from "../../../../types/CharacterConditional";
-import { Form } from "../../../../types/Form";
 import { SuperImpositionLevel } from "../../../../types/LightCone";
 import { LightConeConditional } from "../../../../types/LightConeConditionals";
 
@@ -12,7 +11,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     display: () => <DisplayFormControl content={[]} />,
     defaults: () => ({
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: PrecomputedCharacterConditional/*, request: Form*/) => {
       x.DOT_BOOST += sValues[s]
     },
     calculatePassives: (/*c, request */) => { },

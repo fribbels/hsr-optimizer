@@ -4,22 +4,26 @@ Tools for optimizing your Honkai Star Rail builds, including the Character Optim
 
 ### Optimizer https://fribbels.github.io/hsr-optimizer/
 
-![Optimizer page](https://i.imgur.com/MzLfoSN.png)
+![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/7bce8d2b-a106-442c-861f-ba018d6ac7ec)
 
 ### Relic scorer https://fribbels.github.io/hsr-optimizer/#scorer
 
-![Relic scorer](https://i.imgur.com/j7HJMO3.png)
+![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/07a22edd-7adc-4f60-8772-eff9f4885dd8)
+
+### Relic organizer and recommendations
+
+![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/60882926-3dcf-41c6-b7d5-2c7fcbceecee)
 
 # Contact
 
-Contact me on discord for ideas/bugs/questions! https://discord.gg/rDmB4Un7qg
+Drop by the discord server for ideas/bugs/questions or just to hang out! https://discord.gg/rDmB4Un7qg
 
-Happy to collaborate with contributors on new features, feel free to message me on discord.
+We're happy to have new contributors! Please reach out on the discord server #dev channel - we would love a hand on new features.
 
 # Credits
 
 Shout outs to:
-* Kel-Z for letting me integrate the relic scanner https://github.com/kel-z/HSR-Scanner
+* Kel-Z for building & maintaining the relic scanner https://github.com/kel-z/HSR-Scanner
 * Mar-7th StarRailRes for the data https://github.com/Mar-7th/StarRailRes
 * Dim for helping to build out the relic scorer
-* Emma for building out the character importer
+* All the contributors that made this project possible!

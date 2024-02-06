@@ -63,6 +63,10 @@ export default function RelicScorerTab() {
           data.detailInfo.avatarDetailList[0],
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
+          data.detailInfo.avatarDetailList[4],
+          data.detailInfo.avatarDetailList[5],
+          data.detailInfo.avatarDetailList[6],
+          data.detailInfo.avatarDetailList[7],
         ]
           .filter(x => !!x)
           .filter((item, index, array) => {

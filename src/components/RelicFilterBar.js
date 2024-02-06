@@ -260,7 +260,7 @@ export default function RelicFilterBar() {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis='6.25%' />
+        <FilterRow name='set' tags={setsData} flexBasis='5.55%' />
       </Flex>
 
       <Flex vertical>

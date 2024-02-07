@@ -12,7 +12,7 @@ import FormCard from './FormCard';
 const { Text } = Typography;
 
 const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
-  const setStatDisplay = global.store(s => s.setStatDisplay);
+  const setStatDisplay = window.store(s => s.setStatDisplay);
 
   const onChangeStatDisplay = (e: RadioChangeEvent) => {
     const { target: { value } } = e;

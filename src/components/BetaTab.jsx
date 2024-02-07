@@ -8,7 +8,7 @@ export default function BetaTab(props) {
   console.log('Beta Tab')
 
   const showModal = () => {
-    global.setIsScoringModalOpen(true);
+    window.setIsScoringModalOpen(true);
   };
 
   return (

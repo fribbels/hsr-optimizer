@@ -86,11 +86,11 @@ export default function CharacterTab() {
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters());
   window.setCharacterRows = setCharacterRows;
 
-  const characterTabFocusCharacter = global.store(s => s.characterTabFocusCharacter);
-  const setCharacterTabFocusCharacter = global.store(s => s.setCharacterTabFocusCharacter);
-  const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
-  const setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
-  const charactersById = global.store(s => s.charactersById)
+  const characterTabFocusCharacter = window.store(s => s.characterTabFocusCharacter);
+  const setCharacterTabFocusCharacter = window.store(s => s.setCharacterTabFocusCharacter);
+  const setOptimizerTabFocusCharacter = window.store(s => s.setOptimizerTabFocusCharacter);
+  const setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
+  const charactersById = window.store(s => s.charactersById)
   const selectedCharacter = charactersById[characterTabFocusCharacter]
 
   const [, forceUpdate] = React.useReducer(o => !o);
@@ -131,13 +131,13 @@ export default function CharacterTab() {
     let data = event.data
 
     // Only blur if different character
-    global.store.getState().setCharacterTabBlur(global.store.getState().characterTabFocusCharacter != data.id)
+    window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data);
   }, [setCharacterTabFocusCharacter]);
 
   // TODO: implement routing to handle this
-  const setActiveKey = global.store(s => s.setActiveKey);
+  const setActiveKey = window.store(s => s.setActiveKey);
 
   const cellDoubleClickedListener = useCallback(e => {
     // setSelectedChar
@@ -183,8 +183,8 @@ export default function CharacterTab() {
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
     setCharacterTabFocusCharacter(undefined)
-    if (global.relicsGrid?.current?.api) {
-      global.relicsGrid.current.api.redrawRows()
+    if (window.relicsGrid?.current?.api) {
+      window.relicsGrid.current.api.redrawRows()
     }
 
     SaveState.save()
@@ -207,7 +207,7 @@ export default function CharacterTab() {
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success('Successfully unequipped character')
-    global.relicsGrid.current.api.redrawRows()
+    window.relicsGrid.current.api.redrawRows()
 
     SaveState.save()
   }
@@ -219,12 +219,12 @@ export default function CharacterTab() {
     }
 
     const character = DB.addFromForm(form)
-    global.characterGrid.current.api.ensureIndexVisible(character.rank)
+    window.characterGrid.current.api.ensureIndexVisible(character.rank)
   }
 
   function scoringAlgorithmClicked() {
     setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    global.setIsScoringModalOpen(true)
+    window.setIsScoringModalOpen(true)
   }
 
   function clipboardClicked() {

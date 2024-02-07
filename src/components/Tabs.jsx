@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 const defaultError = <Typography>Something went wrong</Typography>;
 
 const Tabs = () => {
-  const activeKey = global.store(s => s.activeKey)
+  const activeKey = window.store(s => s.activeKey)
 
   const optimizerTab = React.useMemo( () => <OptimizerTab/>, []);
   const characterTab = React.useMemo( () => <CharacterTab/>, []);

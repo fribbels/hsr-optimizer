@@ -47,8 +47,8 @@ export const Optimizer = {
   optimize: function (request) {
     CANCEL = false
 
-    global.store.getState().setPermutationsSearched(0)
-    global.store.getState().setPermutationsResults(0)
+    window.store.getState().setPermutationsSearched(0)
+    window.store.getState().setPermutationsResults(0)
 
     let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
@@ -123,7 +123,7 @@ export const Optimizer = {
 
     if (CANCEL) return;
 
-    global.optimizerGrid.current.api.showLoadingOverlay()
+    window.optimizerGrid.current.api.showLoadingOverlay()
 
     let results = []
     let searched = 0
@@ -217,13 +217,13 @@ export const Optimizer = {
 
         // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-        global.store.getState().setPermutationsResults(results.length)
-        global.store.getState().setPermutationsSearched(Math.min(permutations, searched))
+        window.store.getState().setPermutationsResults(results.length)
+        window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           OptimizerTabController.setRows(results)
 
-          global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length);
           resultsShown = true
           return

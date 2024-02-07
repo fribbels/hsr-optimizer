@@ -1,7 +1,7 @@
 export const Message = {
   success: (content, duration) => {
     console.log('Success message:', content)
-    global.messageApi.open({
+    window.messageApi.open({
       type: 'success',
       content: content || '',
       duration: duration || 3,
@@ -10,7 +10,7 @@ export const Message = {
 
   error: (content, duration) => {
     console.warn('Error message:', content)
-    global.messageApi.open({
+    window.messageApi.open({
       type: 'error',
       content: content || '',
       duration: duration || 3,
@@ -19,7 +19,7 @@ export const Message = {
   
   warning: (content, duration) => {
     console.warn('Warning message:', content)
-    global.messageApi.open({
+    window.messageApi.open({
       type: 'warning',
       content: content || '',
       duration: duration || 3,

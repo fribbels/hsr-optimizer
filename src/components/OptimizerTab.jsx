@@ -22,7 +22,7 @@ export default function OptimizerTab() {
   const cellClickedListener = useCallback(event => {
     OptimizerTabController.cellClicked(event)
   }, []);
-  const statDisplay = global.store(s => s.statDisplay)
+  const statDisplay = window.store(s => s.statDisplay)
   const columnDefs = useMemo(() => statDisplay == 'combat' ? combatColumnDefs : baseColumnDefs, [statDisplay]);
 
   const datasource = useMemo(() => {

@@ -82,22 +82,22 @@ GradeFilter.propTypes = {
 export default function RelicsTab() {
   console.log('======================================================================= RENDER RelicsTab');
   const gridRef = useRef();
-  global.relicsGrid = gridRef;
+  window.relicsGrid = gridRef;
 
   const [relicRows, setRelicRows] = useState(DB.getRelics());
-  global.setRelicRows = setRelicRows
+  window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
 
-  const relicTabFilters = global.store(s => s.relicTabFilters);
+  const relicTabFilters = window.store(s => s.relicTabFilters);
   useEffect(() => {
-    if (!global.relicsGrid?.current?.api) return
+    if (!window.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)
 
     if (Object.values(relicTabFilters).filter(x => x.length > 0).length == 0) {
-      global.relicsGrid.current.api.setFilterModel(null)
+      window.relicsGrid.current.api.setFilterModel(null)
       return;
     }
 
@@ -170,7 +170,7 @@ export default function RelicsTab() {
     console.log('FilterModel', filterModel)
 
     // Apply to grid
-    global.relicsGrid.current.api.setFilterModel(filterModel);
+    window.relicsGrid.current.api.setFilterModel(filterModel);
   }, [relicTabFilters])
 
   const columnDefs = useMemo(() => [

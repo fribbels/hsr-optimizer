@@ -124,11 +124,11 @@ function setSortColumn(columnId) {
     ],
     defaultState: { sort: null },
   }
-  global.optimizerGrid.current.api.applyColumnState(columnState)
+  window.optimizerGrid.current.api.applyColumnState(columnState)
 }
 
 const RecommendedPresetsButton = () => {
-  const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
+  const optimizerTabFocusCharacter = window.store(s => s.optimizerTabFocusCharacter);
 
   const items = useMemo(function () {
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
@@ -167,8 +167,8 @@ const RecommendedPresetsButton = () => {
           applyPreset(form)
         }
 
-        global.optimizerForm.setFieldsValue(form)
-        global.onOptimizerFormValuesChange({}, form);
+        window.optimizerForm.setFieldsValue(form)
+        window.onOptimizerFormValuesChange({}, form);
       } else {
         Message.warn('Preset not available, please select another option');
       }

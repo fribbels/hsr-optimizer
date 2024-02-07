@@ -182,7 +182,7 @@ export const StatCalculator = {
   calculate(character) {
     if (!character) return console.log('No character selected');
 
-    const relicsById = global.store.getState().relicsById
+    const relicsById = window.store.getState().relicsById
     let relics = Object.values(character.equipped).map(x => relicsById[x])
 
     return StatCalculator.calculateCharacterWithRelics(character, relics)

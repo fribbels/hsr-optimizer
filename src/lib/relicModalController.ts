@@ -15,7 +15,7 @@ export const RelicModalController = {
     }
 
     DB.setRelic(updatedRelic)
-    global.setRelicRows(DB.getRelics())
+    window.setRelicRows(DB.getRelics())
     SaveState.save()
 
     Message.success('Successfully edited relic')

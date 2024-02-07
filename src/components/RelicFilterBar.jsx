@@ -17,8 +17,8 @@ const tagHeight = 34
 const imgWidth = 34
 
 export default function RelicFilterBar() {
-  const setRelicTabFilters = global.store(s => s.setRelicTabFilters);
-  const setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
+  const setRelicTabFilters = window.store(s => s.setRelicTabFilters);
+  const setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
@@ -109,7 +109,7 @@ export default function RelicFilterBar() {
   function characterSelectorChange(id) {
     if (!id) return
 
-    let relics = Object.values(global.store.getState().relicsById)
+    let relics = Object.values(window.store.getState().relicsById)
     console.log('idChange', id)
 
     setScoringAlgorithmFocusCharacter(id)
@@ -170,16 +170,16 @@ export default function RelicFilterBar() {
 
     DB.setRelics(relics)
 
-    global.relicsGrid.current.api.applyColumnState({
+    window.relicsGrid.current.api.applyColumnState({
       defaultState: { sort: null },
     });
 
-    global.relicsGrid.current.api.applyColumnState({
+    window.relicsGrid.current.api.applyColumnState({
       state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
       defaultState: { sort: null },
     });
 
-    global.relicsGrid.current.api.redrawRows()
+    window.relicsGrid.current.api.redrawRows()
   }
 
   function clearClicked() {
@@ -195,7 +195,7 @@ export default function RelicFilterBar() {
   }
 
   function scoringClicked() {
-    global.setIsScoringModalOpen(true)
+    window.setIsScoringModalOpen(true)
   }
 
   function rescoreClicked() {
@@ -277,8 +277,8 @@ export default function RelicFilterBar() {
 }
 
 function FilterRow(props) {
-  let relicTabFilters = global.store(s => s.relicTabFilters);
-  let setRelicTabFilters = global.store(s => s.setRelicTabFilters);
+  let relicTabFilters = window.store(s => s.relicTabFilters);
+  let setRelicTabFilters = window.store(s => s.setRelicTabFilters);
 
   let selectedTags = relicTabFilters[props.name]
 

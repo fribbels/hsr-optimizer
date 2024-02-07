@@ -33,9 +33,9 @@ export function CharacterPreview(props) {
   const { source, character } = props;
   const isScorer = source == 'scorer';
 
-  const relicsById = global.store(s => s.relicsById)
-  const characterTabBlur = global.store(s => s.characterTabBlur);
-  const setCharacterTabBlur = global.store(s => s.setCharacterTabBlur);
+  const relicsById = window.store(s => s.relicsById)
+  const characterTabBlur = window.store(s => s.characterTabBlur);
+  const setCharacterTabBlur = window.store(s => s.setCharacterTabBlur);
   const [selectedRelic, setSelectedRelic] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
 

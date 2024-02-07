@@ -27,8 +27,8 @@ export default function ScoringModal() {
   const [scoringAlgorithmForm] = Form.useForm();
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
-  let scoringAlgorithmFocusCharacter = global.store(s => s.scoringAlgorithmFocusCharacter);
-  let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
+  let scoringAlgorithmFocusCharacter = window.store(s => s.scoringAlgorithmFocusCharacter);
+  let setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
   window.setIsScoringModalOpen = setIsScoringModalOpen

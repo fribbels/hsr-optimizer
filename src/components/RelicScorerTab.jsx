@@ -33,8 +33,8 @@ export default function RelicScorerTab() {
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState();
 
-  let scorerId = global.store(s => s.scorerId);
-  let setScorerId = global.store(s => s.setScorerId);
+  let scorerId = window.store(s => s.scorerId);
+  let setScorerId = window.store(s => s.setScorerId);
 
   const [scorerForm] = Form.useForm();
   window.scorerForm = scorerForm
@@ -102,7 +102,7 @@ export default function RelicScorerTab() {
   }
 
   function scoringClicked() {
-    global.setIsScoringModalOpen(true)
+    window.setIsScoringModalOpen(true)
   }
 
   let initialId = undefined
@@ -159,7 +159,7 @@ RelicScorerTab.propTypes = {
 }
 
 function CharacterPreviewSelection(props) {
-  let setScoringAlgorithmFocusCharacter = global.store(s => s.setScoringAlgorithmFocusCharacter);
+  let setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
 
   const [screenshotLoading, setScreenshotLoading] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);

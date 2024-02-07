@@ -53,18 +53,18 @@ let defaultGap = 5;
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm');
   const [optimizerForm] = Form.useForm();
-  window.optimizerForm = global.optimizerForm = optimizerForm;
+  window.optimizerForm = window.optimizerForm = optimizerForm;
 
   // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
-  const setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
+  const setConditionalSetEffectsDrawerOpen = window.store(s => s.setConditionalSetEffectsDrawerOpen);
   const [optimizationId, setOptimizationId] = useState();
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
-  const optimizerTabFocusCharacter = global.store(s => s.optimizerTabFocusCharacter);
-  const setOptimizerTabFocusCharacter = global.store(s => s.setOptimizerTabFocusCharacter);
+  const optimizerTabFocusCharacter = window.store(s => s.optimizerTabFocusCharacter);
+  const setOptimizerTabFocusCharacter = window.store(s => s.setOptimizerTabFocusCharacter);
 
 
   useEffect(() => {
@@ -172,8 +172,8 @@ export default function OptimizerForm() {
       PlanarSphereTotal: preFilteredRelicsByPart[Constants.Parts.PlanarSphere].length,
       LinkRopeTotal: preFilteredRelicsByPart[Constants.Parts.LinkRope].length
     }
-    global.store.getState().setPermutationDetails(permutationDetails)
-    global.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
+    window.store.getState().setPermutationDetails(permutationDetails)
+    window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
   }
   window.onOptimizerFormValuesChange = onValuesChange;
 

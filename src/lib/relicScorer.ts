@@ -120,7 +120,7 @@ export const RelicScorer = {
     if (!character || !character.id) return {}
 
     console.log('SCORE CHARACTER', character)
-    const relicsById = global.store.getState().relicsById
+    const relicsById = window.store.getState().relicsById
     const relics = Object.values(character.equipped).map(x => relicsById[x])
 
     return RelicScorer.scoreCharacterWithRelics(character, relics)

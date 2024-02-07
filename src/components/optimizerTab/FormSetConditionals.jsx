@@ -14,8 +14,8 @@ const setConditionalsWidth = 80
 const defaultGap = 5
 
 export const FormSetConditionals = () => {
-  let conditionalSetEffectsDrawerOpen = global.store(s => s.conditionalSetEffectsDrawerOpen);
-  let setConditionalSetEffectsDrawerOpen = global.store(s => s.setConditionalSetEffectsDrawerOpen);
+  let conditionalSetEffectsDrawerOpen = window.store(s => s.conditionalSetEffectsDrawerOpen);
+  let setConditionalSetEffectsDrawerOpen = window.store(s => s.setConditionalSetEffectsDrawerOpen);
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
     let options = []

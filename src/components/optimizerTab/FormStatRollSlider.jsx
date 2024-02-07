@@ -29,7 +29,7 @@ export function FormStatRollSlider(props) {
               marginBottom: 0,
               marginLeft: 0,
             }}
-            onChangeComplete={(x) => global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)}
+            onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
           />
         </Form.Item>
       </Flex>
@@ -59,7 +59,7 @@ export function FormStatRollSliderTopPercent() {
           max={100}
           onChange={(x) => {
             onChange(x)
-            global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)
+            window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)
           }}
           parser={(value) => value == null || value == '' ? 0 : Utils.precisionRound(value) }
           formatter={(value) => `${Utils.precisionRound(value)}`}
@@ -84,7 +84,7 @@ export function FormStatRollSliderTopPercent() {
             }}
             value={typeof inputValue === 'number' ? inputValue : 0}
             onChange={onChange}
-            onChangeComplete={(x) => global.onOptimizerFormValuesChange(x, global.optimizerForm.getFieldsValue(), true)}
+            onChangeComplete={(x) => window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)}
           />
         </Form.Item>
       </Flex>

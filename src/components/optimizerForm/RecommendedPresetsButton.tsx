@@ -3,9 +3,9 @@ import { Button, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import DB from "../../lib/db.js";
 import { Message } from "../../lib/message.js";
-import { getDefaultForm } from "../../lib/defaultForm.js";
 import { Constants, Sets } from "../../lib/constants.ts";
 import { OptimizerTabController } from "../../lib/optimizerTabController.js";
+import { getDefaultForm } from "../../lib/defaultForm.js";
 
 // 111.2 (5 actions in first four cycles)
 // 114.3 (4 actions in first three cycles)
@@ -149,7 +149,11 @@ const RecommendedPresetsButton = () => {
         const metadata = character.scoringMetadata
         const spd = SpdValues[key].value
 
-        const form = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+        // Using the user's current form so we don't overwrite their other numeric filter values
+        const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+        const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+        form.setConditionals = defaultForm.setConditionals
+
         form.minSpd = spd
         form.mainBody = metadata.parts[Constants.Parts.Body]
         form.mainFeet = metadata.parts[Constants.Parts.Feet]

@@ -2,7 +2,7 @@ import React from "react";
 import { Flex } from "antd";
 import { HeaderText } from "components/HeaderText";
 import { TooltipImage } from "components/TooltipImage";
-import { Hint } from "lib/hint";
+import { Hint } from "./hint";
 
 import argenti from "lib/conditionals/character/Argenti";
 import arlan from "lib/conditionals/character/Arlan";

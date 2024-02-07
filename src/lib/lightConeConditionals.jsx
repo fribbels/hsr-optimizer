@@ -4,7 +4,7 @@ import React from 'react';
 import { Flex, Typography } from 'antd';
 import { HeaderText } from 'components/HeaderText';
 import { TooltipImage } from 'components/TooltipImage';
-import { Hint } from 'lib/hint';
+import { Hint } from './hint';
 
 import Adversarial from 'lib/conditionals/lightcone/3star/Adversarial';
 import Amber from 'lib/conditionals/lightcone/3star/Amber';

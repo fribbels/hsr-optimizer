@@ -9,7 +9,7 @@ import { Constants, Stats } from "../lib/constants.ts";
 import { Assets } from "../lib/assets";
 import PropTypes from "prop-types";
 import { useSubscribe } from 'hooks/useSubscribe';
-import { Renderer } from "lib/renderer.js";
+import { Renderer } from "../lib/renderer.jsx";
 
 const { Text } = Typography;
 

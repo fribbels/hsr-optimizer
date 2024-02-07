@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from "prop-types";
 import { Card, Divider, Flex, Typography } from 'antd';
 
-import { Renderer } from "lib/renderer";
+import { Renderer } from "../lib/renderer";
 import { Assets } from "lib/assets";
 import { iconSize } from 'lib/constantsUi';
 import GenerateStat from 'components/relicPreview/GenerateStat';

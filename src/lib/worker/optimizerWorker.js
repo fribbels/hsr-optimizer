@@ -385,8 +385,8 @@ self.onmessage = function (e) {
     // Calculate skill base damage
     // ************************************************************
 
-    characterConditionals.calculateBaseMultis(c, request)
     lightConeConditionals.calculateBaseMultis(c, request)
+    characterConditionals.calculateBaseMultis(c, request)
 
     // ************************************************************
     // Calculate overall multipliers

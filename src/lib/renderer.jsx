@@ -13,12 +13,12 @@ export const Renderer = {
 
   x100Tenths: (x) => {
     if (x == undefined || x.value == undefined) return '';
-    return (x.value * 100).toFixed(1)
+    return (Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10).toFixed(1)
   },
 
   tenths: (x) => {
     if (x == undefined || x.value == undefined) return '';
-    return (x.value).toFixed(1)
+    return (Math.floor(Utils.precisionRound(x.value) * 10) / 10).toFixed(1)
   },
 
   relicSet: (x) => {

@@ -80,6 +80,14 @@ export const Assets = {
     if (!lightCone) return Assets.getBlank()
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
+  getLightConePortraitById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/image/light_cone_portrait/${lightConeId}.png`
+  },
+  getLightConeIconById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/icon/light_cone/${lightConeId}.png`
+  },
   getPath: (path) => {
     if (!path) return ''
     return baseUrl + `/assets/icon/path/${path}.png`

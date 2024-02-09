@@ -1,42 +1,46 @@
-import { Flex, Typography } from "antd";
+import { Collapse, Flex, Typography } from "antd";
 import React from "react";
 import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
 export default function FormRow(props) {
-  return (
-    <Flex gap={0} vertical style={{
-      paddingTop: 5
-    }}>
-      <Flex // Top bar
-        style={{
-          height: 20,
-          paddingLeft: 15,
-        }}
-        // justify='space-around'
-        align='center'
-      >
-        <Text
+  const items = [
+    {
+      key: '1',
+      label: <Flex style={{paddingTop: 8}}>
+        {props.title}
+      </Flex>,
+      children:
+        <Flex
           style={{
-            fontSize: 20,
+            paddingLeft: 10,
+            marginTop: 10,
+            paddingRight: 10,
           }}
+          gap={10}
         >
-          {props.title}
-        </Text>
-      </Flex>
+          {props.children}
+        </Flex>
+    },
+  ]
 
-      <Flex
-        style={{
-          paddingTop: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-          paddingBottom: 10,
-        }}
-        gap={10}
-      >
-        {props.children}
-      </Flex>
+  return (
+    <Flex
+      gap={0}
+      vertical
+      className='form-row'
+      style={{
+        minWidth: '100%',
+      }}
+    >
+      <Collapse
+        defaultActiveKey={['1']}
+        items={items}
+        // collapsible='icon'
+        expandIconPosition='end'
+        ghost
+      />
     </Flex>
   )
 }

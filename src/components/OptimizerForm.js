@@ -38,6 +38,7 @@ import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
+import TeammateCard from "./optimizerTab/TeammateCard";
 
 
 const { Text } = Typography;
@@ -355,6 +356,7 @@ export default function OptimizerForm() {
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
+                    placeholder='Character'
                   />
                 </Form.Item>
               </Flex>
@@ -364,6 +366,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={levelOptions}
+                    placeholder='Level'
                   />
                 </Form.Item>
                 <Form.Item size="default" name='characterEidolon'>
@@ -371,6 +374,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={eidolonOptions}
+                    placeholder='Eidolon'
                   />
                 </Form.Item>
               </Flex>
@@ -388,6 +392,7 @@ export default function OptimizerForm() {
                       style={{ width: panelWidth }}
                       onChange={lightConeSelectorChange}
                       options={lightConeOptions}
+                      placeholder='Light Cone'
                     />
                   </Form.Item>
                 </Flex>
@@ -397,6 +402,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={levelOptions}
+                      placeholder='Level'
                     />
                   </Form.Item>
                   <Form.Item size="default" name='lightConeSuperimposition'>
@@ -404,6 +410,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={superimpositionOptions}
+                      placeholder='Superimposition'
                     />
                   </Form.Item>
                 </Flex>
@@ -783,6 +790,12 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
             </FormCard>
+          </FormRow>
+
+          <FormRow title='Teammates'>
+            <TeammateCard index={0}/>
+            <TeammateCard index={1}/>
+            <TeammateCard index={2}/>
           </FormRow>
         </FilterContainer>
       </Form>

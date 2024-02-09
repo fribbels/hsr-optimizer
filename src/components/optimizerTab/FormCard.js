@@ -9,9 +9,11 @@ let defaultGap = 5;
 let defaultPadding = 15
 
 let smallWidth = panelWidth
-let mediumWidth = panelWidth * 2 + defaultPadding * 2 + 10
+let mediumWidth = 365//panelWidth * 2 + defaultPadding * 2 + 10
 
 export default function FormCard(props) {
+  const width = props.size == 'medium' ? mediumWidth : smallWidth;
+
   return (
     <Flex
       style={{
@@ -25,7 +27,7 @@ export default function FormCard(props) {
     >
       <Flex
         vertical
-        style={{ width: props.medium ? mediumWidth : smallWidth }}
+        style={{ width: width }}
         gap={defaultGap}
         justify={props.justify || undefined}
       >
@@ -39,5 +41,5 @@ FormCard.propTypes = {
   justify: PropTypes.string,
   style: PropTypes.object,
   height: PropTypes.number,
-  medium: PropTypes.bool,
+  size: PropTypes.string,
 }

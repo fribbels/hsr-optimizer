@@ -1,26 +1,23 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
-import { PrecomputedCharacterConditional } from "types/CharacterConditional";
-import { Form } from 'types/Form';
+import { Eidolon } from 'types/Character'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-const SilverWolf = (e: Eidolon) => {
-  const skillResShredValue = skillRev(e, 0.10, 0.105);
-  const skillDefShredBufValue = skillRev(e, 0.08, 0.088);
-  const ultDefShredValue = ultRev(e, 0.45, 0.468);
+const SilverWolf = (e: Eidolon): CharacterConditional => {
+  const skillResShredValue = skillRev(e, 0.10, 0.105)
+  const skillDefShredBufValue = skillRev(e, 0.08, 0.088)
+  const ultDefShredValue = ultRev(e, 0.45, 0.468)
 
-  const basicScaling = basicRev(e, 1.00, 1.10);
-  const skillScaling = skillRev(e, 1.96, 2.156);
-  const ultScaling = ultRev(e, 3.80, 4.104);
+  const basicScaling = basicRev(e, 1.00, 1.10)
+  const skillScaling = skillRev(e, 1.96, 2.156)
+  const ultScaling = ultRev(e, 3.80, 4.104)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
     text: 'Skill RES shred',
@@ -29,21 +26,21 @@ const SilverWolf = (e: Eidolon) => {
     ::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.`,
   }, {
     // TODO: should be talent
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'skillDefShredDebuff',
     name: 'skillDefShredDebuff',
     text: 'Bug DEF shred',
     title: 'Talent: Awaiting System Response... DEF shred',
     content: `Silver Wolf's bug reduces the target's DEF by ${precisionRound(skillDefShredBufValue * 100)}% for 3 turn(s).`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'ultDefShredDebuff',
     name: 'ultDefShredDebuff',
     text: 'Ult DEF shred',
     title: 'Ult: User Banned DEF shred',
     content: `Decreases the target's DEF by ${precisionRound(ultDefShredValue * 100)}% for 3 turn(s).`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'targetDebuffs',
     name: 'targetDebuffs',
     text: 'Target debuffs',
@@ -57,10 +54,10 @@ const SilverWolf = (e: Eidolon) => {
     `,
     min: 0,
     max: 5,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       skillResShredDebuff: true,
       skillDefShredDebuff: true,
@@ -86,17 +83,17 @@ const SilverWolf = (e: Eidolon) => {
       x.DEF_SHRED += (r.ultDefShredDebuff) ? ultDefShredValue : 0
       x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
 
-      return x;
+      return x
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x'];
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
-    }
+    },
   }
 }
 
-export default SilverWolf;
+export default SilverWolf

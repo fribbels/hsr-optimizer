@@ -1,16 +1,13 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
-import { PrecomputedCharacterConditional } from "types/CharacterConditional";
-import { Form } from 'types/Form';
+import { Eidolon } from 'types/Character'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-
-export default(e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const righteousHeartStackMax = (e >= 1) ? 10 : 6
   const outroarStackCdValue = skillRev(e, 0.12, 0.132)
   const righteousHeartDmgValue = talentRev(e, 0.10, 0.11)
@@ -22,8 +19,8 @@ export default(e: Eidolon) => {
   const skillScaling = skillRev(e, 0, 0)
   const ultScaling = ultRev(e, 3.00, 3.24)
 
-  const content = [{
-    formItem: FormSliderWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'slider',
     id: 'basicEnhanced',
     name: 'basicEnhanced',
     text: 'Basic enhancements',
@@ -34,8 +31,8 @@ export default(e: Eidolon) => {
     ::BR::3 stack(s): Uses a 7-hit attack and deals Imaginary DMG equal to ${precisionRound(basicEnhanced3Scaling * 100)}% ATK to a single enemy target and reduced DMG to adjacent targets.`,
     min: 0,
     max: 3,
-  },{
-    formItem: FormSliderWithPopover,
+  }, {
+    formItem: 'slider',
     id: 'skillOutroarStacks',
     name: 'skillOutroarStacks',
     text: 'Outroar stacks',
@@ -45,7 +42,7 @@ export default(e: Eidolon) => {
     min: 0,
     max: 4,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentRighteousHeartStacks',
     name: 'talentRighteousHeartStacks',
     text: 'Righteous Heart stacks',
@@ -54,7 +51,7 @@ export default(e: Eidolon) => {
     min: 0,
     max: righteousHeartStackMax,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e6ResPenStacks',
     name: 'e6ResPenStacks',
     text: 'E6 RES PEN stacks',
@@ -63,10 +60,10 @@ export default(e: Eidolon) => {
     min: 0,
     max: 3,
     disabled: e < 6,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       basicEnhanced: 3,
       skillOutroarStacks: 4,
@@ -98,10 +95,10 @@ export default(e: Eidolon) => {
       return x
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x'];
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
+    },
   }
 }

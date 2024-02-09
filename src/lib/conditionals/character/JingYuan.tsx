@@ -1,14 +1,12 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, calculateAshblazingSet, skill, talent, ult } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from '../../../types/CharacterConditional'
+import { ContentItem } from '../../../types/Conditionals'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.00, 2.16)
@@ -16,15 +14,15 @@ export default (e: Eidolon) => {
 
   let hitMulti = 0
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'skillCritBuff',
     name: 'skillCritBuff',
     text: 'Skill CR buff',
     title: 'Skill CR buff',
     content: `After using Skill, CRIT Rate increases by 10% for 2 turns.`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentHitsPerAction',
     name: 'talentHitsPerAction',
     text: 'Lightning Lord stacks',
@@ -33,7 +31,7 @@ export default (e: Eidolon) => {
     min: 3,
     max: 10,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentAttacks',
     name: 'talentAttacks',
     text: 'Lightning Lord hits on target',
@@ -42,7 +40,7 @@ export default (e: Eidolon) => {
     min: 0,
     max: 10,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e2DmgBuff',
     name: 'e2DmgBuff',
     text: 'E2 dmg buff',
@@ -50,7 +48,7 @@ export default (e: Eidolon) => {
     content: `E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns.`,
     disabled: e < 2,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e6FuaVulnerabilityStacks',
     name: 'e6FuaVulnerabilityStacks',
     text: 'E6 vulnerable stacks',
@@ -59,17 +57,16 @@ export default (e: Eidolon) => {
     min: 0,
     max: 3,
     disabled: e < 6,
-  }];
-
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       skillCritBuff: true,
       talentHitsPerAction: 10,
       talentAttacks: 10,
       e2DmgBuff: true,
-      e6FuaVulnerabilityStacks: 3
+      e6FuaVulnerabilityStacks: 3,
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -126,6 +123,6 @@ export default (e: Eidolon) => {
 
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * r.talentAttacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-    }
+    },
   }
 }

@@ -1,34 +1,33 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, calculateAshblazingSet, skill, talent, ult } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
   const ultScaling = ult(e, 0.80, 0.864)
   const fuaScaling = talent(e, 1.40, 1.596)
   const dotScaling = ult(e, 2.90, 3.183)
 
-  const hitMulti = ASHBLAZING_ATK_STACK *
-    (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
+  const hitMulti = ASHBLAZING_ATK_STACK
+    * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'e1DotDmgReceivedDebuff',
     name: 'e1DotDmgReceivedDebuff',
     text: 'E1 DoT DMG debuff',
     title: 'E1 DoT DMG debuff',
     content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
     disabled: e < 1,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       e1DotDmgReceivedDebuff: true,
     }),
@@ -62,6 +61,6 @@ export default (e: Eidolon) => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    }
+    },
   }
-};
+}

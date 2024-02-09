@@ -1,46 +1,45 @@
-import React from "react"
-import { Stats } from "lib/constants"
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { ContentItem } from 'types/Conditionals'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
 
 // TODO: Missing E1 dmg
-const TrailblazerPreservation = (e) => {
-  const skillDamageReductionValue = skillRev(e, 0.50, 0.52);
+export default (e: Eidolon): CharacterConditional => {
+  const skillDamageReductionValue = skillRev(e, 0.50, 0.52)
 
-  const basicAtkScaling = basicRev(e, 1.00, 1.10);
+  const basicAtkScaling = basicRev(e, 1.00, 1.10)
   const basicDefScaling = (e >= 1) ? 0.25 : 0
-  const basicEnhancedAtkScaling = basicRev(e, 1.35, 1.463);
+  const basicEnhancedAtkScaling = basicRev(e, 1.35, 1.463)
   const basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
-  const skillScaling = skillRev(e, 0, 0);
-  const ultAtkScaling = ultRev(e, 1.00, 1.10);
-  const ultDefScaling = ultRev(e, 1.50, 1.65);
+  const skillScaling = skillRev(e, 0, 0)
+  const ultAtkScaling = ultRev(e, 1.00, 1.10)
+  const ultDefScaling = ultRev(e, 1.50, 1.65)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'enhancedBasic',
     name: 'enhancedBasic',
     text: 'Enhanced basic',
     title: `Enhanced basic`,
     content: `Enhanced basic ATK deals Fire DMG equal to ${precisionRound(basicEnhancedAtkScaling * 100)}% of the Trailblazer's ATK to a single enemy, and reduced damage to adjacent enemies.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
     text: 'Skill active',
     title: `Skill active`,
     content: `When the Skill is used, reduces DMG taken by ${precisionRound(skillDamageReductionValue * 100)}%. Also reduces DMG taken by all allies by 15% for 1 turn.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'shieldActive',
     name: 'shieldActive',
     text: 'Shield active',
     title: 'Shield active',
     content: `When the shield is active, increases ATK by 15%.`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e6DefStacks',
     name: 'e6DefStacks',
     text: 'E6 def stacks',
@@ -49,10 +48,10 @@ const TrailblazerPreservation = (e) => {
     min: 0,
     max: 3,
     disabled: e < 6,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enhancedBasic: true,
       skillActive: true,
@@ -61,7 +60,7 @@ const TrailblazerPreservation = (e) => {
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject);
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -91,8 +90,6 @@ const TrailblazerPreservation = (e) => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
-    }
+    },
   }
 }
-
-export default TrailblazerPreservation;

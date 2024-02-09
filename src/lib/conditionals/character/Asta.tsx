@@ -1,18 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const ultSpdBuffValue = ult(e, 50, 52.8)
   const talentStacksAtkBuff = talent(e, 0.14, 0.154)
   const talentStacksDefBuff = 0.06
@@ -23,8 +18,8 @@ export default (e: Eidolon) => {
   const ultScaling = ult(e, 0, 0)
   const dotScaling = basic(e, 0.50, 0.55)
 
-  const content = [{
-    formItem: FormSliderWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'slider',
     id: 'skillExtraDmgHits',
     name: 'skillExtraDmgHits',
     text: 'Skill extra hits',
@@ -33,7 +28,7 @@ export default (e: Eidolon) => {
     min: 0,
     max: skillExtraDmgHitsMax,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentBuffStacks',
     name: 'talentBuffStacks',
     text: 'Talent ATK buff stacks',
@@ -42,20 +37,20 @@ export default (e: Eidolon) => {
     min: 0,
     max: 5,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'ultSpdBuff',
     name: 'ultSpdBuff',
     text: 'Ult SPD buff active',
     title: 'Ult SPD buff active',
     content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       talentBuffStacks: 5,
       skillExtraDmgHits: skillExtraDmgHitsMax,
-      ultSpdBuff: true
+      ultSpdBuff: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -79,12 +74,12 @@ export default (e: Eidolon) => {
       return x
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x'];
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += 0
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    }
+    },
   }
 }

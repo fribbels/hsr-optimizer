@@ -1,23 +1,21 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from "lib/conditionals/utils";
-import { Eidolon } from "types/Character"
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { Eidolon } from 'types/Character'
+import { ContentItem } from 'types/Conditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
 
-const TrailblazerDestruction = (e: Eidolon) => {
-  const talentAtkScalingValue = talentRev(e, 0.20, 0.22);
+export default (e: Eidolon): CharacterConditional => {
+  const talentAtkScalingValue = talentRev(e, 0.20, 0.22)
 
-  const basicScaling = basicRev(e, 1.00, 1.10);
-  const skillScaling = skillRev(e, 1.25, 1.375);
-  const ultScaling = ultRev(e, 4.5, 4.80);
-  const ultEnhancedScaling = ultRev(e, 2.70, 2.88);
-  const ultEnhancedScaling2 = ultRev(e, 1.62, 1.728);
+  const basicScaling = basicRev(e, 1.00, 1.10)
+  const skillScaling = skillRev(e, 1.25, 1.375)
+  const ultScaling = ultRev(e, 4.5, 4.80)
+  const ultEnhancedScaling = ultRev(e, 2.70, 2.88)
+  const ultEnhancedScaling2 = ultRev(e, 1.62, 1.728)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'enhancedUlt',
     name: 'Enhanced Ult',
     text: 'AoE ult',
@@ -25,7 +23,7 @@ const TrailblazerDestruction = (e: Eidolon) => {
     content: `Choose between two attack modes to deliver a full strike. ::BR:: Blowout: (ST) Farewell Hit deals Physical DMG equal to ${precisionRound(ultScaling * 100)}% of the Trailblazer's ATK to a single enemy. 
     ::BR::Blowout: (Blast) RIP Home Run deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to ${precisionRound(ultEnhancedScaling2 * 100)}% of the Trailblazer's ATK to enemies adjacent to it.`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentStacks',
     name: 'Talent stacks',
     text: 'Talent stacks',
@@ -33,17 +31,17 @@ const TrailblazerDestruction = (e: Eidolon) => {
     content: `Each time after this character inflicts Weakness Break on an enemy, ATK increases by ${precisionRound(talentAtkScalingValue * 100)}% and DEF increases by 10%. This effect stacks up to 2 times.`,
     min: 0,
     max: 2,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enhancedUlt: true,
       talentStacks: 2,
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject);
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
@@ -67,7 +65,6 @@ const TrailblazerDestruction = (e: Eidolon) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
+    },
   }
-};
-export default TrailblazerDestruction;
+}

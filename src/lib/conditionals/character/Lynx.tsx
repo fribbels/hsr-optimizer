@@ -1,22 +1,21 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-export default (e: Eidolon) => {
-  const skillHpPercentBuff = skillRev(e, 0.075, 0.08);
-  const skillHpFlatBuff = skillRev(e, 200, 223);
+export default (e: Eidolon): CharacterConditional => {
+  const skillHpPercentBuff = skillRev(e, 0.075, 0.08)
+  const skillHpFlatBuff = skillRev(e, 200, 223)
 
-  const basicScaling = basicRev(e, 0.50, 0.55);
-  const skillScaling = skillRev(e, 0, 0);
-  const ultScaling = ultRev(e, 0, 0);
+  const basicScaling = basicRev(e, 0.50, 0.55)
+  const skillScaling = skillRev(e, 0, 0)
+  const ultScaling = ultRev(e, 0, 0)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
     text: 'Skill max HP buff',
@@ -27,7 +26,7 @@ export default (e: Eidolon) => {
   }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       skillBuff: true,
       e4TalentAtkBuff: true,
@@ -60,6 +59,6 @@ export default (e: Eidolon) => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
-    }
+    },
   }
 }

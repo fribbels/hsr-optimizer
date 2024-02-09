@@ -1,28 +1,27 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, precisionRound, skill, ult } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, precisionRound, skill, ult } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-const Pela = (e: Eidolon) => {
-  const ultDefPenValue = ult(e, 0.40, 0.42);
+export default (e: Eidolon): CharacterConditional => {
+  const ultDefPenValue = ult(e, 0.40, 0.42)
 
-  const basicScaling = basic(e, 1.00, 1.10);
-  const skillScaling = skill(e, 2.10, 2.31);
-  const ultScaling = ult(e, 1.00, 1.08);
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.10, 2.31)
+  const ultScaling = ult(e, 1.00, 1.08)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'enemyDebuffed',
     name: 'enemyDebuffed',
     text: 'Enemy debuffed',
     title: 'Enemy debuffed',
     content: `Deals 20% more DMG to debuffed enemies.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'skillRemovedBuff',
     name: 'skillRemovedBuff',
     text: 'Enemy buff removed skill buff',
@@ -31,24 +30,24 @@ const Pela = (e: Eidolon) => {
     ::BR::
     E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s).`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'ultDefPenDebuff',
     name: 'ultDefPenDebuff',
     text: 'Ult DEF shred debuff',
     title: 'Ult DEF shred debuff',
     content: `When Exposed, enemies' DEF is reduced by ${precisionRound(ultDefPenValue * 100)}% for 2 turn(s).`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e4SkillResShred',
     name: 'e4SkillResShred',
     text: 'E4 skill RES shred',
     title: 'E4 skill RES shred',
     content: `E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s).`,
     disabled: e < 4,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enemyDebuffed: true,
       skillRemovedBuff: true,
@@ -57,7 +56,7 @@ const Pela = (e: Eidolon) => {
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject);
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.EHR] += 0.10
@@ -92,7 +91,6 @@ const Pela = (e: Eidolon) => {
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
       x.SKILL_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
       x.ULT_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
-    }
+    },
   }
-};
-export default Pela;
+}

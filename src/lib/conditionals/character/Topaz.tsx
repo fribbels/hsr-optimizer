@@ -1,17 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-const Topaz = (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
   const enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
   const enhancedStateFuaCdBoost = ult(e, 0.25, 0.275)
@@ -21,33 +17,33 @@ const Topaz = (e: Eidolon) => {
   const fuaScaling = talent(e, 1.50, 1.65)
 
   // 0.06
-  const basicHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1 * 1 / 1)
+  const basicHitCountMulti = ASHBLAZING_ATK_STACK
+    * (1 * 1 / 1)
 
   // 0.18
-  const fuaHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1 * 1 / 7 + 2 * 1 / 7 + 3 * 1 / 7 + 4 * 1 / 7 + 5 * 1 / 7 + 6 * 1 / 7 + 7 * 1 / 7)
+  const fuaHitCountMulti = ASHBLAZING_ATK_STACK
+    * (1 * 1 / 7 + 2 * 1 / 7 + 3 * 1 / 7 + 4 * 1 / 7 + 5 * 1 / 7 + 6 * 1 / 7 + 7 * 1 / 7)
 
   // 0.252
-  const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK *
-    (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
+  const fuaEnhancedHitCountMulti = ASHBLAZING_ATK_STACK
+    * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 3 / 10)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'enemyProofOfDebtDebuff',
     name: 'enemyProofOfDebtDebuff',
     text: 'Enemy proof of debt debuff',
     title: 'Proof of Debt',
     content: `Inflicts a single target enemy with a Proof of Debt status, increasing the DMG it takes from follow-up attacks by ${precisionRound(proofOfDebtFuaVulnerability * 100)}%.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'numbyEnhancedState',
     name: 'numbyEnhancedState',
     text: 'Numby enhanced state',
     title: 'Turn a Profit!: Ult Enhanced State',
     content: `Numby enters the Windfall Bonanza! state and its DMG multiplier increases by ${precisionRound(enhancedStateFuaScalingBoost * 100)}% and CRIT DMG increases by ${precisionRound(enhancedStateFuaCdBoost * 100)}%.`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e1DebtorStacks',
     name: 'e1DebtorStacks',
     text: 'E1 Debtor stacks',
@@ -56,10 +52,10 @@ const Topaz = (e: Eidolon) => {
     min: 0,
     max: 2,
     disabled: e < 1,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enemyProofOfDebtDebuff: true,
       numbyEnhancedState: true,
@@ -87,19 +83,20 @@ const Topaz = (e: Eidolon) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x'];
+      const x = c['x']
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const ashblazingFuaData = calculateAshblazingSet(c, request, hitMulti)
       const ashblazingBasicData = calculateAshblazingSet(c, request, basicHitCountMulti)
 
-
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingFuaData.ashblazingAtk + ashblazingFuaData.ashblazingMulti)
       x.SKILL_DMG = x.FUA_DMG
 
-      // Copy fua boosts to skill/basic
-      // BOOSTS get added, while vulnerability / def pen gets replaced (?)
+      /*
+       * Copy fua boosts to skill/basic
+       * BOOSTS get added, while vulnerability / def pen gets replaced (?)
+       */
       x.SKILL_BOOST += x.FUA_BOOST
       x.SKILL_CD_BOOST += x.FUA_CD_BOOST
       x.SKILL_CR_BOOST += x.FUA_CR_BOOST
@@ -121,7 +118,6 @@ const Topaz = (e: Eidolon) => {
       // Her e6 only applies to skill/fua not basic
       x.SKILL_RES_PEN += (e >= 6) ? 0.10 : 0
       x.FUA_RES_PEN += (e >= 6) ? 0.10 : 0
-    }
+    },
   }
 }
-export default Topaz;

@@ -1,17 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-export default(e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basicRev(e, 1.00, 1.10)
   const skillScaling = skillRev(e, 2.00, 2.20)
   const ultScaling = ultRev(e, 2.30, 2.484)
@@ -24,22 +20,22 @@ export default(e: Eidolon) => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'targetBurned',
     name: 'targetBurned',
     text: 'Target burned',
     title: 'Target burned',
     content: `Skill deals 20% more DMG to enemies currently afflicted with Burn.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'selfCurrentHp80Percent',
     name: 'selfCurrentHp80Percent',
     text: 'Self HP ≥ 80%',
     title: 'Self HP ≥ 80%',
     content: `When current HP percentage is 80% or higher, CRIT Rate increases by 15%.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e1TalentSpdBuff',
     name: 'e1TalentSpdBuff',
     text: 'E1 SPD buff',
@@ -47,7 +43,7 @@ export default(e: Eidolon) => {
     content: `E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns.`,
     disabled: e < 1,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e6UltExtraHits',
     name: 'e6UltExtraHits',
     text: 'E6 ult extra hits',
@@ -56,10 +52,10 @@ export default(e: Eidolon) => {
     min: 0,
     max: 2,
     disabled: e < 6,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       targetBurned: true,
       selfCurrentHp80Percent: true,
@@ -88,8 +84,8 @@ export default(e: Eidolon) => {
 
       return x
     },
-    calculateBaseMultis: (c:PrecomputedCharacterConditional, request:Form) => {
-      const x = c['x'];
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -99,6 +95,6 @@ export default(e: Eidolon) => {
       const hitMulti = hitMultiByTargets[request.enemyCount]
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-    }
+    },
   }
 }

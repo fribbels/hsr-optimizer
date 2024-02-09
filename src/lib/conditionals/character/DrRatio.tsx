@@ -1,13 +1,12 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from "lib/conditionals/utils";
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
+import { Stats } from 'lib/constants'
+import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
 
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { Eidolon } from 'types/Character';
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-const DrRatio = (e: Eidolon) => {
+const DrRatio = (e: Eidolon): CharacterConditional => {
   const debuffStacksMax = 5
   const summationStacksMax = (e >= 1) ? 10 : 6
 
@@ -29,45 +28,45 @@ const DrRatio = (e: Eidolon) => {
     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
     3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
     4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
-  };
+  }
 
   // TODO: Make consistent with the other code
   const getContentWithTalentLevel = () => {
     const base = [
-      "When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time,",
+      'When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time,',
       "dealing Imaginary DMG equal to {0}% of Dr. Ratio's ATK.",
-      "For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%.",
-      "If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.",
-      "::BR::When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.",
-      "::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack."
-    ].join(' ');
+      'For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%.',
+      'If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.',
+      '::BR::When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.',
+      "::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.",
+    ].join(' ')
 
     // assume max talent level
     return base.replace('{0}', (e >= 5) ? '297' : '270')
   }
 
-  const content = [{
+  const content: ContentItem[] = [{
     id: 'summationStacks',
     name: 'summationStacks',
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     text: 'Summation stacks',
     title: 'Summation stacks',
     content: `When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by 2.5% and CRIT DMG by 5%. This effect can stack up to ${precisionRound(summationStacksMax)} time(s).`,
     min: 0,
-    max: summationStacksMax
+    max: summationStacksMax,
   }, {
     id: 'enemyDebuffStacks',
     name: 'enemyDebuffStacks',
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     text: 'Enemy debuff stacks',
     title: 'Talent: Cogito, Ergo Sum',
     content: getContentWithTalentLevel(),
     min: 0,
-    max: debuffStacksMax
-  }];
+    max: debuffStacksMax,
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enemyDebuffStacks: debuffStacksMax,
       summationStacks: summationStacksMax,
@@ -107,8 +106,8 @@ const DrRatio = (e: Eidolon) => {
         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
-    }
+    },
   }
 }
 
-export default DrRatio;
+export default DrRatio

@@ -1,25 +1,24 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, precisionRound, ult } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, precisionRound, ult } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-export default(e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const ultBuffValue = ult(e, 0.40, 0.432)
   const basicScaling = basic(e, 0.50, 0.55)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
     text: 'Ult buff',
     title: 'Ult buff',
     content: `Increases all allies' ATK by ${precisionRound(ultBuffValue * 100)}% for 2 turns after using Ultimate.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
     text: 'E1 skill buff',
@@ -27,17 +26,17 @@ export default(e: Eidolon) => {
     content: `E1: Increases all allies' SPD by 12% for 2 turns after using Skill.`,
     disabled: e < 1,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e6DmgBuff',
     name: 'e6DmgBuff',
     text: 'E6 DMG buff',
     title: 'E6 DMG buff',
     content: `E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.`,
     disabled: e < 6,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       ultBuff: true,
       skillBuff: true,
@@ -63,6 +62,6 @@ export default(e: Eidolon) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
-    }
+    },
   }
 }

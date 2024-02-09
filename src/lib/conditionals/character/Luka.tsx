@@ -1,39 +1,37 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, precisionRound, skillRev, ultRev } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
-import { FormSliderWithPopover } from "components/optimizerForm/conditionals/FormSlider";
+import { Eidolon } from 'types/Character'
+import { ContentItem } from 'types/Conditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
 
-export default function luka(e: Eidolon) {
-  const basicEnhancedHitValue = basicRev(e, 0.20, 0.22);
-  const targetUltDebuffDmgTakenValue = ultRev(e, 0.20, 0.216);
+export default (e: Eidolon): CharacterConditional => {
+  const basicEnhancedHitValue = basicRev(e, 0.20, 0.22)
+  const targetUltDebuffDmgTakenValue = ultRev(e, 0.20, 0.216)
 
-  const basicScaling = basicRev(e, 1.00, 1.10);
-  const basicEnhancedScaling = basicRev(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88);
-  const skillScaling = skillRev(e, 1.20, 1.32);
-  const ultScaling = ultRev(e, 3.30, 3.564);
-  const dotScaling = skillRev(e, 3.38, 3.718);
+  const basicScaling = basicRev(e, 1.00, 1.10)
+  const basicEnhancedScaling = basicRev(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
+  const skillScaling = skillRev(e, 1.20, 1.32)
+  const ultScaling = ultRev(e, 3.30, 3.564)
+  const dotScaling = skillRev(e, 3.38, 3.718)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'basicEnhanced',
     name: 'basicEnhanced',
     text: 'Basic enhanced',
     title: 'Basic enhanced: Sky-Shatter Fist',
     content: `Enhances Basic ATK to deal additional damage, and has a chance to trigger extra hits.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'targetUltDebuffed',
     name: 'targetUltDebuffed',
     text: 'Target ult debuffed',
     title: 'Target ult debuffed',
     content: `Increase the target's DMG received by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% for 3 turn(s)`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'basicEnhancedExtraHits',
     name: 'basicEnhancedExtraHits',
     text: 'Enhanced basic extra hits',
@@ -42,7 +40,7 @@ export default function luka(e: Eidolon) {
     min: 0,
     max: 3,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e1TargetBleeding',
     name: 'e1TargetBleeding',
     text: 'E1 target bleeding',
@@ -50,7 +48,7 @@ export default function luka(e: Eidolon) {
     content: `E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turn(s).`,
     disabled: e < 1,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e4TalentStacks',
     name: 'e4TalentStacks',
     text: 'E4 talent stacks',
@@ -59,10 +57,10 @@ export default function luka(e: Eidolon) {
     min: 0,
     max: 4,
     disabled: e < 4,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       basicEnhanced: true,
       targetUltDebuffed: true,
@@ -98,6 +96,6 @@ export default function luka(e: Eidolon) {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
-    }
+    },
   }
 }

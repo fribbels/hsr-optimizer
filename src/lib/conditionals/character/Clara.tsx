@@ -1,16 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from '../../../types/Conditionals'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
   const ultFuaExtraScaling = ult(e, 1.60, 1.728)
 
@@ -21,27 +18,27 @@ export default (e: Eidolon) => {
   const hitMultiByTargetsBlast = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
-    5: ASHBLAZING_ATK_STACK * (2 * 1 / 1) // Clara is 1 hit blast when enhanced
+    5: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // Clara is 1 hit blast when enhanced
   }
 
-  const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1);
+  const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
     text: 'Ult buff',
     title: 'Ult buff',
     content: `Increases Svarog Counter DMG by ${precisionRound(ultFuaExtraScaling * 100)}% during Ultimate. DMG dealt to Clara is reduced by an extra ${precisionRound(ultDmgReductionValue * 100)}% for 2 turns`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'talentEnemyMarked',
     name: 'talentEnemyMarked',
     text: 'Enemy marked',
     title: 'Enemy marked',
     content: `Additionally deals Physical DMG equal to ${precisionRound(skillScaling * 100)}% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
     text: 'E2 ult ATK buff',
@@ -49,17 +46,17 @@ export default (e: Eidolon) => {
     content: `E2: After using Ultimate, increases ATK by ${precisionRound(0.30 * 100)}% for 2 turns.`,
     disabled: e < 2,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e4DmgReductionBuff',
     name: 'e4DmgReductionBuff',
     text: 'E4 DMG reduction buff',
     title: 'E4 DMG reduction buff',
     content: `E4: Decreases DMG taken by ${precisionRound(0.30 * 100)}%.`,
     disabled: e < 4,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       ultBuff: true,
       talentEnemyMarked: true,
@@ -91,7 +88,7 @@ export default (e: Eidolon) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x'];
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -104,6 +101,6 @@ export default (e: Eidolon) => {
         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiSingle)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
-    }
+    },
   }
 }

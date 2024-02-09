@@ -1,17 +1,16 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, skill, ult } from 'lib/conditionals/utils';
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, skill, ult } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
   const ultScaling = ult(e, 0, 0)
 
   return {
-    display: () => <br />,
+    content: () => [],
     defaults: () => ({
     }),
     precomputeEffects: () => {
@@ -30,12 +29,12 @@ export default (e: Eidolon) => {
       return x
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x'];
+      const x = c['x']
 
       x[Stats.ATK] += 0.35 * x[Stats.DEF]
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-    }
+    },
   }
 }

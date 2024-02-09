@@ -1,19 +1,18 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { baseComputedStatsObject } from "lib/conditionals/constants";
-import { basicRev, skillRev, ultRev } from "lib/conditionals/utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, skillRev, ultRev } from 'lib/conditionals/utils'
 
-import { Eidolon } from "types/Character";
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from '../../../types/CharacterConditional'
+import { ContentItem } from '../../../types/Conditionals'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basicRev(e, 1.00, 1.10)
   const skillScaling = skillRev(e, 0, 0)
   const ultScaling = ultRev(e, 2.00, 2.16)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'fieldActive',
     name: 'fieldActive',
     text: 'Field active',
@@ -23,7 +22,7 @@ export default (e: Eidolon) => {
     `,
     // disabled: e < 1, Not disabling this one since technically the field can be active at E0
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e6ResReduction',
     name: 'e6ResReduction',
     text: 'E6 RES reduction',
@@ -33,7 +32,7 @@ export default (e: Eidolon) => {
   }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       fieldActive: true,
       e6ResReduction: true,
@@ -62,6 +61,6 @@ export default (e: Eidolon) => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       // x.FUA_DMG += 0
-    }
+    },
   }
 }

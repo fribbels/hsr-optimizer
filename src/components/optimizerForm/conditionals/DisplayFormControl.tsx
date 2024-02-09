@@ -1,17 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Flex } from 'antd';
-import ColorizeNumbers from 'components/common/ColorizeNumbers';
+import { ComponentType } from 'react'
+import PropTypes from 'prop-types'
+import { Flex } from 'antd'
+import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import { FormSliderWithPopover } from './FormSlider'
+import { FormSwitchWithPopover } from './FormSwitch'
+import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 
-const DisplayFormControl = ({ content }): JSX.Element => {
-  const ret = [];
-  let i = 0;
+const FormItemComponentMap: ContentComponentMap = {
+  switch: FormSwitchWithPopover,
+  slider: FormSliderWithPopover,
+}
+
+export interface DisplayFormControlProps {
+  content: ContentItem[]
+}
+
+const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content }) => {
+  const ret = []
+  let i = 0
 
   if (!content || content.length === 0) {
-    ret.push(<div key={i++}>No conditional passives</div>);
+    ret.push(<div key={i++}>No conditional passives</div>)
   } else {
-    content.forEach(passive => {
-      const Item = passive.formItem;
+    content.forEach((passive) => {
+      const Item = FormItemComponentMap[passive.formItem]
       ret.push(
         <Item
           {...passive}
@@ -20,18 +32,17 @@ const DisplayFormControl = ({ content }): JSX.Element => {
           content={ColorizeNumbers(passive.content)}
           text={passive.text}
           key={i++}
-          />
-      );
-      i++;
-    });
+        />,
+      )
+      i++
+    })
   }
 
-  return (<Flex vertical gap={10}>{ret}</Flex>);
-};
-DisplayFormControl.propTypes = {
-  content: PropTypes.array,
-  eidolon: PropTypes.number,
-  ultBoostMax: PropTypes.number,
-};
+  return (<Flex vertical gap={10}>{ret}</Flex>)
+}
 
-export default DisplayFormControl;
+DisplayFormControl.propTypes = {
+  content: PropTypes.array.isRequired,
+}
+
+export default DisplayFormControl

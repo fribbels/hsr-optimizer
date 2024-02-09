@@ -1,32 +1,32 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from '../constants';
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from '../utils';
-import { Eidolon } from 'types/Character';
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
+import { Stats } from 'lib/constants'
 
-const Yanqing = (e: Eidolon) => {
-  const ultCdBuffValue = ultRev(e, 0.50, 0.54);
-  const talentCdBuffValue = ultRev(e, 0.30, 0.33);
-  const talentCrBuffValue = ultRev(e, 0.20, 0.21);
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from '../constants'
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from '../utils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
 
-  const basicScaling = basicRev(e, 1.00, 1.10);
-  const skillScaling = skillRev(e, 2.20, 2.42);
-  const ultScaling = ultRev(e, 3.50, 3.78);
-  const fuaScaling = talentRev(e, 0.50, 0.55);
+export default (e: Eidolon): CharacterConditional => {
+  const ultCdBuffValue = ultRev(e, 0.50, 0.54)
+  const talentCdBuffValue = ultRev(e, 0.30, 0.33)
+  const talentCrBuffValue = ultRev(e, 0.20, 0.21)
 
-  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1);
+  const basicScaling = basicRev(e, 1.00, 1.10)
+  const skillScaling = skillRev(e, 2.20, 2.42)
+  const ultScaling = ultRev(e, 3.50, 3.78)
+  const fuaScaling = talentRev(e, 0.50, 0.55)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'ultBuffActive',
     name: 'ultBuffActive',
     text: 'Ult buff active',
     title: 'Ult buff active',
     content: `Increases Yanqing's CRIT Rate by 60%. When Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra ${precisionRound(ultCdBuffValue * 100)}%.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'soulsteelBuffActive',
     name: 'soulsteelBuffActive',
     text: 'Soulsteel buff active',
@@ -40,32 +40,32 @@ const Yanqing = (e: Eidolon) => {
     E2: When Soulsteel Sync is active, Energy Regeneration Rate increases by an extra 10%.
     `,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'critSpdBuff',
     name: 'critSpdBuff',
     text: 'Crit spd buff',
     title: 'Crit spd buff',
     content: 'When a CRIT Hit is triggered, increases SPD by 10% for 2 turn(s).',
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e1TargetFrozen',
     name: 'e1TargetFrozen',
     text: 'E1 target frozen',
     title: 'E1 target frozen',
     content: 'When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK.',
-    disabled: (e < 1)
+    disabled: (e < 1),
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e4CurrentHp80',
     name: 'e4CurrentHp80',
     text: 'E4 self HP ≥ 80% RES PEN buff',
     title: 'E4 self HP ≥ 80% RES PEN buff',
     content: 'When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%.',
-    disabled: (e < 4)
-  }];
+    disabled: (e < 4),
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       ultBuffActive: true,
       soulsteelBuffActive: true,
@@ -75,7 +75,7 @@ const Yanqing = (e: Eidolon) => {
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject);
+      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
@@ -114,10 +114,8 @@ const Yanqing = (e: Eidolon) => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti);
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti);
-    }
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+    },
   }
 }
-
-export default Yanqing;

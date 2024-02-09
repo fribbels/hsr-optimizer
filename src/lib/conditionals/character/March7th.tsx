@@ -1,10 +1,10 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from "lib/conditionals/constants";
-import { basic, calculateAshblazingSet, skill, talent, ult } from "lib/conditionals/utils";
-import { Eidolon } from "types/Character";
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
+import { Eidolon } from 'types/Character'
+import { CharacterConditional } from 'types/CharacterConditional'
 
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.50, 1.62)
@@ -13,9 +13,7 @@ export default (e: Eidolon) => {
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   return {
-    display: () => (
-      <br />
-    ),
+    content: () => [],
     defaults: () => ({
     }),
     precomputeEffects: () => {
@@ -43,6 +41,6 @@ export default (e: Eidolon) => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
-    }
+    },
   }
 }

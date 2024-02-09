@@ -1,18 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { Stats } from 'lib/constants'
+import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const talentMaxStacks = (e >= 4) ? 12 : 10
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -22,8 +17,8 @@ export default (e: Eidolon) => {
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'ultEnhanced',
     name: 'ultEnhanced',
     text: 'Enhanced ult',
@@ -31,7 +26,7 @@ export default (e: Eidolon) => {
     content: `Consumes 180 Energy and deals Physical DMG equal to ${precisionRound(ultEnhancedScaling * 100)}% of Argenti's ATK to all enemies,
       and further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to ${precisionRound(ultEnhancedExtraHitScaling * 100)}% of Argenti's ATK to a random enemy.`,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'talentStacks',
     name: 'talentStacks',
     text: 'Apotheosis stacks',
@@ -40,7 +35,7 @@ export default (e: Eidolon) => {
     min: 0,
     max: talentMaxStacks,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'ultEnhancedExtraHits',
     name: 'ultEnhancedExtraHits',
     text: 'Enhanced ult extra hits on target',
@@ -49,22 +44,22 @@ export default (e: Eidolon) => {
     min: 0,
     max: 6,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e2UltAtkBuff',
     name: 'e2UltAtkBuff',
     text: 'E2 ult ATK buff',
     title: 'E2 ult ATK buff',
     content: `E2: If the number of enemies on the field equals to 3 or more, increases ATK by ${precisionRound(0.40 * 100)}% for 1 turn.`,
     disabled: e < 2,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       ultEnhanced: true,
       talentStacks: talentMaxStacks,
       ultEnhancedExtraHits: 6,
-      e2UltAtkBuff: true
+      e2UltAtkBuff: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -92,12 +87,12 @@ export default (e: Eidolon) => {
       return x
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x'];
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += 0
-    }
+    },
   }
 }

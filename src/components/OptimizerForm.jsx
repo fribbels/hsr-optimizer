@@ -21,7 +21,6 @@ import { HeaderText } from './HeaderText';
 import { OptimizerTabController } from 'lib/optimizerTabController';
 import { TooltipImage } from './TooltipImage';
 import { SaveState } from 'lib/saveState';
-import { CharacterConditionals } from "../lib/characterConditionals";
 import { LightConeConditionals } from "../lib/lightConeConditionals";
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
 import { v4 as uuidv4 } from "uuid";
@@ -38,6 +37,7 @@ import FilterRow from './optimizerForm/FilterRow.tsx';
 import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
+import {CharacterConditionalDisplay} from "./optimizerForm/conditionals/CharacterConditionalDisplay";
 
 
 const { Text } = Typography;
@@ -223,10 +223,6 @@ export default function OptimizerForm() {
     Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
-
-  const characterConditionalsContent = useMemo(() => {
-    return CharacterConditionals.getDisplayForCharacter(optimizerTabFocusCharacter, characterEidolon)
-  }, [characterEidolon, optimizerTabFocusCharacter])
 
   const lightConeConditionalsContent = useMemo(() => {
     return LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)
@@ -417,7 +413,10 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              {characterConditionalsContent}
+              <CharacterConditionalDisplay
+                id={optimizerTabFocusCharacter}
+                eidolon={characterEidolon}
+              />
             </FormCard>
             {/* Light Cone Card */}
             <FormCard justify='space-between'>

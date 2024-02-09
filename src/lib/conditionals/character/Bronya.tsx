@@ -1,67 +1,63 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
+export default (e: Eidolon): CharacterConditional => {
+  const skillDmgBoostValue = skillRev(e, 0.66, 0.726)
+  const ultAtkBoostValue = ultRev(e, 0.55, 0.594)
+  const ultCdBoostValue = ultRev(e, 0.16, 0.168)
+  const ultCdBoostBaseValue = ultRev(e, 0.20, 0.216)
 
-export default (e: Eidolon) => {
-  const skillDmgBoostValue = skillRev(e, 0.66, 0.726);
-  const ultAtkBoostValue = ultRev(e, 0.55, 0.594);
-  const ultCdBoostValue = ultRev(e, 0.16, 0.168);
-  const ultCdBoostBaseValue = ultRev(e, 0.20, 0.216);
-
-  const basicScaling = basicRev(e, 1.0, 1.1);
+  const basicScaling = basicRev(e, 1.0, 1.1)
   const fuaScaling = basicScaling * 0.80
 
-  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1);
+  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'techniqueBuff',
     name: 'techniqueBuff',
     text: 'Technique buff',
     title: 'Technique buff',
     content: `Increases all allies' ATK by ${precisionRound(0.15 * 100)}% for 2 turns at the start of the battle.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'battleStartDefBuff',
     name: 'battleStartDefBuff',
     text: 'Battle start DEF buff',
     title: 'Battle start DEF buff',
     content: `Increases all allies' DEF by ${precisionRound(0.20 * 100)}% for 2 turns at the start of the battle.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
     text: 'Skill buff',
     title: 'Skill buff',
     content: `Increases DMG by ${precisionRound(skillDmgBoostValue * 100)}%.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
     text: 'Ult buff',
     title: 'Ult buff',
     content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
     text: 'E2 skill SPD buff',
     title: 'E2 skill SPD buff',
     content: `E2: When using Skill, the target ally's SPD increases by ${precisionRound(0.30 * 100)}% after taking action, lasting for 1 turn.`,
     disabled: e < 2,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       techniqueBuff: true,
       battleStartDefBuff: true,
@@ -90,9 +86,9 @@ export default (e: Eidolon) => {
 
       return x
     },
-    calculateBaseMultis: (c:PrecomputedCharacterConditional, request:Form) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x'];
+      const x = c['x']
 
       // Order matters?
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
@@ -102,6 +98,6 @@ export default (e: Eidolon) => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-    }
+    },
   }
 }

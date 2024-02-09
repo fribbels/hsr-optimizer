@@ -1,18 +1,13 @@
-import React from 'react';
-import { Stats } from 'lib/constants';
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants';
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils';
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
-import { FormSliderWithPopover } from 'components/optimizerForm/conditionals/FormSlider';
+import { Stats } from 'lib/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-import { Form } from 'types/Form';
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
+import { ContentItem } from 'types/Conditionals'
 
-
-export default (e: Eidolon) => {
+export default (e: Eidolon): CharacterConditional => {
   const enhancedStateDmgBoost = skillRev(e, 0.40, 0.456)
   const hpPercentLostTotalMax = 0.90
 
@@ -29,10 +24,10 @@ export default (e: Eidolon) => {
     1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
     3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
-  };
+  }
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'enhancedStateActive',
     name: 'enhancedStateActive',
     text: 'Hellscape state',
@@ -43,7 +38,7 @@ export default (e: Eidolon) => {
       E2: Increases CRIT Rate by ${precisionRound(0.15 * 100)}%.
     `,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'hpPercentLostTotal',
     name: 'hpPercentLostTotal',
     text: 'HP% lost total',
@@ -54,7 +49,7 @@ export default (e: Eidolon) => {
     max: hpPercentLostTotalMax,
     percent: true,
   }, {
-    formItem: FormSliderWithPopover,
+    formItem: 'slider',
     id: 'e4MaxHpIncreaseStacks',
     name: 'e4MaxHpIncreaseStacks',
     text: 'E4 max HP stacks',
@@ -63,10 +58,10 @@ export default (e: Eidolon) => {
     min: 0,
     max: 2,
     disabled: e < 4,
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       enhancedStateActive: true,
       hpPercentLostTotal: hpPercentLostTotalMax,
@@ -92,7 +87,7 @@ export default (e: Eidolon) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x'];
+      const x = c['x']
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -112,6 +107,6 @@ export default (e: Eidolon) => {
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
-    }
+    },
   }
 }

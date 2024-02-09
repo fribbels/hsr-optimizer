@@ -1,41 +1,41 @@
-import React from "react";
-import { Stats } from "lib/constants";
-import { Eidolon } from "types/Character";
-import { Form } from "types/Form";
+import { Stats } from 'lib/constants'
+import { Eidolon } from 'types/Character'
+import { Form } from 'types/Form'
 
-import { basic, precisionRound, skill, ult } from "../utils";
-import DisplayFormControl from "components/optimizerForm/conditionals/DisplayFormControl";
-import { FormSwitchWithPopover } from "components/optimizerForm/conditionals/FormSwitch";
-import { baseComputedStatsObject } from "../constants";
-import { Unknown } from "types/Common";
+import { basic, precisionRound, skill, ult } from '../utils'
 
-const RuanMei = (e: Eidolon) => {
+import { baseComputedStatsObject } from '../constants'
+import { Unknown } from 'types/Common'
+import { ContentItem } from 'types/Conditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
+
+export default (e: Eidolon): CharacterConditional => {
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 0, 0)
 
-  const content = [{
-    formItem: FormSwitchWithPopover,
+  const content: ContentItem[] = [{
+    formItem: 'switch',
     id: 'ultFieldActive',
-    name:'ultFieldActive',
+    name: 'ultFieldActive',
     text: 'Ult field active',
     title: 'Ult field active',
     content: `While inside the field, all allies' All-Type RES PEN increases by ${precisionRound(fieldResPenValue * 100)}%.
     ::BR::
     E1: While the Ultimate's field is deployed, the DMG dealt by all allies ignores 20% of the target's DEF.`,
   }, {
-    formItem: FormSwitchWithPopover,
+    formItem: 'switch',
     id: 'e4BeBuff',
-    name:'e4BeBuff',
+    name: 'e4BeBuff',
     text: 'E4 break effect buff',
     title: 'E4 break effect buff',
     content: 'E4: When an enemy target\'s Weakness is Broken, Ruan Mei\'s Break Effect increases by 100% for 3 turn(s).',
     disabled: (e < 4),
-  }];
+  }]
 
   return {
-    display: () => <DisplayFormControl content={content} />,
+    content: () => content,
     defaults: () => ({
       ultFieldActive: true,
       e4BeBuff: true,
@@ -61,7 +61,7 @@ const RuanMei = (e: Eidolon) => {
       return x
     },
     calculateBaseMultis: (c: Unknown) => {
-      const x = c['x'];
+      const x = c['x']
 
       const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
       x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
@@ -69,8 +69,6 @@ const RuanMei = (e: Eidolon) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    }
+    },
   }
 }
-
-export default RuanMei;

@@ -1,18 +1,22 @@
-import React, { FC } from "react";
-import { object, string } from "prop-types";
-import { Popover, Typography } from "antd";
-const { Text } = Typography;
+import React, {ComponentType, ReactNode} from 'react'
+import { object, string } from 'prop-types'
+import { Popover, Typography } from 'antd'
+const { Text } = Typography
 
-const WithPopover = (WrappedComponent: FC) => {
-  const Wrapped = (props) => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpenChange = (newOpen: boolean) => { setOpen(newOpen); }
-    const content =
+export type WithPopoverProps<T> = {
+  title: string
+  content: ReactNode
+} & T
+
+function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithPopoverProps<T>> {
+  const Wrapped = (props: WithPopoverProps<T>) => {
+    const [open, setOpen] = React.useState(false)
+    const content = (
       <Text style={{ width: 400, display: 'block' }}>
         <hr />
         {props.content}
-      </Text>;
-
+      </Text>
+    )
     return (
       <Popover
         trigger="hover"
@@ -20,20 +24,22 @@ const WithPopover = (WrappedComponent: FC) => {
         content={content}
         title={props.title}
         open={open}
-        onOpenChange={handleOpenChange}
+        onOpenChange={setOpen}
       >
-        <span style={{ cursor: 'pointer' }}>{WrappedComponent(props)}</span>
+        <span style={{ cursor: 'pointer' }}>
+          <WrappedComponent {...props} />
+        </span>
       </Popover>
-    );
-  };
-  Wrapped.displayName = 'WithPopoverWrapped';
+    )
+  }
+  Wrapped.displayName = 'WithPopoverWrapped'
   Wrapped.propTypes = WithPopover.propTypes
-  return Wrapped;
+  return Wrapped
 };
 
-WithPopover.displayName = 'WithPopover';
+WithPopover.displayName = 'WithPopover'
 WithPopover.propTypes = {
   title: string,
   content: object,
-};
-export default WithPopover;
+}
+export default WithPopover

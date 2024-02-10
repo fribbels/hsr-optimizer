@@ -379,7 +379,8 @@ self.onmessage = function (e) {
 
     x.ELEMENTAL_DMG +=
       0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth) +
-      0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+      0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth) +
+      0.12 * p2(sets.PioneerDiverOfDeadWaters)
 
     // ************************************************************
     // Calculate skill base damage

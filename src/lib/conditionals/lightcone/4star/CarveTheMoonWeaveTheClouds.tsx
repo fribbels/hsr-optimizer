@@ -50,7 +50,12 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     display: () => <DisplayFormControl content={content} />,
+    teammateDisplay: (index) => <DisplayFormControl content={content} teammateIndex={index}/>,
     defaults: () => ({
+      atkBuffActive: true,
+      cdBuffActive: false,
+    }),
+    teammateDefaults: () => ({
       atkBuffActive: true,
       cdBuffActive: false,
     }),

@@ -87,8 +87,9 @@ function teammateProperty(index: number) {
 
 const TeammateCard: React.FC = (props: { index: number }) => {
   const teammateCharacterId = Form.useWatch([teammateProperty(props.index), 'characterId'], global.optimizerForm);
-  const teammateLightConeId = Form.useWatch([teammateProperty(props.index), 'lightCone'], global.optimizerForm);
   const teammateEidolon = Form.useWatch([teammateProperty(props.index), 'characterEidolon'], global.optimizerForm);
+
+  const teammateLightConeId = Form.useWatch([teammateProperty(props.index), 'lightCone'], global.optimizerForm);
   const teammateSuperimposition = Form.useWatch([teammateProperty(props.index), 'lightConeSuperimposition'], global.optimizerForm);
 
   const [teammateEnabled, setTeammateEnabled] = useState(true)
@@ -100,12 +101,11 @@ const TeammateCard: React.FC = (props: { index: number }) => {
   }, [teammateCharacterId, teammateEidolon])
 
   const lightConeConditionalsContent = useMemo(() => {
-    return LightConeConditionals.getDisplayLightConePassives(teammateLightConeId, teammateSuperimposition)
+    return LightConeConditionals.getDisplayLightConePassives(teammateLightConeId, teammateSuperimposition, props.index)
   }, [teammateLightConeId, teammateSuperimposition])
 
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
-
 
   useEffect(() => {
     if (!teammateCharacterId) return
@@ -123,6 +123,24 @@ const TeammateCard: React.FC = (props: { index: number }) => {
     displayFormValues[`teammate${props.index}`].characterConditionals = characterConditionals.teammateDefaults()
     global.optimizerForm.setFieldsValue(displayFormValues)
   }, [teammateCharacterId, teammateEidolon])
+
+  useEffect(() => {
+    if (!teammateLightConeId) return
+    console.log('!!!!!!!!!!!!!!!', teammateLightConeId, teammateSuperimposition)
+
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+
+    const lightConeConditionals = LightConeConditionals.get({
+      lightCone: teammateLightConeId,
+      lightConeSuperimposition: teammateSuperimposition
+    })
+    console.log('!!!!!!!!!!!!!!!', lightConeConditionals)
+
+    if (!lightConeConditionals.teammateDefaults) return
+    displayFormValues[`teammate${props.index}`].lightConeConditionals = lightConeConditionals.teammateDefaults()
+    console.log('???', displayFormValues)
+    global.optimizerForm.setFieldsValue(displayFormValues)
+  }, [teammateLightConeId, teammateSuperimposition])
 
   const i = props.index
 
@@ -223,7 +241,7 @@ const TeammateCard: React.FC = (props: { index: number }) => {
         <div style={{height: 15}}/>
 
         <Flex gap={5}>
-          <Form.Item name={[`teammate${i}`, `lightConeId`]}>
+          <Form.Item name={[`teammate${i}`, `lightCone`]}>
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}

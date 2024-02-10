@@ -226,7 +226,7 @@ export const LightConeConditionals = {
     }
     return lcFn(request.lightConeSuperimposition - 1)
   },
-  getDisplayLightConePassives: (id, superimposition) => {
+  getDisplayLightConePassives: (id, superimposition, teammateIndex) => {
     if (!id || !lightConeOptionMapping[id]) {
       return (
         <Flex vertical gap={5}>
@@ -240,7 +240,10 @@ export const LightConeConditionals = {
     }
 
     let lcFn = lightConeOptionMapping[id];
-    let display = lcFn(superimposition - 1).display();
+    let lightCone = lcFn(superimposition - 1)
+    const display = teammateIndex != null && lightCone.teammateDisplay
+      ? lightCone.teammateDisplay(teammateIndex)
+      : lightCone.display();
 
     return (
       <Flex vertical gap={5}>

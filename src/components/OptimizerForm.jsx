@@ -38,6 +38,7 @@ import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
 import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
 import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
 import {CharacterConditionalDisplay} from "./optimizerForm/conditionals/CharacterConditionalDisplay";
+import {LightConeConditionalDisplay} from "./optimizerForm/conditionals/LightConeConditionalDisplay";
 
 
 const { Text } = Typography;
@@ -223,10 +224,6 @@ export default function OptimizerForm() {
     Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
-
-  const lightConeConditionalsContent = useMemo(() => {
-    return LightConeConditionals.getDisplayLightConePassives(selectedLightCone?.id, lightConeSuperimposition)
-  }, [selectedLightCone, lightConeSuperimposition])
 
   function OrnamentSetTagRenderer(props) {
     const { value, closable, onClose } = props;
@@ -420,7 +417,10 @@ export default function OptimizerForm() {
             </FormCard>
             {/* Light Cone Card */}
             <FormCard justify='space-between'>
-              {lightConeConditionalsContent}
+              <LightConeConditionalDisplay
+                id={selectedLightCone?.id}
+                superImposition={lightConeSuperimposition}
+              />
 
               <Flex vertical gap={5} style={{ marginBottom: 5 }}>
                 <Flex justify='space-between' align='center'>

@@ -10,10 +10,10 @@ test('Delete relic from RelicsTab', async ({ page }) => {
 
   // nav to RelicsTab
   await page.getByText('Relics', { exact: true }).click();
-  await page.locator('div').filter({ hasText: /^Head15HP70511\.010\.43\.55\.2000$/ }).getByRole('img').first().click();
+  await page.locator('div').filter({ hasText: /^Head15HP70511\.010\.33\.45\.1000$/ }).getByRole('img').nth(1).click();
   await page.getByRole('button', { name: 'Delete Relic' }).click();
   await page.getByRole('button', { name: 'Yes' }).click();
 
-  await expect(page.locator('div').filter({ hasText: /^Head15HP70511\.010\.43\.55\.2000$/ })).toHaveCount(0);
+  await expect(page.locator('div').filter({ hasText: /^Head15HP70511\.010\.33\.45\.1000$/ })).toHaveCount(0);
   await expect(page.locator('body')).toContainText('Successfully deleted relic');
 });

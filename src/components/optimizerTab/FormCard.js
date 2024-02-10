@@ -22,7 +22,8 @@ export default function FormCard(props) {
         height: props.height || 350,
         padding: defaultPadding,
         boxShadow: shadow,
-        overflow: props.style?.overflow
+        overflow: props.style?.overflow,
+        scrollbarWidth: 'none',
       }}
     >
       <Flex

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { object, string } from "prop-types";
 import { Popover, Typography } from "antd";
+
 const { Text } = Typography;
 
 const WithPopover = (WrappedComponent: FC) => {
@@ -20,6 +21,7 @@ const WithPopover = (WrappedComponent: FC) => {
         content={content}
         title={props.title}
         open={open}
+        mouseEnterDelay={0.5}
         onOpenChange={handleOpenChange}
       >
         <span style={{ cursor: 'pointer' }}>{WrappedComponent(props)}</span>

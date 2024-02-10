@@ -50,11 +50,34 @@ export default (e: Eidolon) => {
     content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
   }];
 
+  const teammateContent = [{
+    formItem: FormSliderWithPopover,
+    id: 'talentBuffStacks',
+    name: 'talentBuffStacks',
+    text: 'Talent ATK buff stacks',
+    title: 'Charging ATK buff stacks',
+    content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.`,
+    min: 0,
+    max: 5,
+  }, {
+    formItem: FormSwitchWithPopover,
+    id: 'ultSpdBuff',
+    name: 'ultSpdBuff',
+    text: 'Ult SPD buff active',
+    title: 'Ult SPD buff active',
+    content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
+  }];
+
   return {
     display: () => <DisplayFormControl content={content} />,
+    teammateDisplay: (index) => <DisplayFormControl content={teammateContent} teammateIndex={index} />,
     defaults: () => ({
       talentBuffStacks: 5,
       skillExtraDmgHits: skillExtraDmgHitsMax,
+      ultSpdBuff: true
+    }),
+    teammateDefaults: () => ({
+      talentBuffStacks: 5,
       ultSpdBuff: true
     }),
     precomputeEffects: (request: Form) => {

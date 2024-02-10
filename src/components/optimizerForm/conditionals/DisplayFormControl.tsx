@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Flex } from 'antd';
 import ColorizeNumbers from 'components/common/ColorizeNumbers';
 
-const DisplayFormControl = ({ content }): JSX.Element => {
+const DisplayFormControl = ({ content, teammateIndex }): JSX.Element => {
   const ret = [];
   let i = 0;
 
@@ -12,6 +12,8 @@ const DisplayFormControl = ({ content }): JSX.Element => {
   } else {
     content.forEach(passive => {
       const Item = passive.formItem;
+      passive.teammateIndex = teammateIndex
+
       ret.push(
         <Item
           {...passive}
@@ -30,8 +32,9 @@ const DisplayFormControl = ({ content }): JSX.Element => {
 };
 DisplayFormControl.propTypes = {
   content: PropTypes.array,
-  eidolon: PropTypes.number,
-  ultBoostMax: PropTypes.number,
+  teammateIndex: PropTypes.number,
+  eidolon: PropTypes.number, // TODO: Is this needed?
+  ultBoostMax: PropTypes.number, // TODO: Is this needed?
 };
 
 export default DisplayFormControl;

@@ -20,10 +20,15 @@ function conditionalType(props) {
 }
 
 export function FormSwitch(props) {
-  return (
 
+  const itemName = [conditionalType(props), props.name]
+  if (props.teammateIndex != null) {
+    itemName.unshift(`teammate${props.teammateIndex}`)
+  }
+
+  return (
     <Flex justify={justify} align={align}>
-      <Form.Item name={[conditionalType(props), props.name]} valuePropName='checked'>
+      <Form.Item name={itemName} valuePropName='checked'>
         <Switch
           checkedChildren={<CheckOutlined />}
           unCheckedChildren={<CloseOutlined />}
@@ -42,6 +47,7 @@ FormSwitch.propTypes = {
   name: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   lc: PropTypes.bool,
+  teammateIndex: PropTypes.number
 };
 
 export const FormSwitchWithPopover = WithPopover(FormSwitch);

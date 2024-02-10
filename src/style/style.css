@@ -326,3 +326,7 @@ a {
 .form-row .ant-collapse-expand-icon {
   padding-inline-start: 12px !important;
 }
+
+.teammate-set-select .ant-select-selector {
+  padding-left: 7px !important;
+}

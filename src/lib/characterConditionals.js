@@ -105,7 +105,7 @@ export const CharacterConditionals = {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon)
   },
-  getDisplayForCharacter: (id, eidolon) => {
+  getDisplayForCharacter: (id, eidolon, teammateIndex) => {
     console.log('getDisplayForCharacter', id)
     if (!id || !characterOptionMapping[id]) {
       return (
@@ -117,7 +117,10 @@ export const CharacterConditionals = {
     }
 
     const characterFn = characterOptionMapping[id]
-    const display = characterFn(eidolon).display();
+    const character = characterFn(eidolon)
+    const display = teammateIndex != null && character.teammateDisplay
+      ? character.teammateDisplay(teammateIndex)
+      : character.display();
 
     return (
       <Flex vertical gap={5} >

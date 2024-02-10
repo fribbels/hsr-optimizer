@@ -11,7 +11,9 @@ export type ConditionalMap = {
 export interface Conditional {
   // getContent: () => { [key: string]: unknown }[];
   display: () => JSX.Element;
+  teammateDisplay?: (index: number) => JSX.Element;
   defaults: () => ConditionalMap;
+  teammateDefaults?: () => ConditionalMap;
   // TODO: purify this implmeentation
   // ComputedStatsObject arg is mutated by ref
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void;

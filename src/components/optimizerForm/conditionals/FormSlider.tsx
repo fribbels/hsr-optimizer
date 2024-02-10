@@ -35,11 +35,16 @@ export function FormSlider(props) {
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
 
+  const itemName = [conditionalType(props), props.name]
+  if (props.teammateIndex != null) {
+    itemName.unshift(`teammate${props.teammateIndex}`)
+  }
+
   return (
     <Flex vertical gap={5} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          <Form.Item name={[conditionalType(props), props.name]}>
+          <Form.Item name={itemName}>
             <InputNumber
               min={props.min}
               max={props.max}
@@ -59,7 +64,7 @@ export function FormSlider(props) {
         <Text>{props.text}</Text>
       </Flex>
       <Flex align='center' justify='flex-start' gap={10} style={{ height: 14 }}>
-        <Form.Item name={[conditionalType(props), props.name]}>
+        <Form.Item name={itemName}>
           <Slider
             min={props.min}
             max={props.max}
@@ -91,6 +96,7 @@ FormSlider.propTypes = {
   name: PropTypes.string,
   percent: PropTypes.bool,
   lc: PropTypes.bool,
+  teammateIndex: PropTypes.number
 }
 
 export const FormSliderWithPopover = WithPopover(FormSlider);

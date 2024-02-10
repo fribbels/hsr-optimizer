@@ -1,11 +1,3 @@
-/* eslint-disable no-unused-vars  */
-
-import React from 'react'
-import { Flex, Typography } from 'antd'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from './hint'
-
 import Adversarial from 'lib/conditionals/lightcone/3star/Adversarial'
 import Amber from 'lib/conditionals/lightcone/3star/Amber'
 import AnInstantBeforeAGaze from 'lib/conditionals/lightcone/5star/AnInstantBeforeAGaze'

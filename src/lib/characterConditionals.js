@@ -99,4 +99,4 @@ export const CharacterConditionals = {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon)
   },
-}
+};

@@ -81,9 +81,7 @@ export default function RelicScorerTab() {
         ]
         .filter(x => !!x)
         .sort((a, b) => {
-          return a.pos - b.pos
-        })
-        .sort((a, b) => {
+          if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
           if (b._assist) return 1
           if (a._assist) return -1
           return 0

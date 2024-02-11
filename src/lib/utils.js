@@ -54,7 +54,7 @@ export const Utils = {
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
-          console.error('Unable to save screenshot to clipboard')
+          Message.error('Unable to save screenshot to clipboard, try downloading the screenshot instead')
         }
       }
 

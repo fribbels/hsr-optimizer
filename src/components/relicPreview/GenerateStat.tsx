@@ -1,11 +1,11 @@
-import { Flex, Typography } from 'antd'
-import { Renderer } from '../../lib/renderer'
+import { Flex } from 'antd'
+import { Renderer } from 'lib/renderer'
 import { Assets } from 'lib/assets'
 import { Utils } from 'lib/utils'
 import { Constants } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
+import RelicStatText from 'components/relicPreview/RelicStatText'
 
-const { Text } = Typography
 const GenerateStat = (stat, main, relic) => {
   if (!stat || !stat.stat || stat.value == null) {
     return (
@@ -29,13 +29,13 @@ const GenerateStat = (stat, main, relic) => {
     <Flex justify="space-between">
       <Flex>
         <img src={Assets.getStatIcon(stat.stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
-        <Text>
+        <RelicStatText>
           {Constants.StatsToReadable[stat.stat]}
-        </Text>
+        </RelicStatText>
       </Flex>
-      <Text>
+      <RelicStatText>
         {displayValue}
-      </Text>
+      </RelicStatText>
     </Flex>
   )
 }

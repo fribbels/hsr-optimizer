@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
-import { Card, Divider, Flex, Typography } from 'antd'
+import { Card, Divider, Flex } from 'antd'
 
 import { Renderer } from 'lib/renderer'
 import { Assets } from 'lib/assets'
 import { iconSize } from 'lib/constantsUi'
 import GenerateStat from 'components/relicPreview/GenerateStat'
-
-const { Text } = Typography
+import RelicStatText from 'components/relicPreview/RelicStatText'
 
 const RelicPreview = ({
   relic,
@@ -61,9 +60,9 @@ const RelicPreview = ({
             <Flex align="center" gap={5}>
               {Renderer.renderGrade(relic)}
               <Flex style={{ width: 30 }} justify="space-around">
-                <Text>
+                <RelicStatText>
                   {part != undefined ? `+${enhance}` : ''}
-                </Text>
+                </RelicStatText>
               </Flex>
             </Flex>
           </Flex>
@@ -88,16 +87,16 @@ const RelicPreview = ({
 
         <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
-        <Flex gap={4} justify="space-between">
+        <Flex justify="space-between">
           <Flex>
             <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
-            <Text>
+            <RelicStatText>
               {(scored) ? 'Score' : ''}
-            </Text>
+            </RelicStatText>
           </Flex>
-          <Text>
-            {(scored) && `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}`}
-          </Text>
+          <RelicStatText>
+            {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
+          </RelicStatText>
         </Flex>
       </Flex>
     </Card>

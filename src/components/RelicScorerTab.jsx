@@ -11,21 +11,7 @@ import { Utils } from 'lib/utils'
 import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Message } from 'lib/message'
 
-const recursiveToCamel = (item) => {
-  if (Array.isArray(item)) {
-    return item.map((el) => recursiveToCamel(el))
-  } else if (typeof item === 'function' || item !== Object(item)) {
-    return item
-  }
-  return Object.fromEntries(
-    Object.entries(item).map(([key, value]) => [
-      key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, '')),
-      recursiveToCamel(value),
-    ]),
-  )
-}
-
-const { Text } = Typography
+const { Text } = Typography;
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
@@ -69,21 +55,42 @@ export default function RelicScorerTab() {
           Message.error('Error loading ID')
           return 'ERROR'
         }
-        data = recursiveToCamel(data.data)
+        // Backup
+        // data = Utils.recursiveToCamel(data.data)
+        // let characters = [
+        //   data.detailInfo.assistAvatars[0],
+        //   data.detailInfo.assistAvatars[1],
+        //   data.detailInfo.assistAvatars[2],
+        //   data.detailInfo.avatarDetailList[0],
+        //   data.detailInfo.avatarDetailList[1],
+        //   data.detailInfo.avatarDetailList[2],
+        //   data.detailInfo.avatarDetailList[3],
+        //   data.detailInfo.avatarDetailList[4],
+        // ]
+
+        data = data.data
         let characters = [
-          data.detailInfo.assistAvatars[0],
-          data.detailInfo.assistAvatars[1],
-          data.detailInfo.assistAvatars[2],
+          data.detailInfo.avatarDetailList[4],
           data.detailInfo.avatarDetailList[0],
+          data.detailInfo.avatarDetailList[7],
+          data.detailInfo.avatarDetailList[5],
           data.detailInfo.avatarDetailList[1],
           data.detailInfo.avatarDetailList[2],
           data.detailInfo.avatarDetailList[3],
-          data.detailInfo.avatarDetailList[4],
+          data.detailInfo.avatarDetailList[6],
         ]
-          .filter((x) => !!x)
-          .filter((item, index, array) => {
-            return array.findIndex((i) => i.avatarId === item.avatarId) === index
-          })
+        .filter(x => !!x)
+        .sort((a, b) => {
+          return a.pos - b.pos
+        })
+        .sort((a, b) => {
+          if (b._assist) return 1
+          if (a._assist) return -1
+          return 0
+        })
+        .filter((item, index, array) => {
+          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
+        })
 
         console.log('characters', characters)
 

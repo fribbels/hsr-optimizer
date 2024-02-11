@@ -7,5 +7,6 @@ const StatText = styled(Text)`
   font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
   font-size: 17px;
   font-weight: 400;
+  white-space: nowrap;
 `
 export default StatText;

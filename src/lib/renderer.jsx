@@ -1,6 +1,5 @@
 import { Flex, Image, Tooltip, } from 'antd';
 import { CheckCircleFilled } from "@ant-design/icons";
-import * as React from "react";
 import { Constants } from "./constants.ts";
 import { Assets } from "./assets";
 import { Utils } from "./utils";

@@ -1,5 +1,4 @@
 import { Divider, Flex } from 'antd';
-import * as React from 'react';
 
 export default function VerticalDivider() {
   return (

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Flex, Typography } from 'antd';
 
 import { Renderer } from "../../lib/renderer";

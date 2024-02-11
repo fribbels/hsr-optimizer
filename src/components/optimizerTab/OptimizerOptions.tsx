@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import * as React from 'react';
 import { Flex, Form, Radio, RadioChangeEvent, Select, Switch, Typography } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 

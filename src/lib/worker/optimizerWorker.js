@@ -389,9 +389,11 @@ self.onmessage = function(e) {
     x.FUA_BOOST
       += 0.20 * p2(c.sets.TheAshblazingGrandDuke)
 
-    x.DEF_SHRED += p4(c.sets.GeniusOfBrilliantStars) ? (enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
+    x.DEF_SHRED
+      += p4(c.sets.GeniusOfBrilliantStars) ? (enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
 
-    x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
+    x.DEF_SHRED
+      += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
 
     x.ELEMENTAL_DMG
       += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)

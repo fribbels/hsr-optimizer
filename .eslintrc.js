@@ -164,6 +164,5 @@ function styleRules(level) {
       prop: 'parens-new-line',
       return: 'parens-new-line',
     }],
-    'multiline-comment-style': level,
   })
 }

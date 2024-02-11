@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { Flex, Typography } from 'antd';
 
-import { Renderer } from "lib/renderer";
+import { Renderer } from "../../lib/renderer";
 import { Assets } from "lib/assets";
 import { Utils } from "lib/utils";
 import { Constants } from "lib/constants";

@@ -1,6 +1,6 @@
 import { Constants } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { CharacterConditionals } from "../characterConditionals.js";
+import { CharacterConditionals } from "../characterConditionals";
 import { LightConeConditionals } from "../lightConeConditionals";
 
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {

@@ -1,9 +1,3 @@
-import React from "react";
-import { Flex } from "antd";
-import { HeaderText } from "components/HeaderText";
-import { TooltipImage } from "components/TooltipImage";
-import { Hint } from "lib/hint";
-
 import argenti from "lib/conditionals/character/Argenti";
 import arlan from "lib/conditionals/character/Arlan";
 import asta from "lib/conditionals/character/Asta";
@@ -105,28 +99,4 @@ export const CharacterConditionals = {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon)
   },
-  getDisplayForCharacter: (id, eidolon) => {
-    console.log('getDisplayForCharacter', id)
-    if (!id || !characterOptionMapping[id]) {
-      return (
-        <Flex justify='space-between' align='center'>
-          <HeaderText>Character passives</HeaderText>
-          <TooltipImage type={Hint.characterPassives()} />
-        </Flex>
-      )
-    }
-
-    const characterFn = characterOptionMapping[id]
-    const display = characterFn(eidolon).display();
-
-    return (
-      <Flex vertical gap={5} >
-        <Flex justify='space-between' align='center'>
-          <HeaderText>Character passives</HeaderText>
-          <TooltipImage type={Hint.characterPassives()} />
-        </Flex>
-        {display}
-      </Flex>
-    )
-  },
-}
+};

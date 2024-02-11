@@ -1,6 +1,6 @@
 import { Constants } from 'lib/constants';
 import { Gradient } from 'lib/gradient';
-import { Renderer } from 'lib/renderer';
+import { Renderer } from '../../lib/renderer';
 
 export const DIGITS_4 = 50;
 export const DIGITS_5 = 60;

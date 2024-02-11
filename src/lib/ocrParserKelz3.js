@@ -193,13 +193,13 @@ function readRelic(relic) {
   if (characterList.find(x => x.name == relic.location)) {
     id = characterList.find(x => x.name == relic.location).id
   } else {
-    if (relic.location == 'TrailblazerPreservation' && global.store.getState().charactersById[8003]) {
+    if (relic.location == 'TrailblazerPreservation' && window.store.getState().charactersById[8003]) {
       id = 8003
     } else {
       id = 8004
     }
 
-    if (relic.location == 'TrailblazerDestruction' && global.store.getState().charactersById[8001]) {
+    if (relic.location == 'TrailblazerDestruction' && window.store.getState().charactersById[8001]) {
       id = 8001
     } else {
       id = 8002

@@ -40,7 +40,7 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     // delete x.id
-    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
   getRows: () => {
@@ -57,7 +57,7 @@ export const OptimizerTabController = {
     }
     DB.addFromForm(formValues)
 
-    let selectedNodes = global.optimizerGrid.current.api.getSelectedNodes()
+    let selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
@@ -68,7 +68,7 @@ export const OptimizerTabController = {
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
     OptimizerTabController.setTopRow(row)
-    global.setOptimizerBuild(build);
+    window.setOptimizerBuild(build);
     SaveState.save()
   },
 
@@ -82,7 +82,7 @@ export const OptimizerTabController = {
         let character = DB.getCharacterById(fieldValues.characterId);
 
         if (character) {
-          global.setOptimizerBuild(character.equipped);
+          window.setOptimizerBuild(character.equipped);
         }
       }
       return
@@ -92,7 +92,7 @@ export const OptimizerTabController = {
 
     let build = OptimizerTabController.calculateRelicsFromId(data.id)
     console.log('build', build)
-    global.setOptimizerBuild(build);
+    window.setOptimizerBuild(build);
   },
 
   getColumnsToAggregate: (map) => {
@@ -142,7 +142,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    global.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -153,8 +153,8 @@ export const OptimizerTabController = {
         aggs = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.
-        if (global?.optimizerGrid?.current?.api) {
-          global.optimizerGrid.current.api.showLoadingOverlay()
+        if (window?.optimizerGrid?.current?.api) {
+          window.optimizerGrid.current.api.showLoadingOverlay()
         }
 
         // Give it time to show the loading page before we block
@@ -181,8 +181,8 @@ export const OptimizerTabController = {
           }
 
           // cannot assume a fast click race-condition didn't happen
-          if (global?.optimizerGrid?.current?.api) {
-            global.optimizerGrid.current.api.hideOverlay()
+          if (window?.optimizerGrid?.current?.api) {
+            window.optimizerGrid.current.api.hideOverlay()
           }
           OptimizerTabController.redrawRows()
         })
@@ -225,7 +225,7 @@ export const OptimizerTabController = {
   },
 
   getForm: () => {
-    let form = global.optimizerForm.getFieldsValue();
+    let form = window.optimizerForm.getFieldsValue();
     return OptimizerTabController.fixForm(form);
   },
 
@@ -471,9 +471,9 @@ export const OptimizerTabController = {
   },
 
   updateFilters: () => {
-    if (global.optimizerForm && global.onOptimizerFormValuesChange) {
+    if (window.optimizerForm && window.onOptimizerFormValuesChange) {
       let fieldValues = OptimizerTabController.getForm()
-      global.onOptimizerFormValuesChange({}, fieldValues);
+      window.onOptimizerFormValuesChange({}, fieldValues);
     }
   },
 
@@ -503,7 +503,7 @@ export const OptimizerTabController = {
       "relicSets": [],
     }
 
-    global.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
+    window.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
     OptimizerTabController.updateFilters()
   },
 
@@ -516,13 +516,13 @@ export const OptimizerTabController = {
     if (character) {
       character.form.lightCone = lightConeId || character.form.lightCone;
       let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
-      global.optimizerForm.setFieldsValue(displayFormValues)
+      window.optimizerForm.setFieldsValue(displayFormValues)
       console.log('@changeCharacter', character);
       if (character.form.lightCone) {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
         setSelectedLightCone(lightConeMetadata)
       }
-      global.store.getState().setStatDisplay(character.form.statDisplay || 'base')
+      window.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
       console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`);
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
@@ -531,8 +531,8 @@ export const OptimizerTabController = {
         lightCone: lightConeId,
         lightConeSuperimposition: 1,
       })
-      global.optimizerForm.setFieldsValue(displayFormValues)
-      global.store.getState().setStatDisplay('base')
+      window.optimizerForm.setFieldsValue(displayFormValues)
+      window.store.getState().setStatDisplay('base')
     }
 
     setPinnedRow(id)
@@ -551,7 +551,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    global.optimizerGrid.current.api.redrawRows()
+    window.optimizerGrid.current.api.redrawRows()
   },
 
   applyRowFilters: () => {
@@ -703,7 +703,7 @@ function setPinnedRow(characterId) {
   let stats = StatCalculator.calculate(character)
 
   // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
-  if (global.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
-    global.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+  if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
   }
 }

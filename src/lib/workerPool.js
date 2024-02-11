@@ -1,5 +1,6 @@
 import { BufferPacker } from "./bufferPacker";
 import { Constants } from "./constants";
+import OptimizerWorker from "./worker/optimizerWorker?worker"
 
 let poolSize = (navigator.hardwareConcurrency || 4) - 1
 let initialized = 0
@@ -13,7 +14,7 @@ let taskStatus = {}
 export const WorkerPool = {
   initialize: () => {
     if (initialized < poolSize) {
-      const worker = new Worker(new URL('./worker/optimizerWorker.js', import.meta.url));
+      const worker = new OptimizerWorker();
       workers.push(worker)
       initialized++
     }
@@ -72,5 +73,3 @@ export const WorkerPool = {
     })
   },
 }
-
-WorkerPool.initialize()

@@ -1,4 +1,4 @@
-import * as htmlToImage from 'html-to-image';
+import { toBlob as htmlToBlob } from 'html-to-image';
 import DB from "./db";
 import { Constants } from "./constants.ts";
 import { Message } from "./message";
@@ -43,7 +43,7 @@ export const Utils = {
     return arr[Math.floor(Math.random() * arr.length)]
   },
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
+    return htmlToBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
       // Save to clipboard
       // This is not supported in firefox, possibly other browsers too
       if (action == 'clipboard') {

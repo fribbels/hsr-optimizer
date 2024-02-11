@@ -1,6 +1,7 @@
-import React, {ComponentType, ReactNode} from 'react'
+import React, { ComponentType, ReactNode } from 'react'
 import { object, string } from 'prop-types'
 import { Popover, Typography } from 'antd'
+
 const { Text } = Typography
 
 export type WithPopoverProps<T> = {
@@ -34,8 +35,9 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
   }
   Wrapped.displayName = 'WithPopoverWrapped'
   Wrapped.propTypes = WithPopover.propTypes
+  // @ts-ignore
   return Wrapped
-};
+}
 
 WithPopover.displayName = 'WithPopover'
 WithPopover.propTypes = {

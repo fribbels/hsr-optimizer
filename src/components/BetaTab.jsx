@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button, Flex } from "antd";
-import PropTypes from "prop-types"
+import React from 'react'
+import { Button, Flex } from 'antd'
+import PropTypes from 'prop-types'
 
 export default function BetaTab(props) {
   const { active } = props
@@ -8,20 +8,20 @@ export default function BetaTab(props) {
   console.log('Beta Tab')
 
   const showModal = () => {
-    window.setIsScoringModalOpen(true);
-  };
+    window.setIsScoringModalOpen(true)
+  }
 
   return (
     <div style={{ display: active ? 'block' : 'none' }}>
-      <Flex vertical gap={20} align='center'>
+      <Flex vertical gap={20} align="center">
         <Button type="primary" onClick={showModal}>
           Open Modal
         </Button>
       </Flex>
     </div>
-  );
+  )
 }
 
 BetaTab.propTypes = {
-  active: PropTypes.bool
-};
+  active: PropTypes.bool,
+}

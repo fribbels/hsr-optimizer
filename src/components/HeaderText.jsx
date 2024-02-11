@@ -1,7 +1,7 @@
-import { Typography, } from 'antd';
-import styled from 'styled-components';
+import { Typography } from 'antd'
+import styled from 'styled-components'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 export const HeaderText = styled(Text)`
   text-decoration: underline;

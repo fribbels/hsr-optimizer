@@ -3,8 +3,9 @@ import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } fro
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
   const debuffStacksMax = 5
@@ -91,9 +92,9 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

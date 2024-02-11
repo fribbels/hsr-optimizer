@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
-import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd';
-import { OcrParserFribbels1 } from '../lib/ocrParserFribbels1';
-import { OcrParserKelz3 } from '../lib/ocrParserKelz3';
-import { Message } from '../lib/message';
-import { DB } from '../lib/db';
-import { SaveState } from "../lib/saveState";
-import PropTypes from "prop-types";
+import React, { useState } from 'react'
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
+import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd'
+import { OcrParserFribbels1 } from 'lib/ocrParserFribbels1'
+import { OcrParserKelz3 } from 'lib/ocrParserKelz3'
+import { Message } from 'lib/message'
+import { DB } from 'lib/db'
+import { SaveState } from 'lib/saveState'
+import PropTypes from 'prop-types'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const spinnerMs = 500
 
 // https://web.dev/patterns/files/save-a-file
 const saveFile = async (blob, suggestedName) => {
-  // Feature detection. The API needs to be supported
-  // and the app not run in an iframe.
-  const supportsFileSystemAccess =
-    'showSaveFilePicker' in window &&
-    (() => {
+  /*
+   * Feature detection. The API needs to be supported
+   * and the app not run in an iframe.
+   */
+  const supportsFileSystemAccess
+    = 'showSaveFilePicker' in window
+    && (() => {
       try {
-        return window.self === window.top;
+        return window.self === window.top
       } catch {
-        return false;
+        return false
       }
-    })();
+    })()
   // If the File System Access API is supported…
   if (supportsFileSystemAccess) {
     try {
@@ -35,35 +37,35 @@ const saveFile = async (blob, suggestedName) => {
           description: 'JSON',
           accept: { 'text/json': ['.json'] },
         }],
-      });
+      })
       // Write the blob to the file.
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-
+      const writable = await handle.createWritable()
+      await writable.write(blob)
+      await writable.close()
     } catch (err) {
-      console.warn(err.name, err.message);
-
+      console.warn(err.name, err.message)
     }
   } else {
-    // Fallback if the File System Access API is not supported…
-    // Create the blob URL.
-    const blobURL = URL.createObjectURL(blob);
+    /*
+     * Fallback if the File System Access API is not supported…
+     * Create the blob URL.
+     */
+    const blobURL = URL.createObjectURL(blob)
     // Create the `<a download>` element and append it invisibly.
-    const a = document.createElement('a');
-    a.href = blobURL;
-    a.download = suggestedName;
-    a.style.display = 'none';
-    document.body.append(a);
+    const a = document.createElement('a')
+    a.href = blobURL
+    a.download = suggestedName
+    a.style.display = 'none'
+    document.body.append(a)
     // Programmatically click the element.
-    a.click();
+    a.click()
     // Revoke the blob URL and remove the element.
     setTimeout(() => {
-      URL.revokeObjectURL(blobURL);
-      a.remove();
-    }, 1000);
+      URL.revokeObjectURL(blobURL)
+      a.remove()
+    }, 1000)
   }
-};
+}
 
 function SaveDataTab() {
   async function saveClicked() {
@@ -72,7 +74,7 @@ function SaveDataTab() {
 
       const blob = new Blob(
         [stateString],
-        { type: 'text/json;charset=utf-8' }
+        { type: 'text/json;charset=utf-8' },
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
@@ -96,7 +98,7 @@ function SaveDataTab() {
 }
 
 function ClearDataTab() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   function clearDataClicked() {
     console.log('Clear data')
@@ -106,7 +108,7 @@ function ClearDataTab() {
       DB.resetStore()
 
       Message.success('Cleared data')
-    }, spinnerMs);
+    }, spinnerMs)
   }
 
   return (
@@ -131,28 +133,26 @@ function ClearDataTab() {
 }
 
 function LoadDataTab() {
-  const [current, setCurrent] = useState(0);
-  const [currentSave, setCurrentSave] = useState([]);
-  const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const [current, setCurrent] = useState(0)
+  const [currentSave, setCurrentSave] = useState([])
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
 
   const onStepChange = (value) => {
-    console.log('onStepChange:', value);
-    setCurrent(value);
-  };
+    console.log('onStepChange:', value)
+    setCurrent(value)
+  }
 
   function beforeUpload(file) {
     return new Promise(() => {
-      const reader = new FileReader();
-      reader.readAsText(file);
+      const reader = new FileReader()
+      reader.readAsText(file)
       reader.onload = () => {
-        let fileUploadText = reader.result;
-        console.log('Uploaded file', fileUploadText);
-
+        let fileUploadText = reader.result
+        console.log('Uploaded file', fileUploadText)
 
         let json = JSON.parse(fileUploadText)
-        console.log('Parsed json', json);
-
+        console.log('Parsed json', json)
 
         if (json.fileType || json.source) {
           setLoading1(true)
@@ -161,7 +161,7 @@ function LoadDataTab() {
             setLoading1(false)
             setCurrentSave(undefined)
             onStepChange(1)
-          }, spinnerMs);
+          }, spinnerMs)
           return
         }
 
@@ -171,10 +171,10 @@ function LoadDataTab() {
           setLoading1(false)
           setCurrentSave(json)
           onStepChange(1)
-        }, spinnerMs);
-      };
-      return false;
-    });
+        }, spinnerMs)
+      }
+      return false
+    })
   }
 
   function onUploadClick() {
@@ -187,7 +187,7 @@ function LoadDataTab() {
       setLoading2(false)
       DB.setStore(currentSave)
       onStepChange(2)
-    }, spinnerMs);
+    }, spinnerMs)
   }
 
   function LoadDataContentUploadFile() {
@@ -199,9 +199,10 @@ function LoadDataTab() {
           </Text>
           <Upload
             accept=".json"
-            name='file'
+            name="file"
             onClick={onUploadClick}
-            beforeUpload={beforeUpload}>
+            beforeUpload={beforeUpload}
+          >
             <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
               Load save data
             </Button>
@@ -225,7 +226,15 @@ function LoadDataTab() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
-            File contains {currentSave.relics.length} relics and {currentSave.characters.length} characters. Replace your current data with the uploaded data?
+            File contains
+            {' '}
+            {currentSave.relics.length}
+            {' '}
+            relics and
+            {' '}
+            {currentSave.characters.length}
+            {' '}
+            characters. Replace your current data with the uploaded data?
           </Text>
           <Button style={{ width: 200 }} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use Uploaded Data
@@ -272,27 +281,27 @@ function LoadDataTab() {
 }
 
 function KelZImporterTab() {
-  const [current, setCurrent] = useState(0);
-  const [currentRelics, setCurrentRelics] = useState([]);
-  const [currentCharacters, setCurrentCharacters] = useState([]);
-  const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const [current, setCurrent] = useState(0)
+  const [currentRelics, setCurrentRelics] = useState([])
+  const [currentCharacters, setCurrentCharacters] = useState([])
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
 
   const onStepChange = (value) => {
-    console.log('onStepChange:', value);
-    setCurrent(value);
-  };
+    console.log('onStepChange:', value)
+    setCurrent(value)
+  }
 
   function beforeUpload(file) {
     return new Promise(() => {
-      const reader = new FileReader();
-      reader.readAsText(file);
+      const reader = new FileReader()
+      reader.readAsText(file)
       reader.onload = () => {
         try {
-          let fileUploadText = reader.result;
+          let fileUploadText = reader.result
 
-          let json = JSON.parse(fileUploadText);
-          console.log('JSON', json);
+          let json = JSON.parse(fileUploadText)
+          console.log('JSON', json)
 
           setLoading1(true)
 
@@ -302,14 +311,14 @@ function KelZImporterTab() {
               setCurrentRelics(undefined)
               setCurrentCharacters(undefined)
               onStepChange(1)
-            }, spinnerMs);
+            }, spinnerMs)
             return
           }
 
           let relics = [], characters = []
           if (json.source == 'HSR-Scanner' && json.version == 3) {
-            relics = OcrParserKelz3.parse(json);
-            characters = OcrParserKelz3.parseCharacters(json);
+            relics = OcrParserKelz3.parse(json)
+            characters = OcrParserKelz3.parseCharacters(json)
             characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
           } else {
             setTimeout(() => {
@@ -317,7 +326,7 @@ function KelZImporterTab() {
               setCurrentRelics(undefined)
               setCurrentCharacters(undefined)
               onStepChange(1)
-            }, spinnerMs);
+            }, spinnerMs)
             return
           }
 
@@ -326,15 +335,14 @@ function KelZImporterTab() {
             setCurrentRelics(relics)
             setCurrentCharacters(characters)
             onStepChange(1)
-          }, spinnerMs);
-
+          }, spinnerMs)
         } catch (e) {
           Message.error(e.message, 10)
           Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
-      };
-      return false;
-    });
+      }
+      return false
+    })
   }
 
   function onUploadClick() {
@@ -348,7 +356,7 @@ function KelZImporterTab() {
       DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
       onStepChange(2)
-    }, spinnerMs);
+    }, spinnerMs)
   }
 
   function mergeCharactersConfirmed() {
@@ -358,7 +366,7 @@ function KelZImporterTab() {
       DB.mergeRelicsWithState(currentRelics, currentCharacters)
       SaveState.save()
       onStepChange(2)
-    }, spinnerMs);
+    }, spinnerMs)
   }
 
   function kelZImporterContentUploadFile() {
@@ -366,7 +374,9 @@ function KelZImporterTab() {
       <Flex style={{ minHeight: 100, marginBottom: 30 }}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>).
+            Install and run Kel-Z HSR Scanner (
+            <Typography.Link target="_blank" href="https://github.com/kel-z/HSR-Scanner/releases/latest">Github</Typography.Link>
+            ).
           </Text>
           <Text>
             It supports character and light cones imports and all 16:9 resolutions.
@@ -376,9 +386,10 @@ function KelZImporterTab() {
           </Text>
           <Upload
             accept=".json"
-            name='file'
+            name="file"
             onClick={onUploadClick}
-            beforeUpload={beforeUpload}>
+            beforeUpload={beforeUpload}
+          >
             <Button style={{ width: 210 }} icon={<UploadOutlined />} loading={loading1}>
               Upload HSRScanData File
             </Button>
@@ -403,7 +414,15 @@ function KelZImporterTab() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
-            File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
+            File contains
+            {' '}
+            {currentRelics.length}
+            {' '}
+            relics and
+            {' '}
+            {currentCharacters?.length || 0}
+            {' '}
+            characters.
           </Text>
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
@@ -474,28 +493,28 @@ function KelZImporterTab() {
 }
 
 function FribbelsImporterTab() {
-  const [current, setCurrent] = useState(0);
-  const [currentRelics, setCurrentRelics] = useState([]);
-  const [currentCharacters, setCurrentCharacters] = useState([]);
-  const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const [current, setCurrent] = useState(0)
+  const [currentRelics, setCurrentRelics] = useState([])
+  const [currentCharacters, setCurrentCharacters] = useState([])
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
 
   const onStepChange = (value) => {
-    console.log('onStepChange:', value);
-    setCurrent(value);
-  };
+    console.log('onStepChange:', value)
+    setCurrent(value)
+  }
 
   function beforeUpload(file) {
     return new Promise(() => {
-      const reader = new FileReader();
-      reader.readAsText(file);
+      const reader = new FileReader()
+      reader.readAsText(file)
       reader.onload = () => {
         try {
-          let fileUploadText = reader.result;
+          let fileUploadText = reader.result
           // console.log('Uploaded text relicImporterTab', fileUploadText);
 
-          let json = JSON.parse(fileUploadText);
-          console.log('JSON', json);
+          let json = JSON.parse(fileUploadText)
+          console.log('JSON', json)
 
           setLoading1(true)
 
@@ -505,20 +524,20 @@ function FribbelsImporterTab() {
               setCurrentRelics(undefined)
               setCurrentCharacters(undefined)
               onStepChange(1)
-            }, spinnerMs);
+            }, spinnerMs)
             return
           }
 
           let relics = [], characters = []
           if (json.fileType == 'Fribbels HSR Scanner' && json.fileVersion == 'v1.0.0') {
-            relics = OcrParserFribbels1.parse(json);
+            relics = OcrParserFribbels1.parse(json)
           } else {
             setTimeout(() => {
               setLoading1(false)
               setCurrentRelics(undefined)
               setCurrentCharacters(undefined)
               onStepChange(1)
-            }, spinnerMs);
+            }, spinnerMs)
             return
           }
 
@@ -527,15 +546,14 @@ function FribbelsImporterTab() {
             setCurrentRelics(relics)
             setCurrentCharacters(characters)
             onStepChange(1)
-          }, spinnerMs);
-
+          }, spinnerMs)
         } catch (e) {
           Message.error(e.message, 10)
           Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
         }
-      };
-      return false;
-    });
+      }
+      return false
+    })
   }
 
   function onUploadClick() {
@@ -549,7 +567,7 @@ function FribbelsImporterTab() {
       DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
       onStepChange(2)
-    }, spinnerMs);
+    }, spinnerMs)
   }
 
   function fribbelsImporterContentUploadFile() {
@@ -557,7 +575,9 @@ function FribbelsImporterTab() {
       <Flex style={{ minHeight: 100, marginBottom: 30 }}>
         <Flex vertical gap={10}>
           <Text>
-            Install and run Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>).
+            Install and run Fribbels HSR Scanner (
+            <Typography.Link target="_blank" href="https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest">Github</Typography.Link>
+            ).
           </Text>
           <Text>
             The Kel-Z importer is recommended for scanning speed & character imports. This importer can be used as a backup if that doesn't work.
@@ -567,15 +587,16 @@ function FribbelsImporterTab() {
           </Text>
           <Upload
             accept=".json"
-            name='file'
+            name="file"
             onClick={onUploadClick}
-            beforeUpload={beforeUpload}>
+            beforeUpload={beforeUpload}
+          >
             <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
               Upload relics file
             </Button>
           </Upload>
-        </Flex >
-      </Flex >
+        </Flex>
+      </Flex>
     )
   }
 
@@ -594,7 +615,15 @@ function FribbelsImporterTab() {
       <Flex style={{ minHeight: 250 }}>
         <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
           <Text>
-            File contains {currentRelics.length} relics and {currentCharacters?.length || 0} characters.
+            File contains
+            {' '}
+            {currentRelics.length}
+            {' '}
+            relics and
+            {' '}
+            {currentCharacters?.length || 0}
+            {' '}
+            characters.
           </Text>
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
@@ -689,7 +718,7 @@ export default function ImportTab() {
         />
       </Flex>
     </div>
-  );
+  )
 }
 ImportTab.propTypes = {
   active: PropTypes.bool,

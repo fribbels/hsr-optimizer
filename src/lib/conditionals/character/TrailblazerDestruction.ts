@@ -3,7 +3,7 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants'
 import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (e: Eidolon): CharacterConditional => {
   const talentAtkScalingValue = talentRev(e, 0.20, 0.22)
@@ -59,8 +59,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

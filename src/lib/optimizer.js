@@ -1,17 +1,17 @@
-import { Constants } from "./constants.ts";
-import { OptimizerTabController } from './optimizerTabController';
-import { Utils } from './utils';
-import DB from "./db";
-import { WorkerPool } from "./workerPool";
-import { BufferPacker } from "./bufferPacker";
-import { RelicFilters } from "./relicFilters";
-import { CharacterStats } from "./characterStats";
-import { Message } from "./message";
-import { StatCalculator } from "./statCalculator";
+import { Constants } from './constants.ts'
+import { OptimizerTabController } from './optimizerTabController'
+import { Utils } from './utils'
+import DB from './db'
+import { WorkerPool } from './workerPool'
+import { BufferPacker } from './bufferPacker'
+import { RelicFilters } from './relicFilters'
+import { CharacterStats } from './characterStats'
+import { Message } from './message'
+import { StatCalculator } from './statCalculator'
 
-let MAX_RESULTS = 2_000_000;
+let MAX_RESULTS = 2_000_000
 
-let CANCEL = false;
+let CANCEL = false
 
 export const Optimizer = {
   cancel: (id) => {
@@ -20,37 +20,37 @@ export const Optimizer = {
   },
 
   getFilteredRelics: (request) => {
-    let relics = Utils.clone(DB.getRelics());
+    let relics = Utils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
 
-    relics = RelicFilters.applyEquippedFilter(request, relics); // will reduce iterations if "off" is selected
-    relics = RelicFilters.applyEnhanceFilter(request, relics);
-    relics = RelicFilters.applyRankFilter(request, relics);
+    relics = RelicFilters.applyEquippedFilter(request, relics) // will reduce iterations if "off" is selected
+    relics = RelicFilters.applyEnhanceFilter(request, relics)
+    relics = RelicFilters.applyRankFilter(request, relics)
 
     // Pre-split filters
-    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics);
+    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
-    relics = RelicFilters.applyMainFilter(request, relics);
-    relics = addMainStatToAugmentedStats(relics);
-    relics = applyMaxedMainStatsFilter(request, relics);
+    relics = RelicFilters.applyMainFilter(request, relics)
+    relics = addMainStatToAugmentedStats(relics)
+    relics = applyMaxedMainStatsFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 
     // Post-split filters
-    relics = splitRelicsByPart(relics);
+    relics = splitRelicsByPart(relics)
 
-    relics = RelicFilters.applyCurrentFilter(request, relics);
-    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart);
+    relics = RelicFilters.applyCurrentFilter(request, relics)
+    relics = RelicFilters.applyTopFilter(request, relics, preFilteredRelicsByPart)
 
-    return [relics, preFilteredRelicsByPart];
+    return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: function(request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
     window.store.getState().setPermutationsResults(0)
 
-    let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone];
+    let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
     let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
     let lightConeSuperimposition = lightConeMetadata.superimpositions[request.lightConeSuperimposition]
 
@@ -65,20 +65,20 @@ export const Optimizer = {
     let baseStats = {
       base: {
         ...CharacterStats.getZeroes(),
-        ...characterStats
+        ...characterStats,
       },
       traces: {
         ...CharacterStats.getZeroes(),
-        ...characterMetadata.traces
+        ...characterMetadata.traces,
       },
       lightCone: {
         ...CharacterStats.getZeroes(),
         ...lightConeStats,
-        ...lightConeSuperimposition
-      }
+        ...lightConeSuperimposition,
+      },
     }
 
-    const [relics] = this.getFilteredRelics(request);
+    const [relics] = this.getFilteredRelics(request)
 
     let elementalMultipliers = [
       element == 'Physical' ? 1 : 0,
@@ -109,7 +109,7 @@ export const Optimizer = {
       lSize: relics.LinkRope.length,
     }
 
-    let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize;
+    let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
 
     OptimizerTabController.setMetadata(sizes, relics)
 
@@ -121,7 +121,7 @@ export const Optimizer = {
       return
     }
 
-    if (CANCEL) return;
+    if (CANCEL) return
 
     window.optimizerGrid.current.api.showLoadingOverlay()
 
@@ -132,21 +132,21 @@ export const Optimizer = {
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     function handleTopRow() {
-      let relics = Utils.clone(DB.getRelics());
+      let relics = Utils.clone(DB.getRelics())
       RelicFilters.calculateWeightScore(request, relics)
-      relics = relics.filter(x => x.equippedBy == request.characterId)
-      relics = addMainStatToAugmentedStats(relics);
-      relics = applyMaxedMainStatsFilter(request, relics);
+      relics = relics.filter((x) => x.equippedBy == request.characterId)
+      relics = addMainStatToAugmentedStats(relics)
+      relics = applyMaxedMainStatsFilter(request, relics)
       if (relics.length < 6) return
 
-      relics = splitRelicsByPart(relics);
+      relics = splitRelicsByPart(relics)
 
       let callback = (result) => {
         let resultArr = new Float64Array(result.buffer)
         console.log(`Top row complete`)
 
         let rowData = []
-        BufferPacker.extractArrayToResults(resultArr, 1, rowData);
+        BufferPacker.extractArrayToResults(resultArr, 1, rowData)
         if (rowData.length > 0) {
           OptimizerTabController.setTopRow(rowData[0])
         }
@@ -213,7 +213,7 @@ export const Optimizer = {
         let resultArr = new Float64Array(result.buffer)
         // console.log(`Optimizer results`, result, resultArr, run)
 
-        BufferPacker.extractArrayToResults(resultArr, run.runSize, results);
+        BufferPacker.extractArrayToResults(resultArr, run.runSize, results)
 
         // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
@@ -224,13 +224,13 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', results.length);
+          console.log('Done', results.length)
           resultsShown = true
           return
         }
 
         if ((results.length >= MAX_RESULTS) && !CANCEL) {
-          CANCEL = true;
+          CANCEL = true
           Optimizer.cancel(request.optimizationId)
           Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
         }
@@ -238,33 +238,33 @@ export const Optimizer = {
 
       WorkerPool.execute(input, callback)
     }
-  }
+  },
 }
 
 function applyMaxedMainStatsFilter(request, relics) {
   if (request.predictMaxedMainStat) {
-    relics.map(x => x.augmentedStats[x.main.stat] = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+    relics.map((x) => x.augmentedStats[x.main.stat] = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
   }
   return relics
 }
 
 function addMainStatToAugmentedStats(relics) {
-  relics = relics.map(x => structuredClone(x))
+  relics = relics.map((x) => structuredClone(x))
 
   for (let relic of relics) {
     relic.augmentedStats[relic.augmentedStats.mainStat] = relic.augmentedStats.mainValue
   }
-  return relics;
+  return relics
 }
 
 function splitRelicsByPart(relics) {
   return {
-    Head: relics.filter(x => x.part == Constants.Parts.Head),
-    Hands: relics.filter(x => x.part == Constants.Parts.Hands),
-    Body: relics.filter(x => x.part == Constants.Parts.Body),
-    Feet: relics.filter(x => x.part == Constants.Parts.Feet),
-    PlanarSphere: relics.filter(x => x.part == Constants.Parts.PlanarSphere),
-    LinkRope: relics.filter(x => x.part == Constants.Parts.LinkRope)
+    Head: relics.filter((x) => x.part == Constants.Parts.Head),
+    Hands: relics.filter((x) => x.part == Constants.Parts.Hands),
+    Body: relics.filter((x) => x.part == Constants.Parts.Body),
+    Feet: relics.filter((x) => x.part == Constants.Parts.Feet),
+    PlanarSphere: relics.filter((x) => x.part == Constants.Parts.PlanarSphere),
+    LinkRope: relics.filter((x) => x.part == Constants.Parts.LinkRope),
   }
 }
 
@@ -278,11 +278,11 @@ function relicSetAllowListToIndices(arr) {
   for (let i = 0; i < arr.length; i++) {
     while (arr[i]) {
       arr[i]--
-      out.push(i);
+      out.push(i)
     }
   }
 
-  return out;
+  return out
 }
 
 // [5, 5] => [[5,5,0,0], [5,5,0,1], [5,5,1,1], [5,5,1,2], ...]
@@ -300,33 +300,33 @@ function fillRelicSetArrPossibilities(arr, len) {
     }
   }
 
-  return out;
+  return out
 }
 
 const permutator = (inputArr) => {
-  let result = [];
+  let result = []
 
   const permute = (arr, m = []) => {
     if (arr.length === 0) {
       result.push(m)
     } else {
       for (let i = 0; i < arr.length; i++) {
-        let curr = arr.slice();
-        let next = curr.splice(i, 1);
+        let curr = arr.slice()
+        let next = curr.splice(i, 1)
         permute(curr.slice(), m.concat(next))
       }
     }
   }
 
   permute(inputArr)
-  return result;
+  return result
 }
 
 // [[5,5,0,0], [5,5,0,1], [5,5,1,1], [5,5,1,2], ...] => [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0..]
 function convertRelicSetIndicesTo1D(setIndices) {
   let len = Constants.SetsRelicsNames.length
   if (setIndices.length == 0) {
-    return Utils.arrayOfValue(Math.pow(len, 4), 1);
+    return Utils.arrayOfValue(Math.pow(len, 4), 1)
   }
 
   let arr = Utils.arrayOfZeroes(Math.pow(len, 4))
@@ -343,12 +343,12 @@ function convertRelicSetIndicesTo1D(setIndices) {
   return arr
 }
 function generateOrnamentSetAllowList(request) {
-  let setRequest = request.ornamentSets || [];
+  let setRequest = request.ornamentSets || []
 
-  let len = Constants.SetsOrnamentsNames.length;
+  let len = Constants.SetsOrnamentsNames.length
 
   if (setRequest.length == 0) {
-    return Utils.arrayOfValue(len * len, 1);
+    return Utils.arrayOfValue(len * len, 1)
   }
 
   let arr = Utils.arrayOfZeroes(len * len)
@@ -366,8 +366,8 @@ function generateOrnamentSetAllowList(request) {
 
 function generateRelicSetAllowList(request) {
   // Init
-  let setRequest = request.relicSets || [];
-  let len = Constants.SetsRelicsNames.length;
+  let setRequest = request.relicSets || []
+  let len = Constants.SetsRelicsNames.length
   let relicSetAllowList = []
   let setIndices = []
 
@@ -382,19 +382,19 @@ function generateRelicSetAllowList(request) {
           arr[i] = 4
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
-          setIndices.push(indices);
+          setIndices.push(indices)
         }
       }
 
       // ok
       if (setArr.length == 2) {
         // Specific 4 piece
-        let index = Constants.RelicSetToIndex[setArr[1]];
+        let index = Constants.RelicSetToIndex[setArr[1]]
         let arr = generateEmptyArr(len)
         arr[index] = 4
         relicSetAllowList.push(arr.join())
         let indices = relicSetAllowListToIndices(arr)
-        setIndices.push(indices);
+        setIndices.push(indices)
       }
     }
 
@@ -406,19 +406,19 @@ function generateRelicSetAllowList(request) {
           arr[i] = 4
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
-          setIndices.push(indices);
+          setIndices.push(indices)
         }
       }
 
       if (setArr.length == 2) {
-        let index = Constants.RelicSetToIndex[setArr[1]];
+        let index = Constants.RelicSetToIndex[setArr[1]]
         for (let i = 0; i < len; i++) {
           let arr = generateEmptyArr(len)
           arr[index] = 2
           arr[i] += 2
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
-          setIndices.push(indices);
+          setIndices.push(indices)
         }
 
         // 2 + 0
@@ -428,7 +428,7 @@ function generateRelicSetAllowList(request) {
         let indices = relicSetAllowListToIndices(arr)
         // setIndices.push(indices);
         let filledIndices = fillRelicSetArrPossibilities(indices, len)
-        setIndices.push(...filledIndices);
+        setIndices.push(...filledIndices)
       }
     }
 
@@ -444,7 +444,7 @@ function generateRelicSetAllowList(request) {
           let indices = relicSetAllowListToIndices(arr)
           // setIndices.push(indices);
           let filledIndices = fillRelicSetArrPossibilities(indices, len)
-          setIndices.push(...filledIndices);
+          setIndices.push(...filledIndices)
         }
 
         // Also means 2 + 2 pieces are allowed
@@ -455,7 +455,7 @@ function generateRelicSetAllowList(request) {
             arr[j] += 2
             relicSetAllowList.push(arr.join())
             let indices = relicSetAllowListToIndices(arr)
-            setIndices.push(indices);
+            setIndices.push(indices)
           }
         }
       }
@@ -465,14 +465,14 @@ function generateRelicSetAllowList(request) {
         // Single 2 piece + Any
 
         // 2 + 2s
-        let index = Constants.RelicSetToIndex[setArr[1]];
+        let index = Constants.RelicSetToIndex[setArr[1]]
         for (let i = 0; i < len; i++) {
           let arr = generateEmptyArr(len)
           arr[index] = 2
           arr[i] += 2
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
-          setIndices.push(indices);
+          setIndices.push(indices)
         }
 
         // 2 + 0
@@ -482,7 +482,7 @@ function generateRelicSetAllowList(request) {
         let indices = relicSetAllowListToIndices(arr)
         // setIndices.push(indices);
         let filledIndices = fillRelicSetArrPossibilities(indices, len)
-        setIndices.push(...filledIndices);
+        setIndices.push(...filledIndices)
       }
 
       // ok
@@ -490,14 +490,14 @@ function generateRelicSetAllowList(request) {
         // Specific 2 piece + (2 piece OR any)
 
         if (setArr[2] == 'Any') {
-          let index = Constants.RelicSetToIndex[setArr[1]];
+          let index = Constants.RelicSetToIndex[setArr[1]]
           for (let i = 0; i < len; i++) {
             let arr = generateEmptyArr(len)
             arr[index] = 2
             arr[i] += 2
             relicSetAllowList.push(arr.join())
             let indices = relicSetAllowListToIndices(arr)
-            setIndices.push(indices);
+            setIndices.push(indices)
           }
 
           // 2 + 0
@@ -506,25 +506,25 @@ function generateRelicSetAllowList(request) {
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
           let filledIndices = fillRelicSetArrPossibilities(indices, len)
-          setIndices.push(...filledIndices);
+          setIndices.push(...filledIndices)
         } else {
           let arr = generateEmptyArr(len)
-          let index1 = Constants.RelicSetToIndex[setArr[1]];
-          let index2 = Constants.RelicSetToIndex[setArr[2]];
+          let index1 = Constants.RelicSetToIndex[setArr[1]]
+          let index2 = Constants.RelicSetToIndex[setArr[2]]
           arr[index1] += 2
           arr[index2] += 2
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
-          setIndices.push(indices);
+          setIndices.push(indices)
         }
       }
     }
   }
-  let relicSetSolutions = convertRelicSetIndicesTo1D(setIndices);
+  let relicSetSolutions = convertRelicSetIndicesTo1D(setIndices)
 
   relicSetAllowList = [...new Set(relicSetAllowList)]
   return {
     relicSetAllowList,
-    relicSetSolutions
+    relicSetSolutions,
   }
 }

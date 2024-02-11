@@ -1,7 +1,7 @@
-import { Constants } from "./constants.ts";
-import DB from "./db";
-import { CharacterStats } from "./characterStats";
-import { Utils } from "./utils";
+import { Constants } from './constants.ts'
+import DB from './db'
+import { CharacterStats } from './characterStats'
+import { Utils } from './utils'
 
 let maxedMainStats
 
@@ -35,17 +35,17 @@ export const StatCalculator = {
   },
 
   calculateCharacterWithRelics(character, relics) {
-    if (!character) return console.log('No character selected');
+    if (!character) return console.log('No character selected')
 
     let form = character.form
     let characterMetadata = DB.getMetadata().characters[character.id]
     let characterLevel = form.characterLevel
 
-    let lightConeMetadata;
-    let lightConeLevel;
-    let lightConeSuperimposition;
-    let lightConeStats;
-    let superimpositionStats;
+    let lightConeMetadata
+    let lightConeLevel
+    let lightConeSuperimposition
+    let lightConeStats
+    let superimpositionStats
 
     if (form.lightCone && form.lightCone != '0') {
       lightConeMetadata = DB.getMetadata().lightCones[form.lightCone]
@@ -54,7 +54,7 @@ export const StatCalculator = {
       lightConeStats = lightConeMetadata.promotions[lightConeLevel]
       superimpositionStats = lightConeMetadata.superimpositions[lightConeSuperimposition]
     } else {
-      console.log('No light cone selected');
+      console.log('No light cone selected')
       lightConeLevel = 0
       lightConeSuperimposition = 0
       lightConeStats = {}
@@ -78,28 +78,30 @@ export const StatCalculator = {
     let baseStats = {
       base: {
         ...CharacterStats.getZeroes(),
-        ...characterStats
+        ...characterStats,
       },
       traces: {
         ...CharacterStats.getZeroes(),
-        ...traceStats
+        ...traceStats,
       },
       lightCone: {
         ...CharacterStats.getZeroes(),
         ...lightConeStats,
-        ...superimpositionStats
-      }
+        ...superimpositionStats,
+      },
     }
 
     let lc = baseStats.lightCone
     let base = baseStats.base
     let trace = baseStats.traces
 
-    let { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics);
+    let { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics)
 
-    // console.log(characterMetadata, lightConeMetadata)
-    // console.log(baseStats)
-    // console.log(relics)
+    /*
+     * console.log(characterMetadata, lightConeMetadata)
+     * console.log(baseStats)
+     * console.log(relics)
+     */
 
     function sum(relics, stat) {
       let total = 0
@@ -136,7 +138,7 @@ export const StatCalculator = {
       [Constants.Stats.Lightning_DMG]: 0.1 * Math.min(1, relicSets[8] >> 1) + (base[Constants.Stats.Lightning_DMG] + lc[Constants.Stats.Lightning_DMG] + sum(relics, Constants.Stats.Lightning_DMG) + trace[Constants.Stats.Lightning_DMG]),
       [Constants.Stats.Wind_DMG]: 0.1 * Math.min(1, relicSets[9] >> 1) + (base[Constants.Stats.Wind_DMG] + lc[Constants.Stats.Wind_DMG] + sum(relics, Constants.Stats.Wind_DMG) + trace[Constants.Stats.Wind_DMG]),
       [Constants.Stats.Quantum_DMG]: 0.1 * Math.min(1, relicSets[7] >> 1) + (base[Constants.Stats.Quantum_DMG] + lc[Constants.Stats.Quantum_DMG] + sum(relics, Constants.Stats.Quantum_DMG) + trace[Constants.Stats.Quantum_DMG]),
-      [Constants.Stats.Imaginary_DMG]: 0.1 * Math.min(1, relicSets[11] >> 1) + (base[Constants.Stats.Imaginary_DMG] + lc[Constants.Stats.Imaginary_DMG] + sum(relics, Constants.Stats.Imaginary_DMG) + trace[Constants.Stats.Imaginary_DMG])
+      [Constants.Stats.Imaginary_DMG]: 0.1 * Math.min(1, relicSets[11] >> 1) + (base[Constants.Stats.Imaginary_DMG] + lc[Constants.Stats.Imaginary_DMG] + sum(relics, Constants.Stats.Imaginary_DMG) + trace[Constants.Stats.Imaginary_DMG]),
     }
 
     let elementalDmg = 0
@@ -175,15 +177,14 @@ export const StatCalculator = {
     hero.xOHB = 0
     hero.xELEMENTAL_DMG = 0
 
-
-    return hero;
+    return hero
   },
 
   calculate(character) {
-    if (!character) return console.log('No character selected');
+    if (!character) return console.log('No character selected')
 
     const relicsById = window.store.getState().relicsById
-    let relics = Object.values(character.equipped).map(x => relicsById[x])
+    let relics = Object.values(character.equipped).map((x) => relicsById[x])
 
     return StatCalculator.calculateCharacterWithRelics(character, relics)
   },

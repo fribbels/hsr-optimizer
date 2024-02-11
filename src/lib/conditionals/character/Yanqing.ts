@@ -3,8 +3,9 @@ import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from '../constants'
 import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from '../utils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const ultCdBuffValue = ultRev(e, 0.50, 0.54)
@@ -107,8 +108,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c, request) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

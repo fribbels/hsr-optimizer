@@ -2,7 +2,7 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants'
 import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -56,9 +56,9 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.ATK_P] += (r.roaringBowstrings) ? skillAtkBuffValue : 0
-      x[Stats.CR] += (r.ultBuff && r.roaringBowstrings) ? ultCrBuffValue : 0
-      x[Stats.CD] += (r.ultBuff && r.roaringBowstrings) ? ultCdBuffValue : 0
+      x[Stats.ATK_P] += (r.roaringBowstringsActive) ? skillAtkBuffValue : 0
+      x[Stats.CR] += (r.ultBuff && r.roaringBowstringsActive) ? ultCrBuffValue : 0
+      x[Stats.CD] += (r.ultBuff && r.roaringBowstringsActive) ? ultCdBuffValue : 0
       x[Stats.SPD_P] += (e >= 1 && r.initialSpeedBuff) ? 0.10 : 0
 
       // Scaling
@@ -69,12 +69,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += 0.12
-      x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstrings) ? 0.30 : 0
+      x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

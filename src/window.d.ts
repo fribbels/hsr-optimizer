@@ -24,33 +24,34 @@ import { BufferPacker } from './lib/bufferPacker'
 import { RelicRollFixer } from './lib/relicRollFixer'
 import { NotificationInstance } from 'antd/es/notification/interface'
 import { MessageInstance } from 'antd/es/message/interface'
-import {StoreApi, UseBoundStore} from "zustand";
-import {HsrOptimizerStore} from "./types/store";
-import {Build, Character} from "./types/Character";
-import {Relic} from "./types/Relic";
-import {AgGridReact} from "ag-grid-react";
-import {DispatchWithoutAction, RefObject} from "react"
-import {Hero} from "./types/calc";
+import { StoreApi, UseBoundStore } from 'zustand'
+import { HsrOptimizerStore } from './types/store'
+import { Build, Character } from './types/Character'
+import { Relic } from './types/Relic'
+import { AgGridReact } from 'ag-grid-react'
+import { DispatchWithoutAction, RefObject } from 'react'
+import { Hero } from './types/calc'
+import { FormInstance } from 'antd/es/form/hooks/useForm'
 
 declare global {
   interface Window {
     notificationApi: NotificationInstance
     messageApi: MessageInstance
-    store: UseBoundStore<StoreApi<HsrOptimizerStore>>;
+    store: UseBoundStore<StoreApi<HsrOptimizerStore>>
 
-    characterGrid: RefObject<AgGridReact<Character>>;
-    relicsGrid: RefObject<AgGridReact<Relic>>;
+    characterGrid: RefObject<AgGridReact<Character>>
+    relicsGrid: RefObject<AgGridReact<Relic>>
     optimizerGrid: RefObject<AgGridReact<Hero>>
 
-
-    setCharacterRows: (characters:Character[]) => void;
-    setRelicRows: (characters:Relic[]) => void;
-    setOptimizerBuild: (build?: Build) => void;
-    setSelectedRelic: (relic:Partial<Relic>) => void;
-    setEditModalOpen: (open:boolean) => void;
+    setCharacterRows: (characters: Character[]) => void
+    setRelicRows: (characters: Relic[]) => void
+    setOptimizerBuild: (build?: Build) => void
+    setSelectedRelic: (relic: Partial<Relic>) => void
+    setEditModalOpen: (open: boolean) => void
 
     // TODO see OptimizerForm
-    onOptimizerFormValuesChange:(...args:unknown[])=>unknown
+    onOptimizerFormValuesChange: (...args: unknown[]) => unknown
+    optimizerForm: FormInstance
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
 

@@ -1,7 +1,7 @@
-import { Constants } from "lib/constants";
-import { Character } from "types/Character";
+import { Constants } from 'lib/constants'
+import { Character } from 'types/Character'
 
-import DB from "./db.js";
+import DB from './db.js'
 
 const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
 let mainStatFreeRolls
@@ -16,13 +16,13 @@ function setMainStatFreeRolls() {
         [Constants.Stats.CR]: 1.644,
         [Constants.Stats.CD]: 1.658,
         [Constants.Stats.OHB]: 1.712,
-        [Constants.Stats.EHR]: 1.668
+        [Constants.Stats.EHR]: 1.668,
       },
       [Constants.Parts.Feet]: {
         [Constants.Stats.HP_P]: 1.058,
         [Constants.Stats.ATK_P]: 1.019,
         [Constants.Stats.DEF_P]: 1,
-        [Constants.Stats.SPD]: 1.567
+        [Constants.Stats.SPD]: 1.567,
       },
       [Constants.Parts.PlanarSphere]: {
         [Constants.Stats.HP_P]: 1.583,
@@ -41,57 +41,57 @@ function setMainStatFreeRolls() {
         [Constants.Stats.ATK_P]: 1.076,
         [Constants.Stats.DEF_P]: 1.172,
         [Constants.Stats.BE]: 1.416,
-        [Constants.Stats.ERR]: 2
-      }
+        [Constants.Stats.ERR]: 2,
+      },
     }
   }
 }
 
 const ratingToRolls = {
-  'F': 1,
-  'D': 2,
-  'C': 3,
-  'B': 4,
-  'A': 5,
-  'S': 6,
-  'SS': 7,
-  'SSS': 8,
-  'WTF': 9,
+  F: 1,
+  D: 2,
+  C: 3,
+  B: 4,
+  A: 5,
+  S: 6,
+  SS: 7,
+  SSS: 8,
+  WTF: 9,
 }
-const ratings: { threshold: number, rating: string }[] = [];
+const ratings: { threshold: number; rating: string }[] = []
 for (const x of Object.entries(ratingToRolls)) {
   ratings.push({
     threshold: x[1],
-    rating: x[0]
+    rating: x[0],
   })
 }
 
 function countPairs(arr) {
-  let pairs = 0;
-  const obj = {};
-  arr.forEach(i => {
+  let pairs = 0
+  const obj = {}
+  arr.forEach((i) => {
     if (obj[i]) {
-      pairs += 1;
-      obj[i] = 0;
+      pairs += 1
+      obj[i] = 0
     } else {
-      obj[i] = 1;
+      obj[i] = 1
     }
-  });
-  return pairs;
+  })
+  return pairs
 }
 
 export const RelicScorer = {
   scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
 
-    const scoredRelics = relics.map(x => RelicScorer.score(x, character.id))
+    const scoredRelics = relics.map((x) => RelicScorer.score(x, character.id))
 
     let sum = 0
     for (const relic of scoredRelics) {
       sum += Number(relic.score) + Number(relic.mainStatScore)
     }
 
-    const missingSets = 3 - countPairs(relics.filter(x => x != undefined).map(x => x.set))
+    const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
     const deduction = missingSets * minRollValue * 3
     console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
     sum = Math.max(0, sum - deduction)
@@ -112,7 +112,7 @@ export const RelicScorer = {
     return {
       relics: scoredRelics,
       totalScore: sum,
-      totalRating: rating
+      totalRating: rating,
     }
   },
 
@@ -121,7 +121,7 @@ export const RelicScorer = {
 
     console.log('SCORE CHARACTER', character)
     const relicsById = window.store.getState().relicsById
-    const relics = Object.values(character.equipped).map(x => relicsById[x])
+    const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
     return RelicScorer.scoreCharacterWithRelics(character, relics)
   },
@@ -135,7 +135,7 @@ export const RelicScorer = {
       return {
         score: 0,
         rating: 'N/A',
-        mainStatScore: 0
+        mainStatScore: 0,
       }
     }
 
@@ -149,7 +149,7 @@ export const RelicScorer = {
         return {
           score: 0,
           rating: 'N/A',
-          mainStatScore: 0
+          mainStatScore: 0,
         }
       }
     }
@@ -176,7 +176,7 @@ export const RelicScorer = {
     for (const substat of relic.substats) {
       substat.scoreMeta = {
         multiplier: (multipliers[substat.stat] || 0),
-        score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
+        score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat],
       }
       sum += substat.scoreMeta.score
     }
@@ -211,7 +211,7 @@ export const RelicScorer = {
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
-      meta: DB.getScoringMetadata(characterId)
+      meta: DB.getScoringMetadata(characterId),
     }
-  }
+  },
 }

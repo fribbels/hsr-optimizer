@@ -1,41 +1,41 @@
-import stringSimilarity from 'string-similarity';
-import { Constants, Parts, Sets } from './constants.ts';
-import { RelicAugmenter } from './relicAugmenter';
+import stringSimilarity from 'string-similarity'
+import { Constants, Parts, Sets } from './constants.ts'
+import { RelicAugmenter } from './relicAugmenter'
 
-import characters from '../data/characters.json';
-import lightCones from '../data/light_cones.json';
-import DB from "./db";
-import { Utils } from "./utils";
-import { Message } from "./message";
+import characters from '../data/characters.json'
+import lightCones from '../data/light_cones.json'
+import DB from './db'
+import { Utils } from './utils'
+import { Message } from './message'
 
-let substatMapping;
-let mainstatMapping;
-let partMapping;
-let affixMapping;
+let substatMapping
+let mainstatMapping
+let partMapping
+let affixMapping
 let metadata
 
 const formTemplate = {
-  "characterId": "1204",
-  "characterLevel": 80,
-  "characterEidolon": 0,
-  "lightCone": "23010",
-  "lightConeLevel": 80,
-  "lightConeSuperimposition": 1,
+  characterId: '1204',
+  characterLevel: 80,
+  characterEidolon: 0,
+  lightCone: '23010',
+  lightConeLevel: 80,
+  lightConeSuperimposition: 1,
 }
 
 export const OcrParserKelz3 = {
   parse: (json) => {
     OcrParserKelz3.initialize()
-    let relics = json.relics;
+    let relics = json.relics
 
     let parsedRelics = []
     for (let relic of relics) {
-      let result = readRelic(relic);
+      let result = readRelic(relic)
       let output = RelicAugmenter.augment(result)
 
       // Temporarily skip broken imports
       if (output) {
-        parsedRelics.push(result);
+        parsedRelics.push(result)
       }
       // console.log(result);
     }
@@ -45,7 +45,7 @@ export const OcrParserKelz3 = {
 
   parseCharacters: (json) => {
     OcrParserKelz3.initialize()
-    let characters = json.characters;
+    let characters = json.characters
     if (!characters) {
       return []
     }
@@ -55,12 +55,12 @@ export const OcrParserKelz3 = {
       let lightCone = undefined
       if (json.light_cones) {
         // Find their light cone
-        lightCone = json.light_cones.find(x => x.location == character.key)
+        lightCone = json.light_cones.find((x) => x.location == character.key)
       }
 
       try {
-        let result = readCharacter(character, lightCone);
-        parsedCharacters.push(result);
+        let result = readCharacter(character, lightCone)
+        parsedCharacters.push(result)
       } catch (e) {
         Message.warning(`Error reading a character [${character?.key}], try running the scanner again with a dark background to improve scan accuracy`, 10)
       }
@@ -140,7 +140,7 @@ export const OcrParserKelz3 = {
         [Constants.Stats.Imaginary_DMG]: 'ImaginaryAddedRatio',
       }
     }
-  }
+  },
 }
 
 const characterList = Object.values(characters)
@@ -152,18 +152,18 @@ function readCharacter(character, lightCone) {
 
   // Lookup character & light cone ids
   let characterId
-  if (character.key.startsWith("Trailblazer")) {
-    if (character.key == "TrailblazerPreservation") {
-      characterId = characterList.find(x => x.tag == "playergirl2").id
+  if (character.key.startsWith('Trailblazer')) {
+    if (character.key == 'TrailblazerPreservation') {
+      characterId = characterList.find((x) => x.tag == 'playergirl2').id
     } else {
-      characterId = characterList.find(x => x.tag == "playergirl").id
+      characterId = characterList.find((x) => x.tag == 'playergirl').id
     }
   } else {
-    characterId = characterList.find(x => x.name == character.key).id
+    characterId = characterList.find((x) => x.name == character.key).id
   }
 
   let lcKey = lightCone?.key
-  const lightConeId = lightConeList.find(x => x.name == lcKey)?.id
+  const lightConeId = lightConeList.find((x) => x.name == lcKey)?.id
 
   // Set information
   newCharacter.characterId = characterId
@@ -177,21 +177,21 @@ function readCharacter(character, lightCone) {
 }
 
 function readRelic(relic) {
-  let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts));
+  let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   // console.log('partMatches', partMatches);
   let part = partMatches.bestMatch.target
 
-  let setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map(x => x[1]))
-  let set = relicSetList[setMatches.bestMatchIndex][2];
+  let setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map((x) => x[1]))
+  let set = relicSetList[setMatches.bestMatchIndex][2]
 
-  let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15);
-  let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5);
+  let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
+  let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
 
-  let parsedStats = readStats(relic, part, grade, enhance);
+  let parsedStats = readStats(relic, part, grade, enhance)
 
   let id
-  if (characterList.find(x => x.name == relic.location)) {
-    id = characterList.find(x => x.name == relic.location).id
+  if (characterList.find((x) => x.name == relic.location)) {
+    id = characterList.find((x) => x.name == relic.location).id
   } else {
     if (relic.location == 'TrailblazerPreservation' && window.store.getState().charactersById[8003]) {
       id = 8003
@@ -213,7 +213,7 @@ function readRelic(relic) {
     grade: grade,
     main: parsedStats.main,
     substats: parsedStats.substats,
-    equippedBy: relic.location === "" ? undefined : id,
+    equippedBy: relic.location === '' ? undefined : id,
   }
 }
 
@@ -227,7 +227,7 @@ function readStats(relic, part, grade, enhance) {
 
     parsedSubstats.push({
       stat: mappedStat,
-      value: value
+      value: value,
     })
   }
 
@@ -249,18 +249,18 @@ function readStats(relic, part, grade, enhance) {
   let mainId = affixMapping[parsedMainStat]
   let query = `${grade}${partId}`
   let affixMetadata = metadata.relicMainAffixes[query]
-  let mainData = Object.values(affixMetadata.affixes).find(x => x.property == mainId)
+  let mainData = Object.values(affixMetadata.affixes).find((x) => x.property == mainId)
   let mainBase = mainData.base
   let mainStep = mainData.step
   let mainValue = mainBase + mainStep * enhance
   main = {
     stat: parsedMainStat,
-    value: Utils.truncate10000ths(mainValue * (Utils.isFlat(parsedMainStat) ? 1 : 100))
+    value: Utils.truncate10000ths(mainValue * (Utils.isFlat(parsedMainStat) ? 1 : 100)),
   }
 
   return {
     main,
-    substats: parsedSubstats
+    substats: parsedSubstats,
   }
 }
 
@@ -269,7 +269,6 @@ for (let set of relicSetList) {
   set[2] = set[1]
   set[1] = lowerAlphaNumeric(set[1])
 }
-
 
 function lowerAlphaNumeric(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')

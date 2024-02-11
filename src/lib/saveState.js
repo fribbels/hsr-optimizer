@@ -1,4 +1,4 @@
-import DB from "./db";
+import DB from './db'
 
 export const SaveState = {
   save: () => {
@@ -21,11 +21,11 @@ export const SaveState = {
       if (state) {
         let parsed = JSON.parse(state)
         console.log('Loaded SaveState', parsed)
-  
+
         DB.setStore(parsed)
         return true
       }
-  
+
       console.log('No SaveState found')
       return false
     } catch (e) {
@@ -33,5 +33,5 @@ export const SaveState = {
       // localStorage.clear()
       return false
     }
-  }
+  },
 }

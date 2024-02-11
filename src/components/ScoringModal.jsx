@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography, } from 'antd';
-import styled from 'styled-components';
-import PropTypes from "prop-types";
+import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography } from 'antd'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
-import { Assets } from 'lib/assets';
-import { Utils } from "lib/utils";
-import DB from "lib/db";
-import { Constants } from "lib/constants.ts";
-import { usePublish } from 'hooks/usePublish';
+import { Assets } from 'lib/assets'
+import { Utils } from 'lib/utils'
+import DB from 'lib/db'
+import { Constants } from 'lib/constants.ts'
+import { usePublish } from 'hooks/usePublish'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const TitleDivider = styled(Divider)`
   margin-top: 10px !important;
@@ -22,15 +22,15 @@ const PStyled = styled.p`
 `
 
 export default function ScoringModal() {
-  const pubRefreshRelicsScore = usePublish();
+  const pubRefreshRelicsScore = usePublish()
 
-  const [scoringAlgorithmForm] = Form.useForm();
+  const [scoringAlgorithmForm] = Form.useForm()
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
-  let scoringAlgorithmFocusCharacter = window.store(s => s.scoringAlgorithmFocusCharacter);
-  let setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
+  let scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
+  let setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
-  const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
+  const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
   window.setIsScoringModalOpen = setIsScoringModalOpen
 
   function characterSelectorChange(id) {
@@ -65,11 +65,11 @@ export default function ScoringModal() {
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
-  }, []);
+  }, [])
 
   function StatValueRow(props) {
     return (
-      <Flex justify="flex-start" style={{ width: panelWidth }} align='center' gap={5}>
+      <Flex justify="flex-start" style={{ width: panelWidth }} align="center" gap={5}>
         <Form.Item size="default" name={['stats', props.stat]}>
           <InputNumberStyled controls={false} size="small" />
         </Form.Item>
@@ -84,18 +84,17 @@ export default function ScoringModal() {
     stat: PropTypes.string,
   }
 
-
   function onModalOk() {
-    console.log('onModalOk OK');
-    scoringAlgorithmForm.submit();
-    setIsScoringModalOpen(false);
-    pubRefreshRelicsScore('refreshRelicsScore', 'null');
+    console.log('onModalOk OK')
+    scoringAlgorithmForm.submit()
+    setIsScoringModalOpen(false)
+    pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
 
   const onFinish = (x) => {
-    if (!scoringAlgorithmFocusCharacter) return;
+    if (!scoringAlgorithmFocusCharacter) return
 
-    console.log('Form finished', x);
+    console.log('Form finished', x)
     x.stats[Constants.Stats.ATK_P] = x.stats[Constants.Stats.ATK]
     x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
@@ -115,35 +114,41 @@ export default function ScoringModal() {
     }
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, x)
-  };
+  }
 
   const handleResetDefault = () => {
-    if (!scoringAlgorithmFocusCharacter) return;
+    if (!scoringAlgorithmFocusCharacter) return
 
     let defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
-  };
+  }
 
   const handleCancel = () => {
-    setIsScoringModalOpen(false);
-  };
+    setIsScoringModalOpen(false)
+  }
 
   const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
   let previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
   let methodologyCollapse = (
     <Text>
       <PStyled>
-        Substat scoring is calculated by <code>Score = weight * normalization * value</code>.
+        Substat scoring is calculated by
+        {' '}
+        <code>Score = weight * normalization * value</code>
+        .
         The weight of each stat is defined above, on a scale of 0 to 1.
-        The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value <code>64.8</code>:
+        The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
+        {' '}
+        <code>64.8</code>
+        :
       </PStyled>
-      <Flex justify='space-between' style={{ marginRight: 120 }}>
+      <Flex justify="space-between" style={{ marginRight: 120 }}>
         <ul>
           <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
           <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
@@ -158,21 +163,46 @@ export default function ScoringModal() {
         </ul>
       </Flex>
       <PStyled style={{ margin: '7px 0px' }}>
-        Flat ATK/HP/DEF have a separate calculation: <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>.
+        Flat ATK/HP/DEF have a separate calculation:
+        {' '}
+        <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>
+        .
         This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
         Double the character base is used instead of character + light cone base due to the variable nature of light cone stats.
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
         A letter grade is assigned based on the number of normalized min rolls of each substat.
-        The score for each min roll in theory should be equivalent to <code>5.184</code>, but is rounded down to <code>5.1</code> due to the game not displaying extra decimals.
-        The general scale for grade by rolls is <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code> with a <code>+</code> assigned for an additional half roll.
+        The score for each min roll in theory should be equivalent to
+        {' '}
+        <code>5.184</code>
+        , but is rounded down to
+        {' '}
+        <code>5.1</code>
+        {' '}
+        due to the game not displaying extra decimals.
+        The general scale for grade by rolls is
+        {' '}
+        <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code>
+        {' '}
+        with a
+        {' '}
+        <code>+</code>
+        {' '}
+        assigned for an additional half roll.
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
-        Character scores are calculated by <code>Score = sum(relic substat scores) + sum(main stat scores)</code>.
+        Character scores are calculated by
+        {' '}
+        <code>Score = sum(relic substat scores) + sum(main stat scores)</code>
+        .
         Only the head/body/sphere/rope relics have main stat scores.
-        The main stat score for a 5 star maxed relic is <code>64.8</code> if the main stat is optimal, otherwise scaled down by the stat weight.
+        The main stat score for a 5 star maxed relic is
+        {' '}
+        <code>64.8</code>
+        {' '}
+        if the main stat is optimal, otherwise scaled down by the stat weight.
         Non 5 star relic scores are also scaled down by their maximum enhance.
         Characters are expected to have 3 full sets, so 3 rolls worth of score is deducted for each missing set.
       </PStyled>
@@ -180,10 +210,14 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
-        These rolls are multiplied by the min roll value of <code>5.1</code> for the bonus score value.
+        These rolls are multiplied by the min roll value of
+        {' '}
+        <code>5.1</code>
+        {' '}
+        for the bonus score value.
       </PStyled>
 
-      <Flex justify='space-between' style={{ marginRight: 30 }}>
+      <Flex justify="space-between" style={{ marginRight: 30 }}>
         <ul>
           <li><code>Body HP_P 1.280</code></li>
           <li><code>Body ATK_P 1.278</code></li>
@@ -251,9 +285,9 @@ export default function ScoringModal() {
         <TitleDivider>Stat weights</TitleDivider>
 
         <Flex gap={10} vertical>
-          <Flex gap={20} justify='space-between'>
+          <Flex gap={20} justify="space-between">
             <Flex vertical gap={5}>
-              <Form.Item size="default" name='characterId'>
+              <Form.Item size="default" name="characterId">
                 <Select
                   showSearch
                   filterOption={filterOption}
@@ -293,9 +327,9 @@ export default function ScoringModal() {
 
         <TitleDivider>Optimal main stats</TitleDivider>
 
-        <Flex justify='space-between'>
+        <Flex justify="space-between">
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify='flex-start'>
+            <Flex vertical gap={1} justify="flex-start">
               <Text style={{ marginLeft: 5 }}>
                 Body
               </Text>
@@ -307,7 +341,8 @@ export default function ScoringModal() {
                     width: selectWidth,
                   }}
                   placeholder="Body"
-                  maxTagCount='responsive'>
+                  maxTagCount="responsive"
+                >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                   <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -319,7 +354,7 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify='flex-start'>
+            <Flex vertical gap={1} justify="flex-start">
               <Text style={{ marginLeft: 5 }}>
                 Feet
               </Text>
@@ -331,7 +366,8 @@ export default function ScoringModal() {
                     width: selectWidth,
                   }}
                   placeholder="Feet"
-                  maxTagCount='responsive'>
+                  maxTagCount="responsive"
+                >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                   <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -341,7 +377,7 @@ export default function ScoringModal() {
             </Flex>
           </Flex>
           <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify='flex-start'>
+            <Flex vertical gap={1} justify="flex-start">
               <Text style={{ marginLeft: 5 }}>
                 Planar Sphere
               </Text>
@@ -354,7 +390,8 @@ export default function ScoringModal() {
                   }}
                   placeholder="Planar Sphere"
                   listHeight={400}
-                  maxTagCount='responsive'>
+                  maxTagCount="responsive"
+                >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                   <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -369,7 +406,7 @@ export default function ScoringModal() {
               </Form.Item>
             </Flex>
 
-            <Flex vertical gap={1} justify='flex-start'>
+            <Flex vertical gap={1} justify="flex-start">
               <Text style={{ marginLeft: 5 }}>
                 Link rope
               </Text>
@@ -382,7 +419,8 @@ export default function ScoringModal() {
                     width: selectWidth,
                   }}
                   placeholder="Link Rope"
-                  maxTagCount='responsive'>
+                  maxTagCount="responsive"
+                >
                   <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                   <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                   <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -396,13 +434,16 @@ export default function ScoringModal() {
 
         <TitleDivider>Calculations</TitleDivider>
 
-        <Collapse ghost items={[{
-          key: '1',
-          label: 'Click to show details',
-          children: methodologyCollapse
-        }]}>
+        <Collapse
+          ghost
+          items={[{
+            key: '1',
+            label: 'Click to show details',
+            children: methodologyCollapse,
+          }]}
+        >
         </Collapse>
       </Form>
     </Modal>
-  );
+  )
 }

@@ -1,10 +1,6 @@
-import { Constants, Stats } from "./constants.ts";
+import { Constants, Stats } from './constants.ts'
 
 const SIZE = 35
-
-// When adding new rows, use:
-// let i = 0
-// offset + i++
 
 export const BufferPacker = {
   extractCharacter: (arr, offset) => { // Float32Array
@@ -98,10 +94,10 @@ export const BufferPacker = {
   },
 
   cleanFloatBuffer: (buffer) => {
-    new Float64Array(buffer).fill(0);
+    new Float64Array(buffer).fill(0)
   },
 
   createFloatBuffer: (length) => {
     return new Float64Array(length * SIZE).buffer
-  }
+  },
 }

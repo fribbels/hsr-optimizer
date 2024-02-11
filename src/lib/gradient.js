@@ -1,18 +1,18 @@
-import tinygradient from 'tinygradient';
-import { Constants } from "./constants.ts";
-import { OptimizerTabController } from "./optimizerTabController";
+import tinygradient from 'tinygradient'
+import { Constants } from './constants.ts'
+import { OptimizerTabController } from './optimizerTabController'
 
 let optimizerGridGradient = tinygradient([
   { color: '#5A1A06', pos: 0 }, // red
   { color: '#343127', pos: 0.35 },
-  { color: '#38821F', pos: 1 } // green
-]);
+  { color: '#38821F', pos: 1 }, // green
+])
 let relicGridGradient = tinygradient('#343127', '#38821F')
 let relicColumnRanges
 
 export const Gradient = {
   getColor: (decimal, gradient) => {
-    return gradient.rgbAt(decimal).toHexString();
+    return gradient.rgbAt(decimal).toHexString()
   },
 
   getOptimizerColumnGradient: (params) => {
@@ -26,7 +26,7 @@ export const Gradient = {
         let max = aggs.maxAgg[colId]
         let value = params.value
 
-        let range = (value - min) / (max - min);
+        let range = (value - min) / (max - min)
         if (max == min) {
           range = 0.5
         }
@@ -34,8 +34,8 @@ export const Gradient = {
 
         let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
         return {
-          backgroundColor: color
-        };
+          backgroundColor: color,
+        }
       }
     } catch (e) { console.error(e) }
   },
@@ -58,12 +58,12 @@ export const Gradient = {
         [`augmentedStats.${Constants.Stats.EHR}`]: 0.1728,
         [`augmentedStats.${Constants.Stats.RES}`]: 0.1728,
         [`augmentedStats.${Constants.Stats.BE}`]: 0.2592,
-        'cs': 35,
-        'ss': 35,
-        'ds': 35,
-        'relicsTabWeight': 64.8,
-        'bestCaseWeight': 64.8,
-        'averageCaseWeight': 64.8,
+        cs: 35,
+        ss: 35,
+        ds: 35,
+        relicsTabWeight: 64.8,
+        bestCaseWeight: 64.8,
+        averageCaseWeight: 64.8,
       }
     }
 
@@ -81,7 +81,7 @@ export const Gradient = {
     let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
 
     return {
-      backgroundColor: color
-    };
-  }
+      backgroundColor: color,
+    }
+  },
 }

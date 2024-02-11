@@ -1,14 +1,12 @@
 import { Stats } from 'lib/constants'
 import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
 
-import { ConditionalMap } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
+import { ConditionalMap, ContentItem } from 'types/Conditionals'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
-import { Unknown } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const ultBoostMax = ult(e, 0.60, 0.648)
@@ -27,6 +25,7 @@ export default (e: Eidolon): CharacterConditional => {
   const content: ContentItem[] = [
     {
       id: 'enemyToughness50',
+      name: 'enemyToughness50',
       text: 'Intrepid Rollerbearings',
       formItem: 'switch',
       title: 'Intrepid Rollerbearings',
@@ -34,6 +33,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       id: 'toughnessReductionDmgBoost',
+      name: 'toughnessReductionDmgBoost',
       text: 'Ultimate DMG boost',
       formItem: 'slider',
       title: 'Ultimate: Divine Castigation',
@@ -44,6 +44,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       id: 'fuaHits',
+      name: 'fuaHits',
       text: 'FUA hits',
       formItem: 'slider',
       title: 'Talent: Karmic Perpetuation',
@@ -54,6 +55,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       id: 'e4BeBuff',
+      name: 'e4BeBuff',
       text: 'E4: Karma, Severed',
       formItem: 'switch',
       title: 'E4 break effect buff',
@@ -90,9 +92,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c: Unknown, request: Form) => {
-      const r = request.characterConditionals as { [key: string]: number }
-      const x: ComputedStatsObject = c['x']
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
+      const x = c['x']
 
       x.ELEMENTAL_DMG += Math.min(2.40, x[Stats.BE])
 

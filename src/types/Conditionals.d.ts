@@ -2,8 +2,7 @@ import { Form } from 'types/Form'
 import { ComputedStatsObject } from 'lib/conditionals/constants'
 import { FormSwitchWithPopoverProps } from 'components/optimizerForm/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerForm/conditionals/FormSlider'
-import { ComponentProps, ComponentType, ReactElement, ReactNode } from 'react'
-import { ReplaceType } from './utils'
+import { ComponentProps, ComponentType } from 'react'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined

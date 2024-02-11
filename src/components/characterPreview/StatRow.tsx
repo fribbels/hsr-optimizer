@@ -1,15 +1,14 @@
-import React from 'react';
-import { Divider, Flex } from 'antd';
-import PropTypes from 'prop-types';
+import { Divider, Flex } from 'antd'
+import PropTypes from 'prop-types'
 
-import { Assets } from 'lib/assets';
-import { Constants } from 'lib/constants';
-import { iconSize } from 'lib/constantsUi';
-import { Utils } from 'lib/utils';
+import { Assets } from 'lib/assets'
+import { Constants } from 'lib/constants'
+import { iconSize } from 'lib/constantsUi'
+import { Utils } from 'lib/utils'
 
-import StatText from 'components/characterPreview/StatText';
+import StatText from 'components/characterPreview/StatText'
 
-const StatRow = (props) => {
+const StatRow = (props: { stat: string; finalStats: any }) => {
   const { stat, finalStats } = props
   const readableStat = stat.replace('DMG Boost', 'DMG')
   let value = finalStats[stat]
@@ -24,9 +23,9 @@ const StatRow = (props) => {
     value = Utils.truncate10ths(value * 100).toFixed(1)
   }
 
-  if (!finalStats) return console.log('No final stats');
+  if (!finalStats) return console.log('No final stats')
   return (
-    <Flex justify='space-between' align='center'>
+    <Flex justify="space-between" align="center">
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       <StatText>{readableStat}</StatText>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
@@ -37,6 +36,6 @@ const StatRow = (props) => {
 StatRow.propTypes = {
   finalStats: PropTypes.object,
   stat: PropTypes.string,
-};
+}
 
-export default StatRow;
+export default StatRow

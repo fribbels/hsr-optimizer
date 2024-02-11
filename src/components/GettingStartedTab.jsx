@@ -1,13 +1,13 @@
-import React from 'react';
-import { Button, Divider, Flex, Popconfirm, Typography } from 'antd';
-import { Message } from '../lib/message';
+import React from 'react'
+import { Button, Divider, Flex, Popconfirm, Typography } from 'antd'
+import { Message } from 'lib/message'
 
-import sampleSave from '../data/sample-save.json';
-import DB from "../lib/db";
-import PropTypes from "prop-types";
-import { Assets } from "../lib/assets";
+import sampleSave from '../data/sample-save.json'
+import DB from '../lib/db'
+import PropTypes from 'prop-types'
+import { Assets } from 'lib/assets'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 export default function GettingStartedTab() {
   console.log('GettingStartedTab ')
@@ -18,13 +18,13 @@ export default function GettingStartedTab() {
     Message.success('Successfully loaded data')
   }
 
-  let screenshotStyle = {border: '2px solid #243356'};
-  let dividerStyle = {marginTop: 40};
-  let titleStyle = {textDecoration: 'underline'}
+  let screenshotStyle = { border: '2px solid #243356' }
+  let dividerStyle = { marginTop: 40 }
+  let titleStyle = { textDecoration: 'underline' }
   return (
     <div>
-    <Text>
-      <Flex vertical gap={5} style={{marginLeft: 20, marginBottom: 50, width: 1000}}>
+      <Text>
+        <Flex vertical gap={5} style={{ marginLeft: 20, marginBottom: 50, width: 1000 }}>
           <h2>
             Try it out!
           </h2>
@@ -32,7 +32,7 @@ export default function GettingStartedTab() {
           <p>
             If you would like to give the optimizer a try before doing any relic importing, use this to load a sample save file and check out the features.
           </p>
-          
+
           <Popconfirm
             title="Confirm"
             description="Load a sample save file?"
@@ -41,11 +41,10 @@ export default function GettingStartedTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button type="primary" style={{width: 200}}>
+            <Button type="primary" style={{ width: 200 }}>
               Try it out!
             </Button>
           </Popconfirm>
-
 
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}
@@ -61,20 +60,24 @@ export default function GettingStartedTab() {
 
           <ul>
             <li>
-              Recommended: Kel-Z HSR Scanner (<Typography.Link target="_blank" href='https://github.com/kel-z/HSR-Scanner/releases/latest'>Github</Typography.Link>)
+              Recommended: Kel-Z HSR Scanner (
+              <Typography.Link target="_blank" href="https://github.com/kel-z/HSR-Scanner/releases/latest">Github</Typography.Link>
+              )
               <ul>
                 <li>Supports all 16:9 resolutions</li>
                 <li>Supports character and light cone imports</li>
               </ul>
             </li>
             <li>
-              Fribbels HSR Scanner (<Typography.Link target="_blank" href='https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest'>Github</Typography.Link>)
+              Fribbels HSR Scanner (
+              <Typography.Link target="_blank" href="https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest">Github</Typography.Link>
+              )
             </li>
           </ul>
 
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}
-          
+
           <h2>
             Optimizer tab
           </h2>
@@ -85,7 +88,7 @@ export default function GettingStartedTab() {
             Character / Light cone
           </h4>
           <p>
-            This section is where the character and light cone options are selected. 
+            This section is where the character and light cone options are selected.
             Both of the level options affect the base stats for the optimization search.
             Character eidolon effects are selectable from the Character passives section.
           </p>
@@ -116,14 +119,14 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section defines the minimum / maximum stats to filter the results by. 
+            This section defines the minimum / maximum stats to filter the results by.
             Left side is minimum and right side is maximum, both inclusive. In this above example, only results with &ge; 134 speed AND &ge; 35% Crit Rate  are shown.
             Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect.
           </p>
-          
+
           <p>
             Important note: relics typed in manually or imported with the OCR tool may be affected by hidden decimal points for speed that aren't shown by ingame stats.
-            For example, 5 star relics can have speed substats of values between 2.0 - 2.6, which would all show ingame as 2. 
+            For example, 5 star relics can have speed substats of values between 2.0 - 2.6, which would all show ingame as 2.
             This means that speed results should be treated as minimum values, as the real value may be slightly higher ingame.
             This also means that maximum filters on speed should be used carefully since they may be too restrictive.
           </p>
@@ -131,7 +134,7 @@ export default function GettingStartedTab() {
           <h4 style={titleStyle}>
             Combat buffs
           </h4>
-          
+
           <p>
             This section defines buffs to the character to be used in the optimization calculations.
             These buffs can come from teammate abilities/light cones etc.
@@ -143,15 +146,17 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section defines some general additional options for the optimizer and control actions. 
+            This section defines some general additional options for the optimizer and control actions.
           </p>
-          
+
           <ul>
             <li>Rank filter - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters. This is useful for cases where multiple characters use the same set, but one character should be prioritized over the other.</li>
             <li>Maxed main stat - Assume the main stat for relics are maxed for their respective grades</li>
             <li>Keep current relics - The character must keep its currently equipped relics, and the optimizer will try to fill in empty slots</li>
-            <li>Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include. If using non +15 relics, the 'Maxed main stat' filter might be good to enable to show maxed potential stats.
-            Be careful selecting +0 relics because this increases search time if you imported all relics.</li>
+            <li>
+              Enhance / grade - Select the minimum enhance to search for and minimum stars for relics to include. If using non +15 relics, the 'Maxed main stat' filter might be good to enable to show maxed potential stats.
+              Be careful selecting +0 relics because this increases search time if you imported all relics.
+            </li>
           </ul>
 
           <Divider style={dividerStyle}></Divider>
@@ -180,7 +185,7 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section shows the number of permutations the optimizer has to search and details on the number of matching relics per slot. 
+            This section shows the number of permutations the optimizer has to search and details on the number of matching relics per slot.
             If any of the numbers are zero, that indicates that no relics were found that would satisfy the constraints.
           </p>
 
@@ -194,7 +199,7 @@ export default function GettingStartedTab() {
             Selected build
           </h4>
           <p>
-            This section displays the selected build from the grid, and which relics are used & who they are currently equipped on. 
+            This section displays the selected build from the grid, and which relics are used & who they are currently equipped on.
             Pressing the 'Equip' button will assign the relics to the selected character in the optimizer, though the ingame character build is not affected.
           </p>
 
@@ -212,19 +217,19 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section displays all the optimized characters and their ranking order. 
+            This section displays all the optimized characters and their ranking order.
             Characters are added to this list from the Optimizer tab, when their filters are applied and 'Start' is pressed.
           </p>
 
           <p>
-            The ranking is important when used with the 'Rank filter' on the Optimizer tab. 
+            The ranking is important when used with the 'Rank filter' on the Optimizer tab.
             When enabled, characters may only take relics from lower ranked characters.
             For example, the rank 2 character may take relics from rank 3, but cannot take from rank 2. Rank 1 can take from any other character.
             Rows can be dragged to re-order characters.
           </p>
 
           <p>
-            The colored highlight on the right of the grid shows the equipped item status of the character. 
+            The colored highlight on the right of the grid shows the equipped item status of the character.
             In the above example, Jingliu's green indicator means she has all 6 relics equipped, Bronya's yellow indicator means she is missing at least one relic from her build, and Natasha's red indicator means she has no relics equipped.
           </p>
 
@@ -233,10 +238,9 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section displays the character's stats with their base stats / light cone / maxed traces / and relics equipped in the optimizer. 
+            This section displays the character's stats with their base stats / light cone / maxed traces / and relics equipped in the optimizer.
             Note that similar to the optimizer results, the actual values ingame may be slightly higher than displayed here due to hidden decimal values on relic stats.
           </p>
-
 
           <Divider style={dividerStyle}></Divider>
           {/* ======================================================================================================================= */}
@@ -252,15 +256,15 @@ export default function GettingStartedTab() {
           </h4>
 
           <p>
-            This section displays all the relics that were added / imported into the optimizer. 
+            This section displays all the relics that were added / imported into the optimizer.
             Relics should be updated occasionally with the importer to add in newly acquired relics.
             Clicking columns will sort the relics grid.
           </p>
         </Flex>
       </Text>
     </div>
-  );
+  )
 }
 GettingStartedTab.propTypes = {
   active: PropTypes.bool,
-};
+}

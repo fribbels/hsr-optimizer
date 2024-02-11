@@ -1,7 +1,8 @@
-import { Constants } from 'lib/constants';
+import { Constants } from 'lib/constants'
+
 const Stats = Constants.Stats
 
-export const ASHBLAZING_ATK_STACK = 0.06;
+export const ASHBLAZING_ATK_STACK = 0.06
 
 // TODO profile & convert to array for performance?
 export const baseComputedStatsObject = {
@@ -73,5 +74,5 @@ export const baseComputedStatsObject = {
   ULT_RES_PEN: 0,
   FUA_RES_PEN: 0,
   DOT_RES_PEN: 0,
-};
-export type ComputedStatsObject = typeof baseComputedStatsObject;
+}
+export type ComputedStatsObject = typeof baseComputedStatsObject

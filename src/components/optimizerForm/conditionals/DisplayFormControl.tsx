@@ -1,4 +1,4 @@
-import { ComponentType } from 'react'
+import { ComponentType, ReactElement } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
@@ -16,7 +16,7 @@ export interface DisplayFormControlProps {
 }
 
 const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content }) => {
-  const ret = []
+  const ret: ReactElement[] = []
   let i = 0
 
   if (!content || content.length === 0) {
@@ -25,6 +25,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content })
     content.forEach((passive) => {
       const Item = FormItemComponentMap[passive.formItem]
       ret.push(
+        // @ts-ignore
         <Item
           {...passive}
           name={passive.id}

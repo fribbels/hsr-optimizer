@@ -1,21 +1,25 @@
-import { Flex, Typography } from "antd";
-import React from "react";
-import PropTypes from "prop-types";
+import { Flex, Typography } from 'antd'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 export default function FormRow(props) {
   return (
-    <Flex gap={0} vertical style={{
-      paddingTop: 5
-    }}>
+    <Flex
+      gap={0}
+      vertical
+      style={{
+        paddingTop: 5,
+      }}
+    >
       <Flex // Top bar
         style={{
           height: 20,
           paddingLeft: 15,
         }}
         // justify='space-around'
-        align='center'
+        align="center"
       >
         <Text
           style={{

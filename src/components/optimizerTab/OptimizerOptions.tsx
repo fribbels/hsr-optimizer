@@ -1,43 +1,43 @@
 /* eslint-disable react/prop-types */
-import { Flex, Form, Radio, RadioChangeEvent, Select, Switch, Typography } from 'antd';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Flex, Form, Radio, RadioChangeEvent, Select, Switch, Typography } from 'antd'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
-import { Hint } from "../../lib/hint";
-import { HeaderText } from '../HeaderText';
-import { TooltipImage } from '../TooltipImage';
+import { Hint } from '../../lib/hint'
+import { HeaderText } from '../HeaderText'
+import { TooltipImage } from '../TooltipImage'
 
-import FormCard from './FormCard';
+import FormCard from './FormCard'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
-  const setStatDisplay = window.store(s => s.setStatDisplay);
+  const setStatDisplay = window.store((s) => s.setStatDisplay)
 
   const onChangeStatDisplay = (e: RadioChangeEvent) => {
-    const { target: { value } } = e;
-    setStatDisplay(value);
-  };
+    const { target: { value } } = e
+    setStatDisplay(value)
+  }
 
   return (
     <FormCard>
-      <Flex justify='space-between' align='center'>
+      <Flex justify="space-between" align="center">
         <HeaderText>Optimizer options</HeaderText>
         <TooltipImage type={Hint.optimizerOptions()} />
       </Flex>
 
-      <Flex align='center'>
-          <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-              <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  defaultChecked
-                  style={{ width: 45, marginRight: 10 }}
-              />
-          </Form.Item>
-          <Text>Maxed main stat</Text>
+      <Flex align="center">
+        <Form.Item name="predictMaxedMainStat" valuePropName="checked">
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            defaultChecked
+            style={{ width: 45, marginRight: 10 }}
+          />
+        </Form.Item>
+        <Text>Maxed main stat</Text>
       </Flex>
 
-      <Flex align='center'>
+      <Flex align="center">
         <Form.Item name="rankFilter" valuePropName="checked">
           <Switch
             checkedChildren={<CheckOutlined />}
@@ -49,7 +49,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         <Text>Character rank filter</Text>
       </Flex>
 
-      <Flex align='center'>
+      <Flex align="center">
         <Form.Item name="includeEquippedRelics" valuePropName="checked">
           <Switch
             checkedChildren={<CheckOutlined />}
@@ -61,7 +61,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         <Text>Use equipped</Text>
       </Flex>
 
-      <Flex align='center'>
+      <Flex align="center">
         <Form.Item name="keepCurrentRelics" valuePropName="checked">
           <Switch
             checkedChildren={<CheckOutlined />}
@@ -73,12 +73,12 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         <Text>Keep current relics</Text>
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
         <HeaderText>Relic enhance / rarity</HeaderText>
-        {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
+        {/* <TooltipImage type={Hint.optimizerOptions()} /> */}
       </Flex>
 
-      <Flex justify='space-between'>
+      <Flex justify="space-between">
         <Form.Item name="enhance">
           <Select
             style={{ width: (panelWidth - defaultGap) / 2 }}
@@ -106,9 +106,9 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         </Form.Item>
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 15 }}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
         <HeaderText>Stat display</HeaderText>
-        {/*<TooltipImage type={Hint.optimizerOptions()} />*/}
+        {/* <TooltipImage type={Hint.optimizerOptions()} /> */}
       </Flex>
 
       <Form.Item name="statDisplay">
@@ -118,8 +118,8 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
           buttonStyle="solid"
           style={{ width: '100%', display: 'flex' }}
         >
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'base'} defaultChecked>Base stats</Radio>
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'combat'}>Combat stats</Radio>
+          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Base stats</Radio>
+          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
         </Radio.Group>
       </Form.Item>
 
@@ -150,7 +150,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
       </Button> */}
     </FormCard>
 
-  );
-};
+  )
+}
 
-export default OptimizerOptions;
+export default OptimizerOptions

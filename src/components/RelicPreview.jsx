@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import { Card, Divider, Flex, Typography } from 'antd';
+import PropTypes from 'prop-types'
+import { Card, Divider, Flex, Typography } from 'antd'
 
-import { Renderer } from "../lib/renderer";
-import { Assets } from "lib/assets";
-import { iconSize } from 'lib/constantsUi';
-import GenerateStat from 'components/relicPreview/GenerateStat';
+import { Renderer } from 'lib/renderer'
+import { Assets } from 'lib/assets'
+import { iconSize } from 'lib/constantsUi'
+import GenerateStat from 'components/relicPreview/GenerateStat'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const RelicPreview = ({
   relic,
@@ -14,7 +14,7 @@ const RelicPreview = ({
   score = undefined,
   source = '',
   setSelectedRelic = () => { },
-  setEditModalOpen = () => { }
+  setEditModalOpen = () => { },
 }) => {
   relic = {
     enhance: 0,
@@ -24,19 +24,19 @@ const RelicPreview = ({
     substats: [],
     main: undefined,
     equippedBy: undefined,
-    ...relic
-  };
+    ...relic,
+  }
 
-  const { enhance, part, set, substats, main, equippedBy } = relic;
+  const { enhance, part, set, substats, main, equippedBy } = relic
   const relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
   const equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
   const scored = relic !== undefined && score !== undefined
 
   const relicClicked = () => {
-    if (!relic || !relic.part || !relic.set || source == 'scorer') return;
+    if (!relic || !relic.part || !relic.set || source == 'scorer') return
 
-    setSelectedRelic(relic);
-    setEditModalOpen(true);
+    setSelectedRelic(relic)
+    setEditModalOpen(true)
   }
 
   return (
@@ -45,20 +45,22 @@ const RelicPreview = ({
       hoverable={source != 'scorer'}
       onClick={relicClicked}
       style={{ width: 200, height: 280 }}
-    // onMouseEnter={() => setHovered(true)}
-    // onMouseLeave={() => setHovered(false)}
+    /*
+     * onMouseEnter={() => setHovered(true)}
+     * onMouseLeave={() => setHovered(false)}
+     */
     >
-      <Flex vertical justify='space-between' style={{ height: 255 }}>
-        <Flex justify='space-between' align='center'>
+      <Flex vertical justify="space-between" style={{ height: 255 }}>
+        <Flex justify="space-between" align="center">
           <img
             style={{ height: 50, width: 50 }}
             title={set}
             src={relicSrc}
           />
-          <Flex vertical align='center'>
-            <Flex align='center' gap={5}>
+          <Flex vertical align="center">
+            <Flex align="center" gap={5}>
               {Renderer.renderGrade(relic)}
-              <Flex style={{ width: 30 }} justify='space-around'>
+              <Flex style={{ width: 30 }} justify="space-around">
                 <Text>
                   {part != undefined ? `+${enhance}` : ''}
                 </Text>
@@ -86,7 +88,7 @@ const RelicPreview = ({
 
         <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
-        <Flex gap={4} justify='space-between'>
+        <Flex gap={4} justify="space-between">
           <Flex>
             <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
             <Text>
@@ -99,7 +101,7 @@ const RelicPreview = ({
         </Flex>
       </Flex>
     </Card>
-  );
+  )
 }
 RelicPreview.propTypes = {
   relic: PropTypes.object,
@@ -110,4 +112,4 @@ RelicPreview.propTypes = {
   setSelectedRelic: PropTypes.func,
 }
 
-export default RelicPreview;
+export default RelicPreview

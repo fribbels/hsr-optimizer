@@ -1,7 +1,7 @@
-import { Button, Cascader, Divider, Flex, Form, Image, Select, Switch, Tag, Typography, } from 'antd';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Optimizer } from 'lib/optimizer';
-import styled from 'styled-components';
+import { Button, Cascader, Divider, Flex, Form, Image, Select, Switch, Tag, Typography } from 'antd'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Optimizer } from 'lib/optimizer'
+import styled from 'styled-components'
 import {
   Constants,
   eidolonOptions,
@@ -10,154 +10,158 @@ import {
   enemyLevelOptions,
   enemyResistanceOptions,
   levelOptions,
-  superimpositionOptions
-} from 'lib/constants.ts';
-import FormRow from './optimizerTab/FormRow';
-import FilterContainer from './optimizerTab/FilterContainer';
-import FormCard from './optimizerTab/FormCard';
-import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx';
-import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons';
-import { HeaderText } from './HeaderText';
-import { OptimizerTabController } from 'lib/optimizerTabController';
-import { TooltipImage } from './TooltipImage';
-import { SaveState } from 'lib/saveState';
-import { LightConeConditionals } from "../lib/lightConeConditionals";
-import { FormStatRollSlider, FormStatRollSliderTopPercent } from "./optimizerTab/FormStatRollSlider";
-import { v4 as uuidv4 } from "uuid";
-import { getDefaultForm } from "lib/defaultForm";
-import { FormSetConditionals } from "./optimizerTab/FormSetConditionals";
-import { Assets } from "lib/assets";
-import PropTypes from "prop-types";
-import DB from "lib/db";
-import { Hint } from "../lib/hint";
-import { Utils } from 'lib/utils.js';
+  superimpositionOptions,
+} from 'lib/constants.ts'
+import FormRow from './optimizerTab/FormRow'
+import FilterContainer from './optimizerTab/FilterContainer'
+import FormCard from './optimizerTab/FormCard'
+import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx'
+import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons'
+import { HeaderText } from './HeaderText'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { TooltipImage } from './TooltipImage'
+import { SaveState } from 'lib/saveState'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { FormStatRollSlider, FormStatRollSliderTopPercent } from './optimizerTab/FormStatRollSlider'
+import { v4 as uuidv4 } from 'uuid'
+import { getDefaultForm } from 'lib/defaultForm'
+import { FormSetConditionals } from './optimizerTab/FormSetConditionals'
+import { Assets } from 'lib/assets'
+import PropTypes from 'prop-types'
+import DB from 'lib/db'
+import { Hint } from 'lib/hint'
+import { Utils } from 'lib/utils.js'
 
-import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx';
-import FilterRow from './optimizerForm/FilterRow.tsx';
-import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx';
-import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx';
-import RecommendedPresetsButton from "./optimizerForm/RecommendedPresetsButton";
-import {CharacterConditionalDisplay} from "./optimizerForm/conditionals/CharacterConditionalDisplay";
-import {LightConeConditionalDisplay} from "./optimizerForm/conditionals/LightConeConditionalDisplay";
+import InputNumberStyled from './optimizerForm/InputNumberStyled.tsx'
+import FilterRow from './optimizerForm/FilterRow.tsx'
+import GenerateOrnamentsOptions from './optimizerForm/OrnamentsOptions.tsx'
+import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx'
+import RecommendedPresetsButton from './optimizerForm/RecommendedPresetsButton'
+import { CharacterConditionalDisplay } from './optimizerForm/conditionals/CharacterConditionalDisplay'
+import { LightConeConditionalDisplay } from './optimizerForm/conditionals/LightConeConditionalDisplay'
 
-
-const { Text } = Typography;
-const { SHOW_CHILD } = Cascader;
+const { Text } = Typography
+const { SHOW_CHILD } = Cascader
 
 let HorizontalDivider = styled(Divider)`
   margin: 5px 0px;
 `
 
-let panelWidth = 203;
-let defaultGap = 5;
+let panelWidth = 203
+let defaultGap = 5
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER OptimizerForm');
-  const [optimizerForm] = Form.useForm();
-  window.optimizerForm = window.optimizerForm = optimizerForm;
+  console.log('======================================================================= RENDER OptimizerForm')
+  const [optimizerForm] = Form.useForm()
+  window.optimizerForm = window.optimizerForm = optimizerForm
 
   // hooks
-  const characterEidolon = Form.useWatch('characterEidolon', optimizerForm);
-  const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm);
-  const setConditionalSetEffectsDrawerOpen = window.store(s => s.setConditionalSetEffectsDrawerOpen);
-  const [optimizationId, setOptimizationId] = useState();
-  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' });
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
-  const optimizerTabFocusCharacter = window.store(s => s.optimizerTabFocusCharacter);
-  const setOptimizerTabFocusCharacter = window.store(s => s.setOptimizerTabFocusCharacter);
-
+  const characterEidolon = Form.useWatch('characterEidolon', optimizerForm)
+  const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm)
+  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
+  const [optimizationId, setOptimizationId] = useState()
+  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' })
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
 
   useEffect(() => {
-    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone);
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone)
   }, [optimizerTabFocusCharacter])
 
-  const characterSelectorChange = useCallback(id => {
-    setOptimizerTabFocusCharacter(id);
-  }, [setOptimizerTabFocusCharacter]);
+  const characterSelectorChange = useCallback((id) => {
+    setOptimizerTabFocusCharacter(id)
+  }, [setOptimizerTabFocusCharacter])
 
-  const lightConeSelectorChange = useCallback(id => {
-    setSelectedLightCone(lightConeOptions.find(x => x.id == id))
-    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id);
-  }, [lightConeOptions, optimizerTabFocusCharacter]);
+  const lightConeSelectorChange = useCallback((id) => {
+    setSelectedLightCone(lightConeOptions.find((x) => x.id == id))
+    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id)
+  }, [lightConeOptions, optimizerTabFocusCharacter])
 
   useMemo(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
-    let defaults = lcFn.defaults();
+    let defaults = lcFn.defaults()
     let lightConeForm = form.lightConeConditionals || {}
-    // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
-    // Only if there's a missing field
+    /*
+     * We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
+     * Only if there's a missing field
+     */
     Object.assign(defaults, lightConeForm)
-  console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm);
-  console.log(lcFn.defaults.valueOf());
+    console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm)
+    console.log(lcFn.defaults.valueOf())
     // if (Object.values(defaults).includes(undefined)) {
-      optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
+    optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     // }
-  }, [optimizerForm]);
+  }, [optimizerForm])
 
   const initialCharacter = useMemo(() => {
-    let characters = DB.getCharacters(); // retrieve instance localStore saved chars
+    let characters = DB.getCharacters() // retrieve instance localStore saved chars
 
     if (optimizerTabFocusCharacter) {
-      return characters.find(x => x.id == optimizerTabFocusCharacter);
+      return characters.find((x) => x.id == optimizerTabFocusCharacter)
     }
 
     if (characters && characters.length > 0) {
-      let character = characters[0];
+      let character = characters[0]
       lightConeSelectorChange(character.form.lightCone)
       setOptimizerTabFocusCharacter(character.id)
-      return characterOptions.find(x => x.id == character.id)
+      return characterOptions.find((x) => x.id == character.id)
     }
-  }, [optimizerTabFocusCharacter, lightConeSelectorChange, setOptimizerTabFocusCharacter, characterOptions]);
+  }, [optimizerTabFocusCharacter, lightConeSelectorChange, setOptimizerTabFocusCharacter, characterOptions])
 
   const initialValues = useMemo(() => {
     if (optimizerTabFocusCharacter) {
-      const matchingCharacter = DB.getCharacterById(optimizerTabFocusCharacter);
+      const matchingCharacter = DB.getCharacterById(optimizerTabFocusCharacter)
 
       if (matchingCharacter) {
         if (matchingCharacter?.form?.lightCone) {
-          setSelectedLightCone(lightConeOptions.find(x => x.id == matchingCharacter.form.lightCone));
+          setSelectedLightCone(lightConeOptions.find((x) => x.id == matchingCharacter.form.lightCone))
         } else {
-          console.warn(`@OptimizerForm.initialValues: No character form found for ${optimizerTabFocusCharacter}`, matchingCharacter);
+          console.warn(`@OptimizerForm.initialValues: No character form found for ${optimizerTabFocusCharacter}`, matchingCharacter)
         }
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
       } else {
-        // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
-        // console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
+        /*
+         * TODO: render-cycle flows through this before DB.getCharacterById() returns the character
+         * console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
+         */
       }
     }
 
     return getDefaultForm(initialCharacter)
     // We only want to update this once for the initial character
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCharacter]);
+  }, [initialCharacter])
 
   useEffect(() => {
     onValuesChange({}, initialValues)
   }, [initialValues])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
-    if (!changedValues || !allValues || !allValues.characterId) return;
+    if (!changedValues || !allValues || !allValues.characterId) return
     let keys = Object.keys(changedValues)
     if (bypass) {
-      // Allow certain values to refresh permutations.
-      // Sliders should only update at the end of the drag
+      /*
+       * Allow certain values to refresh permutations.
+       * Sliders should only update at the end of the drag
+       */
     } else if (keys.length == 1 && (
-      keys[0].startsWith('min') ||
-      keys[0].startsWith('max') ||
-      keys[0].startsWith('buff') ||
-      keys[0].startsWith('weights') ||
-      keys[0].startsWith('statDisplay') ||
-      keys[0] == 'characterConditionals' ||
-      keys[0] == 'lightConeConditionals')) {
-      return;
+      keys[0].startsWith('min')
+      || keys[0].startsWith('max')
+      || keys[0].startsWith('buff')
+      || keys[0].startsWith('weights')
+      || keys[0].startsWith('statDisplay')
+      || keys[0] == 'characterConditionals'
+      || keys[0] == 'lightConeConditionals')) {
+      return
     }
     const request = allValues
 
-    console.log('@onValuesChange' , request, changedValues);
+    console.log('@onValuesChange', request, changedValues)
 
-    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId);
+    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId)
 
     const permutationDetails = {
       Head: relics.Head.length,
@@ -171,51 +175,53 @@ export default function OptimizerForm() {
       BodyTotal: preFilteredRelicsByPart[Constants.Parts.Body].length,
       FeetTotal: preFilteredRelicsByPart[Constants.Parts.Feet].length,
       PlanarSphereTotal: preFilteredRelicsByPart[Constants.Parts.PlanarSphere].length,
-      LinkRopeTotal: preFilteredRelicsByPart[Constants.Parts.LinkRope].length
+      LinkRopeTotal: preFilteredRelicsByPart[Constants.Parts.LinkRope].length,
     }
     window.store.getState().setPermutationDetails(permutationDetails)
     window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
   }
-  window.onOptimizerFormValuesChange = onValuesChange;
+  window.onOptimizerFormValuesChange = onValuesChange
 
-  let parentW = 233;
-  let parentH = 350;
-  let innerW = 350;
-  let innerH = 400;
+  let parentW = 233
+  let parentH = 350
+  let innerW = 350
+  let innerH = 400
 
   function cancelClicked() {
-    console.log('Cancel clicked');
+    console.log('Cancel clicked')
     Optimizer.cancel(optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
 
   function resetClicked() {
-    console.log('Reset clicked');
+    console.log('Reset clicked')
     OptimizerTabController.resetFilters()
   }
   window.optimizerResetClicked = resetClicked
 
   function filterClicked() {
-    console.log('Filter clicked');
+    console.log('Filter clicked')
     OptimizerTabController.applyRowFilters()
   }
   window.optimizerFilterClicked = filterClicked
 
   function startClicked() {
-    console.log('Start clicked');
+    console.log('Start clicked')
 
-    // We dont actually want to submit the form as it would kick off a re-render
-    // Intercept the event and just call the optimizer directly
+    /*
+     * We dont actually want to submit the form as it would kick off a re-render
+     * Intercept the event and just call the optimizer directly
+     */
     const form = optimizerForm.getFieldsValue()
 
-    OptimizerTabController.fixForm(form);
+    OptimizerTabController.fixForm(form)
     if (!OptimizerTabController.validateForm(form)) {
       return
     }
 
     DB.addFromForm(form)
     SaveState.save()
-    console.log('Form finished', form);
+    console.log('Form finished', form)
 
     let optimizationId = uuidv4()
     setOptimizationId(optimizationId)
@@ -226,11 +232,11 @@ export default function OptimizerForm() {
   window.optimizerStartClicked = startClicked
 
   function OrnamentSetTagRenderer(props) {
-    const { value, closable, onClose } = props;
+    const { value, closable, onClose } = props
     const onPreventMouseDown = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-    };
+      event.preventDefault()
+      event.stopPropagation()
+    }
     return (
       <Tag
         onMouseDown={onPreventMouseDown}
@@ -242,7 +248,7 @@ export default function OptimizerForm() {
           <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
         </Flex>
       </Tag>
-    );
+    )
   }
   OrnamentSetTagRenderer.propTypes = {
     value: PropTypes.string,
@@ -250,39 +256,47 @@ export default function OptimizerForm() {
     onClose: PropTypes.func,
   }
   function RelicSetTagRenderer(props) {
-    const { value, closable, onClose } = props;
-    // The value comes in as:
-    // "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
+    const { value, closable, onClose } = props
     /*
-    ['4 Piece', 'Passerby of Wandering Cloud']
-    ['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
-    ['2 + Any', 'Knight of Purity Palace']
+     * The value comes in as:
+     * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
+     */
+    /*
+     *['4 Piece', 'Passerby of Wandering Cloud']
+     *['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
+     *['2 + Any', 'Knight of Purity Palace']
      */
 
     let pieces = value.split('__RC_CASCADER_SPLIT__')
     let inner
 
     if (pieces[0] == '4 Piece') {
-      inner =
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
+      inner
+        = (
+          <React.Fragment>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          </React.Fragment>
+        )
     }
 
     if (pieces[0] == '2 + 2 Piece') {
-      inner =
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
+      inner
+        = (
+          <React.Fragment>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+            <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          </React.Fragment>
+        )
     }
 
     if (pieces[0] == '2 + Any') {
-      inner =
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
+      inner
+        = (
+          <React.Fragment>
+            <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+          </React.Fragment>
+        )
     }
 
     RelicSetTagRenderer.propTypes = {
@@ -292,9 +306,9 @@ export default function OptimizerForm() {
     }
 
     const onPreventMouseDown = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-    };
+      event.preventDefault()
+      event.stopPropagation()
+    }
     return (
       <Tag
         onMouseDown={onPreventMouseDown}
@@ -306,9 +320,8 @@ export default function OptimizerForm() {
           {inner}
         </Flex>
       </Tag>
-    );
+    )
   }
-
 
   return (
     <div style={{ position: 'relative' }}>
@@ -321,7 +334,7 @@ export default function OptimizerForm() {
         <FormSetConditionals />
 
         <FilterContainer>
-          <FormRow gap={defaultGap} title='Character options'>
+          <FormRow gap={defaultGap} title="Character options">
             {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
@@ -336,12 +349,12 @@ export default function OptimizerForm() {
 
             {/* Character Levels/Eids + Light Cone Superimps */}
             <FormCard>
-              <Flex justify='space-between' align='center'>
+              <Flex justify="space-between" align="center">
                 <HeaderText>Character</HeaderText>
                 <TooltipImage type={Hint.character()} />
               </Flex>
               <Flex gap={defaultGap}>
-                <Form.Item size="default" name='characterId'>
+                <Form.Item size="default" name="characterId">
                   <Select
                     showSearch
                     filterOption={Utils.labelFilterOption}
@@ -351,15 +364,15 @@ export default function OptimizerForm() {
                   />
                 </Form.Item>
               </Flex>
-              <Flex gap={defaultGap} justify='space-between'>
-                <Form.Item size="default" name='characterLevel'>
+              <Flex gap={defaultGap} justify="space-between">
+                <Form.Item size="default" name="characterLevel">
                   <Select
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={levelOptions}
                   />
                 </Form.Item>
-                <Form.Item size="default" name='characterEidolon'>
+                <Form.Item size="default" name="characterEidolon">
                   <Select
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
@@ -368,13 +381,13 @@ export default function OptimizerForm() {
                 </Form.Item>
               </Flex>
 
-              <Flex justify='space-between' align='center'>
+              <Flex justify="space-between" align="center">
                 <HeaderText>Light cone</HeaderText>
                 <TooltipImage type={Hint.lightCone()} />
               </Flex>
               <Flex vertical gap={defaultGap}>
                 <Flex gap={defaultGap}>
-                  <Form.Item size="default" name='lightCone'>
+                  <Form.Item size="default" name="lightCone">
                     <Select
                       showSearch
                       filterOption={Utils.labelFilterOption}
@@ -384,15 +397,15 @@ export default function OptimizerForm() {
                     />
                   </Form.Item>
                 </Flex>
-                <Flex gap={defaultGap} justify='space-between'>
-                  <Form.Item size="default" name='lightConeLevel'>
+                <Flex gap={defaultGap} justify="space-between">
+                  <Form.Item size="default" name="lightConeLevel">
                     <Select
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={levelOptions}
                     />
                   </Form.Item>
-                  <Form.Item size="default" name='lightConeSuperimposition'>
+                  <Form.Item size="default" name="lightConeSuperimposition">
                     <Select
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
@@ -402,7 +415,7 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
 
-              <Flex justify='space-between' align='center'>
+              <Flex justify="space-between" align="center">
                 <HeaderText>Presets</HeaderText>
               </Flex>
 
@@ -416,20 +429,20 @@ export default function OptimizerForm() {
               />
             </FormCard>
             {/* Light Cone Card */}
-            <FormCard justify='space-between'>
+            <FormCard justify="space-between">
               <LightConeConditionalDisplay
                 id={selectedLightCone?.id}
                 superImposition={lightConeSuperimposition}
               />
 
               <Flex vertical gap={5} style={{ marginBottom: 5 }}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText style={{}}>Enemy options</HeaderText>
                   <TooltipImage type={Hint.enemyOptions()} />
                 </Flex>
 
-                <Flex gap={defaultGap} justify='space-between'>
-                  <Form.Item size="default" name='enemyLevel'>
+                <Flex gap={defaultGap} justify="space-between">
+                  <Form.Item size="default" name="enemyLevel">
                     <Select
                       showSearch
                       filterOption={Utils.labelFilterOption}
@@ -437,7 +450,7 @@ export default function OptimizerForm() {
                       options={enemyLevelOptions}
                     />
                   </Form.Item>
-                  <Form.Item size="default" name='enemyCount'>
+                  <Form.Item size="default" name="enemyCount">
                     <Select
                       showSearch
                       filterOption={Utils.labelFilterOption}
@@ -447,8 +460,8 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </Flex>
 
-                <Flex gap={defaultGap} justify='space-between'>
-                  <Form.Item size="default" name='enemyResistance'>
+                <Flex gap={defaultGap} justify="space-between">
+                  <Form.Item size="default" name="enemyResistance">
                     <Select
                       showSearch
                       filterOption={Utils.labelFilterOption}
@@ -456,7 +469,7 @@ export default function OptimizerForm() {
                       options={enemyResistanceOptions}
                     />
                   </Form.Item>
-                  <Form.Item size="default" name='enemyHpPercent'>
+                  <Form.Item size="default" name="enemyHpPercent">
                     <Select
                       showSearch
                       filterOption={Utils.labelFilterOption}
@@ -466,7 +479,7 @@ export default function OptimizerForm() {
                   </Form.Item>
                 </Flex>
 
-                <Flex align='center'>
+                <Flex align="center">
                   <Form.Item name="enemyElementalWeak" valuePropName="checked">
                     <Switch
                       checkedChildren={<CheckOutlined />}
@@ -478,7 +491,7 @@ export default function OptimizerForm() {
                   <Text>Elemental weakness</Text>
                 </Flex>
 
-                <Flex align='center'>
+                <Flex align="center">
                   <Form.Item name="enemyWeaknessBroken" valuePropName="checked">
                     <Switch
                       checkedChildren={<CheckOutlined />}
@@ -494,14 +507,14 @@ export default function OptimizerForm() {
             <OptimizerOptions defaultGap={defaultGap} panelWidth={panelWidth} />
           </FormRow>
 
-          <FormRow title='Relic & stat filters'>
+          <FormRow title="Relic & stat filters">
             <FormCard>
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText>Main stats</HeaderText>
                   <TooltipImage type={Hint.mainStats()} />
                 </Flex>
-                <Form.Item size="default" name='mainBody'>
+                <Form.Item size="default" name="mainBody">
                   <Select
                     mode="multiple"
                     allowClear
@@ -509,7 +522,8 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Body"
-                    maxTagCount='responsive'>
+                    maxTagCount="responsive"
+                  >
                     <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                     <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                     <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -520,7 +534,7 @@ export default function OptimizerForm() {
                   </Select>
                 </Form.Item>
 
-                <Form.Item size="default" name='mainFeet'>
+                <Form.Item size="default" name="mainFeet">
                   <Select
                     mode="multiple"
                     allowClear
@@ -528,7 +542,8 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Feet"
-                    maxTagCount='responsive'>
+                    maxTagCount="responsive"
+                  >
                     <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                     <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                     <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -536,7 +551,7 @@ export default function OptimizerForm() {
                   </Select>
                 </Form.Item>
 
-                <Form.Item size="default" name='mainPlanarSphere'>
+                <Form.Item size="default" name="mainPlanarSphere">
                   <Select
                     mode="multiple"
                     allowClear
@@ -545,7 +560,8 @@ export default function OptimizerForm() {
                     }}
                     placeholder="Planar Sphere"
                     listHeight={400}
-                    maxTagCount='responsive'>
+                    maxTagCount="responsive"
+                  >
                     <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                     <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                     <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -559,7 +575,7 @@ export default function OptimizerForm() {
                   </Select>
                 </Form.Item>
 
-                <Form.Item size="default" name='mainLinkRope'>
+                <Form.Item size="default" name="mainLinkRope">
                   <Select
                     mode="multiple"
                     allowClear
@@ -567,7 +583,8 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Link Rope"
-                    maxTagCount='responsive'>
+                    maxTagCount="responsive"
+                  >
                     <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
                     <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
                     <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
@@ -578,38 +595,39 @@ export default function OptimizerForm() {
               </Flex>
 
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText>Sets</HeaderText>
                   <TooltipImage type={Hint.sets()} />
                 </Flex>
-                <Form.Item size="default" name='relicSets'>
+                <Form.Item size="default" name="relicSets">
                   <Cascader
                     placeholder="Relics"
                     options={GenerateSetsOptions()}
                     showCheckedStrategy={SHOW_CHILD}
                     tagRender={RelicSetTagRenderer}
-                    placement='bottomLeft'
-                    maxTagCount='responsive'
+                    placement="bottomLeft"
+                    maxTagCount="responsive"
                     multiple={true}
                     expandTrigger="hover"
                   />
                 </Form.Item>
 
-                <Form.Item size="default" name='ornamentSets'>
+                <Form.Item size="default" name="ornamentSets">
                   <Select
                     dropdownStyle={{
-                      width: 250
+                      width: 250,
                     }}
                     listHeight={500}
                     mode="multiple"
                     allowClear
                     style={{
-                      width: panelWidth
+                      width: panelWidth,
                     }}
                     options={GenerateOrnamentsOptions()}
                     tagRender={OrnamentSetTagRenderer}
                     placeholder="Planar Ornaments"
-                    maxTagCount='responsive'>
+                    maxTagCount="responsive"
+                  >
                   </Select>
                 </Form.Item>
               </Flex>
@@ -624,21 +642,21 @@ export default function OptimizerForm() {
 
             <FormCard>
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText>Substat weight filter</HeaderText>
                   <TooltipImage type={Hint.substatWeightFilter()} />
                 </Flex>
 
                 <Flex vertical gap={0}>
-                  <FormStatRollSlider text='HP' name={Constants.Stats.HP_P} />
-                  <FormStatRollSlider text='ATK' name={Constants.Stats.ATK_P} />
-                  <FormStatRollSlider text='DEF' name={Constants.Stats.DEF_P} />
-                  <FormStatRollSlider text='SPD' name={Constants.Stats.SPD} />
-                  <FormStatRollSlider text='CR' name={Constants.Stats.CR} />
-                  <FormStatRollSlider text='CD' name={Constants.Stats.CD} />
-                  <FormStatRollSlider text='EHR' name={Constants.Stats.EHR} />
-                  <FormStatRollSlider text='RES' name={Constants.Stats.RES} />
-                  <FormStatRollSlider text='BE' name={Constants.Stats.BE} />
+                  <FormStatRollSlider text="HP" name={Constants.Stats.HP_P} />
+                  <FormStatRollSlider text="ATK" name={Constants.Stats.ATK_P} />
+                  <FormStatRollSlider text="DEF" name={Constants.Stats.DEF_P} />
+                  <FormStatRollSlider text="SPD" name={Constants.Stats.SPD} />
+                  <FormStatRollSlider text="CR" name={Constants.Stats.CR} />
+                  <FormStatRollSlider text="CD" name={Constants.Stats.CD} />
+                  <FormStatRollSlider text="EHR" name={Constants.Stats.EHR} />
+                  <FormStatRollSlider text="RES" name={Constants.Stats.RES} />
+                  <FormStatRollSlider text="BE" name={Constants.Stats.BE} />
                 </Flex>
                 <HorizontalDivider />
                 <Text>Top % of weighted relics</Text>
@@ -647,135 +665,135 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              <Flex justify='space-between' align='center'>
+              <Flex justify="space-between" align="center">
                 <HeaderText>Stat filters</HeaderText>
                 <TooltipImage type={Hint.statFilters()} />
               </Flex>
               <Flex vertical gap={5}>
-                <FilterRow name='Hp' label='HP' />
-                <FilterRow name='Atk' label='ATK' />
-                <FilterRow name='Def' label='DEF' />
-                <FilterRow name='Spd' label='SPD' />
-                <FilterRow name='Cr' label='CR' />
-                <FilterRow name='Cd' label='CD' />
-                <FilterRow name='Ehr' label='EHR' />
-                <FilterRow name='Res' label='RES' />
-                <FilterRow name='Be' label='BE' />
+                <FilterRow name="Hp" label="HP" />
+                <FilterRow name="Atk" label="ATK" />
+                <FilterRow name="Def" label="DEF" />
+                <FilterRow name="Spd" label="SPD" />
+                <FilterRow name="Cr" label="CR" />
+                <FilterRow name="Cd" label="CD" />
+                <FilterRow name="Ehr" label="EHR" />
+                <FilterRow name="Res" label="RES" />
+                <FilterRow name="Be" label="BE" />
               </Flex>
             </FormCard>
 
             <FormCard>
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText>Rating filters</HeaderText>
                   <TooltipImage type={Hint.ratingFilters()} />
                 </Flex>
 
-                <FilterRow name='Cv' label='CV' />
-                <FilterRow name='Weight' label='WEIGHT' />
-                <FilterRow name='Ehp' label='EHP' />
-                <FilterRow name='Basic' label='BASIC' />
-                <FilterRow name='Skill' label='SKILL' />
-                <FilterRow name='Ult' label='ULT' />
-                <FilterRow name='Fua' label='FUA' />
-                <FilterRow name='Dot' label='DOT' />
+                <FilterRow name="Cv" label="CV" />
+                <FilterRow name="Weight" label="WEIGHT" />
+                <FilterRow name="Ehp" label="EHP" />
+                <FilterRow name="Basic" label="BASIC" />
+                <FilterRow name="Skill" label="SKILL" />
+                <FilterRow name="Ult" label="ULT" />
+                <FilterRow name="Fua" label="FUA" />
+                <FilterRow name="Dot" label="DOT" />
               </Flex>
             </FormCard>
 
             <FormCard>
               <Flex vertical gap={defaultGap}>
-                <Flex justify='space-between' align='center'>
+                <Flex justify="space-between" align="center">
                   <HeaderText>Combat buffs</HeaderText>
                   <TooltipImage type={Hint.combatBuffs()} />
                 </Flex>
 
                 <Flex vertical gap={defaultGap}>
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       ATK
                     </Text>
-                    <Form.Item size="default" name='buffAtk'>
+                    <Form.Item size="default" name="buffAtk">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       ATK %
                     </Text>
-                    <Form.Item size="default" name='buffAtkP'>
+                    <Form.Item size="default" name="buffAtkP">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       Crit Rate %
                     </Text>
-                    <Form.Item size="default" name='buffCr'>
+                    <Form.Item size="default" name="buffCr">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       Crit Dmg %
                     </Text>
-                    <Form.Item size="default" name='buffCd'>
+                    <Form.Item size="default" name="buffCd">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       SPD
                     </Text>
-                    <Form.Item size="default" name='buffSpd'>
+                    <Form.Item size="default" name="buffSpd">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       SPD %
                     </Text>
-                    <Form.Item size="default" name='buffSpdP'>
+                    <Form.Item size="default" name="buffSpdP">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       BE %
                     </Text>
-                    <Form.Item size="default" name='buffBe'>
+                    <Form.Item size="default" name="buffBe">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       Dmg Boost %
                     </Text>
-                    <Form.Item size="default" name='buffDmgBoost'>
+                    <Form.Item size="default" name="buffDmgBoost">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       Def Shred %
                     </Text>
-                    <Form.Item size="default" name='buffDefShred'>
+                    <Form.Item size="default" name="buffDefShred">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>
 
-                  <Flex justify='space-between'>
+                  <Flex justify="space-between">
                     <Text>
                       RES Pen %
                     </Text>
-                    <Form.Item size="default" name='buffResPen'>
+                    <Form.Item size="default" name="buffResPen">
                       <InputNumberStyled size="small" controls={false} />
                     </Form.Item>
                   </Flex>

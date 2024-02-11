@@ -5,7 +5,7 @@ export const Message = {
       type: 'success',
       content: content || '',
       duration: duration || 3,
-    });
+    })
   },
 
   error: (content, duration) => {
@@ -14,15 +14,15 @@ export const Message = {
       type: 'error',
       content: content || '',
       duration: duration || 3,
-    });
+    })
   },
-  
+
   warning: (content, duration) => {
     console.warn('Warning message:', content)
     window.messageApi.open({
       type: 'warning',
       content: content || '',
       duration: duration || 3,
-    });
+    })
   },
 }

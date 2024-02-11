@@ -83,7 +83,6 @@ function styleRules(level) {
     '@stylistic/new-parens': level,
     '@stylistic/no-extra-parens': [level, 'functions'],
     '@stylistic/no-floating-decimal': level,
-    '@stylistic/no-mixed-operators': [level, { allowSamePrecedence: true }],
     '@stylistic/no-mixed-spaces-and-tabs': level,
     '@stylistic/no-multi-spaces': level,
     '@stylistic/no-multiple-empty-lines': [level, { max: 1, maxBOF: 0, maxEOF: 0 }],
@@ -165,6 +164,5 @@ function styleRules(level) {
       prop: 'parens-new-line',
       return: 'parens-new-line',
     }],
-    'multiline-comment-style': level,
   })
 }

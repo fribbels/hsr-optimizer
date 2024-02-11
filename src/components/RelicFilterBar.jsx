@@ -1,30 +1,30 @@
-import { Button, Flex, Select, Tooltip, Typography } from "antd";
-import React, { useMemo, useState } from "react";
-import { RelicScorer } from "../lib/relicScorer.ts";
-import CheckableTag from "antd/lib/tag/CheckableTag";
-import { HeaderText } from "./HeaderText";
-import DB from "../lib/db";
-import { Utils } from "../lib/utils";
-import { Constants, Stats } from "../lib/constants.ts";
-import { Assets } from "../lib/assets";
-import PropTypes from "prop-types";
-import { useSubscribe } from 'hooks/useSubscribe';
-import { Renderer } from "../lib/renderer.jsx";
+import { Button, Flex, Select, Tooltip, Typography } from 'antd'
+import React, { useMemo, useState } from 'react'
+import { RelicScorer } from 'lib/relicScorer'
+import CheckableTag from 'antd/lib/tag/CheckableTag'
+import { HeaderText } from './HeaderText'
+import DB from '../lib/db'
+import { Utils } from 'lib/utils'
+import { Constants, Stats } from 'lib/constants'
+import { Assets } from 'lib/assets'
+import PropTypes from 'prop-types'
+import { useSubscribe } from 'hooks/useSubscribe'
+import { Renderer } from 'lib/renderer'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const tagHeight = 34
 const imgWidth = 34
 
 export default function RelicFilterBar() {
-  const setRelicTabFilters = window.store(s => s.setRelicTabFilters);
-  const setScoringAlgorithmFocusCharacter = window.store(s => s.setScoringAlgorithmFocusCharacter);
+  const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
+  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
   const characterOptions = useMemo(() => {
-    return Utils.generateCharacterOptions();
-  }, []);
+    return Utils.generateCharacterOptions()
+  }, [])
 
   function generateImageTags(arr, srcFn, tooltip) {
     function generateDisplay(key) {
@@ -42,53 +42,52 @@ export default function RelicFilterBar() {
       const width = overrides[key] ? 30 : imgWidth
       const src = Assets.getElement(overrides[key]) || srcFn(key)
 
-      return tooltip ?
-        (
+      return tooltip
+        ? (
           <Tooltip title={key} mouseEnterDelay={0.2}>
             <img style={{ width: width }} src={src} />
           </Tooltip>
         )
-        :
-        (
+        : (
           <img style={{ width: width }} src={src} />
         )
     }
-    return arr.map(x => {
+    return arr.map((x) => {
       return {
         key: x,
-        display: generateDisplay(x)
+        display: generateDisplay(x),
       }
     })
   }
   function generateTextTags(arr, width) { // arr contains [key, value]
-    return arr.map(x => {
+    return arr.map((x) => {
       return {
         key: x[0],
         display: (
-          <Flex style={{ width: width, height: tagHeight }} justify='space-around' align='center'>
+          <Flex style={{ width: width, height: tagHeight }} justify="space-around" align="center">
             <Text style={{ fontSize: 18 }}>
               {x[1]}
             </Text>
           </Flex>
-        )
+        ),
       }
     })
   }
 
   function generateGradeTags(arr) {
-    return arr.map(x => {
+    return arr.map((x) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: x })
+        display: Renderer.renderGrade({ grade: x }),
       }
     })
   }
 
   function generateVerifiedTags(arr) {
-    return arr.map(x => {
+    return arr.map((x) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: -1, verified: x })
+        display: Renderer.renderGrade({ grade: -1, verified: x }),
       }
     })
   }
@@ -103,8 +102,10 @@ export default function RelicFilterBar() {
 
   useSubscribe('refreshRelicsScore', () => {
     // TODO: understand why setTimeout is needed and refactor
-    setTimeout(() => { characterSelectorChange(currentlySelectedCharacterId) }, 100);
-  });
+    setTimeout(() => {
+      characterSelectorChange(currentlySelectedCharacterId)
+    }, 100)
+  })
 
   function characterSelectorChange(id) {
     if (!id) return
@@ -116,7 +117,7 @@ export default function RelicFilterBar() {
     setCurrentlySelectedCharacterId(id)
 
     let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
-    let possibleSubstats = Object.assign(...Constants.SubStats.map(x => ({ [x]: true })));
+    let possibleSubstats = Object.assign(...Constants.SubStats.map((x) => ({ [x]: true })))
     let level80Stats = DB.getMetadata().characters[id].promotions[80]
     scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
     scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
@@ -139,13 +140,13 @@ export default function RelicFilterBar() {
       // Predict substat scores
       let substats = relic.substats
       let substatScoreEntries = Object.entries(scoringMetadata.stats)
-        .filter(x => possibleSubstats[x[0]])
-        .filter(x => !substats.map(x => x.stat).includes(x[0])) // Exclude already existing substats
+        .filter((x) => possibleSubstats[x[0]])
+        .filter((x) => !substats.map((x) => x.stat).includes(x[0])) // Exclude already existing substats
         .sort((a, b) => b[1] - a[1])
 
       let bestUnobtainedSubstat = substatScoreEntries[0]
-      let finalSubstats = [...substats.map(x => x.stat), bestUnobtainedSubstat[0]]
-      let finalSubstatWeights = finalSubstats.map(x => scoringMetadata.stats[x])
+      let finalSubstats = [...substats.map((x) => x.stat), bestUnobtainedSubstat[0]]
+      let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
       let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
       let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
 
@@ -162,7 +163,6 @@ export default function RelicFilterBar() {
         extraRolls += bestOverallSubstatWeight
       }
 
-
       relic.relicsTabWeight = Utils.precisionRound(subScore + mainScore)
       relic.bestCaseWeight = relic.relicsTabWeight + extraRolls * 6.48
       relic.averageCaseWeight = relic.relicsTabWeight + extraRolls * 6.48 * avgWeight
@@ -172,12 +172,12 @@ export default function RelicFilterBar() {
 
     window.relicsGrid.current.api.applyColumnState({
       defaultState: { sort: null },
-    });
+    })
 
     window.relicsGrid.current.api.applyColumnState({
       state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
       defaultState: { sort: null },
-    });
+    })
 
     window.relicsGrid.current.api.redrawRows()
   }
@@ -190,7 +190,7 @@ export default function RelicFilterBar() {
       mainStats: [],
       subStats: [],
       grade: [],
-      verified: []
+      verified: [],
     })
   }
 
@@ -239,60 +239,60 @@ export default function RelicFilterBar() {
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>Grade</HeaderText>
-          <FilterRow name='grade' tags={gradeData} flexBasis='25%' />
+          <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Verified</HeaderText>
-          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
         </Flex>
       </Flex>
 
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
-          <FilterRow name='part' tags={partsData} flexBasis='15%' />
+          <FilterRow name="part" tags={partsData} flexBasis="15%" />
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Enhance</HeaderText>
-          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%' />
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
         </Flex>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis='5.55%' />
+        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
       </Flex>
 
       <Flex vertical>
         <HeaderText>Main stats</HeaderText>
-        <FilterRow name='mainStats' tags={mainStatsData} />
+        <FilterRow name="mainStats" tags={mainStatsData} />
       </Flex>
 
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
-        <FilterRow name='subStats' tags={subStatsData} />
+        <FilterRow name="subStats" tags={subStatsData} />
       </Flex>
     </Flex>
   )
 }
 
 function FilterRow(props) {
-  let relicTabFilters = window.store(s => s.relicTabFilters);
-  let setRelicTabFilters = window.store(s => s.setRelicTabFilters);
+  let relicTabFilters = window.store((s) => s.relicTabFilters)
+  let setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
 
   let selectedTags = relicTabFilters[props.name]
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag);
+      : selectedTags.filter((t) => t != tag)
 
     let clonedFilters = Utils.clone(relicTabFilters)
     clonedFilters[props.name] = nextSelectedTags
-    console.log('Relic tab filters', props.name, clonedFilters);
+    console.log('Relic tab filters', props.name, clonedFilters)
 
     setRelicTabFilters(clonedFilters)
-  };
+  }
 
   return (
     <Flex
@@ -302,7 +302,7 @@ function FilterRow(props) {
         backgroundColor: '#243356',
         boxShadow: '0px 0px 0px 1px #3F5A96 inset',
         borderRadius: 6,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       {props.tags.map((tag) => (
@@ -313,10 +313,10 @@ function FilterRow(props) {
           style={{
             flex: 1,
             flexBasis: props.flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96'
+            boxShadow: '1px 1px 0px 0px #3F5A96',
           }}
         >
-          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
+          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
             {tag.display}
           </Flex>
         </CheckableTag>
@@ -329,5 +329,3 @@ FilterRow.propTypes = {
   tags: PropTypes.array,
   flexBasis: PropTypes.string,
 }
-
-

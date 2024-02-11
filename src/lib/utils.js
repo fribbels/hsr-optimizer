@@ -54,7 +54,7 @@ export const Utils = {
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
-          console.error('Unable to save screenshot to clipboard')
+          Message.error('Unable to save screenshot to clipboard, try downloading the screenshot instead')
         }
       }
 
@@ -129,5 +129,18 @@ export const Utils = {
     }
 
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
+  },
+  recursiveToCamel: (item) => {
+    if (Array.isArray(item)) {
+      return item.map(el => Utils.recursiveToCamel(el));
+    } else if (typeof item === 'function' || item !== Object(item)) {
+      return item;
+    }
+    return Object.fromEntries(
+      Object.entries(item).map(([key, value]) => [
+        key.replace(/([-_][a-z])/gi, c => c.toUpperCase().replace(/[-_]/g, '')),
+        Utils.recursiveToCamel(value),
+      ]),
+    );
   },
 }

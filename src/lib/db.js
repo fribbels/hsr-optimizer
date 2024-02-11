@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import * as objectHash from 'object-hash'
+import objectHash from 'object-hash'
 import { OptimizerTabController } from "lib/optimizerTabController"
 import { RelicAugmenter } from "lib/relicAugmenter"
 import { Constants } from 'lib/constants.ts';

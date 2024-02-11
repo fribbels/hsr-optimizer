@@ -1,6 +1,6 @@
-import { Constants } from "./constants.ts";
-import DB from "./db";
-import { Utils } from "./utils";
+import { Constants } from './constants.ts'
+import DB from './db'
+import { Utils } from './utils'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
@@ -58,10 +58,10 @@ export const RelicFilters = {
   },
 
   applyRankFilter: (request, relics) => {
-    if (!request.rankFilter) return relics;
+    if (!request.rankFilter) return relics
 
     let characters = DB.getCharacters()
-    let characterId = request.characterId;
+    let characterId = request.characterId
     let higherRankedRelics = {}
     for (let i = 0; i < characters.length; i++) {
       let rankedCharacter = characters[i]
@@ -70,46 +70,46 @@ export const RelicFilters = {
       }
 
       Object.values(rankedCharacter.equipped)
-        .filter(x => x != null)
-        .map(x => higherRankedRelics[x] = true)
+        .filter((x) => x != null)
+        .map((x) => higherRankedRelics[x] = true)
     }
 
-    return relics.filter(x => !higherRankedRelics[x.id])
+    return relics.filter((x) => !higherRankedRelics[x.id])
   },
 
   applyMainFilter: (request, relics) => {
     let out = []
-    out.push(...relics.filter(x => x.part == Constants.Parts.Head))
-    out.push(...relics.filter(x => x.part == Constants.Parts.Hands))
-    out.push(...relics.filter(x => x.part == Constants.Parts.Body).filter(x => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
-    out.push(...relics.filter(x => x.part == Constants.Parts.Feet).filter(x => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
-    out.push(...relics.filter(x => x.part == Constants.Parts.PlanarSphere).filter(x => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
-    out.push(...relics.filter(x => x.part == Constants.Parts.LinkRope).filter(x => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.Head))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.Hands))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.Body).filter((x) => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.Feet).filter((x) => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.PlanarSphere).filter((x) => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
+    out.push(...relics.filter((x) => x.part == Constants.Parts.LinkRope).filter((x) => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
 
-    return out;
+    return out
   },
 
   applyEnhanceFilter: (request, relics) => {
-    return relics.filter(x => x.enhance >= request.enhance);
+    return relics.filter((x) => x.enhance >= request.enhance)
   },
 
   applyEquippedFilter: (request, relics) => {
     if (request.includeEquippedRelics)
-      return relics;
+      return relics
 
-    const characterId = request.characterId || "99999999";
+    const characterId = request.characterId || '99999999'
     // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
-    let blacklist = [];
-    window.store.getState().characters.forEach(char => {
-      if (char.id == characterId) return;
-      blacklist = blacklist.concat(Object.values(char.equipped));
-    });
-    const ret = relics.filter(x => !blacklist.includes(x.id));
-    return ret;
+    let blacklist = []
+    window.store.getState().characters.forEach((char) => {
+      if (char.id == characterId) return
+      blacklist = blacklist.concat(Object.values(char.equipped))
+    })
+    const ret = relics.filter((x) => !blacklist.includes(x.id))
+    return ret
   },
 
   applyGradeFilter: (request, relics) => {
-    return relics.filter(x => x.grade ? x.grade >= request.grade : true);
+    return relics.filter((x) => x.grade ? x.grade >= request.grade : true)
   },
 
   applySetFilter: (request, relics) => {
@@ -153,13 +153,13 @@ export const RelicFilters = {
         }
       }
 
-      return relics.filter(relic => {
+      return relics.filter((relic) => {
         if (
-          relic.part == Constants.Parts.Head ||
-          relic.part == Constants.Parts.Hands ||
-          relic.part == Constants.Parts.Body ||
-          relic.part == Constants.Parts.Feet) {
-          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1;
+          relic.part == Constants.Parts.Head
+          || relic.part == Constants.Parts.Hands
+          || relic.part == Constants.Parts.Body
+          || relic.part == Constants.Parts.Feet) {
+          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1
         } else {
           return true
         }
@@ -177,11 +177,11 @@ export const RelicFilters = {
         allowedSets[index] = 1
       }
 
-      return relics.filter(relic => {
+      return relics.filter((relic) => {
         if (
-          relic.part == Constants.Parts.PlanarSphere ||
-          relic.part == Constants.Parts.LinkRope) {
-          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1;
+          relic.part == Constants.Parts.PlanarSphere
+          || relic.part == Constants.Parts.LinkRope) {
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1
         } else {
           return true
         }
@@ -192,7 +192,7 @@ export const RelicFilters = {
   },
 
   applyCurrentFilter: (request, relics) => {
-    if (!request.keepCurrentRelics) return relics;
+    if (!request.keepCurrentRelics) return relics
 
     let character = DB.getCharacterById(request.characterId)
     if (!character) {
@@ -203,7 +203,7 @@ export const RelicFilters = {
       if (!character.equipped[part]) {
         return relics[part]
       }
-      let match = relics[part].find(x => x.id == character.equipped[part])
+      let match = relics[part].find((x) => x.id == character.equipped[part])
       return match ? [match] : []
     }
 
@@ -213,18 +213,18 @@ export const RelicFilters = {
       Body: matchingRelic(Constants.Parts.Body),
       Feet: matchingRelic(Constants.Parts.Feet),
       PlanarSphere: matchingRelic(Constants.Parts.PlanarSphere),
-      LinkRope: matchingRelic(Constants.Parts.LinkRope)
+      LinkRope: matchingRelic(Constants.Parts.LinkRope),
     }
   },
 
   splitRelicsByPart: (relics) => {
     return {
-      Head: relics.filter(x => x.part == Constants.Parts.Head),
-      Hands: relics.filter(x => x.part == Constants.Parts.Hands),
-      Body: relics.filter(x => x.part == Constants.Parts.Body),
-      Feet: relics.filter(x => x.part == Constants.Parts.Feet),
-      PlanarSphere: relics.filter(x => x.part == Constants.Parts.PlanarSphere),
-      LinkRope: relics.filter(x => x.part == Constants.Parts.LinkRope)
+      Head: relics.filter((x) => x.part == Constants.Parts.Head),
+      Hands: relics.filter((x) => x.part == Constants.Parts.Hands),
+      Body: relics.filter((x) => x.part == Constants.Parts.Body),
+      Feet: relics.filter((x) => x.part == Constants.Parts.Feet),
+      PlanarSphere: relics.filter((x) => x.part == Constants.Parts.PlanarSphere),
+      LinkRope: relics.filter((x) => x.part == Constants.Parts.LinkRope),
     }
-  }
+  },
 }

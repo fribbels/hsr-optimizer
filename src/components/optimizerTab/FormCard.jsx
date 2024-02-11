@@ -1,11 +1,11 @@
-import { Flex } from "antd";
-import React from "react";
-import PropTypes from "prop-types";
+import { Flex } from 'antd'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 let shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-let panelWidth = 203;
-let defaultGap = 5;
+let panelWidth = 203
+let defaultGap = 5
 let defaultPadding = 15
 
 let smallWidth = panelWidth
@@ -20,7 +20,7 @@ export default function FormCard(props) {
         height: props.height || 350,
         padding: defaultPadding,
         boxShadow: shadow,
-        overflow: props.style?.overflow
+        overflow: props.style?.overflow,
       }}
     >
       <Flex

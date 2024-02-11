@@ -1,26 +1,26 @@
 import { Constants } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { CharacterConditionals } from "../characterConditionals";
-import { LightConeConditionals } from "../lightConeConditionals";
+import { CharacterConditionals } from '../characterConditionals'
+import { LightConeConditionals } from '../lightConeConditionals'
 
 function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
   let summedStats = {}
   for (let stat of statValues) {
-    summedStats[stat] =
-      headRelics[h].augmentedStats[stat] +
-      handsRelics[g].augmentedStats[stat] +
-      bodyRelics[b].augmentedStats[stat] +
-      feetRelics[f].augmentedStats[stat] +
-      planarSphereRelics[p].augmentedStats[stat] +
-      linkRopeRelics[l].augmentedStats[stat]
+    summedStats[stat]
+      = headRelics[h].augmentedStats[stat]
+      + handsRelics[g].augmentedStats[stat]
+      + bodyRelics[b].augmentedStats[stat]
+      + feetRelics[f].augmentedStats[stat]
+      + planarSphereRelics[p].augmentedStats[stat]
+      + linkRopeRelics[l].augmentedStats[stat]
   }
-  summedStats.WEIGHT =
-    headRelics[h].weightScore +
-    handsRelics[g].weightScore +
-    bodyRelics[b].weightScore +
-    feetRelics[f].weightScore +
-    planarSphereRelics[p].weightScore +
-    linkRopeRelics[l].weightScore
+  summedStats.WEIGHT
+    = headRelics[h].weightScore
+    + handsRelics[g].weightScore
+    + bodyRelics[b].weightScore
+    + feetRelics[f].weightScore
+    + planarSphereRelics[p].weightScore
+    + linkRopeRelics[l].weightScore
 
   return summedStats
 }
@@ -42,26 +42,28 @@ const pioneerSetIndexToCd = {
   1: 0.08,
   2: 0.12,
   3: 0.16,
-  4: 0.24
+  4: 0.24,
 }
 
-self.onmessage = function (e) {
-  // console.log("Message received from main script", e.data);
-  // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
+self.onmessage = function(e) {
+  /*
+   * console.log("Message received from main script", e.data);
+   * console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
+   */
 
-  let data = e.data;
-  let relics = data.relics;
-  let character = data.character;
-  let Stats = Constants.Stats;
+  let data = e.data
+  let relics = data.relics
+  let character = data.character
+  let Stats = Constants.Stats
   let statValues = Object.values(Stats)
   let arr = new Float64Array(data.buffer)
 
-  let headRelics = relics.Head;
-  let handsRelics = relics.Hands;
-  let bodyRelics = relics.Body;
-  let feetRelics = relics.Feet;
-  let planarSphereRelics = relics.PlanarSphere;
-  let linkRopeRelics = relics.LinkRope;
+  let headRelics = relics.Head
+  let handsRelics = relics.Hands
+  let bodyRelics = relics.Body
+  let feetRelics = relics.Feet
+  let planarSphereRelics = relics.PlanarSphere
+  let linkRopeRelics = relics.LinkRope
 
   let relicSetCount = Object.values(Constants.SetsRelics).length
   let ornamentSetCount = Object.values(Constants.SetsOrnaments).length
@@ -121,15 +123,15 @@ self.onmessage = function (e) {
     let index = data.skip + col
 
     if (index >= data.permutations) {
-      break;
+      break
     }
 
-    let l = (index % lSize);
-    let p = (((index - l) / lSize) % pSize);
-    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
-    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
-    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
-    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+    let l = (index % lSize)
+    let p = (((index - l) / lSize) % pSize)
+    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
+    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
     let setH = relicSetToIndex[relics.Head[h].set]
     let setG = relicSetToIndex[relics.Hands[g].set]
@@ -140,7 +142,7 @@ self.onmessage = function (e) {
     let setL = ornamentSetToIndex[relics.LinkRope[l].set]
 
     let relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
-    let ornamentSetIndex = setP + setL * ornamentSetCount;
+    let ornamentSetIndex = setP + setL * ornamentSetCount
 
     // Exit early if sets dont match unless its a topRow search
     if (relicSetSolutions[relicSetIndex] != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
@@ -188,9 +190,11 @@ self.onmessage = function (e) {
     sets.FirmamentFrontlineGlamoth = (1 >> (setP ^ 10)) + (1 >> (setL ^ 10)) // (12%/18% DMG)
     sets.PenaconyLandOfTheDreams = (1 >> (setP ^ 11)) + (1 >> (setL ^ 11)) // -
 
-    // ************************************************************
-    // Old elemental dmg logic
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Old elemental dmg logic
+     * ************************************************************
+     */
 
     c.ELEMENTAL_DMG = 0
     if (elementalMultipliers[0]) c.ELEMENTAL_DMG = calculatePercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
@@ -204,9 +208,11 @@ self.onmessage = function (e) {
     let crSum = c[Stats.CR]
     let cdSum = c[Stats.CD]
 
-    // ************************************************************
-    // Calculate base stats
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate base stats
+     * ************************************************************
+     */
 
     let baseHp = calculateBaseStat(Stats.HP, base, lc)
     let baseAtk = calculateBaseStat(Stats.ATK, base, lc)
@@ -214,31 +220,33 @@ self.onmessage = function (e) {
     let baseSpd = calculateBaseStat(Stats.SPD, base, lc)
     c.baseAtk = baseAtk
 
-    // ************************************************************
-    // Calculate display stats with unconditional sets
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate display stats with unconditional sets
+     * ************************************************************
+     */
 
     c[Stats.HP] = calculateFlatStat(Stats.HP, Stats.HP_P, baseHp, lc, trace, c,
-      0.12 * p2(sets.FleetOfTheAgeless) +
-      0.12 * p2(sets.LongevousDisciple))
+      0.12 * p2(sets.FleetOfTheAgeless)
+      + 0.12 * p2(sets.LongevousDisciple))
 
     c[Stats.ATK] = calculateFlatStat(Stats.ATK, Stats.ATK_P, baseAtk, lc, trace, c,
-      0.12 * p2(sets.SpaceSealingStation) +
-      0.12 * p2(sets.FirmamentFrontlineGlamoth) +
-      0.12 * p2(sets.MusketeerOfWildWheat) +
-      0.12 * p2(sets.PrisonerInDeepConfinement))
+      0.12 * p2(sets.SpaceSealingStation)
+      + 0.12 * p2(sets.FirmamentFrontlineGlamoth)
+      + 0.12 * p2(sets.MusketeerOfWildWheat)
+      + 0.12 * p2(sets.PrisonerInDeepConfinement))
 
     c[Stats.DEF] = calculateFlatStat(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, c,
-      0.15 * p2(sets.BelobogOfTheArchitects) +
-      0.15 * p2(sets.KnightOfPurityPalace))
+      0.15 * p2(sets.BelobogOfTheArchitects)
+      + 0.15 * p2(sets.KnightOfPurityPalace))
 
     c[Stats.SPD] = calculateFlatStat(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
-      0.06 * p2(sets.MessengerTraversingHackerspace) +
-      0.06 * p4(sets.MusketeerOfWildWheat))
+      0.06 * p2(sets.MessengerTraversingHackerspace)
+      + 0.06 * p4(sets.MusketeerOfWildWheat))
 
     c[Stats.CR] = calculatePercentStat(Stats.CR, base, lc, trace, c,
-      0.08 * p2(sets.InertSalsotto) +
-      0.08 * p2(sets.RutilantArena))
+      0.08 * p2(sets.InertSalsotto)
+      + 0.08 * p2(sets.RutilantArena))
 
     c[Stats.CD] = calculatePercentStat(Stats.CD, base, lc, trace, c,
       0.16 * p2(sets.CelestialDifferentiator))
@@ -250,30 +258,30 @@ self.onmessage = function (e) {
       0.10 * p2(sets.BrokenKeel))
 
     c[Stats.BE] = calculatePercentStat(Stats.BE, base, lc, trace, c,
-      0.16 * p2(sets.TaliaKingdomOfBanditry) +
-      0.16 * p2(sets.ThiefOfShootingMeteor) +
-      0.16 * p4(sets.ThiefOfShootingMeteor))
+      0.16 * p2(sets.TaliaKingdomOfBanditry)
+      + 0.16 * p2(sets.ThiefOfShootingMeteor)
+      + 0.16 * p4(sets.ThiefOfShootingMeteor))
 
     c[Stats.ERR] = calculatePercentStat(Stats.ERR, base, lc, trace, c,
-      0.05 * p2(sets.SprightlyVonwacq) +
-      0.05 * p2(sets.PenaconyLandOfTheDreams))
+      0.05 * p2(sets.SprightlyVonwacq)
+      + 0.05 * p2(sets.PenaconyLandOfTheDreams))
 
     c[Stats.OHB] = calculatePercentStat(Stats.OHB, base, lc, trace, c,
       0.10 * p2(sets.PasserbyOfWanderingCloud))
 
     // Exit early on base display filters failing unless its a topRow search
     if (baseDisplay && !topRow) {
-      const pass =
-        c[Stats.HP] >= request.minHp && c[Stats.HP] <= request.maxHp &&
-        c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk &&
-        c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef &&
-        c[Stats.SPD] >= request.minSpd && c[Stats.SPD] <= request.maxSpd &&
-        c[Stats.CR] >= request.minCr && c[Stats.CR] <= request.maxCr &&
-        c[Stats.CD] >= request.minCd && c[Stats.CD] <= request.maxCd &&
-        c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr &&
-        c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes &&
-        c[Stats.BE] >= request.minBe && c[Stats.BE] <= request.maxBe &&
-        c.WEIGHT >= request.minWeight && c.WEIGHT <= request.maxWeight
+      const pass
+        = c[Stats.HP] >= request.minHp && c[Stats.HP] <= request.maxHp
+        && c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk
+        && c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef
+        && c[Stats.SPD] >= request.minSpd && c[Stats.SPD] <= request.maxSpd
+        && c[Stats.CR] >= request.minCr && c[Stats.CR] <= request.maxCr
+        && c[Stats.CD] >= request.minCd && c[Stats.CD] <= request.maxCd
+        && c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr
+        && c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes
+        && c[Stats.BE] >= request.minBe && c[Stats.BE] <= request.maxBe
+        && c.WEIGHT >= request.minWeight && c.WEIGHT <= request.maxWeight
       if (!pass) {
         continue
       }
@@ -281,9 +289,11 @@ self.onmessage = function (e) {
 
     c.id = index
 
-    // ************************************************************
-    // Set up combat stats storage x
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Set up combat stats storage x
+     * ************************************************************
+     */
 
     let x = Object.assign({}, precomputedX)
     c.x = x
@@ -309,89 +319,99 @@ self.onmessage = function (e) {
     x[Stats.BE] += request.buffBe
     x.ELEMENTAL_DMG += request.buffDmgBoost
 
-    // ************************************************************
-    // Calculate passive effects & buffs. x stores the internally calculated character stats
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate passive effects & buffs. x stores the internally calculated character stats
+     * ************************************************************
+     */
 
-    // No longer needed
-    // characterConditionals.calculatePassives(c, request)
-    // lightConeConditionals.calculatePassives(c, request)
+    /*
+     * No longer needed
+     * characterConditionals.calculatePassives(c, request)
+     * lightConeConditionals.calculatePassives(c, request)
+     */
 
-    // ************************************************************
-    // Calculate conditional set effects
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate conditional set effects
+     * ************************************************************
+     */
 
-    x[Stats.SPD_P] +=
-      0.12 * enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
+    x[Stats.SPD_P]
+      += 0.12 * enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
     x[Stats.SPD] += x[Stats.SPD_P] * baseSpd
 
-    x[Stats.ATK_P] +=
-      0.05 * valueChampionOfStreetwiseBoxing * p4(sets.ChampionOfStreetwiseBoxing) +
-      0.20 * enabledBandOfSizzlingThunder * p4(sets.BandOfSizzlingThunder) +
-      0.06 * valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke) +
-      0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation) +
-      0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless) +
-      Math.min(0.25, 0.25 * c[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+    x[Stats.ATK_P]
+      += 0.05 * valueChampionOfStreetwiseBoxing * p4(sets.ChampionOfStreetwiseBoxing)
+      + 0.20 * enabledBandOfSizzlingThunder * p4(sets.BandOfSizzlingThunder)
+      + 0.06 * valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke)
+      + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
+      + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
+      + Math.min(0.25, 0.25 * c[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
     x[Stats.ATK] += x[Stats.ATK_P] * baseAtk
 
-    x[Stats.DEF_P] +=
-      0.15 * (c[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+    x[Stats.DEF_P]
+      += 0.15 * (c[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
     x[Stats.DEF] += x[Stats.DEF_P] * baseDef
 
     x[Stats.HP] += x[Stats.HP_P] * baseHp
 
-    x[Stats.CR] +=
-      0.10 * (valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert) +
-      0.08 * valueLongevousDisciple * p4(sets.LongevousDisciple) +
-      0.60 * enabledCelestialDifferentiator * (c[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator) +
-      0.04 * (valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
+    x[Stats.CR]
+      += 0.10 * (valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
+      + 0.08 * valueLongevousDisciple * p4(sets.LongevousDisciple)
+      + 0.60 * enabledCelestialDifferentiator * (c[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+      + 0.04 * (valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
 
-    x[Stats.CD] +=
-      0.25 * enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest) +
-      0.10 * (valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert) +
-      0.10 * (c[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel) +
-      pioneerSetIndexToCd[valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
+    x[Stats.CD]
+      += 0.25 * enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
+      + 0.10 * (valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
+      + 0.10 * (c[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+      + pioneerSetIndexToCd[valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
 
-    x[Stats.BE] +=
-      0.20 * (c[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry) +
-      0.30 * enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
+    x[Stats.BE]
+      += 0.20 * (c[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+      + 0.30 * enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
 
-    x.BASIC_BOOST +=
-      0.10 * p4(sets.MusketeerOfWildWheat) +
-      0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
+    x.BASIC_BOOST
+      += 0.10 * p4(sets.MusketeerOfWildWheat)
+      + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
 
-    x.SKILL_BOOST +=
-      0.12 * p4(sets.FiresmithOfLavaForging) +
-      0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
+    x.SKILL_BOOST
+      += 0.12 * p4(sets.FiresmithOfLavaForging)
+      + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
 
-    x.ULT_BOOST +=
-      0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(c.sets.InertSalsotto)
+    x.ULT_BOOST
+      += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(c.sets.InertSalsotto)
 
-    x.FUA_BOOST +=
-      0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(c.sets.InertSalsotto)
+    x.FUA_BOOST
+      += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(c.sets.InertSalsotto)
 
-    x.FUA_BOOST +=
-      0.20 * p2(c.sets.TheAshblazingGrandDuke)
+    x.FUA_BOOST
+      += 0.20 * p2(c.sets.TheAshblazingGrandDuke)
 
     x.DEF_SHRED += p4(c.sets.GeniusOfBrilliantStars) ? (enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
 
     x.DEF_SHRED += 0.06 * valuePrisonerInDeepConfinement * p4(c.sets.PrisonerInDeepConfinement)
 
-    x.ELEMENTAL_DMG +=
-      0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth) +
-      0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth) +
-      0.12 * p2(sets.PioneerDiverOfDeadWaters)
+    x.ELEMENTAL_DMG
+      += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+      + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+      + 0.12 * p2(sets.PioneerDiverOfDeadWaters)
 
-    // ************************************************************
-    // Calculate skill base damage
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate skill base damage
+     * ************************************************************
+     */
 
     lightConeConditionals.calculateBaseMultis(c, request)
     characterConditionals.calculateBaseMultis(c, request)
 
-    // ************************************************************
-    // Calculate overall multipliers
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Calculate overall multipliers
+     * ************************************************************
+     */
 
     let cLevel = request.characterLevel
     let eLevel = request.enemyLevel
@@ -415,50 +435,54 @@ self.onmessage = function (e) {
     x.FUA_DMG *= universalMulti * (dmgBoostMultiplier + x.FUA_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN) * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST))) * (1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.FUA_RES_PEN))
     x.DOT_DMG *= universalMulti * (dmgBoostMultiplier + x.DOT_BOOST) * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN) * (1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY) * (1 - (resistance - x.RES_PEN - request.buffResPen - x.DOT_RES_PEN))
 
-    // ************************************************************
-    // Filter results
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Filter results
+     * ************************************************************
+     */
 
     // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search
     if (combatDisplay && !topRow) {
-      const pass =
-        x[Stats.HP] >= request.minHp && x[Stats.HP] <= request.maxHp &&
-        x[Stats.ATK] >= request.minAtk && x[Stats.ATK] <= request.maxAtk &&
-        x[Stats.DEF] >= request.minDef && x[Stats.DEF] <= request.maxDef &&
-        x[Stats.SPD] >= request.minSpd && x[Stats.SPD] <= request.maxSpd &&
-        x[Stats.CR] >= request.minCr && x[Stats.CR] <= request.maxCr &&
-        x[Stats.CD] >= request.minCd && x[Stats.CD] <= request.maxCd &&
-        x[Stats.EHR] >= request.minEhr && x[Stats.EHR] <= request.maxEhr &&
-        x[Stats.RES] >= request.minRes && x[Stats.RES] <= request.maxRes &&
-        x[Stats.BE] >= request.minBe && x[Stats.BE] <= request.maxBe
+      const pass
+        = x[Stats.HP] >= request.minHp && x[Stats.HP] <= request.maxHp
+        && x[Stats.ATK] >= request.minAtk && x[Stats.ATK] <= request.maxAtk
+        && x[Stats.DEF] >= request.minDef && x[Stats.DEF] <= request.maxDef
+        && x[Stats.SPD] >= request.minSpd && x[Stats.SPD] <= request.maxSpd
+        && x[Stats.CR] >= request.minCr && x[Stats.CR] <= request.maxCr
+        && x[Stats.CD] >= request.minCd && x[Stats.CD] <= request.maxCd
+        && x[Stats.EHR] >= request.minEhr && x[Stats.EHR] <= request.maxEhr
+        && x[Stats.RES] >= request.minRes && x[Stats.RES] <= request.maxRes
+        && x[Stats.BE] >= request.minBe && x[Stats.BE] <= request.maxBe
       if (!pass) {
         continue
       }
     }
 
     let result = (
-      cv >= request.minCv && cv <= request.maxCv &&
-      ehp >= request.minEhp && ehp <= request.maxEhp &&
-      x.BASIC_DMG >= request.minBasic && x.BASIC_DMG <= request.maxBasic &&
-      x.SKILL_DMG >= request.minSkill && x.SKILL_DMG <= request.maxSkill &&
-      x.ULT_DMG >= request.minUlt && x.ULT_DMG <= request.maxUlt &&
-      x.FUA_DMG >= request.minFua && x.FUA_DMG <= request.maxFua &&
-      x.DOT_DMG >= request.minDot && x.DOT_DMG <= request.maxDot
+      cv >= request.minCv && cv <= request.maxCv
+      && ehp >= request.minEhp && ehp <= request.maxEhp
+      && x.BASIC_DMG >= request.minBasic && x.BASIC_DMG <= request.maxBasic
+      && x.SKILL_DMG >= request.minSkill && x.SKILL_DMG <= request.maxSkill
+      && x.ULT_DMG >= request.minUlt && x.ULT_DMG <= request.maxUlt
+      && x.FUA_DMG >= request.minFua && x.FUA_DMG <= request.maxFua
+      && x.DOT_DMG >= request.minDot && x.DOT_DMG <= request.maxDot
     )
 
-    // ************************************************************
-    // Pack the passing results into the ArrayBuffer to return
-    // ************************************************************
+    /*
+     * ************************************************************
+     * Pack the passing results into the ArrayBuffer to return
+     * ************************************************************
+     */
 
     if (topRow || result) {
-      BufferPacker.packCharacter(arr, col, c);
+      BufferPacker.packCharacter(arr, col, c)
     }
   }
 
   self.postMessage({
     rows: [],
-    buffer: data.buffer
-  }, [data.buffer]);
+    buffer: data.buffer,
+  }, [data.buffer])
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

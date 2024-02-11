@@ -1,8 +1,8 @@
-import { Flex, Form, InputNumber, Slider, Typography } from "antd";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Utils } from "../../lib/utils";
-import PropTypes from "prop-types";
+import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Utils } from '../../lib/utils'
+import PropTypes from 'prop-types'
 
 let sliderWidth = 130
 const Text = styled(Typography)`
@@ -11,13 +11,13 @@ const Text = styled(Typography)`
 
 export function FormStatRollSlider(props) {
   return (
-    <Flex gap={5} style={{marginBottom: 0}} align='center'>
-      <Flex justify='flex-start' style={{width: 45, marginRight: 10}}>
+    <Flex gap={5} style={{ marginBottom: 0 }} align="center">
+      <Flex justify="flex-start" style={{ width: 45, marginRight: 10 }}>
         <Text>
           {props.text}
         </Text>
       </Flex>
-      <Flex align='center' justify='flex-start' gap={10}>
+      <Flex align="center" justify="flex-start" gap={10}>
         <Form.Item name={['weights', props.name]}>
           <Slider
             min={0}
@@ -41,19 +41,18 @@ FormStatRollSlider.propTypes = {
   name: PropTypes.string,
 }
 
-
 export function FormStatRollSliderTopPercent() {
-  const [inputValue, setInputValue] = useState(1);
+  const [inputValue, setInputValue] = useState(1)
   const onChange = (newValue) => {
-    setInputValue(newValue);
-  };
+    setInputValue(newValue)
+  }
 
   return (
-    <Flex gap={5} style={{marginBottom: 0}} align='center'>
+    <Flex gap={5} style={{ marginBottom: 0 }} align="center">
       <Form.Item name={['weights', 'topPercent']}>
         <InputNumber
-          size='small'
-          style={{width: 50, marginRight: 5}}
+          size="small"
+          style={{ width: 50, marginRight: 5 }}
           controls={false}
           min={1}
           max={100}
@@ -61,12 +60,12 @@ export function FormStatRollSliderTopPercent() {
             onChange(x)
             window.onOptimizerFormValuesChange(x, window.optimizerForm.getFieldsValue(), true)
           }}
-          parser={(value) => value == null || value == '' ? 0 : Utils.precisionRound(value) }
+          parser={(value) => value == null || value == '' ? 0 : Utils.precisionRound(value)}
           formatter={(value) => `${Utils.precisionRound(value)}`}
         />
       </Form.Item>
 
-      <Flex align='center' justify='flex-start' gap={10}>
+      <Flex align="center" justify="flex-start" gap={10}>
         <Form.Item name={['weights', 'topPercent']}>
           <Slider
             min={1}
@@ -80,7 +79,7 @@ export function FormStatRollSliderTopPercent() {
             }}
             keyboard={false}
             tooltip={{
-              formatter: (value) => `${Utils.precisionRound(value)}%`
+              formatter: (value) => `${Utils.precisionRound(value)}%`,
             }}
             value={typeof inputValue === 'number' ? inputValue : 0}
             onChange={onChange}

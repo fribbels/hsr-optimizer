@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Constants } from '../lib/constants.ts';
-import { HeaderText } from './HeaderText';
-import { RelicAugmenter } from '../lib/relicAugmenter';
-import { Message } from '../lib/message';
-import PropTypes from "prop-types";
-import { Utils } from "../lib/utils";
-import DB from "../lib/db";
-import { Assets } from "../lib/assets";
+import styled from 'styled-components'
+import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Constants } from 'lib/constants'
+import { HeaderText } from './HeaderText'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import { Message } from 'lib/message'
+import PropTypes from 'prop-types'
+import { Utils } from 'lib/utils'
+import DB from 'lib/db'
+import { Assets } from 'lib/assets'
 
 function RadioIcon(props) {
   return (
@@ -53,40 +53,40 @@ function renderStat(stat, value) {
   if (Utils.isFlat(stat) && stat != Constants.Stats.SPD) {
     return {
       stat: stat,
-      value: Math.floor(value)
+      value: Math.floor(value),
     }
   } else {
     return {
       stat: stat,
-      value: Utils.precisionRound(Math.floor(value * 10) / 10)
+      value: Utils.precisionRound(Math.floor(value * 10) / 10),
     }
   }
 }
 
 // selectedRelic, onOk, setOpen, open, type
 export default function RelicModal(props) {
-  const [relicForm] = Form.useForm();
-  const [mainStatOptions, setMainStatOptions] = useState([]);
+  const [relicForm] = Form.useForm()
+  const [mainStatOptions, setMainStatOptions] = useState([])
 
   const characterOptions = useMemo(() => {
     let characters = DB.getCharacters()
-    let characterData = DB.getMetadata().characters;
+    let characterData = DB.getMetadata().characters
 
     let options = characters.map((character) => {
       return {
         value: character.id,
-        label: characterData[character.id].displayName
+        label: characterData[character.id].displayName,
       }
     })
 
     options = options.sort((a, b) => a.label.localeCompare(b.label))
     options = [{
       value: 'None',
-      label: 'Nobody'
+      label: 'Nobody',
     }, ...options]
 
     return options
-  }, []);
+  }, [])
 
   useEffect(() => {
     let defaultValues = {
@@ -123,31 +123,30 @@ export default function RelicModal(props) {
   }, [props.selectedRelic, props.open, relicForm, props])
 
   useEffect(() => {
-    let mainStatOptions = [];
+    let mainStatOptions = []
     if (props.selectedRelic?.part) {
-      mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map(entry => ({
+      mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
         label: entry[1],
-        value: entry[1]
-      }));
+        value: entry[1],
+      }))
     }
-    setMainStatOptions(mainStatOptions || []);
-    relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat);
-  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm]);
+    setMainStatOptions(mainStatOptions || [])
+    relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
+  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm])
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {
-      const mainStatValues = mainStatOptions.map(item => item.value);
+      const mainStatValues = mainStatOptions.map((item) => item.value)
       if (mainStatValues.includes(props.selectedRelic?.main?.stat)) {
-        relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat);
-      }
-      else {
-        relicForm.setFieldValue('mainStatType', mainStatOptions[0].value);
+        relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
+      } else {
+        relicForm.setFieldValue('mainStatType', mainStatOptions[0].value)
       }
     }
-  }, [relicForm, mainStatOptions, props.selectedRelic?.main?.stat]);
+  }, [relicForm, mainStatOptions, props.selectedRelic?.main?.stat])
 
   const onFinish = (x) => {
-    console.log('Form finished', x);
+    console.log('Form finished', x)
     if (!x.part) {
       return Message.error('Part field is missing')
     }
@@ -178,10 +177,10 @@ export default function RelicModal(props) {
     if (Constants.SetsRelicsNames.includes(x.set) && (x.part == Constants.Parts.PlanarSphere || x.part == Constants.Parts.LinkRope)) {
       return Message.error('The selected set is not an ornament set')
     }
-    if (Constants.SetsOrnamentsNames.includes(x.set) && (x.part == Constants.Parts.Head ||
-      x.part == Constants.Parts.Hands ||
-      x.part == Constants.Parts.Body ||
-      x.part == Constants.Parts.Feet)) {
+    if (Constants.SetsOrnamentsNames.includes(x.set) && (x.part == Constants.Parts.Head
+      || x.part == Constants.Parts.Hands
+      || x.part == Constants.Parts.Body
+      || x.part == Constants.Parts.Feet)) {
       return Message.error('The selected set is not a relic set')
     }
     if (x.substatType0 != undefined && x.substatValue0 == undefined || x.substatType0 == undefined && x.substatValue0 != undefined) {
@@ -207,7 +206,7 @@ export default function RelicModal(props) {
       return Message.error('Substats are out of order')
     }
 
-    let substatTypes = [x.substatType0, x.substatType1, x.substatType2, x.substatType3].filter(x => x != undefined)
+    let substatTypes = [x.substatType0, x.substatType1, x.substatType2, x.substatType3].filter((x) => x != undefined)
     if (new Set(substatTypes).size !== substatTypes.length) {
       return Message.error('Duplicate substats, only one of each type is allowed')
     }
@@ -236,32 +235,32 @@ export default function RelicModal(props) {
       set: x.set,
       main: {
         stat: x.mainStatType,
-        value: x.mainStatValue
-      }
+        value: x.mainStatValue,
+      },
     }
     let substats = []
     if (x.substatType0 != undefined && x.substatValue0 != undefined) {
       substats.push({
         stat: x.substatType0,
-        value: x.substatValue0
+        value: x.substatValue0,
       })
     }
     if (x.substatType1 != undefined && x.substatValue1 != undefined) {
       substats.push({
         stat: x.substatType1,
-        value: x.substatValue1
+        value: x.substatValue1,
       })
     }
     if (x.substatType2 != undefined && x.substatValue2 != undefined) {
       substats.push({
         stat: x.substatType2,
-        value: x.substatValue2
+        value: x.substatValue2,
       })
     }
     if (x.substatType3 != undefined && x.substatValue3 != undefined) {
       substats.push({
         stat: x.substatType3,
-        value: x.substatValue3
+        value: x.substatValue3,
       })
     }
     relic.substats = substats
@@ -271,49 +270,49 @@ export default function RelicModal(props) {
 
     props.onOk(relic)
     props.setOpen(false)
-  };
+  }
   const onFinishFailed = () => {
-    Message.error('Submit failed!');
+    Message.error('Submit failed!')
     props.setOpen(false)
-  };
+  }
   const onValuesChange = (x) => {
-    let mainStatOptions = [];
+    let mainStatOptions = []
     if (x.part) {
-      mainStatOptions = Object.entries(Constants.PartsMainStats[x.part]).map(entry => ({
+      mainStatOptions = Object.entries(Constants.PartsMainStats[x.part]).map((entry) => ({
         label: entry[1],
-        value: entry[1]
-      }));
-      setMainStatOptions(mainStatOptions);
-      relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value);
+        value: entry[1],
+      }))
+      setMainStatOptions(mainStatOptions)
+      relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value)
     }
 
-    let mainStatType = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType');
-    let enhance = relicForm.getFieldValue('enhance');
-    let grade = relicForm.getFieldValue('grade');
+    let mainStatType = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType')
+    let enhance = relicForm.getFieldValue('enhance')
+    let grade = relicForm.getFieldValue('grade')
 
     if (mainStatType != undefined && enhance != undefined && grade != undefined) {
-      const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG];
-      const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD];
+      const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG]
+      const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD]
 
-      let mainStatValue = Constants.MainStatsValues[mainStatType][grade]['base'] + Constants.MainStatsValues[mainStatType][grade]['increment'] * enhance;
+      let mainStatValue = Constants.MainStatsValues[mainStatType][grade]['base'] + Constants.MainStatsValues[mainStatType][grade]['increment'] * enhance
 
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
-        mainStatValue = Utils.truncate10ths(mainStatValue);
+        mainStatValue = Utils.truncate10ths(mainStatValue)
       } else if (floorStats.includes(mainStatType)) {
-        mainStatValue = Math.floor(mainStatValue);
+        mainStatValue = Math.floor(mainStatValue)
       } else {
-        mainStatValue = mainStatValue.toFixed(1);
+        mainStatValue = mainStatValue.toFixed(1)
       }
-      relicForm.setFieldValue('mainStatValue', mainStatValue);
+      relicForm.setFieldValue('mainStatValue', mainStatValue)
     }
-  };
+  }
 
   const handleCancel = () => {
     props.setOpen(false)
-  };
+  }
   const handleOk = () => {
     relicForm.submit()
-  };
+  }
 
   let enhanceOptions = []
   for (let i = 15; i >= 0; i--) {
@@ -324,25 +323,25 @@ export default function RelicModal(props) {
   for (let entry of Object.entries(Constants.SetsRelics)) {
     setOptions.push({
       label: entry[1],
-      value: entry[1]
+      value: entry[1],
     })
   }
   for (let entry of Object.entries(Constants.SetsOrnaments)) {
     setOptions.push({
       label: entry[1],
-      value: entry[1]
+      value: entry[1],
     })
   }
   let substatOptions = []
   for (let entry of Object.entries(Constants.SubStats)) {
     substatOptions.push({
       label: entry[1],
-      value: entry[1]
+      value: entry[1],
     })
   }
 
   const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
   return (
     <Form
@@ -371,7 +370,7 @@ export default function RelicModal(props) {
         <Flex vertical gap={5}>
 
           <HeaderText>Equipped by</HeaderText>
-          <Form.Item size="default" name='equippedBy'>
+          <Form.Item size="default" name="equippedBy">
             <Select
               showSearch
               filterOption={filterOption}
@@ -382,7 +381,7 @@ export default function RelicModal(props) {
 
           <HeaderText>Part</HeaderText>
 
-          <Form.Item size="default" name='part'>
+          <Form.Item size="default" name="part">
             <Radio.Group buttonStyle="solid">
               <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
               <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
@@ -394,7 +393,7 @@ export default function RelicModal(props) {
           </Form.Item>
 
           <HeaderText>Set</HeaderText>
-          <Form.Item size="default" name='set'>
+          <Form.Item size="default" name="set">
             <Select
               showSearch
               allowClear
@@ -403,21 +402,22 @@ export default function RelicModal(props) {
               }}
               placeholder="Sets"
               options={setOptions}
-              maxTagCount='responsive'>
+              maxTagCount="responsive"
+            >
             </Select>
           </Form.Item>
 
           <HeaderText>Enhance / Grade</HeaderText>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='enhance'>
+            <Form.Item size="default" name="enhance">
               <Select
                 showSearch
                 style={{ width: 145 }}
                 options={enhanceOptions}
               />
             </Form.Item>
-            <Form.Item size="default" name='grade'>
+            <Form.Item size="default" name="grade">
               <Select
                 showSearch
                 style={{ width: 145 }}
@@ -434,19 +434,20 @@ export default function RelicModal(props) {
           <HeaderText>Main stat</HeaderText>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='mainStatType'>
+            <Form.Item size="default" name="mainStatType">
               <Select
                 showSearch
                 style={{
                   width: 200,
                 }}
                 placeholder="Main Stat"
-                maxTagCount='responsive'
+                maxTagCount="responsive"
                 options={mainStatOptions}
-                disabled={mainStatOptions.length <= 1} />
+                disabled={mainStatOptions.length <= 1}
+              />
             </Form.Item>
 
-            <Form.Item size="default" name='mainStatValue'>
+            <Form.Item size="default" name="mainStatValue">
               <InputNumberStyled controls={false} disabled />
             </Form.Item>
           </Flex>
@@ -454,7 +455,7 @@ export default function RelicModal(props) {
           <HeaderText>Substats</HeaderText>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='substatType0'>
+            <Form.Item size="default" name="substatType0">
               <Select
                 showSearch
                 allowClear
@@ -462,18 +463,18 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'
-                options={substatOptions} />
+                maxTagCount="responsive"
+                options={substatOptions}
+              />
             </Form.Item>
 
-
-            <Form.Item size="default" name='substatValue0'>
+            <Form.Item size="default" name="substatValue0">
               <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='substatType1'>
+            <Form.Item size="default" name="substatType1">
               <Select
                 showSearch
                 allowClear
@@ -481,17 +482,18 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'
-                options={substatOptions} />
+                maxTagCount="responsive"
+                options={substatOptions}
+              />
             </Form.Item>
 
-            <Form.Item size="default" name='substatValue1'>
+            <Form.Item size="default" name="substatValue1">
               <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='substatType2'>
+            <Form.Item size="default" name="substatType2">
               <Select
                 showSearch
                 allowClear
@@ -499,17 +501,18 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'
-                options={substatOptions} />
+                maxTagCount="responsive"
+                options={substatOptions}
+              />
             </Form.Item>
 
-            <Form.Item size="default" name='substatValue2'>
+            <Form.Item size="default" name="substatValue2">
               <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>
 
           <Flex gap={10}>
-            <Form.Item size="default" name='substatType3'>
+            <Form.Item size="default" name="substatType3">
               <Select
                 showSearch
                 allowClear
@@ -517,11 +520,12 @@ export default function RelicModal(props) {
                   width: 200,
                 }}
                 placeholder="Substat"
-                maxTagCount='responsive'
-                options={substatOptions} />
+                maxTagCount="responsive"
+                options={substatOptions}
+              />
             </Form.Item>
 
-            <Form.Item size="default" name='substatValue3'>
+            <Form.Item size="default" name="substatValue3">
               <InputNumberStyled controls={false} />
             </Form.Item>
           </Flex>

@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants'
 import { baseComputedStatsObject } from 'lib/conditionals/constants'
 import { basic, skill, ult } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
@@ -27,8 +27,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0

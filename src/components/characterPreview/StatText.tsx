@@ -1,5 +1,5 @@
-import { Typography } from 'antd';
-import styled from 'styled-components';
+import { Typography } from 'antd'
+import styled from 'styled-components'
 
 const { Text } = Typography
 
@@ -8,4 +8,5 @@ const StatText = styled(Text)`
   font-size: 17px;
   font-weight: 400;
 `
-export default StatText;
+
+export default StatText

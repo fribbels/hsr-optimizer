@@ -1,28 +1,28 @@
-import { Flex, Image, Tooltip, } from 'antd';
-import { CheckCircleFilled } from "@ant-design/icons";
-import { Constants } from "./constants.ts";
-import { Assets } from "./assets";
-import { Utils } from "./utils";
-import PropTypes from "prop-types";
+import { Flex, Image, Tooltip } from 'antd'
+import { CheckCircleFilled } from '@ant-design/icons'
+import { Constants } from './constants.ts'
+import { Assets } from './assets'
+import { Utils } from './utils'
+import PropTypes from 'prop-types'
 
 export const Renderer = {
   floor: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     return Math.floor(x.value)
   },
 
   x100Tenths: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     return (Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10).toFixed(1)
   },
 
   tenths: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     return (Math.floor(Utils.precisionRound(x.value) * 10) / 10).toFixed(1)
   },
 
   relicSet: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     let i = x.value
 
     let count = Object.values(Constants.SetsRelics).length
@@ -38,7 +38,7 @@ export const Renderer = {
     while (relicSets.length > 0) {
       let value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        let setName = Object.entries(Constants.RelicSetToIndex).find(x => x[1] == value)[0]
+        let setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)[0]
         let assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
@@ -49,7 +49,7 @@ export const Renderer = {
     }
 
     return (
-      <Flex justify='center' style={{ marginTop: -1 }}>
+      <Flex justify="center" style={{ marginTop: -1 }}>
         <SetDisplay asset={setImages[0]} />
         <SetDisplay asset={setImages[1]} />
       </Flex>
@@ -57,20 +57,20 @@ export const Renderer = {
   },
 
   ornamentSet: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     let i = x.value
 
     let ornamentSetCount = Object.values(Constants.SetsOrnaments).length
     let setImage
 
-    let s1 = i % ornamentSetCount;
-    let s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount;
+    let s1 = i % ornamentSetCount
+    let s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
     if (s1 == s2) {
-      let setName = Object.entries(Constants.OrnamentSetToIndex).find(x => x[1] == s1)[0]
+      let setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)[0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
-        <Flex justify='center' style={{ marginTop: -1 }}>
+        <Flex justify="center" style={{ marginTop: -1 }}>
           <SetDisplay asset={setImage} />
         </Flex>
       )
@@ -80,62 +80,62 @@ export const Renderer = {
   },
 
   anySet: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     let part = x.data.part
 
     let src = Assets.getSetImage(x.data.set, part)
     return (
-      <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
+      <Flex justify="center" title={x.data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
       </Flex>
     )
   },
 
   characterIcon: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     let equippedBy = x.data.equippedBy
     if (!equippedBy) return ''
 
     let src = Assets.getCharacterAvatarById(equippedBy)
     return (
-      <Flex justify='center' style={{ marginTop: -1 }}>
+      <Flex justify="center" style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
       </Flex>
     )
   },
 
   readableStat: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     return Constants.StatsToReadable[x.value]
   },
 
   readablePart: (x) => {
-    if (x == undefined || x.value == undefined) return '';
+    if (x == undefined || x.value == undefined) return ''
     return Constants.PartsToReadable[x.value]
   },
 
   hideZeroes: (x) => {
-    return x.value == 0 ? "" : x.value
+    return x.value == 0 ? '' : x.value
   },
 
   hideZeroesFloor: (x) => {
-    return x.value == 0 ? "" : Math.floor(x.value)
+    return x.value == 0 ? '' : Math.floor(x.value)
   },
 
   hideZeroes10ths: (x) => {
-    return x.value == 0 ? "" : Utils.precisionRound(Math.floor(x.value * 10) / 10)
+    return x.value == 0 ? '' : Utils.precisionRound(Math.floor(x.value * 10) / 10)
   },
 
   mainValueRenderer: (x) => {
     let part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
-      return x.value == 0 ? "" : Math.floor(x.value)
+      return x.value == 0 ? '' : Math.floor(x.value)
     }
-    return x.value == 0 ? "" : Utils.truncate10ths(x.value)
+    return x.value == 0 ? '' : Utils.truncate10ths(x.value)
   },
 
   hideZeroesX100Tenths: (x) => {
-    return x.value == 0 ? "" : Renderer.x100Tenths(x)
+    return x.value == 0 ? '' : Renderer.x100Tenths(x)
   },
 
   scoreRenderer: (x) => {
@@ -169,8 +169,7 @@ export const Renderer = {
     let color = gradeToColor[relic.grade] || ''
     return (
       relic.verified
-        ?
-        <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
+        ? <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
     )
   },
@@ -182,7 +181,7 @@ let gradeToColor = {
   3: '#58beed',
   2: '#63e0ac',
 
-  [-1]: '#ffffff'
+  [-1]: '#ffffff',
 }
 
 function SetDisplay(props) {

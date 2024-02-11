@@ -1,20 +1,20 @@
-import React, { useEffect, useMemo } from 'react';
-import { Button, Flex, Form, Modal, Select, } from 'antd';
-import { HeaderText } from "./HeaderText";
-import { eidolonOptions, levelOptions, superimpositionOptions } from "../lib/constants";
-import { defaultGap } from "../lib/constantsUi";
-import { Utils } from "../lib/utils";
-import PropTypes from "prop-types";
+import React, { useEffect, useMemo } from 'react'
+import { Button, Flex, Form, Modal, Select } from 'antd'
+import { HeaderText } from './HeaderText'
+import { eidolonOptions, levelOptions, superimpositionOptions } from 'lib/constants'
+import { defaultGap } from 'lib/constantsUi'
+import { Utils } from 'lib/utils'
+import PropTypes from 'prop-types'
 
 export default function CharacterModal(props) {
-  const [characterForm] = Form.useForm();
+  const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), []);
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), []);
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
 
   useEffect(() => {
-    if (!props.open) return;
+    if (!props.open) return
 
     const defaultValues = {
       characterId: props.initialCharacter?.form.characterId,
@@ -32,14 +32,14 @@ export default function CharacterModal(props) {
     const formValues = characterForm.getFieldsValue()
     console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
-    props.setOpen(false);
+    props.setOpen(false)
   }
 
   const handleCancel = () => {
-    props.setOpen(false);
-  };
+    props.setOpen(false)
+  }
 
-  const panelWidth = 203;
+  const panelWidth = 203
 
   return (
     <Modal
@@ -63,13 +63,13 @@ export default function CharacterModal(props) {
         preserve={false}
         layout="vertical"
       >
-        <Flex justify='space-between' align='center'>
+        <Flex justify="space-between" align="center">
           <HeaderText>Character</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Form.Item size="default" name='characterId'>
+            <Form.Item size="default" name="characterId">
               <Select
                 showSearch
                 filterOption={Utils.labelFilterOption}
@@ -78,15 +78,15 @@ export default function CharacterModal(props) {
               />
             </Form.Item>
           </Flex>
-          <Flex gap={defaultGap} justify='space-between'>
-            <Form.Item size="default" name='characterLevel'>
+          <Flex gap={defaultGap} justify="space-between">
+            <Form.Item size="default" name="characterLevel">
               <Select
                 showSearch
                 style={{ width: (panelWidth - defaultGap) / 2 }}
                 options={levelOptions}
               />
             </Form.Item>
-            <Form.Item size="default" name='characterEidolon'>
+            <Form.Item size="default" name="characterEidolon">
               <Select
                 showSearch
                 style={{ width: (panelWidth - defaultGap) / 2 }}
@@ -96,12 +96,12 @@ export default function CharacterModal(props) {
           </Flex>
         </Flex>
 
-        <Flex justify='space-between' align='center'>
+        <Flex justify="space-between" align="center">
           <HeaderText>Light cone</HeaderText>
         </Flex>
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Form.Item size="default" name='lightCone'>
+            <Form.Item size="default" name="lightCone">
               <Select
                 showSearch
                 filterOption={Utils.labelFilterOption}
@@ -110,15 +110,15 @@ export default function CharacterModal(props) {
               />
             </Form.Item>
           </Flex>
-          <Flex gap={defaultGap} justify='space-between'>
-            <Form.Item size="default" name='lightConeLevel'>
+          <Flex gap={defaultGap} justify="space-between">
+            <Form.Item size="default" name="lightConeLevel">
               <Select
                 showSearch
                 style={{ width: (panelWidth - defaultGap) / 2 }}
                 options={levelOptions}
               />
             </Form.Item>
-            <Form.Item size="default" name='lightConeSuperimposition'>
+            <Form.Item size="default" name="lightConeSuperimposition">
               <Select
                 showSearch
                 style={{ width: (panelWidth - defaultGap) / 2 }}
@@ -129,11 +129,11 @@ export default function CharacterModal(props) {
         </Flex>
       </Form>
     </Modal>
-  );
+  )
 }
 CharacterModal.propTypes = {
   open: PropTypes.bool,
   onOk: PropTypes.func,
   setOpen: PropTypes.func,
-  initialCharacter: PropTypes.object
-};
+  initialCharacter: PropTypes.object,
+}

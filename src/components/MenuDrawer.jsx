@@ -1,10 +1,10 @@
-import React, { Profiler } from 'react';
-import { MenuOutlined } from '@ant-design/icons';
-import { Menu, Typography } from 'antd';
-import { DiscordIcon } from '../icons/DiscordIcon';
-import { GithubIcon } from '../icons/GithubIcon';
-import { CoffeeIcon } from '../icons/CoffeeIcon';
-import PropTypes from "prop-types";
+import React, { Profiler } from 'react'
+import { MenuOutlined } from '@ant-design/icons'
+import { Menu, Typography } from 'antd'
+import { DiscordIcon } from 'icons/DiscordIcon'
+import { GithubIcon } from 'icons/GithubIcon'
+import { CoffeeIcon } from 'icons/CoffeeIcon'
+import PropTypes from 'prop-types'
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -13,7 +13,7 @@ function getItem(label, key, icon, children, type) {
     children,
     label,
     type,
-  };
+  }
 }
 const items = [
   getItem('Menu', 'sub1', <MenuOutlined />, [
@@ -30,30 +30,36 @@ const items = [
   getItem('Links', 'sub4', <MenuOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
-        <DiscordIcon style={{ marginRight: 5 }} /> Discord
+        <DiscordIcon style={{ marginRight: 5 }} />
+        {' '}
+        Discord
       </Typography.Link>,
       'link discord',
     ),
     getItem(
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
-        <CoffeeIcon style={{ marginRight: 5 }} /> Donate
+        <CoffeeIcon style={{ marginRight: 5 }} />
+        {' '}
+        Donate
       </Typography.Link>,
       'link donate',
     ),
     getItem(
       <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
-        <GithubIcon style={{ marginRight: 5 }} /> Github
+        <GithubIcon style={{ marginRight: 5 }} />
+        {' '}
+        Github
       </Typography.Link>,
       'link github',
     ),
   ]),
-];
+]
 
 const MenuDrawer = (props) => {
   const { hashes } = props
 
-  const activeKey = window.store(s => s.activeKey)
-  const setActiveKey = window.store(s => s.setActiveKey)
+  const activeKey = window.store((s) => s.activeKey)
+  const setActiveKey = window.store((s) => s.setActiveKey)
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
@@ -61,10 +67,10 @@ const MenuDrawer = (props) => {
     if (hashes.includes(e.key)) {
       history.replaceState(null, null, e.key)
     } else {
-      history.replaceState(null, null, ' ');
+      history.replaceState(null, null, ' ')
     }
     setActiveKey(e.key)
-  };
+  }
 
   return (
     <Profiler id="MenuDrawer">
@@ -73,7 +79,7 @@ const MenuDrawer = (props) => {
         // inlineIndent={15}
         style={{
           height: '100%',
-          overflow: 'auto'
+          overflow: 'auto',
 
         }}
         defaultSelectedKeys={['1']}
@@ -83,10 +89,10 @@ const MenuDrawer = (props) => {
         items={items}
       />
     </Profiler>
-  );
-};
+  )
+}
 MenuDrawer.propTypes = {
   hashes: PropTypes.array,
 }
 
-export default MenuDrawer;
+export default MenuDrawer

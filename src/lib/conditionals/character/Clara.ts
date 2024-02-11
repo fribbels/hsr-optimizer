@@ -5,7 +5,7 @@ import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } fro
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { ContentItem } from '../../../types/Conditionals'
+import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
   const ultDmgReductionValue = ult(e, 0.25, 0.27)

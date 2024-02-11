@@ -1,39 +1,39 @@
-import React from "react";
-import { ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd';
+import React from 'react'
+import { ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd'
 import MenuDrawer from 'components/MenuDrawer'
 import Tabs from 'components/Tabs'
-import { Assets } from "lib/assets";
+import { Assets } from 'lib/assets'
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout
 
 const hashes = [
   '#scorer',
   '#getting-started',
-  '#beta'
-];
+  '#beta',
+]
 
 const App = () => {
-  const [messageApi, messageContextHolder] = message.useMessage();
-  window.messageApi = messageApi;
+  const [messageApi, messageContextHolder] = message.useMessage()
+  window.messageApi = messageApi
 
   return (
     <ConfigProvider
       theme={{
         token: {
           colorBgBase: '#182239',
-          opacityLoading: 0.15 // FormSetConditionals.js
+          opacityLoading: 0.15, // FormSetConditionals.js
         },
         components: {
           // OptimizerForm.js
           Cascader: {
             dropdownHeight: 625,
             controlItemWidth: 100,
-            controlWidth: 100
+            controlWidth: 100,
           },
 
           // MenuDrawer.js
           Menu: {
-            margin: 2
+            margin: 2,
           },
 
           Slider: {
@@ -46,7 +46,7 @@ const App = () => {
             railBg: '#ffffff12',
             handleLineWidth: 0,
             handleLineWidthHover: 0,
-            handleSizeHover: 10
+            handleSizeHover: 10,
           },
           InputNumber: {
             paddingInlineSM: 4,
@@ -56,7 +56,7 @@ const App = () => {
       }}
     >
       {messageContextHolder}
-      <Layout hasSider style={{ 'minHeight': '100%' }}>
+      <Layout hasSider style={{ minHeight: '100%' }}>
         <Sider
           width={170}
           style={{
@@ -80,12 +80,12 @@ const App = () => {
               paddingLeft: '30px',
               paddingRight: '0px',
               height: 48,
-              width: '100%'
+              width: '100%',
             }}
           >
-            <Flex align='center' justify='space-between' style={{ width: '100%' }}>
+            <Flex align="center" justify="space-between" style={{ width: '100%' }}>
               <a href="/hsr-optimizer">
-                <Flex align='center'>
+                <Flex align="center">
                   <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
                   <Typography
                     style={{ fontWeight: 600, fontSize: 22 }}
@@ -119,7 +119,7 @@ const App = () => {
         </Layout>
       </Layout>
     </ConfigProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

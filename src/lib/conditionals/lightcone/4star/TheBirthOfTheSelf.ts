@@ -41,7 +41,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      // x[Stats.xxxxxxxxxxxxxxxxxxxxx] += (r.name) ? sValues[s] : 0
       x.FUA_BOOST += sValues[s]
       x.FUA_BOOST += (r.enemyHp50FuaBuff && request.enemyHpPercent < 0.50) ? sValues[s] : 0
     },

@@ -1,5 +1,5 @@
-import React from "react";
-import { Flex } from "antd"
+import React from 'react'
+import { Flex } from 'antd'
 
 export const Hint = {
   ratingFilters: () => {
@@ -12,7 +12,7 @@ export const Hint = {
           <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives</p>
           <p>Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -23,7 +23,7 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -36,7 +36,7 @@ export const Hint = {
           <p>Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect</p>
           <p>NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -47,7 +47,7 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>Select main stats to use for optimization search. Multiple values can be selected for more options</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -60,7 +60,7 @@ export const Hint = {
 
           <p>Set effects will be accounted for in calculations, use the Conditional set effects menu to customize which effects are active.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -72,7 +72,7 @@ export const Hint = {
           <p>Select the character and level / eidolon</p>
           <p>Levels will affect base stats used in the calculation. Eidolon effects are applied under the Character passives panel.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -84,7 +84,7 @@ export const Hint = {
           <p>Select the conditional effects to apply to the character.</p>
           <p>Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -96,7 +96,7 @@ export const Hint = {
           <p>Select the conditional effects to apply to the light cone.</p>
           <p>Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -108,7 +108,7 @@ export const Hint = {
           <p>Select the light cone and level / superimposition</p>
           <p>Levels will affect base stats used in the calculation. Superimposition and passive effects are applied under the Light cone passives panel.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -120,7 +120,7 @@ export const Hint = {
           <p>Equip - Equip the selected relics from the grid onto the character</p>
           <p>Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -129,14 +129,38 @@ export const Hint = {
       title: 'Optimizer options',
       content: (
         <Flex vertical gap={10}>
-          <p><strong>Character rank filter</strong> - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters</p>
-          <p><strong>Maxed main stat</strong> - Assume the main stat for relics are maxed</p>
-          <p><strong>Keep current relics</strong> - The character must use its currently equipped items, and the optimizer will try to fill in empty slots</p>
-          <p><strong>Use equipped</strong> - If OFF, Optimizer will NOT consider relics currently equipped by a character</p>
-          <p><strong>Enhance / grade</strong> - Select the minimum enhance to search for and minimum stars for relics to include</p>
-          <p><strong>Stat display</strong> - Select which format of stats to apply to filters and display in the table. Base stats are the values you would see in the ingame character menu. Combat stats take into account all the buffs and passives applied to the character in combat as they perform an attack.</p>
+          <p>
+            <strong>Character rank filter</strong>
+            {' '}
+            - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters
+          </p>
+          <p>
+            <strong>Maxed main stat</strong>
+            {' '}
+            - Assume the main stat for relics are maxed
+          </p>
+          <p>
+            <strong>Keep current relics</strong>
+            {' '}
+            - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
+          </p>
+          <p>
+            <strong>Use equipped</strong>
+            {' '}
+            - If OFF, Optimizer will NOT consider relics currently equipped by a character
+          </p>
+          <p>
+            <strong>Enhance / grade</strong>
+            {' '}
+            - Select the minimum enhance to search for and minimum stars for relics to include
+          </p>
+          <p>
+            <strong>Stat display</strong>
+            {' '}
+            - Select which format of stats to apply to filters and display in the table. Base stats are the values you would see in the ingame character menu. Combat stats take into account all the buffs and passives applied to the character in combat as they perform an attack.
+          </p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -149,7 +173,7 @@ export const Hint = {
           <p>Avg case - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
           <p>Best case - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -163,7 +187,7 @@ export const Hint = {
           <p>Searched - Number of permutations already searched</p>
           <p>Results - Number of displayed results that satisfy the stat filters</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -179,7 +203,7 @@ export const Hint = {
           <p>Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.</p>
           <p>Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives.</p>
         </Flex>
-      )
+      ),
     }
   },
 
@@ -193,7 +217,7 @@ export const Hint = {
           <p>Then, the filter only uses the Top X% of the scored relics in the optimization search. The number of filtered relics are visible in the Permutations display on the sidebar.</p>
           <p>Note that setting the Top X% too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time.</p>
         </Flex>
-      )
+      ),
     }
   },
 }

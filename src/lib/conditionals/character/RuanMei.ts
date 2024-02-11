@@ -5,9 +5,8 @@ import { Form } from 'types/Form'
 import { basic, precisionRound, skill, ult } from '../utils'
 
 import { baseComputedStatsObject } from '../constants'
-import { Unknown } from 'types/Common'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (e: Eidolon): CharacterConditional => {
   const fieldResPenValue = ult(e, 0.25, 0.27)
@@ -60,7 +59,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c: Unknown) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']
 
       const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)

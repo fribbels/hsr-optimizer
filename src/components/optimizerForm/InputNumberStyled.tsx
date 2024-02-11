@@ -1,8 +1,8 @@
-// import React from "react";
-import styled from 'styled-components';
-import { InputNumber } from 'antd';
+import styled from 'styled-components'
+import { InputNumber } from 'antd'
 
 const InputNumberStyled = styled(InputNumber)`
   width: 62px
 `
-export default InputNumberStyled;
+
+export default InputNumberStyled

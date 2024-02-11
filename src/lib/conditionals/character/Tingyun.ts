@@ -1,10 +1,10 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, skill, ult, talent } from 'lib/conditionals/utils'
+import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 
 import { Form } from 'types/Form'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -78,8 +78,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + x.BENEDICTION_LIGHTNING_DMG * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Flex, Form } from 'antd';
-import InputNumberStyled from './InputNumberStyled';
-import FormStatTextStyled from './FormStatTextStyled';
+import PropTypes from 'prop-types'
+import { Flex, Form } from 'antd'
+import InputNumberStyled from './InputNumberStyled'
+import FormStatTextStyled from './FormStatTextStyled'
 
 const FilterRow = (props) => {
   return (
-    <Flex justify='space-between'>
+    <Flex justify="space-between">
       <Form.Item name={`min${props.name}`}>
         <InputNumberStyled size="small" controls={false} />
       </Form.Item>
@@ -22,4 +21,4 @@ FilterRow.propTypes = {
   label: PropTypes.string,
 }
 
-export default FilterRow;
+export default FilterRow

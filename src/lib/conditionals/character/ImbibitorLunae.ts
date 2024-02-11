@@ -84,7 +84,7 @@ export default (e: Eidolon): CharacterConditional => {
         1: basicEnhanced1Scaling,
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
-      }[r.basicEnhanced]
+      }[r.basicEnhanced] || 0
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 

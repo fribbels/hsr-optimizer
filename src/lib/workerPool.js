@@ -1,6 +1,6 @@
-import { BufferPacker } from "./bufferPacker";
-import { Constants } from "./constants";
-import OptimizerWorker from "./worker/optimizerWorker?worker"
+import { BufferPacker } from './bufferPacker'
+import { Constants } from './constants'
+import OptimizerWorker from './worker/optimizerWorker?worker'
 
 let poolSize = (navigator.hardwareConcurrency || 4) - 1
 let initialized = 0
@@ -14,14 +14,14 @@ let taskStatus = {}
 export const WorkerPool = {
   initialize: () => {
     if (initialized < poolSize) {
-      const worker = new OptimizerWorker();
+      const worker = new OptimizerWorker()
       workers.push(worker)
       initialized++
     }
   },
 
   nextTask: () => {
-    if (taskQueue.length == 0) return;
+    if (taskQueue.length == 0) return
     let { task, callback } = taskQueue.shift()
     WorkerPool.execute(task, callback)
   },
@@ -33,7 +33,7 @@ export const WorkerPool = {
     WorkerPool.initialize()
 
     if (workers.length > 0) {
-      const worker = workers.pop();
+      const worker = workers.pop()
 
       let buffer
       if (buffers.length > 0) {
@@ -51,11 +51,11 @@ export const WorkerPool = {
         workers.push(worker)
         buffers.push(message.data.buffer)
         WorkerPool.nextTask()
-      };
+      }
 
-      worker.postMessage(task, [task.buffer]);
+      worker.postMessage(task, [task.buffer])
     } else {
-      taskQueue.push({ task, callback });
+      taskQueue.push({ task, callback })
     }
   },
 
@@ -69,7 +69,7 @@ export const WorkerPool = {
       poolSize,
       workers,
       taskQueue,
-      buffers
+      buffers,
     })
   },
 }

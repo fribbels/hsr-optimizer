@@ -1,13 +1,9 @@
 import { Stats } from 'lib/constants'
 import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 import { baseComputedStatsObject } from 'lib/conditionals/constants'
-
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl'
 import { Eidolon } from 'types/Character'
-import { Unknown } from 'types/Common'
-import { ConditionalMap } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
-import { ContentItem } from 'types/Conditionals'
+import { ConditionalMap, ContentItem } from 'types/Conditionals'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
@@ -21,6 +17,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [
     {
+      name: 'talentEnhancedState',
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: 'Enhanced state',
@@ -29,6 +26,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       Then, Jingliu's Skill "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.`,
     },
     {
+      name: 'talentHpDrainAtkBuff',
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
       text: 'HP drain ATK buff',
@@ -41,6 +39,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
     {
       id: 'e1CdBuff',
+      name: 'e1CdBuff',
       formItem: 'switch',
       text: 'E1 ult active',
       title: 'E1 Moon Crashes Tianguan Gate',
@@ -49,6 +48,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
     {
       id: 'e2SkillDmgBuff',
+      name: 'e2SkillDmgBuff',
       formItem: 'switch',
       text: 'E2 skill buff',
       title: 'E2 Crescent Shadows Qixing Dipper',
@@ -97,7 +97,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c: Unknown) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

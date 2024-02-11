@@ -3,7 +3,8 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants'
 import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
 
 // TODO: Missing E1 dmg
 export default (e: Eidolon): CharacterConditional => {
@@ -75,9 +76,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c, request) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
+      const x = c['x']
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]

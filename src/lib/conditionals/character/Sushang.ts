@@ -4,7 +4,7 @@ import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/util
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (e: Eidolon): CharacterConditional => {
   const talentSpdBuffValue = talent(e, 0.20, 0.21)
@@ -104,13 +104,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
     },
   }
 }

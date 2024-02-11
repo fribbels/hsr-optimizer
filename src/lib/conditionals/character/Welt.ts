@@ -4,7 +4,7 @@ import { baseComputedStatsObject } from '../constants'
 
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
-import { CharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -82,13 +82,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    calculateBaseMultis: (c) => {
-      const x = c.x
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
     },
   }
 }

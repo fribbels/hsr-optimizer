@@ -63,8 +63,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals as ConditionalLightConeMap
-      x['ELEMENTAL_DMG'] += r.eclipseStacks * sValuesStackDmg[s]
-      x['DEF_SHRED'] += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
+      x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
+      x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

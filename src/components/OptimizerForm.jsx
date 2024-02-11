@@ -14,7 +14,7 @@ import {
 } from 'lib/constants.ts'
 import FormRow from './optimizerTab/FormRow'
 import FilterContainer from './optimizerTab/FilterContainer'
-import FormCard from './optimizerTab/FormCard'
+import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx'
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons'
 import { HeaderText } from './HeaderText'
@@ -39,6 +39,7 @@ import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx'
 import RecommendedPresetsButton from './optimizerForm/RecommendedPresetsButton'
 import { CharacterConditionalDisplay } from './optimizerForm/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from './optimizerForm/conditionals/LightConeConditionalDisplay'
+import TeammateCard from 'components/optimizerTab/TeammateCard'
 
 const { Text } = Typography
 const { SHOW_CHILD } = Cascader
@@ -361,6 +362,7 @@ export default function OptimizerForm() {
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
+                    placeholder="Character"
                   />
                 </Form.Item>
               </Flex>
@@ -370,6 +372,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={levelOptions}
+                    placeholder="Level"
                   />
                 </Form.Item>
                 <Form.Item size="default" name="characterEidolon">
@@ -377,6 +380,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={eidolonOptions}
+                    placeholder="Eidolon"
                   />
                 </Form.Item>
               </Flex>
@@ -394,6 +398,7 @@ export default function OptimizerForm() {
                       style={{ width: panelWidth }}
                       onChange={lightConeSelectorChange}
                       options={lightConeOptions}
+                      placeholder="Light Cone"
                     />
                   </Form.Item>
                 </Flex>
@@ -403,6 +408,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={levelOptions}
+                      placeholder="Level"
                     />
                   </Form.Item>
                   <Form.Item size="default" name="lightConeSuperimposition">
@@ -410,6 +416,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={superimpositionOptions}
+                      placeholder="Superimposition"
                     />
                   </Form.Item>
                 </Flex>
@@ -800,6 +807,12 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
             </FormCard>
+          </FormRow>
+
+          <FormRow title="Teammates">
+            <TeammateCard index={0} />
+            <TeammateCard index={1} />
+            <TeammateCard index={2} />
           </FormRow>
         </FilterContainer>
       </Form>

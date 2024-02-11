@@ -25,6 +25,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
         content={content}
         title={props.title}
         open={open}
+        mouseEnterDelay={0.5}
         onOpenChange={setOpen}
       >
         <span style={{ cursor: 'pointer' }}>

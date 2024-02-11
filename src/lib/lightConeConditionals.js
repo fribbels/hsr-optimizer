@@ -207,7 +207,9 @@ export const LightConeConditionals = {
     if (!lcFn) {
       return {
         content: () => [],
+        teammateContent: () => [],
         defaults: () => ({}),
+        teammateDefaults: () => ({}),
       }
     }
     return lcFn(request.lightConeSuperimposition - 1)

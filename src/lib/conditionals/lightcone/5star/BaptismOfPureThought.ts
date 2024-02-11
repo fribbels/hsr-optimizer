@@ -3,7 +3,7 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { ConditionalLightConeMap } from 'types/LightConeConditionals'
+import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 
@@ -31,7 +31,7 @@ const lcRank2 = {
   desc: "When using Ultimate to attack the enemy target, the wearer receives the Disputation effect, which increases DMG dealt by #4[i]% and enables their follow-up attacks to ignore #5[i]% of the target's DEF. This effect lasts for #6[i] turns.",
 }
 
-const BaptismOfPureThought = (s: SuperImpositionLevel) => {
+const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
   const sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]

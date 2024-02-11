@@ -12,7 +12,9 @@ export type ConditionalMap = {
 export interface Conditional {
   // getContent: () => { [key: string]: unknown }[];
   content: () => ContentItem[]
+  teammateContent?: (teammateIndex: number) => ContentItem[]
   defaults: () => ConditionalMap
+  teammateDefaults?: () => ConditionalMap
   /*
    * TODO: purify this implmeentation
    * ComputedStatsObject arg is mutated by ref
@@ -32,6 +34,7 @@ export type ContentItem = {
     formItem: K
     id: string
     content: string
+    teammateIndex?: number
   } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 

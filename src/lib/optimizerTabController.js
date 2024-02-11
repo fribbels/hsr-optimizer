@@ -360,6 +360,10 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
+    if (!newForm.teammate0) newForm.teammate0 = {}
+    if (!newForm.teammate1) newForm.teammate1 = {}
+    if (!newForm.teammate2) newForm.teammate2 = {}
+
     if (!newForm.weights) {
       newForm.weights = {
         [Constants.Stats.HP_P]: 1,

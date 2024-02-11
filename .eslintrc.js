@@ -20,6 +20,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': 'off',
   },
   env: {
     browser: true,

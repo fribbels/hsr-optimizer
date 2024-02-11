@@ -44,12 +44,34 @@ export default (e: Eidolon): CharacterConditional => {
     title: 'Ult SPD buff active',
     content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
   }]
+  const teammateContent: ContentItem[] = [{
+    formItem: 'slider',
+    id: 'talentBuffStacks',
+    name: 'talentBuffStacks',
+    text: 'Talent ATK buff stacks',
+    title: 'Charging ATK buff stacks',
+    content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.`,
+    min: 0,
+    max: 5,
+  }, {
+    formItem: 'switch',
+    id: 'ultSpdBuff',
+    name: 'ultSpdBuff',
+    text: 'Ult SPD buff active',
+    title: 'Ult SPD buff active',
+    content: `Increases SPD of all allies by ${precisionRound(ultSpdBuffValue)} for 2 turn(s).`,
+  }]
 
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       talentBuffStacks: 5,
       skillExtraDmgHits: skillExtraDmgHitsMax,
+      ultSpdBuff: true,
+    }),
+    teammateDefaults: () => ({
+      talentBuffStacks: 5,
       ultSpdBuff: true,
     }),
     precomputeEffects: (request: Form) => {

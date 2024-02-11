@@ -311,3 +311,22 @@ a {
   text-align: right !important;
   padding-right: 2px !important;
 }
+
+.form-row .ant-collapse-header  {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 20px;
+  align-items: baseline !important;
+}
+
+.form-row .ant-collapse-content-box {
+  padding-block: 0 !important;
+}
+
+.form-row .ant-collapse-expand-icon {
+  padding-inline-start: 12px !important;
+}
+
+.teammate-set-select .ant-select-selector {
+  padding-left: 7px !important;
+}

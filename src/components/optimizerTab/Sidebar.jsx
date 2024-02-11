@@ -1,6 +1,6 @@
 import { Button, Divider, Flex, Progress, Typography } from 'antd'
 import React from 'react'
-import FormCard from './FormCard'
+import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
 import { OptimizerTabController } from '../../lib/optimizerTabController'

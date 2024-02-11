@@ -1,5 +1,4 @@
 import { ComponentType, ReactElement } from 'react'
-import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
 import { FormSliderWithPopover } from './FormSlider'
@@ -13,9 +12,10 @@ const FormItemComponentMap: ContentComponentMap = {
 
 export interface DisplayFormControlProps {
   content: ContentItem[]
+  teammateIndex?: number
 }
 
-const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content }) => {
+const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: content, teammateIndex: teammateIndex }) => {
   const ret: ReactElement[] = []
   let i = 0
 
@@ -24,6 +24,9 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content })
   } else {
     content.forEach((passive) => {
       const Item = FormItemComponentMap[passive.formItem]
+
+      console.log('yyyy', passive)
+      passive.teammateIndex = teammateIndex
       ret.push(
         // @ts-ignore
         <Item
@@ -40,10 +43,6 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content })
   }
 
   return (<Flex vertical gap={10}>{ret}</Flex>)
-}
-
-DisplayFormControl.propTypes = {
-  content: PropTypes.array.isRequired,
 }
 
 export default DisplayFormControl

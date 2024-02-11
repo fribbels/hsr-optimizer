@@ -13,8 +13,7 @@ export default function FilterContainer(props) {
         overflow: 'hidden',
         borderRadius: '10px',
         boxShadow: shadow,
-        width: 'fit-content',
-        paddingTop: 10,
+        paddingBottom: 10,
       }}
     >
       {props.children}

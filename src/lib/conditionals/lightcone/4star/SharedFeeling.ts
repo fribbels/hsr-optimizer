@@ -1,4 +1,6 @@
-export default (/* s: SuperImpositionLevel */) => {
+import { LightConeConditional } from 'types/LightConeConditionals'
+
+export default (/* s: SuperImpositionLevel */): LightConeConditional => {
   /*
    * const sValues = [0.10, 0.125, 0.15, 0.175, 0.20]
    * const lcRank = {

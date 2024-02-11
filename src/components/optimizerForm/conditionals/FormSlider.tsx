@@ -1,5 +1,4 @@
 import { ComponentProps, ComponentType, useState } from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
 import WithPopover from 'components/common/WithPopover'
@@ -33,6 +32,7 @@ export interface FormSliderProps {
   name: string
   percent?: boolean
   lc?: boolean
+  teammateIndex?: number
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
@@ -42,11 +42,16 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
 
+  const itemName = [conditionalType(props), props.name]
+  if (props.teammateIndex != null) {
+    itemName.unshift(`teammate${props.teammateIndex}`)
+  }
+
   return (
     <Flex vertical gap={5} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          <Form.Item name={[conditionalType(props), props.name]}>
+          <Form.Item name={itemName}>
             <InputNumber
               min={props.min}
               max={props.max}
@@ -66,7 +71,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         <Text>{props.text}</Text>
       </Flex>
       <Flex align="center" justify="flex-start" gap={10} style={{ height: 14 }}>
-        <Form.Item name={[conditionalType(props), props.name]}>
+        <Form.Item name={itemName}>
           <Slider
             min={props.min}
             max={props.max}
@@ -89,15 +94,6 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       </Flex>
     </Flex>
   )
-}
-FormSlider.propTypes = {
-  disabled: PropTypes.bool,
-  min: PropTypes.number.isRequired,
-  max: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  percent: PropTypes.bool,
-  lc: PropTypes.bool,
 }
 
 export const FormSliderWithPopover = WithPopover(FormSlider)

@@ -37,7 +37,7 @@ export const Assets = {
     if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/assets/misc/IconMaxHPPercent.png`
     if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/assets/misc/IconAttackPercent.png`
     if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/assets/misc/IconDefencePercent.png`
-    if (!stat || !iconFromStatMapping[stat]) return ''
+    if (!stat || !iconFromStatMapping[stat]) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
   },
@@ -45,34 +45,34 @@ export const Assets = {
     return baseUrl + `/sample-save.json`
   },
   getCharacterPortrait: (characterId) => {
-    if (!characterId) return ''
+    if (!characterId) return Assets.getBlank()
     return baseUrl + `/assets/image/character_portrait_resized/resized${characterId}.png`
   },
   getCharacterPortraitById: (id) => {
     if (!id) {
       console.warn('No id found')
-      return ''
+      return Assets.getBlank()
     }
 
     return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterAvatarById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/avatar/${id}.png`
   },
   getCharacterIconById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/character/${id}.png`
   },
 
   getCharacterPreview: (character) => {
-    if (!character) return ''
+    if (!character) return Assets.getBlank()
     return baseUrl + `/assets/${character.preview}`
   },
   getCharacterPreviewById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
     return baseUrl + `/assets/image/character_preview/${id}.png`
   },
 
@@ -80,8 +80,16 @@ export const Assets = {
     if (!lightCone) return Assets.getBlank()
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
+  getLightConePortraitById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/image/light_cone_portrait/${lightConeId}.png`
+  },
+  getLightConeIconById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/icon/light_cone/${lightConeId}.png`
+  },
   getPath: (path) => {
-    if (!path) return ''
+    if (!path) return Assets.getBlank()
     return baseUrl + `/assets/icon/path/${path}.png`
   },
   getPathFromClass: (c) => {
@@ -96,12 +104,12 @@ export const Assets = {
         Mage: 'Erudition',
       }
     }
-    if (!c || !pathFromClassMapping[c]) return ''
+    if (!c || !pathFromClassMapping[c]) return Assets.getBlank()
     return baseUrl + `/assets/icon/path/${pathFromClassMapping[c]}.png`
   },
 
   getElement: (element) => {
-    if (!element) return ''
+    if (!element) return Assets.getBlank()
     if (element == 'Thunder') element = 'Lightning'
     return baseUrl + `/assets/icon/element/${element}.png`
   },

@@ -110,12 +110,12 @@ export const DB = {
     global.store.getState().setCharacters(x)
     global.store.getState().setCharactersById(charactersById)
   },
-  setCharacter: (x) => {
-    let charactersById = global.store.getState().charactersById
-    charactersById[x.id] = x
-
-    global.store.getState().setCharactersById(charactersById)
-  },
+  setCharacter: (updatedCharacter) => {
+    const charactersById = { ...global.store.getState().charactersById };
+    charactersById[updatedCharacter.id] = updatedCharacter;
+    global.store.getState().setCharactersById(charactersById);
+  }
+  ,
   addCharacter: (x) => {
     let characters = DB.getCharacters()
     characters.push(x);
@@ -242,6 +242,83 @@ export const DB = {
     }
 
     return found
+  },
+
+  saveCharacterBuild: (name, characterId, score) => {
+    let character = DB.getCharacterById(characterId)
+    console.log('we are before===================================', character.builds)
+    if (!character) {
+      console.warn('No character to save build for')
+      return
+    }
+
+    let build = character.builds.find(x => x.name == name)
+    console.log('Build===================================', character.builds)
+    if (build) {
+      console.warn('Build already exists')
+      return { error: 'Build already exists'}
+    } else {
+      let updatedCharacter = { ...character }; // shallow clone
+
+      updatedCharacter.builds.push({
+          name: name,
+          build: [...Object.values(updatedCharacter.equipped)],
+          score: score,
+      });
+      DB.setCharacter(updatedCharacter);
+  }
+},
+
+equipCharacterBuild: (characterId, name) => {
+    let character = DB.getCharacterById(characterId);
+    if (!character) {
+        console.warn('No character to equip build for');
+        return;
+    }
+
+    let build = character.builds.find(x => x.name == name);
+    if (!build) {
+        console.warn('No build to equip');
+        return;
+    }
+
+    for (let part of Object.values(Constants.Parts)) {
+        let equippedId = build.build[part];
+        if (!equippedId) continue;
+
+        let relicMatch = DB.getRelicById(equippedId);
+        if (!relicMatch) {
+            console.warn('No relic to equip', equippedId);
+            continue;
+        }
+
+        let prevRelic = DB.getRelicById(character.equipped[part]);
+        if (prevRelic) {
+            prevRelic.equippedBy = undefined;
+            DB.setRelic(prevRelic);
+        }
+
+        character.equipped[part] = relicMatch.id;
+        relicMatch.equippedBy = character.id;
+        DB.setRelic(relicMatch);
+    }
+    DB.setCharacter(character);
+},
+
+  deleteCharacterBuild: (characterId, name) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) return console.warn('No character to delete build for')
+
+    character.builds = character.builds.filter(x => x.name != name)
+    DB.setCharacter(character)
+  },
+
+  clearCharacterBuilds: (characterId) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) return console.warn('No character to clear builds for')
+
+    character.builds = []
+    DB.setCharacter(character)
   },
 
   unequipCharacter: (id) => {

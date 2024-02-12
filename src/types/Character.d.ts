@@ -57,6 +57,16 @@ export type Character = {
   equipped: Build;
   form: Form;
   rank: number; // order in character tab
+  builds: oldBuild[]
 };
+
+export type oldBuild ={
+  build: string[],
+  name:string,
+  score:{
+    score:number,
+    rating:string
+  }
+}
 
 export type UnrankedCharacter = Omit<Character, "rank">

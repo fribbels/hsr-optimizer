@@ -5,15 +5,18 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import "ag-grid-community/styles/ag-theme-balham.css";
 import DB from '../lib/db';
+import { RelicScorer } from 'lib/relicScorer';
 import { CharacterPreview } from './CharacterPreview';
 import { Assets } from "../lib/assets";
 import { SaveState } from "../lib/saveState";
 import { Message } from "../lib/message";
 import PropTypes from "prop-types";
 import { useSubscribe } from 'hooks/useSubscribe';
-import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined  } from "@ant-design/icons";
 import CharacterModal from "./CharacterModal";
 import { Utils } from "../lib/utils";
+import NameBuild from './saveBuildModal';
+import BuildsModal from './BuildsModal';
 
 const { Text } = Typography;
 
@@ -71,6 +74,8 @@ export default function CharacterTab() {
   const [downloadLoading, setDownloadLoading] = useState(false);
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
+  const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false);
+  const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false);
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState();
 
   console.log('CharacterTab');
@@ -248,6 +253,19 @@ export default function CharacterTab() {
     }, 50)
   }
 
+  function confirmSaveBuild(name) {
+    let score = RelicScorer.scoreCharacter(selectedCharacter)
+    let res = DB.saveCharacterBuild(name, selectedCharacter.id,{score:score.totalScore.toFixed(0), rating:score.totalRating})
+    if (res) {
+        Message.error(res.error)
+        return
+    }
+    Message.success('Successfully saved build')
+    SaveState.save()
+    setIsSaveBuildModalOpen(false)
+  
+  }
+
   const handleActionsMenuClick = async (e) => {
     switch(e.key) {
       case 'add':
@@ -261,6 +279,20 @@ export default function CharacterTab() {
         }
         setCharacterModalInitialCharacter(selectedCharacter)
         setCharacterModalOpen(true)
+        break;
+      case 'saveBuild':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return;
+        }
+        setIsSaveBuildModalOpen(true)
+        break;
+      case 'builds':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return;
+        }
+        setIsBuildsModalOpen(true)
         break;
       case 'unequip':
         if (!selectedCharacter) {
@@ -292,6 +324,14 @@ export default function CharacterTab() {
     {
       label: 'Edit character',
       key: 'edit',
+    },
+    {
+      label: 'Save build',
+      key: 'saveBuild',
+    },
+    {
+      label: 'View old builds',
+      key: 'builds',
     },
     {
       label: 'Unequip character',
@@ -347,7 +387,7 @@ export default function CharacterTab() {
               onRowDragLeave={onRowDragLeave}
             />
           </div>
-          <Flex vertical gap={8}>
+          <Flex vertical gap={8} style={{width:230}}>
             <Flex justify='space-between' gap={8}>
               <Dropdown
                 menu={actionsMenuProps}
@@ -362,7 +402,7 @@ export default function CharacterTab() {
                 Scoring
               </Button>
             </Flex>
-            <Flex gap={8}>
+            <Flex justify='space-between' gap={8}>
               <Button style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked} type='primary' loading={screenshotLoading}>
                 Copy screenshot
               </Button>
@@ -373,6 +413,8 @@ export default function CharacterTab() {
         <CharacterPreview id='characterTabPreview' character={selectedCharacter} />
       </Flex>
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
+      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
+      <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter} imgRenderer={cellImageRenderer} />
       {contextHolder}
     </div>
   );

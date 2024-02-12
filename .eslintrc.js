@@ -61,7 +61,7 @@ function styleRules(level) {
     '@stylistic/computed-property-spacing': [level, 'never', { enforceForClassMembers: true }],
     '@stylistic/dot-location': [level, 'property'],
     '@stylistic/eol-last': level,
-    '@stylistic/indent': [level, 2, { ignoreComments: false }],
+    '@stylistic/indent': [level, 2, { ignoreComments: false, SwitchCase: 1 }],
     '@stylistic/indent-binary-ops': [level, 2],
     '@stylistic/key-spacing': [level, { afterColon: true, beforeColon: false }],
     '@stylistic/keyword-spacing': [level, { after: true, before: true }],

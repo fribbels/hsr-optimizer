@@ -24,9 +24,8 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: c
   } else {
     content.forEach((passive) => {
       const Item = FormItemComponentMap[passive.formItem]
-
-      console.log('yyyy', passive)
       passive.teammateIndex = teammateIndex
+
       ret.push(
         // @ts-ignore
         <Item

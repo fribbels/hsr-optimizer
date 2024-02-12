@@ -360,9 +360,12 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
-    if (!newForm.teammate0) newForm.teammate0 = {}
-    if (!newForm.teammate1) newForm.teammate1 = {}
-    if (!newForm.teammate2) newForm.teammate2 = {}
+    for (let i of [0, 1, 2]) {
+      if (!newForm[`teammate${i}`]) newForm[`teammate${i}`] = {
+        characterEidolon: 0,
+        lightConeSuperimposition: 1,
+      }
+    }
 
     if (!newForm.weights) {
       newForm.weights = {

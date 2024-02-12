@@ -1,11 +1,12 @@
 import { Form } from 'types/Form'
 import { DataMineId } from 'types/Common'
 import { Conditional, ConditionalBuff } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export interface LightConeConditional extends Conditional {
   // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify
-  precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => void
+  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+  teammatePrecomputeEffects?: (x: ComputedStatsObject, request: Form, teammateRequest: Form) => void
 }
 
 export type ConditionalLightConeMap = {

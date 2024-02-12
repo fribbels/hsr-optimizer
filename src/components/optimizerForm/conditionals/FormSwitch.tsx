@@ -32,8 +32,6 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }
 
-  console.log('xxxx', itemName)
-
   return (
     <Flex justify={justify} align={align}>
       <Form.Item name={itemName} valuePropName="checked">

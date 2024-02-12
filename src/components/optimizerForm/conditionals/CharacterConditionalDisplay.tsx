@@ -30,9 +30,9 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
   const characterFn = characterOptionMapping[characterId]
 
   const character = characterFn(eidolon)
-  const content = teammateIndex != null && character.teammateContent
-    ? character.teammateContent(teammateIndex)
-    : []
+  const content = teammateIndex != null
+    ? (character.teammateContent ? character.teammateContent(teammateIndex) : [])
+    : character.content()
 
   return (
     <Flex vertical gap={5}>

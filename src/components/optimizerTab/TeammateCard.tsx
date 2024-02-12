@@ -102,7 +102,13 @@ const TeammateCard = (props: { index: number }) => {
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
 
   useEffect(() => {
-    if (!teammateCharacterId) return
+    if (!teammateCharacterId) {
+      window.optimizerForm.setFieldValue([teammateProperty(props.index)], {
+        characterEidolon: 0,
+        lightConeSuperimposition: 1,
+      })
+      return
+    }
 
     const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
     const characterConditionals = CharacterConditionals.get({
@@ -113,8 +119,8 @@ const TeammateCard = (props: { index: number }) => {
     console.log('Teammate character conditionals', characterConditionals)
 
     if (!characterConditionals.teammateDefaults) return
-    displayFormValues[teammateProperty(props.index)].characterConditionals = characterConditionals.teammateDefaults()
-    window.optimizerForm.setFieldsValue(displayFormValues)
+    const mergedForm = Object.assign({}, displayFormValues.characterConditionals, characterConditionals.teammateDefaults())
+    window.optimizerForm.setFieldsValue(mergedForm)
   }, [teammateCharacterId, teammateEidolon, props.index])
 
   useEffect(() => {
@@ -129,8 +135,8 @@ const TeammateCard = (props: { index: number }) => {
     console.log('Teammate lc conditionals', lightConeConditionals)
 
     if (!lightConeConditionals.teammateDefaults) return
-    displayFormValues[teammateProperty(props.index)].lightConeConditionals = lightConeConditionals.teammateDefaults()
-    window.optimizerForm.setFieldsValue(displayFormValues)
+    const mergedForm = Object.assign({}, displayFormValues.lightConeConditionals, lightConeConditionals.teammateDefaults())
+    window.optimizerForm.setFieldsValue(mergedForm)
   }, [teammateLightConeId, teammateSuperimposition, props.index])
 
   function addTeammateClicked() {
@@ -168,6 +174,7 @@ const TeammateCard = (props: { index: number }) => {
               style={{ width: 250 }}
               options={characterOptions}
               placeholder="Character"
+              allowClear
             />
           </Form.Item>
 

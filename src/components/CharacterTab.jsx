@@ -55,7 +55,7 @@ function cellNameRenderer(params) {
 
   return (
     <Flex align="center" justify="flex-start" style={{ height: '100%', width: '100%' }}>
-      <Text style={{ margin: 'auto', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
+      <Text style={{ margin: 'auto', padding: '0px 5px', textAlign: 'center', overflow: 'hidden', whiteSpace: 'break-spaces', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
         {characterName}
       </Text>
       <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color }}>
@@ -252,38 +252,38 @@ export default function CharacterTab() {
 
   const handleActionsMenuClick = async (e) => {
     switch (e.key) {
-    case 'add':
-      setCharacterModalInitialCharacter(null)
-      setCharacterModalOpen(true)
-      break
-    case 'edit':
-      if (!selectedCharacter) {
-        Message.error('No selected character')
-        return
-      }
-      setCharacterModalInitialCharacter(selectedCharacter)
-      setCharacterModalOpen(true)
-      break
-    case 'unequip':
-      if (!selectedCharacter) {
-        Message.error('No selected character')
-        return
-      }
+      case 'add':
+        setCharacterModalInitialCharacter(null)
+        setCharacterModalOpen(true)
+        break
+      case 'edit':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return
+        }
+        setCharacterModalInitialCharacter(selectedCharacter)
+        setCharacterModalOpen(true)
+        break
+      case 'unequip':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return
+        }
 
-      if (!await confirm('Are you sure you want to unequip this character?')) return
-      unequipClicked()
-      break
-    case 'delete':
-      if (!selectedCharacter) {
-        Message.error('No selected character')
-        return
-      }
+        if (!await confirm('Are you sure you want to unequip this character?')) return
+        unequipClicked()
+        break
+      case 'delete':
+        if (!selectedCharacter) {
+          Message.error('No selected character')
+          return
+        }
 
-      if (!await confirm('Are you sure you want to delete this character?')) return
-      removeClicked()
-      break
-    default:
-      console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
+        if (!await confirm('Are you sure you want to delete this character?')) return
+        removeClicked()
+        break
+      default:
+        console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
     }
   }
   const items = [

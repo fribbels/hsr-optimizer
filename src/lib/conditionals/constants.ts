@@ -22,12 +22,11 @@ export const baseComputedStatsObject = {
   [Stats.ERR]: 0,
   [Stats.OHB]: 0,
 
-  ELEMENTAL_DMG: 0,
-  DEF_SHRED: 0,
-  DMG_TAKEN_MULTI: 0,
-  ALL_DMG_MULTI: 0,
-  RES_PEN: 0,
-  DMG_RED_MULTI: 1,
+  BASIC_SCALING: 0,
+  SKILL_SCALING: 0,
+  ULT_SCALING: 0,
+  FUA_SCALING: 0,
+  DOT_SCALING: 0,
 
   BASIC_CR_BOOST: 0,
   SKILL_CR_BOOST: 0,
@@ -39,23 +38,51 @@ export const baseComputedStatsObject = {
   ULT_CD_BOOST: 0,
   FUA_CD_BOOST: 0,
 
-  BASIC_SCALING: 0,
-  SKILL_SCALING: 0,
-  ULT_SCALING: 0,
-  FUA_SCALING: 0,
-  DOT_SCALING: 0,
-
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,
   ULT_BOOST: 0,
   FUA_BOOST: 0,
   DOT_BOOST: 0,
 
+  DMG_TAKEN_MULTI: 0, // TODO: Rename to VULNERABILITY
   BASIC_VULNERABILITY: 0,
   SKILL_VULNERABILITY: 0,
   ULT_VULNERABILITY: 0,
   FUA_VULNERABILITY: 0,
   DOT_VULNERABILITY: 0,
+
+  // TODO: Consolidate wording as DEF_SHRED
+  DEF_SHRED: 0,
+  BASIC_DEF_PEN: 0,
+  SKILL_DEF_PEN: 0,
+  ULT_DEF_PEN: 0,
+  FUA_DEF_PEN: 0,
+  DOT_DEF_PEN: 0,
+
+  RES_PEN: 0, // TODO: Rename to ALL_TYPE_RES_PEN
+  PHYSICAL_RES_PEN: 0,
+  FIRE_RES_PEN: 0,
+  ICE_RES_PEN: 0,
+  LIGHTNING_RES_PEN: 0,
+  WIND_RES_PEN: 0,
+  QUANTUM_RES_PEN: 0,
+  IMAGINARY_RES_PEN: 0,
+
+  // These should technically be split by element but they are rare enough to ignore imo (e.g. DHIL basic attack)
+  BASIC_RES_PEN: 0,
+  SKILL_RES_PEN: 0,
+  ULT_RES_PEN: 0,
+  FUA_RES_PEN: 0,
+  DOT_RES_PEN: 0,
+
+  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
+  PHYSICAL_DMG_BOOST: 0,
+  FIRE_DMG_BOOST: 0,
+  ICE_DMG_BOOST: 0,
+  LIGHTNING_DMG_BOOST: 0,
+  WIND_DMG_BOOST: 0,
+  QUANTUM_DMG_BOOST: 0,
+  IMAGINARY_DMG_BOOST: 0,
 
   BASIC_DMG: 0,
   SKILL_DMG: 0,
@@ -63,16 +90,7 @@ export const baseComputedStatsObject = {
   FUA_DMG: 0,
   DOT_DMG: 0,
 
-  BASIC_DEF_PEN: 0,
-  SKILL_DEF_PEN: 0,
-  ULT_DEF_PEN: 0,
-  FUA_DEF_PEN: 0,
-  DOT_DEF_PEN: 0,
-
-  BASIC_RES_PEN: 0,
-  SKILL_RES_PEN: 0,
-  ULT_RES_PEN: 0,
-  FUA_RES_PEN: 0,
-  DOT_RES_PEN: 0,
+  ALL_DMG_MULTI: 0, // TODO: I think these are actually wrong / ALL_DMG_BOOST? - revisit
+  DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 }
 export type ComputedStatsObject = typeof baseComputedStatsObject

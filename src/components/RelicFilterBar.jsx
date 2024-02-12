@@ -16,6 +16,8 @@ const { Text } = Typography
 const tagHeight = 34
 const imgWidth = 34
 
+const BLANK = Assets.getBlank()
+
 export default function RelicFilterBar() {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
@@ -40,7 +42,8 @@ export default function RelicFilterBar() {
       }
 
       const width = overrides[key] ? 30 : imgWidth
-      const src = Assets.getElement(overrides[key]) || srcFn(key)
+      const elementOrBlank = Assets.getElement(overrides[key])
+      const src = elementOrBlank != BLANK ? elementOrBlank : srcFn(key)
 
       return tooltip
         ? (

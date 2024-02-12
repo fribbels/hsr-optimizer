@@ -4,6 +4,7 @@ import { ComputedStatsObject } from 'lib/conditionals/constants'
 
 export interface CharacterConditional extends Conditional {
   precomputeEffects: (request: Form) => ComputedStatsObject
+  teammatePrecomputeEffects?: (x: ComputedStatsObject, request: Form, teammateRequest: Form) => void
 }
 export type CharacterConditionalMap = {
   [key in ConditionalBuff]: number;

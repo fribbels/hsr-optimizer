@@ -23,7 +23,8 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   selectedCharacter,
 }) => {
   const [confirmationModal, contextHolder] = Modal.useModal();
-  const characterMetadata = DB.getMetadata().characters[selectedCharacter?.id];
+  const characterMetadata =
+    DB.getMetadata().characters[selectedCharacter?.id || 0];
   const characterName = characterMetadata?.displayName;
 
   async function confirm(content) {
@@ -48,12 +49,10 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   const handleDelete = async () => {
     const result = await confirm("Are you sure you want to delete all builds?");
     if (result) {
-      DB.clearCharacterBuilds(selectedCharacter.id);
+      DB.clearCharacterBuilds(selectedCharacter?.id);
       window["forceCharacterTabUpdate"]?.();
       SaveState.save();
-      Message.success(
-        `Successfully deleted all builds for ${selectedCharacter.id}`
-      );
+      Message.success(`Successfully deleted all builds for ${characterName}`);
       setOpen(false);
     }
   };
@@ -61,7 +60,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   const deleteOne = async (name: string) => {
     const result = await confirm(`Are you sure you want to delete ${name}?`);
     if (result) {
-      DB.deleteCharacterBuild(selectedCharacter.id, name);
+      DB.deleteCharacterBuild(selectedCharacter?.id, name);
       window["forceCharacterTabUpdate"]?.();
       SaveState.save();
       Message.success(`Successfully deleted ${name}`);
@@ -74,8 +73,8 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
     );
     if (result) {
       DB.equipRelicIdsToCharacter(
-        Object.values(build["build"]),
-        selectedCharacter.id
+        Object.values(build.build),
+        selectedCharacter?.id
       );
       window["forceCharacterTabUpdate"]?.();
       SaveState.save();
@@ -83,8 +82,6 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       handleCancel();
     }
   };
-
-  console.log("selectedCharacter", selectedCharacter);
 
   return (
     <Modal
@@ -95,7 +92,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="delete" onClick={() => handleDelete}>
+        <Button key="delete" onClick={() => handleDelete()}>
           Delete all
         </Button>,
         <Button key="back" onClick={handleCancel}>

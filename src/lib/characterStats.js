@@ -1,7 +1,7 @@
-import { Constants } from "./constants.ts";
+import { Constants } from './constants.ts'
 
 export const CharacterStats = {
-  getZeroes: function () {
+  getZeroes: function() {
     return {
       [Constants.Stats.ATK]: 0,
       [Constants.Stats.DEF]: 0,
@@ -29,24 +29,26 @@ export const CharacterStats = {
   },
 }
 
-// HP_P: 'HP%',
-// ATK_P: 'ATK%',
-// DEF_P: 'DEF%',
-// HP: 'HP',
-// ATK: 'ATK',
-// DEF: 'DEF',
-// SPD: 'SPD',
-// CD: 'CRIT DMG',
-// CR: 'CRIT Rate',
-// EHR: 'Effect Hit Rate',
-// RES: 'Effect RES',
-// BE: 'Break Effect',
-// ERR: 'Energy Regeneration Rate',
-// OHB: 'Outgoing Healing Boost',
-// Physical_DMG: 'Physical DMG Boost',
-// Fire_DMG: 'Fire DMG Boost',
-// Ice_DMG: 'Ice DMG Boost',
-// Lightning_DMG: 'Lightning DMG Boost',
-// Wind_DMG: 'Wind DMG Boost',
-// Quantum_DMG: 'Quantum DMG Boost',
-// Imaginary_DMG: 'Imaginary DMG Boost'
+/*
+ * HP_P: 'HP%',
+ * ATK_P: 'ATK%',
+ * DEF_P: 'DEF%',
+ * HP: 'HP',
+ * ATK: 'ATK',
+ * DEF: 'DEF',
+ * SPD: 'SPD',
+ * CD: 'CRIT DMG',
+ * CR: 'CRIT Rate',
+ * EHR: 'Effect Hit Rate',
+ * RES: 'Effect RES',
+ * BE: 'Break Effect',
+ * ERR: 'Energy Regeneration Rate',
+ * OHB: 'Outgoing Healing Boost',
+ * Physical_DMG: 'Physical DMG Boost',
+ * Fire_DMG: 'Fire DMG Boost',
+ * Ice_DMG: 'Ice DMG Boost',
+ * Lightning_DMG: 'Lightning DMG Boost',
+ * Wind_DMG: 'Wind DMG Boost',
+ * Quantum_DMG: 'Quantum DMG Boost',
+ * Imaginary_DMG: 'Imaginary DMG Boost'
+ */

@@ -18,6 +18,12 @@ jobs:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
           include: "package.json"
+      - name: Find and Replace vite page
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "base: '/hsr-optimizer'"
+          replace: "base: '/dreary-quibbles'"
+          include: "vite.config.ts"
       - run: rm -rf .github/workflows
       - run: mv .github/beta .github/workflows
       - name: Pushes to another repository

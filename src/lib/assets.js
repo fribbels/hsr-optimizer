@@ -1,7 +1,7 @@
-import { Constants } from "./constants.ts";
+import { Constants } from './constants.ts'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
-let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
+let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
 
 let pathFromClassMapping
 let iconFromStatMapping
@@ -87,13 +87,13 @@ export const Assets = {
   getPathFromClass: (c) => {
     if (!pathFromClassMapping) {
       pathFromClassMapping = {
-        'Warrior': 'Destruction',
-        'Warlock': 'Nihility',
-        'Knight': 'Preservation',
-        'Priest': 'Abundance',
-        'Rogue': 'Hunt',
-        'Shaman': 'Harmony',
-        'Mage': 'Erudition',
+        Warrior: 'Destruction',
+        Warlock: 'Nihility',
+        Knight: 'Preservation',
+        Priest: 'Abundance',
+        Rogue: 'Hunt',
+        Shaman: 'Harmony',
+        Mage: 'Erudition',
       }
     }
     if (!c || !pathFromClassMapping[c]) return ''
@@ -193,6 +193,6 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`;
-  }
+    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
+  },
 }

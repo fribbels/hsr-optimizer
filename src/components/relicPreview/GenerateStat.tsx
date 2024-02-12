@@ -1,17 +1,15 @@
-import * as React from 'react';
-import { Flex, Typography } from 'antd';
+import { Flex } from 'antd'
+import { Renderer } from 'lib/renderer'
+import { Assets } from 'lib/assets'
+import { Utils } from 'lib/utils'
+import { Constants } from 'lib/constants'
+import { iconSize } from 'lib/constantsUi'
+import RelicStatText from 'components/relicPreview/RelicStatText'
 
-import { Renderer } from "lib/renderer";
-import { Assets } from "lib/assets";
-import { Utils } from "lib/utils";
-import { Constants } from "lib/constants";
-import { iconSize } from 'lib/constantsUi';
-
-const { Text } = Typography;
 const GenerateStat = (stat, main, relic) => {
   if (!stat || !stat.stat || stat.value == null) {
     return (
-      <Flex justify='space-between'>
+      <Flex justify="space-between">
         <Flex>
           <img src={Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
         </Flex>
@@ -19,7 +17,7 @@ const GenerateStat = (stat, main, relic) => {
     )
   }
 
-  let displayValue;
+  let displayValue
   if (main) {
     displayValue = Renderer.renderMainStatNumber(stat)
   } else {
@@ -28,18 +26,18 @@ const GenerateStat = (stat, main, relic) => {
   displayValue += Utils.isFlat(stat.stat) ? '' : '%'
 
   return (
-    <Flex justify='space-between'>
+    <Flex justify="space-between">
       <Flex>
         <img src={Assets.getStatIcon(stat.stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
-        <Text>
+        <RelicStatText>
           {Constants.StatsToReadable[stat.stat]}
-        </Text>
+        </RelicStatText>
       </Flex>
-      <Text>
+      <RelicStatText>
         {displayValue}
-      </Text>
+      </RelicStatText>
     </Flex>
   )
 }
 
-export default GenerateStat;
+export default GenerateStat

@@ -1,38 +1,38 @@
-import { Constants } from "./constants.ts";
+import { Constants } from './constants.ts'
 
 export function getDefaultForm(initialCharacter) {
   return {
-    "characterId": initialCharacter?.id,
-    "mainBody": [
+    characterId: initialCharacter?.id,
+    mainBody: [
     ],
-    "mainFeet": [
+    mainFeet: [
     ],
-    "mainPlanarSphere": [
+    mainPlanarSphere: [
     ],
-    "mainLinkRope": [
+    mainLinkRope: [
     ],
-    "relicSets": [
+    relicSets: [
     ],
-    "ornamentSets": [
+    ornamentSets: [
     ],
-    "characterLevel": 80,
-    "characterEidolon": 0,
-    "lightConeLevel": 80,
-    "lightConeSuperimposition": 1,
-    "predictMaxedMainStat": true,
-    "rankFilter": true,
-    "includeEquippedRelics": true,
-    "keepCurrentRelics": false,
-    "enhance": 9,
-    "grade": 5,
-    "enemyLevel": 95,
-    "enemyCount": 1,
-    "enemyResistance": 0.2,
-    "enemyHpPercent": 1.0,
-    "mainHead": [],
-    "mainHands": [],
-    "statDisplay": 'base',
-    "weights": {
+    characterLevel: 80,
+    characterEidolon: 0,
+    lightConeLevel: 80,
+    lightConeSuperimposition: 1,
+    predictMaxedMainStat: true,
+    rankFilter: true,
+    includeEquippedRelics: true,
+    keepCurrentRelics: false,
+    enhance: 9,
+    grade: 5,
+    enemyLevel: 95,
+    enemyCount: 1,
+    enemyResistance: 0.2,
+    enemyHpPercent: 1.0,
+    mainHead: [],
+    mainHands: [],
+    statDisplay: 'base',
+    weights: {
       [Constants.Stats.HP_P]: 1,
       [Constants.Stats.ATK_P]: 1,
       [Constants.Stats.DEF_P]: 1,
@@ -46,7 +46,7 @@ export function getDefaultForm(initialCharacter) {
       [Constants.Stats.EHR]: 1,
       [Constants.Stats.RES]: 1,
       [Constants.Stats.BE]: 1,
-      topPercent: 100
+      topPercent: 100,
     },
     setConditionals: {
       [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
@@ -79,6 +79,6 @@ export function getDefaultForm(initialCharacter) {
       [Constants.Sets.BrokenKeel]: [undefined, true],
       [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
       [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
-    }
+    },
   }
 }

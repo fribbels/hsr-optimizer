@@ -11,7 +11,7 @@ import { Character, oldBuild } from "types/Character";
 interface BuildsModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedCharacter: Character;
+  selectedCharacter?: Character;
   imgRenderer: (x: { data: Character }) => JSX.Element;
   nameRenderer: (x: { data: Character }) => JSX.Element;
 }
@@ -23,8 +23,8 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   selectedCharacter,
 }) => {
   const [confirmationModal, contextHolder] = Modal.useModal();
-  const characterMetadata = DB.getMetadata().characters[selectedCharacter.id];
-  const characterName = characterMetadata.displayName;
+  const characterMetadata = DB.getMetadata().characters[selectedCharacter?.id];
+  const characterName = characterMetadata?.displayName;
 
   async function confirm(content) {
     return confirmationModal.confirm({

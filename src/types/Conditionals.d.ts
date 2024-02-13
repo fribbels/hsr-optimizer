@@ -221,6 +221,8 @@ export type ConditionalBuff =
   | 'targetTameStacks'
   | 'targetUltDebuffed'
   | 'targetWindShear'
+  | 'teamDmgBuff'
+  | 'teammateCDValue'
   | 'techniqueBuff'
   | 'toughnessReductionDmgBoost'
   | 'trickStacks'

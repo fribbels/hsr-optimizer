@@ -21,7 +21,7 @@ const parentH = rightPanelWidth
 const innerW = rightPanelWidth
 const innerH = rightPanelWidth
 
-const cardHeight = 450
+const cardHeight = 480
 
 const optionRender = (option) => (
   option.data.value
@@ -239,7 +239,7 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
         </Flex>
 
-        <div style={{ height: 15 }} />
+        <div style={{ height: 5 }} />
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>

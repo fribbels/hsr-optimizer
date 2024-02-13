@@ -53,9 +53,9 @@ export default (e: Eidolon): CharacterConditional => {
   }]
 
   const teammateContent: ContentItem[] = [
-    findContentId(content, 'talentBuffStacks')!,
-    findContentId(content, 'ultSpdBuff')!,
-    findContentId(content, 'fireDmgBoost')!,
+    findContentId(content, 'talentBuffStacks'),
+    findContentId(content, 'ultSpdBuff'),
+    findContentId(content, 'fireDmgBoost'),
   ]
 
   return {

@@ -1,6 +1,13 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import {
+  basicRev,
+  calculateAshblazingSet,
+  findContentId,
+  precisionRound,
+  skillRev,
+  ultRev,
+} from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -20,49 +27,87 @@ export default (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [{
     formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: 'Technique buff',
-    title: 'Technique buff',
-    content: `Increases all allies' ATK by ${precisionRound(0.15 * 100)}% for 2 turns at the start of the battle.`,
+    id: 'teamDmgBuff',
+    name: 'teamDmgBuff',
+    text: 'Team DMG buff',
+    title: 'Trace: Military Might',
+    content: `When Bronya is on the field, all allies deal 10% more DMG.`,
   }, {
     formItem: 'switch',
     id: 'battleStartDefBuff',
     name: 'battleStartDefBuff',
-    text: 'Battle start DEF buff',
-    title: 'Battle start DEF buff',
-    content: `Increases all allies' DEF by ${precisionRound(0.20 * 100)}% for 2 turns at the start of the battle.`,
+    text: 'Initial DEF buff',
+    title: 'Trace: Battlefield',
+    content: `At the start of the battle, all allies' DEF increases by 20% for 2 turn(s).`,
+  }, {
+    formItem: 'switch',
+    id: 'techniqueBuff',
+    name: 'techniqueBuff',
+    text: 'Technique ATK buff',
+    title: 'Technique: Banner of Command',
+    content: `After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).`,
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'Skill buff',
-    title: 'Skill buff',
-    content: `Increases DMG by ${precisionRound(skillDmgBoostValue * 100)}%.`,
+    text: 'Skill DMG buff',
+    title: 'Skill: Combat Redeployment',
+    content: `Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by ${precisionRound(skillDmgBoostValue * 100)}% for 1 turn(s).`,
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult buff',
-    title: 'Ult buff',
+    text: 'Ult ATK/CD buffs',
+    title: 'Ultimate: The Belobog March',
     content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
   }, {
     formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
     text: 'E2 skill SPD buff',
-    title: 'E2 skill SPD buff',
-    content: `E2: When using Skill, the target ally's SPD increases by ${precisionRound(0.30 * 100)}% after taking action, lasting for 1 turn.`,
+    title: 'E2: Quick March',
+    content: `When using Skill, the target ally's SPD increases by 30% after taking action, lasting for 1 turn.`,
     disabled: e < 2,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'teamDmgBuff'),
+    findContentId(content, 'battleStartDefBuff'),
+    findContentId(content, 'techniqueBuff'),
+    findContentId(content, 'skillBuff'),
+    findContentId(content, 'ultBuff'),
+    {
+      formItem: 'slider',
+      id: 'teammateCDValue',
+      name: 'teammateCDValue',
+      text: `Bronya's CD`,
+      title: 'Ultimate: The Belobog March',
+      content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
+      min: 0,
+      max: 3.00,
+      percent: true,
+    },
+    findContentId(content, 'e2SkillSpdBuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
+      teamDmgBuff: true,
       techniqueBuff: true,
       battleStartDefBuff: true,
       skillBuff: true,
       ultBuff: true,
+      e2SkillSpdBuff: false,
+    }),
+    teammateDefaults: () => ({
+      teamDmgBuff: true,
+      techniqueBuff: true,
+      battleStartDefBuff: true,
+      skillBuff: true,
+      ultBuff: true,
+      teammateCDValue: 2.50,
       e2SkillSpdBuff: false,
     }),
     precomputeEffects: (request: Form) => {
@@ -81,10 +126,24 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
 
       // Boost
-      x.ELEMENTAL_DMG += 0.10
+      x.ELEMENTAL_DMG += (r.teamDmgBuff) ? 0.10 : 0
       x.ELEMENTAL_DMG += (r.skillBuff) ? skillDmgBoostValue : 0
 
       return x
+    },
+    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
+      const t = teammateRequest.characterConditionals
+
+      x[Stats.DEF_P] += (t.battleStartDefBuff) ? 0.20 : 0
+      x[Stats.SPD_P] += (t.e2SkillSpdBuff) ? 0.30 : 0
+      x[Stats.ATK_P] += (t.techniqueBuff) ? 0.15 : 0
+      x[Stats.ATK_P] += (t.ultBuff) ? ultAtkBoostValue : 0
+
+      x.ELEMENTAL_DMG += (t.teamDmgBuff) ? 0.10 : 0
+      x.ELEMENTAL_DMG += (t.skillBuff) ? skillDmgBoostValue : 0
+
+      x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
+      x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

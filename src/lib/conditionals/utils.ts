@@ -23,7 +23,7 @@ export const calculateAshblazingSet = (c, request, hitMulti): {
 }
 
 export const findContentId = (content: ContentItem[], id: string) => {
-  return content.find((contentItem) => contentItem.id == id)
+  return content.find((contentItem) => contentItem.id == id)!
 }
 
 export const p4 = (set: number): number => {

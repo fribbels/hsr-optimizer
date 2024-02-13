@@ -36,10 +36,13 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
 
   return (
     <Flex vertical gap={5}>
-      <Flex justify="space-between" align="center">
-        <HeaderText>Character passives</HeaderText>
-        <TooltipImage type={Hint.characterPassives()} />
-      </Flex>
+      {(teammateIndex == null)
+      && (
+        <Flex justify="space-between" align="center">
+          <HeaderText>Character passives</HeaderText>
+          <TooltipImage type={Hint.characterPassives()} />
+        </Flex>
+      )}
       <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
   )

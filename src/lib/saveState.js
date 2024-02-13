@@ -7,6 +7,7 @@ export const SaveState = {
       characters: DB.getCharacters(),
       scorerId: window.store.getState().scorerId,
       scoringMetadataOverrides: window.store.getState().scoringMetadataOverrides,
+      optimizerMenuState: window.store.getState().optimizerMenuState,
     }
 
     console.log('Saved state', state)

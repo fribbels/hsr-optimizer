@@ -1,5 +1,4 @@
 import { ComponentType, ReactElement } from 'react'
-import PropTypes from 'prop-types'
 import { Flex } from 'antd'
 import ColorizeNumbers from 'components/common/ColorizeNumbers'
 import { FormSliderWithPopover } from './FormSlider'
@@ -12,18 +11,27 @@ const FormItemComponentMap: ContentComponentMap = {
 }
 
 export interface DisplayFormControlProps {
-  content: ContentItem[]
+  content?: ContentItem[]
+  teammateIndex?: number
 }
 
-const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content }) => {
+const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: content, teammateIndex: teammateIndex }) => {
   const ret: ReactElement[] = []
   let i = 0
 
-  if (!content || content.length === 0) {
+  if (!content) {
+    if (teammateIndex != null) {
+      ret.push(<div key={i++}>Team passives still under construction</div>)
+    } else {
+      ret.push(<div key={i++}>No conditional team passives</div>)
+    }
+  } else if (content.length === 0) {
     ret.push(<div key={i++}>No conditional passives</div>)
   } else {
     content.forEach((passive) => {
       const Item = FormItemComponentMap[passive.formItem]
+      passive.teammateIndex = teammateIndex
+
       ret.push(
         // @ts-ignore
         <Item
@@ -40,10 +48,6 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content })
   }
 
   return (<Flex vertical gap={10}>{ret}</Flex>)
-}
-
-DisplayFormControl.propTypes = {
-  content: PropTypes.array.isRequired,
 }
 
 export default DisplayFormControl

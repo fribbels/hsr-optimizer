@@ -11,12 +11,14 @@ import DisplayFormControl from './DisplayFormControl.tsx'
 export interface LightConeConditionalDisplayProps {
   id?: DataMineId
   superImposition: SuperImpositionLevel
+  teammateIndex?: number
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
-  const { id, superImposition } = props
+  const { id, superImposition, teammateIndex } = props
   // TODO revisit type workaround
   const lightConeId = id as unknown as keyof typeof lightConeOptionMapping
+
   if (!lightConeId || !lightConeOptionMapping[lightConeId]) {
     return (
       <Flex vertical gap={5}>
@@ -24,13 +26,17 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
           <HeaderText>Light cone passives</HeaderText>
           <TooltipImage type={Hint.lightConePassives()} />
         </Flex>
-        <Typography.Text italic>Select a Light cone to view passives</Typography.Text>
+        {(teammateIndex == null) && <Typography.Text italic>Select Light cone to view passives</Typography.Text>}
       </Flex>
     )
   }
 
   const lcFn = lightConeOptionMapping[lightConeId]
-  const content = lcFn(superImposition - 1).content()
+  const lightCone = lcFn(superImposition - 1)
+
+  const content = teammateIndex != null
+    ? (lightCone.teammateContent ? lightCone.teammateContent(teammateIndex) : undefined)
+    : lightCone.content()
 
   return (
     <Flex vertical gap={5}>
@@ -38,7 +44,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
         <HeaderText>Light cone passives</HeaderText>
         <TooltipImage type={Hint.lightConePassives()} />
       </Flex>
-      <DisplayFormControl content={content} />
+      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
   )
 })

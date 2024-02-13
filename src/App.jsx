@@ -26,9 +26,13 @@ const App = () => {
         components: {
           // OptimizerForm.js
           Cascader: {
-            dropdownHeight: 625,
+            dropdownHeight: 660,
             controlItemWidth: 100,
             controlWidth: 100,
+          },
+
+          Collapse: {
+            contentPadding: '0px 0px',
           },
 
           // MenuDrawer.js

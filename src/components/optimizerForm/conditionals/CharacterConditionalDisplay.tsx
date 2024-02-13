@@ -11,9 +11,10 @@ import { DataMineId } from 'types/Common'
 export interface CharacterConditionalDisplayProps {
   id?: DataMineId
   eidolon: Eidolon
+  teammateIndex?: number
 }
 
-export const CharacterConditionalDisplay = memo(({ id, eidolon }: CharacterConditionalDisplayProps) => {
+export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
   console.log('getDisplayForCharacter', id)
   // TODO revisit type workaround
   const characterId = id as unknown as keyof typeof characterOptionMapping
@@ -27,15 +28,22 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon }: CharacterCondi
   }
 
   const characterFn = characterOptionMapping[characterId]
-  const content = characterFn(eidolon).content()
+
+  const character = characterFn(eidolon)
+  const content = teammateIndex != null
+    ? (character.teammateContent ? character.teammateContent(teammateIndex) : undefined)
+    : character.content()
 
   return (
     <Flex vertical gap={5}>
-      <Flex justify="space-between" align="center">
-        <HeaderText>Character passives</HeaderText>
-        <TooltipImage type={Hint.characterPassives()} />
-      </Flex>
-      <DisplayFormControl content={content} />
+      {(teammateIndex == null)
+      && (
+        <Flex justify="space-between" align="center">
+          <HeaderText>Character passives</HeaderText>
+          <TooltipImage type={Hint.characterPassives()} />
+        </Flex>
+      )}
+      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
   )
 })

@@ -1,4 +1,4 @@
-import { Constants } from './constants.ts'
+import { Constants, Stats } from './constants.ts'
 import { OptimizerTabController } from './optimizerTabController'
 import { Utils } from './utils'
 import DB from './db'
@@ -12,6 +12,16 @@ import { StatCalculator } from './statCalculator'
 let MAX_RESULTS = 2_000_000
 
 let CANCEL = false
+
+const elementToDamageMapping = {
+  Physical: Stats.Physical_DMG,
+  Fire: Stats.Fire_DMG,
+  Ice: Stats.Ice_DMG,
+  Thunder: Stats.Lightning_DMG,
+  Wind: Stats.Wind_DMG,
+  Quantum: Stats.Quantum_DMG,
+  Imaginary: Stats.Imaginary_DMG,
+}
 
 export const Optimizer = {
   cancel: (id) => {
@@ -60,7 +70,20 @@ export const Optimizer = {
     console.log({ lightConeStats })
     console.log({ characterStats })
 
+    // Fill in elements
     let element = characterMetadata.element
+    let damageElement = elementToDamageMapping[element]
+
+    const teammates = [
+      request.teammate0,
+      request.teammate1,
+      request.teammate2,
+    ].filter((x) => !!x.characterId)
+    for (let i = 0; i < teammates.length; i++) {
+      const teammate = teammates[i]
+      let teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
+      teammate.damageElement = elementToDamageMapping[teammateCharacterMetadata.element]
+    }
 
     let baseStats = {
       base: {
@@ -80,25 +103,13 @@ export const Optimizer = {
 
     const [relics] = this.getFilteredRelics(request)
 
-    let elementalMultipliers = [
-      element == 'Physical' ? 1 : 0,
-      element == 'Fire' ? 1 : 0,
-      element == 'Ice' ? 1 : 0,
-      element == 'Thunder' ? 1 : 0,
-      element == 'Wind' ? 1 : 0,
-      element == 'Quantum' ? 1 : 0,
-      element == 'Imaginary' ? 1 : 0,
-    ]
-
     console.log('Optimize request', request)
-    console.log('Current state', Constants)
     console.log('Optimize relics', relics)
-    console.log('Optimize relics arrays', relics)
-    console.log('Optimize elemental multipliers', elementalMultipliers)
+    console.log('Optimize damage element', damageElement)
 
-    let { relicSetAllowList, relicSetSolutions } = generateRelicSetAllowList(request)
+    let { relicSetSolutions } = generateRelicSetAllowList(request)
     let ornamentSetSolutions = generateOrnamentSetAllowList(request)
-    console.log('relicSetAllowList', relicSetAllowList)
+    // console.log('relicSetAllowList', relicSetAllowList)
 
     const sizes = {
       hSize: relics.Head.length,
@@ -116,6 +127,7 @@ export const Optimizer = {
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
 
     if (permutations == 0) {
+      Message.error('No possible permutations match your filters - please check the Permutations panel for details, and adjust your filter values', 10)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
       return
@@ -161,7 +173,7 @@ export const Optimizer = {
         permutations: 1,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
-        elementalMultipliers: elementalMultipliers,
+        damageElement: damageElement,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
         request: request,
@@ -196,7 +208,7 @@ export const Optimizer = {
         permutations: permutations,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
-        elementalMultipliers: elementalMultipliers,
+        damageElement: damageElement,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
         request: request,

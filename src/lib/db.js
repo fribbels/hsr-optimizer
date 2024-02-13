@@ -7,6 +7,7 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
+import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
 
 const state = {
   relics: [],
@@ -80,6 +81,12 @@ window.store = create((set) => ({
     verified: [],
   },
 
+  optimizerMenuState: {
+    [OptimizerMenuIds.characterOptions]: true,
+    [OptimizerMenuIds.relicAndStatFilters]: true,
+    [OptimizerMenuIds.teammates]: false,
+  },
+
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
@@ -98,6 +105,7 @@ window.store = create((set) => ({
   setScorerId: (x) => set(() => ({ scorerId: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
 }))
 
 export const DB = {
@@ -206,6 +214,15 @@ export const DB = {
 
     window.store.getState().setScorerId(x.scorerId)
     window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
+    if (x.optimizerMenuState) {
+      const menuState = window.store.getState().optimizerMenuState
+      for (let key of Object.values(OptimizerMenuIds)) {
+        if (x.optimizerMenuState[key] != null) {
+          menuState[key] = x.optimizerMenuState[key]
+        }
+      }
+      window.store.getState().setOptimizerMenuState(menuState)
+    }
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

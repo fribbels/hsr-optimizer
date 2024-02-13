@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, Form, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
@@ -24,12 +23,18 @@ export interface FormSwitchProps {
   name: string
   text: string
   lc?: boolean
+  teammateIndex?: number
 }
 
 export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
+  const itemName = [conditionalType(props), props.name]
+  if (props.teammateIndex != null) {
+    itemName.unshift(`teammate${props.teammateIndex}`)
+  }
+
   return (
     <Flex justify={justify} align={align}>
-      <Form.Item name={[conditionalType(props), props.name]} valuePropName="checked">
+      <Form.Item name={itemName} valuePropName="checked">
         <Switch
           checkedChildren={<CheckOutlined />}
           unCheckedChildren={<CloseOutlined />}
@@ -41,13 +46,6 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
       <Text>{props.text}</Text>
     </Flex>
   )
-}
-
-FormSwitch.propTypes = {
-  disabled: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  lc: PropTypes.bool,
 }
 
 export const FormSwitchWithPopover = WithPopover(FormSwitch)

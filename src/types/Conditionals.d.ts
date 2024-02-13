@@ -12,7 +12,9 @@ export type ConditionalMap = {
 export interface Conditional {
   // getContent: () => { [key: string]: unknown }[];
   content: () => ContentItem[]
+  teammateContent?: (teammateIndex: number) => ContentItem[]
   defaults: () => ConditionalMap
+  teammateDefaults?: () => ConditionalMap
   /*
    * TODO: purify this implmeentation
    * ComputedStatsObject arg is mutated by ref
@@ -32,6 +34,7 @@ export type ContentItem = {
     formItem: K
     id: string
     content: string
+    teammateIndex?: number
   } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
@@ -79,6 +82,7 @@ export type ConditionalBuff =
   | 'e1TalentSpdBuff'
   | 'e1TargetBleeding'
   | 'e1TargetFrozen'
+  | 'e2AtkBoost'
   | 'e2BurnMultiBoost'
   | 'e2DefReduction'
   | 'e2DmgBuff'
@@ -136,6 +140,7 @@ export type ConditionalBuff =
   | 'epiphanyDebuff'
   | 'extraDmgProc'
   | 'fieldActive'
+  | 'fireDmgBoost'
   | 'fuaDmgBoost'
   | 'fuaHits'
   | 'goodFortuneStacks'
@@ -157,7 +162,6 @@ export type ConditionalBuff =
   | 'missedCritCrBuff'
   | 'numbyEnhancedState'
   | 'postSkillDmgBuff'
-  | 'postSkillHealBuff'
   | 'postSkillHealBuff'
   | 'postUltAtkBuff'
   | 'postUltBuff'
@@ -218,6 +222,15 @@ export type ConditionalBuff =
   | 'targetTameStacks'
   | 'targetUltDebuffed'
   | 'targetWindShear'
+  | 'teamBEBuff'
+  | 'teamDmgBuff'
+  | 'teamImaginaryDmgBoost'
+  | 'teammateAtkBuffValue'
+  | 'teammateATKValue'
+  | 'teammateCDValue'
+  | 'teammateHPValue'
+  | 'teammateDEFValue'
+  | 'teammateSPDValue'
   | 'techniqueBuff'
   | 'toughnessReductionDmgBoost'
   | 'trickStacks'

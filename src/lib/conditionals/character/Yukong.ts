@@ -1,9 +1,10 @@
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const skillAtkBuffValue = skillRev(e, 0.80, 0.88)
@@ -15,38 +16,57 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skillRev(e, 0, 0)
   const ultScaling = ultRev(e, 3.80, 4.104)
 
-  // const skillRank = [[2, 0.4],[2, 0.44],[2, 0.48],[2, 0.52],[2, 0.56],[2, 0.6],[2, 0.65],[2, 0.7],[2, 0.75],[2, 0.8],[2, 0.84],[2, 0.88],[2, 0.92],[2, 0.96],[2, 1]];
-
   const content: ContentItem[] = [{
     formItem: 'switch',
-    id: 'roaringBowstrings',
-    name: 'roaringBowstrings',
+    id: 'teamImaginaryDmgBoost',
+    name: 'teamImaginaryDmgBoost',
+    text: 'Team Imaginary DMG boost',
+    title: `Trace: Bowmaster`,
+    content: `When Yukong is on the field, Imaginary DMG dealt by all allies increases by 12%.`,
+  }, {
+    formItem: 'switch',
+    id: 'roaringBowstringsActive',
+    name: 'roaringBowstringsActive',
     text: 'Roaring Bowstrings',
     title: `Roaring Bowstrings`,
     content: `When "Roaring Bowstrings" is active, the ATK of all allies increases by ${precisionRound(skillAtkBuffValue * 100)}%.
     ::BR::
-    When "Roaring Bowstrings" is active, Yukong deals 30% more DMG to enemies.`,
+    E4: When "Roaring Bowstrings" is active, Yukong deals 30% more DMG to enemies.`,
   }, {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult buff',
+    text: 'Ult CR/CD buffs',
     title: `Ult: Diving Kestrel`,
     content: `If "Roaring Bowstrings" is active on Yukong when her Ultimate is used, additionally increases all allies' CRIT Rate by ${precisionRound(ultCrBuffValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBuffValue * 100)}%. At the same time, deals Imaginary DMG equal to ${precisionRound(ultScaling * 100)}% of Yukong's ATK to a single enemy.`,
   }, {
     formItem: 'switch',
     id: 'initialSpeedBuff',
     name: 'initialSpeedBuff',
-    text: 'E1 Initial speed buff',
-    title: 'E1 Initial speed buff',
+    text: 'E1 Initial SPD buff',
+    title: 'E1 Initial SPD buff',
     content: `E1: At the start of battle, increases the SPD of all allies by 10% for 2 turn(s).`,
     disabled: e < 1,
   }]
 
-  return {
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'teamImaginaryDmgBoost'),
+    findContentId(content, 'roaringBowstringsActive'),
+    findContentId(content, 'ultBuff'),
+    findContentId(content, 'initialSpeedBuff'),
+  ]
 
+  return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
+      teamImaginaryDmgBoost: true,
+      roaringBowstringsActive: true,
+      ultBuff: true,
+      initialSpeedBuff: true,
+    }),
+    teammateDefaults: () => ({
+      teamImaginaryDmgBoost: true,
       roaringBowstringsActive: true,
       ultBuff: true,
       initialSpeedBuff: true,
@@ -55,12 +75,6 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
-      x[Stats.ATK_P] += (r.roaringBowstringsActive) ? skillAtkBuffValue : 0
-      x[Stats.CR] += (r.ultBuff && r.roaringBowstringsActive) ? ultCrBuffValue : 0
-      x[Stats.CD] += (r.ultBuff && r.roaringBowstringsActive) ? ultCdBuffValue : 0
-      x[Stats.SPD_P] += (e >= 1 && r.initialSpeedBuff) ? 0.10 : 0
-
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.BASIC_SCALING += talentAtkScaling
@@ -68,10 +82,19 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      x.ELEMENTAL_DMG += 0.12
       x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.ATK_P] += (m.roaringBowstringsActive) ? skillAtkBuffValue : 0
+      x[Stats.CR] += (m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0
+      x[Stats.CD] += (m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0
+      x[Stats.SPD_P] += (e >= 1 && m.initialSpeedBuff) ? 0.10 : 0
+
+      x.IMAGINARY_DMG_BOOST += (m.teamImaginaryDmgBoost) ? 0.12 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

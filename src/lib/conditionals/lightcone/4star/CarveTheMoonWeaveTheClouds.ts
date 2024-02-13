@@ -56,11 +56,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       atkBuffActive: true,
       cdBuffActive: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
-
-      x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
-      x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
+    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals

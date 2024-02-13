@@ -1,6 +1,6 @@
-import React, { Profiler } from 'react'
-import { MenuOutlined } from '@ant-design/icons'
-import { Menu, Typography } from 'antd'
+import React from 'react'
+import { MenuOutlined, StarFilled, UnorderedListOutlined } from '@ant-design/icons'
+import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
@@ -16,18 +16,34 @@ function getItem(label, key, icon, children, type) {
   }
 }
 const items = [
-  getItem('Menu', 'sub1', <MenuOutlined />, [
+  getItem('Menu', 'subOptimizer', <MenuOutlined />, [
     getItem('Optimizer', 'optimizer'),
     getItem('Characters', 'characters'),
     getItem('Relics', 'relics'),
     getItem('Import / Save', 'import'),
     getItem('Getting started', '#getting-started'),
   ]),
-  getItem('Tools', 'sub2', <MenuOutlined />, [
-    getItem('Relic scorer', '#scorer'),
-    getItem('Coming soon', 'coming-soon'),
+  getItem('Tools', 'subTools', <MenuOutlined />, [
+    getItem(
+      (
+        <Flex>
+          <StarFilled style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Relic scorer
+        </Flex>
+      ),
+      '#scorer'),
+    getItem(
+      (
+        <Typography.Link>
+          <UnorderedListOutlined style={{ marginRight: 2, width: 16 }} />
+          {' '}
+          Changelog
+        </Typography.Link>
+      ),
+      'changelog'),
   ]),
-  getItem('Links', 'sub4', <MenuOutlined />, [
+  getItem('Links', 'subLinks', <MenuOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
         <DiscordIcon style={{ marginRight: 5 }} />
@@ -73,22 +89,20 @@ const MenuDrawer = (props) => {
   }
 
   return (
-    <Profiler id="MenuDrawer">
-      <Menu
-        onClick={onClick}
-        // inlineIndent={15}
-        style={{
-          height: '100%',
-          overflow: 'auto',
+    <Menu
+      onClick={onClick}
+      // inlineIndent={15}
+      style={{
+        height: '100%',
+        overflow: 'auto',
 
-        }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1', 'sub2', 'sub4']}
-        selectedKeys={activeKey}
-        mode="inline"
-        items={items}
-      />
-    </Profiler>
+      }}
+      defaultSelectedKeys={['1']}
+      defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}
+      selectedKeys={activeKey}
+      mode="inline"
+      items={items}
+    />
   )
 }
 MenuDrawer.propTypes = {

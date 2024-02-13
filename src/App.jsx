@@ -9,7 +9,6 @@ const { Header, Sider, Content } = Layout
 const hashes = [
   '#scorer',
   '#getting-started',
-  '#beta',
 ]
 
 const App = () => {

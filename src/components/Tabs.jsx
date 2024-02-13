@@ -6,11 +6,11 @@ import OptimizerTab from 'components/OptimizerTab'
 import ImportTab from 'components/ImportTab'
 import RelicsTab from 'components/RelicsTab'
 import CharacterTab from 'components/CharacterTab'
-import ComingSoonTab from 'components/ComingSoonTab'
 import RelicScorerTab from 'components/RelicScorerTab'
 import GettingStartedTab from 'components/GettingStartedTab'
 import ScoringModal from 'components/ScoringModal'
 import PropTypes from 'prop-types'
+import ChangelogTab from 'components/ChangelogTab'
 
 const defaultError = <Typography>Something went wrong</Typography>
 
@@ -23,7 +23,7 @@ const Tabs = () => {
   const importTab = React.useMemo(() => <ImportTab />, [])
   const gettingStartedTab = React.useMemo(() => <GettingStartedTab />, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab />, [])
-  const comingSoonTab = React.useMemo(() => <ComingSoonTab />, [])
+  const changelogTab = React.useMemo(() => <ChangelogTab />, [])
 
   return (
     <>
@@ -33,7 +33,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey="import" content={importTab} />
       <TabRenderer activeKey={activeKey} tabKey="#getting-started" content={gettingStartedTab} />
       <TabRenderer activeKey={activeKey} tabKey="#scorer" content={relicScorerTab} />
-      <TabRenderer activeKey={activeKey} tabKey="coming-soon" content={comingSoonTab} />
+      <TabRenderer activeKey={activeKey} tabKey="changelog" content={changelogTab} />
 
       <ErrorBoundary fallback={defaultError}>
         <ScoringModal />

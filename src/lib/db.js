@@ -107,7 +107,9 @@ export const DB = {
     }
 
     assignRanks(x)
-    global.store.getState().setCharacters(x)
+    // Forces the array to be a new reference so it updates memos
+    const newCharacterArray = [...x]
+    global.store.getState().setCharacters(newCharacterArray)
     global.store.getState().setCharactersById(charactersById)
   },
   setCharacter: (x) => {

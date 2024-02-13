@@ -30,7 +30,7 @@ export default function FormRow(props) {
         <Flex
           style={{
             paddingLeft: 10,
-            marginTop: 10,
+            marginTop: 5,
             paddingRight: 10,
           }}
           gap={10}

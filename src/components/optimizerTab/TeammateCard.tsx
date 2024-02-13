@@ -87,6 +87,15 @@ function getTeammateProperty(index: number) {
   return `teammate${index}`
 }
 
+function getDefaultTeammateForm() {
+  return {
+    characterEidolon: 0,
+    characterConditionals: {},
+    lightConeSuperimposition: 1,
+    lightConeConditionals: {},
+  }
+}
+
 const TeammateCard = (props: { index: number }) => {
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
   const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
@@ -104,10 +113,7 @@ const TeammateCard = (props: { index: number }) => {
 
   useEffect(() => {
     if (!teammateCharacterId) {
-      window.optimizerForm.setFieldValue([teammateProperty], {
-        characterEidolon: 0,
-        lightConeSuperimposition: 1,
-      })
+      window.optimizerForm.setFieldValue([teammateProperty], getDefaultTeammateForm())
       return
     }
 
@@ -115,6 +121,9 @@ const TeammateCard = (props: { index: number }) => {
     const characterConditionals = CharacterConditionals.get({
       characterId: teammateCharacterId,
       characterEidolon: teammateEidolon,
+      characterConditionals: {},
+      lightConeSuperimposition: 1,
+      lightConeConditionals: {},
     })
 
     console.log('Teammate character conditionals', characterConditionals)
@@ -209,7 +218,7 @@ const TeammateCard = (props: { index: number }) => {
               />
             </div>
 
-            <Form.Item name={[teammateProperty, `relicSet`]}>
+            <Form.Item name={[teammateProperty, `teamRelicSet`]}>
               <Select
                 className="teammate-set-select"
                 style={{ width: 110 }}
@@ -223,7 +232,7 @@ const TeammateCard = (props: { index: number }) => {
               />
             </Form.Item>
 
-            <Form.Item name={[teammateProperty, `ornamentSet`]}>
+            <Form.Item name={[teammateProperty, `teamOrnamentSet`]}>
               <Select
                 className="teammate-set-select"
                 style={{ width: 110 }}

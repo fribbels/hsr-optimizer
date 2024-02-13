@@ -85,7 +85,6 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.BE] += (r.teamBEBuff) ? 0.20 : 0
       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 1.00 : 0
 
       // Scaling
@@ -93,21 +92,20 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      // Boost
-      x.RES_PEN += (r.ultFieldActive) ? fieldResPenValue : 0
-      x.DEF_SHRED += (e >= 1 && r.ultFieldActive) ? 0.20 : 0
-      x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0
-
       return x
     },
-    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
-      const t = teammateRequest.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
 
-      x[Stats.BE] += (t.teamBEBuff) ? 0.20 : 0
-      x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
+      x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
+      x[Stats.ATK_P] += (e >= 2 && m.e2AtkBoost) ? 0.40 : 0
 
-      x.RES_PEN += (t.ultFieldActive) ? fieldResPenValue : 0
-      x.DEF_SHRED += (e >= 1 && t.ultFieldActive) ? 0.20 : 0
+      x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
+      x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
+    },
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const t = request.characterConditionals
+
       x.ELEMENTAL_DMG += t.teamDmgBuff
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {

@@ -24,7 +24,9 @@ export default (e: Eidolon): CharacterConditional => {
     name: 'skillExtraDmgHits',
     text: 'Skill extra hits',
     title: 'Skill: Meteor Storm',
-    content: `Deals 50% ATK DMG equal to a single enemy. Deals DMG for ${precisionRound(skillExtraDmgHitsMax)} extra times to a random enemy.`,
+    content: `Deals 50% ATK DMG equal to a single enemy. Deals DMG for ${precisionRound(skillExtraDmgHitsMax)} extra times to a random enemy.
+    ::BR::
+    E1: When using Skill, deals DMG for 1 extra time to a random enemy.`,
     min: 0,
     max: skillExtraDmgHitsMax,
   }, {
@@ -33,7 +35,9 @@ export default (e: Eidolon): CharacterConditional => {
     name: 'talentBuffStacks',
     text: 'Talent ATK buff stacks',
     title: 'Talent: Astrometry',
-    content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.`,
+    content: `Increases allies' ATK by ${precisionRound(talentStacksAtkBuff * 100)}% for every stack.
+    ::BR::
+    E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks.`,
     min: 0,
     max: 5,
   }, {
@@ -77,10 +81,8 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.ATK_P] += (r.talentBuffStacks) * talentStacksAtkBuff
       x[Stats.DEF_P] += (r.talentBuffStacks) * talentStacksDefBuff
       x[Stats.ERR] += (e >= 4 && r.talentBuffStacks >= 2) ? 0.15 : 0
-      x[Stats.SPD] += (r.ultSpdBuff) ? ultSpdBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -88,18 +90,15 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.DOT_SCALING += dotScaling
 
-      // Boost
-      x.FIRE_DMG_BOOST += (r.fireDmgBoost) ? 0.18 : 0
-
       return x
     },
-    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
-      const t = teammateRequest.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
 
-      x[Stats.SPD] += (t.ultSpdBuff) ? ultSpdBuffValue : 0
-      x[Stats.ATK_P] += (t.talentBuffStacks) * talentStacksAtkBuff
+      x[Stats.SPD] += (m.ultSpdBuff) ? ultSpdBuffValue : 0
+      x[Stats.ATK_P] += (m.talentBuffStacks) * talentStacksAtkBuff
 
-      x.FIRE_DMG_BOOST += (t.fireDmgBoost) ? 0.18 : 0
+      x.FIRE_DMG_BOOST += (m.fireDmgBoost) ? 0.18 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

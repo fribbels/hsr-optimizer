@@ -62,11 +62,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
       x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
     },
-    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
-      const t = teammateRequest.lightConeConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x[Stats.ATK_P] += (t.atkBuffActive) ? sValuesAtk[s] : 0
-      x[Stats.CD] += (t.cdBuffActive) ? sValuesCd[s] : 0
+      x[Stats.ATK_P] += (m.atkBuffActive) ? sValuesAtk[s] : 0
+      x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

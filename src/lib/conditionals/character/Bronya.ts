@@ -90,57 +90,50 @@ export default (e: Eidolon): CharacterConditional => {
     findContentId(content, 'e2SkillSpdBuff'),
   ]
 
+  const defaults = {
+    teamDmgBuff: true,
+    techniqueBuff: true,
+    battleStartDefBuff: true,
+    skillBuff: true,
+    ultBuff: true,
+    e2SkillSpdBuff: false,
+  }
+
   return {
     content: () => content,
     teammateContent: () => teammateContent,
-    defaults: () => ({
-      teamDmgBuff: true,
-      techniqueBuff: true,
-      battleStartDefBuff: true,
-      skillBuff: true,
-      ultBuff: true,
-      e2SkillSpdBuff: false,
-    }),
+    defaults: () => (defaults),
     teammateDefaults: () => ({
-      teamDmgBuff: true,
-      techniqueBuff: true,
-      battleStartDefBuff: true,
-      skillBuff: true,
-      ultBuff: true,
-      teammateCDValue: 2.50,
-      e2SkillSpdBuff: false,
+      ...defaults,
+      ...{
+        teammateCDValue: 2.50,
+      },
     }),
-    precomputeEffects: (request: Form) => {
-      const r = request.characterConditionals
+    precomputeEffects: (_request: Form) => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.DEF_P] += (r.battleStartDefBuff) ? 0.20 : 0
-      x[Stats.SPD_P] += (r.e2SkillSpdBuff) ? 0.30 : 0
-      x[Stats.ATK_P] += (r.techniqueBuff) ? 0.15 : 0
-      x[Stats.ATK_P] += (r.ultBuff) ? ultAtkBoostValue : 0
       x.BASIC_CR_BOOST += 1.00
 
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
 
-      // Boost
-      x.ELEMENTAL_DMG += (r.teamDmgBuff) ? 0.10 : 0
-      x.ELEMENTAL_DMG += (r.skillBuff) ? skillDmgBoostValue : 0
-
       return x
     },
-    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
-      const t = teammateRequest.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
 
-      x[Stats.DEF_P] += (t.battleStartDefBuff) ? 0.20 : 0
-      x[Stats.SPD_P] += (t.e2SkillSpdBuff) ? 0.30 : 0
-      x[Stats.ATK_P] += (t.techniqueBuff) ? 0.15 : 0
-      x[Stats.ATK_P] += (t.ultBuff) ? ultAtkBoostValue : 0
+      x[Stats.DEF_P] += (m.battleStartDefBuff) ? 0.20 : 0
+      x[Stats.SPD_P] += (m.e2SkillSpdBuff) ? 0.30 : 0
+      x[Stats.ATK_P] += (m.techniqueBuff) ? 0.15 : 0
+      x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBoostValue : 0
 
-      x.ELEMENTAL_DMG += (t.teamDmgBuff) ? 0.10 : 0
-      x.ELEMENTAL_DMG += (t.skillBuff) ? skillDmgBoostValue : 0
+      x.ELEMENTAL_DMG += (m.teamDmgBuff) ? 0.10 : 0
+      x.ELEMENTAL_DMG += (m.skillBuff) ? skillDmgBoostValue : 0
+    },
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const t = request.characterConditionals
 
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0

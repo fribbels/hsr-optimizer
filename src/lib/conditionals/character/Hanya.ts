@@ -72,7 +72,7 @@ export default (e: Eidolon): CharacterConditional => {
       ultBuff: true,
       targetBurdenActive: true,
       burdenAtkBuff: true,
-      e2SkillSpdBuff: true,
+      e2SkillSpdBuff: false,
     }),
     teammateDefaults: () => ({
       ultBuff: true,
@@ -91,23 +91,22 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      x[Stats.ATK_P] += (r.ultBuff) ? ultAtkBuffValue : 0
-      x[Stats.ATK_P] += (r.burdenAtkBuff) ? 0.10 : 0
       x[Stats.SPD_P] += (e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0
-
-      // Boost
-      x.ELEMENTAL_DMG += (r.targetBurdenActive) ? talentDmgBoostValue : 0
 
       return x
     },
-    teammatePrecomputeEffects: (x: ComputedStatsObject, _request: Form, teammateRequest: Form) => {
-      const t = teammateRequest.characterConditionals
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
 
-      x[Stats.ATK_P] += (t.ultBuff) ? ultAtkBuffValue : 0
-      x[Stats.ATK_P] += (t.burdenAtkBuff) ? 0.10 : 0
+      x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBuffValue : 0
+      x[Stats.ATK_P] += (m.burdenAtkBuff) ? 0.10 : 0
+
+      x.ELEMENTAL_DMG += (m.targetBurdenActive) ? talentDmgBoostValue : 0
+    },
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const t = request.characterConditionals
+
       x[Stats.SPD] += (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
-
-      x.ELEMENTAL_DMG += (t.targetBurdenActive) ? talentDmgBoostValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

@@ -191,7 +191,10 @@ self.onmessage = function(e) {
   let lightConeConditionals = LightConeConditionals.get(request)
 
   let precomputedX = characterConditionals.precomputeEffects(request)
+  if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
+
   lightConeConditionals.precomputeEffects(precomputedX, request)
+  if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
 
   // Precompute teammate effects
   const teammateSetEffects = {}
@@ -201,15 +204,16 @@ self.onmessage = function(e) {
     request.teammate2,
   ].filter((x) => !!x.characterId)
   for (let i = 0; i < teammates.length; i++) {
-    const teammateRequest = teammates[i]
+    const teammateRequest = Object.assign({}, request, teammates[i])
 
     const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
     const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
 
-    if (teammateCharacterConditionals.teammatePrecomputeEffects) teammateCharacterConditionals.teammatePrecomputeEffects(precomputedX, request, teammateRequest)
-    if (teammateLightConeConditionals.teammatePrecomputeEffects) teammateLightConeConditionals.teammatePrecomputeEffects(precomputedX, request, teammateRequest)
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(precomputedX, request, teammateRequest)
+    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(precomputedX, request, teammateRequest)
 
-    switch (teammateRequest.ornamentSet) {
+    switch (teammateRequest.teamOrnamentSet) {
       case Sets.BrokenKeel:
         precomputedX[Stats.CD] += 0.10
         break
@@ -223,7 +227,7 @@ self.onmessage = function(e) {
       default:
     }
 
-    switch (teammateRequest.relicSet) {
+    switch (teammateRequest.teamRelicSet) {
       case Sets.MessengerTraversingHackerspace:
         if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
         precomputedX[Stats.SPD_P] += 0.12
@@ -236,8 +240,8 @@ self.onmessage = function(e) {
     }
 
     // Track unique buffs
-    teammateSetEffects[teammateRequest.ornamentSet] = true
-    teammateSetEffects[teammateRequest.relicSet] = true
+    teammateSetEffects[teammateRequest.teamOrnamentSet] = true
+    teammateSetEffects[teammateRequest.teamRelicSet] = true
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)

@@ -5,8 +5,15 @@ import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export interface LightConeConditional extends Conditional {
   // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify
+
+  // Character's individual effects
   precomputeEffects: (x: ComputedStatsObject, request: Form) => void
-  teammatePrecomputeEffects?: (x: ComputedStatsObject, request: Form, teammateRequest: Form) => void
+
+  // Shared effects between teammates and main character
+  precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+
+  // Effects unique to teammate calculation
+  precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
 }
 
 export type ConditionalLightConeMap = {

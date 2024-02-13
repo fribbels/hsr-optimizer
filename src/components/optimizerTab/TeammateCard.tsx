@@ -53,12 +53,12 @@ const teammateRelicSetOptions: SelectProps['options'] = (() => {
   return [
     {
       value: Sets.MessengerTraversingHackerspace,
-      desc: `${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
+      desc: `4 Piece: ${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
       label: labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
     },
     {
       value: Sets.WatchmakerMasterOfDreamMachinations,
-      desc: `${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
+      desc: `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
       label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
     },
   ]
@@ -83,16 +83,17 @@ const teammateOrnamentSetOptions = (() => {
   ]
 })()
 
-function teammateProperty(index: number) {
+function getTeammateProperty(index: number) {
   return `teammate${index}`
 }
 
 const TeammateCard = (props: { index: number }) => {
-  const teammateCharacterId = Form.useWatch([teammateProperty(props.index), 'characterId'], window.optimizerForm)
-  const teammateEidolon = Form.useWatch([teammateProperty(props.index), 'characterEidolon'], window.optimizerForm)
+  const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
+  const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
+  const teammateEidolon = Form.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
 
-  const teammateLightConeId = Form.useWatch([teammateProperty(props.index), 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition = Form.useWatch([teammateProperty(props.index), 'lightConeSuperimposition'], window.optimizerForm)
+  const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
   const [teammateEnabled, setTeammateEnabled] = useState(true)
 
@@ -103,7 +104,7 @@ const TeammateCard = (props: { index: number }) => {
 
   useEffect(() => {
     if (!teammateCharacterId) {
-      window.optimizerForm.setFieldValue([teammateProperty(props.index)], {
+      window.optimizerForm.setFieldValue([teammateProperty], {
         characterEidolon: 0,
         lightConeSuperimposition: 1,
       })
@@ -119,8 +120,8 @@ const TeammateCard = (props: { index: number }) => {
     console.log('Teammate character conditionals', characterConditionals)
 
     if (!characterConditionals.teammateDefaults) return
-    const mergedForm = Object.assign({}, displayFormValues.characterConditionals, characterConditionals.teammateDefaults())
-    window.optimizerForm.setFieldsValue(mergedForm)
+    const mergedForm = Object.assign({}, characterConditionals.teammateDefaults(), displayFormValues[teammateProperty].characterConditionals)
+    window.optimizerForm.setFieldValue([teammateProperty, 'characterConditionals'], mergedForm)
   }, [teammateCharacterId, teammateEidolon, props.index])
 
   useEffect(() => {
@@ -135,8 +136,8 @@ const TeammateCard = (props: { index: number }) => {
     console.log('Teammate lc conditionals', lightConeConditionals)
 
     if (!lightConeConditionals.teammateDefaults) return
-    const mergedForm = Object.assign({}, displayFormValues.lightConeConditionals, lightConeConditionals.teammateDefaults())
-    window.optimizerForm.setFieldsValue(mergedForm)
+    const mergedForm = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
+    window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedForm)
   }, [teammateLightConeId, teammateSuperimposition, props.index])
 
   function addTeammateClicked() {
@@ -167,7 +168,7 @@ const TeammateCard = (props: { index: number }) => {
     <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={defaultGap}>
         <Flex gap={5}>
-          <Form.Item name={[teammateProperty(props.index), `characterId`]}>
+          <Form.Item name={[teammateProperty, `characterId`]}>
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}
@@ -178,7 +179,7 @@ const TeammateCard = (props: { index: number }) => {
             />
           </Form.Item>
 
-          <Form.Item name={[teammateProperty(props.index), `characterEidolon`]}>
+          <Form.Item name={[teammateProperty, `characterEidolon`]}>
             <Select
               showSearch
               style={{ width: 110 }}
@@ -208,7 +209,7 @@ const TeammateCard = (props: { index: number }) => {
               />
             </div>
 
-            <Form.Item name={[teammateProperty(props.index), `relicSet`]}>
+            <Form.Item name={[teammateProperty, `relicSet`]}>
               <Select
                 className="teammate-set-select"
                 style={{ width: 110 }}
@@ -222,7 +223,7 @@ const TeammateCard = (props: { index: number }) => {
               />
             </Form.Item>
 
-            <Form.Item name={[teammateProperty(props.index), `ornamentSet`]}>
+            <Form.Item name={[teammateProperty, `ornamentSet`]}>
               <Select
                 className="teammate-set-select"
                 style={{ width: 110 }}
@@ -241,7 +242,7 @@ const TeammateCard = (props: { index: number }) => {
         <div style={{ height: 15 }} />
 
         <Flex gap={5}>
-          <Form.Item name={[teammateProperty(props.index), `lightCone`]}>
+          <Form.Item name={[teammateProperty, `lightCone`]}>
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}
@@ -252,7 +253,7 @@ const TeammateCard = (props: { index: number }) => {
             />
           </Form.Item>
 
-          <Form.Item name={[teammateProperty(props.index), `lightConeSuperimposition`]}>
+          <Form.Item name={[teammateProperty, `lightConeSuperimposition`]}>
             <Select
               showSearch
               style={{ width: 110 }}

@@ -12,7 +12,7 @@ import {
   levelOptions,
   superimpositionOptions,
 } from 'lib/constants.ts'
-import FormRow from './optimizerTab/FormRow'
+import FormRow, { OptimizerMenuIds } from './optimizerTab/FormRow'
 import FilterContainer from './optimizerTab/FilterContainer'
 import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx'
@@ -336,7 +336,7 @@ export default function OptimizerForm() {
         <FormSetConditionals />
 
         <FilterContainer>
-          <FormRow gap={defaultGap} title="Character options">
+          <FormRow id={OptimizerMenuIds.characterOptions}>
             {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
@@ -515,7 +515,7 @@ export default function OptimizerForm() {
             <OptimizerOptions defaultGap={defaultGap} panelWidth={panelWidth} />
           </FormRow>
 
-          <FormRow title="Relic & stat filters">
+          <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify="space-between" align="center">
@@ -810,7 +810,7 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-          <FormRow title="Teammates">
+          <FormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} />
             <TeammateCard index={1} />
             <TeammateCard index={2} />

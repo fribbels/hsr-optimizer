@@ -67,9 +67,9 @@ function renderStat(stat, value) {
 export default function RelicModal(props) {
   const [relicForm] = Form.useForm()
   const [mainStatOptions, setMainStatOptions] = useState([])
+  const characters = window.store((s) => s.characters)
 
   const characterOptions = useMemo(() => {
-    let characters = DB.getCharacters()
     let characterData = DB.getMetadata().characters
 
     let options = characters.map((character) => {
@@ -86,7 +86,7 @@ export default function RelicModal(props) {
     }, ...options]
 
     return options
-  }, [])
+  }, [characters])
 
   useEffect(() => {
     let defaultValues = {

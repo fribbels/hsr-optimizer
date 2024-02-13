@@ -116,7 +116,8 @@ export const DB = {
     }
 
     assignRanks(x)
-    window.store.getState().setCharacters(x)
+    const newCharacterArray = [...x]
+    window.store.getState().setCharacters(newCharacterArray)
     window.store.getState().setCharactersById(charactersById)
   },
   setCharacter: (x) => {

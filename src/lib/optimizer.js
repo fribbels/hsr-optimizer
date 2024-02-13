@@ -127,13 +127,17 @@ export const Optimizer = {
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
 
     if (permutations == 0) {
+      window.store.getState().setOptimizationInProgress(false)
       Message.error('No possible permutations match your filters - please check the Permutations panel for details, and adjust your filter values', 10)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
       return
     }
 
-    if (CANCEL) return
+    if (CANCEL) {
+      window.store.getState().setOptimizationInProgress(false)
+      return
+    }
 
     window.optimizerGrid.current.api.showLoadingOverlay()
 
@@ -233,6 +237,7 @@ export const Optimizer = {
         window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
+          window.store.getState().setOptimizationInProgress(false)
           OptimizerTabController.setRows(results)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })

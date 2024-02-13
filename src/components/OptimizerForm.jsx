@@ -66,6 +66,7 @@ export default function OptimizerForm() {
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
+  const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
   useEffect(() => {
     OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone)
@@ -191,6 +192,7 @@ export default function OptimizerForm() {
 
   function cancelClicked() {
     console.log('Cancel clicked')
+    setOptimizationInProgress(false)
     Optimizer.cancel(optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
@@ -221,6 +223,8 @@ export default function OptimizerForm() {
       return
     }
 
+    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+
     DB.addFromForm(form)
     SaveState.save()
     console.log('Form finished', form)
@@ -229,6 +233,7 @@ export default function OptimizerForm() {
     setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
 
+    setOptimizationInProgress(true)
     Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked

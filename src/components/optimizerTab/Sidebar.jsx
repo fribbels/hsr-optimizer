@@ -3,8 +3,8 @@ import React from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
-import { OptimizerTabController } from '../../lib/optimizerTabController'
-import { Hint } from '../../lib/hint'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 
 const { Text } = Typography
@@ -39,6 +39,8 @@ export default function Sidebar() {
   const permutations = window.store((s) => s.permutations)
   const permutationsSearched = window.store((s) => s.permutationsSearched)
   const permutationsResults = window.store((s) => s.permutationsResults)
+
+  const optimizationInProgress = window.store((s) => s.optimizationInProgress)
 
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
@@ -81,7 +83,7 @@ export default function Sidebar() {
 
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button type="primary" onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
+                <Button type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
                   Start
                 </Button>
               </Flex>

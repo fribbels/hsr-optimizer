@@ -18,6 +18,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   const { id, superImposition, teammateIndex } = props
   // TODO revisit type workaround
   const lightConeId = id as unknown as keyof typeof lightConeOptionMapping
+
   if (!lightConeId || !lightConeOptionMapping[lightConeId]) {
     return (
       <Flex vertical gap={5}>
@@ -25,7 +26,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
           <HeaderText>Light cone passives</HeaderText>
           <TooltipImage type={Hint.lightConePassives()} />
         </Flex>
-        <Typography.Text italic>Select a Light cone to view passives</Typography.Text>
+        {(teammateIndex == null) && <Typography.Text italic>Select a Light cone to view passives</Typography.Text>}
       </Flex>
     )
   }

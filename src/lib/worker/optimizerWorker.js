@@ -120,7 +120,7 @@ function calculateDamage(
 }
 
 self.onmessage = function(e) {
-  console.log('Message received from main script', e.data)
+  // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
   let data = e.data

@@ -26,7 +26,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
           <HeaderText>Light cone passives</HeaderText>
           <TooltipImage type={Hint.lightConePassives()} />
         </Flex>
-        {(teammateIndex == null) && <Typography.Text italic>Select a Light cone to view passives</Typography.Text>}
+        {(teammateIndex == null) && <Typography.Text italic>Select Light cone to view passives</Typography.Text>}
       </Flex>
     )
   }
@@ -35,7 +35,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   const lightCone = lcFn(superImposition - 1)
 
   const content = teammateIndex != null
-    ? (lightCone.teammateContent ? lightCone.teammateContent(teammateIndex) : [])
+    ? (lightCone.teammateContent ? lightCone.teammateContent(teammateIndex) : undefined)
     : lightCone.content()
 
   return (

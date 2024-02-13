@@ -127,6 +127,7 @@ export const Optimizer = {
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
 
     if (permutations == 0) {
+      Message.error('No possible permutations match your filters - please check the Permutations panel for details, and adjust your filter values', 10)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
       return

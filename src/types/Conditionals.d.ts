@@ -251,3 +251,5 @@ export type ConditionalBuff =
   | 'e2TeamDotBoost'
   | 'teamEhrBuff'
   | 'skillWeaknessResShredDebuff'
+  | 'talentActive'
+  | 'e4TeamResBuff'

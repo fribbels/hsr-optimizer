@@ -407,7 +407,8 @@ self.onmessage = function(e) {
     c[Stats.BE] = calculatePercentStat(Stats.BE, base, lc, trace, c,
       0.16 * p2(sets.TaliaKingdomOfBanditry)
       + 0.16 * p2(sets.ThiefOfShootingMeteor)
-      + 0.16 * p4(sets.ThiefOfShootingMeteor))
+      + 0.16 * p4(sets.ThiefOfShootingMeteor)
+      + 0.16 * p2(sets.WatchmakerMasterOfDreamMachinations))
 
     c[Stats.ERR] = calculatePercentStat(Stats.ERR, base, lc, trace, c,
       0.05 * p2(sets.SprightlyVonwacq)

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from '../utils'
-import { baseComputedStatsObject } from '../constants'
+import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from '../utils'
+import { baseComputedStatsObject, ComputedStatsObject } from '../constants'
 
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
@@ -19,7 +19,7 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyDmgTakenDebuff',
     name: 'enemyDmgTakenDebuff',
-    text: 'Enemy dmg taken debuff',
+    text: 'Ult vulnerability debuff',
     title: 'Retribution',
     content: 'When using Ultimate, there is a 100% base chance to increase the DMG received by the targets by 12% for 2 turn(s).',
   }, {
@@ -48,13 +48,21 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: (e < 1),
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'enemyDmgTakenDebuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       enemySlowed: true,
       enemyDmgTakenDebuff: true,
       skillExtraHits: skillExtraHitsMax,
       e1EnhancedState: true,
+    }),
+    teammateDefaults: () => ({
+      enemyDmgTakenDebuff: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -78,9 +86,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += (request.enemyWeaknessBroken) ? 0.20 : 0
-      x.DMG_TAKEN_MULTI += (r.enemyDmgTakenDebuff) ? 0.12 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DMG_TAKEN_MULTI += (m.enemyDmgTakenDebuff) ? 0.12 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

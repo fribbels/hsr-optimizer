@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, ult } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, findContentId, precisionRound, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const ultBuffValue = ult(e, 0.40, 0.432)
@@ -14,15 +15,15 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'ultBuff',
     name: 'ultBuff',
-    text: 'Ult buff',
-    title: 'Ult buff',
+    text: 'Ult ATK buff',
+    title: 'Ult ATK buff',
     content: `Increases all allies' ATK by ${precisionRound(ultBuffValue * 100)}% for 2 turns after using Ultimate.`,
   }, {
     formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
-    text: 'E1 skill buff',
-    title: 'E1 skill buff',
+    text: 'E1 SPD buff',
+    title: 'E1 SPD buff',
     content: `E1: Increases all allies' SPD by 12% for 2 turns after using Skill.`,
     disabled: e < 1,
   }, {
@@ -35,28 +36,40 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 6,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'ultBuff'),
+    findContentId(content, 'skillBuff'),
+    findContentId(content, 'e6DmgBuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       ultBuff: true,
       skillBuff: true,
       e6DmgBuff: true,
     }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
+    teammateDefaults: () => ({
+      ultBuff: true,
+      skillBuff: true,
+      e6DmgBuff: true,
+    }),
+    precomputeEffects: (_request) => {
       const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.SPD_P] += (e >= 1 && r.skillBuff) ? 0.12 : 0
-      x[Stats.ATK_P] += (r.ultBuff) ? ultBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
 
-      // Boost
-      x.ELEMENTAL_DMG += (e >= 6 && r.skillBuff) ? 0.50 : 0
-
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.ATK_P] += (m.ultBuff) ? ultBuffValue : 0
+      x[Stats.SPD_P] += (e >= 1 && m.skillBuff) ? 0.12 : 0
+
+      x.ELEMENTAL_DMG += (e >= 6 && m.e6DmgBuff) ? 0.50 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

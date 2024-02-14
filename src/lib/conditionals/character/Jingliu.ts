@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -59,11 +59,14 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       talentEnhancedState: true,
       talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
       e1CdBuff: true,
       e2SkillDmgBuff: true,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
       const r: ConditionalMap = request.characterConditionals
@@ -96,6 +99,8 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.SKILL_BOOST += (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

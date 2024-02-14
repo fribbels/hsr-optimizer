@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, calculateAshblazingSet, findContentId, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -25,18 +25,34 @@ export default (e: Eidolon): CharacterConditional => {
     title: 'E1 DoT DMG debuff',
     content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
     disabled: e < 1,
+  }, {
+    formItem: 'switch',
+    id: 'e2TeamDotBoost',
+    name: 'e2TeamDotBoost',
+    text: 'E2 Team DoT DMG boost',
+    title: 'E2 Team DoT DMG boost',
+    content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
+    disabled: e < 2,
   }]
+
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'e1DotDmgReceivedDebuff'),
+    findContentId(content, 'e2TeamDotBoost'),
+  ]
 
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       e1DotDmgReceivedDebuff: true,
+      e2TeamDotBoost: true,
     }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
+    teammateDefaults: () => ({
+      e1DotDmgReceivedDebuff: true,
+      e2TeamDotBoost: true,
+    }),
+    precomputeEffects: (_request) => {
       const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -46,11 +62,15 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_SCALING += dotScaling
 
       // Boost
-      x.DOT_VULNERABILITY += (e >= 1 && r.e1DotDmgReceivedDebuff) ? 0.30 : 0
-      x.DOT_BOOST += (e >= 2) ? 0.25 : 0
       x.DOT_SCALING += (e >= 6) ? 1.56 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DOT_VULNERABILITY += (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0
+      x.DOT_BOOST += (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const x = c['x']

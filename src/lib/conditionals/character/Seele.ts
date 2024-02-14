@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -40,7 +40,7 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e6UltTargetDebuff',
     name: 'e6UltTargetDebuff',
-    text: 'E6 Ult Debuff',
+    text: 'E6 Butterfly Flurry',
     title: 'E6 Shattering Shambles',
     content: `E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn(s). 
     Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.`,
@@ -49,10 +49,13 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       buffedState: true,
       speedBoostStacks: speedBoostStacksMax,
       e6UltTargetDebuff: true,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -72,6 +75,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (r.buffedState) ? 0.20 : 0
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+      // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

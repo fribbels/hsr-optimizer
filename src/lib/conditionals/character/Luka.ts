@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const basicEnhancedHitValue = basicRev(e, 0.20, 0.22)
@@ -27,8 +28,8 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'targetUltDebuffed',
     name: 'targetUltDebuffed',
-    text: 'Target ult debuffed',
-    title: 'Target ult debuffed',
+    text: 'Ult vulnerability debuff',
+    title: 'Ult vulnerability debuff',
     content: `Increase the target's DMG received by ${precisionRound(targetUltDebuffDmgTakenValue * 100)}% for 3 turn(s)`,
   }, {
     formItem: 'slider',
@@ -59,14 +60,22 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 4,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetUltDebuffed'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       basicEnhanced: true,
       targetUltDebuffed: true,
       e1TargetBleeding: true,
       basicEnhancedExtraHits: 3,
       e4TalentStacks: 4,
+    }),
+    teammateDefaults: () => ({
+      targetUltDebuffed: true,
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -83,10 +92,14 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_SCALING += dotScaling
 
       // Boost
-      x.DMG_TAKEN_MULTI += (r.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
       x.ELEMENTAL_DMG += (e >= 1 && r.e1TargetBleeding) ? 0.15 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DMG_TAKEN_MULTI += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']
@@ -95,7 +108,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-      // x.FUA_DMG += 0
     },
   }
 }

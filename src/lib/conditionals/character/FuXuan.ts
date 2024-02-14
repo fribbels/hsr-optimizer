@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -18,11 +18,20 @@ export default (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [{
     formItem: 'switch',
+    id: 'talentActive',
+    name: 'talentActive',
+    text: 'Team DMG reduction',
+    title: 'Team DMG reduction',
+    content: `While Fu Xuan is still active in battle, Misfortune Avoidance is applied to the entire team. With Misfortune Avoidance, allies take ${precisionRound(talentDmgReductionValue * 100)}% less DMG.`,
+  }, {
+    formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
     text: 'Skill active',
     title: 'Skill active',
-    content: `While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP, and increases CRIT Rate by ${precisionRound(skillCrBuffValue * 100)}%.`,
+    content: `Activates Matrix of Prescience, via which other team members will Distribute 65% of the DMG they receive (before this DMG is mitigated by any Shields) to Fu Xuan for 3 turn(s).
+    While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP, 
+    and increases CRIT Rate by ${precisionRound(skillCrBuffValue * 100)}%.`,
   }, {
     formItem: 'slider',
     id: 'e6TeamHpLostPercent',
@@ -36,29 +45,60 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 6,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'talentActive'),
+    findContentId(content, 'skillActive'),
+    {
+      formItem: 'slider',
+      id: 'teammateHPValue',
+      name: 'teammateHPValue',
+      text: `Fu Xuan's HP`,
+      title: 'Known by Stars, Shown by Hearts',
+      content: `While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by ${precisionRound(skillHpBuffValue * 100)}% of Fu Xuan's Max HP`,
+      min: 0,
+      max: 10000,
+    },
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       skillActive: true,
+      talentActive: true,
       e6TeamHpLostPercent: 1.2,
     }),
-    precomputeEffects: (request: Form) => {
-      const r = request.characterConditionals
+    teammateDefaults: () => ({
+      skillActive: true,
+      talentActive: true,
+      teammateHPValue: 8000,
+    }),
+    precomputeEffects: (_request: Form) => {
       const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.CD] += (e >= 1) ? 0.30 : 0
-      x[Stats.CR] += (r.skillActive) ? skillCrBuffValue : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      // Boost
-      x.DMG_RED_MULTI *= (1 - talentDmgReductionValue)
-
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.CR] += (m.skillActive) ? skillCrBuffValue : 0
+      x[Stats.CD] += (e >= 1 && m.skillActive) ? 0.30 : 0
+
+      // Talent ehp buff is shared
+      x.DMG_RED_MULTI *= (m.talentActive) ? (1 - talentDmgReductionValue) : 1
+    },
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const t = request.characterConditionals
+
+      x[Stats.HP] += (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
+
+      // Skill ehp buff only applies to teammates
+      x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

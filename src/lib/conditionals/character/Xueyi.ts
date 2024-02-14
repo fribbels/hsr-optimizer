@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -23,6 +23,14 @@ export default (e: Eidolon): CharacterConditional => {
   }
 
   const content: ContentItem[] = [
+    {
+      id: 'beToDmgBoost',
+      name: 'beToDmgBoost',
+      text: 'BE to DMG boost',
+      formItem: 'switch',
+      title: 'Clairvoyant Loom',
+      content: 'Increases DMG dealt by this unit by an amount equal to 100% of Break Effect, up to a maximum DMG increase of 240%.',
+    },
     {
       id: 'enemyToughness50',
       name: 'enemyToughness50',
@@ -66,11 +74,15 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
+      beToDmgBoost: true,
       enemyToughness50: true,
       toughnessReductionDmgBoost: ultBoostMax,
       fuaHits: 3,
       e4BeBuff: true,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
       const r: ConditionalMap = request.characterConditionals
@@ -92,11 +104,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c['x']
 
-      x.ELEMENTAL_DMG += Math.min(2.40, x[Stats.BE])
+      x.ELEMENTAL_DMG += (r.beToDmgBoost) ? Math.min(2.40, x[Stats.BE]) : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

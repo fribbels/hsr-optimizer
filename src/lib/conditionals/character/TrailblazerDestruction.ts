@@ -1,9 +1,10 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const talentAtkScalingValue = talentRev(e, 0.20, 0.22)
@@ -35,9 +36,12 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       enhancedUlt: true,
       talentStacks: 2,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -58,6 +62,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_BOOST += (r.enhancedUlt) ? 0.25 : 0
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

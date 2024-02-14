@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, skill, ult } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, findContentId, precisionRound, skill, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -23,8 +23,8 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'talentDmgReductionBuff',
     name: 'talentDmgReductionBuff',
-    text: 'Talent DMG reduction buff',
-    title: 'Talent DMG reduction buff',
+    text: 'Invigoration DMG reduction',
+    title: 'Invigoration DMG reduction',
     content: `Characters with Invigoration take ${precisionRound(0.10 * 100)}% less DMG.`,
   }, {
     formItem: 'switch',
@@ -46,20 +46,31 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 4,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'healingMaxHpBuff'),
+    findContentId(content, 'talentDmgReductionBuff'),
+    findContentId(content, 'e4SkillHealingDmgBuffStacks'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       healingMaxHpBuff: true,
       talentDmgReductionBuff: true,
       e2UltHealingBuff: true,
       e4SkillHealingDmgBuffStacks: 0,
     }),
+    teammateDefaults: () => ({
+      healingMaxHpBuff: true,
+      talentDmgReductionBuff: true,
+      e4SkillHealingDmgBuffStacks: 3,
+    }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.HP_P] += (r.healingMaxHpBuff) ? 0.10 : 0
       x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0
 
       // Scaling
@@ -68,10 +79,16 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      x.DMG_RED_MULTI *= (r.talentDmgReductionBuff) ? (1 - 0.10) : 1
-      x.ALL_DMG_MULTI += (e >= 4) ? r.e4SkillHealingDmgBuffStacks * 0.10 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.HP_P] += (m.healingMaxHpBuff) ? 0.10 : 0
+
+      x.ELEMENTAL_DMG += (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0
+      x.DMG_RED_MULTI *= (m.talentDmgReductionBuff) ? (1 - 0.10) : 1
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

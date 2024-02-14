@@ -1,12 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
-// TODO: Missing E1 dmg
 export default (e: Eidolon): CharacterConditional => {
   const skillDamageReductionValue = skillRev(e, 0.50, 0.52)
 
@@ -29,8 +28,8 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillActive',
     name: 'skillActive',
-    text: 'Skill active',
-    title: `Skill active`,
+    text: 'Skill DMG reduction',
+    title: `Skill DMG reduction`,
     content: `When the Skill is used, reduces DMG taken by ${precisionRound(skillDamageReductionValue * 100)}%. Also reduces DMG taken by all allies by 15% for 1 turn.`,
   }, {
     formItem: 'switch',
@@ -51,13 +50,21 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 6,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillActive'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       enhancedBasic: true,
       skillActive: true,
       shieldActive: true,
       e6DefStacks: 3,
+    }),
+    teammateDefaults: () => ({
+      skillActive: true,
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -71,10 +78,16 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
 
       // Boost
+      // This EHR buff only applies to self
       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - skillDamageReductionValue) : 1
-      x.DMG_RED_MULTI *= (r.skillActive) ? (1 - 0.15) : 1
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      // This EHR buff applies to all
+      x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

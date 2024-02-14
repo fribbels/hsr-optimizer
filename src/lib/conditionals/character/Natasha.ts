@@ -1,8 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basic, skill, ult } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
@@ -11,7 +12,10 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => [],
+    teammateContent: () => [],
     defaults: () => ({
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: () => {
       const x = Object.assign({}, baseComputedStatsObject)
@@ -26,6 +30,8 @@ export default (e: Eidolon): CharacterConditional => {
       // Boost
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

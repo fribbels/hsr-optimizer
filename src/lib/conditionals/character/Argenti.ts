@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -55,11 +55,14 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       ultEnhanced: true,
       talentStacks: talentMaxStacks,
       ultEnhancedExtraHits: 6,
       e2UltAtkBuff: true,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -85,6 +88,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DEF_PEN += (e >= 6) ? 0.30 : 0
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

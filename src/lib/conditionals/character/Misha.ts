@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -47,13 +47,21 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 6,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'e2DefReduction'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       ultHitsOnTarget: 10,
       enemyFrozen: true,
       e2DefReduction: true,
       e6UltDmgBoost: true,
+    }),
+    teammateDefaults: () => ({
+      e2DefReduction: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -61,7 +69,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.CD] += (r.enemyFrozen) ? 0.30 : 0
 
-      x.DEF_SHRED += (e >= 2 && r.e2DefReduction) ? 0.16 : 0
       x.ELEMENTAL_DMG += (e >= 6 && r.e6UltDmgBoost) ? 0.30 : 0
 
       x.BASIC_SCALING += basicScaling
@@ -69,6 +76,11 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultStackScaling * (r.ultHitsOnTarget)
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DEF_SHRED += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

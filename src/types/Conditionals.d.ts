@@ -253,3 +253,4 @@ export type ConditionalBuff =
   | 'skillWeaknessResShredDebuff'
   | 'talentActive'
   | 'e4TeamResBuff'
+  | 'beToDmgBoost'

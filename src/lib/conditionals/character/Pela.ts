@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, skill, ult } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, findContentId, precisionRound, skill, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const ultDefPenValue = ult(e, 0.40, 0.42)
@@ -14,6 +15,13 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 1.00, 1.08)
 
   const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'teamEhrBuff',
+    name: 'teamEhrBuff',
+    text: 'Team EHR buff',
+    title: 'Team EHR buff',
+    content: `When Pela is on the battlefield, all allies' Effect Hit Rate increases by 10%.`,
+  }, {
     formItem: 'switch',
     id: 'enemyDebuffed',
     name: 'enemyDebuffed',
@@ -46,11 +54,24 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 4,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'teamEhrBuff'),
+    findContentId(content, 'ultDefPenDebuff'),
+    findContentId(content, 'e4SkillResShred'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
+      teamEhrBuff: true,
       enemyDebuffed: true,
       skillRemovedBuff: true,
+      ultDefPenDebuff: true,
+      e4SkillResShred: true,
+    }),
+    teammateDefaults: () => ({
+      teamEhrBuff: true,
       ultDefPenDebuff: true,
       e4SkillResShred: true,
     }),
@@ -59,9 +80,6 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.EHR] += 0.10
-      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
-      x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
       x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
 
       // Scaling
@@ -74,12 +92,17 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
       x.ULT_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
 
-      x.RES_PEN += (e >= 4 && r.e4SkillResShred) ? 0.12 : 0
-      x.DEF_SHRED += (r.ultDefPenDebuff) ? ultDefPenValue : 0
-
       x.ELEMENTAL_DMG += (r.enemyDebuffed) ? 0.20 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
+
+      x.DEF_SHRED += (m.ultDefPenDebuff) ? ultDefPenValue : 0
+      x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

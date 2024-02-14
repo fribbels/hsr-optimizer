@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -42,12 +42,20 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 2,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'talentDebuffStacks'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       talentDebuffStacks: talentDebuffMax,
       enemyBurned: true,
       e2BurnMultiBoost: true,
+    }),
+    teammateDefaults: () => ({
+      talentDebuffStacks: talentDebuffMax,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -64,9 +72,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += (r.enemyBurned) ? 0.20 : 0
-      x.DMG_TAKEN_MULTI += r.talentDebuffStacks * talentDebuffDmgIncreaseValue
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DMG_TAKEN_MULTI += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

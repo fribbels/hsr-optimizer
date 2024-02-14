@@ -19,6 +19,14 @@ export default (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [{
     formItem: 'switch',
+    id: 'ehrToDmgBoost',
+    name: 'ehrToDmgBoost',
+    text: 'EHR to DMG boost',
+    title: 'EHR to DMG boost',
+    content: `Increases this unit's DMG by an amount equal to 60% of Effect Hit Rate, up to a maximum DMG increase of 72%.`,
+  },
+  {
+    formItem: 'switch',
     id: 'epiphanyDebuff',
     name: 'epiphanyDebuff',
     text: 'Epiphany debuff',
@@ -62,6 +70,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      ehrToDmgBoost: true,
       epiphanyDebuff: true,
       defDecreaseDebuff: true,
       arcanaStacks: 7,
@@ -94,10 +103,11 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.DEF_SHRED += (m.defDecreaseDebuff) ? defShredValue : 0
       x.RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
       const x = c['x']
 
-      x.ELEMENTAL_DMG += Math.min(0.72, 0.60 * x[Stats.EHR])
+      x.ELEMENTAL_DMG += (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * x[Stats.EHR]) : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

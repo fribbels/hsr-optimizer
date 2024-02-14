@@ -2001,7 +2001,7 @@ function getScoringMetadata() {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Constants.Stats.BE]: 0.75,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 1,
@@ -2389,7 +2389,7 @@ function getScoringMetadata() {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 1,
@@ -2413,7 +2413,8 @@ function getScoringMetadata() {
           Constants.Stats.Physical_DMG
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE,
         ],
       },
       relicSets: [
@@ -3277,7 +3278,7 @@ function getScoringMetadata() {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 1,
@@ -3301,7 +3302,8 @@ function getScoringMetadata() {
           Constants.Stats.Physical_DMG
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE,
         ],
       },
       relicSets: [
@@ -3331,7 +3333,7 @@ function getScoringMetadata() {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 1,
@@ -3355,7 +3357,8 @@ function getScoringMetadata() {
           Constants.Stats.Physical_DMG
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE,
         ],
       },
       relicSets: [

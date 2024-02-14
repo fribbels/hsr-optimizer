@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, findContentId, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -52,12 +52,24 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
     disabled: e < 1,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'epiphanyDebuff'),
+    findContentId(content, 'defDecreaseDebuff'),
+    findContentId(content, 'e1ResReduction'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       epiphanyDebuff: true,
       defDecreaseDebuff: true,
       arcanaStacks: 7,
+      e1ResReduction: true,
+    }),
+    teammateDefaults: () => ({
+      epiphanyDebuff: true,
+      defDecreaseDebuff: true,
       e1ResReduction: true,
     }),
     precomputeEffects: (request: Form) => {
@@ -71,12 +83,16 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.DOT_SCALING += dotScaling + arcanaStackMultiplier * r.arcanaStacks
 
       x.DOT_DEF_PEN += (r.arcanaStacks >= 7) ? 0.20 : 0
-      x.DEF_SHRED += (r.defDecreaseDebuff) ? defShredValue : 0
-      x.DOT_VULNERABILITY += (r.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0
-
-      x.RES_PEN += (e >= 1 && r.e1ResReduction) ? 0.25 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
+      x.DOT_VULNERABILITY += (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0
+      x.DEF_SHRED += (m.defDecreaseDebuff) ? defShredValue : 0
+      x.RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

@@ -6,6 +6,13 @@ const { Text } = Typography
 type ChangelogContent = { title: string; date: string; content: string[] }
 
 export default function ChangelogTab(): React.JSX.Element {
+  const activeKey = window.store((s) => s.activeKey)
+
+  if (activeKey != 'changelog') {
+    // Don't load images unless we're on the changelog tab
+    return (<></>)
+  }
+
   return (
     <List
       itemLayout="vertical"
@@ -32,11 +39,14 @@ export default function ChangelogTab(): React.JSX.Element {
 
 function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
   const display: ReactElement[] = []
+  let i = 0
   for (const entry of content) {
     if (entry.endsWith('.png')) {
       display.push(
         <img
+          key={i++}
           src={`https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/changelog/${contentUpdate.date}/${entry}`}
+          loading="lazy"
           style={{
             border: '2px solid #30519f',
             margin: 5,
@@ -45,7 +55,7 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
       )
     } else {
       display.push(
-        <li>
+        <li key={i++}>
           <Text style={{ fontSize: 16 }}>{entry}</Text>
         </li>,
       )

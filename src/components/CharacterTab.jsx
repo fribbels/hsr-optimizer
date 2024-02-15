@@ -1,22 +1,22 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 
-import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import "ag-grid-community/styles/ag-theme-balham.css";
-import DB from '../lib/db';
-import { RelicScorer } from 'lib/relicScorer';
-import { CharacterPreview } from './CharacterPreview';
-import { Assets } from "../lib/assets";
-import { SaveState } from "../lib/saveState";
-import { Message } from "../lib/message";
-import PropTypes from "prop-types";
-import { useSubscribe } from 'hooks/useSubscribe';
-import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined  } from "@ant-design/icons";
-import CharacterModal from "./CharacterModal";
-import { Utils } from "../lib/utils";
-import NameBuild from './saveBuildModal';
-import BuildsModal from './BuildsModal';
+import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd'
+import { AgGridReact } from 'ag-grid-react'
+import 'ag-grid-community/styles/ag-grid.css'
+import 'ag-grid-community/styles/ag-theme-balham.css'
+import DB from '../lib/db'
+import { RelicScorer } from 'lib/relicScorer'
+import { CharacterPreview } from './CharacterPreview'
+import { Assets } from '../lib/assets'
+import { SaveState } from '../lib/saveState'
+import { Message } from '../lib/message'
+import PropTypes from 'prop-types'
+import { useSubscribe } from 'hooks/useSubscribe'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import CharacterModal from './CharacterModal'
+import { Utils } from '../lib/utils'
+import NameBuild from './saveBuildModal'
+import BuildsModal from './BuildsModal'
 
 const { Text } = Typography
 
@@ -73,10 +73,10 @@ export default function CharacterTab() {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
-  const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false);
-  const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false);
-  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState();
+  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
+  const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
 
   console.log('CharacterTab')
 
@@ -257,50 +257,49 @@ export default function CharacterTab() {
 
   function confirmSaveBuild(name) {
     let score = RelicScorer.scoreCharacter(selectedCharacter)
-    let res = DB.saveCharacterBuild(name, selectedCharacter.id,{score:score.totalScore.toFixed(0), rating:score.totalRating})
+    let res = DB.saveCharacterBuild(name, selectedCharacter.id, { score: score.totalScore.toFixed(0), rating: score.totalRating })
     if (res) {
-        Message.error(res.error)
-        return
+      Message.error(res.error)
+      return
     }
     Message.success('Successfully saved build')
     SaveState.save()
     setIsSaveBuildModalOpen(false)
-  
   }
 
   const handleActionsMenuClick = async (e) => {
-    switch(e.key) {
-      case 'add':
-        setCharacterModalInitialCharacter(null)
-        setCharacterModalOpen(true)
-        break;
-      case 'edit':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return;
-        }
-        setCharacterModalInitialCharacter(selectedCharacter)
-        setCharacterModalOpen(true)
-        break;
-      case 'saveBuild':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return;
-        }
-        setIsSaveBuildModalOpen(true)
-        break;
-      case 'builds':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return;
-        }
-        setIsBuildsModalOpen(true)
-        break;
-      case 'unequip':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return;
-        }
+    switch (e.key) {
+    case 'add':
+      setCharacterModalInitialCharacter(null)
+      setCharacterModalOpen(true)
+      break
+    case 'edit':
+      if (!selectedCharacter) {
+        Message.error('No selected character')
+        return
+      }
+      setCharacterModalInitialCharacter(selectedCharacter)
+      setCharacterModalOpen(true)
+      break
+    case 'saveBuild':
+      if (!selectedCharacter) {
+        Message.error('No selected character')
+        return
+      }
+      setIsSaveBuildModalOpen(true)
+      break
+    case 'builds':
+      if (!selectedCharacter) {
+        Message.error('No selected character')
+        return
+      }
+      setIsBuildsModalOpen(true)
+      break
+    case 'unequip':
+      if (!selectedCharacter) {
+        Message.error('No selected character')
+        return
+      }
 
       if (!await confirm('Are you sure you want to unequip this character?')) return
       unequipClicked()

@@ -262,63 +262,65 @@ export const DB = {
       return
     }
 
-    let build = character.builds.find(x => x.name == name)
+    let build = character.builds?.find((x) => x.name == name)
     if (build) {
       console.warn('Build already exists')
-      return { error: 'Build already exists'}
+      return { error: 'Build already exists' }
     } else {
-      let updatedCharacter = { ...character }; // shallow clone
+      // let updatedCharacter = { ...character } // shallow clone
 
-      updatedCharacter.builds.push({
-          name: name,
-          build: [...Object.values(updatedCharacter.equipped)],
-          score: score,
-      });
-      DB.setCharacter(updatedCharacter);
-  }
-},
+      if (!character.builds) character.builds = []
+      character.builds.push({
+        name: name,
+        build: [...Object.values(character.equipped)],
+        score: score,
+      })
+      DB.setCharacter(character)
+      console.log('Saved build', DB.getState())
+    }
+  },
 
-equipCharacterBuild: (characterId, name) => {
-    let character = DB.getCharacterById(characterId);
+  equipCharacterBuild: (characterId, name) => {
+    let character = DB.getCharacterById(characterId)
     if (!character) {
-        console.warn('No character to equip build for');
-        return;
+      console.warn('No character to equip build for')
+      return
     }
 
-    let build = character.builds.find(x => x.name == name);
+    let build = character.builds?.find((x) => x.name == name)
     if (!build) {
-        console.warn('No build to equip');
-        return;
+      console.warn('No build to equip')
+      return
     }
 
     for (let part of Object.values(Constants.Parts)) {
-        let equippedId = build.build[part];
-        if (!equippedId) continue;
+      let equippedId = build.build[part]
+      if (!equippedId) continue
 
-        let relicMatch = DB.getRelicById(equippedId);
-        if (!relicMatch) {
-            console.warn('No relic to equip', equippedId);
-            continue;
-        }
+      let relicMatch = DB.getRelicById(equippedId)
+      if (!relicMatch) {
+        console.warn('No relic to equip', equippedId)
+        continue
+      }
 
-        let prevRelic = DB.getRelicById(character.equipped[part]);
-        if (prevRelic) {
-            prevRelic.equippedBy = undefined;
-            DB.setRelic(prevRelic);
-        }
+      let prevRelic = DB.getRelicById(character.equipped[part])
+      if (prevRelic) {
+        prevRelic.equippedBy = undefined
+        DB.setRelic(prevRelic)
+      }
 
-        character.equipped[part] = relicMatch.id;
-        relicMatch.equippedBy = character.id;
-        DB.setRelic(relicMatch);
+      character.equipped[part] = relicMatch.id
+      relicMatch.equippedBy = character.id
+      DB.setRelic(relicMatch)
     }
-    DB.setCharacter(character);
-},
+    DB.setCharacter(character)
+  },
 
   deleteCharacterBuild: (characterId, name) => {
     let character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
-    character.builds = character.builds.filter(x => x.name != name)
+    character.builds = character.builds.filter((x) => x.name != name)
     DB.setCharacter(character)
   },
 

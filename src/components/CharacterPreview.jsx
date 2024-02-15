@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Flex, Image } from 'antd';
-import PropTypes from 'prop-types';
-import { RelicScorer } from 'lib/relicScorer.ts';
-import { StatCalculator } from 'lib/statCalculator';
-import { DB } from 'lib/db';
-import { Assets } from 'lib/assets';
-import { Constants } from 'lib/constants.ts';
+import React, { useState } from 'react'
+import { Flex, Image } from 'antd'
+import PropTypes from 'prop-types'
+import { RelicScorer } from 'lib/relicScorer.ts'
+import { StatCalculator } from 'lib/statCalculator'
+import { DB } from 'lib/db'
+import { Assets } from 'lib/assets'
+import { Constants } from 'lib/constants.ts'
 import {
   defaultGap,
   innerW,
@@ -16,28 +16,28 @@ import {
   middleColumnWidth,
   parentH,
   parentW,
-} from 'lib/constantsUi';
+} from 'lib/constantsUi'
 
-import Rarity from 'components/characterPreview/Rarity';
-import StatRow from 'components/characterPreview/StatRow';
-import StatText from 'components/characterPreview/StatText';
-import RelicModal from 'components/RelicModal';
-import RelicPreview from 'components/RelicPreview';
-import { RelicModalController } from "../lib/relicModalController";
+import Rarity from 'components/characterPreview/Rarity'
+import StatRow from 'components/characterPreview/StatRow'
+import StatText from 'components/characterPreview/StatText'
+import RelicModal from 'components/RelicModal'
+import RelicPreview from 'components/RelicPreview'
+import { RelicModalController } from '../lib/relicModalController'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 const backgroundColor = '#182239'
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
 
-  const { source, character } = props;
-  const isScorer = source == 'scorer';
+  const { source, character } = props
+  const isScorer = source == 'scorer'
 
-  const relicsById = window.store(s => s.relicsById)
-  const characterTabBlur = window.store(s => s.characterTabBlur);
-  const setCharacterTabBlur = window.store(s => s.setCharacterTabBlur);
-  const [selectedRelic, setSelectedRelic] = useState();
-  const [editModalOpen, setEditModalOpen] = useState(false);
+  const relicsById = window.store((s) => s.relicsById)
+  const characterTabBlur = window.store((s) => s.characterTabBlur)
+  const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
+  const [selectedRelic, setSelectedRelic] = useState()
+  const [editModalOpen, setEditModalOpen] = useState(false)
 
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
@@ -52,8 +52,8 @@ export function CharacterPreview(props) {
         </div>
 
         <Flex gap={defaultGap}>
-          <Flex vertical gap={defaultGap} align='center' style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
-            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
+          <Flex vertical gap={defaultGap} align="center" style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
+            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
               <Flex></Flex>
             </Flex>
           </Flex>
@@ -79,11 +79,11 @@ export function CharacterPreview(props) {
   let finalStats
   if (isScorer) {
     let relicsArray = Object.values(character.equipped)
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray);
+    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
-    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped));
+    finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped))
   } else {
-    scoringResults = RelicScorer.scoreCharacter(character);
+    scoringResults = RelicScorer.scoreCharacter(character)
     displayRelics = {
       Head: relicsById[character.equipped?.Head],
       Hands: relicsById[character.equipped?.Hands],
@@ -92,7 +92,7 @@ export function CharacterPreview(props) {
       PlanarSphere: relicsById[character.equipped?.PlanarSphere],
       LinkRope: relicsById[character.equipped?.LinkRope],
     }
-    finalStats = StatCalculator.calculate(character);
+    finalStats = StatCalculator.calculate(character)
   }
   const scoredRelics = scoringResults.relics || []
 
@@ -121,10 +121,10 @@ export function CharacterPreview(props) {
     Imaginary: Constants.Stats.Imaginary_DMG,
   }
   const elementalDmgValue = elementToDmgValueMapping[characterElement]
-  console.log(displayRelics);
+  console.log(displayRelics)
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
-      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
 
       <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
         <div
@@ -139,7 +139,7 @@ export function CharacterPreview(props) {
               left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
               top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
               width: innerW,
-              filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
+              filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
             }}
             onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
           />
@@ -147,10 +147,10 @@ export function CharacterPreview(props) {
       </div>
 
       <Flex gap={defaultGap}>
-        <Flex vertical gap={defaultGap} align='center'>
-          <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify='space-between'>
+        <Flex vertical gap={defaultGap} align="center">
+          <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
             <Flex vertical gap={defaultGap}>
-              <Flex justify='space-between' style={{ height: 50 }}>
+              <Flex justify="space-between" style={{ height: 50 }}>
                 <Image
                   preview={false}
                   width={50}
@@ -184,7 +184,7 @@ export function CharacterPreview(props) {
               <StatRow finalStats={finalStats} stat={Constants.Stats.RES} source={props.source} />
               <StatRow finalStats={finalStats} stat={Constants.Stats.BE} source={props.source} />
               <StatRow finalStats={finalStats} stat={elementalDmgValue} source={props.source} />
-              <StatRow finalStats={finalStats} stat={'CV'} source={props.source} />
+              <StatRow finalStats={finalStats} stat="CV" source={props.source} />
             </Flex>
 
             <Flex vertical>
@@ -195,7 +195,8 @@ export function CharacterPreview(props) {
 
             <Flex vertical>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }} ellipsis={true}>
-                {`${lightConeName}`}&nbsp;
+                {`${lightConeName}`}
+&nbsp;
               </StatText>
               <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                 {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
@@ -208,7 +209,7 @@ export function CharacterPreview(props) {
               style={{
                 width: lcInnerW,
                 transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : ''
+                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
               }}
             />
           </div>
@@ -221,7 +222,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.Head}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.Head)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
           />
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
@@ -229,7 +230,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.Body}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.Body)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
           />
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
@@ -237,7 +238,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.PlanarSphere}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.PlanarSphere)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
           />
         </Flex>
 
@@ -248,7 +249,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.Hands}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.Hands)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
           />
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
@@ -256,7 +257,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.Feet}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.Feet)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
           />
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
@@ -264,7 +265,7 @@ export function CharacterPreview(props) {
             relic={displayRelics.LinkRope}
             source={props.source}
             characterId={characterId}
-            score={scoredRelics.find(x => x.part == Constants.Parts.LinkRope)}
+            score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
           />
         </Flex>
       </Flex>
@@ -275,4 +276,4 @@ CharacterPreview.propTypes = {
   source: PropTypes.string,
   character: PropTypes.object,
   id: PropTypes.string,
-};
+}

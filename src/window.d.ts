@@ -54,6 +54,7 @@ declare global {
     optimizerForm: FormInstance
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
+    forceCharacterTabUpdate: DispatchWithoutAction
 
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants

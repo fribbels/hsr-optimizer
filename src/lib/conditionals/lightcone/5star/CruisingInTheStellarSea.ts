@@ -62,7 +62,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x[Stats.CR] += (r.enemyHp50CrBoost && request.enemyHpPercent <= 0.50) ? sValuesCr[s] : 0
+      x[Stats.CR] += (r.enemyHp50CrBoost) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
     calculatePassives: (/* c, request */) => { },

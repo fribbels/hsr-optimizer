@@ -50,6 +50,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       enemyCountAtkBuff: true,
       enemyWeaknessBreakDmgBuff: true,

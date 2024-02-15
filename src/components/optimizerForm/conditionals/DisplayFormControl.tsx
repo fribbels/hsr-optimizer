@@ -23,10 +23,14 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: c
     if (teammateIndex != null) {
       ret.push(<div key={i++}>Team passives still under construction</div>)
     } else {
-      ret.push(<div key={i++}>No conditional team passives</div>)
+      ret.push(<div key={i++}>No conditional passives</div>)
     }
   } else if (content.length === 0) {
-    ret.push(<div key={i++}>No conditional passives</div>)
+    if (teammateIndex != null) {
+      ret.push(<div key={i++}>No conditional team passives</div>)
+    } else {
+      ret.push(<div key={i++}>No conditional passives</div>)
+    }
   } else {
     content.forEach((passive) => {
       const Item = FormItemComponentMap[passive.formItem]

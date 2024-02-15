@@ -5,6 +5,7 @@ import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
@@ -43,13 +44,19 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => content,
     defaults: () => ({
       atkBuffStacks: 5,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
+    teammateDefaults: () => ({
+      atkBuffStacks: 5,
+    }),
+    precomputeEffects: (_x: PrecomputedCharacterConditional, _request: Form) => {
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x[Stats.ATK_P] += r.atkBuffStacks * sValues[s]
+      x[Stats.ATK_P] += m.atkBuffStacks * sValues[s]
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

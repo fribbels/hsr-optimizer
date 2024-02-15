@@ -60,6 +60,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       spdStacks: 3,
       dotEffect: false,

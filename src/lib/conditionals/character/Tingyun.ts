@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basic, findContentId, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 
 import { Form } from 'types/Form'
@@ -49,22 +49,44 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 1,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'benedictionBuff'),
+    {
+      formItem: 'slider',
+      id: 'teammateAtkBuffValue',
+      name: 'teammateAtkBuffValue',
+      text: `Skill ATK buff value`,
+      title: 'Benediction buff',
+      content: `Grants a single ally with Benediction to increase their ATK by ${precisionRound(skillAtkBoostScaling * 100)}%, up to ${precisionRound(skillAtkBoostMax * 100)}% of Tingyun's current ATK. When the ally with Benediction attacks, it deals lightning damage equal to ${precisionRound(skillLightningDmgBoostScaling * 100)}% of that ally's ATK. This effect lasts for 3 turns.`,
+      min: 0,
+      max: skillAtkBoostScaling,
+      percent: true,
+    },
+    findContentId(content, 'ultDmgBuff'),
+    findContentId(content, 'ultSpdBuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       benedictionBuff: false,
       skillSpdBuff: false,
       ultSpdBuff: false,
       ultDmgBuff: false,
     }),
+    teammateDefaults: () => ({
+      benedictionBuff: true,
+      ultSpdBuff: true,
+      ultDmgBuff: true,
+      teammateAtkBuffValue: skillAtkBoostScaling,
+    }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.SPD_P] += (e >= 1 && r.ultSpdBuff) ? 0.20 : 0
       x[Stats.SPD_P] += (r.skillSpdBuff) ? 0.20 : 0
-      x[Stats.ATK_P] += (r.benedictionBuff) ? skillAtkBoostMax : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -73,10 +95,17 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.BASIC_BOOST += 0.40
-      x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBoost : 0
       x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.SPD_P] += (e >= 1 && m.ultSpdBuff) ? 0.20 : 0
+      x[Stats.ATK_P] += (m.benedictionBuff) ? skillAtkBoostMax : 0
+
+      x.ELEMENTAL_DMG += (m.ultDmgBuff) ? ultDmgBoost : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

@@ -1,6 +1,14 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import {
+  basic,
+  calculateAshblazingSet,
+  findContentId,
+  precisionRound,
+  skill,
+  talent,
+  ult,
+} from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -32,7 +40,7 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'enemyProofOfDebtDebuff',
     name: 'enemyProofOfDebtDebuff',
-    text: 'Enemy proof of debt debuff',
+    text: 'Proof of Debt debuff',
     title: 'Proof of Debt',
     content: `Inflicts a single target enemy with a Proof of Debt status, increasing the DMG it takes from follow-up attacks by ${precisionRound(proofOfDebtFuaVulnerability * 100)}%.`,
   }, {
@@ -54,11 +62,21 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 1,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'enemyProofOfDebtDebuff'),
+    findContentId(content, 'e1DebtorStacks'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       enemyProofOfDebtDebuff: true,
       numbyEnhancedState: true,
+      e1DebtorStacks: 2,
+    }),
+    teammateDefaults: () => ({
+      enemyProofOfDebtDebuff: true,
       e1DebtorStacks: 2,
     }),
     precomputeEffects: (request: Form) => {
@@ -75,11 +93,15 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += (r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0
 
       // Boost
-      x.FUA_VULNERABILITY += (r.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0
       x.ELEMENTAL_DMG += (request.enemyElementalWeak) ? 0.15 : 0
-      x.FUA_CD_BOOST += (e >= 1) ? 0.25 * r.e1DebtorStacks : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.FUA_VULNERABILITY += (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0
+      x.FUA_CD_BOOST += (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

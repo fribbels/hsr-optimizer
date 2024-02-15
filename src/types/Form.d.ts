@@ -64,6 +64,7 @@ export type Form = {
   maxDot: MAX_INT
   maxEhp: MAX_INT
   maxEhr: MAX_INT
+  maxErr: MAX_INT
   maxFua: MAX_INT
   maxHp: MAX_INT
   maxMcd: MAX_INT
@@ -83,6 +84,7 @@ export type Form = {
   minDot: MIN_INT
   minEhp: MIN_INT
   minEhr: MIN_INT
+  minErr: MIN_INT
   minFua: MIN_INT
   minHp: MIN_INT
   minMcd: MIN_INT

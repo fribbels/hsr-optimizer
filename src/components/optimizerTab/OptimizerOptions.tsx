@@ -6,7 +6,7 @@ import { Hint } from '../../lib/hint'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
 
-import FormCard from './FormCard'
+import FormCard from 'components/optimizerTab/FormCard.tsx'
 
 const { Text } = Typography
 

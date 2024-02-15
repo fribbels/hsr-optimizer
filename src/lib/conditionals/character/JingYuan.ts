@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -62,12 +62,15 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       skillCritBuff: true,
       talentHitsPerAction: 10,
       talentAttacks: 10,
       e2DmgBuff: true,
       e6FuaVulnerabilityStacks: 3,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -113,6 +116,9 @@ export default (e: Eidolon): CharacterConditional => {
       hitMulti = atkBoostSum * 0.06
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+      // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

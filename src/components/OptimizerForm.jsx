@@ -12,9 +12,9 @@ import {
   levelOptions,
   superimpositionOptions,
 } from 'lib/constants.ts'
-import FormRow from './optimizerTab/FormRow'
+import FormRow, { OptimizerMenuIds } from './optimizerTab/FormRow'
 import FilterContainer from './optimizerTab/FilterContainer'
-import FormCard from './optimizerTab/FormCard'
+import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx'
 import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons'
 import { HeaderText } from './HeaderText'
@@ -39,6 +39,7 @@ import GenerateSetsOptions from './optimizerForm/SetsOptions.tsx'
 import RecommendedPresetsButton from './optimizerForm/RecommendedPresetsButton'
 import { CharacterConditionalDisplay } from './optimizerForm/conditionals/CharacterConditionalDisplay'
 import { LightConeConditionalDisplay } from './optimizerForm/conditionals/LightConeConditionalDisplay'
+import TeammateCard from 'components/optimizerTab/TeammateCard'
 
 const { Text } = Typography
 const { SHOW_CHILD } = Cascader
@@ -65,6 +66,7 @@ export default function OptimizerForm() {
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
+  const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
   useEffect(() => {
     OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone)
@@ -153,6 +155,7 @@ export default function OptimizerForm() {
       || keys[0].startsWith('buff')
       || keys[0].startsWith('weights')
       || keys[0].startsWith('statDisplay')
+      || keys[0].startsWith('teammate')
       || keys[0] == 'characterConditionals'
       || keys[0] == 'lightConeConditionals')) {
       return
@@ -189,6 +192,7 @@ export default function OptimizerForm() {
 
   function cancelClicked() {
     console.log('Cancel clicked')
+    setOptimizationInProgress(false)
     Optimizer.cancel(optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
@@ -219,6 +223,8 @@ export default function OptimizerForm() {
       return
     }
 
+    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+
     DB.addFromForm(form)
     SaveState.save()
     console.log('Form finished', form)
@@ -227,6 +233,7 @@ export default function OptimizerForm() {
     setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
 
+    setOptimizationInProgress(true)
     Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
@@ -334,7 +341,7 @@ export default function OptimizerForm() {
         <FormSetConditionals />
 
         <FilterContainer>
-          <FormRow gap={defaultGap} title="Character options">
+          <FormRow id={OptimizerMenuIds.characterOptions}>
             {/* Character Portrait */}
             <FormCard style={{ overflow: 'hidden' }}>
               <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
@@ -361,6 +368,7 @@ export default function OptimizerForm() {
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
+                    placeholder="Character"
                   />
                 </Form.Item>
               </Flex>
@@ -370,6 +378,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={levelOptions}
+                    placeholder="Level"
                   />
                 </Form.Item>
                 <Form.Item size="default" name="characterEidolon">
@@ -377,6 +386,7 @@ export default function OptimizerForm() {
                     showSearch
                     style={{ width: (panelWidth - defaultGap) / 2 }}
                     options={eidolonOptions}
+                    placeholder="Eidolon"
                   />
                 </Form.Item>
               </Flex>
@@ -394,6 +404,7 @@ export default function OptimizerForm() {
                       style={{ width: panelWidth }}
                       onChange={lightConeSelectorChange}
                       options={lightConeOptions}
+                      placeholder="Light Cone"
                     />
                   </Form.Item>
                 </Flex>
@@ -403,6 +414,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={levelOptions}
+                      placeholder="Level"
                     />
                   </Form.Item>
                   <Form.Item size="default" name="lightConeSuperimposition">
@@ -410,6 +422,7 @@ export default function OptimizerForm() {
                       showSearch
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={superimpositionOptions}
+                      placeholder="Superimposition"
                     />
                   </Form.Item>
                 </Flex>
@@ -507,7 +520,7 @@ export default function OptimizerForm() {
             <OptimizerOptions defaultGap={defaultGap} panelWidth={panelWidth} />
           </FormRow>
 
-          <FormRow title="Relic & stat filters">
+          <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
               <Flex vertical gap={defaultGap}>
                 <Flex justify="space-between" align="center">
@@ -522,15 +535,17 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Body"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partBody.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                    <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
-                    <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.CR} label="CR">CRIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.CD} label="CD">CRIT DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.OHB} label="HEAL">Outgoing Healing</Select.Option>
+                    <Select.Option value={Constants.Stats.EHR} label="EHR">Effect HIT Rate</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -542,12 +557,14 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Feet"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partFeet.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.SPD} label="SPD">Speed</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -559,19 +576,21 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Planar Sphere"
+                    optionLabelProp="label"
                     listHeight={400}
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partPlanarSphere.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.Physical_DMG} label="Physical">Physical DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Fire_DMG} label="Fire">Fire DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Ice_DMG} label="Ice">Ice DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Lightning_DMG} label="Lightning">Lightning DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Wind_DMG} label="Wind">Wind DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Quantum_DMG} label="Quantum">Quantum DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Imaginary_DMG} label="Imaginary">Imaginary DMG</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -583,13 +602,15 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Link Rope"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partLinkRope.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-                    <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.BE} label="BE">Break Effect</Select.Option>
+                    <Select.Option value={Constants.Stats.ERR} label="Energy">Energy Regeneration Rate</Select.Option>
                   </Select>
                 </Form.Item>
               </Flex>
@@ -679,6 +700,7 @@ export default function OptimizerForm() {
                 <FilterRow name="Ehr" label="EHR" />
                 <FilterRow name="Res" label="RES" />
                 <FilterRow name="Be" label="BE" />
+                <FilterRow name="Err" label="ERR" />
               </Flex>
             </FormCard>
 
@@ -800,6 +822,12 @@ export default function OptimizerForm() {
                 </Flex>
               </Flex>
             </FormCard>
+          </FormRow>
+
+          <FormRow id={OptimizerMenuIds.teammates}>
+            <TeammateCard index={0} />
+            <TeammateCard index={1} />
+            <TeammateCard index={2} />
           </FormRow>
         </FilterContainer>
       </Form>

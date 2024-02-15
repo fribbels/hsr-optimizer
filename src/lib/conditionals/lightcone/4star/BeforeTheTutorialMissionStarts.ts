@@ -1,4 +1,6 @@
-export default (/* s: SuperImpositionLevel */) => {
+import { LightConeConditional } from 'types/LightConeConditionals'
+
+export default (/* s: SuperImpositionLevel */): LightConeConditional => {
   // const sValues = [0, 0, 0, 0, 0]
 
   /*
@@ -25,6 +27,7 @@ export default (/* s: SuperImpositionLevel */) => {
 
   return {
     content: () => [],
+    teammateContent: () => [],
     defaults: () => ({
     }),
     precomputeEffects: (/* x, request */) => {

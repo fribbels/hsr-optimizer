@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject } from 'lib/conditionals/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -68,9 +68,12 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       enemyDebuffStacks: debuffStacksMax,
       summationStacks: summationStacksMax,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -91,6 +94,8 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       x.FUA_BOOST += (e >= 6) ? 0.50 : 0
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

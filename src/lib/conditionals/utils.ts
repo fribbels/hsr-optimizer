@@ -1,4 +1,5 @@
 import { Constants } from 'lib/constants'
+import { ContentItem } from 'types/Conditionals'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
   const factor = Math.pow(10, precision)
@@ -19,6 +20,10 @@ export const calculateAshblazingSet = (c, request, hitMulti): {
     ashblazingMulti,
     ashblazingAtk,
   }
+}
+
+export const findContentId = (content: ContentItem[], id: string) => {
+  return content.find((contentItem) => contentItem.id == id)!
 }
 
 export const p4 = (set: number): number => {

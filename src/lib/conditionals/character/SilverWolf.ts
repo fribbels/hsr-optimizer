@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -18,9 +18,16 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [{
     formItem: 'switch',
+    id: 'skillWeaknessResShredDebuff',
+    name: 'skillWeaknessResShredDebuff',
+    text: 'Skill weakness implanted RES shred',
+    title: 'Skill weakness implanted RES shred',
+    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s).`,
+  }, {
+    formItem: 'switch',
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
-    text: 'Skill RES shred',
+    text: 'Skill All-Type RES shred',
     title: 'Skill: Allow Changes? RES Shred',
     content: `Decreases the target's All-Type RES of the enemy by ${precisionRound(skillResShredValue * 100)}% for 2 turn(s).
     ::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.`,
@@ -56,9 +63,26 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     max: 5,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillWeaknessResShredDebuff'),
+    findContentId(content, 'skillResShredDebuff'),
+    findContentId(content, 'skillDefShredDebuff'),
+    findContentId(content, 'ultDefShredDebuff'),
+    findContentId(content, 'targetDebuffs'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
+      skillWeaknessResShredDebuff: true,
+      skillResShredDebuff: true,
+      skillDefShredDebuff: true,
+      ultDefShredDebuff: true,
+      targetDebuffs: 5,
+    }),
+    teammateDefaults: () => ({
+      skillWeaknessResShredDebuff: true,
       skillResShredDebuff: true,
       skillDefShredDebuff: true,
       ultDefShredDebuff: true,
@@ -77,13 +101,18 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += (e >= 4) ? r.targetDebuffs * 0.20 : 0
 
       // Boost
-      x.RES_PEN += (r.skillResShredDebuff) ? skillResShredValue : 0
-      x.RES_PEN += (r.skillResShredDebuff && r.targetDebuffs >= 3) ? 0.03 : 0
-      x.DEF_SHRED += (r.skillDefShredDebuff) ? skillDefShredBufValue : 0
-      x.DEF_SHRED += (r.ultDefShredDebuff) ? ultDefShredValue : 0
       x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
+      x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
+      x.RES_PEN += (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0
+      x.DEF_SHRED += (m.ultDefShredDebuff) ? ultDefShredValue : 0
+      x.DEF_SHRED += (m.skillDefShredDebuff) ? skillDefShredBufValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

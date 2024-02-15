@@ -1,9 +1,10 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, skillRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, skillRev, ultRev } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basicRev(e, 1.00, 1.10)
@@ -30,28 +31,38 @@ export default (e: Eidolon): CharacterConditional => {
     disabled: e < 6,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'fieldActive'),
+    findContentId(content, 'e6ResReduction'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       fieldActive: true,
       e6ResReduction: true,
     }),
-    precomputeEffects: (request) => {
-      const r = request.characterConditionals
+    teammateDefaults: () => ({
+      fieldActive: true,
+      e6ResReduction: true,
+    }),
+    precomputeEffects: (_request) => {
       const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-      x[Stats.ATK_P] += (e >= 1 && r.fieldActive) ? 0.20 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      // Boost
-      x.RES_PEN += (e >= 6 && r.e6ResReduction) ? 0.20 : 0
-
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.ATK_P] += (e >= 1 && m.fieldActive) ? 0.20 : 0
+
+      x.RES_PEN += (e >= 6 && m.e6ResReduction) ? 0.20 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

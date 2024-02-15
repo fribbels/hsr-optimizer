@@ -16,6 +16,8 @@ const { Text } = Typography
 const tagHeight = 34
 const imgWidth = 34
 
+const BLANK = Assets.getBlank()
+
 export default function RelicFilterBar() {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
@@ -40,7 +42,8 @@ export default function RelicFilterBar() {
       }
 
       const width = overrides[key] ? 30 : imgWidth
-      const src = Assets.getElement(overrides[key]) || srcFn(key)
+      const elementOrBlank = Assets.getElement(overrides[key])
+      const src = elementOrBlank != BLANK ? elementOrBlank : srcFn(key)
 
       return tooltip
         ? (
@@ -229,21 +232,23 @@ export default function RelicFilterBar() {
             </Button>
           </Flex>
         </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={0.5}>
-          <HeaderText>Filter actions</HeaderText>
-          <Flex gap={10}>
-            <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
-              Clear filters
-            </Button>
+        <Flex flex={1} gap={10}>
+          <Flex vertical style={{ height: '100%' }} flex={0.5}>
+            <HeaderText>Filter actions</HeaderText>
+            <Flex gap={10}>
+              <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
+                Clear filters
+              </Button>
+            </Flex>
           </Flex>
-        </Flex>
-        <Flex vertical flex={0.5}>
-          <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
-        </Flex>
-        <Flex vertical flex={0.25}>
-          <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+          <Flex vertical flex={0.5}>
+            <HeaderText>Grade</HeaderText>
+            <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
+          </Flex>
+          <Flex vertical flex={0.25}>
+            <HeaderText>Verified</HeaderText>
+            <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+          </Flex>
         </Flex>
       </Flex>
 

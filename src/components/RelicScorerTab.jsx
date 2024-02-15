@@ -11,7 +11,7 @@ import { Utils } from 'lib/utils'
 import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Message } from 'lib/message'
 
-const { Text } = Typography;
+const { Text } = Typography
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
@@ -79,16 +79,16 @@ export default function RelicScorerTab() {
           data.detailInfo.avatarDetailList[3],
           data.detailInfo.avatarDetailList[6],
         ]
-        .filter(x => !!x)
-        .sort((a, b) => {
-          if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
-          if (b._assist) return 1
-          if (a._assist) return -1
-          return 0
-        })
-        .filter((item, index, array) => {
-          return array.findIndex((i) => i.avatarId === item.avatarId) === index;
-        })
+          .filter((x) => !!x)
+          .sort((a, b) => {
+            if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
+            if (b._assist) return 1
+            if (a._assist) return -1
+            return 0
+          })
+          .filter((item, index, array) => {
+            return array.findIndex((i) => i.avatarId === item.avatarId) === index
+          })
 
         console.log('characters', characters)
 
@@ -195,7 +195,7 @@ function CharacterPreviewSelection(props) {
     options.push({
       label: (
         <Flex align="center">
-          <img style={{ width: 100 }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
+          <img style={{ width: 100, height: 100, objectFit: 'contain' }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
         </Flex>
       ),
       value: availableCharacter.id,

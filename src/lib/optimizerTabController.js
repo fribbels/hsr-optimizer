@@ -250,6 +250,8 @@ export const OptimizerTabController = {
     newForm.minRes = unsetMin(form.minRes, true)
     newForm.maxBe = unsetMax(form.maxBe, true)
     newForm.minBe = unsetMin(form.minBe, true)
+    newForm.maxErr = unsetMax(form.maxErr, true)
+    newForm.minErr = unsetMin(form.minErr, true)
     newForm.maxCv = unsetMax(form.maxCv)
     newForm.minCv = unsetMin(form.minCv)
     newForm.maxWeight = unsetMax(form.maxWeight)
@@ -360,6 +362,15 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
+    for (let i of [0, 1, 2]) {
+      if (!newForm[`teammate${i}`]) {
+        newForm[`teammate${i}`] = {
+          characterEidolon: 0,
+          lightConeSuperimposition: 1,
+        }
+      }
+    }
+
     if (!newForm.weights) {
       newForm.weights = {
         [Constants.Stats.HP_P]: 1,
@@ -432,6 +443,8 @@ export const OptimizerTabController = {
     x.minRes = fixValue(x.minRes, 0, 100)
     x.maxBe = fixValue(x.maxBe, MAX_INT, 100)
     x.minBe = fixValue(x.minBe, 0, 100)
+    x.maxErr = fixValue(x.maxErr, MAX_INT, 100)
+    x.minErr = fixValue(x.minErr, 0, 100)
 
     x.maxCv = fixValue(x.maxCv, MAX_INT)
     x.minCv = fixValue(x.minCv, 0)
@@ -486,7 +499,7 @@ export const OptimizerTabController = {
       characterEidolon: fieldValues.characterEidolon,
       characterId: fieldValues.characterId,
       characterLevel: fieldValues.characterLevel,
-      enhance: 15,
+      enhance: 9,
       grade: 5,
       predictMaxedMainStat: true,
       rankFilter: true,
@@ -528,7 +541,7 @@ export const OptimizerTabController = {
       }
       window.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
-      console.warn(`@OptimzerTabController.changeCharacter(${id}) - Character not found`)
+      console.log(`@OptimzerTabController.changeCharacter(${id}) - Character not found in owned characters - setting up defaults`)
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
         characterId: id,
         characterEidolon: 0,
@@ -536,6 +549,10 @@ export const OptimizerTabController = {
         lightConeSuperimposition: 1,
       })
       window.optimizerForm.setFieldsValue(displayFormValues)
+      // Cleanup? Form doesnt seem to overwrite existing object values - setting teammate fields manually
+      window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
+      window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
+      window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
       window.store.getState().setStatDisplay('base')
     }
 
@@ -660,6 +677,7 @@ function filter(filterModel) {
         && row.xEHR >= filterModel.minEhr && row.xEHR <= filterModel.maxEhr
         && row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
+        && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
         && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
@@ -685,6 +703,7 @@ function filter(filterModel) {
         && row[Constants.Stats.EHR] >= filterModel.minEhr && row[Constants.Stats.EHR] <= filterModel.maxEhr
         && row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
+        && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
         && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight

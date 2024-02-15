@@ -40,13 +40,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       activeShieldDmgDecrease: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 0
+      x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

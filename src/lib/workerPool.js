@@ -27,7 +27,7 @@ export const WorkerPool = {
     WorkerPool.execute(task, callback)
   },
 
-  execute: async (task, callback, id) => {
+  execute: (task, callback, id) => {
     if (taskStatus[id] == undefined) taskStatus[id] = true
     if (taskStatus[id] == false) return
 

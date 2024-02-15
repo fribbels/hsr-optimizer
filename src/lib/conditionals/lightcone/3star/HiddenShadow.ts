@@ -26,6 +26,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       basicAtkBuff: true,
     }),

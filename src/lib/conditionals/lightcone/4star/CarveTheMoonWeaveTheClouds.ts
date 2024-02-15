@@ -2,14 +2,15 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
   const sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
+  const sValuesErr = [0.06, 0.075, 0.09, 0.105, 0.12]
   const lcRank = {
     id: '21032',
     skill: 'Secret',
@@ -32,7 +33,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'atkBuffActive',
     name: 'atkBuffActive',
     formItem: 'switch',
-    text: 'Atk buff active',
+    text: 'ATK buff active',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }, {
@@ -43,19 +44,37 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     text: 'CD buff active',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
+  }, {
+    lc: true,
+    id: 'errBuffActive',
+    name: 'errBuffActive',
+    formItem: 'switch',
+    text: 'ERR buff active',
+    title: lcRank.skill,
+    content: getContentFromLCRanks(s, lcRank),
   }]
 
   return {
     content: () => content,
+    teammateContent: () => content,
     defaults: () => ({
       atkBuffActive: true,
       cdBuffActive: false,
+      errBuffActive: false,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
+    teammateDefaults: () => ({
+      atkBuffActive: true,
+      cdBuffActive: false,
+      errBuffActive: false,
+    }),
+    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x[Stats.ATK_P] += (r.atkBuffActive) ? sValuesAtk[s] : 0
-      x[Stats.CD] += (r.cdBuffActive) ? sValuesCd[s] : 0
+      x[Stats.ATK_P] += (m.atkBuffActive) ? sValuesAtk[s] : 0
+      x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
+      x[Stats.ERR] += (m.errBuffActive) ? sValuesErr[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

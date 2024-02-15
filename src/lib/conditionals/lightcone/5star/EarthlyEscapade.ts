@@ -5,6 +5,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
@@ -40,14 +41,20 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => content,
     defaults: () => ({
       maskActive: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
+    teammateDefaults: () => ({
+      maskActive: true,
+    }),
+    precomputeEffects: (_x: PrecomputedCharacterConditional, _request: Form) => {
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x[Stats.CR] += (r.maskActive) ? sValuesCr[s] : 0
-      x[Stats.CD] += (r.maskActive) ? sValuesCd[s] : 0
+      x[Stats.CR] += (m.maskActive) ? sValuesCr[s] : 0
+      x[Stats.CD] += (m.maskActive) ? sValuesCd[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

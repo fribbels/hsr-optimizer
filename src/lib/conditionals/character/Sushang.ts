@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
   const talentSpdBuffValue = talent(e, 0.20, 0.21)
@@ -66,12 +67,15 @@ export default (e: Eidolon): CharacterConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       ultBuffedState: true,
       e2DmgReductionBuff: true,
       skillExtraHits: 3,
       skillTriggerStacks: 10,
       talentSpdBuffStacks: talentSpdBuffStacksMax,
+    }),
+    teammateDefaults: () => ({
     }),
     precomputeEffects: (request) => {
       const r = request.characterConditionals
@@ -103,6 +107,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
 
       return x
+    },
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

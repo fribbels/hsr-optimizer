@@ -38,6 +38,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       maxEnergyStacks: 160,
     }),

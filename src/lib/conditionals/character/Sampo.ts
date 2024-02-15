@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -30,9 +30,7 @@ export default (e: Eidolon): CharacterConditional => {
     name: 'skillExtraHits',
     text: 'Skill extra hits',
     title: 'Skill extra hits',
-    content: `
-      Number of extra hits from Skill.
-      `,
+    content: `Number of extra hits from Skill.`,
     min: 1,
     max: maxExtraHits,
   }, {
@@ -44,12 +42,20 @@ export default (e: Eidolon): CharacterConditional => {
     content: `Enemies with Wind Shear effect deal 15% less damage to Sampo.`,
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetDotTakenDebuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       targetDotTakenDebuff: true,
       skillExtraHits: maxExtraHits,
       targetWindShear: true,
+    }),
+    teammateDefaults: () => ({
+      targetDotTakenDebuff: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -66,10 +72,14 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_SCALING += (e >= 6) ? 0.15 : 0
 
       // Boost
-      x.DOT_VULNERABILITY += (r.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
       x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DOT_VULNERABILITY += (m.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

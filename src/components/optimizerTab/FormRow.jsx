@@ -1,50 +1,67 @@
-import { Flex, Typography } from 'antd'
+import { Collapse, Flex } from 'antd'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const { Text } = Typography
+export const OptimizerMenuIds = {
+  characterOptions: 'Character options',
+  relicAndStatFilters: 'Relic & stat filters',
+  teammates: 'Teammates',
+}
 
 export default function FormRow(props) {
+  const optimizerMenuState = window.store((s) => s.optimizerMenuState)
+  const setOptimizerMenuState = window.store((s) => s.setOptimizerMenuState)
+
+  function onChange(event) {
+    optimizerMenuState[props.id] = event.length > 0
+    setOptimizerMenuState(optimizerMenuState)
+  }
+
+  const items = [
+    {
+      key: props.id,
+      label: (
+        <Flex style={{ paddingTop: 8 }}>
+          {props.id}
+        </Flex>
+      ),
+      forceRender: true,
+      children: (
+        <Flex
+          style={{
+            paddingLeft: 10,
+            marginTop: 5,
+            paddingRight: 10,
+          }}
+          gap={10}
+        >
+          {props.children}
+        </Flex>
+      ),
+    },
+  ]
+
   return (
     <Flex
       gap={0}
       vertical
+      className="form-row"
       style={{
-        paddingTop: 5,
+        minWidth: '100%',
       }}
     >
-      <Flex // Top bar
-        style={{
-          height: 20,
-          paddingLeft: 15,
-        }}
-        // justify='space-around'
-        align="center"
-      >
-        <Text
-          style={{
-            fontSize: 20,
-          }}
-        >
-          {props.title}
-        </Text>
-      </Flex>
-
-      <Flex
-        style={{
-          paddingTop: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-          paddingBottom: 10,
-        }}
-        gap={10}
-      >
-        {props.children}
-      </Flex>
+      <Collapse
+        defaultActiveKey={optimizerMenuState[props.id] ? props.id : undefined}
+        items={items}
+        // collapsible='icon'
+        onChange={onChange}
+        expandIconPosition="end"
+        ghost
+      />
     </Flex>
   )
 }
 FormRow.propTypes = {
-  title: PropTypes.string,
+  id: PropTypes.string,
   children: PropTypes.any,
 }

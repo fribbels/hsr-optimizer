@@ -90,7 +90,6 @@ export const baseComputedStatsObject = {
   FUA_DMG: 0,
   DOT_DMG: 0,
 
-  ALL_DMG_MULTI: 0, // TODO: I think these are actually wrong / ALL_DMG_BOOST? - revisit
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 }
 export type ComputedStatsObject = typeof baseComputedStatsObject

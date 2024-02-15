@@ -535,15 +535,17 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Body"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partBody.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.CR}>CRIT Rate</Select.Option>
-                    <Select.Option value={Constants.Stats.CD}>CRIT DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.OHB}>Outgoing Healing</Select.Option>
-                    <Select.Option value={Constants.Stats.EHR}>Effect HIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.CR} label="CR">CRIT Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.CD} label="CD">CRIT DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.OHB} label="HEAL">Outgoing Healing</Select.Option>
+                    <Select.Option value={Constants.Stats.EHR} label="EHR">Effect HIT Rate</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -555,12 +557,14 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Feet"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partFeet.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.SPD}>Speed</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.SPD} label="SPD">Speed</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -572,19 +576,21 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Planar Sphere"
+                    optionLabelProp="label"
                     listHeight={400}
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partPlanarSphere.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.Physical_DMG}>Physical DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Fire_DMG}>Fire DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Ice_DMG}>Ice DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Lightning_DMG}>Lightning DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Wind_DMG}>Wind DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Quantum_DMG}>Quantum DMG</Select.Option>
-                    <Select.Option value={Constants.Stats.Imaginary_DMG}>Imaginary DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.Physical_DMG} label="Physical">Physical DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Fire_DMG} label="Fire">Fire DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Ice_DMG} label="Ice">Ice DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Lightning_DMG} label="Lightning">Lightning DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Wind_DMG} label="Wind">Wind DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Quantum_DMG} label="Quantum">Quantum DMG</Select.Option>
+                    <Select.Option value={Constants.Stats.Imaginary_DMG} label="Imaginary">Imaginary DMG</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -596,13 +602,15 @@ export default function OptimizerForm() {
                       width: panelWidth,
                     }}
                     placeholder="Link Rope"
+                    optionLabelProp="label"
                     maxTagCount="responsive"
+                    suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partLinkRope.png" />}
                   >
-                    <Select.Option value={Constants.Stats.HP_P}>HP%</Select.Option>
-                    <Select.Option value={Constants.Stats.ATK_P}>ATK%</Select.Option>
-                    <Select.Option value={Constants.Stats.DEF_P}>DEF%</Select.Option>
-                    <Select.Option value={Constants.Stats.BE}>Break Effect</Select.Option>
-                    <Select.Option value={Constants.Stats.ERR}>Energy Regeneration Rate</Select.Option>
+                    <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
+                    <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
+                    <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
+                    <Select.Option value={Constants.Stats.BE} label="BE">Break Effect</Select.Option>
+                    <Select.Option value={Constants.Stats.ERR} label="Energy">Energy Regeneration Rate</Select.Option>
                   </Select>
                 </Form.Item>
               </Flex>
@@ -692,6 +700,7 @@ export default function OptimizerForm() {
                 <FilterRow name="Ehr" label="EHR" />
                 <FilterRow name="Res" label="RES" />
                 <FilterRow name="Be" label="BE" />
+                <FilterRow name="Err" label="ERR" />
               </Flex>
             </FormCard>
 

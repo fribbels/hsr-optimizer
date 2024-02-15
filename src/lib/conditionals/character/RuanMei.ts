@@ -49,6 +49,14 @@ export default (e: Eidolon): CharacterConditional => {
   }]
 
   const teammateContent: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'teamSpdBuff',
+      name: 'teamSpdBuff',
+      text: 'Team SPD buff',
+      title: 'Talent: Somatotypical Helix',
+      content: `Increases SPD by 10% for the team (excluding this character).`,
+    },
     findContentId(content, 'teamBEBuff'),
     {
       formItem: 'slider',
@@ -75,6 +83,7 @@ export default (e: Eidolon): CharacterConditional => {
       e4BeBuff: false,
     }),
     teammateDefaults: () => ({
+      teamSpdBuff: true,
       teamBEBuff: true,
       ultFieldActive: true,
       e2AtkBoost: false,
@@ -102,11 +111,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
+      x.ELEMENTAL_DMG += m.teamDmgBuff
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
-      x.ELEMENTAL_DMG += t.teamDmgBuff
+      x[Stats.SPD_P] += (t.teamSpdBuff) ? 0.10 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

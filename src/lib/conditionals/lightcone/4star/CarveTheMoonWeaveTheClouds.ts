@@ -10,6 +10,7 @@ import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
   const sValuesCd = [0.12, 0.15, 0.18, 0.21, 0.24]
+  const sValuesErr = [0.06, 0.075, 0.09, 0.105, 0.12]
   const lcRank = {
     id: '21032',
     skill: 'Secret',
@@ -43,6 +44,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     text: 'CD buff active',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
+  }, {
+    lc: true,
+    id: 'errBuffActive',
+    name: 'errBuffActive',
+    formItem: 'switch',
+    text: 'ERR buff active',
+    title: lcRank.skill,
+    content: getContentFromLCRanks(s, lcRank),
   }]
 
   return {
@@ -51,10 +60,12 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       atkBuffActive: true,
       cdBuffActive: false,
+      errBuffActive: false,
     }),
     teammateDefaults: () => ({
       atkBuffActive: true,
       cdBuffActive: false,
+      errBuffActive: false,
     }),
     precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
@@ -63,6 +74,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.ATK_P] += (m.atkBuffActive) ? sValuesAtk[s] : 0
       x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
+      x[Stats.ERR] += (m.errBuffActive) ? sValuesErr[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

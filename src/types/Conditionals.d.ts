@@ -255,3 +255,4 @@ export type ConditionalBuff =
   | 'talentActive'
   | 'e4TeamResBuff'
   | 'beToDmgBoost'
+  | 'errBuffActive'

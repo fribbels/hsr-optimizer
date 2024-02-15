@@ -74,7 +74,6 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       Message.success(`Successfully deleted ${name}`)
     }
   }
-  console.log(selectedBuild)
 
   const handleEquip = async (build: oldBuild) => {
     const result = await confirm(
@@ -162,9 +161,12 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                       : undefined,
                   cursor: 'pointer',
                 }}
-                onClick={() => {
-                  // handleEquip(build);
-                  setSelectedBuild(index) // Set selectedBuildIndex on click
+                onClick={(e) => {
+                  const isButtonClicked
+                    = (e.target as HTMLElement).closest('button') !== null
+                  if (!isButtonClicked) {
+                    setSelectedBuild(index)
+                  }
                 }}
                 onMouseEnter={() => setSelectedBuildIndex(index)}
                 onMouseLeave={() => setSelectedBuildIndex(null)}

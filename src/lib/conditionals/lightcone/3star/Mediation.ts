@@ -5,6 +5,7 @@ import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [12, 14, 16, 18, 20]
@@ -27,13 +28,19 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => content,
     defaults: () => ({
       initialSpdBuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
+    teammateDefaults: () => ({
+      initialSpdBuff: true,
+    }),
+    precomputeEffects: (_x: PrecomputedCharacterConditional, _request: Form) => {
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x[Stats.SPD] += (r.initialSpdBuff) ? sValues[s] : 0
+      x[Stats.SPD] += (m.initialSpdBuff) ? sValues[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

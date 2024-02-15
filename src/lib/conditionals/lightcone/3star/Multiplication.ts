@@ -45,6 +45,7 @@ export default (/* s: SuperImpositionLevel */): LightConeConditional => {
 
   return {
     content: () => [],
+    teammateContent: () => [],
     defaults: () => ({
     }),
     precomputeEffects: (/* x, request */) => {

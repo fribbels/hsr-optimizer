@@ -10,7 +10,7 @@ import RelicStatText from 'components/relicPreview/RelicStatText'
 const RelicPreview = ({
   relic,
   // characterId = undefined, // CharacterPreview by way of RelicScorerTab
-  score = undefined,
+  score,
   source = '',
   setSelectedRelic = () => { },
   setEditModalOpen = () => { },

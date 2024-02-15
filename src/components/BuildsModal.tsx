@@ -9,6 +9,7 @@ import { Message } from '../lib/message'
 import { Character, oldBuild } from 'types/Character'
 import RelicPreview from './RelicPreview'
 import { defaultGap } from 'lib/constantsUi'
+import { RelicScorer } from 'lib/relicScorer'
 
 interface BuildsModalProps {
   open: boolean
@@ -98,13 +99,17 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
     for (let i = 0; i < relics.length; i += 3) {
       const group = relics
         .slice(i, i + 3)
-        .map((relicId) => (
-          <RelicPreview
-            key={relicId}
-            relic={DB.getRelicById(relicId)}
-            characterId={selectedCharacter?.id}
-          />
-        ))
+        .map((relicId) => {
+          const relic = DB.getRelicById(relicId)
+          return (
+            <RelicPreview
+              key={relicId}
+              score={RelicScorer.score(relic, selectedCharacter?.id)}
+              relic={relic}
+              characterId={selectedCharacter?.id}
+            />
+          )
+        })
       relicGroups.push(
         <Flex key={i} gap={defaultGap}>
           {group}

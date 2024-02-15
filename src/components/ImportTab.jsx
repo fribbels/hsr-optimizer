@@ -401,7 +401,7 @@ function KelZImporterTab() {
   }
 
   function confirmRelicMerge() {
-    if (!currentRelics || !currentRelics.length) {
+    if (!currentRelics) {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
@@ -695,11 +695,11 @@ export default function ImportTab() {
               key: 0,
               children: KelZImporterTab(),
             },
-            {
-              label: 'Fribbels scanner importer',
-              key: 1,
-              children: FribbelsImporterTab(),
-            },
+            // {
+            //   label: 'Fribbels scanner importer',
+            //   key: 1,
+            //   children: FribbelsImporterTab(),
+            // },
             {
               label: 'Save optimizer data',
               key: 2,

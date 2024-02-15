@@ -401,6 +401,10 @@ export const DB = {
     }
 
     let replacementRelics = []
+    // In case the user tries to import a characters only file, we do this
+    if (newRelics.length == 0) {
+      replacementRelics = oldRelics
+    }
     for (let newRelic of newRelics) {
       let hash = hashRelic(newRelic)
 

@@ -17,6 +17,7 @@ export const RelicModalController = {
     DB.setRelic(updatedRelic)
     window.setRelicRows(DB.getRelics())
     SaveState.save()
+    window.forceCharacterTabUpdate()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)

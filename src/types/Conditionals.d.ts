@@ -225,6 +225,7 @@ export type ConditionalBuff =
   | 'targetWindShear'
   | 'teamBEBuff'
   | 'teamDmgBuff'
+  | 'teamSpdBuff'
   | 'teamImaginaryDmgBoost'
   | 'teammateAtkBuffValue'
   | 'teammateATKValue'

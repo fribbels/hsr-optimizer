@@ -278,7 +278,7 @@ a {
 }
 
 .ant-select-selection-item {
-  padding-inline-end: 10px !important;
+  padding-inline-end: 6px !important;
 }
 
 .ant-slider:hover .ant-slider-handle::after {

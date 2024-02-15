@@ -143,12 +143,12 @@ export const Assets = {
 
   getPart: (part) => {
     let mapping = {
-      [Constants.Parts.Head]: 'head',
-      [Constants.Parts.Hands]: 'hands',
-      [Constants.Parts.Body]: 'body',
-      [Constants.Parts.Feet]: 'feet',
-      [Constants.Parts.PlanarSphere]: 'planarSphere',
-      [Constants.Parts.LinkRope]: 'linkRope',
+      [Constants.Parts.Head]: 'partHead',
+      [Constants.Parts.Hands]: 'partHands',
+      [Constants.Parts.Body]: 'partBody',
+      [Constants.Parts.Feet]: 'partFeet',
+      [Constants.Parts.PlanarSphere]: 'partPlanarSphere',
+      [Constants.Parts.LinkRope]: 'partLinkRope',
     }
 
     return baseUrl + `/assets/misc/${mapping[part]}.png`

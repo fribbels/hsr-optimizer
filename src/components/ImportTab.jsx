@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 
 const { Text } = Typography
 
+const buttonWidth = 230
 const spinnerMs = 500
 
 // https://web.dev/patterns/files/save-a-file
@@ -90,7 +91,7 @@ function SaveDataTab() {
       <Text>
         Save your optimizer data to a file.
       </Text>
-      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: 200 }}>
+      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: buttonWidth }}>
         Save data
       </Button>
     </Flex>
@@ -124,7 +125,7 @@ function ClearDataTab() {
         okText="Yes"
         cancelText="Cancel"
       >
-        <Button type="primary" loading={loading} style={{ width: 200 }}>
+        <Button type="primary" loading={loading} style={{ width: buttonWidth }}>
           Clear data
         </Button>
       </Popconfirm>
@@ -203,7 +204,7 @@ function LoadDataTab() {
             onClick={onUploadClick}
             beforeUpload={beforeUpload}
           >
-            <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
+            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
               Load save data
             </Button>
           </Upload>
@@ -236,7 +237,7 @@ function LoadDataTab() {
             {' '}
             characters. Replace your current data with the uploaded data?
           </Text>
-          <Button style={{ width: 200 }} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: buttonWidth }} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use Uploaded Data
           </Button>
         </Flex>
@@ -390,7 +391,7 @@ function KelZImporterTab() {
             onClick={onUploadClick}
             beforeUpload={beforeUpload}
           >
-            <Button style={{ width: 210 }} icon={<UploadOutlined />} loading={loading1}>
+            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
               Upload HSRScanData File
             </Button>
           </Upload>
@@ -427,7 +428,7 @@ function KelZImporterTab() {
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
 
-          <Button style={{ width: 200 }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+          <Button style={{ width: buttonWidth }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
 
@@ -444,7 +445,7 @@ function KelZImporterTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button style={{ width: 200 }} type="primary" loading={loading2}>
+            <Button style={{ width: buttonWidth }} type="primary" loading={loading2}>
               Import relics & characters
             </Button>
           </Popconfirm>
@@ -591,7 +592,7 @@ function FribbelsImporterTab() {
             onClick={onUploadClick}
             beforeUpload={beforeUpload}
           >
-            <Button style={{ width: 200 }} icon={<UploadOutlined />} loading={loading1}>
+            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
               Upload relics file
             </Button>
           </Upload>
@@ -628,7 +629,7 @@ function FribbelsImporterTab() {
 
           <Text>Import relics only. Updates the optimizer with newly obtained relics.</Text>
 
-          <Button style={{ width: 200 }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
+          <Button style={{ width: buttonWidth }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
             Import relics
           </Button>
         </Flex>

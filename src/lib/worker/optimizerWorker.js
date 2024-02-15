@@ -429,6 +429,7 @@ self.onmessage = function(e) {
         && c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr
         && c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes
         && c[Stats.BE] >= request.minBe && c[Stats.BE] <= request.maxBe
+        && c[Stats.ERR] >= request.minErr && c[Stats.ERR] <= request.maxErr
         && c.WEIGHT >= request.minWeight && c.WEIGHT <= request.maxWeight
       if (!pass) {
         continue
@@ -571,7 +572,7 @@ self.onmessage = function(e) {
     let defReduction = x.DEF_SHRED + request.buffDefShred
     let defIgnore = 0
 
-    let dmgBoostMultiplier = 1 + x.ALL_DMG_MULTI + x.ELEMENTAL_DMG
+    let dmgBoostMultiplier = 1 + x.ELEMENTAL_DMG
     let dmgReductionMultiplier = 1
 
     let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
@@ -612,6 +613,7 @@ self.onmessage = function(e) {
         && x[Stats.EHR] >= request.minEhr && x[Stats.EHR] <= request.maxEhr
         && x[Stats.RES] >= request.minRes && x[Stats.RES] <= request.maxRes
         && x[Stats.BE] >= request.minBe && x[Stats.BE] <= request.maxBe
+        && x[Stats.ERR] >= request.minErr && x[Stats.ERR] <= request.maxErr
       if (!pass) {
         continue
       }

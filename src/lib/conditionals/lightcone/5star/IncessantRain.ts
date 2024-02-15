@@ -5,6 +5,8 @@ import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { findContentId } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCr = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -52,17 +54,29 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: getContentFromLCRanks(s, lcRank2),
   }]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetCodeDebuff'),
+  ]
+
   return {
     content: () => content,
+    teammateContent: () => teammateContent,
     defaults: () => ({
       enemy3DebuffsCrBoost: true,
+      targetCodeDebuff: true,
+    }),
+    teammateDefaults: () => ({
       targetCodeDebuff: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.CR] += (r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0
-      x.ELEMENTAL_DMG += (r.targetCodeDebuff) ? sValuesDmg[s] : 0
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
+
+      x.DMG_TAKEN_MULTI += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

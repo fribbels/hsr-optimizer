@@ -4,6 +4,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -22,47 +23,56 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       [], [], [], [], [],
     ],
   }
-  const content: ContentItem[] = [{
-    lc: true,
-    id: 'basicDmgBuff',
-    name: 'basicDmgBuff',
-    formItem: 'switch',
-    text: 'Basic DMG buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
-  },
-  {
-    lc: true,
-    id: 'skillDmgBuff',
-    name: 'skillDmgBuff',
-    formItem: 'switch',
-    text: 'Skill DMG buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
-  },
-  {
-    lc: true,
-    id: 'ultDmgBuff',
-    name: 'ultDmgBuff',
-    formItem: 'switch',
-    text: 'Ult DMG buff',
-    title: lcRanks.skill,
-    content: getContentFromLCRanks(s, lcRanks),
-  }]
+  const content: ContentItem[] = [
+    {
+      lc: true,
+      id: 'ultDmgBuff',
+      name: 'ultDmgBuff',
+      formItem: 'switch',
+      text: 'Ult DMG buff',
+      title: lcRanks.skill,
+      content: getContentFromLCRanks(s, lcRanks),
+    },
+    {
+      lc: true,
+      id: 'skillDmgBuff',
+      name: 'skillDmgBuff',
+      formItem: 'switch',
+      text: 'Skill DMG buff',
+      title: lcRanks.skill,
+      content: getContentFromLCRanks(s, lcRanks),
+    }, {
+      lc: true,
+      id: 'basicDmgBuff',
+      name: 'basicDmgBuff',
+      formItem: 'switch',
+      text: 'Basic DMG buff',
+      title: lcRanks.skill,
+      content: getContentFromLCRanks(s, lcRanks),
+    },
+  ]
 
   return {
     content: () => content,
+    teammateContent: () => content,
     defaults: () => ({
-      basicDmgBuff: true,
-      skillDmgBuff: true,
       ultDmgBuff: true,
+      skillDmgBuff: false,
+      basicDmgBuff: false,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals
+    teammateDefaults: () => ({
+      ultDmgBuff: true,
+      skillDmgBuff: false,
+      basicDmgBuff: false,
+    }),
+    precomputeEffects: (_x: PrecomputedCharacterConditional, _request: Form) => {
+    },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.lightConeConditionals
 
-      x.BASIC_BOOST += (r.basicDmgBuff) ? sValues[s] : 0
-      x.SKILL_BOOST += (r.skillDmgBuff) ? sValues[s] : 0
-      x.ULT_BOOST += (r.ultDmgBuff) ? sValues[s] : 0
+      x.BASIC_BOOST += (m.basicDmgBuff) ? sValues[s] : 0
+      x.SKILL_BOOST += (m.skillDmgBuff) ? sValues[s] : 0
+      x.ULT_BOOST += (m.ultDmgBuff) ? sValues[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

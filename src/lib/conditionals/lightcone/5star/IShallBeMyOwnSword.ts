@@ -57,6 +57,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       eclipseStacks: 3,
       maxStackDefPen: true,

@@ -58,6 +58,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
 
   return {
     content: () => content,
+    teammateContent: () => [],
     defaults: () => ({
       debuffCdStacks: 3,
       postUltBuff: true,

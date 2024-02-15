@@ -39,7 +39,7 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
           checkedChildren={<CheckOutlined />}
           unCheckedChildren={<CloseOutlined />}
           disabled={props.disabled}
-          defaultChecked={!props.disabled}
+          defaultChecked={false}
           style={{ width: 45, marginRight: 10 }}
         />
       </Form.Item>

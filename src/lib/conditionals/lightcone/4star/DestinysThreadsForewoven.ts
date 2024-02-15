@@ -1,7 +1,7 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { PrecomputedCharacterConditional } from '../../../../types/CharacterConditional'
-import { Stats } from '../../../constants.ts'
-import { SuperImpositionLevel } from '../../../../types/LightCone'
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { Stats } from 'lib/constants.ts'
+import { SuperImpositionLevel } from 'types/LightCone'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
@@ -9,6 +9,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => [],
+    teammateContent: () => [],
     defaults: () => ({
     }),
     precomputeEffects: (/* x, request */) => {

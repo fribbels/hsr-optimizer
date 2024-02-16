@@ -1,5 +1,5 @@
 import { Button, Flex, Select, Tooltip, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
@@ -130,6 +130,10 @@ export default function RelicFilterBar() {
     }, 100)
   })
 
+  useEffect(() => {
+    characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
+  }, [])
+
   function characterSelectorChange(id, bestCaseColumn) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
@@ -167,16 +171,14 @@ export default function RelicFilterBar() {
 
     DB.setRelics(relics)
 
-    window.relicsGrid.current.api.applyColumnState({
-      defaultState: { sort: null },
-    })
+    if (window.relicsGrid?.current?.api) {
+      window.relicsGrid.current.api.applyColumnState({
+        state: [{ colId: 'weights.current', sort: 'desc' }],
+        defaultState: { sort: null },
+      })
+    }
 
-    window.relicsGrid.current.api.applyColumnState({
-      state: [{ colId: 'weights.current', sort: 'desc' }],
-      defaultState: { sort: null },
-    })
-
-    window.relicsGrid.current.api.redrawRows()
+    DB.refreshRelics()
   }
 
   function scoreRelic(relic, id, scoringMetadata, possibleSubstats) {

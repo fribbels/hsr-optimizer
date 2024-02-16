@@ -23,6 +23,7 @@ export default function RelicFilterBar() {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
+  const [aggregatedBestCaseColumn, setAggregatedBestCaseColumn] = useState('all')
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -119,56 +120,23 @@ export default function RelicFilterBar() {
     setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
-    let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+    function getRelicScoreMeta(id) {
+        let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+        let level80Stats = DB.getMetadata().characters[id].promotions[80]
+        scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+        scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+        scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+        return scoringMetadata
+    }
+
     let possibleSubstats = Object.assign(...Constants.SubStats.map((x) => ({ [x]: true })))
-    let level80Stats = DB.getMetadata().characters[id].promotions[80]
-    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+    let scoringMetadata = getRelicScoreMeta(id)
+    let charMetas = aggregatedBestCaseColumn === 'all' ?
+      characterOptions.map((val) => [val.id, getRelicScoreMeta(val.id)]) :
+      DB.getCharacters().map((val) => [val.id, getRelicScoreMeta(val.id)])
 
     for (let relic of relics) {
-      let scoringResult = RelicScorer.score(relic, id)
-      let subScore = parseFloat(scoringResult.score)
-      let mainScore = 0
-      if (Utils.hasMainStat([relic.part])) {
-        if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
-          mainScore = 64.8
-        } else {
-          mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
-        }
-      } else {
-        mainScore = 64.8
-      }
-
-      // Predict substat scores
-      let substats = relic.substats
-      let substatScoreEntries = Object.entries(scoringMetadata.stats)
-        .filter((x) => possibleSubstats[x[0]])
-        .filter((x) => !substats.map((x) => x.stat).includes(x[0])) // Exclude already existing substats
-        .sort((a, b) => b[1] - a[1])
-
-      let bestUnobtainedSubstat = substatScoreEntries[0]
-      let finalSubstats = [...substats.map((x) => x.stat), bestUnobtainedSubstat[0]]
-      let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-      let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
-      let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
-
-      let extraRolls = 0
-
-      let missingSubstats = (4 - substats.length)
-      let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
-
-      for (let i = 0; i < missingSubstats; i++) {
-        extraRolls += 1 * bestUnobtainedSubstat[1]
-      }
-
-      for (let i = 0; i < missingRolls; i++) {
-        extraRolls += bestOverallSubstatWeight
-      }
-
-      relic.relicsTabWeight = Utils.precisionRound(subScore + mainScore)
-      relic.bestCaseWeight = relic.relicsTabWeight + extraRolls * 6.48
-      relic.averageCaseWeight = relic.relicsTabWeight + extraRolls * 6.48 * avgWeight
+      relic.weights = scoreRelic(relic, id, scoringMetadata, possibleSubstats, charMetas)
     }
 
     DB.setRelics(relics)
@@ -178,11 +146,68 @@ export default function RelicFilterBar() {
     })
 
     window.relicsGrid.current.api.applyColumnState({
-      state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
+      state: [{ colId: 'weights.current', sort: 'desc' }],
       defaultState: { sort: null },
     })
 
     window.relicsGrid.current.api.redrawRows()
+  }
+
+  function scoreRelic(relic, id, scoringMetadata, possibleSubstats, charMetas) {
+    let scoringResult = RelicScorer.score(relic, id)
+    let subScore = parseFloat(scoringResult.score)
+    let mainScore = 0
+    if (Utils.hasMainStat([relic.part])) {
+      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+        mainScore = 64.8
+      } else {
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+      }
+    } else {
+      mainScore = 64.8
+    }
+
+    // Predict substat scores
+    let substats = relic.substats
+    let substatScoreEntries = Object.entries(scoringMetadata.stats)
+      .filter((x) => possibleSubstats[x[0]])
+      .filter((x) => !substats.map((x) => x.stat).includes(x[0])) // Exclude already existing substats
+      .sort((a, b) => b[1] - a[1])
+
+    let bestUnobtainedSubstat = substatScoreEntries[0]
+    let finalSubstats = [...substats.map((x) => x.stat), bestUnobtainedSubstat[0]]
+    let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
+    let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
+    let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
+
+    let extraRolls = 0
+
+    let missingSubstats = (4 - substats.length)
+    let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
+
+    for (let i = 0; i < missingSubstats; i++) {
+      extraRolls += 1 * bestUnobtainedSubstat[1]
+    }
+
+    for (let i = 0; i < missingRolls; i++) {
+      extraRolls += bestOverallSubstatWeight
+    }
+
+    let aggBestCaseWeight = 0
+    if (charMetas != null) {
+      for (let [aggId, aggScoringMetadata] of charMetas) {
+        let weights = scoreRelic(relic, aggId, aggScoringMetadata, possibleSubstats, null)
+        aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
+      }
+    }
+
+    let currentWeight = Utils.precisionRound(subScore + mainScore);
+    return {
+      current: currentWeight,
+      best: currentWeight + extraRolls * 6.48,
+      average: currentWeight + extraRolls * 6.48 * avgWeight,
+      aggregatedBest: aggBestCaseWeight,
+    }
   }
 
   function clearClicked() {
@@ -204,6 +229,10 @@ export default function RelicFilterBar() {
   function rescoreClicked() {
     characterSelectorChange(currentlySelectedCharacterId)
   }
+
+  //function toggleOwnedCharacterBestWeightColumnClicked() {
+  //    // TODO
+  //}
 
   return (
     <Flex vertical gap={2}>
@@ -276,6 +305,35 @@ export default function RelicFilterBar() {
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
         <FilterRow name="subStats" tags={subStatsData} />
+      </Flex>
+
+      <Flex vertical>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Aggregated Best Case Column</HeaderText>
+          <Flex gap={10}>
+            <Select
+              defaultValue={aggregatedBestCaseColumn}
+              onChange={(val) => setAggregatedBestCaseColumn(val)}
+              options={[
+                { 'value': 'all', 'label': 'All Characters' },
+                { 'value': 'owned', 'label': 'Owned Characters' },
+              ]}
+              style={{ flex: 1 }}
+            />
+            {/*<Button
+              onClick={toggleOwnedCharacterBestWeightColumnClicked}
+              style={{ flex: 1, padding: '0px' }}
+            >
+              Best Case Owned-Character Rank
+            </Button>
+            <Button
+              onClick={() => {}}
+              style={{ flex: 1, padding: '0px' }}
+            >
+              Best Case All-Character Rank
+            </Button>*/}
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   )

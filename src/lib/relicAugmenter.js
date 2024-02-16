@@ -13,9 +13,12 @@ export const RelicAugmenter = {
       return null
     }
 
-    relic.relicsTabWeight = 0
-    relic.bestCaseWeight = 0
-    relic.averageCaseWeight = 0
+    relic.weights = {
+      current: 0,
+      average: 0,
+      best: 0,
+      aggregatedBest: 0,
+    }
 
     let mainStat = relic.main.stat
     relic.main.value = RelicRollFixer.fixMainStatvalue(relic)

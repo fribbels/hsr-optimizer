@@ -118,25 +118,35 @@ export default function RelicFilterBar() {
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   useSubscribe('refreshRelicsScore', () => {
-    // TODO: understand why setTimeout is needed and refactor
+    // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
+    // that it performs the publish. However, react defers and batches events, so the submit (and update
+    // of the scoring overrides) doesn't actually happen until *after* this subscribe event is triggered,
+    // hence the need for setTimeout
+    // TODO: refactor so it's not necessary, which may be tricky - the recommended flow is to have react
+    // views as a pure function of props, but because relics (and other state) are updated mutably in
+    // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId)
+      characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
     }, 100)
   })
 
-  function characterSelectorChange(id) {
-    if (!id) return
-
+  function characterSelectorChange(id, bestCaseColumn) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
-    setScoringAlgorithmFocusCharacter(id)
-    setCurrentlySelectedCharacterId(id)
+    if (id) {
+      setScoringAlgorithmFocusCharacter(id)
+      setCurrentlySelectedCharacterId(id)
+    }
+    setAggregatedBestCaseColumn(bestCaseColumn)
 
     let possibleSubstats = new Set(Constants.SubStats)
-    let scoringMetadata = characterRelicScoreMetas.get(id)
-    let charMetas = (aggregatedBestCaseColumn === 'all' ? characterOptions : DB.getCharacters())
+    let charMetas = (bestCaseColumn === 'all' ? characterOptions : DB.getCharacters())
       .map((val) => characterRelicScoreMetas.get(val.id))
+    if (id) {
+      // Always calculate for selected char (even if not owned)
+      charMetas.push(characterRelicScoreMetas.get(id))
+    }
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
     // and char weights can be edited
@@ -150,7 +160,7 @@ export default function RelicFilterBar() {
         relicWeights.set(scoringMetadata.characterId, weights)
       }
 
-      let weights = relicWeights.get(id)
+      let weights = id ? relicWeights.get(id) : { current: 0, best: 0, average: 0 }
       weights.aggregatedBest = aggBestCaseWeight
       relic.weights = weights
     }
@@ -237,12 +247,8 @@ export default function RelicFilterBar() {
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId)
+    characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
   }
-
-  //function toggleOwnedCharacterBestWeightColumnClicked() {
-  //    // TODO
-  //}
 
   return (
     <Flex vertical gap={2}>
@@ -253,7 +259,7 @@ export default function RelicFilterBar() {
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}
-              onChange={characterSelectorChange}
+              onChange={(x) => characterSelectorChange(x, aggregatedBestCaseColumn)}
               options={characterOptions}
               style={{ flex: 1 }}
             />
@@ -322,26 +328,14 @@ export default function RelicFilterBar() {
           <HeaderText>Aggregated Best Case Column</HeaderText>
           <Flex gap={10}>
             <Select
-              defaultValue={aggregatedBestCaseColumn}
-              onChange={(val) => setAggregatedBestCaseColumn(val)}
+              value={aggregatedBestCaseColumn}
+              onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
               options={[
                 { 'value': 'all', 'label': 'All Characters' },
                 { 'value': 'owned', 'label': 'Owned Characters' },
               ]}
               style={{ flex: 1 }}
             />
-            {/*<Button
-              onClick={toggleOwnedCharacterBestWeightColumnClicked}
-              style={{ flex: 1, padding: '0px' }}
-            >
-              Best Case Owned-Character Rank
-            </Button>
-            <Button
-              onClick={() => {}}
-              style={{ flex: 1, padding: '0px' }}
-            >
-              Best Case All-Character Rank
-            </Button>*/}
           </Flex>
         </Flex>
       </Flex>

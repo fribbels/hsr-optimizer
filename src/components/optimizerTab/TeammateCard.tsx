@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
-import { defaultGap } from 'lib/constantsUi.ts'
 import { Utils } from 'lib/utils.js'
 import { Constants, eidolonOptions, Sets, superimpositionOptions } from 'lib/constants.ts'
 import { Assets } from 'lib/assets.js'
@@ -11,6 +10,8 @@ import { LightConeConditionals } from 'lib/lightConeConditionals.js'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { CharacterConditionalDisplay } from 'components/optimizerForm/conditionals/CharacterConditionalDisplay.tsx'
 import { LightConeConditionalDisplay } from 'components/optimizerForm/conditionals/LightConeConditionalDisplay.tsx'
+import DB from 'lib/db.js'
+import { Character } from 'types/Character'
 
 const { Text } = Typography
 
@@ -96,6 +97,35 @@ function getDefaultTeammateForm() {
   }
 }
 
+const teammateRelicSets = [
+  Sets.MessengerTraversingHackerspace,
+  Sets.WatchmakerMasterOfDreamMachinations,
+]
+const teammateOrnamentSets = [
+  Sets.BrokenKeel,
+  Sets.FleetOfTheAgeless,
+  Sets.PenaconyLandOfTheDreams,
+]
+
+// Find 4 piece relic sets and 2 piece ornament sets
+function calculateTeammateSets(teammateCharacter: Character) {
+  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id))
+  const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
+  for (const set of teammateRelicSets) {
+    if (relics.filter((relic) => relic.set == set).length == 4) {
+      activeTeammateSets.teamRelicSet = set
+    }
+  }
+
+  for (const set of teammateOrnamentSets) {
+    if (relics.filter((relic) => relic.set == set).length == 2) {
+      activeTeammateSets.teamOrnamentSet = set
+    }
+  }
+
+  return activeTeammateSets
+}
+
 const TeammateCard = (props: { index: number }) => {
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
   const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
@@ -118,19 +148,36 @@ const TeammateCard = (props: { index: number }) => {
     }
 
     const displayFormValues = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+    const teammateValues = displayFormValues[teammateProperty]
+    const teammateCharacter = DB.getCharacterById(teammateCharacterId)
+    if (teammateCharacter) {
+      // Fill out fields based on the teammate's form
+      teammateValues.lightCone = teammateCharacter.form.lightCone
+      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition
+      teammateValues.characterEidolon = teammateCharacter.form.characterEidolon
+
+      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
+      teammateValues.teamRelicSet = activeTeammateSets.teamRelicSet
+      teammateValues.teamOrnamentSet = activeTeammateSets.teamOrnamentSet
+    } else {
+      teammateValues.lightConeSuperimposition = 1
+      teammateValues.characterEidolon = 0
+    }
+
     const characterConditionals = CharacterConditionals.get({
       characterId: teammateCharacterId,
-      characterEidolon: teammateEidolon,
+      characterEidolon: teammateValues.characterEidolon,
       characterConditionals: {},
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: teammateValues.lightConeSuperimposition,
       lightConeConditionals: {},
     })
 
-    console.log('Teammate character conditionals', characterConditionals)
+    console.log('Teammate character conditionals', characterConditionals, displayFormValues)
 
     if (!characterConditionals.teammateDefaults) return
-    const mergedForm = Object.assign({}, characterConditionals.teammateDefaults(), displayFormValues[teammateProperty].characterConditionals)
-    window.optimizerForm.setFieldValue([teammateProperty, 'characterConditionals'], mergedForm)
+    teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+
+    window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
   }, [teammateCharacterId, teammateEidolon, props.index])
 
   useEffect(() => {
@@ -145,8 +192,8 @@ const TeammateCard = (props: { index: number }) => {
     console.log('Teammate lc conditionals', lightConeConditionals)
 
     if (!lightConeConditionals.teammateDefaults) return
-    const mergedForm = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
-    window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedForm)
+    const mergedConditionals = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
+    window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
   }, [teammateLightConeId, teammateSuperimposition, props.index])
 
   function addTeammateClicked() {
@@ -175,7 +222,7 @@ const TeammateCard = (props: { index: number }) => {
 
   return (
     <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>
-      <Flex vertical gap={defaultGap}>
+      <Flex vertical gap={5}>
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `characterId`]}>
             <Select
@@ -248,7 +295,7 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
         </Flex>
 
-        <div style={{ height: 5 }} />
+        <div style={{ height: 1 }} />
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>

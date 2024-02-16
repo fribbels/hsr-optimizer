@@ -413,7 +413,7 @@ export default function CharacterTab() {
               <Dropdown
                 placement="topLeft"
                 menu={actionsMenuProps}
-                trigger={['click']}
+                trigger={['hover']}
               >
                 <Button style={{ width: '100%' }} icon={<UserOutlined />}>
                   Character actions

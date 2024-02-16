@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Constants, eidolonOptions, Sets, superimpositionOptions } from 'lib/constants.ts'
@@ -141,7 +141,7 @@ const TeammateCard = (props: { index: number }) => {
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
 
-  useEffect(() => {
+  function updateTeammate() {
     if (!teammateCharacterId) {
       window.optimizerForm.setFieldValue([teammateProperty], getDefaultTeammateForm())
       return
@@ -178,7 +178,11 @@ const TeammateCard = (props: { index: number }) => {
     teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
 
     window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
-  }, [teammateCharacterId, teammateEidolon, props.index])
+  }
+
+  useEffect(() => {
+    updateTeammate()
+  }, [teammateCharacterId, props.index])
 
   useEffect(() => {
     if (!teammateLightConeId) return
@@ -224,16 +228,22 @@ const TeammateCard = (props: { index: number }) => {
     <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
         <Flex gap={5}>
-          <Form.Item name={[teammateProperty, `characterId`]}>
+          <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}
-              style={{ width: 250 }}
               options={characterOptions}
               placeholder="Character"
               allowClear
             />
           </Form.Item>
+
+          <Button
+            icon={<SyncOutlined />}
+            style={{ width: 35 }}
+            disabled={disabled}
+            onClick={updateTeammate}
+          />
 
           <Form.Item name={[teammateProperty, `characterEidolon`]}>
             <Select

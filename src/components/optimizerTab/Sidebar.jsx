@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Progress, Typography } from 'antd'
+import { Button, Divider, Flex, Progress, Radio, Typography } from 'antd'
 import React from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -35,6 +35,9 @@ PermutationDisplay.propTypes = {
 let defaultGap = 5
 
 export default function Sidebar() {
+  const statDisplay = window.store((s) => s.statDisplay)
+  const setStatDisplay = window.store((s) => s.setStatDisplay)
+
   const permutationDetails = window.store((s) => s.permutationDetails)
   const permutations = window.store((s) => s.permutations)
   const permutationsSearched = window.store((s) => s.permutationsSearched)
@@ -45,7 +48,7 @@ export default function Sidebar() {
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-        <FormCard height={525}>
+        <FormCard height={600}>
           <Flex vertical gap={10}>
             <Flex justify="space-between" align="center">
               <HeaderText>Permutations</HeaderText>
@@ -80,7 +83,6 @@ export default function Sidebar() {
             <Flex justify="space-between" align="center">
               <HeaderText>Controls</HeaderText>
             </Flex>
-
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
                 <Button type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
@@ -98,6 +100,24 @@ export default function Sidebar() {
               <Flex gap={defaultGap}>
               </Flex>
             </Flex>
+
+            <Flex justify="space-between" align="center" style={{ }}>
+              <HeaderText>Stat display</HeaderText>
+              <TooltipImage type={Hint.statDisplay()} />
+            </Flex>
+            <Radio.Group
+              onChange={(e) => {
+                const { target: { value } } = e
+                setStatDisplay(value)
+              }}
+              optionType="button"
+              buttonStyle="solid"
+              value={statDisplay}
+              style={{ width: '100%', display: 'flex' }}
+            >
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Base stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
+            </Radio.Group>
 
             <Flex justify="space-between" align="center">
               <HeaderText>Results</HeaderText>

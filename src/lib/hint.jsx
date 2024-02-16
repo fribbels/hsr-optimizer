@@ -220,4 +220,17 @@ export const Hint = {
       ),
     }
   },
+
+  statDisplay: () => {
+    return {
+      title: 'Stat display',
+      content: (
+        <Flex vertical gap={10}>
+          <p>This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.</p>
+          <p>Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.</p>
+          <p>Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc.</p>
+        </Flex>
+      ),
+    }
+  },
 }

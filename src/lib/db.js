@@ -55,6 +55,7 @@ window.store = create((set) => ({
   scoringMetadataOverrides: {},
   statDisplay: 'base',
   optimizationInProgress: false,
+  optimizationId: undefined,
 
   permutationDetails: {
     Head: 0,
@@ -107,6 +108,7 @@ window.store = create((set) => ({
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
+  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
 }))
 
 export const DB = {

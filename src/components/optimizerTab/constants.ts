@@ -70,6 +70,7 @@ export const gridOptions = {
   paginationPageSize: 500,
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
+  maxBlocksInCache: 1,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,

@@ -19,11 +19,11 @@ import {
 } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
-import StatRow from 'components/characterPreview/StatRow'
 import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from '../lib/relicModalController'
+import { StatSummary } from 'components/characterPreview/StatSummary'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 const backgroundColor = '#182239'
@@ -173,19 +173,7 @@ export function CharacterPreview(props) {
               </Flex>
             </Flex>
 
-            <Flex vertical style={{ width: middleColumnWidth, paddingLeft: 8, paddingRight: 12 }} gap={4}>
-              <StatRow finalStats={finalStats} stat={Constants.Stats.HP} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.ATK} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.DEF} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.SPD} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.CR} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.CD} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.EHR} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.RES} source={props.source} />
-              <StatRow finalStats={finalStats} stat={Constants.Stats.BE} source={props.source} />
-              <StatRow finalStats={finalStats} stat={elementalDmgValue} source={props.source} />
-              <StatRow finalStats={finalStats} stat="CV" source={props.source} />
-            </Flex>
+            <StatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue} />
 
             <Flex vertical>
               <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Flex, Modal, Card } from 'antd'
+import { Button, Card, Flex, Modal } from 'antd'
 import StatText from './characterPreview/StatText'
 import { HeaderText } from './HeaderText'
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
@@ -16,7 +16,6 @@ interface BuildsModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   selectedCharacter?: Character
   imgRenderer: (x: { data: Character }) => JSX.Element
-  nameRenderer: (x: { data: Character }) => JSX.Element
 }
 
 const BuildsModal: React.FC<BuildsModalProps> = ({
@@ -26,9 +25,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   selectedCharacter,
 }) => {
   const [confirmationModal, contextHolder] = Modal.useModal()
-  const [selectedBuildIndex, setSelectedBuildIndex] = React.useState<
-    null | number
-  >(null)
+  const [selectedBuildIndex, setSelectedBuildIndex] = React.useState<null | number>(null)
   const [selectedBuild, setSelectedBuild] = React.useState<null | number>(null)
   const characterMetadata
     = DB.getMetadata().characters[selectedCharacter?.id || 0]
@@ -55,24 +52,24 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
     setOpen(false)
   }
 
-  const handleDelete = async () => {
+  const handleDeleteAllBuilds = async () => {
     const result = await confirm('Are you sure you want to delete all builds?')
     if (result) {
       DB.clearCharacterBuilds(selectedCharacter?.id)
-      window['forceCharacterTabUpdate']?.()
+      window.forceCharacterTabUpdate()
       SaveState.save()
       Message.success(`Successfully deleted all builds for ${characterName}`)
       setOpen(false)
     }
   }
 
-  const deleteOne = async (name: string) => {
+  const handleDeleteSingleBuild = async (name: string) => {
     const result = await confirm(`Are you sure you want to delete ${name}?`)
     if (result) {
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
-      window['forceCharacterTabUpdate']?.()
+      window.forceCharacterTabUpdate()
       SaveState.save()
-      Message.success(`Successfully deleted ${name}`)
+      Message.success(`Successfully deleted build: ${name}`)
     }
   }
 
@@ -85,9 +82,9 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         Object.values(build.build),
         selectedCharacter?.id,
       )
-      window['forceCharacterTabUpdate']?.()
+      window.forceCharacterTabUpdate()
       SaveState.save()
-      Message.success(`Successfully equipped ${build.name}`)
+      Message.success(`Successfully equipped build: ${build.name}`)
       handleCancel()
     }
   }
@@ -96,9 +93,9 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
     if (selectedBuild == null) return null
     const relics = selectedCharacter?.builds?.[selectedBuild]?.build || []
     const relicGroups: React.ReactElement[] = []
-    for (let i = 0; i < relics.length; i += 3) {
+    for (let i = 0; i < relics.length; i += 2) {
       const group = relics
-        .slice(i, i + 3)
+        .slice(i, i + 2)
         .map((relicId) => {
           const relic = DB.getRelicById(relicId)
           return (
@@ -107,6 +104,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
               score={RelicScorer.score(relic, selectedCharacter?.id)}
               relic={relic}
               characterId={selectedCharacter?.id}
+              source="builds"
             />
           )
         })
@@ -116,19 +114,23 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         </Flex>,
       )
     }
-    return relicGroups
+    return (
+      <Flex vertical>
+        {relicGroups}
+      </Flex>
+    )
   }
 
   return (
     <Modal
       open={open}
-      width={650}
+      width={1000}
       destroyOnClose
       centered
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="delete" onClick={() => handleDelete()}>
+        <Button key="delete" onClick={() => handleDeleteAllBuilds()}>
           Delete all
         </Button>,
         <Button key="back" onClick={handleCancel}>
@@ -136,87 +138,90 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         </Button>,
       ]}
     >
-      {selectedCharacter && (
-        <>
-          <Flex gap={8} align="center">
-            {imgRenderer && imgRenderer({ data: selectedCharacter })}
-            <HeaderText>
-              {' '}
-              {characterName}
-              {' '}
-              builds
-            </HeaderText>
-          </Flex>
-          <Flex
-            vertical
-            style={{
-              marginTop: 20,
-              overflowY: 'auto',
-              height: 300,
-              marginBottom: 20,
-            }}
-            gap={8}
-          >
-            {selectedCharacter.builds?.map((build, index) => (
-              <Card
-                style={{
-                  backgroundColor:
+      <Flex>
+        {selectedCharacter && (
+          <>
+            <Flex gap={8} align="center">
+              {imgRenderer && imgRenderer({ data: selectedCharacter })}
+              <HeaderText>
+                {' '}
+                {characterName}
+                {' '}
+                builds
+              </HeaderText>
+            </Flex>
+            <Flex
+              vertical
+              style={{
+                marginTop: 20,
+                overflowY: 'auto',
+                height: 300,
+                marginBottom: 20,
+              }}
+              gap={8}
+            >
+              {selectedCharacter.builds?.map((build, index) => (
+                <Card
+                  style={{
+                    backgroundColor:
                     selectedBuildIndex === index || selectedBuild === index
                       ? '#001529'
                       : undefined,
-                  cursor: 'pointer',
-                }}
-                onClick={(e) => {
-                  const isButtonClicked
+                    cursor: 'pointer',
+                  }}
+                  onClick={(e) => {
+                    const isButtonClicked
                     = (e.target as HTMLElement).closest('button') !== null
-                  if (!isButtonClicked) {
-                    setSelectedBuild(index)
-                  }
-                }}
-                onMouseEnter={() => setSelectedBuildIndex(index)}
-                onMouseLeave={() => setSelectedBuildIndex(null)}
-                key={index}
-              >
-                <Flex justify="space-between" gap={8} align="center">
-                  <HeaderText style={{ flex: 1 }}>{build.name}</HeaderText>
-                  <StatText
-                    style={{
-                      fontSize: 17,
-                      fontWeight: 600,
-                      textAlign: 'center',
-                      color: '#e1a564',
-                    }}
-                  >
-                    {`score: ${build.score.score} ${
-                      build.score.score == 0
-                        ? ''
-                        : '(' + build.score.rating + ')'
-                    }`}
-                  </StatText>
-                  <Button
-                    onClick={() => {
-                      handleEquip(build)
-                    }}
-                  >
-                    Equip
-                  </Button>
-                  <Button
-                    style={{ width: 30 }}
-                    type="primary"
-                    icon={<DeleteOutlined />}
-                    onClick={() => {
-                      deleteOne(build.name)
-                    }}
-                  />
-                </Flex>
-              </Card>
-            ))}
-          </Flex>
-        </>
-      )}
+                    if (!isButtonClicked) {
+                      setSelectedBuild(index)
+                    }
+                  }}
+                  onMouseEnter={() => setSelectedBuildIndex(index)}
+                  onMouseLeave={() => setSelectedBuildIndex(null)}
+                  key={index}
+                >
 
-      {contextHolder}
-      {renderRelicPreviews()}
+                  <Flex justify="space-between" gap={8} align="center">
+                    <HeaderText style={{ flex: 1 }}>{build.name}</HeaderText>
+                    <StatText
+                      style={{
+                        fontSize: 17,
+                        fontWeight: 600,
+                        textAlign: 'center',
+                        color: '#e1a564',
+                      }}
+                    >
+                      {`score: ${build.score.score} ${
+                        build.score.score == 0
+                          ? ''
+                          : '(' + build.score.rating + ')'
+                      }`}
+                    </StatText>
+                    <Button
+                      onClick={() => {
+                        handleEquip(build)
+                      }}
+                    >
+                      Equip
+                    </Button>
+                    <Button
+                      style={{ width: 30 }}
+                      type="primary"
+                      icon={<DeleteOutlined />}
+                      onClick={() => {
+                        handleDeleteSingleBuild(build.name)
+                      }}
+                    />
+                  </Flex>
+                </Card>
+              ))}
+            </Flex>
+          </>
+        )}
+
+        {contextHolder}
+        {renderRelicPreviews()}
+      </Flex>
     </Modal>
   )
 }

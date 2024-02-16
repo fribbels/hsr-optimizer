@@ -4,17 +4,17 @@ import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import DB from '../lib/db'
+import DB from 'lib/db'
 import { RelicScorer } from 'lib/relicScorer'
 import { CharacterPreview } from './CharacterPreview'
-import { Assets } from '../lib/assets'
-import { SaveState } from '../lib/saveState'
-import { Message } from '../lib/message'
+import { Assets } from 'lib/assets'
+import { SaveState } from 'lib/saveState'
+import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
-import { Utils } from '../lib/utils'
+import { Utils } from 'lib/utils'
 import NameBuild from './saveBuildModal'
 import BuildsModal from './BuildsModal'
 
@@ -67,6 +67,47 @@ function cellNameRenderer(params) {
     </Flex>
   )
 }
+
+const items = [
+  {
+    key: 'character group',
+    type: 'group',
+    label: 'Character',
+    children: [
+      {
+        label: 'Add new character',
+        key: 'add',
+      },
+      {
+        label: 'Edit character',
+        key: 'edit',
+      },
+      {
+        label: 'Unequip character',
+        key: 'unequip',
+      },
+      {
+        label: 'Delete character',
+        key: 'delete',
+      },
+    ],
+  },
+  {
+    key: 'builds group',
+    type: 'group',
+    label: 'Builds',
+    children: [
+      {
+        label: 'Save build',
+        key: 'saveBuild',
+      },
+      {
+        label: 'View saved builds',
+        key: 'viewBuilds',
+      },
+    ],
+  },
+]
 
 export default function CharacterTab() {
   const [confirmationModal, contextHolder] = Modal.useModal()
@@ -268,81 +309,39 @@ export default function CharacterTab() {
   }
 
   const handleActionsMenuClick = async (e) => {
+    if (!selectedCharacter && e.key != 'add') {
+      Message.error('No selected character')
+      return
+    }
+
     switch (e.key) {
       case 'add':
         setCharacterModalInitialCharacter(null)
         setCharacterModalOpen(true)
         break
       case 'edit':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return
-        }
         setCharacterModalInitialCharacter(selectedCharacter)
         setCharacterModalOpen(true)
         break
-      case 'saveBuild':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return
-        }
-        setIsSaveBuildModalOpen(true)
-        break
-      case 'builds':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return
-        }
-        setIsBuildsModalOpen(true)
-        break
       case 'unequip':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return
-        }
-
         if (!await confirm('Are you sure you want to unequip this character?')) return
         unequipClicked()
         break
       case 'delete':
-        if (!selectedCharacter) {
-          Message.error('No selected character')
-          return
-        }
-
         if (!await confirm('Are you sure you want to delete this character?')) return
         removeClicked()
+        break
+      case 'saveBuild':
+        setIsSaveBuildModalOpen(true)
+        break
+      case 'viewBuilds':
+        setIsBuildsModalOpen(true)
         break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
     }
   }
-  const items = [
-    {
-      label: 'Add new character',
-      key: 'add',
-    },
-    {
-      label: 'Edit character',
-      key: 'edit',
-    },
-    {
-      label: 'Save build',
-      key: 'saveBuild',
-    },
-    {
-      label: 'View old builds',
-      key: 'builds',
-    },
-    {
-      label: 'Unequip character',
-      key: 'unequip',
-    },
-    {
-      label: 'Delete character',
-      key: 'delete',
-    },
-  ]
+
   const actionsMenuProps = {
     items,
     onClick: handleActionsMenuClick,
@@ -392,6 +391,7 @@ export default function CharacterTab() {
           <Flex vertical gap={8}>
             <Flex justify="space-between" gap={8}>
               <Dropdown
+                placement="top"
                 menu={actionsMenuProps}
                 trigger={['click']}
               >

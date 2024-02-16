@@ -133,11 +133,13 @@ export default function RelicFilterBar() {
     setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
-    let possibleSubstats = Object.assign(...Constants.SubStats.map((x) => ({ [x]: true })))
+    let possibleSubstats = new Set(Constants.SubStats)
     let scoringMetadata = characterRelicScoreMetas.get(id)
     let charMetas = (aggregatedBestCaseColumn === 'all' ? characterOptions : DB.getCharacters())
       .map((val) => characterRelicScoreMetas.get(val.id))
 
+    // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
+    // and char weights can be edited
     for (let relic of relics) {
       let aggBestCaseWeight = 0
       let relicWeights = new Map()
@@ -182,21 +184,21 @@ export default function RelicFilterBar() {
     }
 
     // Predict substat scores
-    let substats = relic.substats
+    let substats = new Set(relic.substats.map((x) => x.stat))
     let substatScoreEntries = Object.entries(scoringMetadata.stats)
-      .filter((x) => possibleSubstats[x[0]])
-      .filter((x) => !substats.map((x) => x.stat).includes(x[0])) // Exclude already existing substats
+      .filter((x) => possibleSubstats.has(x[0]))
+      .filter((x) => !substats.has(x[0])) // Exclude already existing substats
       .sort((a, b) => b[1] - a[1])
 
     let bestUnobtainedSubstat = substatScoreEntries[0]
-    let finalSubstats = [...substats.map((x) => x.stat), bestUnobtainedSubstat[0]]
+    let finalSubstats = [...substats, bestUnobtainedSubstat[0]]
     let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-    let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
+    let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
     let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
 
     let extraRolls = 0
 
-    let missingSubstats = (4 - substats.length)
+    let missingSubstats = (4 - substats.size)
     let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
 
     for (let i = 0; i < missingSubstats; i++) {

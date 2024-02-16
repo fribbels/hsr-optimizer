@@ -182,7 +182,7 @@ export const RelicScorer = {
     }
 
     if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue
+      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue * multipliers[relic.main.stat]
     }
 
     let rating = 'F'

@@ -190,19 +190,22 @@ export default function RelicFilterBar() {
       .filter((x) => !substats.has(x[0])) // Exclude already existing substats
       .sort((a, b) => b[1] - a[1])
 
-    let bestUnobtainedSubstat = substatScoreEntries[0]
-    let finalSubstats = [...substats, bestUnobtainedSubstat[0]]
-    let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-    let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
-    let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
-
-    let extraRolls = 0
-
     let missingSubstats = (4 - substats.size)
     let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
 
+    let newSubstats = substatScoreEntries.slice(0, missingSubstats)
+    let finalSubstats = [...substats, ...newSubstats.map((x) => x[0])]
+    let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
+    let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
+    let avgWeight = (
+        finalSubstatWeights.reduce((a, b) => a + b, 0) -
+        newSubstats.reduce((a, b) => a + b[1], 0) / 2
+    ) / 4
+
+    let extraRolls = 0
+
     for (let i = 0; i < missingSubstats; i++) {
-      extraRolls += 1 * bestUnobtainedSubstat[1]
+      extraRolls += 1 * newSubstats[i][1]
     }
 
     for (let i = 0; i < missingRolls; i++) {

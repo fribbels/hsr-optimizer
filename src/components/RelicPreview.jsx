@@ -10,7 +10,7 @@ import RelicStatText from 'components/relicPreview/RelicStatText'
 const RelicPreview = ({
   relic,
   // characterId = undefined, // CharacterPreview by way of RelicScorerTab
-  score = undefined,
+  score,
   source = '',
   setSelectedRelic = () => { },
   setEditModalOpen = () => { },
@@ -32,7 +32,7 @@ const RelicPreview = ({
   const scored = relic !== undefined && score !== undefined
 
   const relicClicked = () => {
-    if (!relic || !relic.part || !relic.set || source == 'scorer') return
+    if (!relic || !relic.part || !relic.set || source == 'scorer' || source == 'builds') return
 
     setSelectedRelic(relic)
     setEditModalOpen(true)
@@ -41,7 +41,7 @@ const RelicPreview = ({
   return (
     <Card
       size="small"
-      hoverable={source != 'scorer'}
+      hoverable={source != 'scorer' && source != 'builds'}
       onClick={relicClicked}
       style={{ width: 200, height: 280 }}
     /*

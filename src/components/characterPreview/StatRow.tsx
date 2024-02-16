@@ -8,7 +8,7 @@ import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
 
-const StatRow = (props: { stat: string; finalStats: any }) => {
+const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
   const { stat, finalStats } = props
   const readableStat = stat.replace('DMG Boost', 'DMG')
   let value = finalStats[stat]
@@ -23,7 +23,10 @@ const StatRow = (props: { stat: string; finalStats: any }) => {
     value = Utils.truncate10ths(value * 100).toFixed(1)
   }
 
-  if (!finalStats) return console.log('No final stats')
+  if (!finalStats) {
+    console.log('No final stats')
+    return (<div></div>)
+  }
   return (
     <Flex justify="space-between" align="center">
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />

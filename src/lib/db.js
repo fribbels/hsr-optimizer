@@ -274,6 +274,46 @@ export const DB = {
     return found
   },
 
+  saveCharacterBuild: (name, characterId, score) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) {
+      console.warn('No character selected')
+      return
+    }
+
+    let build = character.builds?.find((x) => x.name == name)
+    if (build) {
+      const errorMessage = `Build name [${name}] already exists`
+      console.warn(errorMessage)
+      return { error: errorMessage }
+    } else {
+      if (!character.builds) character.builds = []
+      character.builds.push({
+        name: name,
+        build: [...Object.values(character.equipped)],
+        score: score,
+      })
+      DB.setCharacter(character)
+      console.log('Saved build', DB.getState())
+    }
+  },
+
+  deleteCharacterBuild: (characterId, name) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) return console.warn('No character to delete build for')
+
+    character.builds = character.builds.filter((x) => x.name != name)
+    DB.setCharacter(character)
+  },
+
+  clearCharacterBuilds: (characterId) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) return console.warn('No character to clear builds for')
+
+    character.builds = []
+    DB.setCharacter(character)
+  },
+
   unequipCharacter: (id) => {
     let character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')

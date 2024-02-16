@@ -19,10 +19,10 @@ export default function CharacterModal(props) {
     const defaultValues = {
       characterId: props.initialCharacter?.form.characterId,
       characterLevel: 80,
-      characterEidolon: 0,
+      characterEidolon: props.initialCharacter?.form.characterEidolon || 0,
       lightCone: props.initialCharacter?.form.lightCone,
       lightConeLevel: 80,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition || 1,
     }
 
     characterForm.setFieldsValue(defaultValues)

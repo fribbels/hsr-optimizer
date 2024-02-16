@@ -3,7 +3,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
+import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
+import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
@@ -289,8 +291,21 @@ export default function RelicFilterBar() {
             </Flex>
           </Flex>
           <Flex vertical flex={0.5}>
-            <HeaderText>Grade</HeaderText>
-            <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
+            <Flex justify="space-between" align="center">
+              <HeaderText>Aggregated Best Case Column</HeaderText>
+              <TooltipImage type={Hint.aggregatedBestCaseColumn()} />
+            </Flex>
+            <Flex gap={10}>
+              <Select
+                value={aggregatedBestCaseColumn}
+                onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
+                options={[
+                  { 'value': 'all', 'label': 'All Characters' },
+                  { 'value': 'owned', 'label': 'Owned Characters' },
+                ]}
+                style={{ flex: 1 }}
+              />
+            </Flex>
           </Flex>
           <Flex vertical flex={0.25}>
             <HeaderText>Verified</HeaderText>
@@ -300,6 +315,10 @@ export default function RelicFilterBar() {
       </Flex>
 
       <Flex gap={10}>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+        </Flex>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
           <FilterRow name="part" tags={partsData} flexBasis="15%" />
@@ -323,23 +342,6 @@ export default function RelicFilterBar() {
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
         <FilterRow name="subStats" tags={subStatsData} />
-      </Flex>
-
-      <Flex vertical>
-        <Flex vertical flex={0.5}>
-          <HeaderText>Aggregated Best Case Column</HeaderText>
-          <Flex gap={10}>
-            <Select
-              value={aggregatedBestCaseColumn}
-              onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
-              options={[
-                { 'value': 'all', 'label': 'All Characters' },
-                { 'value': 'owned', 'label': 'Owned Characters' },
-              ]}
-              style={{ flex: 1 }}
-            />
-          </Flex>
-        </Flex>
       </Flex>
     </Flex>
   )

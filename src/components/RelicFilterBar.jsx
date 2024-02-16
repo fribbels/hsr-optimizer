@@ -139,7 +139,18 @@ export default function RelicFilterBar() {
       .map((val) => characterRelicScoreMetas.get(val.id))
 
     for (let relic of relics) {
-      relic.weights = scoreRelic(relic, id, scoringMetadata, possibleSubstats, charMetas)
+      let aggBestCaseWeight = 0
+      let relicWeights = new Map()
+
+      for (let scoringMetadata of charMetas) {
+        let weights = scoreRelic(relic, scoringMetadata.characterId, scoringMetadata, possibleSubstats)
+        aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
+        relicWeights.set(scoringMetadata.characterId, weights)
+      }
+
+      let weights = relicWeights.get(id)
+      weights.aggregatedBest = aggBestCaseWeight
+      relic.weights = weights
     }
 
     DB.setRelics(relics)
@@ -156,7 +167,7 @@ export default function RelicFilterBar() {
     window.relicsGrid.current.api.redrawRows()
   }
 
-  function scoreRelic(relic, id, scoringMetadata, possibleSubstats, charMetas) {
+  function scoreRelic(relic, id, scoringMetadata, possibleSubstats) {
     let scoringResult = RelicScorer.score(relic, id)
     let subScore = parseFloat(scoringResult.score)
     let mainScore = 0
@@ -196,20 +207,11 @@ export default function RelicFilterBar() {
       extraRolls += bestOverallSubstatWeight
     }
 
-    let aggBestCaseWeight = 0
-    if (charMetas != null) {
-      for (let scoringMetadata of charMetas) {
-        let weights = scoreRelic(relic, scoringMetadata.characterId, scoringMetadata, possibleSubstats, null)
-        aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
-      }
-    }
-
     let currentWeight = Utils.precisionRound(subScore + mainScore);
     return {
       current: currentWeight,
       best: currentWeight + extraRolls * 6.48,
       average: currentWeight + extraRolls * 6.48 * avgWeight,
-      aggregatedBest: aggBestCaseWeight,
     }
   }
 

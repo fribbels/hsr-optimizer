@@ -29,6 +29,19 @@ export default function RelicFilterBar() {
     return Utils.generateCharacterOptions()
   }, [])
 
+  const characterRelicScoreMetas = useMemo(() =>
+    new Map(Object.keys(DB.getMetadata().characters).map((id) => [id, getRelicScoreMeta(id)]))
+  , [])
+
+  function getRelicScoreMeta(id) {
+    let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+    let level80Stats = DB.getMetadata().characters[id].promotions[80]
+    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+    return scoringMetadata
+  }
+
   function generateImageTags(arr, srcFn, tooltip) {
     function generateDisplay(key) {
       // QOL to colorize elemental stat images instead of using the substat images
@@ -114,26 +127,16 @@ export default function RelicFilterBar() {
   function characterSelectorChange(id) {
     if (!id) return
 
-    let relics = Object.values(window.store.getState().relicsById)
+    let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
     setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
-    function getRelicScoreMeta(id) {
-        let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
-        let level80Stats = DB.getMetadata().characters[id].promotions[80]
-        scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-        scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-        scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
-        return scoringMetadata
-    }
-
     let possibleSubstats = Object.assign(...Constants.SubStats.map((x) => ({ [x]: true })))
-    let scoringMetadata = getRelicScoreMeta(id)
-    let charMetas = aggregatedBestCaseColumn === 'all' ?
-      characterOptions.map((val) => [val.id, getRelicScoreMeta(val.id)]) :
-      DB.getCharacters().map((val) => [val.id, getRelicScoreMeta(val.id)])
+    let scoringMetadata = characterRelicScoreMetas.get(id)
+    let charMetas = (aggregatedBestCaseColumn === 'all' ? characterOptions : DB.getCharacters())
+      .map((val) => characterRelicScoreMetas.get(val.id))
 
     for (let relic of relics) {
       relic.weights = scoreRelic(relic, id, scoringMetadata, possibleSubstats, charMetas)
@@ -195,8 +198,8 @@ export default function RelicFilterBar() {
 
     let aggBestCaseWeight = 0
     if (charMetas != null) {
-      for (let [aggId, aggScoringMetadata] of charMetas) {
-        let weights = scoreRelic(relic, aggId, aggScoringMetadata, possibleSubstats, null)
+      for (let scoringMetadata of charMetas) {
+        let weights = scoreRelic(relic, scoringMetadata.characterId, scoringMetadata, possibleSubstats, null)
         aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
       }
     }

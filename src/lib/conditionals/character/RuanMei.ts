@@ -111,12 +111,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
-      x.ELEMENTAL_DMG += m.teamDmgBuff
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? 0.10 : 0
+      x.ELEMENTAL_DMG += t.teamDmgBuff
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

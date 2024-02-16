@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Flex, Form, Radio, RadioChangeEvent, Select, Switch, Typography } from 'antd'
+import { Flex, Form, RadioChangeEvent, Select, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import { Hint } from '../../lib/hint'
@@ -105,23 +105,6 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
           />
         </Form.Item>
       </Flex>
-
-      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
-        <HeaderText>Stat display</HeaderText>
-        {/* <TooltipImage type={Hint.optimizerOptions()} /> */}
-      </Flex>
-
-      <Form.Item name="statDisplay">
-        <Radio.Group
-          onChange={onChangeStatDisplay}
-          optionType="button"
-          buttonStyle="solid"
-          style={{ width: '100%', display: 'flex' }}
-        >
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Base stats</Radio>
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
-        </Radio.Group>
-      </Form.Item>
 
       {/*
       <Button type="primary" onClick={showDrawer}>

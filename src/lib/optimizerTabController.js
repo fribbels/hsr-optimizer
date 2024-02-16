@@ -577,6 +577,7 @@ export const OptimizerTabController = {
 
   applyRowFilters: () => {
     let fieldValues = OptimizerTabController.getForm()
+    fieldValues.statDisplay = window.store.getState().statDisplay
     filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)
     OptimizerTabController.resetDataSource()

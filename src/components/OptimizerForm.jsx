@@ -58,9 +58,9 @@ export default function OptimizerForm() {
 
   // hooks
   const characterEidolon = Form.useWatch('characterEidolon', optimizerForm)
+  const lightCone = Form.useWatch('lightCone', optimizerForm)
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm)
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
-  const [optimizationId, setOptimizationId] = useState()
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' })
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
@@ -81,7 +81,7 @@ export default function OptimizerForm() {
     OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id)
   }, [lightConeOptions, optimizerTabFocusCharacter])
 
-  useMemo(() => {
+  useEffect(() => {
     let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
@@ -96,7 +96,7 @@ export default function OptimizerForm() {
     // if (Object.values(defaults).includes(undefined)) {
     optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
     // }
-  }, [optimizerForm])
+  }, [lightCone, lightConeSuperimposition])
 
   const initialCharacter = useMemo(() => {
     let characters = DB.getCharacters() // retrieve instance localStore saved chars
@@ -193,7 +193,7 @@ export default function OptimizerForm() {
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
-    Optimizer.cancel(optimizationId)
+    Optimizer.cancel(window.store.getState().optimizationId)
   }
   window.optimizerCancelClicked = cancelClicked
 
@@ -227,11 +227,13 @@ export default function OptimizerForm() {
 
     DB.addFromForm(form)
     SaveState.save()
-    console.log('Form finished', form)
 
     let optimizationId = uuidv4()
-    setOptimizationId(optimizationId)
+    window.store.getState().setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
+    form.statDisplay = window.store.getState().statDisplay
+
+    console.log('Form finished', form)
 
     setOptimizationInProgress(true)
     Optimizer.optimize(form)

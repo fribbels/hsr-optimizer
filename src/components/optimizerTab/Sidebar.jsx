@@ -6,6 +6,7 @@ import { TooltipImage } from '../TooltipImage'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
+import { ThunderboltFilled } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -85,8 +86,8 @@ export default function Sidebar() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
-                  Start
+                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
+                  Start optimizer
                 </Button>
               </Flex>
               <Flex gap={defaultGap}>

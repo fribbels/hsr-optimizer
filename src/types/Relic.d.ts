@@ -10,10 +10,10 @@ export type Relic = {
    * augmentedCaseWeight?: any;
    */
   weights?: {
-    current: number,
-    average: number,
-    best: number,
-    aggregatedBest: number,
+    current: number
+    average: number
+    best: number
+    aggregatedBest: number
   }
   cs?: number
   ds?: number

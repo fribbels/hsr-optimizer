@@ -218,7 +218,7 @@ export default function RelicsTab() {
     { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 65 },
     { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 65 },
     { field: `weights.aggregatedBest`, headerName: 'AGG BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-  ], []);
+  ], [])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 33,

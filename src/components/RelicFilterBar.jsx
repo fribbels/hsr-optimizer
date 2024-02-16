@@ -212,8 +212,8 @@ export default function RelicFilterBar() {
     let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
     let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
     let avgWeight = (
-        finalSubstatWeights.reduce((a, b) => a + b, 0) -
-        newSubstats.reduce((a, b) => a + b[1], 0) / 2
+      finalSubstatWeights.reduce((a, b) => a + b, 0)
+      - newSubstats.reduce((a, b) => a + b[1], 0) / 2
     ) / 4
 
     let extraRolls = 0
@@ -226,7 +226,7 @@ export default function RelicFilterBar() {
       extraRolls += bestOverallSubstatWeight
     }
 
-    let currentWeight = Utils.precisionRound(subScore + mainScore);
+    let currentWeight = Utils.precisionRound(subScore + mainScore)
     return {
       current: currentWeight,
       best: currentWeight + extraRolls * 6.48,
@@ -300,8 +300,8 @@ export default function RelicFilterBar() {
                 value={aggregatedBestCaseColumn}
                 onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
                 options={[
-                  { 'value': 'all', 'label': 'All Characters' },
-                  { 'value': 'owned', 'label': 'Owned Characters' },
+                  { value: 'all', label: 'All Characters' },
+                  { value: 'owned', label: 'Owned Characters' },
                 ]}
                 style={{ flex: 1 }}
               />

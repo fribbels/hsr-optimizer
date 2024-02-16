@@ -23,15 +23,18 @@ import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from '../lib/relicModalController'
-import { StatSummary } from 'components/characterPreview/StatSummary'
+import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
-const backgroundColor = '#182239'
 export function CharacterPreview(props) {
   console.log('@CharacterPreview')
 
   const { source, character } = props
+
   const isScorer = source == 'scorer'
+  const isBuilds = source == 'builds'
+
+  const backgroundColor = isBuilds ? '#2A3C64' : '#182239'
 
   const relicsById = window.store((s) => s.relicsById)
   const characterTabBlur = window.store((s) => s.characterTabBlur)
@@ -77,7 +80,7 @@ export function CharacterPreview(props) {
   let displayRelics
   let scoringResults
   let finalStats
-  if (isScorer) {
+  if (isScorer || isBuilds) {
     let relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
@@ -126,25 +129,28 @@ export function CharacterPreview(props) {
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
 
-      <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
-        <div
-          style={{
-            position: 'relative',
-          }}
-        >
-          <img
-            src={Assets.getCharacterPortraitById(character.id)}
+      {!isBuilds
+      && (
+        <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
+          <div
             style={{
-              position: 'absolute',
-              left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-              top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
-              width: innerW,
-              filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+              position: 'relative',
             }}
-            onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
-          />
+          >
+            <img
+              src={Assets.getCharacterPortraitById(character.id)}
+              style={{
+                position: 'absolute',
+                left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
+                top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
+                width: innerW,
+                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+              }}
+              onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       <Flex gap={defaultGap}>
         <Flex vertical gap={defaultGap} align="center">
@@ -173,7 +179,7 @@ export function CharacterPreview(props) {
               </Flex>
             </Flex>
 
-            <StatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue} />
+            <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue} />
 
             <Flex vertical>
               <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>

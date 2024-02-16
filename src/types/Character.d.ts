@@ -44,20 +44,20 @@ export type MetadataCharacter = {
 
 // store.getState().characters[0]
 export type Character = {
-  id: CharacterId;
-  equipped: Build;
-  form: Form;
-  rank: number; // order in character tab
-  builds: oldBuild[]
-};
+  id: CharacterId
+  equipped: Build
+  form: Form
+  rank: number // order in character tab
+  builds: SavedBuild[]
+}
 
-export type oldBuild ={
-  build: string[],
-  name:string,
-  score:{
-    score:number,
-    rating:string
+export type SavedBuild = {
+  build: string[]
+  name: string
+  score: {
+    score: number
+    rating: string
   }
 }
 
-export type UnrankedCharacter = Omit<Character, "rank">
+export type UnrankedCharacter = Omit<Character, 'rank'>

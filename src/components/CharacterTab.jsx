@@ -12,10 +12,16 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import {
+  CameraOutlined,
+  DownloadOutlined,
+  DownOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
-import NameBuild from './saveBuildModal'
+import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 
 const { Text } = Typography
@@ -104,6 +110,17 @@ const items = [
       {
         label: 'View saved builds',
         key: 'viewBuilds',
+      },
+    ],
+  },
+  {
+    key: 'scoring group',
+    type: 'group',
+    label: 'Scoring',
+    children: [
+      {
+        label: 'Scoring algorithm',
+        key: 'scoring',
       },
     ],
   },
@@ -303,13 +320,13 @@ export default function CharacterTab() {
       Message.error(res.error)
       return
     }
-    Message.success('Successfully saved build')
+    Message.success('Successfully saved build: ' + name)
     SaveState.save()
     setIsSaveBuildModalOpen(false)
   }
 
   const handleActionsMenuClick = async (e) => {
-    if (!selectedCharacter && e.key != 'add') {
+    if (!selectedCharacter && e.key != 'add' && e.key != 'scoring') {
       Message.error('No selected character')
       return
     }
@@ -336,6 +353,9 @@ export default function CharacterTab() {
         break
       case 'viewBuilds':
         setIsBuildsModalOpen(true)
+        break
+      case 'scoring':
+        scoringAlgorithmClicked()
         break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
@@ -391,18 +411,15 @@ export default function CharacterTab() {
           <Flex vertical gap={8}>
             <Flex justify="space-between" gap={8}>
               <Dropdown
-                placement="top"
+                placement="topLeft"
                 menu={actionsMenuProps}
                 trigger={['click']}
               >
-                <Button style={{ width: '100%' }}>
-                  Actions
+                <Button style={{ width: '100%' }} icon={<UserOutlined />}>
+                  Character actions
                   <DownOutlined />
                 </Button>
               </Dropdown>
-              <Button style={{ width: '100%' }} onClick={scoringAlgorithmClicked}>
-                Scoring
-              </Button>
             </Flex>
             <Flex gap={8}>
               <Button style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked} type="primary" loading={screenshotLoading}>

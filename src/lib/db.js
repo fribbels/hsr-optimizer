@@ -277,17 +277,16 @@ export const DB = {
   saveCharacterBuild: (name, characterId, score) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
-      console.warn('No character to save build for')
+      console.warn('No character selected')
       return
     }
 
     let build = character.builds?.find((x) => x.name == name)
     if (build) {
-      console.warn('Build already exists')
-      return { error: 'Build already exists' }
+      const errorMessage = `Build name [${name}] already exists`
+      console.warn(errorMessage)
+      return { error: errorMessage }
     } else {
-      // let updatedCharacter = { ...character } // shallow clone
-
       if (!character.builds) character.builds = []
       character.builds.push({
         name: name,
@@ -297,42 +296,6 @@ export const DB = {
       DB.setCharacter(character)
       console.log('Saved build', DB.getState())
     }
-  },
-
-  equipCharacterBuild: (characterId, name) => {
-    let character = DB.getCharacterById(characterId)
-    if (!character) {
-      console.warn('No character to equip build for')
-      return
-    }
-
-    let build = character.builds?.find((x) => x.name == name)
-    if (!build) {
-      console.warn('No build to equip')
-      return
-    }
-
-    for (let part of Object.values(Constants.Parts)) {
-      let equippedId = build.build[part]
-      if (!equippedId) continue
-
-      let relicMatch = DB.getRelicById(equippedId)
-      if (!relicMatch) {
-        console.warn('No relic to equip', equippedId)
-        continue
-      }
-
-      let prevRelic = DB.getRelicById(character.equipped[part])
-      if (prevRelic) {
-        prevRelic.equippedBy = undefined
-        DB.setRelic(prevRelic)
-      }
-
-      character.equipped[part] = relicMatch.id
-      relicMatch.equippedBy = character.id
-      DB.setRelic(relicMatch)
-    }
-    DB.setCharacter(character)
   },
 
   deleteCharacterBuild: (characterId, name) => {

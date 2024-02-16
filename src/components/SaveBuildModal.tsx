@@ -1,32 +1,31 @@
-import * as React from "react";
-import { Button, Flex, Form, FormInstance, Modal, Input } from "antd";
-import { HeaderText } from "./HeaderText";
+import * as React from 'react'
+import { Button, Form, FormInstance, Input, Modal } from 'antd'
 
 interface NameBuildProps {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onOk: (x: FormInstance) => void;
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onOk: (x: FormInstance) => void
 }
 
 const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
-  const [characterForm] = Form.useForm();
-  window["characterForm"] = characterForm;
+  const [characterForm] = Form.useForm()
+  window['characterForm'] = characterForm
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue();
-    onOk(formValues.name);
+    const formValues = characterForm.getFieldsValue()
+    onOk(formValues.name)
   }
 
   const handleCancel = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  const panelWidth = 203;
+  const panelWidth = 300
 
   return (
     <Modal
       open={open}
-      width={250}
+      width={350}
       destroyOnClose
       centered
       onOk={onModalOk}
@@ -40,21 +39,18 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
         </Button>,
       ]}
     >
-      <Flex justify="space-between" align="center">
-        <HeaderText>Name your build</HeaderText>
-      </Flex>
       <Form form={characterForm} preserve={false} layout="vertical">
         <Form.Item
           name="name"
-          label="Name"
-          rules={[{ required: true, message: "Please input a name" }]}
+          label="Build name"
+          rules={[{ required: true, message: 'Please input a name' }]}
           style={{ width: panelWidth }}
         >
           <Input />
         </Form.Item>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
-export default NameBuild;
+export default NameBuild

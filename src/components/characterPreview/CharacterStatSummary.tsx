@@ -1,12 +1,10 @@
 import { Flex } from 'antd'
-import { middleColumnWidth } from 'lib/constantsUi.ts'
 import StatRow from 'components/characterPreview/StatRow.tsx'
 import { Constants } from 'lib/constants.ts'
-import React from 'react'
 
-export const StatSummary = (props: { finalStats: any; elementalDmgValue: string }) => {
+export const CharacterStatSummary = (props: { finalStats: any; elementalDmgValue: string }) => {
   return (
-    <Flex vertical style={{ width: middleColumnWidth, paddingLeft: 8, paddingRight: 12 }} gap={4}>
+    <Flex vertical style={{ paddingLeft: 6, paddingRight: 8 }} gap={4}>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.HP} />
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.ATK} />
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.DEF} />

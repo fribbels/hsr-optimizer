@@ -26,7 +26,7 @@ const Wind_DMG = Stats.Wind_DMG
 const Quantum_DMG = Stats.Quantum_DMG
 const Imaginary_DMG = Stats.Imaginary_DMG
 
-function sumRelicStatsFast(relic, statValues, accumulator) {
+function accumuluateRelicStats(relic, accumulator) {
   const a = relic.augmentedStats
   accumulator[HP_P] += a[HP_P]
   accumulator[ATK_P] += a[ATK_P]
@@ -51,14 +51,6 @@ function sumRelicStatsFast(relic, statValues, accumulator) {
   accumulator[Quantum_DMG] += a[Quantum_DMG]
   accumulator[Imaginary_DMG] += a[Imaginary_DMG]
   accumulator.WEIGHT += relic.weightScore
-  return accumulator
-}
-
-function sumRelicStatsFast2(relic, relic2, statValues, accumulator) {
-  for (let stat of statValues) {
-    accumulator[stat] += relic.augmentedStats[stat] + relic2.augmentedStats[stat]
-  }
-  accumulator.WEIGHT += relic.weightScore + relic2.weightScore
   return accumulator
 }
 
@@ -331,7 +323,7 @@ self.onmessage = function(e) {
       let relic = relics[i]
       let key = keys[i]
 
-      value = sumRelicStatsFast(relic, statValues, Object.assign({}, value))
+      value = accumuluateRelicStats(relic, Object.assign({}, value))
       if (i == relics.length - 1) return value
       subCache[key] = {
         value: value,
@@ -361,7 +353,7 @@ self.onmessage = function(e) {
             if (cachedP) {
               // Here is the optimizer bottleneck, in summing up relic stats on the leaf nodes of the cache.
               // This block is equivalent to:
-              // return sumRelicStatsFast(linkRope, statValues, Object.assign({}, cachedP.value))
+              // return accumuluateRelicStats(linkRope, Object.assign({}, cachedP.value))
               // But inlining it like this runs faster..
               const a = linkRope.augmentedStats
               const accumulator = Object.assign({}, cachedP.value)

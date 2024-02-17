@@ -1,4 +1,4 @@
-import { Constants, Stats } from './constants.ts'
+import { Constants, RelicSetFilterOptions, Stats } from './constants.ts'
 import { OptimizerTabController } from './optimizerTabController'
 import { Utils } from './utils'
 import DB from './db'
@@ -390,7 +390,7 @@ function generateRelicSetAllowList(request) {
 
   // console.log('setRequest', setRequest)
   for (let setArr of setRequest) {
-    if (setArr[0] == '4 Piece') {
+    if (setArr[0] == RelicSetFilterOptions.relic4Piece) {
       // ok
       if (setArr.length == 1) {
         // All 4 pieces
@@ -415,7 +415,7 @@ function generateRelicSetAllowList(request) {
       }
     }
 
-    if (setArr[0] == '2 + Any') {
+    if (setArr[0] == RelicSetFilterOptions.relic2PlusAny) {
       if (setArr.length == 1) { // Is this one even possible
         // All 2 + Any
         for (let i = 0; i < len; i++) {
@@ -450,7 +450,7 @@ function generateRelicSetAllowList(request) {
     }
 
     // '2 Piece' is deprecated, but leaving it here for compatibility
-    if (setArr[0] == '2 + 2 Piece' || setArr[0] == '2 Piece') {
+    if (setArr[0] == RelicSetFilterOptions.relic2Plus2Piece || setArr[0] == '2 Piece') {
       // ok
       if (setArr.length == 1) {
         // Any 2 piece + Any
@@ -506,6 +506,7 @@ function generateRelicSetAllowList(request) {
       if (setArr.length == 3) {
         // Specific 2 piece + (2 piece OR any)
 
+        // 'Any' is deprecated, but leaving it here for compatibility
         if (setArr[2] == 'Any') {
           let index = Constants.RelicSetToIndex[setArr[1]]
           for (let i = 0; i < len; i++) {

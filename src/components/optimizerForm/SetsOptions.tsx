@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { Assets } from 'lib/assets'
-import { Constants } from 'lib/constants'
+import { Constants, RelicSetFilterOptions } from 'lib/constants'
 
 const GenerateSetsOptions = () => {
   const result: {
@@ -10,20 +10,20 @@ const GenerateSetsOptions = () => {
   }[] = [
     // Example: aaaa
     {
-      value: '4 Piece',
-      label: '4 Piece',
+      value: RelicSetFilterOptions.relic4Piece,
+      label: RelicSetFilterOptions.relic4Piece,
       children: [],
     },
     // Example: aabb
     {
-      value: '2 + 2 Piece',
-      label: '2 + 2 Piece',
+      value: RelicSetFilterOptions.relic2Plus2Piece,
+      label: RelicSetFilterOptions.relic2Plus2Piece,
       children: [],
     },
     // Example: aabc
     {
-      value: '2 + Any',
-      label: '2 + Any',
+      value: RelicSetFilterOptions.relic2PlusAny,
+      label: RelicSetFilterOptions.relic2PlusAny,
       children: [],
     },
   ]

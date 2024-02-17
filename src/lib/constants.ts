@@ -299,3 +299,9 @@ export const eidolonOptions = (() => {
     { value: 6, label: 'E6' },
   ]
 })()
+
+export const RelicSetFilterOptions = {
+  relic4Piece: '4 Piece',
+  relic2Plus2Piece: '2 + 2 Piece',
+  relic2PlusAny: '2 + Any',
+}

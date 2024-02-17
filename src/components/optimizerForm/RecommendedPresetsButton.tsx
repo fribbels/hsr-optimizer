@@ -166,7 +166,7 @@ const RecommendedPresetsButton = () => {
         /*
          * Not sure if we want to support set recommendations yet
          * form.ornamentSets = metadata.ornamentSets
-         * form.relicSets = metadata.relicSets.map(x => ['2 + Any', x])
+         * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
          */
 
         const presets = metadata.presets || []

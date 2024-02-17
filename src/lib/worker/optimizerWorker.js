@@ -522,7 +522,7 @@ self.onmessage = function(e) {
       + 0.06 * p4(sets.MusketeerOfWildWheat))
 
     // SPD is the most common filter, use it to exit early
-    if (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd) {
+    if (baseDisplay && (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd)) {
       continue
     }
 

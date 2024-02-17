@@ -174,15 +174,11 @@ export const RelicScorer = {
 
     let sum = 0
     for (const substat of relic.substats) {
-      substat.scoreMeta = {
-        multiplier: (multipliers[substat.stat] || 0),
-        score: substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat],
-      }
-      sum += substat.scoreMeta.score
+      sum += substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
     }
 
     if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue
+      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue * multipliers[relic.main.stat]
     }
 
     let rating = 'F'

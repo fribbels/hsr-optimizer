@@ -30,9 +30,5 @@ export type Relic = {
   substats: [{
     stat: SubStats
     value: number
-    scoreMeta: {
-      multiplier: number
-      score: number
-    }
   }]
 }

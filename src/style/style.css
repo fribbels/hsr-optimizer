@@ -330,3 +330,7 @@ a {
 .teammate-set-select .ant-select-selector {
   padding-left: 7px !important;
 }
+
+.ant-segmented {
+  padding: 0 !important;
+}

@@ -62,6 +62,7 @@ export const CharacterConverter = {
 
     return {
       id: id,
+      key: Utils.randomId(),
       form: {
         characterLevel: 80,
         characterId: id,

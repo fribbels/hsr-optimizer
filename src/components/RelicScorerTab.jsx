@@ -258,15 +258,15 @@ function CharacterPreviewSelection(props) {
   return (
     <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
       <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
-          Simulate relics on another character
+        <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 240 }}>
+          Import all relics into optimizer
         </Button>
         <Button onClick={clipboardClicked} style={{ width: 200 }} icon={<CameraOutlined />} loading={screenshotLoading}>
           Copy screenshot
         </Button>
         <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-        <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
-          Import relics into optimizer
+        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+          Simulate relics on another character
         </Button>
       </Flex>
 

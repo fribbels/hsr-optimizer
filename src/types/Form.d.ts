@@ -53,6 +53,11 @@ export type Form = {
   buffSpd: number
   buffSpdP: number
 
+  baseHp: number
+  baseAtk: number
+  baseDef: number
+  baseSpd: number
+
   maxAtk: MAX_INT
   maxBasic: MAX_INT
   maxBe: MAX_INT

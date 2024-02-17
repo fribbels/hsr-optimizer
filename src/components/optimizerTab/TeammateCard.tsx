@@ -12,6 +12,7 @@ import { CharacterConditionalDisplay } from 'components/optimizerForm/conditiona
 import { LightConeConditionalDisplay } from 'components/optimizerForm/conditionals/LightConeConditionalDisplay.tsx'
 import DB from 'lib/db.js'
 import { Character } from 'types/Character'
+import { Message } from 'lib/message.js'
 
 const { Text } = Typography
 
@@ -242,7 +243,10 @@ const TeammateCard = (props: { index: number }) => {
             icon={<SyncOutlined />}
             style={{ width: 35 }}
             disabled={disabled}
-            onClick={updateTeammate}
+            onClick={() => {
+              updateTeammate()
+              Message.success('Synced teammate info')
+            }}
           />
 
           <Form.Item name={[teammateProperty, `characterEidolon`]}>

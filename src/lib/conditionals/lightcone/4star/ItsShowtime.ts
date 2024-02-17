@@ -49,10 +49,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
     },
     calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (c/* , request */) => {
+    calculateBaseMultis: (c, request) => {
       const x = c['x']
 
-      x[Stats.ATK] += x[Stats.EHR] >= 0.80 ? c.baseAtk * sValuesAtkBuff[s] : 0
+      x[Stats.ATK] += x[Stats.EHR] >= 0.80 ? request.baseAtk * sValuesAtkBuff[s] : 0
     },
   }
 }

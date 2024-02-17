@@ -211,14 +211,13 @@ function CharacterPreviewSelection(props) {
     if (!form.characterId) {
       return Message.error('No selected character')
     }
-
     if (props.availableCharacters.find((x) => x.id == form.characterId)) {
       return Message.error('Selected character already exists')
     }
 
+    // Change the character metadata and set the equipped icons
     props.selectedCharacter.form = form
     props.selectedCharacter.id = form.characterId
-    // Set the equipped icons
     Object.values(props.selectedCharacter.equipped)
       .filter((x) => !!x)
       .map((x) => x.equippedBy = form.characterId)

@@ -3,26 +3,55 @@ import { BufferPacker } from '../bufferPacker.js'
 import { CharacterConditionals } from '../characterConditionals'
 import { LightConeConditionals } from '../lightConeConditionals'
 
-function sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues) {
-  let summedStats = {}
-  for (let stat of statValues) {
-    summedStats[stat]
-      = headRelics[h].augmentedStats[stat]
-      + handsRelics[g].augmentedStats[stat]
-      + bodyRelics[b].augmentedStats[stat]
-      + feetRelics[f].augmentedStats[stat]
-      + planarSphereRelics[p].augmentedStats[stat]
-      + linkRopeRelics[l].augmentedStats[stat]
-  }
-  summedStats.WEIGHT
-    = headRelics[h].weightScore
-    + handsRelics[g].weightScore
-    + bodyRelics[b].weightScore
-    + feetRelics[f].weightScore
-    + planarSphereRelics[p].weightScore
-    + linkRopeRelics[l].weightScore
+const HP_P = Stats.HP_P
+const ATK_P = Stats.ATK_P
+const DEF_P = Stats.DEF_P
+const SPD_P = Stats.SPD_P
+const HP = Stats.HP
+const ATK = Stats.ATK
+const DEF = Stats.DEF
+const SPD = Stats.SPD
+const CR = Stats.CR
+const CD = Stats.CD
+const EHR = Stats.EHR
+const RES = Stats.RES
+const BE = Stats.BE
+const ERR = Stats.ERR
+const OHB = Stats.OHB
+const Physical_DMG = Stats.Physical_DMG
+const Fire_DMG = Stats.Fire_DMG
+const Ice_DMG = Stats.Ice_DMG
+const Lightning_DMG = Stats.Lightning_DMG
+const Wind_DMG = Stats.Wind_DMG
+const Quantum_DMG = Stats.Quantum_DMG
+const Imaginary_DMG = Stats.Imaginary_DMG
 
-  return summedStats
+function accumuluateRelicStats(relic, accumulator) {
+  const a = relic.augmentedStats
+  accumulator[HP_P] += a[HP_P]
+  accumulator[ATK_P] += a[ATK_P]
+  accumulator[DEF_P] += a[DEF_P]
+  accumulator[SPD_P] += a[SPD_P]
+  accumulator[HP] += a[HP]
+  accumulator[ATK] += a[ATK]
+  accumulator[DEF] += a[DEF]
+  accumulator[SPD] += a[SPD]
+  accumulator[CR] += a[CR]
+  accumulator[CD] += a[CD]
+  accumulator[EHR] += a[EHR]
+  accumulator[RES] += a[RES]
+  accumulator[BE] += a[BE]
+  accumulator[ERR] += a[ERR]
+  accumulator[OHB] += a[OHB]
+  accumulator[Physical_DMG] += a[Physical_DMG]
+  accumulator[Fire_DMG] += a[Fire_DMG]
+  accumulator[Ice_DMG] += a[Ice_DMG]
+  accumulator[Lightning_DMG] += a[Lightning_DMG]
+  accumulator[Wind_DMG] += a[Wind_DMG]
+  accumulator[Quantum_DMG] += a[Quantum_DMG]
+  accumulator[Imaginary_DMG] += a[Imaginary_DMG]
+  accumulator.WEIGHT += relic.weightScore
+  return accumulator
 }
 
 function calculateFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
@@ -169,6 +198,15 @@ self.onmessage = function(e) {
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
 
+  let baseHp = calculateBaseStat(Stats.HP, base, lc)
+  let baseAtk = calculateBaseStat(Stats.ATK, base, lc)
+  let baseDef = calculateBaseStat(Stats.DEF, base, lc)
+  let baseSpd = calculateBaseStat(Stats.SPD, base, lc)
+  request.baseHp = baseHp
+  request.baseAtk = baseAtk
+  request.baseDef = baseDef
+  request.baseSpd = baseSpd
+
   let enabledHunterOfGlacialForest = setConditionals[Constants.Sets.HunterOfGlacialForest][1] == true ? 1 : 0
   let enabledFiresmithOfLavaForging = setConditionals[Constants.Sets.FiresmithOfLavaForging][1] == true ? 1 : 0
   let enabledGeniusOfBrilliantStars = setConditionals[Constants.Sets.GeniusOfBrilliantStars][1] == true ? 1 : 0
@@ -248,6 +286,118 @@ self.onmessage = function(e) {
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
+  const baseStatsObject = {
+    [Stats.HP_P]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.SPD_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.ATK]: 0,
+    [Stats.DEF]: 0,
+    [Stats.SPD]: 0,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+    [Stats.ERR]: 0,
+    [Stats.OHB]: 0,
+    [Stats.Physical_DMG]: 0,
+    [Stats.Fire_DMG]: 0,
+    [Stats.Ice_DMG]: 0,
+    [Stats.Lightning_DMG]: 0,
+    [Stats.Wind_DMG]: 0,
+    [Stats.Quantum_DMG]: 0,
+    [Stats.Imaginary_DMG]: 0,
+    WEIGHT: 0,
+  }
+
+  // Cache partial sums
+  const cache = {}
+
+  function insertCache(relics, keys, accumulator, cache) {
+    let subCache = cache
+    let value = accumulator
+
+    for (let i = 0; i < relics.length; i++) {
+      let relic = relics[i]
+      let key = keys[i]
+
+      value = accumuluateRelicStats(relic, Object.assign({}, value))
+      if (i == relics.length - 1) return value
+      subCache[key] = {
+        value: value,
+      }
+      subCache = subCache[key]
+    }
+    return value
+  }
+
+  function sumRelicStatsCached(h, g, b, f, p, l) {
+    let head = headRelics[h]
+    let hands = handsRelics[g]
+    let body = bodyRelics[b]
+    let feet = feetRelics[f]
+    let planarSphere = planarSphereRelics[p]
+    let linkRope = linkRopeRelics[l]
+
+    let cachedH = cache[h]
+    if (cachedH) {
+      let cachedG = cachedH[g]
+      if (cachedG) {
+        let cachedB = cachedG[b]
+        if (cachedB) {
+          let cachedF = cachedB[f]
+          if (cachedF) {
+            let cachedP = cachedF[p]
+            if (cachedP) {
+              // Here is the optimizer bottleneck, in summing up relic stats on the leaf nodes of the cache.
+              // This block is equivalent to:
+              // return accumuluateRelicStats(linkRope, Object.assign({}, cachedP.value))
+              // But inlining it like this runs faster..
+              const a = linkRope.augmentedStats
+              const accumulator = Object.assign({}, cachedP.value)
+              accumulator[HP_P] += a[HP_P]
+              accumulator[ATK_P] += a[ATK_P]
+              accumulator[DEF_P] += a[DEF_P]
+              accumulator[SPD_P] += a[SPD_P]
+              accumulator[HP] += a[HP]
+              accumulator[ATK] += a[ATK]
+              accumulator[DEF] += a[DEF]
+              accumulator[SPD] += a[SPD]
+              accumulator[CR] += a[CR]
+              accumulator[CD] += a[CD]
+              accumulator[EHR] += a[EHR]
+              accumulator[RES] += a[RES]
+              accumulator[BE] += a[BE]
+              accumulator[ERR] += a[ERR]
+              accumulator[OHB] += a[OHB]
+              accumulator[Physical_DMG] += a[Physical_DMG]
+              accumulator[Fire_DMG] += a[Fire_DMG]
+              accumulator[Ice_DMG] += a[Ice_DMG]
+              accumulator[Lightning_DMG] += a[Lightning_DMG]
+              accumulator[Wind_DMG] += a[Wind_DMG]
+              accumulator[Quantum_DMG] += a[Quantum_DMG]
+              accumulator[Imaginary_DMG] += a[Imaginary_DMG]
+              accumulator.WEIGHT += linkRope.weightScore
+              return accumulator
+            } else {
+              return insertCache([planarSphere, linkRope], [p, l], cachedF.value, cachedF)
+            }
+          } else {
+            return insertCache([feet, planarSphere, linkRope], [f, p, l], cachedB.value, cachedB)
+          }
+        } else {
+          return insertCache([body, feet, planarSphere, linkRope], [b, f, p, l], cachedG.value, cachedG)
+        }
+      } else {
+        return insertCache([hands, body, feet, planarSphere, linkRope], [g, b, f, p, l], cachedH.value, cachedH)
+      }
+    } else {
+      return insertCache([head, hands, body, feet, planarSphere, linkRope], [h, g, b, f, p, l], baseStatsObject, cache)
+    }
+  }
+
   for (let col = 0; col < limit; col++) {
     let index = data.skip + col
 
@@ -280,7 +430,7 @@ self.onmessage = function(e) {
       }
     }
 
-    let c = sumRelicStats(headRelics, handsRelics, bodyRelics, feetRelics, planarSphereRelics, linkRopeRelics, h, g, b, f, p, l, statValues)
+    let c = sumRelicStatsCached(h, g, b, f, p, l)
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
@@ -361,17 +511,20 @@ self.onmessage = function(e) {
      * ************************************************************
      */
 
-    let baseHp = calculateBaseStat(Stats.HP, base, lc)
-    let baseAtk = calculateBaseStat(Stats.ATK, base, lc)
-    let baseDef = calculateBaseStat(Stats.DEF, base, lc)
-    let baseSpd = calculateBaseStat(Stats.SPD, base, lc)
-    c.baseAtk = baseAtk
-
     /*
      * ************************************************************
      * Calculate display stats with unconditional sets
      * ************************************************************
      */
+
+    c[Stats.SPD] = calculateFlatStat(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
+      0.06 * p2(sets.MessengerTraversingHackerspace)
+      + 0.06 * p4(sets.MusketeerOfWildWheat))
+
+    // SPD is the most common filter, use it to exit early
+    if (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd) {
+      continue
+    }
 
     c[Stats.HP] = calculateFlatStat(Stats.HP, Stats.HP_P, baseHp, lc, trace, c,
       0.12 * p2(sets.FleetOfTheAgeless)
@@ -386,10 +539,6 @@ self.onmessage = function(e) {
     c[Stats.DEF] = calculateFlatStat(Stats.DEF, Stats.DEF_P, baseDef, lc, trace, c,
       0.15 * p2(sets.BelobogOfTheArchitects)
       + 0.15 * p2(sets.KnightOfPurityPalace))
-
-    c[Stats.SPD] = calculateFlatStat(Stats.SPD, Stats.SPD_P, baseSpd, lc, trace, c,
-      0.06 * p2(sets.MessengerTraversingHackerspace)
-      + 0.06 * p4(sets.MusketeerOfWildWheat))
 
     c[Stats.CR] = calculatePercentStat(Stats.CR, base, lc, trace, c,
       0.08 * p2(sets.InertSalsotto)
@@ -419,19 +568,18 @@ self.onmessage = function(e) {
 
     // Exit early on base display filters failing unless its a topRow search
     if (baseDisplay && !topRow) {
-      const pass
-        = c[Stats.HP] >= request.minHp && c[Stats.HP] <= request.maxHp
-        && c[Stats.ATK] >= request.minAtk && c[Stats.ATK] <= request.maxAtk
-        && c[Stats.DEF] >= request.minDef && c[Stats.DEF] <= request.maxDef
-        && c[Stats.SPD] >= request.minSpd && c[Stats.SPD] <= request.maxSpd
-        && c[Stats.CR] >= request.minCr && c[Stats.CR] <= request.maxCr
-        && c[Stats.CD] >= request.minCd && c[Stats.CD] <= request.maxCd
-        && c[Stats.EHR] >= request.minEhr && c[Stats.EHR] <= request.maxEhr
-        && c[Stats.RES] >= request.minRes && c[Stats.RES] <= request.maxRes
-        && c[Stats.BE] >= request.minBe && c[Stats.BE] <= request.maxBe
-        && c[Stats.ERR] >= request.minErr && c[Stats.ERR] <= request.maxErr
-        && c.WEIGHT >= request.minWeight && c.WEIGHT <= request.maxWeight
-      if (!pass) {
+      const fail
+        = c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
+        || c[Stats.ATK] < request.minAtk || c[Stats.ATK] > request.maxAtk
+        || c[Stats.DEF] < request.minDef || c[Stats.DEF] > request.maxDef
+        || c[Stats.CR] < request.minCr || c[Stats.CR] > request.maxCr
+        || c[Stats.CD] < request.minCd || c[Stats.CD] > request.maxCd
+        || c[Stats.EHR] < request.minEhr || c[Stats.EHR] > request.maxEhr
+        || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
+        || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
+        || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
+        || c.WEIGHT < request.minWeight || c.WEIGHT > request.maxWeight
+      if (fail) {
         continue
       }
     }
@@ -603,30 +751,30 @@ self.onmessage = function(e) {
 
     // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search
     if (combatDisplay && !topRow) {
-      const pass
-        = x[Stats.HP] >= request.minHp && x[Stats.HP] <= request.maxHp
-        && x[Stats.ATK] >= request.minAtk && x[Stats.ATK] <= request.maxAtk
-        && x[Stats.DEF] >= request.minDef && x[Stats.DEF] <= request.maxDef
-        && x[Stats.SPD] >= request.minSpd && x[Stats.SPD] <= request.maxSpd
-        && x[Stats.CR] >= request.minCr && x[Stats.CR] <= request.maxCr
-        && x[Stats.CD] >= request.minCd && x[Stats.CD] <= request.maxCd
-        && x[Stats.EHR] >= request.minEhr && x[Stats.EHR] <= request.maxEhr
-        && x[Stats.RES] >= request.minRes && x[Stats.RES] <= request.maxRes
-        && x[Stats.BE] >= request.minBe && x[Stats.BE] <= request.maxBe
-        && x[Stats.ERR] >= request.minErr && x[Stats.ERR] <= request.maxErr
-      if (!pass) {
+      const fail
+        = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
+        || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
+        || x[Stats.DEF] < request.minDef || x[Stats.DEF] > request.maxDef
+        || x[Stats.SPD] < request.minSpd || x[Stats.SPD] > request.maxSpd
+        || x[Stats.CR] < request.minCr || x[Stats.CR] > request.maxCr
+        || x[Stats.CD] < request.minCd || x[Stats.CD] > request.maxCd
+        || x[Stats.EHR] < request.minEhr || x[Stats.EHR] > request.maxEhr
+        || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
+        || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
+        || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
+      if (fail) {
         continue
       }
     }
 
-    let result = (
-      cv >= request.minCv && cv <= request.maxCv
-      && ehp >= request.minEhp && ehp <= request.maxEhp
-      && x.BASIC_DMG >= request.minBasic && x.BASIC_DMG <= request.maxBasic
-      && x.SKILL_DMG >= request.minSkill && x.SKILL_DMG <= request.maxSkill
-      && x.ULT_DMG >= request.minUlt && x.ULT_DMG <= request.maxUlt
-      && x.FUA_DMG >= request.minFua && x.FUA_DMG <= request.maxFua
-      && x.DOT_DMG >= request.minDot && x.DOT_DMG <= request.maxDot
+    let fail = (
+      cv < request.minCv || cv > request.maxCv
+      || ehp < request.minEhp || ehp > request.maxEhp
+      || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
+      || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
+      || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
+      || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
+      || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
     )
 
     /*
@@ -635,7 +783,7 @@ self.onmessage = function(e) {
      * ************************************************************
      */
 
-    if (topRow || result) {
+    if (topRow || !fail) {
       BufferPacker.packCharacter(arr, col, c)
     }
   }

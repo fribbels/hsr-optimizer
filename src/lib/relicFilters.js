@@ -1,4 +1,4 @@
-import { Constants } from './constants.ts'
+import { Constants, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
 
@@ -120,7 +120,7 @@ export const RelicFilters = {
       let allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsRelics).length)
 
       for (let relicSet of request.relicSets) {
-        if (relicSet[0] == '4 Piece') {
+        if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
           if (relicSet.length == 1) { // Is this one even possible
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
           }
@@ -129,11 +129,12 @@ export const RelicFilters = {
             allowedSets[index] = 1
           }
         }
-        if (relicSet[0] == '2 + Any') {
+        if (relicSet[0] == RelicSetFilterOptions.relic2PlusAny) {
           allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
         }
+
         // '2 Piece' and 'Any' is deprecated but leaving here for compatibility
-        if (relicSet[0] == '2 Piece' || relicSet[0] == '2 + 2 Piece') {
+        if (relicSet[0] == '2 Piece' || relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
           if (relicSet.length == 1) {
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
           }

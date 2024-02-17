@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants } from 'lib/constants.ts'
+import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -203,6 +203,14 @@ export const DB = {
     for (let character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
+
+      // Previously the relic sets were different than what they are now, delete the deprecated options for users with old save files
+      let relicSetsOptions = character.form.relicSets || []
+      for (let i = relicSetsOptions.length - 1; i >= 0; i--) {
+        if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
+          character.form.relicSets.splice(i, 1)
+        }
+      }
     }
 
     for (let relic of x.relics) {

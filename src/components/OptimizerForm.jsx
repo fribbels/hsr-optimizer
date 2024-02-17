@@ -10,6 +10,7 @@ import {
   enemyLevelOptions,
   enemyResistanceOptions,
   levelOptions,
+  RelicSetFilterOptions,
   superimpositionOptions,
 } from 'lib/constants.ts'
 import FormRow, { OptimizerMenuIds } from './optimizerTab/FormRow'
@@ -279,7 +280,7 @@ export default function OptimizerForm() {
     let pieces = value.split('__RC_CASCADER_SPLIT__')
     let inner
 
-    if (pieces[0] == '4 Piece') {
+    if (pieces[0] == RelicSetFilterOptions.relic4Piece) {
       inner
         = (
           <React.Fragment>
@@ -289,7 +290,7 @@ export default function OptimizerForm() {
         )
     }
 
-    if (pieces[0] == '2 + 2 Piece') {
+    if (pieces[0] == RelicSetFilterOptions.relic2Plus2Piece) {
       inner
         = (
           <React.Fragment>
@@ -299,7 +300,7 @@ export default function OptimizerForm() {
         )
     }
 
-    if (pieces[0] == '2 + Any') {
+    if (pieces[0] == RelicSetFilterOptions.relic2PlusAny) {
       inner
         = (
           <React.Fragment>

@@ -2,6 +2,7 @@ import { toBlob as htmlToBlob } from 'html-to-image'
 import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Utils = {
   arrayOfZeroes: (n) => {
@@ -132,15 +133,18 @@ export const Utils = {
   },
   recursiveToCamel: (item) => {
     if (Array.isArray(item)) {
-      return item.map(el => Utils.recursiveToCamel(el));
+      return item.map((el) => Utils.recursiveToCamel(el))
     } else if (typeof item === 'function' || item !== Object(item)) {
-      return item;
+      return item
     }
     return Object.fromEntries(
       Object.entries(item).map(([key, value]) => [
-        key.replace(/([-_][a-z])/gi, c => c.toUpperCase().replace(/[-_]/g, '')),
+        key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, '')),
         Utils.recursiveToCamel(value),
       ]),
-    );
+    )
+  },
+  randomId: () => {
+    return uuidv4()
   },
 }

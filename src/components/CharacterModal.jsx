@@ -6,12 +6,42 @@ import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 
+// Keep new characters/lcs at the top of the list for convenience. More popular should be at the bottom
+const pinnedValues = [
+  'Black Swan',
+  'Sparkle',
+  'Aventurine',
+  'Acheron',
+
+  'Reforged Remembrance',
+  'Earthly Escapade',
+]
+function generatePinnedList(list) {
+  if (!list || !list.length) return []
+
+  list.sort((a, b) => {
+    const indexA = pinnedValues.indexOf(a.label)
+    const indexB = pinnedValues.indexOf(b.label)
+    if (indexB > indexA) {
+      return 1
+    } else if (indexA > indexB) {
+      return -1
+    }
+
+    return a.label.localeCompare(b.label)
+  })
+
+  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(new!) ' + option.label : null)
+
+  return list
+}
+
 export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
+  const characterOptions = useMemo(() => generatePinnedList(Utils.generateCharacterOptions()), [])
+  const lightConeOptions = useMemo(() => generatePinnedList(Utils.generateLightConeOptions()), [])
 
   useEffect(() => {
     if (!props.open) return

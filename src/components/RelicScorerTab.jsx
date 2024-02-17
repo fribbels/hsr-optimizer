@@ -8,8 +8,9 @@ import PropTypes from 'prop-types'
 import DB from 'lib/db'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Utils } from 'lib/utils'
-import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined } from '@ant-design/icons'
 import { Message } from 'lib/message'
+import CharacterModal from 'components/CharacterModal'
 
 const { Text } = Typography
 export default function RelicScorerTab() {
@@ -69,16 +70,7 @@ export default function RelicScorerTab() {
         // ]
 
         data = data.data
-        let characters = [
-          data.detailInfo.avatarDetailList[4],
-          data.detailInfo.avatarDetailList[0],
-          data.detailInfo.avatarDetailList[7],
-          data.detailInfo.avatarDetailList[5],
-          data.detailInfo.avatarDetailList[1],
-          data.detailInfo.avatarDetailList[2],
-          data.detailInfo.avatarDetailList[3],
-          data.detailInfo.avatarDetailList[6],
-        ]
+        let characters = data.detailInfo.avatarDetailList
           .filter((x) => !!x)
           .sort((a, b) => {
             if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
@@ -166,6 +158,8 @@ RelicScorerTab.propTypes = {
 function CharacterPreviewSelection(props) {
   let setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
+  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
@@ -208,6 +202,29 @@ function CharacterPreviewSelection(props) {
     setScoringAlgorithmFocusCharacter(selected)
   }
 
+  async function simulateClicked() {
+    console.log('Simulate', props.selectedCharacter)
+    setCharacterModalOpen(true)
+  }
+
+  function onCharacterModalOk(form) {
+    if (!form.characterId) {
+      return Message.error('No selected character')
+    }
+
+    if (props.availableCharacters.find((x) => x.id == form.characterId)) {
+      return Message.error('Selected character already exists')
+    }
+
+    props.selectedCharacter.form = form
+    props.selectedCharacter.id = form.characterId
+    // Set the equipped icons
+    Object.values(props.selectedCharacter.equipped)
+      .filter((x) => !!x)
+      .map((x) => x.equippedBy = form.characterId)
+    console.log('Modified character', props.selectedCharacter)
+  }
+
   async function importClicked() {
     let newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
@@ -240,23 +257,35 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex vertical align="center" gap={5} style={{ marginBottom: 100 }}>
+    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
       <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-        <Button onClick={importClicked} style={{ width: 200 }}>
-          Import relics into optimizer
+        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+          Simulate relics on another character
         </Button>
         <Button onClick={clipboardClicked} style={{ width: 200 }} icon={<CameraOutlined />} loading={screenshotLoading}>
           Copy screenshot
         </Button>
         <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
+        <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+          Import relics into optimizer
+        </Button>
       </Flex>
 
-      <Flex vertical align="center">
-        <Segmented options={options} onChange={selectionChange} value={props.selectedCharacter?.id} />
-      </Flex>
+      <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
       <div id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
-        <CharacterPreview class="relicScorerCharacterPreview" character={props.selectedCharacter} source="scorer" id="relicScorerPreview" />
+        <CharacterPreview
+          class="relicScorerCharacterPreview"
+          character={props.selectedCharacter}
+          source="scorer"
+          id="relicScorerPreview"
+        />
       </div>
+
+      <CharacterModal
+        onOk={onCharacterModalOk}
+        open={isCharacterModalOpen}
+        setOpen={setCharacterModalOpen}
+      />
     </Flex>
   )
 }

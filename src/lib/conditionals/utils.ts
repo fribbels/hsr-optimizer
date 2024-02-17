@@ -13,8 +13,8 @@ export const calculateAshblazingSet = (c, request, hitMulti): {
 } => {
   const enabled = p4(c.sets.TheAshblazingGrandDuke)
   const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
-  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * c.baseAtk * enabled
-  const ashblazingMulti = hitMulti * enabled * c.baseAtk
+  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * request.baseAtk * enabled
+  const ashblazingMulti = hitMulti * enabled * request.baseAtk
 
   return {
     ashblazingMulti,

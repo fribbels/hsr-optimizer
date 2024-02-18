@@ -1,5 +1,7 @@
 import { Constants } from 'lib/constants'
-import { Character } from 'types/Character'
+import { Character, CharacterId } from 'types/Character'
+import { Relic } from 'types/Relic'
+import { Utils } from 'lib/utils'
 
 import DB from './db.js'
 
@@ -80,6 +82,24 @@ function countPairs(arr) {
   return pairs
 }
 
+const possibleSubstats = new Set(Constants.SubStats)
+
+let characterRelicScoreMetas
+
+function getRelicScoreMeta(id) {
+  if (!characterRelicScoreMetas) {
+    characterRelicScoreMetas = new Map(Object.keys(DB.getMetadata().characters).map((id) => {
+      let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      let level80Stats = DB.getMetadata().characters[id].promotions[80]
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+      return [id, scoringMetadata]
+    }));
+  }
+  return characterRelicScoreMetas.get(id)
+}
+
 export const RelicScorer = {
   scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
@@ -124,6 +144,59 @@ export const RelicScorer = {
     const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
     return RelicScorer.scoreCharacterWithRelics(character, relics)
+  },
+
+  scoreRelic: (relic: Relic, id: CharacterId) => {
+    let scoringMetadata = getRelicScoreMeta(id)
+
+    let scoringResult = RelicScorer.score(relic, id)
+    let subScore = parseFloat(scoringResult.score)
+    let mainScore = 0
+    if (Utils.hasMainStat([relic.part])) {
+      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+        mainScore = 64.8
+      } else {
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+      }
+    } else {
+      mainScore = 64.8
+    }
+
+    // Predict substat scores
+    let substats = new Set(relic.substats.map((x) => x.stat))
+    let substatScoreEntries = Object.entries(scoringMetadata.stats)
+      .filter((x) => possibleSubstats.has(x[0]))
+      .filter((x) => !substats.has(x[0])) // Exclude already existing substats
+      .sort((a, b) => b[1] - a[1])
+
+    let missingSubstats = (4 - substats.size)
+    let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
+
+    let newSubstats = substatScoreEntries.slice(0, missingSubstats)
+    let finalSubstats = [...substats, ...newSubstats.map((x) => x[0])]
+    let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
+    let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
+    let avgWeight = (
+      finalSubstatWeights.reduce((a, b) => a + b, 0)
+      - newSubstats.reduce((a, b) => a + b[1], 0) / 2
+    ) / 4
+
+    let extraRolls = 0
+
+    for (let i = 0; i < missingSubstats; i++) {
+      extraRolls += 1 * newSubstats[i][1]
+    }
+
+    for (let i = 0; i < missingRolls; i++) {
+      extraRolls += bestOverallSubstatWeight
+    }
+
+    let currentWeight = Utils.precisionRound(subScore + mainScore)
+    return {
+      current: currentWeight,
+      best: currentWeight + extraRolls * 6.48,
+      average: currentWeight + extraRolls * 6.48 * avgWeight,
+    }
   },
 
   score: (relic, characterId) => {

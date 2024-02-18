@@ -31,19 +31,6 @@ export default function RelicFilterBar() {
     return Utils.generateCharacterOptions()
   }, [])
 
-  const characterRelicScoreMetas = useMemo(() =>
-    new Map(Object.keys(DB.getMetadata().characters).map((id) => [id, getRelicScoreMeta(id)]))
-  , [])
-
-  function getRelicScoreMeta(id) {
-    let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
-    let level80Stats = DB.getMetadata().characters[id].promotions[80]
-    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
-    return scoringMetadata
-  }
-
   function generateImageTags(arr, srcFn, tooltip) {
     function generateDisplay(key) {
       // QOL to colorize elemental stat images instead of using the substat images
@@ -146,12 +133,10 @@ export default function RelicFilterBar() {
     }
     setAggregatedBestCaseColumn(bestCaseColumn)
 
-    let possibleSubstats = new Set(Constants.SubStats)
-    let charMetas = (bestCaseColumn === 'all' ? characterOptions : DB.getCharacters())
-      .map((val) => characterRelicScoreMetas.get(val.id))
-    if (id) {
+    let characterIds = (bestCaseColumn === 'all' ? characterOptions : DB.getCharacters()).map((val) => val.id)
+    if (id && !characterIds.includes(id)) {
       // Always calculate for selected char (even if not owned)
-      charMetas.push(characterRelicScoreMetas.get(id))
+      characterIds.push(id)
     }
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
@@ -160,10 +145,10 @@ export default function RelicFilterBar() {
       let aggBestCaseWeight = 0
       let relicWeights = new Map()
 
-      for (let scoringMetadata of charMetas) {
-        let weights = scoreRelic(relic, scoringMetadata.characterId, scoringMetadata, possibleSubstats)
+      for (let characterId of characterIds) {
+        let weights = RelicScorer.scoreRelic(relic, characterId)
         aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
-        relicWeights.set(scoringMetadata.characterId, weights)
+        relicWeights.set(characterId, weights)
       }
 
       let weights = id ? relicWeights.get(id) : { current: 0, best: 0, average: 0 }
@@ -181,57 +166,6 @@ export default function RelicFilterBar() {
     }
 
     DB.refreshRelics()
-  }
-
-  function scoreRelic(relic, id, scoringMetadata, possibleSubstats) {
-    let scoringResult = RelicScorer.score(relic, id)
-    let subScore = parseFloat(scoringResult.score)
-    let mainScore = 0
-    if (Utils.hasMainStat([relic.part])) {
-      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
-        mainScore = 64.8
-      } else {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
-      }
-    } else {
-      mainScore = 64.8
-    }
-
-    // Predict substat scores
-    let substats = new Set(relic.substats.map((x) => x.stat))
-    let substatScoreEntries = Object.entries(scoringMetadata.stats)
-      .filter((x) => possibleSubstats.has(x[0]))
-      .filter((x) => !substats.has(x[0])) // Exclude already existing substats
-      .sort((a, b) => b[1] - a[1])
-
-    let missingSubstats = (4 - substats.size)
-    let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
-
-    let newSubstats = substatScoreEntries.slice(0, missingSubstats)
-    let finalSubstats = [...substats, ...newSubstats.map((x) => x[0])]
-    let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-    let bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
-    let avgWeight = (
-      finalSubstatWeights.reduce((a, b) => a + b, 0)
-      - newSubstats.reduce((a, b) => a + b[1], 0) / 2
-    ) / 4
-
-    let extraRolls = 0
-
-    for (let i = 0; i < missingSubstats; i++) {
-      extraRolls += 1 * newSubstats[i][1]
-    }
-
-    for (let i = 0; i < missingRolls; i++) {
-      extraRolls += bestOverallSubstatWeight
-    }
-
-    let currentWeight = Utils.precisionRound(subScore + mainScore)
-    return {
-      current: currentWeight,
-      best: currentWeight + extraRolls * 6.48,
-      average: currentWeight + extraRolls * 6.48 * avgWeight,
-    }
   }
 
   function clearClicked() {

@@ -37,6 +37,7 @@ let hashes = [
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
+  showOptimizerGridDetails: [],
 
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
@@ -109,6 +110,7 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setShowOptimizerGridDetails: (x) => set(() => ({ showOptimizerGridDetails: x })),
 }))
 
 export const DB = {

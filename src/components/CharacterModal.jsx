@@ -31,7 +31,7 @@ function generatePinnedList(list) {
     return a.label.localeCompare(b.label)
   })
 
-  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(new!) ' + option.label : null)
+  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(New!) ' + option.label : null)
 
   return list
 }

@@ -539,6 +539,12 @@ export const OptimizerTabController = {
         let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
         setSelectedLightCone(lightConeMetadata)
       }
+
+      // Cleanup? Form doesnt seem to overwrite existing object values - setting teammate fields manually
+      if (!character.form.teammate0?.id) window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
+      if (!character.form.teammate1?.id) window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
+      if (!character.form.teammate2?.id) window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
+
       window.store.getState().setStatDisplay(character.form.statDisplay || 'base')
     } else {
       console.log(`@OptimzerTabController.changeCharacter(${id}) - Character not found in owned characters - setting up defaults`)

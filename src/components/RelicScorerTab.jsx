@@ -211,7 +211,7 @@ function CharacterPreviewSelection(props) {
     if (!form.characterId) {
       return Message.error('No selected character')
     }
-    if (props.availableCharacters.find((x) => x.id == form.characterId)) {
+    if (props.availableCharacters.find((x) => x.id == form.characterId) && props.selectedCharacter.id != form.characterId) {
       return Message.error('Selected character already exists')
     }
 
@@ -258,7 +258,7 @@ function CharacterPreviewSelection(props) {
   return (
     <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
       <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }} type="primary">
           Simulate relics on another character
         </Button>
         <Button onClick={clipboardClicked} style={{ width: 200 }} icon={<CameraOutlined />} loading={screenshotLoading}>

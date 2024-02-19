@@ -127,6 +127,11 @@ function calculateTeammateSets(teammateCharacter: Character) {
   return activeTeammateSets
 }
 
+function countTeammates() {
+  const fieldsValue = window.optimizerForm.getFieldsValue()
+  return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
+}
+
 const TeammateCard = (props: { index: number }) => {
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
   const teammateCharacterId = Form.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
@@ -143,6 +148,8 @@ const TeammateCard = (props: { index: number }) => {
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
 
   function updateTeammate() {
+    window.store.getState().setTeammateCount(countTeammates())
+
     if (!teammateCharacterId) {
       window.optimizerForm.setFieldValue([teammateProperty], getDefaultTeammateForm())
       return

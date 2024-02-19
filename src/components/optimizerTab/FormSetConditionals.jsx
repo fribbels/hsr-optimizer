@@ -44,7 +44,7 @@ export const FormSetConditionals = () => {
       {
         display: 'CR+CD',
         value: 2,
-        label: 'Imprisoned (+10% CR + 20% CD)',
+        label: 'Imprisoned (+10% CR +20% CD)',
       },
     ]
   }, [])
@@ -94,22 +94,22 @@ export const FormSetConditionals = () => {
       {
         display: '2x',
         value: 1,
-        label: '2 debuffs (+8% CD)',
+        label: '2 debuffs (+4% CR +8% CD)',
       },
       {
         display: '3x',
         value: 2,
-        label: '3 debuffs (+12% CD)',
+        label: '3 debuffs (+4% CR +12% CD)',
       },
       {
         display: '2x +',
         value: 3,
-        label: '2 debuffs, enhanced (+4% CR +16% CD)',
+        label: '2 debuffs, enhanced (+8% CR +16% CD)',
       },
       {
         display: '3x +',
         value: 4,
-        label: '3 debuffs, enhanced (+4% CR +24% CD)',
+        label: '3 debuffs, enhanced (+8% CR +24% CD)',
       },
     ]
   }, [])
@@ -228,7 +228,7 @@ export const FormSetConditionals = () => {
             set={Constants.Sets.PioneerDiverOfDeadWaters}
             selectOptions={setPioneerDiverOfDeadWaters}
             description="Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
-            conditional="The selected CRIT Rate buff is applied to all calculations, and the CRIT DMG buff is applied depending on the selected option."
+            conditional="The 2 piece effect is always enabled by default and assumes the enemy has at least 1 debuff for 12% DMG. For 4 piece, different CRIT buffs are applied depending on the selected option."
           />
           <ConditionalSetOption
             set={Constants.Sets.WatchmakerMasterOfDreamMachinations}

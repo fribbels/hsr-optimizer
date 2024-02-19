@@ -13,7 +13,7 @@ import {
   RelicSetFilterOptions,
   superimpositionOptions,
 } from 'lib/constants.ts'
-import FormRow, { OptimizerMenuIds } from './optimizerTab/FormRow'
+import { FormRow, OptimizerMenuIds, TeammateFormRow } from './optimizerTab/FormRow'
 import FilterContainer from './optimizerTab/FilterContainer'
 import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptions from './optimizerTab/OptimizerOptions.tsx'
@@ -26,7 +26,7 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { FormStatRollSlider, FormStatRollSliderTopPercent } from './optimizerTab/FormStatRollSlider'
 import { v4 as uuidv4 } from 'uuid'
 import { getDefaultForm } from 'lib/defaultForm'
-import { FormSetConditionals } from './optimizerTab/FormSetConditionals'
+import { FormSetConditionals } from 'components/optimizerTab/FormSetConditionals'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB from 'lib/db'
@@ -827,11 +827,11 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-          <FormRow id={OptimizerMenuIds.teammates}>
+          <TeammateFormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} />
             <TeammateCard index={1} />
             <TeammateCard index={2} />
-          </FormRow>
+          </TeammateFormRow>
         </FilterContainer>
       </Form>
     </div>

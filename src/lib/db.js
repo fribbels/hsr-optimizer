@@ -56,6 +56,7 @@ window.store = create((set) => ({
   statDisplay: 'base',
   optimizationInProgress: false,
   optimizationId: undefined,
+  teammateCount: 0,
 
   permutationDetails: {
     Head: 0,
@@ -109,6 +110,7 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
 }))
 
 export const DB = {

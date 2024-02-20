@@ -10,11 +10,15 @@ import PropTypes from 'prop-types'
 const pinnedValues = [
   'Black Swan',
   'Sparkle',
+  'Gallagher',
   'Aventurine',
   'Acheron',
 
   'Reforged Remembrance',
   'Earthly Escapade',
+  'Concert for Two',
+  'Inherently Unjust Destiny',
+  'Along the Passing Shore',
 ]
 function generatePinnedList(list) {
   if (!list || !list.length) return []

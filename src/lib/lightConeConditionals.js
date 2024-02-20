@@ -91,6 +91,9 @@ import DestinysThreadsForewoven from './conditionals/lightcone/4star/DestinysThr
 import TheDayTheCosmosFell from './conditionals/lightcone/4star/TheDayTheCosmosFell'
 import ItsShowtime from './conditionals/lightcone/4star/ItsShowtime'
 import IndeliblePromise from './conditionals/lightcone/4star/IndeliblePromise'
+import InherentlyUnjustDestiny from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
+import AlongThePassingShore from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import ConcertForTwo from 'lib/conditionals/lightcone/4star/ConcertForTwo'
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -116,6 +119,8 @@ const fiveStar = {
   23020: BaptismOfPureThought,
   23021: EarthlyEscapade,
   23022: ReforgedRemembrance,
+  23023: InherentlyUnjustDestiny,
+  23024: AlongThePassingShore,
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
@@ -166,6 +171,7 @@ const fourStar = {
   21040: TheDayTheCosmosFell,
   21041: ItsShowtime,
   21042: IndeliblePromise,
+  21043: ConcertForTwo,
 
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,

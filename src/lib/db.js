@@ -87,7 +87,7 @@ window.store = create((set) => ({
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
-    [OptimizerMenuIds.teammates]: false,
+    [OptimizerMenuIds.teammates]: true,
   },
 
   setActiveKey: (x) => set(() => ({ activeKey: x })),

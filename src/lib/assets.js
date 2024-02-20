@@ -126,7 +126,7 @@ export const Assets = {
     return baseUrl + '/assets/misc/badgediscord.png'
   },
   getGithub: () => {
-    return 'https://i.imgur.com/vpB1Y1b.png'
+    return baseUrl + '/assets/misc/badgegithub.png'
   },
   getStar: () => {
     return baseUrl + '/assets/icon/deco/StarBig.png'

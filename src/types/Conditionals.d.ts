@@ -261,3 +261,8 @@ export type ConditionalBuff =
   | 'thunderCoreStacks'
   | 'e4UltVulnerability'
   | 'e1EnemyDebuffed'
+  | 'fortifiedWagerBuff'
+  | 'enemyUnnervedDebuff'
+  | 'e2ResShred'
+  | 'e4DefBuff'
+  | 'e6ShieldStacks'

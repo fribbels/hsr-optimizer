@@ -1,4 +1,4 @@
-import { basic3, findContentId, skill5, talent5, ult3 } from 'lib/conditionals/utils'
+import { basic3, findContentId, talent5, ult3 } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -6,125 +6,117 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
+// 3-ult basic
+// 5-skill talent
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const basicScaling = basic3(e, 1.00, 1.10)
-  const skillScaling = skill5(e, 1.60, 1.76)
+  const ultScaling = ult3(e, 2.70, 2.916)
+  const ultCdScaling = ult3(e, 0.15, 0.162)
 
-  const ultRainbladeScaling = ult3(e, 0.24, 0.2592)
-  const ultCrimsonKnotScaling = ult3(e, 0.15, 0.162)
-  const ultStygianResurgeScaling = ult3(e, 1.20, 1.296)
-  const ultThunderCoreScaling = 0.25
-  const talentResPen = talent5(e, 0.2, 0.22)
+  const talentDmgScaling = talent5(e, 0.25, 0.275)
+  const talentResScaling = talent5(e, 0.50, 0.55)
 
-  const maxCrimsonKnotStacks = 9
-  const maxNihilityTeammates = (e >= 2) ? 1 : 2
+  const fuaHits = (e >= 4) ? 8 : 7
 
-  const nihilityTeammateScaling = {
-    0: 0,
-    1: (e >= 2) ? 0.60 : 0.15,
-    2: 0.60,
-  }
+  // If Aventurine's DEF is higher than 1600, then his own CRIT Rate increases by 2% for every 100 DEF exceeding that value, up to an increase of 40%.
 
   const content: ContentItem[] = [
     {
-      formItem: 'slider',
-      id: 'crimsonKnotStacks',
-      name: 'crimsonKnotStacks',
-      text: `Crimson Knot stacks`,
-      title: 'Crimson Knot stacks',
-      content: `Crimson Knot stacks`,
-      min: 0,
-      max: maxCrimsonKnotStacks,
-    },
-    {
-      formItem: 'slider',
-      id: 'nihilityTeammates',
-      name: 'nihilityTeammates',
-      text: 'Nihility teammates',
-      title: 'Nihility teammates',
-      content: `Nihility teammates`,
-      min: 0,
-      max: maxNihilityTeammates,
-    },
-    {
-      formItem: 'slider',
-      id: 'thunderCoreStacks',
-      name: 'thunderCoreStacks',
-      text: 'Thunder core stacks',
-      title: 'Thunder core stacks',
-      content: `Thunder core stacks`,
-      min: 0,
-      max: 3,
+      formItem: 'switch',
+      id: 'fortifiedWagerBuff',
+      name: 'fortifiedWagerBuff',
+      text: 'Fortified Wager buff',
+      title: 'Fortified Wager buff',
+      content: `Fortified Wager buff`,
     },
     {
       formItem: 'switch',
-      id: 'e1EnemyDebuffed',
-      name: 'e1EnemyDebuffed',
-      text: 'E1 enemy debuffed',
-      title: 'E1 enemy debuffed',
-      content: `E1 enemy debuffed`,
-      disabled: e < 1,
+      id: 'enemyUnnervedDebuff',
+      name: 'enemyUnnervedDebuff',
+      text: 'Enemy Unnerved debuff',
+      title: 'Enemy Unnerved debuff',
+      content: `Enemy Unnerved debuff`,
     },
     {
       formItem: 'switch',
-      id: 'e4UltVulnerability',
-      name: 'e4UltVulnerability',
-      text: 'E4 ult vulnerability',
-      title: 'E4 ult vulnerability',
-      content: `E4 ult vulnerability`,
+      id: 'e2ResShred',
+      name: 'e2ResShred',
+      text: 'E2 RES shred',
+      title: 'E2 RES shred',
+      content: `E2 RES shred`,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e4DefBuff',
+      name: 'e4DefBuff',
+      text: 'E4 DEF buff',
+      title: 'E4 DEF buff',
+      content: `E4 DEF buff`,
       disabled: e < 4,
+    },
+    {
+      formItem: 'slider',
+      id: 'e6ShieldStacks',
+      name: 'e6ShieldStacks',
+      text: 'E6 shield stacks',
+      title: 'E6 shield stacks',
+      content: `E6 shield stacks`,
+      min: 0,
+      max: 4,
+      disabled: e < 6,
     },
   ]
 
   const teammateContent: ContentItem[] = [
-    findContentId(content, 'e4UltVulnerability'),
+    findContentId(content, 'fortifiedWagerBuff'),
+    findContentId(content, 'enemyUnnervedDebuff'),
+    findContentId(content, 'e2ResShred'),
   ]
 
   return {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      crimsonKnotStacks: maxCrimsonKnotStacks,
-      nihilityTeammates: maxNihilityTeammates,
-      e1EnemyDebuffed: true,
-      thunderCoreStacks: 3, // 0 -> 3
-      e4UltVulnerability: true,
+      fortifiedWagerBuff: true,
+      enemyUnnervedDebuff: true,
+      e2ResShred: true,
+      e4DefBuff: true,
+      e6ShieldStacks: 4,
     }),
     teammateDefaults: () => ({
-      e4UltVulnerability: true,
+      fortifiedWagerBuff: true,
+      enemyUnnervedDebuff: true,
+      e2ResShred: true,
     }),
 
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
+      x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
+      x.ELEMENTAL_DMG += (e >= 6) ? 0.50 * r.e6ShieldStacks : 0
 
-      x.ULT_RES_PEN += talentResPen
-      x.ELEMENTAL_DMG += (r.thunderCoreStacks as number) * 0.30
-      x.ELEMENTAL_DMG += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
-      x.ULT_CD_BOOST += (e >= 6) ? 0.60 : 0
-
-      x.BASIC_SCALING = basicScaling
-      x.SKILL_SCALING = skillScaling
-      x.ULT_SCALING += 3 * ultRainbladeScaling
-      x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks as number)
-      x.ULT_SCALING += ultStygianResurgeScaling
-      x.ULT_SCALING += 6 * ultThunderCoreScaling
+      x.BASIC_SCALING += basicScaling
+      x.ULT_SCALING += ultScaling
+      x.FUA_SCALING += talentDmgScaling * fuaHits
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.12 : 0
+      x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdScaling : 0
+      x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
+      x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
+      x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK] // TODO: E6 turns everything into an ult
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
     },
   }
 }

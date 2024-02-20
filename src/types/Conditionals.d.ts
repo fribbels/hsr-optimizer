@@ -269,3 +269,7 @@ export type ConditionalBuff =
   | 'breakEffectToOhbBoost'
   | 'e1ResBuff'
   | 'e6BeBuff'
+  | 'targetVulnerability'
+  | 'shieldCdBuff'
+  | 'emptyBubblesDebuff'
+  | 'teammateShieldStacks'

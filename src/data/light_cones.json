@@ -928,5 +928,23 @@
         "icon": "icon/light_cone/24003.png",
         "preview": "image/light_cone_preview/24003.png",
         "portrait": "image/light_cone_portrait/24003.png"
+    },
+    "23023": {
+        "id": "23023",
+        "rarity": 5,
+        "path": "Knight",
+        "name": "Inherently Unjust Destiny"
+    },
+    "23024": {
+        "id": "23024",
+        "rarity": 5,
+        "path": "Warlock",
+        "name": "Along the Passing Shore"
+    },
+    "21043": {
+        "id": "21043",
+        "rarity": 5,
+        "path": "Knight",
+        "name": "Concert for Two"
     }
 }

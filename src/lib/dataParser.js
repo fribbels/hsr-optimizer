@@ -681,6 +681,11 @@ function getOverrideTraces() {
       [Constants.Stats.RES]: 0.18,
       [Constants.Stats.SPD]: 5,
     },
+    1301: { // Gallagher
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.HP_P]: 0.10,
+      [Constants.Stats.RES]: 0.18,
+    },
     1302: { // Argenti
       [Constants.Stats.ATK_P]: 0.28,
       [Constants.Stats.Physical_DMG]: 0.144,
@@ -690,6 +695,11 @@ function getOverrideTraces() {
       [Constants.Stats.BE]: 0.373,
       [Constants.Stats.DEF_P]: 0.225,
       [Constants.Stats.SPD]: 5,
+    },
+    1304: { // Aventurine
+      [Constants.Stats.DEF_P]: 0.35,
+      [Constants.Stats.Imaginary_DMG]: 0.144,
+      [Constants.Stats.RES]: 0.10,
     },
     1305: { // Dr Ratio
       [Constants.Stats.ATK_P]: 0.28,
@@ -705,6 +715,11 @@ function getOverrideTraces() {
       [Constants.Stats.ATK_P]: 0.28,
       [Constants.Stats.Wind_DMG]: 0.144,
       [Constants.Stats.EHR]: 0.10,
+    },
+    1308: { // Acheron
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.Lightning_DMG]: 0.08,
+      [Constants.Stats.CD]: 0.24,
     },
     1312: { // Misha
       [Constants.Stats.Ice_DMG]: 0.224,
@@ -884,6 +899,10 @@ function getOverrideImageCenter() {
       x: 1000,
       y: 1024,
     },
+    1301: { // Gallagher
+      x: 1024,
+      y: 1024,
+    },
     1302: { // Argenti
       x: 680,
       y: 1000,
@@ -891,6 +910,10 @@ function getOverrideImageCenter() {
     1303: { // Ruan Mei
       x: 1060,
       y: 1050,
+    },
+    1304: { // Aventurine
+      x: 1024,
+      y: 1024,
     },
     1305: { // Dr Ratio
       x: 900,
@@ -903,6 +926,10 @@ function getOverrideImageCenter() {
     1307: { // Black Swan
       x: 920,
       y: 950,
+    },
+    1308: { // Acheron
+      x: 1024,
+      y: 1024,
     },
     1312: { // Misha
       x: 1050,
@@ -2972,6 +2999,62 @@ function getScoringMetadata() {
         PresetEffects.EHP_SORT,
       ],
     },
+    1301: { // Gallagher
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 1,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.OHB,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ERR,
+          Constants.Stats.BE,
+        ],
+      },
+      relicSets: [
+        Constants.Sets.MusketeerOfWildWheat,
+        Constants.Sets.PasserbyOfWanderingCloud,
+        Constants.Sets.MessengerTraversingHackerspace,
+      ],
+      ornamentSets: [
+        Constants.Sets.FleetOfTheAgeless,
+        Constants.Sets.BrokenKeel,
+        Constants.Sets.SprightlyVonwacq,
+        Constants.Sets.SpaceSealingStation,
+      ],
+      presets: [
+        PresetEffects.SPD_SORT,
+        PresetEffects.WASTELANDER_SET,
+      ],
+    },
     1302: { // Argenti
       stats: {
         [Constants.Stats.ATK]: 0.75,
@@ -3068,6 +3151,57 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.SPD_SORT,
+      ],
+    },
+    1304: { // Aventurine
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 1,
+        [Constants.Stats.DEF_P]: 1,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Imaginary_DMG,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.DEF_P,
+          Constants.Stats.ERR,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.FUA_SORT,
       ],
     },
     1305: { // Dr Ratio
@@ -3215,6 +3349,55 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.DOT_SORT,
+      ],
+    },
+    1308: { // Acheron
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 1,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Lightning_DMG,
+          Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.ULT_SORT,
       ],
     },
     1312: { // Misha

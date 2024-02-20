@@ -256,3 +256,8 @@ export type ConditionalBuff =
   | 'e4TeamResBuff'
   | 'beToDmgBoost'
   | 'errBuffActive'
+  | 'crimsonKnotStacks'
+  | 'nihilityTeammates'
+  | 'thunderCoreStacks'
+  | 'e4UltVulnerability'
+  | 'e1EnemyDebuffed'

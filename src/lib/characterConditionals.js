@@ -43,6 +43,9 @@ import welt from 'lib/conditionals/character/Welt'
 import xueyi from 'lib/conditionals/character/Xueyi'
 import yanqing from 'lib/conditionals/character/Yanqing'
 import yukong from 'lib/conditionals/character/Yukong'
+import acheron from 'lib/conditionals/character/Acheron'
+import aventurine from 'lib/conditionals/character/Aventurine'
+import gallagher from 'lib/conditionals/character/Gallagher'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -82,11 +85,14 @@ export const characterOptionMapping = {
   1214: xueyi,
   1215: hanya,
   1217: huohuo,
+  1301: gallagher,
   1302: argenti,
   1303: ruanmei,
+  1304: aventurine,
   1305: drratio,
   1306: sparkle,
   1307: blackswan,
+  1308: acheron,
   1312: misha,
   8001: physicaltrailblazer,
   8002: physicaltrailblazer,

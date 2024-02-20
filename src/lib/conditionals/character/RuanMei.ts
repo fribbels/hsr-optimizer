@@ -11,10 +11,17 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 export default (e: Eidolon): CharacterConditional => {
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
+  const skillScaling = skill(e, 0.32, 0.352)
   const ultScaling = ult(e, 0, 0)
 
   const content: ContentItem[] = [{
+    formItem: 'switch',
+    id: 'skillDmgBuff',
+    name: 'skillDmgBuff',
+    text: 'Skill team DMG buff',
+    title: 'Skill: String Sings Slow Swirls',
+    content: `After using her Skill, Ruan Mei gains Overtone, lasting for 3 turn(s). This duration decreases by 1 at the start of Ruan Mei's turn. When Ruan Mei has Overtone, all allies' DMG increases by ${precisionRound(skillScaling * 100)}%.`,
+  }, {
     formItem: 'switch',
     id: 'teamBEBuff',
     name: 'teamBEBuff',
@@ -49,6 +56,7 @@ export default (e: Eidolon): CharacterConditional => {
   }]
 
   const teammateContent: ContentItem[] = [
+    findContentId(content, 'skillDmgBuff'),
     {
       formItem: 'switch',
       id: 'teamSpdBuff',
@@ -62,7 +70,7 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teamDmgBuff',
       name: 'teamDmgBuff',
-      text: `Team DMG buff`,
+      text: `BE to DMG buff`,
       title: 'Trace: Candle Lights on Still Waters',
       content: `In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%.`,
       min: 0,
@@ -77,12 +85,14 @@ export default (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      skillDmgBuff: true,
       teamBEBuff: true,
       ultFieldActive: true,
       e2AtkBoost: false,
       e4BeBuff: false,
     }),
     teammateDefaults: () => ({
+      skillDmgBuff: true,
       teamSpdBuff: true,
       teamBEBuff: true,
       ultFieldActive: true,
@@ -108,6 +118,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
       x[Stats.ATK_P] += (e >= 2 && m.e2AtkBoost) ? 0.40 : 0
+      x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillScaling : 0
 
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
       x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0

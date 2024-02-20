@@ -73,12 +73,12 @@ export default function CharacterModal(props) {
     props.setOpen(false)
   }
 
-  const panelWidth = 203
+  const panelWidth = 300 - 47
 
   return (
     <Modal
       open={props.open}
-      width={250}
+      width={300}
       destroyOnClose
       centered
       onOk={onModalOk}

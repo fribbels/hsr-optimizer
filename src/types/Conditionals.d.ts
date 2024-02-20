@@ -273,3 +273,4 @@ export type ConditionalBuff =
   | 'shieldCdBuff'
   | 'emptyBubblesDebuff'
   | 'teammateShieldStacks'
+  | 'e6UltBuffs'

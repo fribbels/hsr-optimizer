@@ -6,6 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
+const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+
 // 3 skill basic
 // 5 ult talent
 const Gallagher = (e: Eidolon): CharacterConditional => {
@@ -20,7 +22,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       name: 'basicEnhanced',
       text: 'Enhanced basic',
       title: 'Enhanced basic',
-      content: `Enhanced basic`,
+      content: betaUpdate,
     },
     {
       formItem: 'switch',
@@ -28,7 +30,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       name: 'breakEffectToOhbBoost',
       text: 'BE to OHB boost',
       title: 'BE to OHB boost',
-      content: `BE to OHB boost`,
+      content: betaUpdate,
     },
     {
       formItem: 'switch',
@@ -36,7 +38,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       name: 'e1ResBuff',
       text: 'E1 RES buff',
       title: 'E1 RES buff',
-      content: `E1 RES buff`,
+      content: betaUpdate,
       disabled: e < 1,
     },
     {
@@ -45,7 +47,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       name: 'e6BeBuff',
       text: 'E6 BE buff',
       title: 'E6 BE buff',
-      content: `E6 BE buff`,
+      content: betaUpdate,
       disabled: e < 6,
     },
   ]
@@ -68,7 +70,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 1) ? 0.50 : 0
       x[Stats.BE] += (e >= 6) ? 0.20 : 0
 
-      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
+      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling //
       x.ULT_SCALING += ultScaling
 
       return x
@@ -80,7 +82,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.OHB += Math.min(0.75, x[Stats.BE] * 0.30)
+      x[Stats.OHB] += Math.min(0.75, x[Stats.BE] * 0.30)
     },
   }
 }

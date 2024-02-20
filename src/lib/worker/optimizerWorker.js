@@ -581,6 +581,7 @@ self.onmessage = function(e) {
 
     let dmgBoostMultiplier = 1 + x.ELEMENTAL_DMG
     let dmgReductionMultiplier = 1
+    let originalDmgMultiplier = 1 + x.ORIGINAL_DMG_BOOST
 
     let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
     ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
@@ -588,7 +589,7 @@ self.onmessage = function(e) {
     let cv = 100 * (crSum * 2 + cdSum)
     c.CV = cv
 
-    let universalMulti = dmgReductionMultiplier * brokenMultiplier
+    let universalMulti = dmgReductionMultiplier * brokenMultiplier * originalDmgMultiplier
     const baseResistance = resistance - x.RES_PEN - x[RES_PEN_TYPE]
 
     calculateDamage(

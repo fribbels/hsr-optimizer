@@ -6,6 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
+const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+
 const Acheron = (e: Eidolon): CharacterConditional => {
   const basicScaling = basic3(e, 1.00, 1.10)
   const skillScaling = skill5(e, 1.60, 1.76)
@@ -32,7 +34,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       name: 'crimsonKnotStacks',
       text: `Crimson Knot stacks`,
       title: 'Crimson Knot stacks',
-      content: `Crimson Knot stacks`,
+      content: betaUpdate,
       min: 0,
       max: maxCrimsonKnotStacks,
     },
@@ -40,9 +42,9 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'nihilityTeammates',
       name: 'nihilityTeammates',
-      text: 'Nihility teammates',
-      title: 'Nihility teammates',
-      content: `Nihility teammates`,
+      text: 'Nihility teammates separate multiplier',
+      title: 'Nihility teammates separate multiplier',
+      content: betaUpdate,
       min: 0,
       max: maxNihilityTeammates,
     },
@@ -52,7 +54,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       name: 'thunderCoreStacks',
       text: 'Thunder core stacks',
       title: 'Thunder core stacks',
-      content: `Thunder core stacks`,
+      content: betaUpdate,
       min: 0,
       max: 3,
     },
@@ -62,7 +64,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       name: 'e1EnemyDebuffed',
       text: 'E1 enemy debuffed',
       title: 'E1 enemy debuffed',
-      content: `E1 enemy debuffed`,
+      content: betaUpdate,
       disabled: e < 1,
     },
     {
@@ -71,8 +73,17 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       name: 'e4UltVulnerability',
       text: 'E4 ult vulnerability',
       title: 'E4 ult vulnerability',
-      content: `E4 ult vulnerability`,
+      content: betaUpdate,
       disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6UltBuffs',
+      name: 'e6UltBuffs',
+      text: 'E6 ult buffs',
+      title: 'E6 ult buffs',
+      content: betaUpdate,
+      disabled: e < 6,
     },
   ]
 
@@ -87,8 +98,9 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       crimsonKnotStacks: maxCrimsonKnotStacks,
       nihilityTeammates: maxNihilityTeammates,
       e1EnemyDebuffed: true,
-      thunderCoreStacks: 3, // 0 -> 3
+      thunderCoreStacks: 3,
       e4UltVulnerability: true,
+      e6UltBuffs: true,
     }),
     teammateDefaults: () => ({
       e4UltVulnerability: true,
@@ -102,12 +114,14 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       x.ULT_RES_PEN += talentResPen
       x.ELEMENTAL_DMG += (r.thunderCoreStacks as number) * 0.30
-      x.ELEMENTAL_DMG += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
-      x.ULT_CD_BOOST += (e >= 6) ? 0.60 : 0
+      x.ULT_CD_BOOST += (e >= 6 && r.e6UltBuffs) ? 0.60 : 0
+      x.ORIGINAL_DMG_BOOST += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
 
       x.BASIC_SCALING = basicScaling
       x.SKILL_SCALING = skillScaling
+      // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
       x.ULT_SCALING += 3 * ultRainbladeScaling
+      x.ULT_SCALING += 3 * ultCrimsonKnotScaling
       x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks as number)
       x.ULT_SCALING += ultStygianResurgeScaling
       x.ULT_SCALING += 6 * ultThunderCoreScaling
@@ -119,12 +133,29 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
       const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK] // TODO: E6 turns everything into an ult
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+
+      if (e >= 6 && r.e6UltBuffs) {
+        x.BASIC_BOOST += x.ULT_BOOST
+        x.BASIC_CD_BOOST += x.ULT_CD_BOOST
+        x.BASIC_CR_BOOST += x.ULT_CR_BOOST
+        x.BASIC_VULNERABILITY = x.ULT_VULNERABILITY
+        x.BASIC_DEF_PEN = x.ULT_DEF_PEN
+        x.BASIC_RES_PEN = x.ULT_RES_PEN
+
+        x.SKILL_BOOST += x.ULT_BOOST
+        x.SKILL_CD_BOOST += x.ULT_CD_BOOST
+        x.SKILL_CR_BOOST += x.ULT_CR_BOOST
+        x.SKILL_VULNERABILITY = x.ULT_VULNERABILITY
+        x.SKILL_DEF_PEN = x.ULT_DEF_PEN
+        x.SKILL_RES_PEN = x.ULT_RES_PEN
+      }
     },
   }
 }

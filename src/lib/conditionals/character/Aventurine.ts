@@ -6,6 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
+const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+
 // 3-ult basic
 // 5-skill talent
 const Aventurine = (e: Eidolon): CharacterConditional => {
@@ -18,8 +20,6 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
 
   const fuaHits = (e >= 4) ? 8 : 7
 
-  // If Aventurine's DEF is higher than 1600, then his own CRIT Rate increases by 2% for every 100 DEF exceeding that value, up to an increase of 40%.
-
   const content: ContentItem[] = [
     {
       formItem: 'switch',
@@ -27,7 +27,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'fortifiedWagerBuff',
       text: 'Fortified Wager buff',
       title: 'Fortified Wager buff',
-      content: `Fortified Wager buff`,
+      content: betaUpdate,
     },
     {
       formItem: 'switch',
@@ -35,7 +35,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'enemyUnnervedDebuff',
       text: 'Enemy Unnerved debuff',
       title: 'Enemy Unnerved debuff',
-      content: `Enemy Unnerved debuff`,
+      content: betaUpdate,
     },
     {
       formItem: 'switch',
@@ -43,7 +43,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'e2ResShred',
       text: 'E2 RES shred',
       title: 'E2 RES shred',
-      content: `E2 RES shred`,
+      content: betaUpdate,
       disabled: e < 2,
     },
     {
@@ -52,7 +52,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'e4DefBuff',
       text: 'E4 DEF buff',
       title: 'E4 DEF buff',
-      content: `E4 DEF buff`,
+      content: betaUpdate,
       disabled: e < 4,
     },
     {
@@ -61,7 +61,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'e6ShieldStacks',
       text: 'E6 shield stacks',
       title: 'E6 shield stacks',
-      content: `E6 shield stacks`,
+      content: betaUpdate,
       min: 0,
       max: 4,
       disabled: e < 6,
@@ -117,6 +117,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
+      x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
 
       x[Stats.CR] += x[Stats.DEF] > 1600 ? Math.min(0.40, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },

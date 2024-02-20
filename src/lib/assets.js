@@ -1,7 +1,7 @@
-import { Constants } from "./constants.ts";
+import { Constants } from './constants.ts'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
-let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net';
+let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
 
 let pathFromClassMapping
 let iconFromStatMapping
@@ -37,7 +37,7 @@ export const Assets = {
     if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/assets/misc/IconMaxHPPercent.png`
     if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/assets/misc/IconAttackPercent.png`
     if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/assets/misc/IconDefencePercent.png`
-    if (!stat || !iconFromStatMapping[stat]) return ''
+    if (!stat || !iconFromStatMapping[stat]) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
   },
@@ -45,34 +45,34 @@ export const Assets = {
     return baseUrl + `/sample-save.json`
   },
   getCharacterPortrait: (characterId) => {
-    if (!characterId) return ''
+    if (!characterId) return Assets.getBlank()
     return baseUrl + `/assets/image/character_portrait_resized/resized${characterId}.png`
   },
   getCharacterPortraitById: (id) => {
     if (!id) {
       console.warn('No id found')
-      return ''
+      return Assets.getBlank()
     }
 
     return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
   },
   getCharacterAvatarById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/avatar/${id}.png`
   },
   getCharacterIconById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
 
     return baseUrl + `/assets/icon/character/${id}.png`
   },
 
   getCharacterPreview: (character) => {
-    if (!character) return ''
+    if (!character) return Assets.getBlank()
     return baseUrl + `/assets/${character.preview}`
   },
   getCharacterPreviewById: (id) => {
-    if (!id) return ''
+    if (!id) return Assets.getBlank()
     return baseUrl + `/assets/image/character_preview/${id}.png`
   },
 
@@ -80,28 +80,36 @@ export const Assets = {
     if (!lightCone) return Assets.getBlank()
     return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
   },
+  getLightConePortraitById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/image/light_cone_portrait/${lightConeId}.png`
+  },
+  getLightConeIconById: (lightConeId) => {
+    if (!lightConeId) return Assets.getBlank()
+    return baseUrl + `/assets/icon/light_cone/${lightConeId}.png`
+  },
   getPath: (path) => {
-    if (!path) return ''
+    if (!path) return Assets.getBlank()
     return baseUrl + `/assets/icon/path/${path}.png`
   },
   getPathFromClass: (c) => {
     if (!pathFromClassMapping) {
       pathFromClassMapping = {
-        'Warrior': 'Destruction',
-        'Warlock': 'Nihility',
-        'Knight': 'Preservation',
-        'Priest': 'Abundance',
-        'Rogue': 'Hunt',
-        'Shaman': 'Harmony',
-        'Mage': 'Erudition',
+        Warrior: 'Destruction',
+        Warlock: 'Nihility',
+        Knight: 'Preservation',
+        Priest: 'Abundance',
+        Rogue: 'Hunt',
+        Shaman: 'Harmony',
+        Mage: 'Erudition',
       }
     }
-    if (!c || !pathFromClassMapping[c]) return ''
+    if (!c || !pathFromClassMapping[c]) return Assets.getBlank()
     return baseUrl + `/assets/icon/path/${pathFromClassMapping[c]}.png`
   },
 
   getElement: (element) => {
-    if (!element) return ''
+    if (!element) return Assets.getBlank()
     if (element == 'Thunder') element = 'Lightning'
     return baseUrl + `/assets/icon/element/${element}.png`
   },
@@ -116,6 +124,9 @@ export const Assets = {
   },
   getDiscord: () => {
     return baseUrl + '/assets/misc/badgediscord.png'
+  },
+  getGithub: () => {
+    return baseUrl + '/assets/misc/badgegithub.png'
   },
   getStar: () => {
     return baseUrl + '/assets/icon/deco/StarBig.png'
@@ -135,12 +146,12 @@ export const Assets = {
 
   getPart: (part) => {
     let mapping = {
-      [Constants.Parts.Head]: 'head',
-      [Constants.Parts.Hands]: 'hands',
-      [Constants.Parts.Body]: 'body',
-      [Constants.Parts.Feet]: 'feet',
-      [Constants.Parts.PlanarSphere]: 'planarSphere',
-      [Constants.Parts.LinkRope]: 'linkRope',
+      [Constants.Parts.Head]: 'partHead',
+      [Constants.Parts.Hands]: 'partHands',
+      [Constants.Parts.Body]: 'partBody',
+      [Constants.Parts.Feet]: 'partFeet',
+      [Constants.Parts.PlanarSphere]: 'partPlanarSphere',
+      [Constants.Parts.LinkRope]: 'partLinkRope',
     }
 
     return baseUrl + `/assets/misc/${mapping[part]}.png`
@@ -193,6 +204,6 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`;
-  }
+    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
+  },
 }

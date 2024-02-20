@@ -8,16 +8,13 @@
 1. copy import list from sample [`Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx) to the top of your new TSX file.
 
 ``` 
-import React from 'react';
 import { Stats } from 'lib/constants';
-import { FormSwitchWithPopover } from 'components/optimizerForm/conditionals/FormSwitch';
 import {
   basic, skill, talent, ult,
   basicRev, skillRev, talentRev, ultRev,
 } from "lib/conditionals/utils";
 import { baseComputedStatsObject } from 'lib/conditionals/constants';
 
-import DisplayFormControl from 'components/optimizerForm/conditionals/DisplayFormControl';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
@@ -29,10 +26,10 @@ Some common/reused utils & constants live in `lib/conditionals/utils.ts` & `lib/
 ```
 ...
 // create new array inside controller code:
-const content = [{
+const content: ContentItem[] = [{
   id: 'form_control_name',
   // depends on the control being refactored
-  formItem: FormSwitchWithPopover | FormSliderWithPopover,
+  formItem: 'switch' | 'slider',
   title: 'Text shown as title in Popover',
   text: 'Short text shown as form control label',
   content: 'Long form description text that may need token substitution if the value depends on eidolon level, skill level, trace unlock',

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Flex, Form, InputNumber, Slider, Typography } from "antd";
-import styled from "styled-components";
-import WithPopover from "components/common/WithPopover";
+import { ComponentProps, ComponentType, useState } from 'react'
+import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
+import styled from 'styled-components'
+import WithPopover from 'components/common/WithPopover'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -13,53 +12,66 @@ const sliderWidth = 145
 const Text = styled(Typography)`
   white-space: pre-line;
 `
-function precisionRound(number, precision = 8) {
-  const factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
+function precisionRound(number: number, precision: number = 8) {
+  const factor = Math.pow(10, precision)
+  return Math.round(number * factor) / factor
 }
 
-function conditionalType(props) {
+function conditionalType(props: FormSliderProps) {
   if (props.lc) {
     return 'lightConeConditionals'
   }
   return 'characterConditionals'
 }
 
-export function FormSlider(props) {
-  const [inputValue, setInputValue] = useState(1);
-  const onChange = (newValue) => {
-    setInputValue(newValue);
-  };
+export interface FormSliderProps {
+  disabled?: boolean
+  min: number
+  max: number
+  text: string
+  name: string
+  percent?: boolean
+  lc?: boolean
+  teammateIndex?: number
+}
+
+export const FormSlider: ComponentType<FormSliderProps> = (props) => {
+  const [inputValue, setInputValue] = useState<number | null>(1)
 
   const multiplier = (props.percent ? 100 : 1)
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
 
+  const itemName = [conditionalType(props), props.name]
+  if (props.teammateIndex != null) {
+    itemName.unshift(`teammate${props.teammateIndex}`)
+  }
+
   return (
     <Flex vertical gap={5} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          <Form.Item name={[conditionalType(props), props.name]}>
+          <Form.Item name={itemName}>
             <InputNumber
               min={props.min}
               max={props.max}
               controls={false}
-              size='small'
+              size="small"
               style={{
                 width: numberWidth,
               }}
               parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
-              formatter={(value) => `${precisionRound(value * multiplier)}`}
+              formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}`}
               addonAfter={symbol}
-              onChange={onChange}
+              onChange={setInputValue}
               disabled={props.disabled}
             />
           </Form.Item>
         </div>
         <Text>{props.text}</Text>
       </Flex>
-      <Flex align='center' justify='flex-start' gap={10} style={{ height: 14 }}>
-        <Form.Item name={[conditionalType(props), props.name]}>
+      <Flex align="center" justify="flex-start" gap={10} style={{ height: 14 }}>
+        <Form.Item name={itemName}>
           <Slider
             min={props.min}
             max={props.max}
@@ -69,12 +81,12 @@ export function FormSlider(props) {
               minWidth: sliderWidth,
               marginTop: 0,
               marginBottom: 0,
-              marginLeft: 1
+              marginLeft: 1,
             }}
             tooltip={{
-              formatter: (value) => `${precisionRound(value * multiplier)}${symbol}`
+              formatter: (value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`,
             }}
-            onChange={onChange}
+            onChange={setInputValue}
             disabled={props.disabled}
           />
         </Form.Item>
@@ -83,20 +95,7 @@ export function FormSlider(props) {
     </Flex>
   )
 }
-FormSlider.propTypes = {
-  disabled: PropTypes.bool,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  text: PropTypes.string,
-  name: PropTypes.string,
-  percent: PropTypes.bool,
-  lc: PropTypes.bool,
-}
 
-export const FormSliderWithPopover = WithPopover(FormSlider);
-FormSliderWithPopover.propTypes = {
-  ...FormSlider.propTypes,
-  ...WithPopover.propTypes
-}
+export const FormSliderWithPopover = WithPopover(FormSlider)
 
-export type FormSliderWithPopoverProps = PropTypes.InferProps<typeof FormSliderWithPopover.propTypes>
+export type FormSliderWithPopoverProps = ComponentProps<typeof FormSliderWithPopover>

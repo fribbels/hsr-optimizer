@@ -2270,5 +2270,29 @@
         "icon": "icon/character/8004.png",
         "preview": "image/character_preview/8004.png",
         "portrait": "image/character_portrait/8004.png"
+    },
+    "1308": {
+        "id": "1308",
+        "rarity": 5,
+        "path": "Warlock",
+        "element": "Thunder",
+        "max_sp": 0,
+        "name": "Acheron"
+    },
+    "1304": {
+        "id": "1304",
+        "rarity": 5,
+        "path": "Knight",
+        "element": "Imaginary",
+        "max_sp": 0,
+        "name": "Aventurine"
+    },
+    "1301": {
+        "id": "1301",
+        "rarity": 5,
+        "path": "Priest",
+        "element": "Fire",
+        "max_sp": 0,
+        "name": "Gallagher"
     }
 }

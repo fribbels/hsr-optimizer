@@ -1,24 +1,31 @@
-import { Form } from 'types/Form';
-import { DataMineId } from 'types/Common';
-import { Conditional, ConditionalBuff } from 'types/Conditionals';
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional';
-
+import { Form } from 'types/Form'
+import { DataMineId } from 'types/Common'
+import { Conditional, ConditionalBuff } from 'types/Conditionals'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export interface LightConeConditional extends Conditional {
   // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify
-  precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => void;  
+
+  // Character's individual effects
+  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+
+  // Shared effects between teammates and main character
+  precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+
+  // Effects unique to teammate calculation
+  precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
 }
 
 export type ConditionalLightConeMap = {
   [key in ConditionalBuff]: number;
-};
+}
 
-export type LightConeRanksDescriptions = string;
+export type LightConeRanksDescriptions = string
 
 export type LightConeRawRank = {
-  id: DataMineId;
-  skill: string;
-  desc: string;
-  params: number[][];
-  properties: { type: string; value: number }[][];
-};
+  id: DataMineId
+  skill: string
+  desc: string
+  params: number[][]
+  properties: { type: string; value: number }[][]
+}

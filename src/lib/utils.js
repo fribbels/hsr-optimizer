@@ -1,17 +1,18 @@
-import * as htmlToImage from 'html-to-image';
-import DB from "./db";
-import { Constants } from "./constants.ts";
-import { Message } from "./message";
+import { toBlob as htmlToBlob } from 'html-to-image'
+import DB from './db'
+import { Constants } from './constants.ts'
+import { Message } from './message'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Utils = {
   arrayOfZeroes: (n) => {
-    return new Array(n).fill(0);
+    return new Array(n).fill(0)
   },
   arrayOfValue: (n, x) => {
-    return new Array(n).fill(x);
+    return new Array(n).fill(x)
   },
   sleep: (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms))
   },
   relicsToSetArrays: (relics) => {
     let relicSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 0)
@@ -30,25 +31,27 @@ export const Utils = {
 
     return {
       relicSets: relicSets,
-      ornamentSets: ornamentSets
+      ornamentSets: ornamentSets,
     }
   },
   isFlat: (stat) => {
-    return stat == Constants.Stats.HP ||
-      stat == Constants.Stats.ATK ||
-      stat == Constants.Stats.DEF ||
-      stat == Constants.Stats.SPD;
+    return stat == Constants.Stats.HP
+      || stat == Constants.Stats.ATK
+      || stat == Constants.Stats.DEF
+      || stat == Constants.Stats.SPD
   },
   randomElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
   },
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
-      // Save to clipboard
-      // This is not supported in firefox, possibly other browsers too
+    return htmlToBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
+      /*
+       * Save to clipboard
+       * This is not supported in firefox, possibly other browsers too
+       */
       if (action == 'clipboard') {
         try {
-          let data = [new window.ClipboardItem({ [blob.type]: blob })];
+          let data = [new window.ClipboardItem({ [blob.type]: blob })]
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
@@ -92,11 +95,11 @@ export const Utils = {
     return Math.floor(x * 10000) / 10000
   },
   precisionRound(number, precision = 5) {
-    let factor = Math.pow(10, precision);
-    return Math.round(number * factor) / factor;
+    let factor = Math.pow(10, precision)
+    return Math.round(number * factor) / factor
   },
   flipMapping: (obj) => {
-    return Object.fromEntries(Object.entries(obj).map(a => a.reverse()))
+    return Object.fromEntries(Object.entries(obj).map((a) => a.reverse()))
   },
   clone: (obj) => {
     if (!obj) return null // TODO is this a good idea
@@ -109,36 +112,39 @@ export const Utils = {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
   },
   generateCharacterOptions: () => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters));
+    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters))
 
     for (let value of Object.values(characterData)) {
-      value.value = value.id;
-      value.label = value.displayName;
+      value.value = value.id
+      value.label = value.displayName
     }
 
     return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
   },
   generateLightConeOptions: () => {
-    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones));
+    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
 
     for (let value of Object.values(lcData)) {
-      value.value = value.id;
-      value.label = value.name;
+      value.value = value.id
+      value.label = value.name
     }
 
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   },
   recursiveToCamel: (item) => {
     if (Array.isArray(item)) {
-      return item.map(el => Utils.recursiveToCamel(el));
+      return item.map((el) => Utils.recursiveToCamel(el))
     } else if (typeof item === 'function' || item !== Object(item)) {
-      return item;
+      return item
     }
     return Object.fromEntries(
       Object.entries(item).map(([key, value]) => [
-        key.replace(/([-_][a-z])/gi, c => c.toUpperCase().replace(/[-_]/g, '')),
+        key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, '')),
         Utils.recursiveToCamel(value),
       ]),
-    );
+    )
+  },
+  randomId: () => {
+    return uuidv4()
   },
 }

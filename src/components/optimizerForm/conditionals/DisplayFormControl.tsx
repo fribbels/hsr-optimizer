@@ -1,18 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Flex } from 'antd';
-import ColorizeNumbers from 'components/common/ColorizeNumbers';
+import { ComponentType, ReactElement } from 'react'
+import { Flex } from 'antd'
+import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import { FormSliderWithPopover } from './FormSlider'
+import { FormSwitchWithPopover } from './FormSwitch'
+import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 
-const DisplayFormControl = ({ content }): JSX.Element => {
-  const ret = [];
-  let i = 0;
+const FormItemComponentMap: ContentComponentMap = {
+  switch: FormSwitchWithPopover,
+  slider: FormSliderWithPopover,
+}
 
-  if (!content || content.length === 0) {
-    ret.push(<div key={i++}>No conditional passives</div>);
+export interface DisplayFormControlProps {
+  content?: ContentItem[]
+  teammateIndex?: number
+}
+
+const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: content, teammateIndex: teammateIndex }) => {
+  const ret: ReactElement[] = []
+  let i = 0
+
+  if (!content) {
+    if (teammateIndex != null) {
+      ret.push(<div key={i++}>Team passives still under construction</div>)
+    } else {
+      ret.push(<div key={i++}>No conditional passives</div>)
+    }
+  } else if (content.length === 0) {
+    if (teammateIndex != null) {
+      ret.push(<div key={i++}>No conditional team passives</div>)
+    } else {
+      ret.push(<div key={i++}>No conditional passives</div>)
+    }
   } else {
-    content.forEach(passive => {
-      const Item = passive.formItem;
+    content.forEach((passive) => {
+      const Item = FormItemComponentMap[passive.formItem]
+      passive.teammateIndex = teammateIndex
+
       ret.push(
+        // @ts-ignore
         <Item
           {...passive}
           name={passive.id}
@@ -20,18 +45,13 @@ const DisplayFormControl = ({ content }): JSX.Element => {
           content={ColorizeNumbers(passive.content)}
           text={passive.text}
           key={i++}
-          />
-      );
-      i++;
-    });
+        />,
+      )
+      i++
+    })
   }
 
-  return (<Flex vertical gap={10}>{ret}</Flex>);
-};
-DisplayFormControl.propTypes = {
-  content: PropTypes.array,
-  eidolon: PropTypes.number,
-  ultBoostMax: PropTypes.number,
-};
+  return (<Flex vertical gap={10}>{ret}</Flex>)
+}
 
-export default DisplayFormControl;
+export default DisplayFormControl

@@ -1,6 +1,6 @@
-import DB from "./db.js";
-import { SaveState } from "./saveState.js";
-import { Message } from "./message.js";
+import DB from './db.js'
+import { SaveState } from './saveState.js'
+import { Message } from './message.js'
 
 export const RelicModalController = {
   onEditOk: (selectedRelic, relic) => {
@@ -11,16 +11,17 @@ export const RelicModalController = {
     if (updatedRelic.equippedBy) {
       DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
     } else {
-      DB.unequipRelicById(updatedRelic.id);
+      DB.unequipRelicById(updatedRelic.id)
     }
 
     DB.setRelic(updatedRelic)
-    global.setRelicRows(DB.getRelics())
+    window.setRelicRows(DB.getRelics())
     SaveState.save()
+    window.forceCharacterTabUpdate()
 
     Message.success('Successfully edited relic')
     console.log('onEditOk', updatedRelic)
 
-    return updatedRelic;
-  }
+    return updatedRelic
+  },
 }

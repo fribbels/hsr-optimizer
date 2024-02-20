@@ -1,9 +1,9 @@
-import { Constants } from 'lib/constants';
-import { Gradient } from 'lib/gradient';
-import { Renderer } from 'lib/renderer';
+import { Constants } from 'lib/constants'
+import { Gradient } from 'lib/gradient'
+import { Renderer } from '../../lib/renderer'
 
-export const DIGITS_4 = 50;
-export const DIGITS_5 = 60;
+export const DIGITS_4 = 50
+export const DIGITS_5 = 60
 
 export const baseColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },
@@ -31,7 +31,7 @@ export const baseColumnDefs = [
   { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
   { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-];
+]
 
 export const combatColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },
@@ -59,7 +59,7 @@ export const combatColumnDefs = [
   { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
   { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-];
+]
 
 export const gridOptions = {
   rowHeight: 33,
@@ -70,14 +70,15 @@ export const gridOptions = {
   paginationPageSize: 500,
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
+  maxBlocksInCache: 1,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  suppressCellFocus: true
-};
+  suppressCellFocus: true,
+}
 
 export const defaultColDef = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,
-  sortingOrder: ['desc', 'asc']
-};
+  sortingOrder: ['desc', 'asc'],
+}

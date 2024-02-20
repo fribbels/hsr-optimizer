@@ -1,34 +1,45 @@
-import { Form } from 'types/Form';
-import { ComputedStatsObject } from "lib/conditionals/constants";
-import { FormSwitchWithPopoverProps } from "components/optimizerForm/conditionals/FormSwitch";
-import { FormSliderWithPopoverProps } from "components/optimizerForm/conditionals/FormSlider";
+import { Form } from 'types/Form'
+import { ComputedStatsObject } from 'lib/conditionals/constants'
+import { FormSwitchWithPopoverProps } from 'components/optimizerForm/conditionals/FormSwitch'
+import { FormSliderWithPopoverProps } from 'components/optimizerForm/conditionals/FormSlider'
+import { ComponentProps, ComponentType } from 'react'
 
 export type ConditionalMap = {
-  [key:string]: number | boolean | string | undefined;
-};
+  [key: string]: number | boolean | string | undefined
+}
 
 // interface to an instance of a Character or Light Cone conditional controller
 export interface Conditional {
   // getContent: () => { [key: string]: unknown }[];
-  display: () => JSX.Element;
-  defaults: () => ConditionalMap;
-  // TODO: purify this implmeentation
-  // ComputedStatsObject arg is mutated by ref
-  calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void;
-  calculatePassives?: () => void;
+  content: () => ContentItem[]
+  teammateContent?: (teammateIndex: number) => ContentItem[]
+  defaults: () => ConditionalMap
+  teammateDefaults?: () => ConditionalMap
+  /*
+   * TODO: purify this implmeentation
+   * ComputedStatsObject arg is mutated by ref
+   */
+  calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
+  calculatePassives?: () => void
+}
+
+export type ContentComponentMap = {
+  switch: ComponentType<FormSwitchWithPopoverProps>
+  slider: ComponentType<FormSliderWithPopoverProps>
 }
 
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
-  formItem: FormSwitchWithPopoverProps | FormSliderWithPopoverProps;
-  text: string;
-  title: string;
-  content: JSX.Element | string;
-  [key:string]: unknown;
-}
+  [K in keyof ContentComponentMap]: {
+    formItem: K
+    id: string
+    content: string
+    teammateIndex?: number
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+}[keyof ContentComponentMap]
 
 export type ConditionalBuff =
-  | 'activeShieldDmgDecrease' 
+  | 'activeShieldDmgDecrease'
   | 'alliesSameElement'
   | 'arcanaStacks'
   | 'atkBoostStacks'
@@ -71,6 +82,7 @@ export type ConditionalBuff =
   | 'e1TalentSpdBuff'
   | 'e1TargetBleeding'
   | 'e1TargetFrozen'
+  | 'e2AtkBoost'
   | 'e2BurnMultiBoost'
   | 'e2DefReduction'
   | 'e2DmgBuff'
@@ -99,6 +111,7 @@ export type ConditionalBuff =
   | 'e6UltExtraHits'
   | 'e6UltTargetDebuff'
   | 'eclipseStacks'
+  | 'ehrToDmgBoost'
   | 'enemies2CrBuff'
   | 'enemy3DebuffsCrBoost'
   | 'enemyBurned'
@@ -128,6 +141,7 @@ export type ConditionalBuff =
   | 'epiphanyDebuff'
   | 'extraDmgProc'
   | 'fieldActive'
+  | 'fireDmgBoost'
   | 'fuaDmgBoost'
   | 'fuaHits'
   | 'goodFortuneStacks'
@@ -149,7 +163,6 @@ export type ConditionalBuff =
   | 'missedCritCrBuff'
   | 'numbyEnhancedState'
   | 'postSkillDmgBuff'
-  | 'postSkillHealBuff'
   | 'postSkillHealBuff'
   | 'postUltAtkBuff'
   | 'postUltBuff'
@@ -210,6 +223,16 @@ export type ConditionalBuff =
   | 'targetTameStacks'
   | 'targetUltDebuffed'
   | 'targetWindShear'
+  | 'teamBEBuff'
+  | 'teamDmgBuff'
+  | 'teamSpdBuff'
+  | 'teamImaginaryDmgBoost'
+  | 'teammateAtkBuffValue'
+  | 'teammateATKValue'
+  | 'teammateCDValue'
+  | 'teammateHPValue'
+  | 'teammateDEFValue'
+  | 'teammateSPDValue'
   | 'techniqueBuff'
   | 'toughnessReductionDmgBoost'
   | 'trickStacks'
@@ -226,4 +249,28 @@ export type ConditionalBuff =
   | 'ultSpdBuff'
   | 'weaknessBreakDmgBuff'
   | 'prophetStacks'
-  ;
+  | 'e2TeamDotBoost'
+  | 'teamEhrBuff'
+  | 'skillWeaknessResShredDebuff'
+  | 'talentActive'
+  | 'e4TeamResBuff'
+  | 'beToDmgBoost'
+  | 'errBuffActive'
+  | 'crimsonKnotStacks'
+  | 'nihilityTeammates'
+  | 'thunderCoreStacks'
+  | 'e4UltVulnerability'
+  | 'e1EnemyDebuffed'
+  | 'fortifiedWagerBuff'
+  | 'enemyUnnervedDebuff'
+  | 'e2ResShred'
+  | 'e4DefBuff'
+  | 'e6ShieldStacks'
+  | 'breakEffectToOhbBoost'
+  | 'e1ResBuff'
+  | 'e6BeBuff'
+  | 'targetVulnerability'
+  | 'shieldCdBuff'
+  | 'emptyBubblesDebuff'
+  | 'teammateShieldStacks'
+  | 'e6UltBuffs'

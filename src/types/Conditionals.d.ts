@@ -274,3 +274,4 @@ export type ConditionalBuff =
   | 'emptyBubblesDebuff'
   | 'teammateShieldStacks'
   | 'e6UltBuffs'
+  | 'fuaHitsOnTarget'

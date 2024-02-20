@@ -1100,7 +1100,7 @@ function getScoringMetadata() {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Constants.Stats.BE]: 0.5,
         [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,

@@ -38,6 +38,16 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       content: betaUpdate,
     },
     {
+      formItem: 'slider',
+      id: 'fuaHitsOnTarget',
+      name: 'fuaHitsOnTarget',
+      text: 'FUA hits on target',
+      title: 'FUA hits on target',
+      content: betaUpdate,
+      min: 0,
+      max: fuaHits,
+    },
+    {
       formItem: 'switch',
       id: 'e2ResShred',
       name: 'e2ResShred',
@@ -78,6 +88,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      fuaHitsOnTarget: fuaHits,
       fortifiedWagerBuff: true,
       enemyUnnervedDebuff: true,
       e2ResShred: true,
@@ -99,7 +110,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += talentDmgScaling * fuaHits
+      x.FUA_SCALING += talentDmgScaling * r.fuaHitsOnTarget
 
       return x
     },

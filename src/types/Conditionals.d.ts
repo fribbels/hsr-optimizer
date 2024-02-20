@@ -266,3 +266,6 @@ export type ConditionalBuff =
   | 'e2ResShred'
   | 'e4DefBuff'
   | 'e6ShieldStacks'
+  | 'breakEffectToOhbBoost'
+  | 'e1ResBuff'
+  | 'e6BeBuff'

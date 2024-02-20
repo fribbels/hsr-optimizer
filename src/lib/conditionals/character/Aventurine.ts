@@ -117,6 +117,8 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
+
+      x[Stats.CR] += x[Stats.DEF] > 1600 ? Math.min(0.40, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },
   }
 }

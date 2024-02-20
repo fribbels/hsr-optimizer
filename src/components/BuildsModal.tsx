@@ -35,7 +35,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   // Reuse the character preview for the saved build
   const statDisplay = useMemo(() => {
-    if (selectedBuild != null && selectedCharacter) {
+    if (selectedBuild != null && selectedCharacter && selectedCharacter.builds && selectedCharacter.builds[selectedBuild].build) {
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
 
@@ -103,6 +103,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   const handleDeleteSingleBuild = async (name: string) => {
     const result = await confirm(`Are you sure you want to delete ${name}?`)
     if (result) {
+      setSelectedBuild(null)
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
       window.forceCharacterTabUpdate()
       SaveState.save()

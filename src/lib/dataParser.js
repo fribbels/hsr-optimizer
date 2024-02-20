@@ -921,7 +921,7 @@ function getOverrideImageCenter() {
       y: 1024,
     },
     1301: { // Gallagher
-      x: 1024,
+      x: 1150,
       y: 1024,
     },
     1302: { // Argenti
@@ -933,7 +933,7 @@ function getOverrideImageCenter() {
       y: 1050,
     },
     1304: { // Aventurine
-      x: 1024,
+      x: 1150,
       y: 1024,
     },
     1305: { // Dr Ratio
@@ -949,8 +949,8 @@ function getOverrideImageCenter() {
       y: 950,
     },
     1308: { // Acheron
-      x: 1024,
-      y: 1024,
+      x: 1000,
+      y: 1000,
     },
     1312: { // Misha
       x: 1050,

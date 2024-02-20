@@ -41,7 +41,7 @@ const items = [
           Changelog
         </Typography.Link>
       ),
-      'changelog'),
+      '#changelog'),
   ]),
   getItem('Links', 'subLinks', <MenuOutlined />, [
     getItem(

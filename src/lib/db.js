@@ -22,6 +22,7 @@ const state = {
 let hashes = [
   '#scorer',
   '#getting-started',
+  '#changelog',
 ]
 
 /*

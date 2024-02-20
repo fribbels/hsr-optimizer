@@ -125,6 +125,9 @@ export const Assets = {
   getDiscord: () => {
     return baseUrl + '/assets/misc/badgediscord.png'
   },
+  getGithub: () => {
+    return 'https://i.imgur.com/vpB1Y1b.png'
+  },
   getStar: () => {
     return baseUrl + '/assets/icon/deco/StarBig.png'
   },

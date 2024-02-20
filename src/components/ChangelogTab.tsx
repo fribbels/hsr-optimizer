@@ -8,7 +8,7 @@ type ChangelogContent = { title: string; date: string; content: string[] }
 export default function ChangelogTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
-  if (activeKey != 'changelog') {
+  if (activeKey != '#changelog') {
     // Don't load images unless we're on the changelog tab
     return (<></>)
   }
@@ -77,6 +77,31 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
 }
 
 const data: ChangelogContent[] = [
+  {
+    title: '',
+    date: '02-20-2024',
+    content: [
+      'Added: Acheron / Aventurine / Gallagher',
+      'newChars.png',
+      'Added: "Simulate relics on another character" button on the Relic scorer.',
+      'Now the profile characters\' builds can be simulated as unowned or unreleased characters & light cones to preview their gear with accurate base stats',
+      'simulate.png',
+      'Added: Teammates menu for the optimizer. This automatically adds the teammate\'s character passives/eidolons/light cone/relic sets to the calculations for more accurate results',
+      'teammates.png',
+      'Added: Character builds can now be saved as loadouts, keeping a history of saved builds that can be easily swapped between',
+      'savedBuilds.png',
+      'Added: Changelog page to track new optimizer changes',
+      'changelog.png',
+      'Moved stat display to the sidebar for easier access',
+      'statDisplay.png',
+      'Clicking "Start optimizing" now scrolls the page down to the results grid',
+      'Deprecated the Fribbels scanner option in favor of the Kel-Z scanner',
+      'Energy Regeneration Rate column can be filtered on now',
+      'Imports now work with scanner files that only contain characters/light cones without relics',
+      'Minor scoring changes for: Sushang, Luka, Physical Trailblazer, Blade, Kafka, Silver Wolf, Kafka, and Preservation characters',
+      'Relic scorer now supports 8 slots',
+    ],
+  },
   {
     title: '',
     date: '02-05-2024',

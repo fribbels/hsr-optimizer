@@ -80,6 +80,11 @@ const MenuDrawer = (props) => {
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
 
+    if (e.key == 'optimizer') {
+      // Refresh optimizer permutations on optimizer tab click
+      window.onOptimizerFormValuesChange({}, window.optimizerForm.getFieldsValue(), true)
+    }
+
     if (hashes.includes(e.key)) {
       history.replaceState(null, null, e.key)
     } else {

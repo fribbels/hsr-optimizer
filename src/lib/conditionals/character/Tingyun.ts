@@ -38,7 +38,7 @@ export default (e: Eidolon): CharacterConditional => {
     name: 'ultDmgBuff',
     text: 'Ult DMG buff',
     title: 'Ult DMG buff',
-    content: `Regenerates 50 Energy for a single ally and increases the target's DMG by ${precisionRound(ultDmgBoost)}% for 2 turn(s).`,
+    content: `Regenerates 50 Energy for a single ally and increases the target's DMG by ${precisionRound(ultDmgBoost * 100)}% for 2 turn(s).`,
   }, {
     formItem: 'switch',
     id: 'ultSpdBuff',

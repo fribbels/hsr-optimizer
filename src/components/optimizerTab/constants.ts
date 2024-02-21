@@ -74,7 +74,6 @@ export const gridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  suppressCellFocus: true,
 }
 
 export const defaultColDef = {

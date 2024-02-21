@@ -98,8 +98,7 @@ const data: ChangelogContent[] = [
       'Deprecated the Fribbels scanner option in favor of the Kel-Z scanner',
       'Energy Regeneration Rate column can be filtered on now',
       'Imports now work with scanner files that only contain characters/light cones without relics',
-      'Minor scoring changes for: Sushang, Luka, Physical Trailblazer, Blade, Kafka, Silver Wolf, Kafka, and Preservation characters',
-      'Relic scorer now supports 8 slots',
+      'Minor scoring changes for: Sushang, Luka, Physical Trailblazer, Blade, Silver Wolf, Kafka, and Preservation characters',
     ],
   },
   {

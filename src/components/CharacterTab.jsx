@@ -23,6 +23,7 @@ import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
+import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 
 const { Text } = Typography
 
@@ -184,7 +185,6 @@ export default function CharacterTab() {
     animateRows: true,
     suppressDragLeaveHidesColumns: true,
     suppressScrollOnNewData: true,
-    suppressCellFocus: true,
   }), [])
 
   const defaultColDef = useMemo(() => ({
@@ -211,6 +211,10 @@ export default function CharacterTab() {
     setActiveKey('optimizer')
     console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data)
   }, [setActiveKey, setOptimizerTabFocusCharacter])
+
+  const navigateToNextCell = useCallback((params) => {
+    return arrowKeyGridNavigation(params, characterGrid, (selectedNode) => cellClickedListener(selectedNode))
+  }, [])
 
   function drag(event, index) {
     const dragged = event.node.data
@@ -390,22 +394,23 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
           <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
             <AgGridReact
-              ref={characterGrid} // Ref for accessing Grid's API
+              ref={characterGrid}
 
-              rowData={characterRows} // Row Data for Rows
+              rowData={characterRows}
               gridOptions={gridOptions}
               getRowNodeId={(data) => data.id}
 
-              columnDefs={columnDefs} // Column Defs for Columns
-              defaultColDef={defaultColDef} // Default Column Properties
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
               deltaRowDataMode={true}
 
               headerHeight={24}
 
-              onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+              onCellClicked={cellClickedListener}
               onCellDoubleClicked={cellDoubleClickedListener}
               onRowDragEnd={onRowDragEnd}
               onRowDragLeave={onRowDragLeave}
+              navigateToNextCell={navigateToNextCell}
             />
           </div>
           <Flex vertical gap={8}>

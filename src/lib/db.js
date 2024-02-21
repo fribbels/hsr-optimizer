@@ -54,7 +54,7 @@ window.store = create((set) => ({
   relicsById: {},
   scorerId: undefined,
   scoringMetadataOverrides: {},
-  statDisplay: 'base',
+  statDisplay: 'combat',
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,

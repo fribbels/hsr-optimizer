@@ -425,6 +425,8 @@ export const OptimizerTabController = {
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT
 
+    x.statDisplay = window.store.getState().statDisplay || 'base'
+
     x.maxHp = fixValue(x.maxHp, MAX_INT)
     x.minHp = fixValue(x.minHp, 0)
     x.maxAtk = fixValue(x.maxAtk, MAX_INT)

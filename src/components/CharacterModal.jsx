@@ -10,11 +10,15 @@ import PropTypes from 'prop-types'
 const pinnedValues = [
   'Black Swan',
   'Sparkle',
+  'Gallagher',
   'Aventurine',
   'Acheron',
 
   'Reforged Remembrance',
   'Earthly Escapade',
+  'Concert for Two',
+  'Inherently Unjust Destiny',
+  'Along the Passing Shore',
 ]
 function generatePinnedList(list) {
   if (!list || !list.length) return []
@@ -31,7 +35,7 @@ function generatePinnedList(list) {
     return a.label.localeCompare(b.label)
   })
 
-  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(new!) ' + option.label : null)
+  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(New!) ' + option.label : null)
 
   return list
 }
@@ -69,12 +73,12 @@ export default function CharacterModal(props) {
     props.setOpen(false)
   }
 
-  const panelWidth = 203
+  const panelWidth = 300 - 47
 
   return (
     <Modal
       open={props.open}
-      width={250}
+      width={300}
       destroyOnClose
       centered
       onOk={onModalOk}

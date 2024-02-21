@@ -37,12 +37,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     lc: true,
     id: 'fuaDmgBoost',
     name: 'fuaDmgBoost',
-    formItem: 'slider',
-    text: 'FUA DMG Boost',
+    formItem: 'switch',
+    text: 'FUA DMG boost',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
-    min: 0,
-    max: 0.8,
   }]
 
   return {

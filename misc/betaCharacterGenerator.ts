@@ -3,18 +3,29 @@
 // Helper tool for importing beta characters
 
 function run() {
-  const character = require('./characterToConvert.json');
+  const character = require('./characterToConvert.json')
 
   function precisionRound(number, precision = 5) {
-    const factor = Math.pow(10, precision);
-    return Math.round(number * factor) / factor;
+    const factor = Math.pow(10, precision)
+    return Math.round(number * factor) / factor
   }
+  // Paths
+  // Harmony - Shaman
+  // Preservation - Knight
+  // Nihility - Warlock
+  // Destruction - Warrior
+  // Abundance - Priest
+  // Hunt - Rogue
+  // Erudition - Mage
 
-  const name = 'Sparkle'
-  const id = '1306'
+  // Elements
+  // Lightning - Thunder
+
+  const name = 'Gallagher'
+  const id = '1301'
   const rarity = 5
-  const path = 'Shaman'
-  const element = 'Quantum'
+  const path = 'Priest'
+  const element = 'Fire'
   const max_sp = 0
 
   const convertedCharacter = {
@@ -24,15 +35,15 @@ function run() {
       path,
       element,
       max_sp,
-      name
-    }
+      name,
+    },
   }
 
   const characterPromotions = {
     [id]: {
       id,
-      values: []
-    }
+      values: [],
+    },
   }
 
   for (const value of Object.values(character.Stats)) {

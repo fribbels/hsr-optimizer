@@ -47,3 +47,21 @@ export const ult = (eidolon: number, value1: number, value2: number): number => 
 export const basic = ult
 export const skillRev = ult
 export const talentRev = ult
+
+// ----------
+export const ability = (upgradeEidolon: number) => {
+  return (eidolon: number, value1: number, value2: number) => {
+    return eidolon >= upgradeEidolon ? value2 : value1
+  }
+}
+export const ult5 = ability(5)
+export const ult3 = ability(3)
+
+export const skill5 = ability(5)
+export const skill3 = ability(3)
+
+export const basic5 = ability(5)
+export const basic3 = ability(3)
+
+export const talent5 = ability(5)
+export const talent3 = ability(3)

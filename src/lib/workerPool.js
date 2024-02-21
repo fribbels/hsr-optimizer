@@ -1,6 +1,6 @@
 import { BufferPacker } from './bufferPacker'
 import { Constants } from './constants'
-import OptimizerWorker from './worker/optimizerWorker?worker'
+import OptimizerWorker from './worker/optimizerWorker?worker&inline'
 
 let poolSize = Math.max(1, (navigator.hardwareConcurrency || 4) - 1)
 let initializedWorkers = 0
@@ -95,3 +95,8 @@ export const WorkerPool = {
     })
   },
 }
+
+// Start a worker to kick off the caching process for worker imports
+setTimeout(() => {
+  WorkerPool.initializeWorker()
+}, 2000)

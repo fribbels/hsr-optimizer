@@ -22,6 +22,7 @@ const state = {
 let hashes = [
   '#scorer',
   '#getting-started',
+  '#changelog',
 ]
 
 /*
@@ -57,6 +58,7 @@ window.store = create((set) => ({
   statDisplay: 'base',
   optimizationInProgress: false,
   optimizationId: undefined,
+  teammateCount: 0,
 
   permutationDetails: {
     Head: 0,
@@ -86,7 +88,7 @@ window.store = create((set) => ({
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
-    [OptimizerMenuIds.teammates]: false,
+    [OptimizerMenuIds.teammates]: true,
   },
 
   setActiveKey: (x) => set(() => ({ activeKey: x })),
@@ -111,6 +113,7 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setShowOptimizerGridDetails: (x) => set(() => ({ showOptimizerGridDetails: x })),
+  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
 }))
 
 export const DB = {

@@ -197,7 +197,7 @@ export default function ScoringModal() {
         {' '}
         <code>Score = sum(relic substat scores) + sum(main stat scores)</code>
         .
-        Only the head/body/sphere/rope relics have main stat scores.
+        Only the feet/body/sphere/rope relics have main stat scores.
         The main stat score for a 5 star maxed relic is
         {' '}
         <code>64.8</code>

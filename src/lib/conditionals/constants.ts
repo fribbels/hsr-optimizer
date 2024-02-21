@@ -84,6 +84,8 @@ export const baseComputedStatsObject = {
   QUANTUM_DMG_BOOST: 0,
   IMAGINARY_DMG_BOOST: 0,
 
+  ORIGINAL_DMG_BOOST: 0, // TODO: Acheron multiplier?
+
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,

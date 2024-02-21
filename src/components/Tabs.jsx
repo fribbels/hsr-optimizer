@@ -33,7 +33,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey="import" content={importTab} />
       <TabRenderer activeKey={activeKey} tabKey="#getting-started" content={gettingStartedTab} />
       <TabRenderer activeKey={activeKey} tabKey="#scorer" content={relicScorerTab} />
-      <TabRenderer activeKey={activeKey} tabKey="changelog" content={changelogTab} />
+      <TabRenderer activeKey={activeKey} tabKey="#changelog" content={changelogTab} />
 
       <ErrorBoundary fallback={defaultError}>
         <ScoringModal />

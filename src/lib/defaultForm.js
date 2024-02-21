@@ -1,4 +1,4 @@
-import { Constants } from './constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 
 export function getDefaultForm(initialCharacter) {
   return {
@@ -31,7 +31,7 @@ export function getDefaultForm(initialCharacter) {
     enemyHpPercent: 1.0,
     mainHead: [],
     mainHands: [],
-    statDisplay: 'base',
+    statDisplay: DEFAULT_STAT_DISPLAY,
     weights: {
       [Constants.Stats.HP_P]: 1,
       [Constants.Stats.ATK_P]: 1,

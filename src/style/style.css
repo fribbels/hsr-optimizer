@@ -138,8 +138,7 @@ body,
 }
 
 .ag-floating-top {
-  /*border-bottom: solid #828282 2px !important*/
-  box-shadow: 0 2px 4px #000 !important;
+  box-shadow: 0 2px 4px #141414 !important;
   z-index: 2 !important;
 }
 
@@ -341,7 +340,6 @@ a {
 }
 
 .ag-row-focus {
-  /*box-shadow: 0 0px 3px #85c6ff !important;*/
   box-shadow: 0 0px 3px #fff !important;
   z-index: 1 !important;
   clip-path: inset(-5px 0px -5px -5px);

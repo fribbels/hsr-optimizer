@@ -91,6 +91,10 @@ const MenuDrawer = (props) => {
       history.replaceState(null, null, ' ')
     }
     setActiveKey(e.key)
+
+    if (e.key == 'optimizer') {
+      window.onOptimizerFormValuesChange({}, window.optimizerForm.getFieldsValue(), true)
+    }
   }
 
   return (

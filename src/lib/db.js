@@ -38,6 +38,7 @@ let hashes = [
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
+  showOptimizerGridDetails: [{ fullWidth: true }],
 
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
@@ -111,6 +112,7 @@ window.store = create((set) => ({
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setShowOptimizerGridDetails: (x) => set(() => ({ showOptimizerGridDetails: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
 }))
 

@@ -61,22 +61,6 @@ export const combatColumnDefs = [
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
 ]
 
-export const gridOptions = {
-  rowHeight: 33,
-  pagination: true,
-  rowSelection: 'single',
-  rowModelType: 'infinite',
-  datasource: null,
-  paginationPageSize: 500,
-  paginationPageSizeSelector: [100, 500, 1000],
-  cacheBlockSize: 500,
-  maxBlocksInCache: 1,
-  suppressDragLeaveHidesColumns: true,
-  suppressScrollOnNewData: true,
-  suppressMultiSort: true,
-  suppressCellFocus: true,
-}
-
 export const defaultColDef = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,

@@ -38,7 +38,7 @@ let hashes = [
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
-  showOptimizerGridDetails: [],
+  showOptimizerGridDetails: [{ fullWidth: true }],
 
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,

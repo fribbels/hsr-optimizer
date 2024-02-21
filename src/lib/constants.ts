@@ -111,6 +111,31 @@ export const StatsToReadable = {
   [Stats.Imaginary_DMG]: 'Imaginary DMG',
 }
 
+export const StatsToCompact = {
+  [Stats.HP_P]: 'HP %',
+  [Stats.ATK_P]: 'ATK %',
+  [Stats.DEF_P]: 'DEF %',
+  [Stats.SPD_P]: 'SPD %',
+  [Stats.HP]: 'HP',
+  [Stats.ATK]: 'ATK',
+  [Stats.DEF]: 'DEF',
+  [Stats.SPD]: 'SPD',
+  [Stats.CR]: 'CR',
+  [Stats.CD]: 'CD',
+  [Stats.EHR]: 'EHR',
+  [Stats.RES]: 'RES',
+  [Stats.BE]: 'BE',
+  [Stats.ERR]: 'ERR',
+  [Stats.OHB]: 'OHB',
+  [Stats.Physical_DMG]: 'Physical DMG',
+  [Stats.Fire_DMG]: 'Fire DMG',
+  [Stats.Ice_DMG]: 'Ice DMG',
+  [Stats.Lightning_DMG]: 'Lightning DMG',
+  [Stats.Wind_DMG]: 'Wind DMG',
+  [Stats.Quantum_DMG]: 'Quantum DMG',
+  [Stats.Imaginary_DMG]: 'Imaginary DMG',
+}
+
 export const Parts = {
   Head: 'Head',
   Hands: 'Hands',

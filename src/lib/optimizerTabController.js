@@ -97,6 +97,10 @@ export const OptimizerTabController = {
     let build = OptimizerTabController.calculateRelicsFromId(data.id)
     console.log('build', build)
     window.setOptimizerBuild(build)
+
+    const expandedPanelItem = JSON.parse(JSON.stringify(data))
+    expandedPanelItem.fullWidth = true
+    window.store.getState().setShowOptimizerGridDetails([expandedPanelItem])
   },
 
   getColumnsToAggregate: (map) => {

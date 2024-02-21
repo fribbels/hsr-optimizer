@@ -33,7 +33,7 @@ function ExpandedStatRow({ data, stat }) {
 }
 
 const renderer = (x) => {
-  console.log('!!!y')
+  console.log('Render data panel', x)
   const data = x.node.data
   return (
     <Flex style={{ width: '100%', height: '100%', margin: 5 }} gap={1}>
@@ -120,13 +120,8 @@ export function OptimizerGrid() {
   }, [showOptimizerGridDetails])
 
   const x = useMemo(() => {
-    console.log('!!!x')
     return (params) => params?.rowNode?.data?.fullWidth
   }, [showOptimizerGridDetails])
-
-  // const rowHeight = useCallback((params) => {
-  //   return params?.rowNode?.data?.fullWidth ? 200 : 33
-  // }, [showOptimizerGridDetails])
 
   // TODO: I think these things need memos: https://www.ag-grid.com/react-data-grid/react-hooks/
   return (

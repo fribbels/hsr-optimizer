@@ -305,3 +305,5 @@ export const RelicSetFilterOptions = {
   relic2Plus2Piece: '2 + 2 Piece',
   relic2PlusAny: '2 + Any',
 }
+
+export const DEFAULT_STAT_DISPLAY = 'combat'

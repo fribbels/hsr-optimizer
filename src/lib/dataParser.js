@@ -917,8 +917,8 @@ function getOverrideImageCenter() {
       y: 1024,
     },
     1217: { // Huohuo
-      x: 1000,
-      y: 1024,
+      x: 950,
+      y: 950,
     },
     1301: { // Gallagher
       x: 1150,

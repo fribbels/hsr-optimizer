@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { Constants } from './constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
@@ -347,7 +347,7 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.statDisplay) {
-      newForm.statDisplay = 'base'
+      newForm.statDisplay = DEFAULT_STAT_DISPLAY
     }
 
     /*
@@ -424,6 +424,8 @@ export const OptimizerTabController = {
 
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT
+
+    x.statDisplay = window.store.getState().statDisplay || DEFAULT_STAT_DISPLAY
 
     x.maxHp = fixValue(x.maxHp, MAX_INT)
     x.minHp = fixValue(x.minHp, 0)
@@ -545,7 +547,7 @@ export const OptimizerTabController = {
       if (!character.form.teammate1?.id) window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
       if (!character.form.teammate2?.id) window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
 
-      window.store.getState().setStatDisplay(character.form.statDisplay || 'base')
+      window.store.getState().setStatDisplay(character.form.statDisplay || DEFAULT_STAT_DISPLAY)
     } else {
       console.log(`@OptimzerTabController.changeCharacter(${id}) - Character not found in owned characters - setting up defaults`)
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
@@ -559,7 +561,7 @@ export const OptimizerTabController = {
       window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
       window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
       window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
-      window.store.getState().setStatDisplay('base')
+      window.store.getState().setStatDisplay(DEFAULT_STAT_DISPLAY)
     }
 
     setPinnedRow(id)

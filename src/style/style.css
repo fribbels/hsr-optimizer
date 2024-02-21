@@ -138,7 +138,8 @@ body,
 }
 
 .ag-floating-top {
-  border-bottom: solid #828282 2px !important
+  box-shadow: 0 2px 4px #141414 !important;
+  z-index: 2 !important;
 }
 
 .ag-watermark {
@@ -333,4 +334,17 @@ a {
 
 .ant-segmented {
   padding: 0 !important;
+}
+.ag-cell-focus, .ag-cell {
+  border: none !important;
+}
+
+.ag-row-focus {
+  box-shadow: 0 0px 3px #fff !important;
+  z-index: 1 !important;
+  clip-path: inset(-5px 0px -5px -5px);
+  -webkit-clip-path: inset(-5px 0px -5px -5px);
+}
+.ag-center-cols-container {
+  width: 100% !important;
 }

@@ -102,13 +102,13 @@ const App = () => {
               <Flex>
                 <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
                   <Flex>
-                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
+                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
                   </Flex>
                 </a>
 
                 <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
                   <Flex>
-                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
+                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
                   </Flex>
                 </a>
               </Flex>

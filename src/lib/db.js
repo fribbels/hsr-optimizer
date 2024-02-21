@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -54,7 +54,7 @@ window.store = create((set) => ({
   relicsById: {},
   scorerId: undefined,
   scoringMetadataOverrides: {},
-  statDisplay: 'base',
+  statDisplay: DEFAULT_STAT_DISPLAY,
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,

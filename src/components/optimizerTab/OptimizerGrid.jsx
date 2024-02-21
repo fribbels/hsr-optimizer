@@ -1,8 +1,9 @@
 import { AgGridReact } from 'ag-grid-react'
 import { baseColumnDefs, combatColumnDefs, defaultColDef, gridOptions } from 'components/optimizerTab/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import React, { useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { Flex } from 'antd'
+import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
@@ -21,6 +22,10 @@ export function OptimizerGrid() {
 
   gridOptions.datasource = datasource
 
+  const navigateToNextCell = useCallback((params) => {
+    return arrowKeyGridNavigation(params, optimizerGrid, (selectedNode) => OptimizerTabController.cellClicked(selectedNode))
+  }, [])
+
   // TODO: I think these things need memos: https://www.ag-grid.com/react-data-grid/react-hooks/
   return (
     <Flex>
@@ -31,9 +36,10 @@ export function OptimizerGrid() {
           defaultColDef={defaultColDef}
           gridOptions={gridOptions}
           headerHeight={24}
-          onCellClicked={OptimizerTabController.cellClicked}
+          onCellMouseDown={OptimizerTabController.cellClicked}
           ref={optimizerGrid}
           rowSelection="single"
+          navigateToNextCell={navigateToNextCell}
         />
       </div>
     </Flex>

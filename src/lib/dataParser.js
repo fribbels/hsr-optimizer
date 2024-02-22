@@ -31,6 +31,7 @@ export const DataParser = {
       }
       lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
       lcData.ranks = lightConeRanks[id]
+      lcData.displayName = lcData.name
     }
 
     const characterTraces = getOverrideTraces()

@@ -3,6 +3,7 @@ import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
+import React from 'react'
 
 export const Utils = {
   arrayOfZeroes: (n) => {
@@ -119,7 +120,7 @@ export const Utils = {
       value.label = value.displayName
     }
 
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
+    return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
   },
   generateLightConeOptions: () => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))

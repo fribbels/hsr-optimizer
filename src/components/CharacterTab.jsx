@@ -68,7 +68,7 @@ function cellNameRenderer(params) {
       <Text style={{ margin: 'auto', padding: '0px 5px', textAlign: 'center', overflow: 'hidden', whiteSpace: 'break-spaces', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
         {characterName}
       </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color }}>
+      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 
       </Flex>
     </Flex>

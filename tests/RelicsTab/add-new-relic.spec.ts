@@ -22,7 +22,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await page.locator('#set').click()
 
   // add "Musketeer of Wild Wheat"
-  await page.getByTitle('Musketeer of Wild Wheat').locator('div.ant-select-item-option-content').click()
+  await page.getByText('Musketeer of Wild Wheat').nth(2).click()
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
 
   // set to +12

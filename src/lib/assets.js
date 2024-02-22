@@ -159,7 +159,7 @@ export const Assets = {
 
   getSetImage: (set, part) => {
     if (!part) {
-      part = 'base'
+      part = Constants.Parts.PlanarSphere
     }
     const setToId = {
       [Constants.Sets.PasserbyOfWanderingCloud]: '101',

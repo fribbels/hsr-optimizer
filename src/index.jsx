@@ -13,7 +13,6 @@ import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
-import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
 import { StatCalculator } from './lib/statCalculator'
@@ -39,7 +38,6 @@ window.DataParser = DataParser
 window.OptimizerTabController = OptimizerTabController
 window.DB = DB
 window.CharacterStats = CharacterStats
-window.Utils = Utils
 window.Assets = Assets
 window.RelicAugmenter = RelicAugmenter
 window.StatCalculator = StatCalculator

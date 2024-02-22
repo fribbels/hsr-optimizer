@@ -1,6 +1,6 @@
 import { Button, Cascader, Divider, Flex, Form, Image, Select, Switch, Tag, Typography } from 'antd'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Optimizer } from 'lib/optimizer'
+import { Optimizer } from 'lib/optimizer/optimizer'
 import styled from 'styled-components'
 import {
   Constants,

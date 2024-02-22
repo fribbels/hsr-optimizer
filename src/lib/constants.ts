@@ -307,3 +307,4 @@ export const RelicSetFilterOptions = {
 }
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
+export const MAX_RESULTS = 2_000_000

@@ -5,6 +5,10 @@ import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
 
 export const Utils = {
+  generateEmptyArray: (n) => {
+    return Array(n).fill(0)
+  },
+
   arrayOfZeroes: (n) => {
     return new Array(n).fill(0)
   },

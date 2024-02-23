@@ -13,7 +13,6 @@ export type Relic = {
     current: number
     average: number
     best: number
-    aggregatedBest: number
   }
   cs?: number
   ds?: number

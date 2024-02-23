@@ -65,7 +65,6 @@ export const Gradient = {
         'weights.current': 64.8,
         'weights.best': 64.8,
         'weights.average': 64.8,
-        'weights.aggregatedBest': 64.8,
       }
     }
 

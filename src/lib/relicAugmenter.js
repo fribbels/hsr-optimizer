@@ -17,7 +17,6 @@ export const RelicAugmenter = {
       current: 0,
       average: 0,
       best: 0,
-      aggregatedBest: 0,
     }
 
     let mainStat = relic.main.stat

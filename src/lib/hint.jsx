@@ -238,17 +238,4 @@ export const Hint = {
       ),
     }
   },
-
-  aggregatedBestCaseColumn: () => {
-    return {
-      title: 'Aggregated Best Case Column',
-      content: (
-        <Flex vertical gap={10}>
-          <p>The 'AGG BESTCASE' column provides the maximum bestcase weight for all the characters it considers.</p>
-          <p>You can make it look at all characters in the game, or just your owned characters.</p>
-          <p>This column is useful for finding relics that aren't good on any character.</p>
-        </Flex>
-      ),
-    }
-  },
 }

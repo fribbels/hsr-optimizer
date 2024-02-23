@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants, StatsKeys } from 'lib/constants'
 import { Character, CharacterId } from 'types/Character'
 import { Relic } from 'types/Relic'
 import { Utils } from 'lib/utils'
@@ -6,47 +6,41 @@ import { Utils } from 'lib/utils'
 import DB from './db.js'
 
 const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
-let mainStatFreeRolls
-
-function setMainStatFreeRolls() {
-  if (!mainStatFreeRolls) {
-    mainStatFreeRolls = {
-      [Constants.Parts.Body]: {
-        [Constants.Stats.HP_P]: 1.32,
-        [Constants.Stats.ATK_P]: 1.284,
-        [Constants.Stats.DEF_P]: 1.305,
-        [Constants.Stats.CR]: 1.644,
-        [Constants.Stats.CD]: 1.658,
-        [Constants.Stats.OHB]: 1.712,
-        [Constants.Stats.EHR]: 1.668,
-      },
-      [Constants.Parts.Feet]: {
-        [Constants.Stats.HP_P]: 1.058,
-        [Constants.Stats.ATK_P]: 1.019,
-        [Constants.Stats.DEF_P]: 1,
-        [Constants.Stats.SPD]: 1.567,
-      },
-      [Constants.Parts.PlanarSphere]: {
-        [Constants.Stats.HP_P]: 1.583,
-        [Constants.Stats.ATK_P]: 1.559,
-        [Constants.Stats.DEF_P]: 1.587,
-        [Constants.Stats.Physical_DMG]: 1.763,
-        [Constants.Stats.Fire_DMG]: 1.763,
-        [Constants.Stats.Ice_DMG]: 1.763,
-        [Constants.Stats.Lightning_DMG]: 1.763,
-        [Constants.Stats.Wind_DMG]: 1.763,
-        [Constants.Stats.Quantum_DMG]: 1.763,
-        [Constants.Stats.Imaginary_DMG]: 1.763,
-      },
-      [Constants.Parts.LinkRope]: {
-        [Constants.Stats.HP_P]: 1.073,
-        [Constants.Stats.ATK_P]: 1.076,
-        [Constants.Stats.DEF_P]: 1.172,
-        [Constants.Stats.BE]: 1.416,
-        [Constants.Stats.ERR]: 2,
-      },
-    }
-  }
+const mainStatFreeRolls = {
+  [Constants.Parts.Body]: {
+    [Constants.Stats.HP_P]: 1.32,
+    [Constants.Stats.ATK_P]: 1.284,
+    [Constants.Stats.DEF_P]: 1.305,
+    [Constants.Stats.CR]: 1.644,
+    [Constants.Stats.CD]: 1.658,
+    [Constants.Stats.OHB]: 1.712,
+    [Constants.Stats.EHR]: 1.668,
+  },
+  [Constants.Parts.Feet]: {
+    [Constants.Stats.HP_P]: 1.058,
+    [Constants.Stats.ATK_P]: 1.019,
+    [Constants.Stats.DEF_P]: 1,
+    [Constants.Stats.SPD]: 1.567,
+  },
+  [Constants.Parts.PlanarSphere]: {
+    [Constants.Stats.HP_P]: 1.583,
+    [Constants.Stats.ATK_P]: 1.559,
+    [Constants.Stats.DEF_P]: 1.587,
+    [Constants.Stats.Physical_DMG]: 1.763,
+    [Constants.Stats.Fire_DMG]: 1.763,
+    [Constants.Stats.Ice_DMG]: 1.763,
+    [Constants.Stats.Lightning_DMG]: 1.763,
+    [Constants.Stats.Wind_DMG]: 1.763,
+    [Constants.Stats.Quantum_DMG]: 1.763,
+    [Constants.Stats.Imaginary_DMG]: 1.763,
+  },
+  [Constants.Parts.LinkRope]: {
+    [Constants.Stats.HP_P]: 1.073,
+    [Constants.Stats.ATK_P]: 1.076,
+    [Constants.Stats.DEF_P]: 1.172,
+    [Constants.Stats.BE]: 1.416,
+    [Constants.Stats.ERR]: 2,
+  },
 }
 
 const ratingToRolls = {
@@ -86,7 +80,7 @@ const possibleSubstats = new Set(Constants.SubStats)
 
 let characterRelicScoreMetas
 
-function getRelicScoreMeta(id) {
+function getRelicScoreMeta(id):  { [K in StatsKeys]: number } {
   if (!characterRelicScoreMetas) {
     characterRelicScoreMetas = new Map(Object.keys(DB.getMetadata().characters).map((id) => {
       let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
@@ -150,7 +144,7 @@ export const RelicScorer = {
     let scoringMetadata = getRelicScoreMeta(id)
 
     let scoringResult = RelicScorer.score(relic, id)
-    let subScore = parseFloat(scoringResult.score)
+    let subScore = scoringResult.score
     let mainScore = 0
     if (Utils.hasMainStat([relic.part])) {
       if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
@@ -201,8 +195,6 @@ export const RelicScorer = {
 
   score: (relic, characterId) => {
     // console.log('score', relic, characterId)
-
-    setMainStatFreeRolls()
 
     if (!relic) {
       return {

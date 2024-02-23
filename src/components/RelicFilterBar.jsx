@@ -25,7 +25,6 @@ export default function RelicFilterBar() {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
-  const [aggregatedBestCaseColumn, setAggregatedBestCaseColumn] = useState('all')
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -115,15 +114,11 @@ export default function RelicFilterBar() {
     // views as a pure function of props, but because relics (and other state) are updated mutably in
     // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
+      characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
   })
 
-  useEffect(() => {
-    characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
-  }, [])
-
-  function characterSelectorChange(id, bestCaseColumn) {
+  function characterSelectorChange(id) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
@@ -131,29 +126,11 @@ export default function RelicFilterBar() {
       setScoringAlgorithmFocusCharacter(id)
       setCurrentlySelectedCharacterId(id)
     }
-    setAggregatedBestCaseColumn(bestCaseColumn)
-
-    let characterIds = (bestCaseColumn === 'all' ? characterOptions : DB.getCharacters()).map((val) => val.id)
-    if (id && !characterIds.includes(id)) {
-      // Always calculate for selected char (even if not owned)
-      characterIds.push(id)
-    }
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
     // and char weights can be edited
     for (let relic of relics) {
-      let aggBestCaseWeight = 0
-      let relicWeights = new Map()
-
-      for (let characterId of characterIds) {
-        let weights = RelicScorer.scoreRelic(relic, characterId)
-        aggBestCaseWeight = Math.max(aggBestCaseWeight, weights.best)
-        relicWeights.set(characterId, weights)
-      }
-
-      let weights = id ? relicWeights.get(id) : { current: 0, best: 0, average: 0 }
-      weights.aggregatedBest = aggBestCaseWeight
-      relic.weights = weights
+      relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
     }
 
     DB.setRelics(relics)
@@ -185,7 +162,7 @@ export default function RelicFilterBar() {
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId, aggregatedBestCaseColumn)
+    characterSelectorChange(currentlySelectedCharacterId)
   }
 
   return (
@@ -197,7 +174,7 @@ export default function RelicFilterBar() {
             <Select
               showSearch
               filterOption={Utils.labelFilterOption}
-              onChange={(x) => characterSelectorChange(x, aggregatedBestCaseColumn)}
+              onChange={characterSelectorChange}
               options={characterOptions}
               style={{ flex: 1 }}
             />
@@ -225,21 +202,8 @@ export default function RelicFilterBar() {
             </Flex>
           </Flex>
           <Flex vertical flex={0.5}>
-            <Flex justify="space-between" align="center">
-              <HeaderText>Aggregated Best Case Column</HeaderText>
-              <TooltipImage type={Hint.aggregatedBestCaseColumn()} />
-            </Flex>
-            <Flex gap={10}>
-              <Select
-                value={aggregatedBestCaseColumn}
-                onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
-                options={[
-                  { value: 'all', label: 'All Characters' },
-                  { value: 'owned', label: 'Owned Characters' },
-                ]}
-                style={{ flex: 1 }}
-              />
-            </Flex>
+            <HeaderText>Grade</HeaderText>
+            <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
           </Flex>
           <Flex vertical flex={0.25}>
             <HeaderText>Verified</HeaderText>
@@ -249,10 +213,6 @@ export default function RelicFilterBar() {
       </Flex>
 
       <Flex gap={10}>
-        <Flex vertical flex={0.5}>
-          <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
-        </Flex>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
           <FilterRow name="part" tags={partsData} flexBasis="15%" />

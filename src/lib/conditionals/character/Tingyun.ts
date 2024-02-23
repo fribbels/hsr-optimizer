@@ -103,12 +103,19 @@ export default (e: Eidolon): CharacterConditional => {
       const m = request.characterConditionals
 
       x[Stats.SPD_P] += (e >= 1 && m.ultSpdBuff) ? 0.20 : 0
-      x[Stats.ATK_P] += (m.benedictionBuff) ? skillAtkBoostMax : 0
 
       x.ELEMENTAL_DMG += (m.ultDmgBuff) ? ultDmgBoost : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const t = request.characterConditionals
+
+      x[Stats.ATK_P] += (t.benedictionBuff) ? t.teammateAtkBuffValue : 0
+    },
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
       const x = c['x']
+
+      x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK] + x.BENEDICTION_LIGHTNING_DMG * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

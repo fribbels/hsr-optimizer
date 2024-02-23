@@ -58,6 +58,7 @@ export const Gradient = {
         [`augmentedStats.${Constants.Stats.EHR}`]: 0.1728,
         [`augmentedStats.${Constants.Stats.RES}`]: 0.1728,
         [`augmentedStats.${Constants.Stats.BE}`]: 0.2592,
+        [`cv`]: 0.40,
         cs: 35,
         ss: 35,
         ds: 35,

@@ -35,6 +35,7 @@ export const Optimizer = {
 
     relics = RelicFilters.applyEquippedFilter(request, relics) // will reduce iterations if "off" is selected
     relics = RelicFilters.applyEnhanceFilter(request, relics)
+    relics = RelicFilters.applyGradeFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
 
     // Pre-split filters

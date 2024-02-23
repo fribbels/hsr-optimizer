@@ -2,8 +2,8 @@ import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
 import { Renderer } from '../../lib/renderer'
 
-export const DIGITS_4 = 50
-export const DIGITS_5 = 60
+export const DIGITS_4 = 53
+export const DIGITS_5 = 63
 
 export const baseColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },
@@ -22,7 +22,6 @@ export const baseColumnDefs = [
   { field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM' },
-  { field: 'CV', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
 
@@ -50,7 +49,6 @@ export const combatColumnDefs = [
   { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ HEAL' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM' },
-  { field: 'CV', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'CV' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
 

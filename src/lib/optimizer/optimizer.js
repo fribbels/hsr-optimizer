@@ -70,7 +70,6 @@ export const Optimizer = {
 
     // Fill in elements
     let element = characterMetadata.element
-    let damageElement = elementToDamageMapping[element]
 
     const teammates = [
       request.teammate0,
@@ -98,12 +97,14 @@ export const Optimizer = {
         ...lightConeSuperimposition,
       },
     }
+    request.damageElement = elementToDamageMapping[element]
+    request.character = baseStats
 
     const [relics] = this.getFilteredRelics(request)
 
     console.log('Optimize request', request)
     console.log('Optimize relics', relics)
-    console.log('Optimize damage element', damageElement)
+    console.log('Optimize damage element', request.damageElement)
 
     let relicSetSolutions = generateRelicSetSolutions(request)
     let ornamentSetSolutions = generateOrnamentSetSolutions(request)
@@ -174,7 +175,6 @@ export const Optimizer = {
         permutations: 1,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
-        damageElement: damageElement,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
         request: request,
@@ -209,7 +209,6 @@ export const Optimizer = {
         permutations: permutations,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
-        damageElement: damageElement,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
         request: request,

@@ -1,8 +1,7 @@
 import { Flex, Typography } from 'antd'
 import { Constants } from 'lib/constants.ts'
 import DB from 'lib/db'
-import { calculateBuild } from 'lib/optimizer/computeBuild'
-import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
 
 function calculate(selectedCharacter) {
   console.log('!!!', selectedCharacter)
@@ -19,7 +18,7 @@ function getRelics(selectedCharacter) {
   const relics = {}
   const equippedPartIds = selectedCharacter.equipped || {}
   for (let part of Object.values(Constants.Parts)) {
-    relics[part] = DB.getRelicById(equippedPartIds[part]) || emptyRelic()
+    relics[part] = DB.getRelicById(equippedPartIds[part])
   }
 
   return relics

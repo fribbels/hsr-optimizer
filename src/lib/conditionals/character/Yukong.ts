@@ -94,7 +94,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0
       x[Stats.SPD_P] += (e >= 1 && m.initialSpeedBuff) ? 0.10 : 0
 
-      x.IMAGINARY_DMG_BOOST += (m.teamImaginaryDmgBoost) ? 0.12 : 0
+      x[Stats.Imaginary_DMG] += (m.teamImaginaryDmgBoost) ? 0.12 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

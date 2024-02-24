@@ -1,4 +1,4 @@
-import { Constants, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
@@ -7,8 +7,8 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
 import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/computeParams'
-import { calculateBuild } from 'lib/optimizer/computeBuild'
+import { generateParams } from 'lib/optimizer/calculateParams'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
 
 let CANCEL = false
 
@@ -49,8 +49,6 @@ export const Optimizer = {
     window.store.getState().setPermutationsSearched(0)
     window.store.getState().setPermutationsResults(0)
 
-    // Fill in elements
-
     const teammates = [
       request.teammate0,
       request.teammate1,
@@ -59,14 +57,13 @@ export const Optimizer = {
     for (let i = 0; i < teammates.length; i++) {
       const teammate = teammates[i]
       let teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
-      teammate.damageElement = elementToDamageMapping[teammateCharacterMetadata.element]
+      teammate.ELEMENTAL_DMG_TYPE = ElementToDamage[teammateCharacterMetadata.element]
     }
 
     const [relics] = this.getFilteredRelics(request)
 
     console.log('Optimize request', request)
     console.log('Optimize relics', relics)
-    // console.log('Optimize damage element', request.damageElement)
 
     let relicSetSolutions = generateRelicSetSolutions(request)
     let ornamentSetSolutions = generateOrnamentSetSolutions(request)
@@ -79,13 +76,10 @@ export const Optimizer = {
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
     }
-
     let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
-
     OptimizerTabController.setMetadata(sizes, relics)
 
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
-
     if (permutations == 0) {
       window.store.getState().setOptimizationInProgress(false)
       Message.error('No possible permutations match your filters - please check the Permutations panel for details, and adjust your filter values', 10)
@@ -101,12 +95,7 @@ export const Optimizer = {
 
     window.optimizerGrid.current.api.showLoadingOverlay()
 
-    let results = []
-    let searched = 0
-
     const params = generateParams(request)
-
-    let resultsShown = false
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     function handleTopRow() {
@@ -119,10 +108,13 @@ export const Optimizer = {
 
       const c = calculateBuild(request, relics)
       renameFields(c)
-      console.log('###', c)
       OptimizerTabController.setTopRow(c)
     }
     handleTopRow()
+
+    let resultsShown = false
+    let results = []
+    let searched = 0
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
     let increment = 20000
@@ -142,16 +134,14 @@ export const Optimizer = {
     let inProgress = runs.length
     for (let run of runs) {
       let input = {
+        params: params,
+        request: request,
         relics: relics,
         WIDTH: run.runSize,
         skip: run.skip,
         permutations: permutations,
-        params: params,
-        relicSetToIndex: Constants.RelicSetToIndex,
-        ornamentSetToIndex: Constants.OrnamentSetToIndex,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
-        request: request,
       }
 
       let callback = (result) => {
@@ -192,16 +182,6 @@ export const Optimizer = {
       WorkerPool.execute(input, callback)
     }
   },
-}
-
-const elementToDamageMapping = {
-  Physical: Stats.Physical_DMG,
-  Fire: Stats.Fire_DMG,
-  Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
-  Wind: Stats.Wind_DMG,
-  Quantum: Stats.Quantum_DMG,
-  Imaginary: Stats.Imaginary_DMG,
 }
 
 // TODO: This is a temporary tool to rename build variables to fit the optimizer grid

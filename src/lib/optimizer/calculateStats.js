@@ -49,7 +49,7 @@ export function calculateElementalStats(c, request, params) {
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
   c.ELEMENTAL_DMG = 0
-  switch (params.damageElement) {
+  switch (params.ELEMENTAL_DMG_TYPE) {
     case Stats.Physical_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
       break

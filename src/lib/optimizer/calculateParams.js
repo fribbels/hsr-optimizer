@@ -1,7 +1,8 @@
-import { Constants, Stats } from 'lib/constants'
+import { Constants, ElementToDamage, ElementToResPenType, Stats } from 'lib/constants'
 import DB from 'lib/db'
 import { CharacterStats } from 'lib/characterStats'
 import { defaultSetConditionals } from 'lib/defaultForm'
+import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 
 /**
  * request - stores input from the user form
@@ -21,7 +22,6 @@ export function generateParams(request) {
 function generateSetConditionalParams(request, params) {
   const setConditionals = request.setConditionals
 
-  // TODO: dedupe this with defaultForm.js
   for (let set of Object.values(Constants.Sets)) {
     if (!setConditionals[set]) {
       setConditionals[set] = defaultSetConditionals[set]
@@ -50,8 +50,8 @@ function generateMultiplierParams(request, params) {
 }
 
 function generateElementParams(request, params) {
-  params.ELEMENTAL_DMG_TYPE = elementToDamageType(params.damageElement)
-  params.RES_PEN_TYPE = elementToResPenType(params.damageElement)
+  params.ELEMENTAL_DMG_TYPE = ElementToDamage[params.element]
+  params.RES_PEN_TYPE = ElementToResPenType[params.element]
 }
 
 function generateCharacterBaseParams(request, params) {
@@ -62,7 +62,7 @@ function generateCharacterBaseParams(request, params) {
   let characterMetadata = DB.getMetadata().characters[request.characterId]
   let characterStats = characterMetadata.promotions[request.characterLevel]
 
-  params.damageElement = elementToDamageMapping[characterMetadata.element]
+  params.element = characterMetadata.element
 
   let baseStats = {
     base: {
@@ -96,48 +96,6 @@ function generateCharacterBaseParams(request, params) {
   request.baseSpd = baseSpd
 }
 
-function emptyLightCone() {
-  return {
-    [Stats.HP]: 0,
-    [Stats.ATK]: 0,
-    [Stats.DEF]: 0,
-  }
-}
-
-function elementToDamageType(damageElement) {
-  return {
-    [Stats.Physical_DMG]: 'PHYSICAL_DMG_BOOST',
-    [Stats.Fire_DMG]: 'FIRE_DMG_BOOST',
-    [Stats.Ice_DMG]: 'ICE_DMG_BOOST',
-    [Stats.Lightning_DMG]: 'LIGHTNING_DMG_BOOST',
-    [Stats.Wind_DMG]: 'WIND_DMG_BOOST',
-    [Stats.Quantum_DMG]: 'QUANTUM_DMG_BOOST',
-    [Stats.Imaginary_DMG]: 'IMAGINARY_DMG_BOOST',
-  }[damageElement]
-}
-
-function elementToResPenType(damageElement) {
-  return {
-    [Stats.Physical_DMG]: 'PHYSICAL_RES_PEN',
-    [Stats.Fire_DMG]: 'FIRE_RES_PEN',
-    [Stats.Ice_DMG]: 'ICE_RES_PEN',
-    [Stats.Lightning_DMG]: 'LIGHTNING_RES_PEN',
-    [Stats.Wind_DMG]: 'WIND_RES_PEN',
-    [Stats.Quantum_DMG]: 'QUANTUM_RES_PEN',
-    [Stats.Imaginary_DMG]: 'IMAGINARY_RES_PEN',
-  }[damageElement]
-}
-
 function sumCharacterBase(stat, base, lc) {
   return base[stat] + lc[stat]
-}
-
-const elementToDamageMapping = {
-  Physical: Stats.Physical_DMG,
-  Fire: Stats.Fire_DMG,
-  Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
-  Wind: Stats.Wind_DMG,
-  Quantum: Stats.Quantum_DMG,
-  Imaginary: Stats.Imaginary_DMG,
 }

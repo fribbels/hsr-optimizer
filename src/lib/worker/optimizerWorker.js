@@ -6,10 +6,10 @@ import {
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
-} from 'lib/optimizer/computeStats'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/computeDamage'
-import { calculateTeammates } from 'lib/optimizer/computeTeammates'
-import { generateConditionals } from 'lib/optimizer/computeConditionals'
+} from 'lib/optimizer/calculateStats'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -41,7 +41,7 @@ self.onmessage = function(e) {
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
 
-  generateConditionals(request, params)
+  calculateConditionals(request, params)
   calculateTeammates(request, params)
 
   const limit = Math.min(data.permutations, data.WIDTH)
@@ -131,25 +131,20 @@ self.onmessage = function(e) {
         || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
         || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
         || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
+        || c.ehp < request.minEhp || c.ehp > request.maxEhp
+        || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
+        || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
+        || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
+        || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
+        || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
       if (fail) {
         continue
       }
     }
 
-    let fail = (
-      c.ehp < request.minEhp || c.ehp > request.maxEhp
-      || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
-      || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
-      || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
-      || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
-      || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
-    )
-
     // Pack the passing results into the ArrayBuffer to return
-    if (topRow || !fail) {
-      c.id = index
-      BufferPacker.packCharacter(arr, col, c)
-    }
+    c.id = index
+    BufferPacker.packCharacter(arr, col, c)
   }
 
   self.postMessage({

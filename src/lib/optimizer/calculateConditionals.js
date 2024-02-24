@@ -1,7 +1,7 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 
-export function generateConditionals(request, params) {
+export function calculateConditionals(request, params) {
   let characterConditionals = CharacterConditionals.get(request)
   let lightConeConditionals = LightConeConditionals.get(request)
   if (!request.characterConditionals) {

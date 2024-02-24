@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { Constants } from 'lib/constants.ts'
+import { Constants, ElementToDamage } from 'lib/constants.ts'
 import {
   defaultGap,
   innerW,
@@ -114,16 +114,7 @@ export function CharacterPreview(props) {
   const characterPath = characterMetadata.path
   const characterElement = characterMetadata.element
 
-  const elementToDmgValueMapping = {
-    Physical: Constants.Stats.Physical_DMG,
-    Fire: Constants.Stats.Fire_DMG,
-    Ice: Constants.Stats.Ice_DMG,
-    Thunder: Constants.Stats.Lightning_DMG,
-    Wind: Constants.Stats.Wind_DMG,
-    Quantum: Constants.Stats.Quantum_DMG,
-    Imaginary: Constants.Stats.Imaginary_DMG,
-  }
-  const elementalDmgValue = elementToDmgValueMapping[characterElement]
+  const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>

@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 
 export function p4(set) {
   return set >> 2
@@ -19,5 +19,13 @@ export function emptyRelic() {
   return {
     set: -1,
     augmentedStats: augmentedStats,
+  }
+}
+
+export function emptyLightCone() {
+  return {
+    [Stats.HP]: 0,
+    [Stats.ATK]: 0,
+    [Stats.DEF]: 0,
   }
 }

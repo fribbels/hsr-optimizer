@@ -1,6 +1,6 @@
-import { generateParams } from 'lib/optimizer/computeParams'
-import { generateConditionals } from 'lib/optimizer/computeConditionals'
-import { calculateTeammates } from 'lib/optimizer/computeTeammates'
+import { generateParams } from 'lib/optimizer/calculateParams'
+import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import {
   calculateBaseStats,
@@ -8,8 +8,8 @@ import {
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
-} from 'lib/optimizer/computeStats'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/computeDamage'
+} from 'lib/optimizer/calculateStats'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -21,7 +21,7 @@ export function calculateBuild(request, relics) {
   OptimizerTabController.fixForm(request)
   const params = generateParams(request)
 
-  generateConditionals(request, params)
+  calculateConditionals(request, params)
   calculateTeammates(request, params)
 
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
@@ -33,6 +33,7 @@ export function calculateBuild(request, relics) {
   const setP = OrnamentSetToIndex[relics.PlanarSphere.set]
   const setL = OrnamentSetToIndex[relics.LinkRope.set]
 
+  // Do we need these for calculateBuild if we don't filter?
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 

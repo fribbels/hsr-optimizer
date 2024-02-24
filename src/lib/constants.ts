@@ -187,14 +187,37 @@ export type Sets = typeof Sets[keyof typeof Sets]
 export const SetsRelicsNames = Object.values(SetsRelics)
 export const SetsOrnamentsNames = Object.values(SetsOrnaments)
 
-const OrnamentSetToIndex: { [key: string]: number } = {}
+export const OrnamentSetToIndex: { [key: string]: number } = {}
 for (let i = 0; i < SetsOrnamentsNames.length; i++) {
   OrnamentSetToIndex[SetsOrnamentsNames[i]] = i
 }
 
-const RelicSetToIndex: { [key: string]: number } = {}
+export const RelicSetToIndex: { [key: string]: number } = {}
 for (let i = 0; i < SetsRelicsNames.length; i++) {
   RelicSetToIndex[SetsRelicsNames[i]] = i
+}
+
+export const RelicSetCount = Object.values(SetsRelics).length
+export const OrnamentSetCount = Object.values(SetsOrnaments).length
+
+export const ElementToDamage = {
+  Physical: Stats.Physical_DMG,
+  Fire: Stats.Fire_DMG,
+  Ice: Stats.Ice_DMG,
+  Thunder: Stats.Lightning_DMG,
+  Wind: Stats.Wind_DMG,
+  Quantum: Stats.Quantum_DMG,
+  Imaginary: Stats.Imaginary_DMG,
+}
+
+export const ElementToResPenType = {
+  Physical: 'PHYSICAL_RES_PEN',
+  Fire: 'FIRE_RES_PEN',
+  Ice: 'ICE_RES_PEN',
+  Thunder: 'LIGHTNING_RES_PEN',
+  Wind: 'WIND_RES_PEN',
+  Quantum: 'QUANTUM_RES_PEN',
+  Imaginary: 'IMAGINARY_RES_PEN',
 }
 
 export const Constants = {
@@ -307,3 +330,4 @@ export const RelicSetFilterOptions = {
 }
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
+export const MAX_RESULTS = 2_000_000

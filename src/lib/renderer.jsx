@@ -22,7 +22,7 @@ export const Renderer = {
   },
 
   relicSet: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+    if (x == undefined || x.value == undefined || isNaN(x.value)) return ''
     let i = x.value
 
     let count = Object.values(Constants.SetsRelics).length

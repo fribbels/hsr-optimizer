@@ -10,10 +10,8 @@ import { Constants } from './lib/constants.ts'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from './lib/ocrParserKelz3'
 import { DataParser } from './lib/dataParser'
-import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
-import { Utils } from './lib/utils'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
 import { StatCalculator } from './lib/statCalculator'
@@ -25,8 +23,6 @@ import { Message } from './lib/message'
 import { Hint } from './lib/hint'
 import { CharacterConverter } from './lib/characterConverter'
 import { RelicScorer } from './lib/relicScorer.ts'
-import { CharacterConditionals } from './lib/characterConditionals'
-import { LightConeConditionals } from './lib/lightConeConditionals'
 import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
@@ -36,10 +32,9 @@ window.Constants = Constants
 window.OcrParserFribbels1 = OcrParserFribbels1
 window.OcrParserKelz3 = OcrParserKelz3
 window.DataParser = DataParser
-window.OptimizerTabController = OptimizerTabController
+// window.OptimizerTabController = OptimizerTabController
 window.DB = DB
 window.CharacterStats = CharacterStats
-window.Utils = Utils
 window.Assets = Assets
 window.RelicAugmenter = RelicAugmenter
 window.StatCalculator = StatCalculator
@@ -51,8 +46,8 @@ window.Message = Message
 window.Hint = Hint
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-window.CharacterConditionals = CharacterConditionals
-window.LightConeConditionals = LightConeConditionals
+// window.CharacterConditionals = CharacterConditionals
+// window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 

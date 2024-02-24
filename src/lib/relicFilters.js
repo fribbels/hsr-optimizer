@@ -1,6 +1,7 @@
 import { Constants, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
+import { StatCalculator } from 'lib/statCalculator'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
@@ -227,5 +228,12 @@ export const RelicFilters = {
       PlanarSphere: relics.filter((x) => x.part == Constants.Parts.PlanarSphere),
       LinkRope: relics.filter((x) => x.part == Constants.Parts.LinkRope),
     }
+  },
+
+  applyMaxedMainStatsFilter: (request, relics) => {
+    if (request.predictMaxedMainStat) {
+      relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+    }
+    return relics
   },
 }

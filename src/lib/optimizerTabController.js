@@ -8,6 +8,7 @@ import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
+import { defaultSetConditionals } from 'lib/defaultForm'
 
 let relics
 let consts
@@ -281,39 +282,7 @@ export const OptimizerTabController = {
     newForm.buffDefShred = unsetMin(form.buffDefShred, true)
     newForm.buffResPen = unsetMin(form.buffResPen, true)
     if (!newForm.setConditionals) {
-      newForm.setConditionals = {
-        // TODO: This and defaultForm.js is kinda repetitive
-        [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
-        [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
-        [Constants.Sets.KnightOfPurityPalace]: [undefined, true],
-        [Constants.Sets.HunterOfGlacialForest]: [undefined, true],
-        [Constants.Sets.ChampionOfStreetwiseBoxing]: [undefined, 5],
-        [Constants.Sets.GuardOfWutheringSnow]: [undefined, true],
-        [Constants.Sets.FiresmithOfLavaForging]: [undefined, true],
-        [Constants.Sets.GeniusOfBrilliantStars]: [undefined, true],
-        [Constants.Sets.BandOfSizzlingThunder]: [undefined, true],
-        [Constants.Sets.EagleOfTwilightLine]: [undefined, true],
-        [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
-        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 1],
-        [Constants.Sets.LongevousDisciple]: [undefined, 2],
-        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
-        [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
-        [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
-        [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 4],
-        [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
-        [Constants.Sets.SpaceSealingStation]: [undefined, true],
-        [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
-        [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
-        [Constants.Sets.BelobogOfTheArchitects]: [undefined, true],
-        [Constants.Sets.CelestialDifferentiator]: [undefined, false],
-        [Constants.Sets.InertSalsotto]: [undefined, true],
-        [Constants.Sets.TaliaKingdomOfBanditry]: [undefined, true],
-        [Constants.Sets.SprightlyVonwacq]: [undefined, true],
-        [Constants.Sets.RutilantArena]: [undefined, true],
-        [Constants.Sets.BrokenKeel]: [undefined, true],
-        [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
-        [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
-      }
+      newForm.setConditionals = defaultSetConditionals
     }
 
     if (!form.enemyLevel) {
@@ -687,7 +656,6 @@ function filter(filterModel) {
         && row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
@@ -713,7 +681,6 @@ function filter(filterModel) {
         && row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic

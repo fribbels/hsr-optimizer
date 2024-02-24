@@ -10,7 +10,6 @@ import { Constants } from './lib/constants.ts'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from './lib/ocrParserKelz3'
 import { DataParser } from './lib/dataParser'
-import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
 import { Assets } from './lib/assets'
@@ -33,7 +32,7 @@ window.Constants = Constants
 window.OcrParserFribbels1 = OcrParserFribbels1
 window.OcrParserKelz3 = OcrParserKelz3
 window.DataParser = DataParser
-window.OptimizerTabController = OptimizerTabController
+// window.OptimizerTabController = OptimizerTabController
 window.DB = DB
 window.CharacterStats = CharacterStats
 window.Assets = Assets

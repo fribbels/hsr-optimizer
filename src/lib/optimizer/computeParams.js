@@ -1,6 +1,7 @@
 import { Constants, Stats } from 'lib/constants'
 import DB from 'lib/db'
 import { CharacterStats } from 'lib/characterStats'
+import { defaultSetConditionals } from 'lib/defaultForm'
 
 /**
  * request - stores input from the user form
@@ -23,7 +24,7 @@ function generateSetConditionalParams(request, params) {
   // TODO: dedupe this with defaultForm.js
   for (let set of Object.values(Constants.Sets)) {
     if (!setConditionals[set]) {
-      setConditionals[set] = [undefined, false]
+      setConditionals[set] = defaultSetConditionals[set]
     }
   }
 
@@ -35,12 +36,12 @@ function generateSetConditionalParams(request, params) {
   params.enabledCelestialDifferentiator = setConditionals[Constants.Sets.CelestialDifferentiator][1] == true ? 1 : 0
   params.enabledWatchmakerMasterOfDreamMachinations = setConditionals[Constants.Sets.WatchmakerMasterOfDreamMachinations][1] == true ? 1 : 0
 
-  params.valueChampionOfStreetwiseBoxing = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1]
-  params.valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1]
-  params.valueLongevousDisciple = setConditionals[Constants.Sets.LongevousDisciple][1]
-  params.valueTheAshblazingGrandDuke = setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
-  params.valuePrisonerInDeepConfinement = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1]
-  params.valuePioneerDiverOfDeadWaters = setConditionals[Constants.Sets.PioneerDiverOfDeadWaters][1]
+  params.valueChampionOfStreetwiseBoxing = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1] || 0
+  params.valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1] || 0
+  params.valueLongevousDisciple = setConditionals[Constants.Sets.LongevousDisciple][1] || 0
+  params.valueTheAshblazingGrandDuke = setConditionals[Constants.Sets.TheAshblazingGrandDuke][1] || 0
+  params.valuePrisonerInDeepConfinement = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1] || 0
+  params.valuePioneerDiverOfDeadWaters = setConditionals[Constants.Sets.PioneerDiverOfDeadWaters][1] || 0
 }
 
 function generateMultiplierParams(request, params) {

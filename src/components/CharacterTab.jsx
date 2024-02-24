@@ -438,9 +438,9 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <CharacterPreview id="characterTabPreview" character={selectedCharacter} />
-      </Flex>
 
-      <Test selectedCharacter={selectedCharacter} />
+        <Test selectedCharacter={selectedCharacter} />
+      </Flex>
 
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />

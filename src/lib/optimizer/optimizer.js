@@ -8,6 +8,7 @@ import { RelicFilters } from 'lib/relicFilters'
 import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { generateParams } from 'lib/optimizer/computeParams'
+import { calculateBuild } from 'lib/optimizer/computeBuild'
 
 let CANCEL = false
 
@@ -113,36 +114,13 @@ export const Optimizer = {
       RelicFilters.calculateWeightScore(request, relics)
       relics = relics.filter((x) => x.equippedBy == request.characterId)
       relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
-      if (relics.length < 6) return
-
       relics = RelicFilters.splitRelicsByPart(relics)
+      Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-      let callback = (result) => {
-        let resultArr = new Float64Array(result.buffer)
-        console.log(`Top row complete`)
-
-        let rowData = []
-        BufferPacker.extractArrayToResults(resultArr, 1, rowData)
-        if (rowData.length > 0) {
-          OptimizerTabController.setTopRow(rowData[0])
-        }
-      }
-
-      let input = {
-        topRow: true, // Skip all filters for top row
-        relics: relics,
-        WIDTH: 1,
-        skip: 0,
-        permutations: 1,
-        params: params,
-        relicSetToIndex: Constants.RelicSetToIndex,
-        ornamentSetToIndex: Constants.OrnamentSetToIndex,
-        relicSetSolutions: relicSetSolutions,
-        ornamentSetSolutions: ornamentSetSolutions,
-        request: request,
-      }
-
-      WorkerPool.execute(input, callback, request.optimizationId)
+      const c = calculateBuild(request, relics)
+      renameFields(c)
+      console.log('###', c)
+      OptimizerTabController.setTopRow(c)
     }
     handleTopRow()
 
@@ -224,4 +202,26 @@ const elementToDamageMapping = {
   Wind: Stats.Wind_DMG,
   Quantum: Stats.Quantum_DMG,
   Imaginary: Stats.Imaginary_DMG,
+}
+
+// TODO: This is a temporary tool to rename build variables to fit the optimizer grid
+function renameFields(c) {
+  c.ED = c.ELEMENTAL_DMG
+  c.BASIC = c.x.BASIC_DMG
+  c.SKILL = c.x.SKILL_DMG
+  c.ULT = c.x.ULT_DMG
+  c.FUA = c.x.FUA_DMG
+  c.DOT = c.x.DOT_DMG
+  c.xHP = c.x[Stats.HP]
+  c.xATK = c.x[Stats.ATK]
+  c.xDEF = c.x[Stats.DEF]
+  c.xSPD = c.x[Stats.SPD]
+  c.xCR = c.x[Stats.CR]
+  c.xCD = c.x[Stats.CD]
+  c.xEHR = c.x[Stats.EHR]
+  c.xRES = c.x[Stats.RES]
+  c.xBE = c.x[Stats.BE]
+  c.xERR = c.x[Stats.ERR]
+  c.xHEAL = c.x[Stats.OHB]
+  c.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
 }

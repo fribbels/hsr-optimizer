@@ -197,6 +197,9 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
   RelicSetToIndex[SetsRelicsNames[i]] = i
 }
 
+export const RelicSetCount = Object.values(SetsRelics).length
+export const OrnamentSetCount = Object.values(SetsOrnaments).length
+
 export const Constants = {
   Sets,
   Parts,

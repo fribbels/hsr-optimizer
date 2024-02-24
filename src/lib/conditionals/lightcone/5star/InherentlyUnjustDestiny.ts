@@ -5,6 +5,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 import { Stats } from 'lib/constants.ts'
+import { findContentId } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
@@ -31,11 +32,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
   ]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetVulnerability'),
+  ]
+
   return {
     content: () => content,
-    teammateContent: () => [],
+    teammateContent: () => teammateContent,
     defaults: () => ({
       shieldCdBuff: true,
+      targetVulnerability: true,
+    }),
+    teammateDefaults: () => ({
       targetVulnerability: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {

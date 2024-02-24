@@ -24,7 +24,6 @@ self.onmessage = function(e) {
   const params = data.params
 
   let relics = data.relics
-  let character = params.character
   let arr = new Float64Array(data.buffer)
 
   let topRow = data.topRow
@@ -38,10 +37,6 @@ self.onmessage = function(e) {
 
   let relicSetSolutions = data.relicSetSolutions
   let ornamentSetSolutions = data.ornamentSetSolutions
-
-  let trace = character.traces
-  let lc = character.lightCone
-  let base = character.base
 
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
@@ -90,13 +85,12 @@ self.onmessage = function(e) {
     }
 
     const c = sumRelicStats(head, hands, body, feet, planarSphere, linkRope)
-
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
 
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-    calculateBaseStats(c, request, base, lc, trace)
-    calculateElementalStats(c, request, params, base, lc, trace)
+    calculateBaseStats(c, request, params)
+    calculateElementalStats(c, request, params)
 
     // SPD is the most common filter, use it to exit early
     if (baseDisplay && !topRow && (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd)) {
@@ -122,9 +116,7 @@ self.onmessage = function(e) {
     }
 
     const x = calculateComputedStats(c, params, request)
-
     calculateBaseMultis(c, params, request)
-
     calculateDamage(c, x, params, request)
 
     // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search

@@ -232,7 +232,7 @@ export const RelicFilters = {
 
   applyMaxedMainStatsFilter: (request, relics) => {
     if (request.predictMaxedMainStat) {
-      relics.map((x) => x.augmentedStats[x.main.stat] = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+      relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
     }
     return relics
   },

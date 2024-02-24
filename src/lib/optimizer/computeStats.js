@@ -41,9 +41,9 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
 }
 
 export function calculateElementalStats(c, request, params) {
+  let base = params.character.base
   let trace = params.character.traces
   let lc = params.character.lightCone
-  let base = params.character.base
   const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
@@ -74,7 +74,11 @@ export function calculateElementalStats(c, request, params) {
   }
 }
 
-export function calculateBaseStats(c, request, base, lc, trace) {
+export function calculateBaseStats(c, request, params) {
+  const base = params.character.base
+  const lc = params.character.lightCone
+  const trace = params.character.traces
+
   const sets = c.sets
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
@@ -128,7 +132,6 @@ export function calculateComputedStats(c, params, request) {
   c.x = x
 
   // Add base to computed
-
   x[Stats.ATK] += c[Stats.ATK]
   x[Stats.DEF] += c[Stats.DEF]
   x[Stats.HP] += c[Stats.HP]
@@ -143,7 +146,6 @@ export function calculateComputedStats(c, params, request) {
   x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
 
   // Combat buffs
-
   x[Stats.ATK] += request.buffAtk
   x[Stats.ATK] += request.buffAtkP * request.baseAtk
   x[Stats.CD] += request.buffCd
@@ -153,7 +155,6 @@ export function calculateComputedStats(c, params, request) {
   x.ELEMENTAL_DMG += request.buffDmgBoost
 
   // Set effects
-
   x[Stats.SPD_P]
     += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
   x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
@@ -238,6 +239,13 @@ export function sumRelicStats(head, hands, body, feet, planarSphere, linkRope) {
     + feet.weightScore
     + planarSphere.weightScore
     + linkRope.weightScore
+
+  summedStats[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
+  summedStats[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
+  summedStats[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
+  summedStats[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
+  summedStats[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
+  summedStats[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
 
   return summedStats
 }

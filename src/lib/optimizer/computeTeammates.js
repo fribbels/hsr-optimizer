@@ -10,7 +10,7 @@ export function calculateTeammates(request, params) {
     request.teammate0,
     request.teammate1,
     request.teammate2,
-  ].filter((x) => !!x.characterId)
+  ].filter((x) => !!x && !!x.characterId)
   for (let i = 0; i < teammates.length; i++) {
     const teammateRequest = Object.assign({}, request, teammates[i])
 

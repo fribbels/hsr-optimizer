@@ -29,7 +29,6 @@ export const Optimizer = {
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
     relics = RelicFilters.applyMainFilter(request, relics)
-    relics = addMainStatToAugmentedStats(relics)
     relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 
@@ -112,7 +111,6 @@ export const Optimizer = {
       let relics = Utils.clone(DB.getRelics())
       RelicFilters.calculateWeightScore(request, relics)
       relics = relics.filter((x) => x.equippedBy == request.characterId)
-      relics = addMainStatToAugmentedStats(relics)
       relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
       if (relics.length < 6) return
 
@@ -143,7 +141,6 @@ export const Optimizer = {
         request: request,
       }
 
-      console.log('???', input)
       WorkerPool.execute(input, callback, request.optimizationId)
     }
     handleTopRow()
@@ -216,15 +213,6 @@ export const Optimizer = {
       WorkerPool.execute(input, callback)
     }
   },
-}
-
-function addMainStatToAugmentedStats(relics) {
-  relics = relics.map((x) => structuredClone(x))
-
-  for (let relic of relics) {
-    relic.augmentedStats[relic.augmentedStats.mainStat] = relic.augmentedStats.mainValue
-  }
-  return relics
 }
 
 const elementToDamageMapping = {

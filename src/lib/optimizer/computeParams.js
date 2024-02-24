@@ -1,4 +1,6 @@
 import { Constants, Stats } from 'lib/constants'
+import DB from 'lib/db'
+import { CharacterStats } from 'lib/characterStats'
 
 /**
  * request - stores input from the user form
@@ -7,16 +9,23 @@ import { Constants, Stats } from 'lib/constants'
 export function generateParams(request) {
   const params = {}
 
+  generateCharacterBaseParams(request, params)
   generateSetConditionalParams(request, params)
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
-  generateCharacterBaseParams(request, params)
 
   return params
 }
 
 function generateSetConditionalParams(request, params) {
   const setConditionals = request.setConditionals
+
+  // TODO: dedupe this with defaultForm.js
+  for (let set of Object.values(Constants.Sets)) {
+    if (!setConditionals[set]) {
+      setConditionals[set] = [undefined, false]
+    }
+  }
 
   params.enabledHunterOfGlacialForest = setConditionals[Constants.Sets.HunterOfGlacialForest][1] == true ? 1 : 0
   params.enabledFiresmithOfLavaForging = setConditionals[Constants.Sets.FiresmithOfLavaForging][1] == true ? 1 : 0
@@ -40,25 +49,58 @@ function generateMultiplierParams(request, params) {
 }
 
 function generateElementParams(request, params) {
-  params.damageElement = request.damageElement
   params.ELEMENTAL_DMG_TYPE = elementToDamageType(params.damageElement)
   params.RES_PEN_TYPE = elementToResPenType(params.damageElement)
 }
 
-function generateCharacterBaseParams(request, _params) {
-  let trace = request.character.traces
-  let lc = request.character.lightCone
-  let base = request.character.base
+function generateCharacterBaseParams(request, params) {
+  let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
+  let lightConeStats = lightConeMetadata?.promotions[request.lightConeLevel] || emptyLightCone()
+  let lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
-  let baseHp = sumCharacterBase(Stats.HP, base, lc)
-  let baseAtk = sumCharacterBase(Stats.ATK, base, lc)
-  let baseDef = sumCharacterBase(Stats.DEF, base, lc)
-  let baseSpd = sumCharacterBase(Stats.SPD, base, lc)
+  let characterMetadata = DB.getMetadata().characters[request.characterId]
+  let characterStats = characterMetadata.promotions[request.characterLevel]
+
+  params.damageElement = elementToDamageMapping[characterMetadata.element]
+
+  let baseStats = {
+    base: {
+      ...CharacterStats.getZeroes(),
+      ...characterStats,
+    },
+    traces: {
+      ...CharacterStats.getZeroes(),
+      ...characterMetadata.traces,
+    },
+    lightCone: {
+      ...CharacterStats.getZeroes(),
+      ...lightConeStats,
+      ...lightConeSuperimposition,
+    },
+  }
+
+  params.character = baseStats
+
+  console.log({ lightConeStats })
+  console.log({ characterStats })
+
+  let baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
+  let baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)
+  let baseDef = sumCharacterBase(Stats.DEF, baseStats.base, baseStats.lightCone)
+  let baseSpd = sumCharacterBase(Stats.SPD, baseStats.base, baseStats.lightCone)
 
   request.baseHp = baseHp
   request.baseAtk = baseAtk
   request.baseDef = baseDef
   request.baseSpd = baseSpd
+}
+
+function emptyLightCone() {
+  return {
+    [Stats.HP]: 0,
+    [Stats.ATK]: 0,
+    [Stats.DEF]: 0,
+  }
 }
 
 function elementToDamageType(damageElement) {
@@ -87,4 +129,14 @@ function elementToResPenType(damageElement) {
 
 function sumCharacterBase(stat, base, lc) {
   return base[stat] + lc[stat]
+}
+
+const elementToDamageMapping = {
+  Physical: Stats.Physical_DMG,
+  Fire: Stats.Fire_DMG,
+  Ice: Stats.Ice_DMG,
+  Thunder: Stats.Lightning_DMG,
+  Wind: Stats.Wind_DMG,
+  Quantum: Stats.Quantum_DMG,
+  Imaginary: Stats.Imaginary_DMG,
 }

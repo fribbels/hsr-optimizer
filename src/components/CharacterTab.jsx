@@ -24,6 +24,7 @@ import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import { Test } from 'components/Test'
 
 const { Text } = Typography
 
@@ -386,9 +387,11 @@ export default function CharacterTab() {
   let parentH = 280 * 3 + defaultGap * 2
 
   return (
-    <div style={{
-      height: '100%',
-    }}
+    <Flex
+      vertical
+      style={{
+        height: '100%',
+      }}
     >
       <Flex style={{ height: '100%' }}>
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
@@ -436,11 +439,14 @@ export default function CharacterTab() {
         </Flex>
         <CharacterPreview id="characterTabPreview" character={selectedCharacter} />
       </Flex>
+
+      <Test selectedCharacter={selectedCharacter} />
+
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter} imgRenderer={cellImageRenderer} />
       {contextHolder}
-    </div>
+    </Flex>
   )
 }
 CharacterTab.propTypes = {

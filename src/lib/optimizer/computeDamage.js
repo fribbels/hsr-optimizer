@@ -1,12 +1,22 @@
 import { Stats } from 'lib/constants'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 
-export function computeDamage(c, x, params, request, sets) {
+export function calculateBaseMultis(c, params, request) {
+  const lightConeConditionals = params.lightConeConditionals
+  const characterConditionals = params.characterConditionals
+
+  lightConeConditionals.calculateBaseMultis(c, request, params)
+  characterConditionals.calculateBaseMultis(c, request, params)
+}
+
+export function calculateDamage(c, x, params, request) {
+  const sets = c.sets
   let cLevel = request.characterLevel
   let eLevel = request.enemyLevel
   let defReduction = x.DEF_SHRED + request.buffDefShred
   let defIgnore = 0
 
+  x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
   let dmgBoostMultiplier = 1 + x.ELEMENTAL_DMG
   let dmgReductionMultiplier = 1
   let originalDmgMultiplier = 1 + x.ORIGINAL_DMG_BOOST

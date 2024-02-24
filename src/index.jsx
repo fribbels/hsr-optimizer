@@ -24,8 +24,6 @@ import { Message } from './lib/message'
 import { Hint } from './lib/hint'
 import { CharacterConverter } from './lib/characterConverter'
 import { RelicScorer } from './lib/relicScorer.ts'
-import { CharacterConditionals } from './lib/characterConditionals'
-import { LightConeConditionals } from './lib/lightConeConditionals'
 import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
@@ -49,8 +47,8 @@ window.Message = Message
 window.Hint = Hint
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-window.CharacterConditionals = CharacterConditionals
-window.LightConeConditionals = LightConeConditionals
+// window.CharacterConditionals = CharacterConditionals
+// window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 

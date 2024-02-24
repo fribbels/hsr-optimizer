@@ -1,8 +1,5 @@
-import { Constants, Sets } from '../constants.ts'
+import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { CharacterConditionals } from '../characterConditionals'
-import { LightConeConditionals } from '../lightConeConditionals'
-import { generateParams } from 'lib/optimizer/computeParams'
 import {
   calculateBaseStats,
   calculateComputedStats,
@@ -10,10 +7,12 @@ import {
   calculateSetCounts,
   sumRelicStats,
 } from 'lib/optimizer/computeStats'
-import { computeDamage } from 'lib/optimizer/computeDamage'
+import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/computeDamage'
+import { calculateTeammates } from 'lib/optimizer/computeTeammates'
+import { generateConditionals } from 'lib/optimizer/computeConditionals'
 
-const relicSetCount = Object.values(Constants.SetsRelics).length
-const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+const relicSetCount = Object.values(SetsRelics).length
+const ornamentSetCount = Object.values(SetsOrnaments).length
 
 self.onmessage = function(e) {
   // console.log('Message received from main script', e.data)
@@ -22,11 +21,10 @@ self.onmessage = function(e) {
   let data = e.data
   let request = data.request
 
-  const params = generateParams(request)
+  const params = data.params
 
   let relics = data.relics
-  let character = data.character
-  let Stats = Constants.Stats
+  let character = params.character
   let arr = new Float64Array(data.buffer)
 
   let topRow = data.topRow
@@ -41,9 +39,6 @@ self.onmessage = function(e) {
   let relicSetSolutions = data.relicSetSolutions
   let ornamentSetSolutions = data.ornamentSetSolutions
 
-  let relicSetToIndex = data.relicSetToIndex
-  let ornamentSetToIndex = data.ornamentSetToIndex
-
   let trace = character.traces
   let lc = character.lightCone
   let base = character.base
@@ -51,64 +46,8 @@ self.onmessage = function(e) {
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
 
-  let characterConditionals = CharacterConditionals.get(request)
-  let lightConeConditionals = LightConeConditionals.get(request)
-
-  let precomputedX = characterConditionals.precomputeEffects(request)
-  if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
-
-  lightConeConditionals.precomputeEffects(precomputedX, request)
-  if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
-
-  // Precompute teammate effects
-  const teammateSetEffects = {}
-  const teammates = [
-    request.teammate0,
-    request.teammate1,
-    request.teammate2,
-  ].filter((x) => !!x.characterId)
-  for (let i = 0; i < teammates.length; i++) {
-    const teammateRequest = Object.assign({}, request, teammates[i])
-
-    const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
-
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
-
-    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
-    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
-
-    switch (teammateRequest.teamOrnamentSet) {
-      case Sets.BrokenKeel:
-        precomputedX[Stats.CD] += 0.10
-        break
-      case Sets.FleetOfTheAgeless:
-        precomputedX[Stats.ATK_P] += 0.08
-        break
-      case Sets.PenaconyLandOfTheDreams:
-        if (teammateRequest.damageElement != params.damageElement) break
-        precomputedX[params.ELEMENTAL_DMG_TYPE] += 0.10
-        break
-      default:
-    }
-
-    switch (teammateRequest.teamRelicSet) {
-      case Sets.MessengerTraversingHackerspace:
-        if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-        precomputedX[Stats.SPD_P] += 0.12
-        break
-      case Sets.WatchmakerMasterOfDreamMachinations:
-        if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-        precomputedX[Stats.BE] += 0.30
-        break
-      default:
-    }
-
-    // Track unique buffs
-    teammateSetEffects[teammateRequest.teamOrnamentSet] = true
-    teammateSetEffects[teammateRequest.teamRelicSet] = true
-  }
+  generateConditionals(request, params)
+  calculateTeammates(request, params)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -133,13 +72,12 @@ self.onmessage = function(e) {
     const planarSphere = relics.PlanarSphere[p]
     const linkRope = relics.LinkRope[l]
 
-    const setH = relicSetToIndex[head.set]
-    const setG = relicSetToIndex[hands.set]
-    const setB = relicSetToIndex[body.set]
-    const setF = relicSetToIndex[feet.set]
-
-    const setP = ornamentSetToIndex[planarSphere.set]
-    const setL = ornamentSetToIndex[linkRope.set]
+    const setH = RelicSetToIndex[head.set]
+    const setG = RelicSetToIndex[hands.set]
+    const setB = RelicSetToIndex[body.set]
+    const setF = RelicSetToIndex[feet.set]
+    const setP = OrnamentSetToIndex[planarSphere.set]
+    const setL = OrnamentSetToIndex[linkRope.set]
 
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount
@@ -157,10 +95,8 @@ self.onmessage = function(e) {
     c.ornamentSetIndex = ornamentSetIndex
 
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-
-    calculateElementalStats(c, request, params, base, lc, trace)
-
     calculateBaseStats(c, request, base, lc, trace)
+    calculateElementalStats(c, request, params, base, lc, trace)
 
     // SPD is the most common filter, use it to exit early
     if (baseDisplay && !topRow && (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd)) {
@@ -185,85 +121,11 @@ self.onmessage = function(e) {
       }
     }
 
-    c.id = index
+    const x = calculateComputedStats(c, params, request)
 
-    /*
-     * ************************************************************
-     * Set up combat stats storage x
-     * ************************************************************
-     */
+    calculateBaseMultis(c, params, request)
 
-    let x = Object.assign({}, precomputedX)
-    c.x = x
-
-    x[Stats.ATK] += c[Stats.ATK]
-    x[Stats.DEF] += c[Stats.DEF]
-    x[Stats.HP] += c[Stats.HP]
-    x[Stats.SPD] += c[Stats.SPD]
-    x[Stats.CD] += c[Stats.CD]
-    x[Stats.CR] += c[Stats.CR]
-    x[Stats.EHR] += c[Stats.EHR]
-    x[Stats.RES] += c[Stats.RES]
-    x[Stats.BE] += c[Stats.BE]
-    x[Stats.ERR] += c[Stats.ERR]
-    x[Stats.OHB] += c[Stats.OHB]
-    x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
-
-    x[Stats.ATK] += request.buffAtk
-    x[Stats.ATK] += request.buffAtkP * request.baseAtk
-    x[Stats.CD] += request.buffCd
-    x[Stats.CR] += request.buffCr
-    x[Stats.SPD] += request.buffSpdP * request.baseSpd + request.buffSpd
-    x[Stats.BE] += request.buffBe
-    x.ELEMENTAL_DMG += request.buffDmgBoost
-
-    /*
-     * ************************************************************
-     * Calculate passive effects & buffs. x stores the internally calculated character stats (Combat stats)
-     * ************************************************************
-     */
-
-    /*
-     * No longer needed
-     * characterConditionals.calculatePassives(c, request)
-     * lightConeConditionals.calculatePassives(c, request)
-     */
-
-    /*
-     * ************************************************************
-     * Calculate conditional set effects
-     * ************************************************************
-     */
-
-    const sets = c.sets
-
-    calculateComputedStats(c, x, params, request)
-
-    /*
-     * ************************************************************
-     * Calculate skill base damage
-     * ************************************************************
-     */
-
-    lightConeConditionals.calculateBaseMultis(c, request)
-    characterConditionals.calculateBaseMultis(c, request)
-
-    /*
-     * ************************************************************
-     * Calculate overall multipliers
-     * ************************************************************
-     */
-
-    // After calculations are done, merge the character type's damage back into X for display
-    x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
-
-    computeDamage(c, x, params, request, sets)
-
-    /*
-     * ************************************************************
-     * Filter results
-     * ************************************************************
-     */
+    calculateDamage(c, x, params, request)
 
     // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search
     if (combatDisplay && !topRow) {
@@ -299,6 +161,7 @@ self.onmessage = function(e) {
      */
 
     if (topRow || !fail) {
+      c.id = index
       BufferPacker.packCharacter(arr, col, c)
     }
   }

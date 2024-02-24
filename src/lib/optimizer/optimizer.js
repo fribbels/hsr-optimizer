@@ -5,21 +5,11 @@ import DB from 'lib/db'
 import { WorkerPool } from 'lib/workerPool'
 import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
-import { CharacterStats } from 'lib/characterStats'
 import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
+import { generateParams } from 'lib/optimizer/computeParams'
 
 let CANCEL = false
-
-const elementToDamageMapping = {
-  Physical: Stats.Physical_DMG,
-  Fire: Stats.Fire_DMG,
-  Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
-  Wind: Stats.Wind_DMG,
-  Quantum: Stats.Quantum_DMG,
-  Imaginary: Stats.Imaginary_DMG,
-}
 
 export const Optimizer = {
   cancel: (id) => {
@@ -58,18 +48,7 @@ export const Optimizer = {
     window.store.getState().setPermutationsSearched(0)
     window.store.getState().setPermutationsResults(0)
 
-    let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-    let lightConeStats = lightConeMetadata.promotions[request.lightConeLevel]
-    let lightConeSuperimposition = lightConeMetadata.superimpositions[request.lightConeSuperimposition]
-
-    let characterMetadata = DB.getMetadata().characters[request.characterId]
-    let characterStats = characterMetadata.promotions[request.characterLevel]
-
-    console.log({ lightConeStats })
-    console.log({ characterStats })
-
     // Fill in elements
-    let element = characterMetadata.element
 
     const teammates = [
       request.teammate0,
@@ -82,29 +61,11 @@ export const Optimizer = {
       teammate.damageElement = elementToDamageMapping[teammateCharacterMetadata.element]
     }
 
-    let baseStats = {
-      base: {
-        ...CharacterStats.getZeroes(),
-        ...characterStats,
-      },
-      traces: {
-        ...CharacterStats.getZeroes(),
-        ...characterMetadata.traces,
-      },
-      lightCone: {
-        ...CharacterStats.getZeroes(),
-        ...lightConeStats,
-        ...lightConeSuperimposition,
-      },
-    }
-    request.damageElement = elementToDamageMapping[element]
-    request.character = baseStats
-
     const [relics] = this.getFilteredRelics(request)
 
     console.log('Optimize request', request)
     console.log('Optimize relics', relics)
-    console.log('Optimize damage element', request.damageElement)
+    // console.log('Optimize damage element', request.damageElement)
 
     let relicSetSolutions = generateRelicSetSolutions(request)
     let ornamentSetSolutions = generateOrnamentSetSolutions(request)
@@ -142,6 +103,8 @@ export const Optimizer = {
     let results = []
     let searched = 0
 
+    const params = generateParams(request)
+
     let resultsShown = false
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
@@ -169,10 +132,10 @@ export const Optimizer = {
       let input = {
         topRow: true, // Skip all filters for top row
         relics: relics,
-        character: baseStats,
         WIDTH: 1,
         skip: 0,
         permutations: 1,
+        params: params,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         relicSetSolutions: relicSetSolutions,
@@ -180,6 +143,7 @@ export const Optimizer = {
         request: request,
       }
 
+      console.log('???', input)
       WorkerPool.execute(input, callback, request.optimizationId)
     }
     handleTopRow()
@@ -203,10 +167,10 @@ export const Optimizer = {
     for (let run of runs) {
       let input = {
         relics: relics,
-        character: baseStats,
         WIDTH: run.runSize,
         skip: run.skip,
         permutations: permutations,
+        params: params,
         relicSetToIndex: Constants.RelicSetToIndex,
         ornamentSetToIndex: Constants.OrnamentSetToIndex,
         relicSetSolutions: relicSetSolutions,
@@ -261,4 +225,14 @@ function addMainStatToAugmentedStats(relics) {
     relic.augmentedStats[relic.augmentedStats.mainStat] = relic.augmentedStats.mainValue
   }
   return relics
+}
+
+const elementToDamageMapping = {
+  Physical: Stats.Physical_DMG,
+  Fire: Stats.Fire_DMG,
+  Ice: Stats.Ice_DMG,
+  Thunder: Stats.Lightning_DMG,
+  Wind: Stats.Wind_DMG,
+  Quantum: Stats.Quantum_DMG,
+  Imaginary: Stats.Imaginary_DMG,
 }

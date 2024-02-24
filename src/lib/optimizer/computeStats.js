@@ -41,15 +41,15 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
 }
 
 export function calculateElementalStats(c, request, params) {
-  let trace = request.character.traces
-  let lc = request.character.lightCone
-  let base = request.character.base
+  let trace = params.character.traces
+  let lc = params.character.lightCone
+  let base = params.character.base
   const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
   c.ELEMENTAL_DMG = 0
-  switch (request.damageElement) {
+  switch (params.damageElement) {
     case Stats.Physical_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
       break
@@ -121,8 +121,38 @@ export function calculateBaseStats(c, request, base, lc, trace) {
     0.10 * p2(sets.PasserbyOfWanderingCloud))
 }
 
-export function calculateComputedStats(c, x, params, request) {
+export function calculateComputedStats(c, params, request) {
+  const precomputedX = params.precomputedX
   const sets = c.sets
+  let x = Object.assign({}, precomputedX)
+  c.x = x
+
+  // Add base to computed
+
+  x[Stats.ATK] += c[Stats.ATK]
+  x[Stats.DEF] += c[Stats.DEF]
+  x[Stats.HP] += c[Stats.HP]
+  x[Stats.SPD] += c[Stats.SPD]
+  x[Stats.CD] += c[Stats.CD]
+  x[Stats.CR] += c[Stats.CR]
+  x[Stats.EHR] += c[Stats.EHR]
+  x[Stats.RES] += c[Stats.RES]
+  x[Stats.BE] += c[Stats.BE]
+  x[Stats.ERR] += c[Stats.ERR]
+  x[Stats.OHB] += c[Stats.OHB]
+  x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
+
+  // Combat buffs
+
+  x[Stats.ATK] += request.buffAtk
+  x[Stats.ATK] += request.buffAtkP * request.baseAtk
+  x[Stats.CD] += request.buffCd
+  x[Stats.CR] += request.buffCr
+  x[Stats.SPD] += request.buffSpdP * request.baseSpd + request.buffSpd
+  x[Stats.BE] += request.buffBe
+  x.ELEMENTAL_DMG += request.buffDmgBoost
+
+  // Set effects
 
   x[Stats.SPD_P]
     += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
@@ -186,6 +216,8 @@ export function calculateComputedStats(c, x, params, request) {
     += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.PioneerDiverOfDeadWaters)
+
+  return x
 }
 
 export function sumRelicStats(head, hands, body, feet, planarSphere, linkRope) {

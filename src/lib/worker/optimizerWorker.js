@@ -26,14 +26,12 @@ self.onmessage = function(e) {
   let relics = data.relics
   let arr = new Float64Array(data.buffer)
 
-  let topRow = data.topRow
-
-  let lSize = topRow ? 1 : relics.LinkRope.length
-  let pSize = topRow ? 1 : relics.PlanarSphere.length
-  let fSize = topRow ? 1 : relics.Feet.length
-  let bSize = topRow ? 1 : relics.Body.length
-  let gSize = topRow ? 1 : relics.Hands.length
-  let hSize = topRow ? 1 : relics.Head.length
+  let lSize = relics.LinkRope.length
+  let pSize = relics.PlanarSphere.length
+  let fSize = relics.Feet.length
+  let bSize = relics.Body.length
+  let gSize = relics.Hands.length
+  let hSize = relics.Head.length
 
   let relicSetSolutions = data.relicSetSolutions
   let ornamentSetSolutions = data.ornamentSetSolutions
@@ -77,11 +75,9 @@ self.onmessage = function(e) {
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount
 
-    // Exit early if sets don't match unless for a topRow search
+    // Exit early if sets don't match
     if (relicSetSolutions[relicSetIndex] != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
-      if (!topRow) {
-        continue
-      }
+      continue
     }
 
     const c = {}
@@ -95,8 +91,8 @@ self.onmessage = function(e) {
     calculateBaseStats(c, request, params)
     calculateElementalStats(c, request, params)
 
-    // Exit early on base display filters failing unless for a topRow search
-    if (baseDisplay && !topRow) {
+    // Exit early on base display filters failing
+    if (baseDisplay) {
       const fail
         = c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd
         || c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
@@ -118,8 +114,9 @@ self.onmessage = function(e) {
     calculateBaseMultis(c, request, params)
     calculateDamage(c, request, params)
 
-    // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search
-    if (combatDisplay && !topRow) {
+    // Since we exited early on the c comparisons, we only need to check against x stats here
+    // Combat filters
+    if (combatDisplay) {
       const fail
         = x[Stats.HP] < request.minHp || x[Stats.HP] > request.maxHp
         || x[Stats.ATK] < request.minAtk || x[Stats.ATK] > request.maxAtk
@@ -131,15 +128,20 @@ self.onmessage = function(e) {
         || x[Stats.RES] < request.minRes || x[Stats.RES] > request.maxRes
         || x[Stats.BE] < request.minBe || x[Stats.BE] > request.maxBe
         || x[Stats.ERR] < request.minErr || x[Stats.ERR] > request.maxErr
-        || c.ehp < request.minEhp || c.ehp > request.maxEhp
-        || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
-        || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
-        || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
-        || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
-        || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
       if (fail) {
         continue
       }
+    }
+
+    // Rating filters
+    const fail = c.ehp < request.minEhp || c.ehp > request.maxEhp
+      || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
+      || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
+      || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
+      || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
+      || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
+    if (fail) {
+      continue
     }
 
     // Pack the passing results into the ArrayBuffer to return

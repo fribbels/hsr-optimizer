@@ -156,7 +156,6 @@ export const Optimizer = {
         // console.log(`Optimizer results`, result, resultArr, run)
 
         BufferPacker.extractArrayToResults(resultArr, run.runSize, results)
-
         // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
         window.store.getState().setPermutationsResults(results.length)
@@ -184,7 +183,7 @@ export const Optimizer = {
   },
 }
 
-// TODO: This is a temporary tool to rename build variables to fit the optimizer grid
+// TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 function renameFields(c) {
   c.ED = c.ELEMENTAL_DMG
   c.BASIC = c.x.BASIC_DMG
@@ -202,6 +201,6 @@ function renameFields(c) {
   c.xRES = c.x[Stats.RES]
   c.xBE = c.x[Stats.BE]
   c.xERR = c.x[Stats.ERR]
-  c.xHEAL = c.x[Stats.OHB]
+  c.xOHB = c.x[Stats.OHB]
   c.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
 }

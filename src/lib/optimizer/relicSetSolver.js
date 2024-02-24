@@ -14,7 +14,7 @@ export function generateRelicSetSolutions(request) {
       if (setArr.length == 1) {
         // All 4 pieces
         for (let i = 0; i < len; i++) {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[i] = 4
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
@@ -25,7 +25,7 @@ export function generateRelicSetSolutions(request) {
       if (setArr.length == 2) {
         // Specific 4 piece
         let index = Constants.RelicSetToIndex[setArr[1]]
-        let arr = Utils.generateEmptyArray(len)
+        let arr = Utils.arrayOfZeroes(len)
         arr[index] = 4
         relicSetAllowList.push(arr.join())
         let indices = relicSetAllowListToIndices(arr)
@@ -37,7 +37,7 @@ export function generateRelicSetSolutions(request) {
       if (setArr.length == 1) { // Is this one even possible
         // All 2 + Any
         for (let i = 0; i < len; i++) {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[i] = 4
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
@@ -48,7 +48,7 @@ export function generateRelicSetSolutions(request) {
       if (setArr.length == 2) {
         let index = Constants.RelicSetToIndex[setArr[1]]
         for (let i = 0; i < len; i++) {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[index] = 2
           arr[i] += 2
           relicSetAllowList.push(arr.join())
@@ -57,7 +57,7 @@ export function generateRelicSetSolutions(request) {
         }
 
         // 2 + 0
-        let arr = Utils.generateEmptyArray(len)
+        let arr = Utils.arrayOfZeroes(len)
         arr[index] = 2
         relicSetAllowList.push(arr.join())
         let indices = relicSetAllowListToIndices(arr)
@@ -71,7 +71,7 @@ export function generateRelicSetSolutions(request) {
       if (setArr.length == 1) {
         // Any 2 piece + Any
         for (let i = 0; i < len; i++) {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[i] = 2
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
@@ -82,7 +82,7 @@ export function generateRelicSetSolutions(request) {
         // Also means 2 + 2 pieces are allowed
         for (let i = 0; i < len; i++) {
           for (let j = 0; j < len; j++) {
-            let arr = Utils.generateEmptyArray(len)
+            let arr = Utils.arrayOfZeroes(len)
             arr[i] += 2
             arr[j] += 2
             relicSetAllowList.push(arr.join())
@@ -97,7 +97,7 @@ export function generateRelicSetSolutions(request) {
         // 2 + 2s
         let index = Constants.RelicSetToIndex[setArr[1]]
         for (let i = 0; i < len; i++) {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[index] = 2
           arr[i] += 2
           relicSetAllowList.push(arr.join())
@@ -106,7 +106,7 @@ export function generateRelicSetSolutions(request) {
         }
 
         // 2 + 0
-        let arr = Utils.generateEmptyArray(len)
+        let arr = Utils.arrayOfZeroes(len)
         arr[index] = 2
         relicSetAllowList.push(arr.join())
         let indices = relicSetAllowListToIndices(arr)
@@ -120,7 +120,7 @@ export function generateRelicSetSolutions(request) {
         if (setArr[2] == 'Any') {
           let index = Constants.RelicSetToIndex[setArr[1]]
           for (let i = 0; i < len; i++) {
-            let arr = Utils.generateEmptyArray(len)
+            let arr = Utils.arrayOfZeroes(len)
             arr[index] = 2
             arr[i] += 2
             relicSetAllowList.push(arr.join())
@@ -129,14 +129,14 @@ export function generateRelicSetSolutions(request) {
           }
 
           // 2 + 0
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           arr[index] = 2
           relicSetAllowList.push(arr.join())
           let indices = relicSetAllowListToIndices(arr)
           let filledIndices = fillRelicSetArrPossibilities(indices, len)
           setIndices.push(...filledIndices)
         } else {
-          let arr = Utils.generateEmptyArray(len)
+          let arr = Utils.arrayOfZeroes(len)
           let index1 = Constants.RelicSetToIndex[setArr[1]]
           let index2 = Constants.RelicSetToIndex[setArr[2]]
           arr[index1] += 2
@@ -156,7 +156,6 @@ export function generateRelicSetSolutions(request) {
 
 export function generateOrnamentSetSolutions(request) {
   let setRequest = request.ornamentSets || []
-
   let len = Constants.SetsOrnamentsNames.length
 
   if (setRequest.length == 0) {
@@ -164,7 +163,6 @@ export function generateOrnamentSetSolutions(request) {
   }
 
   let arr = Utils.arrayOfZeroes(len * len)
-
   for (let set of setRequest) {
     let setIndex = Constants.OrnamentSetToIndex[set]
     let index1D = setIndex + setIndex * len

@@ -19,6 +19,7 @@ export function emptyRelic() {
   return {
     set: -1,
     augmentedStats: augmentedStats,
+    substats: [],
   }
 }
 

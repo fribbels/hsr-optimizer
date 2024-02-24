@@ -4,7 +4,7 @@ import DB from 'lib/db'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 
 function calculate(selectedCharacter) {
-  console.log('!!!', selectedCharacter)
+  console.log('selectedCharacter', selectedCharacter)
   if (!selectedCharacter) return ''
 
   const relics = getRelics(selectedCharacter)

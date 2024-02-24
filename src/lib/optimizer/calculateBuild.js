@@ -14,6 +14,7 @@ import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
+import { RelicFilters } from 'lib/relicFilters'
 
 export function calculateBuild(request, relics) {
   request = Utils.clone(request)
@@ -21,10 +22,13 @@ export function calculateBuild(request, relics) {
   OptimizerTabController.fixForm(request)
   const params = generateParams(request)
 
+  // Precompute
   calculateConditionals(request, params)
   calculateTeammates(request, params)
 
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
+
+  RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
 
   const setH = RelicSetToIndex[relics.Head.set]
   const setG = RelicSetToIndex[relics.Hands.set]
@@ -33,15 +37,15 @@ export function calculateBuild(request, relics) {
   const setP = OrnamentSetToIndex[relics.PlanarSphere.set]
   const setL = OrnamentSetToIndex[relics.LinkRope.set]
 
-  // Do we need these for calculateBuild if we don't filter?
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const c = {}
-  const x = Object.assign({}, params.precomputedX)
-  c.relicSetIndex = relicSetIndex
-  c.ornamentSetIndex = ornamentSetIndex
-  c.x = x
+  // Compute
+  const c = {
+    x: Object.assign({}, params.precomputedX),
+    relicSetIndex: relicSetIndex,
+    ornamentSetIndex: ornamentSetIndex,
+  }
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)

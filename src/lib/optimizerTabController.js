@@ -656,7 +656,6 @@ function filter(filterModel) {
         && row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
@@ -682,7 +681,6 @@ function filter(filterModel) {
         && row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic

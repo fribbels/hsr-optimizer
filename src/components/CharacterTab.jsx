@@ -24,7 +24,6 @@ import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
-import { Test } from 'components/Test'
 
 const { Text } = Typography
 
@@ -439,7 +438,7 @@ export default function CharacterTab() {
         </Flex>
         <CharacterPreview id="characterTabPreview" character={selectedCharacter} />
 
-        <Test selectedCharacter={selectedCharacter} />
+        {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
 
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />

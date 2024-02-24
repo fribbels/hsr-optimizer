@@ -15,6 +15,17 @@ import { Constants } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import { RelicFilters } from 'lib/relicFilters'
+import DB from 'lib/db'
+
+export function calculateBuildByCharacterEquippedIds(character) {
+  console.log('character', character)
+  if (!character) return ''
+
+  const relics = getEquippedRelicsById(character)
+  const request = character.form
+
+  return calculateBuild(request, relics)
+}
 
 export function calculateBuild(request, relics) {
   request = Utils.clone(request)
@@ -26,8 +37,8 @@ export function calculateBuild(request, relics) {
   calculateConditionals(request, params)
   calculateTeammates(request, params)
 
+  // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
-
   RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
 
   const setH = RelicSetToIndex[relics.Head.set]
@@ -40,7 +51,6 @@ export function calculateBuild(request, relics) {
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  // Compute
   const c = {
     x: Object.assign({}, params.precomputedX),
     relicSetIndex: relicSetIndex,
@@ -62,5 +72,15 @@ function extractRelics(relics) {
   for (let part of Object.keys(Constants.Parts)) {
     relics[part] = relics[part] || emptyRelic()
   }
+  return relics
+}
+
+function getEquippedRelicsById(selectedCharacter) {
+  const relics = {}
+  const equippedPartIds = selectedCharacter.equipped || {}
+  for (let part of Object.values(Constants.Parts)) {
+    relics[part] = DB.getRelicById(equippedPartIds[part])
+  }
+
   return relics
 }

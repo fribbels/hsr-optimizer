@@ -125,11 +125,9 @@ export function calculateBaseStats(c, request, params) {
     0.10 * p2(sets.PasserbyOfWanderingCloud))
 }
 
-export function calculateComputedStats(c, params, request) {
-  const precomputedX = params.precomputedX
+export function calculateComputedStats(c, request, params) {
   const sets = c.sets
-  let x = Object.assign({}, precomputedX)
-  c.x = x
+  const x = c.x
 
   // Add base to computed
   x[Stats.ATK] += c[Stats.ATK]
@@ -221,10 +219,9 @@ export function calculateComputedStats(c, params, request) {
   return x
 }
 
-export function sumRelicStats(head, hands, body, feet, planarSphere, linkRope) {
-  let summedStats = {}
+export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
   for (let stat of statValues) {
-    summedStats[stat]
+    c[stat]
       = head.augmentedStats[stat]
       + hands.augmentedStats[stat]
       + body.augmentedStats[stat]
@@ -232,7 +229,7 @@ export function sumRelicStats(head, hands, body, feet, planarSphere, linkRope) {
       + planarSphere.augmentedStats[stat]
       + linkRope.augmentedStats[stat]
   }
-  summedStats.WEIGHT
+  c.WEIGHT
     = head.weightScore
     + hands.weightScore
     + body.weightScore
@@ -240,14 +237,12 @@ export function sumRelicStats(head, hands, body, feet, planarSphere, linkRope) {
     + planarSphere.weightScore
     + linkRope.weightScore
 
-  summedStats[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
-  summedStats[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
-  summedStats[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
-  summedStats[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
-  summedStats[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
-  summedStats[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
-
-  return summedStats
+  c[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
+  c[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
+  c[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
+  c[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
+  c[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
+  c[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
 }
 
 function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {

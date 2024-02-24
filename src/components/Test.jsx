@@ -8,8 +8,8 @@ import {
   calculateBaseStats,
   calculateComputedStats,
   calculateElementalStats,
+  calculateRelicStats,
   calculateSetCounts,
-  sumRelicStats,
 } from 'lib/optimizer/computeStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/computeDamage'
 
@@ -44,17 +44,19 @@ function calculate(selectedCharacter) {
   const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
   const ornamentSetIndex = setP + setL * ornamentSetCount
 
-  const c = sumRelicStats(head, hands, body, feet, planarSphere, linkRope)
+  const c = {}
+  const x = Object.assign({}, params.precomputedX)
   c.relicSetIndex = relicSetIndex
   c.ornamentSetIndex = ornamentSetIndex
+  c.x = x
 
+  calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
-
-  const x = calculateComputedStats(c, params, request)
-  calculateBaseMultis(c, params, request)
-  calculateDamage(c, x, params, request)
+  calculateComputedStats(c, request, params)
+  calculateBaseMultis(c, request, params)
+  calculateDamage(c, request, params)
 
   return JSON.stringify(c, null, 2)
 }

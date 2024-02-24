@@ -4,8 +4,8 @@ import {
   calculateBaseStats,
   calculateComputedStats,
   calculateElementalStats,
+  calculateRelicStats,
   calculateSetCounts,
-  sumRelicStats,
 } from 'lib/optimizer/computeStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/computeDamage'
 import { calculateTeammates } from 'lib/optimizer/computeTeammates'
@@ -84,23 +84,22 @@ self.onmessage = function(e) {
       }
     }
 
-    const c = sumRelicStats(head, hands, body, feet, planarSphere, linkRope)
+    const c = {}
+    const x = Object.assign({}, params.precomputedX)
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
+    c.x = x
 
+    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
     calculateBaseStats(c, request, params)
     calculateElementalStats(c, request, params)
 
-    // SPD is the most common filter, use it to exit early
-    if (baseDisplay && !topRow && (c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd)) {
-      continue
-    }
-
     // Exit early on base display filters failing unless for a topRow search
     if (baseDisplay && !topRow) {
       const fail
-        = c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
+        = c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd
+        || c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
         || c[Stats.ATK] < request.minAtk || c[Stats.ATK] > request.maxAtk
         || c[Stats.DEF] < request.minDef || c[Stats.DEF] > request.maxDef
         || c[Stats.CR] < request.minCr || c[Stats.CR] > request.maxCr
@@ -115,9 +114,9 @@ self.onmessage = function(e) {
       }
     }
 
-    const x = calculateComputedStats(c, params, request)
-    calculateBaseMultis(c, params, request)
-    calculateDamage(c, x, params, request)
+    calculateComputedStats(c, request, params)
+    calculateBaseMultis(c, request, params)
+    calculateDamage(c, request, params)
 
     // Since we exited early on the c comparisons, we only need to check against x stats here. Ignore if top row search
     if (combatDisplay && !topRow) {
@@ -146,12 +145,7 @@ self.onmessage = function(e) {
       || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
     )
 
-    /*
-     * ************************************************************
-     * Pack the passing results into the ArrayBuffer to return
-     * ************************************************************
-     */
-
+    // Pack the passing results into the ArrayBuffer to return
     if (topRow || !fail) {
       c.id = index
       BufferPacker.packCharacter(arr, col, c)
@@ -162,12 +156,4 @@ self.onmessage = function(e) {
     rows: [],
     buffer: data.buffer,
   }, [data.buffer])
-}
-
-function p4(set) {
-  return set >> 2
-}
-
-function p2(set) {
-  return Math.min(1, set >> 1)
 }

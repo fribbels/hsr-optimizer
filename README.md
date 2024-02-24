@@ -23,7 +23,9 @@ We're happy to have new contributors! Please reach out on the discord server #de
 # Credits
 
 Shout outs to:
-* Kel-Z for building & maintaining the relic scanner https://github.com/kel-z/HSR-Scanner
-* Mar-7th StarRailRes for the data https://github.com/Mar-7th/StarRailRes
-* Dim for helping to build out the relic scorer
+* Jingna Zhang - for UI design and direction https://cara.app/zemotion
+* Kel-Z - for building & maintaining the relic scanner https://github.com/kel-z/HSR-Scanner
+* Enka.Network - for the relic scorer API https://github.com/EnkaNetwork
+* Mar-7th - for the data files https://github.com/Mar-7th/StarRailRes
+* Dim - for helping to build out the relic scorer
 * All the contributors that made this project possible!

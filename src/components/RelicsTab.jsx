@@ -3,7 +3,7 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import { AgGridReact } from 'ag-grid-react'
 
 import RelicPreview from './RelicPreview'
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
@@ -207,7 +207,9 @@ export default function RelicsTab() {
     { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'EHR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: 'cv', valueGetter: cvValueGetter, headerName: 'CV', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     /*
+            ,
      * {field: `cs`, headerName: 'CScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
@@ -353,4 +355,8 @@ export default function RelicsTab() {
 }
 RelicsTab.propTypes = {
   active: PropTypes.bool,
+}
+
+function cvValueGetter(params) {
+  return params.data.augmentedStats[Stats.CR] * 2 + params.data.augmentedStats[Stats.CD]
 }

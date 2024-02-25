@@ -6,12 +6,6 @@ import { Assets } from 'lib/assets'
 
 const { Header, Sider, Content } = Layout
 
-const hashes = [
-  '#scorer',
-  '#getting-started',
-  '#changelog',
-]
-
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   window.messageApi = messageApi
@@ -70,7 +64,7 @@ const App = () => {
             top: 0,
           }}
         >
-          <MenuDrawer hashes={hashes} />
+          <MenuDrawer />
         </Sider>
         <Layout
           style={{
@@ -125,7 +119,7 @@ const App = () => {
               overflow: 'initial',
             }}
           >
-            <Tabs hashes={hashes} />
+            <Tabs />
           </Content>
         </Layout>
       </Layout>

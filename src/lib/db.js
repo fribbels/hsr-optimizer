@@ -487,7 +487,7 @@ export const DB = {
         if (character) {
           character.equipped[newRelic.part] = stableRelicId
         } else {
-          console.error('No character to equip relic to', newRelic)
+          console.log('No character to equip relic to', newRelic)
         }
       }
     }

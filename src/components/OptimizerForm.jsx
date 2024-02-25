@@ -376,6 +376,7 @@ export default function OptimizerForm() {
                     style={{ width: panelWidth }}
                     onChange={characterSelectorChange}
                     options={characterOptions}
+                    optionLabelProp="label"
                     placeholder="Character"
                   />
                 </Form.Item>

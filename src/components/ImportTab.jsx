@@ -285,6 +285,7 @@ function KelZImporterTab() {
   const [current, setCurrent] = useState(0)
   const [currentRelics, setCurrentRelics] = useState([])
   const [currentCharacters, setCurrentCharacters] = useState([])
+  const [currentMetadata, setCurrentMetadata] = useState({})
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
 
@@ -316,16 +317,18 @@ function KelZImporterTab() {
             return
           }
 
-          let relics = [], characters = []
+          let relics = [], characters = [], metadata = {}
           if (json.source == 'HSR-Scanner' && json.version == 3) {
-            relics = OcrParserKelz3.parse(json)
-            characters = OcrParserKelz3.parseCharacters(json)
+            metadata = OcrParserKelz3.parseMetadata(json)
+            relics = OcrParserKelz3.parse(json, metadata)
+            characters = OcrParserKelz3.parseCharacters(json, metadata)
             characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
           } else {
             setTimeout(() => {
               setLoading1(false)
               setCurrentRelics(undefined)
               setCurrentCharacters(undefined)
+              setCurrentMetadata({})
               onStepChange(1)
             }, spinnerMs)
             return

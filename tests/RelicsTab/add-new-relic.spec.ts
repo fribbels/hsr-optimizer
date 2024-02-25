@@ -70,7 +70,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped' }).first()).toBeVisible()
   await expect(page.getByRole('dialog')).toContainText('Nobody')
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
-  await expect(page.getByRole('dialog')).toContainText('+125 star')
+  await expect(page.getByRole('dialog')).toContainText('+125 ★')
   await expect(page.getByRole('dialog')).toContainText('CRIT DMG')
   await expect(page.getByRole('dialog')).toContainText('Effect Hit Rate')
   await expect(page.getByRole('dialog')).toContainText('ATK%')

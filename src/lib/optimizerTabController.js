@@ -71,6 +71,7 @@ export const OptimizerTabController = {
     OptimizerTabController.setTopRow(row)
     window.setOptimizerBuild(build)
     SaveState.save()
+    OptimizerTabController.updateFilters()
   },
 
   cellClicked: (event) => {

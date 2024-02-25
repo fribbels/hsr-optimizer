@@ -951,7 +951,7 @@ function getOverrideImageCenter() {
     },
     1308: { // Acheron
       x: 1000,
-      y: 1000,
+      y: 960,
     },
     1312: { // Misha
       x: 1050,

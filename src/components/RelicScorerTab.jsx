@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Flex, Form, Input, Segmented, Typography } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Dropdown, Flex, Form, Input, Segmented, Typography } from 'antd'
 import { CharacterPreview } from 'components/CharacterPreview'
 import { SaveState } from 'lib/saveState'
 import { CharacterConverter } from 'lib/characterConverter'
@@ -8,9 +8,28 @@ import PropTypes from 'prop-types'
 import DB from 'lib/db'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Utils } from 'lib/utils'
-import { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined } from '@ant-design/icons'
+import Icon, {
+  CameraOutlined,
+  DownloadOutlined,
+  ExperimentOutlined,
+  ImportOutlined,
+  PlusCircleFilled,
+} from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
+
+function presetCharacters() {
+  const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
+  const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
+  return [
+    { characterId: char('Sparkle'), lightConeId: lc('Earthly Escapade') },
+    { characterId: char('Acheron'), lightConeId: lc('Along the Passing Shore') },
+    { characterId: char('Black Swan'), lightConeId: lc('Reforged Remembrance') },
+    { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
+    { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
+    { custom: true },
+  ]
+}
 
 const { Text } = Typography
 export default function RelicScorerTab() {
@@ -19,6 +38,7 @@ export default function RelicScorerTab() {
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
+  const [, forceUpdate] = React.useReducer((o) => !o)
 
   let scorerId = window.store((s) => s.scorerId)
   let setScorerId = window.store((s) => s.setScorerId)
@@ -131,7 +151,7 @@ export default function RelicScorerTab() {
             <Form.Item size="default" name="scorerId">
               <Input style={{ width: 150 }} placeholder="Account ID" />
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick}>
+            <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick} style={{ width: 100 }}>
               Submit
             </Button>
             <Button
@@ -146,6 +166,7 @@ export default function RelicScorerTab() {
           availableCharacters={availableCharacters}
           setSelectedCharacter={setSelectedCharacter}
           selectedCharacter={selectedCharacter}
+          forceUpdate={forceUpdate}
         />
       </Flex>
     </div>
@@ -255,30 +276,106 @@ function CharacterPreviewSelection(props) {
     }, 50)
   }
 
+  function sidebarClick(e) {
+    if (e.custom) {
+      return simulateClicked()
+    }
+
+    onCharacterModalOk({
+      characterId: e.characterId,
+      lightCone: e.lightConeId,
+      characterLevel: 80,
+      lightConeLevel: 80,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    })
+    props.forceUpdate()
+  }
+
+  function Sidebar() {
+    const dropdownDisplay = useMemo(() => {
+      let key = 0
+      return (
+        <Flex vertical gap={0}>
+          {
+            presetCharacters().map((preset) => {
+              const icon = !preset.custom
+                ? (
+                  <img
+                    src={Assets.getCharacterAvatarById(preset.characterId)}
+                    style={{ height: 100, width: 100 }}
+                  />
+                )
+                : <Icon component={PlusCircleFilled} style={{ fontSize: 90 }} />
+              return (
+                <Button
+                  key={key++}
+                  type="text"
+                  style={{ width: 110, height: 110, padding: 5, paddingTop: 4, marginLeft: -5 }}
+                  onClick={() => sidebarClick(preset)}
+                >
+                  {icon}
+                </Button>
+              )
+            })
+          }
+        </Flex>
+      )
+    }, [])
+    return (
+      <Flex
+        vertical
+        style={{
+          position: 'relative',
+          left: -370,
+          top: 150,
+          width: 0,
+          height: 0,
+        }}
+        gap={20}
+      >
+
+        <Dropdown
+          dropdownRender={() => (dropdownDisplay)}
+        >
+          <a onClick={(e) => e.preventDefault()}>
+            <Button
+              type="default"
+              shape="round"
+              style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
+            >
+              <Icon component={ExperimentOutlined} style={{ fontSize: 65 }} />
+            </Button>
+          </a>
+        </Dropdown>
+      </Flex>
+    )
+  }
+
   return (
     <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
-      <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-        <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }} type="primary">
-          Simulate relics on another character
-        </Button>
-        <Button onClick={clipboardClicked} style={{ width: 200 }} icon={<CameraOutlined />} loading={screenshotLoading}>
-          Copy screenshot
-        </Button>
-        <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-        <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
-          Import relics into optimizer
-        </Button>
+      <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+        <Sidebar />
+        <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+          <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
+            Copy screenshot
+          </Button>
+          <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
+          <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+            Import relics into optimizer
+          </Button>
+        </Flex>
       </Flex>
 
       <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
-      <div id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
+      <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
         <CharacterPreview
           class="relicScorerCharacterPreview"
           character={props.selectedCharacter}
           source="scorer"
           id="relicScorerPreview"
         />
-      </div>
+      </Flex>
 
       <CharacterModal
         onOk={onCharacterModalOk}
@@ -292,4 +389,5 @@ CharacterPreviewSelection.propTypes = {
   availableCharacters: PropTypes.array,
   selectedCharacter: PropTypes.object,
   setSelectedCharacter: PropTypes.func,
+  forceUpdate: PropTypes.func,
 }

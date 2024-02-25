@@ -18,6 +18,9 @@ const state = {
   scorerId: undefined,
 }
 
+// This string is replaced by /dreary-quibbles by github actions, don't change
+const BASE_PATH = '/hsr-optimizer'
+
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
   CHARACTERS: 'CHARACTERS',
@@ -30,16 +33,16 @@ export const AppPages = {
 }
 
 export const PageToRoute = {
-  [AppPages.OPTIMIZER]: '/hsr-optimizer',
+  [AppPages.OPTIMIZER]: BASE_PATH,
 
-  [AppPages.RELIC_SCORER]: '/hsr-optimizer/relic-scorer',
-  [AppPages.CHANGELOG]: '/hsr-optimizer/changelog',
-  [AppPages.GETTING_STARTED]: '/hsr-optimizer/getting-started',
+  [AppPages.RELIC_SCORER]: BASE_PATH + '/relic-scorer',
+  [AppPages.CHANGELOG]: BASE_PATH + '/changelog',
+  [AppPages.GETTING_STARTED]: BASE_PATH + '/getting-started',
 }
 
 export const RouteToPage = {
-  '/hsr-optimizer': AppPages.OPTIMIZER,
-  '/hsr-optimizer/relic-scorer': AppPages.RELIC_SCORER,
+  [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
+  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
 }
 
 /*

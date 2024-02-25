@@ -161,7 +161,7 @@ const TeammateCard = (props: { index: number }) => {
     if (teammateCharacter) {
       // Fill out fields based on the teammate's form
       teammateValues.lightCone = teammateCharacter.form.lightCone
-      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition
+      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
       teammateValues.characterEidolon = teammateCharacter.form.characterEidolon
 
       const activeTeammateSets = calculateTeammateSets(teammateCharacter)

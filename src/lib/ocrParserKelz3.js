@@ -167,11 +167,11 @@ function readCharacter(character, lightCone) {
 
   // Set information
   newCharacter.characterId = characterId
-  newCharacter.characterLevel = character.level
-  newCharacter.characterEidolon = character.eidolon
+  newCharacter.characterLevel = character.level || 80
+  newCharacter.characterEidolon = character.eidolon || 0
   newCharacter.lightCone = lightConeId
-  newCharacter.lightConeLevel = lightCone?.level || 0
-  newCharacter.lightConeSuperimposition = lightCone?.superimposition || 0
+  newCharacter.lightConeLevel = lightCone?.level || 80
+  newCharacter.lightConeSuperimposition = lightCone?.superimposition || 1
 
   return newCharacter
 }

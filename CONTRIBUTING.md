@@ -11,6 +11,9 @@ We love your input! We want to make contributing to this project as easy and tra
 ## We develop with Github
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
+## Communication via discord
+We use the #dev channel on discord https://discord.gg/rDmB4Un7qg for communication/questions. Responses on discord will generally be faster than Issues or comments. 
+
 ## We use [Github Flow](https://docs.github.com/en/get-started/using-github/github-flow), so all code changes happen through pull requests
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
 
@@ -29,7 +32,7 @@ Bugs should include reproduction steps, screenshots, and if possible, the metada
 
 ## Use a consistent coding style
 * 2 spaces for indentation rather than tabs
-* You can try running `npm run lint` for style unification
+* Enable auto-format on save in your IDE using the lint settings or run `npm run lint` for style unification
 
 ## Your first issue & pull request
 - Check current issues in the [BACKLOG](https://github.com/users/fribbels/projects/2)
@@ -41,7 +44,7 @@ After you have forked the repo and switched to the `beta` branch, create your wo
 git checkout -b [feature|fix]/[your-branch-name]
 ```
 
-## Commit message format
+## Suggested commit message format
 Each commit message consists of a **header**, a **body**, and a **footer**. The header has a special format that includes a **type**, a **scope**, and a **subject**:
 
 ***The header is mandatory and the scope of the header is optional.***

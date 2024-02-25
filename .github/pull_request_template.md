@@ -1,22 +1,16 @@
 # Pull Request
+<!-- When the PR is ready for review, send a note in the dev channel -->
 
 ## Description
-<!-- Please provide a brief description of the changes made in this pull request. -->
+<!-- Please provide a brief description of the changes made in this pull request. 
+List out: Added, Changed, Fixed, etc as appropriate -->
+
+* 
 
 ## Related Issue
 <!-- If this pull request is related to any issue, please mention it here. For example, Closes #1 will tag the issue with this PR-->
 
-## Type of Changes
-<!-- Please add a description for each change made -->
-
-### Added
-<!-- Please describe the additions made in this pull request. -->
-
-### Changed
-<!-- Please describe the changes made in this pull request. -->
-
-### Fixed
-<!-- Please describe the fixes made in this pull request. -->
+* 
 
 ## Checklist
 <!-- Please check all the boxes below by replacing the space with an x. -->
@@ -27,5 +21,3 @@
 ## Screenshots
 <!-- If the changes include any visual updates, please provide screenshots here. -->
 
-## Additional Notes
-<!-- Add any additional notes or context about the pull request here. -->

@@ -319,6 +319,19 @@ export const OptimizerTabController = {
       newForm.statDisplay = DEFAULT_STAT_DISPLAY
     }
 
+    const character = DB.getCharacterById(newForm.characterId)
+    if (character) {
+      newForm.rank = character.rank
+    } else {
+      newForm.rank = DB.getCharacters().length
+    }
+
+    if (!newForm.exclude) {
+      newForm.exclude = []
+    }
+
+    newForm.exclude = newForm.exclude.filter((id) => DB.getCharacterById(id))
+
     /*
      * Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
      * Keeping this here for now

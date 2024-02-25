@@ -87,19 +87,17 @@ export default function OptimizerForm() {
     let form = optimizerForm.getFieldsValue()
     let defaults = lcFn.defaults()
     let lightConeForm = form.lightConeConditionals || {}
-    /*
-     * We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
-     * Only if there's a missing field
-     */
+
+    // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
+    // Only if there's a missing field (TODO: Possibly out of date - verify if this is still true)
     Object.assign(defaults, lightConeForm)
     console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm)
     console.log(lcFn.defaults.valueOf())
-    // if (Object.values(defaults).includes(undefined)) {
     optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
-    // }
   }, [lightCone, lightConeSuperimposition])
 
   const initialCharacter = useMemo(() => {
+    console.log('@initialCharacter')
     let characters = DB.getCharacters() // retrieve instance localStore saved chars
 
     if (optimizerTabFocusCharacter) {
@@ -126,10 +124,8 @@ export default function OptimizerForm() {
         }
         return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
       } else {
-        /*
-         * TODO: render-cycle flows through this before DB.getCharacterById() returns the character
-         * console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
-         */
+        // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
+        // console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
       }
     }
 
@@ -146,10 +142,8 @@ export default function OptimizerForm() {
     if (!changedValues || !allValues || !allValues.characterId) return
     let keys = Object.keys(changedValues)
     if (bypass) {
-      /*
-       * Allow certain values to refresh permutations.
-       * Sliders should only update at the end of the drag
-       */
+      // Allow certain values to refresh permutations.
+      // Sliders should only update at the end of the drag
     } else if (keys.length == 1 && (
       keys[0].startsWith('min')
       || keys[0].startsWith('max')
@@ -164,6 +158,17 @@ export default function OptimizerForm() {
     const request = allValues
 
     console.log('@onValuesChange', request, changedValues)
+
+    // Add any new characters to the list
+    if (!DB.getCharacterById(allValues.characterId)) {
+      DB.addFromForm(allValues)
+    }
+
+    // If the rank changes, re-order the characters priority list
+    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId).rank != allValues.rank) {
+      DB.insertCharacter(allValues.characterId, allValues.rank)
+      DB.refreshCharacters()
+    }
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId)
 

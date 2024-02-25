@@ -125,6 +125,17 @@ const items = [
       },
     ],
   },
+  {
+    key: 'priority group',
+    type: 'group',
+    label: 'Priority',
+    children: [
+      {
+        label: 'Move character to top',
+        key: 'moveToTop',
+      },
+    ],
+  },
 ]
 
 export default function CharacterTab() {
@@ -174,7 +185,7 @@ export default function CharacterTab() {
 
   const columnDefs = useMemo(() => [
     { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
     { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], [])
 
@@ -296,6 +307,12 @@ export default function CharacterTab() {
     window.setIsScoringModalOpen(true)
   }
 
+  function moveToTopClicked() {
+    DB.insertCharacter(characterTabFocusCharacter, 0)
+    DB.refreshCharacters()
+    SaveState.save()
+  }
+
   function clipboardClicked() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
@@ -360,6 +377,9 @@ export default function CharacterTab() {
         break
       case 'scoring':
         scoringAlgorithmClicked()
+        break
+      case 'moveToTop':
+        moveToTopClicked()
         break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)

@@ -67,6 +67,9 @@ export const RelicFilters = {
     for (let i = 0; i < characters.length; i++) {
       let rankedCharacter = characters[i]
       if (rankedCharacter.id == characterId) {
+        continue
+      }
+      if (i >= request.rank) {
         break
       }
 
@@ -76,6 +79,21 @@ export const RelicFilters = {
     }
 
     return relics.filter((x) => !higherRankedRelics[x.id])
+  },
+
+  applyExcludeFilter: (request, relics) => {
+    if (!request.exclude) return relics
+
+    const characters = DB.getCharacters()
+    const excludedRelics = []
+    for (let character of characters) {
+      if (request.exclude.includes(character.id) && character.id != request.characterId)
+        Object.values(character.equipped)
+          .filter((x) => x != null)
+          .map((x) => excludedRelics[x] = true)
+    }
+
+    return relics.filter((x) => !excludedRelics[x.id])
   },
 
   applyMainFilter: (request, relics) => {

@@ -11,7 +11,7 @@ test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page
 
   await expect(page.getByRole('dialog')).toContainText('Equipped by')
   await expect(page.getByRole('dialog')).toContainText('+15')
-  await expect(page.getByRole('dialog')).toContainText('5 star')
+  await expect(page.getByRole('dialog')).toContainText('5 ★')
   // close
   await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click()
 })

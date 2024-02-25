@@ -627,6 +627,12 @@ function assignRanks(characters) {
     characters[i].rank = i
   }
 
+  // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
+  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter)
+  if (optimizerMatchingCharacter) {
+    window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
+  }
+
   return characters
 }
 

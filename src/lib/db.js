@@ -35,9 +35,9 @@ export const AppPages = {
 export const PageToRoute = {
   [AppPages.OPTIMIZER]: BASE_PATH,
 
-  [AppPages.RELIC_SCORER]: BASE_PATH + '/relic-scorer',
-  [AppPages.CHANGELOG]: BASE_PATH + '/changelog',
-  [AppPages.GETTING_STARTED]: BASE_PATH + '/getting-started',
+  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
+  [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 }
 
 export const RouteToPage = {

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import { Flex, List, Typography } from 'antd'
+import { AppPages } from 'lib/db.js'
 
 const { Text } = Typography
 
@@ -8,7 +9,7 @@ type ChangelogContent = { title: string; date: string; content: string[] }
 export default function ChangelogTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
-  if (activeKey != '#changelog') {
+  if (activeKey != AppPages.CHANGELOG) {
     // Don't load images unless we're on the changelog tab
     return (<></>)
   }

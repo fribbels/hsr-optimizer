@@ -1,9 +1,15 @@
-import { Constants, StatsKeys } from 'lib/constants'
+import { Constants, Parts, StatsValues } from 'lib/constants'
 import { Character, CharacterId } from 'types/Character'
 import { Relic } from 'types/Relic'
 import { Utils } from 'lib/utils'
 
 import DB from './db.js'
+
+// Define the fields we care about, until DB+dataParser are typed and can be inferred in this file
+type ScoringMetadata = {
+  parts: { [K in Parts]: [StatsValues] }
+  stats: { [K in StatsValues]: number }
+}
 
 const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
 const mainStatFreeRolls = {
@@ -78,12 +84,12 @@ function countPairs(arr) {
 
 const possibleSubstats = new Set(Constants.SubStats)
 
-let characterRelicScoreMetas
+let characterRelicScoreMetas: Map<string, ScoringMetadata>
 
-function getRelicScoreMeta(id): { [K in StatsKeys]: number } {
+function getRelicScoreMeta(id) {
   if (!characterRelicScoreMetas) {
     characterRelicScoreMetas = new Map(Object.keys(DB.getMetadata().characters).map((id) => {
-      const scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      const scoringMetadata: ScoringMetadata = Utils.clone(DB.getScoringMetadata(id))
       const level80Stats = DB.getMetadata().characters[id].promotions[80]
       scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
       scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
@@ -91,7 +97,7 @@ function getRelicScoreMeta(id): { [K in StatsKeys]: number } {
       return [id, scoringMetadata]
     }))
   }
-  return characterRelicScoreMetas.get(id)
+  return characterRelicScoreMetas.get(id)!
 }
 
 export const RelicScorer = {
@@ -144,7 +150,7 @@ export const RelicScorer = {
     const scoringMetadata = getRelicScoreMeta(id)
 
     const scoringResult = RelicScorer.score(relic, id)
-    const subScore = scoringResult.score
+    const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
     if (Utils.hasMainStat([relic.part])) {
       if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
@@ -161,7 +167,7 @@ export const RelicScorer = {
     const substatScoreEntries = Object.entries(scoringMetadata.stats)
       .filter((x) => possibleSubstats.has(x[0]))
       .filter((x) => !substats.has(x[0])) // Exclude already existing substats
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     const missingSubstats = (4 - substats.size)
     const missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
@@ -193,12 +199,18 @@ export const RelicScorer = {
     }
   },
 
-  score: (relic, characterId) => {
+  score: (relic, characterId): {
+    score: string
+    rating: string
+    mainStatScore: number
+    part?: number
+    meta?: object
+  } => {
     // console.log('score', relic, characterId)
 
     if (!relic) {
       return {
-        score: 0,
+        score: '0',
         rating: 'N/A',
         mainStatScore: 0,
       }
@@ -212,7 +224,7 @@ export const RelicScorer = {
       } else {
         console.log('no id found')
         return {
-          score: 0,
+          score: '0',
           rating: 'N/A',
           mainStatScore: 0,
         }
@@ -235,7 +247,7 @@ export const RelicScorer = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    const multipliers = DB.getScoringMetadata(characterId).stats
+    const multipliers: ScoringMetadata = DB.getScoringMetadata(characterId).stats
 
     let sum = 0
     for (const substat of relic.substats) {

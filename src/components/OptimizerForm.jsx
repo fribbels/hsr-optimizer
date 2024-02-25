@@ -100,6 +100,7 @@ export default function OptimizerForm() {
   }, [lightCone, lightConeSuperimposition])
 
   const initialCharacter = useMemo(() => {
+    console.log('@initialCharacter')
     let characters = DB.getCharacters() // retrieve instance localStore saved chars
 
     if (optimizerTabFocusCharacter) {
@@ -164,6 +165,14 @@ export default function OptimizerForm() {
     const request = allValues
 
     console.log('@onValuesChange', request, changedValues)
+
+    if (!DB.getCharacterById(allValues.characterId)) {
+      DB.addFromForm(allValues)
+    }
+    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId).rank != allValues.rank) {
+      DB.insertCharacter(allValues.characterId, allValues.rank)
+      DB.refreshCharacters()
+    }
 
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId)
 

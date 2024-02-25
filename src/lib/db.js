@@ -627,6 +627,12 @@ function assignRanks(characters) {
     characters[i].rank = i
   }
 
+  // This
+  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter)
+  if (optimizerMatchingCharacter) {
+    window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
+  }
+
   return characters
 }
 

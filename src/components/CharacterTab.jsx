@@ -185,7 +185,7 @@ export default function CharacterTab() {
 
   const columnDefs = useMemo(() => [
     { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
     { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], [])
 
@@ -310,6 +310,7 @@ export default function CharacterTab() {
   function moveToTopClicked() {
     DB.insertCharacter(characterTabFocusCharacter, 0)
     DB.refreshCharacters()
+    SaveState.save()
   }
 
   function clipboardClicked() {

@@ -26,6 +26,7 @@ export const Optimizer = {
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyGradeFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
+    relics = RelicFilters.applyExcludeFilter(request, relics)
 
     // Pre-split filters
     let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)

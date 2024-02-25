@@ -18,12 +18,29 @@ const state = {
   scorerId: undefined,
 }
 
-// TODO clean up
-let hashes = [
-  '#scorer',
-  '#getting-started',
-  '#changelog',
-]
+export const AppPages = {
+  OPTIMIZER: 'OPTIMIZER',
+  CHARACTERS: 'CHARACTERS',
+  RELICS: 'RELICS',
+  IMPORT: 'IMPORT',
+
+  GETTING_STARTED: 'GETTING_STARTED',
+  CHANGELOG: 'CHANGELOG',
+  RELIC_SCORER: 'RELIC_SCORER',
+}
+
+export const PageToRoute = {
+  [AppPages.OPTIMIZER]: '/hsr-optimizer',
+
+  [AppPages.RELIC_SCORER]: '/hsr-optimizer/relic-scorer',
+  [AppPages.CHANGELOG]: '/hsr-optimizer/changelog',
+  [AppPages.GETTING_STARTED]: '/hsr-optimizer/getting-started',
+}
+
+export const RouteToPage = {
+  '/hsr-optimizer': AppPages.OPTIMIZER,
+  '/hsr-optimizer/relic-scorer': AppPages.RELIC_SCORER,
+}
 
 /*
  * React usage
@@ -43,7 +60,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
 
-  activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
+  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   characterTabBlur: false,
@@ -487,7 +504,7 @@ export const DB = {
         if (character) {
           character.equipped[newRelic.part] = stableRelicId
         } else {
-          console.error('No character to equip relic to', newRelic)
+          console.log('No character to equip relic to', newRelic)
         }
       }
     }

@@ -23,14 +23,25 @@ const formTemplate = {
   lightConeSuperimposition: 1,
 }
 
+function getTrailblazerId(name, metadata) {
+  let id = '8002'
+  if (name == 'TrailblazerDestruction') {
+    id = metadata.trailblazer == 'Stelle' ? '8002' : '8001'
+  }
+  if (name == 'TrailblazerPreservation') {
+    id = metadata.trailblazer == 'Stelle' ? '8004' : '8003'
+  }
+  return id
+}
+
 export const OcrParserKelz3 = {
-  parse: (json) => {
+  parse: (json, metadata) => {
     OcrParserKelz3.initialize()
     let relics = json.relics
 
     let parsedRelics = []
     for (let relic of relics) {
-      let result = readRelic(relic)
+      let result = readRelic(relic, metadata)
       let output = RelicAugmenter.augment(result)
 
       // Temporarily skip broken imports
@@ -43,7 +54,7 @@ export const OcrParserKelz3 = {
     return parsedRelics
   },
 
-  parseCharacters: (json) => {
+  parseCharacters: (json, metadata) => {
     OcrParserKelz3.initialize()
     let characters = json.characters
     if (!characters) {
@@ -59,7 +70,7 @@ export const OcrParserKelz3 = {
       }
 
       try {
-        let result = readCharacter(character, lightCone)
+        let result = readCharacter(character, lightCone, metadata)
         parsedCharacters.push(result)
       } catch (e) {
         Message.warning(`Error reading a character [${character?.key}], try running the scanner again with a dark background to improve scan accuracy`, 10)
@@ -67,6 +78,14 @@ export const OcrParserKelz3 = {
     }
 
     return parsedCharacters
+  },
+
+  parseMetadata: (json) => {
+    if (!json.metadata) json.metadata = {}
+
+    return {
+      trailblazer: json.metadata.trailblazer || 'Stelle',
+    }
   },
 
   initialize: () => {
@@ -146,18 +165,15 @@ export const OcrParserKelz3 = {
 const characterList = Object.values(characters)
 const lightConeList = Object.values(lightCones)
 
-function readCharacter(character, lightCone) {
+function readCharacter(character, lightCone, metadata) {
   const newCharacter = { ...formTemplate }
   lightCone = lightCone || undefined
 
   // Lookup character & light cone ids
   let characterId
+
   if (character.key.startsWith('Trailblazer')) {
-    if (character.key == 'TrailblazerPreservation') {
-      characterId = characterList.find((x) => x.tag == 'playergirl2').id
-    } else {
-      characterId = characterList.find((x) => x.tag == 'playergirl').id
-    }
+    characterId = getTrailblazerId(character.key, metadata)
   } else {
     characterId = characterList.find((x) => x.name == character.key).id
   }
@@ -193,16 +209,8 @@ function readRelic(relic) {
   if (characterList.find((x) => x.name == relic.location)) {
     id = characterList.find((x) => x.name == relic.location).id
   } else {
-    if (relic.location == 'TrailblazerPreservation' && window.store.getState().charactersById[8003]) {
-      id = 8003
-    } else {
-      id = 8004
-    }
-
-    if (relic.location == 'TrailblazerDestruction' && window.store.getState().charactersById[8001]) {
-      id = 8001
-    } else {
-      id = 8002
+    if (relic.location.startsWith('Trailblazer')) {
+      id = getTrailblazerId(relic.location, metadata)
     }
   }
 

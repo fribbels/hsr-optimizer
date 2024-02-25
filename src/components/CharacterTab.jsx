@@ -4,7 +4,7 @@ import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import DB from 'lib/db'
+import DB, { AppPages } from 'lib/db'
 import { RelicScorer } from 'lib/relicScorer'
 import { CharacterPreview } from './CharacterPreview'
 import { Assets } from 'lib/assets'
@@ -219,7 +219,7 @@ export default function CharacterTab() {
     // setSelectedChar
     setOptimizerTabFocusCharacter(e.data.id)
     // set view
-    setActiveKey('optimizer')
+    setActiveKey(AppPages.OPTIMIZER)
     console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data)
   }, [setActiveKey, setOptimizerTabFocusCharacter])
 

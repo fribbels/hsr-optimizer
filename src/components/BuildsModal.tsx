@@ -40,7 +40,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
 
       const relicObject = {}
-      relics.map((relic) => relicObject[relic.part] = relic)
+      relics.filter((x) => !!x).map((relic) => relicObject[relic.part] = relic)
 
       const previewCharacter = JSON.parse(JSON.stringify(selectedCharacter))
       previewCharacter.equipped = relicObject

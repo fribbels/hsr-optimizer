@@ -140,7 +140,7 @@ export default function RelicScorerTab() {
         {/*  <Text><h2>The relic scorer is down for maintenance after the 2.0 patch - stay tuned!</h2></Text> */}
         {/* </Flex> */}
         <Flex gap={10} vertical align="center">
-          <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
+          <Text>Enter your account ID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>
         <Form
           form={scorerForm}

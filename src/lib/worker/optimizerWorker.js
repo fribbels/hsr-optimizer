@@ -402,6 +402,7 @@ self.onmessage = function(e) {
     c[Stats.CR] = calculatePercentStat(Stats.CR, base, lc, trace, c,
       0.08 * p2(sets.InertSalsotto)
       + 0.08 * p2(sets.RutilantArena))
+      + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
 
     c[Stats.CD] = calculatePercentStat(Stats.CD, base, lc, trace, c,
       0.16 * p2(sets.CelestialDifferentiator))

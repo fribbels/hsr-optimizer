@@ -18,6 +18,10 @@ import Icon, {
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 
+// NOTE: These strings are replaced by github actions for beta deployment, don't change
+// BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
+export const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'
+
 function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
@@ -53,16 +57,22 @@ export default function RelicScorerTab() {
   function onFinish(x) {
     console.log('finish', x)
 
-    const options = {
-      method: 'POST',
-      body: x.scorerId,
+    const id = x?.scorerId?.toString().trim() || ''
+
+    if (!id || id.length != 9) {
+      setLoading(false)
+      Message.error('Invalid ID')
+      return
     }
 
-    setScorerId(x.scorerId)
+    const options = {
+      method: 'GET',
+    }
+
+    setScorerId(id)
     SaveState.save()
 
-    // fetch('http://127.0.0.1:5000/getAccount', options) // Local testing
-    fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
+    fetch(`${API_ENDPOINT}/profile/${id}`, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -71,7 +81,7 @@ export default function RelicScorerTab() {
       })
       .then((data) => {
         console.log(data)
-        if (!data.status || data.status != 'SUCCESS') {
+        if (!data.detailInfo) {
           setLoading(false)
           Message.error('Error loading ID')
           return 'ERROR'
@@ -89,7 +99,6 @@ export default function RelicScorerTab() {
         //   data.detailInfo.avatarDetailList[4],
         // ]
 
-        data = data.data
         let characters = data.detailInfo.avatarDetailList
           .filter((x) => !!x)
           .sort((a, b) => {
@@ -140,7 +149,7 @@ export default function RelicScorerTab() {
         {/*  <Text><h2>The relic scorer is down for maintenance after the 2.0 patch - stay tuned!</h2></Text> */}
         {/* </Flex> */}
         <Flex gap={10} vertical align="center">
-          <Text>Input your account ID to score your support characters. The scorer will display the character's stats at level 80 with maxed traces</Text>
+          <Text>Enter your account ID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>
         <Form
           form={scorerForm}

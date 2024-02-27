@@ -14,7 +14,7 @@ type StackEnvProps = StackProps & {
   stage: Stage
 }
 
-export class ApiLambdaCrudDynamoDBStack extends Stack {
+export class HsrOptimizerApiStack extends Stack {
   constructor(app: App, id: string, props: StackEnvProps) {
     super(app, id, props)
 
@@ -78,7 +78,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
  * aws_access_key_id = ...
  * aws_secret_access_key = ...
  *
- * First time setup:
+ * First time setup, npm install in both folders then:
  * cdk bootstrap aws://ACCOUNT-NUMBER-1/us-west-2 --profile hsr-beta
  *
  * Subsequent deployments:
@@ -104,6 +104,6 @@ const prodEnvProps: StackEnvProps = {
 }
 
 const app = new App()
-new ApiLambdaCrudDynamoDBStack(app, 'HsrBetaStack', betaEnvProps)
-new ApiLambdaCrudDynamoDBStack(app, 'HsrProdStack', prodEnvProps)
+new HsrOptimizerApiStack(app, 'HsrBetaStack', betaEnvProps)
+new HsrOptimizerApiStack(app, 'HsrProdStack', prodEnvProps)
 app.synth()

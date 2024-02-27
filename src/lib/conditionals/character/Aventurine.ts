@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 02-27-2024.'
 
 // 3-ult basic
 // 5-skill talent
@@ -106,7 +106,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
-      x.ELEMENTAL_DMG += (e >= 6) ? 0.50 * r.e6ShieldStacks : 0
+      x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling

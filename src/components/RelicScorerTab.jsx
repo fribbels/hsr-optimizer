@@ -18,6 +18,10 @@ import Icon, {
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 
+// NOTE: These strings are replaced by github actions for beta deployment, don't change
+// BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
+export const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'
+
 function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
@@ -68,8 +72,7 @@ export default function RelicScorerTab() {
     setScorerId(id)
     SaveState.save()
 
-    // fetch('http://127.0.0.1:5000/getAccount', options) // Local testing
-    fetch(`https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod/profile/${id}`, options)
+    fetch(`${API_ENDPOINT}/profile/${id}`, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)

@@ -53,16 +53,23 @@ export default function RelicScorerTab() {
   function onFinish(x) {
     console.log('finish', x)
 
-    const options = {
-      method: 'POST',
-      body: x.scorerId,
+    const id = x?.scorerId?.toString().trim() || ''
+
+    if (!id || id.length != 9) {
+      setLoading(false)
+      Message.error('Invalid ID')
+      return
     }
 
-    setScorerId(x.scorerId)
+    const options = {
+      method: 'GET',
+    }
+
+    setScorerId(id)
     SaveState.save()
 
     // fetch('http://127.0.0.1:5000/getAccount', options) // Local testing
-    fetch('https://08hm0krwt2.execute-api.us-west-2.amazonaws.com/dev/getAccount', options)
+    fetch(`https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod/profile/${id}`, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -71,7 +78,7 @@ export default function RelicScorerTab() {
       })
       .then((data) => {
         console.log(data)
-        if (!data.status || data.status != 'SUCCESS') {
+        if (!data.detailInfo) {
           setLoading(false)
           Message.error('Error loading ID')
           return 'ERROR'
@@ -89,7 +96,6 @@ export default function RelicScorerTab() {
         //   data.detailInfo.avatarDetailList[4],
         // ]
 
-        data = data.data
         let characters = data.detailInfo.avatarDetailList
           .filter((x) => !!x)
           .sort((a, b) => {

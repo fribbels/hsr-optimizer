@@ -156,6 +156,7 @@ const RecommendedPresetsButton = () => {
         form.setConditionals = defaultForm.setConditionals
 
         form.minSpd = spd
+        form.maxSpd = undefined
         form.mainBody = metadata.parts[Constants.Parts.Body]
         form.mainFeet = metadata.parts[Constants.Parts.Feet]
         form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]

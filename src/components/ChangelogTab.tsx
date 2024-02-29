@@ -80,6 +80,31 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
 const data: ChangelogContent[] = [
   {
     title: '',
+    date: '02-28-2024',
+    content: [
+      'Enabled up/down arrow key navigation for grids',
+      'Updated the selected row overlay to be more visible',
+      'gridRow.png',
+      'Added new priority and exclusion selectors in optimizer options',
+      'Priority can now be changed from the optimizer tab now instead of dragging. Exclude will additionally filter out specific characters relics',
+      'priorityExclude.png',
+      'Added a notice to update when the scanner version is out of date',
+      'outOfDate.png',
+      'Relic scorer Simulate button has been move to a sidebar, and now has preset characters for current/upcoming banners',
+      'simulate.png',
+      'Added a sortable CV column for crit value to the Relics tab',
+      'cvColumn.png',
+      'Added a "Move to top" action button to the Characters tab',
+      'moveToTop.png',
+      'Started adding more icons to selectors for readability, more to come',
+      'icons.png',
+      'Removed CV column & filter from optimizer tab - damage calculations are a better option to sort by now',
+      'Stats display is set to "Combat Stats" by default now, also the setting now saves correctly per character',
+      'Changed relic scorer API in preparation for upcoming leaderboards update',
+    ],
+  },
+  {
+    title: '',
     date: '02-20-2024',
     content: [
       'Added: Acheron / Aventurine / Gallagher',

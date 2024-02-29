@@ -1,7 +1,7 @@
 import { WorkerPool } from './lib/workerPool'
 import { Constants } from './lib/constants'
 import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
-import { OcrParserKelz3 } from './lib/ocrParserKelz3'
+import { OcrParserKelz3 } from 'lib/ocrParserKelz3.jsx'
 import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
 import { DB } from './lib/db'

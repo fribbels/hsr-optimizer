@@ -29,8 +29,8 @@ export type Relic = {
   }
   part: Parts
   set: Sets
-  substats: [{
+  substats: {
     stat: SubStats
     value: number
-  }]
+  }[]
 }

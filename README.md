@@ -4,7 +4,7 @@ Tools for optimizing your Honkai Star Rail builds, including the Character Optim
 
 ### Optimizer https://fribbels.github.io/hsr-optimizer/
 
-![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/7bce8d2b-a106-442c-861f-ba018d6ac7ec)
+![image](https://github.com/fribbels/hsr-optimizer/assets/7908525/284cb07b-746a-485d-a1ae-9e656b7c0bc5)
 
 ### Relic scorer https://fribbels.github.io/hsr-optimizer/#scorer
 
@@ -23,9 +23,9 @@ We're happy to have new contributors! Please reach out on the discord server #de
 # Credits
 
 Shout outs to:
+* All the code contributors that made this project possible! You guys are the best!
 * Jingna Zhang - for UI design and direction https://cara.app/zemotion
 * Kel-Z - for building & maintaining the relic scanner https://github.com/kel-z/HSR-Scanner
 * Enka.Network - for the relic scorer API https://github.com/EnkaNetwork
 * Mar-7th - for the data files https://github.com/Mar-7th/StarRailRes
 * Dim - for helping to build out the relic scorer
-* All the contributors that made this project possible!

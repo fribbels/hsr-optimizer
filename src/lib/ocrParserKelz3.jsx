@@ -7,12 +7,16 @@ import lightCones from '../data/light_cones.json'
 import DB from './db'
 import { Utils } from './utils'
 import { Message } from './message'
+import semver from 'semver'
+import { Typography } from 'antd'
 
 let substatMapping
 let mainstatMapping
 let partMapping
 let affixMapping
 let metadata
+
+const { Text } = Typography
 
 const formTemplate = {
   characterId: '1204',
@@ -22,6 +26,8 @@ const formTemplate = {
   lightConeLevel: 80,
   lightConeSuperimposition: 1,
 }
+
+const LATEST_VERSION = 'v0.6.2'
 
 function getTrailblazerId(name, metadata) {
   let id = '8002'
@@ -82,6 +88,20 @@ export const OcrParserKelz3 = {
 
   parseMetadata: (json) => {
     if (!json.metadata) json.metadata = {}
+
+    const jsonVersion = json.build || 'v0.6.1'
+    const outOfDate = semver.lt(jsonVersion, LATEST_VERSION)
+    console.log(`Json version ${jsonVersion}, latest version ${LATEST_VERSION}, out of date: ${outOfDate}`)
+
+    if (outOfDate) {
+      Message.warning((
+        <Text>
+          Your scanner version is out of date! Please update to the latest version from Github:
+          {' '}
+          <a target="_blank" style={{ color: '#3f8eff' }} href="https://github.com/kel-z/HSR-Scanner/releases/latest" rel="noreferrer">https://github.com/kel-z/HSR-Scanner/releases/latest</a>
+        </Text>
+      ), 15)
+    }
 
     return {
       trailblazer: json.metadata.trailblazer || 'Stelle',

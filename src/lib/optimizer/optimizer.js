@@ -9,6 +9,7 @@ import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { experiment } from 'lib/optimizer/webgpu'
 
 let CANCEL = false
 
@@ -131,6 +132,15 @@ export const Optimizer = {
         runSize: runSize,
       })
     }
+
+    experiment({
+      params: params,
+      request: request,
+      relics: relics,
+      permutations: permutations,
+      relicSetSolutions: relicSetSolutions,
+      ornamentSetSolutions: ornamentSetSolutions,
+    })
 
     let inProgress = runs.length
     for (let run of runs) {

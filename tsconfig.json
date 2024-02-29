@@ -18,6 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "baseUrl": "./src",
+    "types": ["@webgpu/types"],
     "paths": {
       "src/*": ["src/*"]
     }

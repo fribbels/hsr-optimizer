@@ -111,6 +111,31 @@ export const StatsToReadable = {
   [Stats.Imaginary_DMG]: 'Imaginary DMG',
 }
 
+export const StatsToIndex = {
+  [Stats.HP_P]: 0,
+  [Stats.ATK_P]: 1,
+  [Stats.DEF_P]: 2,
+  [Stats.SPD_P]: 3,
+  [Stats.HP]: 4,
+  [Stats.ATK]: 5,
+  [Stats.DEF]: 6,
+  [Stats.SPD]: 7,
+  [Stats.CR]: 8,
+  [Stats.CD]: 9,
+  [Stats.EHR]: 10,
+  [Stats.RES]: 11,
+  [Stats.BE]: 12,
+  [Stats.ERR]: 13,
+  [Stats.OHB]: 14,
+  [Stats.Physical_DMG]: 15,
+  [Stats.Fire_DMG]: 16,
+  [Stats.Ice_DMG]: 17,
+  [Stats.Lightning_DMG]: 18,
+  [Stats.Wind_DMG]: 19,
+  [Stats.Quantum_DMG]: 20,
+  [Stats.Imaginary_DMG]: 21,
+}
+
 export const Parts = {
   Head: 'Head',
   Hands: 'Hands',

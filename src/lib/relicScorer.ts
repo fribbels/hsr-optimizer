@@ -100,6 +100,42 @@ function getRelicScoreMeta(id) {
   return characterRelicScoreMetas.get(id)!
 }
 
+// Given a relic, predict additional weight if it were fully enhanced
+//
+// Takes:
+// - relic grade + current enhance
+// - relic current substats as [[substat name, weight], ...]
+// - array of [[substat name, weight], ...] in selection priority order (usually sort by weight asc or desc)
+// - selection function to choose the substat weight extra rolls will go into (usually min/max)
+//
+// Returns:
+// - predicted additional weight
+// - array of [[new substat name, weight], ...]
+function predictExtraRollWeight(substats, grade, enhance, substatScores, substatWeightSelector) {
+  const missingSubstats = (4 - substats.size)
+  const missingRolls = Math.ceil(((15 - (5 - grade) * 3) - enhance) / 3) - missingSubstats
+
+  const finalSubstatWeights = substats.map((x) => x[1])
+  const newSubstats = substatScores.slice(0, missingSubstats)
+  newSubstats.forEach(([substat, weight]) => finalSubstatWeights.push(weight))
+  const rollSubstatWeight = substatWeightSelector(finalSubstatWeights)
+
+  let extraRolls = 0
+
+  for (let i = 0; i < missingSubstats; i++) {
+    extraRolls += 1 * newSubstats[i][1]
+  }
+
+  for (let i = 0; i < missingRolls; i++) {
+    extraRolls += rollSubstatWeight
+  }
+
+  return {
+    extraRolls: extraRolls,
+    newSubstats: newSubstats,
+  }
+}
+
 export const RelicScorer = {
   scoreCharacterWithRelics: (character, relics) => {
     if (!character || !character.id) return {}
@@ -162,40 +198,37 @@ export const RelicScorer = {
       mainScore = 64.8
     }
 
-    // Predict substat scores
-    const substats = new Set(relic.substats.map((x) => x.stat))
+    const substats = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
+    const substatNames = relic.substats.map((x) => x.stat)
+
     const substatScoreEntries = Object.entries(scoringMetadata.stats)
       .filter((x) => possibleSubstats.has(x[0]))
-      .filter((x) => !substats.has(x[0])) // Exclude already existing substats
+      .filter((x) => !substatNames.includes(x[0])) // Exclude already existing substats
       .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
-    const missingSubstats = (4 - substats.size)
-    const missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
-
-    const newSubstats = substatScoreEntries.slice(0, missingSubstats)
-    const finalSubstats = [...substats, ...newSubstats.map((x) => x[0])]
-    const finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-    const bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
-    const avgWeight = (
-      finalSubstatWeights.reduce((a, b) => a + b, 0)
-      - newSubstats.reduce((a, b) => a + b[1], 0) / 2
+    // Predict best substat scores
+    let bestRollPrediction = predictExtraRollWeight(
+      substats, relic.grade, relic.enhance, substatScoreEntries, (weights) => Math.max(...weights)
+    )
+    let bestFinalSubstats = substats.concat(bestRollPrediction.newSubstats)
+    let avgWeight = (
+      bestFinalSubstats.reduce((a, b) => a + b[1], 0)
+      - bestRollPrediction.newSubstats.reduce((a, b) => a + b[1], 0) / 2
     ) / 4
+    let bestExtraRolls = bestRollPrediction.extraRolls
 
-    let extraRolls = 0
-
-    for (let i = 0; i < missingSubstats; i++) {
-      extraRolls += 1 * newSubstats[i][1]
-    }
-
-    for (let i = 0; i < missingRolls; i++) {
-      extraRolls += bestOverallSubstatWeight
-    }
+    // Predict worst substat scores
+    substatScoreEntries.reverse()
+    let worstExtraRolls = predictExtraRollWeight(
+        substats, relic.grade, relic.enhance, substatScoreEntries, (weights) => Math.min(...weights)
+    ).extraRolls
 
     const currentWeight = Utils.precisionRound(subScore + mainScore)
     return {
       current: currentWeight,
-      best: currentWeight + extraRolls * 6.48,
-      average: currentWeight + extraRolls * 6.48 * avgWeight,
+      best: currentWeight + bestExtraRolls * 6.48,
+      average: currentWeight + bestExtraRolls * 6.48 * avgWeight,
+      worst: currentWeight + worstExtraRolls * minRollValue,
     }
   },
 

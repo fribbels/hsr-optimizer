@@ -21,11 +21,11 @@ test('relic-mainstatonly', () => {
     Constants.Stats.RES,
     Constants.Stats.BE,
   ]
-
   expect(scoringStats[mainStat]).toBe(1)
   for (const subStat of subStats) {
     expect(scoringStats[subStat]).toBe(0)
   }
+
   const relic: Relic = {
     enhance: 15,
     grade: 5,
@@ -51,4 +51,5 @@ test('relic-mainstatonly', () => {
   expect(relicScore.current).toBe(totalScore)
   expect(relicScore.current).toBe(relicScore.best)
   expect(relicScore.current).toBe(relicScore.average)
+  expect(relicScore.current).toBe(relicScore.worst)
 })

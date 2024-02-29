@@ -22,7 +22,7 @@ export const Renderer = {
   },
 
   relicSet: (x) => {
-    if (x == undefined || x.value == undefined) return ''
+    if (x == undefined || x.value == undefined || isNaN(x.value)) return ''
     let i = x.value
 
     let count = Object.values(Constants.SetsRelics).length
@@ -181,7 +181,7 @@ let gradeToColor = {
   3: '#58beed',
   2: '#63e0ac',
 
-  [-1]: '#ffffff',
+  [-1]: '#bdbdbd',
 }
 
 function SetDisplay(props) {

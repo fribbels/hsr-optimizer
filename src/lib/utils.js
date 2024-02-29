@@ -55,7 +55,7 @@ export const Utils = {
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
-          Message.error('Unable to save screenshot to clipboard, try downloading the screenshot instead')
+          Message.error('Unable to save screenshot to clipboard, try the download button to the right')
         }
       }
 
@@ -119,7 +119,7 @@ export const Utils = {
       value.label = value.displayName
     }
 
-    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label))
+    return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
   },
   generateLightConeOptions: () => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))

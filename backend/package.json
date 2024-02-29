@@ -1,0 +1,28 @@
+{
+  "name": "hsr-optimizer-api",
+  "version": "1.0.0",
+  "description": "HSR Optimizer Api",
+  "private": true,
+  "scripts": {
+    "postinstall": "(cd lambdas && npm install);",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "author": {
+    "name": "fribbels",
+    "url": "https://fribbels.github.io/hsr-optimizer/"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "*",
+    "aws-cdk": "*",
+    "esbuild": "*",
+    "typescript": "~5.1.6"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.0.0",
+    "constructs": "^10.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}

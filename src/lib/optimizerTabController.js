@@ -2,12 +2,13 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { Constants } from './constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
+import { defaultSetConditionals } from 'lib/defaultForm'
 
 let relics
 let consts
@@ -70,6 +71,7 @@ export const OptimizerTabController = {
     OptimizerTabController.setTopRow(row)
     window.setOptimizerBuild(build)
     SaveState.save()
+    OptimizerTabController.updateFilters()
   },
 
   cellClicked: (event) => {
@@ -281,39 +283,7 @@ export const OptimizerTabController = {
     newForm.buffDefShred = unsetMin(form.buffDefShred, true)
     newForm.buffResPen = unsetMin(form.buffResPen, true)
     if (!newForm.setConditionals) {
-      newForm.setConditionals = {
-        // TODO: This and defaultForm.js is kinda repetitive
-        [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
-        [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
-        [Constants.Sets.KnightOfPurityPalace]: [undefined, true],
-        [Constants.Sets.HunterOfGlacialForest]: [undefined, true],
-        [Constants.Sets.ChampionOfStreetwiseBoxing]: [undefined, 5],
-        [Constants.Sets.GuardOfWutheringSnow]: [undefined, true],
-        [Constants.Sets.FiresmithOfLavaForging]: [undefined, true],
-        [Constants.Sets.GeniusOfBrilliantStars]: [undefined, true],
-        [Constants.Sets.BandOfSizzlingThunder]: [undefined, true],
-        [Constants.Sets.EagleOfTwilightLine]: [undefined, true],
-        [Constants.Sets.ThiefOfShootingMeteor]: [undefined, true],
-        [Constants.Sets.WastelanderOfBanditryDesert]: [undefined, 1],
-        [Constants.Sets.LongevousDisciple]: [undefined, 2],
-        [Constants.Sets.MessengerTraversingHackerspace]: [undefined, false],
-        [Constants.Sets.TheAshblazingGrandDuke]: [undefined, 0],
-        [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
-        [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 4],
-        [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
-        [Constants.Sets.SpaceSealingStation]: [undefined, true],
-        [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
-        [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
-        [Constants.Sets.BelobogOfTheArchitects]: [undefined, true],
-        [Constants.Sets.CelestialDifferentiator]: [undefined, false],
-        [Constants.Sets.InertSalsotto]: [undefined, true],
-        [Constants.Sets.TaliaKingdomOfBanditry]: [undefined, true],
-        [Constants.Sets.SprightlyVonwacq]: [undefined, true],
-        [Constants.Sets.RutilantArena]: [undefined, true],
-        [Constants.Sets.BrokenKeel]: [undefined, true],
-        [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
-        [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
-      }
+      newForm.setConditionals = defaultSetConditionals
     }
 
     if (!form.enemyLevel) {
@@ -347,8 +317,21 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.statDisplay) {
-      newForm.statDisplay = 'base'
+      newForm.statDisplay = DEFAULT_STAT_DISPLAY
     }
+
+    const character = DB.getCharacterById(newForm.characterId)
+    if (character) {
+      newForm.rank = character.rank
+    } else {
+      newForm.rank = DB.getCharacters().length
+    }
+
+    if (!newForm.exclude) {
+      newForm.exclude = []
+    }
+
+    newForm.exclude = newForm.exclude.filter((id) => DB.getCharacterById(id))
 
     /*
      * Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
@@ -424,6 +407,8 @@ export const OptimizerTabController = {
 
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT
+
+    x.statDisplay = window.store.getState().statDisplay || DEFAULT_STAT_DISPLAY
 
     x.maxHp = fixValue(x.maxHp, MAX_INT)
     x.minHp = fixValue(x.minHp, 0)
@@ -545,7 +530,7 @@ export const OptimizerTabController = {
       if (!character.form.teammate1?.id) window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
       if (!character.form.teammate2?.id) window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
 
-      window.store.getState().setStatDisplay(character.form.statDisplay || 'base')
+      window.store.getState().setStatDisplay(character.form.statDisplay || DEFAULT_STAT_DISPLAY)
     } else {
       console.log(`@OptimzerTabController.changeCharacter(${id}) - Character not found in owned characters - setting up defaults`)
       let displayFormValues = OptimizerTabController.getDisplayFormValues({
@@ -559,7 +544,7 @@ export const OptimizerTabController = {
       window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
       window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
       window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
-      window.store.getState().setStatDisplay('base')
+      window.store.getState().setStatDisplay(DEFAULT_STAT_DISPLAY)
     }
 
     setPinnedRow(id)
@@ -685,7 +670,6 @@ function filter(filterModel) {
         && row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
@@ -711,7 +695,6 @@ function filter(filterModel) {
         && row[Constants.Stats.RES] >= filterModel.minRes && row[Constants.Stats.RES] <= filterModel.maxRes
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
-        && row.CV >= filterModel.minCv && row.CV <= filterModel.maxCv
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
         && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic

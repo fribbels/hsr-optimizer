@@ -31,6 +31,7 @@ export const DataParser = {
       }
       lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
       lcData.ranks = lightConeRanks[id]
+      lcData.displayName = lcData.name
     }
 
     const characterTraces = getOverrideTraces()
@@ -917,8 +918,8 @@ function getOverrideImageCenter() {
       y: 1024,
     },
     1217: { // Huohuo
-      x: 1000,
-      y: 1024,
+      x: 950,
+      y: 950,
     },
     1301: { // Gallagher
       x: 1150,
@@ -950,7 +951,7 @@ function getOverrideImageCenter() {
     },
     1308: { // Acheron
       x: 1000,
-      y: 1000,
+      y: 960,
     },
     1312: { // Misha
       x: 1050,

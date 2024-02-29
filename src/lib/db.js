@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -18,12 +18,32 @@ const state = {
   scorerId: undefined,
 }
 
-// TODO clean up
-let hashes = [
-  '#scorer',
-  '#getting-started',
-  '#changelog',
-]
+// This string is replaced by /dreary-quibbles by github actions, don't change
+const BASE_PATH = '/hsr-optimizer'
+
+export const AppPages = {
+  OPTIMIZER: 'OPTIMIZER',
+  CHARACTERS: 'CHARACTERS',
+  RELICS: 'RELICS',
+  IMPORT: 'IMPORT',
+
+  GETTING_STARTED: 'GETTING_STARTED',
+  CHANGELOG: 'CHANGELOG',
+  RELIC_SCORER: 'RELIC_SCORER',
+}
+
+export const PageToRoute = {
+  [AppPages.OPTIMIZER]: BASE_PATH,
+
+  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
+  [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
+}
+
+export const RouteToPage = {
+  [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
+  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
+}
 
 /*
  * React usage
@@ -43,7 +63,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
 
-  activeKey: hashes.includes(window.location.hash) ? window.location.hash : 'optimizer',
+  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   characterTabBlur: false,
@@ -54,7 +74,7 @@ window.store = create((set) => ({
   relicsById: {},
   scorerId: undefined,
   scoringMetadataOverrides: {},
-  statDisplay: 'base',
+  statDisplay: DEFAULT_STAT_DISPLAY,
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
@@ -487,7 +507,7 @@ export const DB = {
         if (character) {
           character.equipped[newRelic.part] = stableRelicId
         } else {
-          console.error('No character to equip relic to', newRelic)
+          console.log('No character to equip relic to', newRelic)
         }
       }
     }
@@ -625,6 +645,12 @@ export default DB
 function assignRanks(characters) {
   for (let i = 0; i < characters.length; i++) {
     characters[i].rank = i
+  }
+
+  // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
+  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter)
+  if (optimizerMatchingCharacter) {
+    window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
   }
 
   return characters

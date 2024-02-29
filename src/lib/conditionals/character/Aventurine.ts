@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 02-27-2024.'
 
 // 3-ult basic
 // 5-skill talent
@@ -21,6 +21,14 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
   const fuaHits = (e >= 4) ? 8 : 7
 
   const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'defToCrBoost',
+      name: 'defToCrBoost',
+      text: 'DEF to CR boost',
+      title: 'DEF to CR boost',
+      content: betaUpdate,
+    },
     {
       formItem: 'switch',
       id: 'fortifiedWagerBuff',
@@ -88,6 +96,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
+      defToCrBoost: true,
       fuaHitsOnTarget: fuaHits,
       fortifiedWagerBuff: true,
       enemyUnnervedDebuff: true,
@@ -106,7 +115,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
-      x.ELEMENTAL_DMG += (e >= 6) ? 0.50 * r.e6ShieldStacks : 0
+      x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += ultScaling
@@ -122,7 +131,8 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
       const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
@@ -130,7 +140,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
 
-      x[Stats.CR] += x[Stats.DEF] > 1600 ? Math.min(0.40, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
+      x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.40, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },
   }
 }

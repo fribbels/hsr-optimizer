@@ -3,7 +3,7 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import { AgGridReact } from 'ag-grid-react'
 
 import RelicPreview from './RelicPreview'
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
@@ -15,6 +15,7 @@ import { SaveState } from 'lib/saveState'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
+import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 
 const GradeFilter = forwardRef((props, ref) => {
   const [model, setModel] = useState(null)
@@ -80,6 +81,7 @@ GradeFilter.propTypes = {
 }
 
 export default function RelicsTab() {
+  // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
   window.relicsGrid = gridRef
@@ -205,7 +207,9 @@ export default function RelicsTab() {
     { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'EHR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: 'cv', valueGetter: cvValueGetter, headerName: 'CV', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     /*
+            ,
      * {field: `cs`, headerName: 'CScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
@@ -218,9 +222,10 @@ export default function RelicsTab() {
   const gridOptions = useMemo(() => ({
     rowHeight: 33,
     rowSelection: 'single',
-    // suppressDragLeaveHidesColumns: true,
+    suppressDragLeaveHidesColumns: true,
     suppressScrollOnNewData: true,
-    suppressCellFocus: true,
+    enableRangeSelection: false,
+    suppressMultiSort: true,
   }), [])
 
   const defaultColDef = useMemo(() => ({
@@ -240,6 +245,10 @@ export default function RelicsTab() {
     console.log('cellDblClicked', e)
     setSelectedRelic(e.data)
     setEditModalOpen(true)
+  }, [])
+
+  const navigateToNextCell = useCallback((params) => {
+    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => cellClickedListener(selectedNode))
   }, [])
 
   function onAddOk(relic) {
@@ -293,20 +302,21 @@ export default function RelicsTab() {
         <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1250, height: 500, resize: 'vertical', overflow: 'hidden' }}>
 
           <AgGridReact
-            ref={gridRef} // Ref for accessing Grid's API
+            ref={gridRef}
 
-            rowData={relicRows} // Row Data for Rows
+            rowData={relicRows}
             gridOptions={gridOptions}
 
-            columnDefs={columnDefs} // Column Defs for Columns
-            defaultColDef={defaultColDef} // Default Column Properties
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
 
-            animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+            animateRows={true}
             headerHeight={24}
-            rowSelection="multiple" // Options - allows click selection of rows
+            rowSelection="single"
 
-            onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+            onCellMouseDown={cellClickedListener}
             onCellDoubleClicked={onCellDoubleClickedListener}
+            navigateToNextCell={navigateToNextCell}
           />
         </div>
         <Flex gap={10}>
@@ -345,4 +355,8 @@ export default function RelicsTab() {
 }
 RelicsTab.propTypes = {
   active: PropTypes.bool,
+}
+
+function cvValueGetter(params) {
+  return params.data.augmentedStats[Stats.CR] * 2 + params.data.augmentedStats[Stats.CD]
 }

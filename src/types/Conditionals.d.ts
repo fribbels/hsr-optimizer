@@ -275,3 +275,4 @@ export type ConditionalBuff =
   | 'teammateShieldStacks'
   | 'e6UltBuffs'
   | 'fuaHitsOnTarget'
+  | 'defToCrBoost'

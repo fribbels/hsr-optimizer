@@ -130,9 +130,9 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>
-            <strong>Character rank filter</strong>
+            <strong>Character priority filter</strong>
             {' '}
-            - Rank characters by dragging them on the character page, and when enabled, characters may only take relics from lower ranked characters
+            - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
           </p>
           <p>
             <strong>Maxed main stat</strong>
@@ -145,19 +145,24 @@ export const Hint = {
             - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
           </p>
           <p>
-            <strong>Use equipped</strong>
+            <strong>Include equipped relics</strong>
             {' '}
-            - If OFF, Optimizer will NOT consider relics currently equipped by a character
+            - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
+          </p>
+          <p>
+            <strong>Priority</strong>
+            {' '}
+            - See: Character priority filter. Changing this setting will change the character's priority
+          </p>
+          <p>
+            <strong>Exclude</strong>
+            {' '}
+            - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
           </p>
           <p>
             <strong>Enhance / grade</strong>
             {' '}
             - Select the minimum enhance to search for and minimum stars for relics to include
-          </p>
-          <p>
-            <strong>Stat display</strong>
-            {' '}
-            - Select which format of stats to apply to filters and display in the table. Base stats are the values you would see in the ingame character menu. Combat stats take into account all the buffs and passives applied to the character in combat as they perform an attack.
           </p>
         </Flex>
       ),

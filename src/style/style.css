@@ -138,7 +138,8 @@ body,
 }
 
 .ag-floating-top {
-  border-bottom: solid #828282 2px !important
+  box-shadow: 0 2px 4px #141414 !important;
+  z-index: 2 !important;
 }
 
 .ag-watermark {
@@ -333,4 +334,21 @@ a {
 
 .ant-segmented {
   padding: 0 !important;
+}
+.ag-cell-focus, .ag-cell {
+  border: none !important;
+}
+
+.ag-row-selected {
+  box-shadow: 0px 1px 5px 0px #5e5e5e !important;
+  z-index: 1 !important;
+  background : #0000002e !important;
+}
+.ag-row-selected:before {
+  background: none !important;
+  z-index: 1;
+  box-shadow: inset 0px 3px 11px -4px #000, inset 0px -7px 19px -8px #1a1a1a;
+}
+.ag-center-cols-container {
+  width: 100% !important;
 }

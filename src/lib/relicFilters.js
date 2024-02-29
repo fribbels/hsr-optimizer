@@ -1,6 +1,7 @@
 import { Constants, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
+import { StatCalculator } from 'lib/statCalculator'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
@@ -66,6 +67,9 @@ export const RelicFilters = {
     for (let i = 0; i < characters.length; i++) {
       let rankedCharacter = characters[i]
       if (rankedCharacter.id == characterId) {
+        continue
+      }
+      if (i >= request.rank) {
         break
       }
 
@@ -75,6 +79,21 @@ export const RelicFilters = {
     }
 
     return relics.filter((x) => !higherRankedRelics[x.id])
+  },
+
+  applyExcludeFilter: (request, relics) => {
+    if (!request.exclude) return relics
+
+    const characters = DB.getCharacters()
+    const excludedRelics = []
+    for (let character of characters) {
+      if (request.exclude.includes(character.id) && character.id != request.characterId)
+        Object.values(character.equipped)
+          .filter((x) => x != null)
+          .map((x) => excludedRelics[x] = true)
+    }
+
+    return relics.filter((x) => !excludedRelics[x.id])
   },
 
   applyMainFilter: (request, relics) => {
@@ -227,5 +246,12 @@ export const RelicFilters = {
       PlanarSphere: relics.filter((x) => x.part == Constants.Parts.PlanarSphere),
       LinkRope: relics.filter((x) => x.part == Constants.Parts.LinkRope),
     }
+  },
+
+  applyMaxedMainStatsFilter: (request, relics) => {
+    if (request.predictMaxedMainStat) {
+      relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+    }
+    return relics
   },
 }

@@ -22,7 +22,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await page.locator('#set').click()
 
   // add "Musketeer of Wild Wheat"
-  await page.getByTitle('Musketeer of Wild Wheat').locator('div.ant-select-item-option-content').click()
+  await page.getByText('Musketeer of Wild Wheat').nth(2).click()
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
 
   // set to +12
@@ -57,20 +57,20 @@ test('Add new relic from RelicsTab', async ({ page }) => {
 
   // assert relic added
 
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('+12')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('+12ATK293CRIT DMG10.0%Effect Hit Rate10.0%ATK %10.0%DEF %10.0%')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('ATK293')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('CRIT DMG10.0%')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('ATK %10.0%')
-  await expect(page.locator('#relics').locator('.ant-card-body')).toContainText('DEF %10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293CRIT DMG10.0%Effect Hit Rate10.0%ATK %10.0%DEF %10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK293')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('CRIT DMG10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK %10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('DEF %10.0%')
 
   // // re-edit relic - assert values carried over
-  await page.locator('#relics').locator('.ant-card-body').click()
+  await page.locator('#RELICS div').locator('.ant-card-body').click()
   await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped' }).first()).toBeVisible()
   await expect(page.getByRole('dialog')).toContainText('Nobody')
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
-  await expect(page.getByRole('dialog')).toContainText('+125 star')
+  await expect(page.getByRole('dialog')).toContainText('+125 ★')
   await expect(page.getByRole('dialog')).toContainText('CRIT DMG')
   await expect(page.getByRole('dialog')).toContainText('Effect Hit Rate')
   await expect(page.getByRole('dialog')).toContainText('ATK%')

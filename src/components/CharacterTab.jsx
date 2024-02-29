@@ -4,7 +4,7 @@ import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import DB from 'lib/db'
+import DB, { AppPages } from 'lib/db'
 import { RelicScorer } from 'lib/relicScorer'
 import { CharacterPreview } from './CharacterPreview'
 import { Assets } from 'lib/assets'
@@ -23,6 +23,7 @@ import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
+import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 
 const { Text } = Typography
 
@@ -67,7 +68,7 @@ function cellNameRenderer(params) {
       <Text style={{ margin: 'auto', padding: '0px 5px', textAlign: 'center', overflow: 'hidden', whiteSpace: 'break-spaces', textWrap: 'wrap', fontSize: 14, width: '100%', lineHeight: '18px' }}>
         {characterName}
       </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color }}>
+      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 
       </Flex>
     </Flex>
@@ -124,6 +125,17 @@ const items = [
       },
     ],
   },
+  {
+    key: 'priority group',
+    type: 'group',
+    label: 'Priority',
+    children: [
+      {
+        label: 'Move character to top',
+        key: 'moveToTop',
+      },
+    ],
+  },
 ]
 
 export default function CharacterTab() {
@@ -173,7 +185,7 @@ export default function CharacterTab() {
 
   const columnDefs = useMemo(() => [
     { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: 'Rank', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
     { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], [])
 
@@ -184,7 +196,6 @@ export default function CharacterTab() {
     animateRows: true,
     suppressDragLeaveHidesColumns: true,
     suppressScrollOnNewData: true,
-    suppressCellFocus: true,
   }), [])
 
   const defaultColDef = useMemo(() => ({
@@ -208,9 +219,13 @@ export default function CharacterTab() {
     // setSelectedChar
     setOptimizerTabFocusCharacter(e.data.id)
     // set view
-    setActiveKey('optimizer')
+    setActiveKey(AppPages.OPTIMIZER)
     console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data)
   }, [setActiveKey, setOptimizerTabFocusCharacter])
+
+  const navigateToNextCell = useCallback((params) => {
+    return arrowKeyGridNavigation(params, characterGrid, (selectedNode) => cellClickedListener(selectedNode))
+  }, [])
 
   function drag(event, index) {
     const dragged = event.node.data
@@ -292,6 +307,12 @@ export default function CharacterTab() {
     window.setIsScoringModalOpen(true)
   }
 
+  function moveToTopClicked() {
+    DB.insertCharacter(characterTabFocusCharacter, 0)
+    DB.refreshCharacters()
+    SaveState.save()
+  }
+
   function clipboardClicked() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
@@ -357,6 +378,9 @@ export default function CharacterTab() {
       case 'scoring':
         scoringAlgorithmClicked()
         break
+      case 'moveToTop':
+        moveToTopClicked()
+        break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
     }
@@ -382,30 +406,33 @@ export default function CharacterTab() {
   let parentH = 280 * 3 + defaultGap * 2
 
   return (
-    <div style={{
-      height: '100%',
-    }}
+    <Flex
+      vertical
+      style={{
+        height: '100%',
+      }}
     >
       <Flex style={{ height: '100%' }}>
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
           <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
             <AgGridReact
-              ref={characterGrid} // Ref for accessing Grid's API
+              ref={characterGrid}
 
-              rowData={characterRows} // Row Data for Rows
+              rowData={characterRows}
               gridOptions={gridOptions}
               getRowNodeId={(data) => data.id}
 
-              columnDefs={columnDefs} // Column Defs for Columns
-              defaultColDef={defaultColDef} // Default Column Properties
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
               deltaRowDataMode={true}
 
               headerHeight={24}
 
-              onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+              onCellClicked={cellClickedListener}
               onCellDoubleClicked={cellDoubleClickedListener}
               onRowDragEnd={onRowDragEnd}
               onRowDragLeave={onRowDragLeave}
+              navigateToNextCell={navigateToNextCell}
             />
           </div>
           <Flex vertical gap={8}>
@@ -430,12 +457,15 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <CharacterPreview id="characterTabPreview" character={selectedCharacter} />
+
+        {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
+
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter} imgRenderer={cellImageRenderer} />
       {contextHolder}
-    </div>
+    </Flex>
   )
 }
 CharacterTab.propTypes = {

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import { Flex, List, Typography } from 'antd'
+import { AppPages } from 'lib/db.js'
 
 const { Text } = Typography
 
@@ -8,7 +9,7 @@ type ChangelogContent = { title: string; date: string; content: string[] }
 export default function ChangelogTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
-  if (activeKey != '#changelog') {
+  if (activeKey != AppPages.CHANGELOG) {
     // Don't load images unless we're on the changelog tab
     return (<></>)
   }
@@ -79,6 +80,31 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
 const data: ChangelogContent[] = [
   {
     title: '',
+    date: '02-28-2024',
+    content: [
+      'Enabled up/down arrow key navigation for grids',
+      'Updated the selected row overlay to be more visible',
+      'gridRow.png',
+      'Added new priority and exclusion selectors in optimizer options',
+      'Priority can now be changed from the optimizer tab now instead of dragging. Exclude will additionally filter out specific characters relics',
+      'priorityExclude.png',
+      'Added a notice to update when the scanner version is out of date',
+      'outOfDate.png',
+      'Relic scorer Simulate button has been move to a sidebar, and now has preset characters for current/upcoming banners',
+      'simulate.png',
+      'Added a sortable CV column for crit value to the Relics tab',
+      'cvColumn.png',
+      'Added a "Move to top" action button to the Characters tab',
+      'moveToTop.png',
+      'Started adding more icons to selectors for readability, more to come',
+      'icons.png',
+      'Removed CV column & filter from optimizer tab - damage calculations are a better option to sort by now',
+      'Stats display is set to "Combat Stats" by default now, also the setting now saves correctly per character',
+      'Changed relic scorer API in preparation for upcoming leaderboards update',
+    ],
+  },
+  {
+    title: '',
     date: '02-20-2024',
     content: [
       'Added: Acheron / Aventurine / Gallagher',
@@ -98,8 +124,7 @@ const data: ChangelogContent[] = [
       'Deprecated the Fribbels scanner option in favor of the Kel-Z scanner',
       'Energy Regeneration Rate column can be filtered on now',
       'Imports now work with scanner files that only contain characters/light cones without relics',
-      'Minor scoring changes for: Sushang, Luka, Physical Trailblazer, Blade, Kafka, Silver Wolf, Kafka, and Preservation characters',
-      'Relic scorer now supports 8 slots',
+      'Minor scoring changes for: Sushang, Luka, Physical Trailblazer, Blade, Silver Wolf, Kafka, and Preservation characters',
     ],
   },
   {

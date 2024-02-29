@@ -19,32 +19,38 @@ const idCache: { [key: string]: IdCacheValue } = {}
 export const handler = async (event: APIGatewayEvent): Promise<any> => {
   const accountId = event.pathParameters?.id
   if (!accountId) {
+    console.log('Invalid account id event', event)
     return { statusCode: 400, body: `Error: Missing id` }
   }
 
   // Fetch from cache
   const cachedValue = idCache[accountId]
   if (cachedValue && (new Date().getTime() - cachedValue.date.getTime()) < 60 * 1000) {
-    console.log('Return cached response')
+    console.log('Return cached response ' + accountId)
     return generate200Response(cachedValue.data)
   }
 
   // Fetch from api
   let data
+  let dataString
   try {
     data = await getProfile(accountId)
+    dataString = JSON.stringify(data)
     console.log(data)
+    idCache[accountId] = {
+      date: new Date(),
+      data: dataString,
+    }
   } catch (e) {
     console.error(e)
+    idCache[accountId] = {
+      date: new Date(),
+      data: '',
+    }
     return { statusCode: 500, body: 'Error' }
   }
 
   // Cache value
-  const dataString = JSON.stringify(data)
-  idCache[accountId] = {
-    date: new Date(),
-    data: dataString,
-  }
 
   // Store in db
   const params = {
@@ -74,6 +80,7 @@ async function getProfile(accountId: string): Promise<ProfileResponse> {
     method: 'GET',
     headers: {
       'content-type': 'application/json;charset=UTF-8',
+      'User-Agent': 'Fribbels-HSR-Optimizer',
     },
   })
 

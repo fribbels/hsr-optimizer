@@ -9,11 +9,13 @@ export type Relic = {
    * refactor?
    * augmentedCaseWeight?: any;
    */
-  averageCaseWeight?: number
-  bestCaseWeight?: number
+  weights?: {
+    current: number
+    average: number
+    best: number
+  }
   cs?: number
   ds?: number
-  relicsTabWeight?: number
   ss?: number
 
   enhance: RelicEnhance
@@ -27,8 +29,8 @@ export type Relic = {
   }
   part: Parts
   set: Sets
-  substats: [{
+  substats: {
     stat: SubStats
     value: number
-  }]
+  }[]
 }

@@ -1,9 +1,11 @@
 import { Button, Flex, Select, Tooltip, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
+import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
+import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
@@ -104,85 +106,43 @@ export default function RelicFilterBar() {
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   useSubscribe('refreshRelicsScore', () => {
-    // TODO: understand why setTimeout is needed and refactor
+    // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
+    // that it performs the publish. However, react defers and batches events, so the submit (and update
+    // of the scoring overrides) doesn't actually happen until *after* this subscribe event is triggered,
+    // hence the need for setTimeout
+    // TODO: refactor so it's not necessary, which may be tricky - the recommended flow is to have react
+    // views as a pure function of props, but because relics (and other state) are updated mutably in
+    // a number of places, we need these manual refresh invocations
     setTimeout(() => {
       characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
   })
 
   function characterSelectorChange(id) {
-    if (!id) return
-
-    let relics = Object.values(window.store.getState().relicsById)
+    let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
-    setScoringAlgorithmFocusCharacter(id)
-    setCurrentlySelectedCharacterId(id)
+    if (id) {
+      setScoringAlgorithmFocusCharacter(id)
+      setCurrentlySelectedCharacterId(id)
+    }
 
-    let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
-    let possibleSubstats = Object.assign(...Constants.SubStats.map((x) => ({ [x]: true })))
-    let level80Stats = DB.getMetadata().characters[id].promotions[80]
-    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
-
+    // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
+    // and char weights can be edited
     for (let relic of relics) {
-      let scoringResult = RelicScorer.score(relic, id)
-      let subScore = parseFloat(scoringResult.score)
-      let mainScore = 0
-      if (Utils.hasMainStat([relic.part])) {
-        if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
-          mainScore = 64.8
-        } else {
-          mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
-        }
-      } else {
-        mainScore = 64.8
-      }
-
-      // Predict substat scores
-      let substats = relic.substats
-      let substatScoreEntries = Object.entries(scoringMetadata.stats)
-        .filter((x) => possibleSubstats[x[0]])
-        .filter((x) => !substats.map((x) => x.stat).includes(x[0])) // Exclude already existing substats
-        .sort((a, b) => b[1] - a[1])
-
-      let bestUnobtainedSubstat = substatScoreEntries[0]
-      let finalSubstats = [...substats.map((x) => x.stat), bestUnobtainedSubstat[0]]
-      let finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
-      let bestOverallSubstatWeight = finalSubstatWeights.sort((a, b) => b - a)[0]
-      let avgWeight = (finalSubstatWeights.reduce((a, b) => a + b, 0) - bestUnobtainedSubstat[1] / 2) / 4
-
-      let extraRolls = 0
-
-      let missingSubstats = (4 - substats.length)
-      let missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
-
-      for (let i = 0; i < missingSubstats; i++) {
-        extraRolls += 1 * bestUnobtainedSubstat[1]
-      }
-
-      for (let i = 0; i < missingRolls; i++) {
-        extraRolls += bestOverallSubstatWeight
-      }
-
-      relic.relicsTabWeight = Utils.precisionRound(subScore + mainScore)
-      relic.bestCaseWeight = relic.relicsTabWeight + extraRolls * 6.48
-      relic.averageCaseWeight = relic.relicsTabWeight + extraRolls * 6.48 * avgWeight
+      relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
     }
 
     DB.setRelics(relics)
 
-    window.relicsGrid.current.api.applyColumnState({
-      defaultState: { sort: null },
-    })
+    if (window.relicsGrid?.current?.api) {
+      window.relicsGrid.current.api.applyColumnState({
+        state: [{ colId: 'weights.current', sort: 'desc' }],
+        defaultState: { sort: null },
+      })
+    }
 
-    window.relicsGrid.current.api.applyColumnState({
-      state: [{ colId: 'relicsTabWeight', sort: 'desc' }],
-      defaultState: { sort: null },
-    })
-
-    window.relicsGrid.current.api.redrawRows()
+    DB.refreshRelics()
   }
 
   function clearClicked() {

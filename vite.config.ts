@@ -23,6 +23,9 @@ export default defineConfig({
     open: true,
     port: 3000
   },
+  test: {
+    environment: 'jsdom',
+  },
   worker:{
     plugins: () => [pathPlugin]
   }

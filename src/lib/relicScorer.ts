@@ -1,50 +1,52 @@
-import { Constants } from 'lib/constants'
-import { Character } from 'types/Character'
+import { Constants, Parts, StatsValues } from 'lib/constants'
+import { Character, CharacterId } from 'types/Character'
+import { Relic } from 'types/Relic'
+import { Utils } from 'lib/utils'
 
 import DB from './db.js'
 
-const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
-let mainStatFreeRolls
+// Define the fields we care about, until DB+dataParser are typed and can be inferred in this file
+type ScoringMetadata = {
+  parts: { [K in Parts]: [StatsValues] }
+  stats: { [K in StatsValues]: number }
+}
 
-function setMainStatFreeRolls() {
-  if (!mainStatFreeRolls) {
-    mainStatFreeRolls = {
-      [Constants.Parts.Body]: {
-        [Constants.Stats.HP_P]: 1.32,
-        [Constants.Stats.ATK_P]: 1.284,
-        [Constants.Stats.DEF_P]: 1.305,
-        [Constants.Stats.CR]: 1.644,
-        [Constants.Stats.CD]: 1.658,
-        [Constants.Stats.OHB]: 1.712,
-        [Constants.Stats.EHR]: 1.668,
-      },
-      [Constants.Parts.Feet]: {
-        [Constants.Stats.HP_P]: 1.058,
-        [Constants.Stats.ATK_P]: 1.019,
-        [Constants.Stats.DEF_P]: 1,
-        [Constants.Stats.SPD]: 1.567,
-      },
-      [Constants.Parts.PlanarSphere]: {
-        [Constants.Stats.HP_P]: 1.583,
-        [Constants.Stats.ATK_P]: 1.559,
-        [Constants.Stats.DEF_P]: 1.587,
-        [Constants.Stats.Physical_DMG]: 1.763,
-        [Constants.Stats.Fire_DMG]: 1.763,
-        [Constants.Stats.Ice_DMG]: 1.763,
-        [Constants.Stats.Lightning_DMG]: 1.763,
-        [Constants.Stats.Wind_DMG]: 1.763,
-        [Constants.Stats.Quantum_DMG]: 1.763,
-        [Constants.Stats.Imaginary_DMG]: 1.763,
-      },
-      [Constants.Parts.LinkRope]: {
-        [Constants.Stats.HP_P]: 1.073,
-        [Constants.Stats.ATK_P]: 1.076,
-        [Constants.Stats.DEF_P]: 1.172,
-        [Constants.Stats.BE]: 1.416,
-        [Constants.Stats.ERR]: 2,
-      },
-    }
-  }
+const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
+const mainStatFreeRolls = {
+  [Constants.Parts.Body]: {
+    [Constants.Stats.HP_P]: 1.32,
+    [Constants.Stats.ATK_P]: 1.284,
+    [Constants.Stats.DEF_P]: 1.305,
+    [Constants.Stats.CR]: 1.644,
+    [Constants.Stats.CD]: 1.658,
+    [Constants.Stats.OHB]: 1.712,
+    [Constants.Stats.EHR]: 1.668,
+  },
+  [Constants.Parts.Feet]: {
+    [Constants.Stats.HP_P]: 1.058,
+    [Constants.Stats.ATK_P]: 1.019,
+    [Constants.Stats.DEF_P]: 1,
+    [Constants.Stats.SPD]: 1.567,
+  },
+  [Constants.Parts.PlanarSphere]: {
+    [Constants.Stats.HP_P]: 1.583,
+    [Constants.Stats.ATK_P]: 1.559,
+    [Constants.Stats.DEF_P]: 1.587,
+    [Constants.Stats.Physical_DMG]: 1.763,
+    [Constants.Stats.Fire_DMG]: 1.763,
+    [Constants.Stats.Ice_DMG]: 1.763,
+    [Constants.Stats.Lightning_DMG]: 1.763,
+    [Constants.Stats.Wind_DMG]: 1.763,
+    [Constants.Stats.Quantum_DMG]: 1.763,
+    [Constants.Stats.Imaginary_DMG]: 1.763,
+  },
+  [Constants.Parts.LinkRope]: {
+    [Constants.Stats.HP_P]: 1.073,
+    [Constants.Stats.ATK_P]: 1.076,
+    [Constants.Stats.DEF_P]: 1.172,
+    [Constants.Stats.BE]: 1.416,
+    [Constants.Stats.ERR]: 2,
+  },
 }
 
 const ratingToRolls = {
@@ -78,6 +80,24 @@ function countPairs(arr) {
     }
   })
   return pairs
+}
+
+const possibleSubstats = new Set(Constants.SubStats)
+
+let characterRelicScoreMetas: Map<string, ScoringMetadata>
+
+function getRelicScoreMeta(id) {
+  if (!characterRelicScoreMetas) {
+    characterRelicScoreMetas = new Map(Object.keys(DB.getMetadata().characters).map((id) => {
+      const scoringMetadata: ScoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      const level80Stats = DB.getMetadata().characters[id].promotions[80]
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+      return [id, scoringMetadata]
+    }))
+  }
+  return characterRelicScoreMetas.get(id)!
 }
 
 export const RelicScorer = {
@@ -126,14 +146,71 @@ export const RelicScorer = {
     return RelicScorer.scoreCharacterWithRelics(character, relics)
   },
 
-  score: (relic, characterId) => {
-    // console.log('score', relic, characterId)
+  scoreRelic: (relic: Relic, id: CharacterId) => {
+    const scoringMetadata = getRelicScoreMeta(id)
 
-    setMainStatFreeRolls()
+    const scoringResult = RelicScorer.score(relic, id)
+    const subScore = parseFloat(scoringResult.score)
+    let mainScore = 0
+    if (Utils.hasMainStat([relic.part])) {
+      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+        mainScore = 64.8
+      } else {
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+      }
+    } else {
+      mainScore = 64.8
+    }
+
+    // Predict substat scores
+    const substats = new Set(relic.substats.map((x) => x.stat))
+    const substatScoreEntries = Object.entries(scoringMetadata.stats)
+      .filter((x) => possibleSubstats.has(x[0]))
+      .filter((x) => !substats.has(x[0])) // Exclude already existing substats
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+
+    const missingSubstats = (4 - substats.size)
+    const missingRolls = Math.ceil(((15 - (5 - relic.grade) * 3) - relic.enhance) / 3) - missingSubstats
+
+    const newSubstats = substatScoreEntries.slice(0, missingSubstats)
+    const finalSubstats = [...substats, ...newSubstats.map((x) => x[0])]
+    const finalSubstatWeights = finalSubstats.map((x) => scoringMetadata.stats[x])
+    const bestOverallSubstatWeight = Math.max(...finalSubstatWeights)
+    const avgWeight = (
+      finalSubstatWeights.reduce((a, b) => a + b, 0)
+      - newSubstats.reduce((a, b) => a + b[1], 0) / 2
+    ) / 4
+
+    let extraRolls = 0
+
+    for (let i = 0; i < missingSubstats; i++) {
+      extraRolls += 1 * newSubstats[i][1]
+    }
+
+    for (let i = 0; i < missingRolls; i++) {
+      extraRolls += bestOverallSubstatWeight
+    }
+
+    const currentWeight = Utils.precisionRound(subScore + mainScore)
+    return {
+      current: currentWeight,
+      best: currentWeight + extraRolls * 6.48,
+      average: currentWeight + extraRolls * 6.48 * avgWeight,
+    }
+  },
+
+  score: (relic, characterId): {
+    score: string
+    rating: string
+    mainStatScore: number
+    part?: number
+    meta?: object
+  } => {
+    // console.log('score', relic, characterId)
 
     if (!relic) {
       return {
-        score: 0,
+        score: '0',
         rating: 'N/A',
         mainStatScore: 0,
       }
@@ -147,7 +224,7 @@ export const RelicScorer = {
       } else {
         console.log('no id found')
         return {
-          score: 0,
+          score: '0',
           rating: 'N/A',
           mainStatScore: 0,
         }
@@ -170,7 +247,7 @@ export const RelicScorer = {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    const multipliers = DB.getScoringMetadata(characterId).stats
+    const multipliers: ScoringMetadata = DB.getScoringMetadata(characterId).stats
 
     let sum = 0
     for (const substat of relic.substats) {

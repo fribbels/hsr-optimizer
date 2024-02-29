@@ -1,7 +1,7 @@
 import { Cors, LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway'
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb'
 import { Runtime } from 'aws-cdk-lib/aws-lambda'
-import { App, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib'
+import { App, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib'
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs'
 import { join } from 'path'
 
@@ -45,6 +45,8 @@ export class HsrOptimizerApiStack extends Stack {
         TABLE_NAME: dynamoTable.tableName,
       },
       runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(10),
+      memorySize: 256,
     }
 
     // Create a Lambda function for each of the CRUD operations

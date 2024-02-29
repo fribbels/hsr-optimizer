@@ -93,8 +93,13 @@ export default function OptimizerForm() {
     Object.assign(defaults, lightConeForm)
     console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm)
     console.log(lcFn.defaults.valueOf())
-    optimizerForm.setFieldValue('lightConeConditionals', lcFn.defaults())
-  }, [lightCone, lightConeSuperimposition])
+
+    if (lightCone === '21034') { // Today Is Another Peaceful Day
+      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
+    }
+
+    optimizerForm.setFieldValue('lightConeConditionals', defaults)
+  }, [optimizerTabFocusCharacter, lightCone, lightConeSuperimposition])
 
   const initialCharacter = useMemo(() => {
     console.log('@initialCharacter')

@@ -4,7 +4,7 @@ import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
-import PropTypes from 'prop-types'
+import { AppPages } from 'lib/db'
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -17,11 +17,11 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem('Menu', 'subOptimizer', <MenuOutlined />, [
-    getItem('Optimizer', 'optimizer'),
-    getItem('Characters', 'characters'),
-    getItem('Relics', 'relics'),
-    getItem('Import / Save', 'import'),
-    getItem('Getting started', '#getting-started'),
+    getItem('Optimizer', AppPages.OPTIMIZER),
+    getItem('Characters', AppPages.CHARACTERS),
+    getItem('Relics', AppPages.RELICS),
+    getItem('Import / Save', AppPages.IMPORT),
+    getItem('Getting started', AppPages.GETTING_STARTED),
   ]),
   getItem('Tools', 'subTools', <MenuOutlined />, [
     getItem(
@@ -32,7 +32,7 @@ const items = [
           Relic scorer
         </Flex>
       ),
-      '#scorer'),
+      AppPages.RELIC_SCORER),
     getItem(
       (
         <Typography.Link>
@@ -41,7 +41,7 @@ const items = [
           Changelog
         </Typography.Link>
       ),
-      '#changelog'),
+      AppPages.CHANGELOG),
   ]),
   getItem('Links', 'subLinks', <MenuOutlined />, [
     getItem(
@@ -71,25 +71,13 @@ const items = [
   ]),
 ]
 
-const MenuDrawer = (props) => {
-  const { hashes } = props
-
+const MenuDrawer = () => {
   const activeKey = window.store((s) => s.activeKey)
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const onClick = (e) => {
     if (e.key && e.key.includes('link')) return
 
-    if (e.key == 'optimizer') {
-      // Refresh optimizer permutations on optimizer tab click
-      window.onOptimizerFormValuesChange({}, window.optimizerForm.getFieldsValue(), true)
-    }
-
-    if (hashes.includes(e.key)) {
-      history.replaceState(null, null, e.key)
-    } else {
-      history.replaceState(null, null, ' ')
-    }
     setActiveKey(e.key)
   }
 
@@ -109,9 +97,6 @@ const MenuDrawer = (props) => {
       items={items}
     />
   )
-}
-MenuDrawer.propTypes = {
-  hashes: PropTypes.array,
 }
 
 export default MenuDrawer

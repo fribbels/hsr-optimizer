@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Typography } from 'antd'
 
@@ -11,6 +11,7 @@ import GettingStartedTab from 'components/GettingStartedTab'
 import ScoringModal from 'components/ScoringModal'
 import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
+import { AppPages, PageToRoute } from 'lib/db'
 
 const defaultError = <Typography>Something went wrong</Typography>
 
@@ -25,15 +26,21 @@ const Tabs = () => {
   const relicScorerTab = React.useMemo(() => <RelicScorerTab />, [])
   const changelogTab = React.useMemo(() => <ChangelogTab />, [])
 
+  useEffect(() => {
+    const route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
+    console.log('Navigating activekey to route', activeKey, route)
+    window.history.pushState({}, window.title, route)
+  }, [activeKey])
+
   return (
     <>
-      <TabRenderer activeKey={activeKey} tabKey="optimizer" content={optimizerTab} />
-      <TabRenderer activeKey={activeKey} tabKey="characters" content={characterTab} />
-      <TabRenderer activeKey={activeKey} tabKey="relics" content={relicsTab} />
-      <TabRenderer activeKey={activeKey} tabKey="import" content={importTab} />
-      <TabRenderer activeKey={activeKey} tabKey="#getting-started" content={gettingStartedTab} />
-      <TabRenderer activeKey={activeKey} tabKey="#scorer" content={relicScorerTab} />
-      <TabRenderer activeKey={activeKey} tabKey="#changelog" content={changelogTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
 
       <ErrorBoundary fallback={defaultError}>
         <ScoringModal />

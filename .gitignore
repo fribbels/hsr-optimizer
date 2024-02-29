@@ -139,3 +139,7 @@ dist
 # playwright tests
 playwright-report/
 playwright/.cache/
+
+# backend
+backend/cdk.out/
+backend/infra.js

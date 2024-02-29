@@ -55,7 +55,6 @@ export default function GettingStartedTab() {
 
           <p>
             The optimizer needs a database of relics to run against.
-            Currently there are 2 supported OCR relic scanners:
           </p>
 
           <ul>
@@ -67,11 +66,6 @@ export default function GettingStartedTab() {
                 <li>Supports all 16:9 resolutions</li>
                 <li>Supports character and light cone imports</li>
               </ul>
-            </li>
-            <li>
-              Fribbels HSR Scanner (
-              <Typography.Link target="_blank" href="https://github.com/fribbels/Fribbels-Honkai-Star-Rail-Scanner/releases/latest">Github</Typography.Link>
-              )
             </li>
           </ul>
 

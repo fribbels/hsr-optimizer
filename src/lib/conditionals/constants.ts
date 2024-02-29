@@ -76,13 +76,14 @@ export const baseComputedStatsObject = {
   DOT_RES_PEN: 0,
 
   ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
-  PHYSICAL_DMG_BOOST: 0,
-  FIRE_DMG_BOOST: 0,
-  ICE_DMG_BOOST: 0,
-  LIGHTNING_DMG_BOOST: 0,
-  WIND_DMG_BOOST: 0,
-  QUANTUM_DMG_BOOST: 0,
-  IMAGINARY_DMG_BOOST: 0,
+
+  [Stats.Physical_DMG]: 0,
+  [Stats.Fire_DMG]: 0,
+  [Stats.Ice_DMG]: 0,
+  [Stats.Lightning_DMG]: 0,
+  [Stats.Wind_DMG]: 0,
+  [Stats.Quantum_DMG]: 0,
+  [Stats.Imaginary_DMG]: 0,
 
   ORIGINAL_DMG_BOOST: 0, // TODO: Acheron multiplier?
 

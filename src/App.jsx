@@ -6,12 +6,6 @@ import { Assets } from 'lib/assets'
 
 const { Header, Sider, Content } = Layout
 
-const hashes = [
-  '#scorer',
-  '#getting-started',
-  '#changelog',
-]
-
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   window.messageApi = messageApi
@@ -70,7 +64,7 @@ const App = () => {
             top: 0,
           }}
         >
-          <MenuDrawer hashes={hashes} />
+          <MenuDrawer />
         </Sider>
         <Layout
           style={{
@@ -102,13 +96,13 @@ const App = () => {
               <Flex>
                 <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
                   <Flex>
-                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
+                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
                   </Flex>
                 </a>
 
                 <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
                   <Flex>
-                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 5, borderRadius: 5 }}></img>
+                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
                   </Flex>
                 </a>
               </Flex>
@@ -125,7 +119,7 @@ const App = () => {
               overflow: 'initial',
             }}
           >
-            <Tabs hashes={hashes} />
+            <Tabs />
           </Content>
         </Layout>
       </Layout>

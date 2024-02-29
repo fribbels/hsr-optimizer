@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import { Assets } from 'lib/assets'
+import { enhanceOptions, generateImageLabel, setOptions, substatOptions } from 'components/SelectOptions'
 
 function RadioIcon(props) {
   return (
@@ -126,7 +127,7 @@ export default function RelicModal(props) {
     let mainStatOptions = []
     if (props.selectedRelic?.part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
-        label: entry[1],
+        label: generateImageLabel(entry[1], (x) => Assets.getStatIcon(x, true), 22),
         value: entry[1],
       }))
     }
@@ -314,32 +315,6 @@ export default function RelicModal(props) {
     relicForm.submit()
   }
 
-  let enhanceOptions = []
-  for (let i = 15; i >= 0; i--) {
-    enhanceOptions.push({ value: i, label: '+' + i })
-  }
-
-  let setOptions = []
-  for (let entry of Object.entries(Constants.SetsRelics)) {
-    setOptions.push({
-      label: entry[1],
-      value: entry[1],
-    })
-  }
-  for (let entry of Object.entries(Constants.SetsOrnaments)) {
-    setOptions.push({
-      label: entry[1],
-      value: entry[1],
-    })
-  }
-  let substatOptions = []
-  for (let entry of Object.entries(Constants.SubStats)) {
-    substatOptions.push({
-      label: entry[1],
-      value: entry[1],
-    })
-  }
-
   const filterOption = (input, option) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
@@ -422,10 +397,10 @@ export default function RelicModal(props) {
                 showSearch
                 style={{ width: 145 }}
                 options={[
-                  { value: 2, label: '2 star' },
-                  { value: 3, label: '3 star' },
-                  { value: 4, label: '4 star' },
-                  { value: 5, label: '5 star' },
+                  { value: 2, label: '2 ★' },
+                  { value: 3, label: '3 ★' },
+                  { value: 4, label: '4 ★' },
+                  { value: 5, label: '5 ★' },
                 ]}
               />
             </Form.Item>

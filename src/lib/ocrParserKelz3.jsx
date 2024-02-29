@@ -7,12 +7,16 @@ import lightCones from '../data/light_cones.json'
 import DB from './db'
 import { Utils } from './utils'
 import { Message } from './message'
+import semver from 'semver'
+import { Typography } from 'antd'
 
 let substatMapping
 let mainstatMapping
 let partMapping
 let affixMapping
 let metadata
+
+const { Text } = Typography
 
 const formTemplate = {
   characterId: '1204',
@@ -23,14 +27,27 @@ const formTemplate = {
   lightConeSuperimposition: 1,
 }
 
+const LATEST_VERSION = 'v0.6.2'
+
+function getTrailblazerId(name, metadata) {
+  let id = '8002'
+  if (name == 'TrailblazerDestruction') {
+    id = metadata.trailblazer == 'Stelle' ? '8002' : '8001'
+  }
+  if (name == 'TrailblazerPreservation') {
+    id = metadata.trailblazer == 'Stelle' ? '8004' : '8003'
+  }
+  return id
+}
+
 export const OcrParserKelz3 = {
-  parse: (json) => {
+  parse: (json, metadata) => {
     OcrParserKelz3.initialize()
     let relics = json.relics
 
     let parsedRelics = []
     for (let relic of relics) {
-      let result = readRelic(relic)
+      let result = readRelic(relic, metadata)
       let output = RelicAugmenter.augment(result)
 
       // Temporarily skip broken imports
@@ -43,7 +60,7 @@ export const OcrParserKelz3 = {
     return parsedRelics
   },
 
-  parseCharacters: (json) => {
+  parseCharacters: (json, metadata) => {
     OcrParserKelz3.initialize()
     let characters = json.characters
     if (!characters) {
@@ -59,7 +76,7 @@ export const OcrParserKelz3 = {
       }
 
       try {
-        let result = readCharacter(character, lightCone)
+        let result = readCharacter(character, lightCone, metadata)
         parsedCharacters.push(result)
       } catch (e) {
         Message.warning(`Error reading a character [${character?.key}], try running the scanner again with a dark background to improve scan accuracy`, 10)
@@ -67,6 +84,28 @@ export const OcrParserKelz3 = {
     }
 
     return parsedCharacters
+  },
+
+  parseMetadata: (json) => {
+    if (!json.metadata) json.metadata = {}
+
+    const jsonVersion = json.build || 'v0.6.1'
+    const outOfDate = semver.lt(jsonVersion, LATEST_VERSION)
+    console.log(`Json version ${jsonVersion}, latest version ${LATEST_VERSION}, out of date: ${outOfDate}`)
+
+    if (outOfDate) {
+      Message.warning((
+        <Text>
+          Your scanner version is out of date! Please update to the latest version from Github:
+          {' '}
+          <a target="_blank" style={{ color: '#3f8eff' }} href="https://github.com/kel-z/HSR-Scanner/releases/latest" rel="noreferrer">https://github.com/kel-z/HSR-Scanner/releases/latest</a>
+        </Text>
+      ), 15)
+    }
+
+    return {
+      trailblazer: json.metadata.trailblazer || 'Stelle',
+    }
   },
 
   initialize: () => {
@@ -146,18 +185,15 @@ export const OcrParserKelz3 = {
 const characterList = Object.values(characters)
 const lightConeList = Object.values(lightCones)
 
-function readCharacter(character, lightCone) {
+function readCharacter(character, lightCone, metadata) {
   const newCharacter = { ...formTemplate }
   lightCone = lightCone || undefined
 
   // Lookup character & light cone ids
   let characterId
+
   if (character.key.startsWith('Trailblazer')) {
-    if (character.key == 'TrailblazerPreservation') {
-      characterId = characterList.find((x) => x.tag == 'playergirl2').id
-    } else {
-      characterId = characterList.find((x) => x.tag == 'playergirl').id
-    }
+    characterId = getTrailblazerId(character.key, metadata)
   } else {
     characterId = characterList.find((x) => x.name == character.key).id
   }
@@ -193,16 +229,8 @@ function readRelic(relic) {
   if (characterList.find((x) => x.name == relic.location)) {
     id = characterList.find((x) => x.name == relic.location).id
   } else {
-    if (relic.location == 'TrailblazerPreservation' && window.store.getState().charactersById[8003]) {
-      id = 8003
-    } else {
-      id = 8004
-    }
-
-    if (relic.location == 'TrailblazerDestruction' && window.store.getState().charactersById[8001]) {
-      id = 8001
-    } else {
-      id = 8002
+    if (relic.location.startsWith('Trailblazer')) {
+      id = getTrailblazerId(relic.location, metadata)
     }
   }
 

@@ -1,5 +1,5 @@
 import { Button, Flex, Modal } from 'antd'
-import Plot from 'react-plotly.js';
+import Plot from 'react-plotly.js'
 import PropTypes from 'prop-types'
 
 import { HeaderText } from './HeaderText'
@@ -15,20 +15,31 @@ export default function RelicScoreModal(props) {
   const relic = props.relic
 
   const numScores = 10
-  let scores: [string, { bestPct: number; worstPct: number }][] | null = null
+  let scores: {
+    cid: string
+    name: string
+    score: {
+      bestPct: number
+      averagePct: number
+      worstPct: number
+    }
+    color: string
+  }[] | null = null
   if (relic) {
     const chars = DB.getMetadata().characters
-    scores = Object.keys(chars)
-      .map((id, idx) => ({
+    let s = Object.keys(chars)
+      .map((id) => ({
         cid: id,
-        score: RelicScorer.scoreRelicPct(relic, id),
         name: chars[id].displayName,
+        score: RelicScorer.scoreRelicPct(relic, id),
+        color: '#000',
       }))
-    scores.sort((a, b) => b.score.bestPct - a.score.bestPct)
-    scores = scores.slice(0, numScores)
-    scores.forEach((x, idx) => {
+    s.sort((a, b) => b.score.bestPct - a.score.bestPct)
+    s = s.slice(0, numScores)
+    s.forEach((x, idx) => {
       x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
     })
+    scores = s
   }
 
   return (
@@ -45,7 +56,7 @@ export default function RelicScoreModal(props) {
       ]}
     >
 
-      {relic && (
+      {scores && (
         <Flex vertical gap={5}>
           <HeaderText>Relic Optimality %</HeaderText>
           Showing the best 10 characters for this relic (characters in bold are owned)
@@ -54,14 +65,15 @@ export default function RelicScoreModal(props) {
               scores
                 .map((x) => {
                   const owned = !!DB.getCharacterById(x.cid)
-                  let rect =
+                  const rect = (
                     <svg width={10} height={10}>
                       <rect width={10} height={10} style={{
                         fill: x.color,
                         strokeWidth: 1,
-                        stroke: "rgb(0,0,0)",
+                        stroke: 'rgb(0,0,0)',
                       }} />
                     </svg>
+                  )
                   return (
                     <li key={x.cid} style={owned ? { fontWeight: 'bold' } : undefined}>
                       {rect} {x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
@@ -73,7 +85,7 @@ export default function RelicScoreModal(props) {
           The plot below shows the worst, average and best case optimality when the relic is fully upgraded.
           <Plot
             data={
-              scores.toReversed().map((s) => ({
+              scores.map((s) => ({
                 x: [s.score.averagePct],
                 y: [s.name],
                 mode: 'markers',
@@ -86,7 +98,7 @@ export default function RelicScoreModal(props) {
                 },
                 marker: { color: s.color },
                 name: s.name,
-              }))
+              })).reverse()
             }
             layout={{
               autosize: true,

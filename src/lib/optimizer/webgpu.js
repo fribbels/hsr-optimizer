@@ -1,5 +1,5 @@
 import shader from './shader.wgsl?raw'
-import { OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats, StatsToIndex } from '../constants.ts'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats, StatsToIndex } from '../constants.ts'
 
 function relicSetToIndex(relic) {
   if (SetsRelicsNames.includes(relic.set)) {
@@ -47,7 +47,7 @@ function convertRelicsToArray(relics) {
   return output
 }
 
-function createBuffer(device, matrix, usage, mapped = true) {
+function createBuffer(device, matrix, usage, mapped = true, int = false) {
   const gpuBuffer = device.createBuffer({
     mappedAtCreation: mapped,
     size: matrix.byteLength,
@@ -55,7 +55,11 @@ function createBuffer(device, matrix, usage, mapped = true) {
   })
 
   const arrayBuffer = gpuBuffer.getMappedRange()
-  new Float32Array(arrayBuffer).set(matrix)
+  if (int) {
+    new Int32Array(arrayBuffer).set(matrix)
+  } else {
+    new Float32Array(arrayBuffer).set(matrix)
+  }
   gpuBuffer.unmap()
 
   return gpuBuffer
@@ -76,21 +80,22 @@ export async function experiment({ params, request, relics, permutations, relicS
   const shaderModule = device.createShaderModule({
     code: shader,
   })
-  const bindGroupLayout = device.createBindGroupLayout({
+  const bindGroupLayout0 = device.createBindGroupLayout({
     entries: [
       { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
       { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
       { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 3, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 4, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 5, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 6, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 7, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+    ],
+  })
+  const bindGroupLayout1 = device.createBindGroupLayout({
+    entries: [
+      { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+      { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
     ],
   })
   const computePipeline = device.createComputePipeline({
     layout: device.createPipelineLayout({
-      bindGroupLayouts: [bindGroupLayout],
+      bindGroupLayouts: [bindGroupLayout0, bindGroupLayout1],
     }),
     compute: {
       module: shaderModule,
@@ -98,11 +103,29 @@ export async function experiment({ params, request, relics, permutations, relicS
     },
   })
 
-  const BLOCK_SIZE = Math.pow(2, 20) // 1048576 * 4
+  const BLOCK_SIZE = Math.pow(2, 24) // 1048576 * 4
 
   // ======================================== Input ========================================
 
-  const paramsArray = [1, 1, 1, 1]
+  const paramsArray = [
+    relics.LinkRope.length,
+    relics.PlanarSphere.length,
+    relics.Feet.length,
+    relics.Body.length,
+    relics.Hands.length,
+    relics.Head.length,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    Object.keys(Constants.SetsRelics).length,
+    Object.keys(Constants.SetsOrnaments).length,
+    0,
+    0,
+    0,
+  ]
 
   const resultMatrixBufferSize = Int32Array.BYTES_PER_ELEMENT * BLOCK_SIZE
   const resultMatrixBuffer = device.createBuffer({
@@ -110,39 +133,46 @@ export async function experiment({ params, request, relics, permutations, relicS
     usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
   })
 
-  const headRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.Head)), GPUBufferUsage.STORAGE)
-  const handsRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.Hands)), GPUBufferUsage.STORAGE)
-  const bodyRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.Body)), GPUBufferUsage.STORAGE)
-  const feetRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.Feet)), GPUBufferUsage.STORAGE)
-  const planarSphereRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.PlanarSphere)), GPUBufferUsage.STORAGE)
-  const linkRopeRelicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(relics.LinkRope)), GPUBufferUsage.STORAGE)
-  const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE)
-  const ornamentSetSolutionsMatrix = createBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE)
-  const paramsMatrix = createBuffer(device, new Int32Array(paramsArray), GPUBufferUsage.STORAGE)
+  const mergedRelics = [
+    ...relics.Head,
+    ...relics.Hands,
+    ...relics.Body,
+    ...relics.Feet,
+    ...relics.PlanarSphere,
+    ...relics.LinkRope,
+  ]
+  relicSetSolutions[1] = 42
+  const relicsMatrix = createBuffer(device, new Float32Array(convertRelicsToArray(mergedRelics)), GPUBufferUsage.STORAGE)
+  const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const ornamentSetSolutionsMatrix = createBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const paramsMatrix = createBuffer(device, new Int32Array(paramsArray), GPUBufferUsage.STORAGE, true, true)
 
-  const bindGroup = device.createBindGroup({
+  const bindGroup0 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),
     entries: [
-      { binding: 0, resource: { buffer: headRelicsMatrix } },
-      { binding: 1, resource: { buffer: handsRelicsMatrix } },
-      { binding: 2, resource: { buffer: bodyRelicsMatrix } },
-      { binding: 3, resource: { buffer: feetRelicsMatrix } },
-      { binding: 4, resource: { buffer: planarSphereRelicsMatrix } },
-      { binding: 5, resource: { buffer: linkRopeRelicsMatrix } },
-      // { binding: 6, resource: { buffer: relicSetSolutionsMatrix } },
-      // { binding: 7, resource: { buffer: ornamentSetSolutionsMatrix } },
-      { binding: 6, resource: { buffer: paramsMatrix } },
-      { binding: 7, resource: { buffer: resultMatrixBuffer } },
+      { binding: 0, resource: { buffer: paramsMatrix } },
+      { binding: 1, resource: { buffer: relicsMatrix } },
+      { binding: 2, resource: { buffer: resultMatrixBuffer } },
     ],
   })
 
-  console.log('Transformed inputs', { headRelicsMatrix, handsRelicsMatrix, bodyRelicsMatrix, feetRelicsMatrix, planarSphereRelicsMatrix, linkRopeRelicsMatrix })
+  const bindGroup1 = device.createBindGroup({
+    layout: computePipeline.getBindGroupLayout(1),
+    entries: [
+      { binding: 0, resource: { buffer: relicSetSolutionsMatrix } },
+      { binding: 1, resource: { buffer: ornamentSetSolutionsMatrix } },
+    ],
+  })
+
+  console.log('Transformed inputs', { paramsArray, mergedRelics })
+  console.log('Transformed inputs', { paramsMatrix, relicsMatrix })
 
   // const loop = (t) => {
   const commandEncoder = device.createCommandEncoder()
   const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(computePipeline)
-  passEncoder.setBindGroup(0, bindGroup)
+  passEncoder.setBindGroup(0, bindGroup0)
+  passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.dispatchWorkgroups(2048, 2048)
   passEncoder.end()
 
@@ -167,6 +197,20 @@ export async function experiment({ params, request, relics, permutations, relicS
   const arrayBuffer = gpuReadBuffer.getMappedRange()
   console.log(new Int32Array(arrayBuffer))
 
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
+  // --------------------
   // await Promise.all([
   //   headRelicsMatrix.mapAsync(GPUMapMode.READ),
   //   handsRelicsMatrix.mapAsync(GPUMapMode.READ),

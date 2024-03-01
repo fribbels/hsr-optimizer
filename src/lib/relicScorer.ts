@@ -238,20 +238,20 @@ export const RelicScorer = {
 
     const maxWeight = RelicScorer.scoreOptimalRelic(relic.part, scoringMetadata)
     const score = RelicScorer.scoreRelic(relic, id)
-    let bestWeight = score.best
-    let worstWeight = score.worst
 
     if (!Utils.hasMainStat(relic.part)) {
       // undo false mainstat weight to avoid percentage skew
-      bestWeight -= 64.8
-      worstWeight -= 64.8
+      score.best -= 64.8
+      score.average -= 64.8
+      score.worst -= 64.8
     }
 
     // TODO: we assume it's always possible to get a worthless relic, i.e. 0 weight - not true,
     // but close enough for now
     return {
-      bestPct: 100 * bestWeight / maxWeight,
-      worstPct: 100 * worstWeight / maxWeight,
+      bestPct: 100 * score.best / maxWeight,
+      averagePct: 100 * score.average / maxWeight,
+      worstPct: 100 * score.worst / maxWeight,
     }
   },
 

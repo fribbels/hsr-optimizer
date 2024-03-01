@@ -119,6 +119,9 @@ export default function RelicFilterBar() {
     }, 100)
   })
 
+  // Kick off an initial calculation to populate the optimality column. Though empty dependencies
+  // are warned about, we genuinely only want to do this once (as on all other updates, it'll be
+  // correctly re-triggered
   useEffect(() => {
     characterSelectorChange(currentlySelectedCharacterId, optimalityColumn)
   }, [])

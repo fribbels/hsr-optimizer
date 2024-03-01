@@ -49,6 +49,13 @@ const mainStatFreeRolls = {
   },
 }
 
+function mainStatFreeRoll(part, mainStat, multipliers) {
+  if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
+    return mainStatFreeRolls[part][mainStat] * minRollValue * multipliers[mainStat]
+  }
+  return 0
+}
+
 const ratingToRolls = {
   F: 1,
   D: 2,
@@ -202,9 +209,7 @@ export const RelicScorer = {
       )
       maxWeight += optimalRollPrediction.extraRolls * 6.48
 
-      if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-        maxWeight += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue * scoringMetadata.stats[relic.main.stat]
-      }
+      maxWeight += mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata.stats)
     }
 
     let score = RelicScorer.scoreRelic(relic, id)
@@ -332,9 +337,7 @@ export const RelicScorer = {
       sum += substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
     }
 
-    if (relic.part == Constants.Parts.Body || relic.part == Constants.Parts.Feet || relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-      sum += mainStatFreeRolls[relic.part][relic.main.stat] * minRollValue * multipliers[relic.main.stat]
-    }
+    sum += mainStatFreeRoll(relic.part, relic.main.stat, multipliers)
 
     let rating = 'F'
     for (let i = 0; i < ratings.length; i++) {

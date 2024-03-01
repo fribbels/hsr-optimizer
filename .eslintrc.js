@@ -165,5 +165,7 @@ function styleRules(level) {
       prop: 'parens-new-line',
       return: 'parens-new-line',
     }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
   })
 }

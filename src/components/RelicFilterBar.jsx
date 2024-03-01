@@ -1,5 +1,5 @@
 import { Button, Flex, Select, Tooltip, Typography } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'

@@ -104,7 +104,6 @@ test('relic-pctscore', () => {
   // Test that percentage weights are sane
 
   const character = '1202' // tingyun
-  const scoringStats = DB.getScoringMetadata(character).stats
 
   const relic: Relic = {
     enhance: 0,

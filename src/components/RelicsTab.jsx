@@ -1,10 +1,12 @@
 import { Button, Flex, Popconfirm } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
+import styled from 'styled-components'
 
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
+import RelicScoreModal from './RelicScoreModal'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
@@ -80,6 +82,11 @@ GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
 
+const LinkCell = styled.a`
+  color: inherit;
+  text-decoration: underline;
+`
+
 export default function RelicsTab() {
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
@@ -92,6 +99,7 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [scoreModalRelic, setScoreModalRelic] = useState(null)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   useEffect(() => {
@@ -217,7 +225,14 @@ export default function RelicsTab() {
     { field: `weights.current`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 50 },
     { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
     { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
-    { field: `weights.bestOptimalPct`, headerName: 'OPTIMAL', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
+    {
+      field: `weights.bestOptimalPct`,
+      headerName: 'OPTIMAL',
+      cellStyle: Gradient.getRelicGradient,
+      cellRenderer: (params) => <LinkCell onClick={() => setScoreModalRelic(params.data)}>{Renderer.hideNaNAndRound(params)}</LinkCell>,
+      filter: 'agNumberColumnFilter',
+      width: 60,
+    },
   ], [])
 
   const gridOptions = useMemo(() => ({
@@ -296,6 +311,7 @@ export default function RelicsTab() {
     <Flex style={{ width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicScoreModal setRelic={setScoreModalRelic} relic={scoreModalRelic} />
       <Flex vertical gap={10}>
 
         <RelicFilterBar />

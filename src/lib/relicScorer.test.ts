@@ -14,9 +14,10 @@ test('relic-mainstatonly', () => {
   const character = '1205' // blade
   const scoringStats = DB.getScoringMetadata(character).stats
 
+  // TODO: could this predict a HP% substat addition?
   const mainStat = Constants.Stats.HP_P
   const subStats = [
-    Constants.Stats.DEF_P,
+    Constants.Stats.DEF,
     Constants.Stats.EHR,
     Constants.Stats.RES,
     Constants.Stats.BE,
@@ -52,4 +53,34 @@ test('relic-mainstatonly', () => {
   expect(relicScore.current).toBe(relicScore.best)
   expect(relicScore.current).toBe(relicScore.average)
   expect(relicScore.current).toBe(relicScore.worst)
+})
+
+test('relic-pctscore', () => {
+  // Test that percentage weights are sane
+
+  const character = '1202' // tingyun
+  const scoringStats = DB.getScoringMetadata(character).stats
+
+  const relic: Relic = {
+    enhance: 0,
+    grade: 5,
+    part: 'Body',
+    set: 'Prisoner in Deep Confinement',
+    main: {
+      stat: Constants.Stats.DEF_P,
+      value: 8.6,
+    },
+    substats: [
+      { stat: Constants.Stats.HP_P, value: 3.8 },
+      { stat: Constants.Stats.ATK_P, value: 4.3 },
+      { stat: Constants.Stats.SPD, value: 2 },
+      { stat: Constants.Stats.RES, value: 4.3 },
+    ],
+    id: '77bde0f9-38ce-48f6-a936-79141e3f04ce',
+    equippedBy: character,
+  }
+
+  const relicScore = RelicScorer.scoreRelicPct(relic, character)
+  expect(100).toBeGreaterThanOrEqual(relicScore.bestPct)
+  expect(relicScore.bestPct).toBeGreaterThanOrEqual(relicScore.worstPct)
 })

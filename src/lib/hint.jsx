@@ -237,4 +237,18 @@ export const Hint = {
       ),
     }
   },
+
+  optimalityColumn: () => {
+    return {
+      title: 'Optimality Column',
+      content: (
+        <Flex vertical gap={10}>
+          <p>Optimality is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
+          <p>The 'OPTIMAL' column provides the maximum optimality percentage for all the characters it considers.</p>
+          <p>You can make it look at all characters in the game, or just your owned characters.</p>
+          <p>This column is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+        </Flex>
+      ),
+    }
+  },
 }

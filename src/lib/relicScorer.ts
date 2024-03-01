@@ -191,56 +191,61 @@ export const RelicScorer = {
     return RelicScorer.scoreCharacterWithRelics(character, relics)
   },
 
+  // Given a part and a character, calculate the weight of the optimal relic
+  // i.e. 5* relic, 4 best substats already exist, all rolls go into the best
+  scoreOptimalRelic: (part: Parts, scoringMetadata: ScoringMetadata) => {
+    let maxWeight = 0
+
+    const scoreEntries = Object.entries(scoringMetadata.stats)
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+
+    // Find the mainstat for this relic
+    if (Utils.hasMainStat(part)) {
+      // Fixed maxed-out weight for a 1 weight mainstat
+      maxWeight += 64.8
+
+      // Need the specific optimal mainstat to correctly add the free roll. Find it by:
+      // 1. choosing the highest multiplier stat from the list of part mainstats for the character (if possible)
+      // 2. otherwise: choosing the highest multiplier mainstat of those valid for this relic
+      let optimalMainStats = scoringMetadata.parts[part]
+      let mainStatIndex = optimalMainStats ?
+          scoreEntries.findIndex(([name, weight]) => optimalMainStats.includes(name)) :
+          scoreEntries.findIndex(([name, weight]) => PartsMainStats[part].includes(name))
+      let mainStat = scoreEntries.splice(mainStatIndex, 1)[0][0]
+
+      maxWeight += mainStatFreeRoll(part, mainStat, scoringMetadata.stats)
+    } else {
+      let mainStatIdx = scoreEntries.findIndex(([name, weight]) => PartsMainStats[part][0] === name)
+      scoreEntries.splice(mainStatIndex, 1)[0]
+    }
+
+    // Now the mainstat (if any) is gone, filter to just substats
+    const substatScoreEntries = scoreEntries.filter((x) => possibleSubstats.has(x[0]))
+
+    let substats = substatScoreEntries.slice(0, 4)
+    maxWeight += substats.reduce((weightSum, [name, weight]) => weightSum + weight, 0) * 6.48
+
+    let optimalRollPrediction = predictExtraRollWeight(
+      substats, 5, 0, substatScoreEntries.slice(4), (weights) => Math.max(...weights)
+    )
+    maxWeight += optimalRollPrediction.extraRolls * 6.48
+
+    return maxWeight
+  },
+
   scoreRelicPct: (relic: Relic, id: CharacterId) => {
     const scoringMetadata = getRelicScoreMeta(id)
 
-    // Optimal case - 5* relic, 4 best substats already exist, all rolls go into the best
-    let maxWeight = 0
-    {
-      const scoreEntries = Object.entries(scoringMetadata.stats)
-        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
-
-      if (Utils.hasMainStat(relic.part)) {
-        // Add the maxed-out weight for a 1 weight mainstat
-        maxWeight += 64.8
-
-        // Need the specific optimal mainstat to correctly add the free roll. Find it by:
-        // 1. choosing the highest multiplier stat from the list of part mainstats for the character (if possible)
-        // 2. otherwise: choosing the highest multiplier mainstat of those valid for this relic
-        let optimalMainStats = scoringMetadata.parts[relic.part]
-        let mainStatIndex = optimalMainStats ?
-            scoreEntries.findIndex(([name, weight]) => optimalMainStats.includes(name)) :
-            scoreEntries.findIndex(([name, weight]) => PartsMainStats[relic.part].includes(name))
-        let mainStat = scoreEntries.splice(mainStatIndex, 1)[0][0]
-
-        maxWeight += mainStatFreeRoll(relic.part, mainStat, scoringMetadata.stats) // XXX
-      } else {
-        // Remove the fixed mainstat from the possible substats
-        let mainStatIdx = scoreEntries.findIndex(([name, weight]) => PartsMainStats[relic.part][0] === name)
-        scoreEntries.splice(mainStatIndex, 1)[0]
-      }
-
-      // Now the mainstat (if any) is gone, filter to just substats
-      const substatScoreEntries = scoreEntries.filter((x) => possibleSubstats.has(x[0]))
-
-      let substats = substatScoreEntries.slice(0, 4)
-      maxWeight += substats.reduce((weightSum, [name, weight]) => weightSum + weight, 0) * 6.48
-
-      let optimalRollPrediction = predictExtraRollWeight(
-        substats, 5, 0, substatScoreEntries.slice(4), (weights) => Math.max(...weights)
-      )
-      maxWeight += optimalRollPrediction.extraRolls * 6.48
-    }
+    let maxWeight = RelicScorer.scoreOptimalRelic(relic.part, scoringMetadata)
+    let score = RelicScorer.scoreRelic(relic, id)
+    let bestWeight = score.best
+    let worstWeight = score.worst
 
     if (!Utils.hasMainStat(relic.part)) {
       // undo false mainstat weight to avoid percentage skew
       bestWeight -= 64.8
       worstWeight -= 64.8
     }
-
-    let score = RelicScorer.scoreRelic(relic, id)
-    let bestWeight = score.best
-    let worstWeight = score.worst
 
     // TODO: we assume it's always possible to get a worthless relic, i.e. 0 weight - not true,
     // but close enough for now

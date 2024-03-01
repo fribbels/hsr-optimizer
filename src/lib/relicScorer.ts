@@ -215,7 +215,7 @@ export const RelicScorer = {
 
       maxWeight += mainStatFreeRoll(part, mainStat, scoringMetadata.stats)
     } else {
-      let mainStatIdx = scoreEntries.findIndex(([name, weight]) => PartsMainStats[part][0] === name)
+      let mainStatIndex = scoreEntries.findIndex(([name, weight]) => PartsMainStats[part][0] === name)
       scoreEntries.splice(mainStatIndex, 1)[0]
     }
 
@@ -275,6 +275,7 @@ export const RelicScorer = {
     const substatNames = relic.substats.map((x) => x.stat)
 
     const substatScoreEntries = Object.entries(scoringMetadata.stats)
+      .filter((x) => relic.main.stat !== x[0])
       .filter((x) => possibleSubstats.has(x[0]))
       .filter((x) => !substatNames.includes(x[0])) // Exclude already existing substats
       .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
@@ -302,6 +303,9 @@ export const RelicScorer = {
       best: currentWeight + bestExtraRolls * 6.48,
       average: currentWeight + bestExtraRolls * 6.48 * avgWeight,
       worst: currentWeight + worstExtraRolls * minRollValue,
+      meta: {
+        bestSubstats: bestFinalSubstats.map((s) => s[0]),
+      }
     }
   },
 

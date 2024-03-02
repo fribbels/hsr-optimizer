@@ -24,7 +24,9 @@ export default function RelicFilterBar() {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
-  const [optimalityColumn, setOptimalityColumn] = useState('all')
+  // "(all/owned characters)-(all/recommended relic sets)"
+  // 'all-all', 'all-recommended', 'owned-all', 'owned-recommended'
+  const [optimalityColumn, setOptimalityColumn] = useState('all-all')
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -135,18 +137,34 @@ export default function RelicFilterBar() {
     }
 
     setOptimalityColumn(optimalityColumn)
+    let [characterSelection, relicSelection] = optimalityColumn.split('-')
 
-    let characterIds = (optimalityColumn === 'all' ? characterOptions : DB.getCharacters()).map((val) => val.id)
+    let characterIds = (characterSelection === 'all' ? characterOptions : DB.getCharacters()).map((val) => val.id)
     if (id && !characterIds.includes(id)) {
       // Always calculate for selected char (even if not owned)
       characterIds.push(id)
+    }
+
+    let scorePct = (relic, cid) => RelicScorer.scoreRelicPct(relic, cid).bestPct
+    if (relicSelection === 'recommended') {
+      let charMeta = DB.getMetadata().characters
+      let charRelicSets = new Map(
+        characterIds.map((cid) => [
+          cid, new Set([
+            ...charMeta[cid].scoringMetadata.relicSets,
+            ...charMeta[cid].scoringMetadata.ornamentSets
+          ])
+        ])
+      )
+      let scorePctInner = scorePct
+      scorePct = (relic, cid) => charRelicSets.get(cid).has(relic.set) ? scorePctInner(relic, cid) : 0
     }
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
     // and char weights can be edited
     for (let relic of relics) {
       relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
-      let scores = characterIds.map((cid) => RelicScorer.scoreRelicPct(relic, cid).bestPct)
+      let scores = characterIds.map((cid) => scorePct(relic, cid))
       relic.weights.bestOptimalPct = Math.max(...scores)
     }
 
@@ -229,8 +247,10 @@ export default function RelicFilterBar() {
                 value={optimalityColumn}
                 onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
                 options={[
-                  { value: 'all', label: 'All Characters' },
-                  { value: 'owned', label: 'Owned Characters' },
+                  { value: 'all-all', label: 'All Characters, Any Relics' },
+                  { value: 'all-recommended', label: 'All Characters, Recommended Sets' },
+                  { value: 'owned-all', label: 'Owned Characters, Any Relics' },
+                  { value: 'owned-recommended', label: 'Owned Characters, Recommended Sets' },
                 ]}
                 style={{ flex: 1 }}
               />

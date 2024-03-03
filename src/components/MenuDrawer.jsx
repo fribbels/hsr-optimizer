@@ -56,7 +56,7 @@ const items = [
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
         <CoffeeIcon style={{ marginRight: 5 }} />
         {' '}
-        Donate
+        Patreon
       </Typography.Link>,
       'link donate',
     ),

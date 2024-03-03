@@ -113,7 +113,6 @@ export const OptimizerTabController = {
         [Constants.Stats.OHB]: true,
         // For custom ones remember to set the min/max in aggregate()
         ED: true,
-        CV: true,
         WEIGHT: true,
         EHP: true,
 
@@ -254,8 +253,6 @@ export const OptimizerTabController = {
     newForm.minBe = unsetMin(form.minBe, true)
     newForm.maxErr = unsetMax(form.maxErr, true)
     newForm.minErr = unsetMin(form.minErr, true)
-    newForm.maxCv = unsetMax(form.maxCv)
-    newForm.minCv = unsetMin(form.minCv)
     newForm.maxWeight = unsetMax(form.maxWeight)
     newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxEhp = unsetMax(form.maxEhp)
@@ -431,8 +428,6 @@ export const OptimizerTabController = {
     x.maxErr = fixValue(x.maxErr, MAX_INT, 100)
     x.minErr = fixValue(x.minErr, 0, 100)
 
-    x.maxCv = fixValue(x.maxCv, MAX_INT)
-    x.minCv = fixValue(x.minCv, 0)
     x.maxWeight = fixValue(x.maxWeight, MAX_INT)
     x.minWeight = fixValue(x.minWeight, 0)
     x.maxEhp = fixValue(x.maxEhp, MAX_INT)
@@ -606,8 +601,6 @@ function aggregate(subArray) {
   let maxAgg = CharacterStats.getZeroes()
   minAgg['ED'] = Constants.MAX_INT
   maxAgg['ED'] = 0
-  minAgg['CV'] = Constants.MAX_INT
-  maxAgg['CV'] = 0
   minAgg['WEIGHT'] = Constants.MAX_INT
   maxAgg['WEIGHT'] = 0
   minAgg['EHP'] = Constants.MAX_INT

@@ -725,7 +725,6 @@ export default function OptimizerForm() {
                   <TooltipImage type={Hint.ratingFilters()} />
                 </Flex>
 
-                <FilterRow name="Cv" label="CV" />
                 <FilterRow name="Weight" label="WEIGHT" />
                 <FilterRow name="Ehp" label="EHP" />
                 <FilterRow name="Basic" label="BASIC" />

@@ -63,7 +63,6 @@ export type Form = {
   maxBe: MAX_INT
   maxCd: MAX_INT
   maxCr: MAX_INT
-  maxCv: MAX_INT
   maxDef: MAX_INT
   maxDmg: MAX_INT
   maxDot: MAX_INT
@@ -83,7 +82,6 @@ export type Form = {
   minBe: MIN_INT
   minCd: MIN_INT
   minCr: MIN_INT
-  minCv: MIN_INT
   minDef: MIN_INT
   minDmg: MIN_INT
   minDot: MIN_INT

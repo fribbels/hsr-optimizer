@@ -362,11 +362,11 @@ export default function CharacterTab() {
         setCharacterModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm('Are you sure you want to unequip this character?')) return
+        if (!await confirm(`Are you sure you want to unequip ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm('Are you sure you want to delete this character?')) return
+        if (!await confirm(`Are you sure you want to delete ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
         removeClicked()
         break
       case 'saveBuild':

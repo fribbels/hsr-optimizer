@@ -22,8 +22,8 @@ export const baseColumnDefs = [
   { field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM' },
-  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
+  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
   { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
@@ -49,8 +49,8 @@ export const combatColumnDefs = [
   { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ HEAL' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM' },
-  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
+  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
   { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },

@@ -43,6 +43,8 @@ export const PageToRoute = {
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
+  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 }
 
 /*
@@ -63,7 +65,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
 
-  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname] : AppPages.OPTIMIZER,
+  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   characterTabBlur: false,

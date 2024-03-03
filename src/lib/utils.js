@@ -5,15 +5,22 @@ import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
 
 export const Utils = {
+  // Fill array of size n with 0s
   arrayOfZeroes: (n) => {
     return new Array(n).fill(0)
   },
+
+  // Fill array of size n with value x
   arrayOfValue: (n, x) => {
     return new Array(n).fill(x)
   },
+
+  // await sleep(ms) to block
   sleep: (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
   },
+
+  // Store a count of relic sets into an array indexed by the set index
   relicsToSetArrays: (relics) => {
     let relicSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 0)
     let ornamentSets = Utils.arrayOfValue(Object.values(Constants.SetsOrnaments).length, 0)
@@ -34,15 +41,21 @@ export const Utils = {
       ornamentSets: ornamentSets,
     }
   },
+
+  // Flat stats HP/ATK/DEF/SPD
   isFlat: (stat) => {
     return stat == Constants.Stats.HP
       || stat == Constants.Stats.ATK
       || stat == Constants.Stats.DEF
       || stat == Constants.Stats.SPD
   },
+
+  // Random element of an array
   randomElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
   },
+
+  // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
     return htmlToBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
       /*
@@ -81,9 +94,8 @@ export const Utils = {
       Message.error('Unable to take screenshot, please try again')
     })
   },
-  truncate10ths: (x) => {
-    return Math.floor(x * 10) / 10
-  },
+
+  // Convert an array to an object keyed by id field
   collectById: (arr) => {
     let byId = {}
     for (let x of arr) {
@@ -91,26 +103,44 @@ export const Utils = {
     }
     return byId
   },
+
+  // truncate10ths(16.1999999312682) == 16.9
+  truncate10ths: (x) => {
+    return Math.floor(x * 10) / 10
+  },
+
+  // truncate10000ths(16.1999999312682) == 16.9999
   truncate10000ths: (x) => {
     return Math.floor(x * 10000) / 10000
   },
+  // Round a number to a certain precision. Useful for js floats: precisionRound(16.1999999312682. 5) == 16.2
   precisionRound(number, precision = 5) {
     let factor = Math.pow(10, precision)
     return Math.round(number * factor) / factor
   },
+
+  // Reverse an object's keys/values
   flipMapping: (obj) => {
     return Object.fromEntries(Object.entries(obj).map((a) => a.reverse()))
   },
+
+  // Deep clone an object, different implementations have different browser performance impacts
   clone: (obj) => {
     if (!obj) return null // TODO is this a good idea
     return JSON.parse(JSON.stringify(obj))
   },
+
+  // Used for antd's selects to allow searching by the lowercase label
   labelFilterOption: (input, option) => {
     return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
   },
+
+  // Returns body/feet/rope/sphere
   hasMainStat: (part) => {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
   },
+
+  // Character selector options from current db metadata
   generateCharacterOptions: () => {
     let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters))
 
@@ -121,6 +151,8 @@ export const Utils = {
 
     return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
   },
+
+  // Light cone selector options from current db metadata
   generateLightConeOptions: () => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
 
@@ -131,6 +163,8 @@ export const Utils = {
 
     return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
   },
+
+  // Used to convert output formats for relic scorer, snake-case to camelCase
   recursiveToCamel: (item) => {
     if (Array.isArray(item)) {
       return item.map((el) => Utils.recursiveToCamel(el))
@@ -144,7 +178,14 @@ export const Utils = {
       ]),
     )
   },
+
+  // Generate a random uuid
   randomId: () => {
     return uuidv4()
+  },
+
+  // 1212 => Jingliu
+  getCharacterNameById: (id) => {
+    return DB.getMetadata().characters[id]?.displayName
   },
 }

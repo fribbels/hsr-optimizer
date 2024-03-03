@@ -59,7 +59,7 @@ const App = () => {
           width={170}
           style={{
             overflow: 'auto',
-            height: '100vh',
+            // height: '100vh',
             position: 'sticky',
             top: 0,
           }}

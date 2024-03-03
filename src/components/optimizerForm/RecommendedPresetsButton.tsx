@@ -9,62 +9,73 @@ import { getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 
 /*
- * 111.2 (5 actions in first four cycles)
- * 114.3 (4 actions in first three cycles)
- * 120.1 (3 actions in two cycles, activates planar set effects)
- * 133.4 (2 actions in first cycle, 6 actions in first four cycles)
- * 142.9 (5 actions in first three cycles)
- * 160.1 (4 actions in first two cycles)
- * 171.5 (6 actions in first three cycles)
- * 177.8 (8 actions in first four cycles)
- * 200.1 (3 actions in first cycle, 2 actions per cycle thereafter)
+ * 111.11 (5 actions in first four cycles)
+ * 114.28 (4 actions in first three cycles)
+ * 120.00 (3 actions in two cycles, activates planar set effects)
+ * 133.33 (2 actions in first cycle, 6 actions in first four cycles)
+ * 142.85 (5 actions in first three cycles)
+ * 155.55 (7 actions in first four cycles)
+ * 160.00 (4 actions in first two cycles)
+ * 171.42 (6 actions in first three cycles)
+ * 177.77 (8 actions in first four cycles)
+ * 200.00 (3 actions in first cycle)
  */
 
 const SpdValues = {
+  SPD0: {
+    key: 'SPD0',
+    label: '0 SPD - Action advance support recommended',
+    value: undefined,
+  },
   SPD111: {
     key: 'SPD111',
-    label: '111.2 SPD - 5 actions in first four cycles',
-    value: 111.2,
+    label: '111.11 SPD - 5 actions in first four cycles',
+    value: 111.11,
   },
   SPD114: {
     key: 'SPD114',
-    label: '114.3 SPD - 4 actions in first three cycles',
-    value: 114.3,
+    label: '114.28 SPD - 4 actions in first three cycles',
+    value: 114.28,
   },
   SPD120: {
     key: 'SPD120',
-    label: '120.1 SPD - 3 actions in first two cycles',
-    value: 120.1,
+    label: '120.00 SPD - 3 actions in first two cycles',
+    value: 120.00,
   },
   SPD133: {
     key: 'SPD133',
-    label: (<b>133.4 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
-    value: 133.4,
+    label: (<b>133.33 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
+    value: 133.33,
   },
   SPD142: {
     key: 'SPD142',
-    label: '142.9 SPD - 5 actions in first three cycles',
-    value: 142.9,
+    label: '142.85 SPD - 5 actions in first three cycles',
+    value: 142.85,
+  },
+  SPD155: {
+    key: 'SPD155',
+    label: '155.55 SPD - 7 actions in first four cycles',
+    value: 155.55,
   },
   SPD160: {
     key: 'SPD160',
-    label: '160.1 SPD - 4 actions in first two cycles',
-    value: 160.1,
+    label: '160.00 SPD - 4 actions in first two cycles',
+    value: 160.00,
   },
   SPD171: {
     key: 'SPD171',
-    label: '171.5 SPD - 6 actions in first three cycles',
-    value: 171.5,
+    label: '171.42 SPD - 6 actions in first three cycles',
+    value: 171.42,
   },
   SPD177: {
     key: 'SPD177',
-    label: '177.8 SPD - 8 actions in first four cycles',
-    value: 177.8,
+    label: '177.77 SPD - 8 actions in first four cycles',
+    value: 177.77,
   },
   SPD200: {
     key: 'SPD200',
-    label: '200.1 SPD - 3 actions in first cycle, 2 actions per cycle thereafter',
-    value: 200.1,
+    label: '200.00 SPD - 3 actions in first cycle',
+    value: 200.00,
   },
 }
 const standardSpdOptions = Object.values(SpdValues)

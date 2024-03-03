@@ -112,7 +112,7 @@ struct Relic {
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
   relicSet: f32,
-  weightScore: f32,
+  weightScore: f32, // 23
 }
 
 struct BasicStats {
@@ -352,7 +352,7 @@ struct Params {
 
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<f32>; // Temporarily f32 for testing, should be boolean
+@group(0) @binding(2) var<storage, read_write> results : array<BasicStats>; // Temporarily f32 for testing, should be boolean
 
 @group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
 @group(1) @binding(1) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
@@ -434,29 +434,29 @@ fn main(
   var c : BasicStats = BasicStats();
   var x : ComputedStats = ComputedStats();
 
-  c.HP_P += head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
-  c.ATK_P += head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
-  c.DEF_P += head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
-  c.SPD_P += head.SPD_P + hands.SPD_P + body.SPD_P + feet.SPD_P + planarSphere.SPD_P + linkRope.SPD_P;
-  c.HP += head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
-  c.ATK += head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
-  c.DEF += head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
-  c.SPD += head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
-  c.CR += head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
-  c.CD += head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
-  c.EHR += head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
-  c.RES += head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
-  c.BE += head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
-  c.ERR += head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
-  c.OHB += head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-  c.Physical_DMG += head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
-  c.Fire_DMG += head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
-  c.Ice_DMG += head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
-  c.Lightning_DMG += head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
-  c.Wind_DMG += head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
-  c.Quantum_DMG += head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
-  c.Imaginary_DMG += head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
-  c.weightScore += head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
+  c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
+  c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
+  c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
+  c.SPD_P = head.SPD_P + hands.SPD_P + body.SPD_P + feet.SPD_P + planarSphere.SPD_P + linkRope.SPD_P;
+  c.HP = head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
+  c.ATK = head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
+  c.DEF = head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
+  c.SPD = head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
+  c.CR = head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
+  c.CD = head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
+  c.EHR = head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
+  c.RES = head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
+  c.BE = head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
+  c.ERR = head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
+  c.OHB = head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
+  c.Physical_DMG = head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
+  c.Fire_DMG = head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
+  c.Ice_DMG = head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
+  c.Lightning_DMG = head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
+  c.Wind_DMG = head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
+  c.Quantum_DMG = head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
+  c.Imaginary_DMG = head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
+  c.weightScore = head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
   c.sets.PasserbyOfWanderingCloud = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
   c.sets.MusketeerOfWildWheat = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
@@ -517,11 +517,15 @@ fn main(
   c.ERR += params.baseERR + params.lcERR + params.traceERR + setEffects;
   c.OHB += params.baseOHB + params.lcOHB + params.traceOHB + setEffects;
 
-  if (relicSetSolutionsMatrix[relicSetIndex] != 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] != 1) {
-    // Fail
-    results[index] = f32(params.lSize);
-  } else {
-    // Pass
-    results[index] = f32(c.CD);
-  }
+//  if (1 == 3) {
+  results[index] = c;
+//  }
+
+//  if (relicSetSolutionsMatrix[relicSetIndex] != 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] != 1) {
+//    // Fail
+//    results[index] = f32(params.lSize);
+//  } else {
+//    // Pass
+//    results[index] = f32(c.CD);
+//  }
 }

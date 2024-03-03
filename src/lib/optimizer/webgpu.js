@@ -46,7 +46,7 @@ function convertRelicsToArray(relics) {
     output[startIndex + j++] = relicSetToIndex(relic)
     output[startIndex + j++] = relic.weightScore // 23
 
-    output[StatsToIndex[relic.augmentedStats.mainStat]] += relic.augmentedStats.mainValue
+    output[startIndex + StatsToIndex[relic.augmentedStats.mainStat]] += relic.augmentedStats.mainValue
   }
 
   return output
@@ -153,7 +153,7 @@ export async function experiment({ params, request, relics, permutations, relicS
     ...relics.PlanarSphere,
     ...relics.LinkRope,
   ])
-  relicSetSolutions[1] = 42
+
   const relicsMatrix = createBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrix = createBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
@@ -179,37 +179,54 @@ export async function experiment({ params, request, relics, permutations, relicS
   console.log('Transformed inputs', { paramsArray, mergedRelics, relicSetSolutions })
   console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
 
-  // const loop = (t) => {
-  const commandEncoder = device.createCommandEncoder()
-  const passEncoder = commandEncoder.beginComputePass()
-  passEncoder.setPipeline(computePipeline)
-  passEncoder.setBindGroup(0, bindGroup0)
-  passEncoder.setBindGroup(1, bindGroup1)
-  passEncoder.dispatchWorkgroups(2048, 2048)
-  passEncoder.end()
+  const date1 = new Date()
+  const iterations = 100
+  for (let i = 0; i < iterations; i++) {
+    const commandEncoder = device.createCommandEncoder()
+    const passEncoder = commandEncoder.beginComputePass()
+    passEncoder.setPipeline(computePipeline)
+    passEncoder.setBindGroup(0, bindGroup0)
+    passEncoder.setBindGroup(1, bindGroup1)
+    passEncoder.dispatchWorkgroups(256, 256)
+    passEncoder.end()
 
-  const gpuReadBuffer = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
+    const gpuReadBuffer = device.createBuffer({
+      size: resultMatrixBufferSize,
+      usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+    })
 
-  // Encode commands for copying buffer to buffer.
-  commandEncoder.copyBufferToBuffer(
-    resultMatrixBuffer /* source buffer */,
-    0 /* source offset */,
-    gpuReadBuffer /* destination buffer */,
-    0 /* destination offset */,
-    resultMatrixBufferSize, /* size */
-  )
+    // Encode commands for copying buffer to buffer.
+    commandEncoder.copyBufferToBuffer(
+      resultMatrixBuffer /* source buffer */,
+      0 /* source offset */,
+      gpuReadBuffer /* destination buffer */,
+      0 /* destination offset */,
+      resultMatrixBufferSize, /* size */
+    )
 
-  device.queue.submit([commandEncoder.finish()])
+    device.queue.submit([commandEncoder.finish()])
 
-  // Read buffer.
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ)
-  const arrayBuffer = gpuReadBuffer.getMappedRange()
-  console.log(new Float32Array(arrayBuffer))
+    // Read buffer.
+    await gpuReadBuffer.mapAsync(GPUMapMode.READ)
+    const arrayBuffer = gpuReadBuffer.getMappedRange()
+
+    console.log(new Float32Array(arrayBuffer))
+    const date2 = new Date()
+    console.log(`${i} perms: ${i * BLOCK_SIZE} per sec ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000))}`)
+  }
 
   // --------------------
+  /*
+  Results:
+  no sets: 35,091,362
+  with sets: 32,373,297
+  with print: 32,147,103
+  without set compare: 34,431,567
+  without writing to results: 350,040,966
+  no logic: 362,572,447
+  16x16x256x256: 354,751,043
+  with output: 294,493,685
+   */
   // --------------------
   // --------------------
   // --------------------

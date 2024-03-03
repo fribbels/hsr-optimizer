@@ -1,12 +1,13 @@
 import { Button, Flex, Popconfirm } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
+import Plot from 'react-plotly.js'
 import styled from 'styled-components'
 
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
-import RelicScoreModal from './RelicScoreModal'
+import { HeaderText } from './HeaderText'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
@@ -99,7 +100,6 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
-  const [scoreModalRelic, setScoreModalRelic] = useState(null)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   useEffect(() => {
@@ -225,14 +225,7 @@ export default function RelicsTab() {
     { field: `weights.current`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 50 },
     { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
     { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
-    {
-      field: `weights.bestOptimalPct`,
-      headerName: 'OPTIMAL',
-      cellStyle: Gradient.getRelicGradient,
-      cellRenderer: (params) => <LinkCell onClick={() => setScoreModalRelic(params.data)}>{Renderer.hideNaNAndRound(params)}</LinkCell>,
-      filter: 'agNumberColumnFilter',
-      width: 60,
-    },
+    { field: `weights.bestOptimalPct`, headerName: 'OPTIMAL', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
   ], [])
 
   const gridOptions = useMemo(() => ({
@@ -307,11 +300,38 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
+  const numScores = 10
+  let scores /*: {
+    cid: string
+    name: string
+    score: {
+      bestPct: number
+      averagePct: number
+      worstPct: number
+    }
+    color: string
+  }[] | null*/ = null
+  if (selectedRelic) {
+    const chars = DB.getMetadata().characters
+    let s = Object.keys(chars)
+      .map((id) => ({
+        cid: id,
+        name: chars[id].displayName,
+        score: RelicScorer.scoreRelicPct(selectedRelic, id),
+        color: '#000',
+      }))
+    s.sort((a, b) => b.score.bestPct - a.score.bestPct)
+    s = s.slice(0, numScores)
+    s.forEach((x, idx) => {
+      x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
+    })
+    scores = s
+  }
+
   return (
     <Flex style={{ width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
-      <RelicScoreModal setRelic={setScoreModalRelic} relic={scoreModalRelic} />
       <Flex vertical gap={10}>
 
         <RelicFilterBar />
@@ -365,6 +385,84 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>
+          {scores && (
+            <Flex vertical gap={5} style={{ width: 400 }}>
+              <HeaderText>Relic Optimality %</HeaderText>
+              Showing the best 10 characters for this relic (characters in bold are owned)
+              <ol>
+                {
+                  scores
+                    .map((x) => {
+                      const owned = !!DB.getCharacterById(x.cid)
+                      const rect = (
+                        <svg width={10} height={10}>
+                          <rect width={10} height={10} style={{
+                            fill: x.color,
+                            strokeWidth: 1,
+                            stroke: 'rgb(0,0,0)',
+                          }} />
+                        </svg>
+                      )
+                      return (
+                        <li key={x.cid} style={owned ? { fontWeight: 'bold' } : undefined}>
+                          {rect} {x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
+                        </li>
+                      )
+                    })
+                }
+              </ol>
+              The plot below shows the worst, average and best case optimality when the relic is fully upgraded.
+            </Flex>
+          )}
+          {scores && (
+            <Plot
+              data={
+                scores.map((s) => ({
+                  x: [s.score.averagePct],
+                  y: [s.name],
+                  mode: 'markers',
+                  type: 'scatter',
+                  error_x: {
+                    type: 'data',
+                    symmetric: false,
+                    array: [s.score.bestPct - s.score.averagePct],
+                    arrayminus: [s.score.averagePct - s.score.worstPct],
+                  },
+                  marker: { color: s.color },
+                  name: s.name,
+                })).reverse()
+              }
+              layout={{
+                autosize: true,
+                width: 320,
+                height: 240,
+                margin: {
+                  b: 20,
+                  l: 20,
+                  r: 20,
+                  t: 20,
+                },
+                showlegend: false,
+
+                xaxis: {
+                  range: [0, 100],
+                  tick0: 0,
+                  dtick: 10,
+                  showgrid: true,
+                  showline: true,
+                  showticklabels: true,
+                  type: 'linear',
+                  zeroline: true,
+                },
+                yaxis: {
+                  showticklabels: false,
+                },
+              }}
+              config={{
+                staticPlot: true,
+              }}
+            />
+          )}
         </Flex>
       </Flex>
     </Flex>

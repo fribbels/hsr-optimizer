@@ -21,6 +21,15 @@ export const baseComputedStatsObject = {
   [Stats.BE]: 0,
   [Stats.ERR]: 0,
   [Stats.OHB]: 0,
+  [Stats.Physical_DMG]: 0,
+  [Stats.Fire_DMG]: 0,
+  [Stats.Ice_DMG]: 0,
+  [Stats.Lightning_DMG]: 0,
+  [Stats.Wind_DMG]: 0,
+  [Stats.Quantum_DMG]: 0,
+  [Stats.Imaginary_DMG]: 0,
+
+  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
 
   BASIC_SCALING: 0,
   SKILL_SCALING: 0,
@@ -75,18 +84,6 @@ export const baseComputedStatsObject = {
   FUA_RES_PEN: 0,
   DOT_RES_PEN: 0,
 
-  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
-
-  [Stats.Physical_DMG]: 0,
-  [Stats.Fire_DMG]: 0,
-  [Stats.Ice_DMG]: 0,
-  [Stats.Lightning_DMG]: 0,
-  [Stats.Wind_DMG]: 0,
-  [Stats.Quantum_DMG]: 0,
-  [Stats.Imaginary_DMG]: 0,
-
-  ORIGINAL_DMG_BOOST: 0, // TODO: Acheron multiplier?
-
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,
@@ -94,5 +91,7 @@ export const baseComputedStatsObject = {
   DOT_DMG: 0,
 
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
+
+  ORIGINAL_DMG_BOOST: 0, // TODO: Acheron multiplier?
 }
 export type ComputedStatsObject = typeof baseComputedStatsObject

@@ -153,15 +153,23 @@ export const Utils = {
   },
 
   // Light cone selector options from current db metadata
-  generateLightConeOptions: () => {
+  generateLightConeOptions: (characterId) => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
+
+    let pathFilter = null;
+    if (characterId) {
+      let character = DB.getMetadata().characters[characterId];
+      pathFilter = character.path;
+    }
 
     for (let value of Object.values(lcData)) {
       value.value = value.id
       value.label = value.name
     }
 
-    return Object.values(lcData).sort((a, b) => a.label.localeCompare(b.label))
+    return Object.values(lcData)
+      .filter(lc => !pathFilter || lc.path === pathFilter)
+      .sort((a, b) => a.label.localeCompare(b.label))
   },
 
   // Used to convert output formats for relic scorer, snake-case to camelCase

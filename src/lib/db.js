@@ -225,6 +225,8 @@ export const DB = {
 
   setStore: (x) => {
     let charactersById = {}
+    const dbCharacters = DB.getMetadata().characters
+    const dbLightCones = DB.getMetadata().lightCones
     for (let character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -235,6 +237,16 @@ export const DB = {
         if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
           character.form.relicSets.splice(i, 1)
         }
+      }
+
+      // Unset light cone fields for mismatched light cone path
+      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
+      const dbCharacter = dbCharacters[character.id]
+      if (dbLightCone.path != dbCharacter.path) {
+        character.form.lightCone = undefined
+        character.form.lightConeLevel = 80
+        character.form.lightConeSuperimposition = 1
+        character.form.lightConeConditionals = {}
       }
     }
 

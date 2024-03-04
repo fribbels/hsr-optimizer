@@ -45,7 +45,7 @@ export default function CharacterModal(props) {
   window.characterForm = characterForm
 
   const characterOptions = useMemo(() => generatePinnedList(Utils.generateCharacterOptions()), [])
-  const lightConeOptions = useMemo(() => generatePinnedList(Utils.generateLightConeOptions()), [])
+  const lightConeOptions = useMemo(() => generatePinnedList(Utils.generateLightConeOptions(props.initialCharacter?.form.characterId)), [props.initialCharacter])
 
   useEffect(() => {
     if (!props.open) return

@@ -63,11 +63,11 @@ export default function OptimizerForm() {
   const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm)
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
   const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' })
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(optimizerTabFocusCharacter), [optimizerTabFocusCharacter])
 
   useEffect(() => {
     OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone)

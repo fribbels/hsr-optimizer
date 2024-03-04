@@ -311,6 +311,11 @@ export const OptimizerTabController = {
           newForm.lightConeConditionals[option] = defaultLcOptions[option]
         }
       }
+    } else {
+      newForm.lightCone = null
+      newForm.lightConeLevel = 80
+      newForm.lightConeSuperimposition = 1
+      newForm.lightConeConditionals = {}
     }
 
     if (!newForm.statDisplay) {

@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2024.'
 
 // 3 skill basic
 // 5 ult talent
@@ -43,6 +43,15 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
+      id: 'e2ResBuff',
+      name: 'e2ResBuff',
+      text: 'E2 RES buff',
+      title: 'E2 RES buff',
+      content: betaUpdate,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
       id: 'e6BeBuff',
       name: 'e6BeBuff',
       text: 'E6 BE buff',
@@ -59,6 +68,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       basicEnhanced: true,
       breakEffectToOhbBoost: true,
       e1ResBuff: true,
+      e2ResBuff: true,
       e6BeBuff: true,
     }),
     teammateDefaults: () => ({
@@ -67,10 +77,11 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x[Stats.RES] += (e >= 1) ? 0.50 : 0
+      x[Stats.RES] += (e >= 1 && r.e1ResBuff) ? 0.50 : 0
+      x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0
       x[Stats.BE] += (e >= 6) ? 0.20 : 0
 
-      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling //
+      x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
       x.ULT_SCALING += ultScaling
 
       return x
@@ -82,7 +93,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x[Stats.OHB] += Math.min(0.75, x[Stats.BE] * 0.30)
+      x[Stats.OHB] += Math.min(0.75, x[Stats.BE] * 0.50)
     },
   }
 }

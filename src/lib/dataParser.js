@@ -478,11 +478,11 @@ function getSuperimpositions() {
       5: { [Constants.Stats.EHR]: 0.60 },
     },
     23023: {
-      1: { [Constants.Stats.DEF_P]: 0.36 },
-      2: { [Constants.Stats.DEF_P]: 0.42 },
-      3: { [Constants.Stats.DEF_P]: 0.48 },
-      4: { [Constants.Stats.DEF_P]: 0.54 },
-      5: { [Constants.Stats.DEF_P]: 0.60 },
+      1: { [Constants.Stats.DEF_P]: 0.40 },
+      2: { [Constants.Stats.DEF_P]: 0.46 },
+      3: { [Constants.Stats.DEF_P]: 0.52 },
+      4: { [Constants.Stats.DEF_P]: 0.58 },
+      5: { [Constants.Stats.DEF_P]: 0.64 },
     },
     23024: {
       1: { [Constants.Stats.CD]: 0.36 },
@@ -704,9 +704,9 @@ function getOverrideTraces() {
       [Constants.Stats.SPD]: 5,
     },
     1301: { // Gallagher
-      [Constants.Stats.BE]: 0.373,
-      [Constants.Stats.HP_P]: 0.10,
-      [Constants.Stats.RES]: 0.18,
+      [Constants.Stats.BE]: 0.133,
+      [Constants.Stats.HP_P]: 0.18,
+      [Constants.Stats.RES]: 0.28,
     },
     1302: { // Argenti
       [Constants.Stats.ATK_P]: 0.28,

@@ -276,3 +276,4 @@ export type ConditionalBuff =
   | 'e6UltBuffs'
   | 'fuaHitsOnTarget'
   | 'defToCrBoost'
+  | 'e2ResBuff'

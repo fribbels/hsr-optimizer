@@ -17508,100 +17508,100 @@
         "values": [
             {
                 "hp": {
-                    "base": 38.4,
-                    "step": 5.76
+                    "base": 43.2,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 16.8,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 24,
-                    "step": 3.6
+                    "base": 21,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 84.48,
-                    "step": 5.76
+                    "base": 95.04,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 36.96,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 52.8,
-                    "step": 3.6
+                    "base": 46.2,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 145.92,
-                    "step": 5.76
+                    "base": 164.16,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 63.84,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 91.2,
-                    "step": 3.6
+                    "base": 79.8,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 207.36,
-                    "step": 5.76
+                    "base": 233.28,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 90.72,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 129.6,
-                    "step": 3.6
+                    "base": 113.4,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 268.8,
-                    "step": 5.76
+                    "base": 302.4,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 117.6,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 168,
-                    "step": 3.6
+                    "base": 147,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 330.24,
-                    "step": 5.76
+                    "base": 371.52,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 144.48,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 206.4,
-                    "step": 3.6
+                    "base": 180.6,
+                    "step": 3.15
                 }
             },
             {
                 "hp": {
-                    "base": 391.68,
-                    "step": 5.76
+                    "base": 440.64,
+                    "step": 6.48
                 },
                 "atk": {
                     "base": 171.36,
                     "step": 2.52
                 },
                 "def": {
-                    "base": 244.8,
-                    "step": 3.6
+                    "base": 214.2,
+                    "step": 3.15
                 }
             }
         ]

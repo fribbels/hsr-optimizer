@@ -359,9 +359,11 @@
     "2": {
       "Id": 130102,
       "Name": "Lion's Tail",
-      "Desc": "Increases Break DMG dealt to targets in the Besotted state by <unbreak>#1[i]%</unbreak>.",
+      "Desc": "The Skill removes <unbreak>#1[i]</unbreak> debuff(s) from a target ally. At the same time, it increases Effect RES by <unbreak>#2[i]%</unbreak> for <unbreak>#3[i]</unbreak> turn(s).",
       "ParamList": [
-        0.0800000000745058
+        1,
+        0.3000000002793968,
+        2
       ]
     },
     "3": {
@@ -706,105 +708,105 @@
           "Level": 1,
           "ParamList": [
             0.060000000055879354,
-            65
+            80
           ]
         },
         "2": {
           "Level": 2,
           "ParamList": [
             0.06599999964237213,
-            110.50000000046566
+            136
           ]
         },
         "3": {
           "Level": 3,
           "ParamList": [
             0.07199999992735684,
-            156
+            192
           ]
         },
         "4": {
           "Level": 4,
           "ParamList": [
             0.07799999951384962,
-            219.70000000065193
+            270.40000000037253
           ]
         },
         "5": {
           "Level": 5,
           "ParamList": [
             0.08399999979883432,
-            269.7500000006985
+            332
           ]
         },
         "6": {
           "Level": 6,
           "ParamList": [
             0.09000000008381903,
-            319.80000000074506
+            393.6000000005588
           ]
         },
         "7": {
           "Level": 7,
           "ParamList": [
             0.09749999991618097,
-            369.8500000007916
+            455.20000000018626
           ]
         },
         "8": {
           "Level": 8,
           "ParamList": [
             0.1049999997485429,
-            419.9000000008382
+            516.8000000007451
           ]
         },
         "9": {
           "Level": 9,
           "ParamList": [
             0.11250000027939677,
-            469.95000000088476
+            578.4000000003725
           ]
         },
         "10": {
           "Level": 10,
           "ParamList": [
             0.12000000011175871,
-            520
+            640
           ]
         },
         "11": {
           "Level": 11,
           "ParamList": [
             0.12599999969825149,
-            547.3000000002794
+            673.6000000005588
           ]
         },
         "12": {
           "Level": 12,
           "ParamList": [
             0.1319999999832362,
-            574.6000000005588
+            707.2000000001863
           ]
         },
         "13": {
           "Level": 13,
           "ParamList": [
             0.13799999956972897,
-            601.9000000008382
+            740.8000000007451
           ]
         },
         "14": {
           "Level": 14,
           "ParamList": [
             0.14399999985471368,
-            629.2000000001863
+            774.4000000003725
           ]
         },
         "15": {
           "Level": 15,
           "ParamList": [
             0.1500000001396984,
-            656.5000000004657
+            808
           ]
         }
       }
@@ -2249,7 +2251,7 @@
         ],
         "MaxLevel": 1,
         "ParamList": [
-          0.3000000002793968,
+          0.5000000004656613,
           0.7500000006984919
         ],
         "PointID": 1301101,
@@ -2349,7 +2351,7 @@
         "AvatarPromotionLimit": null,
         "AvatarLevelLimit": 1,
         "DefaultUnlock": false,
-        "Icon": "IconBreakUp.png",
+        "Icon": "IconStatusResistance.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2366,7 +2368,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301201,
-        "PointName": "Break Enhance",
+        "PointName": "Effect RES Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601171,
         "PointType": 1,
@@ -2374,8 +2376,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "BreakDamageAddedRatioBase",
-            "Value": 0.05299999983981252
+            "PropertyType": "StatusResistanceBase",
+            "Value": 0.0400000000372529
           }
         ]
       }
@@ -2386,7 +2388,7 @@
         "AvatarPromotionLimit": 2,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconMaxHP.png",
+        "Icon": "IconBreakUp.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2408,7 +2410,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301202,
-        "PointName": "HP Boost",
+        "PointName": "Break Enhance",
         "PointDesc": null,
         "PointTriggerKey": -1985601170,
         "PointType": 1,
@@ -2418,8 +2420,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "HPAddedRatio",
-            "Value": 0.0400000000372529
+            "PropertyType": "BreakDamageAddedRatioBase",
+            "Value": 0.05299999983981252
           }
         ]
       }
@@ -2430,7 +2432,7 @@
         "AvatarPromotionLimit": 3,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconBreakUp.png",
+        "Icon": "IconStatusResistance.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2452,7 +2454,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301203,
-        "PointName": "Break Enhance",
+        "PointName": "Effect RES Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601169,
         "PointType": 1,
@@ -2462,8 +2464,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "BreakDamageAddedRatioBase",
-            "Value": 0.05299999983981252
+            "PropertyType": "StatusResistanceBase",
+            "Value": 0.0400000000372529
           }
         ]
       }
@@ -2474,7 +2476,7 @@
         "AvatarPromotionLimit": 3,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconStatusResistance.png",
+        "Icon": "IconMaxHP.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2496,7 +2498,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301204,
-        "PointName": "Effect RES Boost",
+        "PointName": "HP Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601168,
         "PointType": 1,
@@ -2506,7 +2508,7 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "StatusResistanceBase",
+            "PropertyType": "HPAddedRatio",
             "Value": 0.0400000000372529
           }
         ]
@@ -2518,7 +2520,7 @@
         "AvatarPromotionLimit": 4,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconBreakUp.png",
+        "Icon": "IconStatusResistance.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2540,7 +2542,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301205,
-        "PointName": "Break Enhance",
+        "PointName": "Effect RES Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601167,
         "PointType": 1,
@@ -2550,8 +2552,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "BreakDamageAddedRatioBase",
-            "Value": 0.0800000000745058
+            "PropertyType": "StatusResistanceBase",
+            "Value": 0.060000000055879354
           }
         ]
       }
@@ -2562,7 +2564,7 @@
         "AvatarPromotionLimit": 5,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconMaxHP.png",
+        "Icon": "IconBreakUp.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2584,7 +2586,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301206,
-        "PointName": "HP Boost",
+        "PointName": "Break Enhance",
         "PointDesc": null,
         "PointTriggerKey": -1985601166,
         "PointType": 1,
@@ -2594,8 +2596,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "HPAddedRatio",
-            "Value": 0.060000000055879354
+            "PropertyType": "BreakDamageAddedRatioBase",
+            "Value": 0.0800000000745058
           }
         ]
       }
@@ -2606,7 +2608,7 @@
         "AvatarPromotionLimit": 5,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconBreakUp.png",
+        "Icon": "IconStatusResistance.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2628,7 +2630,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301207,
-        "PointName": "Break Enhance",
+        "PointName": "Effect RES Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601165,
         "PointType": 1,
@@ -2638,8 +2640,8 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "BreakDamageAddedRatioBase",
-            "Value": 0.0800000000745058
+            "PropertyType": "StatusResistanceBase",
+            "Value": 0.060000000055879354
           }
         ]
       }
@@ -2650,7 +2652,7 @@
         "AvatarPromotionLimit": 6,
         "AvatarLevelLimit": null,
         "DefaultUnlock": false,
-        "Icon": "IconStatusResistance.png",
+        "Icon": "IconMaxHP.png",
         "LevelUpSkillID": [],
         "MaterialList": [
           {
@@ -2672,7 +2674,7 @@
         "MaxLevel": 1,
         "ParamList": [],
         "PointID": 1301208,
-        "PointName": "Effect RES Boost",
+        "PointName": "HP Boost",
         "PointDesc": null,
         "PointTriggerKey": -1985601180,
         "PointType": 1,
@@ -2682,7 +2684,7 @@
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
-            "PropertyType": "StatusResistanceBase",
+            "PropertyType": "HPAddedRatio",
             "Value": 0.060000000055879354
           }
         ]
@@ -2693,50 +2695,6 @@
         "Anchor": "Point17",
         "AvatarPromotionLimit": null,
         "AvatarLevelLimit": 75,
-        "DefaultUnlock": false,
-        "Icon": "IconBreakUp.png",
-        "LevelUpSkillID": [],
-        "MaterialList": [
-          {
-            "$type": "ItemConfigRow",
-            "ItemID": 2,
-            "ItemNum": 128000
-          },
-          {
-            "$type": "ItemConfigRow",
-            "ItemID": 110243,
-            "ItemNum": 6
-          },
-          {
-            "$type": "ItemConfigRow",
-            "ItemID": 114003,
-            "ItemNum": 6
-          }
-        ],
-        "MaxLevel": 1,
-        "ParamList": [],
-        "PointID": 1301209,
-        "PointName": "Break Enhance",
-        "PointDesc": null,
-        "PointTriggerKey": -1985601179,
-        "PointType": 1,
-        "PrePoint": [
-          1301103
-        ],
-        "StatusAddList": [
-          {
-            "$type": "AvatarPropertyValue",
-            "PropertyType": "BreakDamageAddedRatioBase",
-            "Value": 0.10699999961070716
-          }
-        ]
-      }
-    },
-    "Point18": {
-      "1": {
-        "Anchor": "Point18",
-        "AvatarPromotionLimit": null,
-        "AvatarLevelLimit": 80,
         "DefaultUnlock": false,
         "Icon": "IconStatusResistance.png",
         "LevelUpSkillID": [],
@@ -2759,12 +2717,14 @@
         ],
         "MaxLevel": 1,
         "ParamList": [],
-        "PointID": 1301210,
+        "PointID": 1301209,
         "PointName": "Effect RES Boost",
         "PointDesc": null,
-        "PointTriggerKey": 44064284,
+        "PointTriggerKey": -1985601179,
         "PointType": 1,
-        "PrePoint": [],
+        "PrePoint": [
+          1301103
+        ],
         "StatusAddList": [
           {
             "$type": "AvatarPropertyValue",
@@ -2773,16 +2733,58 @@
           }
         ]
       }
+    },
+    "Point18": {
+      "1": {
+        "Anchor": "Point18",
+        "AvatarPromotionLimit": null,
+        "AvatarLevelLimit": 80,
+        "DefaultUnlock": false,
+        "Icon": "IconMaxHP.png",
+        "LevelUpSkillID": [],
+        "MaterialList": [
+          {
+            "$type": "ItemConfigRow",
+            "ItemID": 2,
+            "ItemNum": 128000
+          },
+          {
+            "$type": "ItemConfigRow",
+            "ItemID": 110243,
+            "ItemNum": 6
+          },
+          {
+            "$type": "ItemConfigRow",
+            "ItemID": 114003,
+            "ItemNum": 6
+          }
+        ],
+        "MaxLevel": 1,
+        "ParamList": [],
+        "PointID": 1301210,
+        "PointName": "HP Boost",
+        "PointDesc": null,
+        "PointTriggerKey": 44064284,
+        "PointType": 1,
+        "PrePoint": [],
+        "StatusAddList": [
+          {
+            "$type": "AvatarPropertyValue",
+            "PropertyType": "HPAddedRatio",
+            "Value": 0.0800000000745058
+          }
+        ]
+      }
     }
   },
   "Stats": {
     "0": {
-      "AttackBase": 88.80000000074506,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 72,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 60,
       "DefenceAdd": 3,
-      "HPBase": 144,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 177.6000000005588,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2801,12 +2803,12 @@
       ]
     },
     "1": {
-      "AttackBase": 124.32000000029802,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 100.80000000074506,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 84,
       "DefenceAdd": 3,
-      "HPBase": 201.6000000005588,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 248.64000000059605,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2825,12 +2827,12 @@
       ]
     },
     "2": {
-      "AttackBase": 159.8400000007823,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 129.6000000005588,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 108,
       "DefenceAdd": 3,
-      "HPBase": 259.20000000018626,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 319.6800000006333,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2854,12 +2856,12 @@
       ]
     },
     "3": {
-      "AttackBase": 195.36000000033528,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 158.40000000037253,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 132,
       "DefenceAdd": 3,
-      "HPBase": 316.80000000074506,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 390.72000000067055,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2883,12 +2885,12 @@
       ]
     },
     "4": {
-      "AttackBase": 230.88000000081956,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 187.20000000018626,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 156,
       "DefenceAdd": 3,
-      "HPBase": 374.40000000037253,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 461.7600000007078,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2912,12 +2914,12 @@
       ]
     },
     "5": {
-      "AttackBase": 266.40000000037253,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 216,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 180,
       "DefenceAdd": 3,
-      "HPBase": 432,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 532.8000000007451,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,
@@ -2941,12 +2943,12 @@
       ]
     },
     "6": {
-      "AttackBase": 301.9200000008568,
-      "AttackAdd": 4.440000000409782,
+      "AttackBase": 244.80000000074506,
+      "AttackAdd": 3.6000000005587935,
       "DefenceBase": 204,
       "DefenceAdd": 3,
-      "HPBase": 489.6000000005588,
-      "HPAdd": 7.2000000001862645,
+      "HPBase": 603.8400000007823,
+      "HPAdd": 8.880000000819564,
       "SpeedBase": 98,
       "CriticalChance": 0.05000000004656613,
       "CriticalDamage": 0.5000000004656613,

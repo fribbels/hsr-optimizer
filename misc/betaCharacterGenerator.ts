@@ -23,7 +23,7 @@ function run() {
 
   const name = 'Gallagher'
   const id = '1301'
-  const rarity = 5
+  const rarity = 4
   const path = 'Priest'
   const element = 'Fire'
   const max_sp = 0

@@ -134,7 +134,7 @@ self.onmessage = function(e) {
     }
 
     // Rating filters
-    const fail = c.ehp < request.minEhp || c.ehp > request.maxEhp
+    const fail = c.EHP < request.minEhp || c.EHP > request.maxEhp
       || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
       || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt

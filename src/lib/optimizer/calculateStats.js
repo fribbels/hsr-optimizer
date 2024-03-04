@@ -164,29 +164,29 @@ export function calculateComputedStats(c, request, params) {
     + 0.06 * params.valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke)
     + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
     + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-    + Math.min(0.25, 0.25 * c[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+    + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
   x[Stats.DEF_P]
-    += 0.15 * (c[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+    += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
   x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
 
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
 
-  x[Stats.CR]
-    += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
-    + 0.60 * params.enabledCelestialDifferentiator * (c[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-    + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
-
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
     + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.10 * (c[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+    + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
 
+  x[Stats.CR]
+    += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
+    + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
+    + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+    + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
+
   x[Stats.BE]
-    += 0.20 * (c[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
     + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
 
   x.BASIC_BOOST

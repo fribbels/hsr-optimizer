@@ -2,8 +2,7 @@ import { Form } from 'antd'
 import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
-import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow'
-import FilterContainer from 'components/optimizerTab/FilterContainer'
+import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
 import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptionsDisplay from 'components/optimizerTab/OptimizerOptionsDisplay.tsx'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -22,6 +21,7 @@ import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/
 import { CombatBuffsFilters } from 'components/optimizerTab/CombatBuffsFilters'
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')

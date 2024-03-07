@@ -7,7 +7,7 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
-import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
+import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 
 const state = {
   relics: [],

@@ -335,10 +335,8 @@ export const OptimizerTabController = {
 
     newForm.exclude = newForm.exclude.filter((id) => DB.getCharacterById(id))
 
-    /*
-     * Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
-     * Keeping this here for now
-     */
+    // Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
+    // Keeping this here for now
     if (newForm.includeEquippedRelics == null) {
       newForm.includeEquippedRelics = true
     }
@@ -527,6 +525,7 @@ export const OptimizerTabController = {
     window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
     window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
     window.store.getState().setOptimizerTabFocusCharacter(characterId)
+    window.store.getState().setStatDisplay(character.form.statDisplay || DEFAULT_STAT_DISPLAY)
 
     window.onOptimizerFormValuesChange({}, displayFormValues)
     console.log('@updateForm', displayFormValues, character)
@@ -574,17 +573,6 @@ export const OptimizerTabController = {
 
     setPinnedRow(id)
     OptimizerTabController.updateFilters()
-  },
-
-  setSortColumn: (colId) => {
-    sortModel.colId = colId
-  },
-
-  refreshPinned: () => {
-    let fieldValues = OptimizerTabController.getForm()
-    if (fieldValues.characterId) {
-      setPinnedRow(fieldValues.characterId)
-    }
   },
 
   redrawRows: () => {

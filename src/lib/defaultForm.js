@@ -49,7 +49,16 @@ export function getDefaultForm(initialCharacter) {
       topPercent: 100,
     },
     setConditionals: defaultSetConditionals,
+    teammate0: defaultTeammate,
+    teammate1: defaultTeammate,
+    teammate2: defaultTeammate,
   }
+}
+
+const defaultTeammate = {
+  characterId: null,
+  characterEidolon: 0,
+  lightConeSuperimposition: 1,
 }
 
 export const defaultSetConditionals = {

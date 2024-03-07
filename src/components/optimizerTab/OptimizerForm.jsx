@@ -1,5 +1,5 @@
-import { Form, Image } from 'antd'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Form } from 'antd'
+import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow'
@@ -8,10 +8,7 @@ import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptionsDisplay from 'components/optimizerTab/OptimizerOptionsDisplay.tsx'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { SaveState } from 'lib/saveState'
-import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { getDefaultForm } from 'lib/defaultForm'
 import { FormSetConditionals } from 'components/optimizerTab/FormSetConditionals'
-import { Assets } from 'lib/assets'
 import DB from 'lib/db'
 import { Utils } from 'lib/utils.js'
 import { CharacterConditionalDisplay } from 'components/optimizerForm/conditionals/CharacterConditionalDisplay'
@@ -23,103 +20,25 @@ import RelicMainSetFilters from 'components/optimizerTab/RelicMainSetFilters'
 import { SubstatWeightFilters } from 'components/optimizerTab/SubstatWeightFilters'
 import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/ResultFilters'
 import { CombatBuffsFilters } from 'components/optimizerTab/CombatBuffsFilters'
-
-let panelWidth = 203
-let defaultGap = 5
+import { OptimizerTabCharacterPanel } from 'components/optimizerTab/OptimizerTabCharacterPanel'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER OptimizerForm')
+  console.log('======================================================================= EXPENSIVE RENDER - OptimizerForm')
   const [optimizerForm] = Form.useForm()
-  window.optimizerForm = window.optimizerForm = optimizerForm
+  window.optimizerForm = optimizerForm
 
-  // hooks
-  const characterEidolon = Form.useWatch('characterEidolon', optimizerForm)
-  const lightCone = Form.useWatch('lightCone', optimizerForm)
-  const lightConeSuperimposition = Form.useWatch('lightConeSuperimposition', optimizerForm)
-  const [selectedLightCone, setSelectedLightCone] = useState({ id: 'None', name: 'Light Cone' })
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
-  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(optimizerTabFocusCharacter), [optimizerTabFocusCharacter])
 
   useEffect(() => {
-    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone)
-  }, [optimizerTabFocusCharacter])
-
-  const characterSelectorChange = useCallback((id) => {
-    setOptimizerTabFocusCharacter(id)
-  }, [setOptimizerTabFocusCharacter])
-
-  const lightConeSelectorChange = useCallback((id) => {
-    setSelectedLightCone(lightConeOptions.find((x) => x.id == id))
-    OptimizerTabController.changeCharacter(optimizerTabFocusCharacter, setSelectedLightCone, id)
-  }, [lightConeOptions, optimizerTabFocusCharacter])
-
-  useEffect(() => {
-    let lcFn = LightConeConditionals.get(optimizerForm.getFieldsValue())
-    let form = optimizerForm.getFieldsValue()
-    let defaults = lcFn.defaults()
-    let lightConeForm = form.lightConeConditionals || {}
-
-    // We can't apply the form to dynamically generated elements, so we use an effect to set the form value to default
-    // Only if there's a missing field (TODO: Possibly out of date - verify if this is still true)
-    Object.assign(defaults, lightConeForm)
-    console.log('useMemo lcFn.defaults()', defaults, lcFn.defaults(), lightConeForm)
-    console.log(lcFn.defaults.valueOf())
-
-    if (lightCone === '21034') { // Today Is Another Peaceful Day
-      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
-    }
-
-    optimizerForm.setFieldValue('lightConeConditionals', defaults)
-  }, [optimizerTabFocusCharacter, lightCone, lightConeSuperimposition])
-
-  const initialCharacter = useMemo(() => {
-    console.log('@initialCharacter')
-    let characters = DB.getCharacters() // retrieve instance localStore saved chars
-
-    if (optimizerTabFocusCharacter) {
-      return characters.find((x) => x.id == optimizerTabFocusCharacter)
-    }
-
-    if (characters && characters.length > 0) {
-      let character = characters[0]
-      lightConeSelectorChange(character.form.lightCone)
-      setOptimizerTabFocusCharacter(character.id)
-      return characterOptions.find((x) => x.id == character.id)
-    }
-  }, [optimizerTabFocusCharacter, lightConeSelectorChange, setOptimizerTabFocusCharacter, characterOptions])
-
-  const initialValues = useMemo(() => {
-    if (optimizerTabFocusCharacter) {
-      const matchingCharacter = DB.getCharacterById(optimizerTabFocusCharacter)
-
-      if (matchingCharacter) {
-        if (matchingCharacter?.form?.lightCone) {
-          setSelectedLightCone(lightConeOptions.find((x) => x.id == matchingCharacter.form.lightCone))
-        } else {
-          console.warn(`@OptimizerForm.initialValues: No character form found for ${optimizerTabFocusCharacter}`, matchingCharacter)
-        }
-        return OptimizerTabController.getDisplayFormValues(matchingCharacter.form)
-      } else {
-        // TODO: render-cycle flows through this before DB.getCharacterById() returns the character
-        // console.warn(`@OptimizerForm.initialValues: No character found for ${optimizerTabFocusCharacter}`);
-      }
-    }
-
-    return getDefaultForm(initialCharacter)
-    // We only want to update this once for the initial character
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCharacter])
-
-  useEffect(() => {
-    onValuesChange({}, initialValues)
-  }, [initialValues])
+    let characters = DB.getCharacters() || [] // retrieve instance localStore saved chars
+    OptimizerTabController.updateCharacter(characters[0]?.id)
+  }, [])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return
     let keys = Object.keys(changedValues)
+
     if (bypass) {
       // Allow certain values to refresh permutations.
       // Sliders should only update at the end of the drag
@@ -134,12 +53,12 @@ export default function OptimizerForm() {
       || keys[0] == 'lightConeConditionals')) {
       return
     }
-    const request = allValues
 
+    const request = allValues
     console.log('@onValuesChange', request, changedValues)
 
-    // Add any new characters to the list
-    if (!DB.getCharacterById(allValues.characterId)) {
+    // Add any new characters to the list only if the user changed any value other than the characterId
+    if (!DB.getCharacterById(allValues.characterId) && keys[0] != 'characterId') {
       DB.addFromForm(allValues)
     }
 
@@ -149,8 +68,8 @@ export default function OptimizerForm() {
       DB.refreshCharacters()
     }
 
+    // Update permutation counts
     const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request, allValues.characterId)
-
     const permutationDetails = {
       Head: relics.Head.length,
       Hands: relics.Hands.length,
@@ -169,11 +88,6 @@ export default function OptimizerForm() {
     window.store.getState().setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
   }
   window.onOptimizerFormValuesChange = onValuesChange
-
-  let parentW = 233
-  let parentH = 350
-  let innerW = 350
-  let innerH = 400
 
   function cancelClicked() {
     console.log('Cancel clicked')
@@ -197,13 +111,10 @@ export default function OptimizerForm() {
   function startClicked() {
     console.log('Start clicked')
 
-    /*
-     * We dont actually want to submit the form as it would kick off a re-render
-     * Intercept the event and just call the optimizer directly
-     */
-    const form = optimizerForm.getFieldsValue()
+    // We dont actually want to submit the form as it would kick off a re-render
+    // Intercept the event and just call the optimizer directly
+    const form = OptimizerTabController.getForm()
 
-    OptimizerTabController.fixForm(form)
     if (!OptimizerTabController.validateForm(form)) {
       return
     }
@@ -231,66 +142,36 @@ export default function OptimizerForm() {
         form={optimizerForm}
         layout="vertical"
         onValuesChange={onValuesChange}
-        initialValues={initialValues}
       >
         <FormSetConditionals />
 
+        {/* Row 1 */}
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
-            {/* Character portrait card */}
-
             <FormCard style={{ overflow: 'hidden' }}>
-              <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
-                <Image
-                  preview={false}
-                  width={innerW}
-                  src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter)}
-                  style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
-                />
-              </div>
+              <OptimizerTabCharacterPanel />
             </FormCard>
-
-            {/* Character/lc selector card */}
 
             <FormCard>
-              <CharacterSelectorDisplay
-                characterOptions={characterOptions}
-                characterSelectorChange={characterSelectorChange}
-                lightConeOptions={lightConeOptions}
-                lightConeSelectorChange={lightConeSelectorChange}
-              />
+              <CharacterSelectorDisplay />
             </FormCard>
-
-            {/* Character conditionals card */}
 
             <FormCard>
-              <CharacterConditionalDisplay
-                id={optimizerTabFocusCharacter}
-                eidolon={characterEidolon}
-              />
+              <CharacterConditionalDisplayWrapper />
             </FormCard>
-
-            {/* Light cone conditionals card */}
 
             <FormCard justify="space-between">
-              <LightConeConditionalDisplay
-                id={selectedLightCone?.id}
-                superImposition={lightConeSuperimposition}
-              />
+              <LightConeConditionalDisplayWrapper />
 
               <EnemyOptionsDisplay />
             </FormCard>
 
-            {/* Optimizer options card */}
-
             <FormCard>
-              <OptimizerOptionsDisplay
-                defaultGap={defaultGap}
-                panelWidth={panelWidth}
-              />
+              <OptimizerOptionsDisplay />
             </FormCard>
           </FormRow>
 
+          {/* Row 2 */}
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
               <RelicMainSetFilters />
@@ -313,6 +194,7 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
+          {/* Row 3 */}
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} />
             <TeammateCard index={1} />
@@ -321,5 +203,47 @@ export default function OptimizerForm() {
         </FilterContainer>
       </Form>
     </div>
+  )
+}
+
+// Wrap these with local state to limit rerenders
+function CharacterConditionalDisplayWrapper() {
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerFormCharacterEidolon = window.store((s) => s.optimizerFormCharacterEidolon)
+
+  return (
+    <CharacterConditionalDisplay
+      id={optimizerTabFocusCharacter}
+      eidolon={optimizerFormCharacterEidolon}
+    />
+  )
+}
+
+function LightConeConditionalDisplayWrapper() {
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerFormSelectedLightCone = window.store((s) => s.optimizerFormSelectedLightCone)
+  const optimizerFormSelectedLightConeSuperimposition = window.store((s) => s.optimizerFormSelectedLightConeSuperimposition)
+
+  // Hook into light cone changes to set defaults
+  useEffect(() => {
+    const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue())
+    const defaults = lcFn.defaults()
+    const lightConeForm = window.optimizerForm.getFieldsValue().lightConeConditionals || {}
+    Utils.mergeDefinedValues(defaults, lightConeForm)
+
+    if (optimizerFormSelectedLightCone === '21034') { // Today Is Another Peaceful Day
+      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter].max_sp)
+    }
+
+    console.log('Loaded light cone conditional values', defaults)
+
+    window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
+  }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
+
+  return (
+    <LightConeConditionalDisplay
+      id={optimizerFormSelectedLightCone}
+      superImposition={optimizerFormSelectedLightConeSuperimposition}
+    />
   )
 }

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
-import { PlusCircleOutlined, SyncOutlined } from '@ant-design/icons'
+import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Constants, eidolonOptions, Sets, superimpositionOptions } from 'lib/constants.ts'
@@ -140,8 +140,6 @@ const TeammateCard = (props: { index: number }) => {
   const teammateLightConeId = Form.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
   const teammateSuperimposition = Form.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
-  const [teammateEnabled, setTeammateEnabled] = useState(true)
-
   const disabled = teammateCharacterId == null
 
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
@@ -207,30 +205,6 @@ const TeammateCard = (props: { index: number }) => {
     const mergedConditionals = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
     window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
   }, [teammateLightConeId, teammateSuperimposition, props.index])
-
-  function addTeammateClicked() {
-    setTeammateEnabled(true)
-  }
-
-  if (!teammateEnabled) {
-    return (
-      <FormCard size="medium" height={cardHeight}>
-        <Flex justify="space-around" style={{ paddingTop: 175 }}>
-          <Button
-            type="text"
-            shape="circle"
-            icon={<PlusCircleOutlined style={{ fontSize: '35px' }} />}
-            onClick={addTeammateClicked}
-            style={{
-              width: 60,
-              height: 60,
-            }}
-          >
-          </Button>
-        </Flex>
-      </FormCard>
-    )
-  }
 
   return (
     <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>

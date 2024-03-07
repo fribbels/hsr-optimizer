@@ -15,6 +15,8 @@ export interface LightConeConditionalDisplayProps {
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
+  console.log('LightConeConditionalDisplay', props)
+
   const { id, superImposition, teammateIndex } = props
   // TODO revisit type workaround
   const lightConeId = id as unknown as keyof typeof lightConeOptionMapping

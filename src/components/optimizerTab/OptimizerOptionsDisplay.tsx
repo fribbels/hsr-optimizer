@@ -7,10 +7,11 @@ import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 const { Text } = Typography
 
-const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
+const OptimizerOptionsDisplay = (): JSX.Element => {
   const characters = window.store((s) => s.characters)
 
   const characterExcludeOptions = useMemo(() => {
@@ -36,7 +37,7 @@ const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as n
 
   return (
     <Flex vertical>
-      <Flex vertical gap={defaultGap}>
+      <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
@@ -90,14 +91,14 @@ const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as n
           <Text>Keep current relics</Text>
         </Flex>
 
-        <Flex gap={defaultGap} style={{ marginTop: 10 }}>
+        <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
           <Flex vertical gap={2}>
             <HeaderText>
               Priority
             </HeaderText>
             <Form.Item name="rank">
               <Select
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={characterPriorityOptions}
                 popupMatchSelectWidth={160}
                 listHeight={500}
@@ -112,7 +113,7 @@ const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as n
             </HeaderText>
             <Form.Item name="exclude">
               <Select
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 mode="multiple"
                 maxTagCount="responsive"
                 popupMatchSelectWidth={160}
@@ -135,7 +136,7 @@ const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as n
         <Flex justify="space-between">
           <Form.Item name="enhance">
             <Select
-              style={{ width: (panelWidth - defaultGap) / 2 }}
+              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               options={[
                 { value: 0, label: '+0' },
                 { value: 3, label: '+3' },
@@ -149,7 +150,7 @@ const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as n
 
           <Form.Item name="grade">
             <Select
-              style={{ width: (panelWidth - defaultGap) / 2 }}
+              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               options={[
                 { value: 2, label: '2 ★ +' },
                 { value: 3, label: '3 ★ +' },

@@ -6,14 +6,26 @@ import { Utils } from 'lib/utils'
 import { eidolonOptions, levelOptions, superimpositionOptions } from 'lib/constants'
 import RecommendedPresetsButton from 'components/optimizerForm/RecommendedPresetsButton'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
+import { useEffect, useMemo } from 'react'
+import { OptimizerTabController } from 'lib/optimizerTabController.js'
 
 type CharacterSelectorDisplayProps = {
-  characterOptions: object[]
-  characterSelectorChange: () => void
-  lightConeOptions: object[]
-  lightConeSelectorChange: () => void
 }
-export default function CharacterSelectorDisplay(props: CharacterSelectorDisplayProps) {
+export default function CharacterSelectorDisplay(_props: CharacterSelectorDisplayProps) {
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
+  const setOptimizerFormCharacterEidolon = window.store((s) => s.setOptimizerFormCharacterEidolon)
+
+  const setOptimizerFormSelectedLightCone = window.store((s) => s.setOptimizerFormSelectedLightCone)
+  const setOptimizerFormSelectedLightConeSuperimposition = window.store((s) => s.setOptimizerFormSelectedLightConeSuperimposition)
+
+  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(optimizerTabFocusCharacter), [optimizerTabFocusCharacter])
+
+  useEffect(() => {
+    OptimizerTabController.updateCharacter(optimizerTabFocusCharacter)
+  }, [optimizerTabFocusCharacter])
+
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify="space-between" align="center">
@@ -26,8 +38,8 @@ export default function CharacterSelectorDisplay(props: CharacterSelectorDisplay
             showSearch
             filterOption={Utils.labelFilterOption}
             style={{ width: panelWidth }}
-            onChange={props.characterSelectorChange}
-            options={props.characterOptions}
+            onChange={setOptimizerTabFocusCharacter}
+            options={characterOptions}
             optionLabelProp="label"
             placeholder="Character"
           />
@@ -46,6 +58,7 @@ export default function CharacterSelectorDisplay(props: CharacterSelectorDisplay
               showSearch
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               options={eidolonOptions}
+              onChange={setOptimizerFormCharacterEidolon}
               placeholder="Eidolon"
             />
           </Form.Item>
@@ -62,8 +75,8 @@ export default function CharacterSelectorDisplay(props: CharacterSelectorDisplay
               showSearch
               filterOption={Utils.labelFilterOption}
               style={{ width: panelWidth }}
-              onChange={props.lightConeSelectorChange}
-              options={props.lightConeOptions}
+              onChange={setOptimizerFormSelectedLightCone}
+              options={lightConeOptions}
               placeholder="Light Cone"
             />
           </Form.Item>
@@ -81,6 +94,7 @@ export default function CharacterSelectorDisplay(props: CharacterSelectorDisplay
             <Select
               showSearch
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+              onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
               placeholder="Superimposition"
             />

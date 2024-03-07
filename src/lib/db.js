@@ -81,6 +81,11 @@ window.store = create((set) => ({
   optimizationId: undefined,
   teammateCount: 0,
 
+  optimizerFormCharacterEidolon: 0,
+  optimizerFormSelectedLightCone: null,
+  optimizerFormSelectedLightConeSuperimposition: 1,
+  optimizerFormTeammates: [],
+
   permutationDetails: {
     Head: 0,
     Hands: 0,
@@ -134,6 +139,10 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setOptimizerFormTeammates: (x) => set(() => ({ optimizerFormTeammates: x })),
 }))
 
 export const DB = {

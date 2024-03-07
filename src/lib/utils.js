@@ -4,6 +4,32 @@ import { Constants } from './constants.ts'
 import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
 
+console.debug = (...args) => {
+  let messageConfig = '%c%s '
+
+  args.forEach((argument) => {
+    const type = typeof argument
+    switch (type) {
+      case 'bigint':
+      case 'number':
+      case 'boolean':
+        messageConfig += '%d '
+        break
+
+      case 'string':
+        messageConfig += '%s '
+        break
+
+      case 'object':
+      case 'undefined':
+      default:
+        messageConfig += '%o '
+    }
+  })
+
+  console.log(messageConfig, 'color: orange', '[DEBUG]', ...args)
+}
+
 export const Utils = {
   // Fill array of size n with 0s
   arrayOfZeroes: (n) => {
@@ -13,6 +39,15 @@ export const Utils = {
   // Fill array of size n with value x
   arrayOfValue: (n, x) => {
     return new Array(n).fill(x)
+  },
+
+  mergeDefinedValues: (target, source) => {
+    for (let key of Object.keys(target)) {
+      if (source[key] != null) {
+        target[key] = source[key]
+      }
+    }
+    return target
   },
 
   // await sleep(ms) to block
@@ -156,10 +191,10 @@ export const Utils = {
   generateLightConeOptions: (characterId) => {
     let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
 
-    let pathFilter = null;
+    let pathFilter = null
     if (characterId) {
-      let character = DB.getMetadata().characters[characterId];
-      pathFilter = character.path;
+      let character = DB.getMetadata().characters[characterId]
+      pathFilter = character.path
     }
 
     for (let value of Object.values(lcData)) {
@@ -168,7 +203,7 @@ export const Utils = {
     }
 
     return Object.values(lcData)
-      .filter(lc => !pathFilter || lc.path === pathFilter)
+      .filter((lc) => !pathFilter || lc.path === pathFilter)
       .sort((a, b) => a.label.localeCompare(b.label))
   },
 

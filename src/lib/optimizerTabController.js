@@ -8,7 +8,7 @@ import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
-import { defaultSetConditionals } from 'lib/defaultForm'
+import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm'
 
 let relics
 let consts
@@ -293,8 +293,8 @@ export const OptimizerTabController = {
       newForm.enemyElementalResistance = false
     }
 
-    if (form.characterId) {
-      let defaultOptions = CharacterConditionals.get(form).defaults()
+    if (newForm.characterId) {
+      let defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) newForm.characterConditionals = {}
       for (let option of Object.keys(defaultOptions)) {
         if (newForm.characterConditionals[option] == undefined) {
@@ -303,8 +303,8 @@ export const OptimizerTabController = {
       }
     }
 
-    if (form.lightCone) {
-      let defaultLcOptions = LightConeConditionals.get(form).defaults()
+    if (newForm.lightCone) {
+      let defaultLcOptions = LightConeConditionals.get(newForm).defaults()
       if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
       for (let option of Object.keys(defaultLcOptions)) {
         if (newForm.lightConeConditionals[option] == undefined) {
@@ -348,8 +348,10 @@ export const OptimizerTabController = {
     }
 
     for (let i of [0, 1, 2]) {
-      if (!newForm[`teammate${i}`]) {
-        newForm[`teammate${i}`] = {
+      const teammateProperty = `teammate${i}`
+      if (!newForm[teammateProperty] || !newForm[teammateProperty].characterId) {
+        newForm[teammateProperty] = {
+          characterId: null,
           characterEidolon: 0,
           lightConeSuperimposition: 1,
         }
@@ -375,7 +377,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update'/* , form, newForm, defaultOptions */)
+    console.log('Form update', newForm/* , form, defaultOptions */)
     return newForm
   },
 
@@ -505,6 +507,29 @@ export const OptimizerTabController = {
 
     window.optimizerForm.setFieldsValue(OptimizerTabController.getDisplayFormValues(newForm))
     OptimizerTabController.updateFilters()
+  },
+
+  setCharacter: (id) => {
+    window.store.getState().setOptimizerTabFocusCharacter(id)
+    window.optimizerForm.setFieldValue('characterId', id)
+  },
+
+  updateCharacter: (characterId) => {
+    console.log('@updateCharacter', characterId)
+    if (!characterId) return
+
+    const character = DB.getCharacterById(characterId)
+
+    const form = character ? character.form : getDefaultForm({ id: characterId })
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
+    window.optimizerForm.setFieldsValue(displayFormValues)
+
+    window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
+    window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
+    window.store.getState().setOptimizerTabFocusCharacter(characterId)
+
+    window.onOptimizerFormValuesChange({}, displayFormValues)
+    console.log('@updateForm', displayFormValues, character)
   },
 
   /*

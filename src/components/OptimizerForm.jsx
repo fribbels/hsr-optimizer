@@ -475,6 +475,8 @@ export default function OptimizerForm() {
                       filterOption={Utils.labelFilterOption}
                       style={{ width: (panelWidth - defaultGap) / 2 }}
                       options={enemyLevelOptions}
+                      optionLabelProp="number"
+                      popupMatchSelectWidth={160}
                     />
                   </Form.Item>
                   <Form.Item size="default" name="enemyCount">

@@ -254,11 +254,12 @@ export const levelOptions = (() => {
 })()
 
 export const enemyLevelOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
+  const levelStats: { value: number; label: string; number: string }[] = []
   for (let i = 95; i >= 1; i--) {
     levelStats.push({
       value: i,
-      label: `Lv. ${i}`,
+      label: `Lv. ${i} - ${200 + 10 * i} DEF`,
+      number: `Lv. ${i}`,
     })
   }
 

@@ -26,6 +26,8 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
             filterOption={Utils.labelFilterOption}
             style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
             options={enemyLevelOptions}
+            optionLabelProp="number"
+            popupMatchSelectWidth={160}
           />
         </Form.Item>
         <Form.Item name="enemyCount">

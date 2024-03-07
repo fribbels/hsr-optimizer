@@ -24,14 +24,13 @@ import { OptimizerTabCharacterPanel } from 'components/optimizerTab/OptimizerTab
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 
 export default function OptimizerForm() {
-  console.log('======================================================================= EXPENSIVE RENDER - OptimizerForm')
+  console.log('======================================================================= RENDER OptimizerForm')
   const [optimizerForm] = Form.useForm()
   window.optimizerForm = optimizerForm
 
-  const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
-
+  // On first load, display the first character from the roster
   useEffect(() => {
-    let characters = DB.getCharacters() || [] // retrieve instance localStore saved chars
+    let characters = DB.getCharacters() || []
     OptimizerTabController.updateCharacter(characters[0]?.id)
   }, [])
 
@@ -40,7 +39,7 @@ export default function OptimizerForm() {
     let keys = Object.keys(changedValues)
 
     if (bypass) {
-      // Allow certain values to refresh permutations.
+      // Only allow certain values to refresh permutations.
       // Sliders should only update at the end of the drag
     } else if (keys.length == 1 && (
       keys[0].startsWith('min')
@@ -89,25 +88,6 @@ export default function OptimizerForm() {
   }
   window.onOptimizerFormValuesChange = onValuesChange
 
-  function cancelClicked() {
-    console.log('Cancel clicked')
-    setOptimizationInProgress(false)
-    Optimizer.cancel(window.store.getState().optimizationId)
-  }
-  window.optimizerCancelClicked = cancelClicked
-
-  function resetClicked() {
-    console.log('Reset clicked')
-    OptimizerTabController.resetFilters()
-  }
-  window.optimizerResetClicked = resetClicked
-
-  function filterClicked() {
-    console.log('Filter clicked')
-    OptimizerTabController.applyRowFilters()
-  }
-  window.optimizerFilterClicked = filterClicked
-
   function startClicked() {
     console.log('Start clicked')
 
@@ -131,7 +111,7 @@ export default function OptimizerForm() {
 
     console.log('Form finished', form)
 
-    setOptimizationInProgress(true)
+    window.store.getState().setOptimizationInProgress(true)
     Optimizer.optimize(form)
   }
   window.optimizerStartClicked = startClicked
@@ -146,6 +126,7 @@ export default function OptimizerForm() {
         <FormSetConditionals />
 
         {/* Row 1 */}
+
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden' }}>
@@ -172,6 +153,7 @@ export default function OptimizerForm() {
           </FormRow>
 
           {/* Row 2 */}
+
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
               <RelicMainSetFilters />
@@ -195,6 +177,7 @@ export default function OptimizerForm() {
           </FormRow>
 
           {/* Row 3 */}
+
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} />
             <TeammateCard index={1} />
@@ -206,7 +189,7 @@ export default function OptimizerForm() {
   )
 }
 
-// Wrap these with local state to limit rerenders
+// Wrap these and use local state to limit rerenders
 function CharacterConditionalDisplayWrapper() {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const optimizerFormCharacterEidolon = window.store((s) => s.optimizerFormCharacterEidolon)

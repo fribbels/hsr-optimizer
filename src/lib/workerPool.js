@@ -99,4 +99,4 @@ export const WorkerPool = {
 // Start a worker to kick off the caching process for worker imports
 setTimeout(() => {
   WorkerPool.initializeWorker()
-}, 2000)
+}, 1000)

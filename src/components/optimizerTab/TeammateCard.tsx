@@ -178,8 +178,6 @@ const TeammateCard = (props: { index: number }) => {
       lightConeConditionals: {},
     })
 
-    console.log('Teammate character conditionals', characterConditionals, displayFormValues)
-
     if (!characterConditionals.teammateDefaults) return
     teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
 
@@ -198,8 +196,6 @@ const TeammateCard = (props: { index: number }) => {
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
     })
-
-    console.log('Teammate lc conditionals', lightConeConditionals)
 
     if (!lightConeConditionals.teammateDefaults) return
     const mergedConditionals = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)

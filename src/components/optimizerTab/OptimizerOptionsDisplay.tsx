@@ -2,18 +2,15 @@
 import { Flex, Form, Select, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
-import { Hint } from '../../lib/hint'
+import { Hint } from 'lib/hint.jsx'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
-
-import FormCard from 'components/optimizerTab/FormCard.tsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
 
 const { Text } = Typography
 
-const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
-  const setStatDisplay = window.store((s) => s.setStatDisplay)
+const OptimizerOptionsDisplay = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
   const characters = window.store((s) => s.characters)
 
   const characterExcludeOptions = useMemo(() => {
@@ -38,7 +35,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
   }, [characters])
 
   return (
-    <FormCard>
+    <Flex vertical>
       <Flex vertical gap={defaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
@@ -189,9 +186,9 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         Save Character
       </Button> */}
       </Flex>
-    </FormCard>
+    </Flex>
 
   )
 }
 
-export default OptimizerOptions
+export default OptimizerOptionsDisplay

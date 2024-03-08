@@ -2,7 +2,7 @@ import { Flex, Form, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import InputNumberStyled from 'components/optimizerForm/InputNumberStyled.tsx'
+import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled.tsx'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 const { Text } = Typography

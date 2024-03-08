@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 
-import { Assets } from 'lib/assets'
-import { Constants } from 'lib/constants'
+import { Assets } from 'lib/assets.js'
+import { Constants } from 'lib/constants.ts'
 
 const GenerateOrnamentsOptions = (): { value: string; label: JSX.Element }[] => {
   return Object.values(Constants.SetsOrnaments).map((x) => {

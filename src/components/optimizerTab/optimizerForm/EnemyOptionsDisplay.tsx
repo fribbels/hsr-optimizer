@@ -1,10 +1,10 @@
 import { Flex, Form, Select, Switch, Typography } from 'antd'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
-import { Utils } from 'lib/utils'
-import { enemyCountOptions, enemyHpPercentOptions, enemyLevelOptions, enemyResistanceOptions } from 'lib/constants'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
+import { HeaderText } from 'components/HeaderText.jsx'
+import { TooltipImage } from 'components/TooltipImage.jsx'
+import { Hint } from 'lib/hint.jsx'
+import { Utils } from 'lib/utils.js'
+import { enemyCountOptions, enemyHpPercentOptions, enemyLevelOptions, enemyResistanceOptions } from 'lib/constants.ts'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 const { Text } = Typography

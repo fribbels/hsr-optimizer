@@ -9,7 +9,7 @@ import relicSets from 'data/relic_sets.json'
 import characterSkills from 'data/en/character_skills.json'
 import { Constants } from 'lib/constants.ts'
 import DB from 'lib/db'
-import { PresetEffects } from 'components/optimizerForm/RecommendedPresetsButton'
+import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 
 export const DataParser = {
   parse: () => {

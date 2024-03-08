@@ -2,7 +2,7 @@ import { Flex } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import FilterRow from 'components/optimizerForm/FilterRow.tsx'
+import FilterRow from 'components/optimizerTab/optimizerForm/FilterRow.tsx'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 export const MinMaxStatFilters = () => {

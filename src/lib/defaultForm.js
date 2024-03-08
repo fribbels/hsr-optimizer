@@ -49,6 +49,17 @@ export function getDefaultForm(initialCharacter) {
       topPercent: 100,
     },
     setConditionals: defaultSetConditionals,
+    teammate0: defaultTeammate(),
+    teammate1: defaultTeammate(),
+    teammate2: defaultTeammate(),
+  }
+}
+
+export function defaultTeammate() {
+  return {
+    characterId: null,
+    characterEidolon: 0,
+    lightConeSuperimposition: 1,
   }
 }
 

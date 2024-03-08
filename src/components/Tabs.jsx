@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Typography } from 'antd'
 
-import OptimizerTab from 'components/OptimizerTab'
+import OptimizerTab from 'components/optimizerTab/OptimizerTab'
 import ImportTab from 'components/ImportTab'
 import RelicsTab from 'components/RelicsTab'
 import CharacterTab from 'components/CharacterTab'

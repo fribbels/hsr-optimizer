@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Flex, Form, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import WithPopover from 'components/common/WithPopover'
+import WithPopover from 'components/common/WithPopover.tsx'
 import { ComponentProps, ComponentType } from 'react'
 
 const justify = 'flex-start'

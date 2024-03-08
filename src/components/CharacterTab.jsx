@@ -24,6 +24,7 @@ import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const { Text } = Typography
 
@@ -165,7 +166,6 @@ export default function CharacterTab() {
 
   const characterTabFocusCharacter = window.store((s) => s.characterTabFocusCharacter)
   const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
-  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
   const charactersById = window.store((s) => s.charactersById)
   const selectedCharacter = charactersById[characterTabFocusCharacter]
@@ -216,12 +216,10 @@ export default function CharacterTab() {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const cellDoubleClickedListener = useCallback((e) => {
-    // setSelectedChar
-    setOptimizerTabFocusCharacter(e.data.id)
-    // set view
     setActiveKey(AppPages.OPTIMIZER)
+    OptimizerTabController.setCharacter(e.data.id)
     console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data)
-  }, [setActiveKey, setOptimizerTabFocusCharacter])
+  }, [])
 
   const navigateToNextCell = useCallback((params) => {
     return arrowKeyGridNavigation(params, characterGrid, (selectedNode) => cellClickedListener(selectedNode))

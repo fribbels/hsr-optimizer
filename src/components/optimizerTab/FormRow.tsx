@@ -1,6 +1,5 @@
 import { Collapse, Flex } from 'antd'
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
+import { ReactElement, useMemo } from 'react'
 
 export const OptimizerMenuIds = {
   characterOptions: 'Character options',
@@ -8,7 +7,7 @@ export const OptimizerMenuIds = {
   teammates: 'Teammates',
 }
 
-export function FormRow(props) {
+export function FormRow(props: { id: string; label?: string; children: ReactElement | ReactElement[] }) {
   const optimizerMenuState = window.store((s) => s.optimizerMenuState)
   const setOptimizerMenuState = window.store((s) => s.setOptimizerMenuState)
 
@@ -61,13 +60,8 @@ export function FormRow(props) {
     </Flex>
   )
 }
-FormRow.propTypes = {
-  id: PropTypes.string,
-  label: PropTypes.string,
-  children: PropTypes.any,
-}
 
-export function TeammateFormRow(props) {
+export function TeammateFormRow(props: { id: string; children: ReactElement | ReactElement[] }) {
   const teammateCount = window.store((s) => s.teammateCount)
 
   const label = useMemo(() => {

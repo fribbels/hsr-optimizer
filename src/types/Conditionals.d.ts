@@ -1,7 +1,7 @@
 import { Form } from 'types/Form'
 import { ComputedStatsObject } from 'lib/conditionals/constants'
-import { FormSwitchWithPopoverProps } from 'components/optimizerForm/conditionals/FormSwitch'
-import { FormSliderWithPopoverProps } from 'components/optimizerForm/conditionals/FormSlider'
+import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
+import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
 
 export type ConditionalMap = {

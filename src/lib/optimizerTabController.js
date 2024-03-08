@@ -8,7 +8,7 @@ import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
-import { defaultSetConditionals } from 'lib/defaultForm'
+import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
 
 let relics
 let consts
@@ -225,14 +225,17 @@ export const OptimizerTabController = {
     }
   },
 
+  // Get a form that's ready for submission
   getForm: () => {
     let form = window.optimizerForm.getFieldsValue()
     return OptimizerTabController.fixForm(form)
   },
 
+  // Convert a form to its visual representation
   getDisplayFormValues: (form) => {
     let newForm = JSON.parse(JSON.stringify(form))
 
+    // Erase inputs where min == 0 and max == MAX_INT
     newForm.maxHp = unsetMax(form.maxHp)
     newForm.minHp = unsetMin(form.minHp)
     newForm.maxAtk = unsetMax(form.maxAtk)
@@ -253,11 +256,11 @@ export const OptimizerTabController = {
     newForm.minBe = unsetMin(form.minBe, true)
     newForm.maxErr = unsetMax(form.maxErr, true)
     newForm.minErr = unsetMin(form.minErr, true)
+
     newForm.maxWeight = unsetMax(form.maxWeight)
     newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
-
     newForm.maxBasic = unsetMax(form.maxBasic)
     newForm.minBasic = unsetMin(form.minBasic)
     newForm.maxSkill = unsetMax(form.maxSkill)
@@ -279,6 +282,7 @@ export const OptimizerTabController = {
     newForm.buffDmgBoost = unsetMin(form.buffDmgBoost, true)
     newForm.buffDefShred = unsetMin(form.buffDefShred, true)
     newForm.buffResPen = unsetMin(form.buffResPen, true)
+
     if (!newForm.setConditionals) {
       newForm.setConditionals = defaultSetConditionals
     }
@@ -293,8 +297,8 @@ export const OptimizerTabController = {
       newForm.enemyElementalResistance = false
     }
 
-    if (form.characterId) {
-      let defaultOptions = CharacterConditionals.get(form).defaults()
+    if (newForm.characterId) {
+      let defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) newForm.characterConditionals = {}
       for (let option of Object.keys(defaultOptions)) {
         if (newForm.characterConditionals[option] == undefined) {
@@ -303,8 +307,8 @@ export const OptimizerTabController = {
       }
     }
 
-    if (form.lightCone) {
-      let defaultLcOptions = LightConeConditionals.get(form).defaults()
+    if (newForm.lightCone) {
+      let defaultLcOptions = LightConeConditionals.get(newForm).defaults()
       if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
       for (let option of Object.keys(defaultLcOptions)) {
         if (newForm.lightConeConditionals[option] == undefined) {
@@ -333,12 +337,11 @@ export const OptimizerTabController = {
       newForm.exclude = []
     }
 
+    // Clean up any deleted excluded characters
     newForm.exclude = newForm.exclude.filter((id) => DB.getCharacterById(id))
 
-    /*
-     * Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
-     * Keeping this here for now
-     */
+    // Some pre-existing saves had this default to undefined while the toggle defaults to true and hides the undefined.
+    // Keeping this here for now
     if (newForm.includeEquippedRelics == null) {
       newForm.includeEquippedRelics = true
     }
@@ -348,11 +351,9 @@ export const OptimizerTabController = {
     }
 
     for (let i of [0, 1, 2]) {
-      if (!newForm[`teammate${i}`]) {
-        newForm[`teammate${i}`] = {
-          characterEidolon: 0,
-          lightConeSuperimposition: 1,
-        }
+      const teammateProperty = `teammate${i}`
+      if (!newForm[teammateProperty] || !newForm[teammateProperty].characterId) {
+        newForm[teammateProperty] = defaultTeammate()
       }
     }
 
@@ -375,7 +376,7 @@ export const OptimizerTabController = {
       }
     }
 
-    console.log('Form update'/* , form, newForm, defaultOptions */)
+    console.log('Form update', newForm)
     return newForm
   },
 
@@ -407,6 +408,7 @@ export const OptimizerTabController = {
     return true
   },
 
+  // Parse out any invalid values and prepare the form for submission to optimizer
   fixForm: (x) => {
     let MAX_INT = Constants.MAX_INT
 
@@ -507,59 +509,30 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  /*
-   * TODO: This could probably be separated out into changeCharacter + changeLightCone?
-   * Or refactored a bit to handle both better since they both impact conditional UI generation
-   */
-  changeCharacter: (id, setSelectedLightCone, lightConeId) => {
-    console.log(`@OptimzerTabController.changeCharacter(${id})`)
-
-    const character = DB.getCharacterById(id)
-    if (character) {
-      character.form.lightCone = lightConeId || character.form.lightCone
-      let displayFormValues = OptimizerTabController.getDisplayFormValues(character.form)
-      window.optimizerForm.setFieldsValue(displayFormValues)
-      console.log('@changeCharacter', character)
-      if (character.form.lightCone) {
-        let lightConeMetadata = DB.getMetadata().lightCones[character.form.lightCone]
-        setSelectedLightCone(lightConeMetadata)
-      }
-
-      // Cleanup? Form doesnt seem to overwrite existing object values - setting teammate fields manually
-      if (!character.form.teammate0?.id) window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
-      if (!character.form.teammate1?.id) window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
-      if (!character.form.teammate2?.id) window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
-
-      window.store.getState().setStatDisplay(character.form.statDisplay || DEFAULT_STAT_DISPLAY)
-    } else {
-      console.log(`@OptimzerTabController.changeCharacter(${id}) - Character not found in owned characters - setting up defaults`)
-      let displayFormValues = OptimizerTabController.getDisplayFormValues({
-        characterId: id,
-        characterEidolon: 0,
-        lightCone: lightConeId,
-        lightConeSuperimposition: 1,
-      })
-      window.optimizerForm.setFieldsValue(displayFormValues)
-      // Cleanup? Form doesnt seem to overwrite existing object values - setting teammate fields manually
-      window.optimizerForm.setFieldValue('teammate0', displayFormValues.teammate0)
-      window.optimizerForm.setFieldValue('teammate1', displayFormValues.teammate1)
-      window.optimizerForm.setFieldValue('teammate2', displayFormValues.teammate2)
-      window.store.getState().setStatDisplay(DEFAULT_STAT_DISPLAY)
-    }
-
-    setPinnedRow(id)
-    OptimizerTabController.updateFilters()
+  // Manually set the selected character
+  setCharacter: (id) => {
+    window.store.getState().setOptimizerTabFocusCharacter(id)
+    window.optimizerForm.setFieldValue('characterId', id)
   },
 
-  setSortColumn: (colId) => {
-    sortModel.colId = colId
-  },
+  // Update form values with the character
+  updateCharacter: (characterId) => {
+    console.log('@updateCharacter', characterId)
+    if (!characterId) return
 
-  refreshPinned: () => {
-    let fieldValues = OptimizerTabController.getForm()
-    if (fieldValues.characterId) {
-      setPinnedRow(fieldValues.characterId)
-    }
+    const character = DB.getCharacterById(characterId)
+
+    const form = character ? character.form : getDefaultForm({ id: characterId })
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
+    window.optimizerForm.setFieldsValue(displayFormValues)
+
+    window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
+    window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
+    window.store.getState().setOptimizerTabFocusCharacter(characterId)
+    window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
+
+    window.onOptimizerFormValuesChange({}, displayFormValues)
+    console.log('@updateForm', displayFormValues, character)
   },
 
   redrawRows: () => {
@@ -577,11 +550,11 @@ export const OptimizerTabController = {
 
 function unsetMin(value, percent) {
   if (value == undefined) return undefined
-  return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(1))
+  return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(2))
 }
 function unsetMax(value, percent) {
   if (value == undefined) return undefined
-  return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(1))
+  return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(2))
 }
 
 function fixValue(value, def, div) {

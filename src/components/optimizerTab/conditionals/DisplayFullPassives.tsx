@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { Flex } from 'antd'
-import ColorizeNumbers from 'components/common/ColorizeNumbers'
+import ColorizeNumbers from 'components/common/ColorizeNumbers.tsx'
 
 const DisplayFullPassives = (content: { [key: string]: { [key: string]: string } }) => {
   if (content) {

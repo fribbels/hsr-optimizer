@@ -1,9 +1,12 @@
 import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
-import { Renderer } from '../../lib/renderer'
+import { Renderer } from 'lib/renderer.jsx'
 
 export const DIGITS_4 = 53
 export const DIGITS_5 = 63
+
+export const optimizerTabDefaultGap = 5
+export const panelWidth = 203
 
 export const baseColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },

@@ -1,10 +1,10 @@
 import { Flex } from 'antd'
 import { memo } from 'react'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
-import DisplayFormControl from './DisplayFormControl'
-import { characterOptionMapping } from 'lib/characterConditionals'
+import { HeaderText } from 'components/HeaderText.jsx'
+import { TooltipImage } from 'components/TooltipImage.jsx'
+import { Hint } from 'lib/hint.jsx'
+import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl.tsx'
+import { characterOptionMapping } from 'lib/characterConditionals.js'
 import { Eidolon } from 'types/Character'
 import { DataMineId } from 'types/Common'
 
@@ -15,7 +15,8 @@ export interface CharacterConditionalDisplayProps {
 }
 
 export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
-  console.log('getDisplayForCharacter', id)
+  console.log('getDisplayForCharacter', id, teammateIndex)
+
   // TODO revisit type workaround
   const characterId = id as unknown as keyof typeof characterOptionMapping
   if (!id || !characterOptionMapping[characterId]) {

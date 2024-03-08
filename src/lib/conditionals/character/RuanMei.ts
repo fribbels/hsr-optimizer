@@ -12,7 +12,6 @@ export default (e: Eidolon): CharacterConditional => {
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.32, 0.352)
-  const ultScaling = ult(e, 0, 0)
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -109,7 +108,6 @@ export default (e: Eidolon): CharacterConditional => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
 
       return x
     },
@@ -136,8 +134,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
   }
 }

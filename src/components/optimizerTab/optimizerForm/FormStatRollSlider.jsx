@@ -1,7 +1,7 @@
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Utils } from '../../lib/utils'
+import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 
 let sliderWidth = 130

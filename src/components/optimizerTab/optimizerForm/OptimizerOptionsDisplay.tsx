@@ -2,18 +2,16 @@
 import { Flex, Form, Select, Switch, Typography } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
-import { Hint } from '../../lib/hint'
-import { HeaderText } from '../HeaderText'
-import { TooltipImage } from '../TooltipImage'
-
-import FormCard from 'components/optimizerTab/FormCard.tsx'
+import { Hint } from 'lib/hint.jsx'
+import { HeaderText } from 'components/HeaderText.jsx'
+import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 const { Text } = Typography
 
-const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }): JSX.Element => {
-  const setStatDisplay = window.store((s) => s.setStatDisplay)
+const OptimizerOptionsDisplay = (): JSX.Element => {
   const characters = window.store((s) => s.characters)
 
   const characterExcludeOptions = useMemo(() => {
@@ -38,8 +36,8 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
   }, [characters])
 
   return (
-    <FormCard>
-      <Flex vertical gap={defaultGap}>
+    <Flex vertical>
+      <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
@@ -93,14 +91,14 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
           <Text>Keep current relics</Text>
         </Flex>
 
-        <Flex gap={defaultGap} style={{ marginTop: 10 }}>
+        <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
           <Flex vertical gap={2}>
             <HeaderText>
               Priority
             </HeaderText>
             <Form.Item name="rank">
               <Select
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={characterPriorityOptions}
                 popupMatchSelectWidth={160}
                 listHeight={500}
@@ -115,7 +113,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
             </HeaderText>
             <Form.Item name="exclude">
               <Select
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 mode="multiple"
                 maxTagCount="responsive"
                 popupMatchSelectWidth={160}
@@ -138,7 +136,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         <Flex justify="space-between">
           <Form.Item name="enhance">
             <Select
-              style={{ width: (panelWidth - defaultGap) / 2 }}
+              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               options={[
                 { value: 0, label: '+0' },
                 { value: 3, label: '+3' },
@@ -152,7 +150,7 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
 
           <Form.Item name="grade">
             <Select
-              style={{ width: (panelWidth - defaultGap) / 2 }}
+              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               options={[
                 { value: 2, label: '2 ★ +' },
                 { value: 3, label: '3 ★ +' },
@@ -189,9 +187,9 @@ const OptimizerOptions = ({ defaultGap = 0 as number, panelWidth = 0 as number }
         Save Character
       </Button> */}
       </Flex>
-    </FormCard>
+    </Flex>
 
   )
 }
 
-export default OptimizerOptions
+export default OptimizerOptionsDisplay

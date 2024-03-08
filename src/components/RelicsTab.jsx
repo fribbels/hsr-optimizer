@@ -199,8 +199,8 @@ export default function RelicsTab() {
         }
       },
     },
-    { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
-    { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 50, filter: 'agTextColumnFilter' },
+    { field: 'enhance', width: 50, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
     { field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
@@ -313,12 +313,23 @@ export default function RelicsTab() {
   }[] | null*/ = null
   if (selectedRelic) {
     const chars = DB.getMetadata().characters
+    let charRelicSets = new Map(
+      Object.keys(chars).map((cid) => [
+        cid, new Set([
+          ...chars[cid].scoringMetadata.relicSets,
+          ...chars[cid].scoringMetadata.ornamentSets
+        ])
+      ])
+    )
+
     let s = Object.keys(chars)
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,
         score: RelicScorer.scoreRelicPct(selectedRelic, id),
         color: '#000',
+        owned: !!DB.getCharacterById(id),
+        idealSet: charRelicSets.get(id).has(selectedRelic.set),
       }))
     s.sort((a, b) => b.score.bestPct - a.score.bestPct)
     s = s.slice(0, numScores)
@@ -393,7 +404,6 @@ export default function RelicsTab() {
                 {
                   scores
                     .map((x) => {
-                      const owned = !!DB.getCharacterById(x.cid)
                       const rect = (
                         <svg width={10} height={10}>
                           <rect width={10} height={10} style={{
@@ -403,9 +413,10 @@ export default function RelicsTab() {
                           }} />
                         </svg>
                       )
+                      const tick = x.idealSet ? '✔️ ' : null
                       return (
-                        <li key={x.cid} style={owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
+                        <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                          {rect} {tick}{x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
                         </li>
                       )
                     })

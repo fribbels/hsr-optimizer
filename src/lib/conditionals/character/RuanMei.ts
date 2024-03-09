@@ -2,16 +2,19 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
 
-import { basic, findContentId, precisionRound, skill, ult } from '../utils'
+import { AbilityEidolon, findContentId, precisionRound } from '../utils'
 
 import { baseComputedStatsObject, ComputedStatsObject } from '../constants'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.32, 0.352)
+  const talentSpdScaling = talent(e, 0.10, 0.104)
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -62,7 +65,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'teamSpdBuff',
       text: 'Team SPD buff',
       title: 'Talent: Somatotypical Helix',
-      content: `Increases SPD by 10% for the team (excluding this character).`,
+      content: `Increases SPD by ${precisionRound(talentSpdScaling * 100)}% for the team (excluding this character).`,
     },
     findContentId(content, 'teamBEBuff'),
     {
@@ -124,7 +127,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
-      x[Stats.SPD_P] += (t.teamSpdBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
       x.ELEMENTAL_DMG += t.teamDmgBuff
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {

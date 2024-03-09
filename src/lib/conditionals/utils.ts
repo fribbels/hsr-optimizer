@@ -30,38 +30,35 @@ export const p4 = (set: number): number => {
   return set >> 2
 }
 
-/*
- * normal: JL, Dr.Ratio
- * reversed: Topaz
- */
-export const skill = (eidolon: number, value1: number, value2: number): number => {
-  return eidolon >= 3 ? value2 : value1
-}
-export const talent = skill
-export const ultRev = skill
-export const basicRev = skill
-
-export const ult = (eidolon: number, value1: number, value2: number): number => {
-  return eidolon >= 5 ? value2 : value1
-}
-export const basic = ult
-export const skillRev = ult
-export const talentRev = ult
-
-// ----------
 export const ability = (upgradeEidolon: number) => {
   return (eidolon: number, value1: number, value2: number) => {
     return eidolon >= upgradeEidolon ? value2 : value1
   }
 }
-export const ult5 = ability(5)
-export const ult3 = ability(3)
 
-export const skill5 = ability(5)
-export const skill3 = ability(3)
-
-export const basic5 = ability(5)
-export const basic3 = ability(3)
-
-export const talent5 = ability(5)
-export const talent3 = ability(3)
+export const AbilityEidolon = {
+  SKILL_TALENT_3_ULT_BASIC_5: {
+    basic: ability(5),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(3),
+  },
+  SKILL_BASIC_3_ULT_TALENT_5: {
+    basic: ability(3),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(5),
+  },
+  ULT_TALENT_3_SKILL_BASIC_5: {
+    basic: ability(5),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(3),
+  },
+  ULT_BASIC_3_SKILL_TALENT_5: {
+    basic: ability(3),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(5),
+  },
+}

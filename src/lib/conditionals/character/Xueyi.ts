@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
@@ -9,6 +9,8 @@ import { Form } from 'types/Form'
 import { Eidolon } from 'types/Character'
 
 export default (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+
   const ultBoostMax = ult(e, 0.60, 0.648)
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.40, 1.54)

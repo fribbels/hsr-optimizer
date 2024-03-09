@@ -183,7 +183,7 @@ export type ConditionalBuff =
   | 'skillBuff'
   | 'skillCdBuff'
   | 'skillCritBuff'
-  | 'skillDefShredDebuff'
+  | 'talentDefShredDebuff'
   | 'skillDmgBuff'
   | 'skillDmgIncreaseStacks'
   | 'skillExtraDmgHits'

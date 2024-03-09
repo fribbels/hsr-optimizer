@@ -145,10 +145,12 @@ export default function RelicFilterBar(props) {
       ]),
     )
 
-    // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
-    // and char weights can be edited
+    let relicScorer = new RelicScorer()
+
+    // NOTE: we cannot cache these results between renders by keying on the relic/char id because
+    // both relic stats and char weights can be edited
     for (let relic of relics) {
-      relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
+      relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
 
       relic.weights.optimalityAllAll = 0
       relic.weights.optimalityAllRecommended = 0
@@ -156,7 +158,7 @@ export default function RelicFilterBar(props) {
       relic.weights.optimalityOwnedRecommended = 0
 
       for (let cid of allCharacters) {
-        let pct = RelicScorer.scoreRelicPct(relic, cid).bestPct
+        let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
         let owned = ownedCharacters.has(cid)
         let recommendedRelicSet = charRelicSets.get(cid).has(relic.set)
 

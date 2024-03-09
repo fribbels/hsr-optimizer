@@ -140,9 +140,9 @@ export default function RelicFilterBar(props) {
       allCharacters.map((cid) => [
         cid, new Set([
           ...charMeta[cid].scoringMetadata.relicSets,
-          ...charMeta[cid].scoringMetadata.ornamentSets
-        ])
-      ])
+          ...charMeta[cid].scoringMetadata.ornamentSets,
+        ]),
+      ]),
     )
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
@@ -202,7 +202,7 @@ export default function RelicFilterBar(props) {
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId, optimalityColumn)
+    characterSelectorChange(currentlySelectedCharacterId)
   }
 
   return (

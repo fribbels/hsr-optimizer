@@ -99,8 +99,6 @@ export default function OptimizerForm() {
       return
     }
 
-    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-
     DB.addFromForm(form)
     SaveState.save()
 

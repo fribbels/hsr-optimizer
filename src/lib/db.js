@@ -47,16 +47,12 @@ export const RouteToPage = {
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 }
 
-/*
- * React usage
- * let characterTabBlur = store(s => s.characterTabBlur);
- * let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
- */
+// React usage
+// let characterTabBlur = store(s => s.characterTabBlur);
+// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
 
-/*
- * Nonreactive usage
- * store.getState().setRelicsById(relicsById)
- */
+// Nonreactive usage
+// store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
@@ -80,6 +76,7 @@ window.store = create((set) => ({
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
+  zeroPermutationModalOpen: false,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -143,6 +140,7 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setOptimizerFormTeammates: (x) => set(() => ({ optimizerFormTeammates: x })),
+  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
 }))
 
 export const DB = {

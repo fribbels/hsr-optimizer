@@ -12,6 +12,7 @@ import ScoringModal from 'components/ScoringModal'
 import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const defaultError = <Typography>Something went wrong</Typography>
 
@@ -30,6 +31,10 @@ const Tabs = () => {
     const route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
     console.log('Navigating activekey to route', activeKey, route)
     window.history.pushState({}, window.title, route)
+
+    if (activeKey == AppPages.OPTIMIZER) {
+      window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+    }
   }, [activeKey])
 
   return (

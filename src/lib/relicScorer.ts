@@ -91,22 +91,6 @@ function countPairs(arr) {
 
 const possibleSubstats = new Set(Constants.SubStats)
 
-let characterRelicScoreMetas: Map<string, ScoringMetadata>
-
-function getRelicScoreMeta(id) {
-  if (!characterRelicScoreMetas) {
-    characterRelicScoreMetas = new Map(Object.keys(DB.getMetadata().characters).map((id) => {
-      const scoringMetadata: ScoringMetadata = Utils.clone(DB.getScoringMetadata(id))
-      const level80Stats = DB.getMetadata().characters[id].promotions[80]
-      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
-      return [id, scoringMetadata]
-    }))
-  }
-  return characterRelicScoreMetas.get(id)!
-}
-
 // Given a relic, predict additional weight if it were fully enhanced
 //
 // Takes:
@@ -145,8 +129,28 @@ function predictExtraRollWeight(substats, grade, enhance, substatScores, substat
   }
 }
 
+// This class has methods statically available for one-off scoring calculations, but can
+// also be instantiated to batch up many scoring calculations. An instantiated RelicScorer
+// should *not* be kept alive for long periods of time, as it will cache scoring metadata
+// for characters (which users can edit).
+// You will almost certainly want to instantiate one of these in a component rerender
+// if you're doing >= 10 scorings
 export class RelicScorer {
   constructor() {
+    this.characterRelicScoreMetas = new Map()
+  }
+
+  getRelicScoreMeta(id) {
+    let scoringMetadata = this.characterRelicScoreMetas.get(id)
+    if (!scoringMetadata) {
+      scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      const level80Stats = DB.getMetadata().characters[id].promotions[80]
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+      this.characterRelicScoreMetas.set(id, scoringMetadata)
+    }
+    return scoringMetadata
   }
 
   static scoreCharacterWithRelics(character, relics) {
@@ -249,7 +253,7 @@ export class RelicScorer {
     return new RelicScorer().scoreRelicPct(relic, id)
   }
   scoreRelicPct(relic: Relic, id: CharacterId) {
-    const scoringMetadata = getRelicScoreMeta(id)
+    const scoringMetadata = this.getRelicScoreMeta(id)
 
     const maxWeight = this.scoreOptimalRelic(relic.part, scoringMetadata)
     const score = this.scoreRelic(relic, id)
@@ -274,7 +278,7 @@ export class RelicScorer {
     return new RelicScorer().scoreRelic(relic, id)
   }
   scoreRelic(relic: Relic, id: CharacterId) {
-    const scoringMetadata = getRelicScoreMeta(id)
+    const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)

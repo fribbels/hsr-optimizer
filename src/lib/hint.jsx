@@ -250,7 +250,7 @@ export const Hint = {
           <p>Weight is useful to focus on a single character and see which relics might give them a higher letter grading.</p>
           <p><b>Optimality</b></p>
           <p>Optimality is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
-          <p>Optimality can look at all characters or just owned, and any relic or just recommended sets. It then takes the maximum percentage for any character.</p>
+          <p>Optimality can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
           <p>Optimality is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
         </Flex>
       ),

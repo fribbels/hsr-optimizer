@@ -14,9 +14,7 @@ export type Relic = {
     average: number
     best: number
     optimalityAllAll: number
-    optimalityAllRecommended: number
     optimalityOwnedAll: number
-    optimalityOwnedRecommended: number
   }
   cs?: number
   ds?: number

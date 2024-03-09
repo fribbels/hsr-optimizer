@@ -48,6 +48,10 @@ export const OptimizerTabController = {
     return rows
   },
 
+  scrollToGrid: () => {
+    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  },
+
   equipClicked: () => {
     console.log('Equip clicked')
     let formValues = OptimizerTabController.getForm()

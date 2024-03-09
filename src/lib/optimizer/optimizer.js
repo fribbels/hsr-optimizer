@@ -9,6 +9,7 @@ import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 
 let CANCEL = false
 
@@ -83,7 +84,7 @@ export const Optimizer = {
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
     if (permutations == 0) {
       window.store.getState().setOptimizationInProgress(false)
-      Message.error('No possible permutations match your filters - please check the Permutations panel for details, and adjust your filter values', 10)
+      activateZeroPermutationsSuggestionsModal(request)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
       return
@@ -93,6 +94,8 @@ export const Optimizer = {
       window.store.getState().setOptimizationInProgress(false)
       return
     }
+
+    OptimizerTabController.scrollToGrid()
 
     window.optimizerGrid.current.api.showLoadingOverlay()
 

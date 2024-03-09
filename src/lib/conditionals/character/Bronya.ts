@@ -1,13 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import {
-  basicRev,
-  calculateAshblazingSet,
-  findContentId,
-  precisionRound,
-  skillRev,
-  ultRev,
-} from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -15,12 +8,14 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const skillDmgBoostValue = skillRev(e, 0.66, 0.726)
-  const ultAtkBoostValue = ultRev(e, 0.55, 0.594)
-  const ultCdBoostValue = ultRev(e, 0.16, 0.168)
-  const ultCdBoostBaseValue = ultRev(e, 0.20, 0.216)
+  const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
-  const basicScaling = basicRev(e, 1.0, 1.1)
+  const skillDmgBoostValue = skill(e, 0.66, 0.726)
+  const ultAtkBoostValue = ult(e, 0.55, 0.594)
+  const ultCdBoostValue = ult(e, 0.16, 0.168)
+  const ultCdBoostBaseValue = ult(e, 0.20, 0.216)
+
+  const basicScaling = basic(e, 1.0, 1.1)
   const fuaScaling = basicScaling * 0.80
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)

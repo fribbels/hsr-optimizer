@@ -1,14 +1,14 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, skill, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
+  const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
 
   return {
     content: () => [],
@@ -24,8 +24,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling
 
       // Boost
 
@@ -38,8 +36,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
   }
 }

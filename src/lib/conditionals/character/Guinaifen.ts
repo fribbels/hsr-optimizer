@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, findContentId, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -8,13 +8,15 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const talentDebuffDmgIncreaseValue = talentRev(e, 0.07, 0.076)
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+
+  const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
   const talentDebuffMax = (e >= 6) ? 4 : 3
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const skillScaling = skillRev(e, 1.20, 1.32)
-  const ultScaling = ultRev(e, 1.20, 1.296)
-  const dotScaling = skillRev(e, 2.182, 2.40)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const ultScaling = ult(e, 1.20, 1.296)
+  const dotScaling = skill(e, 2.182, 2.40)
 
   const content: ContentItem[] = [{
     formItem: 'slider',

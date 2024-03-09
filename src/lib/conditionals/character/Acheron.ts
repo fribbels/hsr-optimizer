@@ -1,4 +1,4 @@
-import { basic3, findContentId, skill5, talent5, ult3 } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -9,14 +9,16 @@ import { Stats } from 'lib/constants.ts'
 const betaUpdate = 'All calculations are subject to change. Last updated 03-08-2024.'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
-  const basicScaling = basic3(e, 1.00, 1.10)
-  const skillScaling = skill5(e, 1.60, 1.76)
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const ultRainbladeScaling = ult3(e, 0.24, 0.2592)
-  const ultCrimsonKnotScaling = ult3(e, 0.15, 0.162)
-  const ultStygianResurgeScaling = ult3(e, 1.20, 1.296)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.60, 1.76)
+
+  const ultRainbladeScaling = ult(e, 0.24, 0.2592)
+  const ultCrimsonKnotScaling = ult(e, 0.15, 0.162)
+  const ultStygianResurgeScaling = ult(e, 1.20, 1.296)
   const ultThunderCoreScaling = 0.25
-  const talentResPen = talent5(e, 0.2, 0.22)
+  const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
   const maxNihilityTeammates = (e >= 2) ? 1 : 2

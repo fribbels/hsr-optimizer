@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, findContentId, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 
 import { Form } from 'types/Form'
@@ -8,6 +8,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+
   const skillAtkBoostMax = skill(e, 0.25, 0.27)
   const ultDmgBoost = ult(e, 0.50, 0.56)
   const skillAtkBoostScaling = skill(e, 0.50, 0.55)

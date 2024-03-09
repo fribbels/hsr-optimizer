@@ -18,8 +18,8 @@ const state = {
   scorerId: undefined,
 }
 
-// This string is replaced by /dreary-quibbles/ by github actions, don't change
-const BASE_PATH = '/hsr-optimizer/'
+// This string is replaced by /dreary-quibbles by github actions, don't change
+const BASE_PATH = '/hsr-optimizer'
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',

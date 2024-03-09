@@ -145,11 +145,17 @@ function predictExtraRollWeight(substats, grade, enhance, substatScores, substat
   }
 }
 
-export const RelicScorer = {
-  scoreCharacterWithRelics: (character, relics) => {
+export class RelicScorer {
+  constructor() {
+  }
+
+  static scoreCharacterWithRelics(character, relics) {
+    return new RelicScorer().scoreCharacterWithRelics(character, relics)
+  }
+  scoreCharacterWithRelics(character, relics) {
     if (!character || !character.id) return {}
 
-    const scoredRelics = relics.map((x) => RelicScorer.score(x, character.id))
+    const scoredRelics = relics.map((x) => this.score(x, character.id))
 
     let sum = 0
     for (const relic of scoredRelics) {
@@ -179,21 +185,27 @@ export const RelicScorer = {
       totalScore: sum,
       totalRating: rating,
     }
-  },
+  }
 
-  scoreCharacter: (character: Character) => {
+  static scoreCharacter(character) {
+    return new RelicScorer().scoreCharacter(character)
+  }
+  scoreCharacter(character: Character) {
     if (!character || !character.id) return {}
 
     console.log('SCORE CHARACTER', character)
     const relicsById = window.store.getState().relicsById
     const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
-    return RelicScorer.scoreCharacterWithRelics(character, relics)
-  },
+    return this.scoreCharacterWithRelics(character, relics)
+  }
 
   // Given a part and a character, calculate the weight of the optimal relic
   // i.e. 5* relic, 4 best substats already exist, all rolls go into the best
-  scoreOptimalRelic: (part: Parts, scoringMetadata: ScoringMetadata) => {
+  static scoreOptimalRelic(part, scoringMetadata) {
+    return new RelicScorer().scoreOptimalRelic(part, scoringMetadata)
+  }
+  scoreOptimalRelic(part: Parts, scoringMetadata: ScoringMetadata) {
     let maxWeight = 0
 
     const scoreEntries = Object.entries(scoringMetadata.stats)
@@ -231,13 +243,16 @@ export const RelicScorer = {
     maxWeight += optimalRollPrediction.extraRolls * 6.48
 
     return maxWeight
-  },
+  }
 
-  scoreRelicPct: (relic: Relic, id: CharacterId) => {
+  static scoreRelicPct(relic, id) {
+    return new RelicScorer().scoreRelicPct(relic, id)
+  }
+  scoreRelicPct(relic: Relic, id: CharacterId) {
     const scoringMetadata = getRelicScoreMeta(id)
 
-    const maxWeight = RelicScorer.scoreOptimalRelic(relic.part, scoringMetadata)
-    const score = RelicScorer.scoreRelic(relic, id)
+    const maxWeight = this.scoreOptimalRelic(relic.part, scoringMetadata)
+    const score = this.scoreRelic(relic, id)
 
     if (!Utils.hasMainStat(relic.part)) {
       // undo false mainstat weight to avoid percentage skew
@@ -253,12 +268,15 @@ export const RelicScorer = {
       averagePct: 100 * score.average / maxWeight,
       worstPct: 100 * score.worst / maxWeight,
     }
-  },
+  }
 
-  scoreRelic: (relic: Relic, id: CharacterId) => {
+  static scoreRelic(relic, id) {
+    return new RelicScorer().scoreRelic(relic, id)
+  }
+  scoreRelic(relic: Relic, id: CharacterId) {
     const scoringMetadata = getRelicScoreMeta(id)
 
-    const scoringResult = RelicScorer.score(relic, id)
+    const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
     if (Utils.hasMainStat([relic.part])) {
@@ -307,15 +325,18 @@ export const RelicScorer = {
         bestSubstats: bestFinalSubstats.map((s) => s[0]),
       },
     }
-  },
+  }
 
-  score: (relic, characterId): {
+  static score(relic, characterId) {
+    return new RelicScorer().score(relic, characterId)
+  }
+  score(relic, characterId): {
     score: string
     rating: string
     mainStatScore: number
     part?: number
     meta?: object
-  } => {
+  } {
     // console.log('score', relic, characterId)
 
     if (!relic) {
@@ -394,5 +415,5 @@ export const RelicScorer = {
       part: relic.part,
       meta: DB.getScoringMetadata(characterId),
     }
-  },
+  }
 }

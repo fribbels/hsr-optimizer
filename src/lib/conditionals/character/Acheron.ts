@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 03-08-2024.'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
   const basicScaling = basic3(e, 1.00, 1.10)
@@ -114,7 +114,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       x.ULT_RES_PEN += talentResPen
       x.ELEMENTAL_DMG += (r.thunderCoreStacks as number) * 0.30
-      x.ULT_CD_BOOST += (e >= 6 && r.e6UltBuffs) ? 0.60 : 0
+      x.ULT_RES_PEN += (e >= 6 && r.e6UltBuffs) ? 0.20 : 0
       x.ORIGINAL_DMG_BOOST += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
 
       x.BASIC_SCALING = basicScaling
@@ -131,7 +131,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.12 : 0
+      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

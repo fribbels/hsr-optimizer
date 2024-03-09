@@ -9,6 +9,7 @@ import DB from './db.js'
 type ScoringMetadata = {
   parts: { [K in Parts]: [StatsValues] }
   stats: { [K in StatsValues]: number }
+  sortedSubstats: [StatsValues, number]
 }
 
 const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
@@ -137,17 +138,23 @@ function predictExtraRollWeight(substats, grade, enhance, substatScores, substat
 // if you're doing >= 10 scorings
 export class RelicScorer {
   constructor() {
-    this.characterRelicScoreMetas = new Map()
+    this.characterRelicScoreMetas = new Map() // characterId -> scoringMetadata
+    this.optimalPartCharacterScore = new Map() // part -> (characterId -> score)
   }
 
-  getRelicScoreMeta(id) {
+  getRelicScoreMeta(id): ScoringMetadata {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
     if (!scoringMetadata) {
       scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+
       const level80Stats = DB.getMetadata().characters[id].promotions[80]
       scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
       scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
       scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+
+      scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats)
+        .filter((x) => possibleSubstats.has(x[0]))
+        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       this.characterRelicScoreMetas.set(id, scoringMetadata)
     }
     return scoringMetadata
@@ -206,10 +213,16 @@ export class RelicScorer {
 
   // Given a part and a character, calculate the weight of the optimal relic
   // i.e. 5* relic, 4 best substats already exist, all rolls go into the best
-  static scoreOptimalRelic(part, scoringMetadata) {
-    return new RelicScorer().scoreOptimalRelic(part, scoringMetadata)
+  static scoreOptimalRelic(part, id) {
+    return new RelicScorer().scoreOptimalRelic(part, id)
   }
-  scoreOptimalRelic(part: Parts, scoringMetadata: ScoringMetadata) {
+  scoreOptimalRelic(part: Parts, id: CharacterId) {
+    let cachedScore = this.optimalPartCharacterScore.get(part)?.get(id)
+    if (cachedScore != null) {
+      return cachedScore
+    }
+
+    const scoringMetadata = this.getRelicScoreMeta(id)
     let maxWeight = 0
 
     const scoreEntries = Object.entries(scoringMetadata.stats)
@@ -246,6 +259,10 @@ export class RelicScorer {
     )
     maxWeight += optimalRollPrediction.extraRolls * 6.48
 
+    if (!this.optimalPartCharacterScore.has(part)) {
+      this.optimalPartCharacterScore.set(part, new Map())
+    }
+    this.optimalPartCharacterScore.get(part).set(id, maxWeight)
     return maxWeight
   }
 
@@ -253,9 +270,7 @@ export class RelicScorer {
     return new RelicScorer().scoreRelicPct(relic, id)
   }
   scoreRelicPct(relic: Relic, id: CharacterId) {
-    const scoringMetadata = this.getRelicScoreMeta(id)
-
-    const maxWeight = this.scoreOptimalRelic(relic.part, scoringMetadata)
+    const maxWeight = this.scoreOptimalRelic(relic.part, id)
     const score = this.scoreRelic(relic, id)
 
     if (!Utils.hasMainStat(relic.part)) {
@@ -283,7 +298,7 @@ export class RelicScorer {
     const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
-    if (Utils.hasMainStat([relic.part])) {
+    if (Utils.hasMainStat(relic.part)) {
       if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
         mainScore = 64.8
       } else {
@@ -296,11 +311,9 @@ export class RelicScorer {
     const substats: [StatsValues, number][] = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
     const substatNames = relic.substats.map((x) => x.stat)
 
-    const substatScoreEntries = Object.entries(scoringMetadata.stats)
-      .filter((x) => relic.main.stat !== x[0])
-      .filter((x) => possibleSubstats.has(x[0]))
-      .filter((x) => !substatNames.includes(x[0])) // Exclude already existing substats
-      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+    const substatScoreEntries = scoringMetadata.sortedSubstats
+      // Exclude mainstat and already existing substats
+      .filter((x) => relic.main.stat !== x[0] && !substatNames.includes(x[0]))
 
     // Predict best substat scores
     const bestRollPrediction = predictExtraRollWeight(

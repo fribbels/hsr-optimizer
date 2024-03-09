@@ -135,15 +135,6 @@ export default function RelicFilterBar(props) {
 
     let allCharacters = characterOptions.map((val) => val.id)
     let ownedCharacters = new Set(DB.getCharacters().map((val) => val.id))
-    let charMeta = DB.getMetadata().characters
-    let charRelicSets = new Map(
-      allCharacters.map((cid) => [
-        cid, new Set([
-          ...charMeta[cid].scoringMetadata.relicSets,
-          ...charMeta[cid].scoringMetadata.ornamentSets,
-        ]),
-      ]),
-    )
 
     let relicScorer = new RelicScorer()
 
@@ -153,24 +144,15 @@ export default function RelicFilterBar(props) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
 
       relic.weights.optimalityAllAll = 0
-      relic.weights.optimalityAllRecommended = 0
       relic.weights.optimalityOwnedAll = 0
-      relic.weights.optimalityOwnedRecommended = 0
 
       for (let cid of allCharacters) {
         let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
         let owned = ownedCharacters.has(cid)
-        let recommendedRelicSet = charRelicSets.get(cid).has(relic.set)
 
         relic.weights.optimalityAllAll = Math.max(pct, relic.weights.optimalityAllAll)
         if (owned) {
           relic.weights.optimalityOwnedAll = Math.max(pct, relic.weights.optimalityOwnedAll)
-          if (recommendedRelicSet) {
-            relic.weights.optimalityOwnedRecommended = Math.max(pct, relic.weights.optimalityOwnedRecommended)
-          }
-        }
-        if (recommendedRelicSet) {
-          relic.weights.optimalityAllRecommended = Math.max(pct, relic.weights.optimalityAllRecommended)
         }
       }
     }

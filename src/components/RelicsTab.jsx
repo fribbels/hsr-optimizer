@@ -183,9 +183,7 @@ export default function RelicsTab() {
     { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
     { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
     { column: 'OPT A+A', value: 'weights.optimalityAllAll', label: 'Optimality: All Chars, Any Relics' },
-    { column: 'OPT A+R', value: 'weights.optimalityAllRecommended', label: 'Optimality: All Chars, Recommended Sets' },
     { column: 'OPT O+A', value: 'weights.optimalityOwnedAll', label: 'Optimality: Owned Chars, Any Relics' },
-    { column: 'OPT O+R', value: 'weights.optimalityOwnedRecommended', label: 'Optimality: Owned Chars, Recommended Sets' },
   ], [])
 
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
@@ -325,15 +323,6 @@ export default function RelicsTab() {
   }[] | null*/ = null
   if (selectedRelic) {
     const chars = DB.getMetadata().characters
-    let charRelicSets = new Map(
-      Object.keys(chars).map((cid) => [
-        cid, new Set([
-          ...chars[cid].scoringMetadata.relicSets,
-          ...chars[cid].scoringMetadata.ornamentSets,
-        ]),
-      ]),
-    )
-
     let s = Object.keys(chars)
       .map((id) => ({
         cid: id,
@@ -341,7 +330,6 @@ export default function RelicsTab() {
         score: RelicScorer.scoreRelicPct(selectedRelic, id),
         color: '#000',
         owned: !!DB.getCharacterById(id),
-        idealSet: charRelicSets.get(id).has(selectedRelic.set),
       }))
     s.sort((a, b) => b.score.bestPct - a.score.bestPct)
     s = s.slice(0, numScores)
@@ -425,10 +413,9 @@ export default function RelicsTab() {
                           }} />
                         </svg>
                       )
-                      const tick = x.idealSet ? '✔️ ' : null
                       return (
                         <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {tick}{x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
+                          {rect} {x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
                         </li>
                       )
                     })

@@ -231,4 +231,9 @@ export const Utils = {
   getCharacterNameById: (id) => {
     return DB.getMetadata().characters[id]?.displayName
   },
+
+  // hsr-optimizer// => hsr-optimizer
+  stripTrailingSlashes: (str) => {
+    return str.replace(/\/+$/, '')
+  },
 }

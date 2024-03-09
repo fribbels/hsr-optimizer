@@ -29,13 +29,13 @@ const SpdValues = {
   },
   SPD111: {
     key: 'SPD111',
-    label: '111.11 SPD - 5 actions in first four cycles',
-    value: 111.11,
+    label: '111.12 SPD - 5 actions in first four cycles',
+    value: 111.12,
   },
   SPD114: {
     key: 'SPD114',
-    label: '114.28 SPD - 4 actions in first three cycles',
-    value: 114.28,
+    label: '114.29 SPD - 4 actions in first three cycles',
+    value: 114.29,
   },
   SPD120: {
     key: 'SPD120',
@@ -44,18 +44,18 @@ const SpdValues = {
   },
   SPD133: {
     key: 'SPD133',
-    label: (<b>133.33 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
-    value: 133.33,
+    label: (<b>133.34 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
+    value: 133.34,
   },
   SPD142: {
     key: 'SPD142',
-    label: '142.85 SPD - 5 actions in first three cycles',
-    value: 142.85,
+    label: '142.86 SPD - 5 actions in first three cycles',
+    value: 142.86,
   },
   SPD155: {
     key: 'SPD155',
-    label: '155.55 SPD - 7 actions in first four cycles',
-    value: 155.55,
+    label: '155.56 SPD - 7 actions in first four cycles',
+    value: 155.56,
   },
   SPD160: {
     key: 'SPD160',
@@ -64,13 +64,13 @@ const SpdValues = {
   },
   SPD171: {
     key: 'SPD171',
-    label: '171.42 SPD - 6 actions in first three cycles',
-    value: 171.42,
+    label: '171.43 SPD - 6 actions in first three cycles',
+    value: 171.43,
   },
   SPD177: {
     key: 'SPD177',
-    label: '177.77 SPD - 8 actions in first four cycles',
-    value: 177.77,
+    label: '177.78 SPD - 8 actions in first four cycles',
+    value: 177.78,
   },
   SPD200: {
     key: 'SPD200',

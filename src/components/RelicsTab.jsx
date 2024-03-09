@@ -2,11 +2,11 @@ import { Button, Flex, Popconfirm } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
-import styled from 'styled-components'
 
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
+import { RelicScorer } from 'lib/relicScorer'
 import { HeaderText } from './HeaderText'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
@@ -82,11 +82,6 @@ GradeFilter.displayName = 'GradeFilter'
 GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
-
-const LinkCell = styled.a`
-  color: inherit;
-  text-decoration: underline;
-`
 
 export default function RelicsTab() {
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
@@ -236,13 +231,13 @@ export default function RelicsTab() {
      */
   ].concat(valueColumns
     .map((vc) => {
-      let i = valueColumnOptions.findIndex((x) => x.value === vc);
+      let i = valueColumnOptions.findIndex((x) => x.value === vc)
       return [i, valueColumnOptions[i]]
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
       { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 }
-    ))
+    )),
   ), [valueColumnOptions, valueColumns])
 
   const gridOptions = useMemo(() => ({
@@ -334,9 +329,9 @@ export default function RelicsTab() {
       Object.keys(chars).map((cid) => [
         cid, new Set([
           ...chars[cid].scoringMetadata.relicSets,
-          ...chars[cid].scoringMetadata.ornamentSets
-        ])
-      ])
+          ...chars[cid].scoringMetadata.ornamentSets,
+        ]),
+      ]),
     )
 
     let s = Object.keys(chars)

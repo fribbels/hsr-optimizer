@@ -183,6 +183,18 @@ export default function RelicsTab() {
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
 
+  const valueColumnOptions = useMemo(() => [
+    { column: 'WEIGHT', value: 'weights.current', label: 'Weight' },
+    { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
+    { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
+    { column: 'OPT A+A', value: 'weights.optimalityAllAll', label: 'Optimality: All Chars, Any Relics' },
+    { column: 'OPT A+R', value: 'weights.optimalityAllRecommended', label: 'Optimality: All Chars, Recommended Sets' },
+    { column: 'OPT O+A', value: 'weights.optimalityOwnedAll', label: 'Optimality: Owned Chars, Any Relics' },
+    { column: 'OPT O+R', value: 'weights.optimalityOwnedRecommended', label: 'Optimality: Owned Chars, Recommended Sets' },
+  ], [])
+
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
+
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
@@ -222,11 +234,16 @@ export default function RelicsTab() {
      * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      */
-    { field: `weights.current`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 50 },
-    { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
-    { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
-    { field: `weights.bestOptimalPct`, headerName: 'OPTIMAL', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 },
-  ], [])
+  ].concat(valueColumns
+    .map((vc) => {
+      let i = valueColumnOptions.findIndex((x) => x.value === vc);
+      return [i, valueColumnOptions[i]]
+    })
+    .sort((a, b) => a[0] - b[0])
+    .map(([_i, field]) => (
+      { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 }
+    ))
+  ), [valueColumnOptions, valueColumns])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 33,
@@ -345,7 +362,7 @@ export default function RelicsTab() {
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
 
-        <RelicFilterBar />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
         <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1250, height: 500, resize: 'vertical', overflow: 'hidden' }}>
 
@@ -449,9 +466,9 @@ export default function RelicsTab() {
                 height: 240,
                 margin: {
                   b: 20,
-                  l: 20,
+                  l: 10,
                   r: 20,
-                  t: 20,
+                  t: 10,
                 },
                 showlegend: false,
 

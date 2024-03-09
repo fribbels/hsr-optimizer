@@ -70,7 +70,7 @@ export const Gradient = {
     }
 
     let range
-    if (col === 'weights.bestOptimalPct') {
+    if (col.startsWith('weights.optimality')) {
       range = value / 100
     } else if (col.startsWith('weights.')) {
       range = Math.max(0, value - 64.8) / relicColumnRanges[col]

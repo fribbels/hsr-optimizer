@@ -19,14 +19,11 @@ const imgWidth = 34
 
 const BLANK = Assets.getBlank()
 
-export default function RelicFilterBar() {
+export default function RelicFilterBar(props) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
-  // "(all/owned characters)-(all/recommended relic sets)"
-  // 'all-all', 'all-recommended', 'owned-all', 'owned-recommended'
-  const [optimalityColumn, setOptimalityColumn] = useState('all-all')
 
   const characterOptions = useMemo(() => {
     return Utils.generateCharacterOptions()
@@ -116,18 +113,18 @@ export default function RelicFilterBar() {
     // views as a pure function of props, but because relics (and other state) are updated mutably in
     // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId, optimalityColumn)
+      characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
   })
 
-  // Kick off an initial calculation to populate the optimality column. Though empty dependencies
+  // Kick off an initial calculation to populate default value columns. Though empty dependencies
   // are warned about, we genuinely only want to do this once (as on all other updates, it'll be
   // correctly re-triggered
   useEffect(() => {
-    characterSelectorChange(currentlySelectedCharacterId, optimalityColumn)
+    characterSelectorChange(currentlySelectedCharacterId)
   }, [])
 
-  function characterSelectorChange(id, optimalityColumn) {
+  function characterSelectorChange(id) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
@@ -136,36 +133,44 @@ export default function RelicFilterBar() {
       setCurrentlySelectedCharacterId(id)
     }
 
-    setOptimalityColumn(optimalityColumn)
-    let [characterSelection, relicSelection] = optimalityColumn.split('-')
-
-    let characterIds = (characterSelection === 'all' ? characterOptions : DB.getCharacters()).map((val) => val.id)
-    if (id && !characterIds.includes(id)) {
-      // Always calculate for selected char (even if not owned)
-      characterIds.push(id)
-    }
-
-    let scorePct = (relic, cid) => RelicScorer.scoreRelicPct(relic, cid).bestPct
-    if (relicSelection === 'recommended') {
-      let charMeta = DB.getMetadata().characters
-      let charRelicSets = new Map(
-        characterIds.map((cid) => [
-          cid, new Set([
-            ...charMeta[cid].scoringMetadata.relicSets,
-            ...charMeta[cid].scoringMetadata.ornamentSets
-          ])
+    let allCharacters = characterOptions.map((val) => val.id)
+    let ownedCharacters = new Set(DB.getCharacters().map((val) => val.id))
+    let charMeta = DB.getMetadata().characters
+    let charRelicSets = new Map(
+      allCharacters.map((cid) => [
+        cid, new Set([
+          ...charMeta[cid].scoringMetadata.relicSets,
+          ...charMeta[cid].scoringMetadata.ornamentSets
         ])
-      )
-      let scorePctInner = scorePct
-      scorePct = (relic, cid) => charRelicSets.get(cid).has(relic.set) ? scorePctInner(relic, cid) : 0
-    }
+      ])
+    )
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
     // and char weights can be edited
     for (let relic of relics) {
       relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
-      let scores = characterIds.map((cid) => scorePct(relic, cid))
-      relic.weights.bestOptimalPct = Math.max(...scores)
+
+      relic.weights.optimalityAllAll = 0
+      relic.weights.optimalityAllRecommended = 0
+      relic.weights.optimalityOwnedAll = 0
+      relic.weights.optimalityOwnedRecommended = 0
+
+      for (let cid of allCharacters) {
+        let pct = RelicScorer.scoreRelicPct(relic, cid).bestPct
+        let owned = ownedCharacters.has(cid)
+        let recommendedRelicSet = charRelicSets.get(cid).has(relic.set)
+
+        relic.weights.optimalityAllAll = Math.max(pct, relic.weights.optimalityAllAll)
+        if (owned) {
+          relic.weights.optimalityOwnedAll = Math.max(pct, relic.weights.optimalityOwnedAll)
+          if (recommendedRelicSet) {
+            relic.weights.optimalityOwnedRecommended = Math.max(pct, relic.weights.optimalityOwnedRecommended)
+          }
+        }
+        if (recommendedRelicSet) {
+          relic.weights.optimalityAllRecommended = Math.max(pct, relic.weights.optimalityAllRecommended)
+        }
+      }
     }
 
     DB.setRelics(relics)
@@ -211,7 +216,7 @@ export default function RelicFilterBar() {
               selectStyle={{ flex: 1 }}
               onChange={(x) => {
                 // Wait until after modal closes to update
-                setTimeout(() => characterSelectorChange(x, optimalityColumn), 20)
+                setTimeout(() => characterSelectorChange(x), 20)
               }}
             />
             <Button
@@ -239,31 +244,29 @@ export default function RelicFilterBar() {
           </Flex>
           <Flex vertical flex={0.5}>
             <Flex justify="space-between" align="center">
-              <HeaderText>Optimality</HeaderText>
-              <TooltipImage type={Hint.optimalityColumn()} />
+              <HeaderText>Value Columns</HeaderText>
+              <TooltipImage type={Hint.valueColumns()} />
             </Flex>
             <Flex gap={10}>
               <Select
-                value={optimalityColumn}
-                onChange={(x) => characterSelectorChange(currentlySelectedCharacterId, x)}
-                options={[
-                  { value: 'all-all', label: 'All Characters, Any Relics' },
-                  { value: 'all-recommended', label: 'All Characters, Recommended Sets' },
-                  { value: 'owned-all', label: 'Owned Characters, Any Relics' },
-                  { value: 'owned-recommended', label: 'Owned Characters, Recommended Sets' },
-                ]}
+                mode="multiple"
+                allowClear
+                value={props.valueColumns}
+                onChange={props.setValueColumns}
+                options={props.valueColumnOptions}
+                maxTagCount="responsive"
                 style={{ flex: 1 }}
               />
             </Flex>
-          </Flex>
-          <Flex vertical flex={0.25}>
-            <HeaderText>Verified</HeaderText>
-            <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
           </Flex>
         </Flex>
       </Flex>
 
       <Flex gap={10}>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>Grade</HeaderText>
           <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
@@ -294,6 +297,11 @@ export default function RelicFilterBar() {
       </Flex>
     </Flex>
   )
+}
+RelicFilterBar.propTypes = {
+  setValueColumns: PropTypes.func,
+  valueColumnOptions: PropTypes.array,
+  valueColumns: PropTypes.array,
 }
 
 function FilterRow(props) {

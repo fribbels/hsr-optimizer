@@ -145,10 +145,9 @@ function styleRules(level) {
     }],
     '@stylistic/jsx-indent-props': [level, 2],
     '@stylistic/jsx-max-props-per-line': [level, {
-      maximum: 1,
+      maximum: 3,
       when: 'multiline',
     }],
-    '@stylistic/jsx-one-expression-per-line': [level, { allow: 'single-child' }],
     '@stylistic/jsx-quotes': level,
     '@stylistic/jsx-tag-spacing': [level, {
       afterOpening: 'never',

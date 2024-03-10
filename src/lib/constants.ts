@@ -71,18 +71,18 @@ export const MainStatsValues = {
 }
 
 export const SubStats = [
-  Stats.ATK_P,
-  Stats.ATK,
-  Stats.BE,
-  Stats.CD,
-  Stats.CR,
-  Stats.DEF_P,
-  Stats.DEF,
-  Stats.EHR,
   Stats.HP_P,
+  Stats.ATK_P,
+  Stats.DEF_P,
   Stats.HP,
-  Stats.RES,
+  Stats.ATK,
+  Stats.DEF,
   Stats.SPD,
+  Stats.CR,
+  Stats.CD,
+  Stats.EHR,
+  Stats.BE,
+  Stats.RES,
 ]
 export type SubStats = typeof SubStats[number]
 

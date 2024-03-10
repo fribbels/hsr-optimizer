@@ -406,11 +406,13 @@ export default function RelicsTab() {
                     .map((x) => {
                       const rect = (
                         <svg width={10} height={10}>
-                          <rect width={10} height={10} style={{
-                            fill: x.color,
-                            strokeWidth: 1,
-                            stroke: 'rgb(0,0,0)',
-                          }} />
+                          <rect
+                            width={10} height={10} style={{
+                              fill: x.color,
+                              strokeWidth: 1,
+                              stroke: 'rgb(0,0,0)',
+                            }}
+                          />
                         </svg>
                       )
                       return (

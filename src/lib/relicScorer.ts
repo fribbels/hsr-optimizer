@@ -9,7 +9,7 @@ import DB from './db.js'
 type ScoringMetadata = {
   parts: { [K in Parts]: [StatsValues] }
   stats: { [K in StatsValues]: number }
-  sortedSubstats: [StatsValues, number]
+  sortedSubstats: [StatsValues, number][]
 }
 
 const minRollValue = 5.1 // Use truncated decimal instead of 5.184 because OCR'd results show truncated
@@ -137,15 +137,18 @@ function predictExtraRollWeight(substats, grade, enhance, substatScores, substat
 // You will almost certainly want to instantiate one of these in a component rerender
 // if you're doing >= 10 scorings
 export class RelicScorer {
+  characterRelicScoreMetas: Map<CharacterId, ScoringMetadata>
+  optimalPartCharacterScore: Map<Parts, Map<CharacterId, number>>
+
   constructor() {
-    this.characterRelicScoreMetas = new Map() // characterId -> scoringMetadata
-    this.optimalPartCharacterScore = new Map() // part -> (characterId -> score)
+    this.characterRelicScoreMetas = new Map()
+    this.optimalPartCharacterScore = new Map()
   }
 
   getRelicScoreMeta(id): ScoringMetadata {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
     if (!scoringMetadata) {
-      scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
+      scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
 
       const level80Stats = DB.getMetadata().characters[id].promotions[80]
       scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
@@ -163,6 +166,7 @@ export class RelicScorer {
   static scoreCharacterWithRelics(character, relics) {
     return new RelicScorer().scoreCharacterWithRelics(character, relics)
   }
+
   scoreCharacterWithRelics(character, relics) {
     if (!character || !character.id) return {}
 
@@ -201,6 +205,7 @@ export class RelicScorer {
   static scoreCharacter(character) {
     return new RelicScorer().scoreCharacter(character)
   }
+
   scoreCharacter(character: Character) {
     if (!character || !character.id) return {}
 
@@ -216,8 +221,9 @@ export class RelicScorer {
   static scoreOptimalRelic(part, id) {
     return new RelicScorer().scoreOptimalRelic(part, id)
   }
+
   scoreOptimalRelic(part: Parts, id: CharacterId) {
-    let cachedScore = this.optimalPartCharacterScore.get(part)?.get(id)
+    const cachedScore = this.optimalPartCharacterScore.get(part)?.get(id)
     if (cachedScore != null) {
       return cachedScore
     }
@@ -262,13 +268,14 @@ export class RelicScorer {
     if (!this.optimalPartCharacterScore.has(part)) {
       this.optimalPartCharacterScore.set(part, new Map())
     }
-    this.optimalPartCharacterScore.get(part).set(id, maxWeight)
+    this.optimalPartCharacterScore.get(part)!.set(id, maxWeight)
     return maxWeight
   }
 
   static scoreRelicPct(relic, id) {
     return new RelicScorer().scoreRelicPct(relic, id)
   }
+
   scoreRelicPct(relic: Relic, id: CharacterId) {
     const maxWeight = this.scoreOptimalRelic(relic.part, id)
     const score = this.scoreRelic(relic, id)
@@ -292,6 +299,7 @@ export class RelicScorer {
   static scoreRelic(relic, id) {
     return new RelicScorer().scoreRelic(relic, id)
   }
+
   scoreRelic(relic: Relic, id: CharacterId) {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
@@ -347,6 +355,7 @@ export class RelicScorer {
   static score(relic, characterId) {
     return new RelicScorer().score(relic, characterId)
   }
+
   score(relic, characterId): {
     score: string
     rating: string

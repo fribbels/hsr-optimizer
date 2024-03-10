@@ -65,7 +65,7 @@ export const Gradient = {
       }
     }
 
-    if (value == 0) {
+    if (isNaN(value) || value == 0) {
       return {}
     }
 

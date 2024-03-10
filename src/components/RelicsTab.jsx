@@ -414,9 +414,12 @@ export default function RelicsTab() {
                           />
                         </svg>
                       )
+                      let worstPct = Math.round(x.score.worstPct)
+                      let bestPct = Math.round(x.score.bestPct)
+                      let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
                       return (
                         <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {x.name}: {Math.round(x.score.worstPct)}% - {Math.round(x.score.bestPct)}%
+                          {rect} {x.name}: {pctText}
                         </li>
                       )
                     })

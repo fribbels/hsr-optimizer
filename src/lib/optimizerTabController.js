@@ -527,16 +527,18 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
-    window.optimizerForm.setFieldsValue(displayFormValues)
+    if (false) {
+      const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
+      window.optimizerForm.setFieldsValue(displayFormValues)
 
-    window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
-    window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
-    window.store.getState().setOptimizerTabFocusCharacter(characterId)
-    window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
+      window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
+      window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
+      window.store.getState().setOptimizerTabFocusCharacter(characterId)
+      window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
 
-    window.onOptimizerFormValuesChange({}, displayFormValues)
-    console.log('@updateForm', displayFormValues, character)
+      window.onOptimizerFormValuesChange({}, displayFormValues)
+      console.log('@updateForm', displayFormValues, character)
+    }
   },
 
   redrawRows: () => {

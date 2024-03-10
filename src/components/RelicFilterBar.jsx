@@ -118,9 +118,9 @@ export default function RelicFilterBar(props) {
     }, 100)
   })
 
-  // Kick off an initial calculation to populate default value columns. Though empty dependencies
-  // are warned about, we genuinely only want to do this once (as on all other updates, it'll be
-  // correctly re-triggered
+  // Kick off an initial calculation to populate value columns. Though empty dependencies
+  // are warned about, we genuinely only want to do this on first component render (updates
+  // will correctly re-trigger it)
   useEffect(() => {
     characterSelectorChange(currentlySelectedCharacterId)
   }, [])

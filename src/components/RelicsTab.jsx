@@ -397,9 +397,8 @@ export default function RelicsTab() {
             <TooltipImage type={Hint.relics()} />
           </Flex>
           {scores && (
-            <Flex vertical gap={5} style={{ width: 400 }}>
-              <HeaderText>Relic Optimality %</HeaderText>
-              Showing the best 10 characters for this relic (characters in bold are owned)
+            <Flex vertical gap={5} style={{ width: 300 }}>
+              <HeaderText>Relic Optimality % - best 10 characters</HeaderText>
               <ol>
                 {
                   scores
@@ -417,13 +416,12 @@ export default function RelicsTab() {
                       )
                       return (
                         <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {x.name} - {Math.round(x.score.worstPct)}% to {Math.round(x.score.bestPct)}%
+                          {rect} {x.name}: {Math.round(x.score.worstPct)}% - {Math.round(x.score.bestPct)}%
                         </li>
                       )
                     })
                 }
               </ol>
-              The plot below shows the worst, average and best case optimality when the relic is fully upgraded.
             </Flex>
           )}
           {scores && (

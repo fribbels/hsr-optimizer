@@ -159,7 +159,7 @@ export default function RelicFilterBar(props) {
 
     DB.setRelics(relics)
 
-    if (window.relicsGrid?.current?.api) {
+    if (id && window.relicsGrid?.current?.api) {
       window.relicsGrid.current.api.applyColumnState({
         state: [{ colId: 'weights.current', sort: 'desc' }],
         defaultState: { sort: null },

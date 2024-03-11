@@ -240,7 +240,7 @@ export default function RelicsTab() {
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 60 }
+      { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 }
     )),
   ), [valueColumnOptions, valueColumns])
 

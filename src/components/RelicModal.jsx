@@ -7,7 +7,6 @@ import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
-import DB from 'lib/db'
 import { Assets } from 'lib/assets'
 import { enhanceOptions, generateImageLabel, setOptions, substatOptions } from 'components/SelectOptions'
 
@@ -70,24 +69,7 @@ export default function RelicModal(props) {
   const [mainStatOptions, setMainStatOptions] = useState([])
   const characters = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => {
-    let characterData = DB.getMetadata().characters
-
-    let options = characters.map((character) => {
-      return {
-        value: character.id,
-        label: characterData[character.id].displayName,
-      }
-    })
-
-    options = options.sort((a, b) => a.label.localeCompare(b.label))
-    options = [{
-      value: 'None',
-      label: 'Nobody',
-    }, ...options]
-
-    return options
-  }, [characters])
+  const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(characters), [characters])
 
   useEffect(() => {
     let defaultValues = {

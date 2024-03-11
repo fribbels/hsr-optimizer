@@ -339,9 +339,7 @@ export default function RelicsTab() {
     let sb = [[], [], [], [], [], [], [], [], [], []]
     for (let score of allScores) {
       let lowerBound = Math.floor(score.score.bestPct / 10)
-      if (lowerBound === 10) {
-        lowerBound--
-      }
+      lowerBound = Math.min(9, Math.max(0, lowerBound))
       sb[lowerBound].push(score)
     }
     sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))

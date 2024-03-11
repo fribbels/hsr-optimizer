@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react'
 import FormCard from 'components/optimizerTab/FormCard.js'
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Select, SelectProps, Typography } from 'antd'
-import { Utils } from 'lib/utils.js'
 import { Constants, eidolonOptions, Sets, superimpositionOptions } from 'lib/constants.ts'
 import { Assets } from 'lib/assets.js'
 import { CharacterConditionals } from 'lib/characterConditionals.js'
@@ -13,6 +12,8 @@ import { LightConeConditionalDisplay } from 'components/optimizerTab/conditional
 import DB from 'lib/db.js'
 import { Character } from 'types/Character'
 import { Message } from 'lib/message.js'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
 
 const { Text } = Typography
 
@@ -142,9 +143,6 @@ const TeammateCard = (props: { index: number }) => {
 
   const disabled = teammateCharacterId == null
 
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
-
   function updateTeammate() {
     window.store.getState().setTeammateCount(countTeammates())
 
@@ -207,12 +205,9 @@ const TeammateCard = (props: { index: number }) => {
       <Flex vertical gap={5}>
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
-            <Select
-              showSearch
-              filterOption={Utils.labelFilterOption}
-              options={characterOptions}
-              placeholder="Character"
-              allowClear
+            <CharacterSelect
+              value=""
+              selectStyle={{ }}
             />
           </Form.Item>
 
@@ -290,13 +285,10 @@ const TeammateCard = (props: { index: number }) => {
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>
-            <Select
-              showSearch
-              filterOption={Utils.labelFilterOption}
-              style={{ width: 250 }}
-              options={lightConeOptions}
-              placeholder="Light Cone"
-              disabled={disabled}
+            <LightConeSelect
+              value=""
+              selectStyle={{ width: 250 }}
+              characterId={teammateCharacterId}
             />
           </Form.Item>
 

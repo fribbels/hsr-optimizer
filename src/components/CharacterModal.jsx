@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Flex, Form, Modal, Select } from 'antd'
 import { HeaderText } from './HeaderText'
 import { eidolonOptions, levelOptions, superimpositionOptions } from 'lib/constants'
 import { defaultGap } from 'lib/constantsUi'
-import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 
 // Keep new characters/lcs at the top of the list for convenience. More popular should be at the bottom
 const pinnedValues = [
@@ -44,8 +45,7 @@ export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const characterOptions = useMemo(() => generatePinnedList(Utils.generateCharacterOptions()), [])
-  const lightConeOptions = useMemo(() => generatePinnedList(Utils.generateLightConeOptions(props.initialCharacter?.form.characterId)), [props.initialCharacter])
+  const [characterId, setCharacterId] = useState('')
 
   useEffect(() => {
     if (!props.open) return
@@ -104,11 +104,10 @@ export default function CharacterModal(props) {
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
             <Form.Item size="default" name="characterId">
-              <Select
-                showSearch
-                filterOption={Utils.labelFilterOption}
-                style={{ width: panelWidth }}
-                options={characterOptions}
+              <CharacterSelect
+                value=""
+                selectStyle={{ width: panelWidth }}
+                onChange={setCharacterId}
               />
             </Form.Item>
           </Flex>
@@ -136,11 +135,10 @@ export default function CharacterModal(props) {
         <Flex vertical gap={defaultGap}>
           <Flex gap={defaultGap}>
             <Form.Item size="default" name="lightCone">
-              <Select
-                showSearch
-                filterOption={Utils.labelFilterOption}
-                style={{ width: panelWidth }}
-                options={lightConeOptions}
+              <LightConeSelect
+                value=""
+                selectStyle={{ width: panelWidth }}
+                characterId={characterId}
               />
             </Form.Item>
           </Flex>

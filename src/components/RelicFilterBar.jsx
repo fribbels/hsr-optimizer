@@ -1,17 +1,16 @@
-import { Button, Flex, Select, Tooltip, Typography } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Flex, Tooltip, Typography } from 'antd'
+import React, { useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
-import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
-import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 
 const { Text } = Typography
 
@@ -171,12 +170,13 @@ export default function RelicFilterBar() {
         <Flex vertical flex={1}>
           <HeaderText>Relic recommendation character</HeaderText>
           <Flex gap={10}>
-            <Select
-              showSearch
-              filterOption={Utils.labelFilterOption}
-              onChange={characterSelectorChange}
-              options={characterOptions}
-              style={{ flex: 1 }}
+            <CharacterSelect
+              value={currentlySelectedCharacterId}
+              selectStyle={{ flex: 1 }}
+              onChange={(x) => {
+                // Wait until after modal closes to update
+                setTimeout(() => characterSelectorChange(x), 20)
+              }}
             />
             <Button
               onClick={rescoreClicked}

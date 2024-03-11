@@ -5,15 +5,14 @@ import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ClassToPath, PathToClass } from 'lib/constants.ts'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 import DB from 'lib/db.js'
 
-const { Text, Paragraph } = Typography
+const { Paragraph } = Typography
 
 interface LightConeSelectProps {
   value
   characterId: string
-  onChange: (id) => void
+  onChange?: (id) => void
   selectStyle?: React.CSSProperties
 }
 
@@ -78,9 +77,9 @@ function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters })
   )
 }
 
-// This is copy pasted from CharacterSelect.tsx. Maybe want to revisit these two files and make the components more modular
+// TODO: This is copy pasted from CharacterSelect.tsx. Maybe want to revisit these two files and make the components more modular
 const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle }) => {
-  console.log('==================================== LC SELECT')
+  // console.log('==================================== LC SELECT')
   const characterMetadata = DB.getMetadata().characters
   const [open, setOpen] = useState(false)
   const defaultFilters = useMemo(() => {
@@ -96,7 +95,9 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
 
   useEffect(() => {
-    setTimeout(() => inputRef?.current?.focus(), 0)
+    if (open) {
+      setTimeout(() => inputRef?.current?.focus(), 0)
+    }
   }, [open])
 
   function applyFilters(x) {
@@ -117,12 +118,12 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     return [5, 4, 3].map((x) => {
       const stars: ReactElement[] = []
       for (let i = 0; i < x; i++) {
-        stars.push(<img key={i} style={{ width: 20 }} src={Assets.getStar()} />)
+        stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()} />)
       }
       return {
         key: x,
         display: (
-          <Flex>
+          <Flex flex={1} justify="center" align="center" style={{ marginTop: 1 }}>
             {stars}
           </Flex>
         ),
@@ -141,7 +142,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
   const handleClick = (id) => {
     setOpen(false)
-    onChange(id)
+    if (onChange)onChange(id)
   }
 
   return (
@@ -162,19 +163,19 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         open={open}
         centered
         width="90%"
-        style={{ height: '90%', maxWidth: 1200 }}
+        style={{ height: '70%', maxWidth: 1200 }}
         destroyOnClose
         title="Select a light cone"
         onCancel={() => setOpen(false)}
         footer={null}
       >
-        <Flex vertical gap={optimizerTabDefaultGap}>
-          <Flex gap={optimizerTabDefaultGap} wrap="wrap">
-            <Flex vertical wrap="wrap" style={{ minWidth: 400, flexGrow: 1 }}>
+        <Flex vertical gap={12}>
+          <Flex gap={12} wrap="wrap">
+            <Flex vertical wrap="wrap" style={{ minWidth: 300, flexGrow: 1 }}>
               <Input
                 size="large"
                 style={{ height: 40 }}
-                placeholder="Light cone name"
+                placeholder="Light cone"
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -189,7 +190,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 }}
               />
             </Flex>
-            <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={optimizerTabDefaultGap}>
+            <Flex wrap="wrap" style={{ flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
                 <FilterRow
                   name="path"
@@ -252,8 +253,6 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                         height: 36,
                         alignItems: 'center',
                         marginBottom: 0,
-                        WebkitBoxAlign: 'center',
-                        WebkitBoxPack: 'center',
                       }}
                     >
                       <div
@@ -261,6 +260,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                           position: 'relative',
                           top: '50%',
                           transform: 'translateY(-50%)',
+                          maxHeight: 36,
                         }}
                       >
                         {option.displayName}

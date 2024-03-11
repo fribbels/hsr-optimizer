@@ -123,6 +123,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 placeholder="Exclude"
                 autoClearSearchValue
                 options={characterExcludeOptions}
+                optionFilterProp='label'
               />
             </Form.Item>
           </Flex>

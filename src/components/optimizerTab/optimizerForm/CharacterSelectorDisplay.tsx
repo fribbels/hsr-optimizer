@@ -8,6 +8,8 @@ import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/Reco
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { useEffect, useMemo } from 'react'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 
 type CharacterSelectorDisplayProps = {
 }
@@ -19,7 +21,6 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
   const setOptimizerFormSelectedLightCone = window.store((s) => s.setOptimizerFormSelectedLightCone)
   const setOptimizerFormSelectedLightConeSuperimposition = window.store((s) => s.setOptimizerFormSelectedLightConeSuperimposition)
 
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(optimizerTabFocusCharacter), [optimizerTabFocusCharacter])
 
   useEffect(() => {
@@ -34,14 +35,10 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Form.Item name="characterId">
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            style={{ width: panelWidth }}
+          <CharacterSelect
+            value=""
+            selectStyle={{ width: panelWidth }}
             onChange={setOptimizerTabFocusCharacter}
-            options={characterOptions}
-            optionLabelProp="label"
-            placeholder="Character"
           />
         </Form.Item>
         <Flex gap={optimizerTabDefaultGap} justify="space-between">
@@ -71,13 +68,11 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
           <Form.Item name="lightCone">
-            <Select
-              showSearch
-              filterOption={Utils.labelFilterOption}
-              style={{ width: panelWidth }}
+            <LightConeSelect
+              value=""
+              selectStyle={{ width: panelWidth }}
+              characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
-              options={lightConeOptions}
-              placeholder="Light Cone"
             />
           </Form.Item>
         </Flex>

@@ -200,6 +200,25 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
+export const PathToClass = {
+  Abundance: 'Priest',
+  Destruction: 'Warrior',
+  Erudition: 'Mage',
+  Harmony: 'Shaman',
+  Hunt: 'Rogue',
+  Nihility: 'Warlock',
+  Preservation: 'Knight',
+}
+export const ClassToPath = {
+  Priest: 'Abundance',
+  Warrior: 'Destruction',
+  Mage: 'Erudition',
+  Shaman: 'Harmony',
+  Rogue: 'Hunt',
+  Warlock: 'Nihility',
+  Knight: 'Preservation',
+}
+
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,
   Fire: Stats.Fire_DMG,

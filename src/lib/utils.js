@@ -236,4 +236,9 @@ export const Utils = {
   stripTrailingSlashes: (str) => {
     return str.replace(/\/+$/, '')
   },
+
+  // 5, 4, 3
+  sortRarityDesc: (a, b) => {
+    return b.rarity - a.rarity
+  },
 }

@@ -534,9 +534,11 @@ export const OptimizerTabController = {
     window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
     window.store.getState().setOptimizerTabFocusCharacter(characterId)
     window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
-
-    window.onOptimizerFormValuesChange({}, displayFormValues)
     console.log('@updateForm', displayFormValues, character)
+    // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
+    setTimeout(() => {
+      window.onOptimizerFormValuesChange({}, displayFormValues)
+    }, 200)
   },
 
   redrawRows: () => {

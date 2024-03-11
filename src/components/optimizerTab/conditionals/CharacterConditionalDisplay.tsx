@@ -15,7 +15,7 @@ export interface CharacterConditionalDisplayProps {
 }
 
 export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
-  console.log('getDisplayForCharacter', id, teammateIndex)
+  // console.log('getDisplayForCharacter', id, teammateIndex)
 
   // TODO revisit type workaround
   const characterId = id as unknown as keyof typeof characterOptionMapping

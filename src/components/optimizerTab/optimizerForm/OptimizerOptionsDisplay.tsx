@@ -8,6 +8,7 @@ import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { Utils } from 'lib/utils.js'
 
 const { Text } = Typography
 
@@ -104,6 +105,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 listHeight={500}
                 optionLabelProp="number"
                 placeholder="Priority"
+                showSearch
+                filterOption={Utils.labelFilterOption}
               />
             </Form.Item>
           </Flex>
@@ -121,9 +124,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 allowClear
                 showSearch
                 placeholder="Exclude"
-                autoClearSearchValue
                 options={characterExcludeOptions}
-                optionFilterProp='label'
+                filterOption={Utils.labelFilterOption}
               />
             </Form.Item>
           </Flex>

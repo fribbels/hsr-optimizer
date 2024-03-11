@@ -13,12 +13,6 @@ export const RelicAugmenter = {
       return null
     }
 
-    relic.weights = {
-      current: 0,
-      average: 0,
-      best: 0,
-    }
-
     let mainStat = relic.main.stat
     relic.main.value = RelicRollFixer.fixMainStatvalue(relic)
     let mainMaxValue = relic.main.value

@@ -65,12 +65,14 @@ export const Gradient = {
       }
     }
 
-    if (value == 0) {
+    if (isNaN(value) || value == 0) {
       return {}
     }
 
     let range
-    if (col.startsWith('weights.')) {
+    if (col.startsWith('weights.optimality')) {
+      range = value / 100
+    } else if (col.startsWith('weights.')) {
       range = Math.max(0, value - 64.8) / relicColumnRanges[col]
     } else {
       range = value / relicColumnRanges[col]

@@ -256,4 +256,17 @@ export const Hint = {
       ),
     }
   },
+
+  relicInsight: () => {
+    return {
+      title: 'Relic Insight',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
+          <p>'Buckets' looks at how optimal this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.</p>
+          <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of optimality upgrading this relic could result in.</p>
+        </Flex>
+      ),
+    }
+  },
 }

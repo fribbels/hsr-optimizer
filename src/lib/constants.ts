@@ -208,7 +208,15 @@ export const PathToClass = {
   Hunt: 'Rogue',
   Nihility: 'Warlock',
   Preservation: 'Knight',
-
+}
+export const ClassToPath = {
+  Priest: 'Abundance',
+  Warrior: 'Destruction',
+  Mage: 'Erudition',
+  Shaman: 'Harmony',
+  Rogue: 'Hunt',
+  Warlock: 'Nihility',
+  Knight: 'Preservation',
 }
 
 export const ElementToDamage = {

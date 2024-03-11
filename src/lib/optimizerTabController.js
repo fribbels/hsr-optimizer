@@ -527,18 +527,18 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    if (false) {
-      const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
-      window.optimizerForm.setFieldsValue(displayFormValues)
+    const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
+    window.optimizerForm.setFieldsValue(displayFormValues)
 
-      window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
-      window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
-      window.store.getState().setOptimizerTabFocusCharacter(characterId)
-      window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
-
+    window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
+    window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
+    window.store.getState().setOptimizerTabFocusCharacter(characterId)
+    window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
+    console.log('@updateForm', displayFormValues, character)
+    // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
+    setTimeout(() => {
       window.onOptimizerFormValuesChange({}, displayFormValues)
-      console.log('@updateForm', displayFormValues, character)
-    }
+    }, 200)
   },
 
   redrawRows: () => {

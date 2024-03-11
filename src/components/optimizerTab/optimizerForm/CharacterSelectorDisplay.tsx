@@ -8,7 +8,8 @@ import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/Reco
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { useEffect, useMemo } from 'react'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import CharacterSelect from 'components/CharacterSelect.tsx'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
+import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 
 type CharacterSelectorDisplayProps = {
 }
@@ -67,13 +68,11 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
           <Form.Item name="lightCone">
-            <Select
-              showSearch
-              filterOption={Utils.labelFilterOption}
-              style={{ width: panelWidth }}
+            <LightConeSelect
+              value=""
+              selectStyle={{ width: panelWidth }}
+              characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
-              options={lightConeOptions}
-              placeholder="Light Cone"
             />
           </Form.Item>
         </Flex>

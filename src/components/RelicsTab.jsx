@@ -7,7 +7,6 @@ import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
 import { RelicScorer } from 'lib/relicScorer'
-import { HeaderText } from './HeaderText'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
@@ -402,6 +401,9 @@ export default function RelicsTab() {
             options={relicInsightOptions}
             style={{ width: '200px' }}
           />
+          <Flex style={{ display: 'block' }}>
+            <TooltipImage type={Hint.relicInsight()} />
+          </Flex>
         </Flex>
         <Flex gap={10}>
           <RelicPreview
@@ -413,8 +415,7 @@ export default function RelicsTab() {
             <TooltipImage type={Hint.relics()} />
           </Flex>
           {relicInsight === 'top10' && scores && (
-            <Flex vertical gap={5} style={{ width: 300 }}>
-              <HeaderText>Relic Optimality % - best 10 characters</HeaderText>
+            <Flex gap={10}>
               <ol>
                 {
                   scores
@@ -441,60 +442,58 @@ export default function RelicsTab() {
                     })
                 }
               </ol>
+              <Plot
+                data={
+                  scores.map((s) => ({
+                    x: [s.score.averagePct],
+                    y: [s.name],
+                    hoverinfo: 'name',
+                    mode: 'markers',
+                    type: 'scatter',
+                    error_x: {
+                      type: 'data',
+                      symmetric: false,
+                      array: [s.score.bestPct - s.score.averagePct],
+                      arrayminus: [s.score.averagePct - s.score.worstPct],
+                    },
+                    marker: { color: s.color },
+                    name: s.name,
+                  })).reverse()
+                }
+                layout={{
+                  autosize: true,
+                  width: 320,
+                  height: 240,
+                  margin: {
+                    b: 20,
+                    l: 10,
+                    r: 20,
+                    t: 10,
+                  },
+                  showlegend: false,
+                  xaxis: {
+                    range: [0, 100],
+                    tick0: 0,
+                    dtick: 10,
+                    showgrid: true,
+                    showline: true,
+                    showticklabels: true,
+                    type: 'linear',
+                    zeroline: true,
+                  },
+                  yaxis: {
+                    showticklabels: false,
+                  },
+                }}
+                config={{
+                  displayModeBar: false,
+                  editable: false,
+                  scrollZoom: false,
+                }}
+              />
             </Flex>
           )}
-          {relicInsight === 'top10' && scores && (
-            <Plot
-              data={
-                scores.map((s) => ({
-                  x: [s.score.averagePct],
-                  y: [s.name],
-                  hoverinfo: 'name',
-                  mode: 'markers',
-                  type: 'scatter',
-                  error_x: {
-                    type: 'data',
-                    symmetric: false,
-                    array: [s.score.bestPct - s.score.averagePct],
-                    arrayminus: [s.score.averagePct - s.score.worstPct],
-                  },
-                  marker: { color: s.color },
-                  name: s.name,
-                })).reverse()
-              }
-              layout={{
-                autosize: true,
-                width: 320,
-                height: 240,
-                margin: {
-                  b: 20,
-                  l: 10,
-                  r: 20,
-                  t: 10,
-                },
-                showlegend: false,
-                xaxis: {
-                  range: [0, 100],
-                  tick0: 0,
-                  dtick: 10,
-                  showgrid: true,
-                  showline: true,
-                  showticklabels: true,
-                  type: 'linear',
-                  zeroline: true,
-                },
-                yaxis: {
-                  showticklabels: false,
-                },
-              }}
-              config={{
-                displayModeBar: false,
-                editable: false,
-                scrollZoom: false,
-              }}
-            />
-          )}
-          {relicInsight === 'buckets' && scores && (
+          {relicInsight === 'buckets' && scoreBuckets && (
             // Since plotly doesn't natively support images as points, we emulate it in this plot
             // by adding invisible points for each character (to get 'name on hover' behavior),
             // then adding an image on top of each point
@@ -534,6 +533,7 @@ export default function RelicsTab() {
               layout={{
                 autosize: true,
                 height: 250,
+                width: 700,
                 margin: {
                   b: 5,
                   l: 50,

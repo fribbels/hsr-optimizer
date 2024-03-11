@@ -7,7 +7,7 @@ import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathToClass } from 'lib/constants.ts'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 
-const { Text } = Typography
+const { Paragraph } = Typography
 
 interface CharacterSelectProps {
   value
@@ -20,8 +20,8 @@ const parentH = 150
 const innerW = 150
 const innerH = 170
 
-const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 128px, #282B31 128px, #282B31 150px)'
-const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 128px, #282B31 128px, #282B31 150px)'
+const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B31 130px, #282B31 150px)'
+const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
 function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
   const selectedTags = currentFilters[name]
@@ -145,7 +145,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         open={open}
         centered
         width="90%"
-        style={{ height: '80%', maxWidth: 1500 }}
+        style={{ height: '90%', maxWidth: 1450 }}
         destroyOnClose
         title="Select a character"
         onCancel={() => setOpen(false)}
@@ -209,6 +209,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                       height: `${parentH}px`,
                     }}
                     styles={{ body: { padding: 1 } }}
+                    onMouseDown={() => handleClick(option.id)}
                   >
                     <img
                       width={innerW}
@@ -216,10 +217,8 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                       style={{
                         transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
                       }}
-                      onMouseDown={() => handleClick(option.id)}
                     />
-                    <Text
-                      strong
+                    <Paragraph
                       style={{
                         position: 'absolute',
                         bottom: 0,
@@ -233,14 +232,15 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                         textWrap: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        paddingLeft: 14,
-                        paddingRight: 14,
-                        fontSize: 12,
-                        height: 20,
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        lineHeight: '18px',
+                        height: 18,
+                        marginBottom: 0,
                       }}
                     >
                       {option.displayName}
-                    </Text>
+                    </Paragraph>
                   </Card>
                 ))
             }

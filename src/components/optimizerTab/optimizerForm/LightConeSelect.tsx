@@ -8,7 +8,7 @@ import { ClassToPath, PathToClass } from 'lib/constants.ts'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 import DB from 'lib/db.js'
 
-const { Text } = Typography
+const { Text, Paragraph } = Typography
 
 interface LightConeSelectProps {
   value
@@ -17,14 +17,14 @@ interface LightConeSelectProps {
   selectStyle?: React.CSSProperties
 }
 
-const parentW = 120
+const parentW = 100
 const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 128px, #282B31 128px, #282B31 150px)'
-const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 128px, #282B31 128px, #282B31 150px)'
-const blueBg = 'linear-gradient(#2d4cc5 0px, #4A85C8 63px, #4A85C8 114px, #282B31 114px, #282B31 150px)'
+const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 112px, #282B31 112px, #282B31 150px)'
+const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 112px, #282B31 112px, #282B31 150px)'
+const blueBg = 'linear-gradient(#2d4cc5 0px, #4A85C8 63px, #4A85C8 112px, #282B31 112px, #282B31 150px)'
 
 const rarityToBg = {
   5: goldBg,
@@ -34,7 +34,6 @@ const rarityToBg = {
 
 function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
   const selectedTags = currentFilters[name]
-  console.debug(name, selectedTags, tags)
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked
@@ -163,7 +162,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         open={open}
         centered
         width="90%"
-        style={{ height: '80%', maxWidth: 1500 }}
+        style={{ height: '90%', maxWidth: 1200 }}
         destroyOnClose
         title="Select a light cone"
         onCancel={() => setOpen(false)}
@@ -226,6 +225,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                       overflow: 'hidden',
                       height: `${parentH}px`,
                     }}
+                    onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
                     <img
@@ -234,34 +234,38 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                       style={{
                         transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
                       }}
-                      onMouseDown={() => handleClick(option.id)}
                     />
-                    <Text
-                      strong
+                    <Paragraph
+                      ellipsis={{ rows: 2 }}
                       style={{
                         position: 'absolute',
                         bottom: 0,
                         left: 0,
                         width: '110%',
                         textAlign: 'center',
-                        justifyContent: 'center',
                         background: '#282B31',
                         color: '#D0D0D2',
                         marginLeft: '-5%',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
                         paddingLeft: 10,
                         paddingRight: 10,
-                        fontSize: 12,
-                        height: 34,
-                        lineHeight: 1.2,
-                        lineClamp: 1,
-                        display: 'inline-flex',
+                        lineHeight: '16px',
+                        height: 36,
                         alignItems: 'center',
+                        marginBottom: 0,
+                        WebkitBoxAlign: 'center',
+                        WebkitBoxPack: 'center',
                       }}
                     >
-                      {option.displayName}
-                    </Text>
+                      <div
+                        style={{
+                          position: 'relative',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                        }}
+                      >
+                        {option.displayName}
+                      </div>
+                    </Paragraph>
                   </Card>
                 ))
             }

@@ -14,7 +14,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          motionUnit: 0.07,
+          motionUnit: 0.1,
           colorBgBase: '#182239',
           opacityLoading: 0.15, // FormSetConditionals.js
         },

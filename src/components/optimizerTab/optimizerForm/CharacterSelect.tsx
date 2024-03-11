@@ -5,13 +5,12 @@ import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathToClass } from 'lib/constants.ts'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 const { Paragraph } = Typography
 
 interface CharacterSelectProps {
   value
-  onChange: (id) => void
+  onChange?: (id) => void
   selectStyle?: React.CSSProperties
 }
 
@@ -77,17 +76,18 @@ const defaultFilters = {
   name: '',
 }
 
-// This is copy pasted to LightConeSelect.tsx. Maybe want to revisit these two files and make the components more modular
+// TODO: This is copy pasted to LightConeSelect.tsx. Maybe want to revisit these two files and make the components more modular
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle }) => {
-  console.log('==================================== CHARACTER SELECT')
-
+  // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
 
   useEffect(() => {
-    setTimeout(() => inputRef?.current?.focus(), 0)
+    if (open) {
+      setTimeout(() => inputRef?.current?.focus(), 0)
+    }
   }, [open])
 
   function applyFilters(x) {
@@ -124,7 +124,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
   const handleClick = (id) => {
     setOpen(false)
-    onChange(id)
+    if (onChange) onChange(id)
   }
 
   return (
@@ -144,20 +144,20 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       <Modal
         open={open}
         centered
-        width="90%"
-        style={{ height: '90%', maxWidth: 1450 }}
         destroyOnClose
+        width="90%"
+        style={{ height: '80%', maxWidth: 1450 }}
         title="Select a character"
         onCancel={() => setOpen(false)}
         footer={null}
       >
-        <Flex vertical gap={optimizerTabDefaultGap}>
-          <Flex gap={optimizerTabDefaultGap} wrap="wrap">
-            <Flex vertical wrap="wrap" style={{ minWidth: 400, flexGrow: 1 }}>
+        <Flex vertical gap={12}>
+          <Flex gap={12} wrap="wrap">
+            <Flex vertical wrap="wrap" style={{ minWidth: 300, flexGrow: 1 }}>
               <Input
                 size="large"
                 style={{ height: 40 }}
-                placeholder="Character name"
+                placeholder="Character"
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -172,7 +172,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 }}
               />
             </Flex>
-            <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={optimizerTabDefaultGap}>
+            <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
                 <FilterRow
                   name="element"

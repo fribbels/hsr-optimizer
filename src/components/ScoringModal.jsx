@@ -8,6 +8,7 @@ import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import { Constants } from 'lib/constants.ts'
 import { usePublish } from 'hooks/usePublish'
+import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 
 const { Text } = Typography
 
@@ -288,12 +289,10 @@ export default function ScoringModal() {
           <Flex gap={20} justify="space-between">
             <Flex vertical gap={5}>
               <Form.Item size="default" name="characterId">
-                <Select
-                  showSearch
-                  filterOption={filterOption}
-                  style={{ width: panelWidth }}
+                <CharacterSelect
+                  value=""
+                  selectStyle={{ }}
                   onChange={characterSelectorChange}
-                  options={characterOptions}
                 />
               </Form.Item>
               <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>

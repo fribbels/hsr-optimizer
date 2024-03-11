@@ -2,11 +2,10 @@ import { Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import { Utils } from 'lib/utils.js'
 import { eidolonOptions, levelOptions, superimpositionOptions } from 'lib/constants.ts'
 import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
@@ -20,8 +19,6 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
 
   const setOptimizerFormSelectedLightCone = window.store((s) => s.setOptimizerFormSelectedLightCone)
   const setOptimizerFormSelectedLightConeSuperimposition = window.store((s) => s.setOptimizerFormSelectedLightConeSuperimposition)
-
-  const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(optimizerTabFocusCharacter), [optimizerTabFocusCharacter])
 
   useEffect(() => {
     OptimizerTabController.updateCharacter(optimizerTabFocusCharacter)

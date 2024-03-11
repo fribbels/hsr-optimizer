@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm } from 'antd'
+import { Button, Flex, Popconfirm, Select } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -13,6 +13,7 @@ import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
 import RelicFilterBar from './RelicFilterBar'
 import DB from '../lib/db'
+import { Assets } from 'lib/assets'
 import { Renderer } from 'lib/renderer'
 import { SaveState } from 'lib/saveState'
 import { Hint } from 'lib/hint'
@@ -95,6 +96,12 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+
+  const [relicInsight, setRelicInsight] = useState('buckets')
+  const relicInsightOptions = [
+    { value: 'buckets', label: 'Relic Insight: Buckets' },
+    { value: 'top10', label: 'Relic Insight: Top 10' },
+  ]
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   useEffect(() => {
@@ -204,8 +211,8 @@ export default function RelicsTab() {
         }
       },
     },
-    { field: 'part', valueFormatter: Renderer.readablePart, width: 50, filter: 'agTextColumnFilter' },
-    { field: 'enhance', width: 50, filter: 'agNumberColumnFilter' },
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
+    { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
     { field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
@@ -311,19 +318,11 @@ export default function RelicsTab() {
   }
 
   const numScores = 10
-  let scores /*: {
-    cid: string
-    name: string
-    score: {
-      bestPct: number
-      averagePct: number
-      worstPct: number
-    }
-    color: string
-  }[] | null*/ = null
+  let scores = null
+  let scoreBuckets = null
   if (selectedRelic) {
     const chars = DB.getMetadata().characters
-    let s = Object.keys(chars)
+    let allScores = Object.keys(chars)
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,
@@ -331,12 +330,23 @@ export default function RelicsTab() {
         color: '#000',
         owned: !!DB.getCharacterById(id),
       }))
-    s.sort((a, b) => b.score.bestPct - a.score.bestPct)
-    s = s.slice(0, numScores)
-    s.forEach((x, idx) => {
+    allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
+    allScores.forEach((x, idx) => {
       x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
     })
-    scores = s
+    scores = allScores.slice(0, numScores)
+
+    //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
+    let sb = [[], [], [], [], [], [], [], [], [], []]
+    for (let score of allScores) {
+      let lowerBound = Math.floor(score.score.bestPct / 10)
+      if (lowerBound === 10) {
+        lowerBound--
+      }
+      sb[lowerBound].push(score)
+    }
+    sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
+    scoreBuckets = sb
   }
 
   return (
@@ -386,6 +396,12 @@ export default function RelicsTab() {
               Delete Relic
             </Button>
           </Popconfirm>
+          <Select
+            value={relicInsight}
+            onChange={setRelicInsight}
+            options={relicInsightOptions}
+            style={{ width: '200px' }}
+          />
         </Flex>
         <Flex gap={10}>
           <RelicPreview
@@ -396,7 +412,7 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>
-          {scores && (
+          {relicInsight === 'top10' && scores && (
             <Flex vertical gap={5} style={{ width: 300 }}>
               <HeaderText>Relic Optimality % - best 10 characters</HeaderText>
               <ol>
@@ -427,7 +443,7 @@ export default function RelicsTab() {
               </ol>
             </Flex>
           )}
-          {scores && (
+          {relicInsight === 'top10' && scores && (
             <Plot
               data={
                 scores.map((s) => ({
@@ -456,7 +472,6 @@ export default function RelicsTab() {
                   t: 10,
                 },
                 showlegend: false,
-
                 xaxis: {
                   range: [0, 100],
                   tick0: 0,
@@ -473,6 +488,87 @@ export default function RelicsTab() {
               }}
               config={{
                 staticPlot: true,
+              }}
+            />
+          )}
+          {relicInsight === 'buckets' && scores && (
+            // Since plotly doesn't natively support images as points, we emulate it in this plot
+            // by adding invisible points for each character (to get 'name on hover' behavior),
+            // then adding an image on top of each point
+            <Plot
+              data={[
+                // Add fake data in each category to make sure we don't elide any categories - that would
+                // mess up our image placement
+                {
+                  type: 'scatter',
+                  x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  y: ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
+                  hoverinfo: 'skip',
+                  mode: 'markers',
+                  marker: {
+                    color: 'rgba(0, 0, 0, 0)',
+                    symbol: 'circle',
+                    size: 16,
+                  },
+                },
+                {
+                  type: 'scatter',
+                  hoverinfo: 'text',
+                  mode: 'markers',
+                  x: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                    bucket.map((_score, idx) => idx + 0.5)),
+                  y: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                    bucket.map((_score, _idx) => (bucketIdx * 10) + '-' + (bucketIdx * 10 + 10))),
+                  hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                    bucket.map((score, _idx) => score.name)),
+                  marker: {
+                    color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
+                    symbol: 'circle',
+                    size: 16,
+                  },
+                },
+              ]}
+              layout={{
+                autosize: true,
+                height: 250,
+                margin: {
+                  b: 5,
+                  l: 50,
+                  r: 20,
+                  t: 0,
+                },
+                hovermode: 'closest',
+                hoverdistance: 20,
+                showlegend: false,
+                images: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                  bucket.map((score, idx) => ({
+                    source: Assets.getCharacterAvatarById(score.cid),
+                    xref: 'x',
+                    yref: 'y',
+                    x: idx + 0.5,
+                    y: bucketIdx,
+                    sizex: 1,
+                    sizey: 1,
+                    xanchor: 'center',
+                    yanchor: 'middle',
+                  })),
+                ),
+                xaxis: {
+                  range: [0, Math.max(...scoreBuckets.map((sb) => sb.length)) + 1],
+                  tick0: 0,
+                  showgrid: false,
+                  showticklabels: false,
+                  type: 'linear',
+                  zeroline: false,
+                },
+                yaxis: {
+                  showticklabels: true,
+                },
+              }}
+              config={{
+                displayModeBar: false,
+                editable: false,
+                scrollZoom: false,
               }}
             />
           )}

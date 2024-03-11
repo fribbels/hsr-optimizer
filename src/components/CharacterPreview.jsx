@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Flex, Image } from 'antd'
+import { Button, Flex, Image } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
@@ -24,6 +24,9 @@ import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from '../lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
+import { EditOutlined } from '@ant-design/icons'
+import CharacterEditPortraitModal from './CharacterEditPortraitModal'
+import { Message } from 'lib/message'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -41,10 +44,24 @@ export function CharacterPreview(props) {
   const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
 
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
+  }
+
+  function onEditPortraitOk(imageUrl) {
+    // Save imageUrl, scaling and xy offset to build
+    // let score = RelicScorer.scoreCharacter(selectedCharacter)
+    // let res = DB.saveCharacterBuild(name, selectedCharacter.id, { score: score.totalScore.toFixed(0), rating: score.totalRating })
+    // if (res) {
+    //   Message.error(res.error)
+    //   return
+    // }
+    Message.success('Successfully saved portrait: ' + imageUrl)
+    // SaveState.save()
+    setEditPortraitModalOpen(false)
   }
 
   if (!character) {
@@ -127,6 +144,7 @@ export function CharacterPreview(props) {
             style={{
               position: 'relative',
             }}
+            className="character-build-portrait"
           >
             <img
               src={Assets.getCharacterPortraitById(character.id)}
@@ -139,6 +157,24 @@ export function CharacterPreview(props) {
               }}
               onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
             />
+            <Button
+              style={{
+                opacity: 0, // hidden initially
+                visibility: 'hidden',
+                flex: 'auto',
+                position: 'absolute',
+                top: parentH - 37,
+                left: 5,
+              }}
+              className="character-build-portrait-button"
+              icon={<EditOutlined />}
+              onClick={() => setEditPortraitModalOpen(true)}
+              type="primary"
+              // loading={screenshotLoading}
+            >
+              Edit portrait
+            </Button>
+            <CharacterEditPortraitModal open={editPortraitModalOpen} setOpen={setEditPortraitModalOpen} onOk={onEditPortraitOk} />
           </div>
         </div>
       )}

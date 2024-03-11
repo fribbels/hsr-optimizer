@@ -460,7 +460,6 @@ export default function CharacterTab() {
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
-
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter} imgRenderer={cellImageRenderer} />

@@ -449,6 +449,7 @@ export default function RelicsTab() {
                 scores.map((s) => ({
                   x: [s.score.averagePct],
                   y: [s.name],
+                  hoverinfo: 'name',
                   mode: 'markers',
                   type: 'scatter',
                   error_x: {
@@ -487,7 +488,9 @@ export default function RelicsTab() {
                 },
               }}
               config={{
-                staticPlot: true,
+                displayModeBar: false,
+                editable: false,
+                scrollZoom: false,
               }}
             />
           )}

@@ -22,6 +22,16 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
+const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 128px, #282B31 128px, #282B31 150px)'
+const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 128px, #282B31 128px, #282B31 150px)'
+const blueBg = 'linear-gradient(#2d4cc5 0px, #4A85C8 63px, #4A85C8 114px, #282B31 114px, #282B31 150px)'
+
+const rarityToBg = {
+  5: goldBg,
+  4: purpleBg,
+  3: blueBg,
+}
+
 function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
   const selectedTags = currentFilters[name]
   console.debug(name, selectedTags, tags)
@@ -103,12 +113,6 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
     return true
   }
-
-  // const goldBg = 'linear-gradient(180deg #8A6700, #D6A100 50%)'
-  // const purpleBg = 'linear-gradient(180deg, #5F388C, #9F6CD9 50%)'
-
-  const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 114px, #282B31 114px, #282B31 150px)'
-  const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 114px, #282B31 114px, #282B31 150px)'
 
   function generateRarityTags() {
     return [5, 4, 3].map((x) => {
@@ -218,7 +222,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     key={option.id}
                     hoverable
                     style={{
-                      background: option.rarity === 5 ? goldBg : purpleBg,
+                      background: rarityToBg[option.rarity],
                       overflow: 'hidden',
                       height: `${parentH}px`,
                     }}

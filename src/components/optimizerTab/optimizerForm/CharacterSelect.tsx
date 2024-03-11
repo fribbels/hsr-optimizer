@@ -20,6 +20,9 @@ const parentH = 150
 const innerW = 150
 const innerH = 170
 
+const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 128px, #282B31 128px, #282B31 150px)'
+const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 128px, #282B31 128px, #282B31 150px)'
+
 function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
   const selectedTags = currentFilters[name]
 
@@ -100,12 +103,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
     return true
   }
-
-  // const goldBg = 'linear-gradient(180deg #8A6700, #D6A100 50%)'
-  // const purpleBg = 'linear-gradient(180deg, #5F388C, #9F6CD9 50%)'
-
-  const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 128px, #282B31 128px, #282B31 150px)'
-  const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 128px, #282B31 128px, #282B31 150px)'
 
   function generateElementTags() {
     return Object.keys(ElementToDamage).map((x) => {

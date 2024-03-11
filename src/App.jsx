@@ -14,7 +14,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          motionUnit: 0.08,
+          motionUnit: 0.07,
           colorBgBase: '#182239',
           opacityLoading: 0.15, // FormSetConditionals.js
         },
@@ -49,9 +49,6 @@ const App = () => {
           },
           InputNumber: {
             paddingInlineSM: 4,
-          },
-          Modal: {
-            motion: 0,
           },
         },
         algorithm: theme.darkAlgorithm,

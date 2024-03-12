@@ -134,9 +134,15 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         value={value}
         options={characterOptions}
         placeholder="Character"
-        onClick={() => {
-          setOpen(true)
-          setCurrentFilters(Utils.clone(defaultFilters))
+        allowClear
+        onClear={() => {
+          if (onChange) onChange(null)
+        }}
+        onDropdownVisibleChange={(visible) => {
+          if (visible) {
+            setOpen(true)
+            setCurrentFilters(Utils.clone(defaultFilters))
+          }
         }}
         dropdownStyle={{ display: 'none' }}
       />

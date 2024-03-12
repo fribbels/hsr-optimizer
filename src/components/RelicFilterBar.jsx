@@ -121,10 +121,8 @@ export default function RelicFilterBar() {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
-    if (id) {
-      setScoringAlgorithmFocusCharacter(id)
-      setCurrentlySelectedCharacterId(id)
-    }
+    setScoringAlgorithmFocusCharacter(id)
+    setCurrentlySelectedCharacterId(id)
 
     // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
     // and char weights can be edited

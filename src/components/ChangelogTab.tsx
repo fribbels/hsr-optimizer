@@ -80,6 +80,30 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
 const data: ChangelogContent[] = [
   {
     title: '',
+    date: '03-12-2024',
+    content: [
+      'Added a new visual character selector menu with search and filters',
+      'charSelect.png',
+      'Light cone selectors are also updated and now default to the selected character\'s path',
+      'lcSelect.png',
+      'Added a new menu that automatically shows suggestions to fix common misconfigurations in setting up optimizer searches that result in 0 permutations',
+      'zeroPerm.png',
+      'Presets speed decimals now defined to 100ths precision',
+      'presets.png',
+      'Added def values to enemy level selector',
+      'enemyDef.png',
+      'Updated calculations with the latest beta character abilities',
+      'Reorganized some stat orderings for consistency',
+      'Fix: Light cone "Today is Another Peaceful Day" now defaults to the character\'s max energy',
+      'Fix: E2/E5 eidolon calculations for some characters',
+      'Fix: EHP filter works again',
+      'Fix: Linking to #scorer and other pages works again',
+      'Fix: Permutations now refresh when navigating to Optimizer tab',
+      'Fix: Alerts can now be closed when clicking on them',
+    ],
+  },
+  {
+    title: '',
     date: '02-28-2024',
     content: [
       'Enabled up/down arrow key navigation for grids',

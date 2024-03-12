@@ -239,16 +239,14 @@ export class RelicScorer {
       // Fixed maxed-out weight for a 1 weight mainstat
       maxWeight += 64.8
 
-      // Need the specific optimal mainstat to correctly add the free roll. Find it by:
+      // Need the specific optimal mainstat to remove it from possible substats. Find it by:
       // 1. choosing the highest multiplier stat from the list of part mainstats for the character (if possible)
       // 2. otherwise: choosing the highest multiplier mainstat of those valid for this relic
       const optimalMainStats = scoringMetadata.parts[part]
       const mainStatIndex = optimalMainStats
         ? scoreEntries.findIndex(([name, _weight]) => optimalMainStats.includes(name))
         : scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
-      const mainStat = scoreEntries.splice(mainStatIndex, 1)[0][0]
-
-      maxWeight += mainStatFreeRoll(part, mainStat, scoringMetadata.stats)
+      scoreEntries.splice(mainStatIndex, 1)
     } else {
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part][0] === name)
       scoreEntries.splice(mainStatIndex, 1)[0]
@@ -285,6 +283,13 @@ export class RelicScorer {
       score.best -= 64.8
       score.average -= 64.8
       score.worst -= 64.8
+    } else {
+      // undo mainstat free roll as it's not relevant for optimality
+      const scoringMetadata = this.getRelicScoreMeta(id)
+      const freeRoll = mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata.stats)
+      score.best -= freeRoll
+      score.average -= freeRoll
+      score.worst -= freeRoll
     }
 
     // TODO: we assume it's always possible to get a worthless relic, i.e. 0 weight - not true,

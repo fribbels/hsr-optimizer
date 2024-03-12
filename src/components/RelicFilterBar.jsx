@@ -1,9 +1,11 @@
-import { Button, Flex, Tooltip, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import { Button, Flex, Select, Tooltip, Typography } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
+import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
+import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
@@ -19,7 +21,7 @@ const imgWidth = 34
 
 const BLANK = Assets.getBlank()
 
-export default function RelicFilterBar() {
+export default function RelicFilterBar(props) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
@@ -117,6 +119,13 @@ export default function RelicFilterBar() {
     }, 100)
   })
 
+  // Kick off an initial calculation to populate value columns. Though empty dependencies
+  // are warned about, we genuinely only want to do this on first component render (updates
+  // will correctly re-trigger it)
+  useEffect(() => {
+    characterSelectorChange(currentlySelectedCharacterId)
+  }, [])
+
   function characterSelectorChange(id) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
@@ -126,15 +135,33 @@ export default function RelicFilterBar() {
       setCurrentlySelectedCharacterId(id)
     }
 
-    // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
-    // and char weights can be edited
+    let allCharacters = characterOptions.map((val) => val.id)
+    let ownedCharacters = new Set(DB.getCharacters().map((val) => val.id))
+
+    let relicScorer = new RelicScorer()
+
+    // NOTE: we cannot cache these results between renders by keying on the relic/char id because
+    // both relic stats and char weights can be edited
     for (let relic of relics) {
-      relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
+      relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
+
+      relic.weights.optimalityAllAll = 0
+      relic.weights.optimalityOwnedAll = 0
+
+      for (let cid of allCharacters) {
+        let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
+        let owned = ownedCharacters.has(cid)
+
+        relic.weights.optimalityAllAll = Math.max(pct, relic.weights.optimalityAllAll)
+        if (owned) {
+          relic.weights.optimalityOwnedAll = Math.max(pct, relic.weights.optimalityOwnedAll)
+        }
+      }
     }
 
     DB.setRelics(relics)
 
-    if (window.relicsGrid?.current?.api) {
+    if (id && window.relicsGrid?.current?.api) {
       window.relicsGrid.current.api.applyColumnState({
         state: [{ colId: 'weights.current', sort: 'desc' }],
         defaultState: { sort: null },
@@ -202,17 +229,34 @@ export default function RelicFilterBar() {
             </Flex>
           </Flex>
           <Flex vertical flex={0.5}>
-            <HeaderText>Grade</HeaderText>
-            <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
-          </Flex>
-          <Flex vertical flex={0.25}>
-            <HeaderText>Verified</HeaderText>
-            <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+            <Flex justify="space-between" align="center">
+              <HeaderText>Value Columns</HeaderText>
+              <TooltipImage type={Hint.valueColumns()} />
+            </Flex>
+            <Flex gap={10}>
+              <Select
+                mode="multiple"
+                allowClear
+                value={props.valueColumns}
+                onChange={props.setValueColumns}
+                options={props.valueColumnOptions}
+                maxTagCount="responsive"
+                style={{ flex: 1 }}
+              />
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
 
       <Flex gap={10}>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+        </Flex>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
           <FilterRow name="part" tags={partsData} flexBasis="15%" />
@@ -239,6 +283,11 @@ export default function RelicFilterBar() {
       </Flex>
     </Flex>
   )
+}
+RelicFilterBar.propTypes = {
+  setValueColumns: PropTypes.func,
+  valueColumnOptions: PropTypes.array,
+  valueColumns: PropTypes.array,
 }
 
 function FilterRow(props) {

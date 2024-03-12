@@ -54,11 +54,13 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse())
 SaveState.load()
 
+const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+
 document.addEventListener('DOMContentLoaded', function() {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
   root.render(
-    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
+    <ErrorBoundary fallbackRender={defaultErrorRender}>
       <App />
     </ErrorBoundary>,
   )

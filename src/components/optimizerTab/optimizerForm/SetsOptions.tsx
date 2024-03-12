@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
-import { Assets } from 'lib/assets'
-import { Constants, RelicSetFilterOptions } from 'lib/constants'
+import { Assets } from 'lib/assets.js'
+import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
 
 const GenerateSetsOptions = () => {
   const result: {

@@ -1,7 +1,7 @@
 import { ComponentProps, ComponentType, useState } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
-import WithPopover from 'components/common/WithPopover'
+import WithPopover from 'components/common/WithPopover.tsx'
 
 const justify = 'flex-start'
 const align = 'center'

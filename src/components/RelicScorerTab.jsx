@@ -156,7 +156,7 @@ export default function RelicScorerTab() {
           onFinish={onFinish}
           initialValues={{ scorerId: initialId }}
         >
-          <Flex style={{ margin: 20, width: 1000 }} justify="center" align="center" gap={10}>
+          <Flex style={{ margin: 10, width: 1000 }} justify="center" align="center" gap={10}>
             <Form.Item size="default" name="scorerId">
               <Input style={{ width: 150 }} placeholder="Account ID" />
             </Form.Item>
@@ -336,7 +336,7 @@ function CharacterPreviewSelection(props) {
         vertical
         style={{
           position: 'relative',
-          left: -370,
+          left: -230,
           top: 150,
           width: 0,
           height: 0,
@@ -372,6 +372,9 @@ function CharacterPreviewSelection(props) {
           <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
           <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
             Import relics into optimizer
+          </Button>
+          <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+            Simulate relics on another character
           </Button>
         </Flex>
       </Flex>

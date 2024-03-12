@@ -1,11 +1,13 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basic, calculateAshblazingSet, skill, talent, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.50, 1.62)

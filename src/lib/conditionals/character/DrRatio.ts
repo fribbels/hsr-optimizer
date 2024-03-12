@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { basic, calculateAshblazingSet, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 
 import { Eidolon } from 'types/Character'
@@ -8,6 +8,8 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+
   const debuffStacksMax = 5
   const summationStacksMax = (e >= 1) ? 10 : 6
 

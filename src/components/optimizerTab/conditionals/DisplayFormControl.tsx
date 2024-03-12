@@ -1,8 +1,8 @@
 import { ComponentType, ReactElement } from 'react'
 import { Flex } from 'antd'
-import ColorizeNumbers from 'components/common/ColorizeNumbers'
-import { FormSliderWithPopover } from './FormSlider'
-import { FormSwitchWithPopover } from './FormSwitch'
+import ColorizeNumbers from 'components/common/ColorizeNumbers.tsx'
+import { FormSliderWithPopover } from 'components/optimizerTab/conditionals/FormSlider.tsx'
+import { FormSwitchWithPopover } from 'components/optimizerTab/conditionals/FormSwitch.tsx'
 import { ContentComponentMap, ContentItem } from 'types/Conditionals'
 
 const FormItemComponentMap: ContentComponentMap = {

@@ -1,4 +1,4 @@
-import { basic3, findContentId, talent5, ult3 } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -11,12 +11,14 @@ const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2
 // 3-ult basic
 // 5-skill talent
 const Aventurine = (e: Eidolon): CharacterConditional => {
-  const basicScaling = basic3(e, 1.00, 1.10)
-  const ultScaling = ult3(e, 2.70, 2.916)
-  const ultCdScaling = ult3(e, 0.15, 0.162)
+  const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const talentDmgScaling = talent5(e, 0.25, 0.275)
-  const talentResScaling = talent5(e, 0.50, 0.55)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const ultScaling = ult(e, 2.70, 2.916)
+  const ultCdScaling = ult(e, 0.15, 0.162)
+
+  const talentDmgScaling = talent(e, 0.25, 0.275)
+  const talentResScaling = talent(e, 0.50, 0.55)
 
   const fuaHits = (e >= 4) ? 8 : 7
 

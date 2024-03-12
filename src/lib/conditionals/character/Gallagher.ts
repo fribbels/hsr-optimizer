@@ -1,4 +1,4 @@
-import { basic3 } from 'lib/conditionals/utils'
+import { AbilityEidolon } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -8,12 +8,12 @@ import { Stats } from 'lib/constants.ts'
 
 const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2024.'
 
-// 3 skill basic
-// 5 ult talent
 const Gallagher = (e: Eidolon): CharacterConditional => {
-  const basicScaling = basic3(e, 1.00, 1.10)
-  const basicEnhancedScaling = basic3(e, 2.50, 2.75)
-  const ultScaling = basic3(e, 1.50, 1.65)
+  const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 2.50, 2.75)
+  const ultScaling = basic(e, 1.50, 1.65)
 
   const content: ContentItem[] = [
     {

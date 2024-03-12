@@ -12,7 +12,6 @@ import {
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
-import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import { RelicFilters } from 'lib/relicFilters'
 import DB from 'lib/db'
@@ -30,7 +29,6 @@ export function calculateBuildByCharacterEquippedIds(character) {
 export function calculateBuild(request, relics) {
   request = Utils.clone(request)
 
-  OptimizerTabController.fixForm(request)
   const params = generateParams(request)
 
   // Precompute

@@ -20,7 +20,7 @@ import { Unknown } from 'types/Common';
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
 
 ```
-Some common/reused utils & constants live in `lib/conditionals/utils.ts` & `lib/conditionals/constants.ts`.  Import from these dependenciese (DRY this out);
+Some common/reused utils & constants live in `lib/conditionals/utils.ts` & `lib/conditionals/optimizerTabConstants.ts`.  Import from these dependenciese (DRY this out);
 
 4. Refactor the `display()` function and extract the `content` array:
 ```

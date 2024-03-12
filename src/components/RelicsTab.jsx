@@ -214,9 +214,9 @@ export default function RelicsTab() {
      * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      */
-    { field: `relicsTabWeight`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-    { field: `averageCaseWeight`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-    { field: `bestCaseWeight`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
+    { field: `weights.current`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
+    { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
+    { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
   ], [])
 
   const gridOptions = useMemo(() => ({

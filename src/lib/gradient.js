@@ -59,12 +59,9 @@ export const Gradient = {
         [`augmentedStats.${Constants.Stats.RES}`]: 0.1728,
         [`augmentedStats.${Constants.Stats.BE}`]: 0.2592,
         [`cv`]: 0.40,
-        cs: 35,
-        ss: 35,
-        ds: 35,
-        relicsTabWeight: 64.8,
-        bestCaseWeight: 64.8,
-        averageCaseWeight: 64.8,
+        'weights.current': 64.8,
+        'weights.best': 64.8,
+        'weights.average': 64.8,
       }
     }
 
@@ -73,7 +70,7 @@ export const Gradient = {
     }
 
     let range
-    if (col == 'relicsTabWeight' || col == 'bestCaseWeight' || col == 'averageCaseWeight') {
+    if (col.startsWith('weights.')) {
       range = Math.max(0, value - 64.8) / relicColumnRanges[col]
     } else {
       range = value / relicColumnRanges[col]

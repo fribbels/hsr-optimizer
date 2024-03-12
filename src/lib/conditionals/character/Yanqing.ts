@@ -1,21 +1,23 @@
 import { Stats } from 'lib/constants'
 
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from '../constants'
-import { basicRev, calculateAshblazingSet, precisionRound, skillRev, talentRev, ultRev } from '../utils'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from '../utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
-  const ultCdBuffValue = ultRev(e, 0.50, 0.54)
-  const talentCdBuffValue = ultRev(e, 0.30, 0.33)
-  const talentCrBuffValue = ultRev(e, 0.20, 0.21)
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const skillScaling = skillRev(e, 2.20, 2.42)
-  const ultScaling = ultRev(e, 3.50, 3.78)
-  const fuaScaling = talentRev(e, 0.50, 0.55)
+  const ultCdBuffValue = ult(e, 0.50, 0.54)
+  const talentCdBuffValue = ult(e, 0.30, 0.33)
+  const talentCrBuffValue = ult(e, 0.20, 0.21)
+
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.20, 2.42)
+  const ultScaling = ult(e, 3.50, 3.78)
+  const fuaScaling = talent(e, 0.50, 0.55)
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 

@@ -7,7 +7,7 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
-import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
+import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 
 const state = {
   relics: [],
@@ -43,18 +43,16 @@ export const PageToRoute = {
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
+  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 }
 
-/*
- * React usage
- * let characterTabBlur = store(s => s.characterTabBlur);
- * let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
- */
+// React usage
+// let characterTabBlur = store(s => s.characterTabBlur);
+// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
 
-/*
- * Nonreactive usage
- * store.getState().setRelicsById(relicsById)
- */
+// Nonreactive usage
+// store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
@@ -63,7 +61,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
 
-  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname] : AppPages.OPTIMIZER,
+  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   characterTabBlur: false,
@@ -78,6 +76,12 @@ window.store = create((set) => ({
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
+  zeroPermutationModalOpen: false,
+
+  optimizerFormCharacterEidolon: 0,
+  optimizerFormSelectedLightCone: null,
+  optimizerFormSelectedLightConeSuperimposition: 1,
+  optimizerFormTeammates: [],
 
   permutationDetails: {
     Head: 0,
@@ -132,6 +136,11 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setOptimizerFormTeammates: (x) => set(() => ({ optimizerFormTeammates: x })),
+  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
 }))
 
 export const DB = {
@@ -223,6 +232,8 @@ export const DB = {
 
   setStore: (x) => {
     let charactersById = {}
+    const dbCharacters = DB.getMetadata().characters
+    const dbLightCones = DB.getMetadata().lightCones
     for (let character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -233,6 +244,16 @@ export const DB = {
         if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
           character.form.relicSets.splice(i, 1)
         }
+      }
+
+      // Unset light cone fields for mismatched light cone path
+      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
+      const dbCharacter = dbCharacters[character.id]
+      if (dbLightCone.path != dbCharacter.path) {
+        character.form.lightCone = undefined
+        character.form.lightConeLevel = 80
+        character.form.lightConeSuperimposition = 1
+        character.form.lightConeConditionals = {}
       }
     }
 

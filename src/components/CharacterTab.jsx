@@ -24,6 +24,7 @@ import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import { OptimizerTabController } from 'lib/optimizerTabController'
 
 const { Text } = Typography
 
@@ -165,7 +166,6 @@ export default function CharacterTab() {
 
   const characterTabFocusCharacter = window.store((s) => s.characterTabFocusCharacter)
   const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
-  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
   const charactersById = window.store((s) => s.charactersById)
   const selectedCharacter = charactersById[characterTabFocusCharacter]
@@ -216,12 +216,10 @@ export default function CharacterTab() {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const cellDoubleClickedListener = useCallback((e) => {
-    // setSelectedChar
-    setOptimizerTabFocusCharacter(e.data.id)
-    // set view
     setActiveKey(AppPages.OPTIMIZER)
+    OptimizerTabController.setCharacter(e.data.id)
     console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data.id}]`, e.data)
-  }, [setActiveKey, setOptimizerTabFocusCharacter])
+  }, [])
 
   const navigateToNextCell = useCallback((params) => {
     return arrowKeyGridNavigation(params, characterGrid, (selectedNode) => cellClickedListener(selectedNode))
@@ -362,11 +360,11 @@ export default function CharacterTab() {
         setCharacterModalOpen(true)
         break
       case 'unequip':
-        if (!await confirm('Are you sure you want to unequip this character?')) return
+        if (!await confirm(`Are you sure you want to unequip ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
         unequipClicked()
         break
       case 'delete':
-        if (!await confirm('Are you sure you want to delete this character?')) return
+        if (!await confirm(`Are you sure you want to delete ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
         removeClicked()
         break
       case 'saveBuild':

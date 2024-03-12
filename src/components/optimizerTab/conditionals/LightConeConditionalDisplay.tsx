@@ -1,12 +1,12 @@
 import { Flex, Typography } from 'antd'
-import { HeaderText } from 'components/HeaderText'
-import { TooltipImage } from 'components/TooltipImage'
-import { Hint } from 'lib/hint'
+import { HeaderText } from 'components/HeaderText.jsx'
+import { TooltipImage } from 'components/TooltipImage.jsx'
+import { Hint } from 'lib/hint.jsx'
 import { DataMineId } from 'types/Common'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { memo } from 'react'
-import { lightConeOptionMapping } from 'lib/lightConeConditionals'
-import DisplayFormControl from './DisplayFormControl.tsx'
+import { lightConeOptionMapping } from 'lib/lightConeConditionals.js'
+import DisplayFormControl from 'components/optimizerTab/conditionals/DisplayFormControl.tsx'
 
 export interface LightConeConditionalDisplayProps {
   id?: DataMineId
@@ -15,6 +15,8 @@ export interface LightConeConditionalDisplayProps {
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
+  console.log('LightConeConditionalDisplay', props)
+
   const { id, superImposition, teammateIndex } = props
   // TODO revisit type workaround
   const lightConeId = id as unknown as keyof typeof lightConeOptionMapping

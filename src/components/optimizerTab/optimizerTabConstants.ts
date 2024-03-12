@@ -1,9 +1,12 @@
 import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
-import { Renderer } from '../../lib/renderer'
+import { Renderer } from 'lib/renderer.jsx'
 
 export const DIGITS_4 = 53
 export const DIGITS_5 = 63
+
+export const optimizerTabDefaultGap = 5
+export const panelWidth = 203
 
 export const baseColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },
@@ -22,8 +25,8 @@ export const baseColumnDefs = [
   { field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM' },
-  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
+  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
   { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
@@ -49,8 +52,8 @@ export const combatColumnDefs = [
   { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ HEAL' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM' },
-  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
+  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
   { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },

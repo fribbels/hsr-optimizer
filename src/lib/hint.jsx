@@ -7,7 +7,6 @@ export const Hint = {
       title: 'Rating filters',
       content: (
         <Flex vertical gap={10}>
-          <p>CV - Crit Value, measuring the value of crit stats on the build. Calculated using CD + CR * 2</p>
           <p>Weight - Sum of substat weights of all 6 relics, from the Substat weight filter</p>
           <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives</p>
           <p>Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options.</p>

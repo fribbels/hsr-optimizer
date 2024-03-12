@@ -152,9 +152,15 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         value={value}
         options={lightConeOptions}
         placeholder="Light cone"
-        onClick={() => {
-          setOpen(true)
-          setCurrentFilters(Utils.clone(defaultFilters))
+        allowClear
+        onClear={() => {
+          if (onChange) onChange(null)
+        }}
+        onDropdownVisibleChange={(visible) => {
+          if (visible) {
+            setOpen(true)
+            setCurrentFilters(Utils.clone(defaultFilters))
+          }
         }}
         dropdownStyle={{ display: 'none' }}
       />

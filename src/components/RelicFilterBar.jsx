@@ -130,10 +130,8 @@ export default function RelicFilterBar(props) {
     let relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
-    if (id) {
-      setScoringAlgorithmFocusCharacter(id)
-      setCurrentlySelectedCharacterId(id)
-    }
+    setScoringAlgorithmFocusCharacter(id)
+    setCurrentlySelectedCharacterId(id)
 
     let allCharacters = characterOptions.map((val) => val.id)
     let ownedCharacters = new Set(DB.getCharacters().map((val) => val.id))

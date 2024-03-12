@@ -470,6 +470,7 @@ export default function RelicsTab() {
                   },
                   showlegend: false,
                   xaxis: {
+                    fixedrange: true,
                     range: [0, 100],
                     tick0: 0,
                     dtick: 10,
@@ -480,6 +481,7 @@ export default function RelicsTab() {
                     zeroline: true,
                   },
                   yaxis: {
+                    fixedrange: true,
                     showticklabels: false,
                   },
                 }}
@@ -555,6 +557,7 @@ export default function RelicsTab() {
                   })),
                 ),
                 xaxis: {
+                  fixedrange: true,
                   range: [0, Math.max(...scoreBuckets.map((sb) => sb.length)) + 1],
                   tick0: 0,
                   showgrid: false,
@@ -563,6 +566,7 @@ export default function RelicsTab() {
                   zeroline: false,
                 },
                 yaxis: {
+                  fixedrange: true,
                   showticklabels: true,
                 },
               }}

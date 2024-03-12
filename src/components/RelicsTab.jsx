@@ -261,19 +261,19 @@ export default function RelicsTab() {
     filterParams: { maxNumConditions: 100 },
   }), [])
 
-  const cellClickedListener = useCallback((event) => {
-    console.log('cellClicked', event)
+  const rowClickedListener = useCallback((event) => {
+    console.log('rowClicked', event)
     setSelectedRelic(event.data)
   }, [])
 
-  const onCellDoubleClickedListener = useCallback((e) => {
-    console.log('cellDblClicked', e)
+  const onRowDoubleClickedListener = useCallback((e) => {
+    console.log('rowDblClicked', e)
     setSelectedRelic(e.data)
     setEditModalOpen(true)
   }, [])
 
   const navigateToNextCell = useCallback((params) => {
-    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => cellClickedListener(selectedNode))
+    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => rowClickedListener(selectedNode))
   }, [])
 
   function onAddOk(relic) {
@@ -369,8 +369,8 @@ export default function RelicsTab() {
             headerHeight={24}
             rowSelection="single"
 
-            onCellMouseDown={cellClickedListener}
-            onCellDoubleClicked={onCellDoubleClickedListener}
+            onRowClicked={rowClickedListener}
+            onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
           />
         </div>

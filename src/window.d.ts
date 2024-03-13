@@ -1,6 +1,5 @@
 import { WorkerPool } from './lib/workerPool'
 import { Constants } from './lib/constants'
-import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
 import { OcrParserKelz3 } from 'lib/ocrParserKelz3.jsx'
 import { DataParser } from './lib/dataParser'
 import { OptimizerTabController } from './lib/optimizerTabController'
@@ -58,7 +57,6 @@ declare global {
 
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants
-    OcrParserFribbels1: typeof OcrParserFribbels1
     OcrParserKelz3: typeof OcrParserKelz3
     DataParser: typeof DataParser
     OptimizerTabController: typeof OptimizerTabController

@@ -20,6 +20,8 @@ export const RelicAugmenter = {
     augmentedStats.mainStat = mainStat
     augmentedStats.mainValue = mainMaxValue
 
+    sortSubstats(relic)
+
     for (let substat of relic.substats) {
       let stat = substat.stat
       substat.value = Utils.precisionRound(substat.value)
@@ -39,6 +41,26 @@ export const RelicAugmenter = {
     fixAugmentedStats([relic])
     return relic
   },
+}
+
+const substatToOrder = {
+  [Constants.Stats.HP]: 0,
+  [Constants.Stats.ATK]: 1,
+  [Constants.Stats.DEF]: 2,
+  [Constants.Stats.HP_P]: 3,
+  [Constants.Stats.ATK_P]: 4,
+  [Constants.Stats.DEF_P]: 5,
+  [Constants.Stats.SPD]: 6,
+  [Constants.Stats.CR]: 7,
+  [Constants.Stats.CD]: 8,
+  [Constants.Stats.EHR]: 9,
+  [Constants.Stats.RES]: 10,
+  [Constants.Stats.BE]: 11,
+}
+
+// Relic substats are always sorted in the predefined order above when the user logs out.
+function sortSubstats(relic) {
+  relic.substats = relic.substats.sort((a, b) => substatToOrder[a.stat] - substatToOrder[b.stat])
 }
 
 function fixAugmentedStats(relics) {

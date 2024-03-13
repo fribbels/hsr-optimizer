@@ -81,7 +81,6 @@ window.store = create((set) => ({
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
   optimizerFormSelectedLightConeSuperimposition: 1,
-  optimizerFormTeammates: [],
 
   permutationDetails: {
     Head: 0,
@@ -119,7 +118,6 @@ window.store = create((set) => ({
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -139,7 +137,6 @@ window.store = create((set) => ({
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-  setOptimizerFormTeammates: (x) => set(() => ({ optimizerFormTeammates: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
 }))
 
@@ -467,10 +464,8 @@ export const DB = {
     }
   },
 
-  /*
-   * These relics are missing speed decimals from OCR importer
-   * We overwrite any existing relics with imported ones
-   */
+  // These relics are missing speed decimals from OCR importer
+  // We overwrite any existing relics with imported ones
   mergeRelicsWithState: (newRelics, newCharacters) => {
     let oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -574,10 +569,8 @@ export const DB = {
     window.onOptimizerFormValuesChange({}, fieldValues)
   },
 
-  /*
-   * These relics have accurate speed values from relic scorer import
-   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
-   */
+  // These relics have accurate speed values from relic scorer import
+  // We keep the existing set of relics and only overwrite ones that match an imported one
   mergeVerifiedRelicsWithState: (newRelics) => {
     let oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
@@ -590,7 +583,7 @@ export const DB = {
       oldRelicPartialHashes[hash].push(oldRelic)
     }
 
-    // Tracking these for debug / logging
+    // Tracking these for debug / messaging
     let updatedOldRelics = []
     let addedNewRelics = []
 
@@ -608,9 +601,10 @@ export const DB = {
         let upgrades = 0
         for (let i = 0; i < partialMatch.substats.length; i++) {
           let matchSubstat = partialMatch.substats[i]
-          let newSubstat = newRelic.substats[i]
+          let newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
 
           // Different substats mean different relics - break
+          if (!newSubstat) { exit = true; break }
           if (matchSubstat.stat != newSubstat.stat) { exit = true; break }
           if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
 
@@ -622,7 +616,7 @@ export const DB = {
 
         if (exit) continue
 
-        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
         if (upgrades > possibleUpgrades) continue
 
         // If it passes all the tests, keep it
@@ -724,14 +718,11 @@ function compareSameTypeSubstat(oldSubstat, newSubstat) {
 }
 
 function partialHashRelic(relic) {
-  let baseSubstatCount = relic.grade == 5 ? 3 : 2
-
   let hashObject = {
     part: relic.part,
     set: relic.set,
     grade: relic.grade,
     mainstat: relic.main.stat,
-    substatStats: relic.substats.slice(0, baseSubstatCount).map((x) => x.stat),
   }
 
   return objectHash(hashObject)

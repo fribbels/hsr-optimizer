@@ -534,6 +534,7 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
       window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
       window.store.getState().setOptimizerTabFocusCharacter(characterId)
+      window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
       console.log('@updateForm', displayFormValues, character)
 

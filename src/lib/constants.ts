@@ -36,8 +36,8 @@ export const MainStats = [
   Stats.CD,
   Stats.EHR,
   Stats.BE,
-  Stats.ERR,
   Stats.OHB,
+  Stats.ERR,
   Stats.Physical_DMG,
   Stats.Fire_DMG,
   Stats.Ice_DMG,
@@ -81,8 +81,8 @@ export const SubStats = [
   Stats.CR,
   Stats.CD,
   Stats.EHR,
-  Stats.BE,
   Stats.RES,
+  Stats.BE,
 ]
 export type SubStats = typeof SubStats[number]
 

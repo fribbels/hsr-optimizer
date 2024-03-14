@@ -289,6 +289,8 @@ export const OptimizerTabController = {
 
     if (!newForm.setConditionals) {
       newForm.setConditionals = defaultSetConditionals
+    } else {
+      Utils.mergeUndefinedValues(newForm.setConditionals, defaultSetConditionals)
     }
 
     if (!form.enemyLevel) {

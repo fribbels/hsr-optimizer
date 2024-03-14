@@ -24,7 +24,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       text: 'Enhanced state',
       title: 'Crescent Transmigration',
-      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff)}%. 
+      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff * 100)}%. 
       Then, Jingliu's Skill "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.`,
     },
     {

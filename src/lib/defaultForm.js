@@ -94,4 +94,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.BrokenKeel]: [undefined, true],
   [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
+  [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
+  [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
 }

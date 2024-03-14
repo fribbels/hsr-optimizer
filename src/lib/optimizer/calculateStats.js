@@ -36,6 +36,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     BrokenKeel: (1 >> (setP ^ 9)) + (1 >> (setL ^ 9)),
     FirmamentFrontlineGlamoth: (1 >> (setP ^ 10)) + (1 >> (setL ^ 10)),
     PenaconyLandOfTheDreams: (1 >> (setP ^ 11)) + (1 >> (setL ^ 11)),
+    SigoniaTheUnclaimedDesolation: (1 >> (setP ^ 12)) + (1 >> (setL ^ 12)),
+    IzumoGenseiAndTakamaDivineRealm: (1 >> (setP ^ 13)) + (1 >> (setL ^ 13)),
   }
   return c.sets
 }
@@ -92,7 +94,8 @@ export function calculateBaseStats(c, request, params) {
     0.12 * p2(sets.SpaceSealingStation)
     + 0.12 * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.MusketeerOfWildWheat)
-    + 0.12 * p2(sets.PrisonerInDeepConfinement))
+    + 0.12 * p2(sets.PrisonerInDeepConfinement)
+    + 0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm))
 
   c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, request.baseDef, lc, trace, c,
     0.15 * p2(sets.BelobogOfTheArchitects)
@@ -100,8 +103,9 @@ export function calculateBaseStats(c, request, params) {
 
   c[Stats.CR] = sumPercentStat(Stats.CR, base, lc, trace, c,
     0.08 * p2(sets.InertSalsotto)
-    + 0.08 * p2(sets.RutilantArena))
+    + 0.08 * p2(sets.RutilantArena)
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
+    + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation))
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
     0.16 * p2(sets.CelestialDifferentiator))
@@ -178,12 +182,14 @@ export function calculateComputedStats(c, request, params) {
     + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
     + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
+    + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
 
   x[Stats.CR]
     += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
     + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
     + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
     + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
+    + 0.12 * (params.enabledIzumoGenseiAndTakamaDivineRealm) * p2(sets.IzumoGenseiAndTakamaDivineRealm)
 
   x[Stats.BE]
     += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)

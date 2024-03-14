@@ -50,6 +50,15 @@ export const Utils = {
     return target
   },
 
+  mergeUndefinedValues: (target, source) => {
+    for (let key of Object.keys(source)) {
+      if (target[key] == null) {
+        target[key] = source[key]
+      }
+    }
+    return target
+  },
+
   // await sleep(ms) to block
   sleep: (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms))

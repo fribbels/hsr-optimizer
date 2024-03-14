@@ -113,6 +113,18 @@ export const FormSetConditionals = () => {
       },
     ]
   }, [])
+  const setSigoniaTheUnclaimedDesolation = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 10; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${4 * i}% CD)`,
+      })
+    }
+
+    return options
+  }, [])
 
   let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
@@ -154,13 +166,13 @@ export const FormSetConditionals = () => {
           <ConditionalSetOption
             set={Constants.Sets.HunterOfGlacialForest}
             description="After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s)."
-            conditional="When enabled, CRIT DMG buff is applied to all calculations."
+            conditional="When enabled, CRIT DMG buff is applied to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.ChampionOfStreetwiseBoxing}
             selectOptions={setChampionOfStreetwiseBoxingOptions}
             description="After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 time(s)."
-            conditional="The selected ATK% buff is applied to all calculations based on the number of stacks."
+            conditional="The selected ATK% buff is applied to Combat stat calculations based on the number of stacks."
           />
           <ConditionalSetOption
             set={Constants.Sets.GuardOfWutheringSnow}
@@ -171,7 +183,7 @@ export const FormSetConditionals = () => {
           <ConditionalSetOption
             set={Constants.Sets.FiresmithOfLavaForging}
             description="Increases the wearer's Skill DMG by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack."
-            conditional="The Skill DMG increase is always active by default. When enabled, the Fire DMG buff is applied to all calculations."
+            conditional="The Skill DMG increase is always active by default. When enabled, the Fire DMG buff is applied to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.GeniusOfBrilliantStars}
@@ -181,7 +193,7 @@ export const FormSetConditionals = () => {
           <ConditionalSetOption
             set={Constants.Sets.BandOfSizzlingThunder}
             description="When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s)."
-            conditional="When enabled, ATK% buff is applied to all calculations."
+            conditional="When enabled, ATK% buff is applied to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.EagleOfTwilightLine}
@@ -199,18 +211,18 @@ export const FormSetConditionals = () => {
             set={Constants.Sets.WastelanderOfBanditryDesert}
             selectOptions={setWastelanderOfBanditryDesert}
             description="When attacking debuffed enemies, the wearer's CRIT Rate increases by 10%, and their CRIT DMG increases by 20% against Imprisoned enemies."
-            conditional="Applies the selected buffs to all calculations."
+            conditional="Applies the selected buffs to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.LongevousDisciple}
             selectOptions={setLongevousDiscipleOptions}
             description="When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turn(s) and up to 2 stacks."
-            conditional="The selected CR buff is applied to all calculations based on the number of stacks."
+            conditional="The selected CR buff is applied to Combat stat calculations based on the number of stacks."
           />
           <ConditionalSetOption
             set={Constants.Sets.MessengerTraversingHackerspace}
             description="When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked."
-            conditional="When enabled, SPD% buff is applied to all calculations."
+            conditional="When enabled, SPD% buff is applied to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.TheAshblazingGrandDuke}
@@ -222,18 +234,18 @@ export const FormSetConditionals = () => {
             set={Constants.Sets.PrisonerInDeepConfinement}
             selectOptions={setPrisonerInDeepConfinementOptions}
             description="For every DoT the target enemy is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs."
-            conditional="The selected DEF% pen buff is applied to all calculations based on the number of stacks."
+            conditional="The selected DEF% pen buff is applied to damage calculations based on the number of stacks."
           />
           <ConditionalSetOption
             set={Constants.Sets.PioneerDiverOfDeadWaters}
             selectOptions={setPioneerDiverOfDeadWaters}
             description="Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
-            conditional="The 2 piece effect is always enabled by default and assumes the enemy has at least 1 debuff for 12% DMG. For 4 piece, different CRIT buffs are applied depending on the selected option."
+            conditional="The 2 piece effect is always enabled by default and assumes the enemy has at least 1 debuff for 12% DMG. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option."
           />
           <ConditionalSetOption
             set={Constants.Sets.WatchmakerMasterOfDreamMachinations}
             description="When the wearer uses their Ultimate on an ally, Break Effect for all allies increases by 30% for 2 turn(s). This effect cannot be stacked."
-            conditional="When enabled, Break Effect buff is applied to all calculations."
+            conditional="When enabled, the Break Effect buff is applied to Combat stat calculations."
           />
         </Flex>
 
@@ -272,7 +284,7 @@ export const FormSetConditionals = () => {
           <ConditionalSetOption
             set={Constants.Sets.CelestialDifferentiator}
             description="Increases the wearer's CRIT DMG by 16%. When the wearer's current CRIT DMG reaches 120% or higher, after entering battle, the wearer's CRIT Rate increases by 60% until the end of their first attack."
-            conditional="When enabled, CRIT Rate buff is applied to all calculations."
+            conditional="When enabled, the CRIT Rate buff is applied to Combat stat calculations."
           />
           <ConditionalSetOption
             set={Constants.Sets.InertSalsotto}
@@ -315,6 +327,17 @@ export const FormSetConditionals = () => {
             description="Increases wearer's Energy Regeneration Rate by 5%. Increases DMG by 10% for all other allies that are of the same Type as the wearer."
             conditional={defaultMessage}
             p2Checked
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.SigoniaTheUnclaimedDesolation}
+            selectOptions={setSigoniaTheUnclaimedDesolation}
+            description="Increases the wearer's CRIT Rate by 4%. When enemies are defeated, the wearer's CRIT DMG increases by 4%, up to 10 stack(s)."
+            conditional="The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies."
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.IzumoGenseiAndTakamaDivineRealm}
+            description="Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
+            conditional="When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations."
           />
         </Flex>
       </Flex>
@@ -381,6 +404,19 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
+    let inputType = (<Switch disabled={props.p2Checked} />)
+    if (props.selectOptions) {
+      inputType = (
+        <Select
+          optionLabelProp="display"
+          listHeight={500}
+          size="small"
+          style={{ width: setConditionalsWidth }}
+          dropdownStyle={{ width: 300 }}
+          options={props.selectOptions}
+        />
+      )
+    }
     return (
       <Popover
         content={content}
@@ -396,8 +432,8 @@ function ConditionalSetOption(props) {
           </Flex>
           <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
           <Flex style={{ width: setConditionalsWidth }} justify="flex-end">
-            <Form.Item name={['setConditionals', props.set, 1]} valuePropName="checked">
-              <Switch disabled={props.p2Checked} />
+            <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
+              {inputType}
             </Form.Item>
           </Flex>
         </Flex>

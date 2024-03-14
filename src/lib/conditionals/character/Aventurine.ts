@@ -6,10 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 03-13-2024.'
 
-// 3-ult basic
-// 5-skill talent
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
@@ -20,7 +18,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
   const talentDmgScaling = talent(e, 0.25, 0.275)
   const talentResScaling = talent(e, 0.50, 0.55)
 
-  const fuaHits = (e >= 4) ? 8 : 7
+  const fuaHits = (e >= 4) ? 10 : 7
 
   const content: ContentItem[] = [
     {
@@ -83,7 +81,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       title: 'E6 shield stacks',
       content: betaUpdate,
       min: 0,
-      max: 4,
+      max: 3,
       disabled: e < 6,
     },
   ]
@@ -104,7 +102,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
       e4DefBuff: true,
-      e6ShieldStacks: 4,
+      e6ShieldStacks: 3,
     }),
     teammateDefaults: () => ({
       fortifiedWagerBuff: true,
@@ -138,7 +136,6 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
 

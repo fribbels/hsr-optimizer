@@ -3074,7 +3074,6 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.SPD_SORT,
-        PresetEffects.WASTELANDER_SET,
       ],
     },
     1302: { // Argenti
@@ -3224,6 +3223,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.FUA_SORT,
+        PresetEffects.fnAshblazingSet(7),
       ],
     },
     1305: { // Dr Ratio

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import { DataParser } from './dataParser'
-import { Constants } from 'lib/constants'
+import { Constants, PartsMainStats } from 'lib/constants'
 import { RelicScorer } from './relicScorer'
 import { Relic } from 'types/Relic'
 import DB from './db.js'
@@ -127,4 +127,42 @@ test('relic-pctscore', () => {
   const relicScore = RelicScorer.scoreRelicPct(relic, character)
   expect(100).toBeGreaterThanOrEqual(relicScore.bestPct)
   expect(relicScore.bestPct).toBeGreaterThanOrEqual(relicScore.worstPct)
+})
+
+test('ideal-mainstats-includes-best-mainstats', () => {
+  // Test the assumption (that optimal relic scoring relies on) that the best ideal
+  // mainstat matches the highest weight possible as a mainstat on that relic
+
+  let didfail = false;
+
+  let chars = DB.getMetadata().characters
+  for (const [id, char] of Object.entries(chars)) {
+    let scoringMetadata = DB.getScoringMetadata(id)
+    for (const part in scoringMetadata.parts) {
+      const partstats = scoringMetadata.parts[part]
+      let v0 = scoringMetadata.stats[partstats[0]]
+      let v0stat = partstats[0]
+      let best = v0
+      for (let partstat of partstats) {
+        let vs = scoringMetadata.stats[partstat]
+        if (vs !== v0) {
+          best = Math.max(best, vs)
+          // Enable this log to see where ideal mainstats may not have the same weight as each other
+          // (a lot of characters have this)
+          //console.log(`${char.name} ${part} mismatches on ${v0stat} (${v0}) vs ${partstat} (${vs})`)
+        }
+      }
+
+      let partbestweight = Math.max(
+        ...Object.entries(scoringMetadata.stats)
+          .filter(([name, weight]) => PartsMainStats[part].includes(name))
+          .map(([_name, weight]) => weight)
+      )
+      if (partbestweight !== best) {
+        didfail = true
+        console.log(char.name, part, partbestweight, best)
+      }
+    }
+  }
+  expect(didfail).toEqual(false)
 })

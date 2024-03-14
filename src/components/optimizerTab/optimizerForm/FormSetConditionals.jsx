@@ -113,6 +113,18 @@ export const FormSetConditionals = () => {
       },
     ]
   }, [])
+  const setSigoniaTheUnclaimedDesolation = useMemo(() => {
+    let options = []
+    for (let i = 0; i <= 10; i++) {
+      options.push({
+        display: i + 'x',
+        value: i,
+        label: `${i} stacks (+${4 * i}% CD)`,
+      })
+    }
+
+    return options
+  }, [])
 
   let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
@@ -316,6 +328,17 @@ export const FormSetConditionals = () => {
             conditional={defaultMessage}
             p2Checked
           />
+          <ConditionalSetOption
+            set={Constants.Sets.SigoniaTheUnclaimedDesolation}
+            selectOptions={setSigoniaTheUnclaimedDesolation}
+            description="Increases the wearer's CRIT Rate by 4%. When enemies are defeated, the wearer's CRIT DMG increases by 4%, up to 10 stack(s)."
+            conditional={defaultMessage}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.IzumoGenseiAndTakamaDivineRealm}
+            description="Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
+            conditional={defaultMessage}
+          />
         </Flex>
       </Flex>
     </Drawer>
@@ -381,6 +404,19 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
+    let inputType = (<Switch disabled={props.p2Checked} />)
+    if (props.selectOptions) {
+      inputType = (
+        <Select
+          optionLabelProp="display"
+          listHeight={500}
+          size="small"
+          style={{ width: setConditionalsWidth }}
+          dropdownStyle={{ width: 300 }}
+          options={props.selectOptions}
+        />
+      )
+    }
     return (
       <Popover
         content={content}
@@ -396,8 +432,8 @@ function ConditionalSetOption(props) {
           </Flex>
           <Text style={{ width: setConditionalsNameWidth, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.set}</Text>
           <Flex style={{ width: setConditionalsWidth }} justify="flex-end">
-            <Form.Item name={['setConditionals', props.set, 1]} valuePropName="checked">
-              <Switch disabled={props.p2Checked} />
+            <Form.Item name={['setConditionals', props.set, 1]} valuePropName={props.selectOptions ? 'value' : 'checked'}>
+              {inputType}
             </Form.Item>
           </Flex>
         </Flex>

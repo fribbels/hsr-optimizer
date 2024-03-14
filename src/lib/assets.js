@@ -193,6 +193,8 @@ export const Assets = {
       [Constants.Sets.BrokenKeel]: '310',
       [Constants.Sets.FirmamentFrontlineGlamoth]: '311',
       [Constants.Sets.PenaconyLandOfTheDreams]: '312',
+      [Constants.Sets.SigoniaTheUnclaimedDesolation]: '313',
+      [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
     }
 
     const partToId = {

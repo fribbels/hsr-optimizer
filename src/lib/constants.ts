@@ -175,6 +175,8 @@ export const SetsOrnaments = {
   BrokenKeel: 'Broken Keel',
   FirmamentFrontlineGlamoth: 'Firmament Frontline: Glamoth',
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
+  SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
+  IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

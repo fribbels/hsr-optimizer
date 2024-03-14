@@ -451,6 +451,15 @@ export const DB = {
     }
   },
 
+  switchRelics: (fromCharacterId, toCharacterId) => {
+    if (!fromCharacterId) return console.warn('No characterId to equip from')
+    if (!toCharacterId) return console.warn('No characterId to equip to')
+    console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
+
+    let fromCharacter = DB.getCharacterById(fromCharacterId)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId)
+  },
+
   deleteRelic: (id) => {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)

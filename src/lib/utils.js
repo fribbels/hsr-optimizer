@@ -216,6 +216,25 @@ export const Utils = {
       .sort((a, b) => a.label.localeCompare(b.label))
   },
 
+  // Character selector options from current characters with some customization parameters
+  generateCurrentCharacterOptions: (currentCharacters, excludeCharacters = [], withNobodyOption = true) => {
+    let characterData = DB.getMetadata().characters
+
+    let options = currentCharacters
+      .filter((character) => !excludeCharacters.includes(character))
+      .map((character) => ({
+        value: character.id,
+        label: characterData[character.id].displayName,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+
+    if (withNobodyOption) {
+      options.unshift({ value: 'None', label: 'Nobody' })
+    }
+
+    return options
+  },
+
   // Used to convert output formats for relic scorer, snake-case to camelCase
   recursiveToCamel: (item) => {
     if (Array.isArray(item)) {

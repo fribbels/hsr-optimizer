@@ -136,12 +136,13 @@ test('ideal-mainstats-includes-best-mainstats', () => {
   let didfail = false;
 
   let chars = DB.getMetadata().characters
-  for (const [id, char] of Object.entries(chars)) {
+  for (const [id, char_] of Object.entries(chars)) {
+    let char = <{ name: string }>char_
     let scoringMetadata = DB.getScoringMetadata(id)
     for (const part in scoringMetadata.parts) {
       const partstats = scoringMetadata.parts[part]
       let v0 = scoringMetadata.stats[partstats[0]]
-      let v0stat = partstats[0]
+      //let v0stat = partstats[0]
       let best = v0
       for (let partstat of partstats) {
         let vs = scoringMetadata.stats[partstat]
@@ -153,14 +154,20 @@ test('ideal-mainstats-includes-best-mainstats', () => {
         }
       }
 
-      let partbestweight = Math.max(
-        ...Object.entries(scoringMetadata.stats)
-          .filter(([name, weight]) => PartsMainStats[part].includes(name))
-          .map(([_name, weight]) => weight)
-      )
-      if (partbestweight !== best) {
-        didfail = true
-        console.log(char.name, part, partbestweight, best)
+      for (let [name, weight] of Object.entries(scoringMetadata.stats)) {
+        if (!PartsMainStats[part].includes(name)) {
+          continue
+        }
+        if (<number>weight > best) {
+          // The best ideal mainstats is missing a possible mainstat that's higher weighted
+          // than everything else
+          didfail = true
+          console.log('missing idealest mainstat', char.name, part, name, weight, best)
+        } else if (weight === best && !partstats.includes(name)) {
+          // Enable this log to see where the best ideal mainstats is missing one of the
+          // highest weighted possible mainstats (desirable when biasing towards ERR on ropes)
+          //console.log('missing ideal mainstat', char.name, part, name, weight, best)
+        }
       }
     }
   }

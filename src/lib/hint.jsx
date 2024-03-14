@@ -252,6 +252,7 @@ export const Hint = {
           <p>Optimality is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
           <p>Optimality can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
           <p>Optimality is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+          <p>Note optimality ordering can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats.</p>
         </Flex>
       ),
     }

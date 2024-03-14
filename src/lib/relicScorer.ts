@@ -312,12 +312,10 @@ export class RelicScorer {
     const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
     if (Utils.hasMainStat(relic.part)) {
-      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
-        mainScore = 64.8
-      } else {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
-      }
+      mainScore = scoringResult.mainStatScore
     } else {
+      // scoreRelic is for use from the relics table - to aid having comparable weights across
+      // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
       mainScore = 64.8
     }
 
@@ -409,7 +407,8 @@ export class RelicScorer {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    const multipliers: ScoringMetadata = DB.getScoringMetadata(characterId).stats
+    const scoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
+    const multipliers = scoringMetadata.stats
 
     let sum = 0
     for (const substat of relic.substats) {
@@ -429,7 +428,7 @@ export class RelicScorer {
     }
 
     let mainStatScore = 0
-    const metaParts = DB.getScoringMetadata(characterId).parts
+    const metaParts = scoringMetadata.parts
     const max = 10.368 + 3.6288 * relic.grade * 3
     if (metaParts[relic.part]) {
       if (metaParts[relic.part].includes(relic.main.stat)) {
@@ -444,7 +443,7 @@ export class RelicScorer {
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
-      meta: DB.getScoringMetadata(characterId),
+      meta: scoringMetadata,
     }
   }
 }

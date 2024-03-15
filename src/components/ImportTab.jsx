@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd'
-import { OcrParserKelz3 } from 'lib/ocrParserKelz3'
 import { Message } from 'lib/message'
 import { DB } from 'lib/db'
 import { SaveState } from 'lib/saveState'
 import PropTypes from 'prop-types'
+import { ImportConfig } from "../lib/importer/importConfig";
 
 const { Text } = Typography
 
@@ -274,7 +274,6 @@ function KelZImporterTab() {
   const [current, setCurrent] = useState(0)
   const [currentRelics, setCurrentRelics] = useState([])
   const [currentCharacters, setCurrentCharacters] = useState([])
-  const [currentMetadata, setCurrentMetadata] = useState({})
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
 
@@ -297,31 +296,12 @@ function KelZImporterTab() {
           setLoading1(true)
 
           if (!json) {
-            setTimeout(() => {
-              setLoading1(false)
-              setCurrentRelics(undefined)
-              setCurrentCharacters(undefined)
-              onStepChange(1)
-            }, spinnerMs)
-            return
+            throw new Error("Invalid JSON");
           }
 
-          let relics = [], characters = [], metadata = {}
-          if (json.source == 'HSR-Scanner' && json.version == 3) {
-            metadata = OcrParserKelz3.parseMetadata(json)
-            relics = OcrParserKelz3.parse(json, metadata)
-            characters = OcrParserKelz3.parseCharacters(json, metadata)
-            characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-          } else {
-            setTimeout(() => {
-              setLoading1(false)
-              setCurrentRelics(undefined)
-              setCurrentCharacters(undefined)
-              setCurrentMetadata({})
-              onStepChange(1)
-            }, spinnerMs)
-            return
-          }
+          let config = ImportConfig[0];
+          let {relics, characters, metadata} = config.parser.parse(json);
+          characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
 
           setTimeout(() => {
             setLoading1(false)
@@ -331,7 +311,14 @@ function KelZImporterTab() {
           }, spinnerMs)
         } catch (e) {
           Message.error(e.message, 10)
-          Message.error('Error occurred while importing file, try running the scanner again with a dark background to improve scan accuracy', 10)
+          Message.error('Error occurred while importing file', 10)
+
+          setTimeout(() => {
+            setLoading1(false)
+            setCurrentRelics(undefined)
+            setCurrentCharacters(undefined)
+            onStepChange(1)
+          }, spinnerMs)
         }
       }
       return false

@@ -350,6 +350,8 @@ function KelZImporterTab() {
   }
 
   function kelZImporterContentUploadFile() {
+    // TODO: add repo link from config
+    // TODO: add default file name from config
     return (
       <Flex style={{ minHeight: 100, marginBottom: 30 }}>
         <Flex vertical gap={10}>

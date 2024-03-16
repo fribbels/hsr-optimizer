@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
-import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd'
-import { Message } from '../../lib/message'
-import { DB } from '../../lib/db'
-import { SaveState } from '../../lib/saveState'
+import React from 'react'
+import { DownloadOutlined } from '@ant-design/icons'
+import { Button, Flex, Tabs, Typography } from 'antd'
+import { Message } from 'lib/message'
+import { SaveState } from 'lib/saveState'
 import PropTypes from 'prop-types'
-import { ImportConfig } from '../../lib/importer/importConfig'
 import { ClearDataSubmenu } from './ClearDataSubmenu'
+import { LoadDataSubmenu } from 'components/importerTab/LoadDataSubmenu'
+import { ScannerImportSubmenu } from 'components/importerTab/ScannerImportSubmenu'
 
 const { Text } = Typography
 
 const buttonWidth = 250
-const spinnerMs = 500
 
 // https://web.dev/patterns/files/save-a-file
 const saveFile = async (blob, suggestedName) => {
@@ -63,7 +62,7 @@ const saveFile = async (blob, suggestedName) => {
   }
 }
 
-function SaveDataTab() {
+function SaveDataSubmenu() {
   async function saveClicked() {
     try {
       let stateString = SaveState.save()
@@ -74,8 +73,7 @@ function SaveDataTab() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-
-      Message.success('Saved data')
+      Message.success('Done')
     } catch (e) {
       console.warn(e)
     }
@@ -89,207 +87,6 @@ function SaveDataTab() {
       <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: buttonWidth }}>
         Save data
       </Button>
-    </Flex>
-  )
-}
-
-function KelZImporterTab() {
-  const [current, setCurrent] = useState(0)
-  const [currentRelics, setCurrentRelics] = useState([])
-  const [currentCharacters, setCurrentCharacters] = useState([])
-  const [loading1, setLoading1] = useState(false)
-  const [loading2, setLoading2] = useState(false)
-
-  const onStepChange = (value) => {
-    console.log('onStepChange:', value)
-    setCurrent(value)
-  }
-
-  function beforeUpload(file) {
-    return new Promise(() => {
-      const reader = new FileReader()
-      reader.readAsText(file)
-      reader.onload = () => {
-        try {
-          let fileUploadText = reader.result
-
-          let json = JSON.parse(fileUploadText)
-          console.log('JSON', json)
-
-          setLoading1(true)
-
-          if (!json) {
-            throw new Error('Invalid JSON')
-          }
-
-          let config = ImportConfig[0]
-          let { relics, characters, metadata } = config.parser.parse(json)
-          characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentRelics(relics)
-            setCurrentCharacters(characters)
-            onStepChange(1)
-          }, spinnerMs)
-        } catch (e) {
-          Message.error(e.message, 10)
-          Message.error('Error occurred while importing file', 10)
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentRelics(undefined)
-            setCurrentCharacters(undefined)
-            onStepChange(1)
-          }, spinnerMs)
-        }
-      }
-      return false
-    })
-  }
-
-  function onUploadClick() {
-    onStepChange(0)
-  }
-
-  function mergeRelicsConfirmed() {
-    setLoading2(true)
-    setTimeout(() => {
-      setLoading2(false)
-      DB.mergeRelicsWithState(currentRelics)
-      SaveState.save()
-      onStepChange(2)
-    }, spinnerMs)
-  }
-
-  function mergeCharactersConfirmed() {
-    setLoading2(true)
-    setTimeout(() => {
-      setLoading2(false)
-      DB.mergeRelicsWithState(currentRelics, currentCharacters)
-      SaveState.save()
-      onStepChange(2)
-    }, spinnerMs)
-  }
-
-  function kelZImporterContentUploadFile() {
-    // TODO: add repo link from config
-    // TODO: add default file name from config
-    return (
-      <Flex style={{ minHeight: 100, marginBottom: 30 }}>
-        <Flex vertical gap={10}>
-          <Text>
-            Install and run Kel-Z HSR Scanner (
-            <Typography.Link target="_blank" href="https://github.com/kel-z/HSR-Scanner/releases/latest">Github</Typography.Link>
-            ).
-          </Text>
-          <Text>
-            Recommended to log out and log back in before scanning, as relic substat order can shuffle after rolling.
-          </Text>
-          <Upload
-            accept=".json"
-            name="file"
-            onClick={onUploadClick}
-            beforeUpload={beforeUpload}
-          >
-            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
-              Upload HSRScanData.json file
-            </Button>
-          </Upload>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  function confirmRelicMerge() {
-    if (!currentRelics) {
-      return (
-        <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
-            Invalid HSRScanData file, please try a different file
-          </Flex>
-        </Flex>
-      )
-    }
-
-    return (
-      <Flex style={{ minHeight: 250 }}>
-        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
-          <Text>
-            File contains
-            {' '}
-            {currentRelics.length}
-            {' '}
-            relics and
-            {' '}
-            {currentCharacters?.length || 0}
-            {' '}
-            characters.
-          </Text>
-
-          <Text>Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.</Text>
-
-          <Button style={{ width: buttonWidth }} type="primary" onClick={mergeRelicsConfirmed} loading={loading2}>
-            Import relics
-          </Button>
-
-          <Divider />
-          <Text>
-            Import relics and characters. Replaces the optimizer builds with ingame builds.
-          </Text>
-
-          <Popconfirm
-            title="Overwrite optimizer builds"
-            description="Are you sure you want to overwrite your optimizer builds with ingame builds?"
-            onConfirm={mergeCharactersConfirmed}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
-          >
-            <Button style={{ width: buttonWidth }} type="primary" loading={loading2}>
-              Import relics & characters
-            </Button>
-          </Popconfirm>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  function mergeCompleted() {
-    return (
-      <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
-          <Text>
-            Done!
-          </Text>
-          <Text>
-            The Relic scorer can be used to import accurate speed substats
-          </Text>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  return (
-    <Flex gap={5}>
-      <Steps
-        direction="vertical"
-        current={current}
-        items={[
-          {
-            title: '',
-            description: kelZImporterContentUploadFile(),
-          },
-          {
-            title: '',
-            description: confirmRelicMerge(),
-          },
-          {
-            title: '',
-            description: mergeCompleted(),
-          },
-        ]}
-      />
     </Flex>
   )
 }
@@ -308,19 +105,19 @@ export default function ImportTab() {
           }}
           items={[
             {
-              label: 'Kel-Z scanner importer (Recommended)',
+              label: 'Relic scanner importer',
               key: 0,
-              children: KelZImporterTab(),
-            },
-            {
-              label: 'Save optimizer data',
-              key: 1,
-              children: SaveDataTab(),
+              children: <ScannerImportSubmenu />,
             },
             {
               label: 'Load optimizer data',
+              key: 1,
+              children: <LoadDataSubmenu />,
+            },
+            {
+              label: 'Save optimizer data',
               key: 2,
-              children: LoadDataTab(),
+              children: <SaveDataSubmenu />,
             },
             {
               label: 'Clear optimizer data',

@@ -1,34 +1,34 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Flex, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { importerTabSpinnerMs } from './importerTabUiConstants.ts';
+import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants.ts'
+import DB from 'lib/db.js'
 
 const { Text } = Typography
 
-enum Steps {
-  LOAD_DATA
-  CONFIRM_DATA
-  FINISHED
+enum Stages {
+  LOAD_FILE = 0,
+  CONFIRM_DATA = 1,
+  FINISHED = 2,
+}
+
+type LoadSaveState = {
+  characters: []
+  relics: []
 }
 
 export function LoadDataSubmenu() {
-  const [currentStep, setCurrentStep] = useState(Steps.LOAD_DATA)
-  const [currentSave, setCurrentSave] = useState([])
+  const [currentStage, setCurrentStage] = useState<Stages>(Stages.LOAD_FILE)
+  const [currentSave, setCurrentSave] = useState<LoadSaveState | undefined>(undefined)
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
 
-  const onStepChange = (value: Steps) => {
-    setCurrentStep(value)
-  }
-
-  function
-
-  function beforeUpload(file) {
+  function beforeUpload(file): Promise<boolean> {
     return new Promise(() => {
       const reader = new FileReader()
       reader.readAsText(file)
       reader.onload = () => {
-        const fileUploadText = reader.result
+        const fileUploadText = String(reader.result)
         console.log('Uploaded file', fileUploadText)
 
         const json = JSON.parse(fileUploadText)
@@ -40,7 +40,7 @@ export function LoadDataSubmenu() {
           setTimeout(() => {
             setLoading1(false)
             setCurrentSave(undefined)
-            onStepChange(1)
+            setCurrentStage(Stages.CONFIRM_DATA)
           }, importerTabSpinnerMs)
           return
         }
@@ -50,15 +50,11 @@ export function LoadDataSubmenu() {
         setTimeout(() => {
           setLoading1(false)
           setCurrentSave(json)
-          onStepChange(1)
+          setCurrentStage(Stages.CONFIRM_DATA)
         }, importerTabSpinnerMs)
       }
       return false
     })
-  }
-
-  function onUploadClick() {
-    onStepChange(0)
   }
 
   function loadConfirmed() {
@@ -66,8 +62,8 @@ export function LoadDataSubmenu() {
     setTimeout(() => {
       setLoading2(false)
       DB.setStore(currentSave)
-      onStepChange(2)
-    }, spinnerMs)
+      setCurrentStage(Stages.FINISHED)
+    }, importerTabSpinnerMs)
   }
 
   function LoadDataContentUploadFile() {
@@ -80,10 +76,14 @@ export function LoadDataSubmenu() {
           <Upload
             accept=".json"
             name="file"
-            onClick={onUploadClick}
             beforeUpload={beforeUpload}
           >
-            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
+            <Button
+              style={{ width: importerTabButtonWidth }}
+              icon={<UploadOutlined />}
+              loading={loading1}
+              onClick={() => setCurrentStage(Stages.LOAD_FILE)}
+            >
               Load save data
             </Button>
           </Upload>
@@ -96,7 +96,7 @@ export function LoadDataSubmenu() {
     if (!currentSave || !currentSave.relics || !currentSave.characters) {
       return (
         <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
+          <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
             Invalid save file, please try a different file. Did you mean to use Relic Importer tab?
           </Flex>
         </Flex>
@@ -104,11 +104,11 @@ export function LoadDataSubmenu() {
     }
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
+        <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
             {`File contains ${currentSave.relics.length} relics and ${currentSave.characters.length} characters. Replace your current data with the uploaded data?`}
           </Text>
-          <Button style={{ width: buttonWidth }} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use uploaded data
           </Button>
         </Flex>
@@ -119,7 +119,7 @@ export function LoadDataSubmenu() {
   function LoadCompleted() {
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
+        <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
             Done!
           </Text>
@@ -132,7 +132,7 @@ export function LoadDataSubmenu() {
     <Flex gap={5}>
       <Steps
         direction="vertical"
-        current={current}
+        current={currentStage}
         items={[
           {
             title: '',

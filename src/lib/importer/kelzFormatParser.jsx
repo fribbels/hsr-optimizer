@@ -7,6 +7,10 @@ import lightCones from '../../data/light_cones.json'
 import DB from '../db'
 import { Utils } from '../utils'
 import semver from 'semver'
+import { Typography } from 'antd'
+import { Message } from 'lib/message'
+
+const { Text } = Typography
 
 const characterList = Object.values(characters)
 const lightConeList = Object.values(lightCones)
@@ -16,56 +20,62 @@ for (let set of relicSetList) {
   set[1] = lowerAlphaNumeric(set[1])
 }
 
-export class KelzFormatParser {
-  constructor(latestVersion, sourceString) {
-    this.latestBuildVersion = latestVersion
-    this.sourceString = sourceString
-    this.latestOutputVersion = 3;
+export class KelzFormatParser { // TODO abstract class
+  constructor(config) {
+    this.config = config
   }
 
   parse(json) {
     let parsed = {
       metadata: {
-        trailblazer: "Stelle"
+        trailblazer: 'Stelle',
       },
       characters: [],
-      relics: []
+      relics: [],
     }
 
-    if (json.source != this.sourceString) {
-      throw new Error(`Incorrect source string, was '${json.source}', expected '${this.sourceString}'`)
+    if (json.source != this.config.sourceString) {
+      throw new Error(`Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'`)
     }
 
-    if (json.version != this.latestOutputVersion) {
-      throw new Error(`Incorrect json version, was '${json.version}', expected '${this.latestOutputVersion}'`)
+    if (json.version != this.config.latestOutputVersion) {
+      throw new Error(`Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'`)
     }
 
-    const buildVersion = json.metadata.build || 'v0.1.0';
-    const isOutOfDate = semver.lt(buildVersion, this.latestBuildVersion);
+    const buildVersion = json.build || 'v0.0.0'
+    const isOutOfDate = semver.lt(buildVersion, this.config.latestBuildVersion)
+
     if (isOutOfDate) {
-      // TODO: warn, scanner out of date
+      console.log(`Current: ${buildVersion}, Latest: ${this.config.latestBuildVersion}`)
+      Message.warning((
+        <Text>
+          {`Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:`}
+          {' '}
+          <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
+        </Text>
+      ), 15)
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map(r => readRelic(r))
-        .map(r => RelicAugmenter.augment(r))
-        .filter(r => {
+        .map((r) => readRelic(r))
+        .map((r) => RelicAugmenter.augment(r))
+        .filter((r) => {
           if (!r) {
-            // TODO: warn, could not parse relic
+            console.warn('Could not parse relic')
           }
           return r
-        });
+        })
     }
 
     if (json.characters) {
       parsed.characters = json.characters
-        .map(c => readCharacter(c, json.light_cones, parsed.metadata.trailblazer))
-        .filter(c => {
+        .map((c) => readCharacter(c, json.light_cones, parsed.metadata.trailblazer))
+        .filter((c) => {
           if (!c) {
-            // TODO: warn, could not parse character
+            console.warn('Could not parse character')
           }
           return c
         })
@@ -91,11 +101,13 @@ function readCharacter(character, lightCones, trailblazer) {
   let lcKey = lightCone?.key
   const lightConeId = lightConeList.find((x) => x.name === lcKey)?.id
 
+  if (!characterId) return null
+
   return {
-    characterId: characterId || '1204',
+    characterId: characterId,
     characterLevel: character.level || 80,
     characterEidolon: character.eidolon || 0,
-    lightCone: lightConeId || '23010',
+    lightCone: lightConeId || null,
     lightConeLevel: lightCone?.level || 80,
     lightConeSuperimposition: lightCone?.superimposition || 1,
   }
@@ -111,11 +123,11 @@ function readRelic(relic, trailblazer) {
   let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
   let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
 
-  let {main, substats} = readRelicStats(relic, part, grade, enhance)
+  let { main, substats } = readRelicStats(relic, part, grade, enhance)
 
   let equippedBy = undefined
   if (relic.location !== '') {
-    let lookup = characterList.find((x) => x.name == relic.location).id;
+    let lookup = characterList.find((x) => x.name == relic.location)?.id
     if (lookup) {
       equippedBy = lookup
     } else if (relic.location.startsWith('Trailblazer')) {
@@ -153,9 +165,9 @@ function readRelicStats(relic, part, grade, enhance) {
   let mainValue = mainData.base + mainData.step * enhance
 
   let substats = relic.substats
-    .map(s => ({
+    .map((s) => ({
       stat: mapSubstatToId(s.key),
-      value: s.value
+      value: s.value,
     }))
 
   return {
@@ -201,39 +213,39 @@ function mapSubstatToId(substat) {
 function mapMainStatToId(mainStat) {
   switch (mainStat) {
     case 'ATK':
-      return Constants.Stats.ATK_P;
+      return Constants.Stats.ATK_P
     case 'HP':
-      return Constants.Stats.HP_P;
+      return Constants.Stats.HP_P
     case 'DEF':
-      return Constants.Stats.DEF_P;
+      return Constants.Stats.DEF_P
     case 'SPD':
-      return Constants.Stats.SPD;
+      return Constants.Stats.SPD
     case 'CRIT Rate':
-      return Constants.Stats.CR;
+      return Constants.Stats.CR
     case 'CRIT DMG':
-      return Constants.Stats.CD;
+      return Constants.Stats.CD
     case 'Effect Hit Rate':
-      return Constants.Stats.EHR;
+      return Constants.Stats.EHR
     case 'Break Effect':
-      return Constants.Stats.BE;
+      return Constants.Stats.BE
     case 'Energy Regeneration Rate':
-      return Constants.Stats.ERR;
+      return Constants.Stats.ERR
     case 'Outgoing Healing Boost':
-      return Constants.Stats.OHB;
+      return Constants.Stats.OHB
     case 'Physical DMG Boost':
-      return Constants.Stats.Physical_DMG;
+      return Constants.Stats.Physical_DMG
     case 'Fire DMG Boost':
-      return Constants.Stats.Fire_DMG;
+      return Constants.Stats.Fire_DMG
     case 'Ice DMG Boost':
-      return Constants.Stats.Ice_DMG;
+      return Constants.Stats.Ice_DMG
     case 'Lightning DMG Boost':
-      return Constants.Stats.Lightning_DMG;
+      return Constants.Stats.Lightning_DMG
     case 'Wind DMG Boost':
-      return Constants.Stats.Wind_DMG;
+      return Constants.Stats.Wind_DMG
     case 'Quantum DMG Boost':
-      return Constants.Stats.Quantum_DMG;
+      return Constants.Stats.Quantum_DMG
     case 'Imaginary DMG Boost':
-      return Constants.Stats.Imaginary_DMG;
+      return Constants.Stats.Imaginary_DMG
     default:
       return null
   }
@@ -242,47 +254,47 @@ function mapMainStatToId(mainStat) {
 function mapAffixIdToString(affixId) {
   switch (affixId) {
     case Constants.Stats.HP_P:
-      return 'HPAddedRatio';
+      return 'HPAddedRatio'
     case Constants.Stats.ATK_P:
-      return 'AttackAddedRatio';
+      return 'AttackAddedRatio'
     case Constants.Stats.DEF_P:
-      return 'DefenceAddedRatio';
+      return 'DefenceAddedRatio'
     case Constants.Stats.HP:
-      return 'HPDelta';
+      return 'HPDelta'
     case Constants.Stats.ATK:
-      return 'AttackDelta';
+      return 'AttackDelta'
     case Constants.Stats.DEF:
-      return 'DefenceDelta';
+      return 'DefenceDelta'
     case Constants.Stats.SPD:
-      return 'SpeedDelta';
+      return 'SpeedDelta'
     case Constants.Stats.CD:
-      return 'CriticalDamageBase';
+      return 'CriticalDamageBase'
     case Constants.Stats.CR:
-      return 'CriticalChanceBase';
+      return 'CriticalChanceBase'
     case Constants.Stats.EHR:
-      return 'StatusProbabilityBase';
+      return 'StatusProbabilityBase'
     case Constants.Stats.RES:
-      return 'StatusResistanceBase';
+      return 'StatusResistanceBase'
     case Constants.Stats.BE:
-      return 'BreakDamageAddedRatioBase';
+      return 'BreakDamageAddedRatioBase'
     case Constants.Stats.ERR:
-      return 'SPRatioBase';
+      return 'SPRatioBase'
     case Constants.Stats.OHB:
-      return 'HealRatioBase';
+      return 'HealRatioBase'
     case Constants.Stats.Physical_DMG:
-      return 'PhysicalAddedRatio';
+      return 'PhysicalAddedRatio'
     case Constants.Stats.Fire_DMG:
-      return 'FireAddedRatio';
+      return 'FireAddedRatio'
     case Constants.Stats.Ice_DMG:
-      return 'IceAddedRatio';
+      return 'IceAddedRatio'
     case Constants.Stats.Lightning_DMG:
-      return 'ThunderAddedRatio';
+      return 'ThunderAddedRatio'
     case Constants.Stats.Wind_DMG:
-      return 'WindAddedRatio';
+      return 'WindAddedRatio'
     case Constants.Stats.Quantum_DMG:
-      return 'QuantumAddedRatio';
+      return 'QuantumAddedRatio'
     case Constants.Stats.Imaginary_DMG:
-      return 'ImaginaryAddedRatio';
+      return 'ImaginaryAddedRatio'
     default:
       return null
   }

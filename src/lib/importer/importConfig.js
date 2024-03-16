@@ -1,20 +1,34 @@
-import { KelzFormatParser } from "./kelzFormatParser";
+import { KelzFormatParser } from 'lib/importer/kelzFormatParser.jsx'
 
-export const ImportConfig = [
-  {
-    name: "HSR-Scanner",
-    author: "Kel-z",
-    homepage: "https://github.com/kel-z/HSR-Scanner",
-    releases: "https://github.com/kel-z/HSR-Scanner/releases",
-    defaultFileName: "HSRScanData.json",
-    parser: new KelzFormatParser("v0.6.2", "HSR-Scanner")
-  },
-  {
-    name: "Reliquary Archiver",
-    author: "IceDynamix",
-    homepage: "https://github.com/IceDynamix/reliquary-archiver",
-    releases: "https://github.com/IceDynamix/reliquary-archiver/releases",
-    defaultFileName: "archiver_output.json",
-    parser: new KelzFormatParser("v0.1.1", "reliquary_archiver")
-  }
-]
+export const KelzScannerConfig = {
+  name: 'HSR-Scanner',
+  author: 'Kel-z',
+  homepage: 'https://github.com/kel-z/HSR-Scanner',
+  releases: 'https://github.com/kel-z/HSR-Scanner/releases/latest',
+  defaultFileName: 'HSRScanData.json',
+  sourceString: 'HSR-Scanner',
+  latestBuildVersion: 'v0.6.2',
+  latestOutputVersion: 3,
+}
+
+export const ReliquaryArchiverConfig = {
+  name: 'Reliquary Archiver',
+  author: 'IceDynamix',
+  homepage: 'https://github.com/IceDynamix/reliquary-archiver',
+  releases: 'https://github.com/IceDynamix/reliquary-archiver/releases/latest',
+  defaultFileName: 'archiver_output.json',
+  sourceString: 'reliquary_archiver',
+  latestBuildVersion: 'v0.1.1',
+  latestOutputVersion: 3,
+}
+
+export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)
+export const ReliquaryArchiverParser = new KelzFormatParser(ReliquaryArchiverConfig)
+
+export const ScannerSourceToParser = {
+  [KelzScannerConfig.sourceString]: KelzScannerParser,
+  [ReliquaryArchiverConfig.sourceString]: ReliquaryArchiverParser,
+
+}
+
+export const ValidScannerSources = Object.keys(ScannerSourceToParser)

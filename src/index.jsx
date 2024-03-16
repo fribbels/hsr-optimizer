@@ -10,7 +10,6 @@ import { Constants } from './lib/constants.ts'
 import { DataParser } from './lib/dataParser'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
-import { ImportConfig } from './lib/importer/importConfig'
 import { Assets } from './lib/assets'
 import { RelicAugmenter } from './lib/relicAugmenter'
 import { StatCalculator } from './lib/statCalculator'
@@ -28,7 +27,6 @@ import { RelicRollFixer } from './lib/relicRollFixer'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
-window.ImportConfig = ImportConfig
 window.DataParser = DataParser
 // window.OptimizerTabController = OptimizerTabController
 window.DB = DB

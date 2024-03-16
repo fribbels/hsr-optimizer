@@ -2,12 +2,13 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, SubStatValues } from 'lib/constants.ts'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
+import { RelicRollGrader } from './relicRollGrader'
 
 const state = {
   relics: [],
@@ -572,6 +573,23 @@ export const DB = {
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
     window.onOptimizerFormValuesChange({}, fieldValues)
+  },
+
+  /**
+   * This function adds grades to all the relics stored in the state
+   */
+
+  addGradesToRelics: () => {
+    let relics = DB.getRelics()
+    for (let relic of relics) {
+      for (let substat of relic.substats) {
+        const incrementOptions = SubStatValues[substat.stat][relic.grade]
+        const rolls = RelicRollGrader.calculateIncrementCounts(substat.value, incrementOptions)
+        substat.rolls = rolls
+      }
+    }
+    DB.setRelics(relics)
+    SaveState.save()
   },
 
   /*

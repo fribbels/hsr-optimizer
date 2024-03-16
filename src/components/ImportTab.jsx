@@ -676,6 +676,42 @@ function FribbelsImporterTab() {
   )
 }
 
+function RelicGradingTab() {
+  const [loading, setLoading] = useState(false)
+
+  function gradeCurrentRelicRolls() {
+    console.log('Grade relic rolls')
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      // DB.resetStore()
+      DB.addGradesToRelics()
+
+      Message.success('Cleared data')
+    }, spinnerMs)
+  }
+
+  return (
+    <Flex vertical gap={5}>
+      <Text>
+        Grade your relic substat rolls.
+      </Text>
+      {/* <Popconfirm
+        title="Erase all data"
+        description="Are you sure you want to clear all relics and characters?"
+        onConfirm={gradeCurrentRelicRolls}
+        placement="bottom"
+        okText="Yes"
+        cancelText="Cancel"
+      > */}
+      <Button type="primary" loading={loading} onClick={gradeCurrentRelicRolls} style={{ width: buttonWidth }}>
+        Grade relic substats
+      </Button>
+      {/* </Popconfirm> */}
+    </Flex>
+  )
+}
+
 export default function ImportTab() {
   // Test
   let tabSize = 'large'
@@ -714,6 +750,11 @@ export default function ImportTab() {
               label: 'Clear optimizer data',
               key: 4,
               children: ClearDataTab(),
+            },
+            {
+              label: 'Grade Relic rolls',
+              key: 5,
+              children: RelicGradingTab(),
             },
           ]}
         />

@@ -32,5 +32,12 @@ export type Relic = {
   substats: {
     stat: SubStats
     value: number
+    rolls: StatRolls
   }[]
+}
+
+type StatRolls = {
+  high: number
+  mid: number
+  low: number
 }

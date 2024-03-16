@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Divider, Flex, Popconfirm, Steps, Tabs, Typography, Upload } from 'antd'
-import { Message } from 'lib/message'
-import { DB } from 'lib/db'
-import { SaveState } from 'lib/saveState'
+import { Message } from '../../lib/message'
+import { DB } from '../../lib/db'
+import { SaveState } from '../../lib/saveState'
 import PropTypes from 'prop-types'
-import { ImportConfig } from "../lib/importer/importConfig";
+import { ImportConfig } from '../../lib/importer/importConfig'
+import { ClearDataSubmenu } from './ClearDataSubmenu'
 
 const { Text } = Typography
 
@@ -14,10 +15,7 @@ const spinnerMs = 500
 
 // https://web.dev/patterns/files/save-a-file
 const saveFile = async (blob, suggestedName) => {
-  /*
-   * Feature detection. The API needs to be supported
-   * and the app not run in an iframe.
-   */
+  // Feature detection. The API needs to be supported and the app not run in an iframe.
   const supportsFileSystemAccess
     = 'showSaveFilePicker' in window
     && (() => {
@@ -95,181 +93,6 @@ function SaveDataTab() {
   )
 }
 
-function ClearDataTab() {
-  const [loading, setLoading] = useState(false)
-
-  function clearDataClicked() {
-    console.log('Clear data')
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      DB.resetStore()
-
-      Message.success('Cleared data')
-    }, spinnerMs)
-  }
-
-  return (
-    <Flex vertical gap={5}>
-      <Text>
-        Clear all optimizer data.
-      </Text>
-      <Popconfirm
-        title="Erase all data"
-        description="Are you sure you want to clear all relics and characters?"
-        onConfirm={clearDataClicked}
-        placement="bottom"
-        okText="Yes"
-        cancelText="Cancel"
-      >
-        <Button type="primary" loading={loading} style={{ width: buttonWidth }}>
-          Clear data
-        </Button>
-      </Popconfirm>
-    </Flex>
-  )
-}
-
-function LoadDataTab() {
-  const [current, setCurrent] = useState(0)
-  const [currentSave, setCurrentSave] = useState([])
-  const [loading1, setLoading1] = useState(false)
-  const [loading2, setLoading2] = useState(false)
-
-  const onStepChange = (value) => {
-    console.log('onStepChange:', value)
-    setCurrent(value)
-  }
-
-  function beforeUpload(file) {
-    return new Promise(() => {
-      const reader = new FileReader()
-      reader.readAsText(file)
-      reader.onload = () => {
-        let fileUploadText = reader.result
-        console.log('Uploaded file', fileUploadText)
-
-        let json = JSON.parse(fileUploadText)
-        console.log('Parsed json', json)
-
-        if (json.fileType || json.source) {
-          setLoading1(true)
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentSave(undefined)
-            onStepChange(1)
-          }, spinnerMs)
-          return
-        }
-
-        setLoading1(true)
-
-        setTimeout(() => {
-          setLoading1(false)
-          setCurrentSave(json)
-          onStepChange(1)
-        }, spinnerMs)
-      }
-      return false
-    })
-  }
-
-  function onUploadClick() {
-    onStepChange(0)
-  }
-
-  function loadConfirmed() {
-    setLoading2(true)
-    setTimeout(() => {
-      setLoading2(false)
-      DB.setStore(currentSave)
-      onStepChange(2)
-    }, spinnerMs)
-  }
-
-  function LoadDataContentUploadFile() {
-    return (
-      <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10}>
-          <Text>
-            Load your optimizer data from a file.
-          </Text>
-          <Upload
-            accept=".json"
-            name="file"
-            onClick={onUploadClick}
-            beforeUpload={beforeUpload}
-          >
-            <Button style={{ width: buttonWidth }} icon={<UploadOutlined />} loading={loading1}>
-              Load save data
-            </Button>
-          </Upload>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  function ConfirmLoadData() {
-    if (!currentSave || !currentSave.relics || !currentSave.characters) {
-      return (
-        <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
-            Invalid save file, please try a different file. Did you mean to use Relic Importer tab?
-          </Flex>
-        </Flex>
-      )
-    }
-    return (
-      <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: current >= 1 ? 'flex' : 'none' }}>
-          <Text>
-            {`File contains ${currentSave.relics.length} relics and ${currentSave.characters.length} characters. Replace your current data with the uploaded data?`}
-          </Text>
-          <Button style={{ width: buttonWidth }} type="primary" onClick={loadConfirmed} loading={loading2}>
-            Use uploaded data
-          </Button>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  function LoadCompleted() {
-    return (
-      <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: current >= 2 ? 'flex' : 'none' }}>
-          <Text>
-            Done!
-          </Text>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  return (
-    <Flex gap={5}>
-      <Steps
-        direction="vertical"
-        current={current}
-        items={[
-          {
-            title: '',
-            description: LoadDataContentUploadFile(),
-          },
-          {
-            title: '',
-            description: ConfirmLoadData(),
-          },
-          {
-            title: '',
-            description: LoadCompleted(),
-          },
-        ]}
-      />
-    </Flex>
-  )
-}
-
 function KelZImporterTab() {
   const [current, setCurrent] = useState(0)
   const [currentRelics, setCurrentRelics] = useState([])
@@ -296,11 +119,11 @@ function KelZImporterTab() {
           setLoading1(true)
 
           if (!json) {
-            throw new Error("Invalid JSON");
+            throw new Error('Invalid JSON')
           }
 
-          let config = ImportConfig[0];
-          let {relics, characters, metadata} = config.parser.parse(json);
+          let config = ImportConfig[0]
+          let { relics, characters, metadata } = config.parser.parse(json)
           characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
 
           setTimeout(() => {
@@ -502,7 +325,7 @@ export default function ImportTab() {
             {
               label: 'Clear optimizer data',
               key: 3,
-              children: ClearDataTab(),
+              children: <ClearDataSubmenu />,
             },
           ]}
         />

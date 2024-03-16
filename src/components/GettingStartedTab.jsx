@@ -6,6 +6,7 @@ import sampleSave from '../data/sample-save.json'
 import DB from '../lib/db'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
+import { KelzScannerConfig, ReliquaryArchiverConfig } from 'lib/importer/importConfig'
 
 const { Text } = Typography
 
@@ -47,6 +48,7 @@ export default function GettingStartedTab() {
           </Popconfirm>
 
           <Divider style={dividerStyle}></Divider>
+
           {/* ======================================================================================================================= */}
 
           <h2>
@@ -54,17 +56,26 @@ export default function GettingStartedTab() {
           </h2>
 
           <p>
-            The optimizer needs a database of relics to run against.
+            The optimizer needs a database of relics to run against. Install and run one of the relic scanner options:
           </p>
 
           <ul>
             <li>
-              Recommended: Kel-Z HSR Scanner (
-              <Typography.Link target="_blank" href="https://github.com/kel-z/HSR-Scanner/releases/latest">Github</Typography.Link>
-              )
+              Kel-Z HSR Scanner (
+              <Typography.Link target="_blank" href={KelzScannerConfig.releases}>Github</Typography.Link>
+              ).
               <ul>
-                <li>Supports all 16:9 resolutions</li>
-                <li>Supports character and light cone imports</li>
+                <li>OCR scanner</li>
+                <li>Supports all 16:9 screen resolutions</li>
+              </ul>
+            </li>
+            <li>
+              IceDynamix Reliquary Archiver (
+              <Typography.Link target="_blank" href={ReliquaryArchiverConfig.releases}>Github</Typography.Link>
+              ).
+              <ul>
+                <li>Network scanner</li>
+                <li>Imports accurate hidden speed decimals</li>
               </ul>
             </li>
           </ul>

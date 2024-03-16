@@ -3,7 +3,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Typography } from 'antd'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
-import ImportTab from 'components/ImportTab'
 import RelicsTab from 'components/RelicsTab'
 import CharacterTab from 'components/CharacterTab'
 import RelicScorerTab from 'components/RelicScorerTab'
@@ -13,6 +12,7 @@ import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import ImportTab from 'components/importerTab/ImportTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 

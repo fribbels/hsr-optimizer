@@ -1,4 +1,4 @@
-import { toBlob as htmlToBlob } from 'html-to-image'
+import { domToBlob as htmlToBlob } from 'modern-screenshot'
 import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
@@ -50,6 +50,15 @@ export const Utils = {
     return target
   },
 
+  mergeUndefinedValues: (target, source) => {
+    for (let key of Object.keys(source)) {
+      if (target[key] == null) {
+        target[key] = source[key]
+      }
+    }
+    return target
+  },
+
   // await sleep(ms) to block
   sleep: (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -92,7 +101,10 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
+    return htmlToBlob(document.getElementById(elementId), {
+      scale: 1.5,
+      drawImageInterval: 0,
+    }).then(async (blob) => {
       /*
        * Save to clipboard
        * This is not supported in firefox, possibly other browsers too
@@ -205,6 +217,25 @@ export const Utils = {
     return Object.values(lcData)
       .filter((lc) => !pathFilter || lc.path === pathFilter)
       .sort((a, b) => a.label.localeCompare(b.label))
+  },
+
+  // Character selector options from current characters with some customization parameters
+  generateCurrentCharacterOptions: (currentCharacters, excludeCharacters = [], withNobodyOption = true) => {
+    let characterData = DB.getMetadata().characters
+
+    let options = currentCharacters
+      .filter((character) => !excludeCharacters.includes(character))
+      .map((character) => ({
+        value: character.id,
+        label: characterData[character.id].displayName,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+
+    if (withNobodyOption) {
+      options.unshift({ value: 'None', label: 'Nobody' })
+    }
+
+    return options
   },
 
   // Used to convert output formats for relic scorer, snake-case to camelCase

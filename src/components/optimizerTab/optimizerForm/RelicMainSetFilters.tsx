@@ -43,8 +43,8 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             <Select.Option value={Constants.Stats.DEF_P} label="DEF%">DEF%</Select.Option>
             <Select.Option value={Constants.Stats.CR} label="CR">CRIT Rate</Select.Option>
             <Select.Option value={Constants.Stats.CD} label="CD">CRIT DMG</Select.Option>
-            <Select.Option value={Constants.Stats.OHB} label="HEAL">Outgoing Healing</Select.Option>
             <Select.Option value={Constants.Stats.EHR} label="EHR">Effect HIT Rate</Select.Option>
+            <Select.Option value={Constants.Stats.OHB} label="HEAL">Outgoing Healing</Select.Option>
           </Select>
         </Form.Item>
 

@@ -1,15 +1,18 @@
-import { Button, Flex, Popconfirm } from 'antd'
+import { Button, Flex, Popconfirm, Select } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
+import Plot from 'react-plotly.js'
 
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal'
+import { RelicScorer } from 'lib/relicScorer'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
 import RelicFilterBar from './RelicFilterBar'
 import DB from '../lib/db'
+import { Assets } from 'lib/assets'
 import { Renderer } from 'lib/renderer'
 import { SaveState } from 'lib/saveState'
 import { Hint } from 'lib/hint'
@@ -93,6 +96,12 @@ export default function RelicsTab() {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
 
+  const [relicInsight, setRelicInsight] = useState('buckets')
+  const relicInsightOptions = [
+    { value: 'buckets', label: 'Relic Insight: Buckets' },
+    { value: 'top10', label: 'Relic Insight: Top 10' },
+  ]
+
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
@@ -175,6 +184,16 @@ export default function RelicsTab() {
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
 
+  const valueColumnOptions = useMemo(() => [
+    { column: 'WEIGHT', value: 'weights.current', label: 'Weight' },
+    { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
+    { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
+    { column: 'OPT A+A', value: 'weights.optimalityAllAll', label: 'Optimality: All Chars, Any Relics' },
+    { column: 'OPT O+A', value: 'weights.optimalityOwnedAll', label: 'Optimality: Owned Chars, Any Relics' },
+  ], [])
+
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
+
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
@@ -214,10 +233,16 @@ export default function RelicsTab() {
      * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
      */
-    { field: `weights.current`, headerName: 'WEIGHT', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-    { field: `weights.average`, headerName: 'AVGCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-    { field: `weights.best`, headerName: 'BESTCASE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 },
-  ], [])
+  ].concat(valueColumns
+    .map((vc) => {
+      let i = valueColumnOptions.findIndex((x) => x.value === vc)
+      return [i, valueColumnOptions[i]]
+    })
+    .sort((a, b) => a[0] - b[0])
+    .map(([_i, field]) => (
+      { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 }
+    )),
+  ), [valueColumnOptions, valueColumns])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 33,
@@ -236,19 +261,19 @@ export default function RelicsTab() {
     filterParams: { maxNumConditions: 100 },
   }), [])
 
-  const cellClickedListener = useCallback((event) => {
-    console.log('cellClicked', event)
+  const rowClickedListener = useCallback((event) => {
+    console.log('rowClicked', event)
     setSelectedRelic(event.data)
   }, [])
 
-  const onCellDoubleClickedListener = useCallback((e) => {
-    console.log('cellDblClicked', e)
+  const onRowDoubleClickedListener = useCallback((e) => {
+    console.log('rowDblClicked', e)
     setSelectedRelic(e.data)
     setEditModalOpen(true)
   }, [])
 
   const navigateToNextCell = useCallback((params) => {
-    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => cellClickedListener(selectedNode))
+    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => rowClickedListener(selectedNode))
   }, [])
 
   function onAddOk(relic) {
@@ -291,13 +316,43 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
+  const numScores = 10
+  let scores = null
+  let scoreBuckets = null
+  if (selectedRelic) {
+    const chars = DB.getMetadata().characters
+    let allScores = Object.keys(chars)
+      .map((id) => ({
+        cid: id,
+        name: chars[id].displayName,
+        score: RelicScorer.scoreRelicPct(selectedRelic, id),
+        color: '#000',
+        owned: !!DB.getCharacterById(id),
+      }))
+    allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
+    allScores.forEach((x, idx) => {
+      x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
+    })
+    scores = allScores.slice(0, numScores)
+
+    //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
+    let sb = [[], [], [], [], [], [], [], [], [], []]
+    for (let score of allScores) {
+      let lowerBound = Math.floor(score.score.bestPct / 10)
+      lowerBound = Math.min(9, Math.max(0, lowerBound))
+      sb[lowerBound].push(score)
+    }
+    sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
+    scoreBuckets = sb
+  }
+
   return (
     <Flex style={{ width: 1250 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
 
-        <RelicFilterBar />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
         <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1250, height: 500, resize: 'vertical', overflow: 'hidden' }}>
 
@@ -314,8 +369,8 @@ export default function RelicsTab() {
             headerHeight={24}
             rowSelection="single"
 
-            onCellMouseDown={cellClickedListener}
-            onCellDoubleClicked={onCellDoubleClickedListener}
+            onRowClicked={rowClickedListener}
+            onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
           />
         </div>
@@ -338,6 +393,15 @@ export default function RelicsTab() {
               Delete Relic
             </Button>
           </Popconfirm>
+          <Select
+            value={relicInsight}
+            onChange={setRelicInsight}
+            options={relicInsightOptions}
+            style={{ width: '200px' }}
+          />
+          <Flex style={{ display: 'block' }}>
+            <TooltipImage type={Hint.relicInsight()} />
+          </Flex>
         </Flex>
         <Flex gap={10}>
           <RelicPreview
@@ -348,6 +412,171 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>
+          {relicInsight === 'top10' && scores && (
+            <Flex gap={10}>
+              <ol>
+                {
+                  scores
+                    .map((x) => {
+                      const rect = (
+                        <svg width={10} height={10}>
+                          <rect
+                            width={10} height={10} style={{
+                              fill: x.color,
+                              strokeWidth: 1,
+                              stroke: 'rgb(0,0,0)',
+                            }}
+                          />
+                        </svg>
+                      )
+                      let worstPct = Math.round(x.score.worstPct)
+                      let bestPct = Math.round(x.score.bestPct)
+                      let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
+                      return (
+                        <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                          {rect} {x.name}: {pctText}
+                        </li>
+                      )
+                    })
+                }
+              </ol>
+              <Plot
+                data={
+                  scores.map((s) => ({
+                    x: [s.score.averagePct],
+                    y: [s.name],
+                    hoverinfo: 'name',
+                    mode: 'markers',
+                    type: 'scatter',
+                    error_x: {
+                      type: 'data',
+                      symmetric: false,
+                      array: [s.score.bestPct - s.score.averagePct],
+                      arrayminus: [s.score.averagePct - s.score.worstPct],
+                    },
+                    marker: { color: s.color },
+                    name: s.name,
+                  })).reverse()
+                }
+                layout={{
+                  autosize: true,
+                  width: 320,
+                  height: 240,
+                  margin: {
+                    b: 20,
+                    l: 10,
+                    r: 20,
+                    t: 10,
+                  },
+                  showlegend: false,
+                  xaxis: {
+                    fixedrange: true,
+                    range: [0, 100],
+                    tick0: 0,
+                    dtick: 10,
+                    showgrid: true,
+                    showline: true,
+                    showticklabels: true,
+                    type: 'linear',
+                    zeroline: true,
+                  },
+                  yaxis: {
+                    fixedrange: true,
+                    showticklabels: false,
+                  },
+                }}
+                config={{
+                  displayModeBar: false,
+                  editable: false,
+                  scrollZoom: false,
+                }}
+              />
+            </Flex>
+          )}
+          {relicInsight === 'buckets' && scoreBuckets && (
+            // Since plotly doesn't natively support images as points, we emulate it in this plot
+            // by adding invisible points for each character (to get 'name on hover' behavior),
+            // then adding an image on top of each point
+            <Plot
+              data={[
+                // Add fake data in each category to make sure we don't elide any categories - that would
+                // mess up our image placement
+                {
+                  type: 'scatter',
+                  x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  y: ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
+                  hoverinfo: 'skip',
+                  mode: 'markers',
+                  marker: {
+                    color: 'rgba(0, 0, 0, 0)',
+                    symbol: 'circle',
+                    size: 16,
+                  },
+                },
+                {
+                  type: 'scatter',
+                  hoverinfo: 'text',
+                  mode: 'markers',
+                  x: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                    bucket.map((_score, idx) => idx + 0.5)),
+                  y: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                    bucket.map((_score, _idx) => (bucketIdx * 10) + '-' + (bucketIdx * 10 + 10))),
+                  hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                    bucket.map((score, _idx) => score.name)),
+                  marker: {
+                    color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
+                    symbol: 'circle',
+                    size: 16,
+                  },
+                },
+              ]}
+              layout={{
+                autosize: true,
+                height: 250,
+                width: 700,
+                margin: {
+                  b: 5,
+                  l: 50,
+                  r: 20,
+                  t: 0,
+                },
+                hovermode: 'closest',
+                hoverdistance: 20,
+                showlegend: false,
+                images: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                  bucket.map((score, idx) => ({
+                    source: Assets.getCharacterAvatarById(score.cid),
+                    xref: 'x',
+                    yref: 'y',
+                    x: idx + 0.5,
+                    y: bucketIdx,
+                    sizex: 1,
+                    sizey: 1,
+                    xanchor: 'center',
+                    yanchor: 'middle',
+                  })),
+                ),
+                xaxis: {
+                  fixedrange: true,
+                  range: [0, Math.max(...scoreBuckets.map((sb) => sb.length)) + 1],
+                  tick0: 0,
+                  showgrid: false,
+                  showticklabels: false,
+                  type: 'linear',
+                  zeroline: false,
+                },
+                yaxis: {
+                  fixedrange: true,
+                  showticklabels: true,
+                },
+              }}
+              config={{
+                displayModeBar: false,
+                editable: false,
+                scrollZoom: false,
+              }}
+            />
+          )}
         </Flex>
       </Flex>
     </Flex>

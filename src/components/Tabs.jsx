@@ -3,7 +3,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Typography } from 'antd'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
-import ImportTab from 'components/ImportTab'
 import RelicsTab from 'components/RelicsTab'
 import CharacterTab from 'components/CharacterTab'
 import RelicScorerTab from 'components/RelicScorerTab'
@@ -13,8 +12,9 @@ import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import ImportTab from 'components/importerTab/ImportTab'
 
-const defaultError = <Typography>Something went wrong</Typography>
+const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
 const Tabs = () => {
   const activeKey = window.store((s) => s.activeKey)
@@ -47,7 +47,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
 
-      <ErrorBoundary fallback={defaultError}>
+      <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
       </ErrorBoundary>
     </>
@@ -58,7 +58,7 @@ export default Tabs
 
 function TabRenderer(props) {
   return (
-    <ErrorBoundary fallback={defaultError}>
+    <ErrorBoundary fallbackRender={defaultErrorRender}>
       <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
         {props.content}
       </div>

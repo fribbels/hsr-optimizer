@@ -7,8 +7,6 @@ import App from './App'
 
 import { WorkerPool } from './lib/workerPool'
 import { Constants } from './lib/constants.ts'
-import { OcrParserFribbels1 } from './lib/ocrParserFribbels1'
-import { OcrParserKelz3 } from 'lib/ocrParserKelz3'
 import { DataParser } from './lib/dataParser'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
@@ -29,8 +27,6 @@ import { RelicRollFixer } from './lib/relicRollFixer'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
-window.OcrParserFribbels1 = OcrParserFribbels1
-window.OcrParserKelz3 = OcrParserKelz3
 window.DataParser = DataParser
 // window.OptimizerTabController = OptimizerTabController
 window.DB = DB
@@ -54,11 +50,13 @@ window.RelicRollFixer = RelicRollFixer
 console.log('Data parser', DataParser.parse())
 SaveState.load()
 
+const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+
 document.addEventListener('DOMContentLoaded', function() {
   const root = ReactDOM.createRoot(document.getElementById('root'))
 
   root.render(
-    <ErrorBoundary fallback={<Typography>Something went wrong</Typography>}>
+    <ErrorBoundary fallbackRender={defaultErrorRender}>
       <App />
     </ErrorBoundary>,
   )

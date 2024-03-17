@@ -237,4 +237,36 @@ export const Hint = {
       ),
     }
   },
+
+  valueColumns: () => {
+    return {
+      title: 'Value Columns',
+      content: (
+        <Flex vertical gap={10}>
+          <p>You can optionally display a number of columns that assess the relative 'value' of a relic.</p>
+          <p><b>Weight</b></p>
+          <p>Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).</p>
+          <p>Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see</p>
+          <p>Weight is useful to focus on a single character and see which relics might give them a higher letter grading.</p>
+          <p><b>Optimality</b></p>
+          <p>Optimality is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
+          <p>Optimality can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
+          <p>Optimality is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  relicInsight: () => {
+    return {
+      title: 'Relic Insight',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
+          <p>'Buckets' looks at how optimal this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.</p>
+          <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of optimality upgrading this relic could result in.</p>
+        </Flex>
+      ),
+    }
+  },
 }

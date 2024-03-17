@@ -82,7 +82,6 @@ window.store = create((set) => ({
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
   optimizerFormSelectedLightConeSuperimposition: 1,
-  optimizerFormTeammates: [],
 
   permutationDetails: {
     Head: 0,
@@ -120,7 +119,6 @@ window.store = create((set) => ({
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -140,7 +138,6 @@ window.store = create((set) => ({
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-  setOptimizerFormTeammates: (x) => set(() => ({ optimizerFormTeammates: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
 }))
 
@@ -455,6 +452,15 @@ export const DB = {
     }
   },
 
+  switchRelics: (fromCharacterId, toCharacterId) => {
+    if (!fromCharacterId) return console.warn('No characterId to equip from')
+    if (!toCharacterId) return console.warn('No characterId to equip to')
+    console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
+
+    let fromCharacter = DB.getCharacterById(fromCharacterId)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId)
+  },
+
   deleteRelic: (id) => {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
@@ -468,10 +474,8 @@ export const DB = {
     }
   },
 
-  /*
-   * These relics are missing speed decimals from OCR importer
-   * We overwrite any existing relics with imported ones
-   */
+  // These relics are missing speed decimals from OCR importer
+  // We overwrite any existing relics with imported ones
   mergeRelicsWithState: (newRelics, newCharacters) => {
     let oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -507,6 +511,13 @@ export const DB = {
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (newRelic.verified) {
+          // Inherit the new verified speed stats
+          found.verified = true
+          found.substats = newRelic.substats
+          found.augmentedStats = newRelic.augmentedStats
+        }
+
         if (newRelic.equippedBy && newCharacters) {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy
@@ -554,6 +565,19 @@ export const DB = {
       let character = DB.getCharacterById(relic.equippedBy)
       if (!character || character.equipped[relic.part] != relic.id) {
         relic.equippedBy = undefined
+      }
+    }
+
+    // Clean up characters who have relics equipped by someone else, or characters that dont exist ingame yet
+    for (let character of DB.getCharacters()) {
+      for (let part of Object.keys(character.equipped)) {
+        const relicId = character.equipped[part]
+        if (relicId) {
+          const relic = DB.getRelicById(relicId)
+          if (relic.equippedBy != character.id) {
+            character.equipped[part] = undefined
+          }
+        }
       }
     }
 
@@ -608,7 +632,7 @@ export const DB = {
       oldRelicPartialHashes[hash].push(oldRelic)
     }
 
-    // Tracking these for debug / logging
+    // Tracking these for debug / messaging
     let updatedOldRelics = []
     let addedNewRelics = []
 
@@ -626,9 +650,10 @@ export const DB = {
         let upgrades = 0
         for (let i = 0; i < partialMatch.substats.length; i++) {
           let matchSubstat = partialMatch.substats[i]
-          let newSubstat = newRelic.substats[i]
+          let newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
 
           // Different substats mean different relics - break
+          if (!newSubstat) { exit = true; break }
           if (matchSubstat.stat != newSubstat.stat) { exit = true; break }
           if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
 
@@ -640,7 +665,7 @@ export const DB = {
 
         if (exit) continue
 
-        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
         if (upgrades > possibleUpgrades) continue
 
         // If it passes all the tests, keep it
@@ -742,14 +767,11 @@ function compareSameTypeSubstat(oldSubstat, newSubstat) {
 }
 
 function partialHashRelic(relic) {
-  let baseSubstatCount = relic.grade == 5 ? 3 : 2
-
   let hashObject = {
     part: relic.part,
     set: relic.set,
     grade: relic.grade,
     mainstat: relic.main.stat,
-    substatStats: relic.substats.slice(0, baseSubstatCount).map((x) => x.stat),
   }
 
   return objectHash(hashObject)

@@ -88,7 +88,7 @@ const data: ChangelogContent[] = [
       'lcSelect.png',
       'Added a new menu that automatically shows suggestions to fix common misconfigurations in setting up optimizer searches that result in 0 permutations',
       'zeroPerm.png',
-      'Presets speed decimals now defined to 100ths precision',
+      'Presets speed breakpoints are now defined to 100ths precision',
       'presets.png',
       'Added def values to enemy level selector',
       'enemyDef.png',

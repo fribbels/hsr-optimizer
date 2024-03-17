@@ -510,6 +510,13 @@ export const DB = {
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (newRelic.verified) {
+          // Inherit the new verified speed stats
+          found.verified = true
+          found.substats = newRelic.substats
+          found.augmentedStats = newRelic.augmentedStats
+        }
+
         if (newRelic.equippedBy && newCharacters) {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy

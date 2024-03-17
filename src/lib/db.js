@@ -560,6 +560,19 @@ export const DB = {
       }
     }
 
+    // Clean up characters who have relics equipped by someone else, or characters that dont exist ingame yet
+    for (let character of DB.getCharacters()) {
+      for (let part of Object.keys(character.equipped)) {
+        const relicId = character.equipped[part]
+        if (relicId) {
+          const relic = DB.getRelicById(relicId)
+          if (relic.equippedBy != character.id) {
+            character.equipped[part] = undefined
+          }
+        }
+      }
+    }
+
     DB.setRelics(replacementRelics)
     DB.setCharacters(characters)
 

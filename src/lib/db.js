@@ -511,8 +511,10 @@ export const DB = {
       let stableRelicId
       if (found) {
         if (newRelic.verified) {
-          // Inherit the new verified status
+          // Inherit the new verified speed stats
           found.verified = true
+          found.substats = newRelic.substats
+          found.augmentedStats = newRelic.augmentedStats
         }
 
         if (newRelic.equippedBy && newCharacters) {

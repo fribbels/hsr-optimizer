@@ -6,6 +6,7 @@ import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from './importerTabUiConstants.ts'
+import { SaveState } from 'lib/saveState.js'
 
 const { Text } = Typography
 
@@ -18,7 +19,8 @@ export function RelicRollsSubmenu() {
     setTimeout(() => {
       setLoading(false)
       // DB.resetStore()
-      DB.addGradesToRelics()
+      DB.gradeRelicRolls(DB.getRelics())
+      SaveState.save()
 
       Message.success('Cleared data')
     }, importerTabSpinnerMs)

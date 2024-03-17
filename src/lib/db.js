@@ -582,6 +582,7 @@ export const DB = {
     }
 
     DB.setRelics(replacementRelics)
+    DB.gradeRelicRolls(replacementRelics)
     DB.setCharacters(characters)
 
     // only valid when on relics tab
@@ -603,8 +604,7 @@ export const DB = {
    * This function adds grades to all the relics stored in the state
    */
 
-  addGradesToRelics: () => {
-    let relics = DB.getRelics()
+  gradeRelicRolls: (relics) => {
     for (let relic of relics) {
       for (let substat of relic.substats) {
         const incrementOptions = SubStatValues[substat.stat][relic.grade]
@@ -613,7 +613,6 @@ export const DB = {
       }
     }
     DB.setRelics(relics)
-    SaveState.save()
   },
 
   /*

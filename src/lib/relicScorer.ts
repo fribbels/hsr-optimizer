@@ -409,8 +409,6 @@ export class RelicScorer {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    console.log('scaling', relic.substats)
-
     const multipliers: ScoringMetadata = DB.getScoringMetadata(characterId).stats
 
     let sum = 0

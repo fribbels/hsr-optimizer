@@ -510,6 +510,11 @@ export const DB = {
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (newRelic.verified) {
+          // Inherit the new verified status
+          found.verified = true
+        }
+
         if (newRelic.equippedBy && newCharacters) {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy

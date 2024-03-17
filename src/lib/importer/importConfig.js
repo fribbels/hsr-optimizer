@@ -9,6 +9,7 @@ export const KelzScannerConfig = {
   sourceString: 'HSR-Scanner',
   latestBuildVersion: 'v0.6.2',
   latestOutputVersion: 3,
+  speedVerified: false,
 }
 
 export const ReliquaryArchiverConfig = {
@@ -20,6 +21,7 @@ export const ReliquaryArchiverConfig = {
   sourceString: 'reliquary_archiver',
   latestBuildVersion: 'v0.1.1',
   latestOutputVersion: 3,
+  speedVerified: true,
 }
 
 export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)

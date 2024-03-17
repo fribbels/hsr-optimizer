@@ -60,7 +60,7 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r))
+        .map((r) => readRelic(r, parsed.metadata.trailblazer, this.config))
         .map((r) => RelicAugmenter.augment(r))
         .filter((r) => {
           if (!r) {
@@ -113,7 +113,7 @@ function readCharacter(character, lightCones, trailblazer) {
   }
 }
 
-function readRelic(relic, trailblazer) {
+function readRelic(relic, trailblazer, config) {
   let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   let part = partMatches.bestMatch.target
 
@@ -143,6 +143,7 @@ function readRelic(relic, trailblazer) {
     main,
     substats,
     equippedBy,
+    verified: config.speedVerified,
   }
 }
 

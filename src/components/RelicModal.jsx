@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Constants, SubStatValues } from 'lib/constants'
+import { Constants } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Message } from 'lib/message'
@@ -227,32 +227,29 @@ export default function RelicModal(props) {
       substats.push({
         stat: x.substatType0,
         value: x.substatValue0,
-        rolls: RelicRollGrader.calculateIncrementCounts(x.substatValue0, SubStatValues[x.substatType0][x.grade]),
       })
     }
     if (x.substatType1 != undefined && x.substatValue1 != undefined) {
       substats.push({
         stat: x.substatType1,
         value: x.substatValue1,
-        rolls: RelicRollGrader.calculateIncrementCounts(x.substatValue1, SubStatValues[x.substatType1][x.grade]),
       })
     }
     if (x.substatType2 != undefined && x.substatValue2 != undefined) {
       substats.push({
         stat: x.substatType2,
         value: x.substatValue2,
-        rolls: RelicRollGrader.calculateIncrementCounts(x.substatValue2, SubStatValues[x.substatType2][x.grade]),
       })
     }
     if (x.substatType3 != undefined && x.substatValue3 != undefined) {
       substats.push({
         stat: x.substatType3,
         value: x.substatValue3,
-        rolls: RelicRollGrader.calculateIncrementCounts(x.substatValue3, SubStatValues[x.substatType3][x.grade]),
       })
     }
     relic.substats = substats
     RelicAugmenter.augment(relic)
+    RelicRollGrader.calculateRelicSubstatRolls(relic)
 
     console.log('Completed relic', relic)
 

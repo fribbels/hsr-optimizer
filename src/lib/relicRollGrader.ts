@@ -1,4 +1,5 @@
-import { StatRolls } from 'types/Relic'
+import { StatRolls, Relic } from 'types/Relic'
+import { SubStatValues } from './constants'
 
 // non exported interface, the number are float
 interface IncrementOptions {
@@ -33,13 +34,16 @@ export const RelicRollGrader = {
     return closestCounts
   },
 
-  // gradeRelicSubstats(relic: Relic) {
-  //   for (const substat of relic.substats) {
-  //     const incrementOptions = SubStats
-  //     const currentStat = substat.value
-  //     const incrementCounts = this.calculateIncrementCounts(currentStat, incrementOptions)
-  //     substat.rolls = incrementCounts
-  //   }
-  // },
+  calculateRelicSubstatRolls(relic: Relic): void {
+    relic.substats.forEach((substat) => {
+      const incrementOptions = SubStatValues[substat.stat][relic.grade]
+
+      const incrementCounts = this.calculateIncrementCounts(substat.value, incrementOptions)
+
+      if (incrementCounts) {
+        substat.rolls = incrementCounts
+      }
+    })
+  },
 
 }

@@ -1,46 +1,47 @@
 import { useEffect, useState } from 'react'
-import { CustomImage } from 'types/CharacterCustomImage'
+import { CustomImageConfig } from 'types/CustomImage'
 
 interface CharacterCustomPortraitProps {
-  customImage: CustomImage
+  customPortrait: CustomImageConfig
   parentW: number
   isBlur?: boolean
-  setCharacterTabBlur: (val: boolean) => void
+  setBlur: (val: boolean) => void
 }
 
 const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
-  customImage,
+  customPortrait,
   parentW,
-  isBlur: propIsBlur = false,
-  setCharacterTabBlur,
+  isBlur = false,
+  setBlur,
 }) => {
-  const [isBlur, setIsBlur] = useState(propIsBlur)
-  const scaleWidth = parentW / customImage.customImageParams.croppedAreaPixels.width
+  const [isCurrentBlur, setIsCurrentBlur] = useState(isBlur)
+  const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
 
-  // Same imageUrls between characters cause a permanent blur when switching between them
+  // Same imageUrls between instances of CharacterCustomPortrait
+  // cause a permanent blur when switching between them
   // This hook handles that behavior
   useEffect(() => {
-    if (propIsBlur) {
-      setIsBlur(true)
+    if (isBlur) {
+      setIsCurrentBlur(true)
       const timer = setTimeout(() => {
-        setIsBlur(false)
-        setCharacterTabBlur(false)
+        setIsCurrentBlur(false)
+        setBlur(false)
       }, 50)
       return () => clearTimeout(timer)
     }
-  }, [customImage, propIsBlur, setCharacterTabBlur])
+  }, [customPortrait, isBlur, setBlur])
 
   return (
     <img
-      src={customImage.imageUrl}
+      src={customPortrait.imageUrl}
       style={{
         position: 'absolute',
-        left: `-${customImage.customImageParams.croppedAreaPixels.x * scaleWidth}px`,
-        top: `-${customImage.customImageParams.croppedAreaPixels.y * scaleWidth}px`,
-        width: `${customImage.originalDimensions.width * scaleWidth}px`,
-        height: `${customImage.originalDimensions.height * scaleWidth}px`,
+        left: `-${customPortrait.customImageParams.croppedAreaPixels.x * scaleWidth}px`,
+        top: `-${customPortrait.customImageParams.croppedAreaPixels.y * scaleWidth}px`,
+        width: `${customPortrait.originalDimensions.width * scaleWidth}px`,
+        height: `${customPortrait.originalDimensions.height * scaleWidth}px`,
         objectFit: 'cover',
-        filter: isBlur ? 'blur(20px)' : '',
+        filter: isCurrentBlur ? 'blur(20px)' : '',
       }}
     />
   )

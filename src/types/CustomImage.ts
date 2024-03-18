@@ -15,7 +15,7 @@ export type ImageDimensions = {
   height: number
 }
 
-export type CustomImage = {
+export type CustomImageConfig = {
   imageUrl: string
   originalDimensions: ImageDimensions
   customImageParams: CustomImageParams
@@ -28,6 +28,6 @@ export type CustomImage = {
   }
 }
 
-export type PortraitConfig = (
-  { type: 'add' } & CustomImage
+export type CustomImageModalConfig = (
+  { type: 'add' } & CustomImageConfig
 ) | { type: 'delete' }

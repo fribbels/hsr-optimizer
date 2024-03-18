@@ -25,7 +25,7 @@ import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from '../lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { EditOutlined } from '@ant-design/icons'
-import CharacterEditPortraitModal from './CharacterEditPortraitModal'
+import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
@@ -47,10 +47,10 @@ export function CharacterPreview(props) {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customImage, setCustomImage] = useState(null) // <null | CustomImage>
+  const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
 
   useEffect(() => {
-    setCustomImage(null)
+    setCustomPortrait(null)
   }, [character])
 
   function onEditOk(relic) {
@@ -62,17 +62,17 @@ export function CharacterPreview(props) {
     const { type, ...portrait } = portraitConfig
     switch (type) {
       case 'add':
-        setCustomImage({ ...portrait })
+        setCustomPortrait({ ...portrait })
         DB.saveCharacterPortrait(character.id, portrait)
         Message.success('Successfully saved portrait')
         break
       case 'delete':
-        setCustomImage(null)
+        setCustomPortrait(null)
         DB.deleteCharacterPortrait(character.id)
         Message.success('Successfully reverted portrait')
         break
       default:
-        console.warn(`CharacterEditPortraitModal exited with an invalid type: ${type}`)
+        console.warn(`Custom portrait modal exited with an invalid type: ${type}`)
     }
     SaveState.save()
     setEditPortraitModalOpen(false)
@@ -144,7 +144,7 @@ export function CharacterPreview(props) {
   const characterName = characterMetadata.displayName
   const characterPath = characterMetadata.path
   const characterElement = characterMetadata.element
-  const characterPortrait = character.portrait
+  const characterPortraitDB = character.portrait
 
   const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
@@ -161,13 +161,13 @@ export function CharacterPreview(props) {
             }}
             className="character-build-portrait"
           >
-            {characterPortrait || customImage
+            {(characterPortraitDB || customPortrait)
               ? (
                 <CharacterCustomPortrait
-                  customImage={customImage ?? characterPortrait}
+                  customPortrait={customPortrait ?? characterPortraitDB}
                   parentW={parentW}
                   isBlur={characterTabBlur && !isScorer}
-                  setCharacterTabBlur={setCharacterTabBlur}
+                  setBlur={setCharacterTabBlur}
                 />
               )
               : (
@@ -199,7 +199,14 @@ export function CharacterPreview(props) {
             >
               Edit portrait
             </Button>
-            <CharacterEditPortraitModal currentPortrait={customImage ?? characterPortrait} open={editPortraitModalOpen} setOpen={setEditPortraitModalOpen} onOk={onEditPortraitOk} />
+            <EditImageModal
+              title="Edit portrait"
+              aspectRatio={parentW / parentH}
+              currentImage={customPortrait ?? characterPortraitDB}
+              open={editPortraitModalOpen}
+              setOpen={setEditPortraitModalOpen}
+              onOk={onEditPortraitOk}
+            />
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { basic3, findContentId, skill5, talent5, ult3 } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -6,17 +6,19 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 03-08-2024.'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
-  const basicScaling = basic3(e, 1.00, 1.10)
-  const skillScaling = skill5(e, 1.60, 1.76)
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const ultRainbladeScaling = ult3(e, 0.24, 0.2592)
-  const ultCrimsonKnotScaling = ult3(e, 0.15, 0.162)
-  const ultStygianResurgeScaling = ult3(e, 1.20, 1.296)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.60, 1.76)
+
+  const ultRainbladeScaling = ult(e, 0.24, 0.2592)
+  const ultCrimsonKnotScaling = ult(e, 0.15, 0.162)
+  const ultStygianResurgeScaling = ult(e, 1.20, 1.296)
   const ultThunderCoreScaling = 0.25
-  const talentResPen = talent5(e, 0.2, 0.22)
+  const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
   const maxNihilityTeammates = (e >= 2) ? 1 : 2
@@ -114,7 +116,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       x.ULT_RES_PEN += talentResPen
       x.ELEMENTAL_DMG += (r.thunderCoreStacks as number) * 0.30
-      x.ULT_CD_BOOST += (e >= 6 && r.e6UltBuffs) ? 0.60 : 0
+      x.ULT_RES_PEN += (e >= 6 && r.e6UltBuffs) ? 0.20 : 0
       x.ORIGINAL_DMG_BOOST += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
 
       x.BASIC_SCALING = basicScaling
@@ -131,7 +133,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.12 : 0
+      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

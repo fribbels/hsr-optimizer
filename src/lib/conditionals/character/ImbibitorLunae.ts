@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -8,16 +8,18 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const righteousHeartStackMax = (e >= 1) ? 10 : 6
-  const outroarStackCdValue = skillRev(e, 0.12, 0.132)
-  const righteousHeartDmgValue = talentRev(e, 0.10, 0.11)
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const basicEnhanced1Scaling = basicRev(e, 2.60, 2.86)
-  const basicEnhanced2Scaling = basicRev(e, 3.80, 4.18)
-  const basicEnhanced3Scaling = basicRev(e, 5.00, 5.50)
-  const skillScaling = skillRev(e, 0, 0)
-  const ultScaling = ultRev(e, 3.00, 3.24)
+  const righteousHeartStackMax = (e >= 1) ? 10 : 6
+  const outroarStackCdValue = skill(e, 0.12, 0.132)
+  const righteousHeartDmgValue = talent(e, 0.10, 0.11)
+
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhanced1Scaling = basic(e, 2.60, 2.86)
+  const basicEnhanced2Scaling = basic(e, 3.80, 4.18)
+  const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
+  const skillScaling = skill(e, 0, 0)
+  const ultScaling = ult(e, 3.00, 3.24)
 
   const content: ContentItem[] = [{
     formItem: 'slider',

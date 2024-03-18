@@ -21,7 +21,7 @@ function run() {
 
   const lcName = 'Concert for Two'
   const id = '21043'
-  const rarity = 5
+  const rarity = 4
   const path = 'Knight'
 
   const convertedLightCone = {

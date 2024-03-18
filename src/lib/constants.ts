@@ -36,8 +36,8 @@ export const MainStats = [
   Stats.CD,
   Stats.EHR,
   Stats.BE,
-  Stats.ERR,
   Stats.OHB,
+  Stats.ERR,
   Stats.Physical_DMG,
   Stats.Fire_DMG,
   Stats.Ice_DMG,
@@ -71,18 +71,18 @@ export const MainStatsValues = {
 }
 
 export const SubStats = [
-  Stats.ATK_P,
-  Stats.ATK,
-  Stats.BE,
-  Stats.CD,
-  Stats.CR,
-  Stats.DEF_P,
-  Stats.DEF,
-  Stats.EHR,
   Stats.HP_P,
+  Stats.ATK_P,
+  Stats.DEF_P,
   Stats.HP,
-  Stats.RES,
+  Stats.ATK,
+  Stats.DEF,
   Stats.SPD,
+  Stats.CR,
+  Stats.CD,
+  Stats.EHR,
+  Stats.RES,
+  Stats.BE,
 ]
 export type SubStats = typeof SubStats[number]
 
@@ -175,6 +175,8 @@ export const SetsOrnaments = {
   BrokenKeel: 'Broken Keel',
   FirmamentFrontlineGlamoth: 'Firmament Frontline: Glamoth',
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
+  SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
+  IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
@@ -199,6 +201,25 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
+
+export const PathToClass = {
+  Abundance: 'Priest',
+  Destruction: 'Warrior',
+  Erudition: 'Mage',
+  Harmony: 'Shaman',
+  Hunt: 'Rogue',
+  Nihility: 'Warlock',
+  Preservation: 'Knight',
+}
+export const ClassToPath = {
+  Priest: 'Abundance',
+  Warrior: 'Destruction',
+  Mage: 'Erudition',
+  Shaman: 'Harmony',
+  Rogue: 'Hunt',
+  Warlock: 'Nihility',
+  Knight: 'Preservation',
+}
 
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,
@@ -254,11 +275,12 @@ export const levelOptions = (() => {
 })()
 
 export const enemyLevelOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
+  const levelStats: { value: number; label: string; number: string }[] = []
   for (let i = 95; i >= 1; i--) {
     levelStats.push({
       value: i,
-      label: `Lv. ${i}`,
+      label: `Lv. ${i} - ${200 + 10 * i} DEF`,
+      number: `Lv. ${i}`,
     })
   }
 

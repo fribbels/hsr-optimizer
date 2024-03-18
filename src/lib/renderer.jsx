@@ -143,7 +143,7 @@ export const Renderer = {
   },
 
   hideNaNAndRound: (x) => {
-    return isNaN(x.value) ? '' : Math.round(x.value)
+    return isNaN(x.value) ? 0 : Math.round(x.value)
   },
 
   renderSubstatNumber: (substat, relic) => {

@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { basic, precisionRound, skill, talent, ult } from 'lib/conditionals/utils'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
@@ -7,6 +7,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+
   const talentCrBuff = talent(e, 0.50, 0.52)
   let talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98)
   talentHpDrainAtkBuffMax += (e >= 4) ? 0.30 : 0
@@ -22,7 +24,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       text: 'Enhanced state',
       title: 'Crescent Transmigration',
-      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff)}%. 
+      content: `When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by ${precisionRound(talentCrBuff * 100)}%. 
       Then, Jingliu's Skill "Transcendent Flash" becomes enhanced and turns into "Moon On Glacial River," and becomes the only ability she can use in battle.`,
     },
     {

@@ -7,6 +7,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { ThunderboltFilled } from '@ant-design/icons'
+import { Optimizer } from 'lib/optimizer/optimizer'
 
 const { Text } = Typography
 
@@ -45,6 +46,24 @@ export default function Sidebar() {
   const permutationsResults = window.store((s) => s.permutationsResults)
 
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
+  const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
+
+  function cancelClicked() {
+    console.log('Cancel clicked')
+    setOptimizationInProgress(false)
+    Optimizer.cancel(window.store.getState().optimizationId)
+  }
+  window.optimizerCancelClicked = cancelClicked
+
+  function resetClicked() {
+    console.log('Reset clicked')
+    OptimizerTabController.resetFilters()
+  }
+
+  function filterClicked() {
+    console.log('Filter clicked')
+    OptimizerTabController.applyRowFilters()
+  }
 
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
@@ -91,10 +110,10 @@ export default function Sidebar() {
                 </Button>
               </Flex>
               <Flex gap={defaultGap}>
-                <Button onClick={window.optimizerCancelClicked} style={{ width: '100px' }}>
+                <Button onClick={cancelClicked} style={{ width: '100px' }}>
                   Cancel
                 </Button>
-                <Button onClick={window.optimizerResetClicked} style={{ width: '100px' }}>
+                <Button onClick={resetClicked} style={{ width: '100px' }}>
                   Reset
                 </Button>
               </Flex>
@@ -125,7 +144,7 @@ export default function Sidebar() {
               <TooltipImage type={Hint.actions()} />
             </Flex>
             <Flex gap={defaultGap} justify="space-around">
-              <Button onClick={window.optimizerFilterClicked} style={{ width: '100px' }}>
+              <Button onClick={filterClicked} style={{ width: '100px' }}>
                 Filter
               </Button>
               <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, precisionRound, skillRev, talentRev, ultRev } from 'lib/conditionals/utils'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -8,12 +8,14 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const buffedStateDmgBuff = talentRev(e, 0.80, 0.88)
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+
+  const buffedStateDmgBuff = talent(e, 0.80, 0.88)
   const speedBoostStacksMax = (e >= 2 ? 2 : 1)
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const skillScaling = skillRev(e, 2.20, 2.42)
-  const ultScaling = ultRev(e, 4.25, 4.59)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.20, 2.42)
+  const ultScaling = ult(e, 4.25, 4.59)
 
   const content: ContentItem[] = [{
     formItem: 'switch',

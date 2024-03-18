@@ -7,7 +7,7 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
-import { OptimizerMenuIds } from 'components/optimizerTab/FormRow'
+import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 
 const state = {
   relics: [],
@@ -43,18 +43,16 @@ export const PageToRoute = {
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
+  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 }
 
-/*
- * React usage
- * let characterTabBlur = store(s => s.characterTabBlur);
- * let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
- */
+// React usage
+// let characterTabBlur = store(s => s.characterTabBlur);
+// let setCharacterTabBlur = store(s => s.setCharacterTabBlur);
 
-/*
- * Nonreactive usage
- * store.getState().setRelicsById(relicsById)
- */
+// Nonreactive usage
+// store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
   optimizerGrid: undefined,
@@ -63,7 +61,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
 
-  activeKey: RouteToPage[window.location.pathname] ? RouteToPage[window.location.pathname] : AppPages.OPTIMIZER,
+  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   characterTabBlur: false,
@@ -78,6 +76,11 @@ window.store = create((set) => ({
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
+  zeroPermutationModalOpen: false,
+
+  optimizerFormCharacterEidolon: 0,
+  optimizerFormSelectedLightCone: null,
+  optimizerFormSelectedLightConeSuperimposition: 1,
 
   permutationDetails: {
     Head: 0,
@@ -115,7 +118,6 @@ window.store = create((set) => ({
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-  setFilteredRelics: (relics) => set(() => ({ filteredRelics: relics })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -132,6 +134,10 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
 }))
 
 export const DB = {
@@ -223,6 +229,8 @@ export const DB = {
 
   setStore: (x) => {
     let charactersById = {}
+    const dbCharacters = DB.getMetadata().characters
+    const dbLightCones = DB.getMetadata().lightCones
     for (let character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -233,6 +241,16 @@ export const DB = {
         if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
           character.form.relicSets.splice(i, 1)
         }
+      }
+
+      // Unset light cone fields for mismatched light cone path
+      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
+      const dbCharacter = dbCharacters[character.id]
+      if (dbLightCone.path != dbCharacter.path) {
+        character.form.lightCone = undefined
+        character.form.lightConeLevel = 80
+        character.form.lightConeSuperimposition = 1
+        character.form.lightConeConditionals = {}
       }
     }
 
@@ -455,6 +473,15 @@ export const DB = {
     }
   },
 
+  switchRelics: (fromCharacterId, toCharacterId) => {
+    if (!fromCharacterId) return console.warn('No characterId to equip from')
+    if (!toCharacterId) return console.warn('No characterId to equip to')
+    console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
+
+    let fromCharacter = DB.getCharacterById(fromCharacterId)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId)
+  },
+
   deleteRelic: (id) => {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
@@ -468,10 +495,8 @@ export const DB = {
     }
   },
 
-  /*
-   * These relics are missing speed decimals from OCR importer
-   * We overwrite any existing relics with imported ones
-   */
+  // These relics are missing speed decimals from OCR importer
+  // We overwrite any existing relics with imported ones
   mergeRelicsWithState: (newRelics, newCharacters) => {
     let oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -507,6 +532,13 @@ export const DB = {
       let found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (newRelic.verified) {
+          // Inherit the new verified speed stats
+          found.verified = true
+          found.substats = newRelic.substats
+          found.augmentedStats = newRelic.augmentedStats
+        }
+
         if (newRelic.equippedBy && newCharacters) {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy
@@ -557,6 +589,19 @@ export const DB = {
       }
     }
 
+    // Clean up characters who have relics equipped by someone else, or characters that dont exist ingame yet
+    for (let character of DB.getCharacters()) {
+      for (let part of Object.keys(character.equipped)) {
+        const relicId = character.equipped[part]
+        if (relicId) {
+          const relic = DB.getRelicById(relicId)
+          if (relic.equippedBy != character.id) {
+            character.equipped[part] = undefined
+          }
+        }
+      }
+    }
+
     DB.setRelics(replacementRelics)
     DB.setCharacters(characters)
 
@@ -575,10 +620,8 @@ export const DB = {
     window.onOptimizerFormValuesChange({}, fieldValues)
   },
 
-  /*
-   * These relics have accurate speed values from relic scorer import
-   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
-   */
+  // These relics have accurate speed values from relic scorer import
+  // We keep the existing set of relics and only overwrite ones that match an imported one
   mergeVerifiedRelicsWithState: (newRelics) => {
     let oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
@@ -591,7 +634,7 @@ export const DB = {
       oldRelicPartialHashes[hash].push(oldRelic)
     }
 
-    // Tracking these for debug / logging
+    // Tracking these for debug / messaging
     let updatedOldRelics = []
     let addedNewRelics = []
 
@@ -609,9 +652,10 @@ export const DB = {
         let upgrades = 0
         for (let i = 0; i < partialMatch.substats.length; i++) {
           let matchSubstat = partialMatch.substats[i]
-          let newSubstat = newRelic.substats[i]
+          let newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
 
           // Different substats mean different relics - break
+          if (!newSubstat) { exit = true; break }
           if (matchSubstat.stat != newSubstat.stat) { exit = true; break }
           if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
 
@@ -623,7 +667,7 @@ export const DB = {
 
         if (exit) continue
 
-        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3) // + (newRelic.substats.length > partialMatch.substats.length ? 1 : 0)
+        let possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
         if (upgrades > possibleUpgrades) continue
 
         // If it passes all the tests, keep it
@@ -725,14 +769,11 @@ function compareSameTypeSubstat(oldSubstat, newSubstat) {
 }
 
 function partialHashRelic(relic) {
-  let baseSubstatCount = relic.grade == 5 ? 3 : 2
-
   let hashObject = {
     part: relic.part,
     set: relic.set,
     grade: relic.grade,
     mainstat: relic.main.stat,
-    substatStats: relic.substats.slice(0, baseSubstatCount).map((x) => x.stat),
   }
 
   return objectHash(hashObject)

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Typography } from 'antd'
 
-import OptimizerTab from 'components/OptimizerTab'
-import ImportTab from 'components/ImportTab'
+import OptimizerTab from 'components/optimizerTab/OptimizerTab'
 import RelicsTab from 'components/RelicsTab'
 import CharacterTab from 'components/CharacterTab'
 import RelicScorerTab from 'components/RelicScorerTab'
@@ -12,8 +11,10 @@ import ScoringModal from 'components/ScoringModal'
 import PropTypes from 'prop-types'
 import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import ImportTab from 'components/importerTab/ImportTab'
 
-const defaultError = <Typography>Something went wrong</Typography>
+const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
 const Tabs = () => {
   const activeKey = window.store((s) => s.activeKey)
@@ -30,6 +31,10 @@ const Tabs = () => {
     const route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
     console.log('Navigating activekey to route', activeKey, route)
     window.history.pushState({}, window.title, route)
+
+    if (activeKey == AppPages.OPTIMIZER) {
+      window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+    }
   }, [activeKey])
 
   return (
@@ -42,7 +47,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
 
-      <ErrorBoundary fallback={defaultError}>
+      <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
       </ErrorBoundary>
     </>
@@ -53,7 +58,7 @@ export default Tabs
 
 function TabRenderer(props) {
   return (
-    <ErrorBoundary fallback={defaultError}>
+    <ErrorBoundary fallbackRender={defaultErrorRender}>
       <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
         {props.content}
       </div>

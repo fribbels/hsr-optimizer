@@ -7,7 +7,6 @@ export const Hint = {
       title: 'Rating filters',
       content: (
         <Flex vertical gap={10}>
-          <p>CV - Crit Value, measuring the value of crit stats on the build. Calculated using CD + CR * 2</p>
           <p>Weight - Sum of substat weights of all 6 relics, from the Substat weight filter</p>
           <p>Ehp - Effective HP, measuring how tanky a max level character is. Calculated using HP & DEF & damage reduction passives</p>
           <p>Basic / Skill / Ult / Fua (Follow-up attack) / Dot (Damage over time) - Skill damage calculations, based on the environmental factors in character passives / light cone passives / enemy options.</p>
@@ -234,6 +233,38 @@ export const Hint = {
           <p>This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.</p>
           <p>Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.</p>
           <p>Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  valueColumns: () => {
+    return {
+      title: 'Value Columns',
+      content: (
+        <Flex vertical gap={10}>
+          <p>You can optionally display a number of columns that assess the relative 'value' of a relic.</p>
+          <p><b>Weight</b></p>
+          <p>Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).</p>
+          <p>Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see</p>
+          <p>Weight is useful to focus on a single character and see which relics might give them a higher letter grading.</p>
+          <p><b>Optimality</b></p>
+          <p>Optimality is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
+          <p>Optimality can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
+          <p>Optimality is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  relicInsight: () => {
+    return {
+      title: 'Relic Insight',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
+          <p>'Buckets' looks at how optimal this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.</p>
+          <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of optimality upgrading this relic could result in.</p>
         </Flex>
       ),
     }

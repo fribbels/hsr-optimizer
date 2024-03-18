@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -8,13 +8,15 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 const SilverWolf = (e: Eidolon): CharacterConditional => {
-  const skillResShredValue = skillRev(e, 0.10, 0.105)
-  const skillDefShredBufValue = skillRev(e, 0.08, 0.088)
-  const ultDefShredValue = ultRev(e, 0.45, 0.468)
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const skillScaling = skillRev(e, 1.96, 2.156)
-  const ultScaling = ultRev(e, 3.80, 4.104)
+  const skillResShredValue = skill(e, 0.10, 0.105)
+  const talentDefShredDebuffValue = talent(e, 0.08, 0.088)
+  const ultDefShredValue = ult(e, 0.45, 0.468)
+
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 1.96, 2.156)
+  const ultScaling = ult(e, 3.80, 4.104)
 
   const content: ContentItem[] = [{
     formItem: 'switch',
@@ -34,11 +36,11 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
   }, {
     // TODO: should be talent
     formItem: 'switch',
-    id: 'skillDefShredDebuff',
-    name: 'skillDefShredDebuff',
+    id: 'talentDefShredDebuff',
+    name: 'talentDefShredDebuff',
     text: 'Bug DEF shred',
     title: 'Talent: Awaiting System Response... DEF shred',
-    content: `Silver Wolf's bug reduces the target's DEF by ${precisionRound(skillDefShredBufValue * 100)}% for 3 turn(s).`,
+    content: `Silver Wolf's bug reduces the target's DEF by ${precisionRound(talentDefShredDebuffValue * 100)}% for 3 turn(s).`,
   }, {
     formItem: 'switch',
     id: 'ultDefShredDebuff',
@@ -66,7 +68,7 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
   const teammateContent: ContentItem[] = [
     findContentId(content, 'skillWeaknessResShredDebuff'),
     findContentId(content, 'skillResShredDebuff'),
-    findContentId(content, 'skillDefShredDebuff'),
+    findContentId(content, 'talentDefShredDebuff'),
     findContentId(content, 'ultDefShredDebuff'),
     findContentId(content, 'targetDebuffs'),
   ]
@@ -77,14 +79,14 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     defaults: () => ({
       skillWeaknessResShredDebuff: true,
       skillResShredDebuff: true,
-      skillDefShredDebuff: true,
+      talentDefShredDebuff: true,
       ultDefShredDebuff: true,
       targetDebuffs: 5,
     }),
     teammateDefaults: () => ({
       skillWeaknessResShredDebuff: true,
       skillResShredDebuff: true,
-      skillDefShredDebuff: true,
+      talentDefShredDebuff: true,
       ultDefShredDebuff: true,
       targetDebuffs: 5,
     }),
@@ -112,7 +114,7 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
       x.RES_PEN += (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0
       x.DEF_SHRED += (m.ultDefShredDebuff) ? ultDefShredValue : 0
-      x.DEF_SHRED += (m.skillDefShredDebuff) ? skillDefShredBufValue : 0
+      x.DEF_SHRED += (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c['x']

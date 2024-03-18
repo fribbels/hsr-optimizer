@@ -97,6 +97,7 @@ export const WorkerPool = {
 }
 
 // Start a worker to kick off the caching process for worker imports
+// Every worker currently loads every conditional file rn which is not ideal
 setTimeout(() => {
   WorkerPool.initializeWorker()
-}, 2000)
+}, 1000)

@@ -14,6 +14,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
+          motionUnit: 0.1,
           colorBgBase: '#182239',
           opacityLoading: 0.15, // FormSetConditionals.js
         },
@@ -59,7 +60,7 @@ const App = () => {
           width={170}
           style={{
             overflow: 'auto',
-            height: '100vh',
+            // height: '100vh',
             position: 'sticky',
             top: 0,
           }}

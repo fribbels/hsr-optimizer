@@ -9,7 +9,7 @@ import { findContentId } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
-  const sValuesVulnerability = [0.08, 0.09, 0.10, 0.11, 0.12]
+  const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
   const content: ContentItem[] = [
     {

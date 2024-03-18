@@ -1,4 +1,4 @@
-import { basic3, findContentId, talent5, ult3 } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -6,19 +6,19 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 02-27-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 03-13-2024.'
 
-// 3-ult basic
-// 5-skill talent
 const Aventurine = (e: Eidolon): CharacterConditional => {
-  const basicScaling = basic3(e, 1.00, 1.10)
-  const ultScaling = ult3(e, 2.70, 2.916)
-  const ultCdScaling = ult3(e, 0.15, 0.162)
+  const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const talentDmgScaling = talent5(e, 0.25, 0.275)
-  const talentResScaling = talent5(e, 0.50, 0.55)
+  const basicScaling = basic(e, 1.00, 1.10)
+  const ultScaling = ult(e, 2.70, 2.916)
+  const ultCdScaling = ult(e, 0.15, 0.162)
 
-  const fuaHits = (e >= 4) ? 8 : 7
+  const talentDmgScaling = talent(e, 0.25, 0.275)
+  const talentResScaling = talent(e, 0.50, 0.55)
+
+  const fuaHits = (e >= 4) ? 10 : 7
 
   const content: ContentItem[] = [
     {
@@ -81,7 +81,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       title: 'E6 shield stacks',
       content: betaUpdate,
       min: 0,
-      max: 4,
+      max: 3,
       disabled: e < 6,
     },
   ]
@@ -102,7 +102,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
       e4DefBuff: true,
-      e6ShieldStacks: 4,
+      e6ShieldStacks: 3,
     }),
     teammateDefaults: () => ({
       fortifiedWagerBuff: true,
@@ -136,11 +136,10 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = c['x']
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
 
-      x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.40, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
+      x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },
   }
 }

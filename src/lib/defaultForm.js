@@ -49,6 +49,17 @@ export function getDefaultForm(initialCharacter) {
       topPercent: 100,
     },
     setConditionals: defaultSetConditionals,
+    teammate0: defaultTeammate(),
+    teammate1: defaultTeammate(),
+    teammate2: defaultTeammate(),
+  }
+}
+
+export function defaultTeammate() {
+  return {
+    characterId: null,
+    characterEidolon: 0,
+    lightConeSuperimposition: 1,
   }
 }
 
@@ -83,4 +94,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.BrokenKeel]: [undefined, true],
   [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
+  [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
+  [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
 }

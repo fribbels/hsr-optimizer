@@ -10,7 +10,7 @@ const defaultPadding = 15
 const smallWidth = panelWidth
 const mediumWidth = 365
 
-export default function FormCard(props: { size?: string; children?: ReactElement; height?: number; style?: CSSProperties; justify?: string }) {
+export default function FormCard(props: { size?: string; children?: ReactElement | ReactElement[]; height?: number; style?: CSSProperties; justify?: string }) {
   const width = props.size == 'medium' ? mediumWidth : smallWidth
 
   return (

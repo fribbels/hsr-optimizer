@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { basicRev, findContentId, precisionRound, skillRev, ultRev } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -8,14 +8,16 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
-  const basicEnhancedHitValue = basicRev(e, 0.20, 0.22)
-  const targetUltDebuffDmgTakenValue = ultRev(e, 0.20, 0.216)
+  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
-  const basicScaling = basicRev(e, 1.00, 1.10)
-  const basicEnhancedScaling = basicRev(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
-  const skillScaling = skillRev(e, 1.20, 1.32)
-  const ultScaling = ultRev(e, 3.30, 3.564)
-  const dotScaling = skillRev(e, 3.38, 3.718)
+  const basicEnhancedHitValue = basic(e, 0.20, 0.22)
+  const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
+
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 0.20 * 3 + 0.80, 0.22 * 3 + 0.88)
+  const skillScaling = skill(e, 1.20, 1.32)
+  const ultScaling = ult(e, 3.30, 3.564)
+  const dotScaling = skill(e, 3.38, 3.718)
 
   const content: ContentItem[] = [{
     formItem: 'switch',

@@ -56,12 +56,12 @@
       ],
       "PlayerLevelRequire": 15,
       "MaxLevel": 20,
-      "BaseHP": 38.40000000037253,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 43.200000000186265,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 16.800000000745058,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 24,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 21,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -85,12 +85,12 @@
       ],
       "WorldLevelRequire": 1,
       "MaxLevel": 30,
-      "BaseHP": 84.48000000044703,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 95.04000000003725,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 36.96000000089407,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 52.80000000074506,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 46.200000000186265,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -114,12 +114,12 @@
       ],
       "WorldLevelRequire": 2,
       "MaxLevel": 40,
-      "BaseHP": 145.92000000085682,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 164.160000000149,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 63.84000000078231,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 91.20000000018626,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 79.80000000074506,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -143,12 +143,12 @@
       ],
       "WorldLevelRequire": 3,
       "MaxLevel": 50,
-      "BaseHP": 207.36000000033528,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 233.28000000026077,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 90.72000000067055,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 129.6000000005588,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 113.40000000037253,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -172,12 +172,12 @@
       ],
       "WorldLevelRequire": 4,
       "MaxLevel": 60,
-      "BaseHP": 268.80000000074506,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 302.40000000037253,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 117.6000000005588,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 168,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 147,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -201,12 +201,12 @@
       ],
       "WorldLevelRequire": 5,
       "MaxLevel": 70,
-      "BaseHP": 330.2400000002235,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 371.5200000004843,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 144.48000000044703,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 206.40000000037253,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 180.6000000005588,
+      "BaseDefenceAdd": 3.1500000001396984
     },
     {
       "EquipmentID": 21043,
@@ -214,12 +214,12 @@
       "PromotionCostList": [],
       "WorldLevelRequire": 5,
       "MaxLevel": 80,
-      "BaseHP": 391.6800000006333,
-      "BaseHPAdd": 5.760000000707805,
+      "BaseHP": 440.64000000059605,
+      "BaseHPAdd": 6.480000000447035,
       "BaseAttack": 171.36000000033528,
       "BaseAttackAdd": 2.5200000004842877,
-      "BaseDefence": 244.80000000074506,
-      "BaseDefenceAdd": 3.6000000005587935
+      "BaseDefence": 214.20000000018626,
+      "BaseDefenceAdd": 3.1500000001396984
     }
   ]
 }

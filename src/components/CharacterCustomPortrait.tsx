@@ -5,7 +5,7 @@ interface CharacterCustomPortraitProps {
   customPortrait: CustomImageConfig
   parentW: number
   isBlur?: boolean
-  setBlur: (val: boolean) => void
+  setBlur: (_x: boolean) => void
 }
 
 const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({

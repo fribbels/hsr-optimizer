@@ -9,7 +9,7 @@ interface EditImageModalProps {
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (x: CustomImageModalConfig) => void
+  onOk: (_x: CustomImageModalConfig) => void
   title?: string
   width?: number
 }

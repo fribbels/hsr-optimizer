@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Flex, Image } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
@@ -27,6 +27,8 @@ import { CharacterStatSummary } from 'components/characterPreview/CharacterStatS
 import { EditOutlined } from '@ant-design/icons'
 import CharacterEditPortraitModal from './CharacterEditPortraitModal'
 import { Message } from 'lib/message'
+import CharacterCustomPortrait from './CharacterCustomPortrait'
+import { SaveState } from 'lib/saveState'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -45,22 +47,22 @@ export function CharacterPreview(props) {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
+  const [customImage, setCustomImage] = useState(null) // <null | CustomImage>
+
+  useEffect(() => {
+    setCustomImage(null)
+  }, [character])
 
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
   }
 
-  function onEditPortraitOk(imageUrl) {
-    // Save imageUrl, scaling and xy offset to build
-    // let score = RelicScorer.scoreCharacter(selectedCharacter)
-    // let res = DB.saveCharacterBuild(name, selectedCharacter.id, { score: score.totalScore.toFixed(0), rating: score.totalRating })
-    // if (res) {
-    //   Message.error(res.error)
-    //   return
-    // }
-    Message.success('Successfully saved portrait: ' + imageUrl)
-    // SaveState.save()
+  function onEditPortraitOk(portrait) {
+    setCustomImage({ ...portrait })
+    DB.saveCharacterPortrait(character.id, portrait)
+    Message.success('Successfully saved portrait')
+    SaveState.save()
     setEditPortraitModalOpen(false)
   }
 
@@ -130,6 +132,7 @@ export function CharacterPreview(props) {
   const characterName = characterMetadata.displayName
   const characterPath = characterMetadata.path
   const characterElement = characterMetadata.element
+  const characterPortrait = character.portrait
 
   const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
@@ -146,20 +149,31 @@ export function CharacterPreview(props) {
             }}
             className="character-build-portrait"
           >
-            <img
-              src={Assets.getCharacterPortraitById(character.id)}
-              style={{
-                position: 'absolute',
-                left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-                top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
-                width: innerW,
-                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
-              }}
-              onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
-            />
+            {characterPortrait || customImage
+              ? (
+                <CharacterCustomPortrait
+                  customImage={customImage ?? characterPortrait}
+                  parentW={parentW}
+                  isBlur={characterTabBlur && !isScorer}
+                  setCharacterTabBlur={setCharacterTabBlur}
+                />
+              )
+              : (
+                <img
+                  src={Assets.getCharacterPortraitById(character.id)}
+                  style={{
+                    position: 'absolute',
+                    left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
+                    top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
+                    width: innerW,
+                    filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+                  }}
+                  onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
+                />
+              )}
             <Button
               style={{
-                opacity: 0, // hidden initially
+                opacity: 0,
                 visibility: 'hidden',
                 flex: 'auto',
                 position: 'absolute',
@@ -170,11 +184,10 @@ export function CharacterPreview(props) {
               icon={<EditOutlined />}
               onClick={() => setEditPortraitModalOpen(true)}
               type="primary"
-              // loading={screenshotLoading}
             >
               Edit portrait
             </Button>
-            <CharacterEditPortraitModal open={editPortraitModalOpen} setOpen={setEditPortraitModalOpen} onOk={onEditPortraitOk} />
+            <CharacterEditPortraitModal currentPortrait={customImage ?? characterPortrait} open={editPortraitModalOpen} setOpen={setEditPortraitModalOpen} onOk={onEditPortraitOk} />
           </div>
         </div>
       )}

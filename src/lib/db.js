@@ -307,6 +307,17 @@ export const DB = {
     return found
   },
 
+  saveCharacterPortrait: (characterId, portrait) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) {
+      console.warn('No character selected')
+      return
+    }
+    character.portrait = portrait
+    DB.setCharacter(character)
+    console.log('Saved portrait', DB.getState())
+  },
+
   saveCharacterBuild: (name, characterId, score) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {

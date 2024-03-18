@@ -1,13 +1,26 @@
 import * as React from 'react'
-import { Button, Form, FormInstance, Input, Modal, Steps } from 'antd'
+import { Button, Form, Input, Modal, Steps } from 'antd'
+import Cropper from 'react-easy-crop'
+import { CroppedArea, CustomImage, CustomImageParams, ImageDimensions } from 'types/CharacterCustomImage'
+import { DragOutlined, ZoomInOutlined } from '@ant-design/icons'
 
 interface CharacterEditPortraitModalProps {
+  currentPortrait: CustomImage | null
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (x: FormInstance) => void
+  onOk: (x: CustomImage) => void
+}
+
+const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
+const DEFAULT_CROP = { x: 0, y: 0 }
+const DEFAULT_ZOOM = 1
+const DEFAULT_CUSTOM_IMAGE_PARAMS = {
+  croppedArea: { x: 0, y: 0, width: 0, height: 0 },
+  croppedAreaPixels: { x: 0, y: 0, width: 0, height: 0 },
 }
 
 const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
+  currentPortrait,
   open,
   setOpen,
   onOk,
@@ -15,10 +28,56 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
   const [current, setCurrent] = React.useState(0)
   const [characterPortraitForm] = Form.useForm()
 
+  const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
+  const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
+  const [originalDimensions, setOriginalDimensions] = React.useState<ImageDimensions>(currentPortrait ? currentPortrait.originalDimensions : DEFAULT_IMAGE_DIMENSIONS)
+
+  // This library can do rotation too, but it's not implemented for now
+  const [crop, setCrop] = React.useState(currentPortrait ? currentPortrait.cropper.crop : DEFAULT_CROP)
+  const [zoom, setZoom] = React.useState(currentPortrait ? currentPortrait.cropper.zoom : DEFAULT_ZOOM)
+  const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(DEFAULT_CUSTOM_IMAGE_PARAMS)
+
+  // Handle initialization depending on if currentPortrait exists:
+  // - Reset on close for new character
+  // - upon open, load portrait data if it exists
+  React.useEffect(() => {
+    if (!open) {
+      characterPortraitForm.resetFields()
+      setCurrent(0)
+      setIsVerificationLoading(false)
+      setVerifiedImageUrl('')
+      setOriginalDimensions(DEFAULT_IMAGE_DIMENSIONS)
+      setCrop(DEFAULT_CROP)
+      setZoom(DEFAULT_ZOOM)
+      setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
+    } else if (currentPortrait) {
+      characterPortraitForm.setFieldsValue({ imageUrl: currentPortrait.imageUrl })
+      setOriginalDimensions(currentPortrait.originalDimensions)
+      setCrop(currentPortrait.cropper.crop)
+      setZoom(currentPortrait.cropper.zoom)
+    }
+  }, [open, currentPortrait, characterPortraitForm])
+
+  const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
+    // Only allow image parameters to change when in cropping stage
+    if (current == 1) {
+      setCustomImageParams({ croppedArea, croppedAreaPixels })
+    }
+  }
+
   const handleOk = () => {
+    console.log(originalDimensions, typeof originalDimensions)
     characterPortraitForm.validateFields()
       .then((values) => {
-        onOk(values.imageUrl)
+        onOk({
+          imageUrl: values.imageUrl,
+          originalDimensions,
+          customImageParams,
+          cropper: {
+            zoom,
+            crop,
+          },
+        })
         setOpen(false)
         setCurrent(0)
       })
@@ -31,18 +90,48 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
     setOpen(false)
   }
 
-  const next = () => {
-    // TODO: asynchronous logic to determine if the URL leads to an image; doesn't need to be imgur
+  // Verifies that the URL actually links to an image
+  async function isValidImageUrl(url: string) {
+    setIsVerificationLoading(true)
+    // Be careful not to import Image from antd, it'll conflict with this
+    const img = new Image()
+    img.src = url
+
+    return new Promise((resolve) => {
+      setIsVerificationLoading(false)
+      img.onerror = () => {
+        resolve(false)
+      }
+      img.onload = async () => {
+        const imageBitmap: ImageBitmap = await createImageBitmap(img) // Blob
+        setOriginalDimensions({
+          width: imageBitmap.width,
+          height: imageBitmap.height,
+        })
+        resolve(true)
+      }
+    })
+  }
+
+  const next = async () => {
     const imageUrl = characterPortraitForm.getFieldValue('imageUrl')
-    if (imageUrl.includes('imgur.com'))
-      setCurrent(current + 1)
-    else
-      characterPortraitForm.setFields([
-        {
-          name: 'imageUrl',
-          errors: ['Link must be from imgur.com'],
-        },
-      ])
+    switch (current) {
+      case 0:
+        if (await isValidImageUrl(imageUrl)) {
+          setVerifiedImageUrl(imageUrl)
+          setCurrent(current + 1)
+        } else {
+          characterPortraitForm.setFields([
+            {
+              name: 'imageUrl',
+              errors: ['Link does not lead to an image'],
+            },
+          ])
+        }
+        break
+      default:
+        console.error(`Stage #${current} not implemented!`)
+    }
   }
 
   const prev = () => {
@@ -55,27 +144,45 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
       content: (
         <Form.Item
           name="imageUrl"
-          label="Imgur URL"
-          rules={[{ required: true, message: 'Please input an Imgur URL' }]}
+          label="Image URL"
+          rules={[{ required: true, message: 'Please input a valid image URL' }]}
         >
-          <Input />
+          <Input autoComplete="off" />
         </Form.Item>
       ),
     },
     {
       title: 'Crop',
-      content: 'Second-content',
-    },
-    {
-      title: 'Confirm',
-      content: 'Last-content',
+      content: (
+        <>
+          <div style={{ height: '300px', position: 'relative' }}>
+            <Cropper
+              image={verifiedImageUrl}
+              crop={crop}
+              zoom={zoom}
+              aspect={179 / 428} // portrait container aspect ratio
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <ZoomInOutlined style={{ marginRight: 8 }} />
+            Pinch or scroll to zoom
+          </div>
+          <div>
+            <DragOutlined style={{ marginRight: 8 }} />
+            Drag to move
+          </div>
+        </>
+      ),
     },
   ]
 
   return (
     <Modal
       open={open}
-      width={350}
+      width={400}
       destroyOnClose
       centered
       onOk={handleOk}
@@ -102,7 +209,7 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
           </Button>
         )}
         {current < steps.length - 1 && (
-          <Button type="primary" onClick={next}>
+          <Button type="primary" onClick={next} disabled={isVerificationLoading}>
             Next
           </Button>
         )}

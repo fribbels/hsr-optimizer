@@ -7,7 +7,6 @@ import App from './App'
 
 import { WorkerPool } from './lib/workerPool'
 import { Constants } from './lib/constants.ts'
-import { OcrParserKelz3 } from 'lib/ocrParserKelz3'
 import { DataParser } from './lib/dataParser'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
@@ -28,7 +27,6 @@ import { RelicRollFixer } from './lib/relicRollFixer'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
-window.OcrParserKelz3 = OcrParserKelz3
 window.DataParser = DataParser
 // window.OptimizerTabController = OptimizerTabController
 window.DB = DB

@@ -10,7 +10,7 @@
     "antd": "^5.15.1",
     "btoa": "^1.2.1",
     "fast-sort": "^3.4.0",
-    "html-to-image": "^1.11.11",
+    "modern-screenshot": "^4.4.38",
     "object-hash": "^3.0.0",
     "path": "^0.12.7",
     "plotly.js": "^2.29.1",

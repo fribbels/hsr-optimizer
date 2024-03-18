@@ -1,4 +1,4 @@
-import { toBlob as htmlToBlob } from 'html-to-image'
+import { domToBlob as htmlToBlob } from 'modern-screenshot'
 import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
@@ -101,7 +101,10 @@ export const Utils = {
 
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    return htmlToBlob(document.getElementById(elementId), { pixelRatio: 1.5 }).then(async (blob) => {
+    return htmlToBlob(document.getElementById(elementId), {
+      scale: 1.5,
+      drawImageInterval: 0,
+    }).then(async (blob) => {
       /*
        * Save to clipboard
        * This is not supported in firefox, possibly other browsers too

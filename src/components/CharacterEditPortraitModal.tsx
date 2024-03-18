@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { Button, Form, Input, Modal, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
-import { CroppedArea, CustomImage, CustomImageParams, ImageDimensions } from 'types/CharacterCustomImage'
+import { CroppedArea, CustomImage, CustomImageParams, ImageDimensions, PortraitConfig } from 'types/CharacterCustomImage'
 import { DragOutlined, ZoomInOutlined } from '@ant-design/icons'
 
 interface CharacterEditPortraitModalProps {
   currentPortrait: CustomImage | null
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (x: CustomImage) => void
+  onOk: (x: PortraitConfig) => void
 }
 
 const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
@@ -70,6 +70,7 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
     characterPortraitForm.validateFields()
       .then((values) => {
         onOk({
+          type: 'add',
           imageUrl: values.imageUrl,
           originalDimensions,
           customImageParams,
@@ -136,6 +137,12 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
 
   const prev = () => {
     setCurrent(current - 1)
+  }
+
+  const revert = () => {
+    onOk({
+      type: 'delete',
+    })
   }
 
   const steps = [
@@ -219,6 +226,15 @@ const CharacterEditPortraitModal: React.FC<CharacterEditPortraitModalProps> = ({
           </Button>
         )}
       </div>
+      {currentPortrait && (
+        <div style={{ marginTop: 16 }}>
+          {current === 0 && (
+            <Button style={{ marginRight: '8px' }} onClick={revert} danger>
+              Revert to default portrait
+            </Button>
+          )}
+        </div>
+      )}
     </Modal>
   )
 }

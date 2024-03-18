@@ -318,6 +318,17 @@ export const DB = {
     console.log('Saved portrait', DB.getState())
   },
 
+  deleteCharacterPortrait: (characterId) => {
+    let character = DB.getCharacterById(characterId)
+    if (!character) {
+      console.warn('No character selected')
+      return
+    }
+    delete character.portrait
+    DB.setCharacter(character)
+    console.log('Deleted portrait', DB.getState())
+  },
+
   saveCharacterBuild: (name, characterId, score) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {

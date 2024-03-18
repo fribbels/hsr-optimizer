@@ -27,3 +27,7 @@ export type CustomImage = {
     }
   }
 }
+
+export type PortraitConfig = (
+  { type: 'add' } & CustomImage
+) | { type: 'delete' }

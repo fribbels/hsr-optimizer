@@ -58,10 +58,22 @@ export function CharacterPreview(props) {
     setSelectedRelic(updatedRelic)
   }
 
-  function onEditPortraitOk(portrait) {
-    setCustomImage({ ...portrait })
-    DB.saveCharacterPortrait(character.id, portrait)
-    Message.success('Successfully saved portrait')
+  function onEditPortraitOk(portraitConfig) {
+    const { type, ...portrait } = portraitConfig
+    switch (type) {
+      case 'add':
+        setCustomImage({ ...portrait })
+        DB.saveCharacterPortrait(character.id, portrait)
+        Message.success('Successfully saved portrait')
+        break
+      case 'delete':
+        setCustomImage(null)
+        DB.deleteCharacterPortrait(character.id)
+        Message.success('Successfully reverted portrait')
+        break
+      default:
+        console.warn(`CharacterEditPortraitModal exited with an invalid type: ${type}`)
+    }
     SaveState.save()
     setEditPortraitModalOpen(false)
   }

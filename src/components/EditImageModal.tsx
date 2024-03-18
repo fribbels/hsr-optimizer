@@ -9,7 +9,7 @@ interface EditImageModalProps {
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (_x: CustomImageModalConfig) => void
+  onOk: (x: CustomImageModalConfig) => void
   title?: string
   width?: number
 }
@@ -72,7 +72,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const handleOk = () => {
-    console.log(originalDimensions, typeof originalDimensions)
     customImageForm.validateFields()
       .then((values) => {
         onOk({

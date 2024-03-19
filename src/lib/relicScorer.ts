@@ -248,17 +248,17 @@ export class RelicScorer {
       // normally)
       const optimalMainStats = scoringMetadata.parts[part]
       let mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
-      let mainStatWeight = scoreEntries[mainStatIndex][1];
+      const mainStatWeight = scoreEntries[mainStatIndex][1]
       // Worst case, will be overriden on first loop iteration by true values
-      let isIdeal = false;
-      let isSubstat = true;
+      let isIdeal = false
+      let isSubstat = true
       for (let i = mainStatIndex; i < scoreEntries.length; i++) {
-        let [name, weight] = scoreEntries[i]
+        const [name, weight] = scoreEntries[i]
         if (weight !== mainStatWeight) {
           break
         }
-        let newIsIdeal = optimalMainStats.includes(name);
-        let newIsSubstat = possibleSubstats.has(name);
+        const newIsIdeal = optimalMainStats.includes(name)
+        const newIsSubstat = possibleSubstats.has(name)
         if (isIdeal && !newIsIdeal) {
           continue
         } else if (isIdeal === newIsIdeal && isSubstat && !newIsSubstat) {
@@ -274,6 +274,7 @@ export class RelicScorer {
     } else {
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part][0] === name)
       scoreEntries.splice(mainStatIndex, 1)
+      maxWeight += 64.8
     }
 
     // Now the mainstat (if any) is gone, filter to just substats
@@ -324,7 +325,7 @@ export class RelicScorer {
     return new RelicScorer().scoreRelic(relic, id)
   }
 
-  scoreRelic(relic: Relic, id: CharacterId, mainStatScoring='ideal') {
+  scoreRelic(relic: Relic, id: CharacterId, mainStatScoring = 'ideal') {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
@@ -342,7 +343,11 @@ export class RelicScorer {
     } else if (mainStatScoring === 'weighted') {
       // Ignore ideal mainstats, weigh according to their 'true' weight and don't add fake
       // mainstat weights that could skew weight distributions
-      mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+      if (!Utils.isFlat(relic.main.stat)) {
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+      } else {
+        mainScore = 64.8
+      }
     } else {
       throw new Error('unknown mainStatScoring type ' + mainStatScoring)
     }

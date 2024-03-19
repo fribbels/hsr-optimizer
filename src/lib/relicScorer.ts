@@ -274,7 +274,6 @@ export class RelicScorer {
     } else {
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part][0] === name)
       scoreEntries.splice(mainStatIndex, 1)
-      maxWeight += 64.8
     }
 
     // Now the mainstat (if any) is gone, filter to just substats
@@ -343,10 +342,8 @@ export class RelicScorer {
     } else if (mainStatScoring === 'weighted') {
       // Ignore ideal mainstats, weigh according to their 'true' weight and don't add fake
       // mainstat weights that could skew weight distributions
-      if (!Utils.isFlat(relic.main.stat)) {
+      if (Utils.hasMainStat(relic.part)) {
         mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
-      } else {
-        mainScore = 64.8
       }
     } else {
       throw new Error('unknown mainStatScoring type ' + mainStatScoring)

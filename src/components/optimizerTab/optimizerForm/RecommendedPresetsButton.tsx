@@ -79,6 +79,7 @@ const SpdValues = {
   },
 }
 const standardSpdOptions = Object.values(SpdValues)
+standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
 export function generateStandardSpdOptions(label) {
   return {
@@ -197,8 +198,8 @@ const RecommendedPresetsButton = () => {
   return (
     <Dropdown
       menu={actionsMenuProps}
-      autoAdjustOverflow={false}
       trigger={['click']}
+      overlayStyle={{ width: 'max-content' }}
     >
       <a onClick={(e) => e.preventDefault()}>
         <Button type="primary" style={{ width: '100%' }}>

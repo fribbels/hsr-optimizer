@@ -197,12 +197,15 @@ const RecommendedPresetsButton = () => {
   return (
     <Dropdown
       menu={actionsMenuProps}
+      autoAdjustOverflow={false}
       trigger={['click']}
     >
-      <Button type="primary" style={{ width: '100%' }}>
-        Recommended presets
-        <DownOutlined />
-      </Button>
+      <a onClick={(e) => e.preventDefault()}>
+        <Button type="primary" style={{ width: '100%' }}>
+          Recommended presets
+          <DownOutlined />
+        </Button>
+      </a>
     </Dropdown>
   )
 }

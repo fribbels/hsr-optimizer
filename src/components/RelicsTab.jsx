@@ -412,85 +412,97 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>
+
           {relicInsight === 'top10' && scores && (
             <Flex gap={10}>
-              <ol>
-                {
-                  scores
-                    .map((x) => {
-                      const rect = (
-                        <svg width={10} height={10}>
-                          <rect
-                            width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
-                          />
-                        </svg>
-                      )
-                      let worstPct = Math.round(x.score.worstPct)
-                      let bestPct = Math.round(x.score.bestPct)
-                      let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
-                      return (
-                        <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {x.name}: {pctText}
-                        </li>
-                      )
-                    })
-                }
-              </ol>
-              <Plot
-                data={
-                  scores.map((s) => ({
-                    x: [s.score.averagePct],
-                    y: [s.name],
-                    hoverinfo: 'name',
-                    mode: 'markers',
-                    type: 'scatter',
-                    error_x: {
-                      type: 'data',
-                      symmetric: false,
-                      array: [s.score.bestPct - s.score.averagePct],
-                      arrayminus: [s.score.averagePct - s.score.worstPct],
+              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+                <Plot
+                  data={
+                    scores.map((s) => ({
+                      x: [s.score.averagePct],
+                      y: [s.name],
+                      hoverinfo: 'name',
+                      mode: 'markers',
+                      type: 'scatter',
+                      error_x: {
+                        type: 'data',
+                        symmetric: false,
+                        array: [s.score.bestPct - s.score.averagePct],
+                        arrayminus: [s.score.averagePct - s.score.worstPct],
+                      },
+                      marker: { color: s.color },
+                      name: s.name,
+                    })).reverse()
+                  }
+                  layout={{
+                    plot_bgcolor: 'rgba(0, 0, 0, 0)',
+                    paper_bgcolor: '#243356',
+                    font: {
+                      color: 'rgba(255, 255, 255, 0.85)',
                     },
-                    marker: { color: s.color },
-                    name: s.name,
-                  })).reverse()
-                }
-                layout={{
-                  autosize: true,
-                  width: 320,
-                  height: 240,
-                  margin: {
-                    b: 20,
-                    l: 10,
-                    r: 20,
-                    t: 10,
-                  },
-                  showlegend: false,
-                  xaxis: {
-                    fixedrange: true,
-                    range: [0, 100],
-                    tick0: 0,
-                    dtick: 10,
-                    showgrid: true,
-                    showline: true,
-                    showticklabels: true,
-                    type: 'linear',
-                    zeroline: true,
-                  },
-                  yaxis: {
-                    fixedrange: true,
-                    showticklabels: false,
-                  },
-                }}
-                config={{
-                  displayModeBar: false,
-                  editable: false,
-                  scrollZoom: false,
-                }}
-              />
+                    autosize: true,
+                    width: 320,
+                    height: 278,
+                    margin: {
+                      b: 20,
+                      l: 10,
+                      r: 20,
+                      t: 10,
+                    },
+                    showlegend: false,
+                    xaxis: {
+                      fixedrange: true,
+                      range: [0, 100],
+                      tick0: 0,
+                      dtick: 10,
+                      showgrid: true,
+                      showline: true,
+                      showticklabels: true,
+                      type: 'linear',
+                      zeroline: true,
+                      gridcolor: 'rgba(128, 128, 128, 0.15)',
+                    },
+                    yaxis: {
+                      fixedrange: true,
+                      showticklabels: false,
+                      gridcolor: 'rgba(128, 128, 128, 0.15)',
+                    },
+                  }}
+                  config={{
+                    displayModeBar: false,
+                    editable: false,
+                    scrollZoom: false,
+                  }}
+                />
+              </Flex>
+              <ol>
+                <Flex vertical gap={5.5}>
+                  {
+                    scores
+                      .map((x) => {
+                        const rect = (
+                          <svg width={10} height={10}>
+                            <rect
+                              width={10} height={10} style={{
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
+                            />
+                          </svg>
+                        )
+                        let worstPct = Math.round(x.score.worstPct)
+                        let bestPct = Math.round(x.score.bestPct)
+                        let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
+                        return (
+                          <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                            {rect} {x.name}: {pctText}
+                          </li>
+                        )
+                      })
+                  }
+                </Flex>
+              </ol>
             </Flex>
           )}
           <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
@@ -554,7 +566,7 @@ export default function RelicsTab() {
                       source: Assets.getCharacterAvatarById(score.cid),
                       xref: 'x',
                       yref: 'y',
-                      x: idx + 0.75,
+                      x: idx + 0.6,
                       y: bucketIdx,
                       sizex: 1,
                       sizey: 1,
@@ -574,7 +586,7 @@ export default function RelicsTab() {
                   yaxis: {
                     fixedrange: true,
                     showticklabels: true,
-                    gridcolor: 'rgba(128, 128, 128, 0.20)',
+                    gridcolor: 'rgba(128, 128, 128, 0.15)',
                   },
                 }}
                 config={{

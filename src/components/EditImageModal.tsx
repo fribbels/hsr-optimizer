@@ -9,7 +9,7 @@ interface EditImageModalProps {
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (x: CustomImageModalConfig) => void
+  onOk: (_x: CustomImageModalConfig) => void
   title?: string
   width?: number
 }
@@ -184,7 +184,20 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               aspect={aspectRatio}
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
+              onZoomChange={(newZoom) => {
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                if (!isMobile) {
+                  if (newZoom < zoom) {
+                    setZoom(Math.max(1, zoom * 0.95))
+                  }
+                  if (newZoom > zoom) {
+                    setZoom(Math.min(3, zoom * 1.05))
+                  }
+                } else {
+                  setZoom(newZoom)
+                }
+              }}
+              zoomSpeed={0.0001}
             />
           </div>
           <div style={{ marginTop: 8 }}>
@@ -240,13 +253,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </Button>
         )}
       </div>
-      {currentImage && (
+      {currentImage && current === 0 && (
         <div style={{ marginTop: 16 }}>
-          {current === 0 && (
-            <Button style={{ marginRight: '8px' }} onClick={revert} danger>
-              Revert to default image
-            </Button>
-          )}
+          <Button style={{ marginRight: '8px' }} onClick={revert} danger>
+            Revert to default image
+          </Button>
         </div>
       )}
     </Modal>

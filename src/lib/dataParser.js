@@ -1630,6 +1630,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
+          Constants.Stats.ERR,
         ],
       },
       relicSets: [

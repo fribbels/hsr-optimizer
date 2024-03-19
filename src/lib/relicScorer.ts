@@ -236,20 +236,44 @@ export class RelicScorer {
 
     // Find the mainstat for this relic
     if (Utils.hasMainStat(part)) {
-      // Fixed maxed-out weight for a 1 weight mainstat
-      maxWeight += 64.8
-
-      // Need the specific optimal mainstat to remove it from possible substats. Find it by:
-      // 1. choosing the highest multiplier stat from the list of part mainstats for the character (if possible)
-      // 2. otherwise: choosing the highest multiplier mainstat of those valid for this relic
+      // Need the specific optimal mainstat to remove it from possible substats. Find it by
+      // - finding the highest multiplier mainstat of those valid for this relic
+      // - looking at all stats with this exact multiplier and biasing towards
+      //   a) ideal mainstats and b) mainstats that can't be substats
+      //   in that order
+      //
+      // NOTE: we deliberately ignore 'ideal' mainstats here as they can have varying weights
+      // which causes unintuitive optimal relic creation effects (i.e. it's best to choose the
+      // lowest weighted one so the higher weighted one ends up as a substat and be scored
+      // normally)
       const optimalMainStats = scoringMetadata.parts[part]
-      const mainStatIndex = optimalMainStats
-        ? scoreEntries.findIndex(([name, _weight]) => optimalMainStats.includes(name))
-        : scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
-      scoreEntries.splice(mainStatIndex, 1)
+      let mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
+      const mainStatWeight = scoreEntries[mainStatIndex][1]
+      // Worst case, will be overriden on first loop iteration by true values
+      let isIdeal = false
+      let isSubstat = true
+      for (let i = mainStatIndex; i < scoreEntries.length; i++) {
+        const [name, weight] = scoreEntries[i]
+        if (weight !== mainStatWeight) {
+          break
+        }
+        const newIsIdeal = optimalMainStats.includes(name)
+        const newIsSubstat = possibleSubstats.has(name)
+        if (isIdeal && !newIsIdeal) {
+          continue
+        } else if (isIdeal === newIsIdeal && isSubstat && !newIsSubstat) {
+          continue
+        }
+        // We're improving on the idealness or the substatness of this mainstat
+        mainStatIndex = i
+        isIdeal = newIsIdeal
+        isSubstat = newIsSubstat
+      }
+      // Add our weighted mainstat
+      maxWeight += scoreEntries.splice(mainStatIndex, 1)[0][1] * 64.8
     } else {
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part][0] === name)
-      scoreEntries.splice(mainStatIndex, 1)[0]
+      scoreEntries.splice(mainStatIndex, 1)
     }
 
     // Now the mainstat (if any) is gone, filter to just substats
@@ -276,14 +300,9 @@ export class RelicScorer {
 
   scoreRelicPct(relic: Relic, id: CharacterId) {
     const maxWeight = this.scoreOptimalRelic(relic.part, id)
-    const score = this.scoreRelic(relic, id)
+    const score = this.scoreRelic(relic, id, 'weighted')
 
-    if (!Utils.hasMainStat(relic.part)) {
-      // undo false mainstat weight to avoid percentage skew
-      score.best -= 64.8
-      score.average -= 64.8
-      score.worst -= 64.8
-    } else {
+    if (Utils.hasMainStat(relic.part)) {
       // undo mainstat free roll as it's not relevant for optimality
       const scoringMetadata = this.getRelicScoreMeta(id)
       const freeRoll = mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata.stats)
@@ -305,20 +324,29 @@ export class RelicScorer {
     return new RelicScorer().scoreRelic(relic, id)
   }
 
-  scoreRelic(relic: Relic, id: CharacterId) {
+  scoreRelic(relic: Relic, id: CharacterId, mainStatScoring = 'ideal') {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
-    if (Utils.hasMainStat(relic.part)) {
-      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
-        mainScore = 64.8
+    if (mainStatScoring === 'ideal') {
+      // Obey listed 'ideal' mainstats and give them the same weight
+      if (Utils.hasMainStat(relic.part)) {
+        mainScore = scoringResult.mainStatScore
       } else {
+        // ideal scoring is used from the relics table - to have comparable weights across
+        // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
+        mainScore = 64.8
+      }
+    } else if (mainStatScoring === 'weighted') {
+      // Ignore ideal mainstats, weigh according to their 'true' weight and don't add fake
+      // mainstat weights that could skew weight distributions
+      if (Utils.hasMainStat(relic.part)) {
         mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
       }
     } else {
-      mainScore = 64.8
+      throw new Error('unknown mainStatScoring type ' + mainStatScoring)
     }
 
     const substats: [StatsValues, number][] = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
@@ -409,7 +437,8 @@ export class RelicScorer {
       [Constants.Stats.BE]: 64.8 / 64.8,
     }
 
-    const multipliers: ScoringMetadata = DB.getScoringMetadata(characterId).stats
+    const scoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
+    const multipliers = scoringMetadata.stats
 
     let sum = 0
     for (const substat of relic.substats) {
@@ -429,7 +458,7 @@ export class RelicScorer {
     }
 
     let mainStatScore = 0
-    const metaParts = DB.getScoringMetadata(characterId).parts
+    const metaParts = scoringMetadata.parts
     const max = 10.368 + 3.6288 * relic.grade * 3
     if (metaParts[relic.part]) {
       if (metaParts[relic.part].includes(relic.main.stat)) {
@@ -444,7 +473,7 @@ export class RelicScorer {
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
-      meta: DB.getScoringMetadata(characterId),
+      meta: scoringMetadata,
     }
   }
 }

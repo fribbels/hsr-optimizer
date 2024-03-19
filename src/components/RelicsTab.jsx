@@ -347,7 +347,7 @@ export default function RelicsTab() {
   }
 
   return (
-    <Flex style={{ width: 1250 }}>
+    <Flex style={{ width: 1250, marginBottom: 100 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
@@ -412,77 +412,181 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
           </Flex>
+
           {relicInsight === 'top10' && scores && (
             <Flex gap={10}>
-              <ol>
-                {
-                  scores
-                    .map((x) => {
-                      const rect = (
-                        <svg width={10} height={10}>
-                          <rect
-                            width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
-                          />
-                        </svg>
-                      )
-                      let worstPct = Math.round(x.score.worstPct)
-                      let bestPct = Math.round(x.score.bestPct)
-                      let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
-                      return (
-                        <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                          {rect} {x.name}: {pctText}
-                        </li>
-                      )
-                    })
-                }
-              </ol>
-              <Plot
-                data={
-                  scores.map((s) => ({
-                    x: [s.score.averagePct],
-                    y: [s.name],
-                    hoverinfo: 'name',
-                    mode: 'markers',
-                    type: 'scatter',
-                    error_x: {
-                      type: 'data',
-                      symmetric: false,
-                      array: [s.score.bestPct - s.score.averagePct],
-                      arrayminus: [s.score.averagePct - s.score.worstPct],
+              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+                <Plot
+                  data={
+                    scores.map((s) => ({
+                      x: [s.score.averagePct],
+                      y: [s.name],
+                      hoverinfo: 'name',
+                      mode: 'markers',
+                      type: 'scatter',
+                      error_x: {
+                        type: 'data',
+                        symmetric: false,
+                        array: [s.score.bestPct - s.score.averagePct],
+                        arrayminus: [s.score.averagePct - s.score.worstPct],
+                      },
+                      marker: { color: s.color },
+                      name: s.name,
+                    })).reverse()
+                  }
+                  layout={{
+                    plot_bgcolor: 'rgba(0, 0, 0, 0)',
+                    paper_bgcolor: '#243356',
+                    font: {
+                      color: 'rgba(255, 255, 255, 0.85)',
                     },
-                    marker: { color: s.color },
-                    name: s.name,
-                  })).reverse()
-                }
-                layout={{
-                  autosize: true,
-                  width: 320,
-                  height: 240,
-                  margin: {
-                    b: 20,
-                    l: 10,
-                    r: 20,
-                    t: 10,
+                    autosize: true,
+                    width: 320,
+                    height: 278,
+                    margin: {
+                      b: 20,
+                      l: 10,
+                      r: 20,
+                      t: 10,
+                    },
+                    showlegend: false,
+                    xaxis: {
+                      fixedrange: true,
+                      range: [0, 100],
+                      tick0: 0,
+                      dtick: 10,
+                      showgrid: true,
+                      showline: true,
+                      showticklabels: true,
+                      type: 'linear',
+                      zeroline: true,
+                      gridcolor: 'rgba(128, 128, 128, 0.15)',
+                    },
+                    yaxis: {
+                      fixedrange: true,
+                      showticklabels: false,
+                      gridcolor: 'rgba(128, 128, 128, 0.15)',
+                    },
+                  }}
+                  config={{
+                    displayModeBar: false,
+                    editable: false,
+                    scrollZoom: false,
+                  }}
+                />
+              </Flex>
+              <ol>
+                <Flex vertical gap={5.5}>
+                  {
+                    scores
+                      .map((x) => {
+                        const rect = (
+                          <svg width={10} height={10}>
+                            <rect
+                              width={10} height={10} style={{
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
+                            />
+                          </svg>
+                        )
+                        let worstPct = Math.round(x.score.worstPct)
+                        let bestPct = Math.round(x.score.bestPct)
+                        let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
+                        return (
+                          <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                            {rect} {x.name}: {pctText}
+                          </li>
+                        )
+                      })
+                  }
+                </Flex>
+              </ol>
+            </Flex>
+          )}
+          <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+            {relicInsight === 'buckets' && scoreBuckets && (
+            // Since plotly doesn't natively support images as points, we emulate it in this plot
+            // by adding invisible points for each character (to get 'name on hover' behavior),
+            // then adding an image on top of each point
+              <Plot
+                data={[
+                // Add fake data in each category to make sure we don't elide any categories - that would
+                // mess up our image placement
+                  {
+                    type: 'scatter',
+                    x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    y: ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
+                    hoverinfo: 'skip',
+                    mode: 'markers',
+                    marker: {
+                      color: 'rgba(0, 0, 0, 0)',
+                      symbol: 'circle',
+                      size: 16,
+                    },
                   },
+                  {
+                    type: 'scatter',
+                    hoverinfo: 'text',
+                    mode: 'markers',
+                    x: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                      bucket.map((_score, idx) => idx + 0.5)),
+                    y: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                      bucket.map((_score, _idx) => (bucketIdx * 10) + '-' + (bucketIdx * 10 + 10))),
+                    hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                      bucket.map((score, _idx) => score.name)),
+                    marker: {
+                      color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
+                      symbol: 'circle',
+                      size: 16,
+                    },
+                  },
+                ]}
+                layout={{
+                  plot_bgcolor: 'rgba(0, 0, 0, 0)',
+                  paper_bgcolor: '#243356',
+                  font: {
+                    color: 'rgba(255, 255, 255, 0.85)',
+                  },
+                  autosize: true,
+                  height: 278,
+                  width: 1015,
+                  margin: {
+                    b: 5,
+                    l: 50,
+                    r: 20,
+                    t: 0,
+                  },
+                  hovermode: 'closest',
+                  hoverdistance: 20,
                   showlegend: false,
+                  images: scoreBuckets.flatMap((bucket, bucketIdx) =>
+                    bucket.map((score, idx) => ({
+                      source: Assets.getCharacterAvatarById(score.cid),
+                      xref: 'x',
+                      yref: 'y',
+                      x: idx + 0.6,
+                      y: bucketIdx,
+                      sizex: 1,
+                      sizey: 1,
+                      xanchor: 'center',
+                      yanchor: 'middle',
+                    })),
+                  ),
                   xaxis: {
                     fixedrange: true,
-                    range: [0, 100],
+                    range: [0, Math.max(...scoreBuckets.map((sb) => sb.length)) + 1],
                     tick0: 0,
-                    dtick: 10,
-                    showgrid: true,
-                    showline: true,
-                    showticklabels: true,
+                    showgrid: false,
+                    showticklabels: false,
                     type: 'linear',
-                    zeroline: true,
+                    zeroline: false,
                   },
                   yaxis: {
                     fixedrange: true,
-                    showticklabels: false,
+                    showticklabels: true,
+                    gridcolor: 'rgba(128, 128, 128, 0.15)',
                   },
                 }}
                 config={{
@@ -491,92 +595,8 @@ export default function RelicsTab() {
                   scrollZoom: false,
                 }}
               />
-            </Flex>
-          )}
-          {relicInsight === 'buckets' && scoreBuckets && (
-            // Since plotly doesn't natively support images as points, we emulate it in this plot
-            // by adding invisible points for each character (to get 'name on hover' behavior),
-            // then adding an image on top of each point
-            <Plot
-              data={[
-                // Add fake data in each category to make sure we don't elide any categories - that would
-                // mess up our image placement
-                {
-                  type: 'scatter',
-                  x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                  y: ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
-                  hoverinfo: 'skip',
-                  mode: 'markers',
-                  marker: {
-                    color: 'rgba(0, 0, 0, 0)',
-                    symbol: 'circle',
-                    size: 16,
-                  },
-                },
-                {
-                  type: 'scatter',
-                  hoverinfo: 'text',
-                  mode: 'markers',
-                  x: scoreBuckets.flatMap((bucket, _bucketIdx) =>
-                    bucket.map((_score, idx) => idx + 0.5)),
-                  y: scoreBuckets.flatMap((bucket, bucketIdx) =>
-                    bucket.map((_score, _idx) => (bucketIdx * 10) + '-' + (bucketIdx * 10 + 10))),
-                  hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
-                    bucket.map((score, _idx) => score.name)),
-                  marker: {
-                    color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
-                    symbol: 'circle',
-                    size: 16,
-                  },
-                },
-              ]}
-              layout={{
-                autosize: true,
-                height: 250,
-                width: 700,
-                margin: {
-                  b: 5,
-                  l: 50,
-                  r: 20,
-                  t: 0,
-                },
-                hovermode: 'closest',
-                hoverdistance: 20,
-                showlegend: false,
-                images: scoreBuckets.flatMap((bucket, bucketIdx) =>
-                  bucket.map((score, idx) => ({
-                    source: Assets.getCharacterAvatarById(score.cid),
-                    xref: 'x',
-                    yref: 'y',
-                    x: idx + 0.5,
-                    y: bucketIdx,
-                    sizex: 1,
-                    sizey: 1,
-                    xanchor: 'center',
-                    yanchor: 'middle',
-                  })),
-                ),
-                xaxis: {
-                  fixedrange: true,
-                  range: [0, Math.max(...scoreBuckets.map((sb) => sb.length)) + 1],
-                  tick0: 0,
-                  showgrid: false,
-                  showticklabels: false,
-                  type: 'linear',
-                  zeroline: false,
-                },
-                yaxis: {
-                  fixedrange: true,
-                  showticklabels: true,
-                },
-              }}
-              config={{
-                displayModeBar: false,
-                editable: false,
-                scrollZoom: false,
-              }}
-            />
-          )}
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

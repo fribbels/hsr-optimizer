@@ -68,7 +68,7 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => ({
       teamEhrBuff: true,
       enemyDebuffed: true,
-      skillRemovedBuff: true,
+      skillRemovedBuff: false,
       ultDefPenDebuff: true,
       e4SkillResShred: true,
     }),

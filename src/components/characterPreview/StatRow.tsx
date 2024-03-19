@@ -11,16 +11,23 @@ import StatText from 'components/characterPreview/StatText'
 const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
   const { stat, finalStats } = props
   const readableStat = stat.replace('DMG Boost', 'DMG')
-  let value = finalStats[stat]
+  const value = finalStats[stat]
+
+  let valueDisplay
+  let value1000thsPrecision
 
   if (stat == 'CV') {
-    value = Utils.truncate10ths(value).toFixed(1)
+    valueDisplay = Utils.truncate10ths(value).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
-    value = Utils.truncate10ths(value).toFixed(1)
+    valueDisplay = Utils.truncate10ths(value).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
-    value = Math.floor(value)
+    valueDisplay = Math.floor(value)
+    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else {
-    value = Utils.truncate10ths(value * 100).toFixed(1)
+    valueDisplay = Utils.truncate10ths(value * 100).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(value * 100).toFixed(3)
   }
 
   if (!finalStats) {
@@ -28,11 +35,11 @@ const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
     return (<div></div>)
   }
   return (
-    <Flex justify="space-between" align="center">
+    <Flex justify="space-between" align="center" title={value1000thsPrecision}>
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       <StatText>{readableStat}</StatText>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-      <StatText>{`${value}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
+      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
     </Flex>
   )
 }

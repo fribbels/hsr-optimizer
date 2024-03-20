@@ -517,7 +517,7 @@ export default function RelicsTab() {
                   {
                     type: 'scatter',
                     x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    y: ['0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
+                    y: ['0%+', '10%+', '20%+', '30%+', '40%+', '50%+', '60%+', '70%+', '80%+', '90%+'],
                     hoverinfo: 'skip',
                     mode: 'markers',
                     marker: {
@@ -533,7 +533,7 @@ export default function RelicsTab() {
                     x: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((_score, idx) => idx + 0.5)),
                     y: scoreBuckets.flatMap((bucket, bucketIdx) =>
-                      bucket.map((_score, _idx) => (bucketIdx * 10) + '-' + (bucketIdx * 10 + 10))),
+                      bucket.map((_score, _idx) => (bucketIdx * 10) + '%+')),
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((score, _idx) => score.name)),
                     marker: {

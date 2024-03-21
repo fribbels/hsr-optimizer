@@ -48,23 +48,24 @@ const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
       </Flex>
-      <Flex justify="space-between" style={{ width: '40%' }}>
-        <Tooltip title={`Roll Quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
-          <Flex gap={0} align="center">
-            {stat.rolls
-            && Object.entries(stat.rolls).map(([key, count]) => (
-              <Flex
-                key={key || 'none'}
-                style={{ alignItems: 'center' }}
-              >
-                {Array(count).fill(<RightOutlined style={{ marginRight: -3, marginLeft: -3 }} />)}
+      {!main
+        ? (
+          <Flex justify="space-between" style={{ width: '40%' }}>
+            <Tooltip title={`Roll Quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
+              <Flex gap={0} align="center">
+                {Object.entries(stat.rolls).map(([key, count]) => (
+                  <Flex key={key || 'none'} style={{ alignItems: 'center' }}>
+                    {Array(count).fill(<RightOutlined style={{ marginRight: -3, marginLeft: -3 }} />)}
+                  </Flex>
+                ))}
               </Flex>
-            ))}
+            </Tooltip>
+            <RelicStatText>{displayValue}</RelicStatText>
           </Flex>
-        </Tooltip>
-
-        <RelicStatText>{displayValue}</RelicStatText>
-      </Flex>
+        )
+        : (
+          <RelicStatText>{displayValue}</RelicStatText>
+        )}
     </Flex>
   )
 }

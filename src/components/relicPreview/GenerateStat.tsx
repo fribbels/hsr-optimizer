@@ -40,7 +40,7 @@ const GenerateStat = (stat, main, relic) => {
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
       </Flex>
-      <Flex>
+      <Flex gap={0}>
         {stat.rolls
         && Object.entries(stat.rolls).map(([key, count]) => (
           <Flex
@@ -50,10 +50,10 @@ const GenerateStat = (stat, main, relic) => {
                   key === 'high' ? 'green' : key === 'mid' ? 'orange' : 'red',
             }}
           >
-            {Array(count).fill(<RightOutlined />)}
+            {Array(count).fill(<RightOutlined style={{ marginRight: -4, marginLeft: -3 }} />)}
           </Flex>
         ))}
-        <RelicStatText>{displayValue}</RelicStatText>
+        <RelicStatText style={{ marginLeft: 2 }}>{displayValue}</RelicStatText>
       </Flex>
     </Flex>
   )

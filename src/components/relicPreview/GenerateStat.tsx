@@ -1,13 +1,21 @@
-import { Flex } from 'antd'
+import { Flex, Tooltip } from 'antd'
 import { Renderer } from 'lib/renderer'
 import { Assets } from 'lib/assets'
 import { Utils } from 'lib/utils'
-import { Constants } from 'lib/constants'
+import { Constants, SubStats } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
 import RelicStatText from 'components/relicPreview/RelicStatText'
 import { RightOutlined } from '@ant-design/icons'
+import { RelicRollGrader } from 'lib/relicRollGrader'
+import { Relic, StatRolls } from 'types/Relic'
 
-const GenerateStat = (stat, main, relic) => {
+type Substat = {
+  stat: SubStats
+  value: number
+  rolls: StatRolls
+}
+
+const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   if (!stat || !stat.stat || stat.value == null) {
     return (
       <Flex justify="space-between">
@@ -31,7 +39,7 @@ const GenerateStat = (stat, main, relic) => {
   displayValue += Utils.isFlat(stat.stat) ? '' : '%'
 
   return (
-    <Flex justify="space-between">
+    <Flex justify="space-between" align="center">
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
@@ -40,20 +48,22 @@ const GenerateStat = (stat, main, relic) => {
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
       </Flex>
-      <Flex gap={0}>
-        {stat.rolls
-        && Object.entries(stat.rolls).map(([key, count]) => (
-          <Flex
-            key={key || 'none'}
-            style={{
-              color:
-                  key === 'high' ? 'green' : key === 'mid' ? 'orange' : 'red',
-            }}
-          >
-            {Array(count).fill(<RightOutlined style={{ marginRight: -4, marginLeft: -3 }} />)}
+      <Flex justify="space-between" style={{ width: '40%' }}>
+        <Tooltip title={`Roll Quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
+          <Flex gap={0} align="center">
+            {stat.rolls
+            && Object.entries(stat.rolls).map(([key, count]) => (
+              <Flex
+                key={key || 'none'}
+                style={{ alignItems: 'center' }}
+              >
+                {Array(count).fill(<RightOutlined style={{ marginRight: -3, marginLeft: -3 }} />)}
+              </Flex>
+            ))}
           </Flex>
-        ))}
-        <RelicStatText style={{ marginLeft: 2 }}>{displayValue}</RelicStatText>
+        </Tooltip>
+
+        <RelicStatText>{displayValue}</RelicStatText>
       </Flex>
     </Flex>
   )

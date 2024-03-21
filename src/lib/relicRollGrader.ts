@@ -45,5 +45,9 @@ export const RelicRollGrader = {
       }
     })
   },
-
+  calculateStatSum(rolls: StatRolls): number {
+    return rolls
+      ? parseFloat(((rolls.high * 100 + rolls.mid * 90 + rolls.low * 80) / (rolls.high + rolls.mid + rolls.low)).toFixed(2))
+      : 0
+  },
 }

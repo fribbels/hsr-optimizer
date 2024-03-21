@@ -10,6 +10,7 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { PriorityQueue } from '@js-sdsl/priority-queue'
 
 let CANCEL = false
 
@@ -118,6 +119,7 @@ export const Optimizer = {
 
     let resultsShown = false
     let results = []
+    let queueResults = new PriorityQueue([], (a, b) => a.SPD - b.SPD)
     let searched = 0
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
@@ -146,6 +148,7 @@ export const Optimizer = {
         permutations: permutations,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
+        getFilter: () => queueResults.top()?.SPD || 0,
       }
 
       let callback = (result) => {
@@ -159,18 +162,28 @@ export const Optimizer = {
         let resultArr = new Float64Array(result.buffer)
         // console.log(`Optimizer results`, result, resultArr, run)
 
-        BufferPacker.extractArrayToResults(resultArr, run.runSize, results)
+        BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
         // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-        window.store.getState().setPermutationsResults(results.length)
+        window.store.getState().setPermutationsResults(queueResults.size())
         window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
+          // console.log(queueResults)
+          // for (let i = 0; i < 100000; i++) {
+          //   console.log(queueResults.pop().SPD)
+          // }
+          console.log(queueResults)
+
           window.store.getState().setOptimizationInProgress(false)
+          const size = queueResults.size()
+          for (let i = 0; i < size; i++) {
+            results[i] = queueResults.pop()
+          }
           OptimizerTabController.setRows(results)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', results.length)
+          console.log('Done', queueResults.size())
           resultsShown = true
           return
         }

@@ -75,6 +75,8 @@ export const WorkerPool = {
         }, 100)
       }
 
+      task.filter = task.getFilter()
+      delete task.getFilter
       worker.postMessage(task, [task.buffer])
     } else {
       taskQueue.push({ task, callback })

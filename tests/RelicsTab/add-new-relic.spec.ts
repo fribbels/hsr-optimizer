@@ -58,10 +58,10 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   // assert relic added
 
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293ATK %10.0%DEF %10.0%CRIT DMG10.0%Effect Hit Rate10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293ATK %10.0%DEF %10.0%CRIT DMG10.0%Effect Hit10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK293')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('CRIT DMG10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect Hit10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK %10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('DEF %10.0%')
 
@@ -72,7 +72,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
   await expect(page.getByRole('dialog')).toContainText('+125 ★')
   await expect(page.getByRole('dialog')).toContainText('CRIT DMG')
-  await expect(page.getByRole('dialog')).toContainText('Effect Hit Rate')
+  await expect(page.getByRole('dialog')).toContainText('Effect Hit')
   await expect(page.getByRole('dialog')).toContainText('ATK%')
   await expect(page.getByRole('dialog')).toContainText('DEF%')
 

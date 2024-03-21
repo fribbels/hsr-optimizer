@@ -64,7 +64,7 @@ test('Test the substat values', () => {
         },
       },
       {
-        stat: 'Effect Hit Rate',
+        stat: 'Effect Hit',
         value: 8.64,
         rolls: {
           high: 2,
@@ -111,7 +111,7 @@ test('Test when the value is not an exact addition from constants', () => {
       value: 100,
     },
     substats: [
-      { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } },],
+      { stat: 'Effect Hit', value: 10, rolls: { high: 0, mid: 0, low: 0 } },],
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
   }

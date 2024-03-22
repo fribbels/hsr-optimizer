@@ -10,9 +10,9 @@ export class FixedSizePriorityQueue<T> extends PriorityQueue<T> {
     this.compare = compare
   }
 
-  fixedPush(item: T): void {
+  fixedSizePush(item: T): void {
     if (this.size() >= this.limit) {
-      if (this.compare(item, this.top()!)) {
+      if (this.compare(item, this.top()!) >= 0) {
         this.pop()
         this.push(item)
       }

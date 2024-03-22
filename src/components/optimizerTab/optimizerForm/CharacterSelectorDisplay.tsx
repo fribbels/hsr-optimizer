@@ -9,43 +9,59 @@ import { useEffect } from 'react'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
+import { SortOption } from 'lib/optimizer/sortOptions.ts'
 
 type CharacterSelectorDisplayProps = {
 }
 
-const resultsLimitString = (limit: number) => `Find top ${limit.toLocaleString()} results`
-const resultsLimitOptions = (() => {
+const resultLimitString = (limit: number) => `Find top ${limit.toLocaleString()} results`
+const resultLimitOptions = (() => {
   return [
-    { value: 100, label: resultsLimitString(100) },
-    { value: 1000, label: resultsLimitString(1000) },
-    { value: 10000, label: resultsLimitString(10000) },
-    { value: 100000, label: resultsLimitString(100000) },
-    { value: 1000000, label: resultsLimitString(1000000) },
+    { value: 100, label: resultLimitString(100) },
+    { value: 1000, label: resultLimitString(1000) },
+    { value: 10000, label: resultLimitString(10000) },
+    { value: 100000, label: resultLimitString(100000) },
+    { value: 1000000, label: resultLimitString(1000000) },
   ]
 })()
 
-const resultsSortString = (key: string) => `Sorted by ${key}`
-const resultsSortOptions = (() => {
+const resultSortString = (key: string) => `Sorted by ${key}`
+const resultSortOptions = (() => {
   return [
-    { value: Stats.HP, label: resultsSortString(StatsToReadable[Stats.HP]) },
-    { value: Stats.ATK, label: resultsSortString(StatsToReadable[Stats.ATK]) },
-    { value: Stats.DEF, label: resultsSortString(StatsToReadable[Stats.DEF]) },
-    { value: Stats.SPD, label: resultsSortString(StatsToReadable[Stats.SPD]) },
-    { value: Stats.CR, label: resultsSortString(StatsToReadable[Stats.CR]) },
-    { value: Stats.CD, label: resultsSortString(StatsToReadable[Stats.CD]) },
-    { value: Stats.EHR, label: resultsSortString(StatsToReadable[Stats.EHR]) },
-    { value: Stats.RES, label: resultsSortString(StatsToReadable[Stats.RES]) },
-    { value: Stats.BE, label: resultsSortString(StatsToReadable[Stats.BE]) },
-    { value: Stats.OHB, label: resultsSortString(StatsToReadable[Stats.OHB]) },
-    { value: Stats.ERR, label: resultsSortString(StatsToReadable[Stats.ERR]) },
-    { value: 'ELEMENTAL_DMG', label: resultsSortString('Elemental DMG') },
-    { value: 'WEIGHT', label: resultsSortString('Weight') },
-    { value: 'EHP', label: resultsSortString('Effective HP') },
-    { value: 'BASIC', label: resultsSortString('Basic DMG') },
-    { value: 'SKILL', label: resultsSortString('Skill DMG') },
-    { value: 'ULT', label: resultsSortString('Ult DMG') },
-    { value: 'FUA', label: resultsSortString('Followup DMG') },
-    { value: 'DOT', label: resultsSortString('DoT DMG') },
+    {
+      label: 'Damage calculations',
+      options: [
+        { value: SortOption.BASIC.key, label: resultSortString('Basic DMG') },
+        { value: SortOption.SKILL.key, label: resultSortString('Skill DMG') },
+        { value: SortOption.ULT.key, label: resultSortString('Ult DMG') },
+        { value: SortOption.FUA.key, label: resultSortString('Follow-up DMG') },
+        { value: SortOption.DOT.key, label: resultSortString('DoT DMG') },
+      ],
+    },
+    {
+      label: 'Computed ratings',
+      options: [
+        { value: SortOption.WEIGHT.key, label: resultSortString('Weight') },
+        { value: SortOption.EHP.key, label: resultSortString('Effective HP') },
+      ],
+    },
+    {
+      label: 'Stats',
+      options: [
+        { value: SortOption.HP.key, label: resultSortString(StatsToReadable[Stats.HP]) },
+        { value: SortOption.ATK.key, label: resultSortString(StatsToReadable[Stats.ATK]) },
+        { value: SortOption.DEF.key, label: resultSortString(StatsToReadable[Stats.DEF]) },
+        { value: SortOption.SPD.key, label: resultSortString(StatsToReadable[Stats.SPD]) },
+        { value: SortOption.CR.key, label: resultSortString(StatsToReadable[Stats.CR]) },
+        { value: SortOption.CD.key, label: resultSortString(StatsToReadable[Stats.CD]) },
+        { value: SortOption.EHR.key, label: resultSortString(StatsToReadable[Stats.EHR]) },
+        { value: SortOption.RES.key, label: resultSortString(StatsToReadable[Stats.RES]) },
+        { value: SortOption.BE.key, label: resultSortString(StatsToReadable[Stats.BE]) },
+        { value: SortOption.OHB.key, label: resultSortString(StatsToReadable[Stats.OHB]) },
+        { value: SortOption.ERR.key, label: resultSortString(StatsToReadable[Stats.ERR]) },
+        { value: SortOption.ELEMENTAL_DMG.key, label: resultSortString('Elemental DMG') },
+      ],
+    },
   ]
 })()
 
@@ -122,26 +138,26 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       <RecommendedPresetsButton />
 
       <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
-        <HeaderText>Results</HeaderText>
+        <HeaderText>Optimization target</HeaderText>
       </Flex>
 
-      <Form.Item name="resultsLimit">
+      <Form.Item name="resultLimit">
         <Select
           showSearch
           style={{ width: panelWidth }}
           onChange={setOptimizerFormSelectedLightConeSuperimposition}
-          options={resultsLimitOptions}
+          options={resultLimitOptions}
           placeholder="Find top results"
         />
       </Form.Item>
 
-      <Form.Item name="resultsSort">
+      <Form.Item name="resultSort">
         <Select
           showSearch
           style={{ width: panelWidth }}
           onChange={setOptimizerFormSelectedLightConeSuperimposition}
-          options={resultsSortOptions}
-          listHeight={700}
+          options={resultSortOptions}
+          listHeight={750}
           popupMatchSelectWidth={300}
           placeholder="Sorted by"
         />

@@ -101,33 +101,9 @@ export const PresetEffects = {
   WASTELANDER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
   },
-  DOT_SORT: () => {
-    setSortColumn('DOT')
-  },
-  FUA_SORT: () => {
-    setSortColumn('FUA')
-  },
-  ULT_SORT: () => {
-    setSortColumn('ULT')
-  },
-  SKILL_SORT: () => {
-    setSortColumn('SKILL')
-  },
-  BASIC_SORT: () => {
-    setSortColumn('BASIC')
-  },
-  EHP_SORT: () => {
-    setSortColumn('EHP')
-  },
-  SPD_SORT: () => {
-    setSortColumn('xSPD')
-  },
-  DEF_SORT: () => {
-    setSortColumn('xDEF')
-  },
 }
 
-function setSortColumn(columnId) {
+export function setSortColumn(columnId) {
   const columnState: ApplyColumnStateParams = {
     state: [
       {
@@ -183,6 +159,8 @@ const RecommendedPresetsButton = () => {
          */
 
         const presets = metadata.presets || []
+        const sortOption = metadata.sortOption
+        setSortColumn(sortOption.combatGridColumn)
         for (const applyPreset of presets) {
           applyPreset(form)
         }

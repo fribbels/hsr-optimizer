@@ -10,6 +10,7 @@ import characterSkills from 'data/en/character_skills.json'
 import { Constants } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 export const DataParser = {
   parse: () => {
@@ -1032,7 +1033,7 @@ function getScoringMetadata() {
       ],
       presets: [
       ],
-      sort: Constants.Stats.DEF,
+      sortOption: SortOption.DEF,
     },
     1002: { // Dan Heng
       stats: {
@@ -1085,9 +1086,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
-      sort: Constants.Stats.DEF,
+      sortOption: SortOption.ULT,
     },
     1003: { // Himeko
       stats: {
@@ -1140,9 +1140,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(4),
       ],
+      sortOption: SortOption.FUA,
     },
     1004: { // Welt
       stats: {
@@ -1194,9 +1194,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.SKILL,
     },
     1005: { // Kafka
       stats: {
@@ -1251,10 +1251,10 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
       ],
+      sortOption: SortOption.DOT,
     },
     1006: { // Silver Wolf
       stats: {
@@ -1317,8 +1317,8 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1008: { // Arlan
       stats: {
@@ -1372,8 +1372,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1009: { // Asta
       stats: {
@@ -1427,8 +1427,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1013: { // Herta
       stats: {
@@ -1481,9 +1481,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(4),
       ],
+      sortOption: SortOption.SPD,
     },
     1101: { // Bronya
       stats: {
@@ -1536,8 +1536,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.CD,
     },
     1102: { // Seele
       stats: {
@@ -1590,8 +1590,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1103: { // Serval
       stats: {
@@ -1644,8 +1644,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1104: { // Gepard
       stats: {
@@ -1699,8 +1699,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
     1105: { // Natasha
       stats: {
@@ -1753,8 +1753,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1106: { // Pela
       stats: {
@@ -1810,8 +1810,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1107: { // Clara
       stats: {
@@ -1865,9 +1865,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(2),
       ],
+      sortOption: SortOption.FUA,
     },
     1108: { // Sampo
       stats: {
@@ -1926,9 +1926,9 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
       ],
+      sortOption: SortOption.DOT,
     },
     1109: { // Hook
       stats: {
@@ -1982,8 +1982,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1110: { // Lynx
       stats: {
@@ -2036,8 +2036,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1111: { // Luka
       stats: {
@@ -2094,8 +2094,8 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.DOT,
     },
     1112: { // Topaz and Numby
       stats: {
@@ -2150,9 +2150,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(0),
       ],
+      sortOption: SortOption.FUA,
     },
     1201: { // Qingque
       stats: {
@@ -2204,8 +2204,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
       ],
+      sortOption: SortOption.BASIC,
     },
     1202: { // Tingyun
       stats: {
@@ -2261,8 +2261,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1203: { // Luocha
       stats: {
@@ -2314,9 +2314,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.SPD,
     },
     1204: { // Jing Yuan
       stats: {
@@ -2369,9 +2369,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(8),
       ],
+      sortOption: SortOption.FUA,
     },
     1205: { // Blade
       stats: {
@@ -2424,8 +2424,8 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
       ],
+      sortOption: SortOption.BASIC,
     },
     1206: { // Sushang
       stats: {
@@ -2478,8 +2478,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1207: { // Yukong
       stats: {
@@ -2534,9 +2534,9 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.ULT,
     },
     1208: { // Fu Xuan
       stats: {
@@ -2591,8 +2591,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1209: { // Yanqing
       stats: {
@@ -2643,8 +2643,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1210: { // Guinaifen
       stats: {
@@ -2699,9 +2699,9 @@ function getScoringMetadata() {
         Constants.Sets.FleetOfTheAgeless,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
       ],
+      sortOption: SortOption.DOT,
     },
     1211: { // Bailu
       stats: {
@@ -2754,8 +2754,8 @@ function getScoringMetadata() {
         Constants.Sets.SprightlyVonwacq,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1212: { // Jingliu
       stats: {
@@ -2810,8 +2810,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1213: { // Dan Heng • Imbibitor Lunae
       stats: {
@@ -2865,9 +2865,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.BASIC,
     },
     1214: { // Xueyi
       stats: {
@@ -2915,9 +2915,9 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
         PresetEffects.fnAshblazingSet(3),
       ],
+      sortOption: SortOption.SKILL,
     },
     1215: { // Hanya
       stats: {
@@ -2964,8 +2964,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1217: { // Huohuo
       stats: {
@@ -3020,8 +3020,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1301: { // Gallagher
       stats: {
@@ -3075,8 +3075,8 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1302: { // Argenti
       stats: {
@@ -3124,8 +3124,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1303: { // Ruan Mei
       stats: {
@@ -3173,8 +3173,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1304: { // Aventurine
       stats: {
@@ -3224,9 +3224,9 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(7),
       ],
+      sortOption: SortOption.FUA,
     },
     1305: { // Dr Ratio
       stats: {
@@ -3273,10 +3273,10 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.FUA,
     },
     1306: { // Sparkle
       stats: {
@@ -3322,8 +3322,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.CD,
     },
     1307: { // Black Swan
       stats: {
@@ -3372,8 +3372,8 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.PRISONER_SET,
-        PresetEffects.DOT_SORT,
       ],
+      sortOption: SortOption.DOT,
     },
     1308: { // Acheron
       stats: {
@@ -3421,8 +3421,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1312: { // Misha
       stats: {
@@ -3469,8 +3469,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     8001: { // Physical Trailblazer M
       stats: {
@@ -3524,8 +3524,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     8002: { // Physical Trailblazer F
       stats: {
@@ -3579,8 +3579,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     8003: { // Fire Trailblazer M
       stats: {
@@ -3634,8 +3634,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
     8004: { // Fire Trailblazer F
       stats: {
@@ -3689,8 +3689,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
   }
 }

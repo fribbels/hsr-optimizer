@@ -237,7 +237,8 @@ export const OptimizerTabController = {
 
   // Convert a form to its visual representation
   getDisplayFormValues: (form) => {
-    let newForm = JSON.parse(JSON.stringify(form))
+    const newForm = JSON.parse(JSON.stringify(form))
+    const metadata = DB.getMetadata().characters[form.characterId]
 
     // Erase inputs where min == 0 and max == MAX_INT
     newForm.maxHp = unsetMax(form.maxHp)
@@ -382,12 +383,12 @@ export const OptimizerTabController = {
       }
     }
 
-    if (!newForm.resultsSort) {
-      newForm.resultsSort = 'WEIGHT'
+    if (!newForm.resultSort) {
+      newForm.resultSort = metadata.scoringMetadata.sortOption.key
     }
 
-    if (!newForm.resultsLimit) {
-      newForm.resultsLimit = 100000
+    if (!newForm.resultLimit) {
+      newForm.resultLimit = 100000
     }
 
     console.log('Form update', newForm)

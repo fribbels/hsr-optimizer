@@ -48,7 +48,9 @@ export const BufferPacker = {
     for (let i = 0; i < length; i++) {
       if (arr[i * SIZE + 1]) {
         const character = BufferPacker.extractCharacter(arr, i)
-        queueResults.fixedPush(character)
+        queueResults.fixedSizePush(character)
+      } else {
+        break
       }
     }
   },
@@ -56,7 +58,6 @@ export const BufferPacker = {
   packCharacter: (arr, offset, character) => {
     offset = offset * SIZE
 
-    // When adding new rows, use:
     arr[offset] = character.id // 0
     arr[offset + 1] = character[Stats.HP]
     arr[offset + 2] = character[Stats.ATK]
@@ -71,8 +72,8 @@ export const BufferPacker = {
     arr[offset + 11] = character[Stats.OHB]
     arr[offset + 12] = character.ELEMENTAL_DMG
     arr[offset + 13] = character.CV
-    arr[offset + 14] = character.WEIGHT
-    arr[offset + 15] = character.EHP
+    arr[offset + 14] = character.x.WEIGHT
+    arr[offset + 15] = character.x.EHP
     arr[offset + 16] = character.x.BASIC_DMG
     arr[offset + 17] = character.x.SKILL_DMG
     arr[offset + 18] = character.x.ULT_DMG

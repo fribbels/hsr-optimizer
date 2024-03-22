@@ -52,8 +52,8 @@ export function getDefaultForm(initialCharacter) {
     teammate0: defaultTeammate(),
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
-    resultsSort: 'WEIGHT',
-    resultsLimit: 100000,
+    resultSort: 'WEIGHT',
+    resultLimit: 100000,
   }
 }
 

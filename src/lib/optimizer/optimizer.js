@@ -11,6 +11,8 @@ import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
 let CANCEL = false
 
@@ -117,10 +119,13 @@ export const Optimizer = {
     }
     handleTopRow()
 
-    let resultsShown = false
-    let results = []
-    let queueResults = new FixedSizePriorityQueue(100000, (a, b) => a.SPD - b.SPD)
     let searched = 0
+    let resultsShown = false
+    const results = []
+    const sortOption = SortOption[request.resultSort]
+    const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+    const resultLimit = request.resultLimit || 100000
+    const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
     let increment = 20000
@@ -150,7 +155,7 @@ export const Optimizer = {
           relicSetSolutions: relicSetSolutions,
           ornamentSetSolutions: ornamentSetSolutions,
         },
-        getFilter: () => queueResults.top()?.SPD || 0,
+        getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
       }
 
       let callback = (result) => {
@@ -171,21 +176,15 @@ export const Optimizer = {
         window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
-          // console.log(queueResults)
-          // for (let i = 0; i < 100000; i++) {
-          //   console.log(queueResults.pop().SPD)
-          // }
-          console.log(queueResults)
-
           window.store.getState().setOptimizationInProgress(false)
           const size = queueResults.size()
           for (let i = 0; i < size; i++) {
             results[i] = queueResults.pop()
           }
           OptimizerTabController.setRows(results)
+          setSortColumn(gridSortColumn)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', queueResults.size())
           resultsShown = true
           return
         }
@@ -210,6 +209,8 @@ function renameFields(c) {
   c.ULT = c.x.ULT_DMG
   c.FUA = c.x.FUA_DMG
   c.DOT = c.x.DOT_DMG
+  c.WEIGHT = c.x.WEIGHT
+  c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]
   c.xDEF = c.x[Stats.DEF]

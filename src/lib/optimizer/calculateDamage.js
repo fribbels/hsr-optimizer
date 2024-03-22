@@ -24,7 +24,7 @@ export function calculateDamage(c, request, params) {
 
   let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
-  c.EHP = ehp
+  x.EHP = ehp
 
   let universalMulti = dmgReductionMultiplier * params.brokenMultiplier * originalDmgMultiplier
   const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]

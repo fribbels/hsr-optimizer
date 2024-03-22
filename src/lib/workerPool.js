@@ -75,8 +75,7 @@ export const WorkerPool = {
         }, 100)
       }
 
-      task.input.resultFilter = task.getFilter()
-      task.input.resultSort = task.getFilter()
+      task.input.request.resultMinFilter = task.getMinFilter()
       worker.postMessage(task.input, [task.input.buffer])
     } else {
       taskQueue.push({ task, callback })

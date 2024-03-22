@@ -53,7 +53,8 @@ const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
           <Flex justify="space-between" style={{ width: '40%' }}>
             <Tooltip title={`Roll Quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
               <Flex gap={0} align="center">
-                {Object.entries(stat.rolls).map(([key, count]) => (
+                {stat.rolls
+                && Object.entries(stat.rolls).map(([key, count]) => (
                   <Flex key={key || 'none'} style={{ alignItems: 'center' }}>
                     {Array(count).fill(<RightOutlined style={{ marginRight: -3, marginLeft: -3 }} />)}
                   </Flex>

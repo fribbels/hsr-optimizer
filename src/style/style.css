@@ -354,4 +354,5 @@ a {
 .character-build-portrait:hover .character-build-portrait-button {
   opacity: 1 !important;
   visibility: visible !important;
+  transition: opacity 0.3s ease;
 }

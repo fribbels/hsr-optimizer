@@ -58,24 +58,19 @@ export function CharacterPreview(props) {
     setSelectedRelic(updatedRelic)
   }
 
-  function onEditPortraitOk(portraitConfig) {
-    const { type, ...portrait } = portraitConfig
-    switch (type) {
-      case 'add':
-        setCustomPortrait({ ...portrait })
-        DB.saveCharacterPortrait(character.id, portrait)
-        Message.success('Successfully saved portrait')
-        break
-      case 'delete':
-        setCustomPortrait(null)
-        DB.deleteCharacterPortrait(character.id)
-        Message.success('Successfully reverted portrait')
-        break
-      default:
-        console.warn(`Custom portrait modal exited with an invalid type: ${type}`)
-    }
+  function onEditPortraitOk(portrait) {
+    setCustomPortrait({ ...portrait })
+    DB.saveCharacterPortrait(character.id, portrait)
+    Message.success('Successfully saved portrait')
     SaveState.save()
     setEditPortraitModalOpen(false)
+  }
+
+  function onDeletePortrait() {
+    setCustomPortrait(null)
+    DB.deleteCharacterPortrait(character.id)
+    Message.success('Successfully reverted portrait')
+    SaveState.save()
   }
 
   if (!character) {
@@ -154,12 +149,11 @@ export function CharacterPreview(props) {
 
       {!isBuilds
       && (
-        <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
+        <div className="character-build-portrait" style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
           <div
             style={{
               position: 'relative',
             }}
-            className="character-build-portrait"
           >
             {(characterPortraitDB || customPortrait)
               ? (
@@ -183,29 +177,75 @@ export function CharacterPreview(props) {
                   onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
                 />
               )}
-            <Button
-              style={{
-                opacity: 0,
-                visibility: 'hidden',
-                flex: 'auto',
-                position: 'absolute',
-                top: parentH - 37,
-                left: 5,
-              }}
-              className="character-build-portrait-button"
-              icon={<EditOutlined />}
-              onClick={() => setEditPortraitModalOpen(true)}
-              type="primary"
-            >
-              Edit portrait
-            </Button>
+            {(!characterPortraitDB && !customPortrait)
+              ? (
+                <Flex
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    visibility: 'hidden',
+                    flex: 'auto',
+                    position: 'absolute',
+                    top: parentH - 37,
+                    left: 5,
+                  }}
+                  className="character-build-portrait-button"
+
+                >
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => setEditPortraitModalOpen(true)}
+                    type="primary"
+                  >
+                    Edit portrait
+                  </Button>
+                </Flex>
+
+              )
+              : (
+                <Flex
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    visibility: 'hidden',
+                    flex: 'auto',
+                    position: 'absolute',
+                    top: parentH - 37,
+                    left: 5,
+                  }}
+                  className="character-build-portrait-button"
+                  gap={6}
+                >
+                  <Button
+
+                    className="character-build-portrait-button"
+                    icon={<EditOutlined />}
+                    onClick={() => setEditPortraitModalOpen(true)}
+                    type="primary"
+                  >
+                    Update crop
+                  </Button>
+                  <Button
+
+                    icon={<EditOutlined />}
+                    onClick={onDeletePortrait}
+                    type="primary"
+                    danger
+                  >
+                    Revert to default
+                  </Button>
+                </Flex>
+              )}
+
             <EditImageModal
-              title="Edit portrait"
+              title={`${!characterPortraitDB && !customPortrait ? 'Edit Portrait' : 'Update crop'}`}
               aspectRatio={parentW / parentH}
               currentImage={customPortrait ?? characterPortraitDB}
               open={editPortraitModalOpen}
               setOpen={setEditPortraitModalOpen}
               onOk={onEditPortraitOk}
+              defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+              width={500}
             />
           </div>
         </div>

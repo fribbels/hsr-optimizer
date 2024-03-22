@@ -27,7 +27,3 @@ export type CustomImageConfig = {
     }
   }
 }
-
-export type CustomImageModalConfig = (
-  { type: 'add' } & CustomImageConfig
-) | { type: 'delete' }

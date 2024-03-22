@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { enhanceOptions, generateImageLabel, setOptions, substatOptions } from 'components/SelectOptions'
-import { RelicRollGrader } from 'lib/relicRollGrader'
 
 function RadioIcon(props) {
   return (
@@ -249,7 +248,6 @@ export default function RelicModal(props) {
     }
     relic.substats = substats
     RelicAugmenter.augment(relic)
-    RelicRollGrader.calculateRelicSubstatRolls(relic)
 
     console.log('Completed relic', relic)
 

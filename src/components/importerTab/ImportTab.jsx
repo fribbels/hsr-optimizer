@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import { ClearDataSubmenu } from './ClearDataSubmenu'
 import { LoadDataSubmenu } from 'components/importerTab/LoadDataSubmenu'
 import { ScannerImportSubmenu } from 'components/importerTab/ScannerImportSubmenu'
-import { RelicRollsSubmenu } from 'components/importerTab/RelicRollsSubmenu'
 
 const { Text } = Typography
 
@@ -124,11 +123,6 @@ export default function ImportTab() {
               label: 'Clear optimizer data',
               key: 3,
               children: <ClearDataSubmenu />,
-            },
-            {
-              label: 'Grade Relic rolls',
-              key: 4,
-              children: <RelicRollsSubmenu />,
             },
           ]}
         />

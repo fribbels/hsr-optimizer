@@ -5,9 +5,10 @@ import { Utils } from 'lib/utils'
 import { Constants, SubStats } from 'lib/constants'
 import { iconSize } from 'lib/constantsUi'
 import RelicStatText from 'components/relicPreview/RelicStatText'
-import { RightOutlined } from '@ant-design/icons'
 import { RelicRollGrader } from 'lib/relicRollGrader'
 import { Relic, StatRolls } from 'types/Relic'
+import { ReactElement } from 'react'
+import { RightIcon } from 'icons/RightIcon.jsx'
 
 type Substat = {
   stat: SubStats
@@ -15,14 +16,14 @@ type Substat = {
   rolls: StatRolls
 }
 
-const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
+export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   if (!stat || !stat.stat || stat.value == null) {
     return (
       <Flex justify="space-between">
         <Flex>
           <img
             src={Assets.getBlank()}
-            style={{ width: iconSize, height: iconSize, marginRight: 3 }}
+            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -2 }}
           >
           </img>
         </Flex>
@@ -43,22 +44,18 @@ const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
-          style={{ width: iconSize, height: iconSize, marginRight: 3 }}
+          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -2 }}
         >
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
       </Flex>
       {!main
         ? (
-          <Flex justify="space-between" style={{ width: '40%' }}>
+          <Flex justify="space-between" style={{ width: '41%' }}>
             <Tooltip title={`Roll Quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
               <Flex gap={0} align="center">
                 {stat.rolls
-                && Object.entries(stat.rolls).map(([key, count]) => (
-                  <Flex key={key || 'none'} style={{ alignItems: 'center' }}>
-                    {Array(count).fill(<RightOutlined style={{ marginRight: -3, marginLeft: -3 }} />)}
-                  </Flex>
-                ))}
+                && generateRolls(stat)}
               </Flex>
             </Tooltip>
             <RelicStatText>{displayValue}</RelicStatText>
@@ -71,4 +68,16 @@ const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
   )
 }
 
-export default GenerateStat
+function generateRolls(stat) {
+  const rolls = Math.min(5, Math.max(0, stat.rolls.high + stat.rolls.mid + stat.rolls.low - 1))
+  const result: ReactElement[] = []
+  for (let i = 0; i < rolls; i++) {
+    result.push(<RightIcon key={i} style={{ fontSize: 10, marginRight: -7 }} />)
+  }
+  if (rolls == 0) {
+    result.push(<div></div>)
+  }
+  return (
+    result
+  )
+}

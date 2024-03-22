@@ -172,7 +172,7 @@ export const StatsToReadable = {
   [Stats.SPD]: 'SPD',
   [Stats.CR]: 'CRIT Rate',
   [Stats.CD]: 'CRIT DMG',
-  [Stats.EHR]: 'Effect Hit',
+  [Stats.EHR]: 'Effect HIT',
   [Stats.RES]: 'Effect RES',
   [Stats.BE]: 'Break Effect',
   [Stats.ERR]: 'Energy Regen',

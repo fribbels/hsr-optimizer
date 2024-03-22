@@ -5,6 +5,7 @@ import { CroppedArea, CustomImageConfig, CustomImageParams, ImageDimensions } fr
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
 import Dragger from 'antd/es/upload/Dragger'
 import { Message } from 'lib/message'
+import { RcFile } from 'antd/es/upload'
 
 interface EditImageModalProps {
   currentImage: CustomImageConfig | null // currently existing custom image
@@ -88,6 +89,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const handleOk = () => {
     switch (radio) {
       case 'upload':
+        onOk({
+          imageUrl: verifiedImageUrl,
+          originalDimensions,
+          customImageParams,
+          cropper: {
+            zoom,
+            crop,
+          },
+        })
+        setOpen(false)
+        setCurrent(0)
         break
       case 'url':
         customImageForm.validateFields()
@@ -160,6 +172,42 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     })
   }
 
+  // Verifies that the uploaded file is actually an image
+  async function isValidImageFile(file: RcFile): Promise<boolean> {
+    setIsVerificationLoading(true)
+
+    return new Promise((resolve) => {
+      const fileReader = new FileReader()
+
+      fileReader.onerror = () => {
+        setIsVerificationLoading(false)
+        resolve(false)
+      }
+
+      fileReader.onload = (e) => {
+        const img = new Image()
+        img.src = e.target?.result as string
+
+        img.onload = async () => {
+          // Dont need to create an imageBitmap here since it's just getting dimensions
+          setOriginalDimensions({
+            width: img.width,
+            height: img.height,
+          })
+          setIsVerificationLoading(false)
+          resolve(true)
+        }
+
+        img.onerror = () => {
+          setIsVerificationLoading(false)
+          resolve(false)
+        }
+      }
+
+      fileReader.readAsDataURL(file)
+    })
+  }
+
   // Checks if CORS policy allows fetching the image
   // Screenshot functionality wont work if CORS blocks the fetch
   async function isCORSallowedImageUrl(url: string) {
@@ -224,6 +272,57 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       console.error('There was an error uploading the image to Imgur:', error)
       return null
     }
+  }
+
+  const uploadToImgurByFile = async (file: RcFile): Promise<string | null> => {
+    const formData = new FormData()
+    formData.append('image', file)
+
+    try {
+      setIsVerificationLoading(true)
+      const response = await fetch(IMGUR_API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Authorization: `Client-ID ${CLIENT_ID}`,
+        },
+        body: formData,
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        setIsVerificationLoading(false)
+        throw new Error(`Imgur API error: ${errorData.data.error}`)
+      }
+      const data = await response.json()
+      if (data.success) {
+        const imgurLink = data.data.link
+        setIsVerificationLoading(false)
+        return imgurLink
+      } else {
+        setIsVerificationLoading(false)
+        throw new Error('Image upload to Imgur failed but did not return a typical error response')
+      }
+    } catch (error) {
+      console.error('There was an error uploading the image to Imgur:', error)
+      setIsVerificationLoading(false)
+      return null
+    }
+  }
+
+  // By default, AntD's upload component automatically uploads to some URL.
+  // We stop that here by doing our own upload function, and saving the returned URL to verifiedImageUrl
+  const handleBeforeUpload = async (file: RcFile) => {
+    if (await isValidImageFile(file)) {
+      const imgurLink = await uploadToImgurByFile(file)
+      if (imgurLink) {
+        setVerifiedImageUrl(imgurLink)
+        setCurrent(current + 1)
+      } else {
+        console.error('Something went wrong with the imgur file upload')
+      }
+    } else {
+      console.error('File is not a valid image file')
+    }
+    return false // Prevent the default upload behavior
   }
 
   const validateInputImageUrl = async (imageUrl: string) => {
@@ -312,30 +411,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     setRadio(e.target.value)
   }
 
-  const uploadProps: UploadProps = {
-    name: 'file',
-    multiple: false,
-    accept: 'image/png, image/jpeg, image/jpg',
-    // TODO: Imgur upload link here
-    // action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-    // action: (file) => Promise<string>,
-    onChange(info) {
-      const { status } = info.file
-      console.log('info', info)
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        Message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        Message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-    onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files)
-    },
-  }
-
   const steps = [
     {
       title: 'Provide image',
@@ -349,7 +424,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             </Radio.Group>
           </Flex>
           {radio === 'upload' && (
-            <Dragger {...uploadProps}>
+            <Dragger
+              name="file"
+              multiple={false}
+              accept="image/png, image/jpeg, image/jpg"
+              beforeUpload={handleBeforeUpload}
+              showUploadList={false}
+            >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>

@@ -50,8 +50,8 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'e4SkillResShred',
     name: 'e4SkillResShred',
-    text: 'E4 skill RES shred',
-    title: 'E4 skill RES shred',
+    text: 'E4 skill Ice RES shred',
+    title: 'E4 skill Ice RES shred',
     content: `E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s).`,
     disabled: e < 4,
   }]

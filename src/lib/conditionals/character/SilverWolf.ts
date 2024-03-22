@@ -24,7 +24,7 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     name: 'skillWeaknessResShredDebuff',
     text: 'Skill weakness implanted RES shred',
     title: 'Skill weakness implanted RES shred',
-    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s).`,
+    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.`,
   }, {
     formItem: 'switch',
     id: 'skillResShredDebuff',
@@ -77,7 +77,7 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => ({
-      skillWeaknessResShredDebuff: true,
+      skillWeaknessResShredDebuff: false,
       skillResShredDebuff: true,
       talentDefShredDebuff: true,
       ultDefShredDebuff: true,

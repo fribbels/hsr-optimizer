@@ -236,7 +236,7 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
       + planarSphere.augmentedStats[stat]
       + linkRope.augmentedStats[stat]
   }
-  c.WEIGHT
+  c.x.WEIGHT
     = head.weightScore
     + hands.weightScore
     + body.weightScore

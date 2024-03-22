@@ -39,7 +39,7 @@ export const StatCalculator = {
 
     let form = character.form
     let characterMetadata = DB.getMetadata().characters[character.id]
-    let characterLevel = form.characterLevel
+    let characterLevel = 80
 
     let lightConeMetadata
     let lightConeLevel
@@ -49,7 +49,7 @@ export const StatCalculator = {
 
     if (form.lightCone && form.lightCone != '0') {
       lightConeMetadata = DB.getMetadata().lightCones[form.lightCone]
-      lightConeLevel = form.lightConeLevel
+      lightConeLevel = 80
       lightConeSuperimposition = form.lightConeSuperimposition
       lightConeStats = lightConeMetadata.promotions[lightConeLevel]
       superimpositionStats = lightConeMetadata.superimpositions[lightConeSuperimposition]

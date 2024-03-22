@@ -163,6 +163,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
           }
         }}
         dropdownStyle={{ display: 'none' }}
+        suffixIcon={null}
       />
 
       <Modal

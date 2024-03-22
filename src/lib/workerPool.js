@@ -48,7 +48,7 @@ export const WorkerPool = {
         buffer = BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
       }
 
-      task.buffer = buffer
+      task.input.buffer = buffer
 
       worker.onmessage = (message) => {
         // console.log('Worker message', message)
@@ -75,7 +75,9 @@ export const WorkerPool = {
         }, 100)
       }
 
-      worker.postMessage(task, [task.buffer])
+      // Recalculate the min filter before starting the worker
+      task.input.request.resultMinFilter = task.getMinFilter()
+      worker.postMessage(task.input, [task.input.buffer])
     } else {
       taskQueue.push({ task, callback })
     }

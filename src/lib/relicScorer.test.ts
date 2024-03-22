@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import { DataParser } from './dataParser'
-import { Constants } from 'lib/constants'
+import { Constants, PartsMainStats } from 'lib/constants'
 import { RelicScorer } from './relicScorer'
 import { Relic } from 'types/Relic'
 import DB from './db.js'
@@ -127,4 +127,49 @@ test('relic-pctscore', () => {
   const relicScore = RelicScorer.scoreRelicPct(relic, character)
   expect(100).toBeGreaterThanOrEqual(relicScore.bestPct)
   expect(relicScore.bestPct).toBeGreaterThanOrEqual(relicScore.worstPct)
+})
+
+test('ideal-mainstats-includes-best-mainstats', () => {
+  // Test the assumption (that optimal relic scoring relies on) that the best ideal
+  // mainstat matches the highest weight possible as a mainstat on that relic
+
+  let didfail = false;
+
+  let chars = DB.getMetadata().characters
+  for (const [id, char_] of Object.entries(chars)) {
+    let char = <{ name: string }>char_
+    let scoringMetadata = DB.getScoringMetadata(id)
+    for (const part in scoringMetadata.parts) {
+      const partstats = scoringMetadata.parts[part]
+      let v0 = scoringMetadata.stats[partstats[0]]
+      //let v0stat = partstats[0]
+      let best = v0
+      for (let partstat of partstats) {
+        let vs = scoringMetadata.stats[partstat]
+        if (vs !== v0) {
+          best = Math.max(best, vs)
+          // Enable this log to see where ideal mainstats may not have the same weight as each other
+          // (a lot of characters have this)
+          //console.log(`${char.name} ${part} mismatches on ${v0stat} (${v0}) vs ${partstat} (${vs})`)
+        }
+      }
+
+      for (let [name, weight] of Object.entries(scoringMetadata.stats)) {
+        if (!PartsMainStats[part].includes(name)) {
+          continue
+        }
+        if (<number>weight > best) {
+          // The best ideal mainstats is missing a possible mainstat that's higher weighted
+          // than everything else
+          didfail = true
+          console.log('missing idealest mainstat', char.name, part, name, weight, best)
+        } else if (weight === best && !partstats.includes(name)) {
+          // Enable this log to see where the best ideal mainstats is missing one of the
+          // highest weighted possible mainstats (desirable when biasing towards ERR on ropes)
+          //console.log('missing ideal mainstat', char.name, part, name, weight, best)
+        }
+      }
+    }
+  }
+  expect(didfail).toEqual(false)
 })

@@ -156,6 +156,16 @@ export const Utils = {
     return Math.floor(x * 10) / 10
   },
 
+  // truncate100ths(16.1999999312682) == 16.99
+  truncate100ths: (x) => {
+    return Math.floor(x * 100) / 100
+  },
+
+  // truncate100ths(16.1999999312682) == 16.999
+  truncate1000ths: (x) => {
+    return Math.floor(x * 1000) / 1000
+  },
+
   // truncate10000ths(16.1999999312682) == 16.9999
   truncate10000ths: (x) => {
     return Math.floor(x * 10000) / 10000

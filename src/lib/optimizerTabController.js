@@ -382,19 +382,27 @@ export const OptimizerTabController = {
       }
     }
 
+    if (!newForm.resultsSort) {
+      newForm.resultsSort = 'WEIGHT'
+    }
+
+    if (!newForm.resultsLimit) {
+      newForm.resultsLimit = 100000
+    }
+
     console.log('Form update', newForm)
     return newForm
   },
 
   validateForm: (x) => {
     console.log('validate', x)
-    if (!x.lightCone || !x.lightConeLevel || !x.lightConeSuperimposition) {
+    if (!x.lightCone || !x.lightConeSuperimposition) {
       Message.error('Missing light cone fields')
       console.log('Missing light cone')
       return false
     }
 
-    if (!x.characterId || !x.characterLevel || x.characterEidolon == undefined) {
+    if (!x.characterId || x.characterEidolon == undefined) {
       Message.error('Missing character fields')
       console.log('Missing character')
       return false
@@ -491,7 +499,7 @@ export const OptimizerTabController = {
     let newForm = {
       characterEidolon: fieldValues.characterEidolon,
       characterId: fieldValues.characterId,
-      characterLevel: fieldValues.characterLevel,
+      characterLevel: 80,
       enhance: 9,
       grade: 5,
       predictMaxedMainStat: true,
@@ -499,7 +507,7 @@ export const OptimizerTabController = {
       includeEquippedRelics: true,
       keepCurrentRelics: false,
       lightCone: fieldValues.lightCone,
-      lightConeLevel: fieldValues.lightConeLevel,
+      lightConeLevel: 80,
       lightConeSuperimposition: fieldValues.lightConeSuperimposition,
       mainBody: [],
       mainFeet: [],

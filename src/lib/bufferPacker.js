@@ -48,14 +48,7 @@ export const BufferPacker = {
     for (let i = 0; i < length; i++) {
       if (arr[i * SIZE + 1]) {
         const character = BufferPacker.extractCharacter(arr, i)
-        if (queueResults.size() >= 100000) {
-          if (character.SPD > queueResults.top().SPD) {
-            queueResults.pop()
-            queueResults.push(character)
-          }
-        } else {
-          queueResults.push(character)
-        }
+        queueResults.fixedPush(character)
       }
     }
   },

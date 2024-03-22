@@ -12,7 +12,7 @@ export function calculateBaseMultis(c, request, params) {
 export function calculateDamage(c, request, params) {
   const x = c.x
   const sets = c.sets
-  let cLevel = request.characterLevel
+  let cLevel = 80
   let eLevel = request.enemyLevel
   let defReduction = x.DEF_SHRED + request.buffDefShred
   let defIgnore = 0

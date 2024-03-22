@@ -1031,8 +1031,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sort: Constants.Stats.DEF,
     },
     1002: { // Dan Heng
       stats: {
@@ -1087,6 +1087,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.ULT_SORT,
       ],
+      sort: Constants.Stats.DEF,
     },
     1003: { // Himeko
       stats: {

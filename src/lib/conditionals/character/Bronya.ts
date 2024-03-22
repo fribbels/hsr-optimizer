@@ -87,7 +87,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   const defaults = {
     teamDmgBuff: true,
-    techniqueBuff: true,
+    techniqueBuff: false,
     battleStartDefBuff: true,
     skillBuff: true,
     ultBuff: true,

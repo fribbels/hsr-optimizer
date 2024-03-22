@@ -145,6 +145,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
           }
         }}
         dropdownStyle={{ display: 'none' }}
+        suffixIcon={null}
       />
 
       <Modal

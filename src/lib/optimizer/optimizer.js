@@ -10,7 +10,7 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
-import { PriorityQueue } from '@js-sdsl/priority-queue'
+import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 
 let CANCEL = false
 
@@ -119,7 +119,7 @@ export const Optimizer = {
 
     let resultsShown = false
     let results = []
-    let queueResults = new PriorityQueue([], (a, b) => a.SPD - b.SPD)
+    let queueResults = new FixedSizePriorityQueue(100000, (a, b) => a.SPD - b.SPD)
     let searched = 0
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
@@ -139,15 +139,17 @@ export const Optimizer = {
 
     let inProgress = runs.length
     for (let run of runs) {
-      let input = {
-        params: params,
-        request: request,
-        relics: relics,
-        WIDTH: run.runSize,
-        skip: run.skip,
-        permutations: permutations,
-        relicSetSolutions: relicSetSolutions,
-        ornamentSetSolutions: ornamentSetSolutions,
+      let task = {
+        input: {
+          params: params,
+          request: request,
+          relics: relics,
+          WIDTH: run.runSize,
+          skip: run.skip,
+          permutations: permutations,
+          relicSetSolutions: relicSetSolutions,
+          ornamentSetSolutions: ornamentSetSolutions,
+        },
         getFilter: () => queueResults.top()?.SPD || 0,
       }
 
@@ -195,7 +197,7 @@ export const Optimizer = {
         }
       }
 
-      WorkerPool.execute(input, callback)
+      WorkerPool.execute(task, callback)
     }
   },
 }

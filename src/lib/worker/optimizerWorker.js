@@ -138,7 +138,7 @@ self.onmessage = function(e) {
       continue
     }
 
-    if (c.SPD < data.filter) {
+    if (c.SPD < data.resultFilter) {
       continue
     }
 

@@ -48,7 +48,7 @@ export const WorkerPool = {
         buffer = BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
       }
 
-      task.buffer = buffer
+      task.input.buffer = buffer
 
       worker.onmessage = (message) => {
         // console.log('Worker message', message)
@@ -75,9 +75,9 @@ export const WorkerPool = {
         }, 100)
       }
 
-      task.filter = task.getFilter()
-      delete task.getFilter
-      worker.postMessage(task, [task.buffer])
+      task.input.resultFilter = task.getFilter()
+      task.input.resultSort = task.getFilter()
+      worker.postMessage(task.input, [task.input.buffer])
     } else {
       taskQueue.push({ task, callback })
     }

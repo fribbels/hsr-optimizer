@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Steps, UploadFile, UploadProps } from 'antd'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
 import { CroppedArea, CustomImageConfig, CustomImageParams, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
@@ -8,7 +8,7 @@ import { Message } from 'lib/message'
 import { RcFile } from 'antd/es/upload'
 
 interface EditImageModalProps {
-  currentImage: CustomImageConfig | null // currently existing custom image
+  existingConfig: CustomImageConfig | null // currently existing custom image
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,7 +32,7 @@ const MIN_ZOOM = 1
 const MAX_ZOOM = 5
 
 const EditImageModal: React.FC<EditImageModalProps> = ({
-  currentImage,
+  existingConfig,
   aspectRatio,
   open,
   setOpen,
@@ -46,20 +46,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
   const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
-  const [originalDimensions, setOriginalDimensions] = React.useState<ImageDimensions>(currentImage ? currentImage.originalDimensions : DEFAULT_IMAGE_DIMENSIONS)
+  const [originalDimensions, setOriginalDimensions] = React.useState<ImageDimensions>(existingConfig ? existingConfig.originalDimensions : DEFAULT_IMAGE_DIMENSIONS)
 
-  // This library can do rotation too, but it's not implemented for now
-  const [crop, setCrop] = React.useState(currentImage ? currentImage.cropper.crop : DEFAULT_CROP)
-  const [zoom, setZoom] = React.useState(currentImage ? currentImage.cropper.zoom : DEFAULT_ZOOM)
-  const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(currentImage ? currentImage.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
+  const [crop, setCrop] = React.useState(existingConfig ? existingConfig.cropper.crop : DEFAULT_CROP)
+  const [zoom, setZoom] = React.useState(existingConfig ? existingConfig.cropper.zoom : DEFAULT_ZOOM)
+  const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
 
-  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('upload')
+  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
-  const [uploadedFile, setUploadedFile] = React.useState<UploadFile>()
-
-  // Handle initialization depending on if currentImage exists:
+  // Handle initialization depending on if existingConfig exists:
   // - Reset on close for new character
-  // - upon open, load custom image data if it exists
+  // - upon open, load custom image config if it exists
   React.useEffect(() => {
     if (!open) {
       customImageForm.resetFields()
@@ -70,34 +67,34 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       setCrop(DEFAULT_CROP)
       setZoom(DEFAULT_ZOOM)
       setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
-    } else if (currentImage) {
-      customImageForm.setFieldsValue({ imageUrl: currentImage.imageUrl })
-      setRadio('url') // If there's a currentImage, then there will always be a url
+    } else if (existingConfig) {
+      console.log('EXISTING CONFIG', !!existingConfig)
+      customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl })
+      setRadio('url') // If there's a existingConfig, there will always be a url
       setCurrent(1)
-      setVerifiedImageUrl(currentImage.imageUrl)
-      setOriginalDimensions(currentImage.originalDimensions)
+      setVerifiedImageUrl(existingConfig.imageUrl)
+      setOriginalDimensions(existingConfig.originalDimensions)
     }
-  }, [defaultImageUrl, open, currentImage, customImageForm])
+  }, [defaultImageUrl, open, existingConfig, customImageForm])
 
   const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
-    // Only allow image parameters to change when in cropping stage
     if (current == 1) {
       setCustomImageParams({ croppedArea, croppedAreaPixels })
     }
   }
 
   const handleOk = () => {
+    const imageConfigWithoutUrl = {
+      originalDimensions,
+      customImageParams,
+      cropper: {
+        zoom,
+        crop,
+      },
+    }
     switch (radio) {
       case 'upload':
-        onOk({
-          imageUrl: verifiedImageUrl,
-          originalDimensions,
-          customImageParams,
-          cropper: {
-            zoom,
-            crop,
-          },
-        })
+        onOk({ imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
         setOpen(false)
         setCurrent(0)
         break
@@ -113,56 +110,49 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 crop,
               },
             })
-            setOpen(false)
-            setCurrent(0)
           })
           .catch((e) => {
             console.error('Error:', e)
           })
+          .finally(() => {
+            setOpen(false)
+            setCurrent(0)
+          })
         break
       case 'default':
         if (!defaultImageUrl) {
-          console.warn('defaultImageUrl does not exist, but default image was chosen. This should not happen.')
+          console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({
-          imageUrl: defaultImageUrl ?? '',
-          originalDimensions,
-          customImageParams,
-          cropper: {
-            zoom,
-            crop,
-          },
-        })
+        onOk({ imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
+        setOpen(false)
+        setCurrent(0)
+        break
+      default:
+      // Optionally handle any other cases or unexpected values of `radio`
+        console.warn(`Unexpected radio value: ${radio}`)
+        // Consider whether the modal should be closed and the state reset in this case
         setOpen(false)
         setCurrent(0)
     }
   }
 
-  const handleCancel = () => {
-    setOpen(false)
-  }
-
   // Verifies that the URL actually links to an image
   async function isValidImageUrl(url: string) {
-    // Sometimes copying an image address that isn't full loaded will copy the base64
+    // Sometimes copying an image address that isn't fully loaded will copy the base64
     // We don't want that, so checking here to make sure this is actually a URL
     if (!url.includes('http')) {
       return false
     }
 
     setIsVerificationLoading(true)
-
-    // Be careful not to import Image from antd, it'll conflict with this
-    const img = new Image()
+    const img = new Image() // Be careful not to import Image from antd, it'll conflict with this
     img.src = url
 
     return new Promise((resolve) => {
       setIsVerificationLoading(false)
-      img.onerror = () => {
-        resolve(false)
-      }
+      img.onerror = () => resolve(false)
       img.onload = async () => {
-        const imageBitmap: ImageBitmap = await createImageBitmap(img) // Blob
+        const imageBitmap: ImageBitmap = await createImageBitmap(img)
         setOriginalDimensions({
           width: imageBitmap.width,
           height: imageBitmap.height,
@@ -178,18 +168,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
     return new Promise((resolve) => {
       const fileReader = new FileReader()
-
       fileReader.onerror = () => {
         setIsVerificationLoading(false)
         resolve(false)
       }
-
       fileReader.onload = (e) => {
         const img = new Image()
         img.src = e.target?.result as string
-
         img.onload = async () => {
-          // Dont need to create an imageBitmap here since it's just getting dimensions
           setOriginalDimensions({
             width: img.width,
             height: img.height,
@@ -197,13 +183,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           setIsVerificationLoading(false)
           resolve(true)
         }
-
         img.onerror = () => {
           setIsVerificationLoading(false)
           resolve(false)
         }
       }
-
       fileReader.readAsDataURL(file)
     })
   }
@@ -218,7 +202,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       })
       return response.ok
     } catch (error) {
-      console.warn('CORS policy blocked the fetch, attempting to upload to imgur')
+      console.log('CORS blocked image fetch, uploading to imgur:', url)
       return false
     }
   }
@@ -265,7 +249,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         setIsVerificationLoading(false)
       } else {
         setIsVerificationLoading(false)
-        throw new Error('Image upload to Imgur failed but did not return a typical error response')
+        throw new Error('Image url upload to Imgur failed but did not return a typical error response')
       }
     } catch (error) {
       setIsVerificationLoading(false)
@@ -299,7 +283,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         return imgurLink
       } else {
         setIsVerificationLoading(false)
-        throw new Error('Image upload to Imgur failed but did not return a typical error response')
+        throw new Error('Image file upload to Imgur failed but did not return a typical error response')
       }
     } catch (error) {
       console.error('There was an error uploading the image to Imgur:', error)
@@ -308,24 +292,28 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
-  // By default, AntD's upload component automatically uploads to some URL.
-  // We stop that here by doing our own upload function, and saving the returned URL to verifiedImageUrl
   const handleBeforeUpload = async (file: RcFile) => {
-    if (await isValidImageFile(file)) {
-      const imgurLink = await uploadToImgurByFile(file)
-      if (imgurLink) {
-        setVerifiedImageUrl(imgurLink)
-        setCurrent(current + 1)
-      } else {
-        console.error('Something went wrong with the imgur file upload')
-      }
-    } else {
+    // Check if the file is not a valid image file
+    if (!(await isValidImageFile(file))) {
       console.error('File is not a valid image file')
+      return false
     }
+
+    // Attempt to upload the file to Imgur
+    const imgurLink = await uploadToImgurByFile(file)
+    if (!(imgurLink)) {
+      Message.error('Image upload failed')
+      return false
+    }
+
+    // If everything goes well, set the verified image URL and go to next step
+    setVerifiedImageUrl(imgurLink)
+    setCurrent(current + 1)
     return false // Prevent the default upload behavior
   }
 
   const validateInputImageUrl = async (imageUrl: string) => {
+    // Check if imageUrl is provided
     if (!imageUrl) {
       customImageForm.setFields([
         {
@@ -333,83 +321,83 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           errors: ['An image URL is required'],
         },
       ])
+      return
+    }
+
+    setIsVerificationLoading(true)
+
+    // Check if the imageUrl is not valid and return early
+    if (!(await isValidImageUrl(imageUrl))) {
+      customImageForm.setFields([
+        {
+          name: 'imageUrl',
+          errors: ['URL does not lead to an image'],
+        },
+      ])
+      setIsVerificationLoading(false)
+      return
+    }
+
+    if (await isCORSallowedImageUrl(imageUrl)) {
+      // When CORS is allowed, image URLs can just be saved
+      setVerifiedImageUrl(imageUrl)
+      setCurrent(current + 1)
     } else {
-      setIsVerificationLoading(true)
-      if (await isValidImageUrl(imageUrl)) {
-        if (await isCORSallowedImageUrl(imageUrl)) {
-          // When CORS is allowed, image URLs can just be saved
-          setVerifiedImageUrl(imageUrl)
-          setCurrent(current + 1)
-        } else {
-          // When CORS is blocked, upload image to Imgur
-          const imgurUrl = await uploadToImgurByUrl(imageUrl)
-          if (imgurUrl) {
-            setVerifiedImageUrl(imgurUrl)
-            setCurrent(current + 1)
-          } else {
-            customImageForm.setFields([
-              {
-                name: 'imageUrl',
-                errors: ['Failed to process image, upload image instead.'],
-              },
-            ])
-          }
-        }
+      // Attempt to upload image to Imgur when CORS is blocked
+      const imgurUrl = await uploadToImgurByUrl(imageUrl)
+      if (imgurUrl) {
+        // Upload successful -> set the verified image URL and go to next step
+        setVerifiedImageUrl(imgurUrl)
+        setCurrent(current + 1)
       } else {
         customImageForm.setFields([
           {
             name: 'imageUrl',
-            errors: ['URL does not lead to an image'],
+            errors: ['Failed to process image, upload image instead.'],
           },
         ])
       }
-      setIsVerificationLoading(false)
     }
+    setIsVerificationLoading(false)
   }
 
-  const validateInputImageFile = async (imageFile: any) => {
-    // TODO: Handle file upload
-    // TODO: check if file is actually an image
-    customImageForm.setFieldValue('imageFile', imageFile)
+  const validateInputImageDefault = async () => {
+    if (!defaultImageUrl) {
+      console.warn('defaultImageUrl does not exist, but default image was chosen. This should not happen.')
+      return
+    }
+    setIsVerificationLoading(true)
+    // Check if the defaultImageUrl is valid
+    if (await isValidImageUrl(defaultImageUrl)) {
+      setVerifiedImageUrl(defaultImageUrl)
+      setIsVerificationLoading(false)
+      setCurrent(current + 1)
+    }
   }
 
   const next = async () => {
-    switch (current) {
-      case 0:
-        switch (radio) {
-          case 'upload':
-            // validateInputImageFile(imageFile)
-            break
-          case 'url':
-            validateInputImageUrl(customImageForm.getFieldValue('imageUrl'))
-            break
-          case 'default':
-            if (defaultImageUrl) {
-              if (await isValidImageUrl(defaultImageUrl)) {
-                setVerifiedImageUrl(defaultImageUrl)
-                setCurrent(current + 1)
-              }
-            } else {
-              console.warn('defaultImageUrl does not exist, but default image was chosen. This should not happen.')
-            }
-            break
-          case null:
-          default:
-            console.warn("Radio select must be either 'upload' or 'url'")
-        }
+    if (current !== 0) {
+      console.error(`Stage #${current} not implemented!`)
+      return
+    }
+    switch (radio) {
+      // case 'upload':
+      // This isn't handled because uploading a file will go to next step
+      case 'url':
+        await validateInputImageUrl(customImageForm.getFieldValue('imageUrl'))
         break
+      case 'default':
+        await validateInputImageDefault()
+        break
+      case null:
       default:
-        console.error(`Stage #${current} not implemented!`)
+        console.warn("Radio select must be either 'upload' or 'url'")
+        break
     }
   }
 
-  const prev = () => {
-    setCurrent(current - 1)
-  }
-
-  const onRadioChange = (e: RadioChangeEvent) => {
-    setRadio(e.target.value)
-  }
+  const prev = () => setCurrent(current - 1)
+  const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
 
   const steps = [
     {
@@ -418,17 +406,19 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify="center" style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle="solid">
-              <Radio.Button value="upload">Upload image file</Radio.Button>
               <Radio.Button value="url">Enter image URL</Radio.Button>
+              <Radio.Button value="upload">Upload image</Radio.Button>
               {defaultImageUrl && <Radio.Button value="default">Use default image</Radio.Button>}
             </Radio.Group>
           </Flex>
+
           {radio === 'upload' && (
             <Dragger
               name="file"
               multiple={false}
               accept="image/png, image/jpeg, image/jpg"
               beforeUpload={handleBeforeUpload}
+
               showUploadList={false}
             >
               <p className="ant-upload-drag-icon">
@@ -440,15 +430,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </p>
             </Dragger>
           )}
+
           {radio === 'url' && (
             <Form.Item
               name="imageUrl"
               label="Image URL"
+              style={{ margin: '0 20px' }}
               rules={[{ required: true, message: 'Please input a valid image URL' }]}
             >
               <Input autoComplete="off" />
             </Form.Item>
           )}
+
           {radio === 'default' && (
             <Flex justify="center" style={{ height: '400px' }}>
               <img src={defaultImageUrl} />
@@ -462,7 +455,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       content: (
         <>
           <div style={{ height: '400px', position: 'relative' }}>
-
             <Cropper
               image={verifiedImageUrl}
               crop={crop}
@@ -473,10 +465,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               onCropComplete={onCropComplete}
               // Use this to set initial cropper values
               onMediaLoaded={() => {
-                if (currentImage) {
-                  setCrop(currentImage.cropper.crop)
-                  setZoom(currentImage.cropper.zoom)
-                  // setRotation(currentImage.cropper.rotation)
+                if (existingConfig) {
+                  setCrop(existingConfig.cropper.crop)
+                  setZoom(existingConfig.cropper.zoom)
                 }
               }}
               onZoomChange={(newZoom) => {
@@ -517,17 +508,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       destroyOnClose
       centered
       onOk={handleOk}
-      onCancel={handleCancel}
+      onCancel={() => setOpen(false)}
       footer={[
         <Flex key={1} justify="flex-end">
           <div style={{ marginTop: 16 }}>
-            {(current > 0 && !currentImage) && (
+            {(current > 0 && !existingConfig) && (
               <Button style={{ marginRight: '8px' }} onClick={prev}>
                 Previous
               </Button>
             )}
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} loading={isVerificationLoading}>
+              <Button type="primary" onClick={next} loading={isVerificationLoading} disabled={radio === 'upload'}>
                 Next
               </Button>
             )}
@@ -537,13 +528,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </Button>
             )}
           </div>
-
         </Flex>,
       ]}
       title={title}
     >
-      <div style={{ height: currentImage ? '400px' : '460px', position: 'relative' }}>
-        {!currentImage
+      <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
+        {!existingConfig
         && (
           <Steps current={current} style={{ marginBottom: 12 }}>
             {steps.map((item) => (

@@ -217,7 +217,6 @@ export function CharacterPreview(props) {
                   gap={6}
                 >
                   <Button
-
                     className="character-build-portrait-button"
                     icon={<EditOutlined />}
                     onClick={() => setEditPortraitModalOpen(true)}
@@ -226,7 +225,6 @@ export function CharacterPreview(props) {
                     Update crop
                   </Button>
                   <Button
-
                     icon={<EditOutlined />}
                     onClick={onDeletePortrait}
                     type="primary"
@@ -240,7 +238,7 @@ export function CharacterPreview(props) {
             <EditImageModal
               title={`${!characterPortraitDB && !customPortrait ? 'Edit Portrait' : 'Update crop'}`}
               aspectRatio={parentW / parentH}
-              currentImage={customPortrait ?? characterPortraitDB}
+              existingConfig={customPortrait ?? characterPortraitDB}
               open={editPortraitModalOpen}
               setOpen={setEditPortraitModalOpen}
               onOk={onEditPortraitOk}

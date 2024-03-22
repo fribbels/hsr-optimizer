@@ -46,10 +46,11 @@ export const BufferPacker = {
 
   extractArrayToResults: (arr, length, results, queueResults) => {
     for (let i = 0; i < length; i++) {
-      if (arr[i * SIZE + 1]) {
+      if (arr[i * SIZE + 1]) { // Check HP > 0
         const character = BufferPacker.extractCharacter(arr, i)
         queueResults.fixedSizePush(character)
       } else {
+        // Results are packed linearly and the rest are 0s, we can exit after hitting a 0
         break
       }
     }

@@ -409,6 +409,12 @@ export const OptimizerTabController = {
       return false
     }
 
+    if (!x.resultLimit || !x.resultSort) {
+      Message.error('Missing optimization target fields')
+      console.log('Missing optimization target fields')
+      return false
+    }
+
     if (!x.weights || !x.weights.topPercent) {
       Message.error('Substat weight filter should have a Top % value greater than 0%. Make sure to set the Top % value with your substat weights.', 10)
       console.log('Top percent')

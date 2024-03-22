@@ -1,6 +1,9 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import DB from 'lib/db'
 
 export function getDefaultForm(initialCharacter) {
+  const metadata = DB.getMetadata().characters[initialCharacter]
+
   return {
     characterId: initialCharacter?.id,
     mainBody: [
@@ -52,7 +55,7 @@ export function getDefaultForm(initialCharacter) {
     teammate0: defaultTeammate(),
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
-    resultSort: 'WEIGHT',
+    resultSort: metadata?.scoringMetadata.sortOption.key,
     resultLimit: 100000,
   }
 }

@@ -156,8 +156,6 @@ self.onmessage = function(e) {
     passCount++
   }
 
-  console.log(passCount)
-
   self.postMessage({
     rows: [],
     buffer: data.buffer,
@@ -169,6 +167,8 @@ function generateResultMinFilter(request, combatDisplay) {
   const sortOption = SortOption[request.resultSort]
   const isComputedRating = sortOption.isComputedRating
 
+  // Combat and basic filters apply at different places in the loop
+  // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
   if (combatDisplay || isComputedRating) {
     const property = sortOption.combatProperty
     return {

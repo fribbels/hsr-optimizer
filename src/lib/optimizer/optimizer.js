@@ -121,7 +121,7 @@ export const Optimizer = {
 
     let searched = 0
     let resultsShown = false
-    const results = []
+    let results = []
     const sortOption = SortOption[request.resultSort]
     const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
     const resultLimit = request.resultLimit || 100000
@@ -177,14 +177,12 @@ export const Optimizer = {
 
         if (inProgress == 0 || CANCEL) {
           window.store.getState().setOptimizationInProgress(false)
-          const size = queueResults.size()
-          for (let i = 0; i < size; i++) {
-            results[i] = queueResults.pop()
-          }
+          results = queueResults.toArray()
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          console.log('Done', results.length)
           resultsShown = true
           return
         }

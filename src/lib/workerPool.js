@@ -75,6 +75,7 @@ export const WorkerPool = {
         }, 100)
       }
 
+      // Recalculate the min filter before starting the worker
       task.input.request.resultMinFilter = task.getMinFilter()
       worker.postMessage(task.input, [task.input.buffer])
     } else {

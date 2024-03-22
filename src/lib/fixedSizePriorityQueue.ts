@@ -1,5 +1,9 @@
 import { PriorityQueue } from '@js-sdsl/priority-queue'
 
+/**
+ * Priority queue which evicts the TOP element on fixedSizePush when the max limit is exceeded
+ * Used to store top results for optimizer columns
+ */
 export class FixedSizePriorityQueue<T> extends PriorityQueue<T> {
   limit: number
   compare: (_x: T, _y: T) => number

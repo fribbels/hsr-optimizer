@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Flex, Image } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Flex, Image } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
@@ -24,6 +24,11 @@ import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from '../lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
+import { EditOutlined } from '@ant-design/icons'
+import EditImageModal from './EditImageModal'
+import { Message } from 'lib/message'
+import CharacterCustomPortrait from './CharacterCustomPortrait'
+import { SaveState } from 'lib/saveState'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -41,10 +46,31 @@ export function CharacterPreview(props) {
   const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
+  const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
+
+  useEffect(() => {
+    setCustomPortrait(null)
+  }, [character])
 
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
+  }
+
+  function onEditPortraitOk(portrait) {
+    setCustomPortrait({ ...portrait })
+    DB.saveCharacterPortrait(character.id, portrait)
+    Message.success('Successfully saved portrait')
+    SaveState.save()
+    setEditPortraitModalOpen(false)
+  }
+
+  function onDeletePortrait() {
+    setCustomPortrait(null)
+    DB.deleteCharacterPortrait(character.id)
+    Message.success('Successfully reverted portrait')
+    SaveState.save()
   }
 
   if (!character) {
@@ -113,6 +139,7 @@ export function CharacterPreview(props) {
   const characterName = characterMetadata.displayName
   const characterPath = characterMetadata.path
   const characterElement = characterMetadata.element
+  const characterPortraitDB = character.portrait
 
   const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
@@ -122,22 +149,101 @@ export function CharacterPreview(props) {
 
       {!isBuilds
       && (
-        <div style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
+        <div className="character-build-portrait" style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
           <div
             style={{
               position: 'relative',
             }}
           >
-            <img
-              src={Assets.getCharacterPortraitById(character.id)}
-              style={{
-                position: 'absolute',
-                left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-                top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
-                width: innerW,
-                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
-              }}
-              onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
+            {(characterPortraitDB || customPortrait)
+              ? (
+                <CharacterCustomPortrait
+                  customPortrait={customPortrait ?? characterPortraitDB}
+                  parentW={parentW}
+                  isBlur={characterTabBlur && !isScorer}
+                  setBlur={setCharacterTabBlur}
+                />
+              )
+              : (
+                <img
+                  src={Assets.getCharacterPortraitById(character.id)}
+                  style={{
+                    position: 'absolute',
+                    left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
+                    top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
+                    width: innerW,
+                    filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+                  }}
+                  onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
+                />
+              )}
+            {(!characterPortraitDB && !customPortrait)
+              ? (
+                <Flex
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    visibility: 'hidden',
+                    flex: 'auto',
+                    position: 'absolute',
+                    top: parentH - 37,
+                    left: 5,
+                  }}
+                  className="character-build-portrait-button"
+
+                >
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => setEditPortraitModalOpen(true)}
+                    type="primary"
+                  >
+                    Edit portrait
+                  </Button>
+                </Flex>
+
+              )
+              : (
+                <Flex
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    visibility: 'hidden',
+                    flex: 'auto',
+                    position: 'absolute',
+                    top: parentH - 37,
+                    left: 5,
+                  }}
+                  className="character-build-portrait-button"
+                  gap={6}
+                >
+                  <Button
+                    className="character-build-portrait-button"
+                    icon={<EditOutlined />}
+                    onClick={() => setEditPortraitModalOpen(true)}
+                    type="primary"
+                  >
+                    Update crop
+                  </Button>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={onDeletePortrait}
+                    type="primary"
+                    danger
+                  >
+                    Revert to default
+                  </Button>
+                </Flex>
+              )}
+
+            <EditImageModal
+              title={`${!characterPortraitDB && !customPortrait ? 'Edit Portrait' : 'Update crop'}`}
+              aspectRatio={parentW / parentH}
+              existingConfig={customPortrait ?? characterPortraitDB}
+              open={editPortraitModalOpen}
+              setOpen={setEditPortraitModalOpen}
+              onOk={onEditPortraitOk}
+              defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+              width={500}
             />
           </div>
         </div>

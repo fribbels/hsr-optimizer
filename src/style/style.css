@@ -1,22 +1,20 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 html,
 body,
 #root,
 #app,
-#app>div {
+#app > div {
   margin: 0;
   height: 100vh !important;
   min-width: fit-content !important;
@@ -134,7 +132,7 @@ body,
 }
 
 .ag-theme-balham .ag-overlay-loading-wrapper {
-  background-color: var(--ag-modal-overlay-background-color, hsla(0, 0%, 100%, .05));
+  background-color: var(--ag-modal-overlay-background-color, hsla(0, 0%, 100%, 0.05));
 }
 
 .ag-floating-top {
@@ -151,15 +149,15 @@ body,
 }
 
 .ag-theme-balham .ag-row-odd {
-  background-color: #960303
+  background-color: #960303;
 }
 
 .ag-theme-balham .ag-row-hover {
-  background-color: #daf1ff
+  background-color: #daf1ff;
 }
 
 .ag-theme-balham .ag-row-selected {
-  background-color: #b7e4ff
+  background-color: #b7e4ff;
 }
 
 .ag-cell-label-container {
@@ -227,11 +225,11 @@ body,
 }
 
 .ant-menu-title-content {
-  color: white
+  color: white;
 }
 
 .ag-paging-panel {
-  height: 22px !important
+  height: 22px !important;
 }
 
 .ag-drag-handle {
@@ -239,7 +237,7 @@ body,
 }
 
 .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #4290ff !important
+  color: #4290ff !important;
 }
 
 .ag-cell {
@@ -283,7 +281,7 @@ a {
 }
 
 .ant-slider:hover .ant-slider-handle::after {
-  box-shadow: 0 0 0 4px #1668DC
+  box-shadow: 0 0 0 4px #1668dc;
 }
 
 .ant-slider-handle::after {
@@ -300,7 +298,6 @@ a {
 
 .ant-menu-item-only-child {
   padding-left: 34px !important;
-
 }
 
 .ant-tag-checkable {
@@ -313,7 +310,7 @@ a {
   padding-right: 2px !important;
 }
 
-.form-row .ant-collapse-header  {
+.form-row .ant-collapse-header {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   font-size: 20px;
@@ -335,14 +332,15 @@ a {
 .ant-segmented {
   padding: 0 !important;
 }
-.ag-cell-focus, .ag-cell {
+.ag-cell-focus,
+.ag-cell {
   border: none !important;
 }
 
 .ag-row-selected {
   box-shadow: 0px 1px 5px 0px #5e5e5e !important;
   z-index: 1 !important;
-  background : #0000002e !important;
+  background: #0000002e !important;
 }
 .ag-row-selected:before {
   background: none !important;
@@ -351,4 +349,10 @@ a {
 }
 .ag-center-cols-container {
   width: 100% !important;
+}
+
+.character-build-portrait:hover .character-build-portrait-button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: opacity 0.3s ease;
 }

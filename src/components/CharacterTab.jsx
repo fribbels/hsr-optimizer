@@ -481,7 +481,6 @@ export default function CharacterTab() {
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
-
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
       <SwitchRelicsModal onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen} setOpen={setSwitchRelicsModalOpen} currentCharacter={selectedCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />

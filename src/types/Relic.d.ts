@@ -13,8 +13,7 @@ export type Relic = {
     current: number
     average: number
     best: number
-    optimalityAllAll: number
-    optimalityOwnedAll: number
+    potentialAllAll: number
   }
   cs?: number
   ds?: number

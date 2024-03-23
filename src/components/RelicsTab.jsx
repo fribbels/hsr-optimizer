@@ -188,8 +188,7 @@ export default function RelicsTab() {
     { column: 'WEIGHT', value: 'weights.current', label: 'Weight' },
     { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
     { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
-    { column: 'OPT A+A', value: 'weights.optimalityAllAll', label: 'Optimality: All Chars, Any Relics' },
-    { column: 'OPT O+A', value: 'weights.optimalityOwnedAll', label: 'Optimality: Owned Chars, Any Relics' },
+    { column: 'POT A+A', value: 'weights.potentialAllAll', label: 'Potential: All Chars, Any Relics' },
   ], [])
 
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
@@ -325,7 +324,7 @@ export default function RelicsTab() {
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,
-        score: RelicScorer.scoreRelicPct(selectedRelic, id),
+        score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
         color: '#000',
         owned: !!DB.getCharacterById(id),
       }))
@@ -535,7 +534,14 @@ export default function RelicsTab() {
                     y: scoreBuckets.flatMap((bucket, bucketIdx) =>
                       bucket.map((_score, _idx) => (bucketIdx * 10) + '%+')),
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
-                      bucket.map((score, _idx) => score.name)),
+                      bucket.map((score, _idx) => [
+                        score.name,
+                        (score.score.meta.bestNewSubstats.length === 0 ? '' :
+                          'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
+                        (score.score.meta.bestRolledSubstats === null ? '' :
+                          'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/'))
+                      ].filter((t) => t !== '').join('<br>'))
+                    ),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
                       symbol: 'circle',

@@ -265,7 +265,9 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
           <p>'Buckets' looks at how optimal this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<br />
-            ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.</p>
+            ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.<br />
+            If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic
+          </p>
           <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of optimality upgrading this relic could result in.</p>
         </Flex>
       ),

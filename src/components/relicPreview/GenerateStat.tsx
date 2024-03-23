@@ -71,7 +71,7 @@ function generateRolls(stat) {
   const rolls = Math.min(5, Math.max(0, stat.rolls.high + stat.rolls.mid + stat.rolls.low - 1))
   const result: ReactElement[] = []
   for (let i = 0; i < rolls; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5 }} />)
+    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.5 }} />)
   }
   if (rolls == 0) {
     result.push(<div key={0}></div>)

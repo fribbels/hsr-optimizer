@@ -128,7 +128,7 @@ function predictExtraRollWeight(substats, grade, enhance, possibleNewWeights, su
   return {
     extraRolls: extraRolls,
     newSubstatWeights: newSubstatWeights,
-    rollSubstatWeight: rollSubstatWeight,
+    rollSubstatWeight: missingRolls > 0 ? rollSubstatWeight : null,
   }
 }
 
@@ -403,9 +403,12 @@ export class RelicScorer {
       const finalPossibleBestSubstats = new Set(substatNames.concat(bestNewSubstats))
       // Given the weight of substats that rolls went into, what could the substats have been?
       // (all substats currently on the relic or that could have been added, that match the weight)
-      const bestRolledSubstats = scoringMetadata.groupedSubstats
-        .get(bestRollPrediction.rollSubstatWeight)!
-        .filter((s) => finalPossibleBestSubstats.has(s))
+      let bestRolledSubstats = null
+      if (bestRollPrediction.rollSubstatWeight !== null) {
+        bestRolledSubstats = scoringMetadata.groupedSubstats
+          .get(bestRollPrediction.rollSubstatWeight)!
+          .filter((s) => finalPossibleBestSubstats.has(s))
+      }
       meta = {
         bestNewSubstats: [...new Set(bestNewSubstats)],
         bestRolledSubstats: bestRolledSubstats,

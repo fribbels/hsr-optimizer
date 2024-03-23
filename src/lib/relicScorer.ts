@@ -247,15 +247,20 @@ export class RelicScorer {
       // lowest weighted one so the higher weighted one ends up as a substat and be scored
       // normally)
       const optimalMainStats = scoringMetadata.parts[part]
+      // First candidate, i.e. has the highest weight
       let mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
       const mainStatWeight = scoreEntries[mainStatIndex][1]
       // Worst case, will be overriden on first loop iteration by true values
       let isIdeal = false
       let isSubstat = true
+      // Look at all stats of the same weight and see if they're 'better' (as documented above)
       for (let i = mainStatIndex; i < scoreEntries.length; i++) {
         const [name, weight] = scoreEntries[i]
         if (weight !== mainStatWeight) {
           break
+        }
+        if (!PartsMainStats[part].includes(name)) {
+          continue
         }
         const newIsIdeal = optimalMainStats.includes(name)
         const newIsSubstat = possibleSubstats.has(name)

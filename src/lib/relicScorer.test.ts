@@ -95,9 +95,14 @@ test('relic-addonestat', () => {
     equippedBy: character,
   }
 
-  const relicScore = RelicScorer.scoreRelic(relic, character)
-  // Every stat should be distinct
-  expect(new Set(relicScore.meta.bestSubstats.concat([relic.main.stat])).size).toBe(5)
+  const relicScore = RelicScorer.scoreRelic(relic, character, undefined, true)
+  // Every stat should be distinct, including theoretical new ones
+  expect(
+    new Set([
+      ...subStats,
+      ...relicScore.meta.bestNewSubstats,
+      relic.main.stat,
+    ]).size).toBe(subStats.length+relicScore.meta.bestNewSubstats.length+1)
 })
 
 test('relic-pctscore', () => {
@@ -128,6 +133,35 @@ test('relic-pctscore', () => {
   expect(100).toBeGreaterThanOrEqual(relicScore.bestPct)
   expect(relicScore.bestPct).toBeGreaterThanOrEqual(relicScore.worstPct)
 })
+
+test('aidantest', () => {
+  // Test that percentage weights are sane
+
+  const character = '1202' // tingyun
+
+  const relic: Relic = {
+    enhance: 0,
+    grade: 5,
+    part: 'Body',
+    set: 'Prisoner in Deep Confinement',
+    main: {
+      stat: Constants.Stats.DEF_P,
+      value: 8.6,
+    },
+    substats: [
+      { stat: Constants.Stats.HP_P, value: 3.8 },
+      { stat: Constants.Stats.ATK_P, value: 4.3 },
+      { stat: Constants.Stats.SPD, value: 2 },
+      { stat: Constants.Stats.RES, value: 4.3 },
+    ],
+    id: '77bde0f9-38ce-48f6-a936-79141e3f04ce',
+    equippedBy: character,
+  }
+
+  const relicScore = RelicScorer.scoreRelicPct(relic, character, true)
+  expect(100).toBeGreaterThanOrEqual(relicScore.bestPct)
+  expect(relicScore.bestPct).toBeGreaterThanOrEqual(relicScore.worstPct)
+});
 
 test('ideal-mainstats-includes-best-mainstats', () => {
   // Test the assumption (that optimal relic scoring relies on) that the best ideal

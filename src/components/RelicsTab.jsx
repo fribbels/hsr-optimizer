@@ -325,7 +325,7 @@ export default function RelicsTab() {
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,
-        score: RelicScorer.scoreRelicPct(selectedRelic, id),
+        score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
         color: '#000',
         owned: !!DB.getCharacterById(id),
       }))
@@ -535,7 +535,11 @@ export default function RelicsTab() {
                     y: scoreBuckets.flatMap((bucket, bucketIdx) =>
                       bucket.map((_score, _idx) => (bucketIdx * 10) + '%+')),
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
-                      bucket.map((score, _idx) => score.name)),
+                      bucket.map((score, _idx) =>
+                        score.name + '<br>' +
+                        (score.score.meta.bestNewSubstats.length === 0 ? '' :
+                          'New substats: ' + score.score.meta.bestNewSubstats.join('/') + '<br>') +
+                        'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/'))),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
                       symbol: 'circle',

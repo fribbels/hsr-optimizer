@@ -321,7 +321,7 @@ export class RelicScorer {
     const score = this.scoreRelic(relic, id, 'weighted', withMeta)
 
     if (Utils.hasMainStat(relic.part)) {
-      // undo mainstat free roll as it's not relevant for optimality
+      // undo mainstat free roll as it's not relevant for potential
       const scoringMetadata = this.getRelicScoreMeta(id)
       const freeRoll = mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata.stats)
       score.best -= freeRoll

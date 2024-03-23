@@ -143,16 +143,16 @@ export default function RelicFilterBar(props) {
     for (let relic of relics) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
 
-      relic.weights.optimalityAllAll = 0
-      relic.weights.optimalityOwnedAll = 0
+      relic.weights.potentialAllAll = 0
+      relic.weights.potentialOwnedAll = 0
 
       for (let cid of allCharacters) {
         let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
         let owned = ownedCharacters.has(cid)
 
-        relic.weights.optimalityAllAll = Math.max(pct, relic.weights.optimalityAllAll)
+        relic.weights.potentialAllAll = Math.max(pct, relic.weights.potentialAllAll)
         if (owned) {
-          relic.weights.optimalityOwnedAll = Math.max(pct, relic.weights.optimalityOwnedAll)
+          relic.weights.potentialOwnedAll = Math.max(pct, relic.weights.potentialOwnedAll)
         }
       }
     }

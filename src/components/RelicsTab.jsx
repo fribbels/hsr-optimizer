@@ -189,7 +189,6 @@ export default function RelicsTab() {
     { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
     { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
     { column: 'POT A+A', value: 'weights.potentialAllAll', label: 'Potential: All Chars, Any Relics' },
-    { column: 'POT O+A', value: 'weights.potentialOwnedAll', label: 'Potential: Owned Chars, Any Relics' },
   ], [])
 
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])

@@ -58,10 +58,10 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   // assert relic added
 
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293ATK %10.0%DEF %10.0%CRIT DMG10.0%Effect Hit Rate10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293ATK %10.0%DEF %10.0%CRIT DMG10.0%Effect HIT10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK293')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('CRIT DMG10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect Hit Rate10.0%')
+  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect HIT10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK %10.0%')
   await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('DEF %10.0%')
 

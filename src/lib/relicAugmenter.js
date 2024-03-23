@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Constants } from './constants.ts'
 import { RelicRollFixer } from './relicRollFixer'
 import { Utils } from './utils'
+import { RelicRollGrader } from 'lib/relicRollGrader'
 
 export const RelicAugmenter = {
   augment: function(relic) {
@@ -39,6 +40,7 @@ export const RelicAugmenter = {
 
     relic.augmentedStats = augmentedStats
     fixAugmentedStats([relic])
+    RelicRollGrader.calculateRelicSubstatRolls(relic)
     return relic
   },
 }

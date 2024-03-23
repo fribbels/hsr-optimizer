@@ -620,8 +620,10 @@ export const DB = {
     window.onOptimizerFormValuesChange({}, fieldValues)
   },
 
-  // These relics have accurate speed values from relic scorer import
-  // We keep the existing set of relics and only overwrite ones that match an imported one
+  /*
+   * These relics have accurate speed values from relic scorer import
+   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+   */
   mergeVerifiedRelicsWithState: (newRelics) => {
     let oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []

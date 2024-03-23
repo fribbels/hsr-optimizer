@@ -1,4 +1,4 @@
-import { StatRolls, Relic } from 'types/Relic'
+import { Relic, StatRolls } from 'types/Relic'
 import { SubStatValues } from './constants'
 
 // non exported interface, the number are float
@@ -35,6 +35,12 @@ export const RelicRollGrader = {
   },
 
   calculateRelicSubstatRolls(relic: Relic): void {
+    // Skip non 5 star relics for simplicity
+    if (relic.grade < 5) {
+      relic.substats.map((x) => x.rolls = { high: 0, mid: 0, low: 0 })
+      return
+    }
+
     relic.substats.forEach((substat) => {
       const incrementOptions = SubStatValues[substat.stat][relic.grade]
 

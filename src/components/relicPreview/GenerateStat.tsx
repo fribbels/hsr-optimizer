@@ -43,7 +43,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
-          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -2 }}
+          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -4 }}
         >
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
@@ -71,7 +71,7 @@ function generateRolls(stat) {
   const rolls = Math.min(5, Math.max(0, stat.rolls.high + stat.rolls.mid + stat.rolls.low - 1))
   const result: ReactElement[] = []
   for (let i = 0; i < rolls; i++) {
-    result.push(<RightIcon key={i} style={{ fontSize: 10, marginRight: -5 }} />)
+    result.push(<RightIcon key={i} style={{ marginRight: -5.5 }} />)
   }
   if (rolls == 0) {
     result.push(<div key={0}></div>)

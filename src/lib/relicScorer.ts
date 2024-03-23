@@ -269,8 +269,8 @@ export class RelicScorer {
         isIdeal = newIsIdeal
         isSubstat = newIsSubstat
       }
-      // Add our weighted mainstat
-      maxWeight += scoreEntries.splice(mainStatIndex, 1)[0][1] * 64.8
+      // Ignore main stat for max weight
+      // maxWeight += scoreEntries.splice(mainStatIndex, 1)[0][1] * 64.8
     } else {
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part][0] === name)
       scoreEntries.splice(mainStatIndex, 1)
@@ -332,18 +332,19 @@ export class RelicScorer {
     let mainScore = 0
     if (mainStatScoring === 'ideal') {
       // Obey listed 'ideal' mainstats and give them the same weight
-      if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringResult.mainStatScore
-      } else {
-        // ideal scoring is used from the relics table - to have comparable weights across
-        // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
-        mainScore = 64.8
-      }
+
+      // TODO: Not implemented
+      // if (Utils.hasMainStat(relic.part)) {
+      //   mainScore = scoringResult.mainStatScore
+      // } else {
+      //   // ideal scoring is used from the relics table - to have comparable weights across
+      //   // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
+      //   mainScore = 64.8
+      // }
     } else if (mainStatScoring === 'weighted') {
-      // Ignore ideal mainstats, weigh according to their 'true' weight and don't add fake
-      // mainstat weights that could skew weight distributions
+      // Turn the main stat score into a deduction if using a suboptimal main
       if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8 - 64.8
       }
     } else {
       throw new Error('unknown mainStatScoring type ' + mainStatScoring)

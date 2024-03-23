@@ -536,11 +536,13 @@ export default function RelicsTab() {
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((score, _idx) => [
                         score.name,
-                        (score.score.meta.bestNewSubstats.length === 0 ? '' :
-                          'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
-                        (score.score.meta.bestRolledSubstats === null ? '' :
-                          'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/'))
-                      ].filter((t) => t !== '').join('<br>'))
+                        (score.score.meta.bestNewSubstats.length === 0
+                          ? ''
+                          : 'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
+                        (score.score.meta.bestRolledSubstats == null
+                          ? ''
+                          : 'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/')),
+                      ].filter((t) => t !== '').join('<br>')),
                     ),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points

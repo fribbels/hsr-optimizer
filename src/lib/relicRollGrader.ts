@@ -42,6 +42,7 @@ export const RelicRollGrader = {
     }
 
     relic.substats.forEach((substat) => {
+      console.log(substat)
       const incrementOptions = SubStatValues[substat.stat][relic.grade]
 
       const incrementCounts = this.calculateIncrementCounts(substat.value, incrementOptions)
@@ -51,6 +52,7 @@ export const RelicRollGrader = {
       }
     })
   },
+
   calculateStatSum(rolls: StatRolls): number {
     return rolls
       ? parseFloat(((rolls.high * 100 + rolls.mid * 90 + rolls.low * 80) / (rolls.high + rolls.mid + rolls.low)).toFixed(2))

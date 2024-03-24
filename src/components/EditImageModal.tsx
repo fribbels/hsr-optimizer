@@ -433,7 +433,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                       </p>
                     </Flex>
                   )}
-
               </Dragger>
             </>
           )}
@@ -524,6 +523,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       width={width}
       destroyOnClose
       centered
+      // It's easy to overshoot the zoom slider and accidentally close modal
+      maskClosable={false}
       onOk={handleOk}
       onCancel={() => setOpen(false)}
       footer={[
@@ -541,7 +542,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </Button>
             )}
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} loading={isVerificationLoading} disabled={radio === 'upload'}>
+              <Button type="primary" onClick={next} disabled={radio === 'upload'}>
                 Next
               </Button>
             )}

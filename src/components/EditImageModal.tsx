@@ -499,8 +499,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               style={{ width: '100%' }}
               min={MIN_ZOOM}
               max={MAX_ZOOM}
-              step={0.01}
-              onChange={(val: number) => setZoom(val)}
+              step={0.1}
+              tooltip={{
+                formatter: null,
+              }}
+              onChange={setZoom}
               value={zoom}
             />
           </Flex>
@@ -518,62 +521,62 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Modal
-      open={open}
-      width={width}
-      destroyOnClose
-      centered
-      // It's easy to overshoot the zoom slider and accidentally close modal
-      maskClosable={false}
-      onOk={handleOk}
-      onCancel={() => setOpen(false)}
-      footer={[
-        <Flex key={1} justify="flex-end">
-          <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
-            {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
-            {(current > 0 && existingConfig) && (
-              <Button onClick={revert} danger>
-                Revert to default
-              </Button>
-            )}
-            {(current > 0 && !existingConfig) && (
-              <Button onClick={prev}>
-                Previous
-              </Button>
-            )}
-            {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} disabled={radio === 'upload'}>
-                Next
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button type="primary" onClick={handleOk}>
-                Submit
-              </Button>
-            )}
-          </Flex>
-        </Flex>,
-      ]}
-      title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
-    >
-      <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
-        {!existingConfig
-        && (
-          <Steps current={current} style={{ marginBottom: 12 }}>
-            {steps.map((item) => (
-              <Steps.Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        )}
-        <Form form={customImageForm} layout="vertical">
+    <Form form={customImageForm} layout="vertical">
+      <Modal
+        open={open}
+        width={width}
+        destroyOnClose
+        centered
+        // It's easy to overshoot the zoom slider and accidentally close modal
+        maskClosable={false}
+        onOk={handleOk}
+        onCancel={() => setOpen(false)}
+        footer={[
+          <Flex key={1} justify="flex-end">
+            <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
+              {(current > 0 && existingConfig) && (
+                <Button onClick={revert} danger>
+                  Revert to default
+                </Button>
+              )}
+              {(current > 0 && !existingConfig) && (
+                <Button onClick={prev}>
+                  Previous
+                </Button>
+              )}
+              {current < steps.length - 1 && (
+                <Button type="primary" onClick={next} disabled={radio === 'upload'}>
+                  Next
+                </Button>
+              )}
+              {current === steps.length - 1 && (
+                <Button type="primary" onClick={handleOk}>
+                  Submit
+                </Button>
+              )}
+            </Flex>
+          </Flex>,
+        ]}
+        title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
+      >
+        <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
+          {!existingConfig
+          && (
+            <Steps current={current} style={{ marginBottom: 12 }}>
+              {steps.map((item) => (
+                <Steps.Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+          )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}
             </div>
           ))}
-        </Form>
-      </div>
-    </Modal>
+        </div>
+      </Modal>
+    </Form>
   )
 }
 

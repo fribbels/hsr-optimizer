@@ -87,14 +87,14 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <Form.Item name="characterId">
           <CharacterSelect
             value=""
-            selectStyle={{ width: 155 }}
+            selectStyle={{ width: 150 }}
             onChange={setOptimizerTabFocusCharacter}
           />
         </Form.Item>
         <Form.Item name="characterEidolon">
           <Select
             showSearch
-            style={{ width: 45 }}
+            style={{ width: 50 }}
             options={eidolonOptions}
             onChange={setOptimizerFormCharacterEidolon}
             placeholder="E"
@@ -112,7 +112,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           <Form.Item name="lightCone">
             <LightConeSelect
               value=""
-              selectStyle={{ width: 155 }}
+              selectStyle={{ width: 150 }}
               characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
             />
@@ -120,7 +120,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           <Form.Item name="lightConeSuperimposition">
             <Select
               showSearch
-              style={{ width: 45 }}
+              style={{ width: 50 }}
               onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
               placeholder="S"

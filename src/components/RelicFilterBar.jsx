@@ -186,6 +186,39 @@ export default function RelicFilterBar(props) {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
+          <HeaderText>Part</HeaderText>
+          <FilterRow name="part" tags={partsData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical style={{ height: '100%' }} flex={1}>
+          <HeaderText>Enhance</HeaderText>
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Set</HeaderText>
+        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Main stats</HeaderText>
+        <FilterRow name="mainStats" tags={mainStatsData} />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Substats</HeaderText>
+        <FilterRow name="subStats" tags={subStatsData} />
+      </Flex>
+      <Flex gap={10}>
+        <Flex vertical flex={1}>
           <HeaderText>Relic recommendation character</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
@@ -237,40 +270,6 @@ export default function RelicFilterBar(props) {
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
-
-      <Flex gap={10}>
-        <Flex vertical flex={0.25}>
-          <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical flex={0.5}>
-          <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical flex={1}>
-          <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
-        </Flex>
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData} />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData} />
       </Flex>
     </Flex>
   )

@@ -370,6 +370,10 @@ a {
   visibility: visible !important;
   transition: opacity 0.3s ease;
 }
+
+.ant-slider-rail {
+  background-color: rgba(255, 255, 255, 0.85) !important; /* or any color you prefer */
+}
 .ant-card-small > .ant-card-body {
   padding-left: 11px !important;
   padding-right: 11px !important;

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Steps } from 'antd'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
-import { CroppedArea, CustomImageConfig, CustomImageParams, ImageDimensions } from 'types/CustomImage'
+import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
 import Dragger from 'antd/es/upload/Dragger'
 import { Message } from 'lib/message'
@@ -12,7 +12,7 @@ interface EditImageModalProps {
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (_x: CustomImageConfig) => void
+  onOk: (_x: CustomImagePayload) => void
   title?: string
   width?: number
   defaultImageUrl?: string // default image, passed in to this component to edit its config
@@ -54,28 +54,31 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
+  const resetConfig = React.useCallback(() => {
+    customImageForm.resetFields()
+    setCurrent(0)
+    setIsVerificationLoading(false)
+    setVerifiedImageUrl('')
+    setOriginalDimensions(DEFAULT_IMAGE_DIMENSIONS)
+    setCrop(DEFAULT_CROP)
+    setZoom(DEFAULT_ZOOM)
+    setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
+  }, [customImageForm])
+
   // Handle initialization depending on if existingConfig exists:
   // - Reset on close for new character
   // - upon open, load custom image config if it exists
   React.useEffect(() => {
     if (!open) {
-      customImageForm.resetFields()
-      setCurrent(0)
-      setIsVerificationLoading(false)
-      setVerifiedImageUrl('')
-      setOriginalDimensions(DEFAULT_IMAGE_DIMENSIONS)
-      setCrop(DEFAULT_CROP)
-      setZoom(DEFAULT_ZOOM)
-      setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
+      resetConfig()
     } else if (existingConfig) {
-      console.log('EXISTING CONFIG', !!existingConfig)
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl })
       setRadio('url') // If there's a existingConfig, there will always be a url
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)
     }
-  }, [defaultImageUrl, open, existingConfig, customImageForm])
+  }, [defaultImageUrl, open, existingConfig, customImageForm, resetConfig])
 
   const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
     if (current == 1) {
@@ -94,28 +97,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
     switch (radio) {
       case 'upload':
-        onOk({ imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
-        setOpen(false)
+        onOk({ type: 'add', imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
         setCurrent(0)
         break
       case 'url':
         customImageForm.validateFields()
           .then((values) => {
-            onOk({
-              imageUrl: values.imageUrl,
-              originalDimensions,
-              customImageParams,
-              cropper: {
-                zoom,
-                crop,
-              },
-            })
+            onOk({ type: 'add', imageUrl: values.imageUrl, ...imageConfigWithoutUrl })
           })
           .catch((e) => {
             console.error('Error:', e)
           })
           .finally(() => {
-            setOpen(false)
             setCurrent(0)
           })
         break
@@ -123,14 +116,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({ imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
-        setOpen(false)
+        onOk({ type: 'add', imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
         setCurrent(0)
         break
       default:
-      // Optionally handle any other cases or unexpected values of `radio`
         console.warn(`Unexpected radio value: ${radio}`)
-        // Consider whether the modal should be closed and the state reset in this case
         setOpen(false)
         setCurrent(0)
     }
@@ -396,6 +386,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
+  const revert = () => {
+    onOk({ type: 'delete' })
+    setCurrent(0)
+  }
   const prev = () => setCurrent(current - 1)
   const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
 
@@ -413,22 +407,34 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </Flex>
 
           {radio === 'upload' && (
-            <Dragger
-              name="file"
-              multiple={false}
-              accept="image/png, image/jpeg, image/jpg"
-              beforeUpload={handleBeforeUpload}
-
-              showUploadList={false}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              <p className="ant-upload-hint">
-                Accepts .jpg .jpeg .png (Max: 20MB)
-              </p>
-            </Dragger>
+            <>
+              <Dragger
+                name="file"
+                multiple={false}
+                accept="image/png, image/jpeg, image/jpg"
+                beforeUpload={handleBeforeUpload}
+                disabled={isVerificationLoading}
+                showUploadList={false}
+              >
+                {isVerificationLoading
+                  ? (
+                    <Flex style={{ height: '300px' }} justify="center" align="center">
+                      <Spin size="large" />
+                    </Flex>
+                  )
+                  : (
+                    <Flex style={{ height: '300px' }} justify="center" align="center" vertical>
+                      <p className="ant-upload-drag-icon">
+                        <InboxOutlined />
+                      </p>
+                      <p className="ant-upload-text">Click or drag image file to this area to upload</p>
+                      <p className="ant-upload-hint">
+                        Accepts .jpg .jpeg .png (Max: 20MB)
+                      </p>
+                    </Flex>
+                  )}
+              </Dragger>
+            </>
           )}
 
           {radio === 'url' && (
@@ -454,12 +460,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Crop image',
       content: (
         <>
-          <div style={{ height: '400px', position: 'relative' }}>
+          <div style={{ height: '380px', position: 'relative' }}>
             <Cropper
               image={verifiedImageUrl}
               crop={crop}
               zoom={zoom}
-              objectFit="cover"
+              // objectFit="cover"
               aspect={aspectRatio}
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
@@ -471,8 +477,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 }
               }}
               onZoomChange={(newZoom) => {
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                if (!isMobile) {
+                if (navigator.maxTouchPoints === 0) {
                   if (newZoom < zoom) {
                     setZoom(Math.max(MIN_ZOOM, zoom * 0.95))
                   }
@@ -483,12 +488,26 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                   setZoom(newZoom)
                 }
               }}
-              zoomSpeed={0.0001}
+              zoomSpeed={navigator.maxTouchPoints === 0 ? 0.0001 : 1}
               minZoom={MIN_ZOOM}
               maxZoom={MAX_ZOOM}
             />
           </div>
-          <div style={{ marginTop: 8 }}>
+          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align="center">
+            <label>Zoom</label>
+            <Slider
+              style={{ width: '100%' }}
+              min={MIN_ZOOM}
+              max={MAX_ZOOM}
+              step={0.1}
+              tooltip={{
+                formatter: null,
+              }}
+              onChange={setZoom}
+              value={zoom}
+            />
+          </Flex>
+          <div style={{ marginTop: 2 }}>
             <ZoomInOutlined style={{ marginRight: 8 }} />
             Pinch or scroll to zoom
           </div>
@@ -502,54 +521,62 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Modal
-      open={open}
-      width={width}
-      destroyOnClose
-      centered
-      onOk={handleOk}
-      onCancel={() => setOpen(false)}
-      footer={[
-        <Flex key={1} justify="flex-end">
-          <div style={{ marginTop: 16 }}>
-            {(current > 0 && !existingConfig) && (
-              <Button style={{ marginRight: '8px' }} onClick={prev}>
-                Previous
-              </Button>
-            )}
-            {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} loading={isVerificationLoading} disabled={radio === 'upload'}>
-                Next
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button type="primary" onClick={handleOk}>
-                Submit
-              </Button>
-            )}
-          </div>
-        </Flex>,
-      ]}
-      title={title}
-    >
-      <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
-        {!existingConfig
-        && (
-          <Steps current={current} style={{ marginBottom: 12 }}>
-            {steps.map((item) => (
-              <Steps.Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-        )}
-        <Form form={customImageForm} layout="vertical">
+    <Form form={customImageForm} layout="vertical">
+      <Modal
+        open={open}
+        width={width}
+        destroyOnClose
+        centered
+        // It's easy to overshoot the zoom slider and accidentally close modal
+        maskClosable={false}
+        onOk={handleOk}
+        onCancel={() => setOpen(false)}
+        footer={[
+          <Flex key={1} justify="flex-end">
+            <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
+              {(current > 0 && existingConfig) && (
+                <Button onClick={revert} danger>
+                  Revert to default
+                </Button>
+              )}
+              {(current > 0 && !existingConfig) && (
+                <Button onClick={prev}>
+                  Previous
+                </Button>
+              )}
+              {current < steps.length - 1 && (
+                <Button type="primary" onClick={next} disabled={radio === 'upload'}>
+                  Next
+                </Button>
+              )}
+              {current === steps.length - 1 && (
+                <Button type="primary" onClick={handleOk}>
+                  Submit
+                </Button>
+              )}
+            </Flex>
+          </Flex>,
+        ]}
+        title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
+      >
+        <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
+          {!existingConfig
+          && (
+            <Steps current={current} style={{ marginBottom: 12 }}>
+              {steps.map((item) => (
+                <Steps.Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+          )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}
             </div>
           ))}
-        </Form>
-      </div>
-    </Modal>
+        </div>
+      </Modal>
+    </Form>
   )
 }
 

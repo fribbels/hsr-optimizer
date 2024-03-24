@@ -27,3 +27,7 @@ export type CustomImageConfig = {
     }
   }
 }
+
+export type CustomImagePayload = ({
+  type: 'add'
+} & CustomImageConfig) | { type: 'delete' }

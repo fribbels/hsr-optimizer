@@ -19,7 +19,7 @@ interface EditImageModalProps {
 }
 
 const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
-const CLIENT_ID = '0e6801babd5cc0e'
+const CLIENT_ID = 'f09c3678220940b'
 
 const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
 const DEFAULT_CROP = { x: 0, y: 0 }

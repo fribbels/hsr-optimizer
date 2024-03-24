@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Steps } from 'antd'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Spin, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
 import { CroppedArea, CustomImageConfig, CustomImageParams, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
@@ -413,22 +413,35 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </Flex>
 
           {radio === 'upload' && (
-            <Dragger
-              name="file"
-              multiple={false}
-              accept="image/png, image/jpeg, image/jpg"
-              beforeUpload={handleBeforeUpload}
+            <>
+              <Dragger
+                name="file"
+                multiple={false}
+                accept="image/png, image/jpeg, image/jpg"
+                beforeUpload={handleBeforeUpload}
+                disabled={isVerificationLoading}
+                showUploadList={false}
+              >
+                {isVerificationLoading
+                  ? (
+                    <Flex style={{ height: '300px' }} justify="center" align="center">
+                      <Spin size="large" />
+                    </Flex>
+                  )
+                  : (
+                    <Flex style={{ height: '300px' }} justify="center" align="center" vertical>
+                      <p className="ant-upload-drag-icon">
+                        <InboxOutlined />
+                      </p>
+                      <p className="ant-upload-text">Click or drag image file to this area to upload</p>
+                      <p className="ant-upload-hint">
+                        Accepts .jpg .jpeg .png (Max: 20MB)
+                      </p>
+                    </Flex>
+                  )}
 
-              showUploadList={false}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              <p className="ant-upload-hint">
-                Accepts .jpg .jpeg .png (Max: 20MB)
-              </p>
-            </Dragger>
+              </Dragger>
+            </>
           )}
 
           {radio === 'url' && (
@@ -459,7 +472,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               image={verifiedImageUrl}
               crop={crop}
               zoom={zoom}
-              objectFit="cover"
+              // objectFit="cover"
               aspect={aspectRatio}
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
@@ -511,9 +524,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       onCancel={() => setOpen(false)}
       footer={[
         <Flex key={1} justify="flex-end">
-          <div style={{ marginTop: 16 }}>
+          <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
+            {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
             {(current > 0 && !existingConfig) && (
-              <Button style={{ marginRight: '8px' }} onClick={prev}>
+              <Button onClick={prev}>
                 Previous
               </Button>
             )}
@@ -527,7 +541,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 Submit
               </Button>
             )}
-          </div>
+          </Flex>
         </Flex>,
       ]}
       title={title}

@@ -315,6 +315,8 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
+  const score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+
   const numScores = 10
   let scores = null
   let scoreBuckets = null
@@ -407,6 +409,7 @@ export default function RelicsTab() {
             relic={selectedRelic}
             setSelectedRelic={setSelectedRelic}
             setEditModalOpen={setEditModalOpen}
+            score={score}
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />

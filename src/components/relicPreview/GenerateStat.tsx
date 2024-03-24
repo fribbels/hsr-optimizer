@@ -23,7 +23,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
         <Flex>
           <img
             src={Assets.getBlank()}
-            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -2 }}
+            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
           >
           </img>
         </Flex>
@@ -44,7 +44,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
-          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -4 }}
+          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>

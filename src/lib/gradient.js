@@ -60,8 +60,9 @@ export const Gradient = {
         [`augmentedStats.${Constants.Stats.BE}`]: 0.2592,
         [`cv`]: 0.40,
         'weights.current': 64.8,
-        'weights.best': 64.8,
-        'weights.average': 64.8,
+        'weights.potentialSelected.averagePct': 100,
+        'weights.potentialSelected.bestPct': 100,
+        'weights.potentialAllAll': 100,
       }
     }
 
@@ -73,7 +74,7 @@ export const Gradient = {
     if (col.startsWith('weights.potential')) {
       range = value / 100
     } else if (col.startsWith('weights.')) {
-      range = Math.max(0, value - 64.8) / relicColumnRanges[col]
+      range = value / (6.48 * 9)
     } else {
       range = value / relicColumnRanges[col]
     }

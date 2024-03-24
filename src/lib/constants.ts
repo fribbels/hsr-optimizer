@@ -86,6 +86,81 @@ export const SubStats = [
 ]
 export type SubStats = typeof SubStats[number]
 
+export const SubStatValues = {
+  [Stats.SPD]: {
+    5: { high: 2.6, mid: 2.3, low: 2.0 },
+    4: { high: 2.0, mid: 1.8, low: 1.6 },
+    3: { high: 1.4, mid: 1.3, low: 1.2 },
+    2: { high: 1.2, mid: 1.1, low: 1.0 },
+  },
+  [Stats.HP]: {
+    5: { high: 42.33751, mid: 38.103755, low: 33.87 },
+    4: { high: 33.87, mid: 30.483, low: 27.096 },
+    3: { high: 25.402506, mid: 22.862253, low: 20.322 },
+    2: { high: 16.935, mid: 15.2415, low: 13.548 },
+  },
+  [Stats.ATK]: {
+    5: { high: 21.168754, mid: 19.051877, low: 16.935 },
+    4: { high: 16.935, mid: 15.2415, low: 13.548 },
+    3: { high: 10.161, mid: 11.431126, low: 12.701252 },
+    2: { high: 8.4675, mid: 7.62075, low: 6.774 },
+  },
+  [Stats.DEF]: {
+    5: { high: 21.168754, mid: 19.051877, low: 16.935 },
+    4: { high: 16.935, mid: 15.2415, low: 13.548 },
+    3: { high: 10.161, mid: 11.431126, low: 12.701252 },
+    2: { high: 8.4675, mid: 7.62075, low: 6.774 },
+  },
+  [Stats.HP_P]: {
+    5: { high: 4.32, mid: 3.888, low: 3.456 },
+    4: { high: 3.456, mid: 3.1104, low: 2.7648 },
+    3: { high: 2.592, mid: 2.3328, low: 2.0736 },
+    2: { high: 1.728, mid: 1.5552, low: 1.3824 },
+  },
+  [Stats.ATK_P]: {
+    5: { high: 4.32, mid: 3.888, low: 3.456 },
+    4: { high: 3.456, mid: 3.1104, low: 2.7648 },
+    3: { high: 2.592, mid: 2.3328, low: 2.0736 },
+    2: { high: 1.728, mid: 1.5552, low: 1.3824 },
+  },
+  [Stats.DEF_P]: {
+    5: { high: 5.4, mid: 4.86, low: 4.32 },
+    4: { high: 4.32, mid: 3.888, low: 3.456 },
+    3: { high: 2.592, mid: 2.916, low: 3.24 },
+    2: { high: 2.16, mid: 1.944, low: 1.728 },
+  },
+  [Stats.BE]: {
+    5: { high: 6.48, mid: 5.832, low: 5.184 },
+    4: { high: 5.184, mid: 4.6656, low: 4.1472 },
+    3: { high: 3.888, mid: 3.4992, low: 3.1104 },
+    2: { high: 2.592, mid: 2.3328, low: 2.0736 },
+  },
+  [Stats.EHR]: {
+    5: { high: 4.32, mid: 3.888, low: 3.456 },
+    4: { high: 3.456, mid: 3.1104, low: 2.7648 },
+    3: { high: 2.592, mid: 2.3328, low: 2.0736 },
+    2: { high: 1.728, mid: 1.5552, low: 1.3824 },
+  },
+  [Stats.RES]: {
+    5: { high: 4.32, mid: 3.888, low: 3.456 },
+    4: { high: 3.456, mid: 3.1104, low: 2.7648 },
+    3: { high: 2.592, mid: 2.3328, low: 2.0736 },
+    2: { high: 1.728, mid: 1.5552, low: 1.3824 },
+  },
+  [Stats.CR]: {
+    5: { high: 3.24, mid: 2.916, low: 2.592 },
+    4: { high: 2.592, mid: 2.3328, low: 2.0736 },
+    3: { high: 1.5552, mid: 1.7496, low: 1.944 },
+    2: { high: 1.296, mid: 1.1664, low: 1.0368 },
+  },
+  [Stats.CD]: {
+    5: { high: 6.48, mid: 5.832, low: 5.184 },
+    4: { high: 5.184, mid: 4.6656, low: 4.1472 },
+    3: { high: 3.888, mid: 3.4992, low: 3.1104 },
+    2: { high: 2.592, mid: 2.3328, low: 2.0736 },
+  },
+}
+
 export const StatsToReadable = {
   [Stats.HP_P]: 'HP %',
   [Stats.ATK_P]: 'ATK %',
@@ -97,7 +172,7 @@ export const StatsToReadable = {
   [Stats.SPD]: 'SPD',
   [Stats.CR]: 'CRIT Rate',
   [Stats.CD]: 'CRIT DMG',
-  [Stats.EHR]: 'Effect Hit Rate',
+  [Stats.EHR]: 'Effect HIT',
   [Stats.RES]: 'Effect RES',
   [Stats.BE]: 'Break Effect',
   [Stats.ERR]: 'Energy Regen',

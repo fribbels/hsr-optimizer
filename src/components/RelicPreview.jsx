@@ -4,8 +4,8 @@ import { Card, Divider, Flex } from 'antd'
 import { Renderer } from 'lib/renderer'
 import { Assets } from 'lib/assets'
 import { iconSize } from 'lib/constantsUi'
-import GenerateStat from 'components/relicPreview/GenerateStat'
 import RelicStatText from 'components/relicPreview/RelicStatText'
+import { GenerateStat } from 'components/relicPreview/GenerateStat'
 
 const RelicPreview = ({
   relic,
@@ -89,7 +89,7 @@ const RelicPreview = ({
 
         <Flex justify="space-between">
           <Flex>
-            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}></img>
+            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -4 }}></img>
             <RelicStatText>
               {(scored) ? 'Score' : ''}
             </RelicStatText>

@@ -28,9 +28,9 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Boots
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15SPD25DEF16ATK %4\.3%CRIT Rate2\.5%Effect RES19\.8%Score18\.0 \(C\+\)$/ })).toHaveCount(1)
   // Orb
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Lightning DMG38\.8%ATK59ATK %8\.2%DEF %5\.4%Effect Hit Rate6\.9%Score14\.1 \(D\+\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Lightning DMG38\.8%ATK59ATK %8\.2%DEF %5\.4%Effect HIT6\.9%Score14\.1 \(D\+\)$/ })).toHaveCount(1)
   // Rope
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP38ATK63SPD5Effect Hit Rate8\.2%Score22\.3 \(B\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP38ATK63SPD5Effect HIT8\.2%Score22\.3 \(B\)$/ })).toHaveCount(1)
 
   // Verify Kafka now has Jingliu's relics
   await page.locator('#characterGrid').getByText('Kafka').click()
@@ -39,13 +39,13 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Head
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15HP705CRIT Rate11\.0%CRIT DMG10\.3%Effect RES3\.4%Break Effect5\.1%Score20\.1 \(C\+\)$/ })).toHaveCount(1)
   // Hands
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK352HP %3\.4%SPD4CRIT DMG22\.6%Effect Hit Rate3\.4%Score24\.3 \(B\+\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK352HP %3\.4%SPD4CRIT DMG22\.6%Effect HIT3\.4%Score24\.3 \(B\+\)$/ })).toHaveCount(1)
   // Body
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15CRIT DMG64\.8%HP114ATK %7\.3%DEF %4\.3%CRIT Rate8\.1%Score23\.3 \(B\+\)$/ })).toHaveCount(1)
   // Boots
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15SPD25ATK21ATK %11\.6%DEF %4\.8%CRIT DMG17\.4%Score36\.6 \(SS\)$/ })).toHaveCount(1)
   // Orb
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Ice DMG38\.8%DEF74CRIT Rate5\.5%CRIT DMG12\.3%Effect Hit Rate4\.3%Score14\.9 \(D\+\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15Ice DMG38\.8%DEF74CRIT Rate5\.5%CRIT DMG12\.3%Effect HIT4\.3%Score14\.9 \(D\+\)$/ })).toHaveCount(1)
   // Rope
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP80CRIT Rate8\.4%CRIT DMG10\.3%Break Effect5\.8%Score23\.5 \(B\+\)$/ })).toHaveCount(1)
 })

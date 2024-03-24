@@ -10,6 +10,9 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
 let CANCEL = false
 
@@ -116,9 +119,13 @@ export const Optimizer = {
     }
     handleTopRow()
 
+    let searched = 0
     let resultsShown = false
     let results = []
-    let searched = 0
+    const sortOption = SortOption[request.resultSort]
+    const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+    const resultLimit = request.resultLimit || 100000
+    const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
     let increment = 20000
@@ -137,15 +144,18 @@ export const Optimizer = {
 
     let inProgress = runs.length
     for (let run of runs) {
-      let input = {
-        params: params,
-        request: request,
-        relics: relics,
-        WIDTH: run.runSize,
-        skip: run.skip,
-        permutations: permutations,
-        relicSetSolutions: relicSetSolutions,
-        ornamentSetSolutions: ornamentSetSolutions,
+      let task = {
+        input: {
+          params: params,
+          request: request,
+          relics: relics,
+          WIDTH: run.runSize,
+          skip: run.skip,
+          permutations: permutations,
+          relicSetSolutions: relicSetSolutions,
+          ornamentSetSolutions: ornamentSetSolutions,
+        },
+        getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
       }
 
       let callback = (result) => {
@@ -159,15 +169,17 @@ export const Optimizer = {
         let resultArr = new Float64Array(result.buffer)
         // console.log(`Optimizer results`, result, resultArr, run)
 
-        BufferPacker.extractArrayToResults(resultArr, run.runSize, results)
+        BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
         // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-        window.store.getState().setPermutationsResults(results.length)
+        window.store.getState().setPermutationsResults(queueResults.size())
         window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
 
         if (inProgress == 0 || CANCEL) {
           window.store.getState().setOptimizationInProgress(false)
+          results = queueResults.toArray()
           OptimizerTabController.setRows(results)
+          setSortColumn(gridSortColumn)
 
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
@@ -182,7 +194,7 @@ export const Optimizer = {
         }
       }
 
-      WorkerPool.execute(input, callback)
+      WorkerPool.execute(task, callback)
     }
   },
 }
@@ -195,6 +207,8 @@ function renameFields(c) {
   c.ULT = c.x.ULT_DMG
   c.FUA = c.x.FUA_DMG
   c.DOT = c.x.DOT_DMG
+  c.WEIGHT = c.x.WEIGHT
+  c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]
   c.xDEF = c.x[Stats.DEF]

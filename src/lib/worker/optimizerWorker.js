@@ -1,15 +1,10 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import {
-  calculateBaseStats,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts,
-} from 'lib/optimizer/calculateStats'
+import { calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -38,6 +33,9 @@ self.onmessage = function(e) {
 
   let combatDisplay = request.statDisplay == 'combat'
   let baseDisplay = !combatDisplay
+  let passCount = 0
+
+  const { failsBasicFilter, failsCombatFilter } = generateResultMinFilter(request, combatDisplay)
 
   calculateConditionals(request, params)
   calculateTeammates(request, params)
@@ -93,6 +91,10 @@ self.onmessage = function(e) {
 
     // Exit early on base display filters failing
     if (baseDisplay) {
+      if (failsBasicFilter(c)) {
+        continue
+      }
+
       const fail
         = c[Stats.SPD] < request.minSpd || c[Stats.SPD] > request.maxSpd
         || c[Stats.HP] < request.minHp || c[Stats.HP] > request.maxHp
@@ -104,7 +106,6 @@ self.onmessage = function(e) {
         || c[Stats.RES] < request.minRes || c[Stats.RES] > request.maxRes
         || c[Stats.BE] < request.minBe || c[Stats.BE] > request.maxBe
         || c[Stats.ERR] < request.minErr || c[Stats.ERR] > request.maxErr
-        || c.WEIGHT < request.minWeight || c.WEIGHT > request.maxWeight
       if (fail) {
         continue
       }
@@ -113,6 +114,10 @@ self.onmessage = function(e) {
     calculateComputedStats(c, request, params)
     calculateBaseMultis(c, request, params)
     calculateDamage(c, request, params)
+
+    if (failsCombatFilter(x)) {
+      continue
+    }
 
     // Since we exited early on the c comparisons, we only need to check against x stats here
     // Combat filters
@@ -134,7 +139,8 @@ self.onmessage = function(e) {
     }
 
     // Rating filters
-    const fail = c.EHP < request.minEhp || c.EHP > request.maxEhp
+    const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
+      || x.WEIGHT < request.minWeight || x.WEIGHT > request.maxWeight
       || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
       || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
@@ -146,11 +152,38 @@ self.onmessage = function(e) {
 
     // Pack the passing results into the ArrayBuffer to return
     c.id = index
-    BufferPacker.packCharacter(arr, col, c)
+    BufferPacker.packCharacter(arr, passCount, c)
+    passCount++
   }
 
   self.postMessage({
     rows: [],
     buffer: data.buffer,
   }, [data.buffer])
+}
+
+function generateResultMinFilter(request, combatDisplay) {
+  const filter = request.resultMinFilter
+  const sortOption = SortOption[request.resultSort]
+  const isComputedRating = sortOption.isComputedRating
+
+  // Combat and basic filters apply at different places in the loop
+  // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
+  if (combatDisplay || isComputedRating) {
+    const property = sortOption.combatProperty
+    return {
+      failsBasicFilter: () => false,
+      failsCombatFilter: (candidate) => {
+        return candidate[property] < filter
+      },
+    }
+  } else {
+    const property = sortOption.basicProperty
+    return {
+      failsBasicFilter: (candidate) => {
+        return candidate[property] < filter
+      },
+      failsCombatFilter: () => false,
+    }
+  }
 }

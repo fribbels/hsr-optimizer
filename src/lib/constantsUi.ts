@@ -1,5 +1,5 @@
 // Global
-export const iconSize = 23
+export const iconSize = 22
 
 // CharacterPreview
 export const defaultGap = 8

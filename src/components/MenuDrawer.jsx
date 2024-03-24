@@ -86,9 +86,6 @@ const MenuDrawer = () => {
       onClick={onClick}
       // inlineIndent={15}
       style={{
-        height: '100%',
-        overflow: 'auto',
-
       }}
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}

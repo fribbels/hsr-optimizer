@@ -58,11 +58,11 @@ function generateElementParams(request, params) {
 
 function generateCharacterBaseParams(request, params) {
   let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  let lightConeStats = lightConeMetadata?.promotions[request.lightConeLevel] || emptyLightCone()
+  let lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
   let lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
   let characterMetadata = DB.getMetadata().characters[request.characterId]
-  let characterStats = characterMetadata.promotions[request.characterLevel]
+  let characterStats = characterMetadata.promotions[80]
 
   params.element = characterMetadata.element
 

@@ -374,3 +374,6 @@ a {
   padding-left: 11px !important;
   padding-right: 11px !important;
 }
+.ag-header-cell-comp-wrapper {
+  height: 100% !important;
+}

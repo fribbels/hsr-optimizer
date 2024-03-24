@@ -502,54 +502,54 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Form form={customImageForm} layout="vertical">
-      <Modal
-        open={open}
-        width={width}
-        destroyOnClose
-        centered
-        onOk={handleOk}
-        onCancel={() => setOpen(false)}
-        footer={[
-          <Flex key={1} justify="flex-end">
-            <div style={{ marginTop: 16 }}>
-              {(current > 0 && !existingConfig) && (
-                <Button style={{ marginRight: '8px' }} onClick={prev}>
-                  Previous
-                </Button>
-              )}
-              {current < steps.length - 1 && (
-                <Button type="primary" onClick={next} loading={isVerificationLoading} disabled={radio === 'upload'}>
-                  Next
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button type="primary" onClick={handleOk}>
-                  Submit
-                </Button>
-              )}
-            </div>
-          </Flex>,
-        ]}
-        title={title}
-      >
-        <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
-          {!existingConfig
-          && (
-            <Steps current={current} style={{ marginBottom: 12 }}>
-              {steps.map((item) => (
-                <Steps.Step key={item.title} title={item.title} />
-              ))}
-            </Steps>
-          )}
+    <Modal
+      open={open}
+      width={width}
+      destroyOnClose
+      centered
+      onOk={handleOk}
+      onCancel={() => setOpen(false)}
+      footer={[
+        <Flex key={1} justify="flex-end">
+          <div style={{ marginTop: 16 }}>
+            {(current > 0 && !existingConfig) && (
+              <Button style={{ marginRight: '8px' }} onClick={prev}>
+                Previous
+              </Button>
+            )}
+            {current < steps.length - 1 && (
+              <Button type="primary" onClick={next} loading={isVerificationLoading} disabled={radio === 'upload'}>
+                Next
+              </Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button type="primary" onClick={handleOk}>
+                Submit
+              </Button>
+            )}
+          </div>
+        </Flex>,
+      ]}
+      title={title}
+    >
+      <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
+        {!existingConfig
+        && (
+          <Steps current={current} style={{ marginBottom: 12 }}>
+            {steps.map((item) => (
+              <Steps.Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+        )}
+        <Form form={customImageForm} layout="vertical">
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}
             </div>
           ))}
-        </div>
-      </Modal>
-    </Form>
+        </Form>
+      </div>
+    </Modal>
   )
 }
 

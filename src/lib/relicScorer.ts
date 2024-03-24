@@ -331,10 +331,11 @@ export class RelicScorer {
 
     // TODO: we assume it's always possible to get a worthless relic, i.e. 0 weight - not true,
     // but close enough for now
+    // We max it a 0 to avoid negative percents
     return {
-      bestPct: 100 * score.best / maxWeight,
-      averagePct: 100 * score.average / maxWeight,
-      worstPct: 100 * score.worst / maxWeight,
+      bestPct: Math.max(0, 100 * score.best / maxWeight),
+      averagePct: Math.max(0, 100 * score.average / maxWeight),
+      worstPct: Math.max(0, 100 * score.worst / maxWeight),
       meta: score.meta,
     }
   }

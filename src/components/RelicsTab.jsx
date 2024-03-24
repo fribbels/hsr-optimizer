@@ -186,12 +186,14 @@ export default function RelicsTab() {
 
   const valueColumnOptions = useMemo(() => [
     { column: 'WEIGHT', value: 'weights.current', label: 'Weight' },
-    { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
-    { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
+    // { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
+    // { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
+    { column: 'AVG_POT', value: 'weights.potentialSelected.averagePct', label: 'Avg Potential' },
+    { column: 'BEST_POT', value: 'weights.potentialSelected.bestPct', label: 'Best Potential' },
     { column: 'POT A+A', value: 'weights.potentialAllAll', label: 'Potential: All Chars, Any Relics' },
   ], [])
 
-  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllAll'])
 
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
@@ -226,12 +228,6 @@ export default function RelicsTab() {
     { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: 'cv', valueGetter: cvValueGetter, headerName: 'CV', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    /*
-            ,
-     * {field: `cs`, headerName: 'CScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     */
   ].concat(valueColumns
     .map((vc) => {
       let i = valueColumnOptions.findIndex((x) => x.value === vc)
@@ -315,7 +311,11 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
-  const score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  let score
+  if (focusCharacter) {
+    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+  }
 
   const numScores = 10
   let scores = null

@@ -347,9 +347,6 @@ a {
   z-index: 1;
   box-shadow: inset 0px 3px 11px -4px #000, inset 0px -7px 19px -8px #1a1a1a;
 }
-.ag-center-cols-container {
-  width: 100% !important;
-}
 
 .character-build-portrait:hover .character-build-portrait-button {
   opacity: 1 !important;

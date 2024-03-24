@@ -141,7 +141,7 @@ export default function RelicFilterBar(props) {
     // both relic stats and char weights can be edited
     for (let relic of relics) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
-
+      relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllAll = 0
 
       for (let cid of allCharacters) {

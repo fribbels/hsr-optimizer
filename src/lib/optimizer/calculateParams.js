@@ -16,6 +16,9 @@ export function generateParams(request) {
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
 
+  // Band-aid here to fill in the main character's elemental type
+  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
+
   return params
 }
 

@@ -36,6 +36,7 @@ export type Form = {
   rankFilter: boolean
   relicSets: RelicSet[]
   statDisplay: string
+  PRIMARY_ELEMENTAL_DMG_TYPE: string
 
   weights: {
     [key: string]: number

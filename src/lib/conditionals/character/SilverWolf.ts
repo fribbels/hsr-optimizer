@@ -20,19 +20,19 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
 
   const content: ContentItem[] = [{
     formItem: 'switch',
-    id: 'skillWeaknessResShredDebuff',
-    name: 'skillWeaknessResShredDebuff',
-    text: 'Skill weakness implanted RES shred',
-    title: 'Skill weakness implanted RES shred',
-    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.`,
-  }, {
-    formItem: 'switch',
     id: 'skillResShredDebuff',
     name: 'skillResShredDebuff',
     text: 'Skill All-Type RES shred',
     title: 'Skill: Allow Changes? RES Shred',
     content: `Decreases the target's All-Type RES of the enemy by ${precisionRound(skillResShredValue * 100)}% for 2 turn(s).
     ::BR::If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.`,
+  }, {
+    formItem: 'switch',
+    id: 'skillWeaknessResShredDebuff',
+    name: 'skillWeaknessResShredDebuff',
+    text: 'Skill weakness implanted RES shred',
+    title: 'Skill weakness implanted RES shred',
+    content: `There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.`,
   }, {
     // TODO: should be talent
     formItem: 'switch',
@@ -66,8 +66,8 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
   }]
 
   const teammateContent: ContentItem[] = [
-    findContentId(content, 'skillWeaknessResShredDebuff'),
     findContentId(content, 'skillResShredDebuff'),
+    findContentId(content, 'skillWeaknessResShredDebuff'),
     findContentId(content, 'talentDefShredDebuff'),
     findContentId(content, 'ultDefShredDebuff'),
     findContentId(content, 'targetDebuffs'),
@@ -84,7 +84,7 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
       targetDebuffs: 5,
     }),
     teammateDefaults: () => ({
-      skillWeaknessResShredDebuff: true,
+      skillWeaknessResShredDebuff: false,
       skillResShredDebuff: true,
       talentDefShredDebuff: true,
       ultDefShredDebuff: true,

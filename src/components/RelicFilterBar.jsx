@@ -141,7 +141,7 @@ export default function RelicFilterBar(props) {
     // both relic stats and char weights can be edited
     for (let relic of relics) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
-
+      relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllAll = 0
 
       for (let cid of allCharacters) {
@@ -186,6 +186,39 @@ export default function RelicFilterBar(props) {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
+          <HeaderText>Part</HeaderText>
+          <FilterRow name="part" tags={partsData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical style={{ height: '100%' }} flex={1}>
+          <HeaderText>Enhance</HeaderText>
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Set</HeaderText>
+        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Main stats</HeaderText>
+        <FilterRow name="mainStats" tags={mainStatsData} />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Substats</HeaderText>
+        <FilterRow name="subStats" tags={subStatsData} />
+      </Flex>
+      <Flex gap={10}>
+        <Flex vertical flex={1}>
           <HeaderText>Relic recommendation character</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
@@ -211,7 +244,7 @@ export default function RelicFilterBar(props) {
           </Flex>
         </Flex>
         <Flex flex={1} gap={10}>
-          <Flex vertical style={{ height: '100%' }} flex={0.5}>
+          <Flex vertical style={{ height: '100%' }} flex={0.4}>
             <HeaderText>Filter actions</HeaderText>
             <Flex gap={10}>
               <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
@@ -219,9 +252,9 @@ export default function RelicFilterBar(props) {
               </Button>
             </Flex>
           </Flex>
-          <Flex vertical flex={0.5}>
+          <Flex vertical flex={0.6}>
             <Flex justify="space-between" align="center">
-              <HeaderText>Value Columns</HeaderText>
+              <HeaderText>Relic ratings</HeaderText>
               <TooltipImage type={Hint.valueColumns()} />
             </Flex>
             <Flex gap={10}>
@@ -237,40 +270,6 @@ export default function RelicFilterBar(props) {
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
-
-      <Flex gap={10}>
-        <Flex vertical flex={0.25}>
-          <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical flex={0.5}>
-          <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical flex={1}>
-          <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
-        </Flex>
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData} />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData} />
       </Flex>
     </Flex>
   )

@@ -1402,6 +1402,7 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
@@ -1409,6 +1410,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [

@@ -1,6 +1,6 @@
 import { Flex, Image, Tooltip } from 'antd'
 import { CheckCircleFilled } from '@ant-design/icons'
-import { Constants } from './constants.ts'
+import { Constants, StatsToReadableShort } from './constants.ts'
 import { Assets } from './assets'
 import { Utils } from './utils'
 import PropTypes from 'prop-types'
@@ -106,7 +106,7 @@ export const Renderer = {
 
   readableStat: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    return Constants.StatsToReadable[x.value]
+    return StatsToReadableShort[x.value]
   },
 
   readablePart: (x) => {
@@ -142,8 +142,11 @@ export const Renderer = {
     return Math.round(x.value)
   },
 
-  hideNaNAndRound: (x) => {
-    return isNaN(x.value) ? 0 : Math.round(x.value)
+  hideNaNAndFloor: (x) => {
+    return isNaN(x.value) ? 0 : Math.floor(x.value)
+  },
+  hideNaNAndFloorPercent: (x) => {
+    return (isNaN(x.value) ? 0 : Math.floor(x.value)) + '%'
   },
 
   renderSubstatNumber: (substat, relic) => {

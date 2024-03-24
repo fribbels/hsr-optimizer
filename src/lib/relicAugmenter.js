@@ -65,6 +65,7 @@ function sortSubstats(relic) {
   relic.substats = relic.substats.sort((a, b) => substatToOrder[a.stat] - substatToOrder[b.stat])
 }
 
+// Changes the augmented stats percents to decimals
 function fixAugmentedStats(relics) {
   return relics.map((x) => {
     for (let stat of Object.values(Constants.Stats)) {

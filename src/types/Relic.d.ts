@@ -34,6 +34,7 @@ export type Relic = {
     stat: SubStats
     value: number
     rolls: StatRolls
+    addedRolls: number
   }[]
 }
 

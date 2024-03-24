@@ -173,9 +173,11 @@ export const Hint = {
       title: 'Relics',
       content: (
         <Flex vertical gap={10}>
-          <p>Weight - The relic's current weight as defined by the scoring algorithm + 64.8 weight for an appropriate main stat</p>
-          <p>Avg case - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
-          <p>Best case - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
+          <p>Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats. </p>
+          <p>Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character</p>
+          <p>Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
+          <p>Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
+          <p>All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game. </p>
         </Flex>
       ),
     }

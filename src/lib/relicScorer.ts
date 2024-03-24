@@ -347,6 +347,17 @@ export class RelicScorer {
   scoreRelic(relic: Relic, id: CharacterId, mainStatScoring: string = 'ideal', withMeta: boolean = false) {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
+    function getMainStatWeight(relic) {
+      if (!Utils.hasMainStat(relic.part)) {
+        return 0
+      }
+      if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+        return 1
+      }
+
+      return scoringMetadata.stats[relic.main.stat]
+    }
+
     const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)
     let mainScore = 0
@@ -363,7 +374,8 @@ export class RelicScorer {
     } else if (mainStatScoring === 'weighted') {
       // Turn the main stat score into a deduction if using a suboptimal main
       if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8 - 64.8
+        const mainStatWeight = getMainStatWeight(relic)
+        mainScore = mainStatWeight * 64.8 - 64.8
       }
     } else {
       throw new Error('unknown mainStatScoring type ' + mainStatScoring)

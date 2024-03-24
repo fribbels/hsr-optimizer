@@ -2293,12 +2293,17 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.OHB,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,

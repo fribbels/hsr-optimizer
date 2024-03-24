@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Spin, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
-import { CroppedArea, CustomImageConfig, CustomImageParams, ImageDimensions } from 'types/CustomImage'
+import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
 import Dragger from 'antd/es/upload/Dragger'
 import { Message } from 'lib/message'
@@ -12,7 +12,7 @@ interface EditImageModalProps {
   aspectRatio: number // width / height
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (_x: CustomImageConfig) => void
+  onOk: (_x: CustomImagePayload) => void
   title?: string
   width?: number
   defaultImageUrl?: string // default image, passed in to this component to edit its config
@@ -54,19 +54,23 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
+  const resetConfig = React.useCallback(() => {
+    customImageForm.resetFields()
+    setCurrent(0)
+    setIsVerificationLoading(false)
+    setVerifiedImageUrl('')
+    setOriginalDimensions(DEFAULT_IMAGE_DIMENSIONS)
+    setCrop(DEFAULT_CROP)
+    setZoom(DEFAULT_ZOOM)
+    setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
+  }, [customImageForm])
+
   // Handle initialization depending on if existingConfig exists:
   // - Reset on close for new character
   // - upon open, load custom image config if it exists
   React.useEffect(() => {
     if (!open) {
-      customImageForm.resetFields()
-      setCurrent(0)
-      setIsVerificationLoading(false)
-      setVerifiedImageUrl('')
-      setOriginalDimensions(DEFAULT_IMAGE_DIMENSIONS)
-      setCrop(DEFAULT_CROP)
-      setZoom(DEFAULT_ZOOM)
-      setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
+      resetConfig()
     } else if (existingConfig) {
       console.log('EXISTING CONFIG', !!existingConfig)
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl })
@@ -75,7 +79,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)
     }
-  }, [defaultImageUrl, open, existingConfig, customImageForm])
+  }, [defaultImageUrl, open, existingConfig, customImageForm, resetConfig])
 
   const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
     if (current == 1) {
@@ -94,28 +98,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
     switch (radio) {
       case 'upload':
-        onOk({ imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
-        setOpen(false)
+        onOk({ type: 'add', imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
         setCurrent(0)
         break
       case 'url':
         customImageForm.validateFields()
           .then((values) => {
-            onOk({
-              imageUrl: values.imageUrl,
-              originalDimensions,
-              customImageParams,
-              cropper: {
-                zoom,
-                crop,
-              },
-            })
+            onOk({ type: 'add', imageUrl: values.imageUrl, ...imageConfigWithoutUrl })
           })
           .catch((e) => {
             console.error('Error:', e)
           })
           .finally(() => {
-            setOpen(false)
             setCurrent(0)
           })
         break
@@ -123,14 +117,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({ imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
-        setOpen(false)
+        onOk({ type: 'add', imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
         setCurrent(0)
         break
       default:
-      // Optionally handle any other cases or unexpected values of `radio`
         console.warn(`Unexpected radio value: ${radio}`)
-        // Consider whether the modal should be closed and the state reset in this case
         setOpen(false)
         setCurrent(0)
     }
@@ -396,6 +387,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
+  const revert = () => {
+    onOk({ type: 'delete' })
+    setCurrent(0)
+  }
   const prev = () => setCurrent(current - 1)
   const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
 
@@ -526,6 +521,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <Flex key={1} justify="flex-end">
           <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
             {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
+            {(current > 0 && existingConfig) && (
+              <Button onClick={revert} danger>
+                Revert to default
+              </Button>
+            )}
             {(current > 0 && !existingConfig) && (
               <Button onClick={prev}>
                 Previous
@@ -544,7 +544,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </Flex>
         </Flex>,
       ]}
-      title={title}
+      title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
     >
       <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
         {!existingConfig

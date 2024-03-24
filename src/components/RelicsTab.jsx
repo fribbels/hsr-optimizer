@@ -185,20 +185,21 @@ export default function RelicsTab() {
   }, [relicTabFilters])
 
   const valueColumnOptions = useMemo(() => [
-    { column: 'WEIGHT', value: 'weights.current', label: 'Weight' },
-    { column: 'AVGCASE', value: 'weights.average', label: 'Weight: Average' },
-    { column: 'BESTCASE', value: 'weights.best', label: 'Weight: Best' },
-    { column: 'POT A+A', value: 'weights.potentialAllAll', label: 'Potential: All Chars, Any Relics' },
+    { column: 'Selected Char\nScore', value: 'weights.current', label: 'Selected character: Score' },
+    { column: 'Selected Char\nAvg Potential', value: 'weights.potentialSelected.averagePct', label: 'Selected character: Average potential', percent: true },
+    { column: 'Selected Char\nMax Potential', value: 'weights.potentialSelected.bestPct', label: 'Selected character: Max potential', percent: true },
+    { column: 'All Characters\nMax Potential', value: 'weights.potentialAllAll', label: 'All characters: Max potential', percent: true },
+    { column: 'All Characters\nMax Potential + Sets', disabled: true, value: 'weights.potentialAllSets', label: 'All characters: Max potential + Sets (Coming soon)', percent: true },
   ], [])
 
-  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.average', 'weights.best'])
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllAll'])
 
   const columnDefs = useMemo(() => [
-    { field: 'equippedBy', headerName: 'Owner', cellRenderer: Renderer.characterIcon },
-    { field: 'set', cellRenderer: Renderer.anySet, width: 50, headerName: 'Set', filter: 'agTextColumnFilter' },
+    { field: 'equippedBy', headerName: 'Owner', width: 45, cellRenderer: Renderer.characterIcon },
+    { field: 'set', cellRenderer: Renderer.anySet, width: 45, headerName: 'Set', filter: 'agTextColumnFilter' },
     {
       field: 'grade',
-      width: 60,
+      width: 45,
       cellRenderer: Renderer.renderGradeCell,
       filter: GradeFilter,
       comparator: (a, b, nodeA, nodeB) => {
@@ -209,10 +210,10 @@ export default function RelicsTab() {
         }
       },
     },
-    { field: 'part', valueFormatter: Renderer.readablePart, width: 80, filter: 'agTextColumnFilter' },
-    { field: 'enhance', width: 60, filter: 'agNumberColumnFilter' },
-    { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main', width: 100, filter: 'agTextColumnFilter' },
-    { field: 'main.value', headerName: 'Value', valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 60, filter: 'agTextColumnFilter' },
+    { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },
+    { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main\nStat', width: 70, filter: 'agTextColumnFilter' },
+    { field: 'main.value', headerName: 'Main Value', width: 50, valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.HP_P}`, headerName: 'HP %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.ATK_P}`, headerName: 'ATK %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.DEF_P}`, headerName: 'DEF %', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
@@ -220,18 +221,12 @@ export default function RelicsTab() {
     { field: `augmentedStats.${Constants.Stats.ATK}`, headerName: 'ATK', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.DEF}`, headerName: 'DEF', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesFloor, filter: 'agNumberColumnFilter' },
     { field: `augmentedStats.${Constants.Stats.SPD}`, headerName: 'SPD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroes10ths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.CR}`, headerName: 'CR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.CD}`, headerName: 'CD', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'EHR', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'RES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'BE', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    { field: 'cv', valueGetter: cvValueGetter, headerName: 'CV', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
-    /*
-            ,
-     * {field: `cs`, headerName: 'CScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     * {field: `ss`, headerName: 'SScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     * {field: `ds`, headerName: 'DScore', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.scoreRenderer, filter: 'agNumberColumnFilter'},
-     */
+    { field: `augmentedStats.${Constants.Stats.CR}`, headerName: 'Crit\nRate', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.CD}`, headerName: 'Crit\nDMG', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.EHR}`, headerName: 'Effect\nHit Rate', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.RES}`, headerName: 'Effect\nRES', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: `augmentedStats.${Constants.Stats.BE}`, headerName: 'Break\nEffect', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
+    { field: 'cv', valueGetter: cvValueGetter, headerName: 'Crit\nValue', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
   ].concat(valueColumns
     .map((vc) => {
       let i = valueColumnOptions.findIndex((x) => x.value === vc)
@@ -239,7 +234,7 @@ export default function RelicsTab() {
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column.toUpperCase(), cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideNaNAndRound, filter: 'agNumberColumnFilter', width: 70 }
+      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 80 }
     )),
   ), [valueColumnOptions, valueColumns])
 
@@ -252,12 +247,16 @@ export default function RelicsTab() {
     suppressMultiSort: true,
   }), [])
 
+  // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 45,
+    width: 48,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 100 },
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
+    suppressHeaderMenuButton: true,
   }), [])
 
   const rowClickedListener = useCallback((event) => {
@@ -315,6 +314,12 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
+  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  let score
+  if (focusCharacter) {
+    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+  }
+
   const numScores = 10
   let scores = null
   let scoreBuckets = null
@@ -346,14 +351,14 @@ export default function RelicsTab() {
   }
 
   return (
-    <Flex style={{ width: 1250, marginBottom: 100 }}>
+    <Flex style={{ width: 1350, marginBottom: 100 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1250, height: 500, resize: 'vertical', overflow: 'hidden' }}>
+        <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' }}>
 
           <AgGridReact
             ref={gridRef}
@@ -407,6 +412,7 @@ export default function RelicsTab() {
             relic={selectedRelic}
             setSelectedRelic={setSelectedRelic}
             setEditModalOpen={setEditModalOpen}
+            score={score}
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relics()} />
@@ -490,8 +496,8 @@ export default function RelicsTab() {
                             />
                           </svg>
                         )
-                        let worstPct = Math.round(x.score.worstPct)
-                        let bestPct = Math.round(x.score.bestPct)
+                        let worstPct = Math.floor(x.score.worstPct)
+                        let bestPct = Math.floor(x.score.bestPct)
                         let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
                         return (
                           <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
@@ -536,11 +542,13 @@ export default function RelicsTab() {
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((score, _idx) => [
                         score.name,
-                        (score.score.meta.bestNewSubstats.length === 0 ? '' :
-                          'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
-                        (score.score.meta.bestRolledSubstats === null ? '' :
-                          'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/'))
-                      ].filter((t) => t !== '').join('<br>'))
+                        (score.score.meta.bestNewSubstats.length === 0
+                          ? ''
+                          : 'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
+                        (score.score.meta.bestRolledSubstats == null
+                          ? ''
+                          : 'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/')),
+                      ].filter((t) => t !== '').join('<br>')),
                     ),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
@@ -557,7 +565,7 @@ export default function RelicsTab() {
                   },
                   autosize: true,
                   height: 278,
-                  width: 1015,
+                  width: 1112,
                   margin: {
                     b: 5,
                     l: 50,

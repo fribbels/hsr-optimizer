@@ -3,10 +3,14 @@ import { expect, test } from '@playwright/test'
 test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page }) => {
   // navigate to Relics tab
   await page.goto('/')
+  await page.getByRole('menuitem', { name: 'Getting started' }).click()
+  await page.getByRole('button', { name: 'Try it out!' }).click()
+  await page.getByRole('button', { name: 'Yes' }).click()
+  await expect(page.locator('body')).toContainText('Successfully loaded data')
 
   // got relics tab
-  await page.getByRole('menuitem', { name: 'Relics' }).click()
-  await page.locator('div').filter({ hasText: /^Head15HP70511\.010\.33\.45\.132\.4000$/ }).getByRole('img').nth(1).click()
+  await page.getByRole('menuitem', { name: 'Relics' }).locator('span').click()
+  await page.getByRole('row', { name: 'Hunter of Glacial Forest Head 15 HP 705 11.0 10.3 3.4 5.1 32.4 0 0% 0% 0%' }).click()
   await page.getByText('+15HP705CRIT Rate11.0%CRIT').click()
 
   await expect(page.getByRole('dialog')).toContainText('Equipped by')

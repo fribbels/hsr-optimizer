@@ -13,6 +13,7 @@ type Substat = {
   stat: SubStats
   value: number
   rolls: StatRolls
+  addedRolls: number
 }
 
 export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
@@ -22,7 +23,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
         <Flex>
           <img
             src={Assets.getBlank()}
-            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -2 }}
+            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
           >
           </img>
         </Flex>
@@ -43,7 +44,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
-          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -4 }}
+          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
         <RelicStatText>{Constants.StatsToReadable[stat.stat]}</RelicStatText>
@@ -53,7 +54,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
           // <Tooltip title={`Roll quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
           <Flex justify="space-between" style={{ width: '41.5%' }}>
             <Flex gap={0} align="center">
-              {stat.rolls
+              {stat.addedRolls != null
               && generateRolls(stat)}
             </Flex>
             <RelicStatText>{displayValue}</RelicStatText>
@@ -68,12 +69,11 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
 }
 
 function generateRolls(stat) {
-  const rolls = Math.min(5, Math.max(0, stat.rolls.high + stat.rolls.mid + stat.rolls.low - 1))
   const result: ReactElement[] = []
-  for (let i = 0; i < rolls; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.5 }} />)
+  for (let i = 0; i < stat.addedRolls; i++) {
+    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
   }
-  if (rolls == 0) {
+  if (stat.addedRolls == 0) {
     result.push(<div key={0}></div>)
   }
   return (

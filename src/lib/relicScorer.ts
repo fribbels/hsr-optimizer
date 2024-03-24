@@ -287,8 +287,8 @@ export class RelicScorer {
         isIdeal = newIsIdeal
         isSubstat = newIsSubstat
       }
-      // Add our weighted mainstat
-      maxWeight += mainStatWeight * 64.8
+      // Ignore main stat for max weight
+      // maxWeight += mainStatWeight * 64.8
     } else {
       mainStat = scoreEntries.find(([name, _weight]) => PartsMainStats[part][0] === name)![0]
     }
@@ -331,10 +331,11 @@ export class RelicScorer {
 
     // TODO: we assume it's always possible to get a worthless relic, i.e. 0 weight - not true,
     // but close enough for now
+    // We max it a 0 to avoid negative percents
     return {
-      bestPct: 100 * score.best / maxWeight,
-      averagePct: 100 * score.average / maxWeight,
-      worstPct: 100 * score.worst / maxWeight,
+      bestPct: Math.max(0, 100 * score.best / maxWeight),
+      averagePct: Math.max(0, 100 * score.average / maxWeight),
+      worstPct: Math.max(0, 100 * score.worst / maxWeight),
       meta: score.meta,
     }
   }
@@ -351,18 +352,18 @@ export class RelicScorer {
     let mainScore = 0
     if (mainStatScoring === 'ideal') {
       // Obey listed 'ideal' mainstats and give them the same weight
-      if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringResult.mainStatScore
-      } else {
-        // ideal scoring is used from the relics table - to have comparable weights across
-        // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
-        mainScore = 64.8
-      }
+      // TODO: We've taken out the main stat additional score so this no longer applies
+      // if (Utils.hasMainStat(relic.part)) {
+      //   mainScore = scoringResult.mainStatScore
+      // } else {
+      //   // ideal scoring is used from the relics table - to have comparable weights across
+      //   // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
+      //   mainScore = 64.8
+      // }
     } else if (mainStatScoring === 'weighted') {
-      // Ignore ideal mainstats, weigh according to their 'true' weight and don't add fake
-      // mainstat weights that could skew weight distributions
+      // Turn the main stat score into a deduction if using a suboptimal main
       if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8
+        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8 - 64.8
       }
     } else {
       throw new Error('unknown mainStatScoring type ' + mainStatScoring)
@@ -403,7 +404,7 @@ export class RelicScorer {
       const finalPossibleBestSubstats = new Set(substatNames.concat(bestNewSubstats))
       // Given the weight of substats that rolls went into, what could the substats have been?
       // (all substats currently on the relic or that could have been added, that match the weight)
-      let bestRolledSubstats = null
+      let bestRolledSubstats
       if (bestRollPrediction.rollSubstatWeight !== null) {
         bestRolledSubstats = scoringMetadata.groupedSubstats
           .get(bestRollPrediction.rollSubstatWeight)!

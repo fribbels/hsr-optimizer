@@ -356,3 +356,7 @@ a {
   visibility: visible !important;
   transition: opacity 0.3s ease;
 }
+
+.ant-slider-rail {
+  background-color: rgba(255, 255, 255, 0.85) !important; /* or any color you prefer */
+}

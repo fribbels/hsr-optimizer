@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Spin, Steps } from 'antd'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps } from 'antd'
 import Cropper from 'react-easy-crop'
 import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
@@ -72,7 +72,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     if (!open) {
       resetConfig()
     } else if (existingConfig) {
-      console.log('EXISTING CONFIG', !!existingConfig)
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl })
       setRadio('url') // If there's a existingConfig, there will always be a url
       setCurrent(1)
@@ -462,7 +461,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Crop image',
       content: (
         <>
-          <div style={{ height: '400px', position: 'relative' }}>
+          <div style={{ height: '380px', position: 'relative' }}>
             <Cropper
               image={verifiedImageUrl}
               crop={crop}
@@ -479,8 +478,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 }
               }}
               onZoomChange={(newZoom) => {
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                if (!isMobile) {
+                if (navigator.maxTouchPoints === 0) {
                   if (newZoom < zoom) {
                     setZoom(Math.max(MIN_ZOOM, zoom * 0.95))
                   }
@@ -491,12 +489,23 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                   setZoom(newZoom)
                 }
               }}
-              zoomSpeed={0.0001}
+              zoomSpeed={navigator.maxTouchPoints === 0 ? 0.0001 : 1}
               minZoom={MIN_ZOOM}
               maxZoom={MAX_ZOOM}
             />
           </div>
-          <div style={{ marginTop: 8 }}>
+          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align="center">
+            <label>Zoom</label>
+            <Slider
+              style={{ width: '100%' }}
+              min={MIN_ZOOM}
+              max={MAX_ZOOM}
+              step={0.01}
+              onChange={(val: number) => setZoom(val)}
+              value={zoom}
+            />
+          </Flex>
+          <div style={{ marginTop: 2 }}>
             <ZoomInOutlined style={{ marginRight: 8 }} />
             Pinch or scroll to zoom
           </div>

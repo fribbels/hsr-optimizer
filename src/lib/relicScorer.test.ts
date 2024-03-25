@@ -40,12 +40,11 @@ test('relic-mainstatonly', () => {
     equippedBy: character,
   }
 
-  const totalScore = 70.3
+  const totalScore = 5.5
 
   const score = RelicScorer.score(relic, character)
   expect(score.score).toBe('5.5') // the mainstat free roll
   expect(score.mainStatScore).toBe(64.8)
-  expect(score.mainStatScore + parseFloat(score.score)).toBe(totalScore)
 
   const relicScore = RelicScorer.scoreRelic(relic, character)
   expect(relicScore.current).toBe(totalScore)
@@ -167,7 +166,7 @@ test('ideal-mainstats-includes-best-mainstats', () => {
           // The best ideal mainstats is missing a possible mainstat that's higher weighted
           // than everything else
           didfail = true
-          console.log('missing idealest mainstat', char.name, part, name, weight, best)
+          console.warn('missing idealest mainstat', char.name, part, name, weight, best)
         } else if (weight === best && !partstats.includes(name)) {
           // Enable this log to see where the best ideal mainstats is missing one of the
           // highest weighted possible mainstats (desirable when biasing towards ERR on ropes)

@@ -1,7 +1,4 @@
-import {
-  defineConfig,
-  splitVendorChunkPlugin,
-} from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 import legacy from '@vitejs/plugin-legacy'
@@ -15,18 +12,18 @@ export default defineConfig({
     pathPlugin,
     legacy({
       targets: ['ie >= 11'],
-      additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
     }),
     splitVendorChunkPlugin(),
   ],
   server: {
     open: true,
-    port: 3000
+    port: 3000,
   },
   test: {
     environment: 'jsdom',
   },
-  worker:{
-    plugins: () => [pathPlugin]
-  }
+  worker: {
+    plugins: () => [pathPlugin],
+  },
 })

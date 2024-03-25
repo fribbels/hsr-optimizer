@@ -1229,8 +1229,6 @@ function getScoringMetadata() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.CD,
-          Constants.Stats.CR,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [

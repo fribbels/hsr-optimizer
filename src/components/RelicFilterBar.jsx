@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { ClearOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -203,6 +204,12 @@ export default function RelicFilterBar(props) {
           <HeaderText>Verified</HeaderText>
           <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
         </Flex>
+        <Flex vertical flex={0.4}>
+          <HeaderText>Clear</HeaderText>
+          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+            Clear all filters
+          </Button>
+        </Flex>
       </Flex>
 
       <Flex vertical>
@@ -246,15 +253,7 @@ export default function RelicFilterBar(props) {
           </Flex>
         </Flex>
         <Flex flex={1} gap={10}>
-          <Flex vertical style={{ height: '100%' }} flex={0.4}>
-            <HeaderText>Filter actions</HeaderText>
-            <Flex gap={10}>
-              <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
-                Clear filters
-              </Button>
-            </Flex>
-          </Flex>
-          <Flex vertical flex={0.6}>
+          <Flex vertical flex={1}>
             <Flex justify="space-between" align="center">
               <HeaderText>Relic ratings</HeaderText>
               <TooltipImage type={Hint.valueColumns()} />

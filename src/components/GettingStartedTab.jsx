@@ -7,6 +7,7 @@ import DB from '../lib/db'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { KelzScannerConfig, ReliquaryArchiverConfig } from 'lib/importer/importConfig'
+import { ImportOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -42,7 +43,7 @@ export default function GettingStartedTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button type="primary" style={{ width: 200 }}>
+            <Button type="primary" icon={<ImportOutlined />} style={{ width: 200 }}>
               Try it out!
             </Button>
           </Popconfirm>

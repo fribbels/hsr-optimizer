@@ -137,7 +137,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
 
       <RecommendedPresetsButton />
 
-      <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
         <HeaderText>Optimization target</HeaderText>
       </Flex>
 

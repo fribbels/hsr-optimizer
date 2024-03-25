@@ -9,7 +9,7 @@ export class FixedSizePriorityQueue<T> extends PriorityQueue<T> {
   compare: (_x: T, _y: T) => number
 
   constructor(limit: number, compare: (_x: T, _y: T) => number) {
-    super([], compare, true)
+    super([], compare, false)
     this.limit = limit
     this.compare = compare
   }

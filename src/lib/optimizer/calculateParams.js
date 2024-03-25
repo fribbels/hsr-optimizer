@@ -87,8 +87,8 @@ function generateCharacterBaseParams(request, params) {
 
   params.character = baseStats
 
-  console.log({ lightConeStats })
-  console.log({ characterStats })
+  // console.log({ lightConeStats })
+  // console.log({ characterStats })
 
   let baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
   let baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)

@@ -130,14 +130,14 @@ export function ScannerImportSubmenu() {
                 </ul>
               </li>
               <li>
-                Relic scorer import (
+                Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
                   <ColorizedLink text="Relic scorer" />
                 </span>
                 )
                 <ul>
-                  <li>Imports accurate speed decimals</li>
                   <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
+                  <li>Imports accurate speed decimals</li>
                 </ul>
               </li>
             </ul>

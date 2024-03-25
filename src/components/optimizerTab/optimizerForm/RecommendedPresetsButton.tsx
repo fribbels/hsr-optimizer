@@ -160,6 +160,7 @@ const RecommendedPresetsButton = () => {
 
         const presets = metadata.presets || []
         const sortOption = metadata.sortOption
+        form.resultSort = sortOption.key
         setSortColumn(sortOption.combatGridColumn)
         for (const applyPreset of presets) {
           applyPreset(form)

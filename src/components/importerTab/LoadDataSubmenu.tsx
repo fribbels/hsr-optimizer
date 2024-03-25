@@ -62,6 +62,7 @@ export function LoadDataSubmenu() {
     setTimeout(() => {
       setLoading2(false)
       DB.setStore(currentSave)
+      window.refreshRelicsScore()
       setCurrentStage(Stages.FINISHED)
     }, importerTabSpinnerMs)
   }

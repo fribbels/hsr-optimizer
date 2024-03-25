@@ -12,13 +12,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
@@ -435,7 +429,7 @@ export default function CharacterTab() {
     >
       <Flex style={{ height: '100%' }}>
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
-          <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
+          <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 81 }}>
             <AgGridReact
               ref={characterGrid}
 

@@ -618,6 +618,7 @@ export const DB = {
     // TODO this probably shouldn't be in this file
     let fieldValues = OptimizerTabController.getForm()
     window.onOptimizerFormValuesChange({}, fieldValues)
+    window.refreshRelicsScore()
   },
 
   /*
@@ -698,6 +699,7 @@ export const DB = {
     oldRelics.map((x) => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
     DB.refreshRelics()
+    window.refreshRelicsScore()
 
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.redrawRows()

@@ -106,7 +106,7 @@ export default function RelicFilterBar(props) {
   let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
-  useSubscribe('refreshRelicsScore', () => {
+  window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
     // that it performs the publish. However, react defers and batches events, so the submit (and update
     // of the scoring overrides) doesn't actually happen until *after* this subscribe event is triggered,
@@ -117,7 +117,9 @@ export default function RelicFilterBar(props) {
     setTimeout(() => {
       characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
-  })
+  }
+
+  useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
 
   // Kick off an initial calculation to populate value columns. Though empty dependencies
   // are warned about, we genuinely only want to do this on first component render (updates

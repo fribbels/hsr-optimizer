@@ -1069,6 +1069,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1119,9 +1120,11 @@ function getScoringMetadata() {
           Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1175,9 +1178,11 @@ function getScoringMetadata() {
           Constants.Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1224,8 +1229,6 @@ function getScoringMetadata() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.CD,
-          Constants.Stats.CR,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
@@ -1233,6 +1236,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1354,6 +1358,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1411,9 +1416,11 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
       },
@@ -1466,6 +1473,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1521,6 +1529,7 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1575,6 +1584,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Quantum_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1609,7 +1619,7 @@ function getScoringMetadata() {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
         [Constants.Stats.Fire_DMG]: 0,
@@ -1629,11 +1639,11 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.ERR,
         ],
       },
       relicSets: [
@@ -1849,6 +1859,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1905,6 +1916,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1966,6 +1978,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2075,6 +2088,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2190,6 +2204,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Quantum_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2293,12 +2308,17 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.OHB,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,
@@ -2354,6 +2374,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2463,6 +2484,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2516,6 +2538,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2571,6 +2594,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
@@ -2579,6 +2603,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.ERR,
         ],
       },
@@ -2630,6 +2655,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2681,6 +2707,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2793,6 +2820,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2849,6 +2877,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2892,7 +2921,7 @@ function getScoringMetadata() {
         [Constants.Stats.Ice_DMG]: 0,
         [Constants.Stats.Lightning_DMG]: 0,
         [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0.75,
+        [Constants.Stats.Quantum_DMG]: 1,
         [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
@@ -2905,6 +2934,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Quantum_DMG,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3264,6 +3294,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3460,6 +3491,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3508,6 +3540,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3563,6 +3596,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [

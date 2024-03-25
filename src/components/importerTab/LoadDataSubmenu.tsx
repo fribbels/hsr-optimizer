@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Flex, Steps, Typography, Upload } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
+import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants.ts'
 import DB from 'lib/db.js'
 
@@ -62,6 +62,7 @@ export function LoadDataSubmenu() {
     setTimeout(() => {
       setLoading2(false)
       DB.setStore(currentSave)
+      window.refreshRelicsScore()
       setCurrentStage(Stages.FINISHED)
     }, importerTabSpinnerMs)
   }
@@ -108,7 +109,7 @@ export function LoadDataSubmenu() {
           <Text>
             {`File contains ${currentSave.relics.length} relics and ${currentSave.characters.length} characters. Replace your current data with the uploaded data?`}
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined />} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use uploaded data
           </Button>
         </Flex>

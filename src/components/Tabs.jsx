@@ -13,8 +13,11 @@ import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
+import { WorkerPool } from 'lib/workerPool'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+
+let optimizerInitialized = false
 
 const Tabs = () => {
   const activeKey = window.store((s) => s.activeKey)
@@ -34,6 +37,12 @@ const Tabs = () => {
 
     if (activeKey == AppPages.OPTIMIZER) {
       window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+
+      // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
+      if (!optimizerInitialized) {
+        optimizerInitialized = true
+        WorkerPool.initializeAllWorkers()
+      }
     }
   }, [activeKey])
 

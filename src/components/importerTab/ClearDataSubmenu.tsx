@@ -3,6 +3,7 @@ import { Message } from '../../lib/message'
 import { Button, Flex, Popconfirm, Typography } from 'antd'
 import DB from '../../lib/db'
 import { importerTabButtonWidth, importerTabSpinnerMs } from './importerTabUiConstants.ts'
+import { DeleteOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -33,7 +34,7 @@ export function ClearDataSubmenu() {
         okText="Yes"
         cancelText="Cancel"
       >
-        <Button type="primary" loading={loading} style={{ width: importerTabButtonWidth }}>
+        <Button type="primary" icon={<DeleteOutlined />} loading={loading} style={{ width: importerTabButtonWidth }}>
           Clear data
         </Button>
       </Popconfirm>

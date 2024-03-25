@@ -4,9 +4,10 @@ import { Message } from 'lib/message.js'
 import { SaveState } from 'lib/saveState.js'
 import { Button, Divider, Flex, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import DB from 'lib/db.js'
+import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
 import { Relic } from 'types/Relic'
+import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
 
 const { Text } = Typography
 
@@ -111,7 +112,7 @@ export function ScannerImportSubmenu() {
             <ul>
               <li>
                 Kel-Z HSR Scanner (
-                <Typography.Link target="_blank" href={KelzScannerConfig.releases}>Github</Typography.Link>
+                <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
                 )
                 <ul>
                   <li>OCR scanner</li>
@@ -120,10 +121,22 @@ export function ScannerImportSubmenu() {
               </li>
               <li>
                 IceDynamix Reliquary Archiver (
-                <Typography.Link target="_blank" href={ReliquaryArchiverConfig.releases}>Github</Typography.Link>
+                <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
                 )
                 <ul>
                   <li>Network scanner</li>
+                  <li>Imports accurate speed decimals</li>
+                  <li>Beta release - might not work for all machines</li>
+                </ul>
+              </li>
+              <li>
+                Relic Scorer Import (
+                <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
+                  <ColorizedLink text="Relic scorer" />
+                </span>
+                )
+                <ul>
+                  <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
                   <li>Imports accurate speed decimals</li>
                 </ul>
               </li>

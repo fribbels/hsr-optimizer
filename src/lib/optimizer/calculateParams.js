@@ -16,6 +16,9 @@ export function generateParams(request) {
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
 
+  // Band-aid here to fill in the main character's elemental type
+  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
+
   return params
 }
 
@@ -84,8 +87,8 @@ function generateCharacterBaseParams(request, params) {
 
   params.character = baseStats
 
-  console.log({ lightConeStats })
-  console.log({ characterStats })
+  // console.log({ lightConeStats })
+  // console.log({ characterStats })
 
   let baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
   let baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)

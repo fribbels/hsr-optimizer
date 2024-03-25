@@ -122,8 +122,12 @@ export const Renderer = {
     return x.value == 0 ? '' : Math.floor(x.value)
   },
 
-  hideZeroes10ths: (x) => {
-    return x.value == 0 ? '' : Utils.precisionRound(Math.floor(x.value * 10) / 10)
+  // Unverified: 6, Verified: 6.0
+  hideZeroes10thsRelicTabSpd: (x) => {
+    if (x.value == 0) return ''
+
+    const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
+    return x.data.verified ? value.toFixed(1) : value
   },
 
   mainValueRenderer: (x) => {

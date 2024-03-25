@@ -8,13 +8,7 @@ import PropTypes from 'prop-types'
 import DB from 'lib/db'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  PlusCircleFilled,
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, PlusCircleFilled } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 
@@ -336,7 +330,7 @@ function CharacterPreviewSelection(props) {
         vertical
         style={{
           position: 'relative',
-          left: -230,
+          left: -250,
           top: 150,
           width: 0,
           height: 0,
@@ -362,7 +356,7 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
+    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
       <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
         <Sidebar />
         <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>

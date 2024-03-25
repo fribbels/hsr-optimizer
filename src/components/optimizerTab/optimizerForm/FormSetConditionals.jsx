@@ -87,9 +87,9 @@ export const FormSetConditionals = () => {
   const setPioneerDiverOfDeadWaters = useMemo(() => {
     return [
       {
-        display: 'Off',
+        display: 'Base',
         value: 0,
-        label: 'Off',
+        label: '1 debuff (+4% CR)',
       },
       {
         display: '2x',

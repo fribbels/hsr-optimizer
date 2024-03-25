@@ -12,13 +12,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'

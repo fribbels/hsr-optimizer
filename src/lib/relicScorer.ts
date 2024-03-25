@@ -191,7 +191,7 @@ export class RelicScorer {
 
     const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
     const deduction = missingSets * minRollValue * 3
-    console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
+    // console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
     sum = Math.max(0, sum - deduction)
 
     const base = 64.8 * 4
@@ -318,7 +318,7 @@ export class RelicScorer {
 
   scoreRelicPct(relic: Relic, id: CharacterId, withMeta: boolean = false) {
     const maxWeight = this.scoreOptimalRelic(relic.part, id)
-    const score = this.scoreRelic(relic, id, 'weighted', withMeta)
+    const score = this.scoreRelic(relic, id, withMeta)
 
     if (Utils.hasMainStat(relic.part)) {
       // undo mainstat free roll as it's not relevant for potential
@@ -340,33 +340,21 @@ export class RelicScorer {
     }
   }
 
-  static scoreRelic(relic, id, mainStatScoring = 'ideal', withMeta = false) {
-    return new RelicScorer().scoreRelic(relic, id, mainStatScoring, withMeta)
+  static scoreRelic(relic, id, withMeta = false) {
+    return new RelicScorer().scoreRelic(relic, id, withMeta)
   }
 
-  scoreRelic(relic: Relic, id: CharacterId, mainStatScoring: string = 'ideal', withMeta: boolean = false) {
+  scoreRelic(relic: Relic, id: CharacterId, withMeta: boolean = false) {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
     const subScore = parseFloat(scoringResult.score)
-    let mainScore = 0
-    if (mainStatScoring === 'ideal') {
-      // Obey listed 'ideal' mainstats and give them the same weight
-      // TODO: We've taken out the main stat additional score so this no longer applies
-      // if (Utils.hasMainStat(relic.part)) {
-      //   mainScore = scoringResult.mainStatScore
-      // } else {
-      //   // ideal scoring is used from the relics table - to have comparable weights across
-      //   // relic parts, we add a 'fake' mainstat weight to all parts without rollable mainstats
-      //   mainScore = 64.8
-      // }
-    } else if (mainStatScoring === 'weighted') {
-      // Turn the main stat score into a deduction if using a suboptimal main
-      if (Utils.hasMainStat(relic.part)) {
-        mainScore = scoringMetadata.stats[relic.main.stat] * 64.8 - 64.8
-      }
-    } else {
-      throw new Error('unknown mainStatScoring type ' + mainStatScoring)
+
+    // Turn the main stat score into a deduction if using a suboptimal main
+    let mainScoreDeduction = 0
+    if (Utils.hasMainStat(relic.part)) {
+      const mainStatWeight = getMainStatWeight(relic, scoringMetadata)
+      mainScoreDeduction = mainStatWeight * 64.8 - 64.8
     }
 
     const substats: [StatsValues, number][] = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
@@ -416,12 +404,12 @@ export class RelicScorer {
       }
     }
 
-    const currentWeight = Utils.precisionRound(subScore + mainScore)
+    const currentWeight = Utils.precisionRound(subScore + mainScoreDeduction)
     return {
-      current: currentWeight,
-      best: currentWeight + bestExtraRolls * 6.48,
-      average: currentWeight + bestExtraRolls * 6.48 * avgWeight,
-      worst: currentWeight + worstExtraRolls * minRollValue,
+      current: Math.max(0, currentWeight),
+      best: Math.max(0, currentWeight + bestExtraRolls * 6.48),
+      average: Math.max(0, currentWeight + bestExtraRolls * 6.48 * avgWeight),
+      worst: Math.max(0, currentWeight + worstExtraRolls * minRollValue),
       meta: meta,
     }
   }
@@ -517,4 +505,16 @@ export class RelicScorer {
       meta: scoringMetadata,
     }
   }
+}
+
+// Hands/Head have no weight. Optimal main stats are 1.0 weight, and anything else inherits the substat weight.
+function getMainStatWeight(relic, scoringMetadata) {
+  if (!Utils.hasMainStat(relic.part)) {
+    return 0
+  }
+  if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+    return 1
+  }
+
+  return scoringMetadata.stats[relic.main.stat]
 }

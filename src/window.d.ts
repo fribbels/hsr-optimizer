@@ -54,6 +54,7 @@ declare global {
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
     forceCharacterTabUpdate: DispatchWithoutAction
+    refreshRelicsScore: DispatchWithoutAction
 
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants

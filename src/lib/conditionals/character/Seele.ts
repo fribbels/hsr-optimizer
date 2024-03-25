@@ -37,7 +37,14 @@ export default (e: Eidolon): CharacterConditional => {
     content: `Increases SPD by 25% per stack. Stacks up to ${precisionRound(speedBoostStacksMax)} time(s).`,
     min: 0,
     max: speedBoostStacksMax,
-
+  }, {
+    formItem: 'switch',
+    id: 'e1EnemyHp80CrBoost',
+    name: 'e1EnemyHp80CrBoost',
+    text: 'E1 Enemy HP ≤ 80% CR boost',
+    title: 'E1: Extirpating Slash',
+    content: `E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.`,
+    disabled: e < 1,
   }, {
     formItem: 'switch',
     id: 'e6UltTargetDebuff',
@@ -55,6 +62,7 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => ({
       buffedState: true,
       speedBoostStacks: speedBoostStacksMax,
+      e1EnemyHp80CrBoost: true,
       e6UltTargetDebuff: true,
     }),
     teammateDefaults: () => ({
@@ -64,7 +72,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.CR] += (e >= 1 && request.enemyHpPercent <= 0.80) ? 0.15 : 0
+      x[Stats.CR] += (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0
       x[Stats.SPD_P] += 0.25 * r.speedBoostStacks
 
       // Scaling

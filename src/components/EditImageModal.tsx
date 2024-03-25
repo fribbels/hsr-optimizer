@@ -19,7 +19,7 @@ interface EditImageModalProps {
 }
 
 const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
-const CLIENT_ID = '0e6801babd5cc0e'
+const CLIENT_ID = 'f09c3678220940b'
 
 const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
 const DEFAULT_CROP = { x: 0, y: 0 }
@@ -534,6 +534,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         footer={[
           <Flex key={1} justify="flex-end">
             <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
+              <Button onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
               {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
               {(current > 0 && existingConfig) && (
                 <Button onClick={revert} danger>
@@ -560,7 +563,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         ]}
         title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
       >
-        <div style={{ height: existingConfig ? '400px' : '460px', position: 'relative' }}>
+        <div style={{ height: '460px', position: 'relative' }}>
           {!existingConfig
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>

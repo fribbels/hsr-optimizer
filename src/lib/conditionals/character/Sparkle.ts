@@ -113,7 +113,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x[Stats.ATK_P] += 0.15 + (atkBoostByQuantumAllies[m.quantumAllies] || 0)
+      x[Stats.ATK_P] += 0.15 + (request.PRIMARY_ELEMENTAL_DMG_TYPE == Stats.Quantum_DMG ? (atkBoostByQuantumAllies[m.quantumAllies] || 0) : 0)
       x[Stats.ATK_P] += (e >= 1 && m.cipherBuff) ? 0.40 : 0
 
       x.ELEMENTAL_DMG += (m.cipherBuff) ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost) : m.talentStacks * talentBaseStackBoost

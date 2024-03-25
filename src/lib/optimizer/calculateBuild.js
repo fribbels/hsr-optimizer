@@ -2,13 +2,7 @@ import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import {
-  calculateBaseStats,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts,
-} from 'lib/optimizer/calculateStats'
+import { calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'

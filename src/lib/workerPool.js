@@ -18,6 +18,15 @@ export const WorkerPool = {
       const worker = new OptimizerWorker()
       workers.push(worker)
       initializedWorkers++
+      console.log('Initialized workers: ' + initializedWorkers)
+    }
+  },
+
+  initializeAllWorkers: () => {
+    for (let i = 0; i < poolSize; i++) {
+      setTimeout(() => {
+        WorkerPool.initializeWorker()
+      }, 200 * i)
     }
   },
 
@@ -38,7 +47,7 @@ export const WorkerPool = {
     WorkerPool.initializeWorker()
 
     if (workers.length > 0) {
-      const worker = workers.pop()
+      const worker = workers.shift()
 
       let buffer
       if (buffers.length > 0) {
@@ -51,11 +60,12 @@ export const WorkerPool = {
       task.input.buffer = buffer
 
       worker.onmessage = (message) => {
-        // console.log('Worker message', message)
-        if (callback) callback(message.data)
+        // Queue up task before operating on the callback
         workers.push(worker)
-        buffers.push(message.data.buffer)
         WorkerPool.nextTask()
+
+        if (callback) callback(message.data)
+        buffers.push(message.data.buffer)
       }
 
       // Workers in Vite seem to have a chance to fail to initialize and die silently on Chromium browsers, when too many
@@ -94,12 +104,7 @@ export const WorkerPool = {
       workers,
       taskQueue,
       buffers,
+      initializedWorkers,
     })
   },
 }
-
-// Start a worker to kick off the caching process for worker imports
-// Every worker currently loads every conditional file rn which is not ideal
-setTimeout(() => {
-  WorkerPool.initializeWorker()
-}, 1000)

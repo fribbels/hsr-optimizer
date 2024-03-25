@@ -64,7 +64,7 @@ test('Test the substat values', () => {
         },
       },
       {
-        stat: 'Effect Hit',
+        stat: 'Effect Hit Rate',
         value: 8.64,
         rolls: {
           high: 2,
@@ -76,13 +76,18 @@ test('Test the substat values', () => {
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
   }
-  console.log(relic)
   // tests relicrollgrader
   RelicRollGrader.calculateRelicSubstatRolls(relic)
+
   expect(relic.substats[0].rolls).toEqual({ high: 2, mid: 0, low: 0 })
   expect(relic.substats[1].rolls).toEqual({ high: 0, mid: 1, low: 1 })
   expect(relic.substats[2].rolls).toEqual({ high: 0, mid: 2, low: 1 })
   expect(relic.substats[3].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+
+  expect(relic.substats[0].addedRolls).toEqual(1)
+  expect(relic.substats[1].addedRolls).toEqual(1)
+  expect(relic.substats[2].addedRolls).toEqual(2)
+  expect(relic.substats[3].addedRolls).toEqual(1)
 })
 
 test('Test when the value is not an exact addition from constants', () => {
@@ -111,11 +116,11 @@ test('Test when the value is not an exact addition from constants', () => {
       value: 100,
     },
     substats: [
-      { stat: 'Effect Hit', value: 10, rolls: { high: 0, mid: 0, low: 0 } },],
+      { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } }],
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
   }
   RelicRollGrader.calculateRelicSubstatRolls(relic)
   // this is the outcome because it only calculates to closest value
-  expect(relic.substats[0].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+  expect(relic.substats[0].addedRolls).toEqual(1)
 })

@@ -191,7 +191,7 @@ export class RelicScorer {
 
     const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
     const deduction = missingSets * minRollValue * 3
-    console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
+    // console.log(`Missing sets ${missingSets} sets, deducting ${deduction} score`)
     sum = Math.max(0, sum - deduction)
 
     const base = 64.8 * 4

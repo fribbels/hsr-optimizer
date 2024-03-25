@@ -95,7 +95,7 @@ test('relic-addonestat', () => {
     equippedBy: character,
   }
 
-  const relicScore = RelicScorer.scoreRelic(relic, character, undefined, true)
+  const relicScore = RelicScorer.scoreRelic(relic, character, true)
   // Every stat should be distinct, including theoretical new ones
   expect(
     new Set([
@@ -163,7 +163,7 @@ test('ideal-mainstats-includes-best-mainstats', () => {
         if (!PartsMainStats[part].includes(name)) {
           continue
         }
-        if (<number>weight > best) {
+        if (<number > weight > best) {
           // The best ideal mainstats is missing a possible mainstat that's higher weighted
           // than everything else
           didfail = true

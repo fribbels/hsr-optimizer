@@ -406,10 +406,10 @@ export class RelicScorer {
 
     const currentWeight = Utils.precisionRound(subScore + mainScoreDeduction)
     return {
-      current: currentWeight,
-      best: currentWeight + bestExtraRolls * 6.48,
-      average: currentWeight + bestExtraRolls * 6.48 * avgWeight,
-      worst: currentWeight + worstExtraRolls * minRollValue,
+      current: Math.max(0, currentWeight),
+      best: Math.max(0, currentWeight + bestExtraRolls * 6.48),
+      average: Math.max(0, currentWeight + bestExtraRolls * 6.48 * avgWeight),
+      worst: Math.max(0, currentWeight + worstExtraRolls * minRollValue),
       meta: meta,
     }
   }

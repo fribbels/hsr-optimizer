@@ -1,97 +1,103 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { AbilityEidolon } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
+const betaUpdate = 'All calculations are subject to change. Last updated 03-26-2024.'
+
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const skillDmgBoostValue = skill(e, 0.66, 0.726)
-  const ultAtkBoostValue = ult(e, 0.55, 0.594)
-  const ultCdBoostValue = ult(e, 0.16, 0.168)
-  const ultCdBoostBaseValue = ult(e, 0.20, 0.216)
+  const standoffDmgBoost = skill(e, 0.30, 0.33)
 
-  const basicScaling = basic(e, 1.0, 1.1)
-  const fuaScaling = basicScaling * 0.80
+  const basicScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 1.80, 1.98)
+  const basicExtraHitScaling = basic(e, 0.20, 0.22)
 
-  const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  // const talentBreakDmgScaling = talent(e, 0.56, 0.616) // TODO
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'teamDmgBuff',
-    name: 'teamDmgBuff',
-    text: 'Team DMG buff',
-    title: 'Trace: Military Might',
-    content: `When Bronya is on the field, all allies deal 10% more DMG.`,
-  }, {
-    formItem: 'switch',
-    id: 'battleStartDefBuff',
-    name: 'battleStartDefBuff',
-    text: 'Initial DEF buff',
-    title: 'Trace: Battlefield',
-    content: `At the start of the battle, all allies' DEF increases by 20% for 2 turn(s).`,
-  }, {
-    formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: 'Technique ATK buff',
-    title: 'Technique: Banner of Command',
-    content: `After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).`,
-  }, {
-    formItem: 'switch',
-    id: 'skillBuff',
-    name: 'skillBuff',
-    text: 'Skill DMG buff',
-    title: 'Skill: Combat Redeployment',
-    content: `Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by ${precisionRound(skillDmgBoostValue * 100)}% for 1 turn(s).`,
-  }, {
-    formItem: 'switch',
-    id: 'ultBuff',
-    name: 'ultBuff',
-    text: 'Ult ATK/CD buffs',
-    title: 'Ultimate: The Belobog March',
-    content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
-  }, {
-    formItem: 'switch',
-    id: 'e2SkillSpdBuff',
-    name: 'e2SkillSpdBuff',
-    text: 'E2 skill SPD buff',
-    title: 'E2: Quick March',
-    content: `When using Skill, the target ally's SPD increases by 30% after taking action, lasting for 1 turn.`,
-    disabled: e < 2,
-  }]
+  const ultScaling = ult(e, 4.00, 4.32)
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'teamDmgBuff'),
-    findContentId(content, 'battleStartDefBuff'),
-    findContentId(content, 'techniqueBuff'),
-    findContentId(content, 'skillBuff'),
-    findContentId(content, 'ultBuff'),
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'standoffActive',
+      name: 'standoffActive',
+      text: 'Standoff Active',
+      title: 'Standoff Active',
+      content: betaUpdate,
+    },
     {
       formItem: 'slider',
-      id: 'teammateCDValue',
-      name: 'teammateCDValue',
-      text: `Bronya's CD`,
-      title: 'Ultimate: The Belobog March',
-      content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
+      id: 'pocketTrickshotStacks',
+      name: 'pocketTrickshotStacks',
+      text: 'Pocket Trickshots',
+      title: 'Pocket Trickshots',
+      content: betaUpdate,
       min: 0,
-      max: 3.00,
-      percent: true,
+      max: 3,
     },
-    findContentId(content, 'e2SkillSpdBuff'),
+    {
+      formItem: 'switch',
+      id: 'beToCritBoost',
+      name: 'beToCritBoost',
+      text: 'BE to CR / CD boost',
+      title: 'BE to CR / CD boost',
+      content: betaUpdate,
+    },
+    {
+      formItem: 'switch',
+      id: 'talentBreakDmg',
+      name: 'talentBreakDmg',
+      text: 'Talent break DMG (Not implemented yet)',
+      title: 'Talent break DMG (Not implemented yet)',
+      content: betaUpdate,
+      disabled: true,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1DefShred',
+      name: 'e1DefShred',
+      text: 'E1 DEF shred',
+      title: 'E1 DEF shred',
+      content: betaUpdate,
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2BeBuff',
+      name: 'e2BeBuff',
+      text: 'E2 BE buff',
+      title: 'E2 BE buff',
+      content: betaUpdate,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e4TargetStandoffVulnerability',
+      name: 'e4TargetStandoffVulnerability',
+      text: 'E4 Standoff vulnerability',
+      title: 'E4 Standoff vulnerability',
+      content: betaUpdate,
+      disabled: e < 4,
+    },
+  ]
+
+  const teammateContent: ContentItem[] = [
   ]
 
   const defaults = {
-    teamDmgBuff: true,
-    techniqueBuff: false,
-    battleStartDefBuff: true,
-    skillBuff: true,
-    ultBuff: true,
-    e2SkillSpdBuff: false,
+    standoffActive: true,
+    pocketTrickshotStacks: 3,
+    e1DefShred: true,
+    e2BeBuff: true,
+    e4TargetStandoffVulnerability: true,
+    beToCritBoost: true,
+    talentBreakDmg: false,
   }
 
   return {
@@ -99,52 +105,36 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({
-      ...defaults,
-      ...{
-        teammateCDValue: 2.50,
-      },
     }),
-    precomputeEffects: (_request: Form) => {
+    precomputeEffects: (request: Form) => {
+      const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
-      x.BASIC_CR_BOOST += 1.00
+      x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
+      x.ULT_SCALING += ultScaling
 
-      // Scaling
-      x.BASIC_SCALING += basicScaling
-      x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
+      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
 
+      x.DMG_TAKEN_MULTI += (e >= 4 && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
+      x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
+
+      // TODO: Break DMG
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
-
-      x[Stats.DEF_P] += (m.battleStartDefBuff) ? 0.20 : 0
-      x[Stats.SPD_P] += (m.e2SkillSpdBuff) ? 0.30 : 0
-      x[Stats.ATK_P] += (m.techniqueBuff) ? 0.15 : 0
-      x[Stats.ATK_P] += (m.ultBuff) ? ultAtkBoostValue : 0
-
-      x.ELEMENTAL_DMG += (m.teamDmgBuff) ? 0.10 : 0
-      x.ELEMENTAL_DMG += (m.skillBuff) ? skillDmgBoostValue : 0
+    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
-      const t = request.characterConditionals
-
-      x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
-      x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
+    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c['x']
 
-      // Order matters?
-      x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
-      x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
+      x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
   }
 }

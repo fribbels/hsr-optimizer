@@ -6,17 +6,7 @@ import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { Constants, ElementToDamage } from 'lib/constants.ts'
-import {
-  defaultGap,
-  innerW,
-  lcInnerH,
-  lcInnerW,
-  lcParentH,
-  lcParentW,
-  middleColumnWidth,
-  parentH,
-  parentW,
-} from 'lib/constantsUi'
+import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
@@ -249,7 +239,7 @@ export function CharacterPreview(props) {
             </Flex>
 
             <Flex vertical>
-              <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }} ellipsis={true}>
+              <StatText style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }} ellipsis={true}>
                 {`${lightConeName}`}
 &nbsp;
               </StatText>

@@ -78,7 +78,7 @@ export default function GettingStartedTab() {
               <ul>
                 <li>Network scanner</li>
                 <li>Imports accurate speed decimals</li>
-                <li>Beta release - might not work for all machines</li>
+                <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
               </ul>
             </li>
             <li>

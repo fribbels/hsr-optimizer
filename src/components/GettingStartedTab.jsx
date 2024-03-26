@@ -71,16 +71,18 @@ export default function GettingStartedTab() {
                 <li>Supports all 16:9 screen resolutions</li>
               </ul>
             </li>
-            <li>
-              IceDynamix Reliquary Archiver (
-              <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
-              )
-              <ul>
-                <li>Network scanner</li>
-                <li>Imports accurate speed decimals</li>
-                <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
-              </ul>
-            </li>
+            {false && (
+              <li>
+                IceDynamix Reliquary Archiver (
+                <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
+                )
+                <ul>
+                  <li>Network scanner</li>
+                  <li>Imports accurate speed decimals</li>
+                  <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
+                </ul>
+              </li>
+            )}
             <li>
               Relic Scorer Import (
               <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>

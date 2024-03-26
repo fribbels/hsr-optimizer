@@ -6,8 +6,6 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2024.'
-
 const Gallagher = (e: Eidolon): CharacterConditional => {
   const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 

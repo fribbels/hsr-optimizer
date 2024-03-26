@@ -3175,7 +3175,7 @@ function getScoringMetadata() {
       ],
       presets: [
       ],
-      sortOption: SortOption.SPD,
+      sortOption: SortOption.BE,
     },
     1302: { // Argenti
       stats: {

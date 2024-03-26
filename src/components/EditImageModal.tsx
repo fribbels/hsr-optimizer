@@ -534,10 +534,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         footer={[
           <Flex key={1} justify="flex-end">
             <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
               <Button onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
               {(current > 0 && existingConfig) && (
                 <Button onClick={revert} danger>
                   Revert to default

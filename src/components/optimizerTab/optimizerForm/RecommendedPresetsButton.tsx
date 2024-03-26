@@ -95,6 +95,11 @@ export const PresetEffects = {
       form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
     }
   },
+  fnPioneerSet: (value) => {
+    return (form) => {
+      form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
+    }
+  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },

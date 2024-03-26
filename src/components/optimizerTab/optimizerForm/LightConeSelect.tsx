@@ -96,7 +96,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef?.current?.focus(), 0)
+      setTimeout(() => inputRef?.current?.focus(), 100)
     }
   }, [open])
 

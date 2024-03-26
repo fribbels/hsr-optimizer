@@ -18,7 +18,7 @@ export default (e: Eidolon): CharacterConditional => {
   const ultAtkBuffFlatValue = ult(e, 200, 230)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const ultScaling = basic(e, 1.20, 1.296)
+  const ultScaling = ult(e, 1.20, 1.296)
 
   const content: ContentItem[] = [
     {
@@ -67,8 +67,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
-      text: 'E6 buffs',
-      title: 'E6 buffs',
+      text: 'E6 RES shred / CD buffs',
+      title: 'E6 RES shred / CD buffs',
       content: betaUpdate,
       disabled: e < 6,
     },
@@ -77,7 +77,6 @@ export default (e: Eidolon): CharacterConditional => {
   const teammateContent: ContentItem[] = [
     findContentId(content, 'concertoActive'),
     findContentId(content, 'skillDmgBuff'),
-    findContentId(content, 'talentCdBuff'),
     {
       formItem: 'slider',
       id: 'teammateATKValue',
@@ -88,12 +87,13 @@ export default (e: Eidolon): CharacterConditional => {
       min: 0,
       max: 5000,
     },
+    findContentId(content, 'talentCdBuff'),
     {
       formItem: 'switch',
       id: 'talentFuaCdBoost',
       name: 'talentFuaCdBoost',
-      text: 'FUA CD boost',
-      title: 'FUA CD boost',
+      text: 'FUA Crit DMG boost (WIP)',
+      title: 'FUA Crit DMG boost (WIP)',
       content: betaUpdate,
     },
     {
@@ -123,11 +123,10 @@ export default (e: Eidolon): CharacterConditional => {
     skillDmgBuff: true,
     talentCdBuff: true,
     e1UltScalingBoost: true,
-    e4TeamResBuff: true,
+    e4TeamResBuff: false,
     e6Buffs: true,
   }
 
-  // TODO: Is her trace +FUA CD or +FUA Crit DMG multi?
   return {
     content: () => content,
     teammateContent: () => teammateContent,
@@ -150,6 +149,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
       x.ULT_SCALING += (e >= 1 && r.concertoActive && r.e1UltScalingBoost) ? 0.72 : 0
 
+      x.RES_PEN += (e >= 6 && r.concertoActive && r.e6Buffs) ? 0.20 : 0
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
@@ -160,16 +161,16 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0
 
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBuffValue : 0
-      x.FUA_CD_BOOST += (m.concertoActive) ? 0.10 : 0
-      x.RES_PEN += (e >= 6 && m.concertoActive && m.e6ResShredBuff) ? 0.20 : 0
+      x.FUA_CD_BOOST += (m.concertoActive) ? 0.10 : 0 // TODO: This is a new multiplier for CRIT-only Elemental DMG?
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
-      x[Stats.ATK_P] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
+      x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
       x[Stats.SPD_P] += (e >= 1 && t.concertoActive) ? 0.15 * t.e1OrnamentStacks : 0
 
       x.FUA_CD_BOOST += (t.talentFuaCdBoost) ? 0.10 : 0
+      x.RES_PEN += (e >= 6 && t.concertoActive && t.e6ResShredBuff) ? 0.20 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

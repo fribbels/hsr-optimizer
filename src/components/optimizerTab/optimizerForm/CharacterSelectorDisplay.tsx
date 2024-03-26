@@ -10,6 +10,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions.ts'
+import { Utils } from 'lib/utils.js'
 
 type CharacterSelectorDisplayProps = {
 }
@@ -160,6 +161,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           listHeight={750}
           popupMatchSelectWidth={300}
           placeholder="Sorted by"
+          filterOption={Utils.labelFilterOption}
         />
       </Form.Item>
     </Flex>

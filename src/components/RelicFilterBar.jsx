@@ -1,9 +1,11 @@
-import { Button, Flex, Tooltip, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import { Button, Flex, Select, Tooltip, Typography } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { HeaderText } from './HeaderText'
+import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
+import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
 import { Constants, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
@@ -11,6 +13,7 @@ import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { ClearOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -19,7 +22,7 @@ const imgWidth = 34
 
 const BLANK = Assets.getBlank()
 
-export default function RelicFilterBar() {
+export default function RelicFilterBar(props) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
@@ -104,7 +107,7 @@ export default function RelicFilterBar() {
   let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
-  useSubscribe('refreshRelicsScore', () => {
+  window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
     // that it performs the publish. However, react defers and batches events, so the submit (and update
     // of the scoring overrides) doesn't actually happen until *after* this subscribe event is triggered,
@@ -115,7 +118,16 @@ export default function RelicFilterBar() {
     setTimeout(() => {
       characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
-  })
+  }
+
+  useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
+
+  // Kick off an initial calculation to populate value columns. Though empty dependencies
+  // are warned about, we genuinely only want to do this on first component render (updates
+  // will correctly re-trigger it)
+  useEffect(() => {
+    characterSelectorChange(currentlySelectedCharacterId)
+  }, [])
 
   function characterSelectorChange(id) {
     let relics = Object.values(DB.getRelicsById())
@@ -124,15 +136,26 @@ export default function RelicFilterBar() {
     setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
-    // NOTE: we cannot cache these results by keying on the relic/char id because both relic stats
-    // and char weights can be edited
+    let allCharacters = characterOptions.map((val) => val.id)
+
+    let relicScorer = new RelicScorer()
+
+    // NOTE: we cannot cache these results between renders by keying on the relic/char id because
+    // both relic stats and char weights can be edited
     for (let relic of relics) {
-      relic.weights = id ? RelicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
+      relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
+      relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
+      relic.weights.potentialAllAll = 0
+
+      for (let cid of allCharacters) {
+        let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
+        relic.weights.potentialAllAll = Math.max(pct, relic.weights.potentialAllAll)
+      }
     }
 
     DB.setRelics(relics)
 
-    if (window.relicsGrid?.current?.api) {
+    if (id && window.relicsGrid?.current?.api) {
       window.relicsGrid.current.api.applyColumnState({
         state: [{ colId: 'weights.current', sort: 'desc' }],
         defaultState: { sort: null },
@@ -166,6 +189,45 @@ export default function RelicFilterBar() {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
+          <HeaderText>Part</HeaderText>
+          <FilterRow name="part" tags={partsData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical style={{ height: '100%' }} flex={1}>
+          <HeaderText>Enhance</HeaderText>
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.5}>
+          <HeaderText>Grade</HeaderText>
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Verified</HeaderText>
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.4}>
+          <HeaderText>Clear</HeaderText>
+          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+            Clear all filters
+          </Button>
+        </Flex>
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Set</HeaderText>
+        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Main stats</HeaderText>
+        <FilterRow name="mainStats" tags={mainStatsData} />
+      </Flex>
+
+      <Flex vertical>
+        <HeaderText>Substats</HeaderText>
+        <FilterRow name="subStats" tags={subStatsData} />
+      </Flex>
+      <Flex gap={10}>
+        <Flex vertical flex={1}>
           <HeaderText>Relic recommendation character</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
@@ -191,52 +253,32 @@ export default function RelicFilterBar() {
           </Flex>
         </Flex>
         <Flex flex={1} gap={10}>
-          <Flex vertical style={{ height: '100%' }} flex={0.5}>
-            <HeaderText>Filter actions</HeaderText>
+          <Flex vertical flex={1}>
+            <Flex justify="space-between" align="center">
+              <HeaderText>Relic ratings</HeaderText>
+              <TooltipImage type={Hint.valueColumns()} />
+            </Flex>
             <Flex gap={10}>
-              <Button onClick={clearClicked} style={{ flexGrow: 1 }}>
-                Clear filters
-              </Button>
+              <Select
+                mode="multiple"
+                allowClear
+                value={props.valueColumns}
+                onChange={props.setValueColumns}
+                options={props.valueColumnOptions}
+                maxTagCount="responsive"
+                style={{ flex: 1 }}
+              />
             </Flex>
           </Flex>
-          <Flex vertical flex={0.5}>
-            <HeaderText>Grade</HeaderText>
-            <FilterRow name="grade" tags={gradeData} flexBasis="25%" />
-          </Flex>
-          <Flex vertical flex={0.25}>
-            <HeaderText>Verified</HeaderText>
-            <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
-          </Flex>
         </Flex>
-      </Flex>
-
-      <Flex gap={10}>
-        <Flex vertical flex={1}>
-          <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%" />
-        </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
-        </Flex>
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData} />
-      </Flex>
-
-      <Flex vertical>
-        <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData} />
       </Flex>
     </Flex>
   )
+}
+RelicFilterBar.propTypes = {
+  setValueColumns: PropTypes.func,
+  valueColumnOptions: PropTypes.array,
+  valueColumns: PropTypes.array,
 }
 
 function FilterRow(props) {

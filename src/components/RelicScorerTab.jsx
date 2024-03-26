@@ -8,13 +8,7 @@ import PropTypes from 'prop-types'
 import DB from 'lib/db'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  PlusCircleFilled,
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, PlusCircleFilled } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 
@@ -26,9 +20,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
   return [
-    { characterId: char('Sparkle'), lightConeId: lc('Earthly Escapade') },
+    { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
+    { characterId: char('Boothill'), lightConeId: lc('Sailing Towards A Second Life') },
+    { characterId: char('Stelle (Harmony)'), lightConeId: lc('Memories of the Past') },
     { characterId: char('Acheron'), lightConeId: lc('Along the Passing Shore') },
-    { characterId: char('Black Swan'), lightConeId: lc('Reforged Remembrance') },
     { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
     { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },
@@ -336,7 +331,7 @@ function CharacterPreviewSelection(props) {
         vertical
         style={{
           position: 'relative',
-          left: -230,
+          left: -250,
           top: 150,
           width: 0,
           height: 0,
@@ -362,7 +357,7 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1022 }}>
+    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
       <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
         <Sidebar />
         <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>

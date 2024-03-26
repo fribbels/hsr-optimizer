@@ -946,5 +946,29 @@
         "rarity": 4,
         "path": "Knight",
         "name": "Concert for Two"
+    },
+    "21044": {
+        "id": "21044",
+        "rarity": 4,
+        "path": "Warlock",
+        "name": "Boundless Choreo"
+    },
+    "22002": {
+        "id": "22002",
+        "rarity": 4,
+        "path": "Shaman",
+        "name": "For Tomorrow's Journey"
+    },
+    "23026": {
+        "id": "23026",
+        "rarity": 5,
+        "path": "Shaman",
+        "name": "Flowing Nightglow"
+    },
+    "23027": {
+        "id": "23027",
+        "rarity": 5,
+        "path": "Rogue",
+        "name": "Sailing Towards A Second Life"
     }
 }

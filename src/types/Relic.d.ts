@@ -13,6 +13,7 @@ export type Relic = {
     current: number
     average: number
     best: number
+    potentialAllAll: number
   }
   cs?: number
   ds?: number
@@ -32,5 +33,13 @@ export type Relic = {
   substats: {
     stat: SubStats
     value: number
+    rolls?: StatRolls
+    addedRolls?: number
   }[]
+}
+
+type StatRolls = {
+  high: number
+  mid: number
+  low: number
 }

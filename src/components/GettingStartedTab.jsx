@@ -3,9 +3,12 @@ import { Button, Divider, Flex, Popconfirm, Typography } from 'antd'
 import { Message } from 'lib/message'
 
 import sampleSave from '../data/sample-save.json'
-import DB from '../lib/db'
+import DB, { AppPages } from '../lib/db'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
+import { KelzScannerConfig, ReliquaryArchiverConfig } from 'lib/importer/importConfig'
+import { ImportOutlined } from '@ant-design/icons'
+import { ColorizedLink } from 'components/common/ColorizedLink'
 
 const { Text } = Typography
 
@@ -41,12 +44,13 @@ export default function GettingStartedTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button type="primary" style={{ width: 200 }}>
+            <Button type="primary" icon={<ImportOutlined />} style={{ width: 200 }}>
               Try it out!
             </Button>
           </Popconfirm>
 
           <Divider style={dividerStyle}></Divider>
+
           {/* ======================================================================================================================= */}
 
           <h2>
@@ -54,17 +58,38 @@ export default function GettingStartedTab() {
           </h2>
 
           <p>
-            The optimizer needs a database of relics to run against.
+            The optimizer needs a database of relics to run against. Install and run one of the relic scanner options:
           </p>
 
           <ul>
             <li>
-              Recommended: Kel-Z HSR Scanner (
-              <Typography.Link target="_blank" href="https://github.com/kel-z/HSR-Scanner/releases/latest">Github</Typography.Link>
+              Kel-Z HSR Scanner (
+              <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
               )
               <ul>
-                <li>Supports all 16:9 resolutions</li>
-                <li>Supports character and light cone imports</li>
+                <li>OCR scanner</li>
+                <li>Supports all 16:9 screen resolutions</li>
+              </ul>
+            </li>
+            <li>
+              IceDynamix Reliquary Archiver (
+              <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
+              )
+              <ul>
+                <li>Network scanner</li>
+                <li>Imports accurate speed decimals</li>
+                <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
+              </ul>
+            </li>
+            <li>
+              Relic Scorer Import (
+              <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
+                <ColorizedLink text="Relic scorer" />
+              </span>
+              )
+              <ul>
+                <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
+                <li>Imports accurate speed decimals</li>
               </ul>
             </li>
           </ul>

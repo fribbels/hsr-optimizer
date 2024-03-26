@@ -1,7 +1,7 @@
-import path = require('path');
-import { defineConfig, devices } from '@playwright/test';
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.cache/storage-state.json');
+import path = require('path')
+import { defineConfig, devices } from '@playwright/test'
 
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.cache/storage-state.json')
 
 export default defineConfig({
   testDir: 'tests',
@@ -23,8 +23,8 @@ export default defineConfig({
   use: {
     actionTimeout: 0, // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
     baseURL: 'http://localhost:3000/hsr-optimizer', // Base URL to use in actions like `await page.goto('/')`.
-    trace: 'on-first-retry',// Collect trace when retrying the failed test.
-    screenshot: 'only-on-failure',// Capture screenshot after each test failure.
+    trace: 'on-first-retry', // Collect trace when retrying the failed test.
+    screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     // video: 'on-first-retry',// // Record video only when retrying a test for the first time.
   },
   // Configure projects for major browsers.
@@ -36,10 +36,10 @@ export default defineConfig({
       name: 'WITH test data',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: STORAGE_STATE
+        storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
-    },/* {
+    }, /* {
       name: 'NO test data',
       use: {
         ...devices['Desktop Chrome'],
@@ -58,5 +58,4 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
   ],
-});
-
+})

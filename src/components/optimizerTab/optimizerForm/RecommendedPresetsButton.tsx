@@ -79,6 +79,7 @@ const SpdValues = {
   },
 }
 const standardSpdOptions = Object.values(SpdValues)
+standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
 export function generateStandardSpdOptions(label) {
   return {
@@ -100,33 +101,9 @@ export const PresetEffects = {
   WASTELANDER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
   },
-  DOT_SORT: () => {
-    setSortColumn('DOT')
-  },
-  FUA_SORT: () => {
-    setSortColumn('FUA')
-  },
-  ULT_SORT: () => {
-    setSortColumn('ULT')
-  },
-  SKILL_SORT: () => {
-    setSortColumn('SKILL')
-  },
-  BASIC_SORT: () => {
-    setSortColumn('BASIC')
-  },
-  EHP_SORT: () => {
-    setSortColumn('EHP')
-  },
-  SPD_SORT: () => {
-    setSortColumn('xSPD')
-  },
-  DEF_SORT: () => {
-    setSortColumn('xDEF')
-  },
 }
 
-function setSortColumn(columnId) {
+export function setSortColumn(columnId) {
   const columnState: ApplyColumnStateParams = {
     state: [
       {
@@ -182,6 +159,9 @@ const RecommendedPresetsButton = () => {
          */
 
         const presets = metadata.presets || []
+        const sortOption = metadata.sortOption
+        form.resultSort = sortOption.key
+        setSortColumn(sortOption.combatGridColumn)
         for (const applyPreset of presets) {
           applyPreset(form)
         }
@@ -198,11 +178,14 @@ const RecommendedPresetsButton = () => {
     <Dropdown
       menu={actionsMenuProps}
       trigger={['click']}
+      overlayStyle={{ width: 'max-content' }}
     >
-      <Button type="primary" style={{ width: '100%' }}>
-        Recommended presets
-        <DownOutlined />
-      </Button>
+      <a onClick={(e) => e.preventDefault()}>
+        <Button type="primary" style={{ width: '100%' }}>
+          Recommended presets
+          <DownOutlined />
+        </Button>
+      </a>
     </Dropdown>
   )
 }

@@ -173,9 +173,11 @@ export const Hint = {
       title: 'Relics',
       content: (
         <Flex vertical gap={10}>
-          <p>Weight - The relic's current weight as defined by the scoring algorithm + 64.8 weight for an appropriate main stat</p>
-          <p>Avg case - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
-          <p>Best case - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
+          <p>Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats. </p>
+          <p>Selected character: Score - The relic's current weight as defined by the scoring algorithm for the currently selected character</p>
+          <p>Selected character: Average potential - The relic's potential weight if rolls went into the average weight of the relic's substats</p>
+          <p>Selected character: Max potential - The relic's maximum potential weight if all future rolls went into the character's desired stats</p>
+          <p>All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game. </p>
         </Flex>
       ),
     }
@@ -233,6 +235,42 @@ export const Hint = {
           <p>This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.</p>
           <p>Base stats - The stats as shown on the character's screen ingame, with no in-combat buffs applied.</p>
           <p>Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  valueColumns: () => {
+    return {
+      title: 'Value Columns',
+      content: (
+        <Flex vertical gap={10}>
+          <p>You can optionally display a number of columns that assess the relative 'value' of a relic.</p>
+          <p><b>Weight</b></p>
+          <p>Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).</p>
+          <p>Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see</p>
+          <p>Weight is useful to focus on a single character and see which relics might give them a higher letter grading.</p>
+          <p><b>Potential</b></p>
+          <p>Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
+          <p>Potential can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
+          <p>Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+          <p>Note ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  relicInsight: () => {
+    return {
+      title: 'Relic Insight',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
+          <p>'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<br />
+            If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<br />
+            ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
+          </p>
+          <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in.</p>
         </Flex>
       ),
     }

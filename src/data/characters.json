@@ -2294,5 +2294,37 @@
         "element": "Fire",
         "max_sp": 0,
         "name": "Gallagher"
+    },
+    "1315": {
+        "id": "1315",
+        "rarity": 5,
+        "path": "Rogue",
+        "element": "Physical",
+        "max_sp": 120,
+        "name": "Boothill"
+    },
+    "1309": {
+        "id": "1309",
+        "rarity": 5,
+        "path": "Shaman",
+        "element": "Physical",
+        "max_sp": 160,
+        "name": "Robin"
+    },
+    "8005": {
+        "id": "8005",
+        "rarity": 5,
+        "path": "Shaman",
+        "element": "Imaginary",
+        "max_sp": 140,
+        "name": "{NICKNAME}"
+    },
+    "8006": {
+        "id": "8006",
+        "rarity": 5,
+        "path": "Shaman",
+        "element": "Imaginary",
+        "max_sp": 140,
+        "name": "{NICKNAME}"
     }
 }

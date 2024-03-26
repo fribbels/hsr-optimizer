@@ -1,6 +1,9 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import DB from 'lib/db'
 
 export function getDefaultForm(initialCharacter) {
+  const metadata = DB.getMetadata().characters[initialCharacter]
+
   return {
     characterId: initialCharacter?.id,
     mainBody: [
@@ -52,6 +55,8 @@ export function getDefaultForm(initialCharacter) {
     teammate0: defaultTeammate(),
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
+    resultSort: metadata?.scoringMetadata.sortOption.key,
+    resultLimit: 100000,
   }
 }
 
@@ -94,4 +99,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.BrokenKeel]: [undefined, true],
   [Constants.Sets.FirmamentFrontlineGlamoth]: [undefined, true],
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
+  [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
+  [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
 }

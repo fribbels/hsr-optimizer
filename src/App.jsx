@@ -59,13 +59,18 @@ const App = () => {
         <Sider
           width={170}
           style={{
-            overflow: 'auto',
-            // height: '100vh',
-            position: 'sticky',
-            top: 0,
+            background: '#243356',
           }}
         >
-          <MenuDrawer />
+          <div
+            style={{
+              position: 'sticky',
+              top: 0,
+              backgroundColor: '#243356',
+            }}
+          >
+            <MenuDrawer />
+          </div>
         </Sider>
         <Layout
           style={{

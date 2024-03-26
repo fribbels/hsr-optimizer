@@ -19,10 +19,10 @@ function run() {
   // Hunt - Rogue
   // Erudition - Mage
 
-  const lcName = 'Concert for Two'
-  const id = '21043'
-  const rarity = 4
-  const path = 'Knight'
+  const lcName = 'Sailing Towards A Second Life'
+  const id = '23027'
+  const rarity = 5
+  const path = 'Rogue'
 
   const convertedLightCone = {
     [id]: {

@@ -12,19 +12,14 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
 import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
+import SwitchRelicsModal from './SwitchRelicsModal'
 
 const { Text } = Typography
 
@@ -91,6 +86,10 @@ const items = [
         key: 'edit',
       },
       {
+        label: 'Switch relics with',
+        key: 'switchRelics',
+      },
+      {
         label: 'Unequip character',
         key: 'unequip',
       },
@@ -145,6 +144,7 @@ export default function CharacterTab() {
   const [downloadLoading, setDownloadLoading] = useState(false)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [isSwitchRelicsModalOpen, setSwitchRelicsModalOpen] = useState(false)
   const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
@@ -300,6 +300,20 @@ export default function CharacterTab() {
     window.characterGrid.current.api.ensureIndexVisible(character.rank)
   }
 
+  function onSwitchRelicsModalOk(switchToCharacter) {
+    if (!switchToCharacter) {
+      return Message.error('No selected character')
+    }
+
+    DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
+    SaveState.save()
+
+    characterGrid.current.api.redrawRows()
+    window.forceCharacterTabUpdate()
+    Message.success(`Successfully switched relics to ${switchToCharacter.label}`)
+    window.relicsGrid.current.api.redrawRows()
+  }
+
   function scoringAlgorithmClicked() {
     setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
     window.setIsScoringModalOpen(true)
@@ -358,6 +372,9 @@ export default function CharacterTab() {
       case 'edit':
         setCharacterModalInitialCharacter(selectedCharacter)
         setCharacterModalOpen(true)
+        break
+      case 'switchRelics':
+        setSwitchRelicsModalOpen(true)
         break
       case 'unequip':
         if (!await confirm(`Are you sure you want to unequip ${Utils.getCharacterNameById(selectedCharacter.id)}?`)) return
@@ -458,8 +475,8 @@ export default function CharacterTab() {
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
-
       <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen} initialCharacter={characterModalInitialCharacter} />
+      <SwitchRelicsModal onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen} setOpen={setSwitchRelicsModalOpen} currentCharacter={selectedCharacter} />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter} imgRenderer={cellImageRenderer} />
       {contextHolder}

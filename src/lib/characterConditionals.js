@@ -8,7 +8,6 @@ import bronya from 'lib/conditionals/character/Bronya'
 import clara from 'lib/conditionals/character/Clara'
 import danheng from 'lib/conditionals/character/DanHeng'
 import drratio from 'lib/conditionals/character/DrRatio'
-import firetrailblazer from 'lib/conditionals/character/TrailblazerPreservation'
 import fuxuan from 'lib/conditionals/character/FuXuan'
 import gepard from 'lib/conditionals/character/Gepard'
 import guinaifen from 'lib/conditionals/character/Guinaifen'
@@ -28,7 +27,9 @@ import march7th from 'lib/conditionals/character/March7th'
 import misha from 'lib/conditionals/character/Misha'
 import natasha from 'lib/conditionals/character/Natasha'
 import pela from 'lib/conditionals/character/Pela'
-import physicaltrailblazer from 'lib/conditionals/character/TrailblazerDestruction'
+import trailblazerdestruction from 'lib/conditionals/character/TrailblazerDestruction'
+import trailblazerharmony from 'lib/conditionals/character/TrailblazerHarmony'
+import trailblazerpreservation from 'lib/conditionals/character/TrailblazerPreservation'
 import qingque from 'lib/conditionals/character/Qingque'
 import ruanmei from 'lib/conditionals/character/RuanMei'
 import sampo from 'lib/conditionals/character/Sampo'
@@ -46,6 +47,8 @@ import yukong from 'lib/conditionals/character/Yukong'
 import acheron from 'lib/conditionals/character/Acheron'
 import aventurine from 'lib/conditionals/character/Aventurine'
 import gallagher from 'lib/conditionals/character/Gallagher'
+import robin from 'lib/conditionals/character/Robin'
+import boothill from 'lib/conditionals/character/Boothill'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -93,11 +96,15 @@ export const characterOptionMapping = {
   1306: sparkle,
   1307: blackswan,
   1308: acheron,
+  1309: robin,
   1312: misha,
-  8001: physicaltrailblazer,
-  8002: physicaltrailblazer,
-  8003: firetrailblazer,
-  8004: firetrailblazer,
+  1315: boothill,
+  8001: trailblazerdestruction,
+  8002: trailblazerdestruction,
+  8003: trailblazerpreservation,
+  8004: trailblazerpreservation,
+  8005: trailblazerharmony,
+  8006: trailblazerharmony,
 }
 
 export const CharacterConditionals = {

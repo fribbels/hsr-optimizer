@@ -12,7 +12,7 @@ export function calculateBaseMultis(c, request, params) {
 export function calculateDamage(c, request, params) {
   const x = c.x
   const sets = c.sets
-  let cLevel = request.characterLevel
+  let cLevel = 80
   let eLevel = request.enemyLevel
   let defReduction = x.DEF_SHRED + request.buffDefShred
   let defIgnore = 0
@@ -24,10 +24,12 @@ export function calculateDamage(c, request, params) {
 
   let ehp = x[Stats.HP] / (1 - x[Stats.DEF] / (x[Stats.DEF] + 200 + 10 * request.enemyLevel))
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
-  c.EHP = ehp
+  x.EHP = ehp
 
   let universalMulti = dmgReductionMultiplier * params.brokenMultiplier * originalDmgMultiplier
   const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]
+
+  const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 
   x.BASIC_DMG
     *= universalMulti
@@ -49,7 +51,7 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.ULT_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
+    * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
     * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY)
     * (1 - (baseResistance - x.ULT_RES_PEN))
 

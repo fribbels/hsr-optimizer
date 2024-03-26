@@ -6,8 +6,6 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-03-2024.'
-
 const Gallagher = (e: Eidolon): CharacterConditional => {
   const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
@@ -21,24 +19,24 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       id: 'basicEnhanced',
       name: 'basicEnhanced',
       text: 'Enhanced basic',
-      title: 'Enhanced basic',
-      content: betaUpdate,
+      title: 'Nectar Blitz',
+      content: `Ultimate enhances his next Basic ATK to Nectar Blitz.`,
     },
     {
       formItem: 'switch',
       id: 'breakEffectToOhbBoost',
       name: 'breakEffectToOhbBoost',
       text: 'BE to OHB boost',
-      title: 'BE to OHB boost',
-      content: betaUpdate,
+      title: 'Novel Concoction',
+      content: `Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%.`,
     },
     {
       formItem: 'switch',
       id: 'e1ResBuff',
       name: 'e1ResBuff',
       text: 'E1 RES buff',
-      title: 'E1 RES buff',
-      content: betaUpdate,
+      title: 'E1: Salty Dog',
+      content: `When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%.`,
       disabled: e < 1,
     },
     {
@@ -46,8 +44,8 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       id: 'e2ResBuff',
       name: 'e2ResBuff',
       text: 'E2 RES buff',
-      title: 'E2 RES buff',
-      content: betaUpdate,
+      title: 'E2: Lion\'s Tail',
+      content: `When using the Skill, removes 1 debuff(s) from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turn(s).`,
       disabled: e < 2,
     },
     {
@@ -55,8 +53,8 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       id: 'e6BeBuff',
       name: 'e6BeBuff',
       text: 'E6 BE buff',
-      title: 'E6 BE buff',
-      content: betaUpdate,
+      title: 'E6: Blood and Sand',
+      content: `Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%.`,
       disabled: e < 6,
     },
   ]

@@ -10,6 +10,7 @@ import characterSkills from 'data/en/character_skills.json'
 import { Constants } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 export const DataParser = {
   parse: () => {
@@ -76,6 +77,8 @@ const displayNameMapping = {
   8002: 'Stelle (Destruction)',
   8003: 'Caelus (Preservation)',
   8004: 'Stelle (Preservation)',
+  8005: 'Caelus (Harmony)',
+  8006: 'Stelle (Harmony)',
   1213: 'Imbibitor Lunae',
 }
 
@@ -326,6 +329,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.DEF_P]: 0.28 },
       5: { [Constants.Stats.DEF_P]: 0.32 },
     },
+    21044: {
+      1: { [Constants.Stats.CR]: 0.08 },
+      2: { [Constants.Stats.CR]: 0.10 },
+      3: { [Constants.Stats.CR]: 0.12 },
+      4: { [Constants.Stats.CR]: 0.14 },
+      5: { [Constants.Stats.CR]: 0.16 },
+    },
     22000: {
       1: { [Constants.Stats.EHR]: 0.20 },
       2: { [Constants.Stats.EHR]: 0.25 },
@@ -339,6 +349,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.HP_P]: 0.10 },
       4: { [Constants.Stats.HP_P]: 0.11 },
       5: { [Constants.Stats.HP_P]: 0.12 },
+    },
+    22002: {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.20 },
+      3: { [Constants.Stats.ATK_P]: 0.24 },
+      4: { [Constants.Stats.ATK_P]: 0.28 },
+      5: { [Constants.Stats.ATK_P]: 0.32 },
     },
     23000: {},
     23001: {
@@ -490,6 +507,14 @@ function getSuperimpositions() {
       3: { [Constants.Stats.CD]: 0.48 },
       4: { [Constants.Stats.CD]: 0.54 },
       5: { [Constants.Stats.CD]: 0.60 },
+    },
+    23026: {},
+    23027: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
     },
     24000: {},
     24001: {
@@ -743,10 +768,20 @@ function getOverrideTraces() {
       [Constants.Stats.Lightning_DMG]: 0.08,
       [Constants.Stats.CD]: 0.24,
     },
+    1309: { // Robin
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.HP_P]: 0.18,
+      [Constants.Stats.SPD]: 5,
+    },
     1312: { // Misha
       [Constants.Stats.Ice_DMG]: 0.224,
       [Constants.Stats.DEF_P]: 0.225,
       [Constants.Stats.CR]: 0.067,
+    },
+    1315: { // Boothill
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.ATK_P]: 0.18,
+      [Constants.Stats.HP_P]: 0.10,
     },
     8001: { // Physical Trailblazer
       [Constants.Stats.ATK_P]: 0.28,
@@ -767,6 +802,16 @@ function getOverrideTraces() {
       [Constants.Stats.DEF_P]: 0.35,
       [Constants.Stats.ATK_P]: 0.18,
       [Constants.Stats.HP_P]: 0.1,
+    },
+    8005: { // Imaginary Trailblazer
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.Imaginary_DMG]: 0.144,
+      [Constants.Stats.RES]: 0.10,
+    },
+    8006: { // Imaginary Trailblazer
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.Imaginary_DMG]: 0.144,
+      [Constants.Stats.RES]: 0.10,
     },
   }
 }
@@ -953,9 +998,17 @@ function getOverrideImageCenter() {
       x: 1000,
       y: 960,
     },
+    1309: { // Robin
+      x: 1024,
+      y: 900,
+    },
     1312: { // Misha
       x: 1050,
       y: 1075,
+    },
+    1315: { // Boothill
+      x: 1000,
+      y: 1100,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
@@ -972,6 +1025,14 @@ function getOverrideImageCenter() {
     8004: { // Fire Trailblazer F
       x: 1050,
       y: 1024,
+    },
+    8005: { // Imaginary Trailblazer M
+      x: 1050,
+      y: 1000,
+    },
+    8006: { // Imaginary Trailblazer F
+      x: 1050,
+      y: 1000,
     },
   }
 }
@@ -1031,8 +1092,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
     1002: { // Dan Heng
       stats: {
@@ -1068,6 +1129,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1085,8 +1147,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1003: { // Himeko
       stats: {
@@ -1118,9 +1180,11 @@ function getScoringMetadata() {
           Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1139,9 +1203,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(4),
       ],
+      sortOption: SortOption.FUA,
     },
     1004: { // Welt
       stats: {
@@ -1174,9 +1238,11 @@ function getScoringMetadata() {
           Constants.Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1193,9 +1259,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.SKILL,
     },
     1005: { // Kafka
       stats: {
@@ -1223,8 +1289,6 @@ function getScoringMetadata() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.CD,
-          Constants.Stats.CR,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
@@ -1232,6 +1296,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1250,10 +1315,10 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
       ],
+      sortOption: SortOption.DOT,
     },
     1006: { // Silver Wolf
       stats: {
@@ -1316,8 +1381,8 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1008: { // Arlan
       stats: {
@@ -1353,6 +1418,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1371,8 +1437,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1009: { // Asta
       stats: {
@@ -1401,6 +1467,7 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
@@ -1408,9 +1475,12 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
       },
@@ -1426,8 +1496,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1013: { // Herta
       stats: {
@@ -1463,6 +1533,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1480,9 +1551,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(4),
       ],
+      sortOption: SortOption.SPD,
     },
     1101: { // Bronya
       stats: {
@@ -1518,7 +1589,15 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
+          Constants.Stats.Physical_DMG,
+          Constants.Stats.Fire_DMG,
+          Constants.Stats.Ice_DMG,
+          Constants.Stats.Lightning_DMG,
+          Constants.Stats.Wind_DMG,
+          Constants.Stats.Quantum_DMG,
+          Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,
@@ -1535,8 +1614,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.CD,
     },
     1102: { // Seele
       stats: {
@@ -1572,6 +1651,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Quantum_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1589,8 +1669,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1103: { // Serval
       stats: {
@@ -1606,7 +1686,7 @@ function getScoringMetadata() {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
         [Constants.Stats.Fire_DMG]: 0,
@@ -1626,6 +1706,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1642,8 +1723,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1104: { // Gepard
       stats: {
@@ -1697,8 +1778,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
     1105: { // Natasha
       stats: {
@@ -1751,8 +1832,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1106: { // Pela
       stats: {
@@ -1808,8 +1889,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1107: { // Clara
       stats: {
@@ -1845,6 +1926,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1863,9 +1945,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(2),
       ],
+      sortOption: SortOption.FUA,
     },
     1108: { // Sampo
       stats: {
@@ -1901,6 +1983,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Wind_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1924,9 +2007,9 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
       ],
+      sortOption: SortOption.DOT,
     },
     1109: { // Hook
       stats: {
@@ -1962,6 +2045,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -1980,8 +2064,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1110: { // Lynx
       stats: {
@@ -2034,8 +2118,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1111: { // Luka
       stats: {
@@ -2071,6 +2155,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2092,8 +2177,8 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.DOT,
     },
     1112: { // Topaz and Numby
       stats: {
@@ -2148,9 +2233,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(0),
       ],
+      sortOption: SortOption.FUA,
     },
     1201: { // Qingque
       stats: {
@@ -2186,6 +2271,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Quantum_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2202,8 +2288,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
       ],
+      sortOption: SortOption.BASIC,
     },
     1202: { // Tingyun
       stats: {
@@ -2259,8 +2345,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1203: { // Luocha
       stats: {
@@ -2289,12 +2375,17 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.OHB,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,
@@ -2312,9 +2403,9 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.SPD,
     },
     1204: { // Jing Yuan
       stats: {
@@ -2350,6 +2441,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Lightning_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2367,9 +2459,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(8),
       ],
+      sortOption: SortOption.FUA,
     },
     1205: { // Blade
       stats: {
@@ -2422,8 +2514,8 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
       ],
+      sortOption: SortOption.BASIC,
     },
     1206: { // Sushang
       stats: {
@@ -2459,6 +2551,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2476,8 +2569,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1207: { // Yukong
       stats: {
@@ -2512,6 +2605,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2532,9 +2626,9 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.ULT,
     },
     1208: { // Fu Xuan
       stats: {
@@ -2567,6 +2661,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
@@ -2575,6 +2670,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
           Constants.Stats.ERR,
         ],
       },
@@ -2589,8 +2685,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1209: { // Yanqing
       stats: {
@@ -2626,6 +2722,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2641,8 +2738,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1210: { // Guinaifen
       stats: {
@@ -2677,6 +2774,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2697,9 +2795,9 @@ function getScoringMetadata() {
         Constants.Sets.FleetOfTheAgeless,
       ],
       presets: [
-        PresetEffects.DOT_SORT,
         PresetEffects.PRISONER_SET,
       ],
+      sortOption: SortOption.DOT,
     },
     1211: { // Bailu
       stats: {
@@ -2752,8 +2850,8 @@ function getScoringMetadata() {
         Constants.Sets.SprightlyVonwacq,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1212: { // Jingliu
       stats: {
@@ -2789,6 +2887,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2808,8 +2907,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     1213: { // Dan Heng • Imbibitor Lunae
       stats: {
@@ -2845,6 +2944,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2863,9 +2963,9 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.BASIC_SORT,
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.BASIC,
     },
     1214: { // Xueyi
       stats: {
@@ -2888,7 +2988,7 @@ function getScoringMetadata() {
         [Constants.Stats.Ice_DMG]: 0,
         [Constants.Stats.Lightning_DMG]: 0,
         [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0.75,
+        [Constants.Stats.Quantum_DMG]: 1,
         [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
@@ -2901,6 +3001,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Quantum_DMG,
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
@@ -2913,9 +3014,9 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
         PresetEffects.fnAshblazingSet(3),
       ],
+      sortOption: SortOption.SKILL,
     },
     1215: { // Hanya
       stats: {
@@ -2962,8 +3063,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1217: { // Huohuo
       stats: {
@@ -3018,8 +3119,8 @@ function getScoringMetadata() {
         Constants.Sets.PenaconyLandOfTheDreams,
       ],
       presets: [
-        PresetEffects.EHP_SORT,
       ],
+      sortOption: SortOption.EHP,
     },
     1301: { // Gallagher
       stats: {
@@ -3073,8 +3174,8 @@ function getScoringMetadata() {
         Constants.Sets.SpaceSealingStation,
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.BE,
     },
     1302: { // Argenti
       stats: {
@@ -3122,8 +3223,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
     },
     1303: { // Ruan Mei
       stats: {
@@ -3171,8 +3272,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.SPD,
     },
     1304: { // Aventurine
       stats: {
@@ -3222,9 +3323,9 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(7),
       ],
+      sortOption: SortOption.FUA,
     },
     1305: { // Dr Ratio
       stats: {
@@ -3260,6 +3361,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3271,10 +3373,10 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.FUA_SORT,
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.WASTELANDER_SET,
       ],
+      sortOption: SortOption.FUA,
     },
     1306: { // Sparkle
       stats: {
@@ -3310,6 +3412,15 @@ function getScoringMetadata() {
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.HP_P,
           Constants.Stats.DEF_P,
+          Constants.Stats.ATK_P,
+          Constants.Stats.Wind_DMG,
+          Constants.Stats.Physical_DMG,
+          Constants.Stats.Fire_DMG,
+          Constants.Stats.Ice_DMG,
+          Constants.Stats.Lightning_DMG,
+          Constants.Stats.Wind_DMG,
+          Constants.Stats.Quantum_DMG,
+          Constants.Stats.Imaginary_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ERR,
@@ -3320,8 +3431,8 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.SPD_SORT,
       ],
+      sortOption: SortOption.CD,
     },
     1307: { // Black Swan
       stats: {
@@ -3370,8 +3481,8 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.PRISONER_SET,
-        PresetEffects.DOT_SORT,
       ],
+      sortOption: SortOption.DOT,
     },
     1308: { // Acheron
       stats: {
@@ -3419,8 +3530,57 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
+    },
+    1309: { // Robin
+      stats: {
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 1,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Physical_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.ERR,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.ULT,
     },
     1312: { // Misha
       stats: {
@@ -3456,6 +3616,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Ice_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3467,8 +3628,58 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
-        PresetEffects.ULT_SORT,
       ],
+      sortOption: SortOption.ULT,
+    },
+    1315: { // Boothill
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 1,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.Physical_DMG,
+          Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.ULT,
     },
     8001: { // Physical Trailblazer M
       stats: {
@@ -3504,6 +3715,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3522,8 +3734,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     8002: { // Physical Trailblazer F
       stats: {
@@ -3559,6 +3771,7 @@ function getScoringMetadata() {
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
@@ -3577,8 +3790,8 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
-        PresetEffects.SKILL_SORT,
       ],
+      sortOption: SortOption.SKILL,
     },
     8003: { // Fire Trailblazer M
       stats: {
@@ -3632,8 +3845,8 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
     },
     8004: { // Fire Trailblazer F
       stats: {
@@ -3687,8 +3900,106 @@ function getScoringMetadata() {
         Constants.Sets.BrokenKeel,
       ],
       presets: [
-        PresetEffects.DEF_SORT,
       ],
+      sortOption: SortOption.DEF,
+    },
+    8005: { // Imaginary Trailblazer M
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.BE,
+          Constants.Stats.ERR,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.BE,
+    },
+    8006: { // Imaginary Trailblazer F
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.HP_P,
+          Constants.Stats.DEF_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.BE,
+          Constants.Stats.ERR,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.BE,
     },
   }
 }

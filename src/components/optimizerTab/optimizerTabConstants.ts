@@ -21,8 +21,8 @@ export const baseColumnDefs = [
   { field: Constants.Stats.EHR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'EHR', cellStyle: Gradient.getOptimizerColumnGradient },
   { field: Constants.Stats.RES, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'RES', cellStyle: Gradient.getOptimizerColumnGradient },
   { field: Constants.Stats.BE, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'BE', cellStyle: Gradient.getOptimizerColumnGradient },
-  { field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR' },
   { field: Constants.Stats.OHB, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'HEAL' },
+  { field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ERR' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'ELEM' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },
@@ -48,8 +48,8 @@ export const combatColumnDefs = [
   { field: 'xEHR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ EHR' },
   { field: 'xRES', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ RES' },
   { field: 'xBE', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ BE' },
-  { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ERR' },
   { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ HEAL' },
+  { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ERR' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'WEIGHT' },

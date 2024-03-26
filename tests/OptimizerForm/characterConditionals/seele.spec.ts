@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('test', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/#scorer')
   // dbl-click kafka TEXT
   await page.getByRole('menuitem', { name: 'Characters' }).click()
   await page.locator('#characterGrid').getByText('Seele').dblclick()

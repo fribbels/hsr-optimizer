@@ -16,6 +16,9 @@ export function generateParams(request) {
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
 
+  // Band-aid here to fill in the main character's elemental type
+  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
+
   return params
 }
 
@@ -35,6 +38,7 @@ function generateSetConditionalParams(request, params) {
   params.enabledMessengerTraversingHackerspace = setConditionals[Constants.Sets.MessengerTraversingHackerspace][1] == true ? 1 : 0
   params.enabledCelestialDifferentiator = setConditionals[Constants.Sets.CelestialDifferentiator][1] == true ? 1 : 0
   params.enabledWatchmakerMasterOfDreamMachinations = setConditionals[Constants.Sets.WatchmakerMasterOfDreamMachinations][1] == true ? 1 : 0
+  params.enabledIzumoGenseiAndTakamaDivineRealm = setConditionals[Constants.Sets.IzumoGenseiAndTakamaDivineRealm][1] == true ? 1 : 0
 
   params.valueChampionOfStreetwiseBoxing = setConditionals[Constants.Sets.ChampionOfStreetwiseBoxing][1] || 0
   params.valueWastelanderOfBanditryDesert = setConditionals[Constants.Sets.WastelanderOfBanditryDesert][1] || 0
@@ -42,6 +46,7 @@ function generateSetConditionalParams(request, params) {
   params.valueTheAshblazingGrandDuke = setConditionals[Constants.Sets.TheAshblazingGrandDuke][1] || 0
   params.valuePrisonerInDeepConfinement = setConditionals[Constants.Sets.PrisonerInDeepConfinement][1] || 0
   params.valuePioneerDiverOfDeadWaters = setConditionals[Constants.Sets.PioneerDiverOfDeadWaters][1] || 0
+  params.valueSigoniaTheUnclaimedDesolation = setConditionals[Constants.Sets.SigoniaTheUnclaimedDesolation][1] || 0
 }
 
 function generateMultiplierParams(request, params) {
@@ -56,11 +61,11 @@ function generateElementParams(request, params) {
 
 function generateCharacterBaseParams(request, params) {
   let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  let lightConeStats = lightConeMetadata?.promotions[request.lightConeLevel] || emptyLightCone()
+  let lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
   let lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
   let characterMetadata = DB.getMetadata().characters[request.characterId]
-  let characterStats = characterMetadata.promotions[request.characterLevel]
+  let characterStats = characterMetadata.promotions[80]
 
   params.element = characterMetadata.element
 
@@ -82,8 +87,8 @@ function generateCharacterBaseParams(request, params) {
 
   params.character = baseStats
 
-  console.log({ lightConeStats })
-  console.log({ characterStats })
+  // console.log({ lightConeStats })
+  // console.log({ characterStats })
 
   let baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
   let baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)

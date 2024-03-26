@@ -1,223 +1,233 @@
 {
-  "Name": "Concert for Two",
-  "Desc": "\"Big brother, what's this...\"\\n\"It's been a long time since you sang with joy... I set up a stage for you. It's just... a bit simple.\"\\n\"But the teacher thinks I'm not suited for...\"\\n\"No, I think you sound great! In the future, your dreams will definitely come true, and you will perform on a bigger stage...\"\\n...\\n\\nMany years later, she stood on a dazzling stage, looking at the surging fans below, but lost herself for a moment...\\nOn the long journey of chasing dreams, she would always remember that trusting gaze and her first \"concert.\"\\nNo glamorous lights, no elaborate makeup, just a child building a stage to encourage another child to pursue their dreams.\\n\\n\"Now, our dreams have come true. But... are they still 'our' dreams?\"\\nShe gripped the microphone. Before the next song began, she didn't even have time to feel sadness.",
-  "Rarity": "CombatPowerLightconeRarity4",
-  "BaseType": "Knight",
+  "Name": "Sailing Towards A Second Life",
+  "Desc": "He felt as if he had fallen into a deep sea. Everything was departing from him, leaving only his hollow thoughts writhing and struggling all alone.\\n\\nTerror, anxiety, loneliness, darkness, rage — these feelings didn't dissipate with his physical body, but remained within the mechanical shell in a different manner — and they were even heavier than before.\\n\\nHe heard the call of the dead, smelled the scent of something being charred, the whirl of machinery buzzed around his ears, and the new blue blood flew towards his thirsty heart... Some cruel memories resurfaced as the unforgettable hatred turned into a weak light in the darkness. He followed the light to walk toward the end of it all, exerting every ounce of his strength to rise once again to the surface.\\n\\nHe opened his eyes and a flash of fireworks darted past before hearing the doctor's congratulations — \\n<i>\"Welcome to this world, once again.\"</i>\\nHe balled his hands into fists — hands that were now made of cold iron...\\nHe would no longer live for himself.",
+  "Rarity": "CombatPowerLightconeRarity5",
+  "BaseType": "Rogue",
   "Refinements": {
-    "Name": "Inspire",
-    "Desc": "Increases the wearer's DEF by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color>. For each character with a Shield on the field, the DMG dealt by the wearer increases by <color=#f29e38ff><unbreak>#2[i]%</unbreak></color>.",
+    "Name": "Rough Water",
+    "Desc": "Increases the wearer's Break Effect by <color=#f29e38ff><unbreak>#1[i]%</unbreak></color> and Break DMG dealt by the wearer ignores <color=#f29e38ff><unbreak>#3[i]%</unbreak></color> of the target's DEF. When the wearer hits an enemy target, the target receives <color=#f29e38ff><unbreak>#2[f1]%</unbreak></color> more DMG. This effect can stack up to a maximum of <unbreak>#4[i]</unbreak> stacks and is only effective on the most recent target hit by the wearer.",
     "Level": {
       "1": {
         "ParamList": [
-          0.1600000001490116,
-          0.0400000000372529
+          0.6000000005587935,
+          0.010000000009313226,
+          0.20000000018626451,
+          6
         ]
       },
       "2": {
         "ParamList": [
-          0.20000000018626451,
-          0.05000000004656613
+          0.7000000006519258,
+          0.011500000255182385,
+          0.2300000002142042,
+          6
         ]
       },
       "3": {
         "ParamList": [
-          0.24000000022351742,
-          0.060000000055879354
+          0.8000000007450581,
+          0.012999999802559614,
+          0.26000000024214387,
+          6
         ]
       },
       "4": {
         "ParamList": [
-          0.2800000002607703,
-          0.07000000006519258
+          0.9000000008381903,
+          0.014500000048428774,
+          0.29000000027008355,
+          6
         ]
       },
       "5": {
         "ParamList": [
+          1,
+          0.015999999595806003,
           0.3200000002980232,
-          0.0800000000745058
+          6
         ]
       }
     }
   },
   "Stats": [
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 4000
+          "ItemNum": 5000
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114011,
-          "ItemNum": 5
+          "ItemNum": 8
         }
       ],
       "PlayerLevelRequire": 15,
       "MaxLevel": 20,
-      "BaseHP": 43.200000000186265,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 16.800000000745058,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 48,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 26.40000000037253,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 21,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 1,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 8000
+          "ItemNum": 10000
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110211,
-          "ItemNum": 3
+          "ItemID": 110191,
+          "ItemNum": 4
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114011,
-          "ItemNum": 10
+          "ItemNum": 12
         }
       ],
       "WorldLevelRequire": 1,
       "MaxLevel": 30,
-      "BaseHP": 95.04000000003725,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 36.96000000089407,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 105.6000000005588,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 58.080000000074506,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 46.200000000186265,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 2,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 16000
+          "ItemNum": 20000
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110212,
-          "ItemNum": 3
+          "ItemID": 110192,
+          "ItemNum": 4
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114012,
-          "ItemNum": 6
+          "ItemNum": 8
         }
       ],
       "WorldLevelRequire": 2,
       "MaxLevel": 40,
-      "BaseHP": 164.160000000149,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 63.84000000078231,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 182.40000000037253,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 100.32000000029802,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 79.80000000074506,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 3,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 40000
+          "ItemNum": 50000
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110212,
-          "ItemNum": 6
+          "ItemID": 110192,
+          "ItemNum": 8
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114012,
-          "ItemNum": 9
+          "ItemNum": 12
         }
       ],
       "WorldLevelRequire": 3,
       "MaxLevel": 50,
-      "BaseHP": 233.28000000026077,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 90.72000000067055,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 259.20000000018626,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 142.56000000052154,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 113.40000000037253,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 4,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 80000
+          "ItemNum": 100000
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110213,
-          "ItemNum": 4
+          "ItemID": 110193,
+          "ItemNum": 5
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114013,
-          "ItemNum": 5
+          "ItemNum": 6
         }
       ],
       "WorldLevelRequire": 4,
       "MaxLevel": 60,
-      "BaseHP": 302.40000000037253,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 117.6000000005588,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 336,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 184.80000000074506,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 147,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 5,
       "PromotionCostList": [
         {
           "$type": "ItemConfigRow",
           "ItemID": 2,
-          "ItemNum": 160000
+          "ItemNum": 200000
         },
         {
           "$type": "ItemConfigRow",
-          "ItemID": 110213,
-          "ItemNum": 8
+          "ItemID": 110193,
+          "ItemNum": 10
         },
         {
           "$type": "ItemConfigRow",
           "ItemID": 114013,
-          "ItemNum": 7
+          "ItemNum": 8
         }
       ],
       "WorldLevelRequire": 5,
       "MaxLevel": 70,
-      "BaseHP": 371.5200000004843,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 144.48000000044703,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 412.80000000074506,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 227.04000000003725,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 180.6000000005588,
       "BaseDefenceAdd": 3.1500000001396984
     },
     {
-      "EquipmentID": 21043,
+      "EquipmentID": 23027,
       "Promotion": 6,
       "PromotionCostList": [],
       "WorldLevelRequire": 5,
       "MaxLevel": 80,
-      "BaseHP": 440.64000000059605,
-      "BaseHPAdd": 6.480000000447035,
-      "BaseAttack": 171.36000000033528,
-      "BaseAttackAdd": 2.5200000004842877,
+      "BaseHP": 489.6000000005588,
+      "BaseHPAdd": 7.2000000001862645,
+      "BaseAttack": 269.28000000026077,
+      "BaseAttackAdd": 3.9600000008940697,
       "BaseDefence": 214.20000000018626,
       "BaseDefenceAdd": 3.1500000001396984
     }

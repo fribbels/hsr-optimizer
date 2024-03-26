@@ -14,16 +14,11 @@ const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const characters = window.store((s) => s.characters)
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const characterExcludeOptions = useMemo(() => {
-    const characterMetadata = DB.getMetadata().characters
-    return characters.map((x) => {
-      return {
-        value: x.id,
-        label: characterMetadata[x.id].displayName,
-      }
-    })
-  }, [characters])
+  const characterExcludeOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
+    characters, [DB.getCharacterById(optimizerTabFocusCharacter)], false,
+  ), [characters, optimizerTabFocusCharacter])
 
   const characterPriorityOptions = useMemo(() => {
     const characterMetadata = DB.getMetadata().characters

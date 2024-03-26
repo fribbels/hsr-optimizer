@@ -21,12 +21,16 @@ function run() {
   // Elements
   // Lightning - Thunder
 
-  const name = 'Gallagher'
-  const id = '1301'
-  const rarity = 4
-  const path = 'Priest'
-  const element = 'Fire'
-  const max_sp = 0
+  // Change these
+
+  const name = 'Boothill'
+  const id = '1315'
+  const rarity = 5
+  const path = 'Rogue'
+  const element = 'Physical'
+  const max_sp = 120
+
+  // Dont change below
 
   const convertedCharacter = {
     [id]: {

@@ -332,5 +332,8 @@ function getTrailblazerId(name, trailblazer) {
   if (name === 'TrailblazerPreservation') {
     id = trailblazer === 'Stelle' ? '8004' : '8003'
   }
+  if (name === 'TrailblazerHarmony') {
+    id = trailblazer === 'Stelle' ? '8006' : '8005'
+  }
   return id
 }

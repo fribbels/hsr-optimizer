@@ -61,4 +61,10 @@ export const AbilityEidolon = {
     ult: ability(3),
     talent: ability(5),
   },
+  SKILL_ULT_3_BASIC_TALENT_5: {
+    basic: ability(5),
+    skill: ability(3),
+    ult: ability(3),
+    talent: ability(5),
+  },
 }

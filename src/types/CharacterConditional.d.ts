@@ -28,4 +28,5 @@ export interface PrecomputedCharacterConditional {
   SKILL_BOOST: number
   SKILL_SCALING: number
   ULT_BOOST: number
+
 }

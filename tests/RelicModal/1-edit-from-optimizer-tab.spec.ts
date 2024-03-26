@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('Open RelicModal in edit mode from the Optimizer tab', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/#scorer')
 
   await page.getByRole('menuitem', { name: 'Optimizer' }).click()
 

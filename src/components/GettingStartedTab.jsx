@@ -3,11 +3,12 @@ import { Button, Divider, Flex, Popconfirm, Typography } from 'antd'
 import { Message } from 'lib/message'
 
 import sampleSave from '../data/sample-save.json'
-import DB from '../lib/db'
+import DB, { AppPages } from '../lib/db'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { KelzScannerConfig, ReliquaryArchiverConfig } from 'lib/importer/importConfig'
 import { ImportOutlined } from '@ant-design/icons'
+import { ColorizedLink } from 'components/common/ColorizedLink'
 
 const { Text } = Typography
 
@@ -63,8 +64,8 @@ export default function GettingStartedTab() {
           <ul>
             <li>
               Kel-Z HSR Scanner (
-              <Typography.Link target="_blank" href={KelzScannerConfig.releases}>Github</Typography.Link>
-              ).
+              <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
+              )
               <ul>
                 <li>OCR scanner</li>
                 <li>Supports all 16:9 screen resolutions</li>
@@ -72,11 +73,23 @@ export default function GettingStartedTab() {
             </li>
             <li>
               IceDynamix Reliquary Archiver (
-              <Typography.Link target="_blank" href={ReliquaryArchiverConfig.releases}>Github</Typography.Link>
-              ).
+              <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
+              )
               <ul>
                 <li>Network scanner</li>
-                <li>Imports accurate hidden speed decimals</li>
+                <li>Imports accurate speed decimals</li>
+                <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
+              </ul>
+            </li>
+            <li>
+              Relic Scorer Import (
+              <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
+                <ColorizedLink text="Relic scorer" />
+              </span>
+              )
+              <ul>
+                <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
+                <li>Imports accurate speed decimals</li>
               </ul>
             </li>
           </ul>

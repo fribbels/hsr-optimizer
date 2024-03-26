@@ -26,7 +26,7 @@ export const WorkerPool = {
     for (let i = 0; i < poolSize; i++) {
       setTimeout(() => {
         WorkerPool.initializeWorker()
-      }, 200 * i)
+      }, 500 * i)
     }
   },
 

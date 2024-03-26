@@ -20,9 +20,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
   return [
-    { characterId: char('Sparkle'), lightConeId: lc('Earthly Escapade') },
+    { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
+    { characterId: char('Boothill'), lightConeId: lc('Sailing Towards A Second Life') },
+    { characterId: char('Stelle (Harmony)'), lightConeId: lc('Memories of the Past') },
     { characterId: char('Acheron'), lightConeId: lc('Along the Passing Shore') },
-    { characterId: char('Black Swan'), lightConeId: lc('Reforged Remembrance') },
     { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
     { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },

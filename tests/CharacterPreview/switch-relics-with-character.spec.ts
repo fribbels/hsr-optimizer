@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('Switch relics between characters in Characters tab', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/#scorer')
 
   await page.getByRole('menuitem', { name: 'Characters' }).click()
   await page.locator('#characterGrid').getByText('Jingliu').click()

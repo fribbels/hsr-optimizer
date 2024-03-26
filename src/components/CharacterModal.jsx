@@ -8,38 +8,39 @@ import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSele
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 
 // Keep new characters/lcs at the top of the list for convenience. More popular should be at the bottom
-const pinnedValues = [
-  'Black Swan',
-  'Sparkle',
-  'Gallagher',
-  'Aventurine',
-  'Acheron',
-
-  'Reforged Remembrance',
-  'Earthly Escapade',
-  'Concert for Two',
-  'Inherently Unjust Destiny',
-  'Along the Passing Shore',
-]
-function generatePinnedList(list) {
-  if (!list || !list.length) return []
-
-  list.sort((a, b) => {
-    const indexA = pinnedValues.indexOf(a.label)
-    const indexB = pinnedValues.indexOf(b.label)
-    if (indexB > indexA) {
-      return 1
-    } else if (indexA > indexB) {
-      return -1
-    }
-
-    return a.label.localeCompare(b.label)
-  })
-
-  list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(New!) ' + option.label : null)
-
-  return list
-}
+// TODO: These no longer work because we changed the character selector
+// const pinnedValues = [
+//   'Black Swan',
+//   'Sparkle',
+//   'Gallagher',
+//   'Aventurine',
+//   'Acheron',
+//
+//   'Reforged Remembrance',
+//   'Earthly Escapade',
+//   'Concert for Two',
+//   'Inherently Unjust Destiny',
+//   'Along the Passing Shore',
+// ]
+// function generatePinnedList(list) {
+//   if (!list || !list.length) return []
+//
+//   list.sort((a, b) => {
+//     const indexA = pinnedValues.indexOf(a.label)
+//     const indexB = pinnedValues.indexOf(b.label)
+//     if (indexB > indexA) {
+//       return 1
+//     } else if (indexA > indexB) {
+//       return -1
+//     }
+//
+//     return a.label.localeCompare(b.label)
+//   })
+//
+//   list.map((option) => pinnedValues.indexOf(option.label) > -1 ? option.label = '(New!) ' + option.label : null)
+//
+//   return list
+// }
 
 export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()

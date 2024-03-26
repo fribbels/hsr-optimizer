@@ -744,10 +744,20 @@ function getOverrideTraces() {
       [Constants.Stats.Lightning_DMG]: 0.08,
       [Constants.Stats.CD]: 0.24,
     },
+    1309: { // Robin
+      [Constants.Stats.ATK_P]: 0.28,
+      [Constants.Stats.HP_P]: 0.18,
+      [Constants.Stats.SPD]: 5,
+    },
     1312: { // Misha
       [Constants.Stats.Ice_DMG]: 0.224,
       [Constants.Stats.DEF_P]: 0.225,
       [Constants.Stats.CR]: 0.067,
+    },
+    1315: { // Boothill
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.ATK_P]: 0.18,
+      [Constants.Stats.HP_P]: 0.10,
     },
     8001: { // Physical Trailblazer
       [Constants.Stats.ATK_P]: 0.28,
@@ -768,6 +778,16 @@ function getOverrideTraces() {
       [Constants.Stats.DEF_P]: 0.35,
       [Constants.Stats.ATK_P]: 0.18,
       [Constants.Stats.HP_P]: 0.1,
+    },
+    8005: { // Imaginary Trailblazer
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.Imaginary_DMG]: 0.144,
+      [Constants.Stats.RES]: 0.10,
+    },
+    8006: { // Imaginary Trailblazer
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.Imaginary_DMG]: 0.144,
+      [Constants.Stats.RES]: 0.10,
     },
   }
 }
@@ -954,9 +974,17 @@ function getOverrideImageCenter() {
       x: 1000,
       y: 960,
     },
+    1309: { // Robin
+      x: 1024,
+      y: 1024,
+    },
     1312: { // Misha
       x: 1050,
       y: 1075,
+    },
+    1315: { // Boothill
+      x: 1024,
+      y: 1024,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
@@ -972,6 +1000,14 @@ function getOverrideImageCenter() {
     },
     8004: { // Fire Trailblazer F
       x: 1050,
+      y: 1024,
+    },
+    8005: { // Imaginary Trailblazer M
+      x: 1024,
+      y: 1024,
+    },
+    8006: { // Imaginary Trailblazer F
+      x: 1024,
       y: 1024,
     },
   }
@@ -3473,6 +3509,48 @@ function getScoringMetadata() {
       ],
       sortOption: SortOption.ULT,
     },
+    1309: { // Robin
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 0,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+        ],
+        [Constants.Parts.Feet]: [
+        ],
+        [Constants.Parts.PlanarSphere]: [
+        ],
+        [Constants.Parts.LinkRope]: [
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.WEIGHT,
+    },
     1312: { // Misha
       stats: {
         [Constants.Stats.ATK]: 0.75,
@@ -3521,6 +3599,48 @@ function getScoringMetadata() {
       presets: [
       ],
       sortOption: SortOption.ULT,
+    },
+    1315: { // Boothill
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 0,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+        ],
+        [Constants.Parts.Feet]: [
+        ],
+        [Constants.Parts.PlanarSphere]: [
+        ],
+        [Constants.Parts.LinkRope]: [
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.WEIGHT,
     },
     8001: { // Physical Trailblazer M
       stats: {
@@ -3743,6 +3863,90 @@ function getScoringMetadata() {
       presets: [
       ],
       sortOption: SortOption.DEF,
+    },
+    8005: { // Imaginary Trailblazer M
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 0,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+        ],
+        [Constants.Parts.Feet]: [
+        ],
+        [Constants.Parts.PlanarSphere]: [
+        ],
+        [Constants.Parts.LinkRope]: [
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.WEIGHT,
+    },
+    8006: { // Imaginary Trailblazer F
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 0,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+        ],
+        [Constants.Parts.Feet]: [
+        ],
+        [Constants.Parts.PlanarSphere]: [
+        ],
+        [Constants.Parts.LinkRope]: [
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.WEIGHT,
     },
   }
 }

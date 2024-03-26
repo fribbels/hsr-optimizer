@@ -92,8 +92,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentFuaCdBoost',
       name: 'talentFuaCdBoost',
-      text: 'FUA Crit DMG boost (WIP)',
-      title: 'FUA Crit DMG boost (WIP)',
+      text: 'FUA Crit DMG boost',
+      title: 'FUA Crit DMG boost',
       content: betaUpdate,
     },
     {
@@ -161,7 +161,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0
 
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBuffValue : 0
-      x.FUA_CD_BOOST += (m.concertoActive) ? 0.10 : 0 // TODO: This is a new multiplier for CRIT-only Elemental DMG?
+      x.FUA_CD_BOOST += (m.concertoActive) ? 0.10 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals

@@ -66,10 +66,20 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       max: 3,
     },
     {
+      formItem: 'slider',
+      id: 'stygianResurgeHitsOnTarget',
+      name: 'stygianResurgeHitsOnTarget',
+      text: 'Stygian Resurge hits',
+      title: 'Thunder Core',
+      content: `When Stygian Resurge triggers, additionally deals DMG for 6 times. Each time deals Lightning DMG equal to 25% of Acheron's ATK to a single random enemy and is viewed as part of the Ultimate DMG.`,
+      min: 0,
+      max: 6,
+    },
+    {
       formItem: 'switch',
       id: 'e1EnemyDebuffed',
       name: 'e1EnemyDebuffed',
-      text: 'E1 enemy debuffed CR boost',
+      text: 'E1 CR boost',
       title: 'E1: Silenced Sky Spake Sooth',
       content: 'When dealing DMG to debuffed enemies, increases the CRIT Rate by 18%.',
       disabled: e < 1,
@@ -110,6 +120,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       nihilityTeammates: maxNihilityTeammates,
       e1EnemyDebuffed: true,
       thunderCoreStacks: 3,
+      stygianResurgeHitsOnTarget: 6,
       e4UltVulnerability: true,
       e6UltBuffs: true,
     }),
@@ -135,7 +146,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += 3 * ultCrimsonKnotScaling
       x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks as number)
       x.ULT_SCALING += ultStygianResurgeScaling
-      x.ULT_SCALING += 6 * ultThunderCoreScaling
+      x.ULT_SCALING += r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
 
       return x
     },

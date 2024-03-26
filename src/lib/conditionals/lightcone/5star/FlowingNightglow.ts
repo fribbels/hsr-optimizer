@@ -5,6 +5,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants.ts'
 import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { findContentId } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
@@ -36,9 +37,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
+    teammateContent: () => [
+      findContentId(content, 'cadenzaActive'),
+    ],
     defaults: () => ({
       cantillationStacks: 5,
+      cadenzaActive: true,
+    }),
+    teammateDefaults: () => ({
       cadenzaActive: true,
     }),
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {

@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => [],
     defaults: () => ({
-      ultAtkBuff: true,
+      ultDmgBuff: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals as ConditionalLightConeMap

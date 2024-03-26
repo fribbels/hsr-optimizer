@@ -77,6 +77,8 @@ const displayNameMapping = {
   8002: 'Stelle (Destruction)',
   8003: 'Caelus (Preservation)',
   8004: 'Stelle (Preservation)',
+  8005: 'Caelus (Harmony)',
+  8006: 'Stelle (Harmony)',
   1213: 'Imbibitor Lunae',
 }
 
@@ -976,15 +978,15 @@ function getOverrideImageCenter() {
     },
     1309: { // Robin
       x: 1024,
-      y: 1024,
+      y: 975,
     },
     1312: { // Misha
       x: 1050,
       y: 1075,
     },
     1315: { // Boothill
-      x: 1024,
-      y: 1024,
+      x: 1000,
+      y: 1100,
     },
     8001: { // Physical Trailblazer M
       x: 1024,
@@ -1003,12 +1005,12 @@ function getOverrideImageCenter() {
       y: 1024,
     },
     8005: { // Imaginary Trailblazer M
-      x: 1024,
-      y: 1024,
+      x: 1050,
+      y: 1000,
     },
     8006: { // Imaginary Trailblazer F
-      x: 1024,
-      y: 1024,
+      x: 1050,
+      y: 1000,
     },
   }
 }

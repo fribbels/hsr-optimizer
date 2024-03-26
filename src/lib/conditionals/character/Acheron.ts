@@ -1,12 +1,10 @@
-import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-
-const betaUpdate = 'All calculations are subject to change. Last updated 03-08-2024.'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -35,8 +33,12 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       id: 'crimsonKnotStacks',
       name: 'crimsonKnotStacks',
       text: `Crimson Knot stacks`,
-      title: 'Crimson Knot stacks',
-      content: betaUpdate,
+      title: 'Slashed Dream Cries in Red',
+      content: `
+      Rainblade: Deals Lightning DMG equal to ${precisionRound(ultRainbladeScaling * 100)}% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to ${precisionRound(ultCrimsonKnotScaling * 100)}% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, the DMG Multiplier for this is additionally increased.
+      ::BR::
+      When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s).
+      `,
       min: 0,
       max: maxCrimsonKnotStacks,
     },
@@ -44,9 +46,12 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'nihilityTeammates',
       name: 'nihilityTeammates',
-      text: 'Nihility teammates separate multiplier',
-      title: 'Nihility teammates separate multiplier',
-      content: betaUpdate,
+      text: 'Nihility teammates',
+      title: 'The Abyss',
+      content: `When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.
+      ::BR::
+      E2: The number of Nihility characters required for the Trace "The Abyss" to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks.
+      `,
       min: 0,
       max: maxNihilityTeammates,
     },
@@ -55,8 +60,8 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       id: 'thunderCoreStacks',
       name: 'thunderCoreStacks',
       text: 'Thunder core stacks',
-      title: 'Thunder core stacks',
-      content: betaUpdate,
+      title: 'Thunder Core',
+      content: 'When the Rainblade from Acheron\'s Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 time(s) and lasting for 3 turn(s). And when Stygian Resurge triggers, additionally deals DMG for 6 times. Each time deals Lightning DMG equal to 25% of Acheron\'s ATK to a single random enemy and is viewed as part of the Ultimate DMG.',
       min: 0,
       max: 3,
     },
@@ -64,9 +69,9 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e1EnemyDebuffed',
       name: 'e1EnemyDebuffed',
-      text: 'E1 enemy debuffed',
-      title: 'E1 enemy debuffed',
-      content: betaUpdate,
+      text: 'E1 enemy debuffed CR boost',
+      title: 'E1: Silenced Sky Spake Sooth',
+      content: 'When dealing DMG to debuffed enemies, increases the CRIT Rate by 18%.',
       disabled: e < 1,
     },
     {
@@ -74,8 +79,10 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       id: 'e4UltVulnerability',
       name: 'e4UltVulnerability',
       text: 'E4 ult vulnerability',
-      title: 'E4 ult vulnerability',
-      content: betaUpdate,
+      title: 'E4: Shrined Fire for Mirrored Soul',
+      content: `
+      When enemy targets enter combat, inflicts them with the Ultimate DMG Vulnerability, increasing the amount of Ultimate DMG they take by 8%.
+      `,
       disabled: e < 4,
     },
     {
@@ -83,8 +90,10 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       id: 'e6UltBuffs',
       name: 'e6UltBuffs',
       text: 'E6 ult buffs',
-      title: 'E6 ult buffs',
-      content: betaUpdate,
+      title: 'E6: Apocalypse, the Emancipator',
+      content: `
+      Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.
+      `,
       disabled: e < 6,
     },
   ]

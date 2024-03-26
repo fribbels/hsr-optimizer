@@ -295,3 +295,5 @@ export type ConditionalBuff =
   | 'skillHitsOnTarget'
   | 'e2EnergyRegenBuff'
   | 'teammateBeValue'
+  | 'talentCdBuff'
+  | 'e6Buffs'

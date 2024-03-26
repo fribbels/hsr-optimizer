@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -17,10 +17,9 @@ export default (e: Eidolon): CharacterConditional => {
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 1.80, 1.98)
   const basicExtraHitScaling = basic(e, 0.20, 0.22)
+  const ultScaling = ult(e, 4.00, 4.32)
 
   // const talentBreakDmgScaling = talent(e, 0.56, 0.616) // TODO
-
-  const ultScaling = ult(e, 4.00, 4.32)
 
   const content: ContentItem[] = [
     {
@@ -88,6 +87,7 @@ export default (e: Eidolon): CharacterConditional => {
   ]
 
   const teammateContent: ContentItem[] = [
+    findContentId(content, 'e4TargetStandoffVulnerability'),
   ]
 
   const defaults = {
@@ -97,7 +97,7 @@ export default (e: Eidolon): CharacterConditional => {
     e2BeBuff: true,
     e4TargetStandoffVulnerability: true,
     beToCritBoost: true,
-    talentBreakDmg: false,
+    talentBreakDmg: true,
   }
 
   return {
@@ -105,6 +105,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({
+      e4TargetStandoffVulnerability: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -114,15 +115,15 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
-
-      x.DMG_TAKEN_MULTI += (e >= 4 && r.e4TargetStandoffVulnerability) ? 0.12 : 0
       x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
       x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
 
-      // TODO: Break DMG
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.DMG_TAKEN_MULTI += (e >= 4 && m.e4TargetStandoffVulnerability) ? 0.12 : 0
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },

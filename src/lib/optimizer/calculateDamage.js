@@ -29,6 +29,8 @@ export function calculateDamage(c, request, params) {
   let universalMulti = dmgReductionMultiplier * params.brokenMultiplier * originalDmgMultiplier
   const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]
 
+  const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
+
   x.BASIC_DMG
     *= universalMulti
     * (dmgBoostMultiplier + x.BASIC_BOOST)
@@ -49,7 +51,7 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.ULT_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + x[Stats.CD] + x.ULT_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
+    * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
     * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY)
     * (1 - (baseResistance - x.ULT_RES_PEN))
 

@@ -86,7 +86,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef?.current?.focus(), 0)
+      setTimeout(() => inputRef?.current?.focus(), 100)
     }
   }, [open])
 

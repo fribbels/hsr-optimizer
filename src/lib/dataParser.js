@@ -329,6 +329,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.DEF_P]: 0.28 },
       5: { [Constants.Stats.DEF_P]: 0.32 },
     },
+    21044: {
+      1: { [Constants.Stats.CR]: 0.08 },
+      2: { [Constants.Stats.CR]: 0.10 },
+      3: { [Constants.Stats.CR]: 0.12 },
+      4: { [Constants.Stats.CR]: 0.14 },
+      5: { [Constants.Stats.CR]: 0.16 },
+    },
     22000: {
       1: { [Constants.Stats.EHR]: 0.20 },
       2: { [Constants.Stats.EHR]: 0.25 },
@@ -342,6 +349,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.HP_P]: 0.10 },
       4: { [Constants.Stats.HP_P]: 0.11 },
       5: { [Constants.Stats.HP_P]: 0.12 },
+    },
+    22002: {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.20 },
+      3: { [Constants.Stats.ATK_P]: 0.24 },
+      4: { [Constants.Stats.ATK_P]: 0.28 },
+      5: { [Constants.Stats.ATK_P]: 0.32 },
     },
     23000: {},
     23001: {
@@ -493,6 +507,14 @@ function getSuperimpositions() {
       3: { [Constants.Stats.CD]: 0.48 },
       4: { [Constants.Stats.CD]: 0.54 },
       5: { [Constants.Stats.CD]: 0.60 },
+    },
+    23026: {},
+    23027: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
     },
     24000: {},
     24001: {

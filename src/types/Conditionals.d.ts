@@ -297,3 +297,7 @@ export type ConditionalBuff =
   | 'teammateBeValue'
   | 'talentCdBuff'
   | 'e6Buffs'
+  | 'enemyDefReducedSlowed'
+  | 'vulnerabilityStacks'
+  | 'cadenzaActive'
+  | 'cantillationStacks'

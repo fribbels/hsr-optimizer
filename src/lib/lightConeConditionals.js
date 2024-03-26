@@ -94,6 +94,10 @@ import IndeliblePromise from './conditionals/lightcone/4star/IndeliblePromise'
 import InherentlyUnjustDestiny from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import AlongThePassingShore from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import ConcertForTwo from 'lib/conditionals/lightcone/4star/ConcertForTwo'
+import BoundlessChoreo from 'lib/conditionals/lightcone/4star/BoundlessChoreo'
+import ForTomorrowsJourney from 'lib/conditionals/lightcone/4star/ForTomorrowsJourney'
+import FlowingNightglow from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import SailingTowardsASecondLife from 'lib/conditionals/lightcone/5star/SailingTowardsASecondLife'
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -121,6 +125,8 @@ const fiveStar = {
   23022: ReforgedRemembrance,
   23023: InherentlyUnjustDestiny,
   23024: AlongThePassingShore,
+  23026: FlowingNightglow,
+  23027: SailingTowardsASecondLife,
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
@@ -172,9 +178,11 @@ const fourStar = {
   21041: ItsShowtime,
   21042: IndeliblePromise,
   21043: ConcertForTwo,
+  21044: BoundlessChoreo,
 
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,
+  22002: ForTomorrowsJourney,
 }
 
 const threeStar = {

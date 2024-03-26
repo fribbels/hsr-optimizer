@@ -38,7 +38,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'targetTameStacks',
     name: 'targetTameStacks',
     formItem: 'slider',
-    text: 'Target Tame stacks',
+    text: 'Target Tame stacks (WIP)',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
     min: 0,

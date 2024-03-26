@@ -51,7 +51,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({ content: c
     })
   }
 
-  return (<Flex vertical gap={10}>{ret}</Flex>)
+  return (<Flex vertical gap={8}>{ret}</Flex>)
 }
 
 export default DisplayFormControl

@@ -121,6 +121,7 @@ const data: ChangelogContent[] = [
       'Fix: Bronya technique conditional ATK buff is now off by default',
       'Fix: Silver Wolf skill conditional weakness implanted RES shred is now off by default',
       'Fix: Sparkle talent conditional Quantum allies ATK buff now only applies to Quantum elemental main characters',
+      'Fix: Acheron trace Stygian Resurge now has its own slider instead of assuming all hits on target',
       'Fix: Seele E1 conditional CR buff now has its own toggle instead of being linked to the enemy HP selector',
     ],
   },

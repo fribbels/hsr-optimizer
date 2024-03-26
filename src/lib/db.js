@@ -322,6 +322,8 @@ export const DB = {
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
 
+    SaveState.save()
+
     return found
   },
 

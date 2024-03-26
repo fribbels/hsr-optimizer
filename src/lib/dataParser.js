@@ -1147,6 +1147,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
     },
@@ -1260,6 +1261,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.WASTELANDER_SET,
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
     },
@@ -1381,6 +1383,7 @@ function getScoringMetadata() {
         Constants.Sets.TaliaKingdomOfBanditry,
       ],
       presets: [
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
     },
@@ -2064,6 +2067,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
     },
@@ -3374,6 +3378,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
@@ -3530,6 +3535,7 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
     },

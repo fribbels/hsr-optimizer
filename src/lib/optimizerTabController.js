@@ -306,7 +306,9 @@ export const OptimizerTabController = {
 
     if (newForm.characterId) {
       let defaultOptions = CharacterConditionals.get(newForm).defaults()
-      if (!newForm.characterConditionals) newForm.characterConditionals = {}
+      if (!newForm.characterConditionals) {
+        newForm.characterConditionals = {}
+      }
       for (let option of Object.keys(defaultOptions)) {
         if (newForm.characterConditionals[option] == undefined) {
           newForm.characterConditionals[option] = defaultOptions[option]
@@ -338,6 +340,11 @@ export const OptimizerTabController = {
       newForm.rank = character.rank
     } else {
       newForm.rank = DB.getCharacters().length
+
+      // Apply any presets to new characters
+      for (const applyPreset of metadata.scoringMetadata.presets || []) {
+        applyPreset(newForm)
+      }
     }
 
     if (!newForm.exclude) {

@@ -86,7 +86,7 @@ const data: ChangelogContent[] = [
       'sparkle.png',
       'Portrait images can be selected by url or uploaded from file',
       'crop.png',
-      'Added substat roll count indicators to relics, showing the number of additional rolls a stat',
+      'Added substat roll count indicators to relics, showing the number of additional rolls per stat',
       'rollQuality.png',
       'Added new relic rating tools to the Relics tab: for evaluating relic potential for the selected character or all characters',
       'When selecting a character on the Relics grid, all selected relics will show their score according to the selected character\'s weights',

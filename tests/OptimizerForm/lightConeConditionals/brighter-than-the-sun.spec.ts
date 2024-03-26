@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('test', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/#scorer')
   await page.getByText('Optimizer', { exact: true }).click()
 
   await page.getByTitle('I Shall Be My Own Sword').click()

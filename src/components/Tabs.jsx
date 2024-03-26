@@ -13,7 +13,6 @@ import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
-import { WorkerPool } from 'lib/workerPool'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 

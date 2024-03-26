@@ -137,7 +137,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             dropdownStyle={{
               width: 250,
             }}
-            listHeight={500}
+            listHeight={550}
             mode="multiple"
             allowClear
             style={{

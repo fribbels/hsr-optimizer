@@ -68,8 +68,7 @@ export const Hint = {
       title: 'Character',
       content: (
         <Flex vertical gap={10}>
-          <p>Select the character and level / eidolon</p>
-          <p>Levels will affect base stats used in the calculation. Eidolon effects are applied under the Character passives panel.</p>
+          <p>Select the character and eidolon. Character is assumed to be level 80 with maxed traces in optimization calcs.</p>
         </Flex>
       ),
     }
@@ -104,8 +103,8 @@ export const Hint = {
       title: 'Light cone',
       content: (
         <Flex vertical gap={10}>
-          <p>Select the light cone and level / superimposition</p>
-          <p>Levels will affect base stats used in the calculation. Superimposition and passive effects are applied under the Light cone passives panel.</p>
+          <p>Select the light cone and superimposition. Light cone is assumed to be level 80 in optimization calcs.</p>
+          <p>Superimposition and passive effects are applied under the Light cone passives panel.</p>
         </Flex>
       ),
     }

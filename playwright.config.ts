@@ -1,7 +1,10 @@
-import path = require('path')
+import path from 'path'
 import { defineConfig, devices } from '@playwright/test'
 
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.cache/storage-state.json')
+export const STORAGE_STATE = path.join(
+  import.meta.dirname,
+  'playwright/.cache/storage-state.json',
+)
 
 export default defineConfig({
   testDir: 'tests',
@@ -32,21 +35,21 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: /global\.setup\.ts/,
-    }, {
+    },
+    {
       name: 'WITH test data',
       use: {
         ...devices['Desktop Chrome'],
         storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
-    }, /* {
+    } /* {
       name: 'NO test data',
       use: {
         ...devices['Desktop Chrome'],
       },
       testMatch: '!global.setup.ts',
-    }, */
-
+    }, */,
   ],
   // Run your local dev server before starting the tests.
   webServer: {
@@ -55,7 +58,5 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000, // 2min max to startup
   },
-  reporter: [
-    ['html', { open: 'never' }],
-  ],
+  reporter: [['html', { open: 'never' }]],
 })

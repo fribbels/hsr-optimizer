@@ -35,7 +35,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx",
+    "lint": "eslint ./src",
     "vitest": "vitest --dir src/lib --no-watch",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --trace on",

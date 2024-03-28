@@ -124,6 +124,12 @@ dist
 .vscode-test
 .vscode
 
+# VSCode folder
+.vscode
+
+# VSCode folder
+.vscode
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged

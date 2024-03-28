@@ -1,8 +1,11 @@
 import path from 'path'
 import { defineConfig, devices } from '@playwright/test'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 export const STORAGE_STATE = path.join(
-  import.meta.dirname,
+  __dirname,
   'playwright/.cache/storage-state.json',
 )
 

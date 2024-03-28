@@ -151,7 +151,7 @@ export default function RelicScorerTab() {
           onFinish={onFinish}
           initialValues={{ scorerId: initialId }}
         >
-          <Flex style={{ margin: 10, width: 1000 }} justify="center" align="center" gap={10}>
+          <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
             <Form.Item size="default" name="scorerId">
               <Input style={{ width: 150 }} placeholder="Account ID" />
             </Form.Item>
@@ -331,7 +331,7 @@ function CharacterPreviewSelection(props) {
         vertical
         style={{
           position: 'relative',
-          left: -250,
+          left: -245,
           top: 150,
           width: 0,
           height: 0,
@@ -357,38 +357,40 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
-      <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-        <Sidebar />
-        <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
-            Copy screenshot
-          </Button>
-          <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-          <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
-            Import relics into optimizer
-          </Button>
-          <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
-            Simulate relics on another character
-          </Button>
+    <Flex style={{width: 1300}} justify={'space-around'}>
+      <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
+        <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+          <Sidebar />
+          <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
+            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
+              Copy screenshot
+            </Button>
+            <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
+            <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+              Import relics into optimizer
+            </Button>
+            <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+              Simulate relics on another character
+            </Button>
+          </Flex>
         </Flex>
-      </Flex>
 
-      <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
-      <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
-        <CharacterPreview
-          class="relicScorerCharacterPreview"
-          character={props.selectedCharacter}
-          source="scorer"
-          id="relicScorerPreview"
+        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
+        <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
+          <CharacterPreview
+            class="relicScorerCharacterPreview"
+            character={props.selectedCharacter}
+            source="scorer"
+            id="relicScorerPreview"
+          />
+        </Flex>
+
+        <CharacterModal
+          onOk={onCharacterModalOk}
+          open={isCharacterModalOpen}
+          setOpen={setCharacterModalOpen}
         />
       </Flex>
-
-      <CharacterModal
-        onOk={onCharacterModalOk}
-        open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
-      />
     </Flex>
   )
 }

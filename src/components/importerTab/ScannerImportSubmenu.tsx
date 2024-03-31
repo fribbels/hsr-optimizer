@@ -119,7 +119,7 @@ export function ScannerImportSubmenu() {
                   <li>Supports all 16:9 screen resolutions</li>
                 </ul>
               </li>
-              {false && (
+              {true && (
                 <li>
                   IceDynamix Reliquary Archiver (
                   <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />

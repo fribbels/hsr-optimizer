@@ -130,21 +130,25 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
+      const x: ComputedStatsObject = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
       x.ULT_RES_PEN += talentResPen
-      x.ELEMENTAL_DMG += (r.thunderCoreStacks as number) * 0.30
+      x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
       x.ULT_RES_PEN += (e >= 6 && r.e6UltBuffs) ? 0.20 : 0
-      x.ORIGINAL_DMG_BOOST += nihilityTeammateScaling[r.nihilityTeammates as number] // TODO: Is this elemental damage or a separate scaling?
+
+      const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
+      x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
+      x.SKILL_ORIGINAL_DMG_BOOST += originalDmgBoost
+      x.ULT_ORIGINAL_DMG_BOOST += originalDmgBoost
 
       x.BASIC_SCALING = basicScaling
       x.SKILL_SCALING = skillScaling
       // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
       x.ULT_SCALING += 3 * ultRainbladeScaling
       x.ULT_SCALING += 3 * ultCrimsonKnotScaling
-      x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks as number)
+      x.ULT_SCALING += ultCrimsonKnotScaling * (r.crimsonKnotStacks)
       x.ULT_SCALING += ultStygianResurgeScaling
       x.ULT_SCALING += r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
 
@@ -157,7 +161,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x']
+      const x: ComputedStatsObject = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

@@ -12,7 +12,7 @@ import { Optimizer } from 'lib/optimizer/optimizer'
 const { Text } = Typography
 
 function PermutationDisplay(props) {
-  let rightText = props.total
+  const rightText = props.total
     ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()} - (${Math.ceil(Number(props.right) / Number(props.total) * 100)}%)`
     : `${Number(props.right).toLocaleString()}`
 
@@ -34,7 +34,7 @@ PermutationDisplay.propTypes = {
   left: PropTypes.string,
 }
 
-let defaultGap = 5
+const defaultGap = 5
 
 export default function Sidebar() {
   const statDisplay = window.store((s) => s.statDisplay)
@@ -80,8 +80,8 @@ export default function Sidebar() {
               <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
               <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
             </Flex>
 
             <Flex vertical>

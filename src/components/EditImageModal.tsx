@@ -52,7 +52,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const [zoom, setZoom] = React.useState(existingConfig ? existingConfig.cropper.zoom : DEFAULT_ZOOM)
   const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
 
-  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
+  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('upload')
 
   const resetConfig = React.useCallback(() => {
     customImageForm.resetFields()
@@ -400,8 +400,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify="center" style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle="solid">
-              <Radio.Button value="url">Enter image URL</Radio.Button>
               <Radio.Button value="upload">Upload image</Radio.Button>
+              <Radio.Button value="url">Enter image URL</Radio.Button>
               {defaultImageUrl && <Radio.Button value="default">Use default image</Radio.Button>}
             </Radio.Group>
           </Flex>
@@ -411,7 +411,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               <Dragger
                 name="file"
                 multiple={false}
-                accept="image/png, image/jpeg, image/jpg"
+                accept="image/png, image/jpeg, image/jpg, image/gif"
                 beforeUpload={handleBeforeUpload}
                 disabled={isVerificationLoading}
                 showUploadList={false}
@@ -429,7 +429,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                       </p>
                       <p className="ant-upload-text">Click or drag image file to this area to upload</p>
                       <p className="ant-upload-hint">
-                        Accepts .jpg .jpeg .png (Max: 20MB)
+                        Accepts .jpg .jpeg .png .gif (Max: 20MB)
                       </p>
                     </Flex>
                   )}

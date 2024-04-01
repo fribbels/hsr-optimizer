@@ -32,7 +32,7 @@ export function calculateDamage(c, request, params) {
   const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 
   // BREAK
-  const maxToughness = 60
+  const maxToughness = request.enemyMaxToughness
 
   // DEBUG
   const defMultiDebug = calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)

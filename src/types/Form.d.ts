@@ -15,7 +15,6 @@ export type Form = {
   characterLevel: number
   enemyCount: number
   enemyElementalWeak: number
-  enemyHpPercent: number
   enemyLevel: number
   enemyResistance: number
   enemyWeaknessBroken: boolean

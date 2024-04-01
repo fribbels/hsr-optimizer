@@ -16,16 +16,13 @@ export function generateParams(request) {
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
 
-  // Band-aid here to fill in the main character's elemental type
-  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
-
   return params
 }
 
 function generateSetConditionalParams(request, params) {
   const setConditionals = request.setConditionals
 
-  for (let set of Object.values(Constants.Sets)) {
+  for (const set of Object.values(Constants.Sets)) {
     if (!setConditionals[set]) {
       setConditionals[set] = defaultSetConditionals[set]
     }
@@ -57,19 +54,31 @@ function generateMultiplierParams(request, params) {
 function generateElementParams(request, params) {
   params.ELEMENTAL_DMG_TYPE = ElementToDamage[params.element]
   params.RES_PEN_TYPE = ElementToResPenType[params.element]
+  params.ELEMENTAL_BREAK_SCALING = {
+    [Stats.Physical_DMG]: 2.0,
+    [Stats.Fire_DMG]: 2.0,
+    [Stats.Ice_DMG]: 1.0,
+    [Stats.Lightning_DMG]: 1.0,
+    [Stats.Wind_DMG]: 1.5,
+    [Stats.Quantum_DMG]: 0.5,
+    [Stats.Imaginary_DMG]: 0.5,
+  }[params.ELEMENTAL_DMG_TYPE]
+
+  // Band-aid here to fill in the main character's elemental type
+  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
 }
 
 function generateCharacterBaseParams(request, params) {
-  let lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  let lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
-  let lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
+  const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
+  const lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
+  const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
-  let characterMetadata = DB.getMetadata().characters[request.characterId]
-  let characterStats = characterMetadata.promotions[80]
+  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const characterStats = characterMetadata.promotions[80]
 
   params.element = characterMetadata.element
 
-  let baseStats = {
+  const baseStats = {
     base: {
       ...CharacterStats.getZeroes(),
       ...characterStats,
@@ -90,10 +99,10 @@ function generateCharacterBaseParams(request, params) {
   // console.log({ lightConeStats })
   // console.log({ characterStats })
 
-  let baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
-  let baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)
-  let baseDef = sumCharacterBase(Stats.DEF, baseStats.base, baseStats.lightCone)
-  let baseSpd = sumCharacterBase(Stats.SPD, baseStats.base, baseStats.lightCone)
+  const baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
+  const baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)
+  const baseDef = sumCharacterBase(Stats.DEF, baseStats.base, baseStats.lightCone)
+  const baseSpd = sumCharacterBase(Stats.SPD, baseStats.base, baseStats.lightCone)
 
   request.baseHp = baseHp
   request.baseAtk = baseAtk

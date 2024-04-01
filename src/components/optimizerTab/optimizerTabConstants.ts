@@ -38,8 +38,8 @@ export const baseColumnDefs = [
 ]
 
 export const combatColumnDefs = [
-  { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 70, headerName: 'Set' },
-  { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 50, headerName: 'Set' },
+  { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 67, headerName: 'Set' },
+  { field: 'ornamentSetIndex', cellRenderer: Renderer.ornamentSet, width: 45, headerName: 'Set' },
 
   { field: 'xATK', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ ATK' },
   { field: 'xDEF', valueFormatter: Renderer.floor, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ DEF' },
@@ -50,8 +50,8 @@ export const combatColumnDefs = [
   { field: 'xEHR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ EHR' },
   { field: 'xRES', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ RES' },
   { field: 'xBE', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, cellStyle: Gradient.getOptimizerColumnGradient, headerName: 'Σ BE' },
-  { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, DIGITS_3: 'Σ HEAL' },
-  { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, DIGITS_3: 'Σ ERR' },
+  { field: 'xOHB', valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'Σ HEAL' },
+  { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'Σ ERR' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ ELEM' },
   { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'WEIGHT' },

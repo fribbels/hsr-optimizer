@@ -40,6 +40,7 @@ export function calculateDamage(c, request, params) {
   x.BREAK_DMG
     = universalMulti
     * 3767.5533
+    * params.ELEMENTAL_BREAK_SCALING
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)
     * (0.5 + maxToughness / 120)
     * (1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY)

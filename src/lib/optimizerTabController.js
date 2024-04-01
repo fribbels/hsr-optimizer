@@ -301,10 +301,13 @@ export const OptimizerTabController = {
       newForm.enemyLevel = 95
       newForm.enemyCount = 1
       newForm.enemyResistance = 0.2
-      newForm.enemyMaxToughness = 360
       newForm.enemyElementalWeak = true
       newForm.enemyWeaknessBroken = false
       newForm.enemyElementalResistance = false
+    }
+
+    if (!form.enemyMaxToughness) {
+      newForm.enemyMaxToughness = 360
     }
 
     if (newForm.characterId) {

@@ -53,6 +53,7 @@ export const baseComputedStatsObject = {
   ULT_VULNERABILITY: 0,
   FUA_VULNERABILITY: 0,
   DOT_VULNERABILITY: 0,
+  BREAK_VULNERABILITY: 0,
 
   // TODO: Consolidate wording as DEF_SHRED
   DEF_SHRED: 0,
@@ -88,13 +89,22 @@ export const baseComputedStatsObject = {
   [Stats.Quantum_DMG]: 0,
   [Stats.Imaginary_DMG]: 0,
 
-  ORIGINAL_DMG_BOOST: 0, // TODO: Acheron multiplier?
+  // e.g. Acheron multiplier
+  BASIC_ORIGINAL_DMG_BOOST: 0,
+  SKILL_ORIGINAL_DMG_BOOST: 0,
+  ULT_ORIGINAL_DMG_BOOST: 0,
+
+  // Boothill
+  BASIC_BREAK_DMG_MODIFIER: 0,
+
+  BREAK_EFFICIENCY_BOOST: 0,
 
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,
   FUA_DMG: 0,
   DOT_DMG: 0,
+  BREAK_DMG: 0,
 
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 }

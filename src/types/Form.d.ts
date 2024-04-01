@@ -15,8 +15,8 @@ export type Form = {
   characterLevel: number
   enemyCount: number
   enemyElementalWeak: number
-  enemyHpPercent: number
   enemyLevel: number
+  enemyMaxToughness: number
   enemyResistance: number
   enemyWeaknessBroken: boolean
   enhance: RelicEnhance
@@ -67,6 +67,7 @@ export type Form = {
   maxDef: MAX_INT
   maxDmg: MAX_INT
   maxDot: MAX_INT
+  maxBreak: MAX_INT
   maxEhp: MAX_INT
   maxEhr: MAX_INT
   maxErr: MAX_INT
@@ -86,6 +87,7 @@ export type Form = {
   minDef: MIN_INT
   minDmg: MIN_INT
   minDot: MIN_INT
+  minBreak: MIN_INT
   minEhp: MIN_INT
   minEhr: MIN_INT
   minErr: MIN_INT

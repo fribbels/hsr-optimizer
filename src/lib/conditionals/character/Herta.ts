@@ -21,39 +21,61 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 1),
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: 'Technique buff',
-    title: 'Technique buff',
-    content: `Increases ATK by ${precisionRound(0.40 * 100)}% for 3 turns.`,
-  }, {
-    formItem: 'switch',
-    id: 'targetFrozen',
-    name: 'targetFrozen',
-    text: 'Target frozen',
-    title: 'Target frozen',
-    content: `When Ultimate is used, deals ${precisionRound(0.20 * 100)}% more DMG to Frozen enemies.`,
-  }, {
-    formItem: 'slider',
-    id: 'e2TalentCritStacks',
-    name: 'e2TalentCritStacks',
-    text: 'E2 talent CR stacks',
-    title: 'E2 talent CR stacks',
-    content: `E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times.`,
-    min: 0,
-    max: 5,
-    disabled: e < 2,
-  }, {
-    formItem: 'switch',
-    id: 'e6UltAtkBuff',
-    name: 'e6UltAtkBuff',
-    text: 'E6 ult ATK buff',
-    title: 'E6 ult ATK buff',
-    content: `E6: After Ult, increases ATK by ${precisionRound(0.25 * 100)}% for 1 turn.`,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'techniqueBuff',
+      name: 'techniqueBuff',
+      text: 'Technique buff',
+      title: 'Technique buff',
+      content: `Increases ATK by ${precisionRound(0.40 * 100)}% for 3 turns.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'targetFrozen',
+      name: 'targetFrozen',
+      text: 'Target frozen',
+      title: 'Target frozen',
+      content: `When Ultimate is used, deals ${precisionRound(0.20 * 100)}% more DMG to Frozen enemies.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyHpGte50',
+      name: 'enemyHpGte50',
+      text: 'Enemy HP ≥ 50% skill DMG boost',
+      title: 'One-Time Offer',
+      content: `Skill: If the enemy's HP percentage is 50% or higher, DMG dealt to this target increases by 20%.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyHpLte50',
+      name: 'enemyHpLte50',
+      text: 'E1 enemy HP ≤ 50% basic scaling boost',
+      title: 'E1: Kick You When You\'re Down',
+      content: `E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK.`,
+      disabled: e < 1,
+    },
+    {
+      formItem: 'slider',
+      id: 'e2TalentCritStacks',
+      name: 'e2TalentCritStacks',
+      text: 'E2 talent CR stacks',
+      title: 'E2 talent CR stacks',
+      content: `E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times.`,
+      min: 0,
+      max: 5,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6UltAtkBuff',
+      name: 'e6UltAtkBuff',
+      text: 'E6 ult ATK buff',
+      title: 'E6 ult ATK buff',
+      content: `E6: After Ult, increases ATK by ${precisionRound(0.25 * 100)}% for 1 turn.`,
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,
@@ -63,6 +85,8 @@ export default (e: Eidolon): CharacterConditional => {
       targetFrozen: true,
       e2TalentCritStacks: 5,
       e6UltAtkBuff: true,
+      enemyHpGte50: true,
+      enemyHpLte50: false,
     }),
     teammateDefaults: () => ({
     }),
@@ -77,12 +101,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      x.BASIC_SCALING += (e >= 1 && request.enemyHpPercent <= 0.50) ? 0.40 : 0
+      x.BASIC_SCALING += (e >= 1 && r.enemyHpLte50) ? 0.40 : 0
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
 
-      x.SKILL_BOOST += (request.enemyHpPercent >= 0.50) ? 0.45 : 0
+      x.SKILL_BOOST += (r.enemyHpGte50) ? 0.45 : 0
 
       // Boost
       x.ULT_BOOST += (r.targetFrozen) ? 0.20 : 0
@@ -93,7 +117,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

@@ -7,7 +7,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-26-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-01-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -174,7 +174,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x']
+      const x = c.x
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 

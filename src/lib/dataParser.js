@@ -90,13 +90,13 @@ function getDisplayName(character) {
 }
 
 function parseBaseLightConeStatsByLevel(promotions) {
-  let base = {}
+  const base = {}
   for (let i = 1; i <= 80; i++) {
     let valueIndex = (Math.floor((i - 1) / 10) - 1)
     if (i <= 20) valueIndex = 0
     if (i > 79) valueIndex = 6
 
-    let statScaling = promotions.values[valueIndex]
+    const statScaling = promotions.values[valueIndex]
 
     base[i] = {
       [Constants.Stats.HP]: statScaling['hp'].base + statScaling['hp'].step * (i - 1),
@@ -109,13 +109,13 @@ function parseBaseLightConeStatsByLevel(promotions) {
 }
 
 function parseBaseStatsByLevel(promotions) {
-  let base = {}
+  const base = {}
   for (let i = 1; i <= 80; i++) {
     let valueIndex = (Math.floor((i - 1) / 10) - 1)
     if (i <= 20) valueIndex = 0
     if (i > 79) valueIndex = 6
 
-    let statScaling = promotions.values[valueIndex]
+    const statScaling = promotions.values[valueIndex]
 
     base[i] = {
       [Constants.Stats.HP]: statScaling['hp'].base + statScaling['hp'].step * (i - 1),
@@ -3685,7 +3685,7 @@ function getScoringMetadata() {
       ],
       presets: [
       ],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.BASIC,
     },
     8001: { // Physical Trailblazer M
       stats: {

@@ -3,7 +3,7 @@ import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { Utils } from 'lib/utils.js'
-import { enemyCountOptions, enemyHpPercentOptions, enemyLevelOptions, enemyResistanceOptions } from 'lib/constants.ts'
+import { enemyCountOptions, enemyLevelOptions, enemyMaxToughnessOptions, enemyResistanceOptions } from 'lib/constants.ts'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
@@ -28,6 +28,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
             options={enemyLevelOptions}
             optionLabelProp="number"
             popupMatchSelectWidth={160}
+            suffixIcon={null}
           />
         </Form.Item>
         <Form.Item name="enemyCount">
@@ -36,6 +37,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
             filterOption={Utils.labelFilterOption}
             style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
             options={enemyCountOptions}
+            suffixIcon={null}
           />
         </Form.Item>
       </Flex>
@@ -47,14 +49,18 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
             filterOption={Utils.labelFilterOption}
             style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
             options={enemyResistanceOptions}
+            suffixIcon={null}
           />
         </Form.Item>
-        <Form.Item name="enemyHpPercent">
+        <Form.Item name="enemyMaxToughness">
           <Select
             showSearch
             filterOption={Utils.labelFilterOption}
             style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-            options={enemyHpPercentOptions}
+            options={enemyMaxToughnessOptions}
+            optionLabelProp="number"
+            popupMatchSelectWidth={160}
+            suffixIcon={null}
           />
         </Form.Item>
       </Flex>

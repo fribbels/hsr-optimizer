@@ -36,7 +36,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c['x']
+      const x = c.x
 
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
 

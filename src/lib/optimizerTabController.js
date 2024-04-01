@@ -54,21 +54,21 @@ export const OptimizerTabController = {
 
   equipClicked: () => {
     console.log('Equip clicked')
-    let formValues = OptimizerTabController.getForm()
-    let characterId = formValues.characterId
+    const formValues = OptimizerTabController.getForm()
+    const characterId = formValues.characterId
 
     if (!characterId) {
       return
     }
     DB.addFromForm(formValues)
 
-    let selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
+    const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
 
-    let row = selectedNodes[0].data
-    let build = OptimizerTabController.calculateRelicsFromId(row.id)
+    const row = selectedNodes[0].data
+    const build = OptimizerTabController.calculateRelicsFromId(row.id)
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
@@ -79,13 +79,13 @@ export const OptimizerTabController = {
   },
 
   cellClicked: (event) => {
-    let data = event.data
+    const data = event.data
 
     if (event.rowPinned == 'top') {
       console.log('Top row clicked', event.data)
-      let fieldValues = OptimizerTabController.getForm()
+      const fieldValues = OptimizerTabController.getForm()
       if (event.data && fieldValues.characterId) {
-        let character = DB.getCharacterById(fieldValues.characterId)
+        const character = DB.getCharacterById(fieldValues.characterId)
 
         if (character) {
           window.setOptimizerBuild(character.equipped)
@@ -96,7 +96,7 @@ export const OptimizerTabController = {
 
     console.log('cellClicked', event)
 
-    let build = OptimizerTabController.calculateRelicsFromId(data.id)
+    const build = OptimizerTabController.calculateRelicsFromId(data.id)
     console.log('build', build)
     window.setOptimizerBuild(build)
   },
@@ -125,6 +125,7 @@ export const OptimizerTabController = {
         ULT: true,
         FUA: true,
         DOT: true,
+        BREAK: true,
 
         xATK: true,
         xDEF: true,
@@ -171,15 +172,15 @@ export const OptimizerTabController = {
 
           if (filterModel) {
             filter(filterModel)
-            let indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
-            let subArray = []
-            for (let index of indicesSubArray) {
+            const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
+            const subArray = []
+            for (const index of indicesSubArray) {
               subArray.push(rows[index])
             }
             aggregate(subArray)
             params.successCallback(subArray, filteredIndices.length)
           } else {
-            let subArray = rows.slice(params.startRow, params.endRow)
+            const subArray = rows.slice(params.startRow, params.endRow)
             aggregate(subArray)
 
             params.successCallback(subArray, rows.length)
@@ -196,22 +197,22 @@ export const OptimizerTabController = {
   },
 
   calculateRelicsFromId: (id) => {
-    let lSize = consts.lSize
-    let pSize = consts.pSize
-    let fSize = consts.fSize
-    let bSize = consts.bSize
-    let gSize = consts.gSize
-    let hSize = consts.hSize
+    const lSize = consts.lSize
+    const pSize = consts.pSize
+    const fSize = consts.fSize
+    const bSize = consts.bSize
+    const gSize = consts.gSize
+    const hSize = consts.hSize
 
-    let x = id
-    let l = (x % lSize)
-    let p = (((x - l) / lSize) % pSize)
-    let f = (((x - p * lSize - l) / (lSize * pSize)) % fSize)
-    let b = (((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    let g = (((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    let h = (((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+    const x = id
+    const l = (x % lSize)
+    const p = (((x - l) / lSize) % pSize)
+    const f = (((x - p * lSize - l) / (lSize * pSize)) % fSize)
+    const b = (((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    const g = (((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    const h = (((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    let characterId = OptimizerTabController.getForm().characterId
+    const characterId = OptimizerTabController.getForm().characterId
     relics.Head[h].optimizerCharacterId = characterId
     relics.Hands[g].optimizerCharacterId = characterId
     relics.Body[b].optimizerCharacterId = characterId
@@ -231,7 +232,7 @@ export const OptimizerTabController = {
 
   // Get a form that's ready for submission
   getForm: () => {
-    let form = window.optimizerForm.getFieldsValue()
+    const form = window.optimizerForm.getFieldsValue()
     return OptimizerTabController.fixForm(form)
   },
 
@@ -276,6 +277,8 @@ export const OptimizerTabController = {
     newForm.minFua = unsetMin(form.minFua)
     newForm.maxDot = unsetMax(form.maxDot)
     newForm.minDot = unsetMin(form.minDot)
+    newForm.maxBreak = unsetMax(form.maxBreak)
+    newForm.minBreak = unsetMin(form.minBreak)
 
     newForm.buffAtk = unsetMin(form.buffAtk)
     newForm.buffAtkP = unsetMin(form.buffAtkP, true)
@@ -298,18 +301,18 @@ export const OptimizerTabController = {
       newForm.enemyLevel = 95
       newForm.enemyCount = 1
       newForm.enemyResistance = 0.2
-      newForm.enemyHpPercent = 1.0
+      newForm.enemyMaxToughness = 360
       newForm.enemyElementalWeak = true
       newForm.enemyWeaknessBroken = false
       newForm.enemyElementalResistance = false
     }
 
     if (newForm.characterId) {
-      let defaultOptions = CharacterConditionals.get(newForm).defaults()
+      const defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) {
         newForm.characterConditionals = {}
       }
-      for (let option of Object.keys(defaultOptions)) {
+      for (const option of Object.keys(defaultOptions)) {
         if (newForm.characterConditionals[option] == undefined) {
           newForm.characterConditionals[option] = defaultOptions[option]
         }
@@ -317,9 +320,9 @@ export const OptimizerTabController = {
     }
 
     if (newForm.lightCone) {
-      let defaultLcOptions = LightConeConditionals.get(newForm).defaults()
+      const defaultLcOptions = LightConeConditionals.get(newForm).defaults()
       if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
-      for (let option of Object.keys(defaultLcOptions)) {
+      for (const option of Object.keys(defaultLcOptions)) {
         if (newForm.lightConeConditionals[option] == undefined) {
           newForm.lightConeConditionals[option] = defaultLcOptions[option]
         }
@@ -364,7 +367,7 @@ export const OptimizerTabController = {
       newForm.enemyCount = 1
     }
 
-    for (let i of [0, 1, 2]) {
+    for (const i of [0, 1, 2]) {
       const teammateProperty = `teammate${i}`
       if (!newForm[teammateProperty] || !newForm[teammateProperty].characterId) {
         newForm[teammateProperty] = defaultTeammate()
@@ -438,7 +441,7 @@ export const OptimizerTabController = {
 
   // Parse out any invalid values and prepare the form for submission to optimizer
   fixForm: (x) => {
-    let MAX_INT = Constants.MAX_INT
+    const MAX_INT = Constants.MAX_INT
 
     x.statDisplay = window.store.getState().statDisplay || DEFAULT_STAT_DISPLAY
 
@@ -478,6 +481,8 @@ export const OptimizerTabController = {
     x.minFua = fixValue(x.minFua, 0)
     x.maxDot = fixValue(x.maxDot, MAX_INT)
     x.minDot = fixValue(x.minDot, 0)
+    x.maxBreak = fixValue(x.maxBreak, MAX_INT)
+    x.minBreak = fixValue(x.minBreak, 0)
 
     x.buffAtk = fixValue(x.buffAtk, 0)
     x.buffAtkP = fixValue(x.buffAtkP, 0, 100)
@@ -502,15 +507,15 @@ export const OptimizerTabController = {
 
   updateFilters: () => {
     if (window.optimizerForm && window.onOptimizerFormValuesChange) {
-      let fieldValues = OptimizerTabController.getForm()
+      const fieldValues = OptimizerTabController.getForm()
       window.onOptimizerFormValuesChange({}, fieldValues)
     }
   },
 
   resetFilters: () => {
     console.info('@resetFilters')
-    let fieldValues = OptimizerTabController.getForm()
-    let newForm = {
+    const fieldValues = OptimizerTabController.getForm()
+    const newForm = {
       characterEidolon: fieldValues.characterEidolon,
       characterId: fieldValues.characterId,
       characterLevel: 80,
@@ -571,7 +576,7 @@ export const OptimizerTabController = {
   },
 
   applyRowFilters: () => {
-    let fieldValues = OptimizerTabController.getForm()
+    const fieldValues = OptimizerTabController.getForm()
     fieldValues.statDisplay = window.store.getState().statDisplay
     filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)
@@ -597,8 +602,8 @@ function fixValue(value, def, div) {
 }
 
 function aggregate(subArray) {
-  let minAgg = CharacterStats.getZeroes()
-  for (let column of OptimizerTabController.getColumnsToAggregate()) {
+  const minAgg = CharacterStats.getZeroes()
+  for (const column of OptimizerTabController.getColumnsToAggregate()) {
     minAgg[column] = Constants.MAX_INT
   }
 
@@ -607,7 +612,7 @@ function aggregate(subArray) {
     maxAgg[name] = 0
   }
 
-  let maxAgg = CharacterStats.getZeroes()
+  const maxAgg = CharacterStats.getZeroes()
   minAgg['ED'] = Constants.MAX_INT
   maxAgg['ED'] = 0
   minAgg['WEIGHT'] = Constants.MAX_INT
@@ -620,6 +625,7 @@ function aggregate(subArray) {
   setMinMax('ULT')
   setMinMax('FUA')
   setMinMax('DOT')
+  setMinMax('BREAK')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')
@@ -633,9 +639,9 @@ function aggregate(subArray) {
   setMinMax('xOHB')
   setMinMax('xELEMENTAL_DMG')
 
-  for (let row of subArray) {
-    for (let column of OptimizerTabController.getColumnsToAggregate()) {
-      let value = row[column]
+  for (const row of subArray) {
+    for (const column of OptimizerTabController.getColumnsToAggregate()) {
+      const value = row[column]
       if (value < minAgg[column]) minAgg[column] = value
       if (value > maxAgg[column]) maxAgg[column] = value
     }
@@ -655,13 +661,13 @@ function sort() {
 }
 
 function filter(filterModel) {
-  let isCombat = filterModel.statDisplay == 'combat'
-  let indices = []
+  const isCombat = filterModel.statDisplay == 'combat'
+  const indices = []
 
   if (isCombat) {
     for (let i = 0; i < rows.length; i++) {
-      let row = rows[i]
-      let valid
+      const row = rows[i]
+      const valid
         = row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp
         && row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk
         && row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef
@@ -679,14 +685,15 @@ function filter(filterModel) {
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
+        && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
       if (valid) {
         indices.push(i)
       }
     }
   } else {
     for (let i = 0; i < rows.length; i++) {
-      let row = rows[i]
-      let valid
+      const row = rows[i]
+      const valid
         = row[Constants.Stats.HP] >= filterModel.minHp && row[Constants.Stats.HP] <= filterModel.maxHp
         && row[Constants.Stats.ATK] >= filterModel.minAtk && row[Constants.Stats.ATK] <= filterModel.maxAtk
         && row[Constants.Stats.DEF] >= filterModel.minDef && row[Constants.Stats.DEF] <= filterModel.maxDef
@@ -704,6 +711,7 @@ function filter(filterModel) {
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
+        && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
       if (valid) {
         indices.push(i)
       }
@@ -713,8 +721,8 @@ function filter(filterModel) {
   filteredIndices = indices
 }
 function setPinnedRow(characterId) {
-  let character = DB.getCharacterById(characterId)
-  let stats = StatCalculator.calculate(character)
+  const character = DB.getCharacterById(characterId)
+  const stats = StatCalculator.calculate(character)
 
   // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
   if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {

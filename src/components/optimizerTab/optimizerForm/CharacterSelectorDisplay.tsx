@@ -37,6 +37,7 @@ const resultSortOptions = (() => {
         { value: SortOption.ULT.key, label: resultSortString('Ult DMG') },
         { value: SortOption.FUA.key, label: resultSortString('Follow-up DMG') },
         { value: SortOption.DOT.key, label: resultSortString('DoT DMG') },
+        { value: SortOption.BREAK.key, label: resultSortString('Break DMG') },
       ],
     },
     {

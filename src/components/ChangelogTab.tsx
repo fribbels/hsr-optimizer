@@ -77,6 +77,16 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
   )
 }
 
+/*
+Notes for next patch
+dh HP% selector
+argenti HP% selector - fixed trace only applies to ult dmg
+himeko HP% selector
+herta HP% selector
+ruan mei break efficiency, overtone
+boothill break stuff
+boothill basic atk sort
+ */
 const data: ChangelogContent[] = [
   {
     title: '',

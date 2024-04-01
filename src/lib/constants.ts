@@ -363,64 +363,65 @@ export const Constants = {
 }
 
 export const levelOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
+  const options: { value: number; label: string }[] = []
   for (let i = 80; i >= 1; i--) {
-    levelStats.push({
+    options.push({
       value: i,
       label: `Lv. ${i}`,
     })
   }
 
-  return levelStats
+  return options
 })()
 
 export const enemyLevelOptions = (() => {
-  const levelStats: { value: number; label: string; number: string }[] = []
+  const options: { value: number; label: string; number: string }[] = []
   for (let i = 95; i >= 1; i--) {
-    levelStats.push({
+    options.push({
       value: i,
       label: `Lv. ${i} - ${200 + 10 * i} DEF`,
       number: `Lv. ${i}`,
     })
   }
 
-  return levelStats
+  return options
 })()
 
 export const enemyCountOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
+  const options: { value: number; label: string }[] = []
   for (let i = 1; i <= 5; i += 2) {
-    levelStats.push({
+    options.push({
       value: i,
       label: `${i} target${i > 1 ? 's' : ''}`,
     })
   }
 
-  return levelStats
+  return options
 })()
 
 export const enemyResistanceOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
+  const options: { value: number; label: string }[] = []
   for (let i = 20; i <= 60; i += 20) {
-    levelStats.push({
+    options.push({
       value: i / 100,
       label: `${i}% RES`,
     })
   }
 
-  return levelStats
+  return options
 })()
 
-export const enemyHpPercentOptions = (() => {
-  const levelStats: { value: number; label: string }[] = []
-  for (let i = 100; i >= 1; i--) {
-    levelStats.push({
-      value: i / 100,
-      label: `${i}% HP`,
+export const enemyMaxToughnessOptions = (() => {
+  const options: { value: number; label: string; number: string }[] = []
+  for (let i = 720; i >= 1; i -= 30) {
+    options.push({
+      value: i,
+      label: `${i} max toughness`,
+      number: `${i} tough`,
     })
   }
 
-  return levelStats
+  return options
 })()
 
 export const superimpositionOptions = (() => {

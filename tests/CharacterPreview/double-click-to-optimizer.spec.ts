@@ -14,7 +14,6 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   await expect(page.getByRole('main')).toContainText('Enemy shocked / wind sheared')
   // enemy options rendered
   await expect(page.getByRole('main')).toContainText('Enemy options')
-  await expect(page.getByRole('main')).toContainText('100% HP')
   await expect(page.getByRole('main')).toContainText('Elemental weakness')
   // optimizer options rendered
   await expect(page.getByRole('main')).toContainText('Maxed main stat')

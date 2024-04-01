@@ -1,4 +1,4 @@
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -7,11 +7,12 @@ import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 
 const Gallagher = (e: Eidolon): CharacterConditional => {
-  const { basic } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
   const ultScaling = basic(e, 1.50, 1.65)
+  const talentBesottedScaling = talent(e, 0.12, 0.132)
 
   const content: ContentItem[] = [
     {
@@ -29,6 +30,14 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       text: 'BE to OHB boost',
       title: 'Novel Concoction',
       content: `Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'targetBesotted',
+      name: 'targetBesotted',
+      text: 'Target Besotted',
+      title: 'Target Besotted',
+      content: `The Besotted state makes targets receive ${precisionRound(100 * talentBesottedScaling)}% more Break DMG.`,
     },
     {
       formItem: 'switch',
@@ -59,17 +68,23 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
     },
   ]
 
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'targetBesotted'),
+  ]
+
   return {
     content: () => content,
-    teammateContent: () => [],
+    teammateContent: () => teammateContent,
     defaults: () => ({
       basicEnhanced: true,
       breakEffectToOhbBoost: true,
       e1ResBuff: true,
       e2ResBuff: true,
       e6BeBuff: true,
+      targetBesotted: true,
     }),
     teammateDefaults: () => ({
+      targetBesotted: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -79,15 +94,20 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0
       x[Stats.BE] += (e >= 6) ? 0.20 : 0
 
+      x.BREAK_EFFICIENCY_BOOST += (e >= 6) ? 0.20 : 0
+
       x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
       x.ULT_SCALING += ultScaling
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x.BREAK_VULNERABILITY += (m.targetBesotted) ? talentBesottedScaling : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

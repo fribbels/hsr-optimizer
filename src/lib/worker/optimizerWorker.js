@@ -13,26 +13,26 @@ self.onmessage = function(e) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
-  let data = e.data
-  let request = data.request
+  const data = e.data
+  const request = data.request
 
   const params = data.params
 
-  let relics = data.relics
-  let arr = new Float64Array(data.buffer)
+  const relics = data.relics
+  const arr = new Float64Array(data.buffer)
 
-  let lSize = relics.LinkRope.length
-  let pSize = relics.PlanarSphere.length
-  let fSize = relics.Feet.length
-  let bSize = relics.Body.length
-  let gSize = relics.Hands.length
-  let hSize = relics.Head.length
+  const lSize = relics.LinkRope.length
+  const pSize = relics.PlanarSphere.length
+  const fSize = relics.Feet.length
+  const bSize = relics.Body.length
+  const gSize = relics.Hands.length
+  const hSize = relics.Head.length
 
-  let relicSetSolutions = data.relicSetSolutions
-  let ornamentSetSolutions = data.ornamentSetSolutions
+  const relicSetSolutions = data.relicSetSolutions
+  const ornamentSetSolutions = data.ornamentSetSolutions
 
-  let combatDisplay = request.statDisplay == 'combat'
-  let baseDisplay = !combatDisplay
+  const combatDisplay = request.statDisplay == 'combat'
+  const baseDisplay = !combatDisplay
   let passCount = 0
 
   const { failsBasicFilter, failsCombatFilter } = generateResultMinFilter(request, combatDisplay)
@@ -43,18 +43,18 @@ self.onmessage = function(e) {
   const limit = Math.min(data.permutations, data.WIDTH)
 
   for (let col = 0; col < limit; col++) {
-    let index = data.skip + col
+    const index = data.skip + col
 
     if (index >= data.permutations) {
       break
     }
 
-    let l = (index % lSize)
-    let p = (((index - l) / lSize) % pSize)
-    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
-    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+    const l = (index % lSize)
+    const p = (((index - l) / lSize) % pSize)
+    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
+    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
     const head = relics.Head[h]
     const hands = relics.Hands[g]
@@ -146,6 +146,7 @@ self.onmessage = function(e) {
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt
       || x.FUA_DMG < request.minFua || x.FUA_DMG > request.maxFua
       || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
+      || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
     if (fail) {
       continue
     }

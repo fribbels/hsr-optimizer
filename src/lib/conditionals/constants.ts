@@ -53,6 +53,7 @@ export const baseComputedStatsObject = {
   ULT_VULNERABILITY: 0,
   FUA_VULNERABILITY: 0,
   DOT_VULNERABILITY: 0,
+  BREAK_VULNERABILITY: 0,
 
   // TODO: Consolidate wording as DEF_SHRED
   DEF_SHRED: 0,

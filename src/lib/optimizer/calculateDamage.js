@@ -34,14 +34,15 @@ export function calculateDamage(c, request, params) {
   // BREAK
   const maxToughness = 60
 
-  const z = calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)
+  // DEBUG
+  const defMultiDebug = calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)
 
   x.BREAK_DMG
     = universalMulti
     * 3767.5533
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)
     * (0.5 + maxToughness / 120)
-    * (1 + x.DMG_TAKEN_MULTI)
+    * (1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
 

@@ -302,3 +302,4 @@ export type ConditionalBuff =
   | 'cadenzaActive'
   | 'cantillationStacks'
   | 'stygianResurgeHitsOnTarget'
+  | 'targetBesotted'

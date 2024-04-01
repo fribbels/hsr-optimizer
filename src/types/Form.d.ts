@@ -16,6 +16,7 @@ export type Form = {
   enemyCount: number
   enemyElementalWeak: number
   enemyLevel: number
+  enemyMaxToughness: number
   enemyResistance: number
   enemyWeaknessBroken: boolean
   enhance: RelicEnhance

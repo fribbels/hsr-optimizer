@@ -83,7 +83,8 @@ dh HP% selector
 argenti HP% selector - fixed trace only applies to ult dmg
 himeko HP% selector
 herta HP% selector
-
+ruan mei break efficiency, overtone
+boothill break stuff
  */
 const data: ChangelogContent[] = [
   {

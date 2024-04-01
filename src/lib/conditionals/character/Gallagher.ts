@@ -94,6 +94,8 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 2 && r.e2ResBuff) ? 0.30 : 0
       x[Stats.BE] += (e >= 6) ? 0.20 : 0
 
+      x.BREAK_EFFICIENCY_BOOST += (e >= 6) ? 0.20 : 0
+
       x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
       x.ULT_SCALING += ultScaling
 

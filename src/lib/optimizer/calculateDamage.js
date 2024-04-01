@@ -34,9 +34,6 @@ export function calculateDamage(c, request, params) {
   // BREAK
   const maxToughness = request.enemyMaxToughness
 
-  // DEBUG
-  const defMultiDebug = calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, 0)
-
   x.BREAK_DMG
     = universalMulti
     * 3767.5533
@@ -48,13 +45,15 @@ export function calculateDamage(c, request, params) {
     * (1 + x[Stats.BE])
 
   x.BASIC_DMG
-    *= universalMulti
+    = x.BASIC_DMG
+    * universalMulti
     * (dmgBoostMultiplier + x.BASIC_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
     * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
     * (1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY)
     * (1 - (baseResistance - x.BASIC_RES_PEN))
     * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
+    + x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG
 
   x.SKILL_DMG
     *= universalMulti

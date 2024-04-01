@@ -308,3 +308,6 @@ export type ConditionalBuff =
   | 'e2EnemyHp50DmgBoost'
   | 'enemyHpLte50'
   | 'enemyHpGte50'
+  | 'talentMaxToughnessReduction'
+  | 'skillOvertoneBuff'
+  | 'talentBreakDmgScaling'

@@ -89,10 +89,15 @@ export const baseComputedStatsObject = {
   [Stats.Quantum_DMG]: 0,
   [Stats.Imaginary_DMG]: 0,
 
-  // Acheron multiplier
+  // e.g. Acheron multiplier
   BASIC_ORIGINAL_DMG_BOOST: 0,
   SKILL_ORIGINAL_DMG_BOOST: 0,
   ULT_ORIGINAL_DMG_BOOST: 0,
+
+  // Boothill
+  BASIC_BREAK_DMG_MODIFIER: 0,
+
+  BREAK_EFFICIENCY_BOOST: 0,
 
   BASIC_DMG: 0,
   SKILL_DMG: 0,

@@ -85,6 +85,7 @@ himeko HP% selector
 herta HP% selector
 ruan mei break efficiency, overtone
 boothill break stuff
+boothill basic atk sort
  */
 const data: ChangelogContent[] = [
   {

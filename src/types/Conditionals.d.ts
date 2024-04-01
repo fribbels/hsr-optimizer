@@ -303,3 +303,8 @@ export type ConditionalBuff =
   | 'cantillationStacks'
   | 'stygianResurgeHitsOnTarget'
   | 'targetBesotted'
+  | 'e1EnemyHp50'
+  | 'enemyHp50'
+  | 'e2EnemyHp50DmgBoost'
+  | 'enemyHpLte50'
+  | 'enemyHpGte50'

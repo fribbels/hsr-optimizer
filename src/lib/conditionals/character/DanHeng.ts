@@ -18,21 +18,33 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const ultExtraScaling = ult(e, 1.20, 1.296)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'talentPenBuff',
-    name: 'talentPenBuff',
-    text: 'Talent RES PEN buff',
-    title: 'Talent RES PEN buff',
-    content: `When Dan Heng is the target of an ally's Ability, his next attack's Wind RES PEN increases by ${precisionRound(extraPenValue * 100)}%.`,
-  }, {
-    formItem: 'switch',
-    id: 'enemySlowed',
-    name: 'enemySlowed',
-    text: 'Enemy slowed',
-    title: 'Enemy slowed',
-    content: `Basic ATK deals 40% more damage to Slowed enemies.`,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'talentPenBuff',
+      name: 'talentPenBuff',
+      text: 'Talent RES PEN buff',
+      title: 'Talent RES PEN buff',
+      content: `When Dan Heng is the target of an ally's Ability, his next attack's Wind RES PEN increases by ${precisionRound(extraPenValue * 100)}%.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'enemySlowed',
+      name: 'enemySlowed',
+      text: 'Enemy slowed',
+      title: 'Enemy slowed',
+      content: `Basic ATK deals 40% more damage to Slowed enemies.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1EnemyHp50',
+      name: 'e1EnemyHp50',
+      text: 'E1 enemy HP ≥ 50% CR boost',
+      title: 'E1: The Higher You Fly, the Harder You Fall',
+      content: `When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%.`,
+      disabled: e < 1,
+    },
+  ]
 
   return {
     content: () => content,
@@ -40,6 +52,7 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => ({
       talentPenBuff: true,
       enemySlowed: true,
+      e1EnemyHp50: true,
     }),
     teammateDefaults: () => ({
     }),
@@ -48,7 +61,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      x[Stats.CR] += (e >= 1 && request.enemyHpPercent >= 0.50) ? 0.12 : 0
+      x[Stats.CR] += (e >= 1 && r.e1EnemyHp50) ? 0.12 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -65,7 +78,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

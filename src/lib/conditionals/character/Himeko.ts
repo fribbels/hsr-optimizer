@@ -22,39 +22,53 @@ export default (e: Eidolon): CharacterConditional => {
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'targetBurned',
-    name: 'targetBurned',
-    text: 'Target burned',
-    title: 'Target burned',
-    content: `Skill deals 20% more DMG to enemies currently afflicted with Burn.`,
-  }, {
-    formItem: 'switch',
-    id: 'selfCurrentHp80Percent',
-    name: 'selfCurrentHp80Percent',
-    text: 'Self HP ≥ 80%',
-    title: 'Self HP ≥ 80%',
-    content: `When current HP percentage is 80% or higher, CRIT Rate increases by 15%.`,
-  }, {
-    formItem: 'switch',
-    id: 'e1TalentSpdBuff',
-    name: 'e1TalentSpdBuff',
-    text: 'E1 SPD buff',
-    title: 'E1 SPD buff',
-    content: `E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns.`,
-    disabled: e < 1,
-  }, {
-    formItem: 'slider',
-    id: 'e6UltExtraHits',
-    name: 'e6UltExtraHits',
-    text: 'E6 ult extra hits',
-    title: 'E6 ult extra hits',
-    content: `Ultimate deals DMG 2 extra times. Extra hits deals ${precisionRound(0.40 * 100)}% of the original DMG per hit.`,
-    min: 0,
-    max: 2,
-    disabled: e < 6,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'targetBurned',
+      name: 'targetBurned',
+      text: 'Target burned',
+      title: 'Target burned',
+      content: `Skill deals 20% more DMG to enemies currently afflicted with Burn.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'selfCurrentHp80Percent',
+      name: 'selfCurrentHp80Percent',
+      text: 'Self HP ≥ 80% CR boost',
+      title: 'Self HP ≥ 80% CR boost',
+      content: `When current HP percentage is 80% or higher, CRIT Rate increases by 15%.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1TalentSpdBuff',
+      name: 'e1TalentSpdBuff',
+      text: 'E1 SPD buff',
+      title: 'E1 SPD buff',
+      content: `E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns.`,
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2EnemyHp50DmgBoost',
+      name: 'e2EnemyHp50DmgBoost',
+      text: 'E2 enemy HP ≤ 50% DMG boost',
+      title: 'E2: Convergence',
+      content: `E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less.`,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'slider',
+      id: 'e6UltExtraHits',
+      name: 'e6UltExtraHits',
+      text: 'E6 ult extra hits',
+      title: 'E6 ult extra hits',
+      content: `Ultimate deals DMG 2 extra times. Extra hits deals ${precisionRound(0.40 * 100)}% of the original DMG per hit.`,
+      min: 0,
+      max: 2,
+      disabled: e < 6,
+    },
+  ]
 
   return {
     content: () => content,
@@ -85,14 +99,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.SKILL_BOOST += (r.targetBurned) ? 0.20 : 0
-      x.ELEMENTAL_DMG += (e >= 2 && request.enemyHpPercent <= 0.50) ? 0.15 : 0
+      x.ELEMENTAL_DMG += (e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0
 
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

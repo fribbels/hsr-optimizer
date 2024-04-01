@@ -77,6 +77,14 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
   )
 }
 
+/*
+Notes for next patch
+dh HP% selector
+argenti HP% selector - fixed trace only applies to ult dmg
+himeko HP% selector
+herta HP% selector
+
+ */
 const data: ChangelogContent[] = [
   {
     title: '',

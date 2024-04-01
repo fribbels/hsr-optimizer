@@ -202,9 +202,9 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>Level - Enemy level, affects enemy DEF calculations</p>
-          <p>Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the main target.</p>
+          <p>Targets - Number of targets in the battle. The target enemy is always assumed to be in the center, and damage calculations are only for the single primary target.</p>
           <p>RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.</p>
-          <p>HP% - Enemy current health %, affects certain characters with damage increases or additional effects based on enemy HP.</p>
+          <p>Max toughness - Enemy's maximum toughness bar value. Affects calculations related to break damage.</p>
           <p>Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.</p>
           <p>Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives.</p>
         </Flex>

@@ -43,9 +43,9 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
 }
 
 export function calculateElementalStats(c, request, params) {
-  let base = params.character.base
-  let trace = params.character.traces
-  let lc = params.character.lightCone
+  const base = params.character.base
+  const trace = params.character.traces
+  const lc = params.character.lightCone
   const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
@@ -221,13 +221,13 @@ export function calculateComputedStats(c, request, params) {
   x.ELEMENTAL_DMG
     += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.12 * p2(sets.PioneerDiverOfDeadWaters)
+    + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
 
   return x
 }
 
 export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
-  for (let stat of statValues) {
+  for (const stat of statValues) {
     c[stat]
       = head.augmentedStats[stat]
       + hands.augmentedStats[stat]
@@ -261,6 +261,7 @@ function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
 }
 
 const pioneerSetIndexToCd = {
+  [-1]: 0,
   0: 0,
   1: 0.08,
   2: 0.12,

@@ -2,10 +2,10 @@ import { ContentItem } from 'types/Conditionals'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 import { Stats } from 'lib/constants.ts'
-import { findContentId } from 'lib/conditionals/utils.ts'
+import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]
@@ -18,8 +18,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       name: 'shieldCdBuff',
       formItem: 'switch',
       text: 'Shield CD buff',
-      title: 'Shield CD buff',
-      content: 'Shield CD buff',
+      title: 'All-In',
+      content: `When the wearer provides a Shield to an ally, the wearer's CRIT DMG increases by ${precisionRound(sValuesCd[s] * 100)}%, lasting for 2 turn(s).`,
     },
     {
       lc: true,
@@ -27,8 +27,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       name: 'targetVulnerability',
       formItem: 'switch',
       text: 'Target vulnerability debuff',
-      title: 'Target vulnerability debuff',
-      content: 'Target vulnerability debuff',
+      title: 'All-In',
+      content: `When the wearer's follow-up attack hits an enemy target, there is a 100% base chance to increase the DMG taken by the attacked enemy target by ${precisionRound(sValuesVulnerability[s] * 100)}%, lasting for 2 turn(s).`,
     },
   ]
 
@@ -47,7 +47,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       targetVulnerability: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+      const r = request.lightConeConditionals
 
       x[Stats.CD] += (r.shieldCdBuff) ? sValuesCd[s] : 0
     },

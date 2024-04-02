@@ -51,7 +51,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     formItem: 'switch',
     id: 'postUltBuff',
     name: 'postUltBuff',
-    text: 'Disputation ult cd / fua def pen buff',
+    text: 'Disputation ult CD / FUA DEF PEN buff',
     title: lcRank2.skill,
     content: getContentFromLCRanks(s, lcRank2),
   }]
@@ -64,7 +64,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       postUltBuff: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+      const r = request.lightConeConditionals
 
       x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0

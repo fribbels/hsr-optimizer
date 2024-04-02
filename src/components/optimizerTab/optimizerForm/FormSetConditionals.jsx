@@ -14,11 +14,11 @@ const setConditionalsWidth = 80
 const defaultGap = 5
 
 export const FormSetConditionals = () => {
-  let conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
-  let setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
+  const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
+  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
-    let options = []
+    const options = []
     for (let i = 0; i <= 5; i++) {
       options.push({
         display: i + 'x',
@@ -49,7 +49,7 @@ export const FormSetConditionals = () => {
     ]
   }, [])
   const setLongevousDiscipleOptions = useMemo(() => {
-    let options = []
+    const options = []
     for (let i = 0; i <= 2; i++) {
       options.push({
         display: i + 'x',
@@ -61,7 +61,7 @@ export const FormSetConditionals = () => {
     return options
   }, [])
   const setTheAshblazingGrandDukeOptions = useMemo(() => {
-    let options = []
+    const options = []
     for (let i = 0; i <= 8; i++) {
       options.push({
         display: i + 'x',
@@ -73,7 +73,7 @@ export const FormSetConditionals = () => {
     return options
   }, [])
   const setPrisonerInDeepConfinementOptions = useMemo(() => {
-    let options = []
+    const options = []
     for (let i = 0; i <= 3; i++) {
       options.push({
         display: i + 'x',
@@ -87,34 +87,39 @@ export const FormSetConditionals = () => {
   const setPioneerDiverOfDeadWaters = useMemo(() => {
     return [
       {
-        display: 'Base',
+        display: '0x',
+        value: -1,
+        label: '0 debuffs (+4% CR)',
+      },
+      {
+        display: '1x',
         value: 0,
-        label: '1 debuff (+4% CR)',
+        label: '1 debuff (+12% DMG +4% CR)',
       },
       {
         display: '2x',
         value: 1,
-        label: '2 debuffs (+4% CR +8% CD)',
+        label: '2 debuffs (+12% DMG +4% CR +8% CD)',
       },
       {
         display: '3x',
         value: 2,
-        label: '3 debuffs (+4% CR +12% CD)',
+        label: '3 debuffs (+12% DMG +4% CR +12% CD)',
       },
       {
         display: '2x +',
         value: 3,
-        label: '2 debuffs, enhanced (+8% CR +16% CD)',
+        label: '2 debuffs, enhanced (+12% DMG +8% CR +16% CD)',
       },
       {
         display: '3x +',
         value: 4,
-        label: '3 debuffs, enhanced (+8% CR +24% CD)',
+        label: '3 debuffs, enhanced (+12% DMG +8% CR +24% CD)',
       },
     ]
   }, [])
   const setSigoniaTheUnclaimedDesolation = useMemo(() => {
-    let options = []
+    const options = []
     for (let i = 0; i <= 10; i++) {
       options.push({
         display: i + 'x',
@@ -126,7 +131,7 @@ export const FormSetConditionals = () => {
     return options
   }, [])
 
-  let defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
+  const defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
   return (
     <Drawer
@@ -142,7 +147,6 @@ export const FormSetConditionals = () => {
           <Flex gap={defaultGap} align="center" justify="flex-start">
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>
-            <Text style={{ marginLeft: 'auto' }}>4 Piece</Text>
           </Flex>
 
           <ConditionalSetOption
@@ -240,7 +244,7 @@ export const FormSetConditionals = () => {
             set={Constants.Sets.PioneerDiverOfDeadWaters}
             selectOptions={setPioneerDiverOfDeadWaters}
             description="Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
-            conditional="The 2 piece effect is always enabled by default and assumes the enemy has at least 1 debuff for 12% DMG. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option."
+            conditional="The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option."
           />
           <ConditionalSetOption
             set={Constants.Sets.WatchmakerMasterOfDreamMachinations}
@@ -255,7 +259,6 @@ export const FormSetConditionals = () => {
           <Flex gap={defaultGap} align="center" justify="flex-start">
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>
-            <Text style={{ marginLeft: 'auto' }}>2 Piece</Text>
           </Flex>
           <ConditionalSetOption
             set={Constants.Sets.SpaceSealingStation}
@@ -374,7 +377,7 @@ function ConditionalSetOption(props) {
           listHeight={500}
           size="small"
           style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 300 }}
+          dropdownStyle={{ width: 'fit-content' }}
           options={props.selectOptions}
         />
       )
@@ -412,7 +415,7 @@ function ConditionalSetOption(props) {
           listHeight={500}
           size="small"
           style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 300 }}
+          dropdownStyle={{ width: 'fit-content' }}
           options={props.selectOptions}
         />
       )

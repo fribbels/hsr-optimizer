@@ -439,6 +439,14 @@ export const OptimizerTabController = {
       console.log('Top percent')
       return false
     }
+
+    const lcMeta = DB.getMetadata().lightCones[x.lightCone]
+    const charMeta = DB.getMetadata().characters[x.characterId]
+    if (lcMeta.path != charMeta.path) {
+      Message.warning('Character path doesn\'t match light cone path.', 10)
+      console.log('Path mismatch')
+    }
+
     return true
   },
 

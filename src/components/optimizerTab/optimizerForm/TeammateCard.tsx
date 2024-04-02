@@ -80,7 +80,7 @@ const teammateOrnamentSetOptions = (() => {
     },
     {
       value: Sets.PenaconyLandOfTheDreams,
-      desc: `${Sets.PenaconyLandOfTheDreams} (+10% DMG)`,
+      desc: `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
       label: labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
     },
   ]

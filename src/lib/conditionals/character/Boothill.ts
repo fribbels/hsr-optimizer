@@ -67,6 +67,15 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
+      id: 'e2BeBuff',
+      name: 'e2BeBuff',
+      text: 'E2 BE buff',
+      title: 'E2 BE buff',
+      content: betaUpdate,
+      disabled: e < 2,
+    },
+    {
+      formItem: 'switch',
       id: 'e4TargetStandoffVulnerability',
       name: 'e4TargetStandoffVulnerability',
       text: 'E4 Standoff vulnerability',
@@ -83,6 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
     standoffActive: true,
     pocketTrickshotStacks: 3,
     e1DefShred: true,
+    e2BeBuff: true,
     e4TargetStandoffVulnerability: true,
     beToCritBoost: true,
     talentBreakDmgScaling: true,
@@ -99,13 +109,14 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
-      x.ULT_SCALING += ultScaling
-
-      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
+      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
       x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
 
+      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
       x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+
+      x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
+      x.ULT_SCALING += ultScaling
 
       return x
     },

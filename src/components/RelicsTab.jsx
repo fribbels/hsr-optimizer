@@ -64,10 +64,10 @@ const GradeFilter = forwardRef((props, ref) => {
 
   let filterMessage = 'No Filters Applied'
   if (isFilterActive()) {
-    let gradeFilter = model.grade.length > 0 ? `Grade ${model.grade.sort().join(' or ')}` : null
-    let verifiedFilter = model.verified.length > 0 ? `${model.verified.sort().reverse().map((x) => x ? 'Verified' : 'not Verified').join(' or ')}` : null
+    const gradeFilter = model.grade.length > 0 ? `Grade ${model.grade.sort().join(' or ')}` : null
+    const verifiedFilter = model.verified.length > 0 ? `${model.verified.sort().reverse().map((x) => x ? 'Verified' : 'not Verified').join(' or ')}` : null
 
-    let filters = [gradeFilter, verifiedFilter].filter((x) => x)
+    const filters = [gradeFilter, verifiedFilter].filter((x) => x)
     filterMessage = `Filtering by ${filters.join(' and ')}`
   }
 
@@ -229,7 +229,7 @@ export default function RelicsTab() {
     { field: 'cv', valueGetter: cvValueGetter, headerName: 'Crit\nValue', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
   ].concat(valueColumns
     .map((vc) => {
-      let i = valueColumnOptions.findIndex((x) => x.value === vc)
+      const i = valueColumnOptions.findIndex((x) => x.value === vc)
       return [i, valueColumnOptions[i]]
     })
     .sort((a, b) => a[0] - b[0])
@@ -325,7 +325,7 @@ export default function RelicsTab() {
   let scoreBuckets = null
   if (selectedRelic) {
     const chars = DB.getMetadata().characters
-    let allScores = Object.keys(chars)
+    const allScores = Object.keys(chars)
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,
@@ -340,8 +340,8 @@ export default function RelicsTab() {
     scores = allScores.slice(0, numScores)
 
     //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
-    let sb = [[], [], [], [], [], [], [], [], [], []]
-    for (let score of allScores) {
+    const sb = [[], [], [], [], [], [], [], [], [], []]
+    for (const score of allScores) {
       let lowerBound = Math.floor(score.score.bestPct / 10)
       lowerBound = Math.min(9, Math.max(0, lowerBound))
       sb[lowerBound].push(score)
@@ -496,9 +496,9 @@ export default function RelicsTab() {
                             />
                           </svg>
                         )
-                        let worstPct = Math.floor(x.score.worstPct)
-                        let bestPct = Math.floor(x.score.bestPct)
-                        let pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
+                        const worstPct = Math.floor(x.score.worstPct)
+                        const bestPct = Math.floor(x.score.bestPct)
+                        const pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
                         return (
                           <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
                             {rect} {x.name}: {pctText}
@@ -544,10 +544,10 @@ export default function RelicsTab() {
                         score.name,
                         (score.score.meta.bestNewSubstats.length === 0
                           ? ''
-                          : 'New substats: ' + score.score.meta.bestNewSubstats.join('/')),
+                          : 'New stats: ' + score.score.meta.bestNewSubstats.join(' / ')),
                         (score.score.meta.bestRolledSubstats == null
                           ? ''
-                          : 'Rolled stats: ' + score.score.meta.bestRolledSubstats.join('/')),
+                          : 'Upgraded stats: ' + score.score.meta.bestRolledSubstats.join(' / ')),
                       ].filter((t) => t !== '').join('<br>')),
                     ),
                     marker: {

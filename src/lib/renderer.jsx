@@ -23,26 +23,26 @@ export const Renderer = {
 
   relicSet: (x) => {
     if (x == undefined || x.value == undefined || isNaN(x.value)) return ''
-    let i = x.value
+    const i = x.value
 
-    let count = Object.values(Constants.SetsRelics).length
-    let setImages = []
+    const count = Object.values(Constants.SetsRelics).length
+    const setImages = []
 
-    let s1 = i % count
-    let s2 = ((i - s1) / count) % count
-    let s3 = ((i - s2 * count - s1) / (count * count)) % count
-    let s4 = ((i - s3 * count * count - s2 * count - s1) / (count * count * count)) % count
+    const s1 = i % count
+    const s2 = ((i - s1) / count) % count
+    const s3 = ((i - s2 * count - s1) / (count * count)) % count
+    const s4 = ((i - s3 * count * count - s2 * count - s1) / (count * count * count)) % count
 
-    let relicSets = [s1, s2, s3, s4]
+    const relicSets = [s1, s2, s3, s4]
 
     while (relicSets.length > 0) {
-      let value = relicSets[0]
+      const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        let setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)[0]
-        let assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
+        const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)[0]
+        const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
-        let otherIndex = relicSets.lastIndexOf(value)
+        const otherIndex = relicSets.lastIndexOf(value)
         relicSets.splice(otherIndex, 1)
       }
       relicSets.splice(0, 1)
@@ -58,16 +58,16 @@ export const Renderer = {
 
   ornamentSet: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    let i = x.value
+    const i = x.value
 
-    let ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+    const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
     let setImage
 
-    let s1 = i % ornamentSetCount
-    let s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
+    const s1 = i % ornamentSetCount
+    const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
     if (s1 == s2) {
-      let setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)[0]
+      const setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)[0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
         <Flex justify="center" style={{ marginTop: -1 }}>
@@ -81,9 +81,9 @@ export const Renderer = {
 
   anySet: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    let part = x.data.part
+    const part = x.data.part
 
-    let src = Assets.getSetImage(x.data.set, part)
+    const src = Assets.getSetImage(x.data.set, part)
     return (
       <Flex justify="center" title={x.data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
@@ -93,10 +93,10 @@ export const Renderer = {
 
   characterIcon: (x) => {
     if (x == undefined || x.value == undefined) return ''
-    let equippedBy = x.data.equippedBy
+    const equippedBy = x.data.equippedBy
     if (!equippedBy) return ''
 
-    let src = Assets.getCharacterAvatarById(equippedBy)
+    const src = Assets.getCharacterAvatarById(equippedBy)
     return (
       <Flex justify="center" style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
@@ -131,7 +131,7 @@ export const Renderer = {
   },
 
   mainValueRenderer: (x) => {
-    let part = x.data.part
+    const part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return x.value == 0 ? '' : Math.floor(x.value)
     }
@@ -169,20 +169,20 @@ export const Renderer = {
   },
 
   renderGradeCell: (x) => {
-    let relic = x.data
+    const relic = x.data
     return Renderer.renderGrade(relic)
   },
   renderGrade: (relic) => {
-    let color = gradeToColor[relic.grade] || ''
+    const color = gradeToColor[relic.grade] || ''
     return (
       relic.verified
-        ? <Tooltip mouseEnterDelay={0.4} title="Relic stats verified by relic scorer"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
+        ? <Tooltip mouseEnterDelay={0.4} title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
     )
   },
 }
 
-let gradeToColor = {
+const gradeToColor = {
   5: '#efb679',
   4: '#cc52f1',
   3: '#58beed',

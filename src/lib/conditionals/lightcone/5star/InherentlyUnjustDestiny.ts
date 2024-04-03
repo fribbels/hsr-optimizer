@@ -3,7 +3,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { Stats } from 'lib/constants.ts'
 import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
 

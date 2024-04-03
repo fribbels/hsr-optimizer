@@ -597,11 +597,11 @@ export const OptimizerTabController = {
 
 function unsetMin(value, percent) {
   if (value == undefined) return undefined
-  return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(2))
+  return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(3))
 }
 function unsetMax(value, percent) {
   if (value == undefined) return undefined
-  return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(2))
+  return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(3))
 }
 
 function fixValue(value, def, div) {

@@ -2,7 +2,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.01, 0.0115, 0.013, 0.0145, 0.016]
@@ -28,7 +28,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       vulnerabilityStacks: 6,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+      const r = request.lightConeConditionals
 
       x.DMG_TAKEN_MULTI += r.vulnerabilityStacks * sValuesVulnerability[s]
     },

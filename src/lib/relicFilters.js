@@ -5,8 +5,8 @@ import { StatCalculator } from 'lib/statCalculator'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
-    let weights = request.weights || {}
-    let statScalings = {
+    const weights = request.weights || {}
+    const statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
@@ -26,18 +26,18 @@ export const RelicFilters = {
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
 
-    for (let weight of Object.keys(weights)) {
+    for (const weight of Object.keys(weights)) {
       if (weights[weight] == undefined) {
         weights[weight] = 0
       }
     }
 
-    for (let relic of relics) {
+    for (const relic of relics) {
       let sum = 0
-      for (let substat of relic.substats) {
-        let weight = weights[substat.stat] || 0
-        let scale = statScalings[substat.stat] || 0
-        let value = substat.value || 0
+      for (const substat of relic.substats) {
+        const weight = weights[substat.stat] || 0
+        const scale = statScalings[substat.stat] || 0
+        const value = substat.value || 0
         sum += value * weight * scale
       }
       relic.weightScore = sum
@@ -47,11 +47,11 @@ export const RelicFilters = {
   },
 
   applyTopFilter: (request, relics, originalRelics) => {
-    let weights = request.weights || {}
+    const weights = request.weights || {}
 
-    for (let part of Object.values(Constants.Parts)) {
-      let partition = relics[part]
-      let index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
+    for (const part of Object.values(Constants.Parts)) {
+      const partition = relics[part]
+      const index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
       relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
     }
 
@@ -61,11 +61,11 @@ export const RelicFilters = {
   applyRankFilter: (request, relics) => {
     if (!request.rankFilter) return relics
 
-    let characters = DB.getCharacters()
-    let characterId = request.characterId
-    let higherRankedRelics = {}
+    const characters = DB.getCharacters()
+    const characterId = request.characterId
+    const higherRankedRelics = {}
     for (let i = 0; i < characters.length; i++) {
-      let rankedCharacter = characters[i]
+      const rankedCharacter = characters[i]
       if (rankedCharacter.id == characterId) {
         continue
       }
@@ -86,7 +86,7 @@ export const RelicFilters = {
 
     const characters = DB.getCharacters()
     const excludedRelics = []
-    for (let character of characters) {
+    for (const character of characters) {
       if (request.exclude.includes(character.id) && character.id != request.characterId)
         Object.values(character.equipped)
           .filter((x) => x != null)
@@ -97,7 +97,7 @@ export const RelicFilters = {
   },
 
   applyMainFilter: (request, relics) => {
-    let out = []
+    const out = []
     out.push(...relics.filter((x) => x.part == Constants.Parts.Head))
     out.push(...relics.filter((x) => x.part == Constants.Parts.Hands))
     out.push(...relics.filter((x) => x.part == Constants.Parts.Body).filter((x) => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
@@ -138,13 +138,13 @@ export const RelicFilters = {
       }
       let allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsRelics).length)
 
-      for (let relicSet of request.relicSets) {
+      for (const relicSet of request.relicSets) {
         if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
           if (relicSet.length == 1) { // Is this one even possible
             allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
           }
           if (relicSet.length == 2) {
-            let index = Constants.RelicSetToIndex[relicSet[1]]
+            const index = Constants.RelicSetToIndex[relicSet[1]]
             allowedSets[index] = 1
           }
         }
@@ -164,10 +164,10 @@ export const RelicFilters = {
             if (relicSet[2] == 'Any') {
               allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
             }
-            let index1 = Constants.RelicSetToIndex[relicSet[1]]
+            const index1 = Constants.RelicSetToIndex[relicSet[1]]
             allowedSets[index1] = 1
 
-            let index2 = Constants.RelicSetToIndex[relicSet[2]]
+            const index2 = Constants.RelicSetToIndex[relicSet[2]]
             allowedSets[index2] = 1
           }
         }
@@ -190,10 +190,10 @@ export const RelicFilters = {
       if (!request.ornamentSets || request.ornamentSets.length == 0) {
         return relics
       }
-      let allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsOrnaments).length)
+      const allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsOrnaments).length)
 
-      for (let ornamentSet of request.ornamentSets) {
-        let index = Constants.OrnamentSetToIndex[ornamentSet]
+      for (const ornamentSet of request.ornamentSets) {
+        const index = Constants.OrnamentSetToIndex[ornamentSet]
         allowedSets[index] = 1
       }
 
@@ -214,7 +214,7 @@ export const RelicFilters = {
   applyCurrentFilter: (request, relics) => {
     if (!request.keepCurrentRelics) return relics
 
-    let character = DB.getCharacterById(request.characterId)
+    const character = DB.getCharacterById(request.characterId)
     if (!character) {
       return relics
     }
@@ -223,7 +223,7 @@ export const RelicFilters = {
       if (!character.equipped[part]) {
         return relics[part]
       }
-      let match = relics[part].find((x) => x.id == character.equipped[part])
+      const match = relics[part].find((x) => x.id == character.equipped[part])
       return match ? [match] : []
     }
 
@@ -254,4 +254,31 @@ export const RelicFilters = {
     }
     return relics
   },
+
+  condenseRelicSubstatsForOptimizer: (relicsByPart) => {
+    for (const part of Object.keys(Constants.Parts)) {
+      const relics = relicsByPart[part]
+      for (const relic of relics) {
+        relic.condensedStats = []
+        for (const substat of relic.substats) {
+          const stat = substat.stat
+          const value = getValueByStatType(stat, substat.value)
+
+          relic.condensedStats.push([stat, value])
+        }
+        // Use augmented main value for maxed main stat filter
+        relic.condensedStats.push([relic.main.stat, relic.augmentedStats.mainValue])
+
+        delete relic.augmentedStats
+        delete relic.main
+        delete relic.weights
+      }
+    }
+
+    return relicsByPart
+  },
+}
+
+function getValueByStatType(stat, value) {
+  return Utils.precisionRound(Utils.isFlat(stat) ? value : value / 100)
 }

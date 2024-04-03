@@ -4,7 +4,7 @@ import { Form } from 'types/Form'
 
 import { AbilityEidolon, findContentId, precisionRound } from '../utils'
 
-import { baseComputedStatsObject, ComputedStatsObject } from '../constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 

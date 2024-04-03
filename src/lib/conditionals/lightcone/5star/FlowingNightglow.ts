@@ -4,7 +4,7 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants.ts'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { findContentId } from 'lib/conditionals/utils.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -53,7 +53,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += (t.cadenzaActive) ? sValuesDmgBuff[s] : 0
     },
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+      const r = request.lightConeConditionals
 
       x[Stats.ERR] += r.cantillationStacks * sValuesErr[s]
       x[Stats.ATK_P] += (r.cadenzaActive) ? sValuesAtkBuff[s] : 0

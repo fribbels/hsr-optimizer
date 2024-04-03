@@ -359,7 +359,7 @@ export const Constants = {
   OrnamentSetToIndex,
   // StatMaxes,
   MAX_INT: 2147483647,
-  THREAD_BUFFER_LENGTH: 100000,
+  THREAD_BUFFER_LENGTH: 150000,
 }
 
 export const levelOptions = (() => {

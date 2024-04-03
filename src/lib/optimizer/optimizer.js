@@ -66,6 +66,7 @@ export const Optimizer = {
     }
 
     const [relics] = this.getFilteredRelics(request)
+    RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
     console.log('Optimize request', request)
     console.log('Optimize relics', relics)
@@ -111,6 +112,7 @@ export const Optimizer = {
       relics = relics.filter((x) => x.equippedBy == request.characterId)
       relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
       relics = RelicFilters.splitRelicsByPart(relics)
+      RelicFilters.condenseRelicSubstatsForOptimizer(relics)
       Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
       const c = calculateBuild(request, relics)

@@ -13,7 +13,7 @@ export const baseComputedStatsObject = {
   [Stats.HP]: 0,
   [Stats.ATK]: 0,
   [Stats.DEF]: 0,
-  [Stats.SPD]: 0,
+  [Stats.SPD]: 0.0001,
   [Stats.CD]: 0,
   [Stats.CR]: 0,
   [Stats.EHR]: 0,

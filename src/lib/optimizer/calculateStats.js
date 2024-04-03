@@ -227,15 +227,22 @@ export function calculateComputedStats(c, request, params) {
 }
 
 export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
-  for (const stat of statValues) {
-    c[stat]
-      = head.augmentedStats[stat]
-      + hands.augmentedStats[stat]
-      + body.augmentedStats[stat]
-      + feet.augmentedStats[stat]
-      + planarSphere.augmentedStats[stat]
-      + linkRope.augmentedStats[stat]
+  console.debug(c)
+  for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
+    for (const condensedStat of relic.condensedStats) {
+      c[condensedStat[0]] += condensedStat[1]
+    }
   }
+
+  // for (const stat of statValues) {
+  //   c[stat]
+  //     = head.augmentedStats[stat]
+  //     + hands.augmentedStats[stat]
+  //     + body.augmentedStats[stat]
+  //     + feet.augmentedStats[stat]
+  //     + planarSphere.augmentedStats[stat]
+  //     + linkRope.augmentedStats[stat]
+  // }
   c.x.WEIGHT
     = head.weightScore
     + hands.weightScore
@@ -244,12 +251,12 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
     + planarSphere.weightScore
     + linkRope.weightScore
 
-  c[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
-  c[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
-  c[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
-  c[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
-  c[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
-  c[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
+  // c[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
+  // c[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
+  // c[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
+  // c[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
+  // c[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
+  // c[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
 }
 
 function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {
@@ -267,4 +274,29 @@ const pioneerSetIndexToCd = {
   2: 0.12,
   3: 0.16,
   4: 0.24,
+}
+
+export const baseCharacterStats = {
+  [Stats.HP_P]: 0,
+  [Stats.ATK_P]: 0,
+  [Stats.DEF_P]: 0,
+  [Stats.HP]: 0,
+  [Stats.ATK]: 0,
+  [Stats.DEF]: 0,
+  [Stats.SPD]: 0,
+  [Stats.SPD_P]: 0,
+  [Stats.CR]: 0,
+  [Stats.CD]: 0,
+  [Stats.EHR]: 0,
+  [Stats.RES]: 0,
+  [Stats.BE]: 0,
+  [Stats.ERR]: 0,
+  [Stats.OHB]: 0,
+  [Stats.Physical_DMG]: 0,
+  [Stats.Fire_DMG]: 0,
+  [Stats.Ice_DMG]: 0,
+  [Stats.Lightning_DMG]: 0,
+  [Stats.Wind_DMG]: 0,
+  [Stats.Quantum_DMG]: 0,
+  [Stats.Imaginary_DMG]: 0,
 }

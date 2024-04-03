@@ -1,7 +1,7 @@
 import { Form } from 'types/Form'
 import { DataMineId } from 'types/Common'
 import { Conditional, ConditionalBuff } from 'types/Conditionals'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export interface LightConeConditional extends Conditional {
   // TOOD: lightConeConditional.precomputeEffect mutates by ref, purify

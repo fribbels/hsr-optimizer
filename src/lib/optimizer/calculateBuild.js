@@ -2,7 +2,7 @@ import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import { calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
@@ -16,6 +16,7 @@ export function calculateBuildByCharacterEquippedIds(character) {
 
   const relics = getEquippedRelicsById(character)
   const request = character.form
+  RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
   return calculateBuild(request, relics)
 }
@@ -44,6 +45,7 @@ export function calculateBuild(request, relics) {
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
   const c = {
+    ...baseCharacterStats,
     x: Object.assign({}, params.precomputedX),
     relicSetIndex: relicSetIndex,
     ornamentSetIndex: ornamentSetIndex,
@@ -61,7 +63,7 @@ export function calculateBuild(request, relics) {
 }
 
 function extractRelics(relics) {
-  for (let part of Object.keys(Constants.Parts)) {
+  for (const part of Object.keys(Constants.Parts)) {
     relics[part] = relics[part] || emptyRelic()
   }
   return relics
@@ -70,7 +72,7 @@ function extractRelics(relics) {
 function getEquippedRelicsById(selectedCharacter) {
   const relics = {}
   const equippedPartIds = selectedCharacter.equipped || {}
-  for (let part of Object.values(Constants.Parts)) {
+  for (const part of Object.values(Constants.Parts)) {
     relics[part] = DB.getRelicById(equippedPartIds[part])
   }
 

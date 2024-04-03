@@ -1,27 +1,29 @@
+import { Serializable } from '../format/serializable'
 import { MapLikeModifiers } from '../modifier'
 import { HsrElement, Trait } from '../stats/context'
 import { FinalStats, VisibleStats } from '../stats/stat'
 
 // This file will need a lot of cleaning. That's all I have to say. Note to
 // self: write better code next time.
+
+// TODO: write each step type into its own file
 type MinMax = {
   min?: number
   max?: number
 }
+
 export type StatLimit = {
-  [K in keyof VisibleStats]?: K extends 'basic' ?
-    {
+  [K in keyof VisibleStats]?: K extends 'basic' ? {
       atk?: MinMax
       def?: MinMax
       hp?: MinMax
       speed?: MinMax
     }
-    : K extends 'crit' ?
-      {
+    : K extends 'crit' ? {
         critRate?: MinMax
         critDmg?: MinMax
       }
-      : MinMax
+    : MinMax
 }
 
 export enum StepType {
@@ -105,7 +107,20 @@ export abstract class DamageStep implements Step {
   }
 }
 
-export class NormalDamageStep extends DamageStep {
+type __SerializedStep = {
+  broken: boolean
+  // We don't need to serialize mods, because web worker doesn't need them.
+  // Everything is already calculated in formula into 'pre' StatCollector.
+  /* mods: MapLikeModifiers */
+  element: HsrElement
+  traits: Trait[]
+  multiplier: number
+  statType: 'atk' | 'hp' | 'def'
+  critType: CritType
+  limit?: StatLimit
+}
+
+export class NormalDamageStep extends DamageStep implements Serializable<__SerializedStep, NormalDamageStep> {
   constructor(
     broken: boolean,
     mods: MapLikeModifiers,
@@ -123,17 +138,28 @@ export class NormalDamageStep extends DamageStep {
     return this.multiplier * stat.basic[this.statType]
   }
 
-  toJSON() {
+  serialize(): __SerializedStep {
     return {
-      type: StepType.NORMAL_DAMAGE,
       broken: this.broken,
       element: this.element,
       traits: this.traits,
       multiplier: this.multiplier,
       statType: this.statType,
       critType: this.critType,
-      limit: this.limit,
     }
+  }
+
+  __deserialize(json: __SerializedStep): NormalDamageStep {
+    return new NormalDamageStep(
+      json.broken,
+      {},
+      json.element,
+      json.traits,
+      json.multiplier,
+      json.statType,
+      json.critType,
+      json.limit,
+    )
   }
 }
 
@@ -157,10 +183,6 @@ export class DotDamageStep extends NormalDamageStep {
       CritType.NO_CRIT,
       limit,
     )
-  }
-
-  toJSON() {
-    return Object.assign(super.toJSON(), { type: StepType.DOT_DAMAGE })
   }
 }
 

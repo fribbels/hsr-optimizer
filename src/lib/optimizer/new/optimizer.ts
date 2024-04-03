@@ -28,8 +28,8 @@ export async function optimize(
 
 async function __useWorker(request: OptimizationRequest) {
   const size = numberOfBuilds(request.relics.pieces)
-  const numWorkers =
-    request.options?.workerSize ?? navigator.hardwareConcurrency
+  const numWorkers
+    = request.options?.workerSize ?? navigator.hardwareConcurrency
   console.log(`using ${numWorkers} threads`)
 
   const promises: Promise<Build[]>[] = []
@@ -44,8 +44,8 @@ async function __useWorker(request: OptimizationRequest) {
       type: 'optimize',
     }
     promises.push(
-      new Promise(function (resolve) {
-        worker.onmessage = function (event: MessageEvent<WorkerResult>) {
+      new Promise(function(resolve) {
+        worker.onmessage = function(event: MessageEvent<WorkerResult>) {
           resolve(event.data.result)
         }
       }),

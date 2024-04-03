@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`serialization > basicPercentageClass 1`] = `
+"{
+    "lv": 90,
+    "base": {
+        "atk": 900,
+        "hp": 800,
+        "def": 700,
+        "speed": 600
+    },
+    "flat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "speed": 0
+    },
+    "percent": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "speed": 0
+    },
+    "__serializable_name": "BasicPercentageStats"
+}"
+`;

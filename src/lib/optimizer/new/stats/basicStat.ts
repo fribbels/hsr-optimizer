@@ -1,3 +1,5 @@
+import { Serializable } from '../format/serializable'
+
 export type BasicStats = {
   hp: number
   atk: number
@@ -14,7 +16,7 @@ function zero(): BasicStats {
   }
 }
 
-export class BasicPercentageStats {
+export class BasicPercentageStats implements Serializable<BasicPercentageStats, BasicPercentageStats> {
   static copy(other: BasicPercentageStats) {
     return new BasicPercentageStats(
       other.lv,
@@ -30,6 +32,17 @@ export class BasicPercentageStats {
     public flat: BasicStats = zero(),
     public percent: BasicStats = zero(),
   ) {}
+
+  serialize(): BasicPercentageStats {
+    return this
+  }
+
+  __deserialize(
+    this: undefined,
+    json: BasicPercentageStats,
+  ): BasicPercentageStats {
+    return BasicPercentageStats.copy(json)
+  }
 
   // I wish we have macros like Cxx
   public get atk(): number {

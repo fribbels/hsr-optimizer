@@ -235,7 +235,9 @@ function removeMods<T extends __ModifierLike>(
       case StepScope.MANUAL:
         break
       default:
-        throw new Error('Unknown StepScope: ' + stepModifier.scope)
+        throw new Error(
+          'Unknown StepScope: ' + JSON.stringify(stepModifier.scope),
+        )
     }
   }
 }

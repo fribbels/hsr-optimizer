@@ -1,4 +1,5 @@
-import { deserialize } from '../format/deserializer'
+import { deserialize } from '../format'
+import { OptimizationRequest } from '../optimizationRequest'
 import { Build, checkSet22, checkSet4 } from '../optimizer'
 import { EarlyConditional, LateConditional } from '../stats/conditional'
 import { matchByElement } from '../stats/matcher'
@@ -27,8 +28,7 @@ export type WorkerResult = {
 }
 
 self.onmessage = (event: MessageEvent<WorkerRunRequest>) => {
-  const json = JSON.parse(event.data.request)
-  const request = deserialize(json)
+  const request = deserialize<OptimizationRequest>(event.data.request)
   /*
    * This is a DRY violation, I copied almost everything from singleThreaded.ts
    * TODO: extract the logic into its own file
@@ -38,12 +38,14 @@ self.onmessage = (event: MessageEvent<WorkerRunRequest>) => {
   if (request.options?.numberOfBuilds) {
     numBuild = request.options.numberOfBuilds
   } else numBuild = 10
-  const builds: Build[] = new Array(numBuild + 1)
+  const builds = new Array(numBuild + 1) as Build[]
 
-  for (const build of new BuildIterable(
-    event.data.filter,
-    request.relics.pieces,
-  )) {
+  for (
+    const build of new BuildIterable(
+      event.data.filter,
+      request.relics.pieces,
+    )
+  ) {
     const setEffs: LateConditional[] = []
     const earlyEffs: EarlyConditional[] = []
     // check set 2 planar
@@ -118,7 +120,7 @@ self.onmessage = (event: MessageEvent<WorkerRunRequest>) => {
       value: result,
     })
     builds.sort((b1, b2) => b2.value - b1.value)
-    builds.length = 10
+    builds.length = numBuild
   }
 
   // TODO: send progress?

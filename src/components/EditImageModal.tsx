@@ -528,7 +528,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               <Form.Item
                 name="artistName"
               >
-                <Input style={{ flex: 1, marginTop: 3 }} />
+                <Input
+                  style={{ flex: 1, marginTop: 3 }}
+                  placeholder="Credit the artist if possible"
+                />
               </Form.Item>
             </Flex>
           </Flex>

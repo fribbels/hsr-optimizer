@@ -1,5 +1,5 @@
 import { OptimizationRequest } from '../optimizationRequest'
-import { Build, OptimizationResult, checkSet22, checkSet4 } from '../optimizer'
+import { Build, checkSet22, checkSet4, OptimizationResult } from '../optimizer'
 
 import { EarlyConditional, LateConditional } from '../stats/conditional'
 import { matchByElement } from '../stats/matcher'
@@ -13,7 +13,7 @@ export function __noWorker(request: OptimizationRequest): OptimizationResult {
   if (request.options?.numberOfBuilds) {
     numBuild = request.options.numberOfBuilds
   } else numBuild = 10
-  const builds: Build[] = new Array(numBuild + 1)
+  const builds = new Array(numBuild + 1) as Build[]
 
   // do we do a 6 level nested loop? lmao this is actually the best way to
   // iterate single thread (very useful for testing) xdd
@@ -68,14 +68,14 @@ export function __noWorker(request: OptimizationRequest): OptimizationResult {
                 value: result,
               })
               builds.sort((b1, b2) => b2.value - b1.value)
-              builds.splice(10, 1)
+              builds.length = 10
             }
           }
         }
       }
     }
   }
-  builds.splice(10, 1)
+  builds.length = 10
 
   return {
     builds: builds,

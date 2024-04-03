@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  SupportedContextStat as FromStat,
-  LateContext,
-  getContextValue,
-} from './context'
+import { getContextValue, LateContext, SupportedContextStat as FromStat } from './context'
 import { EarlyMatcher, Matcher } from './matcher'
 import { PartialModifiableStats } from './stat'
 
@@ -135,7 +131,9 @@ export class TransformingStat {
         return { energyRegenerationRate: val }
       case ToStat.OUTGOING_HEALING:
         return { energyRegenerationRate: val }
+      // This is likely ABI incompatibility, well, just say no way it will happen.
       default:
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         throw new Error('Unknown transform stat:' + this.to)
     }
   }

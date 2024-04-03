@@ -1,17 +1,5 @@
-import {
-  EarlyContext,
-  HsrElement,
-  LateContext,
-  SupportedContextStat,
-  Trait,
-  getContextValue,
-} from './context'
-
-/**
- * IMPORTANT: A lot of variable name in this class is hardcoded so that they can
- * be deserialized correctly. If you change a variable name, also update it in
- * {@link deserMatcher}
- */
+import { Serializable } from '../format/serializable'
+import { EarlyContext, getContextValue, HsrElement, LateContext, SupportedContextStat, Trait } from './context'
 
 export enum MatcherType {
   // -------------
@@ -30,13 +18,8 @@ export enum MatcherType {
   ALWAYS,
 }
 
-/**
- * Matcher that matches when all containing matchers match. If no containing
- * matcher is available, this matcher matches.
- */
 export abstract class Matcher {
   abstract match(context: Readonly<LateContext>): boolean
-  constructor(public readonly type: MatcherType) {}
 }
 
 /**
@@ -45,16 +28,26 @@ export abstract class Matcher {
  */
 export abstract class EarlyMatcher extends Matcher {
   abstract match(context: Readonly<EarlyContext>): boolean
+  // so that Matcher does not fit the trait EarlyMatcher, which means passing a
+  // Matcher into something that accepts an EarlyMatcher will be flagged by
+  // Typescript.
+  declare __this_argument_accepts_EarlyMatcher_only__You_passed_a_Matcher: number
 }
 
-class AlwaysMatcher extends EarlyMatcher {
+type __EmptyObject = Record<string, never>
+
+export class AlwaysMatcher extends EarlyMatcher implements Serializable<__EmptyObject, AlwaysMatcher> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   match(_context: Readonly<EarlyContext>): boolean {
     return true
   }
 
-  constructor() {
-    super(MatcherType.ALWAYS)
+  serialize(): __EmptyObject {
+    return {}
+  }
+
+  __deserialize(this: undefined, _json: __EmptyObject): AlwaysMatcher {
+    return alwaysMatch()
   }
 }
 const always: AlwaysMatcher = new AlwaysMatcher()
@@ -63,12 +56,15 @@ export function alwaysMatch() {
   return always
 }
 
+/**
+ * Matcher that matches when all containing matchers match. If no containing
+ * matcher is available, this matcher matches.
+ */
 export class AllMatcher extends Matcher {
   constructor(
     private matchers: Matcher[],
-    type: MatcherType = MatcherType.ALL,
   ) {
-    super(type)
+    super()
   }
 
   match(context: Readonly<LateContext>): boolean {
@@ -88,9 +84,8 @@ export function matchAll(...matchers: Matcher[]) {
 export class EarlyAllMatcher extends AllMatcher {
   constructor(
     matchers: EarlyMatcher[],
-    type: MatcherType = MatcherType.EARLY_ALL,
   ) {
-    super(matchers, type)
+    super(matchers)
   }
 }
 
@@ -105,9 +100,8 @@ export function matchAllEarly(...matchers: EarlyMatcher[]) {
 export class AnyMatcher extends Matcher {
   constructor(
     private matchers: Matcher[],
-    type: MatcherType = MatcherType.ANY,
   ) {
-    super(type)
+    super()
   }
 
   public match(context: Readonly<LateContext>): boolean {
@@ -127,9 +121,8 @@ export function matchAny(...matchers: Matcher[]) {
 export class EarlyAnyMatcher extends AnyMatcher {
   constructor(
     matchers: EarlyMatcher[],
-    type: MatcherType = MatcherType.EARLY_ANY,
   ) {
-    super(matchers, type)
+    super(matchers)
   }
 }
 
@@ -137,9 +130,9 @@ export function matchAnyEarly(...matchers: EarlyMatcher[]) {
   return new EarlyAnyMatcher(matchers)
 }
 
-class ElementMatcher extends EarlyMatcher {
+export class ElementMatcher extends EarlyMatcher {
   constructor(private element: HsrElement) {
-    super(MatcherType.ELEMENT)
+    super()
   }
 
   match(context: Readonly<EarlyContext>): boolean {
@@ -152,6 +145,7 @@ class ElementMatcher extends EarlyMatcher {
 const elementMatchers: ElementMatcher[] = Object.values(HsrElement)
   .filter((val): val is HsrElement => typeof val !== 'string')
   .map((element) => new ElementMatcher(element))
+
 /**
  * A Matcher that match if the provided element is exactly the same as the
  * context.
@@ -162,7 +156,7 @@ export function matchByElement(element: HsrElement): EarlyMatcher {
 
 export class TraitMatcher extends EarlyMatcher {
   constructor(private traits: Trait[]) {
-    super(MatcherType.TRAIT)
+    super()
   }
 
   match(context: Readonly<EarlyContext>): boolean {
@@ -214,7 +208,7 @@ export function matchByTraits(...traits: Trait[]): EarlyMatcher {
  * Basically, we serialize with ```function.toString``` and deserialize with
  * ```eval```.
  */
-export type $$Unused = never // exist to force JSDoc rendering from IDE.
+declare type _Unused = never // exist to force JSDoc rendering from IDE.
 
 /*
  * Below is the implementation for the 2nd way.
@@ -233,7 +227,7 @@ export class UnassumingStatMatcher extends Matcher {
     private matchType: SupportedMatchType,
     private value: number,
   ) {
-    super(MatcherType.STAT)
+    super()
   }
 
   public match(context: Readonly<LateContext>): boolean {

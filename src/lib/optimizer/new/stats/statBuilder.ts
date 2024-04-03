@@ -1,11 +1,7 @@
+import { Serializable } from '../format/serializable'
 import { EarlyConditional, LateConditional } from './conditional'
 import { LateContext } from './context'
-import {
-  FinalStats,
-  PartialModifiableStats,
-  StatCollector,
-  __HitContext,
-} from './stat'
+import { __HitContext, FinalStats, PartialModifiableStats, StatCollector } from './stat'
 
 /**
  * A stat aggregator that work over multiple steps, producing a
@@ -16,7 +12,7 @@ import {
  * - Build: stats conditional will be addressed, producing the final
  *   {@link FinalStats}
  */
-export class StatBuilder {
+export class StatBuilder implements Serializable<StatBuilder, StatBuilder> {
   private pre: StatCollector
 
   /**
@@ -71,5 +67,15 @@ export class StatBuilder {
       .filter((cond) => cond.matcher.match(ctx))
       .forEach((cond) => curr.add(cond.provider.stat(ctx)))
     return curr
+  }
+
+  serialize(): StatBuilder {
+    return this
+  }
+
+  __deserialize(this: undefined, json: StatBuilder): StatBuilder {
+    // bypass preprocessor by directly assigning properties
+    // TODO: change the constructor into a mere property assignment
+    return Object.assign(Object.create(StatBuilder.prototype), json) as StatBuilder
   }
 }

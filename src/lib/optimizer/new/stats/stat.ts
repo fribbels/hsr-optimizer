@@ -5,17 +5,16 @@
  *
  * TODO: Better encapsulation
  */
+import { Serializable } from '../format/serializable'
 import { BasicPercentageStats, BasicStats } from './basicStat'
 import { HsrElement, Trait } from './context'
 
 // These types are only used locally for some simple types, dont need to bring
 // some utility types dependency into the project. This is optimized to work
 // only with types in this file. DO NOT USE IT ANYWHERE ELSE.
-type __DeepPartial<T> =
-  T extends (infer K)[] ? K[] : { [P in keyof T]?: __DeepPartial<T[P]> }
-type __DeepReadonly<T> =
-  T extends (infer K)[] ? K[]
-    : { readonly [P in keyof T]: __DeepReadonly<T[P]> }
+type __DeepPartial<T> = T extends (infer K)[] ? K[] : { [P in keyof T]?: __DeepPartial<T[P]> }
+type __DeepReadonly<T> = T extends (infer K)[] ? K[]
+  : { readonly [P in keyof T]: __DeepReadonly<T[P]> }
 
 type CritStats = {
   critRate: number
@@ -103,7 +102,7 @@ export type PartialModifiableStats = __DeepPartial<
  * - RES PEN, RES reduce and RES ignore -> `res`
  * - DMG Bonus of any condition -> `dmgBoost`
  */
-export class StatCollector implements __FinalStats {
+export class StatCollector implements __FinalStats, Serializable<StatCollector, StatCollector> {
   static zero(context: __HitContext) {
     return new StatCollector(
       new BasicPercentageStats(context.basic.lv, context.basic.base),
@@ -204,16 +203,16 @@ export class StatCollector implements __FinalStats {
      * probably has way too much overhead.
      * @example
      *
-     *const keys = Object.getOwnPropertyNames(other)
-     *keys.push(...Object.getOwnPropertyNames(Object.getPrototypeOf(other)))
+     * const keys = Object.getOwnPropertyNames(other)
+     * keys.push(...Object.getOwnPropertyNames(Object.getPrototypeOf(other)))
      *
-     *for (const key in keys.filter(val => val !== "constructor")) {
-     *if (Object.prototype.hasOwnProperty.call(Object.getPrototypeOf(this),key) ||
+     * for (const key in keys.filter(val => val !== "constructor")) {
+     * if (Object.prototype.hasOwnProperty.call(Object.getPrototypeOf(this),key) ||
      * Object.prototype.hasOwnProperty.call(this, key)
-     *) {
+     * ) {
      *   this[key] += other[key]
      * }
-     *}
+     * }
      */
     const doc = other.basic?.percent
     // Counting in case I missed something...VISUAL...
@@ -228,16 +227,18 @@ export class StatCollector implements __FinalStats {
     if (other.breakEffect) this.breakEffect += other.breakEffect
     if (other.effectRes) this.effectRes += other?.effectRes
     if (other.outgoingHealing) this.outgoingHealing += other.outgoingHealing
-    if (other.energyRegenerationRate)
+    if (other.energyRegenerationRate) {
       this.energy.regenRate += other.energyRegenerationRate
+    }
     if (other.effectHitRate) this.effectHitRate += other.effectHitRate
     // SOURCE
     if (other.weaken) this.weaken += other.weaken
     if (other.dmgBoost) this.dmgBoost += other.dmgBoost
 
     // TARGET
-    if (other.targetDef?.percent)
+    if (other.targetDef?.percent) {
       this.targetDef.percent += other.targetDef.percent
+    }
     if (other.targetDef?.flat) this.targetDef.flat += other.targetDef.flat
     if (other.res) this.res += other.res
     if (other.targetEffRes) this.targetEffRes += other.targetEffRes
@@ -252,6 +253,14 @@ export class StatCollector implements __FinalStats {
     if (other.hp) thisArg.hp += other.hp
     if (other.def) thisArg.def += other.def
     if (other.speed) thisArg.speed += other.speed
+  }
+
+  serialize(): StatCollector {
+    return this
+  }
+
+  __deserialize(json: StatCollector): StatCollector {
+    return StatCollector.copy(json)
   }
 }
 

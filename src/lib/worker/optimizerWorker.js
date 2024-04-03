@@ -78,8 +78,9 @@ self.onmessage = function(e) {
       continue
     }
 
-    const c = Object.assign({}, baseCharacterStats)
-    const x = Object.assign({}, params.precomputedX)
+    const c = { ...baseCharacterStats }
+    const x = { ...params.precomputedX }
+
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex
     c.x = x

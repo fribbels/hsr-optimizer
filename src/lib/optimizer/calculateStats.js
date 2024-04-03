@@ -227,22 +227,12 @@ export function calculateComputedStats(c, request, params) {
 }
 
 export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
-  console.debug(c)
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
     for (const condensedStat of relic.condensedStats) {
       c[condensedStat[0]] += condensedStat[1]
     }
   }
 
-  // for (const stat of statValues) {
-  //   c[stat]
-  //     = head.augmentedStats[stat]
-  //     + hands.augmentedStats[stat]
-  //     + body.augmentedStats[stat]
-  //     + feet.augmentedStats[stat]
-  //     + planarSphere.augmentedStats[stat]
-  //     + linkRope.augmentedStats[stat]
-  // }
   c.x.WEIGHT
     = head.weightScore
     + hands.weightScore
@@ -250,13 +240,6 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
     + feet.weightScore
     + planarSphere.weightScore
     + linkRope.weightScore
-
-  // c[head.augmentedStats.mainStat] += head.augmentedStats.mainValue
-  // c[hands.augmentedStats.mainStat] += hands.augmentedStats.mainValue
-  // c[body.augmentedStats.mainStat] += body.augmentedStats.mainValue
-  // c[feet.augmentedStats.mainStat] += feet.augmentedStats.mainValue
-  // c[planarSphere.augmentedStats.mainStat] += planarSphere.augmentedStats.mainValue
-  // c[linkRope.augmentedStats.mainStat] += linkRope.augmentedStats.mainValue
 }
 
 function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {

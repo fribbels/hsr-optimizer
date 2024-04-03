@@ -224,7 +224,7 @@ export function CharacterPreview(props) {
           >
             <Text
               style={{
-                backgroundColor: '#00000080',
+                backgroundColor: '#0000004d',
                 padding: '4px 12px',
                 borderRadius: 8,
                 fontSize: 16,
@@ -233,6 +233,7 @@ export function CharacterPreview(props) {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 zIndex: 2,
+                textShadow: '0px 0px 2px black',
               }}
             >
               Art by {getArtistName() || ''}

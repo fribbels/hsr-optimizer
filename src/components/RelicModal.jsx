@@ -115,6 +115,7 @@ export default function RelicModal(props) {
     }
     setMainStatOptions(mainStatOptions || [])
     relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
+    onValuesChange(defaultValues)
   }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm])
 
   useEffect(() => {

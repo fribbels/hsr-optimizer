@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Image } from 'antd'
+import { Button, Flex, Image, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
@@ -19,6 +19,8 @@ import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
+
+const { Text } = Typography
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -103,7 +105,7 @@ export function CharacterPreview(props) {
   let scoringResults
   let finalStats
   if (isScorer || isBuilds) {
-    let relicsArray = Object.values(character.equipped)
+    const relicsArray = Object.values(character.equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray)
     displayRelics = character.equipped
     finalStats = StatCalculator.calculateCharacterWithRelics(character, Object.values(character.equipped))
@@ -138,6 +140,14 @@ export function CharacterPreview(props) {
 
   const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
+
+  function getArtistName() {
+    if (!character?.portrait?.artistName) return null
+    const name = character.portrait.artistName.trim()
+
+    return name.length < 1 ? null : name
+  }
+
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
@@ -148,6 +158,7 @@ export function CharacterPreview(props) {
           <div
             style={{
               position: 'relative',
+              zIndex: 1,
             }}
           >
             {(character.portrait || customPortrait)
@@ -200,6 +211,34 @@ export function CharacterPreview(props) {
               width={500}
             />
           </div>
+          <Flex
+            vertical
+            style={{
+              position: 'relative',
+              top: parentH - 37,
+              height: 34,
+              paddingRight: 5,
+              display: getArtistName() ? 'flex' : 'none',
+            }}
+            align="end"
+          >
+            <Text
+              style={{
+                backgroundColor: '#0000004d',
+                padding: '4px 12px',
+                borderRadius: 8,
+                fontSize: 16,
+                maxWidth: parentW - 160,
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                zIndex: 2,
+                textShadow: '0px 0px 2px black',
+              }}
+            >
+              Art by {getArtistName() || ''}
+            </Text>
+          </Flex>
         </div>
       )}
 

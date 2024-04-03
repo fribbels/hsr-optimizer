@@ -102,6 +102,7 @@ export default function RelicModal(props) {
         substatValue3: renderSubstat(relic, 3).value,
       }
     }
+    onValuesChange(defaultValues)
     relicForm.setFieldsValue(defaultValues)
   }, [props.selectedRelic, props.open, relicForm, props])
 

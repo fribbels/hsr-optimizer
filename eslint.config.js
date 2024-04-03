@@ -40,6 +40,15 @@ const config = tseslint.config(
         ...globals.browser,
       },
     },
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+    },
   },
   {
     // These files are React specific. Applying this is similar to extends
@@ -110,7 +119,9 @@ function styleRules(level) {
     ],
     '@stylistic/dot-location': [level, 'property'],
     '@stylistic/eol-last': level,
-    '@stylistic/indent': [level, 2, { ignoreComments: false, SwitchCase: 1 }],
+    // This rule is beyond broken with Typescript.
+    // From ESLint document site: https://github.com/typescript-eslint/typescript-eslint/issues/1824
+    // '@stylistic/indent': [level, 2, { ignoreComments: false, SwitchCase: 1 }],
     '@stylistic/indent-binary-ops': [level, 2],
     '@stylistic/key-spacing': [level, { afterColon: true, beforeColon: false }],
     '@stylistic/keyword-spacing': [level, { after: true, before: true }],

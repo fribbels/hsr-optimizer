@@ -48,6 +48,8 @@ export const Renderer = {
       relicSets.splice(0, 1)
     }
 
+    setImages.sort()
+
     return (
       <Flex justify="center" style={{ marginTop: -1 }}>
         <SetDisplay asset={setImages[0]} />

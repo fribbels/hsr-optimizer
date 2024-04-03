@@ -266,7 +266,8 @@ export const RelicFilters = {
 
           relic.condensedStats.push([stat, value])
         }
-        relic.condensedStats.push([relic.main.stat, getValueByStatType(relic.main.stat, relic.main.value)])
+        // Use augmented main value for maxed main stat filter
+        relic.condensedStats.push([relic.main.stat, relic.augmentedStats.mainValue])
       }
     }
 

@@ -268,6 +268,10 @@ export const RelicFilters = {
         }
         // Use augmented main value for maxed main stat filter
         relic.condensedStats.push([relic.main.stat, relic.augmentedStats.mainValue])
+
+        delete relic.augmentedStats
+        delete relic.main
+        delete relic.weights
       }
     }
 

@@ -26,6 +26,7 @@ export type CustomImageConfig = {
       y: number
     }
   }
+  artistName: string
 }
 
 export type CustomImagePayload = ({

@@ -4,6 +4,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
@@ -26,10 +27,18 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
+    teammateContent: () => content,
     defaults: () => ({
       alliesSameElement: true,
     }),
+    teammateDefaults: () => ({
+      alliesSameElement: true,
+    }),
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.lightConeConditionals
+
+      x.ELEMENTAL_DMG += (r.alliesSameElement) ? sValues[s] : 0
+    },
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
 

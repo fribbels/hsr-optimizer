@@ -228,6 +228,8 @@ export function calculateComputedStats(c, request, params) {
 
 export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
+    if (!relic.part) continue
+
     for (const condensedStat of relic.condensedStats) {
       c[condensedStat[0]] += condensedStat[1]
     }

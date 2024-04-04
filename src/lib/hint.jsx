@@ -228,7 +228,7 @@ export const Hint = {
 
   statDisplay: () => {
     return {
-      title: 'Stat display',
+      title: 'Stat and filter view',
       content: (
         <Flex vertical gap={10}>
           <p>This allows for switching between viewing results as Base stats vs Combat stats. Stat filters will also be applied to the selected view.</p>

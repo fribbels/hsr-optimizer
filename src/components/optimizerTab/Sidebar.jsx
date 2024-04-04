@@ -122,7 +122,7 @@ export default function Sidebar() {
             </Flex>
 
             <Flex justify="space-between" align="center" style={{ }}>
-              <HeaderText>Stat display</HeaderText>
+              <HeaderText>Stat and filter view</HeaderText>
               <TooltipImage type={Hint.statDisplay()} />
             </Flex>
             <Radio.Group

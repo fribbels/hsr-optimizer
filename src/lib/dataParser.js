@@ -3675,7 +3675,6 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.BE,
         ],
       },

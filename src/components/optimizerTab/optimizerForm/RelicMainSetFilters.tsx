@@ -36,7 +36,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Body"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partBody.png" />}
+            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partBody.webp" />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -58,7 +58,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Feet"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partFeet.png" />}
+            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partFeet.webp" />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -78,7 +78,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             optionLabelProp="label"
             listHeight={400}
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partPlanarSphere.png" />}
+            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partPlanarSphere.webp" />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -103,7 +103,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Link Rope"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/assets/misc/partLinkRope.png" />}
+            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partLinkRope.webp" />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>

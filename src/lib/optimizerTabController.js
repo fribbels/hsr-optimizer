@@ -348,8 +348,10 @@ export const OptimizerTabController = {
       newForm.rank = DB.getCharacters().length
 
       // Apply any presets to new characters
-      for (const applyPreset of metadata.scoringMetadata.presets || []) {
-        applyPreset(newForm)
+      if (metadata) {
+        for (const applyPreset of metadata.scoringMetadata.presets || []) {
+          applyPreset(newForm)
+        }
       }
     }
 
@@ -397,7 +399,9 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.resultSort) {
-      newForm.resultSort = metadata.scoringMetadata.sortOption.key
+      if (metadata) {
+        newForm.resultSort = metadata.scoringMetadata.sortOption.key
+      }
     }
 
     if (!newForm.resultLimit) {

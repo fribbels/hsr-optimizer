@@ -7,7 +7,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-01-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-04-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

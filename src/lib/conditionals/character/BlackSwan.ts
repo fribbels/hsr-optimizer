@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -107,7 +107,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x']
+      const x = c.x
 
       x.ELEMENTAL_DMG += (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * x[Stats.EHR]) : 0
 

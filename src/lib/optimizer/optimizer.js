@@ -33,7 +33,7 @@ export const Optimizer = {
     relics = RelicFilters.applyExcludeFilter(request, relics)
 
     // Pre-split filters
-    let preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
+    const preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
     relics = RelicFilters.applyMainFilter(request, relics)
     relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
@@ -61,17 +61,18 @@ export const Optimizer = {
     ].filter((x) => !!x.characterId)
     for (let i = 0; i < teammates.length; i++) {
       const teammate = teammates[i]
-      let teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
+      const teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
       teammate.ELEMENTAL_DMG_TYPE = ElementToDamage[teammateCharacterMetadata.element]
     }
 
     const [relics] = this.getFilteredRelics(request)
+    RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
     console.log('Optimize request', request)
     console.log('Optimize relics', relics)
 
-    let relicSetSolutions = generateRelicSetSolutions(request)
-    let ornamentSetSolutions = generateOrnamentSetSolutions(request)
+    const relicSetSolutions = generateRelicSetSolutions(request)
+    const ornamentSetSolutions = generateOrnamentSetSolutions(request)
 
     const sizes = {
       hSize: relics.Head.length,
@@ -81,7 +82,7 @@ export const Optimizer = {
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
     }
-    let permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
+    const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
@@ -111,6 +112,7 @@ export const Optimizer = {
       relics = relics.filter((x) => x.equippedBy == request.characterId)
       relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
       relics = RelicFilters.splitRelicsByPart(relics)
+      RelicFilters.condenseRelicSubstatsForOptimizer(relics)
       Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
       const c = calculateBuild(request, relics)
@@ -128,12 +130,12 @@ export const Optimizer = {
     const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
-    let increment = 20000
+    const increment = 20000
     let runSize = 0
-    let maxSize = Constants.THREAD_BUFFER_LENGTH
+    const maxSize = Constants.THREAD_BUFFER_LENGTH
 
     // Generate runs
-    let runs = []
+    const runs = []
     for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
       runSize = Math.min(maxSize, runSize + increment)
       runs.push({
@@ -143,8 +145,8 @@ export const Optimizer = {
     }
 
     let inProgress = runs.length
-    for (let run of runs) {
-      let task = {
+    for (const run of runs) {
+      const task = {
         input: {
           params: params,
           request: request,
@@ -158,7 +160,7 @@ export const Optimizer = {
         getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
       }
 
-      let callback = (result) => {
+      const callback = (result) => {
         searched += run.runSize
         inProgress -= 1
 
@@ -166,7 +168,7 @@ export const Optimizer = {
           return
         }
 
-        let resultArr = new Float64Array(result.buffer)
+        const resultArr = new Float64Array(result.buffer)
         // console.log(`Optimizer results`, result, resultArr, run)
 
         BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
@@ -207,6 +209,7 @@ function renameFields(c) {
   c.ULT = c.x.ULT_DMG
   c.FUA = c.x.FUA_DMG
   c.DOT = c.x.DOT_DMG
+  c.BREAK = c.x.BREAK_DMG
   c.WEIGHT = c.x.WEIGHT
   c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]

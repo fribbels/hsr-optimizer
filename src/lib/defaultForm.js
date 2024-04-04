@@ -31,7 +31,7 @@ export function getDefaultForm(initialCharacter) {
     enemyLevel: 95,
     enemyCount: 1,
     enemyResistance: 0.2,
-    enemyHpPercent: 1.0,
+    enemyMaxToughness: 360,
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,

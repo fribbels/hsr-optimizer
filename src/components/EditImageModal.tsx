@@ -1,11 +1,13 @@
 import * as React from 'react'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps } from 'antd'
+import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps, Typography } from 'antd'
 import Cropper from 'react-easy-crop'
 import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/CustomImage'
 import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
 import Dragger from 'antd/es/upload/Dragger'
 import { Message } from 'lib/message'
 import { RcFile } from 'antd/es/upload'
+
+const { Text } = Typography
 
 interface EditImageModalProps {
   existingConfig: CustomImageConfig | null // currently existing custom image
@@ -52,7 +54,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const [zoom, setZoom] = React.useState(existingConfig ? existingConfig.cropper.zoom : DEFAULT_ZOOM)
   const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
 
-  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
+  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('upload')
 
   const resetConfig = React.useCallback(() => {
     customImageForm.resetFields()
@@ -72,7 +74,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     if (!open) {
       resetConfig()
     } else if (existingConfig) {
-      customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl })
+      customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
       setRadio('url') // If there's a existingConfig, there will always be a url
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
@@ -87,6 +89,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const handleOk = () => {
+    const artistName: string = customImageForm.getFieldValue('artistName') as string
     const imageConfigWithoutUrl = {
       originalDimensions,
       customImageParams,
@@ -97,13 +100,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
     switch (radio) {
       case 'upload':
-        onOk({ type: 'add', imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl })
+        onOk({ type: 'add', imageUrl: verifiedImageUrl, ...imageConfigWithoutUrl, artistName })
         setCurrent(0)
         break
       case 'url':
         customImageForm.validateFields()
           .then((values) => {
-            onOk({ type: 'add', imageUrl: values.imageUrl, ...imageConfigWithoutUrl })
+            onOk({ type: 'add', imageUrl: values.imageUrl, ...imageConfigWithoutUrl, artistName })
           })
           .catch((e) => {
             console.error('Error:', e)
@@ -116,7 +119,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
         }
-        onOk({ type: 'add', imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl })
+        onOk({ type: 'add', imageUrl: defaultImageUrl ?? '', ...imageConfigWithoutUrl, artistName })
         setCurrent(0)
         break
       default:
@@ -400,8 +403,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify="center" style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle="solid">
-              <Radio.Button value="url">Enter image URL</Radio.Button>
               <Radio.Button value="upload">Upload image</Radio.Button>
+              <Radio.Button value="url">Enter image URL</Radio.Button>
               {defaultImageUrl && <Radio.Button value="default">Use default image</Radio.Button>}
             </Radio.Group>
           </Flex>
@@ -411,7 +414,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               <Dragger
                 name="file"
                 multiple={false}
-                accept="image/png, image/jpeg, image/jpg"
+                accept="image/png, image/jpeg, image/jpg, image/gif"
                 beforeUpload={handleBeforeUpload}
                 disabled={isVerificationLoading}
                 showUploadList={false}
@@ -429,7 +432,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                       </p>
                       <p className="ant-upload-text">Click or drag image file to this area to upload</p>
                       <p className="ant-upload-hint">
-                        Accepts .jpg .jpeg .png (Max: 20MB)
+                        Accepts .jpg .jpeg .png .gif (Max: 20MB)
                       </p>
                     </Flex>
                   )}
@@ -507,14 +510,31 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               value={zoom}
             />
           </Flex>
-          <div style={{ marginTop: 2 }}>
-            <ZoomInOutlined style={{ marginRight: 8 }} />
-            Pinch or scroll to zoom
-          </div>
-          <div>
-            <DragOutlined style={{ marginRight: 8 }} />
-            Drag to move
-          </div>
+          <Flex style={{ marginTop: 0 }}>
+            <Flex vertical style={{ flex: 1 }}>
+              <div>
+                <DragOutlined style={{ marginRight: 8 }} />
+                Drag to move
+              </div>
+              <div style={{ flex: 1, marginTop: 8 }}>
+                <ZoomInOutlined style={{ marginRight: 8 }} />
+                Pinch or scroll to zoom
+              </div>
+            </Flex>
+            <Flex vertical style={{ flex: 1 }}>
+              <Text style={{ flex: 1, marginLeft: 3 }}>
+                (Optional) Art by:
+              </Text>
+              <Form.Item
+                name="artistName"
+              >
+                <Input
+                  style={{ flex: 1, marginTop: 3 }}
+                  placeholder="Credit the artist if possible"
+                />
+              </Form.Item>
+            </Flex>
+          </Flex>
         </>
       ),
     },
@@ -563,7 +583,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         ]}
         title={existingConfig ? 'Update crop' : `Edit ${title ?? 'image'}`}
       >
-        <div style={{ height: '460px', position: 'relative' }}>
+        <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>

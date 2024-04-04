@@ -39,8 +39,8 @@ export default function RelicScorerTab() {
   const [selectedCharacter, setSelectedCharacter] = useState()
   const [, forceUpdate] = React.useReducer((o) => !o)
 
-  let scorerId = window.store((s) => s.scorerId)
-  let setScorerId = window.store((s) => s.setScorerId)
+  const scorerId = window.store((s) => s.scorerId)
+  const setScorerId = window.store((s) => s.setScorerId)
 
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
@@ -94,7 +94,7 @@ export default function RelicScorerTab() {
         //   data.detailInfo.avatarDetailList[4],
         // ]
 
-        let characters = data.detailInfo.avatarDetailList
+        const characters = data.detailInfo.avatarDetailList
           .filter((x) => !!x)
           .sort((a, b) => {
             if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
@@ -108,7 +108,7 @@ export default function RelicScorerTab() {
 
         console.log('characters', characters)
 
-        let converted = characters.map((x) => CharacterConverter.convert(x))
+        const converted = characters.map((x) => CharacterConverter.convert(x))
         setAvailableCharacters(converted)
         if (converted.length) {
           setSelectedCharacter(converted[0])
@@ -127,10 +127,10 @@ export default function RelicScorerTab() {
   }
 
   let initialId = undefined
-  let savedId = scorerId
+  const savedId = scorerId
   if (savedId) {
     try {
-      let parsed = parseInt(savedId)
+      const parsed = parseInt(savedId)
       initialId = isNaN(parsed) ? undefined : parsed
     } catch (e) {
       console.error(e)
@@ -144,7 +144,7 @@ export default function RelicScorerTab() {
         {/*  <Text><h2>The relic scorer is down for maintenance after the 2.0 patch - stay tuned!</h2></Text> */}
         {/* </Flex> */}
         <Flex gap={10} vertical align="center">
-          <Text>Enter your account ID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
+          <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>
         <Form
           form={scorerForm}
@@ -153,7 +153,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
             <Form.Item size="default" name="scorerId">
-              <Input style={{ width: 150 }} placeholder="Account ID" />
+              <Input style={{ width: 150 }} placeholder="Account UID" />
             </Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick} style={{ width: 100 }}>
               Submit
@@ -181,7 +181,7 @@ RelicScorerTab.propTypes = {
 }
 
 function CharacterPreviewSelection(props) {
-  let setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
 
@@ -208,9 +208,9 @@ function CharacterPreviewSelection(props) {
     setScoringAlgorithmFocusCharacter(props.selectedCharacter?.id)
   }, [props.selectedCharacter?.id, setScoringAlgorithmFocusCharacter])
 
-  let options = []
+  const options = []
   for (let i = 0; i < props.availableCharacters.length; i++) {
-    let availableCharacter = props.availableCharacters[i]
+    const availableCharacter = props.availableCharacters[i]
     options.push({
       label: (
         <Flex align="center" justify="space-around">
@@ -250,7 +250,7 @@ function CharacterPreviewSelection(props) {
   }
 
   async function importClicked() {
-    let newRelics = props.availableCharacters
+    const newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
       .filter((x) => !!x)
 
@@ -357,7 +357,7 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex style={{width: 1300}} justify={'space-around'}>
+    <Flex style={{ width: 1300 }} justify="space-around">
       <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
           <Sidebar />

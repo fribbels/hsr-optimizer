@@ -142,4 +142,12 @@ export const SortOption = {
     combatGridColumn: 'DOT',
     isComputedRating: true,
   },
+  BREAK: {
+    key: 'BREAK',
+    basicProperty: 'BREAK_DMG',
+    combatProperty: 'BREAK_DMG',
+    basicGridColumn: 'BREAK',
+    combatGridColumn: 'BREAK',
+    isComputedRating: true,
+  },
 }

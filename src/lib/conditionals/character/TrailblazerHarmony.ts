@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -87,7 +87,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue + 0.30 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, _request: Form) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

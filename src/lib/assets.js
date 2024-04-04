@@ -1,7 +1,7 @@
 import { Constants } from './constants.ts'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
-let baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
+const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
 
 let pathFromClassMapping
 let iconFromStatMapping
@@ -9,44 +9,40 @@ export const Assets = {
   getStatIcon: (stat, percented) => {
     if (!iconFromStatMapping) {
       iconFromStatMapping = {
-        [Constants.Stats.HP]: 'IconMaxHP.png',
-        [Constants.Stats.ATK]: 'IconAttack.png',
-        [Constants.Stats.DEF]: 'IconDefence.png',
-        [Constants.Stats.HP_P]: 'IconMaxHP.png',
-        [Constants.Stats.ATK_P]: 'IconAttack.png',
-        [Constants.Stats.DEF_P]: 'IconDefence.png',
-        [Constants.Stats.SPD]: 'IconSpeed.png',
-        [Constants.Stats.SPD_P]: 'IconSpeed.png',
-        [Constants.Stats.CR]: 'IconCriticalChance.png',
-        [Constants.Stats.CD]: 'IconCriticalDamage.png',
-        [Constants.Stats.EHR]: 'IconStatusProbability.png',
-        [Constants.Stats.RES]: 'IconStatusResistance.png',
-        [Constants.Stats.BE]: 'IconBreakUp.png',
-        [Constants.Stats.ERR]: 'IconEnergyRecovery.png',
-        [Constants.Stats.OHB]: 'IconHealRatio.png',
-        [Constants.Stats.Physical_DMG]: 'IconPhysicalAddedRatio.png',
-        [Constants.Stats.Fire_DMG]: 'IconFireAddedRatio.png',
-        [Constants.Stats.Ice_DMG]: 'IconIceAddedRatio.png',
-        [Constants.Stats.Lightning_DMG]: 'IconThunderAddedRatio.png',
-        [Constants.Stats.Wind_DMG]: 'IconWindAddedRatio.png',
-        [Constants.Stats.Quantum_DMG]: 'IconQuantumAddedRatio.png',
-        [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.png',
+        [Constants.Stats.HP]: 'IconMaxHP.webp',
+        [Constants.Stats.ATK]: 'IconAttack.webp',
+        [Constants.Stats.DEF]: 'IconDefence.webp',
+        [Constants.Stats.HP_P]: 'IconMaxHP.webp',
+        [Constants.Stats.ATK_P]: 'IconAttack.webp',
+        [Constants.Stats.DEF_P]: 'IconDefence.webp',
+        [Constants.Stats.SPD]: 'IconSpeed.webp',
+        [Constants.Stats.SPD_P]: 'IconSpeed.webp',
+        [Constants.Stats.CR]: 'IconCriticalChance.webp',
+        [Constants.Stats.CD]: 'IconCriticalDamage.webp',
+        [Constants.Stats.EHR]: 'IconStatusProbability.webp',
+        [Constants.Stats.RES]: 'IconStatusResistance.webp',
+        [Constants.Stats.BE]: 'IconBreakUp.webp',
+        [Constants.Stats.ERR]: 'IconEnergyRecovery.webp',
+        [Constants.Stats.OHB]: 'IconHealRatio.webp',
+        [Constants.Stats.Physical_DMG]: 'IconPhysicalAddedRatio.webp',
+        [Constants.Stats.Fire_DMG]: 'IconFireAddedRatio.webp',
+        [Constants.Stats.Ice_DMG]: 'IconIceAddedRatio.webp',
+        [Constants.Stats.Lightning_DMG]: 'IconThunderAddedRatio.webp',
+        [Constants.Stats.Wind_DMG]: 'IconWindAddedRatio.webp',
+        [Constants.Stats.Quantum_DMG]: 'IconQuantumAddedRatio.webp',
+        [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.webp',
       }
     }
-    if (stat == 'CV') return baseUrl + `/assets/misc/cv.png`
-    if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/assets/misc/IconMaxHPPercent.png`
-    if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/assets/misc/IconAttackPercent.png`
-    if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/assets/misc/IconDefencePercent.png`
+    if (stat == 'CV') return baseUrl + `/hsr/misc/cv.webp`
+    if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/hsr/misc/IconMaxHPPercent.webp`
+    if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/hsr/misc/IconAttackPercent.webp`
+    if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/hsr/misc/IconDefencePercent.webp`
     if (!stat || !iconFromStatMapping[stat]) return Assets.getBlank()
 
-    return baseUrl + `/assets/icon/property/` + iconFromStatMapping[stat]
+    return baseUrl + `/hsr/icon/property/` + iconFromStatMapping[stat]
   },
   getSampleSave: () => {
     return baseUrl + `/sample-save.json`
-  },
-  getCharacterPortrait: (characterId) => {
-    if (!characterId) return Assets.getBlank()
-    return baseUrl + `/assets/image/character_portrait_resized/resized${characterId}.png`
   },
   getCharacterPortraitById: (id) => {
     if (!id) {
@@ -54,43 +50,33 @@ export const Assets = {
       return Assets.getBlank()
     }
 
-    return baseUrl + `/assets/image/character_portrait_resized/resized${id}.png`
+    return baseUrl + `/hsr/image/character_portrait/${id}.webp`
   },
   getCharacterAvatarById: (id) => {
     if (!id) return Assets.getBlank()
 
-    return baseUrl + `/assets/icon/avatar/${id}.png`
-  },
-  getCharacterIconById: (id) => {
-    if (!id) return Assets.getBlank()
-
-    return baseUrl + `/assets/icon/character/${id}.png`
-  },
-
-  getCharacterPreview: (character) => {
-    if (!character) return Assets.getBlank()
-    return baseUrl + `/assets/${character.preview}`
+    return baseUrl + `/hsr/icon/avatar/${id}.webp`
   },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
-    return baseUrl + `/assets/image/character_preview/${id}.png`
+    return baseUrl + `/hsr/image/character_preview/${id}.webp`
   },
 
   getLightConePortrait: (lightCone) => {
     if (!lightCone) return Assets.getBlank()
-    return baseUrl + `/assets/image/light_cone_portrait/${lightCone.id}.png`
+    return baseUrl + `/hsr/image/light_cone_portrait/${lightCone.id}.webp`
   },
   getLightConePortraitById: (lightConeId) => {
     if (!lightConeId) return Assets.getBlank()
-    return baseUrl + `/assets/image/light_cone_portrait/${lightConeId}.png`
+    return baseUrl + `/hsr/image/light_cone_portrait/${lightConeId}.webp`
   },
   getLightConeIconById: (lightConeId) => {
     if (!lightConeId) return Assets.getBlank()
-    return baseUrl + `/assets/icon/light_cone/${lightConeId}.png`
+    return baseUrl + `/hsr/icon/light_cone/${lightConeId}.webp`
   },
   getPath: (path) => {
     if (!path) return Assets.getBlank()
-    return baseUrl + `/assets/icon/path/${path}.png`
+    return baseUrl + `/hsr/icon/path/${path}.webp`
   },
   getPathFromClass: (c) => {
     if (!pathFromClassMapping) {
@@ -105,47 +91,41 @@ export const Assets = {
       }
     }
     if (!c || !pathFromClassMapping[c]) return Assets.getBlank()
-    return baseUrl + `/assets/icon/path/${pathFromClassMapping[c]}.png`
+    return baseUrl + `/hsr/icon/path/${pathFromClassMapping[c]}.webp`
   },
 
   getElement: (element) => {
     if (!element) return Assets.getBlank()
     if (element == 'Thunder') element = 'Lightning'
-    return baseUrl + `/assets/icon/element/${element}.png`
+    return baseUrl + `/hsr/icon/element/${element}.webp`
   },
   getBlank: () => {
-    return baseUrl + '/assets/misc/blank.png'
+    return baseUrl + '/hsr/misc/blank.webp'
   },
   getQuestion: () => {
-    return baseUrl + '/assets/misc/tooltip.png'
+    return baseUrl + '/hsr/misc/tooltip.webp'
   },
   getLogo: () => {
-    return baseUrl + '/assets/misc/logo.png'
+    return baseUrl + '/hsr/misc/logo.webp'
   },
   getDiscord: () => {
-    return baseUrl + '/assets/misc/badgediscord.png'
+    return baseUrl + '/hsr/misc/badgediscord.webp'
   },
   getGithub: () => {
-    return baseUrl + '/assets/misc/badgegithub.png'
+    return baseUrl + '/hsr/misc/badgegithub.webp'
   },
   getStar: () => {
-    return baseUrl + '/assets/icon/deco/StarBig.png'
+    return baseUrl + '/hsr/misc/StarBig.webp'
   },
   getGuideImage: (name) => {
-    return baseUrl + '/assets/guide/' + name + '.png'
-  },
-  getInventory: () => {
-    return baseUrl + '/assets/icon/sign/ShopMaterialsIcon.png'
+    return baseUrl + '/hsr/misc/guide/' + name + '.webp'
   },
   getStarBw: () => {
-    return baseUrl + '/assets/icon/sign/QuestMainIcon.png'
-  },
-  getMisc: (filename) => {
-    return baseUrl + '/assets/misc/' + filename
+    return baseUrl + '/hsr/misc/QuestMainIcon.webp'
   },
 
   getPart: (part) => {
-    let mapping = {
+    const mapping = {
       [Constants.Parts.Head]: 'partHead',
       [Constants.Parts.Hands]: 'partHands',
       [Constants.Parts.Body]: 'partBody',
@@ -154,7 +134,7 @@ export const Assets = {
       [Constants.Parts.LinkRope]: 'partLinkRope',
     }
 
-    return baseUrl + `/assets/misc/${mapping[part]}.png`
+    return baseUrl + `/hsr/misc/${mapping[part]}.webp`
   },
 
   getSetImage: (set, part) => {
@@ -206,6 +186,6 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    return baseUrl + `/assets/icon/relic/${setToId[set]}${partToId[part]}.png`
+    return baseUrl + `/hsr/icon/relic/${setToId[set]}${partToId[part]}.webp`
   },
 }

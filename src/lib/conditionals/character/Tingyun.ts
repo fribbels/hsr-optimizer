@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 
@@ -115,7 +115,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x']
+      const x = c.x
 
       x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
 

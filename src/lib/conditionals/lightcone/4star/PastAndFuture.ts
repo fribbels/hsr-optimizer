@@ -1,7 +1,7 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ContentItem } from 'types/Conditionals'
 import getContentFromLCRanks from 'lib/conditionals/lightcone/getContentFromLCRank.ts'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 

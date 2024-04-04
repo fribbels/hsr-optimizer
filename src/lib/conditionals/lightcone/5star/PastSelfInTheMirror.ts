@@ -4,7 +4,7 @@ import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/constants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]

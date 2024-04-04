@@ -11,7 +11,7 @@ import StatText from 'components/characterPreview/StatText'
 const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
   const { stat, finalStats } = props
   const readableStat = stat.replace('DMG Boost', 'DMG')
-  const value = finalStats[stat]
+  const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay
   let value1000thsPrecision

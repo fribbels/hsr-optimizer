@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -7,10 +7,10 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-26-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-01-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const standoffDmgBoost = skill(e, 0.30, 0.33)
 
@@ -19,7 +19,7 @@ export default (e: Eidolon): CharacterConditional => {
   const basicExtraHitScaling = basic(e, 0.20, 0.22)
   const ultScaling = ult(e, 4.00, 4.32)
 
-  // const talentBreakDmgScaling = talent(e, 0.56, 0.616) // TODO
+  const talentBreakDmgScaling = talent(e, 0.56, 0.616)
 
   const content: ContentItem[] = [
     {
@@ -50,12 +50,11 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'talentBreakDmg',
-      name: 'talentBreakDmg',
-      text: 'Talent break DMG (WIP)',
-      title: 'Talent break DMG (WIP)',
+      id: 'talentBreakDmgScaling',
+      name: 'talentBreakDmgScaling',
+      text: 'Talent break DMG (forces weakness break)',
+      title: 'Talent break DMG',
       content: betaUpdate,
-      disabled: true,
     },
     {
       formItem: 'switch',
@@ -96,7 +95,8 @@ export default (e: Eidolon): CharacterConditional => {
     e2BeBuff: true,
     e4TargetStandoffVulnerability: true,
     beToCritBoost: true,
-    talentBreakDmg: true,
+    talentBreakDmgScaling: true,
+    talentMaxToughnessReduction: true,
   }
 
   return {
@@ -109,14 +109,19 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
+      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
+      x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
+
+      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
+      x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+
       x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
       x.ULT_SCALING += ultScaling
 
-      x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
-      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
-      x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
-
-      x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+      // Special case where we force the weakness break on if the talent break option is enabled
+      if (r.talentBreakDmgScaling) {
+        request.enemyWeaknessBroken = true
+      }
 
       return x
     },
@@ -126,7 +131,12 @@ export default (e: Eidolon): CharacterConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
-      const x = c['x']
+      const x: ComputedStatsObject = c.x
+
+      // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
+      const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
+      const newBreakToughnessMultiplier = (0.5 + (16.00 * 30 * (1 + x.BREAK_EFFICIENCY_BOOST)) / 120)
+      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling * r.pocketTrickshotStacks : 0
 
       x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
       x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0

@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -36,7 +36,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c['x']
+      const x = c.x
 
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
 

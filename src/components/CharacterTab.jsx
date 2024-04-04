@@ -131,9 +131,13 @@ const items = [
     label: 'Priority',
     children: [
       {
+        label: 'Sort all characters by score',
+        key: 'sortByScore',
+      },
+      {
         label: 'Move character to top',
         key: 'moveToTop',
-      },
+      }
     ],
   },
 ]
@@ -325,6 +329,26 @@ export default function CharacterTab() {
     SaveState.save()
   }
 
+  async function sortByScoreClicked() {
+    if (!await confirm(<>
+      Are you sure you want to sort all characters? <br />
+      You will lose any custom rankings you have set.
+    </>)) {
+      return
+    }
+
+    const characterList = DB.getCharacters()
+
+    const scoredCharacters = characterList
+      .map((x) => ({ score: RelicScorer.scoreCharacter(x), character: x }))
+      .sort((a, b) => b.score.totalScore - a.score.totalScore)
+      .map((x) => x.character)
+
+    DB.setCharacters(scoredCharacters)
+    DB.refreshCharacters()
+    SaveState.save()
+  }
+
   function clipboardClicked() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
@@ -359,7 +383,7 @@ export default function CharacterTab() {
   }
 
   const handleActionsMenuClick = async (e) => {
-    if (!selectedCharacter && e.key != 'add' && e.key != 'scoring') {
+    if (!selectedCharacter && e.key != 'add' && e.key != 'scoring' && e.key != 'sortByScore') {
       Message.error('No selected character')
       return
     }
@@ -395,6 +419,9 @@ export default function CharacterTab() {
         break
       case 'moveToTop':
         moveToTopClicked()
+        break
+      case 'sortByScore':
+        sortByScoreClicked()
         break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)

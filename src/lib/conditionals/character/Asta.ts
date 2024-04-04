@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -103,7 +103,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.Fire_DMG] += (m.fireDmgBoost) ? 0.18 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c['x']
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

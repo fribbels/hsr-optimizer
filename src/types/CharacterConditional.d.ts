@@ -1,6 +1,6 @@
 import { Conditional, ConditionalBuff } from 'types/Conditionals'
 import { Form } from 'types/Form'
-import { ComputedStatsObject } from 'lib/conditionals/constants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export interface CharacterConditional extends Conditional {
   // Character's individual effects
@@ -28,5 +28,4 @@ export interface PrecomputedCharacterConditional {
   SKILL_BOOST: number
   SKILL_SCALING: number
   ULT_BOOST: number
-
 }

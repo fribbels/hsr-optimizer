@@ -275,7 +275,15 @@ export default function RelicsTab() {
   }, [])
 
   function onAddOk(relic) {
+    // remove `equippedBy` as relic is not actually equipped yet
+    const equippedBy = relic.equippedBy
+    relic.equippedBy = undefined
     DB.setRelic(relic)
+    // prior removal is required because `equippedBy` will be swapped if the character already has
+    // a relic on the same part, resulting in the character "holding" two relics on the same part
+    DB.equipRelic(relic, equippedBy)
+    window.forceCharacterTabUpdate()
+
     setRelicRows(DB.getRelics())
     SaveState.save()
 

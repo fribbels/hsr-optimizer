@@ -52,7 +52,7 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentBreakDmgScaling',
       name: 'talentBreakDmgScaling',
-      text: 'Talent break DMG',
+      text: 'Talent break DMG (forces weakness break)',
       title: 'Talent break DMG',
       content: betaUpdate,
     },
@@ -117,6 +117,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
       x.ULT_SCALING += ultScaling
+
+      // Special case where we force the weakness break on if the talent break option is enabled
+      if (r.talentBreakDmgScaling) {
+        request.enemyWeaknessBroken = true
+      }
 
       return x
     },

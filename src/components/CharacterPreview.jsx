@@ -224,7 +224,7 @@ export function CharacterPreview(props) {
           >
             <Text
               style={{
-                backgroundColor: '#00000059',
+                backgroundColor: '#00000066',
                 padding: '4px 12px',
                 borderRadius: 8,
                 fontSize: 16,

@@ -126,8 +126,8 @@ export function ScannerImportSubmenu() {
                   )
                   <ul>
                     <li>Network scanner</li>
-                    <li>Imports accurate speed decimals</li>
-                    <li>Beta release - might not work for all machines, please report bugs to the discord server</li>
+                    <li>Imports accurate speed decimals for the entire inventory</li>
+                    <li>Beta release (run as admin) - might not work for all machines, please report bugs to the discord server</li>
                   </ul>
                 </li>
               )}

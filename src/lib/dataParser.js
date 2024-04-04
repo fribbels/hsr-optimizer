@@ -828,7 +828,7 @@ function getOverrideImageCenter() {
     },
     1003: { // Himeko
       x: 1024,
-      y: 1100,
+      y: 1120,
     },
     1004: { // Welt
       x: 885,
@@ -859,7 +859,7 @@ function getOverrideImageCenter() {
       y: 1180,
     },
     1102: { // Seele
-      x: 840,
+      x: 820,
       y: 1060,
     },
     1103: { // Serval
@@ -867,7 +867,7 @@ function getOverrideImageCenter() {
       y: 1024,
     },
     1104: { // Gepard
-      x: 1110,
+      x: 1150,
       y: 1110,
     },
     1105: { // Natasha
@@ -879,7 +879,7 @@ function getOverrideImageCenter() {
       y: 1100,
     },
     1107: { // Clara
-      x: 940,
+      x: 880,
       y: 980,
     },
     1108: { // Sampo
@@ -984,7 +984,7 @@ function getOverrideImageCenter() {
     },
     1305: { // Dr Ratio
       x: 900,
-      y: 1000,
+      y: 850,
     },
     1306: { // Sparkle
       x: 1050,
@@ -3639,15 +3639,15 @@ function getScoringMetadata() {
     },
     1315: { // Boothill
       stats: {
-        [Constants.Stats.ATK]: 0.75,
-        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
         [Constants.Stats.DEF]: 0,
         [Constants.Stats.DEF_P]: 0,
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 1,
-        [Constants.Stats.CD]: 1,
+        [Constants.Stats.CR]: 0.75,
+        [Constants.Stats.CD]: 0.75,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -3675,7 +3675,6 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.BE,
         ],
       },

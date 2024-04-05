@@ -9,12 +9,6 @@ export const RelicModalController = {
 
     const updatedRelic = { ...selectedRelic, ...relic }
 
-    if (updatedRelic.equippedBy) {
-      DB.equipRelic(updatedRelic, updatedRelic.equippedBy)
-    } else {
-      DB.unequipRelicById(updatedRelic.id)
-    }
-
     DB.setRelic(updatedRelic)
     window.setRelicRows(DB.getRelics())
     SaveState.save()

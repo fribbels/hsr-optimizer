@@ -276,6 +276,7 @@ export default function RelicsTab() {
 
   function onAddOk(relic) {
     DB.setRelic(relic)
+    window.forceCharacterTabUpdate()
     setRelicRows(DB.getRelics())
     SaveState.save()
 

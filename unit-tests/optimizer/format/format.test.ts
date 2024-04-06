@@ -1,6 +1,6 @@
 import { deserialize, serialize } from 'lib/optimizer/new/format'
 import { ObjectMapper } from 'lib/optimizer/new/format/serializer'
-import { OptimizationRequest } from 'lib/optimizer/new/optimizationRequest'
+import { OptimizationRequest } from 'lib/optimizer/new/request'
 import { BasicPercentageStats } from 'lib/optimizer/new/stats/basicStat'
 import { Trait } from 'lib/optimizer/new/stats/context'
 import { StatCollector } from 'lib/optimizer/new/stats/stat'

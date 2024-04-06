@@ -15,7 +15,6 @@ import { StatBuilder } from '../stats/statBuilder'
 import { Formula } from '../step/formula'
 import { NormalDamageStep } from '../step/step'
 import { ObjectMapper } from './serializer'
-/* eslint-disable @typescript-eslint/ban-types */
 /**
  * So what is this class?
  *

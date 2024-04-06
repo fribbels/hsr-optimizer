@@ -1,11 +1,11 @@
-import { OptimizationRequest } from 'lib/optimizer/new/optimizationRequest'
-import { optimize } from 'lib/optimizer/new/optimizer'
+import { optimize } from 'lib/optimizer/new/optimize'
 import { BodyPiece, FeetPiece, HandPiece, HeadPiece, RopePiece, SpherePiece } from 'lib/optimizer/new/stats/relic'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { extended, extendedWithLimit, limited } from './jingliu'
 
-// This test suite is very heavy, preferrably not running it on commit. The
+// This test suite is fairly heavy, preferrably not running it on commit. The
 // whole suite should take around 10s-1m depend on the machine (around 30s).
+// This is actually an integration test suite, it's just me slightly dumb xd
 describe.concurrent('Jingliu worker test suite', () => {
   // 2024/04/03 @kamii0909: I removed vitest/web-worker so this test will never
   // work. It is here if I can find a better way to test multiple web workers.
@@ -14,11 +14,7 @@ describe.concurrent('Jingliu worker test suite', () => {
   // can't seem to get the test passed with vitest with higher than 1 worker. It
   // seems only the first worker is actually created.
   test.skip('should also work with web workers', async () => {
-    const options: OptimizationRequest['options'] = {
-      workerSize: 1,
-    }
-    limited.options = options
-    const builds = await optimize(limited, true)
+    const builds = await optimize(limited, { worker: { size: 1 } })
 
     expect(10).toEqual(builds.builds.length)
   })
@@ -56,5 +52,17 @@ describe.concurrent('Jingliu worker test suite', () => {
 
     expect(best.value).toBeCloseTo(39912, -1)
     expect(best.body?.set).toContain('Hunter')
+  })
+
+  test('Jingliu limited with callback', async () => {
+    const counter = vi.fn()
+    await optimize(limited, {
+      updateProgress: {
+        each: 10000,
+        callback: counter,
+      },
+    })
+
+    expect(counter).toHaveBeenCalledTimes(520000 / 10000)
   })
 })

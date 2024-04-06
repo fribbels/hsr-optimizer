@@ -1,6 +1,6 @@
-import { OptimizationRequest } from 'lib/optimizer/new/optimizationRequest'
+import { OptimizationRequest } from 'lib/optimizer/new/request'
 import { formula, formulaWithLimit } from './formula'
-import { extendedRelics, allSetEffects, limitedRelics, limitedSetEffects } from './relics'
+import { allSetEffects, extendedRelics, limitedRelics, limitedSetEffects } from './relics'
 
 const limited: OptimizationRequest = {
   relics: {

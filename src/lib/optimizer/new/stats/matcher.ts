@@ -1,6 +1,12 @@
 import { Serializable } from '../format/serializable'
 import { EarlyContext, getContextValue, HsrElement, LateContext, SupportedContextStat, Trait } from './context'
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// We did some type hack with EarlyMatcher so that it will correctly handle
+// Matcher and EarlyMatcher differently. Note: if you change anything here,
+// remove the ts-expect-error for some (partial) type checking support first,
+// otherwise it is very hard to argue type correctness without running things.
+
 export enum MatcherType {
   // -------------
   // META MATCHERS
@@ -18,26 +24,26 @@ export enum MatcherType {
   ALWAYS,
 }
 
-export abstract class Matcher {
-  abstract match(context: Readonly<LateContext>): boolean
+export interface Matcher {
+  match(context: Readonly<LateContext>): boolean
 }
 
 /**
  * Due to typescript trashy structural type system, in fact, this class does
  * little to enhance type safety.
  */
-export abstract class EarlyMatcher extends Matcher {
-  abstract match(context: Readonly<EarlyContext>): boolean
+export interface EarlyMatcher extends Matcher {
+  match(context: Readonly<EarlyContext>): boolean
   // so that Matcher does not fit the trait EarlyMatcher, which means passing a
   // Matcher into something that accepts an EarlyMatcher will be flagged by
   // Typescript.
-  declare __this_argument_accepts_EarlyMatcher_only__You_passed_a_Matcher: number
+  __this_argument_accepts_EarlyMatcher_only__You_passed_a_Matcher: number
 }
 
 type __EmptyObject = Record<string, never>
 
-export class AlwaysMatcher extends EarlyMatcher implements Serializable<__EmptyObject, AlwaysMatcher> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// @ts-expect-error
+export class AlwaysMatcher implements EarlyMatcher, Serializable<__EmptyObject, AlwaysMatcher> {
   match(_context: Readonly<EarlyContext>): boolean {
     return true
   }
@@ -47,24 +53,23 @@ export class AlwaysMatcher extends EarlyMatcher implements Serializable<__EmptyO
   }
 
   __deserialize(this: undefined, _json: __EmptyObject): AlwaysMatcher {
-    return alwaysMatch()
+    return alwaysMatch() as unknown as AlwaysMatcher
   }
 }
 const always: AlwaysMatcher = new AlwaysMatcher()
 
-export function alwaysMatch() {
-  return always
+export function alwaysMatch(): EarlyMatcher {
+  return always as unknown as EarlyMatcher
 }
 
 /**
  * Matcher that matches when all containing matchers match. If no containing
  * matcher is available, this matcher matches.
  */
-export class AllMatcher extends Matcher {
+export class AllMatcher implements Matcher {
   constructor(
     private matchers: Matcher[],
   ) {
-    super()
   }
 
   match(context: Readonly<LateContext>): boolean {
@@ -85,7 +90,7 @@ export class EarlyAllMatcher extends AllMatcher {
   constructor(
     matchers: EarlyMatcher[],
   ) {
-    super(matchers)
+    super(matchers as unknown as Matcher[])
   }
 }
 
@@ -97,12 +102,10 @@ export function matchAllEarly(...matchers: EarlyMatcher[]) {
  * Matcher that matches if any containing matcher matches. If no containing
  * matcher is available, this matcher doesn't match.
  */
-export class AnyMatcher extends Matcher {
+export class AnyMatcher implements Matcher {
   constructor(
     private matchers: Matcher[],
-  ) {
-    super()
-  }
+  ) {}
 
   public match(context: Readonly<LateContext>): boolean {
     for (const matcher of this.matchers) {
@@ -122,7 +125,7 @@ export class EarlyAnyMatcher extends AnyMatcher {
   constructor(
     matchers: EarlyMatcher[],
   ) {
-    super(matchers)
+    super(matchers as unknown as Matcher[])
   }
 }
 
@@ -130,9 +133,9 @@ export function matchAnyEarly(...matchers: EarlyMatcher[]) {
   return new EarlyAnyMatcher(matchers)
 }
 
-export class ElementMatcher extends EarlyMatcher {
+// @ts-expect-error
+export class ElementMatcher implements EarlyMatcher {
   constructor(private element: HsrElement) {
-    super()
   }
 
   match(context: Readonly<EarlyContext>): boolean {
@@ -151,12 +154,13 @@ const elementMatchers: ElementMatcher[] = Object.values(HsrElement)
  * context.
  */
 export function matchByElement(element: HsrElement): EarlyMatcher {
+  // @ts-expect-error
   return elementMatchers[element]
 }
 
-export class TraitMatcher extends EarlyMatcher {
+// @ts-expect-error
+export class TraitMatcher implements EarlyMatcher {
   constructor(private traits: Trait[]) {
-    super()
   }
 
   match(context: Readonly<EarlyContext>): boolean {
@@ -183,6 +187,7 @@ export class TraitMatcher extends EarlyMatcher {
  * Traits) >= 1
  */
 export function matchByTraits(...traits: Trait[]): EarlyMatcher {
+  // @ts-expect-error
   return new TraitMatcher(traits)
 }
 
@@ -221,14 +226,12 @@ export enum SupportedMatchType {
   EQUAL,
 }
 
-export class UnassumingStatMatcher extends Matcher {
+export class UnassumingStatMatcher implements Matcher {
   constructor(
     private whichStat: SupportedContextStat,
     private matchType: SupportedMatchType,
     private value: number,
-  ) {
-    super()
-  }
+  ) {}
 
   public match(context: Readonly<LateContext>): boolean {
     const curr = getContextValue(context, this.whichStat)

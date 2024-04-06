@@ -50,6 +50,7 @@ export type LateContext = { stat: VisibleStats } & InitializationContext
  * actually both is a single type.
  */
 export type EarlyContext = InitializationContext
+
 /**
  * This context is only available after the creation of each {@link Step}
  * metadata.

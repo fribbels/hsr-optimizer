@@ -1,5 +1,5 @@
 import { StepAwareModifier } from './formula'
-import { MapLikeModifiersBuidler } from '../modifier'
+import { MapLikeModifiersBuidler } from '../stats/modifier'
 import { EarlyConditional, LateConditional } from '../stats/conditional'
 import { Trait } from '../stats/context'
 import { HsrElement } from '../stats/context'

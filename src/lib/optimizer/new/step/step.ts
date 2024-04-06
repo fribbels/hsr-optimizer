@@ -1,5 +1,5 @@
 import { Serializable } from '../format/serializable'
-import { MapLikeModifiers } from '../modifier'
+import { MapLikeModifiers } from '../stats/modifier'
 import { HsrElement, Trait } from '../stats/context'
 import { FinalStats, VisibleStats } from '../stats/stat'
 

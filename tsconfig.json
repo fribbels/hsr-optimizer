@@ -20,7 +20,8 @@
     "baseUrl": "./src",
     "paths": {
       "src/*": ["src/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "exclude": [
     "dist",

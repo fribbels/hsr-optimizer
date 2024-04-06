@@ -1,9 +1,9 @@
 /**
  * Either a buff/debuff,...anything that could affect stats.
  */
-import { StepAwareModifier } from './step/formula'
-import { EarlyConditional, LateConditional } from './stats/conditional'
-import { PartialModifiableStats } from './stats/stat'
+import { StepAwareModifier } from '../step/formula'
+import { EarlyConditional, LateConditional } from './conditional'
+import { PartialModifiableStats } from './stat'
 
 export type Modifiers = {
   unconditional: PartialModifiableStats[]

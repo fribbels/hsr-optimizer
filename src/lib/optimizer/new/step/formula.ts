@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Modifiers } from '../modifier'
+import { Modifiers } from '../stats/modifier'
 import { BasicStats } from '../stats/basicStat'
 import { EarlyConditional, LateConditional } from '../stats/conditional'
 import { PartialModifiableStats } from '../stats/stat'

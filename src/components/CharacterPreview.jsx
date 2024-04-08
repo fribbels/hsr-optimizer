@@ -38,6 +38,7 @@ export function CharacterPreview(props) {
   const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
 
@@ -48,6 +49,16 @@ export function CharacterPreview(props) {
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
+  }
+
+  function onAddOk(relic) {
+    DB.setRelic(relic)
+    setRelicRows(DB.getRelics())
+    SaveState.save()
+
+    setSelectedRelic(relic)
+
+    Message.success('Successfully added relic')
   }
 
   function onEditPortraitOk(portraitPayload) {
@@ -151,6 +162,7 @@ export function CharacterPreview(props) {
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
       <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
 
       {!isBuilds
       && (
@@ -303,7 +315,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.Head}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.Head, part: Constants.Parts.Head}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
@@ -311,7 +324,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.Body}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.Body, part: Constants.Parts.Body}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
@@ -319,7 +333,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.PlanarSphere}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
@@ -330,7 +345,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.Hands}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.Hands, part: Constants.Parts.Hands}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
@@ -338,7 +354,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.Feet}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.Feet, part: Constants.Parts.Feet}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
@@ -346,7 +363,8 @@ export function CharacterPreview(props) {
           <RelicPreview
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
-            relic={displayRelics.LinkRope}
+            setAddModelOpen={setAddModalOpen}
+            relic={{...displayRelics.LinkRope, part: Constants.Parts.LinkRope}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}

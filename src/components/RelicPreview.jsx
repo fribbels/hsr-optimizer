@@ -9,11 +9,12 @@ import { GenerateStat } from 'components/relicPreview/GenerateStat'
 
 const RelicPreview = ({
   relic,
-  // characterId = undefined, // CharacterPreview by way of RelicScorerTab
+  characterId = undefined,
   score,
   source = '',
   setSelectedRelic = () => { },
   setEditModalOpen = () => { },
+  setAddModelOpen = () => { },
 }) => {
   relic = {
     enhance: 0,
@@ -26,23 +27,32 @@ const RelicPreview = ({
     ...relic,
   }
 
-  const { enhance, part, set, substats, main, equippedBy } = relic
+  const { enhance, part, set, substats, main, equippedBy, id } = relic
   const relicSrc = set ? Assets.getSetImage(set, part) : Assets.getBlank()
   const equippedBySrc = equippedBy ? Assets.getCharacterAvatarById(equippedBy) : Assets.getBlank()
   const scored = relic !== undefined && score !== undefined
 
-  const relicClicked = () => {
-    if (!relic || !relic.part || !relic.set || source == 'scorer' || source == 'builds') return
+  const cardClicked = () => {
+    if ((!id && !characterId) || source === 'scorer' || source === 'builds') return
 
-    setSelectedRelic(relic)
-    setEditModalOpen(true)
+    if (!id) {
+      console.log(`Add new relic for characterId=${characterId}.`)
+      relic.equippedBy = characterId
+      relic.enhance = 15
+      relic.grade = 5
+      setSelectedRelic(relic)
+      setAddModelOpen(true)
+    } else {
+      setSelectedRelic(relic)
+      setEditModalOpen(true)
+    }
   }
 
   return (
     <Card
       size="small"
       hoverable={source != 'scorer' && source != 'builds'}
-      onClick={relicClicked}
+      onClick={cardClicked}
       style={{ width: 200, height: 280 }}
     /*
      * onMouseEnter={() => setHovered(true)}
@@ -61,7 +71,7 @@ const RelicPreview = ({
               {Renderer.renderGrade(relic)}
               <Flex style={{ width: 30 }} justify="space-around">
                 <RelicStatText>
-                  {part != undefined ? `+${enhance}` : ''}
+                  {id != undefined ? `+${enhance}` : ''}
                 </RelicStatText>
               </Flex>
             </Flex>

@@ -35,7 +35,7 @@ const RelicPreview = ({
   const cardClicked = () => {
     if ((!id && !characterId) || source === 'scorer' || source === 'builds') return
 
-    if (characterId) {
+    if (!id) {
       console.log(`Add new relic for characterId=${characterId}.`)
       relic.equippedBy = characterId
       relic.enhance = 15

@@ -30,13 +30,13 @@ export default function OptimizerForm() {
 
   // On first load, display the first character from the roster
   useEffect(() => {
-    let characters = DB.getCharacters() || []
+    const characters = DB.getCharacters() || []
     OptimizerTabController.updateCharacter(characters[0]?.id)
   }, [])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return
-    let keys = Object.keys(changedValues)
+    const keys = Object.keys(changedValues)
 
     if (bypass) {
       // Only allow certain values to refresh permutations.
@@ -99,18 +99,19 @@ export default function OptimizerForm() {
       return
     }
 
+    window.store.getState().setOptimizationInProgress(true)
+
     DB.addFromForm(form)
     SaveState.save()
 
-    let optimizationId = Utils.randomId()
+    const optimizationId = Utils.randomId()
     window.store.getState().setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
     form.statDisplay = window.store.getState().statDisplay
 
     console.log('Form finished', form)
 
-    window.store.getState().setOptimizationInProgress(true)
-    Optimizer.optimize(form)
+    setTimeout(() => Optimizer.optimize(form), 50)
   }
   window.optimizerStartClicked = startClicked
 

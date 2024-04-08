@@ -33,7 +33,7 @@ const RelicPreview = ({
   const scored = relic !== undefined && score !== undefined
 
   const cardClicked = () => {
-    if (!id && !characterId) return
+    if ((!id && !characterId) || source === 'scorer' || source === 'builds') return
 
     if (characterId) {
       console.log(`Add new relic for characterId=${characterId}.`)

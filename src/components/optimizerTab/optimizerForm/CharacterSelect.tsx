@@ -1,12 +1,10 @@
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Card, Flex, Input, InputRef, Modal, Select, Typography } from 'antd'
+import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementToDamage, PathToClass } from 'lib/constants.ts'
-
-const { Paragraph } = Typography
+import { PathToClass } from 'lib/constants.ts'
+import { CardGridFilterRow, CardGridTextFooter, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
   value
@@ -22,53 +20,6 @@ const innerH = 170
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B31 130px, #282B31 150px)'
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
-function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
-  const selectedTags = currentFilters[name]
-
-  const handleChange = (tag, checked) => {
-    const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag)
-
-    const clonedFilters = Utils.clone(currentFilters)
-    clonedFilters[name] = nextSelectedTags
-    console.log('filters', name, clonedFilters)
-
-    setCurrentFilters(clonedFilters)
-  }
-
-  return (
-    <Flex
-      style={{
-        flexWrap: 'wrap',
-        flexGrow: 1,
-        backgroundColor: '#243356',
-        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
-        borderRadius: 6,
-        overflow: 'hidden',
-        height: 40,
-      }}
-    >
-      {tags.map((tag) => (
-        <CheckableTag
-          key={tag.key}
-          checked={selectedTags.includes(tag.key)}
-          onChange={(checked) => handleChange(tag.key, checked)}
-          style={{
-            flex: 1,
-            flexBasis: flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96',
-          }}
-        >
-          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
-            {tag.display}
-          </Flex>
-        </CheckableTag>
-      ))}
-    </Flex>
-  )
-}
-
 const defaultFilters = {
   rarity: [],
   path: [],
@@ -76,7 +27,6 @@ const defaultFilters = {
   name: '',
 }
 
-// TODO: This is copy pasted to LightConeSelect.tsx. Maybe want to revisit these two files and make the components more modular
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
@@ -102,24 +52,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     }
 
     return true
-  }
-
-  function generateElementTags() {
-    return Object.keys(ElementToDamage).map((x) => {
-      return {
-        key: x,
-        display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
-      }
-    })
-  }
-
-  function generatePathTags() {
-    return Object.keys(PathToClass).map((x) => {
-      return {
-        key: x,
-        display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
-      }
-    })
   }
 
   const handleClick = (id) => {
@@ -181,7 +113,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="element"
                   tags={generateElementTags()}
                   flexBasis="14.2%"
@@ -190,7 +122,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"
@@ -218,36 +150,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <img
-                      width={innerW}
-                      src={Assets.getCharacterPreviewById(option.id)}
-                      style={{
-                        transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
-                      }}
-                    />
-                    <Paragraph
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: '110%',
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                        background: '#282B31',
-                        color: '#D0D0D2',
-                        marginLeft: '-5%',
-                        textWrap: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        lineHeight: '18px',
-                        height: 18,
-                        marginBottom: 0,
-                      }}
-                    >
-                      {option.displayName}
-                    </Paragraph>
+                    <CardGridTextFooter imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1} />
                   </Card>
                 ))
             }

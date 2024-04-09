@@ -105,10 +105,10 @@ export default (e: Eidolon): CharacterConditional => {
     standoffActive: true,
     pocketTrickshotStacks: 3,
     beToCritBoost: true,
+    talentBreakDmgScaling: true,
     e1DefShred: true,
     e2BeBuff: true,
     e4TargetStandoffVulnerability: true,
-    talentBreakDmgScaling: true,
     e6AdditionalBreakDmg: true,
   }
 
@@ -149,10 +149,9 @@ export default (e: Eidolon): CharacterConditional => {
       const x: ComputedStatsObject = c.x
 
       // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
-      const newToughnessDamage = Math.min(16.00 * 30, request.enemyMaxToughness)
+      const newMaxToughness = Math.min(16.00 * 30, request.enemyMaxToughness)
       const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
-      // const newBreakToughnessMultiplier = (0.5 + (30 * (1 + x.BREAK_EFFICIENCY_BOOST)) / 120)
-      const newBreakToughnessMultiplier = (0.5 + newToughnessDamage / 120)
+      const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
       let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
       talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
       x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0

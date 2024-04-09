@@ -144,7 +144,6 @@ export default (e: Eidolon): CharacterConditional => {
       const t = request.characterConditionals
 
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
-      x[Stats.SPD_P] += (e >= 1 && t.concertoActive) ? 0.15 * t.e1OrnamentStacks : 0
 
       x.FUA_CD_BOOST += (t.talentFuaCdBoost) ? 0.10 : 0
 

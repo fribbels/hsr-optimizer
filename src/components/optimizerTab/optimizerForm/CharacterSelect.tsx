@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Card, Flex, Input, InputRef, Modal, Select, Typography } from 'antd'
+import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementToDamage, PathToClass } from 'lib/constants.ts'
-
-const { Paragraph } = Typography
+import { PathToClass } from 'lib/constants.ts'
+import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
   value
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
+  multipleSelect?: boolean
 }
 
 const parentW = 100
@@ -22,53 +21,6 @@ const innerH = 170
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B31 130px, #282B31 150px)'
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
-function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
-  const selectedTags = currentFilters[name]
-
-  const handleChange = (tag, checked) => {
-    const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag)
-
-    const clonedFilters = Utils.clone(currentFilters)
-    clonedFilters[name] = nextSelectedTags
-    console.log('filters', name, clonedFilters)
-
-    setCurrentFilters(clonedFilters)
-  }
-
-  return (
-    <Flex
-      style={{
-        flexWrap: 'wrap',
-        flexGrow: 1,
-        backgroundColor: '#243356',
-        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
-        borderRadius: 6,
-        overflow: 'hidden',
-        height: 40,
-      }}
-    >
-      {tags.map((tag) => (
-        <CheckableTag
-          key={tag.key}
-          checked={selectedTags.includes(tag.key)}
-          onChange={(checked) => handleChange(tag.key, checked)}
-          style={{
-            flex: 1,
-            flexBasis: flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96',
-          }}
-        >
-          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
-            {tag.display}
-          </Flex>
-        </CheckableTag>
-      ))}
-    </Flex>
-  )
-}
-
 const defaultFilters = {
   rarity: [],
   path: [],
@@ -76,17 +28,24 @@ const defaultFilters = {
   name: '',
 }
 
-// TODO: This is copy pasted to LightConeSelect.tsx. Maybe want to revisit these two files and make the components more modular
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle }) => {
+const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
+  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
   useEffect(() => {
     if (open) {
       setTimeout(() => inputRef?.current?.focus(), 100)
+
+      if (multipleSelect) {
+        const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
+        console.debug(value, newSelected)
+        setSelected(newSelected)
+      }
     }
   }, [open])
 
@@ -104,27 +63,14 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     return true
   }
 
-  function generateElementTags() {
-    return Object.keys(ElementToDamage).map((x) => {
-      return {
-        key: x,
-        display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
-      }
-    })
-  }
-
-  function generatePathTags() {
-    return Object.keys(PathToClass).map((x) => {
-      return {
-        key: x,
-        display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
-      }
-    })
-  }
-
   const handleClick = (id) => {
-    setOpen(false)
-    if (onChange) onChange(id)
+    if (multipleSelect) {
+      selected.set(id, !selected.get(id))
+      setSelected(new Map(selected))
+    } else {
+      setOpen(false)
+      if (onChange) onChange(id)
+    }
   }
 
   return (
@@ -133,8 +79,12 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={characterOptions}
-        placeholder="Character"
+        placeholder={multipleSelect ? 'Customize characters' : 'Character'}
         allowClear
+        maxTagCount={0}
+        maxTagPlaceholder={() => (
+          <span>{excludedRelicPotentialCharacters.length ? `${excludedRelicPotentialCharacters.length} characters excluded` : 'All characters enabled'}</span>
+        )}
         onClear={() => {
           if (onChange) onChange(null)
         }}
@@ -146,6 +96,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         }}
         dropdownStyle={{ display: 'none' }}
         suffixIcon={null}
+        mode={multipleSelect ? 'multiple' : undefined}
       />
 
       <Modal
@@ -154,8 +105,14 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width="90%"
         style={{ height: '80%', maxWidth: 1450 }}
-        title="Select a character"
-        onCancel={() => setOpen(false)}
+        title={multipleSelect ? 'Select characters to exclude' : 'Select a character'}
+        onCancel={() => {
+          if (multipleSelect) {
+            if (onChange) onChange(selected)
+          }
+
+          setOpen(false)
+        }}
         footer={null}
       >
         <Flex vertical gap={12}>
@@ -164,7 +121,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
               <Input
                 size="large"
                 style={{ height: 40 }}
-                placeholder="Character"
+                placeholder="Search character name"
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)
@@ -181,7 +138,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="element"
                   tags={generateElementTags()}
                   flexBasis="14.2%"
@@ -190,7 +147,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"
@@ -211,43 +168,23 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     key={option.id}
                     hoverable
                     style={{
-                      background: option.rarity === 5 ? goldBg : purpleBg,
-                      overflow: 'hidden',
-                      height: `${parentH}px`,
+                      ...{
+                        background: option.rarity === 5 ? goldBg : purpleBg,
+                        overflow: 'hidden',
+                        height: `${parentH}px`,
+                      },
+                      ...(selected.get(option.id)
+                        ? {
+                          opacity: 0.25,
+                          background: 'grey',
+                        }
+                        : {}
+                      ),
                     }}
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <img
-                      width={innerW}
-                      src={Assets.getCharacterPreviewById(option.id)}
-                      style={{
-                        transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
-                      }}
-                    />
-                    <Paragraph
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: '110%',
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                        background: '#282B31',
-                        color: '#D0D0D2',
-                        marginLeft: '-5%',
-                        textWrap: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        lineHeight: '18px',
-                        height: 18,
-                        marginBottom: 0,
-                      }}
-                    >
-                      {option.displayName}
-                    </Paragraph>
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1} />
                   </Card>
                 ))
             }

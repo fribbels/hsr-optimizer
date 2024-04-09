@@ -106,6 +106,7 @@ window.store = create((set) => ({
     grade: [],
     verified: [],
   },
+  excludedRelicPotentialCharacters: [],
 
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
@@ -138,6 +139,7 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
 }))
 
 export const DB = {
@@ -205,12 +207,12 @@ export const DB = {
    *
    * Adds the relic if it does not already exist.
    * Equips the relic to its owner.
-   * 
+   *
    * If the specified relic has been edited, saves the changes.
    * If the owner has changed, equips the relic to its new owner.
    * In addition, if the part has changed, equips the relic correctly to the new part.
    * Note: If the owner is already holding a relic on the new part, said relic is unequipped.
-   *  
+   *
    * @param {Object} relic - The relic object to set.
    * @returns {void}
    */
@@ -218,7 +220,7 @@ export const DB = {
     if (!relic.id) return console.warn('No matching relic', relic)
     const oldRelic = DB.getRelicById(relic.id)
     const addRelic = !oldRelic
-    
+
     if (addRelic) {
       setRelic(relic)
       if (relic.equippedBy) {
@@ -226,11 +228,11 @@ export const DB = {
       }
     } else {
       const partChanged = oldRelic.part !== relic.part
-      if (partChanged  || !relic.equippedBy) {
+      if (partChanged || !relic.equippedBy) {
         DB.unequipRelicById(relic.id)
         setRelic(relic)
       }
-      const relicIsNotEquippedByRelicOwner = relic.equippedBy 
+      const relicIsNotEquippedByRelicOwner = relic.equippedBy
         && DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
       if (relicIsNotEquippedByRelicOwner) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -315,6 +317,8 @@ export const DB = {
       }
       window.store.getState().setOptimizerMenuState(menuState)
     }
+
+    window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -478,9 +482,9 @@ export const DB = {
 
   /**
    * Equips the specified relic to the character identified by `characterId`.
-   * 
+   *
    * If the character already has a relic equipped, the relics are swapped.
-   * 
+   *
    * @param {Object} relic - The relic to equip.
    * @param {*} characterId - The ID of the character to equip the relic to.
    * @returns {void}
@@ -838,7 +842,7 @@ function partialHashRelic(relic) {
 
 /**
  * Sets the provided relic in the application's state.
- * 
+ *
  * @param {Object} relic - The relic object to set.
  */
 function setRelic(relic) {

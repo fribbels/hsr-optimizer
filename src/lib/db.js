@@ -318,7 +318,7 @@ export const DB = {
       window.store.getState().setOptimizerMenuState(menuState)
     }
 
-    window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters)
+    window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

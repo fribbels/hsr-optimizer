@@ -4,12 +4,13 @@ import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import { PathToClass } from 'lib/constants.ts'
-import { CardGridFilterRow, CardGridTextFooter, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
   value
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
+  multipleSelect?: boolean
 }
 
 const parentW = 100
@@ -27,12 +28,13 @@ const defaultFilters = {
   name: '',
 }
 
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle }) => {
+const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
+  const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
 
   useEffect(() => {
     if (open) {
@@ -55,8 +57,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   }
 
   const handleClick = (id) => {
-    setOpen(false)
-    if (onChange) onChange(id)
+    if (multipleSelect) {
+      selected.set(id, !selected.get(id))
+      setSelected(new Map(selected))
+    } else {
+      setOpen(false)
+      if (onChange) onChange(id)
+    }
   }
 
   return (
@@ -78,6 +85,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         }}
         dropdownStyle={{ display: 'none' }}
         suffixIcon={null}
+        mode={multipleSelect ? 'multiple' : undefined}
       />
 
       <Modal
@@ -87,7 +95,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         width="90%"
         style={{ height: '80%', maxWidth: 1450 }}
         title="Select a character"
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          if (multipleSelect) {
+            if (onChange) onChange(selected)
+          }
+
+          setOpen(false)
+        }}
         footer={null}
       >
         <Flex vertical gap={12}>
@@ -143,14 +157,23 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     key={option.id}
                     hoverable
                     style={{
-                      background: option.rarity === 5 ? goldBg : purpleBg,
-                      overflow: 'hidden',
-                      height: `${parentH}px`,
+                      ...{
+                        background: option.rarity === 5 ? goldBg : purpleBg,
+                        overflow: 'hidden',
+                        height: `${parentH}px`,
+                      },
+                      ...(selected.get(option.id)
+                        ? {
+                          opacity: 0.25,
+                          background: 'grey',
+                        }
+                        : {}
+                      ),
                     }}
                     styles={{ body: { padding: 1 } }}
                     onMouseDown={() => handleClick(option.id)}
                   >
-                    <CardGridTextFooter imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1} />
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={1} />
                   </Card>
                 ))
             }

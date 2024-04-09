@@ -10,7 +10,13 @@ const { Paragraph } = Typography
 const parentW = 100
 const parentH = 150
 
-export const CardGridTextFooter = (props: { imgSrc: string; text: string; innerW: number; innerH: number; rows: number }) => {
+export const CardGridItemContent = (props: {
+  imgSrc: string
+  text: string
+  innerW: number
+  innerH: number
+  rows: number
+}) => {
   return (
     <div>
       <img

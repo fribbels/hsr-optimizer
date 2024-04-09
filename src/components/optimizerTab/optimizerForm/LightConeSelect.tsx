@@ -5,7 +5,7 @@ import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { ClassToPath, PathToClass } from 'lib/constants.ts'
 import DB from 'lib/db.js'
-import { CardGridFilterRow, CardGridTextFooter, generatePathTags, generateRarityTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridFilterRow, CardGridItemContent, generatePathTags, generateRarityTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface LightConeSelectProps {
   value
@@ -161,7 +161,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
-                    <CardGridTextFooter imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2} />
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2} />
                   </Card>
                 ))
             }

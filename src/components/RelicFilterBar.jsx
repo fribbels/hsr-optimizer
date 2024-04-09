@@ -99,13 +99,13 @@ export default function RelicFilterBar(props) {
     })
   }
 
-  let gradeData = generateGradeTags([2, 3, 4, 5])
-  let verifiedData = generateVerifiedTags([false, true])
-  let setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
-  let partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
-  let mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
-  let subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
-  let enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+  const gradeData = generateGradeTags([2, 3, 4, 5])
+  const verifiedData = generateVerifiedTags([false, true])
+  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
+  const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
+  const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
+  const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
+  const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -130,25 +130,25 @@ export default function RelicFilterBar(props) {
   }, [])
 
   function characterSelectorChange(id) {
-    let relics = Object.values(DB.getRelicsById())
+    const relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
     setScoringAlgorithmFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
-    let allCharacters = characterOptions.map((val) => val.id)
+    const allCharacters = characterOptions.map((val) => val.id)
 
-    let relicScorer = new RelicScorer()
+    const relicScorer = new RelicScorer()
 
     // NOTE: we cannot cache these results between renders by keying on the relic/char id because
     // both relic stats and char weights can be edited
-    for (let relic of relics) {
+    for (const relic of relics) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
       relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllAll = 0
 
-      for (let cid of allCharacters) {
-        let pct = relicScorer.scoreRelicPct(relic, cid).bestPct
+      for (const cid of allCharacters) {
+        const pct = relicScorer.scoreRelicPct(relic, cid).bestPct
         relic.weights.potentialAllAll = Math.max(pct, relic.weights.potentialAllAll)
       }
     }
@@ -271,6 +271,23 @@ export default function RelicFilterBar(props) {
             </Flex>
           </Flex>
         </Flex>
+
+        <Flex vertical flex={0.5}>
+          <HeaderText>Select Test</HeaderText>
+          <Flex gap={10}>
+            <CharacterSelect
+              value={currentlySelectedCharacterId}
+              selectStyle={{ flex: 1 }}
+              onChange={(x) => {
+                // Wait until after modal closes to update
+                // setTimeout(() => characterSelectorChange(x), 20)
+
+                console.debug(x)
+              }}
+              multipleSelect={true}
+            />
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   )
@@ -282,17 +299,17 @@ RelicFilterBar.propTypes = {
 }
 
 function FilterRow(props) {
-  let relicTabFilters = window.store((s) => s.relicTabFilters)
-  let setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
+  const relicTabFilters = window.store((s) => s.relicTabFilters)
+  const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
 
-  let selectedTags = relicTabFilters[props.name]
+  const selectedTags = relicTabFilters[props.name]
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
       : selectedTags.filter((t) => t != tag)
 
-    let clonedFilters = Utils.clone(relicTabFilters)
+    const clonedFilters = Utils.clone(relicTabFilters)
     clonedFilters[props.name] = nextSelectedTags
     console.log('Relic tab filters', props.name, clonedFilters)
 

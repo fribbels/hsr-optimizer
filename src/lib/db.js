@@ -805,5 +805,7 @@ function partialHashRelic(relic) {
 }
 
 function deduplicateArray(arr) {
+  if (arr == null) return arr
+
   return [...new Set(arr)]
 }

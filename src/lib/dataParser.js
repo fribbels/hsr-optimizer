@@ -3665,6 +3665,7 @@ function getScoringMetadata() {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,

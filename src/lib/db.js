@@ -294,6 +294,18 @@ export const DB = {
         character.form.lightConeSuperimposition = 1
         character.form.lightConeConditionals = {}
       }
+
+      // Deduplicate main stat filter values
+      for (const part of Object.keys(Constants.Parts)) {
+        character.form['main' + part] = deduplicateArray(character.form['main' + part])
+      }
+    }
+
+    for (const character of Object.values(dbCharacters)) {
+      // Deduplicate scoring optimal main stat
+      for (const part of Object.keys(Constants.Parts)) {
+        character.scoringMetadata.parts[part] = deduplicateArray(character.scoringMetadata.parts[part])
+      }
     }
 
     for (const relic of x.relics) {
@@ -849,4 +861,10 @@ function setRelic(relic) {
   const relicsById = window.store.getState().relicsById
   relicsById[relic.id] = relic
   window.store.getState().setRelicsById(relicsById)
+}
+
+function deduplicateArray(arr) {
+  if (arr == null) return arr
+
+  return [...new Set(arr)]
 }

@@ -1598,7 +1598,6 @@ function getScoringMetadata() {
           Constants.Stats.Fire_DMG,
           Constants.Stats.Ice_DMG,
           Constants.Stats.Lightning_DMG,
-          Constants.Stats.Wind_DMG,
           Constants.Stats.Quantum_DMG,
           Constants.Stats.Imaginary_DMG,
         ],
@@ -3423,7 +3422,6 @@ function getScoringMetadata() {
           Constants.Stats.Fire_DMG,
           Constants.Stats.Ice_DMG,
           Constants.Stats.Lightning_DMG,
-          Constants.Stats.Wind_DMG,
           Constants.Stats.Quantum_DMG,
           Constants.Stats.Imaginary_DMG,
         ],
@@ -3665,6 +3663,7 @@ function getScoringMetadata() {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Constants.Stats.ATK_P,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,

@@ -7,7 +7,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-01-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -47,15 +47,6 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e1UltScalingBoost',
-      name: 'e1UltScalingBoost',
-      text: 'E1 Ult scaling boost',
-      title: 'E1 Ult scaling boost',
-      content: betaUpdate,
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
       id: 'e4TeamResBuff',
       name: 'e4TeamResBuff',
       text: 'E4 RES team buff',
@@ -65,10 +56,10 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e6Buffs',
-      name: 'e6Buffs',
-      text: 'E6 RES shred / CD buffs',
-      title: 'E6 RES shred / CD buffs',
+      id: 'e6UltCDBoost',
+      name: 'e6UltCDBoost',
+      text: 'E6 Ult DMG CD boost',
+      title: 'E6 Ult DMG CD boost',
       content: betaUpdate,
       disabled: e < 6,
     },
@@ -98,23 +89,14 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'slider',
-      id: 'e1OrnamentStacks',
-      name: 'e1OrnamentStacks',
-      text: 'E1 Ornament SPD stacks',
-      title: 'E1 Ornament SPD stacks',
+      id: 'e1UltResPenStacks',
+      name: 'e1UltResPenStacks',
+      text: 'E1 Ult RES PEN stacks',
+      title: 'E1 Ult RES PEN stacks',
       content: betaUpdate,
+      disabled: e < 1,
       min: 0,
       max: 2,
-      disabled: e < 1,
-    },
-    {
-      formItem: 'switch',
-      id: 'e6ResShredBuff',
-      name: 'e6ResShredBuff',
-      text: 'E6 RES shred buff',
-      title: 'E6 E6 RES shred buff',
-      content: betaUpdate,
-      disabled: e < 6,
     },
   ]
 
@@ -122,9 +104,8 @@ export default (e: Eidolon): CharacterConditional => {
     concertoActive: true,
     skillDmgBuff: true,
     talentCdBuff: true,
-    e1UltScalingBoost: true,
     e4TeamResBuff: false,
-    e6Buffs: true,
+    e6UltCDBoost: true,
   }
 
   return {
@@ -137,9 +118,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentCdBuff: true,
       teammateATKValue: 4000,
       talentFuaCdBoost: true,
-      e1OrnamentStacks: 0,
+      e1UltResPenStacks: 2,
       e4TeamResBuff: true,
-      e6ResShredBuff: true,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -147,9 +127,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
-      x.ULT_SCALING += (e >= 1 && r.concertoActive && r.e1UltScalingBoost) ? 0.72 : 0
-
-      x.RES_PEN += (e >= 6 && r.concertoActive && r.e6Buffs) ? 0.20 : 0
 
       return x
     },
@@ -167,10 +144,10 @@ export default (e: Eidolon): CharacterConditional => {
       const t = request.characterConditionals
 
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
-      x[Stats.SPD_P] += (e >= 1 && t.concertoActive) ? 0.15 * t.e1OrnamentStacks : 0
 
       x.FUA_CD_BOOST += (t.talentFuaCdBoost) ? 0.10 : 0
-      x.RES_PEN += (e >= 6 && t.concertoActive && t.e6ResShredBuff) ? 0.20 : 0
+
+      x.RES_PEN += (e >= 1 && t.concertoActive) ? 0.12 * t.e1UltResPenStacks : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
@@ -179,7 +156,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
       x.ULT_CR_BOOST += 1.00
-      x.ULT_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6Buffs) ? 3.50 : 1.50
+      x.ULT_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

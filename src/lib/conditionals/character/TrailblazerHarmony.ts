@@ -1,22 +1,31 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 03-26-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.50, 0.55)
+  const ultBeScaling = ult(e, 0.30, 0.33)
   const skillMaxHits = e >= 6 ? 6 : 4
 
   const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'backupDancer',
+      name: 'backupDancer',
+      text: 'Backup Dancer',
+      title: 'Backup Dancer',
+      content: betaUpdate,
+    },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
@@ -39,6 +48,7 @@ export default (e: Eidolon): CharacterConditional => {
   ]
 
   const teammateContent: ContentItem[] = [
+    findContentId(content, 'backupDancer'),
     {
       formItem: 'slider',
       id: 'teammateBeValue',
@@ -55,6 +65,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   const defaults = {
     skillHitsOnTarget: skillMaxHits,
+    backupDancer: true,
     e2EnergyRegenBuff: false,
   }
 
@@ -63,6 +74,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({
+      backupDancer: true,
       teammateBeValue: 1.50,
     }),
     precomputeEffects: (request: Form) => {
@@ -79,12 +91,15 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
-      x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue + 0.30 : 0
+      x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, _request: Form) => {
       const x = c.x

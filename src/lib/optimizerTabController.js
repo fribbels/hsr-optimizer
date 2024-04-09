@@ -299,11 +299,22 @@ export const OptimizerTabController = {
 
     if (!form.enemyLevel) {
       newForm.enemyLevel = 95
+    }
+
+    if (!form.enemyCount) {
       newForm.enemyCount = 1
+    }
+
+    if (!form.enemyResistance) {
       newForm.enemyResistance = 0.2
+    }
+
+    if (form.enemyElementalWeak == null) {
       newForm.enemyElementalWeak = true
+    }
+
+    if (form.enemyWeaknessBroken == null) {
       newForm.enemyWeaknessBroken = false
-      newForm.enemyElementalResistance = false
     }
 
     if (!form.enemyMaxToughness) {

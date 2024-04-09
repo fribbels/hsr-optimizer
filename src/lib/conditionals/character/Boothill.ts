@@ -1,4 +1,3 @@
-import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon } from 'lib/conditionals/utils'
 
@@ -6,8 +5,9 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { Stats } from 'lib/constants.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-04-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -15,11 +15,15 @@ export default (e: Eidolon): CharacterConditional => {
   const standoffDmgBoost = skill(e, 0.30, 0.33)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const basicEnhancedScaling = basic(e, 1.80, 1.98)
-  const basicExtraHitScaling = basic(e, 0.20, 0.22)
+  const basicEnhancedScaling = basic(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.00, 4.32)
 
-  const talentBreakDmgScaling = talent(e, 0.56, 0.616)
+  const pocketTrickshotsToTalentBreakDmg = {
+    0: 0,
+    1: talent(e, 0.70, 0.77),
+    2: talent(e, 1.20, 1.32),
+    3: talent(e, 1.70, 1.87),
+  }
 
   const content: ContentItem[] = [
     {
@@ -83,6 +87,15 @@ export default (e: Eidolon): CharacterConditional => {
       content: betaUpdate,
       disabled: e < 4,
     },
+    {
+      formItem: 'switch',
+      id: 'e6AdditionalBreakDmg',
+      name: 'e6AdditionalBreakDmg',
+      text: 'E6 Break DMG boost',
+      title: 'E6 Break DMG boost',
+      content: betaUpdate,
+      disabled: e < 6,
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -91,12 +104,12 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     standoffActive: true,
     pocketTrickshotStacks: 3,
+    beToCritBoost: true,
+    talentBreakDmgScaling: true,
     e1DefShred: true,
     e2BeBuff: true,
     e4TargetStandoffVulnerability: true,
-    beToCritBoost: true,
-    talentBreakDmgScaling: true,
-    talentMaxToughnessReduction: true,
+    e6AdditionalBreakDmg: true,
   }
 
   return {
@@ -115,7 +128,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
       x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
 
-      x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling + r.pocketTrickshotStacks * basicExtraHitScaling : basicScaling
+      x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling : basicScaling
+      x.BREAK_EFFICIENCY_BOOST += r.pocketTrickshotStacks * 0.50
+
       x.ULT_SCALING += ultScaling
 
       // Special case where we force the weakness break on if the talent break option is enabled
@@ -134,9 +149,12 @@ export default (e: Eidolon): CharacterConditional => {
       const x: ComputedStatsObject = c.x
 
       // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
+      const newMaxToughness = Math.min(16.00 * 30, request.enemyMaxToughness)
       const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
-      const newBreakToughnessMultiplier = (0.5 + (16.00 * 30 * (1 + x.BREAK_EFFICIENCY_BOOST)) / 120)
-      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling * r.pocketTrickshotStacks : 0
+      const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
+      let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
+      talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
+      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
 
       x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
       x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0

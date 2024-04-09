@@ -2,14 +2,16 @@ import { ContentItem } from 'types/Conditionals'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants.ts'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { findContentId } from 'lib/conditionals/utils.ts'
 
+const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
+
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
-  const sValuesAtkBuff = [0.48, 0.56, 0.64, 0.72, 0.80]
+  const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]
   const sValuesDmgBuff = [0.24, 0.28, 0.32, 0.36, 0.40]
 
   const content: ContentItem[] = [
@@ -20,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Cadenza active',
       title: 'Cadenza active',
-      content: 'Cadenza active',
+      content: betaUpdate,
     },
     {
       lc: true,
@@ -29,7 +31,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'slider',
       text: 'Cantillation stacks',
       title: 'Cantillation stacks',
-      content: 'Cantillation stacks',
+      content: betaUpdate,
       min: 0,
       max: 5,
     },

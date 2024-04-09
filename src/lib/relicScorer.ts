@@ -180,7 +180,7 @@ export class RelicScorer {
   }
 
   scoreCharacterWithRelics(character, relics) {
-    if (!character || !character.id) return {}
+    if (!character?.id) return {}
 
     const scoredRelics = relics.map((x) => this.score(x, character.id))
 
@@ -219,7 +219,7 @@ export class RelicScorer {
   }
 
   scoreCharacter(character: Character) {
-    if (!character || !character.id) return {}
+    if (!character?.id) return {}
 
     console.log('SCORE CHARACTER', character)
     const relicsById = window.store.getState().relicsById

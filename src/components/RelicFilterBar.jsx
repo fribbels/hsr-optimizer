@@ -137,6 +137,7 @@ export default function RelicFilterBar(props) {
     setCurrentlySelectedCharacterId(id)
 
     const allCharacters = characterOptions.map((val) => val.id)
+    const excludedCharacters = window.store.getState().excludedRelicPotentialCharacters
 
     const relicScorer = new RelicScorer()
 
@@ -146,20 +147,29 @@ export default function RelicFilterBar(props) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
       relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllAll = 0
+      relic.weights.potentialAllCustom = 0
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPct(relic, cid).bestPct
         relic.weights.potentialAllAll = Math.max(pct, relic.weights.potentialAllAll)
+
+        if (!excludedCharacters.includes(cid)) {
+          relic.weights.potentialAllCustom = Math.max(pct, relic.weights.potentialAllCustom)
+        }
       }
     }
 
     DB.setRelics(relics)
 
     if (id && window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.applyColumnState({
-        state: [{ colId: 'weights.current', sort: 'desc' }],
-        defaultState: { sort: null },
-      })
+      const isSorted = window.relicsGrid.current.columnApi.getColumnState().filter((s) => s.sort !== null)
+
+      if (!isSorted) {
+        window.relicsGrid.current.api.applyColumnState({
+          state: [{ colId: 'weights.current', sort: 'desc' }],
+          defaultState: { sort: null },
+        })
+      }
     }
 
     DB.refreshRelics()
@@ -226,8 +236,9 @@ export default function RelicFilterBar(props) {
         <HeaderText>Substats</HeaderText>
         <FilterRow name="subStats" tags={subStatsData} />
       </Flex>
+
       <Flex gap={10}>
-        <Flex vertical flex={1}>
+        <Flex vertical flex={0.5}>
           <HeaderText>Relic recommendation character</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
@@ -252,8 +263,9 @@ export default function RelicFilterBar(props) {
             </Button>
           </Flex>
         </Flex>
-        <Flex flex={1} gap={10}>
-          <Flex vertical flex={1}>
+
+        <Flex vertical flex={0.25} gap={10}>
+          <Flex vertical>
             <Flex justify="space-between" align="center">
               <HeaderText>Relic ratings</HeaderText>
               <TooltipImage type={Hint.valueColumns()} />
@@ -272,21 +284,23 @@ export default function RelicFilterBar(props) {
           </Flex>
         </Flex>
 
-        <Flex vertical flex={0.5}>
-          <HeaderText>Select Test</HeaderText>
-          <Flex gap={10}>
-            <CharacterSelect
-              value={currentlySelectedCharacterId}
-              selectStyle={{ flex: 1 }}
-              onChange={(x) => {
-                // Wait until after modal closes to update
-                // setTimeout(() => characterSelectorChange(x), 20)
-
-                console.debug(x)
-              }}
-              multipleSelect={true}
-            />
-          </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Custom potential characters</HeaderText>
+          <CharacterSelect
+            value={window.store.getState().excludedRelicPotentialCharacters}
+            selectStyle={{ flex: 1 }}
+            onChange={(x) => {
+              const excludedCharacterIds = (x || new Map()).entries()
+                .filter((entry) => entry[1] == true)
+                .map((entry) => entry[0])
+                .toArray()
+              window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
+              SaveState.save()
+              setTimeout(() => rescoreClicked(), 100)
+              console.debug(x, excludedCharacterIds)
+            }}
+            multipleSelect={true}
+          />
         </Flex>
       </Flex>
     </Flex>

@@ -185,14 +185,15 @@ export default function RelicsTab() {
   }, [relicTabFilters])
 
   const valueColumnOptions = useMemo(() => [
+    { column: 'Custom Chars\nMax Potential', value: 'weights.potentialAllCustom', label: 'Custom characters: Max potential', percent: true },
+    { column: 'All Chars\nMax Potential', value: 'weights.potentialAllAll', label: 'All characters: Max potential', percent: true },
     { column: 'Selected Char\nScore', value: 'weights.current', label: 'Selected character: Score' },
     { column: 'Selected Char\nAvg Potential', value: 'weights.potentialSelected.averagePct', label: 'Selected character: Average potential', percent: true },
     { column: 'Selected Char\nMax Potential', value: 'weights.potentialSelected.bestPct', label: 'Selected character: Max potential', percent: true },
-    { column: 'All Characters\nMax Potential', value: 'weights.potentialAllAll', label: 'All characters: Max potential', percent: true },
-    { column: 'All Characters\nMax Potential + Sets', disabled: true, value: 'weights.potentialAllSets', label: 'All characters: Max potential + Sets (Coming soon)', percent: true },
+    { column: 'All Chars\nMax Potential + Sets', disabled: true, value: 'weights.potentialAllSets', label: 'All characters: Max potential + Sets (Coming soon)', percent: true },
   ], [])
 
-  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllAll'])
+  const [valueColumns, setValueColumns] = useState(['weights.potentialAllCustom', 'weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct'])
 
   const columnDefs = useMemo(() => [
     { field: 'equippedBy', headerName: 'Owner', width: 45, cellRenderer: Renderer.characterIcon },
@@ -326,7 +327,9 @@ export default function RelicsTab() {
   let scoreBuckets = null
   if (selectedRelic) {
     const chars = DB.getMetadata().characters
+    const excluded = window.store.getState().excludedRelicPotentialCharacters
     const allScores = Object.keys(chars)
+      .filter((id) => !excluded.includes(id))
       .map((id) => ({
         cid: id,
         name: chars[id].displayName,

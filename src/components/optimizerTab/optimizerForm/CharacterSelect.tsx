@@ -35,10 +35,17 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
+  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
   useEffect(() => {
     if (open) {
       setTimeout(() => inputRef?.current?.focus(), 100)
+
+      if (multipleSelect) {
+        const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
+        console.debug(value, newSelected)
+        setSelected(newSelected)
+      }
     }
   }, [open])
 
@@ -74,6 +81,10 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         options={characterOptions}
         placeholder="Character"
         allowClear
+        maxTagCount={0}
+        maxTagPlaceholder={() => (
+          <span>{excludedRelicPotentialCharacters.length ? `${excludedRelicPotentialCharacters.length} characters excluded` : 'All characters enabled'}</span>
+        )}
         onClear={() => {
           if (onChange) onChange(null)
         }}
@@ -94,7 +105,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width="90%"
         style={{ height: '80%', maxWidth: 1450 }}
-        title="Select a character"
+        title={multipleSelect ? 'Select characters to exclude' : 'Select a character'}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)

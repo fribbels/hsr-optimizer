@@ -62,6 +62,7 @@ export const baseComputedStatsObject = {
   ULT_DEF_PEN: 0,
   FUA_DEF_PEN: 0,
   DOT_DEF_PEN: 0,
+  BREAK_DEF_PEN: 0,
 
   RES_PEN: 0, // TODO: Rename to ALL_TYPE_RES_PEN
   PHYSICAL_RES_PEN: 0,

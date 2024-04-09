@@ -79,7 +79,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={characterOptions}
-        placeholder="Character"
+        placeholder={multipleSelect ? 'Customize characters' : 'Character'}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
@@ -121,7 +121,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
               <Input
                 size="large"
                 style={{ height: 40 }}
-                placeholder="Character"
+                placeholder="Search character name"
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = Utils.clone(currentFilters)

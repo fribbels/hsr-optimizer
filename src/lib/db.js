@@ -29,6 +29,7 @@ export const AppPages = {
 
   GETTING_STARTED: 'GETTING_STARTED',
   CHANGELOG: 'CHANGELOG',
+  EHR_CALCULATOR: 'EHR_CALCULATOR',
   RELIC_SCORER: 'RELIC_SCORER',
 }
 
@@ -37,6 +38,7 @@ export const PageToRoute = {
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.EHR_CALCULATOR]: BASE_PATH + '#ehr-calculator',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 }
 
@@ -45,6 +47,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
+  [PageToRoute[AppPages.EHR_CALCULATOR]]: AppPages.EHR_CALCULATOR,
 }
 
 // React usage
@@ -60,6 +63,7 @@ window.store = create((set) => ({
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
+  ehrCalculatorTabFocusCharacter: undefined,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
@@ -122,6 +126,7 @@ window.store = create((set) => ({
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+  setEhrCalculatorTabFocusCharacter: (characterId) => set(() => ({ ehrCalculatorTabFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
   setPermutations: (x) => set(() => ({ permutations: x })),
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),

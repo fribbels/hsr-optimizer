@@ -35,6 +35,15 @@ const items = [
       AppPages.RELIC_SCORER),
     getItem(
       (
+        <Flex>
+          <StarFilled style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          EHR calcs
+        </Flex>
+      ),
+      AppPages.EHR_CALCULATOR),
+    getItem(
+      (
         <Typography.Link>
           <UnorderedListOutlined style={{ marginRight: 2, width: 16 }} />
           {' '}

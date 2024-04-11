@@ -1,5 +1,6 @@
-import React from 'react'
-import { ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd'
+import React, { useState } from 'react'
+import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
+import { Button, ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd'
 import MenuDrawer from 'components/MenuDrawer'
 import Tabs from 'components/Tabs'
 import { Assets } from 'lib/assets'
@@ -8,6 +9,7 @@ const { Header, Sider, Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
+  const [collapsed, setCollapsed] = useState(false)
   window.messageApi = messageApi
 
   return (
@@ -61,6 +63,10 @@ const App = () => {
           style={{
             background: '#243356',
           }}
+          collapsible
+          collapsedWidth={0}
+          collapsed={collapsed}
+          trigger={null}
         >
           <div
             style={{
@@ -88,17 +94,29 @@ const App = () => {
             }}
           >
             <Flex align="center" justify="space-between" style={{ width: '100%' }}>
-              <a href="/hsr-optimizer">
-                <Flex align="center">
-                  <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
-                  <Typography
-                    style={{ fontWeight: 600, fontSize: 22 }}
-                    color="inherit"
-                  >
-                    Fribbels Honkai Star Rail Optimizer
-                  </Typography>
-                </Flex>
-              </a>
+              <Flex>
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuOutlined /> : <CloseOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    fontSize: '16px',
+                    position: 'relative',
+                    left: '-20px',
+                  }}
+                />
+                <a href="/hsr-optimizer">
+                  <Flex align="center">
+                    <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
+                    <Typography
+                      style={{ fontWeight: 600, fontSize: 22 }}
+                      color="inherit"
+                    >
+                      Fribbels Honkai Star Rail Optimizer
+                    </Typography>
+                  </Flex>
+                </a>
+              </Flex>
               <Flex>
                 <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
                   <Flex>

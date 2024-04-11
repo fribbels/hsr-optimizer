@@ -1,5 +1,16 @@
 import React from 'react'
-import { MenuOutlined, StarFilled, UnorderedListOutlined } from '@ant-design/icons'
+import {
+  BarChartOutlined,
+  BarsOutlined,
+  BookOutlined,
+  LineChartOutlined,
+  RadarChartOutlined,
+  StarFilled,
+  ToolOutlined,
+  UnorderedListOutlined,
+  UploadOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -16,20 +27,60 @@ function getItem(label, key, icon, children, type) {
   }
 }
 const items = [
-  getItem('Menu', 'subOptimizer', <MenuOutlined />, [
-    getItem('Optimizer', AppPages.OPTIMIZER),
-    getItem('Characters', AppPages.CHARACTERS),
-    getItem('Relics', AppPages.RELICS),
-    getItem('Import / Save', AppPages.IMPORT),
-    getItem('Getting started', AppPages.GETTING_STARTED),
+  getItem('Menu', 'subOptimizer', <LineChartOutlined />, [
+    getItem(
+      (
+        <Flex>
+          <BarChartOutlined style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Optimizer
+        </Flex>
+      ),
+      AppPages.OPTIMIZER),
+    getItem(
+      (
+        <Flex>
+          <UserOutlined style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Characters
+        </Flex>
+      ),
+      AppPages.CHARACTERS),
+    getItem(
+      (
+        <Flex>
+          <RadarChartOutlined style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Relics
+        </Flex>
+      ),
+      AppPages.RELICS),
+    getItem(
+      (
+        <Flex>
+          <UploadOutlined style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Import / Save
+        </Flex>
+      ),
+      AppPages.IMPORT),
+    getItem(
+      (
+        <Flex>
+          <BookOutlined style={{ marginRight: 5, width: 16 }} />
+          {' '}
+          Get Started
+        </Flex>
+      ),
+      AppPages.GETTING_STARTED),
   ]),
-  getItem('Tools', 'subTools', <MenuOutlined />, [
+  getItem('Tools', 'subTools', <ToolOutlined />, [
     getItem(
       (
         <Flex>
           <StarFilled style={{ marginRight: 5, width: 16 }} />
           {' '}
-          Relic scorer
+          Relic Scorer
         </Flex>
       ),
       AppPages.RELIC_SCORER),
@@ -43,7 +94,7 @@ const items = [
       ),
       AppPages.CHANGELOG),
   ]),
-  getItem('Links', 'subLinks', <MenuOutlined />, [
+  getItem('Links', 'subLinks', <BarsOutlined />, [
     getItem(
       <Typography.Link href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noopener noreferrer">
         <DiscordIcon style={{ marginRight: 5 }} />

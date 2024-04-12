@@ -1,6 +1,6 @@
 # Getting started
 #### Install NodeJS & NPM
-Currently, the best balance between legacy dependencies and future direction is `node v18.19.00` - if this changes, it will be reflected in the `.node-version` file in the root directory.
+Currently, the best balance between legacy dependencies and future direction is `node v18.19.0` - if this changes, it will be reflected in the `.node-version` file in the root directory.
 We suggest using a Node version manager such as [NVM](https://github.com/nvm-sh/nvm) or [FNM](https://github.com/Schniz/fnm) to quickly switch between this project and any other node/js project you are working in.
 
 #### Install project dependencies

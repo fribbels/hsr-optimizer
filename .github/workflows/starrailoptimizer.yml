@@ -37,7 +37,7 @@ jobs:
           replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
           include: "src/components/RelicScorerTab.jsx"
       - run: rm -rf .github/workflows
-      - run: mv .github/beta .github/workflows
+      - run: mv .github/starrailoptimizer .github/workflows
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -46,4 +46,4 @@ jobs:
           source-directory: '.'
           destination-github-username: 'starrailoptimizer'
           destination-repository-name: 'starrailoptimizer.github.io'
-          target-branch: test
+          target-branch: main

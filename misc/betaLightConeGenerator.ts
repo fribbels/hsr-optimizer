@@ -30,6 +30,7 @@ function run() {
       rarity,
       path,
       name: lcName,
+      unreleased: true,
     },
   }
 

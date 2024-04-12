@@ -6,14 +6,27 @@ import lightConeRanks from 'data/en/light_cone_ranks.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
-import characterSkills from 'data/en/character_skills.json'
 import { Constants } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
 export const DataParser = {
-  parse: () => {
+  parse: (officialOnly) => {
+    if (officialOnly) {
+      for (const [key, value] of Object.entries(characters)) {
+        if (value.unreleased) {
+          delete characters[key]
+        }
+      }
+
+      for (const [key, value] of Object.entries(lightCones)) {
+        if (value.unreleased) {
+          delete lightCones[key]
+        }
+      }
+    }
+
     for (const [id, characterData] of Object.entries(characters)) {
       characterData.promotions = parseBaseStatsByLevel(characterPromotions[id])
 
@@ -40,6 +53,11 @@ export const DataParser = {
     const scoringMetadata = getScoringMetadata()
 
     for (const [id, traceData] of Object.entries(characterTraces)) {
+      if (!characters[id]) {
+        // Unreleased
+        continue
+      }
+
       let imageCenter = { x: 1024, y: 1024 }
       if (imageCenters[id] != undefined) {
         imageCenter = imageCenters[id]
@@ -61,7 +79,6 @@ export const DataParser = {
     const data = {
       characters: characters,
       characterPromotions: characterPromotions,
-      characterSkills: characterSkills,
       nicknames: characterPromotions,
       lightCones: lightCones,
       relics: relics,

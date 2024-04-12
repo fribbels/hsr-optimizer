@@ -47,7 +47,8 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-console.log('Data parser', DataParser.parse())
+window.officialOnly = false
+DataParser.parse(window.officialOnly)
 SaveState.load()
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>

@@ -2301,7 +2301,8 @@
         "path": "Rogue",
         "element": "Physical",
         "max_sp": 115,
-        "name": "Boothill"
+        "name": "Boothill",
+        "unreleased": true
     },
     "1309": {
         "id": "1309",
@@ -2309,7 +2310,8 @@
         "path": "Shaman",
         "element": "Physical",
         "max_sp": 160,
-        "name": "Robin"
+        "name": "Robin",
+        "unreleased": true
     },
     "8005": {
         "id": "8005",
@@ -2317,7 +2319,8 @@
         "path": "Shaman",
         "element": "Imaginary",
         "max_sp": 140,
-        "name": "{NICKNAME}"
+        "name": "{NICKNAME}",
+        "unreleased": true
     },
     "8006": {
         "id": "8006",
@@ -2325,6 +2328,7 @@
         "path": "Shaman",
         "element": "Imaginary",
         "max_sp": 140,
-        "name": "{NICKNAME}"
+        "name": "{NICKNAME}",
+        "unreleased": true
     }
 }

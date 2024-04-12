@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Select, Typography } from 'antd'
+import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -30,6 +30,7 @@ export default function ScoringModal() {
 
   let scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   let setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  let charactersById = window.store((s) => s.charactersById)
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
   window.setIsScoringModalOpen = setIsScoringModalOpen
@@ -125,6 +126,34 @@ export default function ScoringModal() {
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+  }
+
+  function ResetAllCharactersButton() {
+
+    const resetAllCharacters = () => {
+      console.log("Reset the scoring algorithm for all characters")
+      for (let character of Object.keys(charactersById)) {
+        let defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
+        DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)
+      }
+
+      // Update values for current screen
+      let defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+      let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+      scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+    }
+
+    return (
+      <Popconfirm
+        title="Reset the scoring algorithm for all characters?"
+        description="You will lose any custom scoring settings you have set on any character."
+        onConfirm={resetAllCharacters}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button danger>Reset all characters</Button>
+      </Popconfirm>
+    )
   }
 
   const handleCancel = () => {
@@ -271,6 +300,7 @@ export default function ScoringModal() {
         <Button key="default" onClick={handleResetDefault}>
           Reset to default
         </Button>,
+        <ResetAllCharactersButton key="resetAll" />,
         <Button key="submit" type="primary" onClick={onModalOk}>
           Save changes
         </Button>,

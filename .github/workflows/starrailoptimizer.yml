@@ -36,6 +36,12 @@ jobs:
           find: "const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'"
           replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
           include: "src/components/RelicScorerTab.jsx"
+      - name: Find and Replace officialOnly
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "window.officialOnly = false"
+          replace: "window.officialOnly = true"
+          include: "src/index.jsx"
       - run: rm -rf .github/workflows
       - run: mv .github/starrailoptimizer .github/workflows
       - name: Pushes to another repository

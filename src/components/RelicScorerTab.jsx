@@ -17,8 +17,8 @@ import CharacterModal from 'components/CharacterModal'
 export const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'
 
 function presetCharacters() {
-  const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name).id
-  const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name).id
+  const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
+  const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
     { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
     { characterId: char('Boothill'), lightConeId: lc('Sailing Towards A Second Life') },
@@ -27,7 +27,7 @@ function presetCharacters() {
     { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
     { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },
-  ]
+  ].filter((x) => x.characterId != null) // Unreleased characters
 }
 
 const { Text } = Typography

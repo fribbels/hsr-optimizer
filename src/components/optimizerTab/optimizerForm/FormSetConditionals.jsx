@@ -44,7 +44,7 @@ export const FormSetConditionals = () => {
       {
         display: 'CR+CD',
         value: 2,
-        label: 'Imprisoned (+10% CR +20% CD)',
+        label: 'Imprisoned (+10% CR | +20% CD)',
       },
     ]
   }, [])
@@ -89,32 +89,32 @@ export const FormSetConditionals = () => {
       {
         display: '0x',
         value: -1,
-        label: '0 debuffs (+4% CR)',
+        label: '0 debuffs (+4% base CR)',
       },
       {
         display: '1x',
         value: 0,
-        label: '1 debuff (+12% DMG +4% CR)',
+        label: '1 debuff (+12% DMG | +4% base CR)',
       },
       {
         display: '2x',
         value: 1,
-        label: '2 debuffs (+12% DMG +4% CR +8% CD)',
+        label: '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
       },
       {
         display: '3x',
         value: 2,
-        label: '3 debuffs (+12% DMG +4% CR +12% CD)',
+        label: '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
       },
       {
         display: '2x +',
         value: 3,
-        label: '2 debuffs, enhanced (+12% DMG +8% CR +16% CD)',
+        label: '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
       },
       {
         display: '3x +',
         value: 4,
-        label: '3 debuffs, enhanced (+12% DMG +8% CR +24% CD)',
+        label: '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)',
       },
     ]
   }, [])

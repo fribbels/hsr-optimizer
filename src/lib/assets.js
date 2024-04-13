@@ -1,10 +1,11 @@
 import { Constants } from './constants.ts'
+import { BASE_PATH } from 'lib/db.js'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
 
 function getImageUrl(name) {
-  return new URL(`/hsr-optimizer/assets` + name, import.meta.url).href
+  return new URL(BASE_PATH + `/assets` + name, import.meta.url).href
 }
 
 let pathFromClassMapping

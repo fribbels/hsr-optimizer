@@ -23,7 +23,7 @@ export function LayoutHeader() {
         <Flex>
           <Button
             type="text"
-            icon={menuSidebarOpen ? <MenuOutlined /> : <CloseOutlined />}
+            icon={menuSidebarOpen ? <CloseOutlined /> : <MenuOutlined />}
             onClick={() => setMenuSidebarOpen(!menuSidebarOpen)}
             style={{
               fontSize: '15.5px',

@@ -13,7 +13,7 @@ export function LayoutSider() {
         background: '#243356',
       }}
       collapsible
-      collapsedWidth={0}
+      collapsedWidth={45}
       collapsed={!menuSidebarOpen}
       trigger={null}
     >

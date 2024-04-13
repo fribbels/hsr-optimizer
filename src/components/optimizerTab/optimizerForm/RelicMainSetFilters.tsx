@@ -3,7 +3,7 @@ import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
-import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants.ts'
 import GenerateSetsOptions from 'components/optimizerTab/optimizerForm/SetsOptions.tsx'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions.tsx'
 import { SettingOutlined } from '@ant-design/icons'
@@ -36,7 +36,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Body"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partBody.webp" />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -58,7 +58,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Feet"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partFeet.webp" />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -78,7 +78,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             optionLabelProp="label"
             listHeight={400}
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partPlanarSphere.webp" />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -103,7 +103,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Link Rope"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src="https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/partLinkRope.webp" />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>

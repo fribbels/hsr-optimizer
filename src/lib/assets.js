@@ -1,7 +1,11 @@
 import { Constants } from './constants.ts'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
-const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
+// const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
+
+function getImageUrl(name) {
+  return new URL(`/hsr-optimizer/assets` + name, import.meta.url).href
+}
 
 let pathFromClassMapping
 let iconFromStatMapping
@@ -33,16 +37,13 @@ export const Assets = {
         [Constants.Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.webp',
       }
     }
-    if (stat == 'CV') return baseUrl + `/hsr/misc/cv.webp`
-    if (stat == Constants.Stats.HP_P && percented) return baseUrl + `/hsr/misc/IconMaxHPPercent.webp`
-    if (stat == Constants.Stats.ATK_P && percented) return baseUrl + `/hsr/misc/IconAttackPercent.webp`
-    if (stat == Constants.Stats.DEF_P && percented) return baseUrl + `/hsr/misc/IconDefencePercent.webp`
+    if (stat == 'CV') return getImageUrl(`/misc/cv.webp`)
+    if (stat == Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
+    if (stat == Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)
+    if (stat == Constants.Stats.DEF_P && percented) return getImageUrl(`/misc/IconDefencePercent.webp`)
     if (!stat || !iconFromStatMapping[stat]) return Assets.getBlank()
 
-    return baseUrl + `/hsr/icon/property/` + iconFromStatMapping[stat]
-  },
-  getSampleSave: () => {
-    return baseUrl + `/sample-save.json`
+    return getImageUrl(`/icon/property/${iconFromStatMapping[stat]}`)
   },
   getCharacterPortraitById: (id) => {
     if (!id) {
@@ -50,33 +51,34 @@ export const Assets = {
       return Assets.getBlank()
     }
 
-    return baseUrl + `/hsr/image/character_portrait/${id}.webp`
+    return getImageUrl(`/image/character_portrait/${id}.webp`)
   },
   getCharacterAvatarById: (id) => {
     if (!id) return Assets.getBlank()
 
-    return baseUrl + `/hsr/icon/avatar/${id}.webp`
+    return getImageUrl(`/icon/avatar/${id}.webp`)
   },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()
-    return baseUrl + `/hsr/image/character_preview/${id}.webp`
+
+    return getImageUrl(`/image/character_preview/${id}.webp`)
   },
 
   getLightConePortrait: (lightCone) => {
     if (!lightCone) return Assets.getBlank()
-    return baseUrl + `/hsr/image/light_cone_portrait/${lightCone.id}.webp`
+    return getImageUrl(`/image/light_cone_portrait/${lightCone.id}.webp`)
   },
   getLightConePortraitById: (lightConeId) => {
     if (!lightConeId) return Assets.getBlank()
-    return baseUrl + `/hsr/image/light_cone_portrait/${lightConeId}.webp`
+    return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
   getLightConeIconById: (lightConeId) => {
     if (!lightConeId) return Assets.getBlank()
-    return baseUrl + `/hsr/icon/light_cone/${lightConeId}.webp`
+    return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },
   getPath: (path) => {
     if (!path) return Assets.getBlank()
-    return baseUrl + `/hsr/icon/path/${path}.webp`
+    return getImageUrl(`/icon/path/${path}.webp`)
   },
   getPathFromClass: (c) => {
     if (!pathFromClassMapping) {
@@ -91,37 +93,37 @@ export const Assets = {
       }
     }
     if (!c || !pathFromClassMapping[c]) return Assets.getBlank()
-    return baseUrl + `/hsr/icon/path/${pathFromClassMapping[c]}.webp`
+    return getImageUrl(`/icon/path/${pathFromClassMapping[c]}.webp`)
   },
 
   getElement: (element) => {
     if (!element) return Assets.getBlank()
     if (element == 'Thunder') element = 'Lightning'
-    return baseUrl + `/hsr/icon/element/${element}.webp`
+    return getImageUrl(`/icon/element/${element}.webp`)
   },
   getBlank: () => {
-    return baseUrl + '/hsr/misc/blank.webp'
+    return getImageUrl('/misc/blank.webp')
   },
   getQuestion: () => {
-    return baseUrl + '/hsr/misc/tooltip.webp'
+    return getImageUrl('/misc/tooltip.webp')
   },
   getLogo: () => {
-    return baseUrl + '/hsr/misc/logo.webp'
+    return getImageUrl('/misc/logo.webp')
   },
   getDiscord: () => {
-    return baseUrl + '/hsr/misc/badgediscord.webp'
+    return getImageUrl('/misc/badgediscord.webp')
   },
   getGithub: () => {
-    return baseUrl + '/hsr/misc/badgegithub.webp'
+    return getImageUrl('/misc/badgegithub.webp')
   },
   getStar: () => {
-    return baseUrl + '/hsr/misc/StarBig.webp'
+    return getImageUrl('/misc/StarBig.webp')
   },
   getGuideImage: (name) => {
-    return baseUrl + '/hsr/misc/guide/' + name + '.webp'
+    return getImageUrl(`/misc/guide/${name}.webp`)
   },
   getStarBw: () => {
-    return baseUrl + '/hsr/misc/QuestMainIcon.webp'
+    return getImageUrl('/misc/QuestMainIcon.webp')
   },
 
   getPart: (part) => {
@@ -134,7 +136,11 @@ export const Assets = {
       [Constants.Parts.LinkRope]: 'partLinkRope',
     }
 
-    return baseUrl + `/hsr/misc/${mapping[part]}.webp`
+    return getImageUrl(`/misc/${mapping[part]}.webp`)
+  },
+
+  getChangelog: (path) => {
+    return getImageUrl(`/misc/changelog/${path}`)
   },
 
   getSetImage: (set, part) => {
@@ -186,6 +192,6 @@ export const Assets = {
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
     }
-    return baseUrl + `/hsr/icon/relic/${setToId[set]}${partToId[part]}.webp`
+    return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
   },
 }

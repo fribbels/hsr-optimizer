@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Flex, List, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
+import { Assets } from 'lib/assets'
 
 const { Text } = Typography
 
@@ -46,7 +47,7 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
       display.push(
         <img
           key={i++}
-          src={`https://d28ecrnsw8u0fj.cloudfront.net/hsr/misc/changelog/${contentUpdate.date}/${entry}`}
+          src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
           loading="lazy"
           style={{
             border: '2px solid #30519f',

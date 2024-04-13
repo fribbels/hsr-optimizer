@@ -77,6 +77,7 @@ window.store = create((set) => ({
   optimizationId: undefined,
   teammateCount: 0,
   zeroPermutationModalOpen: false,
+  menuSidebarOpen: true,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -140,6 +141,7 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
 }))
 
 export const DB = {

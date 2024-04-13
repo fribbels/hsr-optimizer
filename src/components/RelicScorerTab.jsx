@@ -27,7 +27,7 @@ function presetCharacters() {
     { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
     { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },
-  ].filter((x) => x.characterId != null) // Unreleased characters
+  ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
 
 const { Text } = Typography
@@ -190,10 +190,6 @@ function CharacterPreviewSelection(props) {
 
   // TODO: Revisit if force updates are necessary
   const [, forceUpdate] = React.useReducer((o) => !o, true)
-  window.forceRelicScorerTabUpdate = () => {
-    console.log('RelicScorerTab ::::: forceRelicScorerTabUpdate')
-    forceUpdate()
-  }
 
   useSubscribe('refreshRelicsScore', () => {
     // TODO: understand why setTimeout is needed and refactor
@@ -344,7 +340,7 @@ function CharacterPreviewSelection(props) {
         >
           <a onClick={(e) => e.preventDefault()}>
             <Button
-              type="default"
+              type="primary"
               shape="round"
               style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
             >

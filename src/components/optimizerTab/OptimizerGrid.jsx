@@ -1,10 +1,5 @@
 import { AgGridReact } from 'ag-grid-react'
-import {
-  baseColumnDefs,
-  combatColumnDefs,
-  defaultColDef,
-  gridOptions,
-} from 'components/optimizerTab/optimizerTabConstants.ts'
+import { baseColumnDefs, combatColumnDefs, defaultColDef, gridOptions } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Flex } from 'antd'
@@ -41,7 +36,7 @@ export function OptimizerGrid() {
           defaultColDef={defaultColDef}
           gridOptions={gridOptions}
           headerHeight={24}
-          onCellMouseDown={OptimizerTabController.cellClicked}
+          onCellClicked={OptimizerTabController.cellClicked}
           ref={optimizerGrid}
           rowSelection="single"
           navigateToNextCell={navigateToNextCell}

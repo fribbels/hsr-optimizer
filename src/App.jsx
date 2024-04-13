@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
-import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
-import { Button, ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd'
-import MenuDrawer from 'components/MenuDrawer'
+import React from 'react'
+import { ConfigProvider, Layout, message, theme } from 'antd'
 import Tabs from 'components/Tabs'
-import { Assets } from 'lib/assets'
+import { LayoutHeader } from 'components/LayoutHeader.tsx'
+import { LayoutSider } from 'components/LayoutSider.tsx'
 
-const { Header, Sider, Content } = Layout
+const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
-  const [collapsed, setCollapsed] = useState(false)
   window.messageApi = messageApi
 
   return (
@@ -58,80 +56,9 @@ const App = () => {
     >
       {messageContextHolder}
       <Layout hasSider style={{ minHeight: '100%' }}>
-        <Sider
-          width={170}
-          style={{
-            background: '#243356',
-          }}
-          collapsible
-          collapsedWidth={0}
-          collapsed={collapsed}
-          trigger={null}
-        >
-          <div
-            style={{
-              position: 'sticky',
-              top: 0,
-              backgroundColor: '#243356',
-            }}
-          >
-            <MenuDrawer />
-          </div>
-        </Sider>
-        <Layout
-          style={{
-          }}
-        >
-
-          <Header
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '30px',
-              paddingRight: '0px',
-              height: 48,
-              width: '100%',
-            }}
-          >
-            <Flex align="center" justify="space-between" style={{ width: '100%' }}>
-              <Flex>
-                <Button
-                  type="text"
-                  icon={collapsed ? <MenuOutlined /> : <CloseOutlined />}
-                  onClick={() => setCollapsed(!collapsed)}
-                  style={{
-                    fontSize: '16px',
-                    position: 'relative',
-                    left: '-20px',
-                  }}
-                />
-                <a href="/hsr-optimizer">
-                  <Flex align="center">
-                    <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
-                    <Typography
-                      style={{ fontWeight: 600, fontSize: 22 }}
-                      color="inherit"
-                    >
-                      Fribbels Honkai Star Rail Optimizer
-                    </Typography>
-                  </Flex>
-                </a>
-              </Flex>
-              <Flex>
-                <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
-                  <Flex>
-                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
-                  </Flex>
-                </a>
-
-                <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
-                  <Flex>
-                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
-                  </Flex>
-                </a>
-              </Flex>
-            </Flex>
-          </Header>
+        <LayoutSider />
+        <Layout>
+          <LayoutHeader />
           <Content
             style={{
               padding: 10,

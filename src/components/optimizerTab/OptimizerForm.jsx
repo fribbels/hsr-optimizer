@@ -32,7 +32,7 @@ export default function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = DB.getCharacters() || []
-    const savedSessionCharacterId = window.store.getState().savedSession.optimizerCharacterId
+    const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
     OptimizerTabController.updateCharacter(savedSessionCharacterId || characters[0]?.id)
   }, [])
 

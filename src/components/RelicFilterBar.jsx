@@ -297,7 +297,6 @@ export default function RelicFilterBar(props) {
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.save()
               setTimeout(() => rescoreClicked(), 100)
-              console.debug(x, excludedCharacterIds)
             }}
             multipleSelect={true}
           />

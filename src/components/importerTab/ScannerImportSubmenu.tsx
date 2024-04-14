@@ -13,6 +13,7 @@ const { Text } = Typography
 
 type ParsedCharacter = {
   characterLevel: number
+  lightConeLevel: number
 }
 
 enum Stages {
@@ -54,7 +55,12 @@ export function ScannerImportSubmenu() {
           let characters: ParsedCharacter[] = output.characters
           const relics: Relic[] = output.relics
 
+          // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
           characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+          characters.map((c) => {
+            c.characterLevel = 80
+            c.lightConeLevel = 80
+          })
 
           setTimeout(() => {
             setLoading1(false)

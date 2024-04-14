@@ -43,7 +43,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
       if (multipleSelect) {
         const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
-        console.debug(value, newSelected)
         setSelected(newSelected)
       }
     }

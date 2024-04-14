@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Flex, Form, Modal, Select } from 'antd'
 import { HeaderText } from './HeaderText'
-import { eidolonOptions, levelOptions, superimpositionOptions } from 'lib/constants'
+import { eidolonOptions, superimpositionOptions } from 'lib/constants'
 import { defaultGap } from 'lib/constantsUi'
 import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
@@ -102,28 +102,19 @@ export default function CharacterModal(props) {
           <HeaderText>Character</HeaderText>
         </Flex>
 
-        <Flex vertical gap={defaultGap}>
-          <Flex gap={defaultGap}>
+        <Flex vertical gap={defaultGap} style={{ marginBottom: 10 }}>
+          <Flex gap={defaultGap} justify="space-between">
             <Form.Item size="default" name="characterId">
               <CharacterSelect
                 value=""
-                selectStyle={{ width: panelWidth }}
+                selectStyle={{ width: panelWidth - 60 - defaultGap }}
                 onChange={setCharacterId}
-              />
-            </Form.Item>
-          </Flex>
-          <Flex gap={defaultGap} justify="space-between">
-            <Form.Item size="default" name="characterLevel">
-              <Select
-                showSearch
-                style={{ width: (panelWidth - defaultGap) / 2 }}
-                options={levelOptions}
               />
             </Form.Item>
             <Form.Item size="default" name="characterEidolon">
               <Select
                 showSearch
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: 60 }}
                 options={eidolonOptions}
               />
             </Form.Item>
@@ -138,23 +129,14 @@ export default function CharacterModal(props) {
             <Form.Item size="default" name="lightCone">
               <LightConeSelect
                 value=""
-                selectStyle={{ width: panelWidth }}
+                selectStyle={{ width: panelWidth - 60 - defaultGap }}
                 characterId={characterId}
-              />
-            </Form.Item>
-          </Flex>
-          <Flex gap={defaultGap} justify="space-between">
-            <Form.Item size="default" name="lightConeLevel">
-              <Select
-                showSearch
-                style={{ width: (panelWidth - defaultGap) / 2 }}
-                options={levelOptions}
               />
             </Form.Item>
             <Form.Item size="default" name="lightConeSuperimposition">
               <Select
                 showSearch
-                style={{ width: (panelWidth - defaultGap) / 2 }}
+                style={{ width: 60 }}
                 options={superimpositionOptions}
               />
             </Form.Item>

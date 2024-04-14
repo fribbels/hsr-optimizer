@@ -31,6 +31,13 @@ export function calculateDamage(c, request, params) {
 
   const ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
 
+  const breakVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY
+  const basicVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY
+  const skillVulnerability = 1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY
+  const ultVulnerability = 1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY
+  const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
+  const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
+
   // BREAK
   const maxToughness = request.enemyMaxToughness
 
@@ -40,7 +47,7 @@ export function calculateDamage(c, request, params) {
     * params.ELEMENTAL_BREAK_SCALING
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
     * (0.5 + maxToughness / 120)
-    * (1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY)
+    * breakVulnerability
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
 
@@ -49,8 +56,7 @@ export function calculateDamage(c, request, params) {
     * universalMulti
     * (dmgBoostMultiplier + x.BASIC_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
-    * (1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY)
+    * ((basicVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + basicVulnerability * (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
     * (1 - (baseResistance - x.BASIC_RES_PEN))
     * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
     + x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG
@@ -59,8 +65,7 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.SKILL_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
-    * (1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY)
+    * ((skillVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + skillVulnerability * (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
     * (1 - (baseResistance - x.SKILL_RES_PEN))
     * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
 
@@ -68,8 +73,7 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.ULT_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-    * (1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY)
+    * ((ultVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
     * (1 - (baseResistance - x.ULT_RES_PEN))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
 
@@ -77,15 +81,14 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.FUA_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-    * (Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
-    * (1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY)
+    * ((fuaVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
     * (1 - (baseResistance - x.FUA_RES_PEN))
 
   x.DOT_DMG
     *= universalMulti
     * (dmgBoostMultiplier + x.DOT_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
-    * (1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY)
+    * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
 }
 

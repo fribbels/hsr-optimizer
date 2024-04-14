@@ -1,11 +1,9 @@
-import { Stats } from 'lib/constants'
-
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 const lcRank = {
   id: '23020',
@@ -32,7 +30,7 @@ const lcRank2 = {
 }
 
 const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesCd = [0.08, 0.09, 0.10, 0.11, 0.12]
+  const sValuesCritVulnerability = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
   const sValuesFuaPen = [0.24, 0.28, 0.32, 0.36, 0.40]
 
@@ -41,7 +39,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     formItem: 'slider',
     id: 'debuffCdStacks',
     name: 'debuffCdStacks',
-    text: 'Debuff cd stacks',
+    text: 'Debuff crit vulnerability stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
     min: 0,
@@ -63,10 +61,10 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       debuffCdStacks: 3,
       postUltBuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
+      x.CRIT_VULNERABILITY += r.debuffCdStacks * sValuesCritVulnerability[s]
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
       x.FUA_DEF_PEN += r.postUltBuff ? sValuesFuaPen[s] : 0
     },

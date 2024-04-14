@@ -3,6 +3,7 @@ import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import { SavedSessionKeys } from 'lib/constantsSession';
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -114,6 +115,10 @@ window.store = create((set) => ({
     [OptimizerMenuIds.teammates]: true,
   },
 
+  savedSession: {
+    [SavedSessionKeys.optimizerCharacterId]: null,
+  },
+
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
@@ -140,6 +145,10 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+  setSavedSession: (x) => set(() => ({ savedSession: x })),
+  setSavedSessionKey: (key, x) => set((state) => ({
+    savedSession: { ...state.savedSession, [key]: x },
+  })),
 }))
 
 export const DB = {
@@ -328,6 +337,10 @@ export const DB = {
         }
       }
       window.store.getState().setOptimizerMenuState(menuState)
+    }
+
+    if (x.savedSession) {
+      window.store.getState().setSavedSession(x.savedSession)
     }
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])

@@ -9,6 +9,7 @@ export const SaveState = {
       scoringMetadataOverrides: window.store.getState().scoringMetadataOverrides,
       optimizerMenuState: window.store.getState().optimizerMenuState,
       excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
+      savedSession: window.store.getState().savedSession,
     }
 
     console.log('Saved state', state)

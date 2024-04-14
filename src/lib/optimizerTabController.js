@@ -9,6 +9,7 @@ import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
 import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
+import { SavedSessionKeys } from 'lib/constantsSession'
 
 let relics
 let consts
@@ -572,6 +573,9 @@ export const OptimizerTabController = {
   setCharacter: (id) => {
     window.store.getState().setOptimizerTabFocusCharacter(id)
     window.optimizerForm.setFieldValue('characterId', id)
+
+    window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
+    SaveState.save()
   },
 
   // Update form values with the character

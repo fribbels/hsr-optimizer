@@ -2,6 +2,7 @@ import { Form } from 'antd'
 import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
+import { SavedSessionKeys } from 'lib/constantsSession'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
 import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay.tsx'
@@ -28,10 +29,11 @@ export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm()
   window.optimizerForm = optimizerForm
 
-  // On first load, display the first character from the roster
+  // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = DB.getCharacters() || []
-    OptimizerTabController.updateCharacter(characters[0]?.id)
+    const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
+    OptimizerTabController.updateCharacter(savedSessionCharacterId || characters[0]?.id)
   }, [])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
@@ -55,6 +57,11 @@ export default function OptimizerForm() {
 
     const request = allValues
     console.log('@onValuesChange', request, changedValues)
+
+    if (keys[0] === 'characterId') {
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
+      SaveState.save()
+    }
 
     // Add any new characters to the list only if the user changed any value other than the characterId
     if (!DB.getCharacterById(allValues.characterId) && keys[0] != 'characterId') {

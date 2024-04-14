@@ -103,7 +103,10 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       x.DOT_VULNERABILITY += (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0
       x.DEF_SHRED += (m.defDecreaseDebuff) ? defShredValue : 0
-      x.RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
+      x.WIND_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
+      x.FIRE_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
+      x.PHYSICAL_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
+      x.LIGHTNING_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

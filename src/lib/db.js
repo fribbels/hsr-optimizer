@@ -20,7 +20,7 @@ const state = {
 }
 
 // This string is replaced by /dreary-quibbles by github actions, don't change
-const BASE_PATH = '/hsr-optimizer'
+export const BASE_PATH = '/hsr-optimizer'
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
@@ -78,6 +78,7 @@ window.store = create((set) => ({
   optimizationId: undefined,
   teammateCount: 0,
   zeroPermutationModalOpen: false,
+  menuSidebarOpen: true,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -145,6 +146,7 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) => set((state) => ({
     savedSession: { ...state.savedSession, [key]: x },

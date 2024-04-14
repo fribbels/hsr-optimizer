@@ -43,7 +43,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'enemyUnnervedDebuff',
       text: 'Enemy Unnerved',
       title: 'Roulette Shark',
-      content: `When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by ${precisionRound(ultCdScaling * 100)}%.`,
+      content: `When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by ${precisionRound(ultCritVulnerability * 100)}%.`,
     },
     {
       formItem: 'slider',

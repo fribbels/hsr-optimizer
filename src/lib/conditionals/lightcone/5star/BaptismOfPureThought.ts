@@ -39,7 +39,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
     formItem: 'slider',
     id: 'debuffCdStacks',
     name: 'debuffCdStacks',
-    text: 'Debuff cd stacks',
+    text: 'Debuff crit vulnerability stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
     min: 0,

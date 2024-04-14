@@ -4,12 +4,11 @@ import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesFuaDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
-  const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
+  const sValuesCritVulnerability = [0.12, 0.14, 0.16, 0.18, 0.20]
   const lcRank: LightConeRawRank = {
     id: '23016',
     skill: 'One At A Time',
@@ -38,7 +37,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'targetTameStacks',
     name: 'targetTameStacks',
     formItem: 'slider',
-    text: 'Target Tame stacks (WIP)',
+    text: 'Target Tame stacks',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank2),
     min: 0,
@@ -60,7 +59,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x[Stats.CD] += m.targetTameStacks * sValuesCd[s]
+      x.CRIT_VULNERABILITY += m.targetTameStacks * sValuesCritVulnerability[s]
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

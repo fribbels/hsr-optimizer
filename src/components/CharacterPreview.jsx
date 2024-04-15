@@ -135,14 +135,14 @@ export function CharacterPreview(props) {
   const scoredRelics = scoringResults.relics || []
 
   const lightConeId = character.form.lightCone
-  const lightConeLevel = character.form.lightConeLevel
+  const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
   const lightConeName = lightConeMetadata?.name || ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const characterId = character.form.characterId
-  const characterLevel = character.form.characterLevel
+  const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterName = characterMetadata.displayName
@@ -236,11 +236,11 @@ export function CharacterPreview(props) {
           >
             <Text
               style={{
-                backgroundColor: '#00000066',
+                backgroundColor: '#00000073',
                 padding: '4px 12px',
                 borderRadius: 8,
                 fontSize: 16,
-                maxWidth: parentW - 160,
+                maxWidth: parentW - 150,
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
@@ -316,7 +316,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Head, part: Constants.Parts.Head}}
+            relic={{ ...displayRelics.Head, part: Constants.Parts.Head }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
@@ -325,7 +325,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Body, part: Constants.Parts.Body}}
+            relic={{ ...displayRelics.Body, part: Constants.Parts.Body }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
@@ -334,7 +334,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere}}
+            relic={{ ...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
@@ -346,7 +346,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Hands, part: Constants.Parts.Hands}}
+            relic={{ ...displayRelics.Hands, part: Constants.Parts.Hands }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
@@ -355,7 +355,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Feet, part: Constants.Parts.Feet}}
+            relic={{ ...displayRelics.Feet, part: Constants.Parts.Feet }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
@@ -364,7 +364,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.LinkRope, part: Constants.Parts.LinkRope}}
+            relic={{ ...displayRelics.LinkRope, part: Constants.Parts.LinkRope }}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}

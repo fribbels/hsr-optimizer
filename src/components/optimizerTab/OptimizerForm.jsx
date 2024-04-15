@@ -60,7 +60,7 @@ export default function OptimizerForm() {
 
     if (keys[0] === 'characterId') {
       window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
-      SaveState.save()
+      setTimeout(() => SaveState.save(), 1000)
     }
 
     // Add any new characters to the list only if the user changed any value other than the characterId
@@ -217,7 +217,7 @@ function LightConeConditionalDisplayWrapper() {
   useEffect(() => {
     const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue())
     const defaults = lcFn.defaults()
-    const lightConeForm = window.optimizerForm.getFieldsValue().lightConeConditionals || {}
+    const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
     if (optimizerFormSelectedLightCone === '21034') { // Today Is Another Peaceful Day

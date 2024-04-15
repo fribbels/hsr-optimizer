@@ -3,7 +3,7 @@ import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
-import { SavedSessionKeys } from 'lib/constantsSession';
+import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -288,7 +288,11 @@ export const DB = {
       character.equipped = {}
       charactersById[character.id] = character
 
-      // Previously the relic sets were different than what they are now, delete the deprecated options for users with old save files
+      // Previously characters had customizable options, now we're defaulting to 80s
+      character.form.characterLevel = 80
+      character.form.lightConeLevel = 80
+
+      // Previously the relic sets were different from what they are now, delete the deprecated options for users with old save files
       const relicSetsOptions = character.form.relicSets || []
       for (let i = relicSetsOptions.length - 1; i >= 0; i--) {
         if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {

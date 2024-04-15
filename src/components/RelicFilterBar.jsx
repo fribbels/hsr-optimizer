@@ -290,14 +290,12 @@ export default function RelicFilterBar(props) {
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
             onChange={(x) => {
-              const excludedCharacterIds = (x || new Map()).entries()
+              const excludedCharacterIds = Array.from(x || new Map())
                 .filter((entry) => entry[1] == true)
                 .map((entry) => entry[0])
-                .toArray()
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.save()
               setTimeout(() => rescoreClicked(), 100)
-              console.debug(x, excludedCharacterIds)
             }}
             multipleSelect={true}
           />

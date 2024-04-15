@@ -185,22 +185,46 @@ export default function RelicsTab() {
   }, [relicTabFilters])
 
   const valueColumnOptions = useMemo(() => [
-    { column: 'Selected Char\nScore', value: 'weights.current', label: 'Selected character: Score' },
-    { column: 'Selected Char\nAvg Potential', value: 'weights.potentialSelected.averagePct', label: 'Selected character: Average potential', percent: true },
-    { column: 'Selected Char\nMax Potential', value: 'weights.potentialSelected.bestPct', label: 'Selected character: Max potential', percent: true },
-    { column: 'Custom Chars\nMax Potential', value: 'weights.potentialAllCustom', label: 'Custom characters: Max potential', percent: true },
-    { column: 'All Chars\nMax Potential', value: 'weights.potentialAllAll', label: 'All characters: Max potential', percent: true },
-    { column: 'All Chars\nMax Potential + Sets', disabled: true, value: 'weights.potentialAllSets', label: 'All characters: Max potential + Sets (Coming soon)', percent: true },
+    {
+      label: 'Selected character',
+      options: [
+        { column: 'Selected Char\nScore', value: 'weights.current', label: 'Selected character: Score' },
+        { column: 'Selected Char\nAvg Potential', value: 'weights.potentialSelected.averagePct', label: 'Selected character: Average potential', percent: true },
+        { column: 'Selected Char\nMax Potential', value: 'weights.potentialSelected.bestPct', label: 'Selected character: Max potential', percent: true },
+      ],
+    },
+    {
+      label: 'Custom characters',
+      options: [
+        { column: 'Custom Chars\nAvg Potential', value: 'weights.potentialAllCustom.averagePct', label: 'Custom characters: Avg potential', percent: true },
+        { column: 'Custom Chars\nMax Potential', value: 'weights.potentialAllCustom.bestPct', label: 'Custom characters: Max potential', percent: true },
+      ],
+    },
+    {
+      label: 'All characters',
+      options: [
+        { column: 'All Chars\nAvg Potential', value: 'weights.potentialAllAll.averagePct', label: 'All characters: Avg potential', percent: true },
+        { column: 'All Chars\nMax Potential', value: 'weights.potentialAllAll.bestPct', label: 'All characters: Max potential', percent: true },
+      ],
+    },
+    {
+      label: 'Coming soon',
+      options: [
+        { column: 'All Chars\nMax Potential + Sets', disabled: true, value: 'weights.potentialAllSets', label: 'Relic / Ornament sets potential', percent: true },
+      ],
+    },
   ], [])
 
-  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom'])
+  const flatValueColumnOptions = useMemo(() => valueColumnOptions.flatMap((x) => x.options), [valueColumnOptions])
+
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
-    { field: 'equippedBy', headerName: 'Owner', width: 45, cellRenderer: Renderer.characterIcon },
-    { field: 'set', cellRenderer: Renderer.anySet, width: 45, headerName: 'Set', filter: 'agTextColumnFilter' },
+    { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon },
+    { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {
       field: 'grade',
-      width: 45,
+      width: 40,
       cellRenderer: Renderer.renderGradeCell,
       filter: GradeFilter,
       comparator: (a, b, nodeA, nodeB) => {
@@ -211,7 +235,7 @@ export default function RelicsTab() {
         }
       },
     },
-    { field: 'part', valueFormatter: Renderer.readablePart, width: 60, filter: 'agTextColumnFilter' },
+    { field: 'part', valueFormatter: Renderer.readablePart, width: 55, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main\nStat', width: 70, filter: 'agTextColumnFilter' },
     { field: 'main.value', headerName: 'Main Value', width: 50, valueFormatter: Renderer.mainValueRenderer, filter: 'agNumberColumnFilter' },
@@ -230,14 +254,14 @@ export default function RelicsTab() {
     { field: 'cv', valueGetter: cvValueGetter, headerName: 'Crit\nValue', cellStyle: Gradient.getRelicGradient, valueFormatter: Renderer.hideZeroesX100Tenths, filter: 'agNumberColumnFilter' },
   ].concat(valueColumns
     .map((vc) => {
-      const i = valueColumnOptions.findIndex((x) => x.value === vc)
-      return [i, valueColumnOptions[i]]
+      const i = flatValueColumnOptions.findIndex((x) => x.value === vc)
+      return [i, flatValueColumnOptions[i]]
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 80 }
+      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 75 }
     )),
-  ), [valueColumnOptions, valueColumns])
+  ), [flatValueColumnOptions, valueColumns])
 
   const gridOptions = useMemo(() => ({
     rowHeight: 33,
@@ -251,7 +275,7 @@ export default function RelicsTab() {
   // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 48,
+    width: 46,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 100 },

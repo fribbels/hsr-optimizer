@@ -146,15 +146,22 @@ export default function RelicFilterBar(props) {
     for (const relic of relics) {
       relic.weights = id ? relicScorer.scoreRelic(relic, id) : { current: 0, best: 0, average: 0 }
       relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
-      relic.weights.potentialAllAll = 0
-      relic.weights.potentialAllCustom = 0
+      relic.weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
+      relic.weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
 
       for (const cid of allCharacters) {
-        const pct = relicScorer.scoreRelicPct(relic, cid).bestPct
-        relic.weights.potentialAllAll = Math.max(pct, relic.weights.potentialAllAll)
+        const pct = relicScorer.scoreRelicPct(relic, cid)
+        relic.weights.potentialAllAll = {
+          bestPct: Math.max(pct.bestPct, relic.weights.potentialAllAll.bestPct),
+          averagePct: Math.max(pct.averagePct, relic.weights.potentialAllAll.averagePct),
+        }
 
+        // For custom characters only consider the ones that aren't excluded
         if (!excludedCharacters.includes(cid)) {
-          relic.weights.potentialAllCustom = Math.max(pct, relic.weights.potentialAllCustom)
+          relic.weights.potentialAllCustom = {
+            bestPct: Math.max(pct.bestPct, relic.weights.potentialAllCustom.bestPct),
+            averagePct: Math.max(pct.averagePct, relic.weights.potentialAllCustom.averagePct),
+          }
         }
       }
     }
@@ -279,6 +286,7 @@ export default function RelicFilterBar(props) {
                 options={props.valueColumnOptions}
                 maxTagCount="responsive"
                 style={{ flex: 1 }}
+                listHeight={750}
               />
             </Flex>
           </Flex>

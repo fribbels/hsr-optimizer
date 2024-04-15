@@ -116,6 +116,15 @@ export const Renderer = {
     return Constants.PartsToReadable[x.value]
   },
 
+  partIcon: (x) => {
+    if (x == undefined || x.value == undefined) return ''
+    return (
+      <Flex justify="center" style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
+        <SetDisplay asset={Assets.getPart(x.value)} />
+      </Flex>
+    )
+  },
+
   hideZeroes: (x) => {
     return x.value == 0 ? '' : x.value
   },

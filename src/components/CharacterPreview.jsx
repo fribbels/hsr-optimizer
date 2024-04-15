@@ -236,11 +236,11 @@ export function CharacterPreview(props) {
           >
             <Text
               style={{
-                backgroundColor: '#00000066',
+                backgroundColor: '#00000073',
                 padding: '4px 12px',
                 borderRadius: 8,
                 fontSize: 16,
-                maxWidth: parentW - 160,
+                maxWidth: parentW - 150,
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',

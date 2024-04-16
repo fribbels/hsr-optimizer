@@ -1,0 +1,1 @@
+node --trace-turbo --trace-turbo-filter=getSetEffect* node_modules/vitest/dist/cli.js bench tests/optimizer/benchmark/set.bench.ts

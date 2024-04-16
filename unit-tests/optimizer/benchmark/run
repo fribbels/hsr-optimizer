@@ -1,0 +1,1 @@
+npx vitest bench tests/optimizer/benchmark/set.bench.ts

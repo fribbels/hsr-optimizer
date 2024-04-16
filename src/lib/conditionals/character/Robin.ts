@@ -85,15 +85,15 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'Ult buff Robin\'s ATK',
       content: betaUpdate,
       min: 0,
-      max: 5000,
+      max: 6000,
     },
     findContentId(content, 'talentCdBuff'),
     {
       formItem: 'switch',
-      id: 'talentFuaCdBoost',
-      name: 'talentFuaCdBoost',
-      text: 'FUA Crit DMG vulnerability',
-      title: 'FUA Crit DMG vulnerability',
+      id: 'traceFuaCdBoost',
+      name: 'traceFuaCdBoost',
+      text: 'FUA CD boost',
+      title: 'FUA CD boost',
       content: betaUpdate,
     },
     findContentId(content, 'e1UltResPen'),
@@ -126,7 +126,7 @@ export default (e: Eidolon): CharacterConditional => {
       skillDmgBuff: true,
       talentCdBuff: true,
       teammateATKValue: 4000,
-      talentFuaCdBoost: true,
+      traceFuaCdBoost: true,
       e1UltResPen: true,
       e2UltSpdBuff: false,
       e4TeamResBuff: true,
@@ -147,7 +147,6 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.RES] += (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0
 
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBuffValue : 0
-      x.FUA_CRIT_VULNERABILITY += (m.concertoActive) ? 0.25 : 0
       x.RES_PEN += (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
@@ -156,7 +155,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
       x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
 
-      x.FUA_CD_BOOST += (t.talentFuaCdBoost) ? 0.10 : 0
+      x.FUA_CD_BOOST += (t.traceFuaCdBoost && t.concertoActive) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

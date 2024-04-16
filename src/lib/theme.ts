@@ -1,0 +1,34 @@
+export type ColorTheme = {
+  colorTextBase: string
+  colorBgBase: string
+  colorPrimary: string
+  colorSecondary: string
+  colorTertiary: string
+  colorBgContainer: string
+  colorBgMenu: string
+  headerBg: string
+}
+
+export const Themes: { [key: string]: ColorTheme } = {
+  BLUE: { // 182239
+    colorTextBase: '#ffffff',
+    colorBgBase: '#182239',
+    colorPrimary: '#1677FF',
+    // colorPrimary: '#182239',
+    // colorSecondary: '#182239',
+    // colorTertiary: '#182239',
+    // colorBgContainer: '#243356',
+    // colorBgMenu: '#001529',
+  },
+  ALT: {
+    colorTextBase: '#ffffff',
+    colorBgBase: '#532E7E',
+    colorPrimary: '#AB5DD9',
+    // colorBgBase: '#3d15ab',
+    // colorPrimary: '#e84505',
+    // colorSecondary: '#ffffff',
+    // colorTertiary: '#ffffff',
+    // colorBgContainer: '#ffffff',
+    // colorBgMenu: '#21b33b',
+  },
+}

@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select } from 'antd'
+import { Button, Flex, Popconfirm, Select, theme } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -20,6 +20,7 @@ import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 
+const { useToken } = theme
 const GradeFilter = forwardRef((props, ref) => {
   const [model, setModel] = useState(null)
 
@@ -84,6 +85,8 @@ GradeFilter.propTypes = {
 }
 
 export default function RelicsTab() {
+  const { token } = useToken()
+
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
@@ -469,7 +472,7 @@ export default function RelicsTab() {
                   }
                   layout={{
                     plot_bgcolor: 'rgba(0, 0, 0, 0)',
-                    paper_bgcolor: '#243356',
+                    paper_bgcolor: token.colorBgContainer,
                     font: {
                       color: 'rgba(255, 255, 255, 0.85)',
                     },
@@ -587,7 +590,7 @@ export default function RelicsTab() {
                 ]}
                 layout={{
                   plot_bgcolor: 'rgba(0, 0, 0, 0)',
-                  paper_bgcolor: '#243356',
+                  paper_bgcolor: token.colorBgContainer,
                   font: {
                     color: 'rgba(255, 255, 255, 0.85)',
                   },

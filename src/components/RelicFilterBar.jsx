@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Tooltip, Typography } from 'antd'
+import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import { RelicScorer } from 'lib/relicScorer'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
@@ -15,6 +15,7 @@ import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { ClearOutlined } from '@ant-design/icons'
 
+const { useToken } = theme
 const { Text } = Typography
 
 const tagHeight = 34
@@ -319,6 +320,8 @@ RelicFilterBar.propTypes = {
 }
 
 function FilterRow(props) {
+  const { token } = useToken()
+
   const relicTabFilters = window.store((s) => s.relicTabFilters)
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
 
@@ -341,8 +344,8 @@ function FilterRow(props) {
       style={{
         flexWrap: 'wrap',
         flexGrow: 1,
-        backgroundColor: '#243356',
-        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
+        backgroundColor: token.colorBgContainer,
+        boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
         borderRadius: 6,
         overflow: 'hidden',
       }}
@@ -355,7 +358,8 @@ function FilterRow(props) {
           style={{
             flex: 1,
             flexBasis: props.flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96',
+            boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
+            backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
           <Flex align="center" justify="space-around" style={{ height: '100%' }}>

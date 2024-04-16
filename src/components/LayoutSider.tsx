@@ -1,16 +1,19 @@
 import MenuDrawer from 'components/MenuDrawer.jsx'
-import { Layout } from 'antd'
+import { Layout, theme } from 'antd'
 
+const { useToken } = theme
 const { Sider } = Layout
 
 export function LayoutSider() {
+  const { token } = useToken()
+
   const menuSidebarOpen = window.store((s) => s.menuSidebarOpen)
 
   return (
     <Sider
       width={170}
       style={{
-        background: '#243356',
+        background: token.colorBgContainer,
       }}
       collapsible
       collapsedWidth={0}
@@ -21,7 +24,6 @@ export function LayoutSider() {
         style={{
           position: 'sticky',
           top: 0,
-          backgroundColor: '#243356',
         }}
       >
         <MenuDrawer />

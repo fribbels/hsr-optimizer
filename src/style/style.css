@@ -297,13 +297,13 @@ a {
   padding-inline-end: 6px !important;
 }
 
-.ant-slider:hover .ant-slider-handle::after {
-  box-shadow: 0 0 0 4px #1668dc;
-}
+/*.ant-slider:hover .ant-slider-handle::after {*/
+/*  box-shadow: 0 0 0 4px #1668dc;*/
+/*}*/
 
-.ant-slider-handle::after {
-  background-color: #1668dc !important;
-}
+/*.ant-slider-handle::after {*/
+/*  background-color: #1668dc !important;*/
+/*}*/
 
 .ant-input-number-group-addon {
   padding: 0 3px !important;

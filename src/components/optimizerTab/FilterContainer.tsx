@@ -8,7 +8,6 @@ export default function FilterContainer(props: { children: ReactElement | ReactE
     <Flex
       vertical
       style={{
-        // outline: '2px solid #243356',
         overflow: 'hidden',
         borderRadius: '10px',
         boxShadow: shadow,

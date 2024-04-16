@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react'
-import { Flex, List, Typography } from 'antd'
+import { Flex, List, theme, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { Assets } from 'lib/assets'
 import { ColorizedLink } from './common/ColorizedLink'
 
+const { useToken } = theme
 const { Text } = Typography
 
 type ChangelogContent = { title: string; date: string; content: string[] }
@@ -33,14 +34,16 @@ export default function ChangelogTab(): React.JSX.Element {
         <List.Item
           key={item.title}
         >
-          {listToDisplay(item.content, item)}
+          {ListToDisplay(item.content, item)}
         </List.Item>
       )}
     />
   )
 }
 
-function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
+function ListToDisplay(content: string[], contentUpdate: ChangelogContent) {
+  const { token } = useToken()
+
   const display: ReactElement[] = []
   let i = 0
   for (const entry of content) {
@@ -51,7 +54,7 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
           src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
           loading="lazy"
           style={{
-            border: '2px solid #30519f',
+            border: `2px solid ${token.colorBgContainer}`,
             margin: 5,
           }}
         />,

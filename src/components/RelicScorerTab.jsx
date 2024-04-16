@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Dropdown, Flex, Form, Input, Segmented, Typography } from 'antd'
+import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'components/CharacterPreview'
 import { SaveState } from 'lib/saveState'
 import { CharacterConverter } from 'lib/characterConverter'
@@ -7,7 +7,14 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled } from '@ant-design/icons'
+import Icon, {
+  CameraOutlined,
+  DownloadOutlined,
+  ExperimentOutlined,
+  ImportOutlined,
+  LineChartOutlined,
+  PlusCircleFilled
+} from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -16,6 +23,7 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Constants } from 'lib/constants'
 
+const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
 // BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
 export const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'
@@ -176,6 +184,8 @@ RelicScorerTab.propTypes = {
 
 function CharacterPreviewSelection(props) {
   const activeKey = window.store((s) => s.activeKey)
+  const { token } = useToken()
+
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
@@ -344,7 +354,7 @@ function CharacterPreviewSelection(props) {
         </Flex>
 
         <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
-        <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: '#182239' }}>
+        <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class="relicScorerCharacterPreview"
             character={props.selectedCharacter}

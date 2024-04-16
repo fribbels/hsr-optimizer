@@ -9,6 +9,7 @@ import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
+import { Themes } from 'lib/theme'
 
 const state = {
   relics: [],
@@ -56,6 +57,9 @@ export const RouteToPage = {
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
+  // colorTheme: Themes.BLUE,
+  colorTheme: Themes.ALT,
+
   optimizerGrid: undefined,
 
   optimizerTabFocusCharacter: undefined,
@@ -153,6 +157,7 @@ window.store = create((set) => ({
   setSavedSessionKey: (key, x) => set((state) => ({
     savedSession: { ...state.savedSession, [key]: x },
   })),
+  setColorTheme: (x) => set(() => ({ colorTheme: x })),
 }))
 
 export const DB = {

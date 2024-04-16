@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Image, Typography } from 'antd'
+import { Button, Flex, Image, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
@@ -20,10 +20,13 @@ import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
 
+const { useToken } = theme
 const { Text } = Typography
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
+  const { token } = useToken()
+
   console.log('@CharacterPreview')
 
   const { source, character } = props
@@ -31,7 +34,7 @@ export function CharacterPreview(props) {
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
 
-  const backgroundColor = isBuilds ? '#2A3C64' : '#182239'
+  const backgroundColor = token.colorBgLayout
 
   const relicsById = window.store((s) => s.relicsById)
   const characterTabBlur = window.store((s) => s.characterTabBlur)
@@ -86,11 +89,11 @@ export function CharacterPreview(props) {
     return (
       <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
 
-        <div style={{ width: parentW, overflow: 'hidden', outline: '2px solid #243356', height: '100%', borderRadius: '10px' }}>
+        <div style={{ width: parentW, overflow: 'hidden', outline: `2px solid ${token.colorBgContainer}`, height: '100%', borderRadius: '10px' }}>
         </div>
 
         <Flex gap={defaultGap}>
-          <Flex vertical gap={defaultGap} align="center" style={{ outline: '2px solid #243356', width: '100%', height: '100%', borderRadius: '10px' }}>
+          <Flex vertical gap={defaultGap} align="center" style={{ outline: `2px solid ${token.colorBgContainer}`, width: '100%', height: '100%', borderRadius: '10px' }}>
             <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
               <Flex></Flex>
             </Flex>

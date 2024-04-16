@@ -319,3 +319,4 @@ export type ConditionalBuff =
   | 'breakDmgDefShred'
   | 'e1UltResPen'
   | 'e2UltSpdBuff'
+  | 'traceFuaCdBoost'

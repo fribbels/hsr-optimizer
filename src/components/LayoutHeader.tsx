@@ -20,7 +20,7 @@ export function LayoutHeader() {
         paddingRight: '0px',
         height: 48,
         width: '100%',
-        backgroundColor: token.colorPrimaryBg,
+        backgroundColor: token.colorBgLayout,
         backgroundImage: 'linear-gradient(rgb(0 0 0/20%) 0 0)',
       }}
     >

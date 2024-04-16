@@ -81,7 +81,7 @@ export function calculateDamage(c, request, params) {
     *= universalMulti
     * (dmgBoostMultiplier + x.FUA_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-    * ((fuaVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
+    * ((fuaVulnerability + x.CRIT_VULNERABILITY + x.FUA_CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
     * (1 - (baseResistance - x.FUA_RES_PEN))
 
   x.DOT_DMG

@@ -317,3 +317,5 @@ export type ConditionalBuff =
   | 'e6AdditionalBreakDmg'
   | 'spdBuffConditional'
   | 'breakDmgDefShred'
+  | 'e1UltResPen'
+  | 'e2UltSpdBuff'

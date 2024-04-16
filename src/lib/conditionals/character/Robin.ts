@@ -7,7 +7,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated 04-15-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -47,6 +47,15 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
+      id: 'e1UltResPen',
+      name: 'e1UltResPen',
+      text: 'E1 Ult RES PEN',
+      title: 'E1 Ult RES PEN',
+      content: betaUpdate,
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
       id: 'e4TeamResBuff',
       name: 'e4TeamResBuff',
       text: 'E4 RES team buff',
@@ -83,20 +92,19 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentFuaCdBoost',
       name: 'talentFuaCdBoost',
-      text: 'FUA Crit DMG boost',
-      title: 'FUA Crit DMG boost',
+      text: 'FUA Crit DMG vulnerability',
+      title: 'FUA Crit DMG vulnerability',
       content: betaUpdate,
     },
+    findContentId(content, 'e1UltResPen'),
     {
-      formItem: 'slider',
-      id: 'e1UltResPenStacks',
-      name: 'e1UltResPenStacks',
-      text: 'E1 Ult RES PEN stacks',
-      title: 'E1 Ult RES PEN stacks',
+      formItem: 'switch',
+      id: 'e2UltSpdBuff',
+      name: 'e2UltSpdBuff',
+      text: 'E2 Ult SPD buff',
+      title: 'E2 Ult SPD buff',
       content: betaUpdate,
-      disabled: e < 1,
-      min: 0,
-      max: 2,
+      disabled: e < 2,
     },
   ]
 
@@ -104,6 +112,7 @@ export default (e: Eidolon): CharacterConditional => {
     concertoActive: true,
     skillDmgBuff: true,
     talentCdBuff: true,
+    e1UltResPen: true,
     e4TeamResBuff: false,
     e6UltCDBoost: true,
   }
@@ -118,7 +127,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentCdBuff: true,
       teammateATKValue: 4000,
       talentFuaCdBoost: true,
-      e1UltResPenStacks: 2,
+      e1UltResPen: true,
+      e2UltSpdBuff: false,
       e4TeamResBuff: true,
     }),
     precomputeEffects: (request: Form) => {
@@ -134,20 +144,19 @@ export default (e: Eidolon): CharacterConditional => {
       const m = request.characterConditionals
 
       x[Stats.CD] += (m.talentCdBuff) ? talentCdBuffValue : 0
-      x[Stats.CD] += (e >= 2 && m.talentCdBuff) ? 0.20 : 0
       x[Stats.RES] += (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0
 
       x.ELEMENTAL_DMG += (m.skillDmgBuff) ? skillDmgBuffValue : 0
-      x.FUA_CD_BOOST += (m.concertoActive) ? 0.10 : 0
+      x.FUA_CRIT_VULNERABILITY += (m.concertoActive) ? 0.25 : 0
+      x.RES_PEN += (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
 
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
+      x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
 
       x.FUA_CD_BOOST += (t.talentFuaCdBoost) ? 0.10 : 0
-
-      x.RES_PEN += (e >= 1 && t.concertoActive) ? 0.12 * t.e1UltResPenStacks : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

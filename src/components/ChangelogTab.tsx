@@ -10,11 +10,62 @@ const { Text } = Typography
 type ChangelogContent = { title: string; date: string; content: string[] }
 
 export default function ChangelogTab(): React.JSX.Element {
+  const { token } = useToken()
+
   const activeKey = window.store((s) => s.activeKey)
 
   if (activeKey != AppPages.CHANGELOG) {
     // Don't load images unless we're on the changelog tab
     return (<></>)
+  }
+
+  function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
+    const display: ReactElement[] = []
+    let i = 0
+    for (const entry of content) {
+      if (entry.endsWith('.webp')) {
+        display.push(
+          <img
+            key={i++}
+            src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
+            loading="lazy"
+            style={{
+              border: `2px solid ${token.colorBgContainer}`,
+              margin: 5,
+            }}
+          />,
+        )
+      } else if (entry.startsWith('https')) {
+        display.push(
+          <li key={i++}>
+            <ColorizedLink
+              text={entry}
+              url={entry}
+              key={i++}
+            />
+          </li>,
+        )
+      } else {
+        display.push(
+          <li key={i++}>
+            <Text style={{ fontSize: 16 }}>{entry}</Text>
+          </li>,
+        )
+      }
+    }
+
+    return (
+      <Flex vertical>
+        <Typography.Title style={{ marginLeft: 20 }}>
+          <u>
+            {`Update ${contentUpdate.date}`}
+          </u>
+        </Typography.Title>
+        <ul>
+          {display}
+        </ul>
+      </Flex>
+    )
   }
 
   return (
@@ -25,75 +76,21 @@ export default function ChangelogTab(): React.JSX.Element {
         onChange: (page) => {
           console.log(page)
         },
-        pageSize: 4,
         position: 'bottom',
         align: 'start',
+        simple: true,
+        pageSize: 4,
       }}
       dataSource={changelog}
       renderItem={(item) => (
         <List.Item
           key={item.title}
         >
-          {ListToDisplay(item.content, item)}
+          {listToDisplay(item.content, item)}
         </List.Item>
       )}
     />
   )
-}
-
-function ListToDisplay(content: string[], contentUpdate: ChangelogContent) {
-  const { token } = useToken()
-
-  const display: ReactElement[] = []
-  let i = 0
-  for (const entry of content) {
-    if (entry.endsWith('.webp')) {
-      display.push(
-        <img
-          key={i++}
-          src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
-          loading="lazy"
-          style={{
-            border: `2px solid ${token.colorBgContainer}`,
-            margin: 5,
-          }}
-        />,
-      )
-    } else if (entry.startsWith('https')) {
-      display.push(
-        <li key={i++}>
-          <ColorizedLink
-            text={entry}
-            url={entry}
-            key={i++}
-          />
-        </li>,
-      )
-    } else {
-      display.push(
-        <li key={i++}>
-          <Text style={{ fontSize: 16 }}>{entry}</Text>
-        </li>,
-      )
-    }
-  }
-
-  return (
-    <Flex vertical>
-      <Typography.Title style={{ marginLeft: 20 }}>
-        <u>
-          {`Update ${contentUpdate.date}`}
-        </u>
-      </Typography.Title>
-      <ul>
-        {display}
-      </ul>
-    </Flex>
-  )
-}
-
-function leaks(str: string) {
-  return window.officialOnly ? '' : str
 }
 
 /*

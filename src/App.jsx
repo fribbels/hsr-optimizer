@@ -18,6 +18,7 @@ const App = () => {
       theme={{
         token: {
           motionUnit: 0.1,
+          opacityLoading: 0.20, // FormSetConditionals.js
           colorBgBase: colorTheme.colorBgBase,
           colorTextBase: colorTheme.colorTextBase,
           colorPrimary: colorTheme.colorPrimary,
@@ -50,7 +51,11 @@ const App = () => {
             trackHoverBg: colorTheme.colorPrimary,
             railHoverBg: '#ffffff80',
             railBg: '#ffffff12',
-            handleSizeHover: 10,
+            handleSize: 5,
+            handleSizeHover: 5,
+            handleLineWidth: 3,
+            handleLineWidthHover: 3,
+            railSize: 3,
           },
           InputNumber: {
             paddingInlineSM: 4,

@@ -22,7 +22,7 @@ export const Themes: { [key: string]: ColorTheme } = {
   },
   ALT: {
     colorTextBase: '#ffffff',
-    colorBgBase: '#532E7E',
+    colorBgBase: '#381236',
     colorPrimary: '#AB5DD9',
     // colorBgBase: '#3d15ab',
     // colorPrimary: '#e84505',

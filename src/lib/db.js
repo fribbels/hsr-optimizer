@@ -79,6 +79,7 @@ window.store = create((set) => ({
   teammateCount: 0,
   zeroPermutationModalOpen: false,
   menuSidebarOpen: true,
+  relicScorerSidebarOpen: true,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -118,6 +119,7 @@ window.store = create((set) => ({
 
   savedSession: {
     [SavedSessionKeys.optimizerCharacterId]: null,
+    [SavedSessionKeys.relicScorerSidebarOpen]: true,
   },
 
   setActiveKey: (x) => set(() => ({ activeKey: x })),

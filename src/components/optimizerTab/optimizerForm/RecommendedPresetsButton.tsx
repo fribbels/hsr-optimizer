@@ -21,7 +21,7 @@ import { ApplyColumnStateParams } from 'ag-grid-community'
  * 200.00 (3 actions in first cycle)
  */
 
-const SpdValues = {
+export const SpdValues = {
   SPD0: {
     key: 'SPD0',
     label: '0 SPD - Action advance support recommended',
@@ -135,46 +135,10 @@ const RecommendedPresetsButton = () => {
   const actionsMenuProps = {
     items,
     onClick: (event) => {
-      if (!optimizerTabFocusCharacter) return
-
-      const key = event.key
-      if (SpdValues[key]) {
-        const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
-        const metadata = character.scoringMetadata
-        const spd = SpdValues[key].value
-
-        // Using the user's current form so we don't overwrite their other numeric filter values
-        const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
-        const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
-        form.setConditionals = defaultForm.setConditionals
-
-        form.minSpd = spd
-        form.maxSpd = undefined
-        form.mainBody = metadata.parts[Constants.Parts.Body]
-        form.mainFeet = metadata.parts[Constants.Parts.Feet]
-        form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
-        form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
-        form.weights = metadata.stats
-        form.weights.topPercent = 100
-
-        /*
-         * Not sure if we want to support set recommendations yet
-         * form.ornamentSets = metadata.ornamentSets
-         * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
-         */
-
-        const presets = metadata.presets || []
-        const sortOption = metadata.sortOption
-        form.resultSort = sortOption.key
-        setSortColumn(sortOption.combatGridColumn)
-        for (const applyPreset of presets) {
-          applyPreset(form)
-        }
-
-        window.optimizerForm.setFieldsValue(form)
-        window.onOptimizerFormValuesChange({}, form)
+      if (SpdValues[event.key]) {
+        applySpdPreset(SpdValues[event.key].value, optimizerTabFocusCharacter)
       } else {
-        Message.warn('Preset not available, please select another option')
+        Message.warning('Preset not available, please select another option')
       }
     },
   }
@@ -193,6 +157,44 @@ const RecommendedPresetsButton = () => {
       </a>
     </Dropdown>
   )
+}
+
+export function applySpdPreset(spd, characterId) {
+  if (!characterId) return
+
+  const character = DB.getMetadata().characters[characterId]
+  const metadata = character.scoringMetadata
+
+  // Using the user's current form so we don't overwrite their other numeric filter values
+  const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+  const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+  form.setConditionals = defaultForm.setConditionals
+
+  form.minSpd = spd
+  form.maxSpd = undefined
+  form.mainBody = metadata.parts[Constants.Parts.Body]
+  form.mainFeet = metadata.parts[Constants.Parts.Feet]
+  form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
+  form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
+  form.weights = metadata.stats
+  form.weights.topPercent = 100
+
+  /*
+   * Not sure if we want to support set recommendations yet
+   * form.ornamentSets = metadata.ornamentSets
+   * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
+   */
+
+  const presets = metadata.presets || []
+  const sortOption = metadata.sortOption
+  form.resultSort = sortOption.key
+  setSortColumn(sortOption.combatGridColumn)
+  for (const applyPreset of presets) {
+    applyPreset(form)
+  }
+
+  window.optimizerForm.setFieldsValue(form)
+  window.onOptimizerFormValuesChange({}, form)
 }
 
 export default RecommendedPresetsButton

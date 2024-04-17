@@ -11,7 +11,10 @@ import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutli
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
-import { applySpdPreset, SpdValues } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Constants } from 'lib/constants'
 
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
 // BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
@@ -282,8 +285,8 @@ function CharacterPreviewSelection(props) {
     })
   }
 
+  // This is kinda janky and could use a refactor
   function optimizeClicked(e) {
-    console.debug(e, props)
     const form = props.selectedCharacter.form
     const characterId = form.characterId
 
@@ -295,9 +298,27 @@ function CharacterPreviewSelection(props) {
     window.store.getState().setActiveKey(AppPages.OPTIMIZER)
     window.store.getState().setOptimizerTabFocusCharacter(characterId)
 
+    // Timeout to allow the optimize page to load before applying presets
     setTimeout(() => {
-      applySpdPreset(SpdValues.SPD0.value, characterId)
-    }, 100)
+      const equippedRelics = Utils.clone(props.selectedCharacter.equipped)
+      const cleanedForm = OptimizerTabController.getDisplayFormValues(form)
+
+      // Do some relic transformations to get it ready for optimization
+      const relicsByPart = {}
+      for (const part of Object.values(Constants.Parts)) {
+        relicsByPart[part] = [equippedRelics[part]]
+      }
+      RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
+
+      // Calculate the build's speed value to use as a preset
+      const c = calculateBuild(cleanedForm, equippedRelics)
+      applySpdPreset(Utils.precisionRound(c.SPD, 3), characterId)
+
+      // Timeout to allow the form to populate before optimizing
+      setTimeout(() => {
+        window.optimizerStartClicked()
+      }, 1000)
+    }, 1000)
   }
 
   return (

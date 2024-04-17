@@ -21,7 +21,7 @@ import { ApplyColumnStateParams } from 'ag-grid-community'
  * 200.00 (3 actions in first cycle)
  */
 
-const SpdValues = {
+export const SpdValues = {
   SPD0: {
     key: 'SPD0',
     label: '0 SPD - Action advance support recommended',
@@ -29,53 +29,53 @@ const SpdValues = {
   },
   SPD111: {
     key: 'SPD111',
-    label: '111.12 SPD - 5 actions in first four cycles',
-    value: 111.12,
+    label: '111.112 SPD - 5 actions in first four cycles',
+    value: 111.112,
   },
   SPD114: {
     key: 'SPD114',
-    label: '114.29 SPD - 4 actions in first three cycles',
-    value: 114.29,
+    label: '114.286 SPD - 4 actions in first three cycles',
+    value: 114.286,
   },
   SPD120: {
     key: 'SPD120',
-    label: '120.00 SPD - 3 actions in first two cycles',
-    value: 120.00,
+    label: '120.000 SPD - 3 actions in first two cycles',
+    value: 120.000,
   },
   SPD133: {
     key: 'SPD133',
-    label: (<b>133.34 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
-    value: 133.34,
+    label: (<b>133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles</b>),
+    value: 133.334,
   },
   SPD142: {
     key: 'SPD142',
-    label: '142.86 SPD - 5 actions in first three cycles',
-    value: 142.86,
+    label: '142.858 SPD - 5 actions in first three cycles',
+    value: 142.858,
   },
   SPD155: {
     key: 'SPD155',
-    label: '155.56 SPD - 7 actions in first four cycles',
-    value: 155.56,
+    label: '155.556 SPD - 7 actions in first four cycles',
+    value: 155.556,
   },
   SPD160: {
     key: 'SPD160',
-    label: '160.00 SPD - 4 actions in first two cycles',
-    value: 160.00,
+    label: '160.000 SPD - 4 actions in first two cycles',
+    value: 160.000,
   },
   SPD171: {
     key: 'SPD171',
-    label: '171.43 SPD - 6 actions in first three cycles',
-    value: 171.43,
+    label: '171.429 SPD - 6 actions in first three cycles',
+    value: 171.429,
   },
   SPD177: {
     key: 'SPD177',
-    label: '177.78 SPD - 8 actions in first four cycles',
-    value: 177.78,
+    label: '177.778 SPD - 8 actions in first four cycles',
+    value: 177.778,
   },
   SPD200: {
     key: 'SPD200',
-    label: '200.00 SPD - 3 actions in first cycle',
-    value: 200.00,
+    label: '200.000 SPD - 3 actions in first cycle',
+    value: 200.000,
   },
 }
 const standardSpdOptions = Object.values(SpdValues)
@@ -135,46 +135,10 @@ const RecommendedPresetsButton = () => {
   const actionsMenuProps = {
     items,
     onClick: (event) => {
-      if (!optimizerTabFocusCharacter) return
-
-      const key = event.key
-      if (SpdValues[key]) {
-        const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
-        const metadata = character.scoringMetadata
-        const spd = SpdValues[key].value
-
-        // Using the user's current form so we don't overwrite their other numeric filter values
-        const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
-        const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
-        form.setConditionals = defaultForm.setConditionals
-
-        form.minSpd = spd
-        form.maxSpd = undefined
-        form.mainBody = metadata.parts[Constants.Parts.Body]
-        form.mainFeet = metadata.parts[Constants.Parts.Feet]
-        form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
-        form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
-        form.weights = metadata.stats
-        form.weights.topPercent = 100
-
-        /*
-         * Not sure if we want to support set recommendations yet
-         * form.ornamentSets = metadata.ornamentSets
-         * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
-         */
-
-        const presets = metadata.presets || []
-        const sortOption = metadata.sortOption
-        form.resultSort = sortOption.key
-        setSortColumn(sortOption.combatGridColumn)
-        for (const applyPreset of presets) {
-          applyPreset(form)
-        }
-
-        window.optimizerForm.setFieldsValue(form)
-        window.onOptimizerFormValuesChange({}, form)
+      if (SpdValues[event.key]) {
+        applySpdPreset(SpdValues[event.key].value, optimizerTabFocusCharacter)
       } else {
-        Message.warn('Preset not available, please select another option')
+        Message.warning('Preset not available, please select another option')
       }
     },
   }
@@ -193,6 +157,44 @@ const RecommendedPresetsButton = () => {
       </a>
     </Dropdown>
   )
+}
+
+export function applySpdPreset(spd, characterId) {
+  if (!characterId) return
+
+  const character = DB.getMetadata().characters[characterId]
+  const metadata = character.scoringMetadata
+
+  // Using the user's current form so we don't overwrite their other numeric filter values
+  const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
+  const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
+  form.setConditionals = defaultForm.setConditionals
+
+  form.minSpd = spd
+  form.maxSpd = undefined
+  form.mainBody = metadata.parts[Constants.Parts.Body]
+  form.mainFeet = metadata.parts[Constants.Parts.Feet]
+  form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
+  form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
+  form.weights = metadata.stats
+  form.weights.topPercent = 100
+
+  /*
+   * Not sure if we want to support set recommendations yet
+   * form.ornamentSets = metadata.ornamentSets
+   * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
+   */
+
+  const presets = metadata.presets || []
+  const sortOption = metadata.sortOption
+  form.resultSort = sortOption.key
+  setSortColumn(sortOption.combatGridColumn)
+  for (const applyPreset of presets) {
+    applyPreset(form)
+  }
+
+  window.optimizerForm.setFieldsValue(form)
+  window.onOptimizerFormValuesChange({}, form)
 }
 
 export default RecommendedPresetsButton

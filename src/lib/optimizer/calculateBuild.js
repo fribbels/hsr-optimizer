@@ -69,7 +69,7 @@ function extractRelics(relics) {
   return relics
 }
 
-function getEquippedRelicsById(selectedCharacter) {
+export function getEquippedRelicsById(selectedCharacter) {
   const relics = {}
   const equippedPartIds = selectedCharacter.equipped || {}
   for (const part of Object.values(Constants.Parts)) {

@@ -1,3 +1,4 @@
 export enum SavedSessionKeys {
-    optimizerCharacterId = 'optimizerCharacterId',
+  optimizerCharacterId = 'optimizerCharacterId',
+  relicScorerSidebarOpen = 'relicScorerSidebarOpen',
 }

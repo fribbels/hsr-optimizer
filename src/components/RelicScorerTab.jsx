@@ -5,12 +5,16 @@ import { SaveState } from 'lib/saveState'
 import { CharacterConverter } from 'lib/characterConverter'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
-import DB from 'lib/db'
-import { useSubscribe } from 'hooks/useSubscribe'
+import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, PlusCircleFilled } from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { Constants } from 'lib/constants'
 
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
 // BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
@@ -31,23 +35,19 @@ function presetCharacters() {
 }
 
 const { Text } = Typography
+
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
-  const [, forceUpdate] = React.useReducer((o) => !o)
 
   const scorerId = window.store((s) => s.scorerId)
   const setScorerId = window.store((s) => s.setScorerId)
 
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
-
-  function buttonClick() {
-    setLoading(true)
-  }
 
   function onFinish(x) {
     console.log('finish', x)
@@ -60,14 +60,10 @@ export default function RelicScorerTab() {
       return
     }
 
-    const options = {
-      method: 'GET',
-    }
-
     setScorerId(id)
     SaveState.save()
 
-    fetch(`${API_ENDPOINT}/profile/${id}`, options)
+    fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -109,6 +105,9 @@ export default function RelicScorerTab() {
         console.log('characters', characters)
 
         const converted = characters.map((x) => CharacterConverter.convert(x))
+        for (let i = 0; i < converted.length; i++) {
+          converted[i].index = i
+        }
         setAvailableCharacters(converted)
         if (converted.length) {
           setSelectedCharacter(converted[0])
@@ -122,15 +121,10 @@ export default function RelicScorerTab() {
       })
   }
 
-  function scoringClicked() {
-    window.setIsScoringModalOpen(true)
-  }
-
   let initialId = undefined
-  const savedId = scorerId
-  if (savedId) {
+  if (scorerId) {
     try {
-      const parsed = parseInt(savedId)
+      const parsed = parseInt(scorerId)
       initialId = isNaN(parsed) ? undefined : parsed
     } catch (e) {
       console.error(e)
@@ -155,12 +149,12 @@ export default function RelicScorerTab() {
             <Form.Item size="default" name="scorerId">
               <Input style={{ width: 150 }} placeholder="Account UID" />
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} onClick={buttonClick} style={{ width: 100 }}>
+            <Button type="primary" htmlType="submit" loading={loading} onClick={() => setLoading(true)} style={{ width: 100 }}>
               Submit
             </Button>
             <Button
               style={{ width: 150 }}
-              onClick={scoringClicked}
+              onClick={() => window.setIsScoringModalOpen(true)}
             >
               Scoring algorithm
             </Button>
@@ -168,9 +162,9 @@ export default function RelicScorerTab() {
         </Form>
         <CharacterPreviewSelection
           availableCharacters={availableCharacters}
+          setAvailableCharacters={setAvailableCharacters}
           setSelectedCharacter={setSelectedCharacter}
           selectedCharacter={selectedCharacter}
-          forceUpdate={forceUpdate}
         />
       </Flex>
     </div>
@@ -181,22 +175,12 @@ RelicScorerTab.propTypes = {
 }
 
 function CharacterPreviewSelection(props) {
+  const activeKey = window.store((s) => s.activeKey)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
-
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
-
-  // TODO: Revisit if force updates are necessary
-  const [, forceUpdate] = React.useReducer((o) => !o, true)
-
-  useSubscribe('refreshRelicsScore', () => {
-    // TODO: understand why setTimeout is needed and refactor
-    setTimeout(() => {
-      forceUpdate()
-    }, 100)
-  })
 
   console.log('CharacterPreviewSelection', props)
 
@@ -214,6 +198,7 @@ function CharacterPreviewSelection(props) {
         </Flex>
       ),
       value: availableCharacter.id,
+      key: i,
     })
   }
 
@@ -236,16 +221,25 @@ function CharacterPreviewSelection(props) {
       return Message.error('Selected character already exists')
     }
 
+    // Updates the selected segmented option
+    const availableCharacter = props.availableCharacters[props.selectedCharacter.index]
+    availableCharacter.form = form
+    availableCharacter.id = form.characterId
+
     // Change the character metadata and set the equipped icons
     props.selectedCharacter.form = form
     props.selectedCharacter.id = form.characterId
     Object.values(props.selectedCharacter.equipped)
       .filter((x) => !!x)
       .map((x) => x.equippedBy = form.characterId)
+
+    // Refresh the options by forcing new objects
+    props.setAvailableCharacters(JSON.parse(JSON.stringify(props.availableCharacters)))
+    props.setSelectedCharacter(JSON.parse(JSON.stringify(props.selectedCharacter)))
     console.log('Modified character', props.selectedCharacter)
   }
 
-  async function importClicked() {
+  function importClicked() {
     const newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
       .filter((x) => !!x)
@@ -276,7 +270,7 @@ function CharacterPreviewSelection(props) {
     }, 50)
   }
 
-  function sidebarClick(e) {
+  function presetClicked(e) {
     if (e.custom) {
       return simulateClicked()
     }
@@ -289,74 +283,49 @@ function CharacterPreviewSelection(props) {
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     })
-    props.forceUpdate()
   }
 
-  function Sidebar() {
-    const dropdownDisplay = useMemo(() => {
-      let key = 0
-      return (
-        <Flex vertical gap={0}>
-          {
-            presetCharacters().map((preset) => {
-              const icon = !preset.custom
-                ? (
-                  <img
-                    src={Assets.getCharacterAvatarById(preset.characterId)}
-                    style={{ height: 100, width: 100 }}
-                  />
-                )
-                : <Icon component={PlusCircleFilled} style={{ fontSize: 90 }} />
-              return (
-                <Button
-                  key={key++}
-                  type="text"
-                  style={{ width: 110, height: 110, padding: 5, paddingTop: 4, marginLeft: -5 }}
-                  onClick={() => sidebarClick(preset)}
-                >
-                  {icon}
-                </Button>
-              )
-            })
-          }
-        </Flex>
-      )
-    }, [])
-    return (
-      <Flex
-        vertical
-        style={{
-          position: 'relative',
-          left: -245,
-          top: 150,
-          width: 0,
-          height: 0,
-        }}
-        gap={20}
-      >
+  // This is kinda janky and could use a refactor
+  function optimizeClicked() {
+    const form = props.selectedCharacter.form
+    const characterId = form.characterId
 
-        <Dropdown
-          dropdownRender={() => (dropdownDisplay)}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Button
-              type="primary"
-              shape="round"
-              style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
-            >
-              <Icon component={ExperimentOutlined} style={{ fontSize: 65 }} />
-            </Button>
-          </a>
-        </Dropdown>
-      </Flex>
-    )
+    // Add relics and character
+    importClicked()
+    DB.addFromForm(form)
+
+    // Open optimizer
+    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
+    window.store.getState().setOptimizerTabFocusCharacter(characterId)
+
+    // Timeout to allow the optimize page to load before applying presets
+    setTimeout(() => {
+      const equippedRelics = Utils.clone(props.selectedCharacter.equipped)
+      const cleanedForm = OptimizerTabController.getDisplayFormValues(form)
+
+      // Do some relic transformations to get it ready for optimization
+      const relicsByPart = {}
+      for (const part of Object.values(Constants.Parts)) {
+        relicsByPart[part] = [equippedRelics[part]]
+      }
+      RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
+
+      // Calculate the build's speed value to use as a preset
+      const c = calculateBuild(cleanedForm, equippedRelics)
+      applySpdPreset(Utils.precisionRound(c.SPD, 3), characterId)
+
+      // Timeout to allow the form to populate before optimizing
+      setTimeout(() => {
+        window.optimizerStartClicked()
+      }, 1000)
+    }, 1000)
   }
 
   return (
-    <Flex style={{ width: 1300 }} justify="space-around">
+    <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
       <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <Sidebar />
+          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey} />
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
             <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
               Copy screenshot
@@ -367,6 +336,9 @@ function CharacterPreviewSelection(props) {
             </Button>
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
+            </Button>
+            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 248 }}>
+              Optimize character stats
             </Button>
           </Flex>
         </Flex>
@@ -392,7 +364,98 @@ function CharacterPreviewSelection(props) {
 }
 CharacterPreviewSelection.propTypes = {
   availableCharacters: PropTypes.array,
+  setAvailableCharacters: PropTypes.func,
   selectedCharacter: PropTypes.object,
   setSelectedCharacter: PropTypes.func,
-  forceUpdate: PropTypes.func,
+}
+
+function Sidebar(props) {
+  // Save the state of the sidebar so that new users can have it open while experiences users can close the sidebar
+  const [open, setOpen] = useState(window.store.getState().savedSession[SavedSessionKeys.relicScorerSidebarOpen])
+
+  useEffect(() => {
+    window.store.getState().setSavedSessionKey(SavedSessionKeys.relicScorerSidebarOpen, open)
+    setTimeout(() => SaveState.save(), 1000)
+  }, [open])
+
+  const dropdownDisplay = useMemo(() => {
+    let key = 0
+    return (
+      <Flex vertical gap={0}>
+        {
+          presetCharacters().map((preset) => {
+            const icon = !preset.custom
+              ? (
+                <img
+                  src={Assets.getCharacterAvatarById(preset.characterId)}
+                  style={{ height: 100, width: 100 }}
+                />
+              )
+              : <Icon component={PlusCircleFilled} style={{ fontSize: 100 }} />
+            return (
+              <Button
+                key={key++}
+                type="text"
+                style={{
+                  width: 107,
+                  height: 107,
+                  padding: 5,
+                  paddingTop: 2,
+                  marginLeft: -5,
+                  display: props.activeKey == AppPages.RELIC_SCORER ? 'flex' : 'none',
+                }}
+                onClick={() => props.presetClicked(preset)}
+              >
+                {icon}
+              </Button>
+            )
+          })
+        }
+      </Flex>
+    )
+  }, [props])
+
+  return (
+    <Flex
+      vertical
+      style={{
+        position: 'relative',
+        left: -125,
+        top: 38,
+        width: 0,
+        height: 0,
+      }}
+      gap={5}
+    >
+
+      <Button
+        type="primary"
+        shape="round"
+        style={{ minHeight: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
+        onClick={props.optimizeClicked}
+      >
+        <Icon component={LineChartOutlined} style={{ fontSize: 65 }} />
+      </Button>
+
+      <Dropdown
+        dropdownRender={() => (dropdownDisplay)}
+        open={open}
+      >
+        <a
+          onClick={(e) => {
+            e.preventDefault()
+            setOpen(!open)
+          }}
+        >
+          <Button
+            type="primary"
+            shape="round"
+            style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
+          >
+            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }} />
+          </Button>
+        </a>
+      </Dropdown>
+    </Flex>
+  )
 }

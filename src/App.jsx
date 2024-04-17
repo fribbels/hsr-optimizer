@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ConfigProvider, Layout, message, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
 
-const { useToken } = theme
+const { useToken, getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
@@ -12,6 +12,11 @@ const App = () => {
   window.messageApi = messageApi
 
   const colorTheme = store((s) => s.colorTheme)
+  useEffect(() => {
+    Gradient.setToken(getDesignToken({
+      token: colorTheme,
+    }))
+  }, [colorTheme])
 
   return (
     <ConfigProvider

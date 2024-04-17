@@ -1,8 +1,11 @@
 import tinygradient from 'tinygradient'
 import { Constants } from './constants.ts'
 import { OptimizerTabController } from './optimizerTabController'
+import { theme } from 'antd'
 
-let optimizerGridGradient = tinygradient([
+const { getDesignToken } = theme
+
+const optimizerGridGradient = tinygradient([
   { color: '#5A1A06', pos: 0 }, // red
   { color: '#343127', pos: 0.35 },
   { color: '#38821F', pos: 1 }, // green
@@ -16,15 +19,15 @@ export const Gradient = {
   },
 
   getOptimizerColumnGradient: (params) => {
-    let aggs = OptimizerTabController.getAggs()
+    const aggs = OptimizerTabController.getAggs()
 
     try {
-      let colId = params.column.colId
+      const colId = params.column.colId
 
       if (params.data && aggs && OptimizerTabController.getColumnsToAggregate(true)[colId]) {
-        let min = aggs.minAgg[colId]
-        let max = aggs.maxAgg[colId]
-        let value = params.value
+        const min = aggs.minAgg[colId]
+        const max = aggs.maxAgg[colId]
+        const value = params.value
 
         let range = (value - min) / (max - min)
         if (max == min) {
@@ -32,7 +35,7 @@ export const Gradient = {
         }
         // console.log(min, max, value, range);
 
-        let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
+        const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
         return {
           backgroundColor: color,
         }
@@ -40,9 +43,17 @@ export const Gradient = {
     } catch (e) { console.error(e) }
   },
 
+  setTheme(colorTheme) {
+    relicGridGradient = tinygradient(colorTheme.colorBgBase, colorTheme.colorPrimary)
+  },
+
+  setToken(token) {
+    relicGridGradient = tinygradient(token.colorBgElevated, token.colorPrimaryHover)
+  },
+
   getRelicGradient(params) {
-    let col = params.column.colId
-    let value = params.value
+    const col = params.column.colId
+    const value = params.value
     if (!relicColumnRanges) {
       // Not maxes, just for visual representation of gradient. Calculated by low roll x 5
       relicColumnRanges = {
@@ -79,7 +90,7 @@ export const Gradient = {
       range = value / relicColumnRanges[col]
     }
 
-    let color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
+    const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
 
     return {
       backgroundColor: color,

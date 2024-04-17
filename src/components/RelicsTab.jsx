@@ -457,7 +457,7 @@ export default function RelicsTab() {
 
           {relicInsight === 'top10' && scores && (
             <Flex gap={10}>
-              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
                 <Plot
                   data={
                     scores.map((s) => ({
@@ -547,7 +547,7 @@ export default function RelicsTab() {
               </ol>
             </Flex>
           )}
-          <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+          <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
             {relicInsight === 'buckets' && scoreBuckets && (
             // Since plotly doesn't natively support images as points, we emulate it in this plot
             // by adding invisible points for each character (to get 'name on hover' behavior),

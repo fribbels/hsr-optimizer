@@ -24,8 +24,8 @@ export const Themes: { [key: string]: ColorTheme } = {
   },
   ALT: {
     colorTextBase: '#ffffff',
-    colorBgBase: '#381236',
-    colorPrimary: '#AB5DD9',
+    colorBgBase: '#122511',
+    colorPrimary: '#2d701d',
     // colorBgBase: '#3d15ab',
     // colorPrimary: '#e84505',
     // colorSecondary: '#ffffff',
@@ -40,7 +40,7 @@ export function getGridTheme(token: GlobalToken) {
     '--ag-background-color': token.colorBgContainer,
     '--ag-odd-row-background-color': token.colorBgElevated,
     '--ag-header-background-color': token.colorBgLayout,
-    '--ag-border-color': token.colorBgElevated,
+    '--ag-border-color': token.colorBorderSecondary,
     '--ag-row-hover-color': token.colorPrimary,
   }
 }

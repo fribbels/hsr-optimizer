@@ -286,7 +286,7 @@ function CharacterPreviewSelection(props) {
   }
 
   // This is kinda janky and could use a refactor
-  function optimizeClicked(e) {
+  function optimizeClicked() {
     const form = props.selectedCharacter.form
     const characterId = form.characterId
 
@@ -325,7 +325,7 @@ function CharacterPreviewSelection(props) {
     <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
       <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <LeftSidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey} />
+          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey} />
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
             <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
               Copy screenshot
@@ -336,6 +336,9 @@ function CharacterPreviewSelection(props) {
             </Button>
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
+            </Button>
+            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 248 }}>
+              Optimize character stats
             </Button>
           </Flex>
         </Flex>
@@ -366,7 +369,7 @@ CharacterPreviewSelection.propTypes = {
   setSelectedCharacter: PropTypes.func,
 }
 
-function LeftSidebar(props) {
+function Sidebar(props) {
   // Save the state of the sidebar so that new users can have it open while experiences users can close the sidebar
   const [open, setOpen] = useState(window.store.getState().savedSession[SavedSessionKeys.relicScorerSidebarOpen])
 
@@ -417,7 +420,7 @@ function LeftSidebar(props) {
       vertical
       style={{
         position: 'relative',
-        left: -255,
+        left: -125,
         top: 38,
         width: 0,
         height: 0,
@@ -453,36 +456,6 @@ function LeftSidebar(props) {
           </Button>
         </a>
       </Dropdown>
-    </Flex>
-  )
-}
-
-function RightSidebar(props) {
-  return (
-    <Flex
-      vertical
-      style={{
-        position: 'relative',
-        left: 955,
-        top: 150,
-        width: 0,
-        height: 0,
-      }}
-    >
-      <a
-        onClick={(e) => {
-          e.preventDefault()
-          props.sidebarClick()
-        }}
-      >
-        <Button
-          type="primary"
-          shape="round"
-          style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
-        >
-          <Icon component={LineChartOutlined} style={{ fontSize: 65 }} />
-        </Button>
-      </a>
     </Flex>
   )
 }

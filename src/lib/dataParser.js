@@ -1573,7 +1573,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.fnAshblazingSet(4),
       ],
-      sortOption: SortOption.SPD,
+      sortOption: SortOption.FUA,
     },
     1101: { // Bronya
       stats: {

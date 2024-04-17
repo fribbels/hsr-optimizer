@@ -19,6 +19,7 @@ import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import { getGridTheme } from 'lib/theme'
 
 const { useToken } = theme
 const GradeFilter = forwardRef((props, ref) => {
@@ -389,7 +390,12 @@ export default function RelicsTab() {
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' }}>
+        <div
+          id="relicGrid" className="ag-theme-balham-dark" style={{
+            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...getGridTheme(token),
+          }}
+        >
 
           <AgGridReact
             ref={gridRef}

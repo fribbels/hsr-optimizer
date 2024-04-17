@@ -1,3 +1,5 @@
+import type { GlobalToken } from 'antd/es/theme/interface'
+
 export type ColorTheme = {
   colorTextBase: string
   colorBgBase: string
@@ -11,9 +13,9 @@ export type ColorTheme = {
 
 export const Themes: { [key: string]: ColorTheme } = {
   BLUE: { // 182239
-    colorTextBase: '#ffffff',
-    colorBgBase: '#182239',
-    colorPrimary: '#1677FF',
+    colorTextBase: '#ffffff', // Text
+    colorBgBase: '#182239', // Background
+    colorPrimary: '#1677FF', // Buttons
     // colorPrimary: '#182239',
     // colorSecondary: '#182239',
     // colorTertiary: '#182239',
@@ -31,4 +33,14 @@ export const Themes: { [key: string]: ColorTheme } = {
     // colorBgContainer: '#ffffff',
     // colorBgMenu: '#21b33b',
   },
+}
+
+export function getGridTheme(token: GlobalToken) {
+  return {
+    '--ag-background-color': token.colorBgContainer,
+    '--ag-odd-row-background-color': token.colorBgElevated,
+    '--ag-header-background-color': token.colorBgLayout,
+    '--ag-border-color': token.colorBgElevated,
+    '--ag-row-hover-color': token.colorPrimary,
+  }
 }

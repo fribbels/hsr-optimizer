@@ -157,24 +157,8 @@ body,
   z-index: 2 !important;
 }
 
-.ag-watermark {
-  display: none !important;
-}
-
 .ag-theme-balham .ag-row:not(.ag-row-first) {
   border: none;
-}
-
-.ag-theme-balham .ag-row-odd {
-  background-color: #960303;
-}
-
-.ag-theme-balham .ag-row-hover {
-  background-color: #daf1ff;
-}
-
-.ag-theme-balham .ag-row-selected {
-  background-color: #b7e4ff;
 }
 
 .ag-cell-label-container {
@@ -255,10 +239,6 @@ body,
 
 .ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #4290ff !important;
-}
-
-.ag-cell {
-  /* border-right-width: 0px !important */
 }
 
 .ant-popover-content p {

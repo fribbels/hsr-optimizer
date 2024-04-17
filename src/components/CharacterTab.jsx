@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 
-import { Button, Dropdown, Flex, Image, Modal, Typography } from 'antd'
+import { Button, Dropdown, Flex, Image, Modal, theme, Typography } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
@@ -20,12 +20,15 @@ import BuildsModal from './BuildsModal'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
+import { getGridTheme } from 'lib/theme'
+
+const { useToken } = theme
 
 const { Text } = Typography
 
 function cellImageRenderer(params) {
-  let data = params.data
-  let characterIconSrc = Assets.getCharacterAvatarById(data.id)
+  const data = params.data
+  const characterIconSrc = Assets.getCharacterAvatarById(data.id)
 
   return (
     <Image
@@ -38,8 +41,8 @@ function cellImageRenderer(params) {
 }
 
 function cellRankRenderer(params) {
-  let data = params.data
-  let character = DB.getCharacters().find((x) => x.id == data.id)
+  const data = params.data
+  const character = DB.getCharacters().find((x) => x.id == data.id)
 
   return (
     <Text style={{ height: '100%' }}>
@@ -49,11 +52,11 @@ function cellRankRenderer(params) {
 }
 
 function cellNameRenderer(params) {
-  let data = params.data
-  let characterMetadata = DB.getMetadata().characters[data.id]
-  let characterName = characterMetadata.displayName
+  const data = params.data
+  const characterMetadata = DB.getMetadata().characters[data.id]
+  const characterName = characterMetadata.displayName
 
-  let equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
+  const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
   if (equippedNumber < 6) color = '#eae084'
@@ -137,12 +140,14 @@ const items = [
       {
         label: 'Move character to top',
         key: 'moveToTop',
-      }
+      },
     ],
   },
 ]
 
 export default function CharacterTab() {
+  const { token } = useToken()
+
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
@@ -208,7 +213,7 @@ export default function CharacterTab() {
   }), [])
 
   const cellClickedListener = useCallback((event) => {
-    let data = event.data
+    const data = event.data
 
     // Only blur if different character
     window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
@@ -254,13 +259,13 @@ export default function CharacterTab() {
   }, [])
 
   function removeClicked() {
-    let selectedNodes = characterGrid.current.api.getSelectedNodes()
+    const selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
 
-    let row = selectedNodes[0].data
-    let id = row.id
+    const row = selectedNodes[0].data
+    const id = row.id
 
     DB.removeCharacter(id)
     setCharacterRows(DB.getCharacters())
@@ -277,12 +282,12 @@ export default function CharacterTab() {
   function unequipClicked() {
     console.log('unequipClicked', DB.getCharacterById(characterTabFocusCharacter))
 
-    let selectedNodes = characterGrid.current.api.getSelectedNodes()
+    const selectedNodes = characterGrid.current.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
-    let row = selectedNodes[0].data
-    let id = row.id
+    const row = selectedNodes[0].data
+    const id = row.id
 
     DB.unequipCharacter(id)
 
@@ -371,8 +376,8 @@ export default function CharacterTab() {
   }
 
   function confirmSaveBuild(name) {
-    let score = RelicScorer.scoreCharacter(selectedCharacter)
-    let res = DB.saveCharacterBuild(name, selectedCharacter.id, { score: score.totalScore.toFixed(0), rating: score.totalRating })
+    const score = RelicScorer.scoreCharacter(selectedCharacter)
+    const res = DB.saveCharacterBuild(name, selectedCharacter.id, { score: score.totalScore.toFixed(0), rating: score.totalRating })
     if (res) {
       Message.error(res.error)
       return
@@ -444,8 +449,8 @@ export default function CharacterTab() {
     })
   }
 
-  let defaultGap = 8
-  let parentH = 280 * 3 + defaultGap * 2
+  const defaultGap = 8
+  const parentH = 280 * 3 + defaultGap * 2
 
   return (
     <Flex
@@ -456,7 +461,12 @@ export default function CharacterTab() {
     >
       <Flex style={{ height: '100%' }}>
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
-          <div id="characterGrid" className="ag-theme-balham-dark" style={{ display: 'block', width: 230, height: parentH - 85 }}>
+          <div
+            id="characterGrid" className="ag-theme-balham-dark" style={{
+              ...{ display: 'block', width: 230, height: parentH - 85 },
+              ...getGridTheme(token),
+            }}
+          >
             <AgGridReact
               ref={characterGrid}
 

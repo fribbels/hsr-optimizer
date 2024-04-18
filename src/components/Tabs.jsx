@@ -13,6 +13,7 @@ import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
+import EhrCalculatorTab from 'components/ehrCalculatorTab/EhrCalculatorTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
@@ -27,6 +28,7 @@ const Tabs = () => {
   const importTab = React.useMemo(() => <ImportTab />, [])
   const gettingStartedTab = React.useMemo(() => <GettingStartedTab />, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab />, [])
+  const ehrCalculatorTab = React.useMemo(() => <EhrCalculatorTab />, [])
   const changelogTab = React.useMemo(() => <ChangelogTab />, [])
 
   useEffect(() => {
@@ -53,6 +55,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.EHR_CALCULATOR} content={ehrCalculatorTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>

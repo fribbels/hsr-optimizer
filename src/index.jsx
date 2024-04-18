@@ -25,6 +25,8 @@ import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
 
+window.officialOnly = false
+
 window.WorkerPool = WorkerPool
 window.Constants = Constants
 window.DataParser = DataParser
@@ -45,7 +47,6 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
 DataParser.parse(window.officialOnly)
 SaveState.load()
 

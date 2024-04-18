@@ -37,6 +37,7 @@ declare global {
     notificationApi: NotificationInstance
     messageApi: MessageInstance
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
+    officialOnly: boolean
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<Relic>>

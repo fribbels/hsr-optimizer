@@ -47,7 +47,7 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
+window.officialOnly = true
 DataParser.parse(window.officialOnly)
 SaveState.load()
 

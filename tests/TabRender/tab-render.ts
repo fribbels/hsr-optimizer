@@ -28,12 +28,12 @@ test('Tab render happy-path', async ({ page }) => {
   await expect(page.locator('#rc-tabs-0-tab-4')).toContainText('Clear optimizer data')
 
   // Getting Started
-  await page.getByRole('menuitem', { name: 'Getting started' }).click()
+  await page.getByRole('menuitem', { name: 'Get Started' }).click()
   await page.getByRole('heading', { name: 'Try it out!' }).click()
   await expect(page.getByRole('main')).toContainText('Importing')
 
   // RelicScorer
-  await page.getByRole('menuitem', { name: 'Relic scorer' }).click()
+  await page.getByRole('menuitem', { name: 'Relic Scorer' }).click()
   await expect(page.getByRole('main')).toContainText('Account ID:')
 
   // Coming soon

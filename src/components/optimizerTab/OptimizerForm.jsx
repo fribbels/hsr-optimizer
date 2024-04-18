@@ -2,6 +2,7 @@ import { Form } from 'antd'
 import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
+import { SavedSessionKeys } from 'lib/constantsSession'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
 import FormCard from 'components/optimizerTab/FormCard'
 import OptimizerOptionsDisplay from 'components/optimizerTab/optimizerForm/OptimizerOptionsDisplay.tsx'
@@ -28,15 +29,16 @@ export default function OptimizerForm() {
   const [optimizerForm] = Form.useForm()
   window.optimizerForm = optimizerForm
 
-  // On first load, display the first character from the roster
+  // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
-    let characters = DB.getCharacters() || []
-    OptimizerTabController.updateCharacter(characters[0]?.id)
+    const characters = DB.getCharacters() || []
+    const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
+    OptimizerTabController.updateCharacter(savedSessionCharacterId || characters[0]?.id)
   }, [])
 
   const onValuesChange = (changedValues, allValues, bypass) => {
     if (!changedValues || !allValues || !allValues.characterId) return
-    let keys = Object.keys(changedValues)
+    const keys = Object.keys(changedValues)
 
     if (bypass) {
       // Only allow certain values to refresh permutations.
@@ -55,6 +57,11 @@ export default function OptimizerForm() {
 
     const request = allValues
     console.log('@onValuesChange', request, changedValues)
+
+    if (keys[0] === 'characterId') {
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
+      setTimeout(() => SaveState.save(), 1000)
+    }
 
     // Add any new characters to the list only if the user changed any value other than the characterId
     if (!DB.getCharacterById(allValues.characterId) && keys[0] != 'characterId') {
@@ -99,18 +106,19 @@ export default function OptimizerForm() {
       return
     }
 
+    window.store.getState().setOptimizationInProgress(true)
+
     DB.addFromForm(form)
     SaveState.save()
 
-    let optimizationId = Utils.randomId()
+    const optimizationId = Utils.randomId()
     window.store.getState().setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
     form.statDisplay = window.store.getState().statDisplay
 
     console.log('Form finished', form)
 
-    window.store.getState().setOptimizationInProgress(true)
-    Optimizer.optimize(form)
+    setTimeout(() => Optimizer.optimize(form), 50)
   }
   window.optimizerStartClicked = startClicked
 
@@ -209,7 +217,7 @@ function LightConeConditionalDisplayWrapper() {
   useEffect(() => {
     const lcFn = LightConeConditionals.get(window.optimizerForm.getFieldsValue())
     const defaults = lcFn.defaults()
-    const lightConeForm = window.optimizerForm.getFieldsValue().lightConeConditionals || {}
+    const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
     if (optimizerFormSelectedLightCone === '21034') { // Today Is Another Peaceful Day

@@ -147,7 +147,6 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <Select
           showSearch
           style={{ width: panelWidth }}
-          onChange={setOptimizerFormSelectedLightConeSuperimposition}
           options={resultLimitOptions}
           placeholder="Find top results"
         />
@@ -157,7 +156,6 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <Select
           showSearch
           style={{ width: panelWidth }}
-          onChange={setOptimizerFormSelectedLightConeSuperimposition}
           options={resultSortOptions}
           listHeight={750}
           popupMatchSelectWidth={300}

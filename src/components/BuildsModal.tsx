@@ -9,6 +9,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { Character, SavedBuild } from 'types/Character'
 import { CharacterPreview } from 'components/CharacterPreview.jsx'
+import { RelicScorer } from 'lib/relicScorer'
 
 interface BuildsModalProps {
   open: boolean
@@ -26,10 +27,11 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   const characterMetadata = DB.getMetadata().characters[selectedCharacter?.id || 0]
   const characterName = characterMetadata?.displayName
 
-  // Pick the first build if there are any
+  // When opening, pick the first build if there are any + update build scores
   useEffect(() => {
     if (open && selectedCharacter?.builds?.length) {
       setSelectedBuild(0)
+      updateBuildsScoringAlgo(selectedCharacter.builds)
     }
   }, [open, selectedCharacter])
 
@@ -77,6 +79,16 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       cancelText: 'Cancel',
       centered: true,
     })
+  }
+
+  // Updates all saved builds with the latest scoring algorithm
+  function updateBuildsScoringAlgo(builds: SavedBuild[]) {
+    for (let b of builds) {
+      const relicsById = window.store.getState().relicsById
+      const relics = Object.values(b.build).map((x) => relicsById[x])
+      let score = RelicScorer.scoreCharacterWithRelics(selectedCharacter, relics)
+      b.score = { score: Math.round(score.totalScore ?? 0), rating: score.totalRating ?? 'N/A' }
+    }
   }
 
   function onModalOk() {

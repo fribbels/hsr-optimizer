@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { KelzScannerConfig, ReliquaryArchiverConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
+import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
 import { Message } from 'lib/message.js'
 import { SaveState } from 'lib/saveState.js'
 import { Button, Divider, Flex, Popconfirm, Steps, Typography, Upload } from 'antd'
@@ -8,11 +8,13 @@ import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
 import { Relic } from 'types/Relic'
 import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
+import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription.tsx'
 
 const { Text } = Typography
 
 type ParsedCharacter = {
   characterLevel: number
+  lightConeLevel: number
 }
 
 enum Stages {
@@ -54,7 +56,12 @@ export function ScannerImportSubmenu() {
           let characters: ParsedCharacter[] = output.characters
           const relics: Relic[] = output.relics
 
+          // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
           characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+          characters.map((c) => {
+            c.characterLevel = 80
+            c.lightConeLevel = 80
+          })
 
           setTimeout(() => {
             setLoading1(false)
@@ -119,18 +126,7 @@ export function ScannerImportSubmenu() {
                   <li>Supports all 16:9 screen resolutions</li>
                 </ul>
               </li>
-              {true && (
-                <li>
-                  IceDynamix Reliquary Archiver (
-                  <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
-                  )
-                  <ul>
-                    <li>Network scanner</li>
-                    <li>Imports accurate speed decimals for the entire inventory</li>
-                    <li>Beta release (run as admin) - might not work for all machines, please report bugs to the discord server</li>
-                  </ul>
-                </li>
-              )}
+              <ReliquaryDescription />
               <li>
                 Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>

@@ -9,6 +9,7 @@ import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
 import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
+import { SavedSessionKeys } from 'lib/constantsSession'
 
 let relics
 let consts
@@ -335,7 +336,9 @@ export const OptimizerTabController = {
 
     if (newForm.lightCone) {
       const defaultLcOptions = LightConeConditionals.get(newForm).defaults()
-      if (!newForm.lightConeConditionals) newForm.lightConeConditionals = {}
+      if (!newForm.lightConeConditionals) {
+        newForm.lightConeConditionals = {}
+      }
       for (const option of Object.keys(defaultLcOptions)) {
         if (newForm.lightConeConditionals[option] == undefined) {
           newForm.lightConeConditionals[option] = defaultLcOptions[option]
@@ -572,6 +575,9 @@ export const OptimizerTabController = {
   setCharacter: (id) => {
     window.store.getState().setOptimizerTabFocusCharacter(id)
     window.optimizerForm.setFieldValue('characterId', id)
+
+    window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
+    setTimeout(() => SaveState.save(), 1000)
   },
 
   // Update form values with the character

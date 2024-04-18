@@ -3,6 +3,7 @@ import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
 import { SaveState } from 'lib/saveState'
@@ -19,7 +20,7 @@ const state = {
 }
 
 // This string is replaced by /dreary-quibbles by github actions, don't change
-const BASE_PATH = '/hsr-optimizer'
+export const BASE_PATH = '/hsr-optimizer'
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
@@ -77,6 +78,8 @@ window.store = create((set) => ({
   optimizationId: undefined,
   teammateCount: 0,
   zeroPermutationModalOpen: false,
+  menuSidebarOpen: true,
+  relicScorerSidebarOpen: true,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -106,11 +109,17 @@ window.store = create((set) => ({
     grade: [],
     verified: [],
   },
+  excludedRelicPotentialCharacters: [],
 
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
     [OptimizerMenuIds.teammates]: true,
+  },
+
+  savedSession: {
+    [SavedSessionKeys.optimizerCharacterId]: null,
+    [SavedSessionKeys.relicScorerSidebarOpen]: true,
   },
 
   setActiveKey: (x) => set(() => ({ activeKey: x })),
@@ -138,6 +147,12 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
+  setSavedSession: (x) => set(() => ({ savedSession: x })),
+  setSavedSessionKey: (key, x) => set((state) => ({
+    savedSession: { ...state.savedSession, [key]: x },
+  })),
 }))
 
 export const DB = {
@@ -199,11 +214,44 @@ export const DB = {
     window.store.getState().setRelicsById(relicsById)
   },
   getRelicById: (id) => window.store.getState().relicsById[id],
+
+  /**
+   * Sets the given relic in the application's database and handles relic equipping logic.
+   *
+   * Adds the relic if it does not already exist.
+   * Equips the relic to its owner.
+   *
+   * If the specified relic has been edited, saves the changes.
+   * If the owner has changed, equips the relic to its new owner.
+   * In addition, if the part has changed, equips the relic correctly to the new part.
+   * Note: If the owner is already holding a relic on the new part, said relic is unequipped.
+   *
+   * @param {Object} relic - The relic object to set.
+   * @returns {void}
+   */
   setRelic: (relic) => {
     if (!relic.id) return console.warn('No matching relic', relic)
-    const relicsById = window.store.getState().relicsById
-    relicsById[relic.id] = relic
-    window.store.getState().setRelicsById(relicsById)
+    const oldRelic = DB.getRelicById(relic.id)
+    const addRelic = !oldRelic
+
+    if (addRelic) {
+      setRelic(relic)
+      if (relic.equippedBy) {
+        DB.equipRelic(relic, relic.equippedBy)
+      }
+    } else {
+      const partChanged = oldRelic.part !== relic.part
+      if (partChanged || !relic.equippedBy) {
+        DB.unequipRelicById(relic.id)
+        setRelic(relic)
+      }
+      const relicIsNotEquippedByRelicOwner = relic.equippedBy
+        && DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
+      if (relicIsNotEquippedByRelicOwner) {
+        DB.equipRelic(relic, relic.equippedBy)
+      }
+      setRelic(relic)
+    }
   },
 
   refreshRelics: () => {
@@ -242,7 +290,11 @@ export const DB = {
       character.equipped = {}
       charactersById[character.id] = character
 
-      // Previously the relic sets were different than what they are now, delete the deprecated options for users with old save files
+      // Previously characters had customizable options, now we're defaulting to 80s
+      character.form.characterLevel = 80
+      character.form.lightConeLevel = 80
+
+      // Previously the relic sets were different from what they are now, delete the deprecated options for users with old save files
       const relicSetsOptions = character.form.relicSets || []
       for (let i = relicSetsOptions.length - 1; i >= 0; i--) {
         if (!relicSetsOptions[i] || !Object.values(RelicSetFilterOptions).includes(relicSetsOptions[i][0])) {
@@ -294,6 +346,12 @@ export const DB = {
       }
       window.store.getState().setOptimizerMenuState(menuState)
     }
+
+    if (x.savedSession) {
+      window.store.getState().setSavedSession(x.savedSession)
+    }
+
+    window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -424,7 +482,7 @@ export const DB = {
 
       if (relicMatch) {
         relicMatch.equippedBy = undefined
-        DB.setRelic(relicMatch)
+        setRelic(relicMatch)
       }
     }
     DB.setCharacter(character)
@@ -452,37 +510,48 @@ export const DB = {
     DB.setCharacters(characters)
 
     relic.equippedBy = undefined
-    DB.setRelic(relic)
+    setRelic(relic)
   },
 
+  /**
+   * Equips the specified relic to the character identified by `characterId`.
+   *
+   * If the character already has a relic equipped, the relics are swapped.
+   *
+   * @param {Object} relic - The relic to equip.
+   * @param {*} characterId - The ID of the character to equip the relic to.
+   * @returns {void}
+   */
   equipRelic: (relic, characterId) => {
     if (!relic || !relic.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
 
     const prevOwnerId = relic.equippedBy
-    const character = DB.getCharacters().find((x) => x.id == characterId)
-    const prevCharacter = DB.getCharacters().find((x) => x.id == prevOwnerId)
+    const prevCharacter = DB.getCharacterById(prevOwnerId)
+    const character = DB.getCharacterById(characterId)
     const prevRelic = DB.getRelicById(character.equipped[relic.part])
 
     if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    if (prevRelic && prevCharacter) {
-      prevCharacter.equipped[relic.part] = prevRelic.id
-      prevRelic.equippedBy = prevCharacter.id
-      DB.setCharacter(prevCharacter)
-      DB.setRelic(prevRelic)
-    } else if (prevCharacter) {
-      prevCharacter.equipped[relic.part] = undefined
+    // only re-equip prevRelic if it would go to a different character
+    if (prevOwnerId !== characterId && prevCharacter) {
+      if (prevRelic) {
+        prevCharacter.equipped[relic.part] = prevRelic.id
+        prevRelic.equippedBy = prevCharacter.id
+        setRelic(prevRelic)
+      } else {
+        prevCharacter.equipped[relic.part] = undefined
+      }
       DB.setCharacter(prevCharacter)
     }
 
     character.equipped[relic.part] = relic.id
     relic.equippedBy = character.id
     DB.setCharacter(character)
-    DB.setRelic(relic)
+    setRelic(relic)
   },
 
   equipRelicIdsToCharacter: (relicIds, characterId) => {
@@ -802,6 +871,17 @@ function partialHashRelic(relic) {
   }
 
   return objectHash(hashObject)
+}
+
+/**
+ * Sets the provided relic in the application's state.
+ *
+ * @param {Object} relic - The relic object to set.
+ */
+function setRelic(relic) {
+  const relicsById = window.store.getState().relicsById
+  relicsById[relic.id] = relic
+  window.store.getState().setRelicsById(relicsById)
 }
 
 function deduplicateArray(arr) {

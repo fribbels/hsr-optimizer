@@ -29,3 +29,4 @@ Shout outs to:
 * Enka.Network - for the relic scorer API https://github.com/EnkaNetwork
 * Mar-7th - for the data files https://github.com/Mar-7th/StarRailRes
 * Dim - for helping to build out the relic scorer
+

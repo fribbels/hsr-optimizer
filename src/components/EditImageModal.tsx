@@ -531,6 +531,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
                   placeholder="Credit the artist if possible"
+                  autoComplete="off"
                 />
               </Form.Item>
             </Flex>

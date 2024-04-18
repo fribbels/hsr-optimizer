@@ -25,6 +25,8 @@ import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
 
+window.officialOnly = false
+
 window.WorkerPool = WorkerPool
 window.Constants = Constants
 window.DataParser = DataParser
@@ -42,12 +44,10 @@ window.Message = Message
 window.Hint = Hint
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-// window.CharacterConditionals = CharacterConditionals
-// window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-console.log('Data parser', DataParser.parse())
+DataParser.parse(window.officialOnly)
 SaveState.load()
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>

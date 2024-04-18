@@ -8,6 +8,22 @@ import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
 
+const checkSpeedInBreakpoint = (speedValue: number) : boolean => {
+  const breakpointPresets = [
+    [111.1, 111.2],
+    [114.2, 114.3],
+    [133.3, 133.4],
+    [142.8, 142.9],
+    [155.5, 155.6],
+    [171.4, 171.5],
+    [177.7, 177.8]
+  ]
+
+  return breakpointPresets.some(([min, max]) => {
+    return speedValue >= min && speedValue < max;
+  });
+}
+
 const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
   const { stat, finalStats } = props
   const readableStat = stat.replace('DMG Boost', 'DMG')
@@ -20,7 +36,8 @@ const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
     valueDisplay = Utils.truncate10ths(value).toFixed(1)
     value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
-    valueDisplay = Utils.truncate10ths(value).toFixed(1)
+    const is1000thSpeed = checkSpeedInBreakpoint(value)
+    valueDisplay = is1000thSpeed ? Utils.truncate1000ths(value).toFixed(3) : valueDisplay = Utils.truncate10ths(value).toFixed(1)
     value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = Math.floor(value)

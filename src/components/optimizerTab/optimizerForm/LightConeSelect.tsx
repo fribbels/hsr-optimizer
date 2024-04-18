@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { Card, Flex, Input, InputRef, Modal, Select, Typography } from 'antd'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
-import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ClassToPath, PathToClass } from 'lib/constants.ts'
 import DB from 'lib/db.js'
-
-const { Paragraph } = Typography
+import { CardGridFilterRow, CardGridItemContent, generatePathTags, generateRarityTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface LightConeSelectProps {
   value
@@ -15,11 +13,6 @@ interface LightConeSelectProps {
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
 }
-
-const parentW = 100
-const parentH = 150
-const innerW = 115
-const innerH = 150
 
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 112px, #282B31 112px, #282B31 150px)'
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 112px, #282B31 112px, #282B31 150px)'
@@ -31,53 +24,11 @@ const rarityToBg = {
   3: blueBg,
 }
 
-function FilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
-  const selectedTags = currentFilters[name]
+const parentW = 100
+const parentH = 150
+const innerW = 115
+const innerH = 150
 
-  const handleChange = (tag, checked) => {
-    const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag)
-
-    const clonedFilters = Utils.clone(currentFilters)
-    clonedFilters[name] = nextSelectedTags
-
-    setCurrentFilters(clonedFilters)
-  }
-
-  return (
-    <Flex
-      style={{
-        flexWrap: 'wrap',
-        flexGrow: 1,
-        backgroundColor: '#243356',
-        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
-        borderRadius: 6,
-        overflow: 'hidden',
-        height: 40,
-      }}
-    >
-      {tags.map((tag) => (
-        <CheckableTag
-          key={tag.key}
-          checked={selectedTags.includes(tag.key)}
-          onChange={(checked) => handleChange(tag.key, checked)}
-          style={{
-            flex: 1,
-            flexBasis: flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96',
-          }}
-        >
-          <Flex align="center" justify="space-around" style={{ height: '100%' }}>
-            {tag.display}
-          </Flex>
-        </CheckableTag>
-      ))}
-    </Flex>
-  )
-}
-
-// TODO: This is copy pasted from CharacterSelect.tsx. Maybe want to revisit these two files and make the components more modular
 const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle }) => {
   // console.log('==================================== LC SELECT')
   const characterMetadata = DB.getMetadata().characters
@@ -114,35 +65,9 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     return true
   }
 
-  function generateRarityTags() {
-    return [5, 4, 3].map((x) => {
-      const stars: ReactElement[] = []
-      for (let i = 0; i < x; i++) {
-        stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()} />)
-      }
-      return {
-        key: x,
-        display: (
-          <Flex flex={1} justify="center" align="center" style={{ marginTop: 1 }}>
-            {stars}
-          </Flex>
-        ),
-      }
-    })
-  }
-
-  function generatePathTags() {
-    return Object.keys(PathToClass).map((x) => {
-      return {
-        key: x,
-        display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
-      }
-    })
-  }
-
   const handleClick = (id) => {
     setOpen(false)
-    if (onChange)onChange(id)
+    if (onChange) onChange(id)
   }
 
   return (
@@ -199,7 +124,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
             </Flex>
             <Flex wrap="wrap" style={{ flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"
@@ -208,7 +133,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <FilterRow
+                <CardGridFilterRow
                   name="rarity"
                   tags={generateRarityTags()}
                   flexBasis="14.2%"
@@ -236,43 +161,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
-                    <img
-                      width={innerW}
-                      src={Assets.getLightConeIconById(option.id)}
-                      style={{
-                        transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
-                      }}
-                    />
-                    <Paragraph
-                      ellipsis={{ rows: 2 }}
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: '110%',
-                        textAlign: 'center',
-                        background: '#282B31',
-                        color: '#D0D0D2',
-                        marginLeft: '-5%',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        lineHeight: '16px',
-                        height: 36,
-                        alignItems: 'center',
-                        marginBottom: 0,
-                      }}
-                    >
-                      <div
-                        style={{
-                          position: 'relative',
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          maxHeight: 36,
-                        }}
-                      >
-                        {option.displayName}
-                      </div>
-                    </Paragraph>
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2} />
                   </Card>
                 ))
             }

@@ -1,10 +1,10 @@
 import React from 'react'
-import { ConfigProvider, Flex, Layout, message, theme, Typography } from 'antd'
-import MenuDrawer from 'components/MenuDrawer'
+import { ConfigProvider, Layout, message, theme } from 'antd'
 import Tabs from 'components/Tabs'
-import { Assets } from 'lib/assets'
+import { LayoutHeader } from 'components/LayoutHeader.tsx'
+import { LayoutSider } from 'components/LayoutSider.tsx'
 
-const { Header, Sider, Content } = Layout
+const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
@@ -55,74 +55,21 @@ const App = () => {
       }}
     >
       {messageContextHolder}
-      <Layout hasSider style={{ minHeight: '100%' }}>
-        <Sider
-          width={170}
-          style={{
-            background: '#243356',
-          }}
-        >
-          <div
-            style={{
-              position: 'sticky',
-              top: 0,
-              backgroundColor: '#243356',
-            }}
-          >
-            <MenuDrawer />
-          </div>
-        </Sider>
-        <Layout
-          style={{
-          }}
-        >
-
-          <Header
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '30px',
-              paddingRight: '0px',
-              height: 48,
-              width: '100%',
-            }}
-          >
-            <Flex align="center" justify="space-between" style={{ width: '100%' }}>
-              <a href="/hsr-optimizer">
-                <Flex align="center">
-                  <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
-                  <Typography
-                    style={{ fontWeight: 600, fontSize: 22 }}
-                    color="inherit"
-                  >
-                    Fribbels Honkai Star Rail Optimizer
-                  </Typography>
-                </Flex>
-              </a>
-              <Flex>
-                <a href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noreferrer">
-                  <Flex>
-                    <img src={Assets.getGithub()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
-                  </Flex>
-                </a>
-
-                <a href="https://discord.gg/rDmB4Un7qg" target="_blank" rel="noreferrer">
-                  <Flex>
-                    <img src={Assets.getDiscord()} style={{ height: 36, marginRight: 7, borderRadius: 5 }}></img>
-                  </Flex>
-                </a>
-              </Flex>
-            </Flex>
-          </Header>
+      <Layout style={{ minHeight: '100%' }}>
+        <LayoutHeader />
+        <Layout hasSider>
+          <LayoutSider />
           <Content
             style={{
               padding: 10,
               margin: 0,
               minHeight: 280,
-              minWidth: 1300,
               marginLeft: 'auto',
               marginRight: 'auto',
               overflow: 'initial',
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '100%',
             }}
           >
             <Tabs />

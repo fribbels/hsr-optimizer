@@ -1,10 +1,10 @@
 // @ts-check
 import eslint from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
+import reactHook from 'eslint-plugin-react-hooks'
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import reactHook from 'eslint-plugin-react-hooks'
-import stylistic from '@stylistic/eslint-plugin'
 
 // config is a helper from typescript-eslint to provide type information for
 // eslint file, similar to vite defineConfig. Fun fact: This file is also linted
@@ -43,8 +43,12 @@ const config = tseslint.config(
   },
   {
     // These files are React specific. Applying this is similar to extends
-    // 'plugin:react/recommended' and apply plugin 'react' and 'react-hooks'
+    // 'plugin:react/recommended' and apply plugin 'react'
     ...reactRecommended,
+    files: ['src/**/*.{jsx,tsx}'],
+  },
+  {
+    // Also apply plugin 'react-hooks'
     files: ['src/**/*.{jsx,tsx}'],
     languageOptions: {
       parserOptions: {
@@ -91,7 +95,6 @@ const config = tseslint.config(
 /**
  * @param {RuleLevel} level
  * @return {StylisticRules | ESLintRules}
- *
  */
 function styleRules(level) {
   return {

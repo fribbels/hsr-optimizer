@@ -1,6 +1,7 @@
 import { Button, Flex, Layout, Typography } from 'antd'
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
+import { BASE_PATH } from '../lib/db'
 
 const { Header } = Layout
 
@@ -31,14 +32,14 @@ export function LayoutHeader() {
               left: '-20px',
             }}
           />
-          <a href="/hsr-optimizer">
+          <a href={BASE_PATH}>
             <Flex align="center">
               <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
               <Typography
                 style={{ fontWeight: 600, fontSize: 22 }}
                 color="inherit"
               >
-                Fribbels Honkai Star Rail Optimizer
+                {'Fribbels Honkai Star Rail Optimizer'}
               </Typography>
             </Flex>
           </a>

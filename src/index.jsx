@@ -42,8 +42,6 @@ window.Message = Message
 window.Hint = Hint
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-// window.CharacterConditionals = CharacterConditionals
-// window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 

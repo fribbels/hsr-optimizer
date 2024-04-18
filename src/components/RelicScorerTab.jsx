@@ -317,7 +317,7 @@ function CharacterPreviewSelection(props) {
       // Timeout to allow the form to populate before optimizing
       setTimeout(() => {
         window.optimizerStartClicked()
-      }, 1000)
+      }, 500)
     }, 1000)
   }
 

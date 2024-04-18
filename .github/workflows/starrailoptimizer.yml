@@ -2,7 +2,7 @@ name: starrailoptimizer
 
 on:
   push:
-    branches: [ beta ]
+    branches: [ main ]
 
 jobs:
   build:

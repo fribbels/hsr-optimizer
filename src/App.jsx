@@ -64,10 +64,12 @@ const App = () => {
               padding: 10,
               margin: 0,
               minHeight: 280,
-              minWidth: 1300,
               marginLeft: 'auto',
               marginRight: 'auto',
               overflow: 'initial',
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '100%',
             }}
           >
             <Tabs />

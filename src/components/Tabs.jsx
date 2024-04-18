@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Typography } from 'antd'
+import { Flex, Typography } from 'antd'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
 import RelicsTab from 'components/RelicsTab'
@@ -46,7 +46,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <>
+    <Flex justify="space-around">
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />
@@ -58,7 +58,7 @@ const Tabs = () => {
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
       </ErrorBoundary>
-    </>
+    </Flex>
   )
 }
 

@@ -55,10 +55,10 @@ const App = () => {
       }}
     >
       {messageContextHolder}
-      <Layout hasSider style={{ minHeight: '100%' }}>
-        <LayoutSider />
-        <Layout>
-          <LayoutHeader />
+      <Layout style={{ minHeight: '100%' }}>
+        <LayoutHeader />
+        <Layout hasSider>
+          <LayoutSider />
           <Content
             style={{
               padding: 10,

@@ -22,7 +22,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "base: '/hsr-optimizer'"
-          replace: "base: '/'"
+          replace: "base: ''"
           include: "vite.config.ts"
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3

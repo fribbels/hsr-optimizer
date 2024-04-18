@@ -4,6 +4,7 @@ import {
   BarsOutlined,
   BookOutlined,
   LineChartOutlined,
+  LinkOutlined,
   RadarChartOutlined,
   StarFilled,
   ToolOutlined,
@@ -104,6 +105,14 @@ const items = [
       'link discord',
     ),
     getItem(
+      <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
+        <GithubIcon style={{ marginRight: 5 }} />
+        {' '}
+        Github
+      </Typography.Link>,
+      'link github',
+    ),
+    getItem(
       <Typography.Link href="https://www.patreon.com/fribbels" target="_blank" rel="noopener noreferrer">
         <CoffeeIcon style={{ marginRight: 5 }} />
         {' '}
@@ -111,13 +120,13 @@ const items = [
       </Typography.Link>,
       'link donate',
     ),
-    getItem(
-      <Typography.Link href="https://github.com/fribbels/hsr-optimizer" target="_blank" rel="noopener noreferrer">
-        <GithubIcon style={{ marginRight: 5 }} />
+    !window.officialOnly && getItem(
+      <Typography.Link href="https://starrailoptimizer.github.io/" target="_blank" rel="noopener noreferrer">
+        <LinkOutlined style={{ marginRight: 5 }} />
         {' '}
-        Github
+        No leaks
       </Typography.Link>,
-      'link github',
+      'link leaks free',
     ),
   ]),
 ]

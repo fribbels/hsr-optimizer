@@ -42,12 +42,10 @@ window.Message = Message
 window.Hint = Hint
 window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
-// window.CharacterConditionals = CharacterConditionals
-// window.LightConeConditionals = LightConeConditionals
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
+window.officialOnly = true
 DataParser.parse(window.officialOnly)
 SaveState.load()
 

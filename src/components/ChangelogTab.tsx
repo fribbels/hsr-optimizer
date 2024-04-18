@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 import { Flex, List, Typography } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { Assets } from 'lib/assets'
+import { ColorizedLink } from './common/ColorizedLink'
 
 const { Text } = Typography
 
@@ -27,7 +28,7 @@ export default function ChangelogTab(): React.JSX.Element {
         position: 'bottom',
         align: 'start',
       }}
-      dataSource={data}
+      dataSource={changelog}
       renderItem={(item) => (
         <List.Item
           key={item.title}
@@ -55,6 +56,16 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
           }}
         />,
       )
+    } else if (entry.startsWith('https')) {
+      display.push(
+        <li key={i++}>
+          <ColorizedLink
+            text={entry}
+            url={entry}
+            key={i++}
+          />
+        </li>,
+      )
     } else {
       display.push(
         <li key={i++}>
@@ -78,31 +89,80 @@ function listToDisplay(content: string[], contentUpdate: ChangelogContent) {
   )
 }
 
+function leaks(str: string) {
+  return window.officialOnly ? '' : str
+}
+
 /*
-Notes for next patch
-boothill break stuff
-boothill basic atk sort
+NOTES:
+
  */
-const data: ChangelogContent[] = [
+const changelog: ChangelogContent[] = [
+  {
+    title: '',
+    date: '04-18-2024',
+    content: [
+      'Launched a new leak-free version of the optimizer which has no leaks and only contains officially released content',
+      'https://starrailoptimizer.github.io',
+      'noLeaks.webp',
+      'Added a one-click-optimize button to the Relic Scorer page, accessed by clicking the graph icon or the Optimize Character Stats button',
+      'This automatically imports the scored profile relics, adds the character and light cone, applies recommended filters and conditionals, and starts an optimizer search',
+      'This is meant to be an easy way for new users to get started using the optimizer',
+      'oneClick.webp',
+      'Updated the Get Started tab with up to date instructions and a step-by-step guide to using the optimizer for the first time',
+      'getStarted.webp',
+      'Added new Average potential view as an option alongside Max potential on Relics tab',
+      'potentialUpdates.webp',
+      'Relic potential ratings menu now has a Custom characters view enabled by default, where only a subset of characters are considered for the potential calculations',
+      'relicRatings.webp',
+      'All characters are included initially, then specific characters can be selected to excluded from the relic potential view',
+      'customCharacters.webp',
+      'Clicking empty relic slots now brings up the Add New Relic menu',
+      'clickEmpty.webp',
+      'Added icons to sidebar menu tabs',
+      'Added a button to hide the menu sidebar for easier viewing on smaller screens',
+      'hideSidebar.webp',
+      'Updated the Recommended Presets speed breakpoints to 1000ths precision',
+      'breakpoints.webp',
+      'Ambiguous speed values near specific breakpoints (such as 133.333..) are now displayed to 1000ths precision for checking if the breakpoint is met',
+      'spdValues.webp',
+      'Added a Reset All Characters button to the scoring algorithm menu',
+      'resetAll.webp',
+      'Rephrased pioneer conditional to specify between basic and combat stat buffs',
+      'The last optimized character will now be open by default on the next session',
+      'The Simulate Relics On Another Character menu is now open by default on the Relic Scorer tab',
+      leaks('Updated Boothill damage calcs'),
+      leaks('Updated Robin damage calcs'),
+      'Added crit vulnerability to damage calcs',
+      'Fix: Aventurine ult now applies correctly a crit vulnerability',
+      'Fix: Baptism of Pure Thought now correctly applies a crit vulnerability',
+      'Fix: Worrisome, Blissful now correctly applies a crit vulnerability',
+      'Fix: Herta now correctly defaults to FUA sort',
+      'Fix: Removed leftover unused character level selectors, all characters now default to level 80',
+      'Fix: Black Swan E1 now correctly only applies res shred on DOT elements',
+      'Fix: Scores for saved builds will now update with scoring changes',
+      'Fix: Creating new relics with an owner now equips the relic',
+    ],
+  },
   {
     title: '',
     date: '04-04-2024',
     content: [
       'Added Break DMG calculations for all characters and a sortable BREAK column in the optimizer grid',
       'breakDmg.webp',
-      'Updated Boothill\'s Enhanced basic attack calculation to include his Talent\'s additional break damage',
-      'Updated Boothill\'s conditional toggle to be "Talent break DMG (forces weakness break)" which overrides the weakness break option when enabled',
-      'Updated Boothill\'s default sort option to Basic DMG',
-      'boothill.webp',
-      'Updated Boothill\'s scoring algorithm to prioritize SPD and Break Effect',
-      'boothillScore.webp',
+      leaks('Updated Boothill\'s Enhanced basic attack calculation to include his Talent\'s additional break damage'),
+      leaks('Updated Boothill\'s conditional toggle to be "Talent break DMG (forces weakness break)" which overrides the weakness break option when enabled'),
+      leaks('Updated Boothill\'s default sort option to Basic DMG'),
+      leaks('boothill.webp'),
+      leaks('Updated Boothill\'s scoring algorithm to prioritize SPD and Break Effect'),
+      leaks('boothillScore.webp'),
       'Added a display for the artist\'s name on custom character portraits',
-      'artist.webp',
+      leaks('artist.webp'),
       'The artist name can be updated along with the image on the crop menu',
       'Enabled gif uploads for custom character portraits',
-      'artistInput.webp',
-      'Updated Reliquary Archiver import for 2.1 patch, which imports accurate speed decimals for the entire inventory',
-      'archiver.webp',
+      leaks('artistInput.webp'),
+      leaks('Updated Reliquary Archiver import for 2.1 patch, which imports accurate speed decimals for the entire inventory'),
+      leaks('archiver.webp'),
       'Added new character action menu entry to "Sort by score" which rearranges the character priority by their character scores',
       'sortByScore.webp',
       'Updated conditional set effects for Pioneer Diver of Dead Waters set with a 0x debuffs option which disables the 2p effect',
@@ -317,3 +377,5 @@ const data: ChangelogContent[] = [
     ],
   },
 ]
+// Filter out leaks from changelog
+changelog.map(x => x.content = x.content.filter(x => x.length > 0))

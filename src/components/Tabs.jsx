@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Typography } from 'antd'
+import { Flex, Typography } from 'antd'
 
 import OptimizerTab from 'components/optimizerTab/OptimizerTab'
 import RelicsTab from 'components/RelicsTab'
@@ -13,6 +13,7 @@ import ChangelogTab from 'components/ChangelogTab'
 import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
+import SettingsTab from 'components/settingsTab/settingsTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
@@ -28,6 +29,7 @@ const Tabs = () => {
   const gettingStartedTab = React.useMemo(() => <GettingStartedTab />, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab />, [])
   const changelogTab = React.useMemo(() => <ChangelogTab />, [])
+  const settingsTab = React.useMemo(() => <SettingsTab />, [])
 
   useEffect(() => {
     const route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -46,7 +48,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <>
+    <Flex justify="space-around">
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />
@@ -54,11 +56,12 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.GETTING_STARTED} content={gettingStartedTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab} />
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
       </ErrorBoundary>
-    </>
+    </Flex>
   )
 }
 

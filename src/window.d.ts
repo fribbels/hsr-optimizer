@@ -31,6 +31,7 @@ import { AgGridReact } from 'ag-grid-react'
 import { DispatchWithoutAction, RefObject } from 'react'
 import { Hero } from './types/calc'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { ColorTheme } from 'lib/theme.ts'
 
 declare global {
   interface Window {
@@ -38,6 +39,7 @@ declare global {
     messageApi: MessageInstance
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
     officialOnly: boolean
+    colorTheme: ColorTheme
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<Relic>>

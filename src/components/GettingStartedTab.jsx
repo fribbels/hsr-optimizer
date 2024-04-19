@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Divider, Flex, Popconfirm, Typography } from 'antd'
+import { Button, Divider, Flex, Popconfirm, theme, Typography } from 'antd'
 import { Message } from 'lib/message'
 
 import sampleSave from '../data/sample-save.json'
@@ -11,9 +11,11 @@ import { ImportOutlined } from '@ant-design/icons'
 import { ColorizedLink } from 'components/common/ColorizedLink'
 import { ReliquaryDescription } from './importerTab/ReliquaryDescription'
 
+const { useToken } = theme
 const { Text } = Typography
 
 export default function GettingStartedTab() {
+  const { token } = useToken()
   console.log('GettingStartedTab ')
 
   function tryItOutClicked() {
@@ -22,9 +24,9 @@ export default function GettingStartedTab() {
     Message.success('Successfully loaded data')
   }
 
-  let screenshotStyle = { border: '2px solid #243356' }
-  let dividerStyle = { marginTop: 40 }
-  let titleStyle = { textDecoration: 'underline' }
+  const screenshotStyle = { border: `2px solid ${token.colorBgContainer}` }
+  const dividerStyle = { marginTop: 40 }
+  const titleStyle = { textDecoration: 'underline' }
   return (
       <div>
         <Text>

@@ -24,8 +24,7 @@ import { RelicScorer } from './lib/relicScorer.ts'
 import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
-
-window.officialOnly = false
+import { Themes } from 'lib/theme'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -46,6 +45,9 @@ window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
+
+window.officialOnly = false
+window.colorTheme = Themes.BLUE
 
 DataParser.parse(window.officialOnly)
 SaveState.load()

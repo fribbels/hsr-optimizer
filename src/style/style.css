@@ -153,28 +153,12 @@ body,
 }
 
 .ag-floating-top {
-  box-shadow: 0 2px 4px #141414 !important;
+  box-shadow: 0 3px 6px #141414 !important;
   z-index: 2 !important;
-}
-
-.ag-watermark {
-  display: none !important;
 }
 
 .ag-theme-balham .ag-row:not(.ag-row-first) {
   border: none;
-}
-
-.ag-theme-balham .ag-row-odd {
-  background-color: #960303;
-}
-
-.ag-theme-balham .ag-row-hover {
-  background-color: #daf1ff;
-}
-
-.ag-theme-balham .ag-row-selected {
-  background-color: #b7e4ff;
 }
 
 .ag-cell-label-container {
@@ -257,10 +241,6 @@ body,
   color: #4290ff !important;
 }
 
-.ag-cell {
-  /* border-right-width: 0px !important */
-}
-
 .ant-popover-content p {
   margin: 0;
 }
@@ -297,13 +277,13 @@ a {
   padding-inline-end: 6px !important;
 }
 
-.ant-slider:hover .ant-slider-handle::after {
-  box-shadow: 0 0 0 4px #1668dc;
-}
+/*.ant-slider:hover .ant-slider-handle::after {*/
+/*  box-shadow: 0 0 0 4px #1668dc;*/
+/*}*/
 
-.ant-slider-handle::after {
-  background-color: #1668dc !important;
-}
+/*.ant-slider-handle::after {*/
+/*  background-color: #1668dc !important;*/
+/*}*/
 
 .ant-input-number-group-addon {
   padding: 0 3px !important;
@@ -377,4 +357,8 @@ a {
 }
 .ag-header-cell-comp-wrapper {
   height: 100% !important;
+}
+
+.ag-floating-top {
+  border-bottom: none !important;
 }

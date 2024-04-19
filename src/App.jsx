@@ -44,11 +44,6 @@ const App = () => {
           // MenuDrawer.js
           Menu: {
             margin: 2,
-            itemSelectedBg: colorTheme.colorBgBase,
-          },
-
-          Layout: {
-            bodyBg: '#3d2032',
           },
 
           Slider: {
@@ -81,15 +76,6 @@ const App = () => {
       <Layout style={{ minHeight: '100%' }}>
         <LayoutHeader />
         <Layout hasSider>
-          <div
-            style={{
-              backgroundImage: 'url("https://i.imgur.com/Mvr4jeT.png")',
-              position: 'absolute',
-              height: '100%',
-              width: '100%',
-              opacity: 0.3,
-            }}
-          />
           <LayoutSider />
           <Content
             style={{

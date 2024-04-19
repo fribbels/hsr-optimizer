@@ -20,8 +20,8 @@ export function LayoutHeader() {
         paddingRight: '0px',
         height: 48,
         width: '100%',
-        backgroundColor: token.colorPrimaryBorder,
-        backgroundImage: 'linear-gradient(rgb(0 0 0/40%) 0 0)',
+        backgroundColor: token.colorBgLayout,
+        backgroundImage: 'linear-gradient(rgb(0 0 0/20%) 0 0)',
       }}
     >
       <Flex align="center" justify="space-between" style={{ width: '100%' }}>

@@ -24,8 +24,8 @@ export const Themes: { [key: string]: ColorTheme } = {
   },
   ALT: {
     colorTextBase: '#ffffff',
-    colorBgBase: '#744486',
-    colorPrimary: '#e585d7',
+    colorBgBase: '#122511',
+    colorPrimary: '#2d701d',
     // colorBgBase: '#3d15ab',
     // colorPrimary: '#e84505',
     // colorSecondary: '#ffffff',

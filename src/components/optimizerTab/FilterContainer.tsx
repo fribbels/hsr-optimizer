@@ -10,12 +10,8 @@ export default function FilterContainer(props: { children: ReactElement | ReactE
       style={{
         overflow: 'hidden',
         borderRadius: '10px',
+        boxShadow: shadow,
         paddingBottom: 10,
-
-        background: '#e5cbe74d',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-        backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(255, 255, 255, 0.3)',
       }}
     >
       {props.children}

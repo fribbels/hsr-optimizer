@@ -48,9 +48,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <Flex
-      justify="space-around"
-    >
+    <Flex justify="space-around">
       <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />

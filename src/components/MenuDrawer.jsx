@@ -12,13 +12,11 @@ import {
   UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Flex, Menu, theme, Typography } from 'antd'
+import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { AppPages } from 'lib/db'
-
-const { useToken } = theme
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -31,8 +29,6 @@ function getItem(label, key, icon, children, type) {
 }
 
 const MenuDrawer = () => {
-  const { token } = useToken()
-
   const activeKey = window.store((s) => s.activeKey)
   const setActiveKey = window.store((s) => s.setActiveKey)
 
@@ -157,7 +153,6 @@ const MenuDrawer = () => {
       selectedKeys={activeKey}
       mode="inline"
       items={items}
-      theme="light"
     />
   )
 }

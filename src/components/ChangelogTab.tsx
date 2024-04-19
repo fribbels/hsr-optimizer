@@ -93,6 +93,10 @@ export default function ChangelogTab(): React.JSX.Element {
   )
 }
 
+function leaks(str: string) {
+  return window.officialOnly ? '' : str
+}
+
 /*
 NOTES:
 

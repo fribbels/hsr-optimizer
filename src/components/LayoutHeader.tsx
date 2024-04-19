@@ -21,7 +21,7 @@ export function LayoutHeader() {
         height: 48,
         width: '100%',
         backgroundColor: token.colorBgLayout,
-        backgroundImage: 'linear-gradient(rgb(0 0 0/20%) 0 0)',
+        backgroundImage: 'linear-gradient(rgb(0 0 0/40%) 0 0)',
       }}
     >
       <Flex align="center" justify="space-between" style={{ width: '100%' }}>

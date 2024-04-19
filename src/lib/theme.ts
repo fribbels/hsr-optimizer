@@ -16,22 +16,11 @@ export const Themes: { [key: string]: ColorTheme } = {
     colorTextBase: '#ffffff', // Text
     colorBgBase: '#182239', // Background
     colorPrimary: '#1677FF', // Buttons
-    // colorPrimary: '#182239',
-    // colorSecondary: '#182239',
-    // colorTertiary: '#182239',
-    // colorBgContainer: '#243356',
-    // colorBgMenu: '#001529',
   },
   ALT: {
-    colorTextBase: '#ffffff',
-    colorBgBase: '#122511',
-    colorPrimary: '#2d701d',
-    // colorBgBase: '#3d15ab',
-    // colorPrimary: '#e84505',
-    // colorSecondary: '#ffffff',
-    // colorTertiary: '#ffffff',
-    // colorBgContainer: '#ffffff',
-    // colorBgMenu: '#21b33b',
+    colorTextBase: '#ffffff', // Text
+    colorBgBase: '#182239', // Background
+    colorPrimary: '#1677FF', // Buttons
   },
 }
 

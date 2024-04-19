@@ -47,7 +47,7 @@ window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
 window.officialOnly = false
-window.colorTheme = window.officialOnly ? Themes.BLUE : Themes.ALT
+window.colorTheme = Themes.BLUE
 
 DataParser.parse(window.officialOnly)
 SaveState.load()

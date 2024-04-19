@@ -78,7 +78,6 @@ export default function ChangelogTab(): React.JSX.Element {
         },
         position: 'bottom',
         align: 'start',
-        simple: true,
         pageSize: 4,
       }}
       dataSource={changelog}

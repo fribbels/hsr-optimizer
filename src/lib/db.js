@@ -58,8 +58,7 @@ export const RouteToPage = {
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
-  // colorTheme: Themes.BLUE,
-  colorTheme: Themes.ALT,
+  colorTheme: Themes.BLUE,
 
   optimizerGrid: undefined,
 

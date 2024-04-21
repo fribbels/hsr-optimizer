@@ -79,7 +79,7 @@ export class ImbibitorLunae extends Character<ILMetadata> {
           // prev is undefined means that the previous stack count is reset
           // somewhere, this hit will be `dmgBoost: 0`, next will be `dmgBoost:
           // 0.1`
-          newStep: (prev) => ({ dmgBoost: Math.min(prev?.dmgBoost ?? -0.1 + 0.1, this.eidolon === 6 ? 1 : 0.6) }),
+          newStep: (prev) => ({ dmgBoost: Math.min((prev?.dmgBoost ?? -0.1) + 0.1, this.eidolon === 6 ? 1 : 0.6) }),
         })
       })
     }
@@ -90,7 +90,7 @@ export class ImbibitorLunae extends Character<ILMetadata> {
           scope: StepScope.MANUAL,
           // same as above, if prev is undef, it means it is reset somewhere
           // manually (although first hit should already set it to `critDmg: 0`)
-          newStep: (prev) => ({ crit: { critDmg: Math.min(prev?.crit?.critDmg ?? 0 + 0.12, 4 * 0.12) } }),
+          newStep: (prev) => ({ crit: { critDmg: Math.min((prev?.crit?.critDmg ?? 0) + 0.12, 4 * 0.12) } }),
         })
       })
     }

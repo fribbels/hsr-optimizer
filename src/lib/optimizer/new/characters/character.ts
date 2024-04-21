@@ -15,8 +15,15 @@ export type StepProvider = {
 }
 
 export type CharacterSteps = {
+  // how is each step constructed? Note that the array is a step builder array,
+  // allowing downstream to customize behavior of each step, for example, if
+  // these steps should use average crit or all crit.
+  //
+  // Note: currently StepBuilder is an empty type.
   steps: StepBuilder[]
+  // all steps will have this global modifiers
   modifiers: Modifiers
+  // what is target called? Normal Attack, Skill, Ultimate?
   type: string
 }
 

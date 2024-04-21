@@ -129,7 +129,8 @@ export class EarlyAnyMatcher extends AnyMatcher {
   }
 }
 
-export function matchAnyEarly(...matchers: EarlyMatcher[]) {
+export function matchAnyEarly(...matchers: EarlyMatcher[]): EarlyMatcher {
+  // @ts-expect-error
   return new EarlyAnyMatcher(matchers)
 }
 

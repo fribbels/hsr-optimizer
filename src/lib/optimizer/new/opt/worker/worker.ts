@@ -18,12 +18,12 @@ self.onmessage = (event: MessageEvent<WorkerRunRequest>) => {
   }
   const builds = iterateBuilds(
     new BuildIterator(event.data.filter.from, event.data.filter.to, [
-      pieces.head.length,
-      pieces.hand.length,
-      pieces.body.length,
-      pieces.feet.length,
-      pieces.sphere.length,
-      pieces.rope.length,
+      pieces.head.length - 1,
+      pieces.hand.length - 1,
+      pieces.body.length - 1,
+      pieces.feet.length - 1,
+      pieces.sphere.length - 1,
+      pieces.rope.length - 1,
     ]),
     request,
     { numberOfBuilds, iterated },

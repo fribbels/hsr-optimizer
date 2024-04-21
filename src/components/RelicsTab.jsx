@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select } from 'antd'
+import { Button, Flex, Popconfirm, Select, theme } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -19,7 +19,9 @@ import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
+import { getGridTheme } from 'lib/theme'
 
+const { useToken } = theme
 const GradeFilter = forwardRef((props, ref) => {
   const [model, setModel] = useState(null)
 
@@ -84,6 +86,8 @@ GradeFilter.propTypes = {
 }
 
 export default function RelicsTab() {
+  const { token } = useToken()
+
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
@@ -386,7 +390,12 @@ export default function RelicsTab() {
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
-        <div id="relicGrid" className="ag-theme-balham-dark" style={{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' }}>
+        <div
+          id="relicGrid" className="ag-theme-balham-dark" style={{
+            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...getGridTheme(token),
+          }}
+        >
 
           <AgGridReact
             ref={gridRef}
@@ -448,7 +457,7 @@ export default function RelicsTab() {
 
           {relicInsight === 'top10' && scores && (
             <Flex gap={10}>
-              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+              <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
                 <Plot
                   data={
                     scores.map((s) => ({
@@ -469,7 +478,7 @@ export default function RelicsTab() {
                   }
                   layout={{
                     plot_bgcolor: 'rgba(0, 0, 0, 0)',
-                    paper_bgcolor: '#243356',
+                    paper_bgcolor: token.colorBgContainer,
                     font: {
                       color: 'rgba(255, 255, 255, 0.85)',
                     },
@@ -538,7 +547,7 @@ export default function RelicsTab() {
               </ol>
             </Flex>
           )}
-          <Flex style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #354b7d' }}>
+          <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
             {relicInsight === 'buckets' && scoreBuckets && (
             // Since plotly doesn't natively support images as points, we emulate it in this plot
             // by adding invisible points for each character (to get 'name on hover' behavior),
@@ -587,7 +596,7 @@ export default function RelicsTab() {
                 ]}
                 layout={{
                   plot_bgcolor: 'rgba(0, 0, 0, 0)',
-                  paper_bgcolor: '#243356',
+                  paper_bgcolor: token.colorBgContainer,
                   font: {
                     color: 'rgba(255, 255, 255, 0.85)',
                   },

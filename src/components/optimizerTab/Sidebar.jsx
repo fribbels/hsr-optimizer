@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Progress, Radio, Typography } from 'antd'
+import { Button, Divider, Flex, Progress, Radio, theme, Typography } from 'antd'
 import React from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -8,6 +8,8 @@ import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { ThunderboltFilled } from '@ant-design/icons'
 import { Optimizer } from 'lib/optimizer/optimizer'
+
+const { useToken } = theme
 
 const { Text } = Typography
 
@@ -37,6 +39,8 @@ PermutationDisplay.propTypes = {
 const defaultGap = 5
 
 export default function Sidebar() {
+  const { token } = useToken()
+
   const statDisplay = window.store((s) => s.statDisplay)
   const setStatDisplay = window.store((s) => s.setStatDisplay)
 
@@ -93,7 +97,7 @@ export default function Sidebar() {
             <Flex vertical>
               <HeaderText>Progress</HeaderText>
               <Progress
-                strokeColor="#1668DC"
+                strokeColor={token.colorPrimary}
                 steps={17}
                 size={[8, 5]}
                 percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}

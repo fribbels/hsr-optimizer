@@ -1,9 +1,11 @@
-import { Flex, Typography } from 'antd'
+import { Flex, theme, Typography } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { ElementToDamage, PathToClass } from 'lib/constants.ts'
 import { ReactElement } from 'react'
+
+const { useToken } = theme
 
 const { Paragraph } = Typography
 
@@ -99,6 +101,7 @@ export function generateElementTags() {
 }
 
 export function CardGridFilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
+  const { token } = useToken()
   const selectedTags = currentFilters[name]
 
   const handleChange = (tag, checked) => {
@@ -118,8 +121,8 @@ export function CardGridFilterRow({ currentFilters, name, flexBasis, tags, setCu
       style={{
         flexWrap: 'wrap',
         flexGrow: 1,
-        backgroundColor: '#243356',
-        boxShadow: '0px 0px 0px 1px #3F5A96 inset',
+        backgroundColor: token.colorBgContainer,
+        boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
         borderRadius: 6,
         overflow: 'hidden',
         height: 40,
@@ -133,7 +136,8 @@ export function CardGridFilterRow({ currentFilters, name, flexBasis, tags, setCu
           style={{
             flex: 1,
             flexBasis: flexBasis,
-            boxShadow: '1px 1px 0px 0px #3F5A96',
+            boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
+            backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
           <Flex align="center" justify="space-around" style={{ height: '100%' }}>

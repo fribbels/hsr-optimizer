@@ -7,8 +7,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@js-sdsl/priority-queue": "^4.4.0",
-    "ag-grid-community": "^31.2.0",
-    "ag-grid-react": "^31.2.0",
+    "ag-grid-community": "^31.2.1",
+    "ag-grid-react": "^31.2.1",
     "antd": "^5.16.2",
     "btoa": "^1.2.1",
     "fast-sort": "^3.4.0",
@@ -18,7 +18,6 @@
     "plotly.js": "^2.29.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-countup": "^6.5.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.0.5",
     "react-error-boundary": "^4.0.11",
@@ -29,7 +28,6 @@
     "tinygradient": "^1.1.5",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4",
-    "workerpool": "^6.5.1",
     "zustand": "^4.4.7"
   },
   "scripts": {

@@ -1,13 +1,15 @@
-import { Button, Flex, Layout, Typography } from 'antd'
+import { Button, Flex, Layout, theme, Typography } from 'antd'
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
 import { BASE_PATH } from '../lib/db'
 
+const { useToken } = theme
 const { Header } = Layout
 
 export function LayoutHeader() {
   const menuSidebarOpen = window.store((s) => s.menuSidebarOpen)
   const setMenuSidebarOpen = window.store((s) => s.setMenuSidebarOpen)
+  const { token } = useToken()
 
   return (
     <Header
@@ -18,6 +20,8 @@ export function LayoutHeader() {
         paddingRight: '0px',
         height: 48,
         width: '100%',
+        backgroundColor: token.colorBgLayout,
+        backgroundImage: 'linear-gradient(rgb(0 0 0/60%) 0 0)',
       }}
     >
       <Flex align="center" justify="space-between" style={{ width: '100%' }}>
@@ -34,7 +38,7 @@ export function LayoutHeader() {
           />
           <a href={BASE_PATH}>
             <Flex align="center">
-              <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 25 }}></img>
+              <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 35 }}></img>
               <Typography
                 style={{ fontWeight: 600, fontSize: 22 }}
                 color="inherit"

@@ -142,7 +142,7 @@ export default function GettingStartedTab() {
               Step 3: Apply filters
             </h2>
 
-            <img src={Assets.getGuideImage('relicsFilters')} style={screenshotStyle}></img>
+            <img src={Assets.getGuideImage('relicFilters')} style={screenshotStyle}></img>
 
             <h4 style={titleStyle}>
               Main Stats

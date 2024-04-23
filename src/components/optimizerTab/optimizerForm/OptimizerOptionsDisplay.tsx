@@ -62,18 +62,6 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex align="center">
-          <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-            <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
-              defaultChecked
-              style={{ width: 45, marginRight: 5 }}
-            />
-          </Form.Item>
-          <Text>Maxed main stat</Text>
-        </Flex>
-
-        <Flex align="center">
           <Form.Item name="includeEquippedRelics" valuePropName="checked">
             <Switch
               checkedChildren={<CheckOutlined/>}

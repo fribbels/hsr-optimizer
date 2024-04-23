@@ -36,7 +36,6 @@ export function getDefaultForm(initialCharacter) {
     characterEidolon: 0,
     lightConeLevel: 80,
     lightConeSuperimposition: 1,
-    predictMaxedMainStat: true,
     predictMinMainStatLevel: 12,
     rankFilter: true,
     includeEquippedRelics: true,

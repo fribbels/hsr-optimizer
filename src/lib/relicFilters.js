@@ -249,10 +249,7 @@ export const RelicFilters = {
     }
   },
 
-  applyMaxedMainStatsFilter: ({ predictMaxedMainStat, predictMinMainStatLevel }, relics) => {
-    if (predictMaxedMainStat) {
-      relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
-    }
+  applyMaxedMainStatsFilter: ({ predictMinMainStatLevel }, relics) => {
     if (predictMinMainStatLevel) {
       relics.map((x) => {
         const { grade, enhance, main: { stat } } = x

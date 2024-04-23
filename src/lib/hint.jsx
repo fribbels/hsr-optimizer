@@ -133,9 +133,9 @@ export const Hint = {
             - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
           </p>
           <p>
-            <strong>Maxed main stat</strong>
+            <strong>Main stat level</strong>
             {' '}
-            - Assume the main stat for relics are maxed
+            - Calculates relic main stats as if they were leveled to this value (or their max if they can't go this high) if they are currently below it.
           </p>
           <p>
             <strong>Keep current relics</strong>

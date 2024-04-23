@@ -46,7 +46,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             <HeaderText>
               Main Stat Level
             </HeaderText>
-            <Form.Item name="predictMinMainStatLevel">
+            <Form.Item name="mainStatUpscaleLevel">
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[

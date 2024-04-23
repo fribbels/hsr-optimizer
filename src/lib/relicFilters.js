@@ -1,7 +1,6 @@
 import { Constants, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
-import { StatCalculator } from 'lib/statCalculator'
 import { calculateRelicMainStatValue } from './tsutils'
 
 export const RelicFilters = {
@@ -249,13 +248,13 @@ export const RelicFilters = {
     }
   },
 
-  applyMaxedMainStatsFilter: ({ predictMinMainStatLevel }, relics) => {
-    if (predictMinMainStatLevel) {
+  applyMainStatsFilter: ({ mainStatUpscaleLevel }, relics) => {
+    if (mainStatUpscaleLevel) {
       relics.map((x) => {
         const { grade, enhance, main: { stat } } = x
         const maxEnhance = grade * 3
-        if (enhance < maxEnhance && enhance < predictMinMainStatLevel) {
-          const newEnhance = maxEnhance < predictMinMainStatLevel ? maxEnhance : predictMinMainStatLevel
+        if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
+          const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
           const newValue = calculateRelicMainStatValue(stat, grade, newEnhance)
           return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
         }

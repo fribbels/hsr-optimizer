@@ -33,7 +33,7 @@ export type Form = {
   mainLinkRope: any[]
   mainPlanarSphere: any[]
   ornamentSets: any[]
-  predictMinMainStatLevel: number
+  mainStatUpscaleLevel: number
   rankFilter: boolean
   relicSets: RelicSet[]
   statDisplay: string

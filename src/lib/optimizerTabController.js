@@ -591,7 +591,7 @@ export const OptimizerTabController = {
       characterLevel: 80,
       enhance: 9,
       grade: 5,
-      predictMinMainStatLevel: 12,
+      mainStatUpscaleLevel: 12,
       rankFilter: true,
       includeEquippedRelics: true,
       keepCurrentRelics: false,

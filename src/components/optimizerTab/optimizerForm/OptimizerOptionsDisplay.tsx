@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Flex, Form, Select, Switch, Typography } from 'antd'
+import { DefaultOptionType } from 'rc-select/lib/Select'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import { Hint } from 'lib/hint.jsx'
@@ -7,8 +8,9 @@ import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Utils } from 'lib/utils.js'
+import { CharacterId, MetadataCharacter } from '../../../types/Character'
 
 const { Text } = Typography
 
@@ -18,10 +20,10 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
   const characterExcludeOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
     characters, [DB.getCharacterById(optimizerTabFocusCharacter)], false,
-  ), [characters, optimizerTabFocusCharacter])
+  ) as DefaultOptionType[], [characters, optimizerTabFocusCharacter])
 
   const characterPriorityOptions = useMemo(() => {
-    const characterMetadata = DB.getMetadata().characters
+    const characterMetadata = DB.getMetadata().characters as Record<CharacterId, MetadataCharacter>
     return characters.map((x) => {
       return {
         value: x.rank,

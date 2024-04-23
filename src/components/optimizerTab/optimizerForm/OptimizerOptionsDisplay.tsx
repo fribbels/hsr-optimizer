@@ -44,7 +44,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Flex vertical gap={2}>
             <HeaderText>
-              Main Stat Level
+              Main stat level
             </HeaderText>
             <Form.Item name="mainStatUpscaleLevel">
               <Select

@@ -592,6 +592,7 @@ export const OptimizerTabController = {
       enhance: 9,
       grade: 5,
       predictMaxedMainStat: true,
+      predictMinMainStatLevel: 12,
       rankFilter: true,
       includeEquippedRelics: true,
       keepCurrentRelics: false,

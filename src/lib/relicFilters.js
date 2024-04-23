@@ -2,6 +2,7 @@ import { Constants, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
 import { StatCalculator } from 'lib/statCalculator'
+import { calculateRelicMainStatValue } from './tsutils'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
@@ -248,9 +249,20 @@ export const RelicFilters = {
     }
   },
 
-  applyMaxedMainStatsFilter: (request, relics) => {
-    if (request.predictMaxedMainStat) {
+  applyMaxedMainStatsFilter: ({ predictMaxedMainStat, predictMinMainStatLevel }, relics) => {
+    if (predictMaxedMainStat) {
       relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+    }
+    if (predictMinMainStatLevel) {
+      relics.map((x) => {
+        const { grade, enhance, main: { stat } } = x
+        const maxEnhance = grade * 3
+        if (enhance < maxEnhance && enhance < predictMinMainStatLevel) {
+          const newEnhance = maxEnhance < predictMinMainStatLevel ? maxEnhance : predictMinMainStatLevel
+          const newValue = calculateRelicMainStatValue(stat, grade, newEnhance)
+          return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
+        }
+      })
     }
     return relics
   },

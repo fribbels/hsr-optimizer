@@ -42,6 +42,26 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex align="center">
+          <Flex vertical gap={2}>
+            <HeaderText>
+              Main Stat Level
+            </HeaderText>
+            <Form.Item name="predictMinMainStatLevel">
+              <Select
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                options={[
+                  { value: 3, label: '+3' },
+                  { value: 6, label: '+6' },
+                  { value: 9, label: '+9' },
+                  { value: 12, label: '+12' },
+                  { value: 15, label: '+15' },
+                ]}
+              />
+            </Form.Item>
+          </Flex>
+        </Flex>
+
+        <Flex align="center">
           <Form.Item name="predictMaxedMainStat" valuePropName="checked">
             <Switch
               checkedChildren={<CheckOutlined/>}

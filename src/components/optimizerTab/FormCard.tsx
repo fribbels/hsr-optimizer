@@ -10,11 +10,19 @@ const defaultPadding = 15
 
 const smallWidth = panelWidth
 const mediumWidth = 365
+const largeWidth = 1175
+
+const dimsBySize = {
+  'small': smallWidth,
+  'medium': mediumWidth,
+  'large': largeWidth,
+}
 
 export default function FormCard(props: { size?: string; children?: ReactElement | ReactElement[]; height?: number; style?: CSSProperties; justify?: string }) {
   const { token } = useToken()
 
-  const width = props.size == 'medium' ? mediumWidth : smallWidth
+  const size = props.size || 'small'
+  const width = dimsBySize[size]
 
   return (
     <Flex

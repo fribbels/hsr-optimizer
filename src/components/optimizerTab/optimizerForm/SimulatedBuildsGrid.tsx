@@ -38,10 +38,6 @@ for (let i = 0; i < 20; i++) {
 export function SimulatedBuildsGrid(props: { data?: any }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
 
-  function selectRow(record) {
-    setSelectedRowKeys(record.key ? [record.key] : [])
-  }
-
   return (
     <div>
       <Table
@@ -51,6 +47,8 @@ export function SimulatedBuildsGrid(props: { data?: any }) {
           onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
           },
+          columnWidth: 0,
+          renderCell: () => "", // Render nothing for the selection column
         }}
         columns={columns}
         dataSource={data}
@@ -62,10 +60,12 @@ export function SimulatedBuildsGrid(props: { data?: any }) {
         pagination={false}
         size='small'
         style={{
-          width: 400
+          width: 400,
+          borderRadius: 8,
+          boxShadow: '0 0px 1px #000000'
         }}
         scroll={{
-          y: 290
+          y: 305
         }}
       />
     </div>

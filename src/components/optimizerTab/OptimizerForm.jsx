@@ -193,7 +193,7 @@ export default function OptimizerForm() {
 
           {/* Row 4 */}
 
-          <FormRow id={'Character stat simulation'}>
+          <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
             <DamageCalculatorDisplay />
           </FormRow>
         </FilterContainer>

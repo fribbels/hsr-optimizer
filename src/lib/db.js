@@ -125,6 +125,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
     [OptimizerMenuIds.teammates]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: true,
   },
 
   savedSession: {

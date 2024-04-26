@@ -46,6 +46,12 @@ const App = () => {
             margin: 2,
           },
 
+          Table: {
+            headerBg: '#00000036',
+            cellPaddingInlineSM: 12,
+            cellPaddingBlockSM: 6,
+          },
+
           Slider: {
             dotBorderColor: colorTheme.colorPrimary,
             dotActiveBorderColor: colorTheme.colorPrimary,

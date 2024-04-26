@@ -2,7 +2,12 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import {
+  Constants,
+  DEFAULT_STAT_DISPLAY,
+  DEFAULT_STAT_SIMULATION_DISPLAY,
+  RelicSetFilterOptions
+} from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -78,6 +83,7 @@ window.store = create((set) => ({
   scorerId: undefined,
   scoringMetadataOverrides: {},
   statDisplay: DEFAULT_STAT_DISPLAY,
+  statSimulationDisplay: DEFAULT_STAT_SIMULATION_DISPLAY,
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
@@ -143,6 +149,7 @@ window.store = create((set) => ({
   setScorerId: (x) => set(() => ({ scorerId: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),

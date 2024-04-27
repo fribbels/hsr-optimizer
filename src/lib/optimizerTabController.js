@@ -95,6 +95,13 @@ export const OptimizerTabController = {
       return
     }
 
+    if (data.statSim) {
+      const key = data.statSim.key
+      window.store.getState().setSelectedStatSimulations([key])
+
+      return
+    }
+
     console.log('cellClicked', event)
 
     const build = OptimizerTabController.calculateRelicsFromId(data.id)

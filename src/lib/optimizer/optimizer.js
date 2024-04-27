@@ -202,7 +202,7 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-function renameFields(c) {
+export function renameFields(c) {
   c.ED = c.ELEMENTAL_DMG
   c.BASIC = c.x.BASIC_DMG
   c.SKILL = c.x.SKILL_DMG

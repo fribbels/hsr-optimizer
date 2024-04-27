@@ -5,8 +5,8 @@ import InputNumberStyled from './InputNumberStyled'
 import { SimulatedBuildsGrid } from "components/optimizerTab/optimizerForm/SimulatedBuildsGrid";
 import { HeaderText } from "components/HeaderText";
 import { DeleteOutlined, DoubleLeftOutlined, SettingOutlined } from "@ant-design/icons";
-import React, { useMemo } from "react";
-import { saveStatSimulationBuild } from "lib/statSimulationController";
+import { useMemo } from "react";
+import { saveStatSimulationBuild, startStatSimulation } from "lib/statSimulationController";
 import { Parts } from "lib/constants";
 import { Assets } from "lib/assets";
 import {
@@ -61,7 +61,7 @@ export function DamageCalculatorDisplay() {
             <SimulatedBuildsGrid />
           </Flex>
 
-          <Button type="primary" style={{width: 300}}>
+          <Button type="primary" style={{width: 300}} onClick={startStatSimulation}>
             Simulate selected builds
           </Button>
         </Flex>
@@ -177,7 +177,7 @@ function SetsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>Sets</HeaderText>
-      <Form.Item name={formName(props.simType, 'simRelicSets1')}>
+      <Form.Item name={formName(props.simType, 'simRelicSet1')}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -191,7 +191,7 @@ function SetsSection(props: { simType: string }) {
         >
         </Select>
       </Form.Item>
-      <Form.Item name={formName(props.simType, 'simRelicSets2')}>
+      <Form.Item name={formName(props.simType, 'simRelicSet2')}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -206,7 +206,7 @@ function SetsSection(props: { simType: string }) {
         </Select>
       </Form.Item>
 
-      <Form.Item name={formName(props.simType, 'simOrnamentSets')}>
+      <Form.Item name={formName(props.simType, 'simOrnamentSet')}>
         <Select
           dropdownStyle={{
             width: 250,

@@ -6,6 +6,11 @@ import { Utils } from './utils'
 let maxedMainStats
 
 export const StatCalculator = {
+  getMaxedStatValue: (stat) => {
+    const scaling = Utils.isFlat(stat) ? 1 : 100
+    return Utils.precisionRound(maxedMainStats[stat][3] / scaling)
+  },
+
   getMaxedMainStat: (relic) => {
     if (!maxedMainStats) {
       maxedMainStats = {

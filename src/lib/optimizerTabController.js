@@ -422,6 +422,16 @@ export const OptimizerTabController = {
       newForm.resultLimit = 100000
     }
 
+    if (!newForm.statSim) {
+      newForm.statSim = {
+
+      }
+    }
+
+    if (!newForm.statSim.simulations) {
+      newForm.statSim.simulations = []
+    }
+
     console.log('Form update', newForm)
     return newForm
   },
@@ -597,6 +607,7 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerTabFocusCharacter(characterId)
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
+      window.store.getState().setStatSimulations(form.statSim?.simulations || [])
       console.log('@updateForm', displayFormValues, character)
 
       window.onOptimizerFormValuesChange({}, displayFormValues)

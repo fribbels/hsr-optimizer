@@ -362,3 +362,6 @@ a {
 .ag-floating-top {
   border-bottom: none !important;
 }
+.ant-empty-description {
+  height: 140px !important;
+}

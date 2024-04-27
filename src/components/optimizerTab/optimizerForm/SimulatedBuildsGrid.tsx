@@ -1,10 +1,7 @@
 import { Table, TableColumnsType, theme } from 'antd'
 import { Key, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
-import {
-  STAT_SIMULATION_GRID_WIDTH,
-  STAT_SIMULATION_ROW_HEIGHT
-} from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
+import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
 
 const { useToken } = theme
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
@@ -20,6 +17,8 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Build name',
     dataIndex: 'name',
+    fixed: 'left',
+    width: '560'
   },
   {
     title: '',
@@ -41,6 +40,8 @@ for (let i = 0; i < 22; i++) {
 
 export function SimulatedBuildsGrid(props: { data?: any }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+  const statSimulations = window.store((s) => s.statSimulations)
+  // const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
 
   return (
     <Table
@@ -54,7 +55,7 @@ export function SimulatedBuildsGrid(props: { data?: any }) {
         renderCell: () => "", // Render nothing for the selection column
       }}
       columns={columns}
-      dataSource={data}
+      dataSource={statSimulations}
       onRow={(record) => ({
         onClick: () => {
           setSelectedRowKeys(record.key != null ? [record.key] : [])
@@ -66,10 +67,11 @@ export function SimulatedBuildsGrid(props: { data?: any }) {
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
         borderRadius: 8,
-        boxShadow: '0 0px 1px #000000'
+        boxShadow: '0 0px 1px #000000',
+        height: '100%'
       }}
       scroll={{
-        y: STAT_SIMULATION_ROW_HEIGHT - 115
+        y: 265,
       }}
     />
   );

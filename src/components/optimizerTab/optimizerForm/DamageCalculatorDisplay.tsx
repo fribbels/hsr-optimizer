@@ -7,10 +7,21 @@ import { HeaderText } from "components/HeaderText";
 import { DeleteOutlined, DoubleLeftOutlined, SettingOutlined } from "@ant-design/icons";
 import React, { useMemo } from "react";
 import { saveStatSimulationBuild } from "lib/statSimulationController";
+import { Parts } from "lib/constants";
+import { Assets } from "lib/assets";
+import {
+  BodyStatOptions,
+  FeetStatOptions,
+  LinkRopeStatOptions,
+  OrnamentSetTagRenderer,
+  PlanarSphereStatOptions
+} from "components/optimizerTab/optimizerForm/RelicMainSetFilters";
+import GenerateOrnamentsOptions from "components/optimizerTab/optimizerForm/OrnamentsOptions";
+import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/SetsOptions";
 
 const { Text } = Typography
 
-enum StatSimulationOptions {
+export enum StatSimulationOptions {
   Disabled = "disabled",
   CharacterStats = 'characterStats',
   SubstatTotals = 'substatTotals',
@@ -19,7 +30,7 @@ enum StatSimulationOptions {
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 600
-export const STAT_SIMULATION_OPTIONS_WIDTH = 225
+export const STAT_SIMULATION_OPTIONS_WIDTH = 215
 export const STAT_SIMULATION_STATS_WIDTH = 225
 
 export function DamageCalculatorDisplay() {
@@ -28,8 +39,8 @@ export function DamageCalculatorDisplay() {
 
   return (
     <FormCard style={{ overflow: 'hidden' }} size='large' height={STAT_SIMULATION_ROW_HEIGHT}>
-      <Flex gap={15}>
-        <Flex vertical gap={15}>
+      <Flex gap={15} style={{height: '100%'}}>
+        <Flex vertical gap={15} align='center'>
           <Radio.Group
             onChange={(e) => {
               const { target: { value } } = e
@@ -46,9 +57,13 @@ export function DamageCalculatorDisplay() {
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatRolls}>Substat rolls</Radio>
           </Radio.Group>
 
-          <Flex flex={1} style={{minHeight: STAT_SIMULATION_ROW_HEIGHT - 75}}>
+          <Flex flex={1}>
             <SimulatedBuildsGrid />
           </Flex>
+
+          <Button type="primary" style={{width: 300}}>
+            Simulate selected builds
+          </Button>
         </Flex>
 
         <Flex vertical justify='space-around'>
@@ -61,7 +76,6 @@ export function DamageCalculatorDisplay() {
             </Button>
           </Flex>
         </Flex>
-
         <SimulationInputs />
       </Flex>
     </FormCard>
@@ -74,87 +88,81 @@ function SimulationInputs() {
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   const renderedOptions = useMemo(() => {
-    switch(statSimulationDisplay) {
-      case StatSimulationOptions.CharacterStats:
-        return (
-          <>
-            <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-              <HeaderText>Character stat options</HeaderText>
-              <Form.Item>
-                <Input placeholder='Build name (Optional)' />
-              </Form.Item>
-
-              <SetsSection />
-
-              <HeaderText>Options</HeaderText>
-              <Button
-                onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-                icon={<SettingOutlined />}
-              >
-                Conditional set effects
-              </Button>
-            </Flex>
-
-            <VerticalDivider />
-
-            <CharacterStatsSection />
-          </>
-        )
-      case StatSimulationOptions.SubstatTotals:
-        return (
-          <>
-            <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-              <HeaderText>Character stat options</HeaderText>
+    return (
+      <>
+        <Form.Item name={formName('simulations')}>
+          <Input placeholder='Build name (Optional)' style={{display: 'none'}}/>
+        </Form.Item>
+        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.CharacterStats ? 'flex' : 'none'}}>
+          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>Character stat options</HeaderText>
+            <Form.Item>
               <Input placeholder='Build name (Optional)' />
+            </Form.Item>
 
-              <SetsSection />
-              <MainStatsSection />
+            <SetsSection simType={StatSimulationOptions.CharacterStats} />
 
-              <HeaderText>Options</HeaderText>
-              <Button
-                onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-                icon={<SettingOutlined />}
-              >
-                Conditional set effects
-              </Button>
-            </Flex>
+            <HeaderText>Options</HeaderText>
+            <Button
+              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              icon={<SettingOutlined />}
+            >
+              Conditional set effects
+            </Button>
+          </Flex>
 
-            <VerticalDivider />
+          <VerticalDivider />
 
-            <SubstatsSection simType={StatSimulationOptions.SubstatTotals} />
-          </>
-        )
-      case StatSimulationOptions.SubstatRolls:
-        return (
-          <>
-            <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-              <HeaderText>Character stat options</HeaderText>
-              <Input placeholder='Build name (Optional)' />
+          <CharacterStatsSection />
+        </Flex>
+        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.SubstatTotals ? 'flex' : 'none'}}>
+          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>Character stat options</HeaderText>
+            <Input placeholder='Build name (Optional)' />
 
-              <SetsSection />
-              <MainStatsSection />
+            <SetsSection simType={StatSimulationOptions.SubstatTotals} />
+            <MainStatsSection simType={StatSimulationOptions.SubstatTotals}/>
 
-              <HeaderText>Options</HeaderText>
-              <Button
-                onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-                icon={<SettingOutlined />}
-              >
-                Conditional set effects
-              </Button>
-              <Select placeholder='Roll quality' />
-            </Flex>
+            <HeaderText>Options</HeaderText>
+            <Button
+              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              icon={<SettingOutlined />}
+            >
+              Conditional set effects
+            </Button>
+          </Flex>
 
-            <VerticalDivider />
+          <VerticalDivider />
 
-            <SubstatsSection simType={StatSimulationOptions.SubstatRolls} />
-          </>
-        )
-      default:
-        return (
-          <>
-          </>
-        )
-    }
+          <SubstatsSection simType={StatSimulationOptions.SubstatTotals} title='Substat totals'/>
+        </Flex>
+        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.SubstatRolls ? 'flex' : 'none'}}>
+          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>Character stat options</HeaderText>
+            <Input placeholder='Build name (Optional)' />
+
+            <SetsSection simType={StatSimulationOptions.SubstatRolls} />
+            <MainStatsSection simType={StatSimulationOptions.SubstatRolls} />
+
+            <HeaderText>Options</HeaderText>
+            <Button
+              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              icon={<SettingOutlined />}
+            >
+              Conditional set effects
+            </Button>
+            <Select placeholder='Roll quality' />
+          </Flex>
+
+          <VerticalDivider />
+
+          <SubstatsSection simType={StatSimulationOptions.SubstatRolls} title='Substat rolls'/>
+        </Flex>
+        <Flex style={{display: statSimulationDisplay == StatSimulationOptions.Disabled ? 'flex' : 'none'}}>
+          <></>
+        </Flex>
+      </>
+    )
   }, [statSimulationDisplay])
 
   return (
@@ -165,31 +173,90 @@ function SimulationInputs() {
 }
 
 
-function SetsSection() {
+function SetsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>Sets</HeaderText>
-      <Select placeholder='Relic set'/>
-      <Select placeholder='Ornament set'/>
+      <Form.Item name={formName(props.simType, 'simRelicSets1')}>
+        <Select
+          dropdownStyle={{
+            width: 250,
+          }}
+          listHeight={600}
+          allowClear
+          options={GenerateBasicSetsOptions()}
+          tagRender={OrnamentSetTagRenderer}
+          placeholder="Relic set"
+          maxTagCount="responsive"
+        >
+        </Select>
+      </Form.Item>
+      <Form.Item name={formName(props.simType, 'simRelicSets2')}>
+        <Select
+          dropdownStyle={{
+            width: 250,
+          }}
+          listHeight={600}
+          allowClear
+          options={GenerateBasicSetsOptions()}
+          tagRender={OrnamentSetTagRenderer}
+          placeholder="Relic set"
+          maxTagCount="responsive"
+        >
+        </Select>
+      </Form.Item>
+
+      <Form.Item name={formName(props.simType, 'simOrnamentSets')}>
+        <Select
+          dropdownStyle={{
+            width: 250,
+          }}
+          listHeight={600}
+          allowClear
+          options={GenerateOrnamentsOptions()}
+          tagRender={OrnamentSetTagRenderer}
+          placeholder="Ornament set"
+          maxTagCount="responsive"
+        >
+        </Select>
+      </Form.Item>
     </>
   )
 }
 
-function MainStatsSection() {
+function MainStatsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>Main stats</HeaderText>
       <Flex vertical gap={5}>
         <Flex gap={5} style={{width: STAT_SIMULATION_OPTIONS_WIDTH}}>
-          <Select placeholder='Body' style={{flex: 1}}/>
-          <Select placeholder='Feet' style={{flex: 1}}/>
+          <MainStatSelector placeholder='Body' part={Parts.Body} options={BodyStatOptions} simType={props.simType}/>
+          <MainStatSelector placeholder='Feet' part={Parts.Feet} options={FeetStatOptions} simType={props.simType}/>
         </Flex>
         <Flex gap={5} style={{width: STAT_SIMULATION_OPTIONS_WIDTH}}>
-          <Select placeholder='Rope' style={{flex: 1}}/>
-          <Select placeholder='Sphere' style={{flex: 1}}/>
+          <MainStatSelector placeholder='Rope' part={Parts.LinkRope} options={LinkRopeStatOptions} simType={props.simType}/>
+          <MainStatSelector placeholder='Sphere' part={Parts.PlanarSphere} options={PlanarSphereStatOptions} simType={props.simType}/>
         </Flex>
       </Flex>
     </>
+  )
+}
+
+function MainStatSelector(props: { simType: string, placeholder: string, part: string, options: any[] }) {
+  return (
+    <Form.Item name={formName(props.simType, 'sim' + props.part)} style={{flex: 1}}>
+      <Select
+        placeholder={props.placeholder}
+        style={{flex: 1}}
+        allowClear
+        optionLabelProp="short"
+        maxTagCount="responsive"
+        suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
+        options={props.options}
+        listHeight={750}
+        popupMatchSelectWidth={200}
+      />
+    </Form.Item>
   )
 }
 
@@ -197,7 +264,7 @@ function CharacterStatsSection() {
   return (
     <>
       <Flex vertical gap={5}>
-        <HeaderText>Substat rolls</HeaderText>
+        <HeaderText>Character display stats</HeaderText>
         <StatInput simType={StatSimulationOptions.CharacterStats} name="Hp" label="HP" />
         <StatInput simType={StatSimulationOptions.CharacterStats} name="Atk" label="ATK" />
         <StatInput simType={StatSimulationOptions.CharacterStats} name="Def" label="DEF" />
@@ -215,11 +282,11 @@ function CharacterStatsSection() {
   )
 }
 
-function SubstatsSection(props: { simType: string }) {
+function SubstatsSection(props: { simType: string, title: string }) {
   return (
     <>
       <Flex vertical gap={5}>
-        <HeaderText>Substat rolls</HeaderText>
+        <HeaderText>{props.title}</HeaderText>
         <StatInput simType={props.simType} name="Hp" label="HP" />
         <StatInput simType={props.simType} name="Atk" label="ATK" />
         <StatInput simType={props.simType} name="Def" label="DEF" />

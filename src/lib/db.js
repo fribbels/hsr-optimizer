@@ -2,12 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import {
-  Constants,
-  DEFAULT_STAT_DISPLAY,
-  DEFAULT_STAT_SIMULATION_DISPLAY,
-  RelicSetFilterOptions
-} from 'lib/constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -15,6 +10,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
+import { StatSimulationOptions } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
 
 const state = {
   relics: [],
@@ -83,7 +79,8 @@ window.store = create((set) => ({
   scorerId: undefined,
   scoringMetadataOverrides: {},
   statDisplay: DEFAULT_STAT_DISPLAY,
-  statSimulationDisplay: DEFAULT_STAT_SIMULATION_DISPLAY,
+  statSimulationDisplay: StatSimulationOptions.Disabled,
+  statSimulations: [],
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
@@ -151,6 +148,7 @@ window.store = create((set) => ({
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
   setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
+  setStatSimulations: (x) => set(() => ({ statSimulations: x })),
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),

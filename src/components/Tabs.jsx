@@ -42,7 +42,7 @@ const Tabs = () => {
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
       if (!optimizerInitialized) {
         optimizerInitialized = true
-        // WorkerPool.initializeAllWorkers()
+        WorkerPool.initializeAllWorkers()
       }
     }
   }, [activeKey])

@@ -12,7 +12,13 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  CameraOutlined,
+  DownloadOutlined,
+  DownOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
@@ -59,7 +65,7 @@ function cellNameRenderer(params) {
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   // console.log('CellRenderer', equippedNumber, data, characterMetadata)
   let color = '#81d47e'
-  if (equippedNumber < 6) color = '#eae084'
+  if (equippedNumber < 6) color = '#eaaf84'
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (

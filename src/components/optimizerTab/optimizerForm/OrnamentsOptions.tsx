@@ -9,7 +9,7 @@ const GenerateOrnamentsOptions = (): { value: string; label: JSX.Element }[] => 
       value: x,
       label:
   <Flex gap={5} align="center">
-    <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
+    <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} style={{ width: 21, height: 21 }}></img>
     <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
       {x}
     </div>

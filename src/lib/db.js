@@ -10,6 +10,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
+import { StatSimulationOptions } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
 
 const state = {
   relics: [],
@@ -78,6 +79,9 @@ window.store = create((set) => ({
   scorerId: undefined,
   scoringMetadataOverrides: {},
   statDisplay: DEFAULT_STAT_DISPLAY,
+  statSimulationDisplay: StatSimulationOptions.Disabled,
+  statSimulations: [],
+  selectedStatSimulations: [],
   optimizationInProgress: false,
   optimizationId: undefined,
   teammateCount: 0,
@@ -119,6 +123,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
     [OptimizerMenuIds.teammates]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: true,
   },
 
   savedSession: {
@@ -143,6 +148,9 @@ window.store = create((set) => ({
   setScorerId: (x) => set(() => ({ scorerId: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
+  setStatSimulations: (x) => set(() => ({ statSimulations: x })),
+  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
   setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),

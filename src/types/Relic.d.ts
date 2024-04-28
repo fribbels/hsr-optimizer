@@ -43,3 +43,8 @@ type StatRolls = {
   mid: number
   low: number
 }
+
+export type Stat = {
+  stat: string
+  value: number
+}

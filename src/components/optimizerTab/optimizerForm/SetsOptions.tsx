@@ -69,4 +69,19 @@ const GenerateSetsOptions = () => {
   return result
 }
 
+export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
+  return Object.values(Constants.SetsRelics).map((x) => {
+    return {
+      value: x,
+      label:
+        <Flex gap={5} align="center">
+          <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
+          <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
+            {x}
+          </div>
+        </Flex>,
+    }
+  })
+}
+
 export default GenerateSetsOptions

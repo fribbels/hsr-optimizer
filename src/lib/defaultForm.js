@@ -1,5 +1,6 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import DB from 'lib/db'
+import { StatSimulationOptions } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
 
 export function getDefaultForm(initialCharacter) {
   const metadata = DB.getMetadata().characters[initialCharacter]
@@ -35,6 +36,7 @@ export function getDefaultForm(initialCharacter) {
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
+    statSim: defaultStatSim,
     weights: {
       [Constants.Stats.HP_P]: 1,
       [Constants.Stats.ATK_P]: 1,
@@ -66,6 +68,11 @@ export function defaultTeammate() {
     characterEidolon: 0,
     lightConeSuperimposition: 1,
   }
+}
+
+export const defaultStatSim = {
+  simType: StatSimulationOptions.Disabled,
+  simulations: []
 }
 
 export const defaultSetConditionals = {

@@ -54,6 +54,7 @@ declare global {
     // TODO see OptimizerForm
     onOptimizerFormValuesChange: (...args: unknown[]) => unknown
     optimizerForm: FormInstance
+    statSimulationForm: FormInstance
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
     forceCharacterTabUpdate: DispatchWithoutAction

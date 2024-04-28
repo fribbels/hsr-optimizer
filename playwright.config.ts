@@ -10,6 +10,7 @@ export const STORAGE_STATE = path.join(
 )
 
 export default defineConfig({
+  timeout: 45000,
   testDir: 'tests',
   fullyParallel: true, // Run all tests in parallel.
   forbidOnly: !!process.env.CI, // Fail the build on CI if you accidentally left test.only in the source code.

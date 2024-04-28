@@ -20,6 +20,7 @@ const columns: TableColumnsType<DataType> = [
     fixed: 'left',
     width: '560',
     render: (_, record) => {
+      // Show the custom name, otherwise generate one
       return record.name || renderDefaultSimulationName(record)
     },
     ellipsis: true,

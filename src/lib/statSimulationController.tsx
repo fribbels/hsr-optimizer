@@ -27,6 +27,7 @@ export function saveStatSimulationBuild() {
     return
   }
 
+  // Check for missing fields
   const simRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
@@ -48,7 +49,6 @@ export function saveStatSimulationBuild() {
   for (const sim of existingSimulations) {
     const existingHash = hashSim(sim)
 
-    console.debug(simulation, sim)
     if (hash == existingHash) {
       Message.error('Identical stat simulation already exists')
       return
@@ -57,6 +57,7 @@ export function saveStatSimulationBuild() {
 
   existingSimulations.push(simulation)
 
+  // Update state
   const cloned = Utils.clone(existingSimulations)
   window.store.getState().setStatSimulations(cloned)
   setFormStatSimulations(cloned)

@@ -93,6 +93,7 @@ export function DamageCalculatorDisplay() {
             </Popconfirm>
           </Flex>
         </Flex>
+
         <SimulationInputs />
       </Flex>
     </FormCard>
@@ -107,8 +108,9 @@ function SimulationInputs() {
     return (
       <>
         <Form.Item name={formName('simulations')}>
-          <Input placeholder='This is a fake hidden input to save the simulations into the form' style={{display: 'none'}}/>
+          <Input placeholder='This is a fake hidden input to save simulations into the form' style={{display: 'none'}}/>
         </Form.Item>
+
         <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.CharacterStats ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>Character stat options</HeaderText>

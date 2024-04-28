@@ -61,7 +61,7 @@ export function DamageCalculatorDisplay() {
           >
             <Radio style={{ display: 'flex', flex: 0.6, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.Disabled}>Off</Radio>
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatTotals}>Substat totals</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatRolls} disabled>Substat rolls</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatRolls}>Substat rolls</Radio>
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.CharacterStats} disabled>Character stats</Radio>
           </Radio.Group>
 

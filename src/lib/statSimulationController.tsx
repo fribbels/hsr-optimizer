@@ -14,6 +14,7 @@ import { Message } from "lib/message";
 import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
 import { SortOption } from "lib/optimizer/sortOptions";
 import { SaveState } from "lib/saveState";
+import DB from "lib/db";
 
 export function saveStatSimulationBuild() {
   const form = window.optimizerForm.getFieldsValue()
@@ -63,7 +64,7 @@ export function saveStatSimulationBuild() {
   setFormStatSimulations(cloned)
   startStatSimulation()
 
-  SaveState.save()
+  autosave()
 }
 
 function hashSim(sim) {
@@ -175,14 +176,14 @@ export function deleteStatSimulationBuild(record: { key: React.Key, name: string
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
 
-  SaveState.save()
+  autosave()
 }
 
 export function deleteAllStatSimulationBuilds() {
   window.store.getState().setStatSimulations([])
   setFormStatSimulations([])
 
-  SaveState.save()
+  autosave()
 }
 
 export function setFormStatSimulations(simulations) {
@@ -291,6 +292,8 @@ export function startStatSimulation() {
   const sortOption = SortOption[form.resultSort]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
+
+  autosave()
 }
 
 function inputToSubstats(request) {
@@ -308,4 +311,10 @@ function inputToSubstats(request) {
     [Stats.RES]: request.simRes,
     [Stats.BE]: request.simBe,
   }
+}
+
+function autosave() {
+  const form = OptimizerTabController.getForm()
+  DB.addFromForm(form)
+  SaveState.save()
 }

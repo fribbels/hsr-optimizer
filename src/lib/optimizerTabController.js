@@ -98,7 +98,7 @@ export const OptimizerTabController = {
     if (data.statSim) {
       const key = data.statSim.key
       window.store.getState().setSelectedStatSimulations([key])
-
+      window.setOptimizerBuild({})
       return
     }
 

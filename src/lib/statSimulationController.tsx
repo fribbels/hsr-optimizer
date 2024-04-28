@@ -1,6 +1,6 @@
 import { StatSimulationOptions } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
 import { Utils } from "lib/utils";
-import { Constants, Parts, Stats, SubStats } from "lib/constants";
+import { Constants, Parts, Stats, StatsToShort, SubStats } from "lib/constants";
 import { emptyRelic } from "lib/optimizer/optimizerUtils";
 import { StatCalculator } from "lib/statCalculator";
 import { Stat } from "types/Relic";
@@ -8,10 +8,16 @@ import { RelicFilters } from "lib/relicFilters";
 import { calculateBuild } from "lib/optimizer/calculateBuild";
 import { OptimizerTabController } from "lib/optimizerTabController";
 import { renameFields } from "lib/optimizer/optimizer";
+import { Assets } from "lib/assets";
+import { Flex } from "antd";
+import { Message } from "lib/message";
+import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
+import { SortOption } from "lib/optimizer/sortOptions";
+import { SaveState } from "lib/saveState";
 
 export function saveStatSimulationBuild() {
   const form = window.optimizerForm.getFieldsValue()
-  console.debug(form.statSim);
+  console.log('Save statSim', form.statSim)
 
   const simType = window.store.getState().statSimulationDisplay
 
@@ -22,30 +28,160 @@ export function saveStatSimulationBuild() {
   }
 
   const simRequest = form.statSim[simType]
-  console.debug(simRequest)
-  // TODO: Validate request
+  if (!validateRequest(simRequest)) {
+    console.warn('Invalid sim', form, simType)
+    return
+  }
 
   const existingSimulations = window.store.getState().statSimulations || []
+  const key = Utils.randomId()
+  const name = simRequest.name || undefined
   const simulation = {
-    name: Math.random(),
-    key: Math.random(),
+    name: name,
+    key: key,
     simType: simType,
     request: simRequest,
   }
+
+  // Check for dupes
+  const hash = hashSim(simulation)
+  for (const sim of existingSimulations) {
+    const existingHash = hashSim(sim)
+
+    console.debug(simulation, sim)
+    if (hash == existingHash) {
+      Message.error('Identical stat simulation already exists')
+      return
+    }
+  }
+
   existingSimulations.push(simulation)
 
   const cloned = Utils.clone(existingSimulations)
   window.store.getState().setStatSimulations(cloned)
   setFormStatSimulations(cloned)
+  startStatSimulation()
+
+  SaveState.save()
 }
 
-export function deleteStatSimulationBuild(record: {key: React.Key, name: string}) {
-  console.log(record)
+function hashSim(sim) {
+  const cleanedRequest = {}
+  for (const entry of Object.entries(sim.request)) {
+    if (entry[1] != null) {
+      cleanedRequest[entry[0]] = entry[1]
+    }
+  }
+
+  return Utils.objectHash({
+    simType: sim.simType,
+    request: cleanedRequest,
+  })
+}
+
+function validateRequest(request) {
+  console.debug('validateRequest', request)
+  if (!request.simRelicSet1 || !request.simRelicSet2 || !request.simOrnamentSet) {
+    Message.error('Missing simulation sets')
+    return false
+  }
+
+  if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
+    Message.error('Missing simulation main stats')
+    return false
+  }
+
+  return true
+}
+
+export function renderDefaultSimulationName(record) {
+  const request = record.request
+
+  return (
+    <Flex gap={5}>
+      <SimSets request={request}/>
+
+      {'|'}
+
+      <SimMains request={request}/>
+
+      {'|'}
+
+      <SimSubstats request={request}/>
+    </Flex>
+  )
+}
+
+function SimSets(props: { request: any }) {
+  const imgSize = 22
+  return (
+    <Flex gap={5}>
+      <Flex>
+        <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simRelicSet1)}/>
+        <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simRelicSet2)}/>
+      </Flex>
+
+      <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simOrnamentSet)}/>
+    </Flex>
+  )
+}
+
+function SimMains(props: { request: any }) {
+  const imgSize = 22
+  return (
+    <Flex>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simBody, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simFeet, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simLinkRope, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simPlanarSphere, true)}/>
+    </Flex>
+  )
+}
+
+function SimSubstats(props: { request: any }) {
+  const renderArray: Stat[] = []
+  const substats = inputToSubstats(props.request)
+  for (const stat of Constants.SubStats) {
+    const value = substats[stat]
+    if (value) {
+      renderArray.push({
+        stat: stat,
+        value: value
+      })
+    }
+  }
+
+  return (
+    <Flex gap={5}>
+      {
+        renderArray.map((x) => {
+          return (
+            <Flex key={x.stat}>
+              {`${StatsToShort[x.stat]}: ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`}
+            </Flex>
+          )
+        })
+      }
+    </Flex>
+  )
+}
+
+export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
+  console.log('Delete sim', record)
   const statSims = window.store.getState().statSimulations
   const updatedSims = Utils.clone(statSims.filter(x => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
+
+  SaveState.save()
+}
+
+export function deleteAllStatSimulationBuilds() {
+  window.store.getState().setStatSimulations([])
+  setFormStatSimulations([])
+
+  SaveState.save()
 }
 
 export function setFormStatSimulations(simulations) {
@@ -59,7 +195,7 @@ export function startStatSimulation() {
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
 
-  console.debug(existingSimulations)
+  console.log('Starting sims', existingSimulations)
 
   const simulationResults = []
 
@@ -143,8 +279,6 @@ export function startStatSimulation() {
 
     const c = calculateBuild(form, relics)
 
-    console.debug(c, relics)
-
     renameFields(c)
     c.statSim = sim
     simulationResults.push(c)
@@ -153,6 +287,9 @@ export function startStatSimulation() {
   OptimizerTabController.setRows(simulationResults)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
+  const sortOption = SortOption[form.resultSort]
+  const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+  setSortColumn(gridSortColumn)
 }
 
 function inputToSubstats(request) {

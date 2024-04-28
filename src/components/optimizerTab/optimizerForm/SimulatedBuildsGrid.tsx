@@ -1,12 +1,16 @@
 import { Table, TableColumnsType } from 'antd'
-import { Key, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
-import { deleteStatSimulationBuild } from "lib/statSimulationController";
+import { deleteStatSimulationBuild, renderDefaultSimulationName } from "lib/statSimulationController.tsx";
+import { IRowNode } from "ag-grid-community";
+import { useEffect } from "react";
 
 interface DataType {
-  key: React.Key;
-  name: string;
+  key: React.Key
+  name: string
+  simType: string
+  request: object
+  hash: string
 }
 
 const columns: TableColumnsType<DataType> = [
@@ -14,7 +18,11 @@ const columns: TableColumnsType<DataType> = [
     title: 'Build name',
     dataIndex: 'name',
     fixed: 'left',
-    width: '560'
+    width: '560',
+    render: (_, record) => {
+      return record.name || renderDefaultSimulationName(record)
+    },
+    ellipsis: true,
   },
   {
     title: '',
@@ -34,29 +42,50 @@ const columns: TableColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 22; i++) {
-  data.push({
-    name: 'Build ' + i,
-    key: i
-  })
-}
-
-export function SimulatedBuildsGrid(props: { data?: any }) {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+export function SimulatedBuildsGrid() {
   const statSimulations = window.store((s) => s.statSimulations)
   const selectedStatSimulations = window.store((s) => s.selectedStatSimulations)
   const setSelectedStatSimulations = window.store((s) => s.setSelectedStatSimulations)
-  // const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
+
+  // Links the table -> form & grid
+  function updateSimulationForm(key: string) {
+    // Check to avoid update loop
+    if (selectedStatSimulations[0] != key) {
+      setSelectedStatSimulations(key != null ? [key] : [])
+    }
+
+    const statSim = statSimulations.find((s) => s.key === key)
+    console.log('Syncing matching statSim', statSim)
+
+    if (!statSim) return
+
+    // Match the selected sim on the optimizer grid and select it
+    let matchingNode: IRowNode | undefined
+    window.optimizerGrid.current!.api.forEachNode((node) => {
+      if (node.data.statSim?.key == statSim.key) {
+        matchingNode = node
+      }
+    })
+    if (matchingNode) {
+      matchingNode.setSelected(true, true)
+    }
+
+    // Update the form with selected sim
+    window.optimizerForm.setFieldValue(['statSim', statSim.simType], statSim.request)
+    window.store.getState().setStatSimulationDisplay(statSim.simType)
+  }
+
+  useEffect(() => {
+    if (selectedStatSimulations.length) {
+      updateSimulationForm(selectedStatSimulations[0])
+    }
+  }, [selectedStatSimulations])
 
   return (
     <Table
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
         columnWidth: 0,
         renderCell: () => "", // Render nothing for the selection column
       }}
@@ -65,7 +94,6 @@ export function SimulatedBuildsGrid(props: { data?: any }) {
       onRow={(record) => ({
         onClick: () => {
           setSelectedStatSimulations(record.key != null ? [record.key] : [])
-          console.log('Change', record)
         }
       })}
       pagination={false}

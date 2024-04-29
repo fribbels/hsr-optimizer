@@ -103,8 +103,8 @@ export function SimulatedBuildsGrid() {
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
         borderRadius: 8,
-        boxShadow: '0 0px 1px #000000',
-        height: '100%'
+        height: '100%',
+        backgroundColor: '#0000001a'
       }}
       scroll={{
         y: 265,

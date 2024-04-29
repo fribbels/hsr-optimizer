@@ -9,7 +9,7 @@ import { calculateBuild } from "lib/optimizer/calculateBuild";
 import { OptimizerTabController } from "lib/optimizerTabController";
 import { renameFields } from "lib/optimizer/optimizer";
 import { Assets } from "lib/assets";
-import { Flex } from "antd";
+import { Flex, Tag } from "antd";
 import { Message } from "lib/message";
 import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
 import { SortOption } from "lib/optimizer/sortOptions";
@@ -108,7 +108,11 @@ export function renderDefaultSimulationName(sim) {
       {'|'}
 
       <Flex>
-        {sim.name ? `( ${sim.name} )` : null}
+        {sim.name ? `${sim.name}` : null}
+      </Flex>
+
+      <Flex>
+        {sim.name ? `|` : null}
       </Flex>
 
       <SimSubstatsDisplay sim={sim}/>
@@ -159,17 +163,17 @@ function SimSubstatsDisplay(props: { sim: any }) {
 
   function renderStat(x) {
     return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${StatsToShort[x.stat]}: x${x.value}`
-      : `${StatsToShort[x.stat]}: ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
+      ? `${StatsToShort[x.stat]} x${x.value}`
+      : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
   }
 
   return (
-    <Flex gap={5}>
+    <Flex gap={0}>
       {
         renderArray.map((x) => {
           return (
             <Flex key={x.stat}>
-              {renderStat(x)}
+              <Tag>{renderStat(x)} </Tag>
             </Flex>
           )
         })
@@ -339,4 +343,10 @@ function autosave() {
   const form = OptimizerTabController.getForm()
   DB.addFromForm(form)
   SaveState.save()
+}
+
+export function importOptimizerBuild() {
+  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()
+
+  console.log(selectedRow)
 }

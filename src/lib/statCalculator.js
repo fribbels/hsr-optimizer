@@ -1,4 +1,4 @@
-import { Constants } from './constants.ts'
+import { Constants, SubStatValues } from './constants.ts'
 import DB from './db'
 import { CharacterStats } from './characterStats'
 import { Utils } from './utils'
@@ -26,6 +26,9 @@ const maxedMainStats = {
 }
 
 export const StatCalculator = {
+  getMaxedSubstatValue: (stat) => {
+    return Utils.precisionRound(SubStatValues[stat][5].high)
+  },
   getMaxedStatValue: (stat) => {
     const scaling = Utils.isFlat(stat) ? 1 : 100
     return Utils.precisionRound(maxedMainStats[stat][3] / scaling)

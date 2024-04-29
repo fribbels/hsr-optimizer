@@ -1,4 +1,4 @@
-import { StatSimulationOptions } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
+import { StatSimTypes } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
 import { Utils } from "lib/utils";
 import { Constants, Parts, Stats, StatsToShort, SubStats } from "lib/constants";
 import { emptyRelic } from "lib/optimizer/optimizerUtils";
@@ -9,11 +9,12 @@ import { calculateBuild } from "lib/optimizer/calculateBuild";
 import { OptimizerTabController } from "lib/optimizerTabController";
 import { renameFields } from "lib/optimizer/optimizer";
 import { Assets } from "lib/assets";
-import { Flex } from "antd";
+import { Flex, Tag } from "antd";
 import { Message } from "lib/message";
 import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
 import { SortOption } from "lib/optimizer/sortOptions";
 import { SaveState } from "lib/saveState";
+import DB from "lib/db";
 
 export function saveStatSimulationBuild() {
   const form = window.optimizerForm.getFieldsValue()
@@ -22,7 +23,7 @@ export function saveStatSimulationBuild() {
   const simType = window.store.getState().statSimulationDisplay
 
   // Check for invalid button presses
-  if (simType == StatSimulationOptions.Disabled || !form.statSim || !form.statSim[simType]) {
+  if (simType == StatSimTypes.Disabled || !form.statSim || !form.statSim[simType]) {
     console.warn('Invalid sim', form, simType)
     return
   }
@@ -61,9 +62,9 @@ export function saveStatSimulationBuild() {
   const cloned = Utils.clone(existingSimulations)
   window.store.getState().setStatSimulations(cloned)
   setFormStatSimulations(cloned)
-  startStatSimulation()
+  startOptimizerStatSimulation()
 
-  SaveState.save()
+  autosave()
 }
 
 function hashSim(sim) {
@@ -95,53 +96,61 @@ function validateRequest(request) {
   return true
 }
 
-export function renderDefaultSimulationName(record) {
-  const request = record.request
-
+export function renderDefaultSimulationName(sim) {
   return (
     <Flex gap={5}>
-      <SimSets request={request}/>
+      <SimSetsDisplay sim={sim}/>
 
       {'|'}
 
-      <SimMains request={request}/>
+      <SimMainsDisplay sim={sim}/>
 
       {'|'}
 
-      <SimSubstats request={request}/>
+      <Flex>
+        {sim.name ? `${sim.name}` : null}
+      </Flex>
+
+      <Flex>
+        {sim.name ? `|` : null}
+      </Flex>
+
+      <SimSubstatsDisplay sim={sim}/>
     </Flex>
   )
 }
 
-function SimSets(props: { request: any }) {
+function SimSetsDisplay(props: { sim: any }) {
+  const request = props.sim.request
   const imgSize = 22
   return (
     <Flex gap={5}>
       <Flex>
-        <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simRelicSet1)}/>
-        <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simRelicSet2)}/>
+        <img style={{width: imgSize}} src={Assets.getSetImage(request.simRelicSet1)}/>
+        <img style={{width: imgSize}} src={Assets.getSetImage(request.simRelicSet2)}/>
       </Flex>
 
-      <img style={{width: imgSize}} src={Assets.getSetImage(props.request.simOrnamentSet)}/>
+      <img style={{width: imgSize}} src={Assets.getSetImage(request.simOrnamentSet)}/>
     </Flex>
   )
 }
 
-function SimMains(props: { request: any }) {
+function SimMainsDisplay(props: { sim: any }) {
+  const request = props.sim.request
   const imgSize = 22
   return (
     <Flex>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simBody, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simFeet, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simLinkRope, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(props.request.simPlanarSphere, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simBody, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simFeet, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
     </Flex>
   )
 }
 
-function SimSubstats(props: { request: any }) {
+function SimSubstatsDisplay(props: { sim: any }) {
   const renderArray: Stat[] = []
-  const substats = inputToSubstats(props.request)
+  const substats = inputToSubstats(props.sim)
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
     if (value) {
@@ -152,13 +161,19 @@ function SimSubstats(props: { request: any }) {
     }
   }
 
+  function renderStat(x) {
+    return props.sim.simType == StatSimTypes.SubstatRolls
+      ? `${StatsToShort[x.stat]} x${x.value}`
+      : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
+  }
+
   return (
-    <Flex gap={5}>
+    <Flex gap={0}>
       {
         renderArray.map((x) => {
           return (
             <Flex key={x.stat}>
-              {`${StatsToShort[x.stat]}: ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`}
+              <Tag>{renderStat(x)} </Tag>
             </Flex>
           )
         })
@@ -175,32 +190,23 @@ export function deleteStatSimulationBuild(record: { key: React.Key, name: string
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
 
-  SaveState.save()
+  autosave()
 }
 
 export function deleteAllStatSimulationBuilds() {
   window.store.getState().setStatSimulations([])
   setFormStatSimulations([])
 
-  SaveState.save()
+  autosave()
 }
 
 export function setFormStatSimulations(simulations) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function startStatSimulation() {
-  const form = OptimizerTabController.getForm()
-  const existingSimulations = window.store.getState().statSimulations || []
-
-  if (existingSimulations.length == 0) return
-  if (!OptimizerTabController.validateForm(form)) return
-
-  console.log('Starting sims', existingSimulations)
-
+export function runSimulations(form, simulations) {
   const simulationResults = []
-
-  for (const sim of existingSimulations) {
+  for (const sim of simulations) {
     const request = sim.request
 
     const head = emptyRelic()
@@ -247,7 +253,13 @@ export function startStatSimulation() {
     planarSphere.part = Parts.PlanarSphere
 
     const substatValues: Stat[] = []
-    const requestSubstats = inputToSubstats(request)
+    const requestSubstats = inputToSubstats(sim)
+    if (sim.simType == StatSimTypes.SubstatRolls) {
+      for (const substat of SubStats) {
+        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat))
+      }
+    }
+
     for (const substat of SubStats) {
       const value = requestSubstats[substat]
       if (value) {
@@ -285,15 +297,32 @@ export function startStatSimulation() {
     simulationResults.push(c)
   }
 
+  return simulationResults
+}
+
+export function startOptimizerStatSimulation() {
+  const form = OptimizerTabController.getForm()
+  const existingSimulations = window.store.getState().statSimulations || []
+
+  if (existingSimulations.length == 0) return
+  if (!OptimizerTabController.validateForm(form)) return
+
+  console.log('Starting sims', existingSimulations)
+
+  const simulationResults = runSimulations(form, existingSimulations)
+
   OptimizerTabController.setRows(simulationResults)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
+
+  autosave()
 }
 
-function inputToSubstats(request) {
+function inputToSubstats(sim) {
+  const request = sim.request
   return {
     [Stats.HP_P]: request.simHpP,
     [Stats.ATK_P]: request.simAtkP,
@@ -308,4 +337,22 @@ function inputToSubstats(request) {
     [Stats.RES]: request.simRes,
     [Stats.BE]: request.simBe,
   }
+}
+
+function autosave() {
+  const form = OptimizerTabController.getForm()
+  DB.addFromForm(form)
+  SaveState.save()
+}
+
+export function importOptimizerBuild() {
+  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0]
+
+  if (!selectedRow) {
+    Message.warning('Run the optimizer first, then select a row from the optimizer results to import')
+    return
+  }
+
+
+  console.log(selectedRow)
 }

@@ -1,4 +1,4 @@
-import { Table, TableColumnsType } from 'antd'
+import { Flex, Table, TableColumnsType } from 'antd'
 import { CloseOutlined } from "@ant-design/icons";
 import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
 import { deleteStatSimulationBuild, renderDefaultSimulationName } from "lib/statSimulationController.tsx";
@@ -15,13 +15,13 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: 'Build name',
+    title: (<Flex style={{marginLeft: 5}}>Simulation identifier</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
     render: (_, record) => {
       // Show the custom name, otherwise generate one
-      return record.name || renderDefaultSimulationName(record)
+      return renderDefaultSimulationName(record)
     },
     ellipsis: true,
   },
@@ -38,7 +38,7 @@ const columns: TableColumnsType<DataType> = [
         </a>
       )
     },
-    width: 40,
+    width: 26,
     fixed: 'right',
   },
 ];
@@ -103,8 +103,8 @@ export function SimulatedBuildsGrid() {
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
         borderRadius: 8,
-        boxShadow: '0 0px 1px #000000',
-        height: '100%'
+        height: '100%',
+        backgroundColor: '#0000001a'
       }}
       scroll={{
         y: 265,

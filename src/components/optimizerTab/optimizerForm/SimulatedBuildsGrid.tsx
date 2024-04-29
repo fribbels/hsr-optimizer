@@ -15,7 +15,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{marginLeft: 5}}>Stat simulation name</Flex>),
+    title: (<Flex style={{marginLeft: 5}}>Simulation identifier</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -38,7 +38,7 @@ const columns: TableColumnsType<DataType> = [
         </a>
       )
     },
-    width: 30,
+    width: 26,
     fixed: 'right',
   },
 ];

@@ -74,10 +74,7 @@ export function DamageCalculatorDisplay() {
             <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={startOptimizerStatSimulation} icon={<DownOutlined/>}>
               Simulate selected builds
             </Button>
-            <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={importOptimizerBuild} icon={<UpOutlined/>}>
-              Import optimizer build
-            </Button>
-            <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={importOptimizerBuild} icon={<UpOutlined/>}>
+            <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={importOptimizerBuild} icon={<UpOutlined/>} disabled>
               Import optimizer build
             </Button>
           </Flex>
@@ -159,11 +156,6 @@ function SimulationInputs() {
         {/*</Flex>*/}
         <Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <HeaderText>Character stat options</HeaderText>
-            <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
-              <Input placeholder='Build name (Optional)' />
-            </Form.Item>
-
             <SetsSection simType={StatSimTypes.SubstatTotals} />
             <MainStatsSection simType={StatSimTypes.SubstatTotals}/>
 
@@ -174,6 +166,10 @@ function SimulationInputs() {
             >
               Conditional set effects
             </Button>
+
+            <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
+              <Input placeholder='Simulation name (Optional)' />
+            </Form.Item>
           </Flex>
 
           <VerticalDivider />
@@ -182,11 +178,6 @@ function SimulationInputs() {
         </Flex>
         <Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <HeaderText>Character stat options</HeaderText>
-            <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
-              <Input placeholder='Build name (Optional)' />
-            </Form.Item>
-
             <SetsSection simType={StatSimTypes.SubstatRolls} />
             <MainStatsSection simType={StatSimTypes.SubstatRolls} />
 
@@ -198,6 +189,10 @@ function SimulationInputs() {
               Conditional set effects
             </Button>
             {/*<Select placeholder='Roll quality' />*/}
+
+            <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
+              <Input placeholder='Simulation name (Optional)' />
+            </Form.Item>
           </Flex>
 
           <VerticalDivider />

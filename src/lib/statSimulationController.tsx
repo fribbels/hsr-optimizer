@@ -346,7 +346,13 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()
+  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0]
+
+  if (!selectedRow) {
+    Message.warning('Run the optimizer first, then select a row from the optimizer results to import')
+    return
+  }
+
 
   console.log(selectedRow)
 }

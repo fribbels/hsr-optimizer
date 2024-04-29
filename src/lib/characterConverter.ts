@@ -84,6 +84,16 @@ export const CharacterConverter = {
   },
 }
 
+// Some special relics have a weird id -> set/part mapping
+const tidOverrides = {
+  55001: {set: '101', part: '3'},
+  55002: {set: '102', part: '4'},
+  55003: {set: '103', part: '3'},
+  55004: {set: '104', part: '3'},
+  55005: {set: '105', part: '4'},
+  55006: {set: '106', part: '3'},
+}
+
 function convertRelic(preRelic) {
   try {
     const metadata = DB.getMetadata().relics
@@ -91,10 +101,16 @@ function convertRelic(preRelic) {
 
     const enhance = preRelic.level || 0
 
-    const setId = tid.substring(1, 4)
+    let setId = tid.substring(1, 4)
+    if (tidOverrides[tid]) {
+      setId = tidOverrides[tid].set
+    }
     const setName = metadata.relicSets[setId].name
 
-    const partId = tid.substring(4, 5)
+    let partId = tid.substring(4, 5)
+    if (tidOverrides[tid]) {
+      partId = tidOverrides[tid].part
+    }
     const partName = partConversion[partId]
 
     const gradeId = tid.substring(0, 1)

@@ -10,7 +10,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
-import { StatSimulationOptions } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
 
 const state = {
   relics: [],
@@ -79,7 +79,7 @@ window.store = create((set) => ({
   scorerId: undefined,
   scoringMetadataOverrides: {},
   statDisplay: DEFAULT_STAT_DISPLAY,
-  statSimulationDisplay: StatSimulationOptions.Disabled,
+  statSimulationDisplay: StatSimTypes.Disabled,
   statSimulations: [],
   selectedStatSimulations: [],
   optimizationInProgress: false,

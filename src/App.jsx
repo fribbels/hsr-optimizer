@@ -48,7 +48,7 @@ const App = () => {
 
           Table: {
             headerBg: '#00000036',
-            cellPaddingInlineSM: 12,
+            cellPaddingInlineSM: 5,
             cellPaddingBlockSM: 6,
           },
 

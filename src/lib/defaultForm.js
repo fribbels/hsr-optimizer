@@ -1,6 +1,6 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import DB from 'lib/db'
-import { StatSimulationOptions } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
 
 export function getDefaultForm(initialCharacter) {
   const metadata = DB.getMetadata().characters[initialCharacter]
@@ -71,7 +71,7 @@ export function defaultTeammate() {
 }
 
 export const defaultStatSim = {
-  simType: StatSimulationOptions.Disabled,
+  simType: StatSimTypes.Disabled,
   simulations: []
 }
 

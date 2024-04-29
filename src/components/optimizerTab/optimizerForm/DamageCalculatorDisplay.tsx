@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import {
   deleteAllStatSimulationBuilds,
   saveStatSimulationBuild,
-  startStatSimulation
+  startOptimizerStatSimulation
 } from "lib/statSimulationController.tsx";
 import { Parts } from "lib/constants";
 import { Assets } from "lib/assets";
@@ -25,7 +25,7 @@ import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/
 
 const { Text } = Typography
 
-export enum StatSimulationOptions {
+export enum StatSimTypes {
   Disabled = "disabled",
   CharacterStats = 'characterStats',
   SubstatTotals = 'substatTotals',
@@ -42,7 +42,7 @@ export function DamageCalculatorDisplay() {
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
 
   function isHidden() {
-    return statSimulationDisplay == StatSimulationOptions.Disabled || !statSimulationDisplay
+    return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
   }
 
   return (
@@ -59,17 +59,17 @@ export function DamageCalculatorDisplay() {
             value={statSimulationDisplay}
             style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px`, display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 0.6, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.Disabled}>Off</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatTotals}>Substat totals</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.SubstatRolls}>Substat rolls</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimulationOptions.CharacterStats} disabled>Character stats</Radio>
+            <Radio style={{ display: 'flex', flex: 0.6, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.Disabled}>Off</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatRolls}>Substat rolls</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatTotals}>Substat totals</Radio>
+            {/*<Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.CharacterStats} disabled>Character stats</Radio>*/}
           </Radio.Group>
 
           <Flex flex={1}>
             <SimulatedBuildsGrid />
           </Flex>
 
-          <Button type="primary" style={{width: 300, display: isHidden() ? 'none' : 'block'}} onClick={startStatSimulation}>
+          <Button type="primary" style={{width: 300, display: isHidden() ? 'none' : 'block'}} onClick={startOptimizerStatSimulation}>
             Simulate selected builds
           </Button>
         </Flex>
@@ -111,14 +111,37 @@ function SimulationInputs() {
           <Input placeholder='This is a fake hidden input to save simulations into the form' style={{display: 'none'}}/>
         </Form.Item>
 
-        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.CharacterStats ? 'flex' : 'none'}}>
+        {/*<Flex gap={15} style={{display: statSimulationDisplay == StatSimTypes.CharacterStats ? 'flex' : 'none'}}>*/}
+        {/*  <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>*/}
+        {/*    <HeaderText>Character stat options</HeaderText>*/}
+        {/*    <Form.Item name={formName(StatSimTypes.CharacterStats, 'name')}>*/}
+        {/*      <Input placeholder='Build name (Optional)' />*/}
+        {/*    </Form.Item>*/}
+
+        {/*    <SetsSection simType={StatSimTypes.CharacterStats} />*/}
+
+        {/*    <HeaderText>Options</HeaderText>*/}
+        {/*    <Button*/}
+        {/*      onClick={() => setConditionalSetEffectsDrawerOpen(true)}*/}
+        {/*      icon={<SettingOutlined />}*/}
+        {/*    >*/}
+        {/*      Conditional set effects*/}
+        {/*    </Button>*/}
+        {/*  </Flex>*/}
+
+        {/*  <VerticalDivider />*/}
+
+        {/*  <CharacterStatsSection />*/}
+        {/*</Flex>*/}
+        <Flex gap={15} style={{display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>Character stat options</HeaderText>
-            <Form.Item name={formName(StatSimulationOptions.CharacterStats, 'name')}>
+            <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
               <Input placeholder='Build name (Optional)' />
             </Form.Item>
 
-            <SetsSection simType={StatSimulationOptions.CharacterStats} />
+            <SetsSection simType={StatSimTypes.SubstatTotals} />
+            <MainStatsSection simType={StatSimTypes.SubstatTotals}/>
 
             <HeaderText>Options</HeaderText>
             <Button
@@ -131,17 +154,17 @@ function SimulationInputs() {
 
           <VerticalDivider />
 
-          <CharacterStatsSection />
+          <SubstatsSection simType={StatSimTypes.SubstatTotals} title='Substat totals'/>
         </Flex>
-        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.SubstatTotals ? 'flex' : 'none'}}>
+        <Flex gap={15} style={{display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>Character stat options</HeaderText>
-            <Form.Item name={formName(StatSimulationOptions.SubstatTotals, 'name')}>
+            <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
               <Input placeholder='Build name (Optional)' />
             </Form.Item>
 
-            <SetsSection simType={StatSimulationOptions.SubstatTotals} />
-            <MainStatsSection simType={StatSimulationOptions.SubstatTotals}/>
+            <SetsSection simType={StatSimTypes.SubstatRolls} />
+            <MainStatsSection simType={StatSimTypes.SubstatRolls} />
 
             <HeaderText>Options</HeaderText>
             <Button
@@ -150,37 +173,14 @@ function SimulationInputs() {
             >
               Conditional set effects
             </Button>
+            {/*<Select placeholder='Roll quality' />*/}
           </Flex>
 
           <VerticalDivider />
 
-          <SubstatsSection simType={StatSimulationOptions.SubstatTotals} title='Substat totals'/>
+          <SubstatsSection simType={StatSimTypes.SubstatRolls} title='Substat rolls'/>
         </Flex>
-        <Flex gap={15} style={{display: statSimulationDisplay == StatSimulationOptions.SubstatRolls ? 'flex' : 'none'}}>
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <HeaderText>Character stat options</HeaderText>
-            <Form.Item name={formName(StatSimulationOptions.SubstatRolls, 'name')}>
-              <Input placeholder='Build name (Optional)' />
-            </Form.Item>
-
-            <SetsSection simType={StatSimulationOptions.SubstatRolls} />
-            <MainStatsSection simType={StatSimulationOptions.SubstatRolls} />
-
-            <HeaderText>Options</HeaderText>
-            <Button
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-              icon={<SettingOutlined />}
-            >
-              Conditional set effects
-            </Button>
-            <Select placeholder='Roll quality' />
-          </Flex>
-
-          <VerticalDivider />
-
-          <SubstatsSection simType={StatSimulationOptions.SubstatRolls} title='Substat rolls'/>
-        </Flex>
-        <Flex style={{display: statSimulationDisplay == StatSimulationOptions.Disabled ? 'flex' : 'none'}}>
+        <Flex style={{display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none'}}>
           <></>
         </Flex>
       </>
@@ -286,18 +286,18 @@ function CharacterStatsSection() {
     <>
       <Flex vertical gap={5}>
         <HeaderText>Character display stats</HeaderText>
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Hp" label="HP" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Atk" label="ATK" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Def" label="DEF" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Cr" label="Crit Rate %" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Cd" label="Crit DMG %" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Spd" label="SPD" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Ehr" label="Effect Hit Rate" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Res" label="Effect RES" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Be" label="Break Effect" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Ohb" label="Healing Boost" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Err" label="Energy Regen" />
-        <StatInput simType={StatSimulationOptions.CharacterStats} name="Elem" label="Elemental DMG %" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Hp" label="HP" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Atk" label="ATK" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Def" label="DEF" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Cr" label="Crit Rate %" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Cd" label="Crit DMG %" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Spd" label="SPD" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Ehr" label="Effect Hit Rate" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Res" label="Effect RES" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Be" label="Break Effect" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Ohb" label="Healing Boost" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Err" label="Energy Regen" />
+        <StatInput simType={StatSimTypes.CharacterStats} name="Elem" label="Elemental DMG %" />
       </Flex>
     </>
   )

@@ -84,14 +84,14 @@ export const CharacterConverter = {
   },
 }
 
-// Some special relics have a weird id -> set/part mapping
+// Some special relics have a weird id -> set/part/main mapping
 const tidOverrides = {
-  55001: {set: '101', part: '3'},
-  55002: {set: '102', part: '4'},
-  55003: {set: '103', part: '3'},
-  55004: {set: '104', part: '3'},
-  55005: {set: '105', part: '4'},
-  55006: {set: '106', part: '3'},
+  55001: {set: '101', part: '3', main: '436'},
+  55002: {set: '102', part: '4', main: '441'},
+  55003: {set: '103', part: '3', main: '434'},
+  55004: {set: '104', part: '3', main: '433'},
+  55005: {set: '105', part: '4', main: '443'},
+  55006: {set: '106', part: '3', main: '434'},
 }
 
 function convertRelic(preRelic) {
@@ -117,7 +117,10 @@ function convertRelic(preRelic) {
     const grade = gradeConversion[gradeId]
 
     const mainId = preRelic.mainAffixId
-    const mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
+    let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
+    if (tidOverrides[tid]) {
+      mainData = metadata.relicMainAffixes[tidOverrides[tid].main].affixes[mainId]
+    }
 
     const mainStat = statConversion[mainData.property]
     const mainBase = mainData.base

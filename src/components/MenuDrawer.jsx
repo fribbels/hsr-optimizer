@@ -33,7 +33,7 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem('Menu', 'subOptimizer', <LineChartOutlined />, [
+    getItem('Optimization', 'subOptimizer', <LineChartOutlined />, [
       getItem(
         (
           <Flex>

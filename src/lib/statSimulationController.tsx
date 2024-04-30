@@ -7,7 +7,7 @@ import { Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { renameFields } from 'lib/optimizer/optimizer'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import { Message } from 'lib/message'
@@ -339,6 +339,8 @@ export function startOptimizerStatSimulation() {
   const simulationResults = runSimulations(form, existingSimulations)
 
   OptimizerTabController.setRows(simulationResults)
+
+  calculateCurrentlyEquippedRow(form)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort]

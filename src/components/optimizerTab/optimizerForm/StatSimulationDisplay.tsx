@@ -14,10 +14,10 @@ import {
 } from "lib/statSimulationController.tsx";
 import { BodyStatOptions, FeetStatOptions, LinkRopeStatOptions, Parts, PlanarSphereStatOptions } from "lib/constants";
 import { Assets } from "lib/assets";
-import { OrnamentSetTagRenderer, } from "components/optimizerTab/optimizerForm/RelicMainSetFilters";
 import GenerateOrnamentsOptions from "components/optimizerTab/optimizerForm/OrnamentsOptions";
 import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/SetsOptions";
 import { Utils } from "lib/utils";
+import { OrnamentSetTagRenderer } from "components/optimizerTab/optimizerForm/OrnamentSetTagRenderer";
 
 const { Text } = Typography
 

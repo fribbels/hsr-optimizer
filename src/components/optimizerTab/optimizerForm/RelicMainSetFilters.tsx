@@ -1,16 +1,17 @@
-import { Button, Cascader, Flex, Form, Select, Tag } from 'antd'
+import { Button, Cascader, Flex, Form, Select } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
-import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, Parts } from 'lib/constants.ts'
 import GenerateSetsOptions from 'components/optimizerTab/optimizerForm/SetsOptions.tsx'
 import GenerateOrnamentsOptions from 'components/optimizerTab/optimizerForm/OrnamentsOptions.tsx'
 import { SettingOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
-import PropTypes from 'prop-types'
 
 import React from 'react'
+import { RelicSetTagRenderer } from "components/optimizerTab/optimizerForm/RelicSetTagRenderer";
+import { OrnamentSetTagRenderer } from "components/optimizerTab/optimizerForm/OrnamentSetTagRenderer";
 
 const { SHOW_CHILD } = Cascader
 
@@ -160,96 +161,4 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
       </Button>
     </Flex>
   )
-}
-
-function RelicSetTagRenderer(props) {
-  const { value, closable, onClose } = props
-  /*
-   * The value comes in as:
-   * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
-   */
-  /*
-   *['4 Piece', 'Passerby of Wandering Cloud']
-   *['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
-   *['2 + Any', 'Knight of Purity Palace']
-   */
-
-  const pieces = value.split('__RC_CASCADER_SPLIT__')
-  let inner
-
-  if (pieces[0] == RelicSetFilterOptions.relic4Piece) {
-    inner
-      = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
-  }
-
-  if (pieces[0] == RelicSetFilterOptions.relic2Plus2Piece) {
-    inner
-      = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-          <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
-  }
-
-  if (pieces[0] == RelicSetFilterOptions.relic2PlusAny) {
-    inner
-      = (
-        <React.Fragment>
-          <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        </React.Fragment>
-      )
-  }
-
-  const onPreventMouseDown = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
-    >
-      <Flex>
-        {inner}
-      </Flex>
-    </Tag>
-  )
-}
-RelicSetTagRenderer.propTypes = {
-  value: PropTypes.string,
-  closable: PropTypes.bool,
-  onClose: PropTypes.func,
-}
-
-export function OrnamentSetTagRenderer(props) {
-  const { value, closable, onClose } = props
-  const onPreventMouseDown = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-  return (
-    <Tag
-      onMouseDown={onPreventMouseDown}
-      closable={closable}
-      onClose={onClose}
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 21, alignItems: 'center', overflow: 'hidden' }}
-    >
-      <Flex>
-        <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 24, height: 24 }}></img>
-      </Flex>
-    </Tag>
-  )
-}
-OrnamentSetTagRenderer.propTypes = {
-  value: PropTypes.string,
-  closable: PropTypes.bool,
-  onClose: PropTypes.func,
 }

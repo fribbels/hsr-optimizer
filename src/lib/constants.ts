@@ -481,39 +481,39 @@ export const DEFAULT_STAT_DISPLAY = 'combat'
 export const MAX_RESULTS = 2_000_000
 
 export const BodyStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.CR, short: "Crit Rate", label: 'CRIT Rate'},
-  {value: Constants.Stats.CD, short: "Crit DMG", label: 'CRIT DMG'},
-  {value: Constants.Stats.EHR, short: "EHR", label: 'Effect HIT Rate'},
-  {value: Constants.Stats.OHB, short: "Healing", label: 'Outgoing Healing Boost'},
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.CR, short: "Crit Rate", label: 'CRIT Rate'},
+  {value: Stats.CD, short: "Crit DMG", label: 'CRIT DMG'},
+  {value: Stats.EHR, short: "EHR", label: 'Effect HIT Rate'},
+  {value: Stats.OHB, short: "Healing", label: 'Outgoing Healing Boost'},
 ]
 
 export const FeetStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.SPD, short: "SPD", label: 'Speed'},
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.SPD, short: "SPD", label: 'Speed'},
 ]
 
 export const LinkRopeStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.BE, short: "Break", label: 'Break Effect'},
-  {value: Constants.Stats.ERR, short: "Energy", label: 'Energy Regeneration Rate'},
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.BE, short: "Break", label: 'Break Effect'},
+  {value: Stats.ERR, short: "Energy", label: 'Energy Regeneration Rate'},
 ]
 
 export const PlanarSphereStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.Physical_DMG, short: "Physical", label: 'Physical DMG'},
-  {value: Constants.Stats.Fire_DMG, short: "Fire", label: 'Fire DMG'},
-  {value: Constants.Stats.Ice_DMG, short: "Ice", label: 'Ice DMG'},
-  {value: Constants.Stats.Lightning_DMG, short: "Lightning", label: 'Lightning DMG'},
-  {value: Constants.Stats.Wind_DMG, short: "Wind", label: 'Wind DMG'},
-  {value: Constants.Stats.Quantum_DMG, short: "Quantum", label: 'Quantum DMG'},
-  {value: Constants.Stats.Imaginary_DMG, short: "Imaginary", label: 'Imaginary DMG'},
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.Physical_DMG, short: "Physical", label: 'Physical DMG'},
+  {value: Stats.Fire_DMG, short: "Fire", label: 'Fire DMG'},
+  {value: Stats.Ice_DMG, short: "Ice", label: 'Ice DMG'},
+  {value: Stats.Lightning_DMG, short: "Lightning", label: 'Lightning DMG'},
+  {value: Stats.Wind_DMG, short: "Wind", label: 'Wind DMG'},
+  {value: Stats.Quantum_DMG, short: "Quantum", label: 'Quantum DMG'},
+  {value: Stats.Imaginary_DMG, short: "Imaginary", label: 'Imaginary DMG'},
 ]

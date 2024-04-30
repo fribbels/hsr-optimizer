@@ -1,4 +1,4 @@
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils'
 import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
@@ -7,7 +7,7 @@ import { Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { renameFields } from 'lib/optimizer/optimizer'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import { Message } from 'lib/message'
@@ -152,6 +152,21 @@ function SimMainsDisplay(props: { sim: any }) {
   )
 }
 
+const substatToPriority = {
+  [Stats.ATK_P]: 0,
+  [Stats.CR]: 1,
+  [Stats.CD]: 2,
+  [Stats.SPD]: 3,
+  [Stats.BE]: 4,
+  [Stats.ATK]: 5,
+  [Stats.HP_P]: 6,
+  [Stats.DEF_P]: 7,
+  [Stats.HP]: 8,
+  [Stats.DEF]: 9,
+  [Stats.EHR]: 10,
+  [Stats.RES]: 11,
+}
+
 function SimSubstatsDisplay(props: { sim: any }) {
   const renderArray: Stat[] = []
   const substats = inputToSubstats(props.sim)
@@ -165,6 +180,8 @@ function SimSubstatsDisplay(props: { sim: any }) {
     }
   }
 
+  renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
+
   function renderStat(x) {
     return props.sim.simType == StatSimTypes.SubstatRolls
       ? `${StatsToShort[x.stat]} x${x.value}`
@@ -177,7 +194,11 @@ function SimSubstatsDisplay(props: { sim: any }) {
         renderArray.map((x) => {
           return (
             <Flex key={x.stat}>
-              <Tag>{renderStat(x)} </Tag>
+              <Tag
+                style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
+              >
+                {renderStat(x)}
+              </Tag>
             </Flex>
           )
         })
@@ -318,6 +339,8 @@ export function startOptimizerStatSimulation() {
   const simulationResults = runSimulations(form, existingSimulations)
 
   OptimizerTabController.setRows(simulationResults)
+
+  calculateCurrentlyEquippedRow(form)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort]

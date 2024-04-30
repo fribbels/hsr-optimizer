@@ -33,6 +33,7 @@ export default function ChangelogTab(): React.JSX.Element {
             style={{
               border: `2px solid ${token.colorBgContainer}`,
               margin: 5,
+              maxWidth: 1200,
             }}
           />,
         )

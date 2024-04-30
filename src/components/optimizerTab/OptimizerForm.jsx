@@ -23,7 +23,7 @@ import { CombatBuffsFilters } from 'components/optimizerTab/optimizerForm/Combat
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
-import { DamageCalculatorDisplay } from './optimizerForm/DamageCalculatorDisplay'
+import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -195,7 +195,7 @@ export default function OptimizerForm() {
           {/* Row 4 */}
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <DamageCalculatorDisplay />
+            <StatSimulationDisplay />
           </FormRow>
         </FilterContainer>
       </Form>

@@ -109,15 +109,15 @@ export default function Sidebar() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ width: '205px' }}>
+                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ flex: 1 }}>
                   Start optimizer
                 </Button>
               </Flex>
               <Flex gap={defaultGap}>
-                <Button onClick={cancelClicked} style={{ width: '100px' }}>
+                <Button onClick={cancelClicked} style={{ flex: 1 }}>
                   Cancel
                 </Button>
-                <Button onClick={resetClicked} style={{ width: '100px' }}>
+                <Button onClick={resetClicked} style={{ flex: 1 }}>
                   Reset
                 </Button>
               </Flex>

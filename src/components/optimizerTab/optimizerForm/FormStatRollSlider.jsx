@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
 
-let sliderWidth = 130
+let sliderWidth = 140
 const Text = styled(Typography)`
   white-space: pre-line;
 `

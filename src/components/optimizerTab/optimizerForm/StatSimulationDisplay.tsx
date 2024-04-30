@@ -12,18 +12,12 @@ import {
   saveStatSimulationBuildFromForm,
   startOptimizerStatSimulation
 } from "lib/statSimulationController.tsx";
-import { Parts } from "lib/constants";
+import { BodyStatOptions, FeetStatOptions, LinkRopeStatOptions, Parts, PlanarSphereStatOptions } from "lib/constants";
 import { Assets } from "lib/assets";
-import {
-  BodyStatOptions,
-  FeetStatOptions,
-  LinkRopeStatOptions,
-  OrnamentSetTagRenderer,
-  PlanarSphereStatOptions
-} from "components/optimizerTab/optimizerForm/RelicMainSetFilters";
 import GenerateOrnamentsOptions from "components/optimizerTab/optimizerForm/OrnamentsOptions";
 import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/SetsOptions";
 import { Utils } from "lib/utils";
+import { OrnamentSetTagRenderer } from "components/optimizerTab/optimizerForm/OrnamentSetTagRenderer";
 
 const { Text } = Typography
 
@@ -39,7 +33,7 @@ export const STAT_SIMULATION_GRID_WIDTH = 680
 export const STAT_SIMULATION_OPTIONS_WIDTH = 215
 export const STAT_SIMULATION_STATS_WIDTH = 180
 
-export function DamageCalculatorDisplay() {
+export function StatSimulationDisplay() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
@@ -62,9 +56,9 @@ export function DamageCalculatorDisplay() {
             value={statSimulationDisplay}
             style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px`, display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 0.5, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.Disabled}>Off</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatRolls}>Simulate substat rolls</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatTotals}>Simulate substat totals</Radio>
+            <Radio style={{ display: 'flex', flex: 0.3, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.Disabled}>Off</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatRolls}>Simulate custom substat rolls</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatTotals}>Simulate custom substat totals</Radio>
             {/*<Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.CharacterStats} disabled>Character stats</Radio>*/}
           </Radio.Group>
 
@@ -89,9 +83,14 @@ export function DamageCalculatorDisplay() {
           </Flex>
         </Flex>
 
-        <Flex vertical justify='space-around' style={{display: isHidden() ? 'none' : 'flex'}} >
+        <Flex vertical justify='space-around'>
           <Flex vertical gap={10} >
-            <Button type="primary" style={{width: 35, height: 100, padding: 0}} onClick={saveStatSimulationBuildFromForm}>
+            <Button
+              type="primary"
+              style={{width: 35, height: 100, padding: 0}}
+              onClick={saveStatSimulationBuildFromForm}
+              disabled={isHidden()}
+            >
               <DoubleLeftOutlined />
             </Button>
             <Popconfirm
@@ -102,7 +101,11 @@ export function DamageCalculatorDisplay() {
               okText="Yes"
               cancelText="Cancel"
             >
-              <Button type="dashed" style={{width: 35, height: 35, padding: 0}}>
+              <Button
+                type="dashed"
+                style={{width: 35, height: 35, padding: 0}}
+                disabled={isHidden()}
+              >
                 <DeleteOutlined />
               </Button>
             </Popconfirm>
@@ -140,28 +143,6 @@ function SimulationInputs() {
           <Input placeholder='This is a fake hidden input to save simulations into the form' style={{display: 'none'}}/>
         </Form.Item>
 
-        {/*<Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.CharacterStats ? 'flex' : 'none'}}>*/}
-        {/*  <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>*/}
-        {/*    <HeaderText>Character stat options</HeaderText>*/}
-        {/*    <Form.Item name={formName(StatSimTypes.CharacterStats, 'name')}>*/}
-        {/*      <Input placeholder='Build name (Optional)' />*/}
-        {/*    </Form.Item>*/}
-
-        {/*    <SetsSection simType={StatSimTypes.CharacterStats} />*/}
-
-        {/*    <HeaderText>Options</HeaderText>*/}
-        {/*    <Button*/}
-        {/*      onClick={() => setConditionalSetEffectsDrawerOpen(true)}*/}
-        {/*      icon={<SettingOutlined />}*/}
-        {/*    >*/}
-        {/*      Conditional set effects*/}
-        {/*    </Button>*/}
-        {/*  </Flex>*/}
-
-        {/*  <VerticalDivider />*/}
-
-        {/*  <CharacterStatsSection />*/}
-        {/*</Flex>*/}
         <Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <SetsSection simType={StatSimTypes.SubstatTotals} />
@@ -170,24 +151,24 @@ function SimulationInputs() {
             <HeaderText>Options</HeaderText>
 
             <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
-              <Input placeholder='Simulation name (Optional)' />
+              <Input placeholder='Simulation name (Optional)' autoComplete="off" />
             </Form.Item>
           </Flex>
 
           <VerticalDivider />
 
-          <SubstatsSection simType={StatSimTypes.SubstatTotals} title='Substat totals'/>
+          <SubstatsSection simType={StatSimTypes.SubstatTotals} title='Substat value totals'/>
         </Flex>
+
         <Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none'}}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <SetsSection simType={StatSimTypes.SubstatRolls} />
             <MainStatsSection simType={StatSimTypes.SubstatRolls} />
 
             <HeaderText>Options</HeaderText>
-            {/*<Select placeholder='Roll quality' />*/}
 
             <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
-              <Input placeholder='Simulation name (Optional)' />
+              <Input placeholder='Simulation name (Optional)' autoComplete="off" />
             </Form.Item>
           </Flex>
 
@@ -195,8 +176,10 @@ function SimulationInputs() {
 
           <SubstatsSection simType={StatSimTypes.SubstatRolls} title='Substat max rolls' total={substatRollsTotal}/>
         </Flex>
-        <Flex style={{display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none'}}>
-          <></>
+
+        <Flex gap={5} style={{display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none'}}>
+          <div style={{width: STAT_SIMULATION_OPTIONS_WIDTH}}/>
+          <VerticalDivider />
         </Flex>
       </>
     )

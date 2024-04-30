@@ -125,6 +125,7 @@ const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   const items = useMemo(function() {
+    if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 

@@ -10,7 +10,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 const state = {
   relics: [],
@@ -169,8 +169,6 @@ window.store = create((set) => ({
 }))
 
 export const DB = {
-  getGlobals: () => state.globals,
-
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 

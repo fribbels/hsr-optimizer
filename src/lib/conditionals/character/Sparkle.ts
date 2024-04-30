@@ -85,7 +85,7 @@ export default (e: Eidolon): CharacterConditional => {
   ]
 
   const defaults = {
-    skillCdBuff: true,
+    skillCdBuff: false,
     cipherBuff: true,
     talentStacks: 3,
     quantumAllies: 3,

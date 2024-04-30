@@ -233,7 +233,7 @@ const TeammateCard = (props: { index: number }) => {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 250, marginLeft: 5 }}>
+          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
             <CharacterConditionalDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
@@ -247,7 +247,6 @@ const TeammateCard = (props: { index: number }) => {
                 width={rightPanelWidth}
                 height={rightPanelWidth}
                 src={Assets.getCharacterAvatarById(teammateCharacterId)}
-                // style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)` }}
               />
             </div>
 
@@ -287,7 +286,7 @@ const TeammateCard = (props: { index: number }) => {
           <Form.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
               value=""
-              selectStyle={{ width: 250 }}
+              selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
             />
           </Form.Item>
@@ -304,7 +303,7 @@ const TeammateCard = (props: { index: number }) => {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 250, marginLeft: 5 }}>
+          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}

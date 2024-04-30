@@ -4,6 +4,7 @@ import { Constants } from "lib/constants";
 import PropTypes from "prop-types";
 import React from "react";
 
+// NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
 export function OrnamentSetTagRenderer(props) {
   const { value, closable, onClose } = props
   const onPreventMouseDown = (event) => {

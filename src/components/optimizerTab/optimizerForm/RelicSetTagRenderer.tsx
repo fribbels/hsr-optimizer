@@ -4,6 +4,7 @@ import { Assets } from "lib/assets";
 import { Flex, Tag } from "antd";
 import PropTypes from "prop-types";
 
+// NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
 export function RelicSetTagRenderer(props) {
   const { value, closable, onClose } = props
   /*

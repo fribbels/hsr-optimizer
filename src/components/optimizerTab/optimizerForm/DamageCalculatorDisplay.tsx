@@ -18,12 +18,12 @@ import {
   BodyStatOptions,
   FeetStatOptions,
   LinkRopeStatOptions,
-  OrnamentSetTagRenderer,
   PlanarSphereStatOptions
 } from "components/optimizerTab/optimizerForm/RelicMainSetFilters";
 import GenerateOrnamentsOptions from "components/optimizerTab/optimizerForm/OrnamentsOptions";
 import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/SetsOptions";
 import { Utils } from "lib/utils";
+import { OrnamentSetTagRenderer } from "components/optimizerTab/optimizerForm/OrnamentSetTagRenderer";
 
 const { Text } = Typography
 

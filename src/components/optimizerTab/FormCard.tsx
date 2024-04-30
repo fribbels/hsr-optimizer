@@ -6,7 +6,7 @@ const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0
 
 const panelWidth = 203
 const defaultGap = 5
-const defaultPadding = 15
+const defaultPadding = 12
 
 const smallWidth = panelWidth
 const mediumWidth = 365
@@ -18,7 +18,13 @@ const dimsBySize = {
   'large': largeWidth,
 }
 
-export default function FormCard(props: { size?: string; children?: ReactElement | ReactElement[]; height?: number; style?: CSSProperties; justify?: string }) {
+export default function FormCard(props: {
+  size?: string;
+  children?: ReactElement | ReactElement[];
+  height?: number;
+  style?: CSSProperties;
+  justify?: string
+}) {
   const { token } = useToken()
 
   const size = props.size || 'small'

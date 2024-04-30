@@ -36,16 +36,16 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
-          <TooltipImage type={Hint.optimizerOptions()} />
+          <TooltipImage type={Hint.optimizerOptions()}/>
         </Flex>
 
         <Flex align="center">
           <Form.Item name="predictMaxedMainStat" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
-              style={{ width: 45, marginRight: 10 }}
+              style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
           <Text>Maxed main stat</Text>
@@ -54,22 +54,22 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="includeEquippedRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
-              style={{ width: 45, marginRight: 10 }}
+              style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>Include equipped relics</Text>
+          <Text>Allow equipped relics</Text>
         </Flex>
 
         <Flex align="center">
           <Form.Item name="rankFilter" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
-              style={{ width: 45, marginRight: 10 }}
+              style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
           <Text>Character priority filter</Text>
@@ -78,10 +78,10 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="keepCurrentRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               defaultChecked
-              style={{ width: 45, marginRight: 10 }}
+              style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
           <Text>Keep current relics</Text>

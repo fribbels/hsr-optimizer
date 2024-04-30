@@ -56,8 +56,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentBreakDmgScaling',
       name: 'talentBreakDmgScaling',
-      text: 'Talent break DMG (forces weakness break)',
-      title: 'Talent break DMG',
+      text: 'Talent Break DMG (force weakness break)',
+      title: 'Talent Break DMG',
       content: betaUpdate,
     },
     {
@@ -82,8 +82,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'e4TargetStandoffVulnerability',
       name: 'e4TargetStandoffVulnerability',
-      text: 'E4 Standoff vulnerability',
-      title: 'E4 Standoff vulnerability',
+      text: 'E4 Skill vulnerability',
+      title: 'E4 Skill vulnerability',
       content: betaUpdate,
       disabled: e < 4,
     },
@@ -98,8 +98,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
-  ]
+  const teammateContent: ContentItem[] = []
 
   const defaults = {
     standoffActive: true,
@@ -116,8 +115,7 @@ export default (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
-    teammateDefaults: () => ({
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)

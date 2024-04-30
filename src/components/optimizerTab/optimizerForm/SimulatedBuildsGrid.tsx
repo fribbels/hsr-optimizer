@@ -38,7 +38,7 @@ const columns: TableColumnsType<DataType> = [
         </a>
       )
     },
-    width: 26,
+    width: 24,
     fixed: 'right',
   },
 ];
@@ -104,7 +104,8 @@ export function SimulatedBuildsGrid() {
         width: STAT_SIMULATION_GRID_WIDTH,
         borderRadius: 8,
         height: '100%',
-        backgroundColor: '#0000001a'
+        backgroundColor: '#0000001a',
+        border: '1px solid #ffffff1a'
       }}
       scroll={{
         y: 265,

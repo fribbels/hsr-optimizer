@@ -270,7 +270,6 @@ export const RelicFilters = {
         relic.condensedStats.push([relic.augmentedStats.mainStat, relic.augmentedStats.mainValue])
 
         delete relic.augmentedStats
-        delete relic.main
         delete relic.weights
       }
     }

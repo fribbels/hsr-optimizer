@@ -1,6 +1,6 @@
 import { StatSimTypes } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
 import { Utils } from "lib/utils";
-import { Constants, Parts, Stats, StatsToShort, SubStats } from "lib/constants";
+import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from "lib/constants";
 import { emptyRelic } from "lib/optimizer/optimizerUtils";
 import { StatCalculator } from "lib/statCalculator";
 import { Stat } from "types/Relic";
@@ -16,7 +16,7 @@ import { SortOption } from "lib/optimizer/sortOptions";
 import { SaveState } from "lib/saveState";
 import DB from "lib/db";
 
-export function saveStatSimulationBuild() {
+export function saveStatSimulationBuildFromForm() {
   const form = window.optimizerForm.getFieldsValue()
   console.log('Save statSim', form.statSim)
 
@@ -35,6 +35,10 @@ export function saveStatSimulationBuild() {
     return
   }
 
+  saveStatSimulationRequest(simRequest, simType)
+}
+
+export function saveStatSimulationRequest(simRequest, simType) {
   const existingSimulations = window.store.getState().statSimulations || []
   const key = Utils.randomId()
   const name = simRequest.name || undefined
@@ -82,12 +86,6 @@ function hashSim(sim) {
 }
 
 function validateRequest(request) {
-  console.debug('validateRequest', request)
-  if (!request.simRelicSet1 || !request.simRelicSet2 || !request.simOrnamentSet) {
-    Message.error('Missing simulation sets')
-    return false
-  }
-
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
     Message.error('Missing simulation main stats')
     return false
@@ -123,14 +121,17 @@ export function renderDefaultSimulationName(sim) {
 function SimSetsDisplay(props: { sim: any }) {
   const request = props.sim.request
   const imgSize = 22
+  const relicImage1 = Assets.getSetImage(request.simRelicSet1)
+  const relicImage2 = Assets.getSetImage(request.simRelicSet2)
+  const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex>
-        <img style={{width: imgSize}} src={Assets.getSetImage(request.simRelicSet1)}/>
-        <img style={{width: imgSize}} src={Assets.getSetImage(request.simRelicSet2)}/>
+      <Flex style={{width: imgSize * 2 + 5}} justify="center">
+        <img style={{width: request.simRelicSet1 ? imgSize : 0}} src={relicImage1}/>
+        <img style={{width: request.simRelicSet2 ? imgSize : 0}} src={relicImage2}/>
       </Flex>
 
-      <img style={{width: imgSize}} src={Assets.getSetImage(request.simOrnamentSet)}/>
+      <img style={{width: imgSize}} src={ornamentImage}/>
     </Flex>
   )
 }
@@ -142,8 +143,8 @@ function SimMainsDisplay(props: { sim: any }) {
     <Flex>
       <img style={{width: imgSize}} src={Assets.getStatIcon(request.simBody, true)}/>
       <img style={{width: imgSize}} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
       <img style={{width: imgSize}} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
     </Flex>
   )
 }
@@ -234,14 +235,16 @@ export function runSimulations(form, simulations) {
     planarSphere.augmentedStats.mainStat = request.simPlanarSphere
     planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere)
 
-    const relicSet1 = request.simRelicSet1 || -1
-    const relicSet2 = request.simRelicSet2 || -1
+    // Generate relic sets
+    // Since the optimizer uses index based relic set identification, it can't handle an empty set
+    // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
+    const unusedRelicSets = SetsRelicsNames.filter(x => x != request.simRelicSet1 && x != request.simRelicSet2)
     const ornamentSet = request.simOrnamentSet || -1
 
-    head.set = relicSet1
-    hands.set = relicSet1
-    body.set = relicSet2
-    feet.set = relicSet2
+    head.set = request.simRelicSet1 || unusedRelicSets[0]
+    hands.set = request.simRelicSet1 || unusedRelicSets[1]
+    body.set = request.simRelicSet2 || unusedRelicSets[2]
+    feet.set = request.simRelicSet2 || unusedRelicSets[3]
     linkRope.set = ornamentSet
     planarSphere.set = ornamentSet
 
@@ -353,6 +356,81 @@ export function importOptimizerBuild() {
     return
   }
 
+  if (selectedRow.statSim) {
+    Message.warning('The selected optimizer build is already a simulation')
+    return
+  }
 
-  console.log(selectedRow)
+  // Generate relics from optimizer row
+  const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id, true)
+  const relics = Object.values(relicsByPart)
+  const accumulatedSubstatRolls = {}
+  SubStats.map(x => accumulatedSubstatRolls[x] = 0)
+
+  // Sum up substat rolls
+  for (const relic of relics) {
+    for (const substat of relic.substats) {
+      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat)
+    }
+  }
+
+  // Round them to 5 precision
+  SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 5))
+
+  // Calculate relic sets
+  const relicSetNames: string[] = []
+  const relicSetIndex = selectedRow.relicSetIndex
+  const numSetsR = Object.values(Constants.SetsRelics).length
+  const s1 = relicSetIndex % numSetsR
+  const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
+  const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
+  const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
+  const relicSets = [s1, s2, s3, s4]
+  while (relicSets.length > 0) {
+    const value = relicSets[0]
+    if (relicSets.lastIndexOf(value)) {
+      const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      relicSetNames.push(setName)
+
+      const otherIndex = relicSets.lastIndexOf(value)
+      relicSets.splice(otherIndex, 1)
+    }
+    relicSets.splice(0, 1)
+  }
+
+  // Calculate ornament sets
+  let ornamentSetName: string | undefined
+  const ornamentSetIndex = selectedRow.ornamentSetIndex
+  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+  const os1 = ornamentSetIndex % ornamentSetCount
+  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
+  if (os1 == os2) {
+    ornamentSetName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == os1)![0]
+  }
+
+  // Generate the fake request and submit it
+  const request = {
+    name: '',
+    simRelicSet1: relicSetNames[0],
+    simRelicSet2: relicSetNames[1],
+    simOrnamentSet: ornamentSetName,
+    simBody: relicsByPart[Parts.Body].main.stat,
+    simFeet: relicsByPart[Parts.Feet].main.stat,
+    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
+    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
+    simHp: accumulatedSubstatRolls[Stats.HP] || null,
+    simAtk: accumulatedSubstatRolls[Stats.ATK] || null,
+    simDef: accumulatedSubstatRolls[Stats.DEF] || null,
+    simHpP: accumulatedSubstatRolls[Stats.HP_P] || null,
+    simAtkP: accumulatedSubstatRolls[Stats.ATK_P] || null,
+    simDefP: accumulatedSubstatRolls[Stats.DEF_P] || null,
+    simCr: accumulatedSubstatRolls[Stats.CR] || null,
+    simCd: accumulatedSubstatRolls[Stats.CD] || null,
+    simSpd: accumulatedSubstatRolls[Stats.SPD] || null,
+    simEhr: accumulatedSubstatRolls[Stats.EHR] || null,
+    simRes: accumulatedSubstatRolls[Stats.RES] || null,
+    simBe: accumulatedSubstatRolls[Stats.BE] || null,
+  }
+
+  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls)
 }

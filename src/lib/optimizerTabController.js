@@ -204,7 +204,7 @@ export const OptimizerTabController = {
     }
   },
 
-  calculateRelicsFromId: (id) => {
+  calculateRelicsFromId: (id, returnRelics = false) => {
     const lSize = consts.lSize
     const pSize = consts.pSize
     const fSize = consts.fSize
@@ -227,6 +227,17 @@ export const OptimizerTabController = {
     relics.Feet[f].optimizerCharacterId = characterId
     relics.PlanarSphere[p].optimizerCharacterId = characterId
     relics.LinkRope[l].optimizerCharacterId = characterId
+
+    if (returnRelics) {
+      return {
+        Head: relics.Head[h],
+        Hands: relics.Hands[g],
+        Body: relics.Body[b],
+        Feet: relics.Feet[f],
+        PlanarSphere: relics.PlanarSphere[p],
+        LinkRope: relics.LinkRope[l],
+      }
+    }
 
     return {
       Head: relics.Head[h].id,

@@ -169,8 +169,6 @@ window.store = create((set) => ({
 }))
 
 export const DB = {
-  getGlobals: () => state.globals,
-
   getMetadata: () => state.metadata,
   setMetadata: (x) => state.metadata = x,
 

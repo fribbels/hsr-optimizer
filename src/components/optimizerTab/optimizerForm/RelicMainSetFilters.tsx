@@ -115,7 +115,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
       </Flex>
 
       <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify="space-between" align="center">
+        <Flex justify="space-between" align="center" style={{marginTop: 12}}>
           <HeaderText>Sets</HeaderText>
           <TooltipImage type={Hint.sets()} />
         </Flex>
@@ -253,41 +253,3 @@ OrnamentSetTagRenderer.propTypes = {
   closable: PropTypes.bool,
   onClose: PropTypes.func,
 }
-
-export const BodyStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.CR, short: "Crit Rate", label: 'CRIT Rate'},
-  {value: Constants.Stats.CD, short: "Crit DMG", label: 'CRIT DMG'},
-  {value: Constants.Stats.EHR, short: "EHR", label: 'Effect HIT Rate'},
-  {value: Constants.Stats.OHB, short: "Healing", label: 'Outgoing Healing Boost'},
-]
-
-export const FeetStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.SPD, short: "SPD", label: 'Speed'},
-]
-
-export const LinkRopeStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.BE, short: "Break", label: 'Break Effect'},
-  {value: Constants.Stats.ERR, short: "Energy", label: 'Energy Regeneration Rate'},
-]
-
-export const PlanarSphereStatOptions = [
-  {value: Constants.Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Constants.Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Constants.Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Constants.Stats.Physical_DMG, short: "Physical", label: 'Physical DMG'},
-  {value: Constants.Stats.Fire_DMG, short: "Fire", label: 'Fire DMG'},
-  {value: Constants.Stats.Ice_DMG, short: "Ice", label: 'Ice DMG'},
-  {value: Constants.Stats.Lightning_DMG, short: "Lightning", label: 'Lightning DMG'},
-  {value: Constants.Stats.Wind_DMG, short: "Wind", label: 'Wind DMG'},
-  {value: Constants.Stats.Quantum_DMG, short: "Quantum", label: 'Quantum DMG'},
-  {value: Constants.Stats.Imaginary_DMG, short: "Imaginary", label: 'Imaginary DMG'},
-]

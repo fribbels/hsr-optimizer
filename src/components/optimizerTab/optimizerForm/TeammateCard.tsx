@@ -303,7 +303,7 @@ const TeammateCard = (props: { index: number }) => {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 250, marginLeft: 5 }}>
+          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}

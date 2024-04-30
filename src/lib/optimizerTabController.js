@@ -384,6 +384,13 @@ export const OptimizerTabController = {
         for (const applyPreset of metadata.scoringMetadata.presets || []) {
           applyPreset(newForm)
         }
+
+        newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]
+        newForm.mainFeet = metadata.scoringMetadata.parts[Constants.Parts.Feet]
+        newForm.mainPlanarSphere = metadata.scoringMetadata.parts[Constants.Parts.PlanarSphere]
+        newForm.mainLinkRope = metadata.scoringMetadata.parts[Constants.Parts.LinkRope]
+        newForm.weights = metadata.scoringMetadata.stats
+        newForm.weights.topPercent = 100
       }
     }
 

@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import {
   deleteAllStatSimulationBuilds,
   importOptimizerBuild,
-  saveStatSimulationBuild,
+  saveStatSimulationBuildFromForm,
   startOptimizerStatSimulation
 } from "lib/statSimulationController.tsx";
 import { Parts } from "lib/constants";
@@ -23,6 +23,7 @@ import {
 } from "components/optimizerTab/optimizerForm/RelicMainSetFilters";
 import GenerateOrnamentsOptions from "components/optimizerTab/optimizerForm/OrnamentsOptions";
 import { GenerateBasicSetsOptions } from "components/optimizerTab/optimizerForm/SetsOptions";
+import { Utils } from "lib/utils";
 
 const { Text } = Typography
 
@@ -41,6 +42,7 @@ export const STAT_SIMULATION_STATS_WIDTH = 180
 export function DamageCalculatorDisplay() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
+  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -60,29 +62,36 @@ export function DamageCalculatorDisplay() {
             value={statSimulationDisplay}
             style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px`, display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 0.6, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.Disabled}>Off</Radio>
+            <Radio style={{ display: 'flex', flex: 0.5, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.Disabled}>Off</Radio>
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatRolls}>Simulate substat rolls</Radio>
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.SubstatTotals}>Simulate substat totals</Radio>
             {/*<Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={StatSimTypes.CharacterStats} disabled>Character stats</Radio>*/}
           </Radio.Group>
 
-          <Flex flex={1}>
+          <Flex style={{minHeight: 302}}>
             <SimulatedBuildsGrid />
           </Flex>
 
           <Flex gap={10}>
             <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={startOptimizerStatSimulation} icon={<DownOutlined/>}>
-              Simulate selected builds
+              Simulate builds
             </Button>
-            <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={importOptimizerBuild} icon={<UpOutlined/>} disabled>
+            <Button style={{width: 200, display: isHidden() ? 'none' : 'block'}} onClick={importOptimizerBuild} icon={<UpOutlined/>}>
               Import optimizer build
+            </Button>
+            <Button
+              style={{width: 200, display: isHidden() ? 'none' : 'block'}}
+              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              icon={<SettingOutlined />}
+            >
+              Conditional set effects
             </Button>
           </Flex>
         </Flex>
 
         <Flex vertical justify='space-around' style={{display: isHidden() ? 'none' : 'flex'}} >
           <Flex vertical gap={10} >
-            <Button type="primary" style={{width: 35, height: 100, padding: 0}} onClick={saveStatSimulationBuild}>
+            <Button type="primary" style={{width: 35, height: 100, padding: 0}} onClick={saveStatSimulationBuildFromForm}>
               <DoubleLeftOutlined />
             </Button>
             <Popconfirm
@@ -108,7 +117,6 @@ export function DamageCalculatorDisplay() {
 
 function SimulationInputs() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   // Hook into changes to the sim to calculate roll sum
   const statSimFormValues = Form.useWatch((values) => values.statSim, window.optimizerForm)
@@ -160,12 +168,6 @@ function SimulationInputs() {
             <MainStatsSection simType={StatSimTypes.SubstatTotals}/>
 
             <HeaderText>Options</HeaderText>
-            <Button
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-              icon={<SettingOutlined />}
-            >
-              Conditional set effects
-            </Button>
 
             <Form.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
               <Input placeholder='Simulation name (Optional)' />
@@ -182,12 +184,6 @@ function SimulationInputs() {
             <MainStatsSection simType={StatSimTypes.SubstatRolls} />
 
             <HeaderText>Options</HeaderText>
-            <Button
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-              icon={<SettingOutlined />}
-            >
-              Conditional set effects
-            </Button>
             {/*<Select placeholder='Roll quality' />*/}
 
             <Form.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
@@ -197,7 +193,7 @@ function SimulationInputs() {
 
           <VerticalDivider />
 
-          <SubstatsSection simType={StatSimTypes.SubstatRolls} title='Substat rolls' total={substatRollsTotal}/>
+          <SubstatsSection simType={StatSimTypes.SubstatRolls} title='Substat max rolls' total={substatRollsTotal}/>
         </Flex>
         <Flex style={{display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none'}}>
           <></>
@@ -217,7 +213,7 @@ function SetsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>Sets</HeaderText>
-      <Form.Item name={formName(props.simType, 'simRelicSet1')}>
+      <Form.Item name={formName(props.simType, 'simRelicSet1')} style={{maxHeight: 32}}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -231,7 +227,7 @@ function SetsSection(props: { simType: string }) {
         >
         </Select>
       </Form.Item>
-      <Form.Item name={formName(props.simType, 'simRelicSet2')}>
+      <Form.Item name={formName(props.simType, 'simRelicSet2')} style={{maxHeight: 32}}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -246,7 +242,7 @@ function SetsSection(props: { simType: string }) {
         </Select>
       </Form.Item>
 
-      <Form.Item name={formName(props.simType, 'simOrnamentSet')}>
+      <Form.Item name={formName(props.simType, 'simOrnamentSet')} style={{maxHeight: 32}}>
         <Select
           dropdownStyle={{
             width: 250,
@@ -349,7 +345,7 @@ function SubstatsSection(props: { simType: string, title: string, total?: number
                 size="small"
                 controls={false}
                 disabled={true}
-                value={props.total}
+                value={Utils.truncate10ths(props.total)}
                 variant="borderless"
                 formatter={(value) => `${value} / 54`}
                 max={54}

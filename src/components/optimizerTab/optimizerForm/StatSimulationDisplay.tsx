@@ -1,7 +1,6 @@
 import FormCard from '../FormCard'
-import { Button, Flex, Form, Input, Popconfirm, Radio, Select, Typography } from 'antd'
+import { Button, Flex, Form, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { VerticalDivider } from '../../Dividers'
-import InputNumberStyled from './InputNumberStyled'
 import { SimulatedBuildsGrid } from "components/optimizerTab/optimizerForm/SimulatedBuildsGrid";
 import { HeaderText } from "components/HeaderText";
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from "@ant-design/icons";
@@ -31,7 +30,7 @@ export enum StatSimTypes {
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680
 export const STAT_SIMULATION_OPTIONS_WIDTH = 215
-export const STAT_SIMULATION_STATS_WIDTH = 180
+export const STAT_SIMULATION_STATS_WIDTH = 190
 
 export function StatSimulationDisplay() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
@@ -324,7 +323,7 @@ function SubstatsSection(props: { simType: string, title: string, total?: number
               <Text>
                 Total rolls
               </Text>
-              <InputNumberStyled
+              <InputNumber
                 size="small"
                 controls={false}
                 disabled={true}
@@ -333,6 +332,7 @@ function SubstatsSection(props: { simType: string, title: string, total?: number
                 formatter={(value) => `${value} / 54`}
                 max={54}
                 status={props.total! > 54 ? 'error' : undefined}
+                style={{width: 70}}
               />
             </Flex>
           )}
@@ -349,7 +349,7 @@ function StatInput(props: {label: string, name: string, simType: string, disable
         {props.label}
       </Text>
       <Form.Item name={formName(props.simType, 'sim' + props.name)}>
-        <InputNumberStyled size="small" controls={false} disabled={props.disabled} value={props.value}/>
+        <InputNumber size="small" controls={false} disabled={props.disabled} value={props.value} style={{width: 70}}/>
       </Form.Item>
     </Flex>
   )

@@ -10,7 +10,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 const state = {
   relics: [],

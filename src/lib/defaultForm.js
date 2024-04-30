@@ -1,6 +1,6 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import DB from 'lib/db'
-import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 export function getDefaultForm(initialCharacter) {
   const metadata = DB.getMetadata().characters[initialCharacter]

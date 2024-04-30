@@ -1,6 +1,6 @@
-import { Flex, Table, TableColumnsType } from 'antd'
+import { Empty, Flex, Table, TableColumnsType } from 'antd'
 import { CloseOutlined } from "@ant-design/icons";
-import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
+import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/StatSimulationDisplay";
 import { deleteStatSimulationBuild, renderDefaultSimulationName } from "lib/statSimulationController.tsx";
 import { IRowNode } from "ag-grid-community";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{marginLeft: 5}}>Simulation identifier</Flex>),
+    title: (<Flex style={{marginLeft: 5}}>Simulation details</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -84,6 +84,7 @@ export function SimulatedBuildsGrid() {
 
   return (
     <Table
+      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No simulations selected" />}}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',

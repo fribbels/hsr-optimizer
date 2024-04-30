@@ -7,7 +7,8 @@ export const DIGITS_4 = 52
 export const DIGITS_5 = 60
 
 export const optimizerTabDefaultGap = 5
-export const panelWidth = 203
+export const panelWidth = 211
+export const defaultPadding = 11
 
 export const baseColumnDefs = [
   { field: 'relicSetIndex', cellRenderer: Renderer.relicSet, width: 67, headerName: 'Set' },

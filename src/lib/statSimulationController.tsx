@@ -86,11 +86,6 @@ function hashSim(sim) {
 }
 
 function validateRequest(request) {
-  // if (!request.simRelicSet1 || !request.simRelicSet2 || !request.simOrnamentSet) {
-  //   Message.error('Missing simulation sets')
-  //   return false
-  // }
-
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
     Message.error('Missing simulation main stats')
     return false
@@ -381,9 +376,6 @@ export function importOptimizerBuild() {
 
   // Round them to 5 precision
   SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 5))
-
-  console.log(relicsByPart)
-  console.log(accumulatedSubstatRolls)
 
   // Calculate relic sets
   const relicSetNames: string[] = []

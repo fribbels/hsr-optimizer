@@ -31,7 +31,7 @@ export const Hint = {
       title: 'Stat filters',
       content: (
         <Flex vertical gap={10}>
-          <p>Min / Max filters for character stats, inclusive. The optimizer will only show results within these ranges </p>
+          <p>Min (left) / Max (right) filters for character stats, inclusive. The optimizer will only show results within these ranges </p>
           <p>Stat abbreviations are ATK / HP / DEF / SPD / Crit Rate / Crit Damage / Effect Hit Rate / Effect RES / Break Effect</p>
           <p>NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals.</p>
         </Flex>

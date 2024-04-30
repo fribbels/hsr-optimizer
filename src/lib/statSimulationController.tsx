@@ -1,20 +1,20 @@
-import { StatSimTypes } from "components/optimizerTab/optimizerForm/DamageCalculatorDisplay";
-import { Utils } from "lib/utils";
-import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from "lib/constants";
-import { emptyRelic } from "lib/optimizer/optimizerUtils";
-import { StatCalculator } from "lib/statCalculator";
-import { Stat } from "types/Relic";
-import { RelicFilters } from "lib/relicFilters";
-import { calculateBuild } from "lib/optimizer/calculateBuild";
-import { OptimizerTabController } from "lib/optimizerTabController";
-import { renameFields } from "lib/optimizer/optimizer";
-import { Assets } from "lib/assets";
-import { Flex, Tag } from "antd";
-import { Message } from "lib/message";
-import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
-import { SortOption } from "lib/optimizer/sortOptions";
-import { SaveState } from "lib/saveState";
-import DB from "lib/db";
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/DamageCalculatorDisplay'
+import { Utils } from 'lib/utils'
+import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
+import { emptyRelic } from 'lib/optimizer/optimizerUtils'
+import { StatCalculator } from 'lib/statCalculator'
+import { Stat } from 'types/Relic'
+import { RelicFilters } from 'lib/relicFilters'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { renameFields } from 'lib/optimizer/optimizer'
+import { Assets } from 'lib/assets'
+import { Flex, Tag } from 'antd'
+import { Message } from 'lib/message'
+import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { SaveState } from 'lib/saveState'
+import DB from 'lib/db'
 
 export function saveStatSimulationBuildFromForm() {
   const form = window.optimizerForm.getFieldsValue()
@@ -35,10 +35,10 @@ export function saveStatSimulationBuildFromForm() {
     return
   }
 
-  saveStatSimulationRequest(simRequest, simType)
+  saveStatSimulationRequest(simRequest, simType, true)
 }
 
-export function saveStatSimulationRequest(simRequest, simType) {
+export function saveStatSimulationRequest(simRequest, simType, startSim = false) {
   const existingSimulations = window.store.getState().statSimulations || []
   const key = Utils.randomId()
   const name = simRequest.name || undefined
@@ -66,7 +66,10 @@ export function saveStatSimulationRequest(simRequest, simType) {
   const cloned = Utils.clone(existingSimulations)
   window.store.getState().setStatSimulations(cloned)
   setFormStatSimulations(cloned)
-  startOptimizerStatSimulation()
+
+  if (startSim) {
+    startOptimizerStatSimulation()
+  }
 
   autosave()
 }
@@ -126,12 +129,12 @@ function SimSetsDisplay(props: { sim: any }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{width: imgSize * 2 + 5}} justify="center">
-        <img style={{width: request.simRelicSet1 ? imgSize : 0}} src={relicImage1}/>
-        <img style={{width: request.simRelicSet2 ? imgSize : 0}} src={relicImage2}/>
+      <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
       </Flex>
 
-      <img style={{width: imgSize}} src={ornamentImage}/>
+      <img style={{ width: imgSize }} src={ornamentImage}/>
     </Flex>
   )
 }
@@ -141,10 +144,10 @@ function SimMainsDisplay(props: { sim: any }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simBody, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
     </Flex>
   )
 }
@@ -374,8 +377,8 @@ export function importOptimizerBuild() {
     }
   }
 
-  // Round them to 5 precision
-  SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 5))
+  // Round them to 4 precision
+  SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Calculate relic sets
   const relicSetNames: string[] = []
@@ -432,5 +435,5 @@ export function importOptimizerBuild() {
     simBe: accumulatedSubstatRolls[Stats.BE] || null,
   }
 
-  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls)
+  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }

@@ -6,7 +6,17 @@ import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
 import { Constants, ElementToDamage } from 'lib/constants.ts'
-import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
+import {
+  defaultGap,
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  middleColumnWidth,
+  parentH,
+  parentW
+} from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
@@ -46,7 +56,8 @@ export function CharacterPreview(props) {
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
 
   useEffect(() => {
-    setCustomPortrait(null)
+    // Use any existing character's portrait instead of the default
+    setCustomPortrait(DB.getCharacterById(character?.id)?.portrait || null)
   }, [character])
 
   function onEditOk(relic) {

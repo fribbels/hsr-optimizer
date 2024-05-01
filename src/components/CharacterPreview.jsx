@@ -60,6 +60,14 @@ export function CharacterPreview(props) {
     setCustomPortrait(DB.getCharacterById(character?.id)?.portrait || null)
   }, [character])
 
+  function getArtistName() {
+    const artistName = character?.portrait?.artistName || DB.getCharacterById(character?.id)?.portrait?.artistName
+    if (!artistName) return null
+
+    const name = artistName.trim()
+    return name.length < 1 ? null : name
+  }
+
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
     setSelectedRelic(updatedRelic)
@@ -165,13 +173,6 @@ export function CharacterPreview(props) {
 
   const elementalDmgValue = ElementToDamage[characterElement]
   console.log(displayRelics)
-
-  function getArtistName() {
-    if (!character?.portrait?.artistName) return null
-    const name = character.portrait.artistName.trim()
-
-    return name.length < 1 ? null : name
-  }
 
   return (
     <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>

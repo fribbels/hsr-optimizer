@@ -257,7 +257,7 @@ export const OptimizerTabController = {
 
   // Convert a form to its visual representation
   getDisplayFormValues: (form) => {
-    const newForm = JSON.parse(JSON.stringify(form))
+    const newForm = Utils.clone(form)
     const metadata = DB.getMetadata().characters[form.characterId]
 
     // Erase inputs where min == 0 and max == MAX_INT
@@ -383,6 +383,11 @@ export const OptimizerTabController = {
       if (metadata) {
         for (const applyPreset of metadata.scoringMetadata.presets || []) {
           applyPreset(newForm)
+        }
+
+        const overrides = window.store.getState().scoringMetadataOverrides[newForm.characterId]
+        if (overrides) {
+          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata, overrides)
         }
 
         newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]

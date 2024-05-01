@@ -365,3 +365,6 @@ a {
 .ant-empty-description {
   height: 140px !important;
 }
+.ant-collapse-arrow {
+  font-size: 16px !important;
+}

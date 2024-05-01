@@ -416,10 +416,11 @@ export const DB = {
   },
 
   saveCharacterPortrait: (characterId, portrait) => {
-    const character = DB.getCharacterById(characterId)
+    let character = DB.getCharacterById(characterId)
     if (!character) {
-      console.warn('No character selected')
-      return
+      DB.addFromForm({characterId: characterId})
+      character = DB.getCharacterById(characterId)
+      console.log('Character did not previously exist, adding', character)
     }
     character.portrait = portrait
     DB.setCharacter(character)

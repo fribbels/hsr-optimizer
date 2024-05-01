@@ -7,6 +7,7 @@ import { Constants, Sets } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import { getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
+import { Utils } from "lib/utils";
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -164,12 +165,17 @@ export function applySpdPreset(spd, characterId) {
   if (!characterId) return
 
   const character = DB.getMetadata().characters[characterId]
-  const metadata = character.scoringMetadata
+  let metadata = Utils.clone(character.scoringMetadata)
 
   // Using the user's current form so we don't overwrite their other numeric filter values
   const form = OptimizerTabController.getDisplayFormValues(OptimizerTabController.getForm())
   const defaultForm = OptimizerTabController.getDisplayFormValues(getDefaultForm(character))
   form.setConditionals = defaultForm.setConditionals
+
+  const overrides = window.store.getState().scoringMetadataOverrides[characterId]
+  if (overrides) {
+    metadata = Utils.mergeDefinedValues(metadata, overrides)
+  }
 
   form.minSpd = spd
   form.maxSpd = undefined
@@ -180,13 +186,15 @@ export function applySpdPreset(spd, characterId) {
   form.weights = metadata.stats
   form.weights.topPercent = 100
 
+
   /*
    * Not sure if we want to support set recommendations yet
    * form.ornamentSets = metadata.ornamentSets
    * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
    */
 
-  const presets = metadata.presets || []
+  // We dont use the clone here because serializing messes up the applyPreset functions
+  const presets = character.scoringMetadata || []
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)

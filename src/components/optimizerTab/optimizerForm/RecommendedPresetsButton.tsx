@@ -186,7 +186,6 @@ export function applySpdPreset(spd, characterId) {
   form.weights = metadata.stats
   form.weights.topPercent = 100
 
-
   /*
    * Not sure if we want to support set recommendations yet
    * form.ornamentSets = metadata.ornamentSets
@@ -194,7 +193,7 @@ export function applySpdPreset(spd, characterId) {
    */
 
   // We dont use the clone here because serializing messes up the applyPreset functions
-  const presets = character.scoringMetadata || []
+  const presets = character.scoringMetadata.presets || []
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)

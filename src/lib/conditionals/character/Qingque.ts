@@ -1,5 +1,9 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -56,7 +60,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => [],
     defaults: () => ({
       basicEnhanced: true,
-      basicEnhancedSpdBuff: true,
+      basicEnhancedSpdBuff: false,
       skillDmgIncreaseStacks: 4,
     }),
     teammateDefaults: () => ({

@@ -3,6 +3,7 @@ import { ConfigProvider, Layout, message, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
+import { SettingsDrawer } from 'components/SettingsDrawer'
 
 const { useToken, getDesignToken } = theme
 const { Content } = Layout
@@ -97,6 +98,7 @@ const App = () => {
             }}
           >
             <Tabs />
+            <SettingsDrawer />
           </Content>
         </Layout>
       </Layout>

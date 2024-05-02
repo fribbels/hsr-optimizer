@@ -11,6 +11,7 @@ import { Message } from 'lib/message'
 import { OptimizerMenuIds } from 'components/optimizerTab/FormRow.tsx'
 import { Themes } from 'lib/theme'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { DefaultSettingOptions, SettingOptions } from 'components/SettingsDrawer'
 
 const state = {
   relics: [],
@@ -72,6 +73,7 @@ window.store = create((set) => ({
   charactersById: {},
   characterTabBlur: false,
   conditionalSetEffectsDrawerOpen: false,
+  settingsDrawerOpen: false,
   permutations: 0,
   permutationsResults: 0,
   permutationsSearched: 0,
@@ -131,11 +133,14 @@ window.store = create((set) => ({
     [SavedSessionKeys.relicScorerSidebarOpen]: true,
   },
 
+  settings: DefaultSettingOptions,
+
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+  setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -161,6 +166,7 @@ window.store = create((set) => ({
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
   setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
+  setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) => set((state) => ({
     savedSession: { ...state.savedSession, [key]: x },
@@ -362,6 +368,10 @@ export const DB = {
       window.store.getState().setSavedSession(x.savedSession)
     }
 
+    if (x.settings) {
+      window.store.getState().setSettings(x.settings)
+    }
+
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
 
     assignRanks(x.characters)
@@ -534,7 +544,7 @@ export const DB = {
    * @param {*} characterId - The ID of the character to equip the relic to.
    * @returns {void}
    */
-  equipRelic: (relic, characterId) => {
+  equipRelic: (relic, characterId, forceSwap = false) => {
     if (!relic || !relic.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
@@ -548,9 +558,11 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
+    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
+
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
-      if (prevRelic) {
+      if (prevRelic && swap) {
         prevCharacter.equipped[relic.part] = prevRelic.id
         prevRelic.equippedBy = prevCharacter.id
         setRelic(prevRelic)
@@ -566,12 +578,12 @@ export const DB = {
     setRelic(relic)
   },
 
-  equipRelicIdsToCharacter: (relicIds, characterId) => {
+  equipRelicIdsToCharacter: (relicIds, characterId, forceSwap = false) => {
     if (!characterId) return console.warn('No characterId to equip to')
     console.log('Equipping relics to character', relicIds, characterId)
 
     for (const relicId of relicIds) {
-      DB.equipRelic({ id: relicId }, characterId)
+      DB.equipRelic({ id: relicId }, characterId, forceSwap)
     }
   },
 
@@ -581,7 +593,7 @@ export const DB = {
     console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId)
+    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
   },
 
   deleteRelic: (id) => {

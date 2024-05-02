@@ -84,7 +84,7 @@ export function SimulatedBuildsGrid() {
 
   return (
     <Table
-      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No simulations selected" />}}
+      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected" />}}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',

@@ -79,7 +79,7 @@ export default (e: Eidolon): CharacterConditional => {
     }),
     teammateDefaults: () => ({
       benedictionBuff: true,
-      ultSpdBuff: true,
+      ultSpdBuff: false,
       ultDmgBuff: true,
       teammateAtkBuffValue: skillAtkBoostScaling,
     }),

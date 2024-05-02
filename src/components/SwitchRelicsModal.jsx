@@ -58,7 +58,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
         layout="vertical"
       >
         <Flex justify="space-between" align="center">
-          <HeaderText>Switch Relics with Character</HeaderText>
+          <HeaderText>Switch relics with character</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>

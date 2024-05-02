@@ -57,7 +57,7 @@ export const SettingsDrawer = () => {
         <Flex vertical gap={defaultGap}>
           <Flex justify="space-between" align='center'>
             <Text>
-              Equipping relics from another owner
+              Equipping relics from another character
             </Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
               <Select style={{width: 300}}>

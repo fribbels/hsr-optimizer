@@ -184,7 +184,7 @@ function SimSubstatsDisplay(props: { sim: any }) {
 
   function renderStat(x) {
     return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${StatsToShort[x.stat]} x${x.value}`
+      ? `${StatsToShort[x.stat]} x ${x.value}`
       : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
   }
 

@@ -7,7 +7,7 @@ const justify = 'flex-start'
 const align = 'center'
 const inputWidth = 62
 const numberWidth = 55
-const sliderWidth = 160
+const sliderWidth = 155
 
 const Text = styled(Typography)`
   white-space: pre-line;

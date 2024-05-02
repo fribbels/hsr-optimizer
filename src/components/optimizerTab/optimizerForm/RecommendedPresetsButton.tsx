@@ -176,15 +176,9 @@ export function applySpdPreset(spd, characterId) {
   if (overrides) {
     metadata = Utils.mergeDefinedValues(metadata, overrides)
   }
-
   form.minSpd = spd
-  form.maxSpd = undefined
-  form.mainBody = metadata.parts[Constants.Parts.Body]
-  form.mainFeet = metadata.parts[Constants.Parts.Feet]
-  form.mainPlanarSphere = metadata.parts[Constants.Parts.PlanarSphere]
-  form.mainLinkRope = metadata.parts[Constants.Parts.LinkRope]
-  form.weights = metadata.stats
-  form.weights.topPercent = 100
+
+  applyMetadataPresetToForm(form, metadata)
 
   /*
    * Not sure if we want to support set recommendations yet
@@ -206,3 +200,16 @@ export function applySpdPreset(spd, characterId) {
 }
 
 export default RecommendedPresetsButton
+
+export function applyMetadataPresetToForm(form, scoringMetadata) {
+  form.maxSpd = undefined
+  form.mainBody = scoringMetadata.parts[Constants.Parts.Body]
+  form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
+  form.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
+  form.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
+  form.weights = scoringMetadata.stats
+  form.weights.topPercent = 100
+
+  const element = DB.getMetadata().characters[form.characterId].element
+  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum';
+}

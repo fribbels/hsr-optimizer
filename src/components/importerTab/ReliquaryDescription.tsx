@@ -13,7 +13,7 @@ export function ReliquaryDescription(): ReactElement {
           <ul>
             <li>Network scanner</li>
             <li>Imports accurate speed decimals for the entire inventory</li>
-            <li>Beta release (run as admin) - might not work for all machines, please report bugs to the discord server</li>
+            <li>Beta release - run from command line if exe doesn't work, please report bugs to the discord server</li>
           </ul>
         </li>
       )}

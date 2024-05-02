@@ -10,6 +10,7 @@ import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
 import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
+import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
 let relics
 let consts
@@ -396,6 +397,8 @@ export const OptimizerTabController = {
         newForm.mainLinkRope = metadata.scoringMetadata.parts[Constants.Parts.LinkRope]
         newForm.weights = metadata.scoringMetadata.stats
         newForm.weights.topPercent = 100
+
+        applyMetadataPresetToForm(newForm, metadata.scoringMetadata)
       }
     }
 

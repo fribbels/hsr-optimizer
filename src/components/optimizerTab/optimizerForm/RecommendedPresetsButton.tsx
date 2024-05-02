@@ -210,6 +210,7 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   form.weights = scoringMetadata.stats
   form.weights.topPercent = 100
 
+  // Disable quantum by default if the character is not quantum element
   const element = DB.getMetadata().characters[form.characterId].element
-  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum';
+  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
 }

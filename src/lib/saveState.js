@@ -10,6 +10,7 @@ export const SaveState = {
       optimizerMenuState: window.store.getState().optimizerMenuState,
       excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
       savedSession: window.store.getState().savedSession,
+      settings: window.store.getState().settings,
     }
 
     console.log('Saved state', state)

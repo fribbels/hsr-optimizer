@@ -30,7 +30,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   // Orb
   await expect(page.locator('.ant-card').filter({ hasText: /^\+15Lightning DMG38\.8%ATK59ATK %8\.2%DEF %5\.4%Effect HIT6\.9%Score14\.1 \(D\+\)$/ })).toHaveCount(1)
   // Rope
-  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP38ATK63SPD5Effect HIT8\.2%Score22\.3 \(B\)$/ })).toHaveCount(1)
+  await expect(page.locator('.ant-card').filter({ hasText: /^\+15ATK %43\.2%HP38ATK63SPD5Effect HIT8\.2%Score23\.7 \(B\+\)$/ })).toHaveCount(1)
 
   // Verify Kafka now has Jingliu's relics
   await page.locator('#characterGrid').getByText('Kafka').click()

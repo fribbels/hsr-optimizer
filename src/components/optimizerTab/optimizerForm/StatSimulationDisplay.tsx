@@ -306,18 +306,18 @@ function SubstatsSection(props: { simType: string, title: string, total?: number
       <Flex vertical>
         <HeaderText>{props.title}</HeaderText>
         <Flex vertical gap={5}>
-          <StatInput simType={props.simType} name="Hp" label="HP" />
-          <StatInput simType={props.simType} name="Atk" label="ATK" />
-          <StatInput simType={props.simType} name="Def" label="DEF" />
-          <StatInput simType={props.simType} name="HpP" label="HP %" />
           <StatInput simType={props.simType} name="AtkP" label="ATK %" />
-          <StatInput simType={props.simType} name="DefP" label="DEF %" />
+          <StatInput simType={props.simType} name="Atk" label="ATK" />
           <StatInput simType={props.simType} name="Cr" label="Crit Rate %" />
           <StatInput simType={props.simType} name="Cd" label="Crit DMG %" />
           <StatInput simType={props.simType} name="Spd" label="SPD" />
+          <StatInput simType={props.simType} name="Be" label="Break Effect" />
+          <StatInput simType={props.simType} name="HpP" label="HP %" />
+          <StatInput simType={props.simType} name="Hp" label="HP" />
+          <StatInput simType={props.simType} name="DefP" label="DEF %" />
+          <StatInput simType={props.simType} name="Def" label="DEF" />
           <StatInput simType={props.simType} name="Ehr" label="Effect Hit Rate" />
           <StatInput simType={props.simType} name="Res" label="Effect RES" />
-          <StatInput simType={props.simType} name="Be" label="Break Effect" />
           {(props.simType == StatSimTypes.SubstatRolls) && (
             <Flex justify="space-between" style={{width: STAT_SIMULATION_STATS_WIDTH}}>
               <Text>

@@ -85,6 +85,8 @@ export default function GettingStartedTab() {
             </p>
 
             <ul>
+              <ReliquaryDescription/>
+
               <li>
                 Kel-Z HSR Scanner (
                 <ColorizedLink text="Github" url={KelzScannerConfig.releases}/>
@@ -94,8 +96,6 @@ export default function GettingStartedTab() {
                   <li>Supports all 16:9 screen resolutions</li>
                 </ul>
               </li>
-
-              <ReliquaryDescription/>
 
               <li>
                 Relic Scorer Import (

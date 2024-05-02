@@ -5,9 +5,9 @@ import { ColorizedLink } from '../common/ColorizedLink'
 export function ReliquaryDescription(): ReactElement {
   return (
     <>
-      {!window.officialOnly && (
+      {(
         <li>
-          IceDynamix Reliquary Archiver (
+          {'(Recommended) IceDynamix Reliquary Archiver'} (
           <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
           )
           <ul>

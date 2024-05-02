@@ -117,6 +117,7 @@ export function ScannerImportSubmenu() {
           </Text>
           <Text>
             <ul>
+              <ReliquaryDescription />
               <li>
                 Kel-Z HSR Scanner (
                 <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
@@ -126,7 +127,6 @@ export function ScannerImportSubmenu() {
                   <li>Supports all 16:9 screen resolutions</li>
                 </ul>
               </li>
-              <ReliquaryDescription />
               <li>
                 Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>

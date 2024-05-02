@@ -98,8 +98,8 @@ const App = () => {
             }}
           >
             <Tabs />
-            <SettingsDrawer />
           </Content>
+          <SettingsDrawer />
         </Layout>
       </Layout>
     </ConfigProvider>

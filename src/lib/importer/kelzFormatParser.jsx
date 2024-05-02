@@ -29,6 +29,7 @@ export class KelzFormatParser { // TODO abstract class
     let parsed = {
       metadata: {
         trailblazer: 'Stelle',
+        current_trailblazer_path: 'Destruction'
       },
       characters: [],
       relics: [],
@@ -57,10 +58,11 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
+    parsed.metadata.current_trailblazer_path = json.metadata.current_trailblazer_path || 'Stelle'
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r, parsed.metadata.trailblazer, this.config))
+        .map((r) => readRelic(r, parsed.metadata.trailblazer, parsed.metadata.current_trailblazer_path, this.config))
         .map((r) => RelicAugmenter.augment(r))
         .filter((r) => {
           if (!r) {
@@ -72,7 +74,7 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.characters) {
       parsed.characters = json.characters
-        .map((c) => readCharacter(c, json.light_cones, parsed.metadata.trailblazer))
+        .map((c) => readCharacter(c, json.light_cones, parsed.metadata.trailblazer, parsed.metadata.current_trailblazer_path))
         .filter((c) => {
           if (!c) {
             console.warn('Could not parse character')
@@ -85,15 +87,20 @@ export class KelzFormatParser { // TODO abstract class
   }
 }
 
-function readCharacter(character, lightCones, trailblazer) {
+function readCharacter(character, lightCones, trailblazer, path) {
   let lightCone = undefined
   if (lightCones) {
-    lightCone = lightCones.find((x) => x.location === character.key)
+    if (character.key.startsWith('Trailblazer')) {
+      lightCone = lightCones.find((x) => x.location.startsWith('Trailblazer'))
+    } else {
+      lightCone = lightCones.find((x) => x.location === character.key)
+    }
   }
+
 
   let characterId
   if (character.key.startsWith('Trailblazer')) {
-    characterId = getTrailblazerId(character.key, trailblazer)
+    characterId = getTrailblazerId(character.key, trailblazer, path)
   } else {
     characterId = characterList.find((x) => x.name === character.key)?.id
   }
@@ -113,7 +120,7 @@ function readCharacter(character, lightCones, trailblazer) {
   }
 }
 
-function readRelic(relic, trailblazer, config) {
+function readRelic(relic, trailblazer, path, config) {
   let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   let part = partMatches.bestMatch.target
 
@@ -131,7 +138,7 @@ function readRelic(relic, trailblazer, config) {
     if (lookup) {
       equippedBy = lookup
     } else if (relic.location.startsWith('Trailblazer')) {
-      equippedBy = getTrailblazerId(relic.location, trailblazer)
+      equippedBy = getTrailblazerId(relic.location, trailblazer, path)
     }
   }
 
@@ -324,7 +331,7 @@ function lowerAlphaNumeric(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')
 }
 
-function getTrailblazerId(name, trailblazer) {
+function getTrailblazerId(name, trailblazer, path) {
   let id = '8002'
   if (name === 'TrailblazerDestruction') {
     id = trailblazer === 'Stelle' ? '8002' : '8001'
@@ -335,5 +342,16 @@ function getTrailblazerId(name, trailblazer) {
   if (name === 'TrailblazerHarmony') {
     id = trailblazer === 'Stelle' ? '8006' : '8005'
   }
+
+  if (path === 'Destruction') {
+    id = trailblazer === 'Stelle' ? '8002' : '8001'
+  }
+  if (path === 'Preservation') {
+    id = trailblazer === 'Stelle' ? '8004' : '8003'
+  }
+  if (path === 'Harmony') {
+    id = trailblazer === 'Stelle' ? '8006' : '8005'
+  }
+
   return id
 }

@@ -52,9 +52,12 @@ const mainStatFreeRolls = {
   },
 }
 
-function mainStatFreeRoll(part, mainStat, multipliers) {
+function mainStatFreeRoll(part, mainStat, scoringMetadata) {
+  const stats = scoringMetadata.stats
+  const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
-    return mainStatFreeRolls[part][mainStat] * minRollValue * multipliers[mainStat]
+    const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
+    return mainStatFreeRolls[part][mainStat] * minRollValue * multiplier
   }
   return 0
 }
@@ -323,7 +326,7 @@ export class RelicScorer {
     if (Utils.hasMainStat(relic.part)) {
       // undo mainstat free roll as it's not relevant for potential
       const scoringMetadata = this.getRelicScoreMeta(id)
-      const freeRoll = mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata.stats)
+      const freeRoll = mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata)
       score.best -= freeRoll
       score.average -= freeRoll
       score.worst -= freeRoll
@@ -474,7 +477,7 @@ export class RelicScorer {
       sum += substat.value * (multipliers[substat.stat] || 0) * scaling[substat.stat]
     }
 
-    sum += mainStatFreeRoll(relic.part, relic.main.stat, multipliers)
+    sum += mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata)
 
     let rating = 'F'
     for (let i = 0; i < ratings.length; i++) {

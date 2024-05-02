@@ -5,7 +5,7 @@ import WithPopover from 'components/common/WithPopover.tsx'
 
 const justify = 'flex-start'
 const align = 'center'
-const inputWidth = 55
+const inputWidth = 57
 const numberWidth = 50
 const sliderWidth = 155
 
@@ -61,8 +61,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
                 width: numberWidth,
               }}
               parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
-              formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}`}
-              addonAfter={symbol}
+              formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`}
               onChange={setInputValue}
               disabled={props.disabled}
             />

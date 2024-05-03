@@ -29,6 +29,7 @@ import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
+import { scoreCharacterSimulation } from 'lib/characterScorer'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -154,6 +155,9 @@ export function CharacterPreview(props) {
     }
     finalStats = StatCalculator.calculate(character)
   }
+
+  scoreCharacterSimulation(character, finalStats, displayRelics)
+
   const scoredRelics = scoringResults.relics || []
 
   const lightConeId = character.form.lightCone

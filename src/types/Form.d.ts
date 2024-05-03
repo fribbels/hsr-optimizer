@@ -22,6 +22,7 @@ export type Form = {
   enhance: RelicEnhance
   grade: RelicGrade
   keepCurrentRelics: boolean
+  lightCone: string
   lightConeConditionals: ConditionalLightConeMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel

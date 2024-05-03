@@ -3,7 +3,7 @@ import { Utils } from 'lib/utils'
 import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { StatCalculator } from 'lib/statCalculator'
-import { Stat } from 'types/Relic'
+import { Relic, Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -389,7 +389,30 @@ export function importOptimizerBuild() {
 
   // Generate relics from optimizer row
   const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id, true)
-  const relics = Object.values(relicsByPart)
+
+  // Calculate relic sets
+  const relicSetIndex = selectedRow.relicSetIndex
+  const numSetsR = Object.values(Constants.SetsRelics).length
+  const s1 = relicSetIndex % numSetsR
+  const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
+  const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
+  const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
+  const relicSets = [s1, s2, s3, s4]
+  const relicSetNames: string[] = calculateRelicSets(relicSets)
+
+  // Calculate ornament sets
+  const ornamentSetIndex = selectedRow.ornamentSetIndex
+  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+  const os1 = ornamentSetIndex % ornamentSetCount
+  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
+  const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2])
+
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName)
+  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+}
+
+export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet) {
+  const relics: Relic[] = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {}
   SubStats.map(x => accumulatedSubstatRolls[x] = 0)
 
@@ -403,43 +426,12 @@ export function importOptimizerBuild() {
   // Round them to 4 precision
   SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
 
-  // Calculate relic sets
-  const relicSetNames: string[] = []
-  const relicSetIndex = selectedRow.relicSetIndex
-  const numSetsR = Object.values(Constants.SetsRelics).length
-  const s1 = relicSetIndex % numSetsR
-  const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
-  const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
-  const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
-  const relicSets = [s1, s2, s3, s4]
-  while (relicSets.length > 0) {
-    const value = relicSets[0]
-    if (relicSets.lastIndexOf(value)) {
-      const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
-      relicSetNames.push(setName)
-
-      const otherIndex = relicSets.lastIndexOf(value)
-      relicSets.splice(otherIndex, 1)
-    }
-    relicSets.splice(0, 1)
-  }
-
-  // Calculate ornament sets
-  let ornamentSetName: string | undefined
-  const ornamentSetIndex = selectedRow.ornamentSetIndex
-  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
-  const os1 = ornamentSetIndex % ornamentSetCount
-  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
-  if (os1 == os2) {
-    ornamentSetName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == os1)![0]
-  }
-
   // Generate the fake request and submit it
-  const request = {
+  return {
     name: '',
-    simRelicSet1: relicSetNames[0],
-    simRelicSet2: relicSetNames[1],
-    simOrnamentSet: ornamentSetName,
+    simRelicSet1: relicSet1,
+    simRelicSet2: relicSet2,
+    simOrnamentSet: ornamentSet,
     simBody: relicsByPart[Parts.Body].main.stat,
     simFeet: relicsByPart[Parts.Feet].main.stat,
     simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
@@ -457,6 +449,28 @@ export function importOptimizerBuild() {
     simRes: accumulatedSubstatRolls[Stats.RES] || null,
     simBe: accumulatedSubstatRolls[Stats.BE] || null,
   }
+}
 
-  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+export function calculateRelicSets(relicSets, nameProvided = false) {
+  const relicSetNames: string[] = []
+  while (relicSets.length > 0) {
+    const value = relicSets[0]
+    if (relicSets.lastIndexOf(value)) {
+      const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      relicSetNames.push(setName)
+
+      const otherIndex = relicSets.lastIndexOf(value)
+      relicSets.splice(otherIndex, 1)
+    }
+    relicSets.splice(0, 1)
+  }
+
+  return relicSetNames
+}
+
+export function calculateOrnamentSets(ornamentSets, nameProvided = true) {
+  if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
+    return nameProvided ? ornamentSets[1] : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+  }
+  return undefined
 }

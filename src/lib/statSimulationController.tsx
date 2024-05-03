@@ -154,14 +154,14 @@ function SimMainsDisplay(props: { sim: any }) {
 
 const substatToPriority = {
   [Stats.ATK_P]: 0,
-  [Stats.CR]: 1,
-  [Stats.CD]: 2,
-  [Stats.SPD]: 3,
-  [Stats.BE]: 4,
-  [Stats.ATK]: 5,
+  [Stats.ATK]: 1,
+  [Stats.CR]: 2,
+  [Stats.CD]: 3,
+  [Stats.SPD]: 4,
+  [Stats.BE]: 5,
   [Stats.HP_P]: 6,
-  [Stats.DEF_P]: 7,
-  [Stats.HP]: 8,
+  [Stats.HP]: 7,
+  [Stats.DEF_P]: 8,
   [Stats.DEF]: 9,
   [Stats.EHR]: 10,
   [Stats.RES]: 11,
@@ -184,7 +184,7 @@ function SimSubstatsDisplay(props: { sim: any }) {
 
   function renderStat(x) {
     return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${StatsToShort[x.stat]} x${x.value}`
+      ? `${StatsToShort[x.stat]} x ${x.value}`
       : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
   }
 

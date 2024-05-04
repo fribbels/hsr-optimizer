@@ -313,6 +313,11 @@ export const DB = {
       character.equipped = {}
       charactersById[character.id] = character
 
+      // Previously sim requests didnt use the stats field
+      if (character.form?.statSim?.simulations) {
+        character.form.statSim.simulations = character.form.statSim.simulations.filter(x => x.request?.stats)
+      }
+
       // Previously characters had customizable options, now we're defaulting to 80s
       character.form.characterLevel = 80
       character.form.lightConeLevel = 80

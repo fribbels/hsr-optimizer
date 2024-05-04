@@ -38,6 +38,7 @@ export type Form = {
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
+  statSim?: any
 
   weights: {
     [key: string]: number

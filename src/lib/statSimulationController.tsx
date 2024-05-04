@@ -15,12 +15,36 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
+import { Form } from 'types/Form'
+
+export type Simulation = {
+  name?: string
+  key: string
+  simType: string
+  request: SimulationRequest
+}
+
+export type SimulationRequest = {
+  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
+  simRelicSet1: string
+  simRelicSet2: string
+  simOrnamentSet: string
+  simBody: string
+  simFeet: string
+  simPlanarSphere: string
+  simLinkRope: string
+  stats: SimulationStats
+}
+
+export type SimulationStats = {
+  [key: string]: number
+}
 
 export function saveStatSimulationBuildFromForm() {
-  const form = window.optimizerForm.getFieldsValue()
+  const form: Form = window.optimizerForm.getFieldsValue()
   console.log('Save statSim', form.statSim)
 
-  const simType = window.store.getState().statSimulationDisplay
+  const simType: StatSimTypes = window.store.getState().statSimulationDisplay
 
   // Check for invalid button presses
   if (simType == StatSimTypes.Disabled || !form.statSim || !form.statSim[simType]) {
@@ -29,7 +53,7 @@ export function saveStatSimulationBuildFromForm() {
   }
 
   // Check for missing fields
-  const simRequest = form.statSim[simType]
+  const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
     return
@@ -38,11 +62,11 @@ export function saveStatSimulationBuildFromForm() {
   saveStatSimulationRequest(simRequest, simType, true)
 }
 
-export function saveStatSimulationRequest(simRequest, simType, startSim = false) {
-  const existingSimulations = window.store.getState().statSimulations || []
+export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
+  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
   const key = Utils.randomId()
   const name = simRequest.name || undefined
-  const simulation = {
+  const simulation: Simulation = {
     name: name,
     key: key,
     simType: simType,
@@ -63,7 +87,7 @@ export function saveStatSimulationRequest(simRequest, simType, startSim = false)
   existingSimulations.push(simulation)
 
   // Update state
-  const cloned = Utils.clone(existingSimulations)
+  const cloned: Simulation[] = Utils.clone(existingSimulations)
   window.store.getState().setStatSimulations(cloned)
   setFormStatSimulations(cloned)
 
@@ -74,7 +98,7 @@ export function saveStatSimulationRequest(simRequest, simType, startSim = false)
   autosave()
 }
 
-function hashSim(sim) {
+function hashSim(sim: Simulation) {
   const cleanedRequest = {}
   for (const entry of Object.entries(sim.request)) {
     if (entry[1] != null) {
@@ -88,7 +112,7 @@ function hashSim(sim) {
   })
 }
 
-function validateRequest(request) {
+function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
     Message.error('Missing simulation main stats')
     return false
@@ -97,7 +121,7 @@ function validateRequest(request) {
   return true
 }
 
-export function renderDefaultSimulationName(sim) {
+export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
       <SimSetsDisplay sim={sim}/>
@@ -121,7 +145,7 @@ export function renderDefaultSimulationName(sim) {
   )
 }
 
-function SimSetsDisplay(props: { sim: any }) {
+function SimSetsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   const relicImage1 = Assets.getSetImage(request.simRelicSet1)
@@ -139,7 +163,7 @@ function SimSetsDisplay(props: { sim: any }) {
   )
 }
 
-function SimMainsDisplay(props: { sim: any }) {
+function SimMainsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   return (
@@ -167,9 +191,9 @@ const substatToPriority = {
   [Stats.RES]: 11,
 }
 
-function SimSubstatsDisplay(props: { sim: any }) {
+function SimSubstatsDisplay(props: { sim: Simulation }) {
   const renderArray: Stat[] = []
-  const substats = inputToSubstats(props.sim)
+  const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
     if (value) {
@@ -182,7 +206,7 @@ function SimSubstatsDisplay(props: { sim: any }) {
 
   renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
 
-  function renderStat(x) {
+  function renderStat(x: Stat) {
     return props.sim.simType == StatSimTypes.SubstatRolls
       ? `${StatsToShort[x.stat]} x ${x.value}`
       : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
@@ -209,8 +233,8 @@ function SimSubstatsDisplay(props: { sim: any }) {
 
 export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
   console.log('Delete sim', record)
-  const statSims = window.store.getState().statSimulations
-  const updatedSims = Utils.clone(statSims.filter(x => x.key != record.key))
+  const statSims: Simulation[] = window.store.getState().statSimulations
+  const updatedSims: Simulation[] = Utils.clone(statSims.filter(x => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
@@ -225,11 +249,11 @@ export function deleteAllStatSimulationBuilds() {
   autosave()
 }
 
-export function setFormStatSimulations(simulations) {
+export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form, simulations) {
+export function runSimulations(form: Form, simulations: Simulation[]) {
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
@@ -280,7 +304,7 @@ export function runSimulations(form, simulations) {
     planarSphere.part = Parts.PlanarSphere
 
     const substatValues: Stat[] = []
-    const requestSubstats = inputToSubstats(sim)
+    const requestSubstats = Utils.clone(sim.request.stats)
     if (sim.simType == StatSimTypes.SubstatRolls) {
       for (const substat of SubStats) {
         requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat))
@@ -328,8 +352,8 @@ export function runSimulations(form, simulations) {
 }
 
 export function startOptimizerStatSimulation() {
-  const form = OptimizerTabController.getForm()
-  const existingSimulations = window.store.getState().statSimulations || []
+  const form: Form = OptimizerTabController.getForm()
+  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
 
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
@@ -348,24 +372,6 @@ export function startOptimizerStatSimulation() {
   setSortColumn(gridSortColumn)
 
   autosave()
-}
-
-function inputToSubstats(sim) {
-  const request = sim.request
-  return {
-    [Stats.HP_P]: request.simHpP,
-    [Stats.ATK_P]: request.simAtkP,
-    [Stats.DEF_P]: request.simDefP,
-    [Stats.HP]: request.simHp,
-    [Stats.ATK]: request.simAtk,
-    [Stats.DEF]: request.simDef,
-    [Stats.SPD]: request.simSpd,
-    [Stats.CR]: request.simCr,
-    [Stats.CD]: request.simCd,
-    [Stats.EHR]: request.simEhr,
-    [Stats.RES]: request.simRes,
-    [Stats.BE]: request.simBe,
-  }
 }
 
 function autosave() {
@@ -436,18 +442,20 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
     simFeet: relicsByPart[Parts.Feet].main.stat,
     simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
     simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
-    simHp: accumulatedSubstatRolls[Stats.HP] || null,
-    simAtk: accumulatedSubstatRolls[Stats.ATK] || null,
-    simDef: accumulatedSubstatRolls[Stats.DEF] || null,
-    simHpP: accumulatedSubstatRolls[Stats.HP_P] || null,
-    simAtkP: accumulatedSubstatRolls[Stats.ATK_P] || null,
-    simDefP: accumulatedSubstatRolls[Stats.DEF_P] || null,
-    simCr: accumulatedSubstatRolls[Stats.CR] || null,
-    simCd: accumulatedSubstatRolls[Stats.CD] || null,
-    simSpd: accumulatedSubstatRolls[Stats.SPD] || null,
-    simEhr: accumulatedSubstatRolls[Stats.EHR] || null,
-    simRes: accumulatedSubstatRolls[Stats.RES] || null,
-    simBe: accumulatedSubstatRolls[Stats.BE] || null,
+    stats: {
+      [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
+      [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,
+      [Stats.DEF]: accumulatedSubstatRolls[Stats.DEF] || null,
+      [Stats.HP_P]: accumulatedSubstatRolls[Stats.HP_P] || null,
+      [Stats.ATK_P]: accumulatedSubstatRolls[Stats.ATK_P] || null,
+      [Stats.DEF_P]: accumulatedSubstatRolls[Stats.DEF_P] || null,
+      [Stats.CR]: accumulatedSubstatRolls[Stats.CR] || null,
+      [Stats.CD]: accumulatedSubstatRolls[Stats.CD] || null,
+      [Stats.SPD]: accumulatedSubstatRolls[Stats.SPD] || null,
+      [Stats.EHR]: accumulatedSubstatRolls[Stats.EHR] || null,
+      [Stats.RES]: accumulatedSubstatRolls[Stats.RES] || null,
+      [Stats.BE]: accumulatedSubstatRolls[Stats.BE] || null,
+    }
   }
 }
 

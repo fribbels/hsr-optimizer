@@ -44,6 +44,15 @@ const columns: TableColumnsType<DataType> = [
   },
 ]
 
+function zeroesToNull(obj) {
+  for (const entry of Object.entries(obj)) {
+    if (entry[1] == 0) {
+      obj[entry[0]] = null
+    }
+  }
+  return obj
+}
+
 export function SimulatedBuildsGrid() {
   const statSimulations = window.store((s) => s.statSimulations)
   const selectedStatSimulations = window.store((s) => s.selectedStatSimulations)
@@ -73,7 +82,7 @@ export function SimulatedBuildsGrid() {
     }
 
     // Update the form with selected sim
-    window.optimizerForm.setFieldValue(['statSim', statSim.simType], statSim.request)
+    window.optimizerForm.setFieldValue(['statSim', statSim.simType], zeroesToNull(statSim.request))
     window.store.getState().setStatSimulationDisplay(statSim.simType)
   }
 

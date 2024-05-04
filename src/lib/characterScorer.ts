@@ -18,6 +18,8 @@ import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Form } from 'types/Form'
 import { Stat } from 'types/Relic'
 
+const cachedSims = {}
+
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any) {
   console.debug(character, finalStats, displayRelics)
   const originalForm = character.form
@@ -25,6 +27,17 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const characterEidolon = originalForm.characterEidolon
   const lightCone = originalForm.lightCone
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
+
+  const cacheKey = JSON.stringify({
+    character,
+    displayRelics
+  })
+
+  // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
+  // just cache the results for now
+  if (cachedSims[cacheKey]) {
+    return cachedSims[cacheKey]
+  }
 
   const metadata = {
     parts: {
@@ -68,7 +81,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const partialSimulationWrappers = generatePartialSimulations(metadata)
   console.debug(partialSimulationWrappers)
 
-  const res = []
+  const bestPartialSims: Simulation[] = []
 
   // Run sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
@@ -86,19 +99,24 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     const bestSim = computeOptimalSimulation(partialSimulationWrapper, minSubstatRollCounts, maxSubstatRollCounts, simulationForm, metadata)
 
     // DEBUG
-    const key = Utils.randomId()
-    bestSim.key = JSON.stringify(bestSim)
+    bestSim.key = JSON.stringify(bestSim.request)
     bestSim.name = ''
-    res.push(bestSim)
+    bestPartialSims.push(bestSim)
 
     console.debug('!!!', bestSim)
   }
 
+  let bestSim = bestPartialSims.reduce((max, sim: Simulation) => sim.result.SKILL > max ? sim.result.SKILL : max, bestPartialSims[0].result.SKILL);
 
 
-  window.store.getState().setStatSimulations(res)
+
+  window.store.getState().setStatSimulations(bestPartialSims)
   console.debug(originalFinalSpeed, originalSimResult)
+
+  cachedSims[cacheKey] = bestSim
   // const simulationResults = runSimulations(form, existingSimulations)
+
+  return bestSim
 }
 
 function computeOptimalSimulation(
@@ -112,6 +130,7 @@ function computeOptimalSimulation(
   const goal = 54
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
+  let currentSimulationResult: any = undefined
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -143,7 +162,10 @@ function computeOptimalSimulation(
 
     sum -= 1
     currentSimulation = bestSim
+    currentSimulationResult = bestSimResult
   }
+
+  currentSimulation.result = currentSimulationResult
 
   return currentSimulation
 }

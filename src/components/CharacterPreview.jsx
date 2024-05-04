@@ -22,7 +22,7 @@ import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
-import { RelicModalController } from '../lib/relicModalController'
+import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { EditOutlined } from '@ant-design/icons'
 import EditImageModal from './EditImageModal'
@@ -36,9 +36,9 @@ const { Text } = Typography
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
-  const { token } = useToken()
-
   console.log('@CharacterPreview')
+
+  const { token } = useToken()
 
   const { source, character } = props
 

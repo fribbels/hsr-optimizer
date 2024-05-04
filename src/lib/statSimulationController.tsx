@@ -22,6 +22,7 @@ export type Simulation = {
   key: string
   simType: string
   request: SimulationRequest
+  result: any
 }
 
 export type SimulationRequest = {
@@ -303,6 +304,7 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
     linkRope.part = Parts.LinkRope
     planarSphere.part = Parts.PlanarSphere
 
+    // Convert substat rolls to value totals
     const substatValues: Stat[] = []
     const requestSubstats = Utils.clone(sim.request.stats)
     if (sim.simType == StatSimTypes.SubstatRolls) {
@@ -311,6 +313,7 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
       }
     }
 
+    // Convert value totals to substat objects
     for (const substat of SubStats) {
       const value = requestSubstats[substat]
       if (value) {

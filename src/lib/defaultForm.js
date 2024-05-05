@@ -46,6 +46,8 @@ export function getDefaultForm(initialCharacter) {
     enemyCount: 1,
     enemyResistance: 0.2,
     enemyMaxToughness: 360,
+    enemyElementalWeak: true,
+    enemyWeaknessBroken: false,
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,

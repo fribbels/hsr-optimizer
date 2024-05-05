@@ -36,6 +36,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
   // just cache the results for now
   if (cachedSims[cacheKey]) {
+    console.debug('cached bestSims', cachedSims[cacheKey])
     return cachedSims[cacheKey]
   }
 
@@ -57,21 +58,20 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
       ]
     },
     substats: [
-      "CRIT Rate",
       "CRIT DMG",
+      "CRIT Rate",
       "ATK%",
-      "SPD",
       "ATK",
+      "SPD",
     ]
   }
 
   // Set up default request, sets conditionals tbd
-  const simulationForm = getDefaultForm({ id: characterId })
-  simulationForm.lightCone = lightCone
-  simulationForm.characterConditionals = {}
-  simulationForm.lightConeConditionals = {}
-  Utils.mergeUndefinedValues(simulationForm.characterConditionals, CharacterConditionals.get(originalForm).defaults())
-  Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, LightConeConditionals.get(originalForm).defaults())
+  const simulationForm = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition)
+
+  console.debug('simulationForm', simulationForm)
+
+  // simulationForm.teammate0 = getDefaultForm({ id: '1101' })
 
   // Simulate the original character
   const originalSimResult = simulateOriginalCharacter(displayRelics, simulationForm)
@@ -79,7 +79,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   // Generate partials
   const partialSimulationWrappers = generatePartialSimulations(metadata)
-  console.debug(partialSimulationWrappers)
+  // console.debug(partialSimulationWrappers)
 
   const bestPartialSims: Simulation[] = []
 
@@ -91,32 +91,54 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     const finalSpeed = simulationResult.xSPD
     partialSimulationWrapper.finalSpeed = finalSpeed
     partialSimulationWrapper.speedRollsDeduction = Math.ceil((originalFinalSpeed - finalSpeed) / 2.6)
-    console.debug(partialSimulationWrapper)
+    // console.debug(partialSimulationWrapper)
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, metadata)
     const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata)
     Object.values(SubStats).map(x => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
-    console.debug(minSubstatRollCounts, maxSubstatRollCounts)
+    // console.debug(minSubstatRollCounts, maxSubstatRollCounts)
     const bestSim = computeOptimalSimulation(partialSimulationWrapper, minSubstatRollCounts, maxSubstatRollCounts, simulationForm, metadata)
 
     // DEBUG
     bestSim.key = JSON.stringify(bestSim.request)
     bestSim.name = ''
     bestPartialSims.push(bestSim)
-
-    console.debug('!!!', bestSim)
   }
 
-  let bestSim = bestPartialSims.reduce((max, sim: Simulation) => sim.result.SKILL > max ? sim.result.SKILL : max, bestPartialSims[0].result.SKILL);
-
-
+  let bestSims = bestPartialSims.sort((a, b) => b.result.SKILL - a.result.SKILL)
 
   window.store.getState().setStatSimulations(bestPartialSims)
-  console.debug(originalFinalSpeed, originalSimResult)
+  console.debug('bestSims', bestSims)
 
-  cachedSims[cacheKey] = bestSim
-  // const simulationResults = runSimulations(form, existingSimulations)
+  const simScoringResult = {
+    currentSimValue: originalSimResult.SKILL,
+    maxSim: bestSims[0],
+    maxSimValue: bestSims[0].result.SKILL,
+    percent: originalSimResult.SKILL / bestSims[0].result.SKILL,
+    sims: bestSims
+  }
 
-  return bestSim
+  cachedSims[cacheKey] = simScoringResult
+
+  console.debug('simScoringResult', simScoringResult)
+  return simScoringResult
+}
+
+function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number) {
+  const characterConditionalsRequest = {characterId: characterId, characterEidolon: characterEidolon}
+  const lightConeConditionalsRequest = {lightCone: lightCone, eidolon: lightConeSuperimposition}
+
+  const simulationForm = getDefaultForm(characterConditionalsRequest)
+  simulationForm.characterId = characterId
+  simulationForm.characterEidolon = characterEidolon
+  simulationForm.lightCone = lightCone
+  simulationForm.lightConeSuperimposition = lightConeSuperimposition
+
+  simulationForm.characterConditionals = {}
+  simulationForm.lightConeConditionals = {}
+  Utils.mergeUndefinedValues(simulationForm.characterConditionals, CharacterConditionals.get(characterConditionalsRequest).defaults())
+  Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, LightConeConditionals.get(lightConeConditionalsRequest).defaults())
+
+  return simulationForm
 }
 
 function computeOptimalSimulation(
@@ -182,6 +204,21 @@ function sumSubstatRolls(maxSubstatRollCounts) {
   return sum
 }
 
+// This is an imperfect estimate of the optimal distribution of substats
+// We assume that substats have a priority and choose the top 4 substats to prioritize
+// This means we have to assume spd and flat stats are deprioritized but this will be close enough to the max to use
+function prioritizeFourSubstats(mins, metadata, excludes) {
+  for (const exclude of excludes) {
+    let count = 0
+    for (const stat of metadata.substats) {
+      if (count == 4) break
+      if (stat == exclude) continue
+      count++
+      mins[stat]++
+    }
+  }
+}
+
 function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulationWrapper, metadata) {
   const request = partialSimulationWrapper.simulation.request
   const minCounts: SimulationStats = {
@@ -199,19 +236,7 @@ function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulati
     [Stats.BE]: 0,
   }
 
-  function takeFour(mins, excludes) {
-    for (const exclude of excludes) {
-      let count = 0
-      for (const stat of metadata.substats) {
-        if (count == 4) break
-        if (stat == exclude) continue
-        count++
-        mins[stat]++
-      }
-    }
-  }
-
-  takeFour(minCounts, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK])
+  prioritizeFourSubstats(minCounts, metadata, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK])
 
   return minCounts
 }
@@ -243,6 +268,8 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[request.simLinkRope] -= 6
   maxCounts[Stats.ATK] -= 6
   maxCounts[Stats.HP] -= 6
+
+  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(0, maxCounts[stat])

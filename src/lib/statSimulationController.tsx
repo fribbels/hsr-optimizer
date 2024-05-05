@@ -88,9 +88,8 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
   existingSimulations.push(simulation)
 
   // Update state
-  const cloned: Simulation[] = Utils.clone(existingSimulations)
-  window.store.getState().setStatSimulations(cloned)
-  setFormStatSimulations(cloned)
+  window.store.getState().setStatSimulations(existingSimulations)
+  setFormStatSimulations(existingSimulations)
 
   if (startSim) {
     startOptimizerStatSimulation()

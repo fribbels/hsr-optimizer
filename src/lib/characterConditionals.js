@@ -48,7 +48,7 @@ import aventurine from 'lib/conditionals/character/Aventurine'
 import gallagher from 'lib/conditionals/character/Gallagher'
 import robin from 'lib/conditionals/character/Robin'
 import boothill from 'lib/conditionals/character/Boothill'
-import firefly from 'lib/conditionals/character/Firefly'
+import jade from 'lib/conditionals/character/Jade'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -71,7 +71,7 @@ export const characterOptionMapping = {
   1109: hook,
   1110: lynx,
   1111: luka,
-  1112: firefly,
+  1112: jade,
   1201: qingque,
   1202: tingyun,
   1203: luocha,

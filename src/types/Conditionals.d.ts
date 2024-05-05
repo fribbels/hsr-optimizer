@@ -320,3 +320,5 @@ export type ConditionalBuff =
   | 'e1UltResPen'
   | 'e2UltSpdBuff'
   | 'traceFuaCdBoost'
+  | 'atkToBeConversion'
+  | 'enhancedStateSpdBuff'

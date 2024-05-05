@@ -39,7 +39,6 @@ import silverwolf from 'lib/conditionals/character/SilverWolf'
 import sparkle from 'lib/conditionals/character/Sparkle'
 import sushang from 'lib/conditionals/character/Sushang'
 import tingyun from 'lib/conditionals/character/Tingyun'
-import topaz from 'lib/conditionals/character/Topaz'
 import welt from 'lib/conditionals/character/Welt'
 import xueyi from 'lib/conditionals/character/Xueyi'
 import yanqing from 'lib/conditionals/character/Yanqing'
@@ -49,6 +48,7 @@ import aventurine from 'lib/conditionals/character/Aventurine'
 import gallagher from 'lib/conditionals/character/Gallagher'
 import robin from 'lib/conditionals/character/Robin'
 import boothill from 'lib/conditionals/character/Boothill'
+import firefly from 'lib/conditionals/character/Firefly'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -71,7 +71,7 @@ export const characterOptionMapping = {
   1109: hook,
   1110: lynx,
   1111: luka,
-  1112: topaz,
+  1112: firefly,
   1201: qingque,
   1202: tingyun,
   1203: luocha,

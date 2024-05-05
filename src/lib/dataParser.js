@@ -3591,7 +3591,6 @@ function getScoringMetadata() {
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
       },

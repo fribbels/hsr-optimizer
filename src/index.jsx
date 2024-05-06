@@ -45,7 +45,7 @@ window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
 
-window.officialOnly = false
+window.officialOnly = true
 window.colorTheme = Themes.BLUE
 
 DataParser.parse(window.officialOnly)

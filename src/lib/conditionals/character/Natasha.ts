@@ -27,6 +27,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
 
+      x.BASIC_TOUGHNESS_DMG += 30
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

@@ -99,6 +99,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_BOOST += 0.40
       x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

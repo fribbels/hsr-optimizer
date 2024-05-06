@@ -63,6 +63,8 @@ export default (e: Eidolon): CharacterConditional => {
       // Scaling
       x.BASIC_SCALING += basicScaling
 
+      x.BASIC_TOUGHNESS_DMG += 30
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

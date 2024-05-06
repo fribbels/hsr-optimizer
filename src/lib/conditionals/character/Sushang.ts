@@ -108,6 +108,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_BOOST += r.skillTriggerStacks * 0.025 * stanceScalingProportion
       x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 90
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

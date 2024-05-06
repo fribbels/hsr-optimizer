@@ -108,6 +108,11 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_BOOST += r.toughnessReductionDmgBoost as number
       x.FUA_BOOST += (e >= 1) ? 0.40 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 120
+      x.FUA_TOUGHNESS_DMG += 15 * (r.fuaHits as number)
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

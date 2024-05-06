@@ -88,9 +88,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
+      x.SKILL_SCALING += skillScaling + r.skillExtraDmgHits * skillScaling
       x.ULT_SCALING += ultScaling
       x.DOT_SCALING += dotScaling
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30 + 15 * r.skillExtraDmgHits
 
       return x
     },

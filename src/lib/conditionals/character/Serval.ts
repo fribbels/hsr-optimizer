@@ -62,6 +62,10 @@ export default (e: Eidolon): CharacterConditional => {
       // Boost
       x.ELEMENTAL_DMG += (e >= 6 && r.targetShocked) ? 0.30 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

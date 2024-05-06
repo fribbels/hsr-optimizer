@@ -92,7 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       backupDancer: true,
       superBreakDmg: true,
-      teammateBeValue: 1.50,
+      teammateBeValue: 2.00,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals

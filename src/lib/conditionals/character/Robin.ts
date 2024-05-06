@@ -138,6 +138,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

@@ -117,6 +117,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       hitMulti = atkBoostSum * 0.06
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += 15 * hits
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

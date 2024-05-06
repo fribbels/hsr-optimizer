@@ -43,7 +43,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => content,
     defaults: () => ({
-      maskActive: true,
     }),
     teammateDefaults: () => ({
       maskActive: true,

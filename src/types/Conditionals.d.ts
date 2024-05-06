@@ -334,3 +334,4 @@ export type ConditionalBuff =
   | 'ultFuaDefShred'
   | 'atkBuff'
   | 'ultFuaCdBoost'
+  | 'superBreakDmg'

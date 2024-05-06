@@ -4,12 +4,16 @@ import { Flex } from 'antd'
 import React from 'react'
 
 // Sets
-export const setOptions = []
-for (let entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)]) {
-  setOptions.push({
-    label: generateImageLabel(entry[1], Assets.getSetImage),
-    value: entry[1],
-  })
+export function getSetOptions() {
+  const setOptions = []
+  for (let entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)]) {
+    setOptions.push({
+      label: generateImageLabel(entry[1], Assets.getSetImage),
+      value: entry[1],
+    })
+  }
+
+  return setOptions
 }
 
 // Stats

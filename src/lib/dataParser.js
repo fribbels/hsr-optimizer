@@ -14,12 +14,25 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
+      // Delete unreleased sets
+      delete Constants.SetsRelics.TheWindSoaringValorous
+      delete Constants.SetsRelics.IronCavalryAgainstScourge
+      delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
+      delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+
+      delete Constants.SetsRelicsNames.TheWindSoaringValorous
+      delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
+      delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
+      delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+
+      // Delete unreleased characters
       for (const [key, value] of Object.entries(characters)) {
         if (value.unreleased) {
           delete characters[key]
         }
       }
 
+      // Delete unreleased light cones
       for (const [key, value] of Object.entries(lightCones)) {
         if (value.unreleased) {
           delete lightCones[key]

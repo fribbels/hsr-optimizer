@@ -2302,7 +2302,7 @@
         "element": "Physical",
         "max_sp": 115,
         "name": "Boothill",
-        "unreleased": true
+        "unreleased": false
     },
     "1309": {
         "id": "1309",
@@ -2311,7 +2311,7 @@
         "element": "Physical",
         "max_sp": 160,
         "name": "Robin",
-        "unreleased": true
+        "unreleased": false
     },
     "8005": {
         "id": "8005",
@@ -2320,7 +2320,7 @@
         "element": "Imaginary",
         "max_sp": 140,
         "name": "{NICKNAME}",
-        "unreleased": true
+        "unreleased": false
     },
     "8006": {
         "id": "8006",
@@ -2329,6 +2329,6 @@
         "element": "Imaginary",
         "max_sp": 140,
         "name": "{NICKNAME}",
-        "unreleased": true
+        "unreleased": false
     }
 }

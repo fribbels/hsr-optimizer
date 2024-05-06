@@ -952,27 +952,27 @@
         "rarity": 4,
         "path": "Warlock",
         "name": "Boundless Choreo",
-        "unreleased": true
+        "unreleased": false
     },
     "22002": {
         "id": "22002",
         "rarity": 4,
         "path": "Shaman",
         "name": "For Tomorrow's Journey",
-        "unreleased": true
+        "unreleased": false
     },
     "23026": {
         "id": "23026",
         "rarity": 5,
         "path": "Shaman",
         "name": "Flowing Nightglow",
-        "unreleased": true
+        "unreleased": false
     },
     "23027": {
         "id": "23027",
         "rarity": 5,
         "path": "Rogue",
         "name": "Sailing Towards A Second Life",
-        "unreleased": true
+        "unreleased": false
     }
 }

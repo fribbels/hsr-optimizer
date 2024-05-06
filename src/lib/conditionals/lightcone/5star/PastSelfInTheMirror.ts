@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     id: 'postUltDmgBuff',
     name: 'postUltDmgBuff',
     formItem: 'switch',
-    text: 'Post ult DMG duff',
+    text: 'Post Ult DMG buff',
     title: lcRank.skill,
     content: getContentFromLCRanks(s, lcRank),
   }]

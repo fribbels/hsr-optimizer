@@ -284,6 +284,8 @@ export const SetsRelics = {
   PrisonerInDeepConfinement: 'Prisoner in Deep Confinement',
   PioneerDiverOfDeadWaters: 'Pioneer Diver of Dead Waters',
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
+  IronCavalryAgainstScourge: 'Iron Cavalry Against Scourge',
+  TheWindSoaringValorous: 'The Wind-Soaring Valorous',
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
@@ -302,6 +304,8 @@ export const SetsOrnaments = {
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
   SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
+  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
+  DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

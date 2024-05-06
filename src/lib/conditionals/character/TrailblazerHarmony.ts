@@ -17,13 +17,27 @@ export default (e: Eidolon): CharacterConditional => {
   const ultBeScaling = ult(e, 0.30, 0.33)
   const skillMaxHits = e >= 6 ? 6 : 4
 
+  const targetsToSuperBreakMulti = {
+    1: 1.60,
+    3: 1.40,
+    5: 1.20
+  }
+
   const content: ContentItem[] = [
     {
       formItem: 'switch',
       id: 'backupDancer',
       name: 'backupDancer',
-      text: 'Backup Dancer',
-      title: 'Backup Dancer',
+      text: 'Backup Dancer BE buff',
+      title: 'Backup Dancer BE buff',
+      content: betaUpdate,
+    },
+    {
+      formItem: 'switch',
+      id: 'superBreakDmg',
+      name: 'superBreakDmg',
+      text: 'Super Break DMG calcs (force weakness break)',
+      title: 'Super Break DMG calcs (force weakness break)',
       content: betaUpdate,
     },
     {
@@ -49,6 +63,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'backupDancer'),
+    findContentId(content, 'superBreakDmg'),
     {
       formItem: 'slider',
       id: 'teammateBeValue',
@@ -57,7 +72,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'E4 Trailblazer\'s BE',
       content: betaUpdate,
       min: 0,
-      max: 3.00,
+      max: 4.00,
       percent: true,
       disabled: e < 4,
     },
@@ -66,6 +81,7 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     skillHitsOnTarget: skillMaxHits,
     backupDancer: true,
+    superBreakDmg: true,
     e2EnergyRegenBuff: false,
   }
 
@@ -75,7 +91,8 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({
       backupDancer: true,
-      teammateBeValue: 1.50,
+      superBreakDmg: true,
+      teammateBeValue: 2.00,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -89,12 +106,22 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.SKILL_SCALING += r.skillHitsOnTarget * skillScaling
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30 * r.skillHitsOnTarget
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
+
+      x.SUPER_BREAK_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0
+
+      // Special case where we force the weakness break on if the option is enabled
+      if (m.superBreakDmg) {
+        request.enemyWeaknessBroken = true
+      }
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals

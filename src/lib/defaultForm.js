@@ -94,6 +94,9 @@ export const defaultSetConditionals = {
   [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
+  [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, 1],
+
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
   [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
@@ -108,4 +111,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
   [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
+  [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
+  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 0],
 }

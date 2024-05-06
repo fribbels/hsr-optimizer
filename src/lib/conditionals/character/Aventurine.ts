@@ -123,6 +123,10 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += talentDmgScaling * r.fuaHitsOnTarget
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 90
+      x.FUA_TOUGHNESS_DMG += 10 * r.fuaHitsOnTarget
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

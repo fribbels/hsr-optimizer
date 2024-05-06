@@ -97,6 +97,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
       x.BASIC_RES_PEN += (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30 + 30 * r.basicEnhanced
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

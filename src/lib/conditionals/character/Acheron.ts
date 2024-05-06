@@ -152,6 +152,10 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultStygianResurgeScaling
       x.ULT_SCALING += r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 105
+      
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

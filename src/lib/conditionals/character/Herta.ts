@@ -1,5 +1,9 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -111,6 +115,11 @@ export default (e: Eidolon): CharacterConditional => {
       // Boost
       x.ULT_BOOST += (r.targetFrozen) ? 0.20 : 0
       x.FUA_BOOST += (e >= 4) ? 0.10 : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += 15 // TODO: * spin count
 
       return x
     },

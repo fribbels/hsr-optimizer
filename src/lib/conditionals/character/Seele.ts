@@ -84,6 +84,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.ELEMENTAL_DMG += (r.buffedState) ? buffedStateDmgBuff : 0
       x.RES_PEN += (r.buffedState) ? 0.20 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 90
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

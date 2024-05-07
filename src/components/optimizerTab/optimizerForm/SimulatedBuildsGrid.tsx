@@ -34,12 +34,12 @@ const columns: TableColumnsType<DataType> = [
       return (
         <a onClick={() => {
           deleteStatSimulationBuild(record)
-        }}>
+        }} style={{ display: 'flex', justifyContent: 'center' }}>
           <CloseOutlined/>
         </a>
       )
     },
-    width: 24,
+    width: 36,
     fixed: 'right',
   },
 ]
@@ -111,7 +111,7 @@ export function SimulatedBuildsGrid() {
         border: '1px solid rgba(255, 255, 255, 0.15)'
       }}
       scroll={{
-        y: 265,
+        y: 300,
       }}
     />
   )

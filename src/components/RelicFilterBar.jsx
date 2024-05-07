@@ -7,7 +7,7 @@ import { TooltipImage } from './TooltipImage'
 import DB from '../lib/db'
 import { Hint } from 'lib/hint'
 import { Utils } from 'lib/utils'
-import { Constants, Stats } from 'lib/constants'
+import { Constants, SetsRelics, Stats } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -232,7 +232,7 @@ export default function RelicFilterBar(props) {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis="5.55%" />
+        <FilterRow name="set" tags={setsData} flexBasis={`${100/Object.values(SetsRelics).length}%`} />
       </Flex>
 
       <Flex vertical>

@@ -305,6 +305,10 @@ export const DB = {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
+
+    // Remove invalid characters
+    x.characters = x.characters.filter(x => dbCharacters[x.id])
+
     for (const character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -324,7 +328,7 @@ export const DB = {
       // Unset light cone fields for mismatched light cone path
       const dbLightCone = dbLightCones[character.form?.lightCone] || {}
       const dbCharacter = dbCharacters[character.id]
-      if (dbLightCone.path != dbCharacter.path) {
+      if (dbLightCone?.path != dbCharacter?.path) {
         character.form.lightCone = undefined
         character.form.lightConeLevel = 80
         character.form.lightConeSuperimposition = 1
@@ -367,6 +371,11 @@ export const DB = {
     }
 
     if (x.savedSession) {
+      // Don't load an invalid character
+      if (!dbCharacters[x.savedSession.optimizerCharacterId]) {
+        delete x.savedSession.optimizerCharacterId
+      }
+
       window.store.getState().setSavedSession(x.savedSession)
     }
 

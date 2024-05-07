@@ -51,8 +51,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'talentDmgReductionBuff',
       name: 'talentDmgReductionBuff',
-      text: 'Max DMG reduction buff',
-      title: 'Max DMG reduction buff',
+      text: 'Max EHP buff',
+      title: 'Max EHP buff',
       content: betaUpdate,
     },
     {
@@ -100,7 +100,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DMG_TAKEN_MULTI += (r.enhancedStateActive && request.enemyWeaknessBroken) ? ultWeaknessBrokenVulnerability : 0
       x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? ultWeaknessBreakEfficiencyBuff : 0
-      x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 0
+      x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1
 
       x.SKILL_DEF_PEN += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
       x.FIRE_RES_PEN += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.12 : 0

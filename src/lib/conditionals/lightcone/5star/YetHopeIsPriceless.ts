@@ -47,7 +47,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.FUA_DEF_PEN += (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0
     },
     calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 

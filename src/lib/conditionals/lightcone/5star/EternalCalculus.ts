@@ -18,8 +18,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'atkBuffStacks',
       name: 'atkBuffStacks',
       formItem: 'slider',
-      text: 'Enemy hit ATK buff stacks',
-      title: 'Enemy hit ATK buff stacks',
+      text: 'ATK buff stacks',
+      title: 'ATK buff stacks',
       content: betaUpdate,
       min: 0,
       max: 5,
@@ -39,7 +39,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => [],
     defaults: () => ({
-      atkBuffStacks: true,
+      atkBuffStacks: 5,
       spdBuff: false,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {

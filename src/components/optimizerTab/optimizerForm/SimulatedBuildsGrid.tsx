@@ -1,9 +1,9 @@
 import { Empty, Flex, Table, TableColumnsType } from 'antd'
-import { CloseOutlined } from "@ant-design/icons";
-import { STAT_SIMULATION_GRID_WIDTH } from "components/optimizerTab/optimizerForm/StatSimulationDisplay";
-import { deleteStatSimulationBuild, renderDefaultSimulationName } from "lib/statSimulationController.tsx";
-import { IRowNode } from "ag-grid-community";
-import { useEffect } from "react";
+import { CloseOutlined } from '@ant-design/icons'
+import { STAT_SIMULATION_GRID_WIDTH } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/statSimulationController.tsx'
+import { IRowNode } from 'ag-grid-community'
+import { useEffect } from 'react'
 
 interface DataType {
   key: React.Key
@@ -15,7 +15,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{marginLeft: 5}}>Simulation details</Flex>),
+    title: (<Flex style={{ marginLeft: 5 }}>Simulation details</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -34,15 +34,15 @@ const columns: TableColumnsType<DataType> = [
       return (
         <a onClick={() => {
           deleteStatSimulationBuild(record)
-        }}>
+        }} style={{ display: 'flex', justifyContent: 'center' }}>
           <CloseOutlined/>
         </a>
       )
     },
-    width: 24,
+    width: 36,
     fixed: 'right',
   },
-];
+]
 
 export function SimulatedBuildsGrid() {
   const statSimulations = window.store((s) => s.statSimulations)
@@ -85,12 +85,13 @@ export function SimulatedBuildsGrid() {
 
   return (
     <Table
-      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected" />}}
+      showHeader={false}
+      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected"/> }}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',
         columnWidth: 0,
-        renderCell: () => "", // Render nothing for the selection column
+        renderCell: () => '', // Render nothing for the selection column
       }}
       columns={columns}
       dataSource={statSimulations}
@@ -100,18 +101,18 @@ export function SimulatedBuildsGrid() {
         }
       })}
       pagination={false}
-      size='small'
+      size="small"
       style={{
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
-        borderRadius: 8,
+        // borderRadius: 8,
         height: '100%',
         backgroundColor: '#0000001a',
-        border: '1px solid #ffffff1a'
+        border: '1px solid rgba(255, 255, 255, 0.15)'
       }}
       scroll={{
-        y: 265,
+        y: 300,
       }}
     />
-  );
+  )
 }

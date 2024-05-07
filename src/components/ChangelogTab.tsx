@@ -115,7 +115,7 @@ function getChangelogContent() {
         'rollSim.webp',
         'The substat totals view simulates the sum of the substat values',
         leaks('totalsSim.webp'),
-        leaks(`Jade and Firefly have been added, with damage calculations and to the Relic Scorer experiment options`),
+        leaks(`Jade and Firefly have been added with damage calculations, and to the Relic Scorer experiment options`),
         leaks('jade.webp'),
         'Custom character portraits can now be saved from the Relic Scorer',
         leaks('scorer.webp'),

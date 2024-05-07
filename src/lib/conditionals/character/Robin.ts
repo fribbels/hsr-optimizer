@@ -135,6 +135,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
+      x.ULT_BOOSTS_MULTI = 0 // Her ult doesn't apply dmg boosts since its additional dmg
 
       x.BASIC_TOUGHNESS_DMG += 30
 

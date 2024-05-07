@@ -40,6 +40,7 @@ export const baseComputedStatsObject = {
 
   // Robin
   ULT_CD_OVERRIDE: 0,
+  ULT_BOOSTS_MULTI: 1,
 
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,

@@ -36,7 +36,7 @@ export function calculateDamage(c, request, params) {
   const breakVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY
   const basicVulnerability = 1 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY
   const skillVulnerability = 1 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY
-  const ultVulnerability = 1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY
+  const ultVulnerability = 1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI
   const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
   const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
 
@@ -85,10 +85,10 @@ export function calculateDamage(c, request, params) {
 
   x.ULT_DMG = x.ULT_DMG
     * universalMulti
-    * (dmgBoostMultiplier + x.ULT_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
+    * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
     * ((ultVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-    * (1 - (baseResistance - x.ULT_RES_PEN))
+    * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
     + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
 

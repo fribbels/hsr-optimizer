@@ -1,3 +1,6 @@
+// Represents the version of the latest info, which should be the beta leaks version
+export const CURRENT_OPTIMIZER_VERSION = 'v2.2.0'
+
 export const Stats = {
   ATK_P: 'ATK%',
   ATK: 'ATK',
@@ -304,8 +307,8 @@ export const SetsOrnaments = {
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
   SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
-  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
+  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

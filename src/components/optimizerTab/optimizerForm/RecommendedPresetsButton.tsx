@@ -101,6 +101,11 @@ export const PresetEffects = {
       form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
     }
   },
+  fnWindSoaringSet: (value) => {
+    return (form) => {
+      form.setConditionals[Sets.TheWindSoaringValorous][1] = value
+    }
+  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },
@@ -213,4 +218,5 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   // Disable quantum by default if the character is not quantum element
   const element = DB.getMetadata().characters[form.characterId].element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
+  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
 }

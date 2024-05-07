@@ -122,7 +122,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
         </Flex>
         <Form.Item name="relicSets">
           <Cascader
-            placeholder="Relics"
+            placeholder="Relic set"
             options={GenerateSetsOptions()}
             showCheckedStrategy={SHOW_CHILD}
             tagRender={RelicSetTagRenderer}
@@ -138,7 +138,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             dropdownStyle={{
               width: 250,
             }}
-            listHeight={550}
+            listHeight={650}
             mode="multiple"
             allowClear
             style={{

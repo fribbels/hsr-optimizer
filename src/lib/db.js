@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -60,6 +60,7 @@ export const RouteToPage = {
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
+  version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
   optimizerGrid: undefined,
@@ -135,6 +136,7 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
+  setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
@@ -303,6 +305,10 @@ export const DB = {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
+
+    // Remove invalid characters
+    x.characters = x.characters.filter(x => dbCharacters[x.id])
+
     for (const character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -322,7 +328,7 @@ export const DB = {
       // Unset light cone fields for mismatched light cone path
       const dbLightCone = dbLightCones[character.form?.lightCone] || {}
       const dbCharacter = dbCharacters[character.id]
-      if (dbLightCone.path != dbCharacter.path) {
+      if (dbLightCone?.path != dbCharacter?.path) {
         character.form.lightCone = undefined
         character.form.lightConeLevel = 80
         character.form.lightConeSuperimposition = 1
@@ -365,6 +371,11 @@ export const DB = {
     }
 
     if (x.savedSession) {
+      // Don't load an invalid character
+      if (!dbCharacters[x.savedSession.optimizerCharacterId]) {
+        delete x.savedSession.optimizerCharacterId
+      }
+
       window.store.getState().setSavedSession(x.savedSession)
     }
 
@@ -373,6 +384,7 @@ export const DB = {
     }
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
+    window.store.getState().setVersion(x.version)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

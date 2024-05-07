@@ -368,3 +368,7 @@ a {
 .ant-collapse-arrow {
   font-size: 16px !important;
 }
+
+.ant-notification-notice-description {
+  margin-inline-start: 0px !important;
+}

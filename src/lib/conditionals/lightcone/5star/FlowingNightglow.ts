@@ -5,7 +5,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants.ts'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { findContentId } from 'lib/conditionals/utils.ts'
+import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
 
 const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
 
@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Cadenza active',
       title: 'Cadenza active',
-      content: betaUpdate,
+      content: `Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by ${precisionRound(sValuesErr[s] * 100)}%, stacking up to 5 time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by ${precisionRound(sValuesAtkBuff[s] * 100)}% and increases all allies' DMG dealt by ${precisionRound(sValuesDmgBuff[s] * 100)}%, lasting for 1 turn(s).`,
     },
     {
       lc: true,
@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'slider',
       text: 'Cantillation stacks',
       title: 'Cantillation stacks',
-      content: betaUpdate,
+      content: `Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by ${precisionRound(sValuesErr[s] * 100)}%, stacking up to 5 time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by ${precisionRound(sValuesAtkBuff[s] * 100)}% and increases all allies' DMG dealt by ${precisionRound(sValuesDmgBuff[s] * 100)}%, lasting for 1 turn(s).`,
       min: 0,
       max: 5,
     },

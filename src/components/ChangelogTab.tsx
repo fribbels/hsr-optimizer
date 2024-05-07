@@ -102,6 +102,7 @@ function leaks(str: string) {
 NOTES:
 
  */
+
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
@@ -137,8 +138,8 @@ function getChangelogContent() {
         'Rephrased pioneer conditional to specify between basic and combat stat buffs',
         'The last optimized character will now be open by default on the next session',
         'The Simulate Relics On Another Character menu is now open by default on the Relic Scorer tab',
-        leaks('Updated Boothill damage calcs'),
-        leaks('Updated Robin damage calcs'),
+        'Updated Boothill damage calcs',
+        'Updated Robin damage calcs',
         'Added crit vulnerability to damage calcs',
         'Fix: Aventurine ult now applies correctly a crit vulnerability',
         'Fix: Baptism of Pure Thought now correctly applies a crit vulnerability',
@@ -156,19 +157,19 @@ function getChangelogContent() {
       content: [
         'Added Break DMG calculations for all characters and a sortable BREAK column in the optimizer grid',
         'breakDmg.webp',
-        leaks('Updated Boothill\'s Enhanced basic attack calculation to include his Talent\'s additional break damage'),
-        leaks('Updated Boothill\'s conditional toggle to be "Talent break DMG (forces weakness break)" which overrides the weakness break option when enabled'),
-        leaks('Updated Boothill\'s default sort option to Basic DMG'),
-        leaks('boothill.webp'),
-        leaks('Updated Boothill\'s scoring algorithm to prioritize SPD and Break Effect'),
-        leaks('boothillScore.webp'),
+        'Updated Boothill\'s Enhanced basic attack calculation to include his Talent\'s additional break damage',
+        'Updated Boothill\'s conditional toggle to be "Talent break DMG (forces weakness break)" which overrides the weakness break option when enabled',
+        'Updated Boothill\'s default sort option to Basic DMG',
+        'boothill.webp',
+        'Updated Boothill\'s scoring algorithm to prioritize SPD and Break Effect',
+        'boothillScore.webp',
         'Added a display for the artist\'s name on custom character portraits',
-        leaks('artist.webp'),
+        'artist.webp',
         'The artist name can be updated along with the image on the crop menu',
         'Enabled gif uploads for custom character portraits',
-        leaks('artistInput.webp'),
-        leaks('Updated Reliquary Archiver import for 2.1 patch, which imports accurate speed decimals for the entire inventory'),
-        leaks('archiver.webp'),
+        'artistInput.webp',
+        'Updated Reliquary Archiver import for 2.1 patch, which imports accurate speed decimals for the entire inventory',
+        'archiver.webp',
         'Added new character action menu entry to "Sort by score" which rearranges the character priority by their character scores',
         'sortByScore.webp',
         'Updated conditional set effects for Pioneer Diver of Dead Waters set with a 0x debuffs option which disables the 2p effect',

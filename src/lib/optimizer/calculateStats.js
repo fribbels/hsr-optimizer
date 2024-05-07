@@ -40,8 +40,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     PenaconyLandOfTheDreams: (1 >> (setP ^ 11)) + (1 >> (setL ^ 11)),
     SigoniaTheUnclaimedDesolation: (1 >> (setP ^ 12)) + (1 >> (setL ^ 12)),
     IzumoGenseiAndTakamaDivineRealm: (1 >> (setP ^ 13)) + (1 >> (setL ^ 13)),
-    ForgeOfTheKalpagniLantern: (1 >> (setP ^ 14)) + (1 >> (setL ^ 14)),
-    DuranDynastyOfRunningWolves: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
+    DuranDynastyOfRunningWolves: (1 >> (setP ^ 14)) + (1 >> (setL ^ 14)),
+    ForgeOfTheKalpagniLantern: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
   }
   return c.sets
 }

@@ -32,12 +32,11 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
+    { characterId: char('Firefly'), lightConeId: lc('Whereabouts Should Dreams Rest') },
+    { characterId: char('Jade'), lightConeId: lc('Yet Hope Is Priceless') },
     { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
     { characterId: char('Boothill'), lightConeId: lc('Sailing Towards A Second Life') },
     { characterId: char('Stelle (Harmony)'), lightConeId: lc('Memories of the Past') },
-    { characterId: char('Acheron'), lightConeId: lc('Along the Passing Shore') },
-    { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
-    { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

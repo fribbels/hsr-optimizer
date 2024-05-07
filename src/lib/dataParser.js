@@ -11,19 +11,26 @@ import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
+export const UnreleasedSets = {}
+
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
-      // Delete unreleased sets
-      delete Constants.SetsRelics.TheWindSoaringValorous
-      delete Constants.SetsRelics.IronCavalryAgainstScourge
-      delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
-      delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
+      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] = true
+      UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
+      UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
-      delete Constants.SetsRelicsNames.TheWindSoaringValorous
-      delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
-      delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+      // Delete unreleased sets
+      // delete Constants.SetsRelics.TheWindSoaringValorous
+      // delete Constants.SetsRelics.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      //
+      // delete Constants.SetsRelicsNames.TheWindSoaringValorous
+      // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
 
       // Delete unreleased characters
       for (const [key, value] of Object.entries(characters)) {

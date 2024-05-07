@@ -14,6 +14,7 @@ import { useSubscribe } from 'hooks/useSubscribe'
 import { Renderer } from 'lib/renderer'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
 import { ClearOutlined } from '@ant-design/icons'
+import { UnreleasedSets } from 'lib/dataParser'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -102,7 +103,8 @@ export default function RelicFilterBar(props) {
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags([false, true])
-  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
+  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter(x => !UnreleasedSets[x]),
+    (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)

@@ -100,7 +100,6 @@ function leaks(str: string) {
 
 /*
 NOTES:
-
  */
 
 function getChangelogContent() {

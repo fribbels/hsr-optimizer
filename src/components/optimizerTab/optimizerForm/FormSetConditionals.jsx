@@ -5,6 +5,7 @@ import { HeaderText } from 'components/HeaderText'
 import PropTypes from 'prop-types'
 import { Assets } from 'lib/assets'
 import { VerticalDivider } from 'components/Dividers'
+import { UnreleasedSets } from 'lib/dataParser'
 
 const { Text } = Typography
 
@@ -284,13 +285,13 @@ export const FormSetConditionals = () => {
             description="When the wearer uses their Ultimate on an ally, Break Effect for all allies increases by 30% for 2 turn(s). This effect cannot be stacked."
             conditional="When enabled, the Break Effect buff is applied to Combat stat calculations."
           />
-          {Constants.SetsRelics.IronCavalryAgainstScourge && <ConditionalSetOption
+          {!UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] && <ConditionalSetOption
             set={Constants.Sets.IronCavalryAgainstScourge}
             description="When the wearer's Break Effect is greater than or equal to 150%/250%, the Break DMG dealt ignores 10%/18% of the enemy's DEF."
             conditional={defaultMessage}
             p4Checked
           />}
-          {Constants.SetsRelics.TheWindSoaringValorous && <ConditionalSetOption
+          {!UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] && <ConditionalSetOption
             set={Constants.Sets.TheWindSoaringValorous}
             selectOptions={setTheWindSoaringValorous}
             description="When the wearer uses an Ultimate or unleashes follow-up attacks, increase the wearer's DMG dealt by 20%. This effect stacks up to 2 time(s) and will be dispelled at the end of the wearer's turn."
@@ -387,13 +388,13 @@ export const FormSetConditionals = () => {
             description="Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
             conditional="When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations."
           />
-          {Constants.SetsOrnaments.DuranDynastyOfRunningWolves && <ConditionalSetOption
+          {!UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] && <ConditionalSetOption
             set={Constants.Sets.DuranDynastyOfRunningWolves}
             selectOptions={setDuranDynastyOfRunningWolves}
             description="When an ally unleashes follow-up attacks, the wearer gains one stack of Merit, up to a maximum of 6 stack(s). Each stack of Merit increases the wearer's follow-up attack DMG dealt by 4%. When the maximum of 6 stack(s) is reached, additionally increases the wearer's CRIT DMG by 24%."
             conditional="The selected buff is applied to damage calculations based on the number of stacks."
           />}
-          {Constants.SetsOrnaments.ForgeOfTheKalpagniLantern && <ConditionalSetOption
+          {!UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] && <ConditionalSetOption
             set={Constants.Sets.ForgeOfTheKalpagniLantern}
             description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
             conditional="When enabled, applies the Break Effect buff to combat stat calculations."

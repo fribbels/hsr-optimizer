@@ -1,24 +1,37 @@
-import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
 import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
+import { Utils } from './utils.js'
 
 export function getDefaultForm(initialCharacter) {
-  const metadata = DB.getMetadata().characters[initialCharacter]
+  // TODO: Clean this up
+  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
+  const parts = scoringMetadata?.parts || {}
+  const weights = scoringMetadata?.stats || {
+    [Constants.Stats.HP_P]: 1,
+    [Constants.Stats.ATK_P]: 1,
+    [Constants.Stats.DEF_P]: 1,
+    [Constants.Stats.SPD_P]: 1,
+    [Constants.Stats.HP]: 1,
+    [Constants.Stats.ATK]: 1,
+    [Constants.Stats.DEF]: 1,
+    [Constants.Stats.SPD]: 1,
+    [Constants.Stats.CD]: 1,
+    [Constants.Stats.CR]: 1,
+    [Constants.Stats.EHR]: 1,
+    [Constants.Stats.RES]: 1,
+    [Constants.Stats.BE]: 1,
+    topPercent: 100,
+  }
 
-  return {
+  const defaultForm = Utils.clone({
     characterId: initialCharacter?.id,
-    mainBody: [
-    ],
-    mainFeet: [
-    ],
-    mainPlanarSphere: [
-    ],
-    mainLinkRope: [
-    ],
-    relicSets: [
-    ],
-    ornamentSets: [
-    ],
+    mainBody: parts[Constants.Parts.Body] || [],
+    mainFeet: parts[Constants.Parts.Feet] || [],
+    mainPlanarSphere: parts[Constants.Parts.PlanarSphere] || [],
+    mainLinkRope: parts[Constants.Parts.LinkRope] || [],
+    relicSets: [],
+    ornamentSets: [],
     characterLevel: 80,
     characterEidolon: 0,
     lightConeLevel: 80,
@@ -37,29 +50,33 @@ export function getDefaultForm(initialCharacter) {
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
     statSim: defaultStatSim,
-    weights: {
-      [Constants.Stats.HP_P]: 1,
-      [Constants.Stats.ATK_P]: 1,
-      [Constants.Stats.DEF_P]: 1,
-      [Constants.Stats.SPD_P]: 1,
-      [Constants.Stats.HP]: 1,
-      [Constants.Stats.ATK]: 1,
-      [Constants.Stats.DEF]: 1,
-      [Constants.Stats.SPD]: 1,
-      [Constants.Stats.CD]: 1,
-      [Constants.Stats.CR]: 1,
-      [Constants.Stats.EHR]: 1,
-      [Constants.Stats.RES]: 1,
-      [Constants.Stats.BE]: 1,
-      topPercent: 100,
-    },
+    weights: weights,
     setConditionals: defaultSetConditionals,
     teammate0: defaultTeammate(),
     teammate1: defaultTeammate(),
     teammate2: defaultTeammate(),
-    resultSort: metadata?.scoringMetadata.sortOption.key,
+    resultSort: scoringMetadata?.sortOption.key,
     resultLimit: 100000,
+  })
+
+  defaultForm.topPercent = 100
+
+  // Disable elemental conditions by default if the character is not of the same element
+  const element = DB.getMetadata().characters[initialCharacter?.id]?.element
+  if (element) {
+    defaultForm.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
+    defaultForm.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
   }
+
+  // TODO: very gross, dedupe
+  if (scoringMetadata?.presets) {
+    const presets = scoringMetadata.presets || []
+    for (const applyPreset of presets) {
+      applyPreset(defaultForm)
+    }
+  }
+
+  return defaultForm
 }
 
 export function defaultTeammate() {

@@ -456,9 +456,7 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.statSim) {
-      newForm.statSim = {
-
-      }
+      newForm.statSim = {}
     }
 
     if (!newForm.statSim.simulations) {
@@ -630,14 +628,6 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    const dbCharacter = DB.getMetadata().characters[characterId]
-    let metadata = Utils.clone(dbCharacter.scoringMetadata)
-    const overrides = window.store.getState().scoringMetadataOverrides[characterId]
-    if (overrides) {
-      metadata = Utils.mergeDefinedValues(metadata, overrides)
-    }
-    applyMetadataPresetToForm(form, metadata)
-
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
@@ -672,6 +662,7 @@ function unsetMin(value, percent) {
   if (value == undefined) return undefined
   return value == 0 ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(3))
 }
+
 function unsetMax(value, percent) {
   if (value == undefined) return undefined
   return value == Constants.MAX_INT ? undefined : parseFloat((percent == true ? value * 100 : value).toFixed(3))
@@ -804,6 +795,7 @@ function filter(filterModel) {
 
   filteredIndices = indices
 }
+
 function setPinnedRow(characterId) {
   const character = DB.getCharacterById(characterId)
   const stats = StatCalculator.calculate(character)

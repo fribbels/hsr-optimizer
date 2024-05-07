@@ -1,9 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 // Helper tool for importing beta light cones
+// npx tsx betaLightConeGenerator.ts
+
+import lightCone from './lightConeToConvert.json'
 
 function run() {
-  const lightCone = require('./lightConeToConvert.json')
 
   function precisionRound(number, precision = 5) {
     const factor = Math.pow(10, precision)
@@ -19,10 +21,10 @@ function run() {
   // Hunt - Rogue
   // Erudition - Mage
 
-  const lcName = 'Sailing Towards A Second Life'
-  const id = '23027'
+  const lcName = 'Eternal Calculus'
+  const id = '24004'
   const rarity = 5
-  const path = 'Rogue'
+  const path = 'Mage'
 
   const convertedLightCone = {
     [id]: {
@@ -58,8 +60,8 @@ function run() {
     })
   }
 
-  console.log(JSON.stringify(convertedLightCone, null, 4))
   console.log(JSON.stringify(lightConePromotions, null, 4))
+  console.log(JSON.stringify(convertedLightCone, null, 4))
 }
 
 run()

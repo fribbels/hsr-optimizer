@@ -803,10 +803,20 @@ function getOverrideTraces() {
       [Constants.Stats.HP_P]: 0.18,
       [Constants.Stats.SPD]: 5,
     },
+    1310: { // Firefly
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.RES]: 0.18,
+      [Constants.Stats.SPD]: 5,
+    },
     1312: { // Misha
       [Constants.Stats.Ice_DMG]: 0.224,
       [Constants.Stats.DEF_P]: 0.225,
       [Constants.Stats.CR]: 0.067,
+    },
+    1314: { // Jade
+      [Constants.Stats.Quantum_DMG]: 0.224,
+      [Constants.Stats.ATK_P]: 0.18,
+      [Constants.Stats.RES]: 0.10,
     },
     1315: { // Boothill
       [Constants.Stats.BE]: 0.373,
@@ -1032,9 +1042,17 @@ function getOverrideImageCenter() {
       x: 1024,
       y: 900,
     },
+    1310: { // Firefly
+      x: 1024,
+      y: 1024,
+    },
     1312: { // Misha
       x: 1050,
       y: 1075,
+    },
+    1314: { // Jade
+      x: 1024,
+      y: 1024,
     },
     1315: { // Boothill
       x: 1000,
@@ -3615,7 +3633,104 @@ function getScoringMetadata() {
       ],
       sortOption: SortOption.ULT,
     },
+    1310: { // Firefly
+      stats: {
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF]: 0.75,
+        [Constants.Stats.DEF_P]: 0.75,
+        [Constants.Stats.HP]: 0.75,
+        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.75,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 1,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.ATK_P,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Physical_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ERR,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.ULT,
+    },
     1312: { // Misha
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 1,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Ice_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.ULT,
+    },
+    1314: { // Jade
       stats: {
         [Constants.Stats.ATK]: 0.75,
         [Constants.Stats.ATK_P]: 0.75,

@@ -20,7 +20,8 @@
     "baseUrl": "./src",
     "paths": {
       "src/*": ["src/*"]
-    }
+    },
+    "esModuleInterop": true,
   },
   "exclude": [
     "dist",

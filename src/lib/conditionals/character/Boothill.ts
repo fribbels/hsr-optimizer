@@ -120,6 +120,11 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
+      // Special case where we force the weakness break on if the talent break option is enabled
+      if (r.talentBreakDmgScaling) {
+        request.enemyWeaknessBroken = true
+      }
+
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
       x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
 
@@ -130,11 +135,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_BREAK_EFFICIENCY_BOOST += (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0
 
       x.ULT_SCALING += ultScaling
-
-      // Special case where we force the weakness break on if the talent break option is enabled
-      if (r.talentBreakDmgScaling) {
-        request.enemyWeaknessBroken = true
-      }
 
       x.BASIC_TOUGHNESS_DMG += (r.standoffActive) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 90

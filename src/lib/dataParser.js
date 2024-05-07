@@ -3721,7 +3721,7 @@ function getScoringMetadata() {
       ],
       presets: [
       ],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.SKILL,
     },
     1312: { // Misha
       stats: {
@@ -3820,7 +3820,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.fnWindSoaringSet(2),
       ],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.FUA,
     },
     1315: { // Boothill
       stats: {

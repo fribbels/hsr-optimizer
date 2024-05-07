@@ -23,6 +23,7 @@ const columns: TableColumnsType<DataType> = [
       // Show the custom name, otherwise generate one
       return renderDefaultSimulationName(record)
     },
+    key: 'y',
     ellipsis: true,
   },
   {

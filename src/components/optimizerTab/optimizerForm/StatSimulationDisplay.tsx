@@ -206,6 +206,7 @@ function SetsSection(props: { simType: string }) {
           tagRender={OrnamentSetTagRenderer}
           placeholder="Relic set"
           maxTagCount="responsive"
+          showSearch
         >
         </Select>
       </Form.Item>
@@ -220,6 +221,7 @@ function SetsSection(props: { simType: string }) {
           tagRender={OrnamentSetTagRenderer}
           placeholder="Relic set"
           maxTagCount="responsive"
+          showSearch
         >
         </Select>
       </Form.Item>
@@ -235,6 +237,7 @@ function SetsSection(props: { simType: string }) {
           tagRender={OrnamentSetTagRenderer}
           placeholder="Ornament set"
           maxTagCount="responsive"
+          showSearch
         >
         </Select>
       </Form.Item>
@@ -273,6 +276,7 @@ function MainStatSelector(props: { simType: string, placeholder: string, part: s
         options={props.options}
         listHeight={750}
         popupMatchSelectWidth={200}
+        showSearch
       />
     </Form.Item>
   )

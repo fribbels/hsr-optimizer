@@ -38,7 +38,9 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'superBreakDmg',
       text: 'Super Break DMG calcs (force weakness break)',
       title: 'Super Break DMG calcs (force weakness break)',
-      content: `When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.`,
+      content: `When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.
+      ::BR::
+      Super Break DMG is added to each of the BASIC / SKILL / ULT / FUA damage columns. For example when enabled, the SKILL column becomes the sum of base Skill damage + Super Break DMG based on the Skill's toughness damage. This option also overrides enemy weakness break to ON.`,
     },
     {
       formItem: 'slider',

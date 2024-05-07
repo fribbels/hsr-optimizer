@@ -4,6 +4,7 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants.ts'
+import { precisionRound } from 'lib/conditionals/utils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
@@ -16,7 +17,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Enemy DEF reduced / slowed',
       title: 'Enemy DEF reduced / slowed',
-      content: 'Enemy DEF reduced / slowed',
+      content: `The wearer deals ${precisionRound(sValuesCd[s] * 100)}% more CRIT DMG to enemies that are currently Slowed or have reduced DEF.`,
     },
   ]
 

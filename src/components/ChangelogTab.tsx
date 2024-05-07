@@ -100,11 +100,54 @@ function leaks(str: string) {
 
 /*
 NOTES:
-
  */
 
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
+    {
+      title: '',
+      date: '05-07-2024',
+      content: [
+        'Added a new "Character custom stats simulation" feature',
+        'This allows for simulating and comparing multiple character builds with custom main stats / teammates / sets / substats without having to edit relics',
+        'The substat rolls view calculates builds based on the number of max rolls in each substat',
+        'Optimizer builds can be imported as substat roll simulations',
+        'rollSim.webp',
+        'The substat totals view simulates the sum of the substat values',
+        leaks('totalsSim.webp'),
+        'Custom character portraits can now be saved from the Relic Scorer',
+        leaks(`The Relic Scorer's character experiment options are now updated with Firefly and Jade`),
+        leaks('scorer.webp'),
+        'Updated Harmony Trailblazer with Super Break DMG calculations',
+        `When the Super Break conditional is enabled, each ability's toughness DMG will be used to calculate Super Break DMG, which is added to the respective ability's damage column`,
+        'superBreak.webp',
+        leaks('Added new 2.3 relic sets'),
+        leaks('relics.webp'),
+        leaks('Added new 2.3 ornament sets'),
+        leaks('ornaments.webp'),
+        'Reliquary Archiver is now the recommended scanner',
+        'Note: It may have a few hours of downtime following new ingame patches',
+        'import.webp',
+        'New updates will now show a notification linking to the changelog',
+        'update.webp',
+        'Added a new settings panel',
+        'The first setting is toggle the behavior when equipping relics with another owner, which now defaults to replacing without swapping',
+        'settings.webp',
+        'Using the Recommended Presets button now takes into account custom scoring overrides',
+        'Newly added characters will have their recommended presets applied by default',
+        `Harmony Trailblazer's default teammate Break Effect conditional is now 200%, and the cap is increased to 400%`,
+        `The Genius set's conditional effects are now only active by default on Quantum characters, and disabled by default otherwise`,
+        `Fix: Tingyun SPD buff is now disabled by default due to having inconsistent uptime`,
+        `Fix: Himeko's SPD buff is now disabled by default due to having inconsistent uptime`,
+        `Fix: Qingque's SPD buff is now disabled by default due to having inconsistent uptime`,
+        `Fix: Sparkle's self-skill buff is now disabled on herself by default`,
+        `Fix: Bronya's battle-start buffs are now disabled by default`,
+        `Fix: Asta's skill now correctly calculates the sum of the bounces for damage instead of an individual hit`,
+        `Fix: Remove ATK% rope from Robin's presets`,
+        'Fix: Main stat free rolls are now applied correctly to non-full-weight main stats. This results in a minor score buff for certain main stats',
+        'Fix: Various visual overflow issues on small screens',
+      ],
+    },
     {
       title: '',
       date: '04-18-2024',

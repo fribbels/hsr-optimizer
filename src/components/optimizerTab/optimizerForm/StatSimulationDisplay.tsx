@@ -200,7 +200,7 @@ function SetsSection(props: { simType: string }) {
           dropdownStyle={{
             width: 250,
           }}
-          listHeight={600}
+          listHeight={700}
           allowClear
           options={GenerateBasicSetsOptions()}
           tagRender={OrnamentSetTagRenderer}
@@ -214,7 +214,7 @@ function SetsSection(props: { simType: string }) {
           dropdownStyle={{
             width: 250,
           }}
-          listHeight={600}
+          listHeight={700}
           allowClear
           options={GenerateBasicSetsOptions()}
           tagRender={OrnamentSetTagRenderer}

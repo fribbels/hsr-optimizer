@@ -11,19 +11,26 @@ import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
+export const UnreleasedSets = {}
+
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
-      // Delete unreleased sets
-      delete Constants.SetsRelics.TheWindSoaringValorous
-      delete Constants.SetsRelics.IronCavalryAgainstScourge
-      delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
-      delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
+      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] = true
+      UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
+      UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
-      delete Constants.SetsRelicsNames.TheWindSoaringValorous
-      delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
-      delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+      // Delete unreleased sets
+      // delete Constants.SetsRelics.TheWindSoaringValorous
+      // delete Constants.SetsRelics.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      //
+      // delete Constants.SetsRelicsNames.TheWindSoaringValorous
+      // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
 
       // Delete unreleased characters
       for (const [key, value] of Object.entries(characters)) {
@@ -3682,8 +3689,8 @@ function getScoringMetadata() {
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.75,
-        [Constants.Stats.CD]: 0.75,
+        [Constants.Stats.CR]: 0.5,
+        [Constants.Stats.CD]: 0.5,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -3712,6 +3719,7 @@ function getScoringMetadata() {
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
           Constants.Stats.BE,
         ],
       },

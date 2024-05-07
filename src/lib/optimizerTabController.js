@@ -630,6 +630,14 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
+    const dbCharacter = DB.getMetadata().characters[characterId]
+    let metadata = Utils.clone(dbCharacter.scoringMetadata)
+    const overrides = window.store.getState().scoringMetadataOverrides[characterId]
+    if (overrides) {
+      metadata = Utils.mergeDefinedValues(metadata, overrides)
+    }
+    applyMetadataPresetToForm(form, metadata)
+
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 

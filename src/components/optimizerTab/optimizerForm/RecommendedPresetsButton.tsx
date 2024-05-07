@@ -5,7 +5,7 @@ import DB from 'lib/db.js'
 import { Message } from 'lib/message.js'
 import { Constants, Sets } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import { getDefaultForm } from 'lib/defaultForm.js'
+import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Utils } from "lib/utils";
 
@@ -207,6 +207,9 @@ export function applySpdPreset(spd, characterId) {
 export default RecommendedPresetsButton
 
 export function applyMetadataPresetToForm(form, scoringMetadata) {
+  Utils.mergeUndefinedValues(form, getDefaultForm())
+  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]
   form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]

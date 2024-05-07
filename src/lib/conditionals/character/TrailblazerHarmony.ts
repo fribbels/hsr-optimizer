@@ -117,6 +117,7 @@ export default (e: Eidolon): CharacterConditional => {
       // Special case where we force the weakness break on if the option is enabled
       if (m.superBreakDmg) {
         request.enemyWeaknessBroken = true
+        x.WEAKNESS_BREAK_OVERRIDE = 1
       }
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0

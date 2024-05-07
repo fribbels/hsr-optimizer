@@ -25,6 +25,9 @@ export function calculateDamage(c, request, params) {
   ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI)
   x.EHP = ehp
 
+  // Reapply broken multiplier here since certain conditionals can force weakness
+  params.brokenMultiplier = x.WEAKNESS_BREAK_OVERRIDE ? 1 : 0.9
+
   const universalMulti = dmgReductionMultiplier * params.brokenMultiplier
   const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]
 

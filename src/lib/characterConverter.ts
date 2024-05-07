@@ -86,12 +86,12 @@ export const CharacterConverter = {
 
 // Some special relics have a weird id -> set/part/main mapping
 const tidOverrides = {
-  55001: {set: '101', part: '3', main: '436'},
-  55002: {set: '102', part: '4', main: '441'},
-  55003: {set: '103', part: '3', main: '434'},
-  55004: {set: '104', part: '3', main: '433'},
-  55005: {set: '105', part: '4', main: '443'},
-  55006: {set: '106', part: '3', main: '434'},
+  55001: { set: '101', part: '3', main: '436' },
+  55002: { set: '101', part: '4', main: '441' },
+  55003: { set: '102', part: '3', main: '434' },
+  55004: { set: '103', part: '3', main: '433' },
+  55005: { set: '103', part: '4', main: '443' },
+  55006: { set: '105', part: '3', main: '434' },
 }
 
 function convertRelic(preRelic) {

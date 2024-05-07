@@ -86,6 +86,9 @@ export default (e: Eidolon): CharacterConditional => {
       // Boost
       x.ELEMENTAL_DMG += (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 90
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

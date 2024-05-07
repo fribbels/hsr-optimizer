@@ -99,6 +99,9 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
       x.ULT_SCALING += ultScaling
 
+      x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 90 : 30
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

@@ -6,6 +6,7 @@ import {
   LineChartOutlined,
   LinkOutlined,
   RadarChartOutlined,
+  SettingOutlined,
   StarFilled,
   ToolOutlined,
   UnorderedListOutlined,
@@ -33,7 +34,7 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem('Menu', 'subOptimizer', <LineChartOutlined />, [
+    getItem('Optimization', 'subOptimizer', <LineChartOutlined />, [
       getItem(
         (
           <Flex>
@@ -70,6 +71,16 @@ const MenuDrawer = () => {
           </Flex>
         ),
         AppPages.IMPORT),
+      getItem(
+        (
+          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)}>
+            <SettingOutlined style={{ marginRight: 5, width: 16 }} />
+            {' '}
+            Settings
+          </Flex>
+        ),
+        'link settings',
+      ),
       getItem(
         (
           <Flex>

@@ -103,6 +103,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.ELEMENTAL_DMG += (r.enemyHp50) ? 0.15 : 0
       x.ULT_DEF_PEN += (e >= 6) ? 0.30 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += (r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

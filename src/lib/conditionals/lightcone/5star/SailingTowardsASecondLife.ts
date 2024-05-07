@@ -5,6 +5,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { Stats } from 'lib/constants.ts'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { precisionRound } from 'lib/conditionals/utils'
 
 const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
 
@@ -20,7 +21,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Break DMG DEF shred',
       title: 'Break DMG DEF shred',
-      content: betaUpdate,
+      content: `The Break DMG dealt by the wearer ignores ${precisionRound(sValuesDefShred[s] * 100)}% of the target's DEF.`,
     },
     {
       lc: true,
@@ -29,7 +30,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'BE ≥ 150 SPD buff',
       title: 'BE ≥ 150 SPD buff',
-      content: betaUpdate,
+      content: `When the wearer's Break Effect in battle is at 150% or greater, increases their SPD by ${precisionRound(sValuesSpdBuff[s] * 100)}%.`,
     },
   ]
 

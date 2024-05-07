@@ -1,13 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-
-const betaUpdate = 'All calculations are subject to change. Last updated 04-15-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -27,7 +25,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'concertoActive',
       text: 'Concerto active',
       title: 'Concerto active',
-      content: betaUpdate,
+      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}. Moreover, after every attack by allies, Robin deals Additional Physical DMG equal to ${precisionRound(ultScaling * 100)}% of her ATK for 1 time, with a fixed CRIT Rate for this damage set at 100% and fixed CRIT DMG set at 150%.`,
     },
     {
       formItem: 'switch',
@@ -35,7 +33,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'skillDmgBuff',
       text: 'Skill DMG buff',
       title: 'Skill DMG buff',
-      content: betaUpdate,
+      content: `Increase DMG dealt by all allies by ${precisionRound(skillDmgBuffValue * 100)}%, lasting for 3 turn(s).`,
     },
     {
       formItem: 'switch',
@@ -43,7 +41,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'talentCdBuff',
       text: 'Talent CD buff',
       title: 'Talent CD buff',
-      content: betaUpdate,
+      content: `Increase all allies' CRIT DMG by ${precisionRound(talentCdBuffValue * 100)}%.`,
     },
     {
       formItem: 'switch',
@@ -51,7 +49,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e1UltResPen',
       text: 'E1 Ult RES PEN',
       title: 'E1 Ult RES PEN',
-      content: betaUpdate,
+      content: `While the Concerto state is active, all allies' All-Type RES PEN increases by 24%.`,
       disabled: e < 1,
     },
     {
@@ -60,7 +58,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e4TeamResBuff',
       text: 'E4 RES team buff',
       title: 'E4 RES team buff',
-      content: betaUpdate,
+      content: `When using the Ultimate, dispels Crowd Control debuffs from all allies. While Robin is in the Concerto state, increases the Effect RES of all allies by 50%.`,
       disabled: e < 4,
     },
     {
@@ -69,7 +67,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e6UltCDBoost',
       text: 'E6 Ult DMG CD boost',
       title: 'E6 Ult DMG CD boost',
-      content: betaUpdate,
+      content: `While the Concerto state is active, the CRIT DMG for the Additional Physical DMG caused by the Ultimate increases by 450%. The effect of Moonless Midnight can trigger up to 8 time(s). And the trigger count resets each time the Ultimate is used.`,
       disabled: e < 6,
     },
   ]
@@ -83,7 +81,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'teammateATKValue',
       text: `Ult buff Robin's ATK`,
       title: 'Ult buff Robin\'s ATK',
-      content: betaUpdate,
+      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}`,
       min: 0,
       max: 6000,
     },
@@ -94,7 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'traceFuaCdBoost',
       text: 'FUA CD boost',
       title: 'FUA CD boost',
-      content: betaUpdate,
+      content: `While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%.`,
     },
     findContentId(content, 'e1UltResPen'),
     {
@@ -103,7 +101,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e2UltSpdBuff',
       text: 'E2 Ult SPD buff',
       title: 'E2 Ult SPD buff',
-      content: betaUpdate,
+      content: `While the Concerto state is active, all allies' SPD increases by 16%.`,
       disabled: e < 2,
     },
   ]
@@ -137,6 +135,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
 
       return x
     },

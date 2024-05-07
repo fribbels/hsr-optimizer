@@ -11,15 +11,35 @@ import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
+export const UnreleasedSets = {}
+
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
+      UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
+      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] = true
+      UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
+      UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
+
+      // Delete unreleased sets
+      // delete Constants.SetsRelics.TheWindSoaringValorous
+      // delete Constants.SetsRelics.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      //
+      // delete Constants.SetsRelicsNames.TheWindSoaringValorous
+      // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
+      // delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
+      // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+
+      // Delete unreleased characters
       for (const [key, value] of Object.entries(characters)) {
         if (value.unreleased) {
           delete characters[key]
         }
       }
 
+      // Delete unreleased light cones
       for (const [key, value] of Object.entries(lightCones)) {
         if (value.unreleased) {
           delete lightCones[key]
@@ -353,6 +373,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CR]: 0.14 },
       5: { [Constants.Stats.CR]: 0.16 },
     },
+    21045: {
+      1: { [Constants.Stats.BE]: 0.28 },
+      2: { [Constants.Stats.BE]: 0.35 },
+      3: { [Constants.Stats.BE]: 0.42 },
+      4: { [Constants.Stats.BE]: 0.49 },
+      5: { [Constants.Stats.BE]: 0.56 },
+    },
     22000: {
       1: { [Constants.Stats.EHR]: 0.20 },
       2: { [Constants.Stats.EHR]: 0.25 },
@@ -525,6 +552,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CD]: 0.54 },
       5: { [Constants.Stats.CD]: 0.60 },
     },
+    23025: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     23026: {},
     23027: {
       1: { [Constants.Stats.BE]: 0.60 },
@@ -532,6 +566,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.BE]: 0.80 },
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
+    },
+    23028: {
+      1: { [Constants.Stats.CR]: 0.16 },
+      2: { [Constants.Stats.CR]: 0.19 },
+      3: { [Constants.Stats.CR]: 0.22 },
+      4: { [Constants.Stats.CR]: 0.25 },
+      5: { [Constants.Stats.CR]: 0.28 },
     },
     24000: {},
     24001: {
@@ -554,6 +595,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.BE]: 0.30 },
       4: { [Constants.Stats.BE]: 0.35 },
       5: { [Constants.Stats.BE]: 0.40 },
+    },
+    24004: {
+      1: { [Constants.Stats.ATK_P]: 0.08 },
+      2: { [Constants.Stats.ATK_P]: 0.09 },
+      3: { [Constants.Stats.ATK_P]: 0.10 },
+      4: { [Constants.Stats.ATK_P]: 0.11 },
+      5: { [Constants.Stats.ATK_P]: 0.12 },
     },
   }
 }
@@ -790,10 +838,20 @@ function getOverrideTraces() {
       [Constants.Stats.HP_P]: 0.18,
       [Constants.Stats.SPD]: 5,
     },
+    1310: { // Firefly
+      [Constants.Stats.BE]: 0.373,
+      [Constants.Stats.RES]: 0.18,
+      [Constants.Stats.SPD]: 5,
+    },
     1312: { // Misha
       [Constants.Stats.Ice_DMG]: 0.224,
       [Constants.Stats.DEF_P]: 0.225,
       [Constants.Stats.CR]: 0.067,
+    },
+    1314: { // Jade
+      [Constants.Stats.Quantum_DMG]: 0.224,
+      [Constants.Stats.ATK_P]: 0.18,
+      [Constants.Stats.RES]: 0.10,
     },
     1315: { // Boothill
       [Constants.Stats.BE]: 0.373,
@@ -1019,9 +1077,17 @@ function getOverrideImageCenter() {
       x: 1024,
       y: 900,
     },
+    1310: { // Firefly
+      x: 900,
+      y: 1150,
+    },
     1312: { // Misha
       x: 1050,
       y: 1075,
+    },
+    1314: { // Jade
+      x: 1024,
+      y: 950,
     },
     1315: { // Boothill
       x: 1000,
@@ -1222,6 +1288,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -1336,6 +1403,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
     },
@@ -1572,6 +1640,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -1965,6 +2034,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(2),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2254,6 +2324,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(0),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2308,6 +2379,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.BASIC,
     },
@@ -2480,6 +2552,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2534,6 +2607,7 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.BASIC,
     },
@@ -2758,6 +2832,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.ULT,
     },
@@ -3035,6 +3110,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(3),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.SKILL,
     },
@@ -3344,6 +3420,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(7),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -3394,6 +3471,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnWindSoaringSet(1),
         PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3591,7 +3669,6 @@ function getScoringMetadata() {
           Constants.Stats.Physical_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
       },
@@ -3602,6 +3679,57 @@ function getScoringMetadata() {
       presets: [
       ],
       sortOption: SortOption.ULT,
+    },
+    1310: { // Firefly
+      stats: {
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0.5,
+        [Constants.Stats.CD]: 0.5,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 1,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.CD,
+          Constants.Stats.CR,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Fire_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.BE,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+      ],
+      sortOption: SortOption.SKILL,
     },
     1312: { // Misha
       stats: {
@@ -3651,6 +3779,56 @@ function getScoringMetadata() {
       presets: [
       ],
       sortOption: SortOption.ULT,
+    },
+    1314: { // Jade
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 1,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Quantum_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+        ],
+      },
+      relicSets: [
+      ],
+      ornamentSets: [
+      ],
+      presets: [
+        PresetEffects.fnWindSoaringSet(2),
+      ],
+      sortOption: SortOption.FUA,
     },
     1315: { // Boothill
       stats: {

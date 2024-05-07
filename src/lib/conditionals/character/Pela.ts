@@ -34,8 +34,8 @@ export default (e: Eidolon): CharacterConditional => {
     formItem: 'switch',
     id: 'skillRemovedBuff',
     name: 'skillRemovedBuff',
-    text: 'Enemy buff removed skill buff',
-    title: 'Enemy buff removed skill buff',
+    text: 'Enemy buff removed skill buffs',
+    title: 'Enemy buff removed skill buffs',
     content: `Using Skill to remove buff(s) increases the DMG of Pela's next attack by 20%.
     ::BR::
     E2: Using Skill to remove buff(s) increases SPD by 10% for 2 turn(s).`,
@@ -95,6 +95,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_BOOST += (r.skillRemovedBuff) ? 0.20 : 0
 
       x.ELEMENTAL_DMG += (r.enemyDebuffed) ? 0.20 : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 60
 
       return x
     },

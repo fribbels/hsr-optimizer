@@ -1,20 +1,33 @@
 import { Flex, theme } from 'antd'
 import { CSSProperties, ReactElement } from 'react'
+import { defaultPadding, panelWidth } from "components/optimizerTab/optimizerTabConstants";
 
 const { useToken } = theme
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-const panelWidth = 203
 const defaultGap = 5
-const defaultPadding = 15
 
 const smallWidth = panelWidth
-const mediumWidth = 365
+const mediumWidth = 373
+const largeWidth = 1183
 
-export default function FormCard(props: { size?: string; children?: ReactElement | ReactElement[]; height?: number; style?: CSSProperties; justify?: string }) {
+const dimsBySize = {
+  'small': smallWidth,
+  'medium': mediumWidth,
+  'large': largeWidth,
+}
+
+export default function FormCard(props: {
+  size?: string;
+  children?: ReactElement | ReactElement[];
+  height?: number;
+  style?: CSSProperties;
+  justify?: string
+}) {
   const { token } = useToken()
 
-  const width = props.size == 'medium' ? mediumWidth : smallWidth
+  const size = props.size || 'small'
+  const width = dimsBySize[size]
 
   return (
     <Flex

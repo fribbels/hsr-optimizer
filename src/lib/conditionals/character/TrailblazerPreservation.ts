@@ -83,6 +83,9 @@ export default (e: Eidolon): CharacterConditional => {
       // This EHR buff only applies to self
       x.DMG_RED_MULTI *= (r.skillActive) ? (1 - skillDamageReductionValue) : 1
 
+      x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 60 : 30
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

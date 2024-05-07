@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -17,22 +17,36 @@ export default (e: Eidolon): CharacterConditional => {
   const ultBeScaling = ult(e, 0.30, 0.33)
   const skillMaxHits = e >= 6 ? 6 : 4
 
+  const targetsToSuperBreakMulti = {
+    1: 1.60,
+    3: 1.40,
+    5: 1.20
+  }
+
   const content: ContentItem[] = [
     {
       formItem: 'switch',
       id: 'backupDancer',
       name: 'backupDancer',
-      text: 'Backup Dancer',
-      title: 'Backup Dancer',
-      content: betaUpdate,
+      text: 'Backup Dancer BE buff',
+      title: 'Backup Dancer BE buff',
+      content: `Grants all allies the Backup Dancer effect, lasting for 3 turn(s). This duration reduces by 1 at the start of Trailblazer's every turn. Allies with the Backup Dancer effect have their Break Effect increased by ${precisionRound(ultBeScaling * 100)}%.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'superBreakDmg',
+      name: 'superBreakDmg',
+      text: 'Super Break DMG calcs (force weakness break)',
+      title: 'Super Break DMG calcs (force weakness break)',
+      content: `When allies with the Backup Dancer effect attack enemy targets that are in the Weakness Broken state, the Toughness Reduction of the attack will be converted into 1 instance of Super Break DMG.`,
     },
     {
       formItem: 'slider',
       id: 'skillHitsOnTarget',
       name: 'skillHitsOnTarget',
-      text: 'Skill hits on target',
-      title: 'Skill hits on target',
-      content: betaUpdate,
+      text: 'Skill extra hits on target',
+      title: 'Skill extra hits on target',
+      content: `Deals Imaginary DMG to a single target enemy and additionally deals DMG for 4 times, with each time dealing Imaginary DMG to a random enemy.`,
       min: 0,
       max: skillMaxHits,
     },
@@ -42,22 +56,23 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e2EnergyRegenBuff',
       text: 'E2 ERR buff',
       title: 'E2 ERR buff',
-      content: betaUpdate,
+      content: `When the battle starts, the Trailblazer's Energy Regeneration Rate increases by 25%, lasting for 3 turn(s).`,
       disabled: e < 2,
     },
   ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'backupDancer'),
+    findContentId(content, 'superBreakDmg'),
     {
       formItem: 'slider',
       id: 'teammateBeValue',
       name: 'teammateBeValue',
-      text: `E4 Trailblazer's BE`,
-      title: 'E4 Trailblazer\'s BE',
-      content: betaUpdate,
+      text: `E4 Trailblazer's Combat BE`,
+      title: 'E4 Trailblazer\'s Combat BE',
+      content: `While the Trailblazer is on the field, increases the Break Effect of all teammates (excluding the Trailblazer), by an amount equal to 15% of the Trailblazer's Break Effect.`,
       min: 0,
-      max: 3.00,
+      max: 4.00,
       percent: true,
       disabled: e < 4,
     },
@@ -66,6 +81,7 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     skillHitsOnTarget: skillMaxHits,
     backupDancer: true,
+    superBreakDmg: true,
     e2EnergyRegenBuff: false,
   }
 
@@ -75,7 +91,8 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => (defaults),
     teammateDefaults: () => ({
       backupDancer: true,
-      teammateBeValue: 1.50,
+      superBreakDmg: true,
+      teammateBeValue: 2.00,
     }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
@@ -89,12 +106,23 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.SKILL_SCALING += r.skillHitsOnTarget * skillScaling
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30 * r.skillHitsOnTarget
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
+      // Special case where we force the weakness break on if the option is enabled
+      if (m.superBreakDmg) {
+        request.enemyWeaknessBroken = true
+        x.WEAKNESS_BREAK_OVERRIDE = 1
+      }
+
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
+
+      x.SUPER_BREAK_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals

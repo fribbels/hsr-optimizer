@@ -16,6 +16,20 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 
 let CANCEL = false
 
+export function calculateCurrentlyEquippedRow(request) {
+  let relics = Utils.clone(DB.getRelics())
+  RelicFilters.calculateWeightScore(request, relics)
+  relics = relics.filter((x) => x.equippedBy == request.characterId)
+  relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
+  relics = RelicFilters.splitRelicsByPart(relics)
+  RelicFilters.condenseRelicSubstatsForOptimizer(relics)
+  Object.keys(relics).map((key) => relics[key] = relics[key][0])
+
+  const c = calculateBuild(request, relics)
+  renameFields(c)
+  OptimizerTabController.setTopRow(c)
+}
+
 export const Optimizer = {
   cancel: (id) => {
     CANCEL = true
@@ -106,20 +120,7 @@ export const Optimizer = {
     const params = generateParams(request)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
-    function handleTopRow() {
-      let relics = Utils.clone(DB.getRelics())
-      RelicFilters.calculateWeightScore(request, relics)
-      relics = relics.filter((x) => x.equippedBy == request.characterId)
-      relics = RelicFilters.applyMaxedMainStatsFilter(request, relics)
-      relics = RelicFilters.splitRelicsByPart(relics)
-      RelicFilters.condenseRelicSubstatsForOptimizer(relics)
-      Object.keys(relics).map((key) => relics[key] = relics[key][0])
-
-      const c = calculateBuild(request, relics)
-      renameFields(c)
-      OptimizerTabController.setTopRow(c)
-    }
-    handleTopRow()
+    calculateCurrentlyEquippedRow(request)
 
     let searched = 0
     let resultsShown = false
@@ -202,7 +203,7 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-function renameFields(c) {
+export function renameFields(c) {
   c.ED = c.ELEMENTAL_DMG
   c.BASIC = c.x.BASIC_DMG
   c.SKILL = c.x.SKILL_DMG

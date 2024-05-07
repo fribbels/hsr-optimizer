@@ -1,5 +1,6 @@
 import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import DB from 'lib/db'
+import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 export function getDefaultForm(initialCharacter) {
   const metadata = DB.getMetadata().characters[initialCharacter]
@@ -35,6 +36,7 @@ export function getDefaultForm(initialCharacter) {
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
+    statSim: defaultStatSim,
     weights: {
       [Constants.Stats.HP_P]: 1,
       [Constants.Stats.ATK_P]: 1,
@@ -68,6 +70,11 @@ export function defaultTeammate() {
   }
 }
 
+export const defaultStatSim = {
+  simType: StatSimTypes.Disabled,
+  simulations: []
+}
+
 export const defaultSetConditionals = {
   [Constants.Sets.PasserbyOfWanderingCloud]: [undefined, true],
   [Constants.Sets.MusketeerOfWildWheat]: [undefined, true],
@@ -87,6 +94,9 @@ export const defaultSetConditionals = {
   [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
+  [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, 0],
+
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
   [Constants.Sets.PanCosmicCommercialEnterprise]: [undefined, true],
@@ -101,4 +111,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
   [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
+  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
+  [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
 }

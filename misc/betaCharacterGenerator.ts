@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 // Helper tool for importing beta characters
+// npx tsx betaCharacterGenerator.ts
+
+import character from './characterToConvert.json'
 
 function run() {
-  const character = require('./characterToConvert.json')
-
   function precisionRound(number, precision = 5) {
     const factor = Math.pow(10, precision)
     return Math.round(number * factor) / factor
@@ -23,12 +24,12 @@ function run() {
 
   // Change these
 
-  const name = 'Boothill'
-  const id = '1315'
+  const name = 'Jade'
+  const id = '1314'
   const rarity = 5
-  const path = 'Rogue'
-  const element = 'Physical'
-  const max_sp = 120
+  const path = 'Mage'
+  const element = 'Quantum'
+  const max_sp = 140
 
   // Dont change below
 
@@ -84,8 +85,8 @@ function run() {
     })
   }
 
-  console.log(JSON.stringify(convertedCharacter, null, 4))
   console.log(JSON.stringify(characterPromotions, null, 4))
+  console.log(JSON.stringify(convertedCharacter, null, 4))
 }
 
 run()

@@ -23,6 +23,7 @@ import { CombatBuffsFilters } from 'components/optimizerTab/optimizerForm/Combat
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
+import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -49,6 +50,7 @@ export default function OptimizerForm() {
       || keys[0].startsWith('buff')
       || keys[0].startsWith('weights')
       || keys[0].startsWith('statDisplay')
+      || keys[0].startsWith('statSim')
       || keys[0].startsWith('teammate')
       || keys[0] == 'characterConditionals'
       || keys[0] == 'lightConeConditionals')) {
@@ -189,6 +191,12 @@ export default function OptimizerForm() {
             <TeammateCard index={1} />
             <TeammateCard index={2} />
           </TeammateFormRow>
+
+          {/* Row 4 */}
+
+          <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
+            <StatSimulationDisplay />
+          </FormRow>
         </FilterContainer>
       </Form>
     </div>

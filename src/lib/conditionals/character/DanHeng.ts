@@ -73,6 +73,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_BOOST += (r.enemySlowed) ? 0.40 : 0
       x.RES_PEN += (r.talentPenBuff) ? extraPenValue : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 90
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

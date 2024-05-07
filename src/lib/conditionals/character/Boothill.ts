@@ -1,13 +1,11 @@
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants.ts'
-
-const betaUpdate = 'All calculations are subject to change. Last updated 04-15-2024.'
+import { Stats } from 'lib/constants'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -32,7 +30,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'standoffActive',
       text: 'Standoff Active',
       title: 'Standoff Active',
-      content: betaUpdate,
+      content: `Forces Boothill and a single target enemy into the Standoff state. Boothill's Basic ATK gets Enhanced, and he cannot use his Skill, lasting for 2 turn(s). This duration reduces by 1 at the start of Boothill's every turn.
+The enemy target in the Standoff becomes Taunted. When this enemy target/Boothill gets attacked by the other party in the Standoff, the DMG they receive increases by ${precisionRound(standoffDmgBoost * 100)}%/15%.`,
     },
     {
       formItem: 'slider',
@@ -40,7 +39,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'pocketTrickshotStacks',
       text: 'Pocket Trickshots',
       title: 'Pocket Trickshots',
-      content: betaUpdate,
+      content: `Each stack of Pocket Trickshot increases the Enhanced Basic Attack's Toughness Reduction by 50%, stacking up to 3 time(s).
+If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks`,
       min: 0,
       max: 3,
     },
@@ -50,15 +50,15 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'beToCritBoost',
       text: 'BE to CR / CD boost',
       title: 'BE to CR / CD boost',
-      content: betaUpdate,
+      content: `Increase this character's CRIT Rate/CRIT DMG, by an amount equal to 10%/50% of Break Effect, up to a max increase of 30%/150%.`,
     },
     {
       formItem: 'switch',
       id: 'talentBreakDmgScaling',
       name: 'talentBreakDmgScaling',
-      text: 'Talent break DMG (forces weakness break)',
-      title: 'Talent break DMG',
-      content: betaUpdate,
+      text: 'Talent Break DMG (force weakness break)',
+      title: 'Talent Break DMG',
+      content: `If the target is Weakness Broken while the Enhanced Basic ATK is being used, based on the number of Pocket Trickshot stacks, deals Break DMG to this target based on Boothill's Physical Break DMG. The max Toughness taken into account for this DMG cannot exceed 16 times the base Toughness Reduction of the Basic Attack "Skullcrush Spurs."`,
     },
     {
       formItem: 'switch',
@@ -66,7 +66,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e1DefShred',
       text: 'E1 DEF shred',
       title: 'E1 DEF shred',
-      content: betaUpdate,
+      content: `When the battle starts, obtains 1 stack of Pocket Trickshot. When Boothill deals DMG, ignores 16% of the enemy target's DEF.`,
       disabled: e < 1,
     },
     {
@@ -75,16 +75,16 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e2BeBuff',
       text: 'E2 BE buff',
       title: 'E2 BE buff',
-      content: betaUpdate,
+      content: `When in Standoff and gaining Pocket Trickshot, recovers 1 Skill Point(s) and increases Break Effect by 30%, lasting for 2 turn(s). Can also trigger this effect when gaining Pocket Trickshot stacks that exceed the max limit. But cannot trigger repeatedly within one turn.`,
       disabled: e < 2,
     },
     {
       formItem: 'switch',
       id: 'e4TargetStandoffVulnerability',
       name: 'e4TargetStandoffVulnerability',
-      text: 'E4 Standoff vulnerability',
-      title: 'E4 Standoff vulnerability',
-      content: betaUpdate,
+      text: 'E4 Skill vulnerability',
+      title: 'E4 Skill vulnerability',
+      content: `When the enemy target in the Standoff is attacked by Boothill, the DMG they receive additionally increases by 12%. When Boothill is attacked by the enemy target in the Standoff, the effect of him receiving increased DMG is offset by 12%.`,
       disabled: e < 4,
     },
     {
@@ -93,13 +93,12 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e6AdditionalBreakDmg',
       text: 'E6 Break DMG boost',
       title: 'E6 Break DMG boost',
-      content: betaUpdate,
+      content: `When triggering the Talent's Break DMG, additionally deals Break DMG to the target equal to 40% of the original DMG multiplier and additionally deals Break DMG to adjacent targets equal to 70% of the original DMG multiplier.`,
       disabled: e < 6,
     },
   ]
 
-  const teammateContent: ContentItem[] = [
-  ]
+  const teammateContent: ContentItem[] = []
 
   const defaults = {
     standoffActive: true,
@@ -116,11 +115,15 @@ export default (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
-    teammateDefaults: () => ({
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
+
+      // Special case where we force the weakness break on if the talent break option is enabled
+      if (r.talentBreakDmgScaling) {
+        request.enemyWeaknessBroken = true
+      }
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
       x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
@@ -129,14 +132,12 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
 
       x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling : basicScaling
-      x.BREAK_EFFICIENCY_BOOST += r.pocketTrickshotStacks * 0.50
+      x.BASIC_BREAK_EFFICIENCY_BOOST += (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0
 
       x.ULT_SCALING += ultScaling
 
-      // Special case where we force the weakness break on if the talent break option is enabled
-      if (r.talentBreakDmgScaling) {
-        request.enemyWeaknessBroken = true
-      }
+      x.BASIC_TOUGHNESS_DMG += (r.standoffActive) ? 60 : 30
+      x.ULT_TOUGHNESS_DMG += 90
 
       return x
     },

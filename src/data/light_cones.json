@@ -952,27 +952,55 @@
         "rarity": 4,
         "path": "Warlock",
         "name": "Boundless Choreo",
-        "unreleased": true
+        "unreleased": false
     },
     "22002": {
         "id": "22002",
         "rarity": 4,
         "path": "Shaman",
         "name": "For Tomorrow's Journey",
-        "unreleased": true
+        "unreleased": false
     },
     "23026": {
         "id": "23026",
         "rarity": 5,
         "path": "Shaman",
         "name": "Flowing Nightglow",
-        "unreleased": true
+        "unreleased": false
     },
     "23027": {
         "id": "23027",
         "rarity": 5,
         "path": "Rogue",
         "name": "Sailing Towards A Second Life",
+        "unreleased": false
+    },
+    "21045": {
+        "id": "21045",
+        "rarity": 4,
+        "path": "Mage",
+        "name": "After the Charmony Fall",
+        "unreleased": true
+    },
+    "23025": {
+        "id": "23025",
+        "rarity": 5,
+        "path": "Warrior",
+        "name": "Whereabouts Should Dreams Rest",
+        "unreleased": true
+    },
+    "23028": {
+        "id": "23028",
+        "rarity": 5,
+        "path": "Mage",
+        "name": "Yet Hope Is Priceless",
+        "unreleased": true
+    },
+    "24004": {
+        "id": "24004",
+        "rarity": 5,
+        "path": "Mage",
+        "name": "Eternal Calculus",
         "unreleased": true
     }
 }

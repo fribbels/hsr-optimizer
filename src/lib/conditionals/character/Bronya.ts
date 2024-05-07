@@ -1,5 +1,9 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -29,20 +33,6 @@ export default (e: Eidolon): CharacterConditional => {
     content: `When Bronya is on the field, all allies deal 10% more DMG.`,
   }, {
     formItem: 'switch',
-    id: 'battleStartDefBuff',
-    name: 'battleStartDefBuff',
-    text: 'Initial DEF buff',
-    title: 'Trace: Battlefield',
-    content: `At the start of the battle, all allies' DEF increases by 20% for 2 turn(s).`,
-  }, {
-    formItem: 'switch',
-    id: 'techniqueBuff',
-    name: 'techniqueBuff',
-    text: 'Technique ATK buff',
-    title: 'Technique: Banner of Command',
-    content: `After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).`,
-  }, {
-    formItem: 'switch',
     id: 'skillBuff',
     name: 'skillBuff',
     text: 'Skill DMG buff',
@@ -57,6 +47,20 @@ export default (e: Eidolon): CharacterConditional => {
     content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
   }, {
     formItem: 'switch',
+    id: 'battleStartDefBuff',
+    name: 'battleStartDefBuff',
+    text: 'Initial DEF buff',
+    title: 'Trace: Battlefield',
+    content: `At the start of the battle, all allies' DEF increases by 20% for 2 turn(s).`,
+  }, {
+    formItem: 'switch',
+    id: 'techniqueBuff',
+    name: 'techniqueBuff',
+    text: 'Technique ATK buff',
+    title: 'Technique: Banner of Command',
+    content: `After using Bronya's Technique, at the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).`,
+  }, {
+    formItem: 'switch',
     id: 'e2SkillSpdBuff',
     name: 'e2SkillSpdBuff',
     text: 'E2 skill SPD buff',
@@ -67,10 +71,10 @@ export default (e: Eidolon): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'teamDmgBuff'),
-    findContentId(content, 'battleStartDefBuff'),
-    findContentId(content, 'techniqueBuff'),
     findContentId(content, 'skillBuff'),
     findContentId(content, 'ultBuff'),
+    findContentId(content, 'battleStartDefBuff'),
+    findContentId(content, 'techniqueBuff'),
     {
       formItem: 'slider',
       id: 'teammateCDValue',
@@ -87,10 +91,10 @@ export default (e: Eidolon): CharacterConditional => {
 
   const defaults = {
     teamDmgBuff: true,
-    techniqueBuff: false,
-    battleStartDefBuff: true,
     skillBuff: true,
     ultBuff: true,
+    battleStartDefBuff: false,
+    techniqueBuff: false,
     e2SkillSpdBuff: false,
   }
 
@@ -113,6 +117,9 @@ export default (e: Eidolon): CharacterConditional => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.FUA_SCALING += (e >= 4) ? fuaScaling : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.FUA_TOUGHNESS_DMG += (e >= 4) ? 30 : 0
 
       return x
     },

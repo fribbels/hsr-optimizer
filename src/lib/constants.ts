@@ -1,3 +1,6 @@
+// Represents the version of the latest info, which should be the beta leaks version
+export const CURRENT_OPTIMIZER_VERSION = 'v2.3.0'
+
 export const Stats = {
   ATK_P: 'ATK%',
   ATK: 'ATK',
@@ -211,6 +214,31 @@ export const StatsToReadableShort = {
   [Stats.Imaginary_DMG]: 'Imaginary',
 }
 
+export const StatsToShort = {
+  [Stats.HP_P]: 'HP%',
+  [Stats.ATK_P]: 'ATK%',
+  [Stats.DEF_P]: 'DEF%',
+  [Stats.SPD_P]: 'SPD%',
+  [Stats.HP]: 'HP',
+  [Stats.ATK]: 'ATK',
+  [Stats.DEF]: 'DEF',
+  [Stats.SPD]: 'SPD',
+  [Stats.CR]: 'CR',
+  [Stats.CD]: 'CD',
+  [Stats.EHR]: 'EHR',
+  [Stats.RES]: 'RES',
+  [Stats.BE]: 'BE',
+  [Stats.ERR]: 'ERR',
+  [Stats.OHB]: 'OHB',
+  [Stats.Physical_DMG]: 'Physical',
+  [Stats.Fire_DMG]: 'Fire',
+  [Stats.Ice_DMG]: 'Ice',
+  [Stats.Lightning_DMG]: 'Lightning',
+  [Stats.Wind_DMG]: 'Wind',
+  [Stats.Quantum_DMG]: 'Quantum',
+  [Stats.Imaginary_DMG]: 'Imaginary',
+}
+
 export const Parts = {
   Head: 'Head',
   Hands: 'Hands',
@@ -259,6 +287,8 @@ export const SetsRelics = {
   PrisonerInDeepConfinement: 'Prisoner in Deep Confinement',
   PioneerDiverOfDeadWaters: 'Pioneer Diver of Dead Waters',
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
+  IronCavalryAgainstScourge: 'Iron Cavalry Against Scourge',
+  TheWindSoaringValorous: 'The Wind-Soaring Valorous',
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
@@ -277,6 +307,8 @@ export const SetsOrnaments = {
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
   SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
+  DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
+  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
@@ -454,3 +486,41 @@ export const RelicSetFilterOptions = {
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
 export const MAX_RESULTS = 2_000_000
+
+export const BodyStatOptions = [
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.CR, short: "Crit Rate", label: 'CRIT Rate'},
+  {value: Stats.CD, short: "Crit DMG", label: 'CRIT DMG'},
+  {value: Stats.EHR, short: "EHR", label: 'Effect HIT Rate'},
+  {value: Stats.OHB, short: "Healing", label: 'Outgoing Healing Boost'},
+]
+
+export const FeetStatOptions = [
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.SPD, short: "SPD", label: 'Speed'},
+]
+
+export const LinkRopeStatOptions = [
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.BE, short: "Break", label: 'Break Effect'},
+  {value: Stats.ERR, short: "Energy", label: 'Energy Regeneration Rate'},
+]
+
+export const PlanarSphereStatOptions = [
+  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
+  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
+  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
+  {value: Stats.Physical_DMG, short: "Physical", label: 'Physical DMG'},
+  {value: Stats.Fire_DMG, short: "Fire", label: 'Fire DMG'},
+  {value: Stats.Ice_DMG, short: "Ice", label: 'Ice DMG'},
+  {value: Stats.Lightning_DMG, short: "Lightning", label: 'Lightning DMG'},
+  {value: Stats.Wind_DMG, short: "Wind", label: 'Wind DMG'},
+  {value: Stats.Quantum_DMG, short: "Quantum", label: 'Quantum DMG'},
+  {value: Stats.Imaginary_DMG, short: "Imaginary", label: 'Imaginary DMG'},
+]

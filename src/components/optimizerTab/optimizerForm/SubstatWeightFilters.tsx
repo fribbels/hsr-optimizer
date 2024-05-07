@@ -20,7 +20,7 @@ export const SubstatWeightFilters = () => {
         <TooltipImage type={Hint.substatWeightFilter()} />
       </Flex>
 
-      <Flex vertical gap={0}>
+      <Flex vertical gap={1}>
         <FormStatRollSlider text="HP" name={Constants.Stats.HP_P} />
         <FormStatRollSlider text="ATK" name={Constants.Stats.ATK_P} />
         <FormStatRollSlider text="DEF" name={Constants.Stats.DEF_P} />

@@ -3,6 +3,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalLightConeMap, LightConeConditional } from 'types/LightConeConditionals'
+import { precisionRound } from 'lib/conditionals/utils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesDmgBoost = [0.18, 0.21, 0.24, 0.27, 0.30]
@@ -15,7 +16,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Ult usage DMG buff',
       title: 'Ult usage DMG buff',
-      content: 'Ult usage DMG buff',
+      content: `After the wearer uses their Ultimate, increases their DMG dealt by ${precisionRound(sValuesDmgBoost[s] * 100)}%, lasting for 1 turn(s).`,
     },
   ]
 

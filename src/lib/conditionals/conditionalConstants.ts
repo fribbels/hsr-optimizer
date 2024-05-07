@@ -100,6 +100,7 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_DMG_MODIFIER: 0,
 
   BREAK_EFFICIENCY_BOOST: 0,
+  BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
 
   BASIC_DMG: 0,
   SKILL_DMG: 0,
@@ -107,6 +108,14 @@ export const baseComputedStatsObject = {
   FUA_DMG: 0,
   DOT_DMG: 0,
   BREAK_DMG: 0,
+
+  WEAKNESS_BREAK_OVERRIDE: 0,
+
+  SUPER_BREAK_MODIFIER: 0,
+  BASIC_TOUGHNESS_DMG: 0,
+  SKILL_TOUGHNESS_DMG: 0,
+  ULT_TOUGHNESS_DMG: 0,
+  FUA_TOUGHNESS_DMG: 0,
 
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 }

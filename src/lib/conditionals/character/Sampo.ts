@@ -76,6 +76,10 @@ export default (e: Eidolon): CharacterConditional => {
       // Boost
       x.DMG_RED_MULTI *= (r.targetWindShear) ? (1 - 0.15) : 1
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30 + 15 * r.skillExtraHits
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

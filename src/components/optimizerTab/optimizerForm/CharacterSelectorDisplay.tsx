@@ -89,7 +89,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         <Form.Item name="characterId">
           <CharacterSelect
             value=""
-            selectStyle={{ width: 150 }}
+            selectStyle={{ width: 156 }}
             onChange={setOptimizerTabFocusCharacter}
           />
         </Form.Item>
@@ -114,7 +114,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           <Form.Item name="lightCone">
             <LightConeSelect
               value=""
-              selectStyle={{ width: 150 }}
+              selectStyle={{ width: 156 }}
               characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
             />

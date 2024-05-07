@@ -10,6 +10,7 @@ import { CharacterStats } from './characterStats'
 import { StatCalculator } from './statCalculator'
 import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
+import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
 let relics
 let consts
@@ -92,6 +93,13 @@ export const OptimizerTabController = {
           window.setOptimizerBuild(character.equipped)
         }
       }
+      return
+    }
+
+    if (data.statSim) {
+      const key = data.statSim.key
+      window.store.getState().setSelectedStatSimulations([key])
+      window.setOptimizerBuild({})
       return
     }
 
@@ -197,7 +205,7 @@ export const OptimizerTabController = {
     }
   },
 
-  calculateRelicsFromId: (id) => {
+  calculateRelicsFromId: (id, returnRelics = false) => {
     const lSize = consts.lSize
     const pSize = consts.pSize
     const fSize = consts.fSize
@@ -221,6 +229,17 @@ export const OptimizerTabController = {
     relics.PlanarSphere[p].optimizerCharacterId = characterId
     relics.LinkRope[l].optimizerCharacterId = characterId
 
+    if (returnRelics) {
+      return {
+        Head: relics.Head[h],
+        Hands: relics.Hands[g],
+        Body: relics.Body[b],
+        Feet: relics.Feet[f],
+        PlanarSphere: relics.PlanarSphere[p],
+        LinkRope: relics.LinkRope[l],
+      }
+    }
+
     return {
       Head: relics.Head[h].id,
       Hands: relics.Hands[g].id,
@@ -239,7 +258,7 @@ export const OptimizerTabController = {
 
   // Convert a form to its visual representation
   getDisplayFormValues: (form) => {
-    const newForm = JSON.parse(JSON.stringify(form))
+    const newForm = Utils.clone(form)
     const metadata = DB.getMetadata().characters[form.characterId]
 
     // Erase inputs where min == 0 and max == MAX_INT
@@ -366,6 +385,20 @@ export const OptimizerTabController = {
         for (const applyPreset of metadata.scoringMetadata.presets || []) {
           applyPreset(newForm)
         }
+
+        const overrides = window.store.getState().scoringMetadataOverrides[newForm.characterId]
+        if (overrides) {
+          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata, overrides)
+        }
+
+        newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]
+        newForm.mainFeet = metadata.scoringMetadata.parts[Constants.Parts.Feet]
+        newForm.mainPlanarSphere = metadata.scoringMetadata.parts[Constants.Parts.PlanarSphere]
+        newForm.mainLinkRope = metadata.scoringMetadata.parts[Constants.Parts.LinkRope]
+        newForm.weights = metadata.scoringMetadata.stats
+        newForm.weights.topPercent = 100
+
+        applyMetadataPresetToForm(newForm, metadata.scoringMetadata)
       }
     }
 
@@ -420,6 +453,16 @@ export const OptimizerTabController = {
 
     if (!newForm.resultLimit) {
       newForm.resultLimit = 100000
+    }
+
+    if (!newForm.statSim) {
+      newForm.statSim = {
+
+      }
+    }
+
+    if (!newForm.statSim.simulations) {
+      newForm.statSim.simulations = []
     }
 
     console.log('Form update', newForm)
@@ -587,6 +630,14 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
+    const dbCharacter = DB.getMetadata().characters[characterId]
+    let metadata = Utils.clone(dbCharacter.scoringMetadata)
+    const overrides = window.store.getState().scoringMetadataOverrides[characterId]
+    if (overrides) {
+      metadata = Utils.mergeDefinedValues(metadata, overrides)
+    }
+    applyMetadataPresetToForm(form, metadata)
+
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
@@ -597,6 +648,7 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerTabFocusCharacter(characterId)
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay || DEFAULT_STAT_DISPLAY)
+      window.store.getState().setStatSimulations(form.statSim?.simulations || [])
       console.log('@updateForm', displayFormValues, character)
 
       window.onOptimizerFormValuesChange({}, displayFormValues)

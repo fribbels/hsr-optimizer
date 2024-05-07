@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { Assets } from 'lib/assets.js'
 import { Constants, RelicSetFilterOptions } from 'lib/constants.ts'
+import { UnreleasedSets } from 'lib/dataParser'
 
 const GenerateSetsOptions = () => {
   const result: {
@@ -28,7 +29,9 @@ const GenerateSetsOptions = () => {
     },
   ]
 
-  const tier2Children = Object.entries(Constants.SetsRelics).map((set) => ({ value: set[1], label: set[1] }))
+  const tier2Children = Object.entries(Constants.SetsRelics)
+    .filter(x => !UnreleasedSets[x[1]])
+    .map((set) => ({ value: set[1], label: set[1] }))
 
   const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
     const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
@@ -42,7 +45,7 @@ const GenerateSetsOptions = () => {
     )
   }
 
-  for (const set of Object.entries(Constants.SetsRelics)) {
+  for (const set of Object.entries(Constants.SetsRelics).filter(x => !UnreleasedSets[x[1]])) {
     result[0].children.push({
       value: set[1],
       label: GenerateLabel(set[1], '(4) ', set[1]),
@@ -67,6 +70,23 @@ const GenerateSetsOptions = () => {
   }
 
   return result
+}
+
+export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
+  return Object.values(Constants.SetsRelics)
+    .filter(x => !UnreleasedSets[x])
+    .map((x) => {
+      return {
+        value: x,
+        label:
+          <Flex gap={5} align="center">
+            <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
+            <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
+              {x}
+            </div>
+          </Flex>,
+      }
+    })
 }
 
 export default GenerateSetsOptions

@@ -52,6 +52,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_BOOST += (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0
       x.ULT_BOOST += (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {

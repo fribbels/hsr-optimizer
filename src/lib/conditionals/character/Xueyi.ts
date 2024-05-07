@@ -1,6 +1,10 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants.ts'
 
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -66,7 +70,7 @@ export default (e: Eidolon): CharacterConditional => {
     {
       id: 'e4BeBuff',
       name: 'e4BeBuff',
-      text: 'E4: Karma, Severed',
+      text: 'E4 BE buff',
       formItem: 'switch',
       title: 'E4 break effect buff',
       content: 'E4: When using Ultimate, increases Break Effect by 40% for 2 turn(s).',
@@ -103,6 +107,11 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_BOOST += (r.enemyToughness50) ? 0.10 : 0
       x.ULT_BOOST += r.toughnessReductionDmgBoost as number
       x.FUA_BOOST += (e >= 1) ? 0.40 : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 120
+      x.FUA_TOUGHNESS_DMG += 15 * (r.fuaHits as number)
 
       return x
     },

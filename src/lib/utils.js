@@ -3,6 +3,7 @@ import DB from './db'
 import { Constants } from './constants.ts'
 import { Message } from './message'
 import { v4 as uuidv4 } from 'uuid'
+import objectHash from 'object-hash'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -31,6 +32,11 @@ console.debug = (...args) => {
 }
 
 export const Utils = {
+  // Hashes an object for uniqueness checks
+  objectHash: (obj) => {
+    return objectHash(obj)
+  },
+
   // Fill array of size n with 0s
   arrayOfZeroes: (n) => {
     return new Array(n).fill(0)
@@ -151,22 +157,22 @@ export const Utils = {
     return byId
   },
 
-  // truncate10ths(16.1999999312682) == 16.9
+  // truncate10ths(16.1999999312682) == 16.1
   truncate10ths: (x) => {
     return Math.floor(x * 10) / 10
   },
 
-  // truncate100ths(16.1999999312682) == 16.99
+  // truncate100ths(16.1999999312682) == 16.19
   truncate100ths: (x) => {
     return Math.floor(x * 100) / 100
   },
 
-  // truncate100ths(16.1999999312682) == 16.999
+  // truncate100ths(16.1999999312682) == 16.199
   truncate1000ths: (x) => {
     return Math.floor(x * 1000) / 1000
   },
 
-  // truncate10000ths(16.1999999312682) == 16.9999
+  // truncate10000ths(16.1999999312682) == 16.1999
   truncate10000ths: (x) => {
     return Math.floor(x * 10000) / 10000
   },

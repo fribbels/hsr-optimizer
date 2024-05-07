@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
-import { ConfigProvider, Layout, message, theme } from 'antd'
+import { ConfigProvider, Layout, message, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
+import { SettingsDrawer } from 'components/SettingsDrawer'
+import { checkForUpdatesNotification } from 'lib/notifications'
 
 const { useToken, getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
+  const [notificationApi, notificationContextHolder] = notification.useNotification();
+
   window.messageApi = messageApi
+  window.notificationApi = notificationApi
 
   const colorTheme = store((s) => s.colorTheme)
   useEffect(() => {
@@ -17,6 +22,11 @@ const App = () => {
       token: colorTheme,
     }))
   }, [colorTheme])
+
+
+  useEffect(() => {
+    checkForUpdatesNotification(DB.getState().version)
+  }, []);
 
   return (
     <ConfigProvider
@@ -32,7 +42,7 @@ const App = () => {
         components: {
           // OptimizerForm.js
           Cascader: {
-            dropdownHeight: 660,
+            dropdownHeight: 740,
             controlItemWidth: 100,
             controlWidth: 100,
           },
@@ -44,6 +54,12 @@ const App = () => {
           // MenuDrawer.js
           Menu: {
             margin: 2,
+          },
+
+          Table: {
+            headerBg: '#00000036',
+            cellPaddingInlineSM: 5,
+            cellPaddingBlockSM: 6,
           },
 
           Slider: {
@@ -68,11 +84,15 @@ const App = () => {
           Tag: {
             defaultColor: '#ffffff',
           },
+          Notification: {
+            width: 450
+          },
         },
         algorithm: theme.darkAlgorithm,
       }}
     >
       {messageContextHolder}
+      {notificationContextHolder}
       <Layout style={{ minHeight: '100%' }}>
         <LayoutHeader />
         <Layout hasSider>
@@ -92,6 +112,7 @@ const App = () => {
           >
             <Tabs />
           </Content>
+          <SettingsDrawer />
         </Layout>
       </Layout>
     </ConfigProvider>

@@ -26,9 +26,9 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
       <Flex vertical gap={5}>
         <Flex justify="space-between" align="center">
           <HeaderText>Light cone passives</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()} />
+          <TooltipImage type={Hint.lightConePassives()}/>
         </Flex>
-        {(teammateIndex == null) && <Typography.Text italic>Select Light cone to view passives</Typography.Text>}
+        {(teammateIndex == null) && <Typography.Text italic></Typography.Text>}
       </Flex>
     )
   }
@@ -44,9 +44,9 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     <Flex vertical gap={5}>
       <Flex justify="space-between" align="center">
         <HeaderText>Light cone passives</HeaderText>
-        <TooltipImage type={Hint.lightConePassives()} />
+        <TooltipImage type={Hint.lightConePassives()}/>
       </Flex>
-      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
+      <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )
 })

@@ -1,36 +1,40 @@
-import { Constants } from './constants.ts'
+import { Constants, SubStatValues } from './constants.ts'
 import DB from './db'
 import { CharacterStats } from './characterStats'
 import { Utils } from './utils'
 
-let maxedMainStats
+const maxedMainStats = {
+  [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
+  [Constants.Stats.HP]: [139.991, 281.111, 469.647, 705.600],
+  [Constants.Stats.ATK]: [69.996, 140.556, 234.824, 352.800],
+  [Constants.Stats.HP_P]: [8.571, 17.211, 28.754, 43.200],
+  [Constants.Stats.ATK_P]: [8.571, 17.211, 28.754, 43.200],
+  [Constants.Stats.DEF_P]: [10.714, 21.514, 35.942, 54.000],
+  [Constants.Stats.CR]: [6.428, 12.908, 21.565, 32.400],
+  [Constants.Stats.CD]: [12.856, 25.817, 43.130, 64.800],
+  [Constants.Stats.OHB]: [6.856, 13.769, 23.003, 34.561],
+  [Constants.Stats.EHR]: [8.571, 17.211, 28.754, 43.200],
+  [Constants.Stats.BE]: [12.856, 25.817, 43.130, 64.800],
+  [Constants.Stats.ERR]: [3.857, 7.745, 12.939, 19.439],
+  [Constants.Stats.Physical_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Fire_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Ice_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Lightning_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Wind_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Quantum_DMG]: [7.714, 15.490, 25.878, 38.880],
+  [Constants.Stats.Imaginary_DMG]: [7.714, 15.490, 25.878, 38.880],
+}
 
 export const StatCalculator = {
-  getMaxedMainStat: (relic) => {
-    if (!maxedMainStats) {
-      maxedMainStats = {
-        [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
-        [Constants.Stats.HP]: [139.991, 281.111, 469.647, 705.600],
-        [Constants.Stats.ATK]: [69.996, 140.556, 234.824, 352.800],
-        [Constants.Stats.HP_P]: [8.571, 17.211, 28.754, 43.200],
-        [Constants.Stats.ATK_P]: [8.571, 17.211, 28.754, 43.200],
-        [Constants.Stats.DEF_P]: [10.714, 21.514, 35.942, 54.000],
-        [Constants.Stats.CR]: [6.428, 12.908, 21.565, 32.400],
-        [Constants.Stats.CD]: [12.856, 25.817, 43.130, 64.800],
-        [Constants.Stats.OHB]: [6.856, 13.769, 23.003, 34.561],
-        [Constants.Stats.EHR]: [8.571, 17.211, 28.754, 43.200],
-        [Constants.Stats.BE]: [12.856, 25.817, 43.130, 64.800],
-        [Constants.Stats.ERR]: [3.857, 7.745, 12.939, 19.439],
-        [Constants.Stats.Physical_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Fire_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Ice_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Lightning_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Wind_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Quantum_DMG]: [7.714, 15.490, 25.878, 38.880],
-        [Constants.Stats.Imaginary_DMG]: [7.714, 15.490, 25.878, 38.880],
-      }
-    }
+  getMaxedSubstatValue: (stat) => {
+    return Utils.precisionRound(SubStatValues[stat][5].high)
+  },
+  getMaxedStatValue: (stat) => {
+    const scaling = Utils.isFlat(stat) ? 1 : 100
+    return Utils.precisionRound(maxedMainStats[stat][3] / scaling)
+  },
 
+  getMaxedMainStat: (relic) => {
     return maxedMainStats[relic.main.stat][relic.grade - 2]
   },
 
@@ -122,14 +126,14 @@ export const StatCalculator = {
 
     let hero = {
       [Constants.Stats.HP]: (base[Constants.Stats.HP] + lc[Constants.Stats.HP]) * (1 + 0.12 * Math.min(1, ornamentSets[1] >> 1) + 0.12 * Math.min(1, relicSets[12] >> 1) + sum(relics, Constants.Stats.HP_P) + trace[Constants.Stats.HP_P] + lc[Constants.Stats.HP_P]) + sum(relics, Constants.Stats.HP),
-      [Constants.Stats.ATK]: (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]) * (1 + 0.12 * Math.min(1, ornamentSets[0] >> 1) + 0.12 * Math.min(1, ornamentSets[10] >> 1) + 0.12 * Math.min(1, ornamentSets[13] >> 1) + 0.12 * Math.min(1, relicSets[1] >> 1) + 0.12 * Math.min(1, relicSets[15] >> 1) + sum(relics, Constants.Stats.ATK_P) + trace[Constants.Stats.ATK_P] + lc[Constants.Stats.ATK_P]) + sum(relics, Constants.Stats.ATK),
+      [Constants.Stats.ATK]: (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]) * (1 + 0.12 * Math.min(1, relicSets[19] >> 1) + 0.12 * Math.min(1, ornamentSets[0] >> 1) + 0.12 * Math.min(1, ornamentSets[10] >> 1) + 0.12 * Math.min(1, ornamentSets[13] >> 1) + 0.12 * Math.min(1, relicSets[1] >> 1) + 0.12 * Math.min(1, relicSets[15] >> 1) + sum(relics, Constants.Stats.ATK_P) + trace[Constants.Stats.ATK_P] + lc[Constants.Stats.ATK_P]) + sum(relics, Constants.Stats.ATK),
       [Constants.Stats.DEF]: (base[Constants.Stats.DEF] + lc[Constants.Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSets[3] >> 1) + 0.15 * Math.min(1, relicSets[2] >> 1) + sum(relics, Constants.Stats.DEF_P) + trace[Constants.Stats.DEF_P] + lc[Constants.Stats.DEF_P]) + sum(relics, Constants.Stats.DEF),
-      [Constants.Stats.SPD]: (base[Constants.Stats.SPD] + lc[Constants.Stats.SPD]) * (1 + 0.06 * Math.min(1, relicSets[13] >> 1) + 0.06 * (relicSets[1] >> 2) + sum(relics, Constants.Stats.SPD_P) + trace[Constants.Stats.SPD_P]) + sum(relics, Constants.Stats.SPD) + trace[Constants.Stats.SPD],
+      [Constants.Stats.SPD]: (base[Constants.Stats.SPD] + lc[Constants.Stats.SPD]) * (1 + 0.06 * Math.min(1, ornamentSets[14] >> 1) + 0.06 * Math.min(1, relicSets[13] >> 1) + 0.06 * (relicSets[1] >> 2) + sum(relics, Constants.Stats.SPD_P) + trace[Constants.Stats.SPD_P]) + sum(relics, Constants.Stats.SPD) + trace[Constants.Stats.SPD],
       [Constants.Stats.CR]: 0.04 * Math.min(1, relicSets[16] >> 2) + 0.08 * Math.min(1, ornamentSets[5] >> 1) + 0.04 * Math.min(1, ornamentSets[12] >> 1) + 0.08 * Math.min(1, ornamentSets[8] >> 1) + (base[Constants.Stats.CR] + lc[Constants.Stats.CR] + crSum + trace[Constants.Stats.CR]),
       [Constants.Stats.CD]: 0.16 * Math.min(1, ornamentSets[4] >> 1) + (base[Constants.Stats.CD] + lc[Constants.Stats.CD] + cdSum + trace[Constants.Stats.CD]),
       [Constants.Stats.EHR]: 0.1 * Math.min(1, ornamentSets[2] >> 1) + (base[Constants.Stats.EHR] + lc[Constants.Stats.EHR] + sum(relics, Constants.Stats.EHR) + trace[Constants.Stats.EHR]),
       [Constants.Stats.RES]: 0.1 * Math.min(1, ornamentSets[9] >> 1) + (base[Constants.Stats.RES] + lc[Constants.Stats.RES] + sum(relics, Constants.Stats.RES) + trace[Constants.Stats.RES]),
-      [Constants.Stats.BE]: 0.16 * Math.min(1, relicSets[17] >> 1) + 0.16 * Math.min(1, ornamentSets[6] >> 1) + 0.16 * Math.min(1, relicSets[10] >> 1) + 0.16 * (relicSets[10] >> 2) + (base[Constants.Stats.BE] + lc[Constants.Stats.BE] + sum(relics, Constants.Stats.BE) + trace[Constants.Stats.BE]),
+      [Constants.Stats.BE]: 0.16 * Math.min(1, relicSets[18] >> 1) + 0.16 * Math.min(1, relicSets[17] >> 1) + 0.16 * Math.min(1, ornamentSets[6] >> 1) + 0.16 * Math.min(1, relicSets[10] >> 1) + 0.16 * (relicSets[10] >> 2) + (base[Constants.Stats.BE] + lc[Constants.Stats.BE] + sum(relics, Constants.Stats.BE) + trace[Constants.Stats.BE]),
       [Constants.Stats.ERR]: 0.05 * Math.min(1, ornamentSets[7] >> 1) + 0.05 * Math.min(1, ornamentSets[11] >> 1) + (base[Constants.Stats.ERR] + lc[Constants.Stats.ERR] + sum(relics, Constants.Stats.ERR) + trace[Constants.Stats.ERR]),
       [Constants.Stats.OHB]: 0.1 * Math.min(1, relicSets[0] >> 1) + (base[Constants.Stats.OHB] + lc[Constants.Stats.OHB] + sum(relics, Constants.Stats.OHB) + trace[Constants.Stats.OHB]),
       [Constants.Stats.Physical_DMG]: 0.1 * Math.min(1, relicSets[4] >> 1) + (base[Constants.Stats.Physical_DMG] + lc[Constants.Stats.Physical_DMG] + sum(relics, Constants.Stats.Physical_DMG) + trace[Constants.Stats.Physical_DMG]),

@@ -105,6 +105,10 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
       // Boost
       x.ELEMENTAL_DMG += (e >= 6) ? r.targetDebuffs * 0.20 : 0
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 90
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

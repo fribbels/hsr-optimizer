@@ -80,7 +80,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      // Boost
+      x.BASIC_TOUGHNESS_DMG += 30
 
       return x
     },

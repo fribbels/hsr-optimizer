@@ -26,7 +26,7 @@ export default (e: Eidolon): CharacterConditional => {
     name: 'skillBuff',
     text: 'E1 SPD buff',
     title: 'E1 SPD buff',
-    content: `E1: Increases all allies' SPD by 12% for 2 turns after using Skill.`,
+    content: `E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%.`,
     disabled: e < 1,
   }, {
     formItem: 'switch',
@@ -62,6 +62,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
+
+      x.BASIC_TOUGHNESS_DMG += 30
 
       return x
     },

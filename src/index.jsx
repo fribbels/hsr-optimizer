@@ -29,7 +29,6 @@ import { Themes } from 'lib/theme'
 window.WorkerPool = WorkerPool
 window.Constants = Constants
 window.DataParser = DataParser
-// window.OptimizerTabController = OptimizerTabController
 window.DB = DB
 window.CharacterStats = CharacterStats
 window.Assets = Assets

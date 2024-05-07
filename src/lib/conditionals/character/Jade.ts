@@ -5,21 +5,20 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 
 const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5 // TODO: UNKNOWN
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
-  // TODO: Using lv 15 multis
   // TODO: Ashblazing
-  const basicScaling = basic(e, 1.17, 1.17)
-  const skillScaling = skill(e, 0.25, 0.25)
-  const ultScaling = ult(e, 3.00, 3.00)
-  const ultFuaScalingBuff = ult(e, 1.00, 1.00)
-  const fuaScaling = talent(e, 1.50, 1.50)
-  const pawnedAssetCdScaling = talent(e, 0.03, 0.03)
+  const basicScaling = basic(e, 0.90, 0.99)
+  const skillScaling = skill(e, 0.20, 0.22)
+  const ultScaling = ult(e, 2.40, 2.64)
+  const ultFuaScalingBuff = ult(e, 0.80, 0.88)
+  const fuaScaling = talent(e, 1.20, 1.32)
+  const pawnedAssetCdScaling = talent(e, 0.024, 0.0264)
 
   const content: ContentItem[] = [
     {
@@ -122,9 +121,14 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0
+
       x.FUA_BOOST += (e >= 1 && r.e1FuaDmgBoost) ? 0.20 : 0
       x.DEF_SHRED += (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0
       x.QUANTUM_RES_PEN += (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += 30
 
       return x
     },

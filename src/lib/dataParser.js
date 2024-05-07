@@ -1071,8 +1071,8 @@ function getOverrideImageCenter() {
       y: 900,
     },
     1310: { // Firefly
-      x: 1024,
-      y: 1024,
+      x: 900,
+      y: 1150,
     },
     1312: { // Misha
       x: 1050,
@@ -1080,7 +1080,7 @@ function getOverrideImageCenter() {
     },
     1314: { // Jade
       x: 1024,
-      y: 1024,
+      y: 950,
     },
     1315: { // Boothill
       x: 1000,
@@ -3677,20 +3677,20 @@ function getScoringMetadata() {
       stats: {
         [Constants.Stats.ATK]: 1,
         [Constants.Stats.ATK_P]: 1,
-        [Constants.Stats.DEF]: 0.75,
-        [Constants.Stats.DEF_P]: 0.75,
-        [Constants.Stats.HP]: 0.75,
-        [Constants.Stats.HP_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0,
-        [Constants.Stats.CD]: 0,
+        [Constants.Stats.CR]: 0.75,
+        [Constants.Stats.CD]: 0.75,
         [Constants.Stats.EHR]: 0,
-        [Constants.Stats.RES]: 0.75,
-        [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 1,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 1,
+        [Constants.Stats.ERR]: 0,
         [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 1,
-        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 1,
         [Constants.Stats.Ice_DMG]: 0,
         [Constants.Stats.Lightning_DMG]: 0,
         [Constants.Stats.Wind_DMG]: 0,
@@ -3700,6 +3700,8 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.ATK_P,
+          Constants.Stats.CD,
+          Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -3707,10 +3709,10 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.Physical_DMG,
+          Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ERR,
+          Constants.Stats.BE,
         ],
       },
       relicSets: [
@@ -3788,10 +3790,10 @@ function getScoringMetadata() {
         [Constants.Stats.OHB]: 0,
         [Constants.Stats.Physical_DMG]: 0,
         [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 1,
+        [Constants.Stats.Ice_DMG]: 0,
         [Constants.Stats.Lightning_DMG]: 0,
         [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 1,
         [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
@@ -3805,7 +3807,7 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.Ice_DMG,
+          Constants.Stats.Quantum_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,

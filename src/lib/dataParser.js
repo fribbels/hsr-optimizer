@@ -366,6 +366,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CR]: 0.14 },
       5: { [Constants.Stats.CR]: 0.16 },
     },
+    21045: {
+      1: { [Constants.Stats.BE]: 0.28 },
+      2: { [Constants.Stats.BE]: 0.35 },
+      3: { [Constants.Stats.BE]: 0.42 },
+      4: { [Constants.Stats.BE]: 0.49 },
+      5: { [Constants.Stats.BE]: 0.56 },
+    },
     22000: {
       1: { [Constants.Stats.EHR]: 0.20 },
       2: { [Constants.Stats.EHR]: 0.25 },
@@ -538,6 +545,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CD]: 0.54 },
       5: { [Constants.Stats.CD]: 0.60 },
     },
+    23025: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
+    },
     23026: {},
     23027: {
       1: { [Constants.Stats.BE]: 0.60 },
@@ -545,6 +559,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.BE]: 0.80 },
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
+    },
+    23028: {
+      1: { [Constants.Stats.CR]: 0.16 },
+      2: { [Constants.Stats.CR]: 0.19 },
+      3: { [Constants.Stats.CR]: 0.22 },
+      4: { [Constants.Stats.CR]: 0.25 },
+      5: { [Constants.Stats.CR]: 0.28 },
     },
     24000: {},
     24001: {
@@ -567,6 +588,13 @@ function getSuperimpositions() {
       3: { [Constants.Stats.BE]: 0.30 },
       4: { [Constants.Stats.BE]: 0.35 },
       5: { [Constants.Stats.BE]: 0.40 },
+    },
+    24004: {
+      1: { [Constants.Stats.ATK_P]: 0.08 },
+      2: { [Constants.Stats.ATK_P]: 0.09 },
+      3: { [Constants.Stats.ATK_P]: 0.10 },
+      4: { [Constants.Stats.ATK_P]: 0.11 },
+      5: { [Constants.Stats.ATK_P]: 0.12 },
     },
   }
 }

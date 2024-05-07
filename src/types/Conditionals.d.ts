@@ -335,3 +335,4 @@ export type ConditionalBuff =
   | 'atkBuff'
   | 'ultFuaCdBoost'
   | 'superBreakDmg'
+  | 'routedVulnerability'

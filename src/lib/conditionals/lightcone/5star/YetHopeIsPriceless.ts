@@ -9,8 +9,8 @@ import { Stats } from 'lib/constants'
 const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesFuaDmg = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO
-  const sValuesUltFuaDefShred = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO
+  const sValuesFuaDmg = [0.16, 0.19, 0.22, 0.25, 0.28]
+  const sValuesUltFuaDefShred = [0.16, 0.19, 0.22, 0.25, 0.28]
 
   const content: ContentItem[] = [
     {

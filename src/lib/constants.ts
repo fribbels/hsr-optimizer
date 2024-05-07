@@ -307,8 +307,8 @@ export const SetsOrnaments = {
   PenaconyLandOfTheDreams: 'Penacony, Land of the Dreams',
   SigoniaTheUnclaimedDesolation: 'Sigonia, the Unclaimed Desolation',
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
-  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
+  ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

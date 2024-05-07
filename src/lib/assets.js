@@ -167,6 +167,8 @@ export const Assets = {
       [Constants.Sets.PrisonerInDeepConfinement]: '116',
       [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
       [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
+      [Constants.Sets.IronCavalryAgainstScourge]: '119',
+      [Constants.Sets.TheWindSoaringValorous]: '120',
 
       [Constants.Sets.SpaceSealingStation]: '301',
       [Constants.Sets.FleetOfTheAgeless]: '302',
@@ -182,6 +184,8 @@ export const Assets = {
       [Constants.Sets.PenaconyLandOfTheDreams]: '312',
       [Constants.Sets.SigoniaTheUnclaimedDesolation]: '313',
       [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
+      [Constants.Sets.DuranDynastyOfRunningWolves]: '315',
+      [Constants.Sets.ForgeOfTheKalpagniLantern]: '316',
     }
 
     const partToId = {

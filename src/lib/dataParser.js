@@ -1281,6 +1281,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -1395,6 +1396,7 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
     },
@@ -1631,6 +1633,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2024,6 +2027,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(2),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2313,6 +2317,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(0),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2367,6 +2372,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.BASIC,
     },
@@ -2539,6 +2545,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
     },
@@ -2593,6 +2600,7 @@ function getScoringMetadata() {
         Constants.Sets.RutilantArena,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.BASIC,
     },
@@ -2817,6 +2825,7 @@ function getScoringMetadata() {
         Constants.Sets.FirmamentFrontlineGlamoth,
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.ULT,
     },
@@ -3094,6 +3103,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(3),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.SKILL,
     },
@@ -3403,6 +3413,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(7),
+        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
     },
@@ -3453,6 +3464,7 @@ function getScoringMetadata() {
       ],
       presets: [
         PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnWindSoaringSet(1),
         PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3804,6 +3816,7 @@ function getScoringMetadata() {
       ornamentSets: [
       ],
       presets: [
+        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.ULT,
     },

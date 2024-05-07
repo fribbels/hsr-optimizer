@@ -387,16 +387,16 @@ export const FormSetConditionals = () => {
             description="Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
             conditional="When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations."
           />
-          {Constants.SetsOrnaments.ForgeOfTheKalpagniLantern && <ConditionalSetOption
-            set={Constants.Sets.ForgeOfTheKalpagniLantern}
-            description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
-            conditional="When enabled, applies the Break Effect buff to combat stat calculations."
-          />}
           {Constants.SetsOrnaments.DuranDynastyOfRunningWolves && <ConditionalSetOption
             set={Constants.Sets.DuranDynastyOfRunningWolves}
             selectOptions={setDuranDynastyOfRunningWolves}
             description="When an ally unleashes follow-up attacks, the wearer gains one stack of Merit, up to a maximum of 6 stack(s). Each stack of Merit increases the wearer's follow-up attack DMG dealt by 4%. When the maximum of 6 stack(s) is reached, additionally increases the wearer's CRIT DMG by 24%."
             conditional="The selected buff is applied to damage calculations based on the number of stacks."
+          />}
+          {Constants.SetsOrnaments.ForgeOfTheKalpagniLantern && <ConditionalSetOption
+            set={Constants.Sets.ForgeOfTheKalpagniLantern}
+            description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
+            conditional="When enabled, applies the Break Effect buff to combat stat calculations."
           />}
         </Flex>
       </Flex>

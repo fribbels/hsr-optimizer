@@ -42,7 +42,7 @@ const App = () => {
         components: {
           // OptimizerForm.js
           Cascader: {
-            dropdownHeight: 660,
+            dropdownHeight: 740,
             controlItemWidth: 100,
             controlWidth: 100,
           },

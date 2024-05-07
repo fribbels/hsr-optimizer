@@ -85,10 +85,10 @@ export function calculateDamage(c, request, params) {
 
   x.ULT_DMG = x.ULT_DMG
     * universalMulti
-    * (dmgBoostMultiplier + x.ULT_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
+    * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_OVERRIDE)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_OVERRIDE)
     * ((ultVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-    * (1 - (baseResistance - x.ULT_RES_PEN))
+    * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_OVERRIDE))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
     + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
 

@@ -27,8 +27,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'ultFuaDefShred',
       name: 'ultFuaDefShred',
       formItem: 'switch',
-      text: 'FUA DEF shred',
-      title: 'FUA DEF shred',
+      text: 'Ult / FUA DEF shred',
+      title: 'Ult / FUA DEF shred',
       content: betaUpdate,
     },
   ]
@@ -46,7 +46,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ULT_DEF_PEN += (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0
       x.FUA_DEF_PEN += (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x

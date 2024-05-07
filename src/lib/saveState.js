@@ -1,4 +1,5 @@
 import DB from './db'
+import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants'
 
 export const SaveState = {
   save: () => {
@@ -11,6 +12,7 @@ export const SaveState = {
       excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
       savedSession: window.store.getState().savedSession,
       settings: window.store.getState().settings,
+      version: CURRENT_OPTIMIZER_VERSION
     }
 
     console.log('Saved state', state)

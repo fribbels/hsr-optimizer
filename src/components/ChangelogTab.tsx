@@ -102,6 +102,7 @@ function leaks(str: string) {
 NOTES:
 
  */
+
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {

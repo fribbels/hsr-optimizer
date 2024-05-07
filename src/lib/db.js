@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -60,6 +60,7 @@ export const RouteToPage = {
 // store.getState().setRelicsById(relicsById)
 
 window.store = create((set) => ({
+  version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
   optimizerGrid: undefined,
@@ -135,6 +136,7 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
+  setVersion: (x) => set(() => ({ version: x })),
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
@@ -373,6 +375,7 @@ export const DB = {
     }
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
+    window.store.getState().setVersion(x.version)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

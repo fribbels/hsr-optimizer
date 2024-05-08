@@ -388,7 +388,7 @@ export const OptimizerTabController = {
 
         const overrides = window.store.getState().scoringMetadataOverrides[newForm.characterId]
         if (overrides) {
-          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata, overrides)
+          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata.scoringMetadata, overrides)
         }
 
         newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]

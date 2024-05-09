@@ -19,6 +19,8 @@ export function calculateConditionals(request, params) {
     if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
   }
 
+  precomputedX.ENEMY_WEAKNESS_BROKEN = request.enemyWeaknessBroken ? 1 : 0
+
   params.precomputedX = precomputedX
   params.characterConditionals = characterConditionals
   params.lightConeConditionals = lightConeConditionals

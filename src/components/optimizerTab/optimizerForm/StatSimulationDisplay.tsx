@@ -17,6 +17,7 @@ import {
   LinkRopeStatOptions,
   Parts,
   PlanarSphereStatOptions,
+  Stats,
   SubStats
 } from 'lib/constants'
 import { Assets } from 'lib/assets'
@@ -295,46 +296,24 @@ function MainStatSelector(props: { simType: string, placeholder: string, part: s
   )
 }
 
-function CharacterStatsSection() {
-  return (
-    <>
-      <Flex vertical gap={5}>
-        <HeaderText>Character display stats</HeaderText>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Hp" label="HP"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Atk" label="ATK"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Def" label="DEF"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Cr" label="Crit Rate %"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Cd" label="Crit DMG %"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Spd" label="SPD"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Ehr" label="Effect Hit Rate"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Res" label="Effect RES"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Be" label="Break Effect"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Ohb" label="Healing Boost"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Err" label="Energy Regen"/>
-        <StatInput simType={StatSimTypes.CharacterStats} name="Elem" label="Elemental DMG %"/>
-      </Flex>
-    </>
-  )
-}
-
 function SubstatsSection(props: { simType: string, title: string, total?: number }) {
   return (
     <>
       <Flex vertical>
         <HeaderText>{props.title}</HeaderText>
         <Flex vertical gap={5}>
-          <StatInput simType={props.simType} name="AtkP" label="ATK %"/>
-          <StatInput simType={props.simType} name="Atk" label="ATK"/>
-          <StatInput simType={props.simType} name="Cr" label="Crit Rate %"/>
-          <StatInput simType={props.simType} name="Cd" label="Crit DMG %"/>
-          <StatInput simType={props.simType} name="Spd" label="SPD"/>
-          <StatInput simType={props.simType} name="Be" label="Break Effect"/>
-          <StatInput simType={props.simType} name="HpP" label="HP %"/>
-          <StatInput simType={props.simType} name="Hp" label="HP"/>
-          <StatInput simType={props.simType} name="DefP" label="DEF %"/>
-          <StatInput simType={props.simType} name="Def" label="DEF"/>
-          <StatInput simType={props.simType} name="Ehr" label="Effect Hit Rate"/>
-          <StatInput simType={props.simType} name="Res" label="Effect RES"/>
+          <StatInput simType={props.simType} name={Stats.ATK_P} label="ATK %"/>
+          <StatInput simType={props.simType} name={Stats.ATK} label="ATK"/>
+          <StatInput simType={props.simType} name={Stats.CR} label="Crit Rate %"/>
+          <StatInput simType={props.simType} name={Stats.CD} label="Crit DMG %"/>
+          <StatInput simType={props.simType} name={Stats.SPD} label="SPD"/>
+          <StatInput simType={props.simType} name={Stats.BE} label="Break Effect"/>
+          <StatInput simType={props.simType} name={Stats.HP_P} label="HP %"/>
+          <StatInput simType={props.simType} name={Stats.HP} label="HP"/>
+          <StatInput simType={props.simType} name={Stats.DEF_P} label="DEF %"/>
+          <StatInput simType={props.simType} name={Stats.DEF} label="DEF"/>
+          <StatInput simType={props.simType} name={Stats.EHR} label="Effect Hit Rate"/>
+          <StatInput simType={props.simType} name={Stats.RES} label="Effect RES"/>
           {(props.simType == StatSimTypes.SubstatRolls) && (
             <Flex justify="space-between" style={{width: STAT_SIMULATION_STATS_WIDTH}}>
               <Text>

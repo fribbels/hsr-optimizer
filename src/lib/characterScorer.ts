@@ -43,8 +43,9 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   const characterMetadata = DB.getMetadata().characters[characterId]
   const metadata = characterMetadata?.scoringMetadata?.simulation
+  const has6Piece = Object.values(displayRelics).filter(x => x).length == 6
 
-  if (!characterId || !originalForm || !metadata || !lightCone) {
+  if (!characterId || !originalForm || !metadata || !lightCone || !has6Piece) {
     console.log('Invalid character sim setup')
     return null
   }
@@ -114,7 +115,9 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   console.debug('bestSims', bestSims)
 
   // DEBUG - Apply the sims to optimizer page
-  window.store.getState().setStatSimulations(bestPartialSims)
+  // window.store.getState().setStatSimulations(bestPartialSims)
+
+  metadata.bestSim = bestSims[0].request
 
   const simScoringResult = {
     currentSimValue: originalSimResult.SIM_SCORE,

@@ -328,11 +328,25 @@ export function CharacterPreview(props) {
                 {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
               </StatText>
             </Flex>
-            {simScoringResult && <Flex vertical title={JSON.stringify(simScoringResult.metadata, null, 2)}>
-              <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
-                {`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}
-              </StatText>
-            </Flex>}
+            {
+              simScoringResult &&
+              <Flex
+                vertical
+                title={JSON.stringify({
+                  formula: simScoringResult.metadata.formula,
+                  relicSet1: simScoringResult.metadata.relicSet1,
+                  relicSet2: simScoringResult.metadata.relicSet2,
+                  ornamentSet: simScoringResult.metadata.ornamentSet,
+                  teammates: simScoringResult.metadata.teammates,
+                  bestSimStats: simScoringResult.metadata.bestSim.stats,
+                  bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
+                }, null, 2)}
+              >
+                <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
+                  {`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}
+                </StatText>
+              </Flex>
+            }
 
             <Flex vertical>
               <StatText style={{fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center'}}

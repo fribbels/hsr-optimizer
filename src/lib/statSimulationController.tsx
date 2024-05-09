@@ -153,12 +153,12 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
+      <Flex style={{width: imgSize * 2 + 5}} justify="center">
+        <img style={{width: request.simRelicSet1 ? imgSize : 0}} src={relicImage1}/>
+        <img style={{width: request.simRelicSet2 ? imgSize : 0}} src={relicImage2}/>
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage}/>
+      <img style={{width: imgSize}} src={ornamentImage}/>
     </Flex>
   )
 }
@@ -168,10 +168,10 @@ function SimMainsDisplay(props: { sim: Simulation }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simBody, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simFeet, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
+      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
     </Flex>
   )
 }
@@ -219,7 +219,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
           return (
             <Flex key={x.stat}>
               <Tag
-                style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
+                style={{paddingInline: '5px', marginInlineEnd: '5px'}}
               >
                 {renderStat(x)}
               </Tag>
@@ -367,7 +367,7 @@ export function startOptimizerStatSimulation() {
   OptimizerTabController.setRows(simulationResults)
 
   calculateCurrentlyEquippedRow(form)
-  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource()})
 
   const sortOption = SortOption[form.resultSort]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
@@ -413,7 +413,7 @@ export function importOptimizerBuild() {
   const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
   const os1 = ornamentSetIndex % ornamentSetCount
   const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
-  const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2])
+  const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2], false)
 
   const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName)
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)

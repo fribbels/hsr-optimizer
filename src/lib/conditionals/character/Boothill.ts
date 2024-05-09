@@ -8,7 +8,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const standoffDmgBoost = skill(e, 0.30, 0.33)
 
@@ -122,7 +122,7 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
 
       // Special case where we force the weakness break on if the talent break option is enabled
       if (r.talentBreakDmgScaling) {
-        request.enemyWeaknessBroken = true
+        x.ENEMY_WEAKNESS_BROKEN = 1
       }
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0

@@ -26,7 +26,7 @@ export function calculateDamage(c, request, params) {
   x.EHP = ehp
 
   // Reapply broken multiplier here since certain conditionals can force weakness
-  params.brokenMultiplier = x.WEAKNESS_BREAK_OVERRIDE ? 1 : 0.9
+  params.brokenMultiplier = x.ENEMY_WEAKNESS_BROKEN ? 1 : 0.9
 
   const universalMulti = dmgReductionMultiplier * params.brokenMultiplier
   const baseResistance = params.resistance - x.RES_PEN - x[params.RES_PEN_TYPE]

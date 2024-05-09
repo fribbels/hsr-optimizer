@@ -10,7 +10,7 @@ import { Stats } from 'lib/constants'
 const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.70, 2.90)
@@ -97,8 +97,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
-
-      x.DMG_TAKEN_MULTI += (r.enhancedStateActive && request.enemyWeaknessBroken) ? ultWeaknessBrokenVulnerability : 0
       x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? ultWeaknessBreakEfficiencyBuff : 0
       x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1
 
@@ -120,6 +118,8 @@ export default (e: Eidolon): CharacterConditional => {
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
+
+      x.DMG_TAKEN_MULTI += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenVulnerability : 0
 
       x[Stats.BE] += (r.atkToBeConversion && x[Stats.ATK] > 2400) ? Math.min(0.60, 0.06 * Math.floor((x[Stats.ATK] - 2400) / 100)) : 0
 

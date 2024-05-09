@@ -8,7 +8,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillExtraHitsMax = (e >= 6) ? 3 : 2
 
@@ -86,9 +86,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.SKILL_SCALING += r.skillExtraHits * skillScaling
 
-      // Boost
-      x.ELEMENTAL_DMG += (request.enemyWeaknessBroken) ? 0.20 : 0
-
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30 + 30 * r.skillExtraHits
       x.ULT_TOUGHNESS_DMG += 60
@@ -102,6 +99,9 @@ export default (e: Eidolon): CharacterConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x
+
+      // Boost
+      x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

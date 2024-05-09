@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
 
   const skillDmgBuffValue = skill(e, 0.50, 0.55)
   const talentCdBuffValue = talent(e, 0.20, 0.23)
@@ -79,11 +79,11 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateATKValue',
       name: 'teammateATKValue',
-      text: `Ult buff Robin's ATK`,
-      title: 'Ult buff Robin\'s ATK',
+      text: `Robin's Combat ATK`,
+      title: 'Robin\'s Combat ATK',
       content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}`,
       min: 0,
-      max: 6000,
+      max: 8000,
     },
     findContentId(content, 'talentCdBuff'),
     {
@@ -123,7 +123,7 @@ export default (e: Eidolon): CharacterConditional => {
       concertoActive: true,
       skillDmgBuff: true,
       talentCdBuff: true,
-      teammateATKValue: 4000,
+      teammateATKValue: 5000,
       traceFuaCdBoost: true,
       e1UltResPen: true,
       e2UltSpdBuff: false,

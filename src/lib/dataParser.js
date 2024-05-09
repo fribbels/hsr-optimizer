@@ -3096,7 +3096,7 @@ function getScoringMetadata() {
             characterId: '1217', // Huohuo
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           }
         ]
       }
@@ -3202,14 +3202,14 @@ function getScoringMetadata() {
           {
             characterId: '1202', // Tingyun
             lightCone: '21018', // Dance
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: '1217', // Huohuo
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           }
         ]
       }
@@ -3854,7 +3854,7 @@ function getScoringMetadata() {
           {
             characterId: '1106', // Pela
             lightCone: '21015', // Pearls
-            characterEidolon: 0,
+            characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
@@ -3964,6 +3964,64 @@ function getScoringMetadata() {
       ornamentSets: [],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 0,
+          FUA: 0,
+          DOT: 0,
+        },
+        relicSet1: Sets.IronCavalryAgainstScourge,
+        relicSet2: Sets.IronCavalryAgainstScourge,
+        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     1312: { // Misha
       stats: {

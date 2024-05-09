@@ -330,7 +330,7 @@ export function CharacterPreview(props) {
             </Flex>
             {simScoringResult && <Flex vertical title={JSON.stringify(simScoringResult.metadata, null, 2)}>
               <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
-                {`DMG Sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}
+                {`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}
               </StatText>
             </Flex>}
 

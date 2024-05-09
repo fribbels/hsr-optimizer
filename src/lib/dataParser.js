@@ -3037,8 +3037,8 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '20015', // Multi
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 5,
           }
@@ -3101,6 +3101,62 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 2,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+        },
+        relicSet1: Sets.MusketeerOfWildWheat,
+        relicSet2: Sets.MusketeerOfWildWheat,
+        ornamentSet: Sets.RutilantArena,
+        teammates: [
+          {
+            characterId: '1306', // Sparkle
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1202', // Tingyun
+            lightCone: '21018', // Dance
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     1214: { // Xueyi
       stats: {
@@ -3647,6 +3703,62 @@ function getScoringMetadata() {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+        },
+        relicSet1: Sets.PioneerDiverOfDeadWaters,
+        relicSet2: Sets.PioneerDiverOfDeadWaters,
+        ornamentSet: Sets.IzumoGenseiAndTakamaDivineRealm,
+        teammates: [
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1006', // SW
+            lightCone: '22000', // Tutorial
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '21016', // Trend
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     1309: { // Robin
       stats: {

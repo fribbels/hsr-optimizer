@@ -114,7 +114,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   console.debug('bestSims', bestSims)
 
   // DEBUG - Apply the sims to optimizer page
-  // window.store.getState().setStatSimulations(bestPartialSims)
+  window.store.getState().setStatSimulations(bestPartialSims)
 
   const simScoringResult = {
     currentSimValue: originalSimResult.SIM_SCORE,

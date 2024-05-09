@@ -2316,6 +2316,62 @@ function getScoringMetadata() {
         PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 1,
+          ULT: 0,
+          FUA: 2,
+          DOT: 0,
+        },
+        relicSet1: Sets.TheAshblazingGrandDuke,
+        relicSet2: Sets.TheAshblazingGrandDuke,
+        ornamentSet: Sets.InertSalsotto,
+        teammates: [
+          {
+            characterId: '1305', // Ratio
+            lightCone: '23020', // Baptism
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1201: { // Qingque
       stats: {
@@ -3555,6 +3611,62 @@ function getScoringMetadata() {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 2,
+          ULT: 1,
+          FUA: 4,
+          DOT: 0,
+        },
+        relicSet1: Sets.PioneerDiverOfDeadWaters,
+        relicSet2: Sets.PioneerDiverOfDeadWaters,
+        ornamentSet: Sets.InertSalsotto,
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1306: { // Sparkle
       stats: {
@@ -3730,7 +3842,7 @@ function getScoringMetadata() {
         ],
         formula: {
           BASIC: 0,
-          SKILL: 3,
+          SKILL: 2,
           ULT: 1,
           FUA: 0,
           DOT: 0,

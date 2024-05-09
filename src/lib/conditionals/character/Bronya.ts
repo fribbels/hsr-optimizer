@@ -12,7 +12,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {basic, skill, ult} = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
   const ultAtkBoostValue = ult(e, 0.55, 0.594)
@@ -79,7 +79,7 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'slider',
       id: 'teammateCDValue',
       name: 'teammateCDValue',
-      text: `Bronya's CD`,
+      text: `Bronya's Combat CD`,
       title: 'Ultimate: The Belobog March',
       content: `Increases the ATK of all allies by ${precisionRound(ultAtkBoostValue * 100)}% and CRIT DMG by ${precisionRound(ultCdBoostValue * 100)}% of Bronya's CRIT DMG plus ${precisionRound(ultCdBoostBaseValue * 100)}% for 2 turns.`,
       min: 0,
@@ -148,7 +148,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)

@@ -10,7 +10,7 @@ import { ContentItem } from 'types/Conditionals'
 const betaUpdate = 'All calculations are subject to change. Last updated 04-15-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {basic, skill, ult} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.50, 0.55)
@@ -118,8 +118,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Special case where we force the weakness break on if the option is enabled
       if (m.superBreakDmg) {
-        request.enemyWeaknessBroken = true
-        x.WEAKNESS_BREAK_OVERRIDE = 1
+        x.ENEMY_WEAKNESS_BROKEN = 1
       }
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0

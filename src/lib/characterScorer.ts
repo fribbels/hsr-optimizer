@@ -1,6 +1,6 @@
 import { Character } from "types/Character";
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { Parts, Stats, SubStats } from 'lib/constants'
 import {
   calculateOrnamentSets,
   calculateRelicSets,
@@ -17,61 +17,64 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Form } from 'types/Form'
 import { Stat } from 'types/Relic'
+import DB from 'lib/db'
 
 const cachedSims = {}
 
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any) {
   console.debug(character, finalStats, displayRelics)
+
+  // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
+  // just cache the results for now
+  const cacheKey = JSON.stringify({
+    character,
+    displayRelics
+  })
+  if (cachedSims[cacheKey]) {
+    console.debug('cached bestSims', cachedSims[cacheKey])
+    return cachedSims[cacheKey]
+  }
+
   const originalForm = character.form
   const characterId = originalForm.characterId!
   const characterEidolon = originalForm.characterEidolon
   const lightCone = originalForm.lightCone
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
-  const cacheKey = JSON.stringify({
-    character,
-    displayRelics
-  })
+  const characterMetadata = DB.getMetadata().characters[characterId]
+  const metadata = characterMetadata?.scoringMetadata?.simulation
 
-  // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
-  // just cache the results for now
-  if (cachedSims[cacheKey]) {
-    console.debug('cached bestSims', cachedSims[cacheKey])
-    return cachedSims[cacheKey]
-  }
-
-  const metadata = {
-    parts: {
-      "Body": [
-        "CRIT DMG"
-      ],
-      "Feet": [
-        "ATK%",
-        "SPD"
-      ],
-      "PlanarSphere": [
-        "ATK%",
-        "Ice DMG Boost"
-      ],
-      "LinkRope": [
-        "ATK%"
-      ]
-    },
-    substats: [
-      "CRIT DMG",
-      "CRIT Rate",
-      "ATK%",
-      "ATK",
-      "SPD",
-    ]
+  if (!characterId || !originalForm || !metadata || !lightCone) {
+    console.log('Invalid character sim setup')
+    return null
   }
 
   // Set up default request, sets conditionals tbd
-  const simulationForm = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition)
+  const simulationForm = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
+  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId, metadata.teammates[0].lightCone, metadata.teammates[0].characterEidolon, metadata.teammates[0].lightConeSuperimposition, true)
+  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId, metadata.teammates[1].lightCone, metadata.teammates[1].characterEidolon, metadata.teammates[1].lightConeSuperimposition, true)
+  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId, metadata.teammates[2].lightCone, metadata.teammates[2].characterEidolon, metadata.teammates[2].lightConeSuperimposition, true)
+
+  simulationForm.teammate0 = simulationFormT0
+  simulationForm.teammate1 = simulationFormT1
+  simulationForm.teammate2 = simulationFormT2
 
   console.debug('simulationForm', simulationForm)
 
-  // simulationForm.teammate0 = getDefaultForm({ id: '1101' })
+  // Generate scoring function
+  const formula = metadata.formula
+  const applyScoringFunction = (result) => {
+    if (!result) return
+
+    const score =
+      result.BASIC * formula.BASIC
+      + result.SKILL * formula.SKILL
+      + result.ULT * formula.ULT
+      + result.FUA * formula.FUA
+      + result.DOT * formula.DOT
+
+    result.SIM_SCORE = score
+  }
 
   // Simulate the original character
   const originalSimResult = simulateOriginalCharacter(displayRelics, simulationForm)
@@ -96,7 +99,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata)
     Object.values(SubStats).map(x => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     // console.debug(minSubstatRollCounts, maxSubstatRollCounts)
-    const bestSim = computeOptimalSimulation(partialSimulationWrapper, minSubstatRollCounts, maxSubstatRollCounts, simulationForm, metadata)
+    const bestSim = computeOptimalSimulation(partialSimulationWrapper, minSubstatRollCounts, maxSubstatRollCounts, simulationForm, applyScoringFunction, metadata)
 
     // DEBUG
     bestSim.key = JSON.stringify(bestSim.request)
@@ -104,17 +107,22 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     bestPartialSims.push(bestSim)
   }
 
-  let bestSims = bestPartialSims.sort((a, b) => b.result.SKILL - a.result.SKILL)
+  applyScoringFunction(originalSimResult)
+  bestPartialSims.map(applyScoringFunction)
 
-  window.store.getState().setStatSimulations(bestPartialSims)
+  let bestSims = bestPartialSims.sort((a, b) => b.result.SIM_SCORE - a.result.SIM_SCORE)
   console.debug('bestSims', bestSims)
 
+  // DEBUG - Apply the sims to optimizer page
+  // window.store.getState().setStatSimulations(bestPartialSims)
+
   const simScoringResult = {
-    currentSimValue: originalSimResult.SKILL,
+    currentSimValue: originalSimResult.SIM_SCORE,
     maxSim: bestSims[0],
-    maxSimValue: bestSims[0].result.SKILL,
-    percent: originalSimResult.SKILL / bestSims[0].result.SKILL,
-    sims: bestSims
+    maxSimValue: bestSims[0].result.SIM_SCORE,
+    percent: originalSimResult.SIM_SCORE / bestSims[0].result.SIM_SCORE,
+    sims: bestSims,
+    metadata: metadata
   }
 
   cachedSims[cacheKey] = simScoringResult
@@ -123,7 +131,9 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   return simScoringResult
 }
 
-function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number) {
+function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number, teammate = false) {
+  if (!characterId) return null
+
   const characterConditionalsRequest = {characterId: characterId, characterEidolon: characterEidolon}
   const lightConeConditionalsRequest = {lightCone: lightCone, eidolon: lightConeSuperimposition}
 
@@ -135,8 +145,17 @@ function generateFullDefaultForm(characterId: string, lightCone: string, charact
 
   simulationForm.characterConditionals = {}
   simulationForm.lightConeConditionals = {}
-  Utils.mergeUndefinedValues(simulationForm.characterConditionals, CharacterConditionals.get(characterConditionalsRequest).defaults())
-  Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, LightConeConditionals.get(lightConeConditionalsRequest).defaults())
+
+  const characterConditionals = CharacterConditionals.get(characterConditionalsRequest)
+  const lightConeConditionals = LightConeConditionals.get(lightConeConditionalsRequest)
+
+  if (teammate) {
+    if (characterConditionals.teammateDefaults) Utils.mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.teammateDefaults())
+    if (lightConeConditionals.teammateDefaults) Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.teammateDefaults())
+  } else {
+    if (characterConditionals.defaults) Utils.mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.defaults())
+    if (lightConeConditionals.defaults) Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.defaults())
+  }
 
   return simulationForm
 }
@@ -146,6 +165,7 @@ function computeOptimalSimulation(
   minSubstatRollCounts: SimulationStats,
   maxSubstatRollCounts: SimulationStats,
   simulationForm: Form,
+  applyScoringFunction: (result: any) => void,
   metadata
 ) {
   const relevantSubstats = metadata.substats
@@ -171,7 +191,10 @@ function computeOptimalSimulation(
 
       const newSimResult = runSimulations(simulationForm, [newSimulation])[0]
 
-      if (!bestSim || newSimResult.SKILL > bestSimResult.SKILL) {
+      applyScoringFunction(newSimResult)
+      applyScoringFunction(bestSimResult)
+
+      if (!bestSim || newSimResult.SIM_SCORE > bestSimResult.SIM_SCORE) {
         bestSim = newSimulation
         bestSimResult = newSimResult
         bestSimDeductedStat = stat
@@ -293,9 +316,9 @@ function generatePartialSimulations(metadata) {
         for (const linkRope of metadata.parts[Parts.LinkRope]) {
           const request: SimulationRequest = {
             name: '',
-            simRelicSet1: Sets.HunterOfGlacialForest,
-            simRelicSet2: Sets.HunterOfGlacialForest,
-            simOrnamentSet: Sets.RutilantArena,
+            simRelicSet1: metadata.relicSet1,
+            simRelicSet2: metadata.relicSet2,
+            simOrnamentSet: metadata.ornamentSet,
             simBody: body,
             simFeet: feet,
             simPlanarSphere: planarSphere,

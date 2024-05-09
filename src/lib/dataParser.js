@@ -3007,8 +3007,42 @@ function getScoringMetadata() {
           ],
         },
         substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
           Stats.SPD,
         ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+        },
+        relicSet1: Sets.HunterOfGlacialForest,
+        relicSet2: Sets.HunterOfGlacialForest,
+        ornamentSet: Sets.RutilantArena,
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1203', // Luocha
+            lightCone: '20015', // Multi
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          }
+        ]
       }
     },
     1213: { // Dan Heng • Imbibitor Lunae

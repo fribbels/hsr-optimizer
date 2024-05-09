@@ -22,24 +22,26 @@ import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
 import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
-import { RelicModalController } from '../lib/relicModalController'
+import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { EditOutlined } from '@ant-design/icons'
 import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
+import { scoreCharacterSimulation } from 'lib/characterScorer'
+import { Utils } from 'lib/utils'
 
-const { useToken } = theme
-const { Text } = Typography
+const {useToken} = theme
+const {Text} = Typography
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
-  const { token } = useToken()
-
   console.log('@CharacterPreview')
 
-  const { source, character } = props
+  const {token} = useToken()
+
+  const {source, character} = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -84,10 +86,10 @@ export function CharacterPreview(props) {
   }
 
   function onEditPortraitOk(portraitPayload) {
-    const { type, ...portrait } = portraitPayload
+    const {type, ...portrait} = portraitPayload
     switch (type) {
       case 'add':
-        setCustomPortrait({ ...portrait })
+        setCustomPortrait({...portrait})
         DB.saveCharacterPortrait(character.id, portrait)
         Message.success('Successfully saved portrait')
         SaveState.save()
@@ -106,28 +108,39 @@ export function CharacterPreview(props) {
 
   if (!character) {
     return (
-      <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
+      <Flex style={{display: 'flex', height: parentH, backgroundColor: backgroundColor}} gap={defaultGap} id={props.id}>
 
-        <div style={{ width: parentW, overflow: 'hidden', outline: `2px solid ${token.colorBgContainer}`, height: '100%', borderRadius: '10px' }}>
+        <div style={{
+          width: parentW,
+          overflow: 'hidden',
+          outline: `2px solid ${token.colorBgContainer}`,
+          height: '100%',
+          borderRadius: '10px'
+        }}>
         </div>
 
         <Flex gap={defaultGap}>
-          <Flex vertical gap={defaultGap} align="center" style={{ outline: `2px solid ${token.colorBgContainer}`, width: '100%', height: '100%', borderRadius: '10px' }}>
-            <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
+          <Flex vertical gap={defaultGap} align="center" style={{
+            outline: `2px solid ${token.colorBgContainer}`,
+            width: '100%',
+            height: '100%',
+            borderRadius: '10px'
+          }}>
+            <Flex vertical style={{width: middleColumnWidth, height: 280 * 2 + defaultGap}} justify="space-between">
               <Flex></Flex>
             </Flex>
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
         </Flex>
       </Flex>
@@ -154,6 +167,9 @@ export function CharacterPreview(props) {
     }
     finalStats = StatCalculator.calculate(character)
   }
+
+  const simScoringResult = scoreCharacterSimulation(character, finalStats, displayRelics)
+
   const scoredRelics = scoringResults.relics || []
 
   const lightConeId = character.form.lightCone
@@ -175,111 +191,120 @@ export function CharacterPreview(props) {
   console.log(displayRelics)
 
   return (
-    <Flex style={{ display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor }} id={props.id}>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
+    <Flex style={{display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor}}
+          id={props.id}>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen}
+                  open={editModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen}
+                  open={addModalOpen}/>
 
       {!isBuilds
-      && (
-        <div className="character-build-portrait" style={{ width: `${parentW}px`, height: `${parentH}px`, overflow: 'hidden', borderRadius: '10px', marginRight: defaultGap }}>
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            {(character.portrait || customPortrait)
-              ? (
-                <CharacterCustomPortrait
-                  customPortrait={customPortrait ?? character.portrait}
-                  parentW={parentW}
-                  isBlur={characterTabBlur && !isScorer}
-                  setBlur={setCharacterTabBlur}
-                />
-              )
-              : (
-                <img
-                  src={Assets.getCharacterPortraitById(character.id)}
-                  style={{
-                    position: 'absolute',
-                    left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-                    top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
-                    width: innerW,
-                    filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
-                  }}
-                  onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
-                />
-              )}
-            <Button
+        && (
+          <div className="character-build-portrait" style={{
+            width: `${parentW}px`,
+            height: `${parentH}px`,
+            overflow: 'hidden',
+            borderRadius: '10px',
+            marginRight: defaultGap
+          }}>
+            <div
               style={{
-                opacity: 0,
-                transition: 'opacity 0.3s ease',
-                visibility: 'hidden',
-                flex: 'auto',
-                position: 'absolute',
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              {(character.portrait || customPortrait)
+                ? (
+                  <CharacterCustomPortrait
+                    customPortrait={customPortrait ?? character.portrait}
+                    parentW={parentW}
+                    isBlur={characterTabBlur && !isScorer}
+                    setBlur={setCharacterTabBlur}
+                  />
+                )
+                : (
+                  <img
+                    src={Assets.getCharacterPortraitById(character.id)}
+                    style={{
+                      position: 'absolute',
+                      left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
+                      top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
+                      width: innerW,
+                      filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+                    }}
+                    onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
+                  />
+                )}
+              <Button
+                style={{
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease',
+                  visibility: 'hidden',
+                  flex: 'auto',
+                  position: 'absolute',
+                  top: parentH - 37,
+                  left: 5,
+                }}
+                className="character-build-portrait-button"
+                icon={<EditOutlined/>}
+                onClick={() => setEditPortraitModalOpen(true)}
+                type="primary"
+              >
+                {(character.portrait || customPortrait) ? 'Update crop' : 'Edit portrait'}
+              </Button>
+              <EditImageModal
+                title="portrait"
+                aspectRatio={parentW / parentH}
+                existingConfig={customPortrait ?? character.portrait}
+                open={editPortraitModalOpen}
+                setOpen={setEditPortraitModalOpen}
+                onOk={onEditPortraitOk}
+                defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+                width={500}
+              />
+            </div>
+            <Flex
+              vertical
+              style={{
+                position: 'relative',
                 top: parentH - 37,
-                left: 5,
+                height: 34,
+                paddingRight: 5,
+                display: getArtistName() ? 'flex' : 'none',
               }}
-              className="character-build-portrait-button"
-              icon={<EditOutlined />}
-              onClick={() => setEditPortraitModalOpen(true)}
-              type="primary"
+              align="end"
             >
-              {(character.portrait || customPortrait) ? 'Update crop' : 'Edit portrait'}
-            </Button>
-            <EditImageModal
-              title="portrait"
-              aspectRatio={parentW / parentH}
-              existingConfig={customPortrait ?? character.portrait}
-              open={editPortraitModalOpen}
-              setOpen={setEditPortraitModalOpen}
-              onOk={onEditPortraitOk}
-              defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-              width={500}
-            />
+              <Text
+                style={{
+                  backgroundColor: '#00000073',
+                  padding: '4px 12px',
+                  borderRadius: 8,
+                  fontSize: 16,
+                  maxWidth: parentW - 150,
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  zIndex: 2,
+                  textShadow: '0px 0px 2px black',
+                }}
+              >
+                Art by {getArtistName() || ''}
+              </Text>
+            </Flex>
           </div>
-          <Flex
-            vertical
-            style={{
-              position: 'relative',
-              top: parentH - 37,
-              height: 34,
-              paddingRight: 5,
-              display: getArtistName() ? 'flex' : 'none',
-            }}
-            align="end"
-          >
-            <Text
-              style={{
-                backgroundColor: '#00000073',
-                padding: '4px 12px',
-                borderRadius: 8,
-                fontSize: 16,
-                maxWidth: parentW - 150,
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                zIndex: 2,
-                textShadow: '0px 0px 2px black',
-              }}
-            >
-              Art by {getArtistName() || ''}
-            </Text>
-          </Flex>
-        </div>
-      )}
+        )}
 
       <Flex gap={defaultGap}>
         <Flex vertical gap={defaultGap} align="center">
-          <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
-            <Flex vertical gap={defaultGap}>
-              <Flex justify="space-between" style={{ height: 50 }}>
+          <Flex vertical style={{width: middleColumnWidth, height: 280 * 2 + defaultGap}} justify="space-between">
+            <Flex vertical gap={0}>
+              <Flex justify="space-between" style={{height: 50}}>
                 <Image
                   preview={false}
                   width={50}
                   src={Assets.getElement(characterElement)}
                 />
-                <Rarity rarity={characterMetadata.rarity} />
+                <Rarity rarity={characterMetadata.rarity}/>
                 <Image
                   preview={false}
                   width={50}
@@ -287,34 +312,54 @@ export function CharacterPreview(props) {
                 />
               </Flex>
               <Flex vertical>
-                <StatText style={{ fontSize: 24, fontWeight: 400, textAlign: 'center' }}>
+                <StatText style={{fontSize: 24, fontWeight: 400, textAlign: 'center'}}>
                   {characterName}
                 </StatText>
-                <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+                <StatText style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>
                   {`Lv${characterLevel} E${characterEidolon}`}
                 </StatText>
               </Flex>
             </Flex>
 
-            <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue} />
+            <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue}/>
 
             <Flex vertical>
-              <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+              <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564'}}>
                 {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
               </StatText>
             </Flex>
+            {
+              simScoringResult &&
+              <Flex
+                vertical
+                title={JSON.stringify({
+                  formula: simScoringResult.metadata.formula,
+                  relicSet1: simScoringResult.metadata.relicSet1,
+                  relicSet2: simScoringResult.metadata.relicSet2,
+                  ornamentSet: simScoringResult.metadata.ornamentSet,
+                  teammates: simScoringResult.metadata.teammates,
+                  bestSimStats: simScoringResult.metadata.bestSim.stats,
+                  bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
+                }, null, 2)}
+              >
+                <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
+                  {`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}
+                </StatText>
+              </Flex>
+            }
 
             <Flex vertical>
-              <StatText style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }} ellipsis={true}>
+              <StatText style={{fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center'}}
+                        ellipsis={true}>
                 {`${lightConeName}`}
-&nbsp;
+                &nbsp;
               </StatText>
-              <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+              <StatText style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>
                 {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
               </StatText>
             </Flex>
           </Flex>
-          <div style={{ width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px' }}>
+          <div style={{width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
             <img
               src={lightConeSrc}
               style={{
@@ -331,7 +376,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.Head, part: Constants.Parts.Head }}
+            relic={{...displayRelics.Head, part: Constants.Parts.Head}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
@@ -340,7 +385,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.Body, part: Constants.Parts.Body }}
+            relic={{...displayRelics.Body, part: Constants.Parts.Body}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
@@ -349,7 +394,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere }}
+            relic={{...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
@@ -361,7 +406,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.Hands, part: Constants.Parts.Hands }}
+            relic={{...displayRelics.Hands, part: Constants.Parts.Hands}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
@@ -370,7 +415,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.Feet, part: Constants.Parts.Feet }}
+            relic={{...displayRelics.Feet, part: Constants.Parts.Feet}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
@@ -379,7 +424,7 @@ export function CharacterPreview(props) {
             setEditModalOpen={setEditModalOpen}
             setSelectedRelic={setSelectedRelic}
             setAddModelOpen={setAddModalOpen}
-            relic={{ ...displayRelics.LinkRope, part: Constants.Parts.LinkRope }}
+            relic={{...displayRelics.LinkRope, part: Constants.Parts.LinkRope}}
             source={props.source}
             characterId={characterId}
             score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
@@ -389,6 +434,7 @@ export function CharacterPreview(props) {
     </Flex>
   )
 }
+
 CharacterPreview.propTypes = {
   source: PropTypes.string,
   character: PropTypes.object,

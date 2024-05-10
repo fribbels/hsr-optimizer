@@ -1405,6 +1405,62 @@ function getScoringMetadata() {
         PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.EHR,
+          Stats.CR,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 3,
+          DOT: 5,
+          BREAK: 0,
+        },
+        relicSet1: Sets.PrisonerInDeepConfinement,
+        relicSet2: Sets.PrisonerInDeepConfinement,
+        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        teammates: [
+          {
+            characterId: '1307', // Swan
+            lightCone: '23022', // Reforged
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1006: { // Silver Wolf
       stats: {
@@ -1754,6 +1810,63 @@ function getScoringMetadata() {
       ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.GeniusOfBrilliantStars,
+        relicSet2: Sets.GeniusOfBrilliantStars,
+        ornamentSet: Sets.RutilantArena,
+        teammates: [
+          {
+            characterId: '1006', // SW
+            lightCone: '23007', // Rain
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1306', // Sparkle
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1103: { // Serval
       stats: {
@@ -2347,6 +2460,7 @@ function getScoringMetadata() {
           ULT: 0,
           FUA: 2,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.TheAshblazingGrandDuke,
         relicSet2: Sets.TheAshblazingGrandDuke,
@@ -2654,6 +2768,63 @@ function getScoringMetadata() {
         PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 2,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 1,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.LongevousDisciple,
+        relicSet2: Sets.LongevousDisciple,
+        ornamentSet: Sets.RutilantArena,
+        teammates: [
+          {
+            characterId: '1212', // Jingliu
+            lightCone: '23014', // I shall
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1203', // Luocha
+            lightCone: '20015', // Multi
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     1206: { // Sushang
       stats: {
@@ -3075,6 +3246,7 @@ function getScoringMetadata() {
           ULT: 1,
           FUA: 0,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.HunterOfGlacialForest,
         relicSet2: Sets.HunterOfGlacialForest,
@@ -3188,6 +3360,7 @@ function getScoringMetadata() {
           ULT: 1,
           FUA: 0,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.MusketeerOfWildWheat,
         relicSet2: Sets.MusketeerOfWildWheat,
@@ -3642,6 +3815,7 @@ function getScoringMetadata() {
           ULT: 1,
           FUA: 4,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.PioneerDiverOfDeadWaters,
         relicSet2: Sets.PioneerDiverOfDeadWaters,
@@ -3767,6 +3941,63 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.EHR,
+          Stats.ATK,
+          Stats.SPD,
+          Stats.CR
+        ],
+        formula: {
+          BASIC: 3,
+          SKILL: 2,
+          ULT: 1,
+          FUA: 6,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.PrisonerInDeepConfinement,
+        relicSet2: Sets.PrisonerInDeepConfinement,
+        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Pearls
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1308: { // Acheron
       stats: {
@@ -3846,6 +4077,7 @@ function getScoringMetadata() {
           ULT: 1,
           FUA: 0,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.PioneerDiverOfDeadWaters,
         relicSet2: Sets.PioneerDiverOfDeadWaters,
@@ -3997,6 +4229,7 @@ function getScoringMetadata() {
           ULT: 0,
           FUA: 0,
           DOT: 0,
+          BREAK: 0,
         },
         relicSet1: Sets.IronCavalryAgainstScourge,
         relicSet2: Sets.IronCavalryAgainstScourge,
@@ -4116,6 +4349,63 @@ function getScoringMetadata() {
         PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 2,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 3,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.TheWindSoaringValorous,
+        relicSet2: Sets.TheWindSoaringValorous,
+        ornamentSet: Sets.DuranDynastyOfRunningWolves,
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1315: { // Boothill
       stats: {
@@ -4163,6 +4453,64 @@ function getScoringMetadata() {
       ornamentSets: [],
       presets: [],
       sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 3,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSet1: Sets.IronCavalryAgainstScourge,
+        relicSet2: Sets.IronCavalryAgainstScourge,
+        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     8001: { // Physical Trailblazer M
       stats: {

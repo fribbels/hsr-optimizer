@@ -73,6 +73,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
       + result.ULT * formula.ULT
       + result.FUA * formula.FUA
       + result.DOT * formula.DOT
+      + result.BREAK * formula.BREAK
 
     result.SIM_SCORE = score
   }
@@ -109,7 +110,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   }
 
   applyScoringFunction(originalSimResult)
-  bestPartialSims.map(applyScoringFunction)
+  bestPartialSims.map(x => applyScoringFunction(x.result))
 
   let bestSims = bestPartialSims.sort((a, b) => b.result.SIM_SCORE - a.result.SIM_SCORE)
   console.debug('bestSims', bestSims)

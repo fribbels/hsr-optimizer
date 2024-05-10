@@ -5,9 +5,9 @@ import DB from 'lib/db.js'
 import { Message } from 'lib/message.js'
 import { Constants, Sets } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
-import { getDefaultForm } from 'lib/defaultForm.js'
+import { defaultSetConditionals, getDefaultForm } from 'lib/defaultForm.js'
 import { ApplyColumnStateParams } from 'ag-grid-community'
-import { Utils } from "lib/utils";
+import { Utils } from 'lib/utils'
 
 /*
  * 111.11 (5 actions in first four cycles)
@@ -101,6 +101,11 @@ export const PresetEffects = {
       form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
     }
   },
+  fnWindSoaringSet: (value) => {
+    return (form) => {
+      form.setConditionals[Sets.TheWindSoaringValorous][1] = value
+    }
+  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },
@@ -125,7 +130,7 @@ export function setSortColumn(columnId) {
 const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const items = useMemo(function() {
+  const items = useMemo(function () {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
@@ -154,7 +159,7 @@ const RecommendedPresetsButton = () => {
       <a onClick={(e) => e.preventDefault()}>
         <Button type="primary" style={{ width: '100%' }}>
           Recommended presets
-          <DownOutlined />
+          <DownOutlined/>
         </Button>
       </a>
     </Dropdown>
@@ -202,6 +207,9 @@ export function applySpdPreset(spd, characterId) {
 export default RecommendedPresetsButton
 
 export function applyMetadataPresetToForm(form, scoringMetadata) {
+  Utils.mergeUndefinedValues(form, getDefaultForm())
+  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]
   form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
@@ -210,7 +218,8 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   form.weights = scoringMetadata.stats
   form.weights.topPercent = 100
 
-  // Disable quantum by default if the character is not quantum element
+  // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[form.characterId].element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
+  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
 }

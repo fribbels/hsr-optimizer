@@ -8,7 +8,7 @@ import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
-import { enhanceOptions, generateImageLabel, setOptions, substatOptions } from 'components/SelectOptions'
+import { enhanceOptions, generateImageLabel, getSetOptions, substatOptions } from 'components/SelectOptions'
 
 function RadioIcon(props) {
   return (
@@ -70,6 +70,7 @@ export default function RelicModal(props) {
   const characters = window.store((s) => s.characters)
 
   const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(characters), [characters])
+  const setOptions = useMemo(() => getSetOptions(), [])
 
   useEffect(() => {
     let defaultValues = {

@@ -2302,7 +2302,7 @@
         "element": "Physical",
         "max_sp": 115,
         "name": "Boothill",
-        "unreleased": true
+        "unreleased": false
     },
     "1309": {
         "id": "1309",
@@ -2311,7 +2311,7 @@
         "element": "Physical",
         "max_sp": 160,
         "name": "Robin",
-        "unreleased": true
+        "unreleased": false
     },
     "8005": {
         "id": "8005",
@@ -2320,7 +2320,7 @@
         "element": "Imaginary",
         "max_sp": 140,
         "name": "{NICKNAME}",
-        "unreleased": true
+        "unreleased": false
     },
     "8006": {
         "id": "8006",
@@ -2329,6 +2329,24 @@
         "element": "Imaginary",
         "max_sp": 140,
         "name": "{NICKNAME}",
+        "unreleased": false
+    },
+    "1310": {
+        "id": "1310",
+        "rarity": 5,
+        "path": "Warrior",
+        "element": "Fire",
+        "max_sp": 240,
+        "name": "Firefly",
+        "unreleased": true
+    },
+    "1314": {
+        "id": "1314",
+        "rarity": 5,
+        "path": "Mage",
+        "element": "Quantum",
+        "max_sp": 140,
+        "name": "Jade",
         "unreleased": true
     }
 }

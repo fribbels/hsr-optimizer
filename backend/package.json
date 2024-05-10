@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.0.0",
+    "cdk": "^2.140.0",
     "constructs": "^10.0.0",
     "node-fetch": "^3.3.2"
   }

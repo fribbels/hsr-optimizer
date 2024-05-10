@@ -2,16 +2,15 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
-import { request } from '@playwright/test'
 
 const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesFuaDmg = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO
-  const sValuesUltFuaDefShred = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO
+  const sValuesFuaDmg = [0.16, 0.19, 0.22, 0.25, 0.28]
+  const sValuesUltFuaDefShred = [0.16, 0.19, 0.22, 0.25, 0.28]
 
   const content: ContentItem[] = [
     {
@@ -28,8 +27,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       id: 'ultFuaDefShred',
       name: 'ultFuaDefShred',
       formItem: 'switch',
-      text: 'FUA DEF shred',
-      title: 'FUA DEF shred',
+      text: 'Ult / FUA DEF shred',
+      title: 'Ult / FUA DEF shred',
       content: betaUpdate,
     },
   ]
@@ -47,8 +46,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ULT_DEF_PEN += (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0
       x.FUA_DEF_PEN += (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 

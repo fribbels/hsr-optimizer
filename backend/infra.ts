@@ -85,6 +85,8 @@ export class HsrOptimizerApiStack extends Stack {
  *
  * Subsequent deployments:
  * npm run build && cdk deploy HsrBetaStack --profile hsr-beta
+ * and/or
+ * npm run build && cdk deploy HsrProdStack --profile hsr-prod
  */
 
 const betaAccountId = process.env.HSR_BETA_AWS_ACCOUNT!

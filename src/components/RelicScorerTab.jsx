@@ -32,12 +32,11 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
+    { characterId: char('Firefly'), lightConeId: lc('Whereabouts Should Dreams Rest') },
+    { characterId: char('Jade'), lightConeId: lc('Yet Hope Is Priceless') },
     { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
     { characterId: char('Boothill'), lightConeId: lc('Sailing Towards A Second Life') },
     { characterId: char('Stelle (Harmony)'), lightConeId: lc('Memories of the Past') },
-    { characterId: char('Acheron'), lightConeId: lc('Along the Passing Shore') },
-    { characterId: char('Aventurine'), lightConeId: lc('Inherently Unjust Destiny') },
-    { characterId: char('Gallagher'), lightConeId: lc('Concert for Two') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -80,25 +79,30 @@ export default function RelicScorerTab() {
       })
       .then((data) => {
         console.log(data)
-        if (!data.detailInfo) {
-          setLoading(false)
-          Message.error('Error loading ID')
-          return 'ERROR'
-        }
-        // Backup
-        // data = Utils.recursiveToCamel(data.data)
-        // let characters = [
-        //   data.detailInfo.assistAvatars[0],
-        //   data.detailInfo.assistAvatars[1],
-        //   data.detailInfo.assistAvatars[2],
-        //   data.detailInfo.avatarDetailList[0],
-        //   data.detailInfo.avatarDetailList[1],
-        //   data.detailInfo.avatarDetailList[2],
-        //   data.detailInfo.avatarDetailList[3],
-        //   data.detailInfo.avatarDetailList[4],
-        // ]
+        const useBackup = false
 
-        const characters = data.detailInfo.avatarDetailList
+        let characters
+        if (useBackup) {
+          // Backup
+          data = Utils.recursiveToCamel(data)
+          characters = [
+            data.detailInfo.assistAvatars[0],
+            data.detailInfo.assistAvatars[1],
+            data.detailInfo.assistAvatars[2],
+            data.detailInfo.avatarDetailList[0],
+            data.detailInfo.avatarDetailList[1],
+            data.detailInfo.avatarDetailList[2],
+            data.detailInfo.avatarDetailList[3],
+            data.detailInfo.avatarDetailList[4],
+          ]
+        } else {
+          if (!data.detailInfo) {
+            setLoading(false)
+            Message.error('Error loading ID')
+            return 'ERROR'
+          }
+
+          characters = data.detailInfo.avatarDetailList
           .filter((x) => !!x)
           .sort((a, b) => {
             if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
@@ -109,6 +113,7 @@ export default function RelicScorerTab() {
           .filter((item, index, array) => {
             return array.findIndex((i) => i.avatarId === item.avatarId) === index
           })
+        }
 
         console.log('characters', characters)
 
@@ -142,9 +147,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-        {/* <Flex gap={10} vertical align='center'> */}
-        {/*  <Text><h2>The relic scorer is down for maintenance after the 2.0 patch - stay tuned!</h2></Text> */}
-        {/* </Flex> */}
+         {/*<Flex gap={10} vertical align='center'>*/}
+         {/* <Text><h2>The relic scorer is down for maintenance after the 2.2 patch - stay tuned!</h2></Text>*/}
+         {/*</Flex>*/}
         <Flex gap={10} vertical align="center">
           <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>

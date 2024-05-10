@@ -24,13 +24,25 @@ export const ReliquaryArchiverConfig = {
   speedVerified: true,
 }
 
+export const YasScannerConfig = {
+  name: 'Yas Scanner',
+  author: 'wormtql, YCR160',
+  homepage: 'https://github.com/wormtql/yas',
+  releases: '', // not released yet
+  defaultFileName: 'hsr.json',
+  sourceString: 'yas-scanner',
+  latestBuildVersion: 'v0.0.0',
+  latestOutputVersion: 3,
+}
+
 export const KelzScannerParser = new KelzFormatParser(KelzScannerConfig)
 export const ReliquaryArchiverParser = new KelzFormatParser(ReliquaryArchiverConfig)
+export const YasScannerParser = new KelzFormatParser(YasScannerConfig)
 
 export const ScannerSourceToParser = {
   [KelzScannerConfig.sourceString]: KelzScannerParser,
   [ReliquaryArchiverConfig.sourceString]: ReliquaryArchiverParser,
-
+  [YasScannerConfig.sourceString]: YasScannerParser,
 }
 
 export const ValidScannerSources = Object.keys(ScannerSourceToParser)

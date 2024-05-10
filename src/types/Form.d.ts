@@ -22,6 +22,7 @@ export type Form = {
   enhance: RelicEnhance
   grade: RelicGrade
   keepCurrentRelics: boolean
+  lightCone: string
   lightConeConditionals: ConditionalLightConeMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
@@ -37,6 +38,7 @@ export type Form = {
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
+  statSim?: any
 
   weights: {
     [key: string]: number

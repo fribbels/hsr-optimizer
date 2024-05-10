@@ -363,8 +363,12 @@ a {
   border-bottom: none !important;
 }
 .ant-empty-description {
-  height: 140px !important;
+  height: 175px !important;
 }
 .ant-collapse-arrow {
   font-size: 16px !important;
+}
+
+.ant-notification-notice-description {
+  margin-inline-start: 0px !important;
 }

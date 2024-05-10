@@ -2,14 +2,19 @@ import { Constants } from 'lib/constants'
 import { Assets } from 'lib/assets'
 import { Flex } from 'antd'
 import React from 'react'
+import { UnreleasedSets } from 'lib/dataParser'
 
 // Sets
-export const setOptions = []
-for (let entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)]) {
-  setOptions.push({
-    label: generateImageLabel(entry[1], Assets.getSetImage),
-    value: entry[1],
-  })
+export function getSetOptions() {
+  const setOptions = []
+  for (let entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter(x => !UnreleasedSets[x[1]])) {
+    setOptions.push({
+      label: generateImageLabel(entry[1], Assets.getSetImage),
+      value: entry[1],
+    })
+  }
+
+  return setOptions
 }
 
 // Stats

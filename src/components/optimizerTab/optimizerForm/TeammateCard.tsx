@@ -111,7 +111,7 @@ const teammateOrnamentSets = [
 
 // Find 4 piece relic sets and 2 piece ornament sets
 function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id))
+  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(x => x)
   const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4) {

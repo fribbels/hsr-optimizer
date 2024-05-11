@@ -1,6 +1,6 @@
 import { Character } from "types/Character";
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { Parts, Stats, SubStats } from 'lib/constants'
+import { Parts, Sets, Stats, SubStats } from 'lib/constants'
 import {
   calculateOrnamentSets,
   calculateRelicSets,
@@ -16,7 +16,7 @@ import { Utils } from 'lib/utils'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Form } from 'types/Form'
-import { Stat } from 'types/Relic'
+import { Relic, Stat } from 'types/Relic'
 import DB from 'lib/db'
 
 const cachedSims = {}
@@ -82,6 +82,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const originalSimResult = simulateOriginalCharacter(displayRelics, simulationForm)
   const originalFinalSpeed = originalSimResult.xSPD
 
+  const baselineSimResult = simulateBaselineCharacter(displayRelics, simulationForm)
+
   // Generate partials
   const partialSimulationWrappers = generatePartialSimulations(metadata)
   // console.debug(partialSimulationWrappers)
@@ -110,6 +112,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   }
 
   applyScoringFunction(originalSimResult)
+  applyScoringFunction(baselineSimResult)
   bestPartialSims.map(x => applyScoringFunction(x.result))
 
   let bestSims = bestPartialSims.sort((a, b) => b.result.SIM_SCORE - a.result.SIM_SCORE)
@@ -121,10 +124,11 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   metadata.bestSim = bestSims[0].request
 
   const simScoringResult = {
-    currentSimValue: originalSimResult.SIM_SCORE,
+    currentSimValue: originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE,
+    baselineSimValue: baselineSimResult.SIM_SCORE,
     maxSim: bestSims[0],
-    maxSimValue: bestSims[0].result.SIM_SCORE,
-    percent: originalSimResult.SIM_SCORE / bestSims[0].result.SIM_SCORE,
+    maxSimValue: bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE,
+    percent: (originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE),
     sims: bestSims,
     metadata: metadata
   }
@@ -360,6 +364,30 @@ function generatePartialSimulations(metadata) {
   }
 
   return results
+}
+
+
+function simulateBaselineCharacter(displayRelics, simulationForm) {
+  const relicsByPart = Utils.clone(displayRelics)
+  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelic())
+  Object.values(relicsByPart).map((x: Relic) => {
+    // Remove all subs
+    x.substats = []
+
+    // Simulate useless sets
+    if (x.part == Parts.PlanarSphere || x.part == Parts.LinkRope) {
+      x.set = Sets.CelestialDifferentiator
+    } else {
+      x.set = Sets.GuardOfWutheringSnow
+    }
+
+    // Simulate no main stats except HP/ATK
+    if (x.part != Parts.Head && x.part != Parts.Hands) {
+      x.main.value = 0
+    }
+  })
+
+  return simulateOriginalCharacter(relicsByPart, simulationForm)
 }
 
 function simulateOriginalCharacter(displayRelics, simulationForm) {

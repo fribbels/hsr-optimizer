@@ -75,7 +75,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
       + result.DOT * formula.DOT
       + result.BREAK * formula.BREAK
 
-    result.SIM_SCORE = score
+    const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
+    result.SIM_SCORE = score * spdScaling
   }
 
   // Simulate the original character
@@ -300,7 +301,7 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[Stats.ATK] -= 6
   maxCounts[Stats.HP] -= 6
 
-  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
+  // maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(0, maxCounts[stat])

@@ -1483,8 +1483,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.EHR,
-          Stats.CR,
           Stats.SPD,
+          Stats.CR,
         ],
         formula: {
           BASIC: 0,

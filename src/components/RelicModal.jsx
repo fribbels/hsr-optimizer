@@ -302,6 +302,10 @@ export default function RelicModal(props) {
   const filterOption = (input, option) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
+  const plusThree = () => {
+    relicForm.setFieldValue("enhance", Math.min(relicForm.getFieldValue("enhance") + 3, 15));
+  }
+
   return (
     <Form
       form={relicForm}
@@ -372,14 +376,21 @@ export default function RelicModal(props) {
             <Form.Item size="default" name="enhance">
               <Select
                 showSearch
-                style={{ width: 145 }}
+                style={{ width: 115 }}
                 options={enhanceOptions}
               />
             </Form.Item>
+
+            <Form.Item size="default">
+              <Button style={{ width: 50 }} onClick={plusThree}>
+                +3
+              </Button>
+            </Form.Item>
+
             <Form.Item size="default" name="grade">
               <Select
                 showSearch
-                style={{ width: 145 }}
+                style={{ width: 115 }}
                 options={[
                   { value: 2, label: '2 ★' },
                   { value: 3, label: '3 ★' },

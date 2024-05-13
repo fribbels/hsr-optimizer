@@ -2317,6 +2317,63 @@ function getScoringMetadata() {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.EHR,
+          Stats.ATK,
+          Stats.SPD,
+          Stats.CR
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 30,
+          BREAK: 0,
+        },
+        relicSet1: Sets.PrisonerInDeepConfinement,
+        relicSet2: Sets.PrisonerInDeepConfinement,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Patience
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1109: { // Hook
       stats: {
@@ -2483,8 +2540,68 @@ function getScoringMetadata() {
         Sets.FleetOfTheAgeless,
         Sets.TaliaKingdomOfBanditry,
       ],
-      presets: [],
+      presets: [
+        PresetEffects.PRISONER_SET,
+      ],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.EHR,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.EHR,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 2,
+          SKILL: 1,
+          ULT: 1,
+          FUA: 0,
+          DOT: 2,
+          BREAK: 1,
+        },
+        relicSet1: Sets.PrisonerInDeepConfinement,
+        relicSet2: Sets.PrisonerInDeepConfinement,
+        ornamentSet: Sets.TaliaKingdomOfBanditry,
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Patience
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1112: { // Topaz and Numby
       stats: {
@@ -3590,7 +3707,7 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.MusketeerOfWildWheat,
+        relicSet1: Sets.PrisonerInDeepConfinement,
         relicSet2: Sets.MusketeerOfWildWheat,
         ornamentSet: Sets.RutilantArena,
         teammates: [
@@ -3923,6 +4040,63 @@ function getScoringMetadata() {
       ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.ChampionOfStreetwiseBoxing,
+        relicSet2: Sets.ChampionOfStreetwiseBoxing,
+        ornamentSet: Sets.InertSalsotto,
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1202', // Tingyun
+            lightCone: '21018', // Dance
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1303: { // Ruan Mei
       stats: {
@@ -4646,6 +4820,63 @@ function getScoringMetadata() {
       ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.HunterOfGlacialForest,
+        relicSet2: Sets.HunterOfGlacialForest,
+        ornamentSet: Sets.InertSalsotto,
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1314: { // Jade
       stats: {

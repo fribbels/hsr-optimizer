@@ -1753,6 +1753,63 @@ function getScoringMetadata() {
       ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.BandOfSizzlingThunder,
+        relicSet2: Sets.BandOfSizzlingThunder,
+        ornamentSet: Sets.RutilantArena,
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }
+        ]
+      }
     },
     1009: { // Asta
       stats: {
@@ -3458,7 +3515,6 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,

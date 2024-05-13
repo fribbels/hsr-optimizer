@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { Constants, ElementToDamage } from 'lib/constants.ts'
+import { Constants, ElementToDamage, Stats } from 'lib/constants.ts'
 import {
   defaultGap,
   innerW,
@@ -337,7 +337,19 @@ export function CharacterPreview(props) {
                   relicSet1: simScoringResult.metadata.relicSet1,
                   relicSet2: simScoringResult.metadata.relicSet2,
                   ornamentSet: simScoringResult.metadata.ornamentSet,
-                  teammates: simScoringResult.metadata.teammates,
+                  stats: {
+                    ATK: Math.floor(simScoringResult.maxSim.result[Stats.ATK]),
+                    CR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CR]),
+                    CD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CD]),
+                    SPD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.SPD]),
+                    BE: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.BE]),
+                    BASIC: Math.floor(simScoringResult.maxSim.result.BASIC),
+                    SKILL: Math.floor(simScoringResult.maxSim.result.SKILL),
+                    ULT: Math.floor(simScoringResult.maxSim.result.ULT),
+                    DOT: Math.floor(simScoringResult.maxSim.result.DOT),
+                    FUA: Math.floor(simScoringResult.maxSim.result.FUA),
+                    BREAK: Math.floor(simScoringResult.maxSim.result.BREAK),
+                  },
                   bestSimStats: simScoringResult.metadata.bestSim.stats,
                   bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
                 }, null, 2)}

@@ -1496,7 +1496,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PrisonerInDeepConfinement,
         relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
         teammates: [
           {
             characterId: '1307', // Swan
@@ -4056,7 +4056,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PioneerDiverOfDeadWaters,
         relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.InertSalsotto,
+        ornamentSet: Sets.BrokenKeel,
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -4321,13 +4321,13 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PrisonerInDeepConfinement,
         relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        ornamentSet: Sets.PanCosmicCommercialEnterprise,
         teammates: [
           {
             characterId: '1005', // Kafka
-            lightCone: '23006', // Pearls
+            lightCone: '23006', // Patience
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -4436,9 +4436,9 @@ function getScoringMetadata() {
           },
           {
             characterId: '1006', // SW
-            lightCone: '22000', // Tutorial
+            lightCone: '23007', // Rain
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1304', // Aventurine

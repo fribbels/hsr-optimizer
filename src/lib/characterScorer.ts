@@ -76,7 +76,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
       + result.BREAK * formula.BREAK
 
     const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
-    result.SIM_SCORE = score * spdScaling
+    result.SIM_SCORE = score// * spdScaling
   }
 
   // Simulate the original character
@@ -144,10 +144,10 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number, teammate = false) {
   if (!characterId) return null
 
-  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
-  const lightConeConditionalsRequest = { lightCone: lightCone, eidolon: lightConeSuperimposition }
+  const characterConditionalsRequest = {characterId: characterId, characterEidolon: characterEidolon}
+  const lightConeConditionalsRequest = {lightCone: lightCone, eidolon: lightConeSuperimposition}
 
-  const simulationForm = getDefaultForm({ id: characterId })
+  const simulationForm = getDefaultForm({id: characterId})
   simulationForm.characterId = characterId
   simulationForm.characterEidolon = characterEidolon
   simulationForm.lightCone = lightCone

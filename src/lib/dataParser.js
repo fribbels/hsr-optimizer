@@ -3704,10 +3704,10 @@ function getScoringMetadata() {
         ornamentSet: Sets.InertSalsotto,
         teammates: [
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -3716,10 +3716,10 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           }
         ]
       }
@@ -4020,6 +4020,64 @@ function getScoringMetadata() {
         PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.DEF_P
+          ],
+          [Parts.Feet]: [
+            Stats.DEF_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.DEF_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.DEF_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.DEF_P,
+          Stats.SPD,
+          Stats.DEF
+        ],
+        formula: {
+          BASIC: 2,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 2,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSet1: Sets.PioneerDiverOfDeadWaters,
+        relicSet2: Sets.PioneerDiverOfDeadWaters,
+        ornamentSet: Sets.InertSalsotto,
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1305', // Ratio
+            lightCone: '23020', // Baptism
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ]
+      }
     },
     1305: { // Dr Ratio
       stats: {

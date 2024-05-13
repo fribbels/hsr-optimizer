@@ -1,4 +1,4 @@
-import { Character } from "types/Character";
+import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Parts, Sets, Stats, SubStats } from 'lib/constants'
 import {
@@ -82,11 +82,12 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   // Simulate the original character
   const originalSimResult = simulateOriginalCharacter(displayRelics, simulationForm)
   const originalFinalSpeed = originalSimResult.xSPD
+  const originalBaseSpeed = originalSimResult.SPD
 
   const baselineSimResult = simulateBaselineCharacter(displayRelics, simulationForm)
 
   // Generate partials
-  const partialSimulationWrappers = generatePartialSimulations(metadata)
+  const partialSimulationWrappers = generatePartialSimulations(metadata, originalBaseSpeed)
   // console.debug(partialSimulationWrappers)
 
   const bestPartialSims: Simulation[] = []
@@ -143,10 +144,10 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number, teammate = false) {
   if (!characterId) return null
 
-  const characterConditionalsRequest = {characterId: characterId, characterEidolon: characterEidolon}
-  const lightConeConditionalsRequest = {lightCone: lightCone, eidolon: lightConeSuperimposition}
+  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
+  const lightConeConditionalsRequest = { lightCone: lightCone, eidolon: lightConeSuperimposition }
 
-  const simulationForm = getDefaultForm({id: characterId})
+  const simulationForm = getDefaultForm({ id: characterId })
   simulationForm.characterId = characterId
   simulationForm.characterEidolon = characterEidolon
   simulationForm.lightCone = lightCone
@@ -178,7 +179,7 @@ function computeOptimalSimulation(
   metadata
 ) {
   const relevantSubstats = metadata.substats
-  const goal = 54
+  const goal = 36
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: any = undefined
@@ -211,7 +212,9 @@ function computeOptimalSimulation(
     }
 
     if (!bestSimResult) {
-      throw new Error('Something went wrong simulating scores')
+      // throw new Error('Something went wrong simulating scores')
+      sum -= 1
+      continue
     }
 
     sum -= 1
@@ -317,10 +320,13 @@ type PartialSimulationWrapper = {
 }
 
 // Generate all main stat possibilities
-function generatePartialSimulations(metadata) {
+function generatePartialSimulations(metadata, originalBaseSpeed) {
+  const forceSpdBoots = originalBaseSpeed > 140
+  const feetParts = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
   const results: PartialSimulationWrapper[] = []
   for (const body of metadata.parts[Parts.Body]) {
-    for (const feet of metadata.parts[Parts.Feet]) {
+    for (const feet of feetParts) {
       for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
         for (const linkRope of metadata.parts[Parts.LinkRope]) {
           const request: SimulationRequest = {

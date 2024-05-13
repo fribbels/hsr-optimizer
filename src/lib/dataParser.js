@@ -3453,6 +3453,65 @@ function getScoringMetadata() {
       ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.CD,
+          Stats.SPD,
+        ],
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSet1: Sets.IronCavalryAgainstScourge,
+        relicSet2: Sets.IronCavalryAgainstScourge,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          }
+        ]
+      }
     },
     1207: { // Yukong
       stats: {

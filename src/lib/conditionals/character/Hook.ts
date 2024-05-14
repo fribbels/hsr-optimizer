@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 
@@ -18,21 +18,24 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 4.00, 4.32)
   const dotScaling = skill(e, 0.65, 0.715)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'enhancedSkill',
-    name: 'enhancedSkill',
-    text: 'Enhanced skill',
-    title: 'Enhanced skill',
-    content: `After using Ultimate, the next Skill to be used is Enhanced. Enhanced Skill deals Fire DMG equal to ${precisionRound(skillEnhancedScaling * 100)}% of Hook's ATK to a single enemy and reduced DMG to adjacent enemies.`,
-  }, {
-    formItem: 'switch',
-    id: 'targetBurned',
-    name: 'targetBurned',
-    text: 'Target burned',
-    title: 'Target burned',
-    content: `When attacking a target afflicted with Burn, deals Additional Fire DMG equal to ${precisionRound(targetBurnedExtraScaling * 100)}% of Hook's ATK.`,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'enhancedSkill',
+      name: 'enhancedSkill',
+      text: 'Enhanced skill',
+      title: 'Enhanced skill',
+      content: `After using Ultimate, the next Skill to be used is Enhanced. Enhanced Skill deals Fire DMG equal to ${precisionRound(skillEnhancedScaling * 100)}% of Hook's ATK to a single enemy and reduced DMG to adjacent enemies.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'targetBurned',
+      name: 'targetBurned',
+      text: 'Target burned',
+      title: 'Target burned',
+      content: `When attacking a target afflicted with Burn, deals Additional Fire DMG equal to ${precisionRound(targetBurnedExtraScaling * 100)}% of Hook's ATK.`,
+    }
+  ]
 
   return {
     content: () => content,
@@ -41,8 +44,7 @@ export default (e: Eidolon): CharacterConditional => {
       enhancedSkill: true,
       targetBurned: true,
     }),
-    teammateDefaults: () => ({
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -65,6 +67,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 90
+
+      x.DOT_CHANCE = 1.00
 
       return x
     },

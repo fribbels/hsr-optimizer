@@ -75,8 +75,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
       + result.DOT * formula.DOT
       + result.BREAK * formula.BREAK
 
-    const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
-    result.SIM_SCORE = score// * spdScaling
+    // const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
+    result.SIM_SCORE = score
   }
 
   // Simulate the original character

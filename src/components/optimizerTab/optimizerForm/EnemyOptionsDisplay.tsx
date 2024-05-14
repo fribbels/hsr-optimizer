@@ -12,12 +12,12 @@ import {
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
-const { Text } = Typography
+const {Text} = Typography
 
 type EnemyOptionsDisplayProps = {}
 export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
   return (
-    <Flex vertical gap={5} style={{ marginBottom: 5 }}>
+    <Flex vertical gap={5} style={{marginBottom: 5}}>
       <Flex justify="space-between" align="center">
         <HeaderText style={{}}>Enemy options</HeaderText>
         <TooltipImage type={Hint.enemyOptions()}/>
@@ -28,7 +28,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
           <Select
             showSearch
             filterOption={Utils.labelFilterOption}
-            style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+            style={{width: (panelWidth - optimizerTabDefaultGap) / 2}}
             options={enemyLevelOptions}
             optionLabelProp="number"
             popupMatchSelectWidth={160}
@@ -39,7 +39,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
           <Select
             showSearch
             filterOption={Utils.labelFilterOption}
-            style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+            style={{width: (panelWidth - optimizerTabDefaultGap) / 2}}
             options={enemyCountOptions}
             suffixIcon={null}
           />
@@ -51,7 +51,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
           <Select
             showSearch
             filterOption={Utils.labelFilterOption}
-            style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+            style={{width: (panelWidth - optimizerTabDefaultGap) / 2}}
             options={enemyResistanceOptions}
             suffixIcon={null}
           />
@@ -60,7 +60,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
           <Select
             showSearch
             filterOption={Utils.labelFilterOption}
-            style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+            style={{width: (panelWidth - optimizerTabDefaultGap) / 2}}
             options={enemyMaxToughnessOptions}
             optionLabelProp="number"
             popupMatchSelectWidth={160}
@@ -75,7 +75,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
             checkedChildren={<CheckOutlined/>}
             unCheckedChildren={<CloseOutlined/>}
             defaultChecked
-            style={{ width: 45, marginRight: 5 }}
+            style={{width: 45, marginRight: 5}}
           />
         </Form.Item>
         <Text>Elemental weakness</Text>
@@ -86,7 +86,7 @@ export default function EnemyOptionsDisplay(_props: EnemyOptionsDisplayProps) {
           <Switch
             checkedChildren={<CheckOutlined/>}
             unCheckedChildren={<CloseOutlined/>}
-            style={{ width: 45, marginRight: 5 }}
+            style={{width: 45, marginRight: 5}}
           />
         </Form.Item>
         <Text>Weakness broken</Text>

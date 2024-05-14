@@ -167,13 +167,13 @@ export function calculateComputedStats(c, request, params) {
   x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  x[Stats.ATK] += request.buffAtk
-  x[Stats.ATK] += request.buffAtkP * request.baseAtk
-  x[Stats.CD] += request.buffCd
-  x[Stats.CR] += request.buffCr
-  x[Stats.SPD] += request.buffSpdP * request.baseSpd + request.buffSpd
-  x[Stats.BE] += request.buffBe
-  x.ELEMENTAL_DMG += request.buffDmgBoost
+  x[Stats.ATK] += request.combatBuffs.ATK
+  x[Stats.ATK] += request.combatBuffs.ATK_P * request.baseAtk
+  x[Stats.CD] += request.combatBuffs.CD
+  x[Stats.CR] += request.combatBuffs.CR
+  x[Stats.SPD] += request.combatBuffs.SPD_P * request.baseSpd + request.combatBuffs.SPD
+  x[Stats.BE] += request.combatBuffs.BE
+  x.ELEMENTAL_DMG += request.combatBuffs.DMG_BOOST
 
   // Set effects
   x[Stats.SPD_P]

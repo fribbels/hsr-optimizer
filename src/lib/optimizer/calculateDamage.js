@@ -14,7 +14,7 @@ export function calculateDamage(c, request, params) {
   const sets = c.sets
   const cLevel = 80
   const eLevel = request.enemyLevel
-  const defReduction = x.DEF_SHRED + request.buffDefShred
+  const defReduction = x.DEF_SHRED + request.combatBuffs.DEF_SHRED
   const defIgnore = 0
 
   x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
@@ -39,6 +39,16 @@ export function calculateDamage(c, request, params) {
   const ultVulnerability = 1 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI
   const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
   const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
+
+  const ENEMY_EFFECT_RES = 0.20
+  // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
+
+  // For stacking dots where the first stack has extra value
+  // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
+  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_SHRED))
+  const dotEhrMultiplier = x.DOT_SPLIT
+    ? (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1))
+    : effectiveDotChance
 
   // BREAK
   const maxToughness = request.enemyMaxToughness
@@ -106,6 +116,7 @@ export function calculateDamage(c, request, params) {
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
     * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
+    * dotEhrMultiplier
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

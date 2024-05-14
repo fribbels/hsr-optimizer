@@ -51,7 +51,7 @@ function generateSetConditionalParams(request, params) {
 
 function generateMultiplierParams(request, params) {
   params.brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
-  params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.buffResPen
+  params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED
 }
 
 function generateElementParams(request, params) {

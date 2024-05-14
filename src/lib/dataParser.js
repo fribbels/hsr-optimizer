@@ -4599,7 +4599,7 @@ function getScoringMetadata() {
       relicSets: [],
       ornamentSets: [],
       presets: [],
-      sortOption: SortOption.SPD,
+      sortOption: SortOption.BE,
     },
     1304: { // Aventurine
       stats: {

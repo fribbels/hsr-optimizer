@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
@@ -43,7 +43,7 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     // delete x.id
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: [x]})
   },
 
   getRows: () => {
@@ -51,7 +51,7 @@ export const OptimizerTabController = {
   },
 
   scrollToGrid: () => {
-    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    document.getElementById('optimizerGridContainer').scrollIntoView({behavior: 'smooth', block: 'nearest'})
   },
 
   equipClicked: () => {
@@ -157,7 +157,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource(sortModel, filterModel)})
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -300,16 +300,11 @@ export const OptimizerTabController = {
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
 
-    newForm.buffAtk = unsetMin(form.buffAtk)
-    newForm.buffAtkP = unsetMin(form.buffAtkP, true)
-    newForm.buffCr = unsetMin(form.buffCr, true)
-    newForm.buffCd = unsetMin(form.buffCd, true)
-    newForm.buffSpd = unsetMin(form.buffSpd)
-    newForm.buffSpdP = unsetMin(form.buffSpdP, true)
-    newForm.buffBe = unsetMin(form.buffBe, true)
-    newForm.buffDmgBoost = unsetMin(form.buffDmgBoost, true)
-    newForm.buffDefShred = unsetMin(form.buffDefShred, true)
-    newForm.buffResPen = unsetMin(form.buffResPen, true)
+    newForm.combatBuffs = {}
+    if (!form.combatBuffs) form.combatBuffs = {}
+    for (const buff of Object.values(CombatBuffs)) {
+      newForm.combatBuffs[buff.key] = unsetMin(form.combatBuffs[buff.key], buff.percent)
+    }
 
     if (!newForm.setConditionals) {
       newForm.setConditionals = defaultSetConditionals
@@ -554,16 +549,10 @@ export const OptimizerTabController = {
     x.maxBreak = fixValue(x.maxBreak, MAX_INT)
     x.minBreak = fixValue(x.minBreak, 0)
 
-    x.buffAtk = fixValue(x.buffAtk, 0)
-    x.buffAtkP = fixValue(x.buffAtkP, 0, 100)
-    x.buffCr = fixValue(x.buffCr, 0, 100)
-    x.buffCd = fixValue(x.buffCd, 0, 100)
-    x.buffSpd = fixValue(x.buffSpd, 0)
-    x.buffSpdP = fixValue(x.buffSpdP, 0, 100)
-    x.buffBe = fixValue(x.buffBe, 0, 100)
-    x.buffDmgBoost = fixValue(x.buffDmgBoost, 0, 100)
-    x.buffDefShred = fixValue(x.buffDefShred, 0, 100)
-    x.buffResPen = fixValue(x.buffResPen, 0, 100)
+    if (!x.combatBuffs) x.combatBuffs = {}
+    for (const buff of Object.values(CombatBuffs)) {
+      x.combatBuffs[buff.key] = fixValue(x.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
+    }
 
     x.mainHead = x.mainHead || []
     x.mainHands = x.mainHands || []
@@ -627,7 +616,7 @@ export const OptimizerTabController = {
     if (!characterId) return
     const character = DB.getCharacterById(characterId)
 
-    const form = character ? character.form : getDefaultForm({ id: characterId })
+    const form = character ? character.form : getDefaultForm({id: characterId})
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
@@ -802,6 +791,6 @@ function setPinnedRow(characterId) {
 
   // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
   if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
+    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: [stats]})
   }
 }

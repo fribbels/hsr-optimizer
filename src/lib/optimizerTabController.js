@@ -300,10 +300,8 @@ export const OptimizerTabController = {
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
 
-    if (!form.combatBuffs) {
-      form.combatBuffs = {}
-    }
     newForm.combatBuffs = {}
+    if (!form.combatBuffs) form.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
       newForm.combatBuffs[buff.key] = unsetMin(form.combatBuffs[buff.key], buff.percent)
     }

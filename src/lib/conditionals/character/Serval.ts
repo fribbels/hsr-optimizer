@@ -68,7 +68,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 60
 
-      x.DOT_CHANCE += 0.65
+      x.DOT_CHANCE = 0.65
 
       return x
     },

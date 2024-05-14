@@ -109,7 +109,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 60
 
-      x.DOT_CHANCE += dotChance
+      x.DOT_CHANCE = dotChance
       x.DOT_SPLIT = 0.05
       x.DOT_STACKS = r.arcanaStacks
 

@@ -20,8 +20,6 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 0, 0)
   const dotScaling = basic(e, 0.50, 0.55)
 
-  const dotChance = 0.8
-
   const content: ContentItem[] = [
     {
       formItem: 'slider',
@@ -102,7 +100,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30 + 15 * r.skillExtraDmgHits
 
-      x.DOT_CHANCE += dotChance
+      x.DOT_CHANCE = 0.8
 
       return x
     },

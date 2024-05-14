@@ -337,3 +337,5 @@ export type ConditionalBuff =
   | 'superBreakDmg'
   | 'routedVulnerability'
   | 'fuaStacks'
+  | 'skillDot'
+  | 'e1EffectResShred'

@@ -110,6 +110,9 @@ export const baseComputedStatsObject = {
   DOT_DMG: 0,
   BREAK_DMG: 0,
 
+  DOT_CHANCE: 0,
+  EFFECT_RES_SHRED: 0,
+
   ENEMY_WEAKNESS_BROKEN: 0,
 
   SUPER_BREAK_MODIFIER: 0,

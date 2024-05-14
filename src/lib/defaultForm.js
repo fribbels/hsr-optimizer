@@ -59,16 +59,7 @@ export function getDefaultForm(initialCharacter) {
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
     resultLimit: 100000,
-    buffAtk: 0,
-    buffAtkP: 0,
-    buffCr: 0,
-    buffCd: 0,
-    buffSpd: 0,
-    buffSpdP: 0,
-    buffBe: 0,
-    buffDmgBoost: 0,
-    buffDefShred: 0,
-    buffResPen: 0,
+    combatBuffs: {}
   })
 
   defaultForm.topPercent = 100

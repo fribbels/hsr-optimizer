@@ -45,16 +45,9 @@ export type Form = {
   }
   characterConditionals: CharacterConditionalMap
 
-  buffAtk: number
-  buffAtkP: number
-  buffBe: number
-  buffCd: number
-  buffCr: number
-  buffDefShred: number
-  buffDmgBoost: number
-  buffResPen: number
-  buffSpd: number
-  buffSpdP: number
+  combatBuffs: {
+    [key: string]: number
+  }
 
   baseHp: number
   baseAtk: number

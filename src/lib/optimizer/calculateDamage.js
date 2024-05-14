@@ -14,7 +14,7 @@ export function calculateDamage(c, request, params) {
   const sets = c.sets
   const cLevel = 80
   const eLevel = request.enemyLevel
-  const defReduction = x.DEF_SHRED + request.buffDefShred
+  const defReduction = x.DEF_SHRED + request.combatBuffs.DEF_SHRED
   const defIgnore = 0
 
   x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]

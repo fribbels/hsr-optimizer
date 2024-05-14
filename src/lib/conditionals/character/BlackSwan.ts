@@ -58,7 +58,7 @@ export default (e: Eidolon): CharacterConditional => {
       content: `While afflicted with Arcana, enemy targets receive Wind DoT equal to ${precisionRound(dotScaling * 100)}% of Black Swan's ATK at the start of each turn. Each stack of Arcana increases this DoT DMG multiplier by ${precisionRound(arcanaStackMultiplier * 100)}%. Arcana can stack up to 50 times. 
     ::BR::
 When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When there are 7 or more Arcana stacks, enables the current DoT dealt this time to ignore 20% of the target's and adjacent targets' DEF.`,
-      min: 0,
+      min: 1,
       max: 50,
     },
     {
@@ -110,6 +110,8 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.ULT_TOUGHNESS_DMG += 60
 
       x.DOT_CHANCE += dotChance
+      x.DOT_SPLIT = 0.05
+      x.DOT_STACKS = r.arcanaStacks
 
       return x
     },

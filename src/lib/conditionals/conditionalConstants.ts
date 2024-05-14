@@ -113,6 +113,10 @@ export const baseComputedStatsObject = {
   DOT_CHANCE: 0,
   EFFECT_RES_SHRED: 0,
 
+  // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+  DOT_SPLIT: 0,
+  DOT_STACKS: 0,
+
   ENEMY_WEAKNESS_BROKEN: 0,
 
   SUPER_BREAK_MODIFIER: 0,

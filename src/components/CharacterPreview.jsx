@@ -242,7 +242,7 @@ export function CharacterPreview(props) {
                   visibility: 'hidden',
                   flex: 'auto',
                   position: 'absolute',
-                  top: parentH - 37,
+                  top: parentH - 38,
                   left: 5,
                 }}
                 className="character-build-portrait-button"
@@ -337,12 +337,15 @@ export function CharacterPreview(props) {
                   relicSet1: simScoringResult.metadata.relicSet1,
                   relicSet2: simScoringResult.metadata.relicSet2,
                   ornamentSet: simScoringResult.metadata.ornamentSet,
-                  stats: {
+                  bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
+                  bestSimSubstats: simScoringResult.metadata.bestSim.stats,
+                  bestSimFinalStats: {
                     ATK: Math.floor(simScoringResult.maxSim.result[Stats.ATK]),
-                    CR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CR]),
-                    CD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CD]),
+                    CR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CR] * 100),
+                    CD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CD] * 100),
                     SPD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.SPD]),
-                    BE: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.BE]),
+                    BE: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.BE] * 100),
+                    EHR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.EHR] * 100),
                     BASIC: Math.floor(simScoringResult.maxSim.result.BASIC),
                     SKILL: Math.floor(simScoringResult.maxSim.result.SKILL),
                     ULT: Math.floor(simScoringResult.maxSim.result.ULT),
@@ -350,8 +353,6 @@ export function CharacterPreview(props) {
                     FUA: Math.floor(simScoringResult.maxSim.result.FUA),
                     BREAK: Math.floor(simScoringResult.maxSim.result.BREAK),
                   },
-                  bestSimStats: simScoringResult.metadata.bestSim.stats,
-                  bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
                 }, null, 2)}
               >
                 <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>

@@ -1,5 +1,5 @@
 import { Drawer, Flex, Form, Typography } from 'antd'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { defaultGap } from 'lib/constantsUi'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'

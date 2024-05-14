@@ -1,4 +1,4 @@
-import { Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
+import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
 import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from './utils.js'
@@ -23,6 +23,9 @@ export function getDefaultForm(initialCharacter) {
     [Constants.Stats.BE]: 1,
     topPercent: 100,
   }
+
+  const combatBuffs = {}
+  Object.values(CombatBuffs).map(x => combatBuffs[x.key] = 0)
 
   const defaultForm = Utils.clone({
     characterId: initialCharacter?.id,
@@ -59,7 +62,7 @@ export function getDefaultForm(initialCharacter) {
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
     resultLimit: 100000,
-    combatBuffs: {}
+    combatBuffs: combatBuffs
   })
 
   defaultForm.topPercent = 100

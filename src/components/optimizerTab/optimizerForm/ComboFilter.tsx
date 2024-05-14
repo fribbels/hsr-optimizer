@@ -25,6 +25,10 @@ export const ComboFilters = () => {
       >
         {`Extra combat buffs${buffsActive ? ` (${buffsActive})` : ''}`}
       </Button>
+
+      <Flex justify="center" align='center' style={{marginTop: 120}}>
+        (Under construction)
+      </Flex>
     </Flex>
   )
 }

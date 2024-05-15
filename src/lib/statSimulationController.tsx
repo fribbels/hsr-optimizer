@@ -253,7 +253,7 @@ export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form: Form, simulations: Simulation[]) {
+export function runSimulations(form: Form, simulations: Simulation[], quality = 1) {
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
@@ -308,7 +308,7 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
     const requestSubstats = Utils.clone(sim.request.stats)
     if (sim.simType == StatSimTypes.SubstatRolls) {
       for (const substat of SubStats) {
-        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat))
+        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat, quality))
       }
     }
 
@@ -415,11 +415,11 @@ export function importOptimizerBuild() {
   const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
   const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2], false)
 
-  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName)
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 
-export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet) {
+export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1) {
   const relics: Relic[] = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {}
   SubStats.map(x => accumulatedSubstatRolls[x] = 0)
@@ -427,7 +427,7 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
   // Sum up substat rolls
   for (const relic of relics) {
     for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat)
+      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat, quality)
     }
   }
 

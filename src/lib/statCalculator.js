@@ -26,7 +26,13 @@ const maxedMainStats = {
 }
 
 export const StatCalculator = {
-  getMaxedSubstatValue: (stat) => {
+  getMaxedSubstatValue: (stat, quality = 1) => {
+    if (quality == 0.8) {
+      return Utils.precisionRound(SubStatValues[stat][5].low)
+    }
+    if (quality == 0.9) {
+      return Utils.precisionRound(SubStatValues[stat][5].mid)
+    }
     return Utils.precisionRound(SubStatValues[stat][5].high)
   },
   getMaxedStatValue: (stat) => {
@@ -99,7 +105,7 @@ export const StatCalculator = {
     let base = baseStats.base
     let trace = baseStats.traces
 
-    let { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics)
+    let {relicSets, ornamentSets} = Utils.relicsToSetArrays(relics)
 
     /*
      * console.log(characterMetadata, lightConeMetadata)

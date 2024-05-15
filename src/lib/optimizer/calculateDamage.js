@@ -117,6 +117,13 @@ export function calculateDamage(c, request, params) {
     * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
     * dotEhrMultiplier
+
+  x.COMBO_DMG = request.combo.BASIC * x.BASIC_DMG
+    + request.combo.SKILL * x.SKILL_DMG
+    + request.combo.ULT * x.ULT_DMG
+    + request.combo.FUA * x.FUA_DMG
+    + request.combo.DOT * x.DOT_DMG
+    + request.combo.BREAK * x.BREAK_DMG
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

@@ -80,7 +80,7 @@ export const SpdValues = {
   },
 }
 const standardSpdOptions = Object.values(SpdValues)
-standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
+standardSpdOptions.map((x) => x.label = (<div style={{minWidth: 450}}>{x.label}</div>))
 
 export function generateStandardSpdOptions(label) {
   return {
@@ -122,7 +122,7 @@ export function setSortColumn(columnId) {
         sort: 'desc',
       },
     ],
-    defaultState: { sort: null },
+    defaultState: {sort: null},
   }
   window.optimizerGrid.current?.api.applyColumnState(columnState)
 }
@@ -154,10 +154,10 @@ const RecommendedPresetsButton = () => {
     <Dropdown
       menu={actionsMenuProps}
       trigger={['click']}
-      overlayStyle={{ width: 'max-content' }}
+      overlayStyle={{width: 'max-content'}}
     >
       <a onClick={(e) => e.preventDefault()}>
-        <Button type="primary" style={{ width: '100%' }}>
+        <Button type="primary" style={{width: '100%'}}>
           Recommended presets
           <DownOutlined/>
         </Button>
@@ -209,6 +209,10 @@ export default RecommendedPresetsButton
 export function applyMetadataPresetToForm(form, scoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+
+  const formula = scoringMetadata?.simulation?.formula || {}
+  Utils.mergeUndefinedValues(form.combo, formula)
+  Object.keys(form.combo).map(key => form.combo[key] = form.combo[key] || null)
 
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]

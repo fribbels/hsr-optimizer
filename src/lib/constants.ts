@@ -672,3 +672,5 @@ export const CombatBuffs = {
     percent: true
   },
 }
+
+export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']

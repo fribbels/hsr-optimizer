@@ -48,6 +48,9 @@ export type Form = {
   combatBuffs: {
     [key: string]: number
   }
+  combo: {
+    [key: string]: number
+  }
 
   baseHp: number
   baseAtk: number

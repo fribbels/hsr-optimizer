@@ -109,6 +109,7 @@ export const baseComputedStatsObject = {
   FUA_DMG: 0,
   DOT_DMG: 0,
   BREAK_DMG: 0,
+  COMBO_DMG: 0,
 
   DOT_CHANCE: 0,
   EFFECT_RES_SHRED: 0,

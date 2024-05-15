@@ -6,8 +6,8 @@ import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const { useToken, getDesignToken } = theme
-const { Content } = Layout
+const {useToken, getDesignToken} = theme
+const {Content} = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
@@ -79,7 +79,7 @@ const App = () => {
             railSize: 3,
           },
           InputNumber: {
-            paddingInlineSM: 4,
+            paddingInlineSM: 6,
           },
           Tag: {
             defaultColor: '#ffffff',
@@ -93,10 +93,10 @@ const App = () => {
     >
       {messageContextHolder}
       {notificationContextHolder}
-      <Layout style={{ minHeight: '100%' }}>
-        <LayoutHeader />
+      <Layout style={{minHeight: '100%'}}>
+        <LayoutHeader/>
         <Layout hasSider>
-          <LayoutSider />
+          <LayoutSider/>
           <Content
             style={{
               padding: 10,
@@ -110,9 +110,9 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs />
+            <Tabs/>
           </Content>
-          <SettingsDrawer />
+          <SettingsDrawer/>
         </Layout>
       </Layout>
     </ConfigProvider>

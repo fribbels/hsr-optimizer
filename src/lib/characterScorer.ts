@@ -20,7 +20,8 @@ import { Relic, Stat } from 'types/Relic'
 import DB from 'lib/db'
 
 const cachedSims = {}
-const quality = 0.9
+const QUALITY = 0.8
+const SUBSTAT_GOAL = 42
 
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any) {
   console.debug(character, finalStats, displayRelics)
@@ -95,12 +96,12 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   // Run sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
-    const simulationResult = runSimulations(simulationForm, [partialSimulationWrapper.simulation], quality)[0]
+    const simulationResult = runSimulations(simulationForm, [partialSimulationWrapper.simulation], QUALITY)[0]
 
     // Find the speed deduction
     const finalSpeed = simulationResult.xSPD
     partialSimulationWrapper.finalSpeed = finalSpeed
-    partialSimulationWrapper.speedRollsDeduction = Math.ceil(Utils.precisionRound((originalFinalSpeed - finalSpeed) / 2.3))
+    partialSimulationWrapper.speedRollsDeduction = Math.ceil(Utils.precisionRound((originalFinalSpeed - finalSpeed) / 2.0))
     // console.debug(partialSimulationWrapper)
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, metadata)
     const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata)
@@ -180,7 +181,7 @@ function computeOptimalSimulation(
   metadata
 ) {
   const relevantSubstats = metadata.substats
-  const goal = 36
+  const goal = SUBSTAT_GOAL
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: any = undefined
@@ -200,7 +201,7 @@ function computeOptimalSimulation(
       const newSimulation = Utils.clone(currentSimulation)
       newSimulation.request.stats[stat] -= 1
 
-      const newSimResult = runSimulations(simulationForm, [newSimulation], quality)[0]
+      const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
 
       applyScoringFunction(newSimResult)
       applyScoringFunction(bestSimResult)
@@ -413,13 +414,13 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
   ].filter(x => x != -1)
   const relicSetNames = calculateRelicSets(relicSets, true)
   const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
-  const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, quality)
+  const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, QUALITY)
   const originalSim = {
     name: '',
     key: '',
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
-  const originalSimResult = runSimulations(simulationForm, [originalSim], quality)[0]
+  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
   return originalSimResult
 }

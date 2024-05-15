@@ -4952,7 +4952,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PrisonerInDeepConfinement,
         relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -5072,7 +5072,7 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1208', // Aventurine
+            characterId: '1304', // Aventurine
             lightCone: '21016', // Trend
             characterEidolon: 0,
             lightConeSuperimposition: 5,

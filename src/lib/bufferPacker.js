@@ -1,6 +1,6 @@
 import { Constants, Stats } from './constants.ts'
 
-const SIZE = 35
+const SIZE = 36
 
 export const BufferPacker = {
   extractCharacter: (arr, offset) => { // Float32Array

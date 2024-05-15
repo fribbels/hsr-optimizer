@@ -1,6 +1,6 @@
 import { Constants, Stats } from './constants.ts'
 
-const SIZE = 35
+const SIZE = 36
 
 export const BufferPacker = {
   extractCharacter: (arr, offset) => { // Float32Array
@@ -27,20 +27,21 @@ export const BufferPacker = {
       FUA: arr[offset + 18],
       DOT: arr[offset + 19],
       BREAK: arr[offset + 20], // 20
-      xHP: arr[offset + 21],
-      xATK: arr[offset + 22],
-      xDEF: arr[offset + 23],
-      xSPD: arr[offset + 24],
-      xCR: arr[offset + 25],
-      xCD: arr[offset + 26],
-      xEHR: arr[offset + 27],
-      xRES: arr[offset + 28],
-      xBE: arr[offset + 29],
-      xERR: arr[offset + 30], // 30
-      xOHB: arr[offset + 31],
-      xELEMENTAL_DMG: arr[offset + 32],
-      relicSetIndex: arr[offset + 33],
-      ornamentSetIndex: arr[offset + 34],
+      COMBO: arr[offset + 21],
+      xHP: arr[offset + 22],
+      xATK: arr[offset + 23],
+      xDEF: arr[offset + 24],
+      xSPD: arr[offset + 25],
+      xCR: arr[offset + 26],
+      xCD: arr[offset + 27],
+      xEHR: arr[offset + 28],
+      xRES: arr[offset + 29],
+      xBE: arr[offset + 30], // 30
+      xERR: arr[offset + 31],
+      xOHB: arr[offset + 32],
+      xELEMENTAL_DMG: arr[offset + 33],
+      relicSetIndex: arr[offset + 34],
+      ornamentSetIndex: arr[offset + 35],
     }
   },
 
@@ -78,22 +79,23 @@ export const BufferPacker = {
     arr[offset + 16] = character.x.SKILL_DMG
     arr[offset + 17] = character.x.ULT_DMG
     arr[offset + 18] = character.x.FUA_DMG
-    arr[offset + 19] = character.x.DOT_DMG // 20
+    arr[offset + 19] = character.x.DOT_DMG
     arr[offset + 20] = character.x.BREAK_DMG // 20
-    arr[offset + 21] = character.x[Stats.HP]
-    arr[offset + 22] = character.x[Stats.ATK]
-    arr[offset + 23] = character.x[Stats.DEF]
-    arr[offset + 24] = character.x[Stats.SPD]
-    arr[offset + 25] = character.x[Stats.CR]
-    arr[offset + 26] = character.x[Stats.CD]
-    arr[offset + 27] = character.x[Stats.EHR]
-    arr[offset + 28] = character.x[Stats.RES]
-    arr[offset + 29] = character.x[Stats.BE]
-    arr[offset + 30] = character.x[Stats.ERR] // 30
-    arr[offset + 31] = character.x[Stats.OHB]
-    arr[offset + 32] = character.x.ELEMENTAL_DMG
-    arr[offset + 33] = character.relicSetIndex
-    arr[offset + 34] = character.ornamentSetIndex
+    arr[offset + 21] = character.x.COMBO_DMG
+    arr[offset + 22] = character.x[Stats.HP]
+    arr[offset + 23] = character.x[Stats.ATK]
+    arr[offset + 24] = character.x[Stats.DEF]
+    arr[offset + 25] = character.x[Stats.SPD]
+    arr[offset + 26] = character.x[Stats.CR]
+    arr[offset + 27] = character.x[Stats.CD]
+    arr[offset + 28] = character.x[Stats.EHR]
+    arr[offset + 29] = character.x[Stats.RES]
+    arr[offset + 30] = character.x[Stats.BE]
+    arr[offset + 31] = character.x[Stats.ERR] // 30
+    arr[offset + 32] = character.x[Stats.OHB]
+    arr[offset + 33] = character.x.ELEMENTAL_DMG
+    arr[offset + 34] = character.relicSetIndex
+    arr[offset + 35] = character.ornamentSetIndex
   },
 
   cleanFloatBuffer: (buffer) => {

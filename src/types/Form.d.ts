@@ -48,6 +48,9 @@ export type Form = {
   combatBuffs: {
     [key: string]: number
   }
+  combo: {
+    [key: string]: number
+  }
 
   baseHp: number
   baseAtk: number
@@ -63,6 +66,7 @@ export type Form = {
   maxDmg: MAX_INT
   maxDot: MAX_INT
   maxBreak: MAX_INT
+  maxCombo: MAX_INT
   maxEhp: MAX_INT
   maxEhr: MAX_INT
   maxErr: MAX_INT
@@ -83,6 +87,7 @@ export type Form = {
   minDmg: MIN_INT
   minDot: MIN_INT
   minBreak: MIN_INT
+  minCombo: MIN_INT
   minEhp: MIN_INT
   minEhr: MIN_INT
   minErr: MIN_INT

@@ -2,7 +2,7 @@ import { Flex, theme } from 'antd'
 import { CSSProperties, ReactElement } from 'react'
 import { defaultPadding, panelWidth } from "components/optimizerTab/optimizerTabConstants";
 
-const { useToken } = theme
+const {useToken} = theme
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
 const defaultGap = 5
@@ -24,7 +24,7 @@ export default function FormCard(props: {
   style?: CSSProperties;
   justify?: string
 }) {
-  const { token } = useToken()
+  const {token} = useToken()
 
   const size = props.size || 'small'
   const width = dimsBySize[size]
@@ -41,12 +41,17 @@ export default function FormCard(props: {
       }}
     >
       <Flex
-        vertical
-        style={{ width: width }}
-        gap={defaultGap}
+        style={{width: width}}
         justify={props.justify || undefined}
       >
-        {props.children}
+        <Flex
+          vertical
+          style={{width: width - 0.5}}
+          gap={defaultGap}
+          justify={props.justify || undefined}
+        >
+          {props.children}
+        </Flex>
       </Flex>
     </Flex>
   )

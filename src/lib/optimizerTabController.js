@@ -2,7 +2,7 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { CombatBuffs, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
@@ -135,6 +135,7 @@ export const OptimizerTabController = {
         FUA: true,
         DOT: true,
         BREAK: true,
+        COMBO: true,
 
         xATK: true,
         xDEF: true,
@@ -148,7 +149,6 @@ export const OptimizerTabController = {
         xERR: true,
         xOHB: true,
         xELEMENTAL_DMG: true,
-
       }
       columnsToAggregate = Object.keys(columnsToAggregateMap)
     }
@@ -299,11 +299,19 @@ export const OptimizerTabController = {
     newForm.minDot = unsetMin(form.minDot)
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
+    newForm.maxCombo = unsetMax(form.maxCombo)
+    newForm.minCombo = unsetMin(form.minCombo)
 
     newForm.combatBuffs = {}
     if (!form.combatBuffs) form.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
       newForm.combatBuffs[buff.key] = unsetMin(form.combatBuffs[buff.key], buff.percent)
+    }
+
+    newForm.combo = {}
+    if (!form.combo) form.combo = {}
+    for (const key of DamageKeys) {
+      newForm.combo[key] = unsetMin(form.combo[key])
     }
 
     if (!newForm.setConditionals) {
@@ -548,10 +556,17 @@ export const OptimizerTabController = {
     x.minDot = fixValue(x.minDot, 0)
     x.maxBreak = fixValue(x.maxBreak, MAX_INT)
     x.minBreak = fixValue(x.minBreak, 0)
+    x.maxCombo = fixValue(x.maxCombo, MAX_INT)
+    x.minCombo = fixValue(x.minCombo, 0)
 
     if (!x.combatBuffs) x.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
       x.combatBuffs[buff.key] = fixValue(x.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
+    }
+
+    if (!x.combo) x.combo = {}
+    for (const key of DamageKeys) {
+      x.combo[key] = fixValue(x.combo[key], 0, 0)
     }
 
     x.mainHead = x.mainHead || []
@@ -690,6 +705,7 @@ function aggregate(subArray) {
   setMinMax('FUA')
   setMinMax('DOT')
   setMinMax('BREAK')
+  setMinMax('COMBO')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')
@@ -750,6 +766,7 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }
@@ -776,6 +793,7 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }

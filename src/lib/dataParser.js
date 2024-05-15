@@ -2143,7 +2143,7 @@ function getScoringMetadata() {
             characterId: '1306', // Sparkle
             lightCone: '23003', // But the battle
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1217', // Huohuo
@@ -4952,7 +4952,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PrisonerInDeepConfinement,
         relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -5205,7 +5205,7 @@ function getScoringMetadata() {
           ULT: 0,
           FUA: 0,
           DOT: 0,
-          BREAK: 0,
+          BREAK: 1,
         },
         relicSet1: Sets.IronCavalryAgainstScourge,
         relicSet2: Sets.IronCavalryAgainstScourge,

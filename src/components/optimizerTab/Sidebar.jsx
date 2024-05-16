@@ -213,7 +213,7 @@ function MobileSidebarContent() {
         width: '100%',
         bottom: 0,
         left: 0,
-        backgroundColor: token.colorBgContainer,
+        backgroundColor: 'rgb(29 42 71)',
         boxShadow: shadow,
         borderRadius: 5,
         padding: defaultPadding,

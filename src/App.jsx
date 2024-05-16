@@ -38,6 +38,8 @@ const App = () => {
           colorTextBase: colorTheme.colorTextBase,
           colorPrimary: colorTheme.colorPrimary,
           colorPrimaryBorderHover: colorTheme.colorPrimary,
+          screenXL: 1530,
+          screenXLMin: 1530,
         },
         components: {
           // OptimizerForm.js
@@ -54,6 +56,7 @@ const App = () => {
           // MenuDrawer.js
           Menu: {
             margin: 2,
+            itemPaddingInline: 0,
           },
 
           Table: {

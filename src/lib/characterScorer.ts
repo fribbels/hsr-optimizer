@@ -181,10 +181,14 @@ function computeOptimalSimulation(
   metadata
 ) {
   const relevantSubstats = metadata.substats
+  const breakpoints = metadata.breakpoints
   const goal = SUBSTAT_GOAL
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: any = undefined
+
+  let breakpointsCap = true
+  let speedCap = true
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -194,7 +198,8 @@ function computeOptimalSimulation(
     for (const stat of relevantSubstats) {
       // Can't reduce further
       if (currentSimulation.request.stats[stat] <= 0) continue
-      if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
+      if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= SUBSTAT_GOAL) continue
+      if (stat == Stats.SPD && speedCap && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
       if (isInvalidSubstatDistribution(currentSimulation)) continue
 
@@ -202,6 +207,12 @@ function computeOptimalSimulation(
       newSimulation.request.stats[stat] -= 1
 
       const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
+
+      if (breakpointsCap && metadata.breakpoints[stat]) {
+        if (newSimResult.x[stat] < metadata.breakpoints[stat]) {
+          continue
+        }
+      }
 
       applyScoringFunction(newSimResult)
       applyScoringFunction(bestSimResult)
@@ -214,12 +225,24 @@ function computeOptimalSimulation(
     }
 
     if (!bestSimResult) {
-      // throw new Error('Something went wrong simulating scores')
+      if (breakpointsCap) {
+        // We can't reach the target speed and breakpoints, stop trying to match breakpoints and try again
+        breakpointsCap = false
+        continue
+      }
+
+      if (speedCap) {
+        // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
+        speedCap = false
+        continue
+      }
+
+      // No solution possible, skip
       sum -= 1
+
       continue
     }
 
-    sum -= 1
     currentSimulation = bestSim
     currentSimulationResult = bestSimResult
   }

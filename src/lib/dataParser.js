@@ -1257,6 +1257,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -1372,6 +1373,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -1487,6 +1489,7 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -1601,6 +1604,7 @@ function getScoringMetadata() {
           Stats.SPD,
           Stats.CR,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -1778,6 +1782,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -1950,6 +1955,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -2121,6 +2127,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -2231,6 +2238,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -2509,6 +2517,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 1,
@@ -2628,6 +2637,7 @@ function getScoringMetadata() {
           Stats.SPD,
           Stats.CR
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -2742,6 +2752,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -2913,6 +2924,7 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 1,
@@ -3028,6 +3040,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 1,
@@ -3140,6 +3153,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -3369,6 +3383,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -3481,6 +3496,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -3593,6 +3609,7 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -3818,6 +3835,7 @@ function getScoringMetadata() {
           Stats.BE,
           Stats.CR,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -4042,6 +4060,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -4156,6 +4175,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -4265,6 +4285,7 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -4522,6 +4543,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -4677,6 +4699,7 @@ function getScoringMetadata() {
           Stats.SPD,
           Stats.DEF
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -4785,6 +4808,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -4942,6 +4966,9 @@ function getScoringMetadata() {
           Stats.SPD,
           Stats.CR
         ],
+        breakpoints: {
+          [Stats.EHR]: 1.20
+        },
         formula: {
           BASIC: 2,
           SKILL: 1,
@@ -5047,6 +5074,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -5199,6 +5227,7 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -5302,6 +5331,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -5407,6 +5437,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -5512,6 +5543,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 3,
           SKILL: 0,
@@ -5625,6 +5657,7 @@ function getScoringMetadata() {
           Stats.BE,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -5738,6 +5771,7 @@ function getScoringMetadata() {
           Stats.BE,
           Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,

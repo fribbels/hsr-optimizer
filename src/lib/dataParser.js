@@ -3722,6 +3722,15 @@ function getScoringMetadata() {
         relicSet1: Sets.HunterOfGlacialForest,
         relicSet2: Sets.HunterOfGlacialForest,
         ornamentSet: Sets.RutilantArena,
+        equivalentRelicSets: [
+          [
+            Sets.GeniusOfBrilliantStars,
+            Sets.GeniusOfBrilliantStars,
+          ]
+        ],
+        equivalentOrnamentSets: [
+          Sets.GeniusOfBrilliantStars,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya

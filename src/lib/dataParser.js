@@ -3938,7 +3938,7 @@ function getScoringMetadata() {
           ULT: 1,
           FUA: 3,
           DOT: 0,
-          BREAK: 0,
+          BREAK: 1,
         },
         relicSet1: Sets.GeniusOfBrilliantStars,
         relicSet2: Sets.GeniusOfBrilliantStars,
@@ -5152,7 +5152,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.IronCavalryAgainstScourge,
         relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        ornamentSet: Sets.TaliaKingdomOfBanditry,
         teammates: [
           {
             characterId: '8006', // Stelle

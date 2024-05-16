@@ -31,6 +31,7 @@ import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
 import { scoreCharacterSimulation } from 'lib/characterScorer'
 import { Utils } from 'lib/utils'
+import { CharacterScoringSummary } from 'components/characterPreview/CharacterScoringSummary'
 
 const {useToken} = theme
 const {Text} = Typography
@@ -191,15 +192,15 @@ export function CharacterPreview(props) {
   console.log(displayRelics)
 
   return (
-    <Flex style={{display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor}}
-          id={props.id}>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen}
-                  open={editModalOpen}/>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen}
-                  open={addModalOpen}/>
+    <Flex vertical>
+      <Flex style={{display: character ? 'flex' : 'none', height: parentH, backgroundColor: backgroundColor}}
+            id={props.id}>
+        <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen}
+                    open={editModalOpen}/>
+        <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen}
+                    open={addModalOpen}/>
 
-      {!isBuilds
-        && (
+        {!isBuilds && (
           <div className="character-build-portrait" style={{
             width: `${parentW}px`,
             height: `${parentH}px`,
@@ -294,157 +295,159 @@ export function CharacterPreview(props) {
           </div>
         )}
 
-      <Flex gap={defaultGap}>
-        <Flex vertical gap={defaultGap} align="center">
-          <Flex vertical style={{width: middleColumnWidth, height: 280 * 2 + defaultGap}} justify="space-between">
-            <Flex vertical gap={0}>
-              <Flex justify="space-between" style={{height: 50}}>
-                <Image
-                  preview={false}
-                  width={50}
-                  src={Assets.getElement(characterElement)}
-                />
-                <Rarity rarity={characterMetadata.rarity}/>
-                <Image
-                  preview={false}
-                  width={50}
-                  src={Assets.getPathFromClass(characterPath)}
-                />
+        <Flex gap={defaultGap}>
+          <Flex vertical gap={defaultGap} align="center">
+            <Flex vertical style={{width: middleColumnWidth, height: 280 * 2 + defaultGap}} justify="space-between">
+              <Flex vertical gap={0}>
+                <Flex justify="space-between" style={{height: 50}}>
+                  <Image
+                    preview={false}
+                    width={50}
+                    src={Assets.getElement(characterElement)}
+                  />
+                  <Rarity rarity={characterMetadata.rarity}/>
+                  <Image
+                    preview={false}
+                    width={50}
+                    src={Assets.getPathFromClass(characterPath)}
+                  />
+                </Flex>
+                <Flex vertical>
+                  <StatText style={{fontSize: 24, fontWeight: 400, textAlign: 'center'}}>
+                    {characterName}
+                  </StatText>
+                  <StatText style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>
+                    {`Lv${characterLevel} E${characterEidolon}`}
+                  </StatText>
+                </Flex>
               </Flex>
+
+              <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue}/>
+
               <Flex vertical>
-                <StatText style={{fontSize: 24, fontWeight: 400, textAlign: 'center'}}>
-                  {characterName}
+                <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564'}}>
+                  {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                </StatText>
+              </Flex>
+              {
+                simScoringResult &&
+                <Flex
+                  vertical
+                  title={JSON.stringify({
+                    formula: simScoringResult.metadata.formula,
+                    relicSet1: simScoringResult.metadata.relicSet1,
+                    relicSet2: simScoringResult.metadata.relicSet2,
+                    ornamentSet: simScoringResult.metadata.ornamentSet,
+                    bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
+                    bestSimSubstats: simScoringResult.metadata.bestSim.stats,
+                    bestSimFinalStats: {
+                      ATK: Math.floor(simScoringResult.maxSim.result[Stats.ATK]),
+                      CR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CR] * 100),
+                      CD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CD] * 100),
+                      SPD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.SPD]),
+                      BE: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.BE] * 100),
+                      EHR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.EHR] * 100),
+                      BASIC: Math.floor(simScoringResult.maxSim.result.BASIC),
+                      SKILL: Math.floor(simScoringResult.maxSim.result.SKILL),
+                      ULT: Math.floor(simScoringResult.maxSim.result.ULT),
+                      DOT: Math.floor(simScoringResult.maxSim.result.DOT),
+                      FUA: Math.floor(simScoringResult.maxSim.result.FUA),
+                      BREAK: Math.floor(simScoringResult.maxSim.result.BREAK),
+                    },
+                  }, null, 2)}
+                >
+                  <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
+                    {/*{`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}*/}
+                    {`DPS score x42 subs: ${Utils.truncate10ths(simScoringResult.percent * 100).toFixed(1)}%`}
+                  </StatText>
+                </Flex>
+              }
+
+              <Flex vertical>
+                <StatText style={{fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center'}}
+                          ellipsis={true}>
+                  {`${lightConeName}`}
+                  &nbsp;
                 </StatText>
                 <StatText style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>
-                  {`Lv${characterLevel} E${characterEidolon}`}
+                  {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
                 </StatText>
               </Flex>
             </Flex>
-
-            <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue}/>
-
-            <Flex vertical>
-              <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564'}}>
-                {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
-              </StatText>
-            </Flex>
-            {
-              simScoringResult &&
-              <Flex
-                vertical
-                title={JSON.stringify({
-                  formula: simScoringResult.metadata.formula,
-                  relicSet1: simScoringResult.metadata.relicSet1,
-                  relicSet2: simScoringResult.metadata.relicSet2,
-                  ornamentSet: simScoringResult.metadata.ornamentSet,
-                  bestSimMains: [simScoringResult.metadata.bestSim.simBody, simScoringResult.metadata.bestSim.simFeet, simScoringResult.metadata.bestSim.simPlanarSphere, simScoringResult.metadata.bestSim.simLinkRope].join(' | '),
-                  bestSimSubstats: simScoringResult.metadata.bestSim.stats,
-                  bestSimFinalStats: {
-                    ATK: Math.floor(simScoringResult.maxSim.result[Stats.ATK]),
-                    CR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CR] * 100),
-                    CD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.CD] * 100),
-                    SPD: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.SPD]),
-                    BE: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.BE] * 100),
-                    EHR: Utils.truncate100ths(simScoringResult.maxSim.result[Stats.EHR] * 100),
-                    BASIC: Math.floor(simScoringResult.maxSim.result.BASIC),
-                    SKILL: Math.floor(simScoringResult.maxSim.result.SKILL),
-                    ULT: Math.floor(simScoringResult.maxSim.result.ULT),
-                    DOT: Math.floor(simScoringResult.maxSim.result.DOT),
-                    FUA: Math.floor(simScoringResult.maxSim.result.FUA),
-                    BREAK: Math.floor(simScoringResult.maxSim.result.BREAK),
-                  },
-                }, null, 2)}
-              >
-                <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
-                  {/*{`DMG sim: ${Math.floor(simScoringResult.currentSimValue / 1000)}k/${Math.floor(simScoringResult.maxSimValue / 1000)}k (${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100)}%)`}*/}
-                  {`DPS score x42 subs: ${Utils.truncate10ths(simScoringResult.currentSimValue / simScoringResult.maxSimValue * 100).toFixed(1)}%`}
-                </StatText>
-              </Flex>
-            }
-
-            <Flex vertical>
-              <StatText style={{fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center'}}
-                        ellipsis={true}>
-                {`${lightConeName}`}
-                &nbsp;
-              </StatText>
-              <StatText style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>
-                {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
-              </StatText>
-            </Flex>
+            <div style={{width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
+              <img
+                src={lightConeSrc}
+                style={{
+                  width: lcInnerW,
+                  transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                  filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
+                }}
+              />
+            </div>
           </Flex>
-          <div style={{width: `${lcParentW}px`, height: `${lcParentH}px`, overflow: 'hidden', borderRadius: '10px'}}>
-            <img
-              src={lightConeSrc}
-              style={{
-                width: lcInnerW,
-                transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
-              }}
+
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.Head, part: Constants.Parts.Head}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
             />
-          </div>
-        </Flex>
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.Body, part: Constants.Parts.Body}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
+            />
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
+            />
+          </Flex>
 
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Head, part: Constants.Parts.Head}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
-          />
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Body, part: Constants.Parts.Body}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
-          />
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
-          />
-        </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Hands, part: Constants.Parts.Hands}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
-          />
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.Feet, part: Constants.Parts.Feet}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
-          />
-          <RelicPreview
-            setEditModalOpen={setEditModalOpen}
-            setSelectedRelic={setSelectedRelic}
-            setAddModelOpen={setAddModalOpen}
-            relic={{...displayRelics.LinkRope, part: Constants.Parts.LinkRope}}
-            source={props.source}
-            characterId={characterId}
-            score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
-          />
+          <Flex vertical gap={defaultGap}>
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.Hands, part: Constants.Parts.Hands}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
+            />
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.Feet, part: Constants.Parts.Feet}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
+            />
+            <RelicPreview
+              setEditModalOpen={setEditModalOpen}
+              setSelectedRelic={setSelectedRelic}
+              setAddModelOpen={setAddModalOpen}
+              relic={{...displayRelics.LinkRope, part: Constants.Parts.LinkRope}}
+              source={props.source}
+              characterId={characterId}
+              score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
+            />
+          </Flex>
         </Flex>
       </Flex>
+      <CharacterScoringSummary simScoringResult={simScoringResult}/>
     </Flex>
   )
 }

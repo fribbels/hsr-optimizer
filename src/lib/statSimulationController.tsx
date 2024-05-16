@@ -16,6 +16,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
+import { SimulationResult } from 'lib/characterScorer'
 
 export type Simulation = {
   name?: string
@@ -23,6 +24,7 @@ export type Simulation = {
   simType: string
   request: SimulationRequest
   result: any
+  penaltyMultiplier: number
 }
 
 export type SimulationRequest = {
@@ -253,7 +255,7 @@ export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form: Form, simulations: Simulation[], quality = 1) {
+export function runSimulations(form: Form, simulations: Simulation[], quality = 1): SimulationResult[] {
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
@@ -346,7 +348,7 @@ export function runSimulations(form: Form, simulations: Simulation[], quality = 
     const c = calculateBuild(form, relics)
 
     renameFields(c)
-    c.statSim = sim
+    // c.statSim = sim
     simulationResults.push(c)
   }
 

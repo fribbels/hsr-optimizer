@@ -18,10 +18,26 @@ import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Form } from 'types/Form'
 import { Relic, Stat } from 'types/Relic'
 import DB from 'lib/db'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 const cachedSims = {}
 const QUALITY = 0.8
 const SUBSTAT_GOAL = 42
+
+export type SimulationResult = ComputedStatsObject & {
+  SIM_SCORE: number
+}
+
+export type SimulationScore = {
+  currentSimValue: number,
+  baselineSimValue: number,
+  maxSimValue: number,
+  percent: number,
+  maxSim: Simulation,
+  currentSim: Simulation,
+  sims: Simulation[],
+  metadata: any
+}
 
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any) {
   console.debug(character, finalStats, displayRelics)
@@ -69,13 +85,15 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const applyScoringFunction = (result) => {
     if (!result) return
 
-    const score =
+    const score = (
       result.BASIC * formula.BASIC
       + result.SKILL * formula.SKILL
       + result.ULT * formula.ULT
       + result.FUA * formula.FUA
       + result.DOT * formula.DOT
       + result.BREAK * formula.BREAK
+    )
+
 
     // const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
     result.SIM_SCORE = score
@@ -119,20 +137,36 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   applyScoringFunction(baselineSimResult)
   bestPartialSims.map(x => applyScoringFunction(x.result))
 
-  let bestSims = bestPartialSims.sort((a, b) => b.result.SIM_SCORE - a.result.SIM_SCORE)
+  // Try to minimize the penalty modifier before optimizing sim score
+  let bestSims = bestPartialSims.sort((a, b) => {
+    if (a.result.penaltyMultiplier === b.result.penaltyMultiplier) {
+      return b.result.SIM_SCORE - a.result.SIM_SCORE;
+    }
+    return b.result.penaltyMultiplier - a.result.penaltyMultiplier;
+  });
   console.debug('bestSims', bestSims)
 
   // DEBUG - Apply the sims to optimizer page
   // window.store.getState().setStatSimulations(bestPartialSims)
 
+  // We apply a penalty to the percent if the user did not reach thresholds
+  calculatePenaltyMultiplier(originalSimResult, metadata.breakpoints)
+  const bestPenaltyMultiplier = bestSims[0].result.penaltyMultiplier
+  const originalPenaltyMultiplier = originalSimResult.penaltyMultiplier
+
+  const percent = (originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
+  const percentModifier = (originalPenaltyMultiplier / bestPenaltyMultiplier)
+
   metadata.bestSim = bestSims[0].request
 
-  const simScoringResult = {
-    currentSimValue: originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE,
+  const simScoringResult: SimulationScore = {
     baselineSimValue: baselineSimResult.SIM_SCORE,
-    maxSim: bestSims[0],
+    currentSimValue: originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE,
     maxSimValue: bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE,
-    percent: (originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE),
+    percent: (percent) * (percentModifier),
+    maxSim: bestSims[0],
+    currentSim: originalSimResult,
+    currentRequest: simulationForm,
     sims: bestSims,
     metadata: metadata
   }
@@ -181,10 +215,14 @@ function computeOptimalSimulation(
   metadata
 ) {
   const relevantSubstats = metadata.substats
+  const breakpoints = metadata.breakpoints
   const goal = SUBSTAT_GOAL
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
   let currentSimulationResult: any = undefined
+
+  let breakpointsCap = true
+  let speedCap = true
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -192,16 +230,23 @@ function computeOptimalSimulation(
     let bestSimDeductedStat: Stat | undefined
 
     for (const stat of relevantSubstats) {
-      // Can't reduce further
+      // Can't reduce further so we skip
       if (currentSimulation.request.stats[stat] <= 0) continue
-      if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
+      if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= SUBSTAT_GOAL) continue
+      if (stat == Stats.SPD && speedCap && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
-      if (isInvalidSubstatDistribution(currentSimulation)) continue
 
+      // Try reducing this stat
       const newSimulation = Utils.clone(currentSimulation)
       newSimulation.request.stats[stat] -= 1
 
       const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
+
+      if (breakpointsCap && breakpoints[stat]) {
+        if (newSimResult.x[stat] < breakpoints[stat]) {
+          continue
+        }
+      }
 
       applyScoringFunction(newSimResult)
       applyScoringFunction(bestSimResult)
@@ -214,23 +259,44 @@ function computeOptimalSimulation(
     }
 
     if (!bestSimResult) {
-      // throw new Error('Something went wrong simulating scores')
+      if (breakpointsCap) {
+        // We can't reach the target speed and breakpoints, stop trying to match breakpoints and try again
+        breakpointsCap = false
+        continue
+      }
+
+      calculatePenaltyMultiplier(currentSimulationResult, breakpoints)
+      //
+      // // Calculate penalties for missing breakpoints
+      // let newPenaltyMultiplier = 1
+      // for (const stat of Object.keys(breakpoints)) {
+      //   if (currentSimulationResult[stat] < breakpoints[stat]) {
+      //     console.log('x')
+      //   }
+      //   newPenaltyMultiplier *= Math.min(1, currentSimulationResult[stat] / breakpoints[stat])
+      // }
+      // currentSimulationResult.penaltyMultiplier = newPenaltyMultiplier
+
+      if (speedCap) {
+        // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
+        speedCap = false
+        continue
+      }
+
+      // No solution possible, skip
       sum -= 1
+
       continue
     }
 
-    sum -= 1
     currentSimulation = bestSim
     currentSimulationResult = bestSimResult
   }
 
   currentSimulation.result = currentSimulationResult
+  currentSimulation.penaltyMultiplier = currentSimulationResult.penaltyMultiplier ?? 1
 
   return currentSimulation
-}
-
-function isInvalidSubstatDistribution(currentSimulation: Simulation) {
-  return false
 }
 
 function sumSubstatRolls(maxSubstatRollCounts) {
@@ -423,4 +489,16 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
   }
   const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
   return originalSimResult
+}
+
+
+export function calculatePenaltyMultiplier(simulationResult, breakpoints) {
+  let newPenaltyMultiplier = 1
+  for (const stat of Object.keys(breakpoints)) {
+    if (simulationResult.x[stat] < breakpoints[stat]) {
+      console.log('x')
+    }
+    newPenaltyMultiplier *= Math.min(1, simulationResult[stat] / breakpoints[stat])
+  }
+  simulationResult.penaltyMultiplier = newPenaltyMultiplier
 }

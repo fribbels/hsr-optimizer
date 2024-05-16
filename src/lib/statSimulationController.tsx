@@ -1,6 +1,6 @@
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils'
-import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
+import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { StatCalculator } from 'lib/statCalculator'
 import { Relic, Stat } from 'types/Relic'
@@ -147,7 +147,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
   )
 }
 
-function SimSetsDisplay(props: { sim: Simulation }) {
+function SimSetsDisplay(props: {sim: Simulation}) {
   const request = props.sim.request
   const imgSize = 22
   const relicImage1 = Assets.getSetImage(request.simRelicSet1)
@@ -165,7 +165,7 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   )
 }
 
-function SimMainsDisplay(props: { sim: Simulation }) {
+function SimMainsDisplay(props: {sim: Simulation}) {
   const request = props.sim.request
   const imgSize = 22
   return (
@@ -193,7 +193,7 @@ const substatToPriority = {
   [Stats.RES]: 11,
 }
 
-function SimSubstatsDisplay(props: { sim: Simulation }) {
+function SimSubstatsDisplay(props: {sim: Simulation}) {
   const renderArray: Stat[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
@@ -233,7 +233,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
   )
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
+export function deleteStatSimulationBuild(record: {key: React.Key, name: string}) {
   console.log('Delete sim', record)
   const statSims: Simulation[] = window.store.getState().statSimulations
   const updatedSims: Simulation[] = Utils.clone(statSims.filter(x => x.key != record.key))
@@ -288,15 +288,15 @@ export function runSimulations(form: Form, simulations: Simulation[], quality = 
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set
     // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
+    // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
     const unusedRelicSets = SetsRelicsNames.filter(x => x != request.simRelicSet1 && x != request.simRelicSet2)
-    const ornamentSet = request.simOrnamentSet || -1
 
     head.set = request.simRelicSet1 || unusedRelicSets[0]
     hands.set = request.simRelicSet1 || unusedRelicSets[1]
     body.set = request.simRelicSet2 || unusedRelicSets[2]
     feet.set = request.simRelicSet2 || unusedRelicSets[3]
-    linkRope.set = ornamentSet
-    planarSphere.set = ornamentSet
+    linkRope.set = request.simOrnamentSet || SetsOrnamentsNames[0]
+    planarSphere.set = request.simOrnamentSet || SetsOrnamentsNames[1]
 
     head.part = Parts.Head
     hands.part = Parts.Hands
@@ -348,7 +348,7 @@ export function runSimulations(form: Form, simulations: Simulation[], quality = 
     const c = calculateBuild(form, relics)
 
     renameFields(c)
-    // c.statSim = sim
+    c.statSim = true
     simulationResults.push(c)
   }
 

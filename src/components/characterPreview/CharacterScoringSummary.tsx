@@ -109,11 +109,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <pre style={{margin: 'auto 0'}}>
               Ideal 42x min substats sim
             </pre>
-            <ScoringNumber label='Percentage:       ' number={result.percent * 100}/>
             <ScoringNumber label='Character DMG:    ' number={result.currentSim.SIM_SCORE}/>
             <ScoringNumber label='Ideal sim DMG:    ' number={result.maxSim.result.SIM_SCORE}/>
             <ScoringNumber label='Character scale:  ' number={result.currentSim.penaltyMultiplier} precision={3}/>
             <ScoringNumber label='Ideal sim scale:  ' number={result.maxSim.penaltyMultiplier} precision={3}/>
+            <ScoringNumber label='Percentage:       ' number={result.percent * 100} precision={3}/>
           </Flex>
         </Flex>
 
@@ -187,7 +187,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{width: 225}}>
           <pre style={{margin: 'auto'}}>
-            Ideal simulation basic stats
+            Ideal sim basic stats
           </pre>
           <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true}/>
         </Flex>
@@ -207,7 +207,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{width: 225}}>
           <pre style={{margin: 'auto'}}>
-            Ideal simulation <u>combat stats</u>
+            Ideal sim <u>combat stats</u>
           </pre>
           <CharacterStatSummary finalStats={result.maxSim.result.x} elementalDmgValue={elementalDmgValue}
                                 hideCv={true}/>

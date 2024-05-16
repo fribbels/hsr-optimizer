@@ -447,7 +447,7 @@ export function CharacterPreview(props) {
           </Flex>
         </Flex>
       </Flex>
-      <CharacterScoringSummary simScoringResult={simScoringResult} characterStats={finalStats}/>
+      <CharacterScoringSummary simScoringResult={simScoringResult}/>
     </Flex>
   )
 }

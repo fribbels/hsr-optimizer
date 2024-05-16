@@ -1,13 +1,14 @@
 import { Flex } from 'antd'
 import { defaultGap } from 'lib/constantsUi'
 import { SimulationScore } from 'lib/characterScorer'
-import { Parts, Stats } from 'lib/constants'
+import { ElementToDamage, Parts, Stats } from 'lib/constants'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { VerticalDivider } from 'components/Dividers'
+import DB from 'lib/db'
 
-export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore, characterStats?: any }) => {
+export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = Utils.clone(props.simScoringResult)
   if (!result) return ("")
 
@@ -16,6 +17,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   // Clean up some spammy data
   delete result.sims
   delete result.maxSim.key
+
+  const characterId = result.currentRequest.characterId
+  const characterMetadata = DB.getMetadata().characters[characterId]
+  const elementalDmgValue = ElementToDamage[characterMetadata.element]
+
 
   function ScoringTeammate(props: { index: number }) {
     const teammate = result.metadata.teammates[props.index]
@@ -174,7 +180,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: 'auto'}}>
             Character basic stats
           </pre>
-          <CharacterStatSummary finalStats={result.currentSim} elementalDmgValue={Stats.Physical_DMG}/>
+          <CharacterStatSummary finalStats={result.currentSim} elementalDmgValue={elementalDmgValue} hideCv={true}/>
         </Flex>
 
         <VerticalDivider/>
@@ -183,7 +189,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: 'auto'}}>
             Ideal simulation basic stats
           </pre>
-          <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={Stats.Physical_DMG}/>
+          <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true}/>
         </Flex>
 
         <Flex style={{width: 120}} justify='space-around'>
@@ -194,7 +200,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: 'auto'}}>
             Character <u>combat stats</u>
           </pre>
-          <CharacterStatSummary finalStats={result.currentSim.x} elementalDmgValue={Stats.Physical_DMG}/>
+          <CharacterStatSummary finalStats={result.currentSim.x} elementalDmgValue={elementalDmgValue} hideCv={true}/>
         </Flex>
 
         <VerticalDivider/>
@@ -203,7 +209,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: 'auto'}}>
             Ideal simulation <u>combat stats</u>
           </pre>
-          <CharacterStatSummary finalStats={result.maxSim.result.x} elementalDmgValue={Stats.Physical_DMG}/>
+          <CharacterStatSummary finalStats={result.maxSim.result.x} elementalDmgValue={elementalDmgValue}
+                                hideCv={true}/>
         </Flex>
 
       </Flex>

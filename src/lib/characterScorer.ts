@@ -166,6 +166,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     percent: (percent) * (percentModifier),
     maxSim: bestSims[0],
     currentSim: originalSimResult,
+    currentRequest: simulationForm,
     sims: bestSims,
     metadata: metadata
   }

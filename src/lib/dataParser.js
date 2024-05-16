@@ -1163,17 +1163,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -1218,16 +1207,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -1332,17 +1311,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.FiresmithOfLavaForging,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
         PresetEffects.fnWindSoaringSet(1),
@@ -1450,14 +1418,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
         PresetEffects.fnPioneerSet(4),
@@ -1563,17 +1523,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.PrisonerInDeepConfinement,
-        Sets.BandOfSizzlingThunder,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
@@ -1683,21 +1632,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.ThiefOfShootingMeteor,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.BrokenKeel,
-        Sets.FleetOfTheAgeless,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-        Sets.SprightlyVonwacq,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -1744,17 +1678,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.BandOfSizzlingThunder,
-        Sets.LongevousDisciple,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -1860,17 +1783,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.ThiefOfShootingMeteor,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -1915,16 +1827,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.HunterOfGlacialForest,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
         PresetEffects.fnWindSoaringSet(1),
@@ -2036,16 +1938,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.CD,
     },
@@ -2090,16 +1982,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -2202,15 +2084,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.BandOfSizzlingThunder,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.ULT,
       simulation: {
@@ -2312,17 +2185,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -2367,15 +2229,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -2421,17 +2274,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -2476,17 +2318,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.TheAshblazingGrandDuke,
-        Sets.LongevousDisciple,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(2),
         PresetEffects.fnWindSoaringSet(2),
@@ -2594,20 +2425,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-        Sets.PrisonerInDeepConfinement,
-        Sets.EagleOfTwilightLine,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -2712,17 +2529,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.FiresmithOfLavaForging,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -2827,15 +2633,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -2881,19 +2678,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-        Sets.PrisonerInDeepConfinement,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -2999,17 +2783,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.FiresmithOfLavaForging,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(0),
         PresetEffects.fnWindSoaringSet(2),
@@ -3115,15 +2888,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnWindSoaringSet(1),
       ],
@@ -3229,17 +2993,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.KnightOfPurityPalace,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -3286,17 +3039,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3343,16 +3085,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.BandOfSizzlingThunder,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(8),
         PresetEffects.fnWindSoaringSet(2),
@@ -3458,15 +3190,6 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.EagleOfTwilightLine,
-        Sets.LongevousDisciple,
-      ],
-      ornamentSets: [
-        Sets.InertSalsotto,
-        Sets.RutilantArena,
-      ],
       presets: [
         PresetEffects.fnWindSoaringSet(1),
       ],
@@ -3572,15 +3295,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -3684,18 +3398,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3745,16 +3447,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.LongevousDisciple,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -3799,14 +3491,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.HunterOfGlacialForest,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnWindSoaringSet(1),
       ],
@@ -3910,18 +3594,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.PrisonerInDeepConfinement,
-        Sets.FiresmithOfLavaForging,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -3967,16 +3639,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -4021,18 +3683,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.HunterOfGlacialForest,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -4135,17 +3785,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -4251,8 +3890,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(3),
         PresetEffects.fnWindSoaringSet(1),
@@ -4359,8 +3996,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -4405,17 +4040,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -4459,17 +4083,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.SpaceSealingStation,
-      ],
       presets: [],
       sortOption: SortOption.BE,
     },
@@ -4514,8 +4127,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
       simulation: {
@@ -4618,8 +4229,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BE,
     },
@@ -4666,8 +4275,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(7),
         PresetEffects.fnWindSoaringSet(1),
@@ -4774,8 +4381,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.fnWindSoaringSet(1),
@@ -4889,8 +4494,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.CD,
     },
@@ -4935,8 +4538,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -5043,8 +4644,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -5148,8 +4747,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
     },
@@ -5196,8 +4793,6 @@ function getScoringMetadata() {
           Constants.Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -5302,8 +4897,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
       simulation: {
@@ -5406,8 +4999,6 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnWindSoaringSet(2),
       ],
@@ -5513,8 +5104,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
@@ -5619,16 +5208,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -5733,16 +5312,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -5845,17 +5414,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -5899,17 +5457,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -5965,8 +5512,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BE,
     },
@@ -6022,8 +5567,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BE,
     },

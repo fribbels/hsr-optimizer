@@ -3850,7 +3850,7 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
+        relicSet1: Sets.MusketeerOfWildWheat,
         relicSet2: Sets.MusketeerOfWildWheat,
         ornamentSet: Sets.RutilantArena,
         teammates: [

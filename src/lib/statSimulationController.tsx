@@ -147,7 +147,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
   )
 }
 
-function SimSetsDisplay(props: {sim: Simulation}) {
+function SimSetsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   const relicImage1 = Assets.getSetImage(request.simRelicSet1)
@@ -165,7 +165,7 @@ function SimSetsDisplay(props: {sim: Simulation}) {
   )
 }
 
-function SimMainsDisplay(props: {sim: Simulation}) {
+function SimMainsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   return (
@@ -193,7 +193,7 @@ const substatToPriority = {
   [Stats.RES]: 11,
 }
 
-function SimSubstatsDisplay(props: {sim: Simulation}) {
+function SimSubstatsDisplay(props: { sim: Simulation }) {
   const renderArray: Stat[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
@@ -233,7 +233,7 @@ function SimSubstatsDisplay(props: {sim: Simulation}) {
   )
 }
 
-export function deleteStatSimulationBuild(record: {key: React.Key, name: string}) {
+export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
   console.log('Delete sim', record)
   const statSims: Simulation[] = window.store.getState().statSimulations
   const updatedSims: Simulation[] = Utils.clone(statSims.filter(x => x.key != record.key))

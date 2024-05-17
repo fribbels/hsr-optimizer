@@ -303,7 +303,7 @@ export class RelicScorer {
     const subs = generateSubStats(5, substats[0][0], SubStatValues[substats[0][0]][5]["high"] * 6, substats[1][0], SubStatValues[substats[1][0]][5]["high"]
                                   , substats[2][0], SubStatValues[substats[2][0]][5]["high"], substats[3][0], SubStatValues[substats[3][0]][5]["high"], )
     const fake = fakeRelic(5, 15, part, mainStat, subs)
-    let ideal = parseFloat(this.score(fake, id).score)
+    let ideal = parseFloat(this.score(fake, id).longscore)
     ideal -= mainStatFreeRoll(part, mainStat, scoringMetadata)
     maxWeight = Utils.precisionRound(ideal)
 
@@ -350,7 +350,7 @@ export class RelicScorer {
       ]
       const fake = fakeRelic(5, 15, relic.part, relic.main.stat, substats)
       const ideal = this.score(fake, id)
-      maxWeight = parseFloat(ideal.score)
+      maxWeight = parseFloat(ideal.longscore)
       maxWeight -= mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata)
     }
     return {
@@ -369,7 +369,7 @@ export class RelicScorer {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
-    const currentWeight = parseFloat(scoringResult.score) + scoringResult.mainStatScore - 64.8
+    const currentWeight = parseFloat(scoringResult.longscore) + scoringResult.mainStatScore - 64.8
 
     const substats: [StatsValues, number][] = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
     const substatNames = relic.substats.map((x) => x.stat)
@@ -437,6 +437,7 @@ export class RelicScorer {
     mainStatScore: number
     part?: number
     meta?: object
+    longscore: string
   } {
     // console.log('score', relic, characterId)
 
@@ -445,6 +446,7 @@ export class RelicScorer {
         score: '0',
         rating: 'N/A',
         mainStatScore: 0,
+        longscore: '0',
       }
     }
 
@@ -459,6 +461,7 @@ export class RelicScorer {
           score: '0',
           rating: 'N/A',
           mainStatScore: 0,
+          longscore: '0',
         }
       }
     }
@@ -511,11 +514,12 @@ export class RelicScorer {
     }
 
     return {
-      score: sum.toFixed(5),//.toFixed(1), using 1 led to issues with detecting what should be a 0 score relic
+      score: sum.toFixed(1),
       rating: rating,
       mainStatScore: mainStatScore,
       part: relic.part,
       meta: scoringMetadata,
+      longscore: sum.toFixed(5)
     }
   }
 }

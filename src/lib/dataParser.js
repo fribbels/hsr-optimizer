@@ -1552,6 +1552,7 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.SPD,
           Stats.CR,
+          Stats.CD
         ],
         breakpoints: {},
         formula: {
@@ -3709,6 +3710,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {

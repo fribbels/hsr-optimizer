@@ -119,7 +119,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     // Find the speed deduction
     const finalSpeed = simulationResult.xSPD
     partialSimulationWrapper.finalSpeed = finalSpeed
-    partialSimulationWrapper.speedRollsDeduction = Math.ceil(Utils.precisionRound((originalFinalSpeed - finalSpeed) / 2.0))
+    partialSimulationWrapper.speedRollsDeduction = Utils.precisionRound((originalFinalSpeed - finalSpeed) / 2.0)
     // console.debug(partialSimulationWrapper)
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, metadata)
     const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata)
@@ -265,17 +265,8 @@ function computeOptimalSimulation(
         continue
       }
 
-      calculatePenaltyMultiplier(currentSimulationResult, breakpoints)
-      //
       // // Calculate penalties for missing breakpoints
-      // let newPenaltyMultiplier = 1
-      // for (const stat of Object.keys(breakpoints)) {
-      //   if (currentSimulationResult[stat] < breakpoints[stat]) {
-      //     console.log('x')
-      //   }
-      //   newPenaltyMultiplier *= Math.min(1, currentSimulationResult[stat] / breakpoints[stat])
-      // }
-      // currentSimulationResult.penaltyMultiplier = newPenaltyMultiplier
+      calculatePenaltyMultiplier(currentSimulationResult, breakpoints)
 
       if (speedCap) {
         // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
@@ -310,12 +301,19 @@ function sumSubstatRolls(maxSubstatRollCounts) {
 // This is an imperfect estimate of the optimal distribution of substats
 // We assume that substats have a priority and choose the top 4 substats to prioritize
 // This means we have to assume spd and flat stats are deprioritized but this will be close enough to the max to use
-function prioritizeFourSubstats(mins, metadata, excludes) {
+function prioritizeFourSubstats(mins, metadata, excludes, speedRollsDeduction) {
+  let speedRolls = 0
   for (const exclude of excludes) {
     let count = 0
     for (const stat of metadata.substats) {
       if (count == 4) break
       if (stat == exclude) continue
+      if (stat == Stats.SPD) {
+        if (speedRolls >= speedRollsDeduction) {
+          continue
+        }
+        speedRolls++
+      }
       count++
       mins[stat]++
     }
@@ -339,7 +337,7 @@ function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulati
     [Stats.BE]: 0,
   }
 
-  prioritizeFourSubstats(minCounts, metadata, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK])
+  prioritizeFourSubstats(minCounts, metadata, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK], partialSimulationWrapper.speedRollsDeduction)
 
   return minCounts
 }
@@ -372,6 +370,7 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[Stats.ATK] -= 6
   maxCounts[Stats.HP] -= 6
 
+  partialSimulationWrapper.simulation.request.simFeet == Stats.SPD
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   for (const stat of SubStats) {

@@ -1235,6 +1235,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -1340,6 +1341,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -1448,6 +1450,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.EHR,
           Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {
@@ -1552,7 +1555,7 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.SPD,
           Stats.CR,
-          Stats.CD
+          Stats.CD,
         ],
         breakpoints: {},
         formula: {
@@ -2009,6 +2012,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2111,6 +2115,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2348,6 +2353,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2453,7 +2459,8 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.ATK,
           Stats.SPD,
-          Stats.CR
+          Stats.CR,
+          Stats.CD,
         ],
         breakpoints: {},
         formula: {
@@ -2558,6 +2565,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2708,6 +2716,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.EHR,
           Stats.SPD,
+          Stats.CR,
         ],
         breakpoints: {},
         formula: {
@@ -2813,6 +2822,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2917,6 +2927,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -3115,6 +3126,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -3217,8 +3229,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.HP_P,
-          Stats.ATK_P,
+          Stats.HP,
           Stats.SPD,
+          Stats.ATK_P,
         ],
         breakpoints: {},
         formula: {
@@ -3318,11 +3331,12 @@ function getScoringMetadata() {
           ],
         },
         substats: [
-          Stats.BE,
           Stats.CR,
-          Stats.ATK_P,
           Stats.CD,
+          Stats.ATK_P,
+          Stats.BE,
           Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {
@@ -3514,11 +3528,12 @@ function getScoringMetadata() {
           ],
         },
         substats: [
+          Stats.CR,
           Stats.CD,
           Stats.ATK_P,
           Stats.ATK,
+          Stats.SPD,
           Stats.BE,
-          Stats.CR,
         ],
         breakpoints: {},
         formula: {
@@ -3824,6 +3839,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -3932,6 +3948,7 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.CD,
           Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {
@@ -4164,6 +4181,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -4315,7 +4333,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.DEF_P,
           Stats.SPD,
-          Stats.DEF
+          Stats.DEF,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -4423,6 +4442,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -4576,7 +4596,8 @@ function getScoringMetadata() {
           Stats.EHR,
           Stats.ATK,
           Stats.SPD,
-          Stats.CR
+          Stats.CR,
+          Stats.CD,
         ],
         breakpoints: {
           [Stats.EHR]: 1.20
@@ -4683,6 +4704,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -4832,6 +4854,7 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.CD,
           Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {
@@ -4934,6 +4957,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -5038,6 +5062,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -5142,6 +5167,7 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {
@@ -5244,8 +5270,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.ATK_P,
-          Stats.BE,
+          Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -5348,8 +5375,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.ATK_P,
-          Stats.BE,
+          Stats.ATK,
           Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {

@@ -370,7 +370,6 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[Stats.ATK] -= 6
   maxCounts[Stats.HP] -= 6
 
-  partialSimulationWrapper.simulation.request.simFeet == Stats.SPD
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   for (const stat of SubStats) {

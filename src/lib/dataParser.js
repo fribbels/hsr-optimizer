@@ -57,15 +57,24 @@ export const DataParser = {
 
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeRanks = getLightConeRanks()
+    const lightConeCenters = getLightConeOverrideCenter()
+
     for (const [id, lcData] of Object.entries(lightCones)) {
       if (lightConeSuperimpositions[id]) {
         lcData.superimpositions = lightConeSuperimpositions[id]
       } else {
         lcData.superimpositions = {}
       }
+
+      let imageCenter = 200
+      if (lightConeCenters[id] != undefined && lightConeCenters[id] != {}) {
+        imageCenter = lightConeCenters[id]
+      }
+
       lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
       lcData.ranks = lightConeRanks[id]
       lcData.displayName = lcData.name
+      lcData.imageCenter = imageCenter
     }
 
     const characterTraces = getOverrideTraces()
@@ -603,6 +612,116 @@ function getSuperimpositions() {
       4: {[Constants.Stats.ATK_P]: 0.11},
       5: {[Constants.Stats.ATK_P]: 0.12},
     },
+  }
+}
+
+// Standardized to 450 width
+function getLightConeOverrideCenter() {
+  return {
+    20000: 270,
+    20001: 220,
+    20002: 160,
+    20003: 310,
+    20004: 180,
+    20005: 210,
+    20006: 390,
+    20007: 180,
+    20008: 220,
+    20009: 230,
+    20010: 250,
+    20011: 390,
+    20012: 300,
+    20013: 220,
+    20014: 210,
+    20015: 270,
+    20016: 270,
+    20017: 410,
+    20018: 190,
+    20019: 230,
+    20020: 250,
+    21000: 200,
+    21001: 270,
+    21002: 170,
+    21003: 210,
+    21004: 210,
+    21005: 250,
+    21006: 190,
+    21007: 270,
+    21008: 140,
+    21009: 180,
+    21010: 180,
+    21011: 140,
+    21012: 190,
+    21013: 200,
+    21014: 140,
+    21015: 140,
+    21016: 190,
+    21017: 140,
+    21018: 210,
+    21019: 180,
+    21020: 240,
+    21021: 180,
+    21022: 320,
+    21023: 240,
+    21024: 160,
+    21025: 140,
+    21026: 180,
+    21027: 200,
+    21028: 250,
+    21029: 160,
+    21030: 290,
+    21031: 210,
+    21032: 260,
+    21033: 190,
+    21034: 220,
+    21035: 350,
+    21036: 240,
+    21037: 220,
+    21038: 170,
+    21039: 220,
+    21040: 150,
+    21041: 160,
+    21042: 200,
+    21043: 210,
+    21044: 150,
+    21045: 160,
+    22000: 290,
+    22001: 220,
+    22002: 160,
+    23000: 160,
+    23001: 160,
+    23002: 170,
+    23003: 250,
+    23004: 140,
+    23005: 150,
+    23006: 230,
+    23007: 180,
+    23008: 180,
+    23009: 140,
+    23010: 200,
+    23011: 180,
+    23012: 300,
+    23013: 180,
+    23014: 140,
+    23015: 190,
+    23016: 150,
+    23017: 200,
+    23018: 170,
+    23019: 270,
+    23020: 220,
+    23021: 160,
+    23022: 210,
+    23023: 160,
+    23024: 120,
+    23025: 140,
+    23026: 200,
+    23027: 180,
+    23028: 170,
+    24000: 170,
+    24001: 270,
+    24002: 140,
+    24003: 250,
+    24004: 270,
   }
 }
 

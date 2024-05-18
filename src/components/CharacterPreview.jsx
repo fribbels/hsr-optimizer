@@ -197,17 +197,19 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 180
+  const newLcHeight = 225
+  const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
-  const tempLcParentH = simScoringResult ? newLcHeight : lcParentH
 
+  const tempLcParentH = simScoringResult ? newLcHeight : lcParentH
   const tempLcInnerW = simScoringResult ? parentW + 16 : lcInnerW
-  const tempLcInnerH = simScoringResult ? 1260 / 902 * tempLcInnerW - 280 : lcInnerH
+
+  const tempLcInnerH = simScoringResult ? 1260 / 902 * tempLcInnerW : lcInnerH
 
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
-  const outline = 'rgb(255 255 255 / 23%) solid 1px'
+  const outline = 'rgb(255 255 255 / 40%) solid 1px'
   const shadow = 'rgba(0, 0, 0, 0.74) 2px 2px 5px 0px'
 
   return (
@@ -225,7 +227,7 @@ export function CharacterPreview(props) {
           <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onAddOk} setOpen={setAddModalOpen}
                       open={addModalOpen}/>
 
-          <Flex vertical gap={10}>
+          <Flex vertical gap={15}>
             {!isBuilds && (
               <div
                 className="character-build-portrait"
@@ -337,9 +339,9 @@ export function CharacterPreview(props) {
                   style={{
                     position: 'relative',
                     height: 0,
-                    // top: newLcHeight - 173,
-                    top: newLcHeight - 36,
-                    paddingRight: 13,
+                    top: newLcHeight - 37,
+                    // top: newLcHeight - 221, // top right
+                    paddingRight: 12,
                   }}
                   align="flex-end"
                 >
@@ -374,13 +376,18 @@ export function CharacterPreview(props) {
                     borderRadius: '10px',
                     outline: outline,
                     boxShadow: shadow,
+                    position: 'relative'
                   }}
                 >
                   <img
                     src={lightConeSrc}
                     style={{
-                      width: tempLcInnerW,
-                      transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                      position: 'absolute',
+                      width: 450,
+                      top: -lcCenter + newLcHeight / 2,
+                      left: -25,
+                      // transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                      // transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
                       filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
                     }}
                   />

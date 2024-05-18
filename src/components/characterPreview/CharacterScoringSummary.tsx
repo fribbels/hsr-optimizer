@@ -1,14 +1,16 @@
-import { Flex } from 'antd'
-import { defaultGap } from 'lib/constantsUi'
+import { Divider, Flex } from 'antd'
+import { defaultGap, iconSize } from 'lib/constantsUi'
 import { SimulationScore, SimulationStatUpgrade } from 'lib/characterScorer'
-import { ElementToDamage, Parts, Stats, StatsToShort } from 'lib/constants'
+import { ElementToDamage, Parts, Stats, StatsToShort, StatsToShortSpaced } from 'lib/constants'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { VerticalDivider } from 'components/Dividers'
 import DB from 'lib/db'
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
+import StatText from 'components/characterPreview/StatText'
+import { HeaderText } from 'components/HeaderText'
 
 export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = Utils.clone(props.simScoringResult)
@@ -23,23 +25,6 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   const characterId = result.currentRequest.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
-
-
-  function ScoringTeammate(props: { index: number }) {
-    const teammate = result.metadata.teammates[props.index]
-    return (
-      <Flex vertical align="center" gap={2}>
-        <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{height: 60}}/>
-        <pre style={{margin: 0}}>
-          {`E${teammate.characterEidolon}`}
-        </pre>
-        <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{height: 60}}/>
-        <pre style={{margin: 0}}>
-          {`S${teammate.lightConeSuperimposition}`}
-        </pre>
-      </Flex>
-    )
-  }
 
   function ScoringSet(props: { set: string }) {
     return (
@@ -118,9 +103,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             Sim teammates
           </pre>
           <Flex gap={defaultGap}>
-            <ScoringTeammate index={0}/>
-            <ScoringTeammate index={1}/>
-            <ScoringTeammate index={2}/>
+            <ScoringTeammate result={result} index={0}/>
+            <ScoringTeammate result={result} index={1}/>
+            <ScoringTeammate result={result} index={2}/>
           </Flex>
         </Flex>
 
@@ -299,6 +284,59 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           JSON.stringify(result, null, 2)
         }
       </pre>
+    </Flex>
+  )
+}
+
+export function ScoringTeammate(props: { result: SimulationScore, index: number }) {
+  const teammate = props.result.metadata.teammates[props.index]
+  const iconSize = 55
+  return (
+    <Flex vertical align="center" gap={2}>
+      <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{height: iconSize}}/>
+      <pre style={{margin: 0}}>
+          {`E${teammate.characterEidolon}`}
+        </pre>
+      <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{height: iconSize}}/>
+      <pre style={{margin: 0}}>
+          {`S${teammate.lightConeSuperimposition}`}
+        </pre>
+    </Flex>
+  )
+}
+
+
+export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
+  const result = props.result
+  const rows: ReactElement[] = []
+  const currentScore = result.currentSim.SIM_SCORE
+  const basePercent = result.percent
+  const statUpgrades = result.statUpgrades.filter(x => x.stat != Stats.SPD)
+
+  for (const x of statUpgrades) {
+    const statUpgrade: SimulationStatUpgrade = x
+    const stat = statUpgrade.stat
+    const isFlat = Utils.isFlat(statUpgrade.stat)
+    const suffix = isFlat ? '' : '%'
+    const rollValue = Utils.precisionRound(StatCalculator.getMaxedSubstatValue(stat, 0.8))
+    // const simStatValue = Utils.precisionRound(statUpgrade.simulationResult[stat]) * (isFlat ? 1 : 100)
+
+    rows.push(
+      <Flex key={Utils.randomId()} justify="space-between" align="center" style={{width: '100%'}}>
+        <img src={Assets.getStatIcon(stat)} style={{width: iconSize, height: iconSize, marginRight: 3}}/>
+        <StatText>{`+1x ${StatsToShortSpaced[statUpgrade.stat]}`}</StatText>
+        <Divider style={{margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset'}} dashed/>
+        <StatText>{`+ ${((statUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>
+    )
+  }
+  //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
+  return (
+    <Flex vertical gap={3} align='center' style={{paddingLeft: 6, paddingRight: 8}}>
+      <HeaderText style={{fontSize: 16, marginBottom: 8}}>
+        DPS score substat upgrades
+      </HeaderText>
+      {rows}
     </Flex>
   )
 }

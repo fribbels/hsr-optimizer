@@ -547,3 +547,59 @@ export function calculatePenaltyMultiplier(simulationResult, breakpoints) {
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
 }
+
+// Score on 1.00 scale
+export function getSimScoreGrade(score) {
+  let best = 'WTF+'
+  const percent = Utils.precisionRound(score * 100)
+  for (const [key, value] of Object.entries(SimScoreGrades)) {
+    best = key
+    if (percent >= value) {
+      return best
+    }
+  }
+  return '???'
+}
+
+// 1.00 => SSS
+const SimScoreGrades = {
+  'WTF+': 115,
+  'WTF': 110,
+  'SSS+': 105,
+  'SSS': 100,
+  'SS+': 95,
+  'SS': 90,
+  'S+': 85,
+  'S': 80,
+  'A+': 75,
+  'A': 70,
+  'B+': 65,
+  'B': 60,
+  'C+': 55,
+  'C': 50,
+  'D+': 45,
+  'D': 40,
+  'F+': 35,
+  'F': 30,
+}
+// // 1.00 => SSS+
+// const SimScoreGrades = {
+//   'WTF+': 120,
+//   'WTF': 115,
+//   'SSS+': 110,
+//   'SSS': 105,
+//   'SS+': 100,
+//   'SS': 95,
+//   'S+': 90,
+//   'S': 85,
+//   'A+': 70,
+//   'A': 75,
+//   'B+': 60,
+//   'B': 65,
+//   'C+': 60,
+//   'C': 55,
+//   'D+': 50,
+//   'D': 45,
+//   'F+': 40,
+//   'F': 35,
+// }

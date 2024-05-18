@@ -336,6 +336,14 @@ export class RelicScorer {
     // We max it a 0 to avoid negative percents
     if(maxWeight == 0){// Catch the edge case of only 1 weighted substat -> gets used as mainstat
       const scoringMetadata = this.getRelicScoreMeta(id)
+      if(!(scoringMetadata.sortedSubstats[0][1] > 0)){
+        return{
+          bestPct: 0,
+      averagePct: 0,
+      worstPct: 0,
+      meta: score.meta,
+        }
+      }
       const substats = [
         {
           stat: scoringMetadata.sortedSubstats[0][0],
@@ -663,6 +671,7 @@ function isSpecial(scoringMetadata){
   if(substats[2][1] > 0 || substats[1][1] == 0){
     return{
       isSpecial: special,
+
       stat1: stat1,
       stat2: stat2
     }

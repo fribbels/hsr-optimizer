@@ -615,6 +615,7 @@ function getSuperimpositions() {
   }
 }
 
+// Standardized to 450 width
 function getLightConeOverrideCenter() {
   return {
     20000: 270,

@@ -339,8 +339,8 @@ export function CharacterPreview(props) {
                   style={{
                     position: 'relative',
                     height: 0,
-                    // top: newLcHeight - 173,
                     top: newLcHeight - 37,
+                    // top: newLcHeight - 221, // top right
                     paddingRight: 12,
                   }}
                   align="flex-end"

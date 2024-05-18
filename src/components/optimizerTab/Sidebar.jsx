@@ -8,7 +8,9 @@ import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { ThunderboltFilled } from '@ant-design/icons'
 import { Optimizer } from 'lib/optimizer/optimizer'
-import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants';
+import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
+import { SettingOptions } from 'components/SettingsDrawer'
+import DB from 'lib/db'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -41,11 +43,23 @@ PermutationDisplay.propTypes = {
 const defaultGap = 5
 
 export default function Sidebar() {
-  const { lg, xl } = useBreakpoint()
+  const { lg, xl, xxl } = useBreakpoint()
 
-  return (!lg || xl
-    ? <SidebarContent />
-    : <MobileSidebarContent />)
+  const breakpointNoShow = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.NoShow
+  const breakpointShowXL = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXL
+  const breakpointShowXXL = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXXL
+
+  function renderSidebarAtBreakpoint() {
+    if (breakpointNoShow) {
+      return <SidebarContent />
+    } else if ((lg && breakpointShowXL && !xl) || (lg && breakpointShowXXL && !xxl)) {
+      return <MobileSidebarContent />
+    } else {
+      return <SidebarContent />
+    }
+  }
+
+  return renderSidebarAtBreakpoint()
 }
 
 function SidebarContent() {
@@ -217,26 +231,23 @@ function MobileSidebarContent() {
         boxShadow: shadow,
         borderRadius: 5,
         padding: defaultPadding,
+        zIndex: 3, // prevent overlap with optimizer grid - ag-grid pinned top row has z-index 2
       }}
     >
       <Flex gap={20} justify="space-evenly">
-        <Flex vertical gap={defaultGap} align="center" justify="space-between" style={{ minWidth: 211 }}>
-          <Flex vertical gap={defaultGap}>
-            <Flex vertical>
-              <HeaderText>Progress</HeaderText>
-              <Progress
-                strokeColor={token.colorPrimary}
-                steps={17}
-                size={[8, 5]}
-                percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-              />
-            </Flex>
-            <Flex vertical>
-              <PermutationDisplay left="Searched" right={permutationsSearched} />
-              <PermutationDisplay left="Results" right={permutationsResults} />
-            </Flex>
+        {/* Permutations Column */}
+        <Flex vertical gap={defaultGap}>
+          <Flex justify="space-between" align="center" style={{ minWidth: 211 }}>
+            <HeaderText>Permutations</HeaderText>
+            <TooltipImage type={Hint.optimizationDetails()} />
+          </Flex>
+          <Flex vertical>
+            <PermutationDisplay left="Perms" right={permutations} />
+            <PermutationDisplay left="Searched" right={permutationsSearched} />
+            <PermutationDisplay left="Results" right={permutationsResults} />
           </Flex>
         </Flex>
+        {/* Stats & Filters View Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Stat and filter view</HeaderText>
@@ -256,6 +267,7 @@ function MobileSidebarContent() {
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
           </Radio.Group>
         </Flex>
+        {/* Controls Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Controls</HeaderText>
@@ -278,7 +290,17 @@ function MobileSidebarContent() {
             </Flex>
           </Flex>
         </Flex>
+        {/* Progress & Results Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
+          <Flex vertical>
+            <HeaderText>Progress</HeaderText>
+            <Progress
+              strokeColor={token.colorPrimary}
+              steps={17}
+              size={[8, 5]}
+              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+            />
+          </Flex>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
             <TooltipImage type={Hint.actions()} />

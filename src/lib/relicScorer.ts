@@ -369,7 +369,16 @@ export class RelicScorer {
     const scoringMetadata = this.getRelicScoreMeta(id)
 
     const scoringResult = this.score(relic, id)
-    const currentWeight = parseFloat(scoringResult.longscore) + scoringResult.mainStatScore - 64.8
+
+    const subScore = parseFloat(scoringResult.score)
+
+    // Turn the main stat score into a deduction if using a suboptimal main
+    let mainScoreDeduction = 0
+    if (Utils.hasMainStat(relic.part)) {
+      const mainStatWeight = getMainStatWeight(relic, scoringMetadata)
+      mainScoreDeduction = mainStatWeight * 64.8 - 64.8
+    }
+    const currentWeight = subScore + mainScoreDeduction
 
     const substats: [StatsValues, number][] = relic.substats.map((x) => [x.stat, scoringMetadata.stats[x.stat]])
     const substatNames = relic.substats.map((x) => x.stat)
@@ -522,6 +531,17 @@ export class RelicScorer {
       longscore: sum.toFixed(5)
     }
   }
+}
+
+// Hands/Head have no weight. Optimal main stats are 1.0 weight, and anything else inherits the substat weight.
+function getMainStatWeight(relic, scoringMetadata) {
+  if (!Utils.hasMainStat(relic.part)) {
+    return 0
+  }
+  if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
+    return 1
+  }
+  return scoringMetadata.stats[relic.main.stat]
 }
 
 // Create a fake relic to feed into score() to get accurate scores for potential relics

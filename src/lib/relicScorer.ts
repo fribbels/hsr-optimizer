@@ -250,7 +250,7 @@ export class RelicScorer {
       .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     // Find the mainstat for this relic
-    let mainStat
+    let mainStat = ''
     if (Utils.hasMainStat(part)) {
       // Need the specific optimal mainstat to remove it from possible substats. Find it by
       // - finding the highest multiplier mainstat of those valid for this relic
@@ -339,7 +339,7 @@ export class RelicScorer {
       const substats = [
         {
           stat: scoringMetadata.sortedSubstats[0][0],
-          value: SubStatValues[scoringMetadata.sortedSubstats[0][0]][relic.grade]["high"] * 6,
+          value: SubStatValues[scoringMetadata.sortedSubstats[0][0]][relic.grade]["high"] * (Math.ceil((15 - (5 - relic.grade) * 3) / 3) + 1),
           rolls: {
             high: SubStatValues[scoringMetadata.sortedSubstats[0][0]][relic.grade]["high"],
             mid: SubStatValues[scoringMetadata.sortedSubstats[0][0]][relic.grade]["mid"],
@@ -352,6 +352,50 @@ export class RelicScorer {
       const ideal = this.score(fake, id)
       maxWeight = parseFloat(ideal.longscore)
       maxWeight -= mainStatFreeRoll(relic.part, relic.main.stat, scoringMetadata)
+    }
+    const special = isSpecial(this.getRelicScoreMeta(id))
+    let substats
+    if(special.isSpecial){
+      if(relic.main.stat == special.stat2){
+        substats = [{
+          stat: special.stat1,
+          value: SubStatValues[special.stat1][relic.grade]['high'] * (Math.ceil((15 - (5 - relic.grade) * 3) / 3) + 1),
+          rolls: {
+            high: SubStatValues[special.stat1][relic.grade]['high'],
+            mid: SubStatValues[special.stat1][relic.grade]['mid'],
+            low: SubStatValues[special.stat1][relic.grade]['low'],
+          },
+          addedRolls: 5
+        }]
+      }
+      else{
+        substats = [
+          {
+            stat: special.stat1,
+          value: SubStatValues[special.stat1][relic.grade]['high'] * (Math.ceil((15 - (5 - relic.grade) * 3) / 3) + 1),
+          rolls: {
+            high: SubStatValues[special.stat1][relic.grade]['high'],
+            mid: SubStatValues[special.stat1][relic.grade]['mid'],
+            low: SubStatValues[special.stat1][relic.grade]['low'],
+          },
+          addedRolls: 5
+          },
+          {
+            stat: special.stat2,
+          value: SubStatValues[special.stat2][relic.grade]['high'],
+          rolls: {
+            high: SubStatValues[special.stat2][relic.grade]['high'],
+            mid: SubStatValues[special.stat2][relic.grade]['mid'],
+            low: SubStatValues[special.stat2][relic.grade]['low'],
+          },
+          addedRolls: 0
+          }
+        ]
+      }
+      const fake = fakeRelic(5, 15, relic.part, relic.main.stat, substats)
+      const ideal = this.score(fake, id)
+      maxWeight = parseFloat(ideal.longscore)
+      maxWeight -= mainStatFreeRoll(relic.part, relic.main.stat, this.getRelicScoreMeta(id))
     }
     return {
       bestPct: Math.max(0, 100 * Utils.precisionRound(score.best) / maxWeight),
@@ -370,7 +414,7 @@ export class RelicScorer {
 
     const scoringResult = this.score(relic, id)
 
-    const subScore = parseFloat(scoringResult.score)
+    const subScore = parseFloat(scoringResult.longscore)
 
     // Turn the main stat score into a deduction if using a suboptimal main
     let mainScoreDeduction = 0
@@ -608,4 +652,34 @@ function generateSubStats(grade: RelicGrade, sub1: SubStats, val1: number, sub2:
     }
   ]
   return substats
+}
+
+//Checks to see if the only weighted stat is atk/hp/def, needs special handling due to flat stats
+function isSpecial(scoringMetadata){
+  let special: boolean = false
+  let stat1: string = ''
+  let stat2: string = ''
+  const substats = scoringMetadata.sortedSubstats
+  if(substats[2][1] > 0 || substats[1][1] == 0){
+    return{
+      isSpecial: special,
+      stat1: stat1,
+      stat2: stat2
+    }
+  }
+  if(substats[0][0] == Constants.Stats.HP_P || substats[0][0] == Constants.Stats.ATK_P || substats[0][0] == Constants.Stats.DEF_P){
+    special = true
+    stat1 = substats[0][0]
+    stat2 = substats[1][0]
+    return{
+      isSpecial: special,
+      stat1: stat1,
+      stat2: stat2
+    }
+  }
+  return{
+    isSpecial: special,
+    stat1: stat1,
+    stat2: stat2
+  }
 }

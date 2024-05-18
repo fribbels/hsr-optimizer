@@ -156,9 +156,7 @@ const MenuDrawer = () => {
   return (
     <Menu
       onClick={onClick}
-      // inlineIndent={15}
-      style={{
-      }}
+      inlineIndent={12}
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}
       selectedKeys={activeKey}

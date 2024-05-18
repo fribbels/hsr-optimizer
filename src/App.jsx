@@ -6,8 +6,8 @@ import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const {useToken, getDesignToken} = theme
-const {Content} = Layout
+const { useToken, getDesignToken } = theme
+const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
@@ -23,7 +23,6 @@ const App = () => {
     }))
   }, [colorTheme])
 
-
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
   }, []);
@@ -38,6 +37,10 @@ const App = () => {
           colorTextBase: colorTheme.colorTextBase,
           colorPrimary: colorTheme.colorPrimary,
           colorPrimaryBorderHover: colorTheme.colorPrimary,
+          screenXL: 1530,
+          screenXLMin: 1530,
+          screenXXL: 1660,
+          screenXXLMin: 1660,
         },
         components: {
           // OptimizerForm.js
@@ -54,6 +57,7 @@ const App = () => {
           // MenuDrawer.js
           Menu: {
             margin: 2,
+            itemPaddingInline: 0,
           },
 
           Table: {
@@ -85,7 +89,7 @@ const App = () => {
             defaultColor: '#ffffff',
           },
           Notification: {
-            width: 450
+            width: 450,
           },
         },
         algorithm: theme.darkAlgorithm,
@@ -94,9 +98,9 @@ const App = () => {
       {messageContextHolder}
       {notificationContextHolder}
       <Layout style={{minHeight: '100%'}}>
-        <LayoutHeader/>
+        <LayoutHeader />
         <Layout hasSider>
-          <LayoutSider/>
+          <LayoutSider />
           <Content
             style={{
               padding: 10,
@@ -110,9 +114,9 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs/>
+            <Tabs />
           </Content>
-          <SettingsDrawer/>
+          <SettingsDrawer />
         </Layout>
       </Layout>
     </ConfigProvider>

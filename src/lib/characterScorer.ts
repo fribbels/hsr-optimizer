@@ -540,9 +540,6 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
 export function calculatePenaltyMultiplier(simulationResult, breakpoints) {
   let newPenaltyMultiplier = 1
   for (const stat of Object.keys(breakpoints)) {
-    if (simulationResult.x[stat] < breakpoints[stat]) {
-      console.log('x')
-    }
     newPenaltyMultiplier *= Math.min(1, simulationResult[stat] / breakpoints[stat])
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
@@ -582,7 +579,8 @@ const SimScoreGrades = {
   'F+': 35,
   'F': 30,
 }
-// // 1.00 => SSS+
+
+// // 1.00 => SS+
 // const SimScoreGrades = {
 //   'WTF+': 120,
 //   'WTF': 115,
@@ -602,4 +600,26 @@ const SimScoreGrades = {
 //   'D': 45,
 //   'F+': 40,
 //   'F': 35,
+// }
+
+// // 1.00 => SS
+// const SimScoreGrades = {
+//   'WTF+': 125,
+//   'WTF': 120,
+//   'SSS+': 115,
+//   'SSS': 110,
+//   'SS+': 105,
+//   'SS': 100,
+//   'S+': 95,
+//   'S': 90,
+//   'A+': 85,
+//   'A': 80,
+//   'B+': 75,
+//   'B': 70,
+//   'C+': 65,
+//   'C': 60,
+//   'D+': 55,
+//   'D': 50,
+//   'F+': 45,
+//   'F': 40,
 // }

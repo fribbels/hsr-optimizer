@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Image, theme, Typography } from 'antd'
+import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { Constants, ElementToDamage } from 'lib/constants.ts'
+import { Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM } from 'lib/constants.ts'
 import {
   defaultGap,
   innerW,
@@ -24,7 +24,7 @@ import RelicModal from 'components/RelicModal'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
-import { EditOutlined } from '@ant-design/icons'
+import { DoubleRightOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
@@ -33,12 +33,16 @@ import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characterScorer'
 import { Utils } from 'lib/utils'
 import {
   CharacterCardScoringStatUpgrades,
-  CharacterScoringSummary,
-  ScoringTeammate
+  CharacterScoringSummary
 } from 'components/characterPreview/CharacterScoringSummary'
+import CharacterModal from 'components/CharacterModal'
+import { HeaderText } from 'components/HeaderText'
 
 const {useToken} = theme
 const {Text} = Typography
+
+const outline = 'rgb(255 255 255 / 40%) solid 1px'
+const shadow = 'rgba(0, 0, 0, 0.74) 2px 2px 5px 0px'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -54,17 +58,36 @@ export function CharacterPreview(props) {
   const backgroundColor = token.colorBgLayout
 
   const relicsById = window.store((s) => s.relicsById)
-  const characterTabBlur = window.store((s) => s.characterTabBlur)
+  const characterTabBlur = window.store((s) => false)
   const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
+  const [scoringHovered, setScoringHovered] = useState(false);
+  const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM);
+  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
+  const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
 
   useEffect(() => {
     // Use any existing character's portrait instead of the default
     setCustomPortrait(DB.getCharacterById(character?.id)?.portrait || null)
+    if (character?.id) {
+      // Only for simulation scoring characters
+      const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+      if (defaultScoringMetadata?.simulation) {
+        const scoringMetadata = DB.getScoringMetadata(character.id)
+        if (scoringMetadata.simulation.teammates != defaultScoringMetadata.simulation.teammates) {
+          console.debug(1)
+          setTeamSelection(CUSTOM_TEAM)
+        } else {
+          console.debug(2)
+          setTeamSelection(DEFAULT_TEAM)
+        }
+      }
+    }
   }, [character])
 
   function getArtistName() {
@@ -173,7 +196,8 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
-  const simScoringResult = scoreCharacterSimulation(character, finalStats, displayRelics)
+  let simScoringResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
+  if (!simScoringResult?.sims) simScoringResult = null
 
   const scoredRelics = scoringResults.relics || []
 
@@ -193,7 +217,7 @@ export function CharacterPreview(props) {
   const characterElement = characterMetadata.element
 
   const elementalDmgValue = ElementToDamage[characterElement]
-  console.log(displayRelics)
+  // console.log(displayRelics)
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
@@ -209,8 +233,137 @@ export function CharacterPreview(props) {
 
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
-  const outline = 'rgb(255 255 255 / 40%) solid 1px'
-  const shadow = 'rgba(0, 0, 0, 0.74) 2px 2px 5px 0px'
+  // Reuse the same modal for both edit/add and scroll to the selected character
+  function onCharacterModalOk(form) {
+    if (!form.characterId) {
+      return Message.error('No selected character')
+    }
+    if (!form.lightCone) {
+      return Message.error('No selected character')
+    }
+
+    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
+    const simulation = scoringMetadata.simulation
+
+    simulation.teammates[selectedTeammateIndex] = form
+
+    DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+
+    setTeamSelection(CUSTOM_TEAM)
+  }
+
+  function ScoreHeader(props) {
+    const result = props.result
+
+    const textDisplay = (
+      <StatText style={{
+        fontSize: 18,
+        fontWeight: '600',
+        textAlign: 'center',
+        color: '#d53333',
+        height: 40
+      }}>
+        {`DPS score: ${Utils.truncate10ths(result.percent * 100).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
+      </StatText>
+    )
+
+    return (
+      <Flex vertical>
+        {textDisplay}
+      </Flex>
+    )
+  }
+
+  function ScoreFooter(props) {
+    const textDisplay = (
+      <Flex vertical align="center">
+        <HeaderText style={{fontSize: 16, marginTop: 7}}>
+          DPS score substat upgrades
+        </HeaderText>
+      </Flex>
+    )
+
+    const tabsDisplay = (
+      <Segmented
+        style={{marginLeft: 10, marginRight: 10, height: 40, alignItems: 'center'}}
+        onChange={(selection) => {
+          if (selection == RESET_TEAM) {
+            window.modalApi.confirm({
+              icon: <ExclamationCircleOutlined/>,
+              content: 'Reset your custom team configuration to default?',
+              onOk() {
+                const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
+                DB.updateCharacterScoreOverrides(character.id, characterMetadata)
+
+                setTeamSelection(DEFAULT_TEAM)
+                setSelectedTeammateIndex(undefined)
+              }
+            });
+          } else {
+            setTeamSelection(selection)
+          }
+        }}
+        value={teamSelection}
+        block
+        options={[
+          DEFAULT_TEAM,
+          {
+            label: (
+              <DoubleRightOutlined/>
+            ),
+            value: RESET_TEAM,
+            className: 'short-segmented'
+          },
+          CUSTOM_TEAM
+        ]}
+      />
+    )
+
+    return (
+      <Flex vertical style={{height: 40, marginTop: 5}}>
+        <CharacterModal onOk={onCharacterModalOk}
+                        open={isCharacterModalOpen}
+                        setOpen={setCharacterModalOpen}
+                        initialCharacter={characterModalInitialCharacter}/>
+        {!scoringHovered && textDisplay}
+        {scoringHovered && tabsDisplay}
+      </Flex>
+    )
+  }
+
+  function CharacterPreviewScoringTeammate(props) {
+    // <CharacterPreviewScoringTeammate result={simScoringResult} index={0}/>
+    const {result, index, setCharacterModalOpen, setSelectedTeammateIndex} = props
+    const teammate = result.metadata.teammates[index]
+    const iconSize = 65
+    return (
+      <Card.Grid style={gridStyle} hoverable={true}
+                 onClick={() => {
+                   setCharacterModalInitialCharacter({form: teammate})
+                   setCharacterModalOpen(true)
+                   setSelectedTeammateIndex(index)
+                 }}
+                 className="custom-grid">
+        <Flex vertical align="center" gap={4}>
+          <img
+            src={Assets.getCharacterAvatarById(teammate.characterId)}
+            style={{
+              height: iconSize,
+              width: iconSize,
+              borderRadius: 40,
+              background: 'rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+              backdropFilter: 'blur(5px)',
+              outline: '1px solid rgba(255, 255, 255, 0.3)',
+            }}
+          />
+          <OverlayText text={`E${teammate.characterEidolon}`} top={-14}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{height: iconSize}}/>
+          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
+        </Flex>
+      </Card.Grid>
+    )
+  }
 
   return (
     <Flex vertical>
@@ -303,9 +456,9 @@ export function CharacterPreview(props) {
                   vertical
                   style={{
                     position: 'relative',
-                    top: tempParentH - 38,
+                    top: simScoringResult ? tempParentH - 44 : tempParentH - 34,
                     height: 34,
-                    paddingRight: 5,
+                    paddingLeft: 4,
                     display: getArtistName() ? 'flex' : 'none',
                   }}
                   align="flex-start"
@@ -339,7 +492,7 @@ export function CharacterPreview(props) {
                   style={{
                     position: 'relative',
                     height: 0,
-                    top: newLcHeight - 37,
+                    top: newLcHeight - 35,
                     // top: newLcHeight - 221, // top right
                     paddingRight: 12,
                   }}
@@ -348,7 +501,7 @@ export function CharacterPreview(props) {
                   <Text
                     style={{
                       position: 'absolute',
-                      height: 32,
+                      height: 30,
                       backgroundColor: 'rgb(0 0 0 / 70%)',
                       padding: '4px 12px',
                       borderRadius: 8,
@@ -383,11 +536,9 @@ export function CharacterPreview(props) {
                     src={lightConeSrc}
                     style={{
                       position: 'absolute',
-                      width: 450,
+                      width: 420,
                       top: -lcCenter + newLcHeight / 2,
-                      left: -25,
-                      // transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                      // transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                      left: -8,
                       filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
                     }}
                   />
@@ -435,24 +586,45 @@ export function CharacterPreview(props) {
                 }
                 {
                   simScoringResult &&
-                  <Flex vertical>
-                    <StatText style={{fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#d53333'}}>
-                      {`DPS score: ${Utils.truncate10ths(simScoringResult.percent * 100).toFixed(1)}% (${getSimScoreGrade(simScoringResult.percent)})`}
-                    </StatText>
-                  </Flex>
-                }
-
-                {simScoringResult &&
-                  <Flex gap={defaultGap} justify='space-around'>
-                    <ScoringTeammate result={simScoringResult} index={0}/>
-                    <ScoringTeammate result={simScoringResult} index={1}/>
-                    <ScoringTeammate result={simScoringResult} index={2}/>
-                  </Flex>
-                }
-
-                {simScoringResult &&
-                  <Flex vertical gap={defaultGap}>
-                    <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+                  <Flex
+                    vertical
+                    onMouseEnter={() => setScoringHovered(true)}
+                    onMouseLeave={() => setScoringHovered(false)}
+                  >
+                    <ScoreHeader result={simScoringResult}/>
+                    <Card
+                      style={{
+                        backgroundColor: token.colorBgLayout,
+                        padding: '0px !important',
+                        body: {
+                          height: 500
+                        }
+                      }}
+                      styles={{
+                        body: {
+                          padding: 0,
+                          borderRadius: 10
+                        },
+                      }}
+                      size="small"
+                      bordered={false}
+                    >
+                      <Flex justify='space-around' style={{paddingTop: 0}}>
+                        <CharacterPreviewScoringTeammate result={simScoringResult} index={0}
+                                                         setCharacterModalOpen={setCharacterModalOpen}
+                                                         setSelectedTeammateIndex={setSelectedTeammateIndex}/>
+                        <CharacterPreviewScoringTeammate result={simScoringResult} index={1}
+                                                         setCharacterModalOpen={setCharacterModalOpen}
+                                                         setSelectedTeammateIndex={setSelectedTeammateIndex}/>
+                        <CharacterPreviewScoringTeammate result={simScoringResult} index={2}
+                                                         setCharacterModalOpen={setCharacterModalOpen}
+                                                         setSelectedTeammateIndex={setSelectedTeammateIndex}/>
+                      </Flex>
+                    </Card>
+                    <ScoreFooter result={simScoringResult}/>
+                    <Flex vertical gap={defaultGap}>
+                      <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+                    </Flex>
                   </Flex>
                 }
               </Flex>
@@ -564,3 +736,44 @@ CharacterPreview.propTypes = {
   character: PropTypes.object,
   id: PropTypes.string,
 }
+
+function OverlayText(props) {
+  const top = props.top
+  return (
+    <Flex
+      vertical
+      style={{
+        position: 'relative',
+        height: 0,
+        top: top,
+      }}
+      align="center"
+    >
+      <Text
+        style={{
+          position: 'absolute',
+          backgroundColor: 'rgb(0 0 0 / 75%)',
+          padding: '2px 14px',
+          borderRadius: 4,
+          fontSize: 12,
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          textShadow: '0px 0px 10px black',
+          outline: outline,
+          boxShadow: shadow,
+          lineHeight: '12px'
+        }}
+      >
+        {props.text}
+      </Text>
+    </Flex>
+  )
+}
+
+const gridStyle = {
+  width: '33.3333%',
+  textAlign: 'center',
+  padding: 5,
+  // border: 'none',
+  boxShadow: 'none',
+};

@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { DEFAULT_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import {
   calculateOrnamentSets,
   calculateRelicSets,
@@ -40,17 +40,23 @@ export type SimulationScore = {
   metadata: any
 }
 
-export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any) {
-  console.debug(character, finalStats, displayRelics)
-
+export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any, teamSelection: string) {
   // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
   // just cache the results for now
-  const cacheKey = JSON.stringify({
+
+  const characterMetadata = DB.getMetadata().characters[character.id]
+  const metadata = teamSelection == DEFAULT_TEAM
+    ? characterMetadata?.scoringMetadata?.simulation
+    : DB.getScoringMetadata(character.id).simulation
+
+  const cacheKey = Utils.objectHash({
     character,
-    displayRelics
+    displayRelics,
+    metadata
   })
+
   if (cachedSims[cacheKey]) {
-    console.debug('cached bestSims', cachedSims[cacheKey])
+    console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
 
@@ -60,8 +66,6 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const lightCone = originalForm.lightCone
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
-  const characterMetadata = DB.getMetadata().characters[characterId]
-  const metadata = characterMetadata?.scoringMetadata?.simulation
   const has6Piece = Object.values(displayRelics).filter(x => x).length == 6
 
   if (!characterId || !originalForm || !metadata || !lightCone || !has6Piece) {
@@ -79,7 +83,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
 
-  console.debug('simulationForm', simulationForm)
+  // console.debug('simulationForm', simulationForm)
 
   // Generate scoring function
   const formula = metadata.formula
@@ -165,8 +169,6 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     statUpgrade.percent = percent * percentModifier
   }
   statUpgrades.sort((a, b) => b.percent! - a.percent!)
-
-  metadata.bestSim = bestSims[0].request
 
   const simScoringResult: SimulationScore = {
     baselineSimValue: baselineSimResult.SIM_SCORE,
@@ -266,6 +268,9 @@ function computeOptimalSimulation(
 
   let breakpointsCap = true
   let speedCap = true
+
+  console.debug('STARTING ', maxSubstatRollCounts)
+  console.debug('STARTING ', sum)
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -403,15 +408,15 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   }
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = 36
+    maxCounts[substat] = 24
   }
 
-  maxCounts[request.simBody] -= 6
-  maxCounts[request.simFeet] -= 6
-  maxCounts[request.simPlanarSphere] -= 6
-  maxCounts[request.simLinkRope] -= 6
-  maxCounts[Stats.ATK] -= 6
-  maxCounts[Stats.HP] -= 6
+  maxCounts[request.simBody] -= 4
+  maxCounts[request.simFeet] -= 4
+  maxCounts[request.simPlanarSphere] -= 4
+  maxCounts[request.simLinkRope] -= 4
+  maxCounts[Stats.ATK] -= 4
+  maxCounts[Stats.HP] -= 4
 
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 

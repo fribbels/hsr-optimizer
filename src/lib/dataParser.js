@@ -1054,7 +1054,7 @@ function getOverrideImageCenter() {
     },
     1102: { // Seele
       x: 820,
-      y: 1060,
+      y: 1160,
     },
     1103: { // Serval
       x: 1050,

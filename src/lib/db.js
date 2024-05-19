@@ -285,7 +285,7 @@ export const DB = {
   getScoringMetadata: (id) => {
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
-    const returnScoringMetadata = scoringMetadataOverrides || defaultScoringMetadata
+    const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
     for (const key of Object.keys(returnScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {

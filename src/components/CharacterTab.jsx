@@ -475,7 +475,7 @@ export default function CharacterTab() {
       vertical
       style={{
         height: '100%',
-        marginBottom: 400
+        marginBottom: 200
       }}
     >
       <Flex style={{height: '100%'}}>

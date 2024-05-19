@@ -13,7 +13,11 @@ import StatText from 'components/characterPreview/StatText'
 
 export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = Utils.clone(props.simScoringResult)
-  if (!result) return ("")
+  if (!result) return (
+    <pre style={{height: 200}}>
+      {' '}
+    </pre>
+  )
 
   // console.debug('stat sim result', result, props.characterStats)
 

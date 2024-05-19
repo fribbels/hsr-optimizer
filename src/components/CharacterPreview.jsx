@@ -37,6 +37,7 @@ import {
 } from 'components/characterPreview/CharacterScoringSummary'
 import CharacterModal from 'components/CharacterModal'
 import { HeaderText } from 'components/HeaderText'
+import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 
 const {useToken} = theme
 const {Text} = Typography
@@ -58,8 +59,6 @@ export function CharacterPreview(props) {
   const backgroundColor = token.colorBgLayout
 
   const relicsById = window.store((s) => s.relicsById)
-  const characterTabBlur = window.store((s) => false)
-  const setCharacterTabBlur = window.store((s) => s.setCharacterTabBlur)
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
@@ -406,21 +405,17 @@ export function CharacterPreview(props) {
                         <CharacterCustomPortrait
                           customPortrait={customPortrait ?? character.portrait}
                           parentW={parentW}
-                          isBlur={characterTabBlur && !isScorer}
-                          setBlur={setCharacterTabBlur}
                         />
                       )
                       : (
-                        <img
+                        <LoadingBlurredImage
                           src={Assets.getCharacterPortraitById(character.id)}
                           style={{
                             position: 'absolute',
                             left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
                             top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
                             width: innerW,
-                            filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
                           }}
-                          onLoad={() => setTimeout(() => setCharacterTabBlur(false), 50)}
                         />
                       )
                   }
@@ -520,7 +515,6 @@ export function CharacterPreview(props) {
                   </Text>
                 </Flex>
                 <Flex
-                  vertical
                   style={{
                     width: `${tempLcParentW}px`,
                     height: `${tempLcParentH}px`,
@@ -532,14 +526,14 @@ export function CharacterPreview(props) {
                     position: 'relative'
                   }}
                 >
-                  <img
+                  <LoadingBlurredImage
                     src={lightConeSrc}
+                    loading="lazy"
                     style={{
                       position: 'absolute',
                       width: 420,
                       top: -lcCenter + newLcHeight / 2,
                       left: -8,
-                      filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
                     }}
                   />
                 </Flex>
@@ -651,12 +645,11 @@ export function CharacterPreview(props) {
                     outline: outline,
                     boxShadow: shadow,
                   }}>
-                    <img
+                    <LoadingBlurredImage
                       src={lightConeSrc}
                       style={{
                         width: tempLcInnerW,
                         transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                        filter: (characterTabBlur && !isScorer) ? 'blur(20px)' : '',
                       }}
                     />
                   </div>

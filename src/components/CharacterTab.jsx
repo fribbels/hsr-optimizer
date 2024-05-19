@@ -231,7 +231,6 @@ export default function CharacterTab() {
     const data = event.data
 
     // Only blur if different character
-    window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
   }, [setCharacterTabFocusCharacter])

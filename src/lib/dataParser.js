@@ -4821,9 +4821,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.ATK_P,
-          Stats.ATK,
-          Stats.SPD,
           Stats.BE,
+          Stats.SPD,
+          Stats.ATK,
         ],
         breakpoints: {},
         formula: {

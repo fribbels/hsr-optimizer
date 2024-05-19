@@ -277,7 +277,11 @@ function computeOptimalSimulation(
     let bestSimResult
     let bestSimDeductedStat: Stat | undefined
 
-    for (const stat of relevantSubstats) {
+    const remainingStats = Object.entries(currentSimulation.request.stats)
+    .filter(([_key, value]) => value > 0)
+    .map(([key, _value]) => key);
+
+    for (const stat of remainingStats) {
       // Can't reduce further so we skip
       if (currentSimulation.request.stats[stat] <= 0) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= SUBSTAT_GOAL) continue
@@ -307,8 +311,8 @@ function computeOptimalSimulation(
     }
 
     if (!bestSimResult) {
+      // We can't reach the target speed and breakpoints, stop trying to match breakpoints and try again
       if (breakpointsCap) {
-        // We can't reach the target speed and breakpoints, stop trying to match breakpoints and try again
         breakpointsCap = false
         continue
       }
@@ -316,20 +320,20 @@ function computeOptimalSimulation(
       // // Calculate penalties for missing breakpoints
       calculatePenaltyMultiplier(currentSimulationResult, breakpoints)
 
+      // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
       if (speedCap) {
-        // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
         speedCap = false
         continue
       }
 
       // No solution possible, skip
       sum -= 1
-
       continue
     }
 
     currentSimulation = bestSim
     currentSimulationResult = bestSimResult
+    sum -= 1
   }
 
   currentSimulation.result = currentSimulationResult

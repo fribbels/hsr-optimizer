@@ -14,9 +14,9 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
-const QUALITY = 0.9
+const QUALITY = 0.8
 const SUBSTAT_GOAL = 54
-const FREE_ROLLS = 3
+const FREE_ROLLS = 2
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
 
 export type SimulationResult = ComputedStatsObject & {

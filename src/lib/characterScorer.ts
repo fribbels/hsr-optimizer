@@ -19,6 +19,7 @@ import { Form } from 'types/Form'
 import { Relic, Stat } from 'types/Relic'
 import DB from 'lib/db'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
 const QUALITY = 0.8
@@ -26,6 +27,7 @@ const SUBSTAT_GOAL = 42
 
 export type SimulationResult = ComputedStatsObject & {
   SIM_SCORE: number
+  stat: string
 }
 
 export type SimulationScore = {
@@ -111,7 +113,12 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const originalFinalSpeed = originalSimResult.xSPD
   const originalBaseSpeed = originalSimResult.SPD
 
-  const baselineSimResult = simulateBaselineCharacter(displayRelics, simulationForm)
+  const {baselineSimResult, substatPrioritySimResults} = simulateBaselineCharacter(displayRelics, simulationForm)
+
+  // Figure out sub priority
+  substatPrioritySimResults.map(x => applyScoringFunction(x))
+  let bestSubstatPrioritySims = substatPrioritySimResults.sort(simSorter);
+  let substatPriority = bestSubstatPrioritySims.map(x => x.stat).reverse().slice(0, 5)
 
   // Generate partials
   const partialSimulationWrappers = generatePartialSimulations(metadata, originalBaseSpeed)
@@ -128,8 +135,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     partialSimulationWrapper.finalSpeed = finalSpeed
     partialSimulationWrapper.speedRollsDeduction = Utils.precisionRound((originalFinalSpeed - finalSpeed) / 2.0)
     // console.debug(partialSimulationWrapper)
-    const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, metadata)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata)
+    const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, substatPriority, metadata)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, substatPriority, metadata)
     Object.values(SubStats).map(x => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     // console.debug(minSubstatRollCounts, maxSubstatRollCounts)
     const bestSim = computeOptimalSimulation(partialSimulationWrapper, minSubstatRollCounts, maxSubstatRollCounts, simulationForm, applyScoringFunction, metadata)
@@ -145,13 +152,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   bestPartialSims.map(x => applyScoringFunction(x.result))
 
   // Try to minimize the penalty modifier before optimizing sim score
-  let bestSims = bestPartialSims.sort((a, b) => {
-    if (a.result.penaltyMultiplier === b.result.penaltyMultiplier) {
-      return b.result.SIM_SCORE - a.result.SIM_SCORE;
-    }
-    return b.result.penaltyMultiplier - a.result.penaltyMultiplier;
-  });
-  console.debug('bestSims', bestSims)
+  let bestSims = bestPartialSims.sort(simSorter);
+  console.debug('bestSims', bestSims, substatPriority)
 
   // DEBUG - Apply the sims to optimizer page
   // window.store.getState().setStatSimulations(bestPartialSims)
@@ -353,26 +355,31 @@ function sumSubstatRolls(maxSubstatRollCounts) {
 // This is an imperfect estimate of the optimal distribution of substats
 // We assume that substats have a priority and choose the top 4 substats to prioritize
 // This means we have to assume spd and flat stats are deprioritized but this will be close enough to the max to use
-function prioritizeFourSubstats(mins, metadata, excludes, speedRollsDeduction) {
+function prioritizeFourSubstats(mins, substatPriority, excludes, speedRollsDeduction) {
   let speedRolls = 0
   for (const exclude of excludes) {
     let count = 0
-    for (const stat of metadata.substats) {
+    for (const stat of substatPriority) {
       if (count == 4) break
       if (stat == exclude) continue
-      if (stat == Stats.SPD) {
+      if (stat == substatPriority[4]) {
         if (speedRolls >= speedRollsDeduction) {
+
+        } else {
+          speedRolls++
+          count++
+          mins[Stats.SPD]++
           continue
         }
-        speedRolls++
       }
       count++
       mins[stat]++
     }
   }
+  mins[Stats.SPD] = speedRollsDeduction
 }
 
-function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulationWrapper, metadata) {
+function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulationWrapper, substatPriority, metadata) {
   const request = partialSimulationWrapper.simulation.request
   const minCounts: SimulationStats = {
     [Stats.HP_P]: 0,
@@ -389,12 +396,12 @@ function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulati
     [Stats.BE]: 0,
   }
 
-  prioritizeFourSubstats(minCounts, metadata, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK], partialSimulationWrapper.speedRollsDeduction)
+  prioritizeFourSubstats(minCounts, substatPriority, [request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope, Stats.HP, Stats.ATK], partialSimulationWrapper.speedRollsDeduction)
 
   return minCounts
 }
 
-function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
+function calculateMaxSubstatRollCounts(partialSimulationWrapper, substatPriority, metadata) {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts = {
     [Stats.HP_P]: 0,
@@ -411,7 +418,7 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
     [Stats.BE]: 0,
   }
 
-  for (const substat of metadata.substats) {
+  for (const substat of substatPriority) {
     maxCounts[substat] = 24
   }
 
@@ -422,11 +429,11 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[Stats.ATK] -= 4
   maxCounts[Stats.HP] -= 4
 
-  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
-
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(0, maxCounts[stat])
   }
+
+  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   return maxCounts
 }
@@ -512,9 +519,32 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
     }
   })
 
+  const substatPrioritySimResults: SimulationResult[] = []
+  for (const excludedStat of SubStats) {
+    if (excludedStat == Stats.SPD) continue
+
+    const clonedRelicsByPart = Utils.clone(relicsByPart)
+    for (const includedStat of SubStats) {
+      if (includedStat == Stats.SPD) continue
+      if (includedStat == excludedStat) continue
+
+      clonedRelicsByPart[Parts.Hands].substats.push({
+        stat: includedStat,
+        value: StatCalculator.getMaxedSubstatValue(includedStat, QUALITY) * 24,
+      })
+    }
+    const {originalSimResult} = simulateOriginalCharacter(clonedRelicsByPart, simulationForm)
+    originalSimResult.stat = excludedStat
+    substatPrioritySimResults.push(originalSimResult)
+  }
+
   const {originalSimResult} = simulateOriginalCharacter(relicsByPart, simulationForm)
-  return originalSimResult
+  return {
+    baselineSimResult: originalSimResult,
+    substatPrioritySimResults: substatPrioritySimResults
+  }
 }
+
 
 function simulateOriginalCharacter(displayRelics, simulationForm) {
   const relicsByPart = Utils.clone(displayRelics)
@@ -565,6 +595,15 @@ export function getSimScoreGrade(score) {
     }
   }
   return '???'
+}
+
+function simSorter(a, b) {
+  const aResult = a.result || a
+  const bResult = b.result || b
+  if (aResult.penaltyMultiplier === bResult.penaltyMultiplier) {
+    return bResult.SIM_SCORE - aResult.SIM_SCORE;
+  }
+  return bResult.penaltyMultiplier - aResult.penaltyMultiplier;
 }
 
 // 1.00 => SSS

@@ -161,8 +161,8 @@ export class RelicScorer {
       scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats)
-        .filter((x) => possibleSubstats.has(x[0]))
-        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+      .filter((x) => possibleSubstats.has(x[0]))
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       scoringMetadata.groupedSubstats = new Map()
       for (const [s, w] of scoringMetadata.sortedSubstats) {
         if (!scoringMetadata.groupedSubstats.has(w)) {
@@ -224,7 +224,7 @@ export class RelicScorer {
   scoreCharacter(character: Character) {
     if (!character?.id) return {}
 
-    console.log('SCORE CHARACTER', character)
+    // console.log('SCORE CHARACTER', character)
     const relicsById = window.store.getState().relicsById
     const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
@@ -247,7 +247,7 @@ export class RelicScorer {
     let maxWeight = 0
 
     const scoreEntries = Object.entries(scoringMetadata.stats)
-      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+    .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     // Find the mainstat for this relic
     let mainStat = ''
@@ -436,9 +436,9 @@ export class RelicScorer {
     const substatNames = relic.substats.map((x) => x.stat)
 
     const substatScoreWeights = scoringMetadata.sortedSubstats
-      // Exclude mainstat and already existing substats
-      .filter((x) => relic.main.stat !== x[0] && !substatNames.includes(x[0]))
-      .map(([_s, w]) => w)
+    // Exclude mainstat and already existing substats
+    .filter((x) => relic.main.stat !== x[0] && !substatNames.includes(x[0]))
+    .map(([_s, w]) => w)
 
     // Predict best substat scores
     const bestRollPrediction = predictExtraRollWeight(
@@ -461,8 +461,8 @@ export class RelicScorer {
       // Given the weights of new substats, which substats could have been picked?
       // (all substats matching those weights, except current substats and the mainstat)
       const bestNewSubstats: string[] = bestRollPrediction.newSubstatWeights
-        .flatMap((w) => scoringMetadata.groupedSubstats.get(w))
-        .filter((s) => relic.main.stat !== s && !substatNames.includes(s))
+      .flatMap((w) => scoringMetadata.groupedSubstats.get(w))
+      .filter((s) => relic.main.stat !== s && !substatNames.includes(s))
       // All possible substats that could end up somewhere on the relic
       const finalPossibleBestSubstats = new Set(substatNames.concat(bestNewSubstats))
       // Given the weight of substats that rolls went into, what could the substats have been?
@@ -470,8 +470,8 @@ export class RelicScorer {
       let bestRolledSubstats
       if (bestRollPrediction.rollSubstatWeight !== null) {
         bestRolledSubstats = scoringMetadata.groupedSubstats
-          .get(bestRollPrediction.rollSubstatWeight)!
-          .filter((s) => finalPossibleBestSubstats.has(s))
+        .get(bestRollPrediction.rollSubstatWeight)!
+        .filter((s) => finalPossibleBestSubstats.has(s))
       }
       meta = {
         bestNewSubstats: [...new Set(bestNewSubstats)],

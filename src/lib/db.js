@@ -72,7 +72,6 @@ window.store = create((set) => ({
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
-  characterTabBlur: false,
   conditionalSetEffectsDrawerOpen: false,
   combatBuffsDrawerOpen: false,
   settingsDrawerOpen: false,
@@ -141,7 +140,6 @@ window.store = create((set) => ({
   setActiveKey: (x) => set(() => ({activeKey: x})),
   setCharacters: (x) => set(() => ({characters: x})),
   setCharactersById: (x) => set(() => ({charactersById: x})),
-  setCharacterTabBlur: (x) => set(() => ({characterTabBlur: x})),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({conditionalSetEffectsDrawerOpen: x})),
   setCombatBuffsDrawerOpen: (x) => set(() => ({combatBuffsDrawerOpen: x})),
   setSettingsDrawerOpen: (x) => set(() => ({settingsDrawerOpen: x})),
@@ -285,7 +283,7 @@ export const DB = {
   getScoringMetadata: (id) => {
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
-    const returnScoringMetadata = scoringMetadataOverrides || defaultScoringMetadata
+    const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
     for (const key of Object.keys(returnScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {

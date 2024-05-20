@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
-import { ConfigProvider, Layout, message, notification, theme } from 'antd'
+import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const { useToken, getDesignToken } = theme
-const { Content } = Layout
+const {useToken, getDesignToken} = theme
+const {Content} = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification();
+  const [modalApi, modalContextHolder] = Modal.useModal();
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
+  window.modalApi = modalApi
 
   const colorTheme = store((s) => s.colorTheme)
   useEffect(() => {
@@ -97,10 +99,11 @@ const App = () => {
     >
       {messageContextHolder}
       {notificationContextHolder}
+      {modalContextHolder}
       <Layout style={{minHeight: '100%'}}>
-        <LayoutHeader />
+        <LayoutHeader/>
         <Layout hasSider>
-          <LayoutSider />
+          <LayoutSider/>
           <Content
             style={{
               padding: 10,
@@ -114,9 +117,9 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs />
+            <Tabs/>
           </Content>
-          <SettingsDrawer />
+          <SettingsDrawer/>
         </Layout>
       </Layout>
     </ConfigProvider>

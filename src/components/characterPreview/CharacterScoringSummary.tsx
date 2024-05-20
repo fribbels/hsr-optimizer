@@ -10,13 +10,16 @@ import DB from 'lib/db'
 import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
 import StatText from 'components/characterPreview/StatText'
-import { HeaderText } from 'components/HeaderText'
 
 export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = Utils.clone(props.simScoringResult)
-  if (!result) return ("")
+  if (!result) return (
+    <pre style={{height: 200}}>
+      {' '}
+    </pre>
+  )
 
-  console.debug('stat sim result', result, props.characterStats)
+  // console.debug('stat sim result', result, props.characterStats)
 
   // Clean up some spammy data
   delete result.sims
@@ -102,7 +105,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: 'auto'}}>
             Sim teammates
           </pre>
-          <Flex gap={defaultGap}>
+          <Flex gap={20}>
             <ScoringTeammate result={result} index={0}/>
             <ScoringTeammate result={result} index={1}/>
             <ScoringTeammate result={result} index={2}/>
@@ -143,7 +146,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <VerticalDivider/>
 
-        <Flex vertical gap={defaultGap}>
+        <Flex vertical gap={defaultGap} style={{width: 160}}>
           <pre style={{margin: '0 auto'}}>
             Sim main stats
           </pre>
@@ -161,8 +164,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{margin: '0 auto'}}>
             Sim substats
           </pre>
-          <Flex gap={50}>
-            <Flex vertical gap={defaultGap}>
+          <Flex gap={20}>
+            <Flex vertical gap={defaultGap} style={{width: 100}}>
               <ScoringNumber label='ATK%: ' number={result.maxSim.request.stats[Stats.ATK_P]} precision={0}/>
               <ScoringNumber label='ATK:  ' number={result.maxSim.request.stats[Stats.ATK]} precision={0}/>
               <ScoringNumber label='HP%:  ' number={result.maxSim.request.stats[Stats.HP_P]} precision={0}/>
@@ -170,7 +173,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <ScoringNumber label='DEF%: ' number={result.maxSim.request.stats[Stats.DEF_P]} precision={0}/>
               <ScoringNumber label='DEF:  ' number={result.maxSim.request.stats[Stats.DEF]} precision={0}/>
             </Flex>
-            <Flex vertical gap={defaultGap}>
+            <Flex vertical gap={defaultGap} style={{width: 100}}>
               <ScoringNumber label='SPD:  ' number={result.maxSim.request.stats[Stats.SPD]} precision={2}/>
               <ScoringNumber label='CR:   ' number={result.maxSim.request.stats[Stats.CR]} precision={0}/>
               <ScoringNumber label='CD:   ' number={result.maxSim.request.stats[Stats.CD]} precision={0}/>
@@ -250,40 +253,6 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
 
       <img src='https://i.imgur.com/mhNZxc8.png' style={{marginTop: 10}}/>
-
-      <pre>
-        Summary:
-        {
-          JSON.stringify({
-            formula: result.metadata.formula,
-            relicSet1: result.metadata.relicSet1,
-            relicSet2: result.metadata.relicSet2,
-            ornamentSet: result.metadata.ornamentSet,
-            bestSimMains: [result.metadata.bestSim.simBody, result.metadata.bestSim.simFeet, result.metadata.bestSim.simPlanarSphere, result.metadata.bestSim.simLinkRope].join(' | '),
-            bestSimSubstats: result.metadata.bestSim.stats,
-            bestSimFinalStats: {
-              ATK: Math.floor(result.maxSim.result[Stats.ATK]),
-              CR: Utils.truncate100ths(result.maxSim.result[Stats.CR] * 100),
-              CD: Utils.truncate100ths(result.maxSim.result[Stats.CD] * 100),
-              SPD: Utils.truncate100ths(result.maxSim.result[Stats.SPD]),
-              BE: Utils.truncate100ths(result.maxSim.result[Stats.BE] * 100),
-              EHR: Utils.truncate100ths(result.maxSim.result[Stats.EHR] * 100),
-              BASIC: Math.floor(result.maxSim.result.BASIC),
-              SKILL: Math.floor(result.maxSim.result.SKILL),
-              ULT: Math.floor(result.maxSim.result.ULT),
-              DOT: Math.floor(result.maxSim.result.DOT),
-              FUA: Math.floor(result.maxSim.result.FUA),
-              BREAK: Math.floor(result.maxSim.result.BREAK),
-            },
-          }, null, 2)
-        }
-      </pre>
-      <pre>
-        Complete simulation:
-        {
-          JSON.stringify(result, null, 2)
-        }
-      </pre>
     </Flex>
   )
 }
@@ -332,10 +301,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   }
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={3} align='center' style={{paddingLeft: 6, paddingRight: 8}}>
-      <HeaderText style={{fontSize: 16, marginBottom: 8}}>
-        DPS score substat upgrades
-      </HeaderText>
+    <Flex vertical gap={3} align='center' style={{paddingLeft: 6, paddingRight: 8, marginBottom: 5}}>
       {rows}
     </Flex>
   )

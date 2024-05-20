@@ -231,7 +231,6 @@ export default function CharacterTab() {
     const data = event.data
 
     // Only blur if different character
-    window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
   }, [setCharacterTabFocusCharacter])
@@ -475,7 +474,7 @@ export default function CharacterTab() {
       vertical
       style={{
         height: '100%',
-        marginBottom: 400
+        marginBottom: 200
       }}
     >
       <Flex style={{height: '100%'}}>

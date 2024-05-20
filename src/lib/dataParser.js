@@ -87,7 +87,7 @@ export const DataParser = {
         continue
       }
 
-      let imageCenter = {x: 1024, y: 1024}
+      let imageCenter = { x: 1024, y: 1024 }
       if (imageCenters[id] != undefined) {
         imageCenter = imageCenters[id]
       }
@@ -182,11 +182,11 @@ function getSuperimpositions() {
     20001: {},
     20002: {},
     20003: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     20004: {},
     20005: {},
@@ -206,43 +206,43 @@ function getSuperimpositions() {
     20019: {},
     20020: {},
     21000: {
-      1: {[Stats.ERR]: 0.08},
-      2: {[Stats.ERR]: 0.10},
-      3: {[Stats.ERR]: 0.12},
-      4: {[Stats.ERR]: 0.14},
-      5: {[Stats.ERR]: 0.16},
+      1: { [Stats.ERR]: 0.08 },
+      2: { [Stats.ERR]: 0.10 },
+      3: { [Stats.ERR]: 0.12 },
+      4: { [Stats.ERR]: 0.14 },
+      5: { [Stats.ERR]: 0.16 },
     },
     21001: {},
     21002: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.18},
-      3: {[Stats.DEF_P]: 0.20},
-      4: {[Stats.DEF_P]: 0.22},
-      5: {[Stats.DEF_P]: 0.24},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.18 },
+      3: { [Stats.DEF_P]: 0.20 },
+      4: { [Stats.DEF_P]: 0.22 },
+      5: { [Stats.DEF_P]: 0.24 },
     },
     21003: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21004: {
-      1: {[Stats.BE]: 0.28},
-      2: {[Stats.BE]: 0.35},
-      3: {[Stats.BE]: 0.42},
-      4: {[Stats.BE]: 0.49},
-      5: {[Stats.BE]: 0.56},
+      1: { [Stats.BE]: 0.28 },
+      2: { [Stats.BE]: 0.35 },
+      3: { [Stats.BE]: 0.42 },
+      4: { [Stats.BE]: 0.49 },
+      5: { [Stats.BE]: 0.56 },
     },
     21005: {},
     21006: {},
     21007: {},
     21008: {
-      1: {[Stats.EHR]: 0.20},
-      2: {[Stats.EHR]: 0.25},
-      3: {[Stats.EHR]: 0.30},
-      4: {[Stats.EHR]: 0.35},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.20 },
+      2: { [Stats.EHR]: 0.25 },
+      3: { [Stats.EHR]: 0.30 },
+      4: { [Stats.EHR]: 0.35 },
+      5: { [Stats.EHR]: 0.40 },
     },
     21009: {},
     21010: {},
@@ -250,367 +250,367 @@ function getSuperimpositions() {
     21012: {},
     21013: {},
     21014: {
-      1: {[Stats.RES]: 0.16},
-      2: {[Stats.RES]: 0.20},
-      3: {[Stats.RES]: 0.24},
-      4: {[Stats.RES]: 0.28},
-      5: {[Stats.RES]: 0.32},
+      1: { [Stats.RES]: 0.16 },
+      2: { [Stats.RES]: 0.20 },
+      3: { [Stats.RES]: 0.24 },
+      4: { [Stats.RES]: 0.28 },
+      5: { [Stats.RES]: 0.32 },
     },
     21015: {},
     21016: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21017: {},
     21018: {},
     21019: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21020: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21021: {},
     21022: {
-      1: {[Stats.BE]: 0.16},
-      2: {[Stats.BE]: 0.20},
-      3: {[Stats.BE]: 0.24},
-      4: {[Stats.BE]: 0.28},
-      5: {[Stats.BE]: 0.32},
+      1: { [Stats.BE]: 0.16 },
+      2: { [Stats.BE]: 0.20 },
+      3: { [Stats.BE]: 0.24 },
+      4: { [Stats.BE]: 0.28 },
+      5: { [Stats.BE]: 0.32 },
     },
     21023: {},
     21024: {},
     21025: {},
     21026: {
-      1: {[Stats.ATK_P]: 0.10},
-      2: {[Stats.ATK_P]: 0.125},
-      3: {[Stats.ATK_P]: 0.15},
-      4: {[Stats.ATK_P]: 0.175},
-      5: {[Stats.ATK_P]: 0.20},
+      1: { [Stats.ATK_P]: 0.10 },
+      2: { [Stats.ATK_P]: 0.125 },
+      3: { [Stats.ATK_P]: 0.15 },
+      4: { [Stats.ATK_P]: 0.175 },
+      5: { [Stats.ATK_P]: 0.20 },
     },
     21027: {},
     21028: {
-      1: {[Stats.HP_P]: 0.16},
-      2: {[Stats.HP_P]: 0.20},
-      3: {[Stats.HP_P]: 0.24},
-      4: {[Stats.HP_P]: 0.28},
-      5: {[Stats.HP_P]: 0.32},
+      1: { [Stats.HP_P]: 0.16 },
+      2: { [Stats.HP_P]: 0.20 },
+      3: { [Stats.HP_P]: 0.24 },
+      4: { [Stats.HP_P]: 0.28 },
+      5: { [Stats.HP_P]: 0.32 },
     },
     21029: {},
     21030: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21031: {
-      1: {[Stats.CR]: 0.12},
-      2: {[Stats.CR]: 0.15},
-      3: {[Stats.CR]: 0.18},
-      4: {[Stats.CR]: 0.21},
-      5: {[Stats.CR]: 0.24},
+      1: { [Stats.CR]: 0.12 },
+      2: { [Stats.CR]: 0.15 },
+      3: { [Stats.CR]: 0.18 },
+      4: { [Stats.CR]: 0.21 },
+      5: { [Stats.CR]: 0.24 },
     },
     21032: {},
     21033: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.30},
-      3: {[Stats.ATK_P]: 0.36},
-      4: {[Stats.ATK_P]: 0.42},
-      5: {[Stats.ATK_P]: 0.48},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.30 },
+      3: { [Stats.ATK_P]: 0.36 },
+      4: { [Stats.ATK_P]: 0.42 },
+      5: { [Stats.ATK_P]: 0.48 },
     },
     21034: {},
     21035: {
-      1: {[Stats.BE]: 0.24},
-      2: {[Stats.BE]: 0.30},
-      3: {[Stats.BE]: 0.36},
-      4: {[Stats.BE]: 0.42},
-      5: {[Stats.BE]: 0.48},
+      1: { [Stats.BE]: 0.24 },
+      2: { [Stats.BE]: 0.30 },
+      3: { [Stats.BE]: 0.36 },
+      4: { [Stats.BE]: 0.42 },
+      5: { [Stats.BE]: 0.48 },
     },
     21036: {},
     21037: {
-      1: {[Stats.ATK_P]: 0.12},
-      2: {[Stats.ATK_P]: 0.14},
-      3: {[Stats.ATK_P]: 0.16},
-      4: {[Stats.ATK_P]: 0.18},
-      5: {[Stats.ATK_P]: 0.20},
+      1: { [Stats.ATK_P]: 0.12 },
+      2: { [Stats.ATK_P]: 0.14 },
+      3: { [Stats.ATK_P]: 0.16 },
+      4: { [Stats.ATK_P]: 0.18 },
+      5: { [Stats.ATK_P]: 0.20 },
     },
     21038: {},
     21039: {
-      1: {[Stats.RES]: 0.12},
-      2: {[Stats.RES]: 0.14},
-      3: {[Stats.RES]: 0.16},
-      4: {[Stats.RES]: 0.18},
-      5: {[Stats.RES]: 0.20},
+      1: { [Stats.RES]: 0.12 },
+      2: { [Stats.RES]: 0.14 },
+      3: { [Stats.RES]: 0.16 },
+      4: { [Stats.RES]: 0.18 },
+      5: { [Stats.RES]: 0.20 },
     },
     21040: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.18},
-      3: {[Stats.ATK_P]: 0.20},
-      4: {[Stats.ATK_P]: 0.22},
-      5: {[Stats.ATK_P]: 0.24},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.18 },
+      3: { [Stats.ATK_P]: 0.20 },
+      4: { [Stats.ATK_P]: 0.22 },
+      5: { [Stats.ATK_P]: 0.24 },
     },
     21041: {},
     21042: {
-      1: {[Stats.BE]: 0.28},
-      2: {[Stats.BE]: 0.35},
-      3: {[Stats.BE]: 0.42},
-      4: {[Stats.BE]: 0.49},
-      5: {[Stats.BE]: 0.56},
+      1: { [Stats.BE]: 0.28 },
+      2: { [Stats.BE]: 0.35 },
+      3: { [Stats.BE]: 0.42 },
+      4: { [Stats.BE]: 0.49 },
+      5: { [Stats.BE]: 0.56 },
     },
     21043: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21044: {
-      1: {[Stats.CR]: 0.08},
-      2: {[Stats.CR]: 0.10},
-      3: {[Stats.CR]: 0.12},
-      4: {[Stats.CR]: 0.14},
-      5: {[Stats.CR]: 0.16},
+      1: { [Stats.CR]: 0.08 },
+      2: { [Stats.CR]: 0.10 },
+      3: { [Stats.CR]: 0.12 },
+      4: { [Stats.CR]: 0.14 },
+      5: { [Stats.CR]: 0.16 },
     },
     21045: {
-      1: {[Constants.Stats.BE]: 0.28},
-      2: {[Constants.Stats.BE]: 0.35},
-      3: {[Constants.Stats.BE]: 0.42},
-      4: {[Constants.Stats.BE]: 0.49},
-      5: {[Constants.Stats.BE]: 0.56},
+      1: { [Constants.Stats.BE]: 0.28 },
+      2: { [Constants.Stats.BE]: 0.35 },
+      3: { [Constants.Stats.BE]: 0.42 },
+      4: { [Constants.Stats.BE]: 0.49 },
+      5: { [Constants.Stats.BE]: 0.56 },
     },
     22000: {
-      1: {[Stats.EHR]: 0.20},
-      2: {[Stats.EHR]: 0.25},
-      3: {[Stats.EHR]: 0.30},
-      4: {[Stats.EHR]: 0.35},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.20 },
+      2: { [Stats.EHR]: 0.25 },
+      3: { [Stats.EHR]: 0.30 },
+      4: { [Stats.EHR]: 0.35 },
+      5: { [Stats.EHR]: 0.40 },
     },
     22001: {
-      1: {[Stats.HP_P]: 0.08},
-      2: {[Stats.HP_P]: 0.09},
-      3: {[Stats.HP_P]: 0.10},
-      4: {[Stats.HP_P]: 0.11},
-      5: {[Stats.HP_P]: 0.12},
+      1: { [Stats.HP_P]: 0.08 },
+      2: { [Stats.HP_P]: 0.09 },
+      3: { [Stats.HP_P]: 0.10 },
+      4: { [Stats.HP_P]: 0.11 },
+      5: { [Stats.HP_P]: 0.12 },
     },
     22002: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     23000: {},
     23001: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23002: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.28},
-      3: {[Stats.ATK_P]: 0.32},
-      4: {[Stats.ATK_P]: 0.36},
-      5: {[Stats.ATK_P]: 0.40},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.28 },
+      3: { [Stats.ATK_P]: 0.32 },
+      4: { [Stats.ATK_P]: 0.36 },
+      5: { [Stats.ATK_P]: 0.40 },
     },
     23003: {},
     23004: {},
     23005: {
-      1: {[Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24},
-      2: {[Stats.DEF_P]: 0.28, [Stats.EHR]: 0.28},
-      3: {[Stats.DEF_P]: 0.32, [Stats.EHR]: 0.32},
-      4: {[Stats.DEF_P]: 0.36, [Stats.EHR]: 0.36},
-      5: {[Stats.DEF_P]: 0.40, [Stats.EHR]: 0.40},
+      1: { [Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24 },
+      2: { [Stats.DEF_P]: 0.28, [Stats.EHR]: 0.28 },
+      3: { [Stats.DEF_P]: 0.32, [Stats.EHR]: 0.32 },
+      4: { [Stats.DEF_P]: 0.36, [Stats.EHR]: 0.36 },
+      5: { [Stats.DEF_P]: 0.40, [Stats.EHR]: 0.40 },
     },
     23006: {},
     23007: {
-      1: {[Stats.EHR]: 0.24},
-      2: {[Stats.EHR]: 0.28},
-      3: {[Stats.EHR]: 0.32},
-      4: {[Stats.EHR]: 0.36},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.24 },
+      2: { [Stats.EHR]: 0.28 },
+      3: { [Stats.EHR]: 0.32 },
+      4: { [Stats.EHR]: 0.36 },
+      5: { [Stats.EHR]: 0.40 },
     },
     23008: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.28},
-      3: {[Stats.ATK_P]: 0.32},
-      4: {[Stats.ATK_P]: 0.36},
-      5: {[Stats.ATK_P]: 0.40},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.28 },
+      3: { [Stats.ATK_P]: 0.32 },
+      4: { [Stats.ATK_P]: 0.36 },
+      5: { [Stats.ATK_P]: 0.40 },
     },
     23009: {
-      1: {[Stats.CR]: 0.18, [Stats.HP_P]: 0.18},
-      2: {[Stats.CR]: 0.21, [Stats.HP_P]: 0.21},
-      3: {[Stats.CR]: 0.24, [Stats.HP_P]: 0.24},
-      4: {[Stats.CR]: 0.27, [Stats.HP_P]: 0.27},
-      5: {[Stats.CR]: 0.30, [Stats.HP_P]: 0.30},
+      1: { [Stats.CR]: 0.18, [Stats.HP_P]: 0.18 },
+      2: { [Stats.CR]: 0.21, [Stats.HP_P]: 0.21 },
+      3: { [Stats.CR]: 0.24, [Stats.HP_P]: 0.24 },
+      4: { [Stats.CR]: 0.27, [Stats.HP_P]: 0.27 },
+      5: { [Stats.CR]: 0.30, [Stats.HP_P]: 0.30 },
     },
     23010: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23011: {
-      1: {[Stats.HP_P]: 0.24, [Stats.ERR]: 0.12},
-      2: {[Stats.HP_P]: 0.28, [Stats.ERR]: 0.14},
-      3: {[Stats.HP_P]: 0.32, [Stats.ERR]: 0.16},
-      4: {[Stats.HP_P]: 0.36, [Stats.ERR]: 0.18},
-      5: {[Stats.HP_P]: 0.40, [Stats.ERR]: 0.20},
+      1: { [Stats.HP_P]: 0.24, [Stats.ERR]: 0.12 },
+      2: { [Stats.HP_P]: 0.28, [Stats.ERR]: 0.14 },
+      3: { [Stats.HP_P]: 0.32, [Stats.ERR]: 0.16 },
+      4: { [Stats.HP_P]: 0.36, [Stats.ERR]: 0.18 },
+      5: { [Stats.HP_P]: 0.40, [Stats.ERR]: 0.20 },
     },
     23012: {
-      1: {[Stats.CD]: 0.30},
-      2: {[Stats.CD]: 0.35},
-      3: {[Stats.CD]: 0.40},
-      4: {[Stats.CD]: 0.45},
-      5: {[Stats.CD]: 0.50},
+      1: { [Stats.CD]: 0.30 },
+      2: { [Stats.CD]: 0.35 },
+      3: { [Stats.CD]: 0.40 },
+      4: { [Stats.CD]: 0.45 },
+      5: { [Stats.CD]: 0.50 },
     },
     23013: {
-      1: {[Stats.HP_P]: 0.18, [Stats.OHB]: 0.12},
-      2: {[Stats.HP_P]: 0.21, [Stats.OHB]: 0.14},
-      3: {[Stats.HP_P]: 0.24, [Stats.OHB]: 0.16},
-      4: {[Stats.HP_P]: 0.27, [Stats.OHB]: 0.18},
-      5: {[Stats.HP_P]: 0.30, [Stats.OHB]: 0.20},
+      1: { [Stats.HP_P]: 0.18, [Stats.OHB]: 0.12 },
+      2: { [Stats.HP_P]: 0.21, [Stats.OHB]: 0.14 },
+      3: { [Stats.HP_P]: 0.24, [Stats.OHB]: 0.16 },
+      4: { [Stats.HP_P]: 0.27, [Stats.OHB]: 0.18 },
+      5: { [Stats.HP_P]: 0.30, [Stats.OHB]: 0.20 },
     },
     23014: {
-      1: {[Stats.CD]: 0.20},
-      2: {[Stats.CD]: 0.23},
-      3: {[Stats.CD]: 0.26},
-      4: {[Stats.CD]: 0.29},
-      5: {[Stats.CD]: 0.32},
+      1: { [Stats.CD]: 0.20 },
+      2: { [Stats.CD]: 0.23 },
+      3: { [Stats.CD]: 0.26 },
+      4: { [Stats.CD]: 0.29 },
+      5: { [Stats.CD]: 0.32 },
     },
     23015: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23016: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23017: {
-      1: {[Stats.ERR]: 0.12},
-      2: {[Stats.ERR]: 0.14},
-      3: {[Stats.ERR]: 0.16},
-      4: {[Stats.ERR]: 0.18},
-      5: {[Stats.ERR]: 0.20},
+      1: { [Stats.ERR]: 0.12 },
+      2: { [Stats.ERR]: 0.14 },
+      3: { [Stats.ERR]: 0.16 },
+      4: { [Stats.ERR]: 0.18 },
+      5: { [Stats.ERR]: 0.20 },
     },
     23018: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23019: {
-      1: {[Stats.BE]: 0.60},
-      2: {[Stats.BE]: 0.70},
-      3: {[Stats.BE]: 0.80},
-      4: {[Stats.BE]: 0.90},
-      5: {[Stats.BE]: 1.00},
+      1: { [Stats.BE]: 0.60 },
+      2: { [Stats.BE]: 0.70 },
+      3: { [Stats.BE]: 0.80 },
+      4: { [Stats.BE]: 0.90 },
+      5: { [Stats.BE]: 1.00 },
     },
     23020: {
-      1: {[Stats.CD]: 0.20},
-      2: {[Stats.CD]: 0.23},
-      3: {[Stats.CD]: 0.26},
-      4: {[Stats.CD]: 0.29},
-      5: {[Stats.CD]: 0.32},
+      1: { [Stats.CD]: 0.20 },
+      2: { [Stats.CD]: 0.23 },
+      3: { [Stats.CD]: 0.26 },
+      4: { [Stats.CD]: 0.29 },
+      5: { [Stats.CD]: 0.32 },
     },
     23021: { // Earthly Escapade
-      1: {[Stats.CD]: 0.32},
-      2: {[Stats.CD]: 0.39},
-      3: {[Stats.CD]: 0.46},
-      4: {[Stats.CD]: 0.53},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.32 },
+      2: { [Stats.CD]: 0.39 },
+      3: { [Stats.CD]: 0.46 },
+      4: { [Stats.CD]: 0.53 },
+      5: { [Stats.CD]: 0.60 },
     },
     23022: { // Reforged Remembrance
-      1: {[Stats.EHR]: 0.40},
-      2: {[Stats.EHR]: 0.45},
-      3: {[Stats.EHR]: 0.50},
-      4: {[Stats.EHR]: 0.55},
-      5: {[Stats.EHR]: 0.60},
+      1: { [Stats.EHR]: 0.40 },
+      2: { [Stats.EHR]: 0.45 },
+      3: { [Stats.EHR]: 0.50 },
+      4: { [Stats.EHR]: 0.55 },
+      5: { [Stats.EHR]: 0.60 },
     },
     23023: {
-      1: {[Stats.DEF_P]: 0.40},
-      2: {[Stats.DEF_P]: 0.46},
-      3: {[Stats.DEF_P]: 0.52},
-      4: {[Stats.DEF_P]: 0.58},
-      5: {[Stats.DEF_P]: 0.64},
+      1: { [Stats.DEF_P]: 0.40 },
+      2: { [Stats.DEF_P]: 0.46 },
+      3: { [Stats.DEF_P]: 0.52 },
+      4: { [Stats.DEF_P]: 0.58 },
+      5: { [Stats.DEF_P]: 0.64 },
     },
     23024: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23025: {
-      1: {[Constants.Stats.BE]: 0.60},
-      2: {[Constants.Stats.BE]: 0.70},
-      3: {[Constants.Stats.BE]: 0.80},
-      4: {[Constants.Stats.BE]: 0.90},
-      5: {[Constants.Stats.BE]: 1.00},
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
     },
     23026: {},
     23027: {
-      1: {[Stats.BE]: 0.60},
-      2: {[Stats.BE]: 0.70},
-      3: {[Stats.BE]: 0.80},
-      4: {[Stats.BE]: 0.90},
-      5: {[Stats.BE]: 1.00},
+      1: { [Stats.BE]: 0.60 },
+      2: { [Stats.BE]: 0.70 },
+      3: { [Stats.BE]: 0.80 },
+      4: { [Stats.BE]: 0.90 },
+      5: { [Stats.BE]: 1.00 },
     },
     23028: {
-      1: {[Constants.Stats.CR]: 0.16},
-      2: {[Constants.Stats.CR]: 0.19},
-      3: {[Constants.Stats.CR]: 0.22},
-      4: {[Constants.Stats.CR]: 0.25},
-      5: {[Constants.Stats.CR]: 0.28},
+      1: { [Constants.Stats.CR]: 0.16 },
+      2: { [Constants.Stats.CR]: 0.19 },
+      3: { [Constants.Stats.CR]: 0.22 },
+      4: { [Constants.Stats.CR]: 0.25 },
+      5: { [Constants.Stats.CR]: 0.28 },
     },
     24000: {},
     24001: {
-      1: {[Stats.CR]: 0.08},
-      2: {[Stats.CR]: 0.10},
-      3: {[Stats.CR]: 0.12},
-      4: {[Stats.CR]: 0.14},
-      5: {[Stats.CR]: 0.16},
+      1: { [Stats.CR]: 0.08 },
+      2: { [Stats.CR]: 0.10 },
+      3: { [Stats.CR]: 0.12 },
+      4: { [Stats.CR]: 0.14 },
+      5: { [Stats.CR]: 0.16 },
     },
     24002: {
-      1: {[Stats.RES]: 0.08},
-      2: {[Stats.RES]: 0.10},
-      3: {[Stats.RES]: 0.12},
-      4: {[Stats.RES]: 0.14},
-      5: {[Stats.RES]: 0.16},
+      1: { [Stats.RES]: 0.08 },
+      2: { [Stats.RES]: 0.10 },
+      3: { [Stats.RES]: 0.12 },
+      4: { [Stats.RES]: 0.14 },
+      5: { [Stats.RES]: 0.16 },
     },
     24003: {
-      1: {[Stats.BE]: 0.20},
-      2: {[Stats.BE]: 0.25},
-      3: {[Stats.BE]: 0.30},
-      4: {[Stats.BE]: 0.35},
-      5: {[Stats.BE]: 0.40},
+      1: { [Stats.BE]: 0.20 },
+      2: { [Stats.BE]: 0.25 },
+      3: { [Stats.BE]: 0.30 },
+      4: { [Stats.BE]: 0.35 },
+      5: { [Stats.BE]: 0.40 },
     },
     24004: {
-      1: {[Constants.Stats.ATK_P]: 0.08},
-      2: {[Constants.Stats.ATK_P]: 0.09},
-      3: {[Constants.Stats.ATK_P]: 0.10},
-      4: {[Constants.Stats.ATK_P]: 0.11},
-      5: {[Constants.Stats.ATK_P]: 0.12},
+      1: { [Constants.Stats.ATK_P]: 0.08 },
+      2: { [Constants.Stats.ATK_P]: 0.09 },
+      3: { [Constants.Stats.ATK_P]: 0.10 },
+      4: { [Constants.Stats.ATK_P]: 0.11 },
+      5: { [Constants.Stats.ATK_P]: 0.12 },
     },
   }
 }
@@ -1054,7 +1054,7 @@ function getOverrideImageCenter() {
     },
     1102: { // Seele
       x: 820,
-      y: 1060,
+      y: 1160,
     },
     1103: { // Serval
       x: 1050,
@@ -1386,9 +1386,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1003: { // Himeko
       stats: {
@@ -1492,9 +1492,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1004: { // Welt
       stats: {
@@ -1601,9 +1601,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1005: { // Kafka
       stats: {
@@ -1706,9 +1706,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1006: { // Silver Wolf
       stats: {
@@ -1858,9 +1858,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1009: { // Asta
       stats: {
@@ -2010,9 +2010,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1101: { // Bronya
       stats: {
@@ -2163,9 +2163,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1103: { // Serval
       stats: {
@@ -2266,9 +2266,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1104: { // Gepard
       stats: {
@@ -2504,9 +2504,9 @@ function getScoringMetadata() {
             lightCone: '21016', // Trend
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1108: { // Sampo
       stats: {
@@ -2611,9 +2611,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1109: { // Hook
       stats: {
@@ -2716,9 +2716,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1110: { // Lynx
       stats: {
@@ -2867,9 +2867,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1112: { // Topaz and Numby
       stats: {
@@ -2973,9 +2973,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1201: { // Qingque
       stats: {
@@ -3078,9 +3078,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1202: { // Tingyun
       stats: {
@@ -3277,9 +3277,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1205: { // Blade
       stats: {
@@ -3382,9 +3382,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1206: { // Sushang
       stats: {
@@ -3487,9 +3487,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1207: { // Yukong
       stats: {
@@ -3684,9 +3684,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1210: { // Guinaifen
       stats: {
@@ -3862,7 +3862,7 @@ function getScoringMetadata() {
           [
             Sets.GeniusOfBrilliantStars,
             Sets.GeniusOfBrilliantStars,
-          ]
+          ],
         ],
         equivalentOrnamentSets: [
           Sets.GeniusOfBrilliantStars,
@@ -3885,9 +3885,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1213: { // Dan Heng • Imbibitor Lunae
       stats: {
@@ -3990,9 +3990,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1214: { // Xueyi
       stats: {
@@ -4099,9 +4099,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1215: { // Hanya
       stats: {
@@ -4332,9 +4332,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1303: { // Ruan Mei
       stats: {
@@ -4433,7 +4433,7 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.DEF_P
+            Stats.DEF_P,
           ],
           [Parts.Feet]: [
             Stats.DEF_P,
@@ -4486,8 +4486,8 @@ function getScoringMetadata() {
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
-        ]
-      }
+        ],
+      },
     },
     1305: { // Dr Ratio
       stats: {
@@ -4593,9 +4593,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1306: { // Sparkle
       stats: {
@@ -4717,16 +4717,17 @@ function getScoringMetadata() {
           Stats.SPD,
           Stats.CR,
           Stats.CD,
+          Stats.BE,
         ],
         breakpoints: {
-          [Stats.EHR]: 1.20
+          [Stats.EHR]: 1.20,
         },
         formula: {
           BASIC: 2,
           SKILL: 1,
           ULT: 1,
           FUA: 0,
-          DOT: 6,
+          DOT: 8,
           BREAK: 0,
         },
         relicSet1: Sets.PrisonerInDeepConfinement,
@@ -4750,9 +4751,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1308: { // Acheron
       stats: {
@@ -4855,9 +4856,9 @@ function getScoringMetadata() {
             lightCone: '21016', // Trend
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1309: { // Robin
       stats: {
@@ -5005,9 +5006,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1312: { // Misha
       stats: {
@@ -5108,9 +5109,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1314: { // Jade
       stats: {
@@ -5213,9 +5214,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1315: { // Boothill
       stats: {
@@ -5318,9 +5319,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     8001: { // Physical Trailblazer M
       stats: {
@@ -5423,9 +5424,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     8002: { // Physical Trailblazer F
       stats: {
@@ -5528,9 +5529,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     8003: { // Fire Trailblazer M
       stats: {

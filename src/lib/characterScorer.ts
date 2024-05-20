@@ -15,7 +15,7 @@ import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
 const QUALITY = 0.8
-const SUBSTAT_GOAL = 54
+const SUBSTAT_GOAL = 50
 const FREE_ROLLS = 2
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
 

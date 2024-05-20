@@ -249,31 +249,31 @@ export default function ScoringModal() {
 
       <Flex justify="space-between" style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P 1.280</code></li>
-          <li><code>Body ATK_P 1.278</code></li>
+          <li><code>Body HP_P 1.320</code></li>
+          <li><code>Body ATK_P 1.284</code></li>
           <li><code>Body DEF_P 1.305</code></li>
-          <li><code>Body CR 1.647</code></li>
-          <li><code>Body CD 1.643</code></li>
+          <li><code>Body CR 1.644</code></li>
+          <li><code>Body CD 1.658</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB 1.713</code></li>
-          <li><code>Body EHR 1.653</code></li>
-          <li><code>Feet HP_P 1.045</code></li>
-          <li><code>Feet ATK_P 1.000</code></li>
-          <li><code>Feet DEF_P 1.002</code></li>
+          <li><code>Body OHB 1.712</code></li>
+          <li><code>Body EHR 1.668</code></li>
+          <li><code>Feet HP_P 1.058</code></li>
+          <li><code>Feet ATK_P 1.019</code></li>
+          <li><code>Feet DEF_P 1.000</code></li>
         </ul>
         <ul>
-          <li><code>Feet SPD 1.573</code></li>
+          <li><code>Feet SPD 1.567</code></li>
           <li><code>PlanarSphere HP_P 1.583</code></li>
-          <li><code>PlanarSphere ATK_P 1.545</code></li>
-          <li><code>PlanarSphere DEF_P 1.595</code></li>
-          <li><code>PlanarSphere ELEM 1.747</code></li>
+          <li><code>PlanarSphere ATK_P 1.559</code></li>
+          <li><code>PlanarSphere DEF_P 1.587</code></li>
+          <li><code>PlanarSphere ELEM 1.763</code></li>
         </ul>
         <ul>
-          <li><code>LinkRope HP_P 1.056</code></li>
-          <li><code>LinkRope ATK_P 1.016</code></li>
-          <li><code>LinkRope DEF_P 1.161</code></li>
-          <li><code>LinkRope BE 1.417</code></li>
+          <li><code>LinkRope HP_P 1.073</code></li>
+          <li><code>LinkRope ATK_P 1.076</code></li>
+          <li><code>LinkRope DEF_P 1.172</code></li>
+          <li><code>LinkRope BE 1.416</code></li>
           <li><code>LinkRope ERR 2.000</code></li>
         </ul>
       </Flex>

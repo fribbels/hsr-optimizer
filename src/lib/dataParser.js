@@ -1433,7 +1433,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -1648,7 +1647,6 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
       simulation: {
@@ -1952,7 +1950,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2445,7 +2442,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2914,7 +2910,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(0),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3018,9 +3013,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3218,7 +3211,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3322,9 +3314,7 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3625,9 +3615,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -4038,7 +4026,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(3),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -4425,7 +4412,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(7),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4532,7 +4518,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
-        PresetEffects.fnWindSoaringSet(1),
         PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
@@ -5154,9 +5139,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(2),
-      ],
+      presets: [],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {

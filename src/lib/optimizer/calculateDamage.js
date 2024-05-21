@@ -66,7 +66,7 @@ export function calculateDamage(c, request, params) {
   x.SUPER_BREAK_DMG
     = universalMulti
     * 3767.5533
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
     * breakVulnerability
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
@@ -75,55 +75,55 @@ export function calculateDamage(c, request, params) {
     * (1 + x.BREAK_EFFICIENCY_BOOST)
 
   x.BASIC_DMG = x.BASIC_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.BASIC_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
-    * ((basicVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + basicVulnerability * (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
-    * (1 - (baseResistance - x.BASIC_RES_PEN))
-    * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
-    + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
-    + (x.SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
+  * universalMulti
+  * (dmgBoostMultiplier + x.BASIC_BOOST)
+  * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
+  * ((basicVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST) * (1 + x[Stats.CD] + x.BASIC_CD_BOOST) + basicVulnerability * (1 - Math.min(1, x[Stats.CR] + x.BASIC_CR_BOOST)))
+  * (1 - (baseResistance - x.BASIC_RES_PEN))
+  * (1 + x.BASIC_ORIGINAL_DMG_BOOST)
+  + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
+  + (x.SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
 
   x.SKILL_DMG = x.SKILL_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.SKILL_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
-    * ((skillVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + skillVulnerability * (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
-    * (1 - (baseResistance - x.SKILL_RES_PEN))
-    * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
-    + (x.SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG)
+  * universalMulti
+  * (dmgBoostMultiplier + x.SKILL_BOOST)
+  * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
+  * ((skillVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST) * (1 + x[Stats.CD] + x.SKILL_CD_BOOST) + skillVulnerability * (1 - Math.min(1, x[Stats.CR] + x.SKILL_CR_BOOST)))
+  * (1 - (baseResistance - x.SKILL_RES_PEN))
+  * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
+  + (x.SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG)
 
   x.ULT_DMG = x.ULT_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
-    * ((ultVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
-    * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
-    * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-    + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
+  * universalMulti
+  * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
+  * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
+  * ((ultVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
+  * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
+  * (1 + x.ULT_ORIGINAL_DMG_BOOST)
+  + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
 
   x.FUA_DMG = x.FUA_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.FUA_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
-    * ((fuaVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
-    * (1 - (baseResistance - x.FUA_RES_PEN))
-    + (x.SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG)
+  * universalMulti
+  * (dmgBoostMultiplier + x.FUA_BOOST)
+  * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
+  * ((fuaVulnerability + x.CRIT_VULNERABILITY) * Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST) * (1 + x[Stats.CD] + x.FUA_CD_BOOST) + fuaVulnerability * (1 - Math.min(1, x[Stats.CR] + x.FUA_CR_BOOST)))
+  * (1 - (baseResistance - x.FUA_RES_PEN))
+  + (x.SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG)
 
   x.DOT_DMG = x.DOT_DMG
-    * universalMulti
-    * (dmgBoostMultiplier + x.DOT_BOOST)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
-    * dotVulnerability
-    * (1 - (baseResistance - x.DOT_RES_PEN))
-    * dotEhrMultiplier
+  * universalMulti
+  * (dmgBoostMultiplier + x.DOT_BOOST)
+  * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
+  * dotVulnerability
+  * (1 - (baseResistance - x.DOT_RES_PEN))
+  * dotEhrMultiplier
 
   x.COMBO_DMG = request.combo.BASIC * x.BASIC_DMG
-    + request.combo.SKILL * x.SKILL_DMG
-    + request.combo.ULT * x.ULT_DMG
-    + request.combo.FUA * x.FUA_DMG
-    + request.combo.DOT * x.DOT_DMG
-    + request.combo.BREAK * x.BREAK_DMG
+  + request.combo.SKILL * x.SKILL_DMG
+  + request.combo.ULT * x.ULT_DMG
+  + request.combo.FUA * x.FUA_DMG
+  + request.combo.DOT * x.DOT_DMG
+  + request.combo.BREAK * x.BREAK_DMG
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

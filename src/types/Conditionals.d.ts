@@ -31,11 +31,11 @@ export type ContentComponentMap = {
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-  formItem: K
-  id: string
-  content: string
-  teammateIndex?: number
-} & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+    formItem: K
+    id: string
+    content: string
+    teammateIndex?: number
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =
@@ -339,3 +339,5 @@ export type ConditionalBuff =
   | 'fuaStacks'
   | 'skillDot'
   | 'e1EffectResShred'
+  | 'e4ResBuff'
+  | 'superBreakEnabled'

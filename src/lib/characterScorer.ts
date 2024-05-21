@@ -42,9 +42,15 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   // just cache the results for now
 
   const characterMetadata = DB.getMetadata().characters[character.id]
-  const metadata = teamSelection == DEFAULT_TEAM
-    ? characterMetadata?.scoringMetadata?.simulation
-    : DB.getScoringMetadata(character.id).simulation
+  if (!characterMetadata) return null
+
+  const defaultMetadata = Utils.clone(characterMetadata.scoringMetadata.simulation)
+  const customMetadata = Utils.clone(DB.getScoringMetadata(character.id).simulation)
+
+  if (teamSelection == DEFAULT_TEAM) {
+    defaultMetadata.teammates = customMetadata.teammates
+  }
+  const metadata = defaultMetadata
 
   const cacheKey = Utils.objectHash({
     character,

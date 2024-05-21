@@ -4466,7 +4466,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.PioneerDiverOfDeadWaters,
         relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.BrokenKeel,
+        ornamentSet: Sets.InertSalsotto,
         teammates: [
           {
             characterId: '1112', // Topaz

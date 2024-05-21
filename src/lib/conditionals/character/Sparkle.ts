@@ -76,7 +76,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'Skill: Dreamdiver',
       content: `Increases the CRIT DMG of a single ally by ${precisionRound(skillCdBuffScaling * 100)}% of Sparkle's CRIT DMG plus ${precisionRound(skillCdBuffBase * 100)}%, lasting for 1 turn(s).`,
       min: 0,
-      max: 3.00,
+      max: 3.50,
       percent: true,
     },
     findContentId(content, 'cipherBuff'),

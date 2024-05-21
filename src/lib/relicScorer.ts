@@ -97,44 +97,6 @@ function countPairs(arr) {
 
 const possibleSubstats = new Set(Constants.SubStats)
 
-// Given a relic, predict additional weight if it were fully enhanced
-//
-// Takes:
-// - relic grade + current enhance
-// - relic current substats as [[substat name, weight], ...]
-// - array of [weight, ...] for possible new stats in priority order (usually sort by weight asc or desc)
-// - selection function to choose the substat weight extra rolls will go into (usually min/max)
-//
-// Returns:
-// - predicted additional weight (unscaled by roll value - usually multiply by 6.48 or minRollValue after)
-// - array of [[new substat name, weight], ...]
-function predictExtraRollWeight(substats, grade, enhance, possibleNewWeights, substatWeightSelector) {
-  const missingSubstats = (4 - substats.length)
-  const missingRolls = Math.ceil(((15 - (5 - grade) * 3) - enhance) / 3) - missingSubstats
-  // console.log(grade, enhance, missingSubstats, missingRolls)
-
-  const newSubstatWeights = possibleNewWeights.slice(0, missingSubstats)
-  const finalSubstatWeights = substats.map((x) => x[1]).concat(newSubstatWeights)
-  const rollSubstatWeight = substatWeightSelector(finalSubstatWeights)
-
-  let extraRolls = 0
-
-  for (let i = 0; i < missingSubstats; i++) {
-    extraRolls += 1 * newSubstatWeights[i]
-  }
-
-  for (let i = 0; i < missingRolls; i++) {
-    extraRolls += rollSubstatWeight
-  }
-
-  // console.log(substats, newSubstatWeights, finalSubstatWeights, extraRolls)
-  return {
-    extraRolls: extraRolls,
-    newSubstatWeights: newSubstatWeights,
-    rollSubstatWeight: missingRolls > 0 ? rollSubstatWeight : null,
-  }
-}
-
 // This class has methods statically available for one-off scoring calculations, but can
 // also be instantiated to batch up many scoring calculations. An instantiated RelicScorer
 // should *not* be kept alive for long periods of time, as it will cache scoring metadata

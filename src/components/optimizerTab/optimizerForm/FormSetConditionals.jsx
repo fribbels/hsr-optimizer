@@ -278,7 +278,7 @@ export const FormSetConditionals = () => {
             <ConditionalSetOption
               set={Constants.Sets.TheWindSoaringValorous}
               description="Increases the wearer's CRIT Rate by 6%. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by 30%, lasting for 1 turn(s)."
-              conditional="The selected buff is applied to damage calculations based on the number of stacks."
+              conditional="The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks."
             />
           )}
         </Flex>

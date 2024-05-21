@@ -14,7 +14,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   // TODO: Ashblazing
   const basicScaling = basic(e, 0.90, 0.99)
-  const skillScaling = skill(e, 0.20, 0.22)
+  const skillScaling = skill(e, 0.25, 0.27)
   const ultScaling = ult(e, 2.40, 2.64)
   const ultFuaScalingBuff = ult(e, 0.80, 0.88)
   const fuaScaling = talent(e, 1.20, 1.32)
@@ -122,7 +122,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0
 
-      x.FUA_BOOST += (e >= 1 && r.e1FuaDmgBoost) ? 0.20 : 0
+      x.FUA_BOOST += (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0
       x.DEF_SHRED += (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0
       x.QUANTUM_RES_PEN += (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0
 

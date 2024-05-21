@@ -247,11 +247,11 @@ export function CharacterPreview(props) {
 
     const textDisplay = (
       <StatText style={{
-        fontSize: 18,
+        fontSize: 17,
         fontWeight: '600',
         textAlign: 'center',
         color: '#d53333',
-        height: 40,
+        height: 30,
       }}
       >
         {`DPS score: ${Utils.truncate10ths(result.percent * 100).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
@@ -268,15 +268,15 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const textDisplay = (
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginTop: 7 }}>
-          DPS score substat upgrades
+        <HeaderText style={{ fontSize: 16, marginBottom: 5 }}>
+          Substat score upgrades
         </HeaderText>
       </Flex>
     )
 
     const tabsDisplay = (
       <Segmented
-        style={{ marginLeft: 10, marginRight: 10, height: 40, alignItems: 'center' }}
+        style={{ marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 4, alignItems: 'center' }}
         onChange={(selection) => {
           if (selection == RESET_TEAM) {
             window.modalApi.confirm({
@@ -311,15 +311,15 @@ export function CharacterPreview(props) {
     )
 
     return (
-      <Flex vertical style={{ height: 40, marginTop: 5 }}>
+      <Flex vertical style={{}} gap={5}>
         <CharacterModal
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
           initialCharacter={characterModalInitialCharacter}
         />
-        {!scoringHovered && textDisplay}
-        {scoringHovered && tabsDisplay}
+        {tabsDisplay}
+        {textDisplay}
       </Flex>
     )
   }
@@ -648,7 +648,7 @@ export function CharacterPreview(props) {
                         ellipsis={true}
                       >
                         {`${lightConeName}`}
-                      &nbsp;
+                        &nbsp;
                       </StatText>
                       <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
                         {`Lv${lightConeLevel} S${lightConeSuperimposition}`}

@@ -125,7 +125,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? 0.50 : 0
       x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1
 
-      x.SKILL_DEF_PEN += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
+      // Should be skill def shred but skill doesnt apply to super break
+      x.DEF_SHRED += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
       x[Stats.RES] += (e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0
       x.FIRE_RES_PEN += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0
       x.BREAK_EFFICIENCY_BOOST += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0

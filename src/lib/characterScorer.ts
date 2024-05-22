@@ -283,7 +283,7 @@ function computeOptimalSimulation(
     let bestSimDeductedStat: Stat | undefined
 
     const remainingStats = Object.entries(currentSimulation.request.stats)
-      .filter(([_key, value]) => value > 0)
+      .filter(([key, value]) => value > 2 && key != Stats.SPD)
       .map(([key, _value]) => key)
 
     for (const stat of remainingStats) {
@@ -424,13 +424,17 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   }
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = 24
+    maxCounts[substat] = 32
   }
 
-  maxCounts[request.simBody] -= 4
-  maxCounts[request.simFeet] -= 4
-  maxCounts[request.simPlanarSphere] -= 4
-  maxCounts[request.simLinkRope] -= 4
+  maxCounts[request.simBody] -= 5
+  maxCounts[request.simFeet] -= 5
+  maxCounts[request.simPlanarSphere] -= 5
+  maxCounts[request.simLinkRope] -= 5
+
+  for (const substat of metadata.substats) {
+    maxCounts[substat] = Math.min(maxCounts[substat], 32 - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
+  }
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(stat == Stats.SPD ? 0 : FREE_ROLLS, maxCounts[stat])

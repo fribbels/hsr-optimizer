@@ -4018,7 +4018,6 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,

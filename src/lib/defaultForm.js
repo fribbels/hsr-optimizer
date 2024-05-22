@@ -25,7 +25,7 @@ export function getDefaultForm(initialCharacter) {
   }
 
   const combatBuffs = {}
-  Object.values(CombatBuffs).map(x => combatBuffs[x.key] = 0)
+  Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
   const defaultForm = Utils.clone({
     characterId: initialCharacter?.id,
@@ -70,7 +70,7 @@ export function getDefaultForm(initialCharacter) {
       FUA: 0,
       DOT: 0,
       BREAK: 0,
-    }
+    },
   })
 
   defaultForm.topPercent = 100
@@ -103,7 +103,7 @@ export function defaultTeammate() {
 
 export const defaultStatSim = {
   simType: StatSimTypes.Disabled,
-  simulations: []
+  simulations: [],
 }
 
 export const defaultSetConditionals = {
@@ -126,7 +126,7 @@ export const defaultSetConditionals = {
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
   [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
-  [Constants.Sets.TheWindSoaringValorous]: [undefined, 0],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
@@ -142,6 +142,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
   [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
-  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
+  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 4],
   [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
 }

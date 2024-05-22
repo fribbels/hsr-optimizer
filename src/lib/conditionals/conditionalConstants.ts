@@ -65,6 +65,7 @@ export const baseComputedStatsObject = {
   FUA_DEF_PEN: 0,
   DOT_DEF_PEN: 0,
   BREAK_DEF_PEN: 0,
+  SUPER_BREAK_DEF_PEN: 0,
 
   RES_PEN: 0, // TODO: Rename to ALL_TYPE_RES_PEN
   PHYSICAL_RES_PEN: 0,
@@ -103,6 +104,8 @@ export const baseComputedStatsObject = {
   BREAK_EFFICIENCY_BOOST: 0,
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
 
+  RATIO_BASED_ATK_BUFF: 0,
+
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,
@@ -121,6 +124,7 @@ export const baseComputedStatsObject = {
   ENEMY_WEAKNESS_BROKEN: 0,
 
   SUPER_BREAK_MODIFIER: 0,
+  SUPER_BREAK_HMC_MODIFIER: 0,
   BASIC_TOUGHNESS_DMG: 0,
   SKILL_TOUGHNESS_DMG: 0,
   ULT_TOUGHNESS_DMG: 0,

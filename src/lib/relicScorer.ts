@@ -123,8 +123,8 @@ export class RelicScorer {
       scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats)
-        .filter((x) => possibleSubstats.has(x[0]))
-        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+      .filter((x) => possibleSubstats.has(x[0]))
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       scoringMetadata.groupedSubstats = new Map()
       for (const [s, w] of scoringMetadata.sortedSubstats) {
         if (!scoringMetadata.groupedSubstats.has(w)) {
@@ -186,7 +186,7 @@ export class RelicScorer {
   scoreCharacter(character: Character) {
     if (!character?.id) return {}
 
-    console.log('SCORE CHARACTER', character)
+    // console.log('SCORE CHARACTER', character)
     const relicsById = window.store.getState().relicsById
     const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
@@ -209,7 +209,7 @@ export class RelicScorer {
     let maxWeight = 0
 
     const scoreEntries = Object.entries(scoringMetadata.stats)
-      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+    .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     // Find the mainstat for this relic
     let mainStat = ''

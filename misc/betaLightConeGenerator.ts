@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 // Helper tool for importing beta light cones
-// npx tsx betaLightConeGenerator.ts
+// npx tsx misc/betaLightConeGenerator.ts
 
 import lightCone from './lightConeToConvert.json'
 
@@ -21,10 +21,10 @@ function run() {
   // Hunt - Rogue
   // Erudition - Mage
 
-  const lcName = 'Eternal Calculus'
-  const id = '24004'
+  const lcName = 'Whereabouts Should Dreams Rest'
+  const id = '23025'
   const rarity = 5
-  const path = 'Mage'
+  const path = 'Warrior'
 
   const convertedLightCone = {
     [id]: {

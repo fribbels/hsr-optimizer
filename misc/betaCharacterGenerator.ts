@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 // Helper tool for importing beta characters
-// npx tsx betaCharacterGenerator.ts
+// npx tsx misc/betaCharacterGenerator.ts
 
 import character from './characterToConvert.json'
 
@@ -10,6 +10,7 @@ function run() {
     const factor = Math.pow(10, precision)
     return Math.round(number * factor) / factor
   }
+
   // Paths
   // Harmony - Shaman
   // Preservation - Knight
@@ -24,12 +25,12 @@ function run() {
 
   // Change these
 
-  const name = 'Jade'
-  const id = '1314'
+  const name = 'Firefly'
+  const id = '1310'
   const rarity = 5
-  const path = 'Mage'
-  const element = 'Quantum'
-  const max_sp = 140
+  const path = 'Warrior'
+  const element = 'Fire'
+  const max_sp = 240
 
   // Dont change below
 

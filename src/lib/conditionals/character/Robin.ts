@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
 
   const skillDmgBuffValue = skill(e, 0.50, 0.55)
   const talentCdBuffValue = talent(e, 0.20, 0.23)
@@ -154,8 +154,9 @@ export default (e: Eidolon): CharacterConditional => {
       const t = request.characterConditionals
 
       x[Stats.ATK] += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
-      x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
+      x.RATIO_BASED_ATK_BUFF += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0
 
+      x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
       x.FUA_CD_BOOST += (t.traceFuaCdBoost && t.concertoActive) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

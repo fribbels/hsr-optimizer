@@ -3799,7 +3799,6 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
             Stats.CD,
           ],
           [Parts.Feet]: [
@@ -4877,8 +4876,8 @@ function getScoringMetadata() {
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.5,
-        [Constants.Stats.CD]: 0.5,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -4895,8 +4894,6 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.CD,
-          Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4916,8 +4913,6 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.CD,
             Stats.ATK_P,
           ],
           [Parts.Feet]: [

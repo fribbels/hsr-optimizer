@@ -40,12 +40,19 @@ export type SimulationScore = {
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any, teamSelection: string) {
   // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
   // just cache the results for now
+  const originalForm = character.form
+  const characterId = originalForm.characterId
+  const characterEidolon = originalForm.characterEidolon
+  const lightCone = originalForm.lightCone
+  const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
-  const characterMetadata = DB.getMetadata().characters[character.id]
+  // console.debug('LOADED CHARACTER', character)
+
+  const characterMetadata = DB.getMetadata().characters[characterId]
   if (!characterMetadata) return null
 
   const defaultMetadata = Utils.clone(characterMetadata.scoringMetadata.simulation)
-  const customMetadata = Utils.clone(DB.getScoringMetadata(character.id).simulation)
+  const customMetadata = Utils.clone(DB.getScoringMetadata(characterId).simulation)
 
   if (!defaultMetadata) {
     // No scoring sim defined for this character
@@ -58,7 +65,10 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const metadata = defaultMetadata
 
   const cacheKey = Utils.objectHash({
-    character,
+    characterId,
+    characterEidolon,
+    lightCone,
+    lightConeSuperimposition,
     displayRelics,
     metadata,
   })
@@ -67,12 +77,6 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
-
-  const originalForm = character.form
-  const characterId = originalForm.characterId!
-  const characterEidolon = originalForm.characterEidolon
-  const lightCone = originalForm.lightCone
-  const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
   const has6Piece = Object.values(displayRelics).filter((x) => x).length == 6
 
@@ -271,7 +275,7 @@ function computeOptimalSimulation(
 
   let breakpointsCap = true
   let speedCap = true
-  console.debug('STARTING total subs', sum)
+  let simulationRuns = 0
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -284,7 +288,7 @@ function computeOptimalSimulation(
 
     for (const stat of remainingStats) {
       // Can't reduce further so we skip
-      if (currentSimulation.request.stats[stat] <= 0) continue
+      if (currentSimulation.request.stats[stat] <= FREE_ROLLS) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= SUBSTAT_GOAL) continue
       if (stat == Stats.SPD && speedCap && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
@@ -294,6 +298,7 @@ function computeOptimalSimulation(
       newSimulation.request.stats[stat] -= 1
 
       const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
+      simulationRuns++
 
       if (breakpointsCap && breakpoints[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
@@ -339,6 +344,8 @@ function computeOptimalSimulation(
 
   currentSimulation.result = currentSimulationResult
   currentSimulation.penaltyMultiplier = currentSimulationResult.penaltyMultiplier ?? 1
+
+  console.debug('simulationRuns', simulationRuns)
   return currentSimulation
 }
 
@@ -424,8 +431,6 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[request.simFeet] -= 4
   maxCounts[request.simPlanarSphere] -= 4
   maxCounts[request.simLinkRope] -= 4
-  maxCounts[Stats.ATK] -= 4
-  maxCounts[Stats.HP] -= 4
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(stat == Stats.SPD ? 0 : FREE_ROLLS, maxCounts[stat])
@@ -434,6 +439,9 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
     }
   }
 
+  maxCounts[Stats.ATK] = FREE_ROLLS
+  maxCounts[Stats.HP] = FREE_ROLLS
+  maxCounts[Stats.DEF] = FREE_ROLLS
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   return maxCounts

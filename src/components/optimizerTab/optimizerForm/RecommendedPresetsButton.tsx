@@ -80,7 +80,7 @@ export const SpdValues = {
   },
 }
 const standardSpdOptions = Object.values(SpdValues)
-standardSpdOptions.map((x) => x.label = (<div style={{minWidth: 450}}>{x.label}</div>))
+standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
 export function generateStandardSpdOptions(label) {
   return {
@@ -101,11 +101,6 @@ export const PresetEffects = {
       form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
     }
   },
-  fnWindSoaringSet: (value) => {
-    return (form) => {
-      form.setConditionals[Sets.TheWindSoaringValorous][1] = value
-    }
-  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },
@@ -122,7 +117,7 @@ export function setSortColumn(columnId) {
         sort: 'desc',
       },
     ],
-    defaultState: {sort: null},
+    defaultState: { sort: null },
   }
   window.optimizerGrid.current?.api.applyColumnState(columnState)
 }
@@ -130,7 +125,7 @@ export function setSortColumn(columnId) {
 const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const items = useMemo(function () {
+  const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
@@ -154,12 +149,12 @@ const RecommendedPresetsButton = () => {
     <Dropdown
       menu={actionsMenuProps}
       trigger={['click']}
-      overlayStyle={{width: 'max-content'}}
+      overlayStyle={{ width: 'max-content' }}
     >
       <a onClick={(e) => e.preventDefault()}>
-        <Button type="primary" style={{width: '100%'}}>
+        <Button type="primary" style={{ width: '100%' }}>
           Recommended presets
-          <DownOutlined/>
+          <DownOutlined />
         </Button>
       </a>
     </Dropdown>
@@ -212,7 +207,7 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
 
   const formula = scoringMetadata?.simulation?.formula || {}
   Utils.mergeUndefinedValues(form.combo, formula)
-  Object.keys(form.combo).map(key => form.combo[key] = form.combo[key] || null)
+  Object.keys(form.combo).map((key) => form.combo[key] = form.combo[key] || null)
 
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]

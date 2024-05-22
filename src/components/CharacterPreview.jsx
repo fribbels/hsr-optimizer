@@ -51,7 +51,6 @@ export function CharacterPreview(props) {
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
-  const [scoringHovered, setScoringHovered] = useState(false)
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
@@ -66,10 +65,8 @@ export function CharacterPreview(props) {
       if (defaultScoringMetadata?.simulation) {
         const scoringMetadata = DB.getScoringMetadata(character.id)
         if (scoringMetadata.simulation.teammates != defaultScoringMetadata.simulation.teammates) {
-          console.debug(1)
           setTeamSelection(CUSTOM_TEAM)
         } else {
-          console.debug(2)
           setTeamSelection(DEFAULT_TEAM)
         }
       }
@@ -504,7 +501,7 @@ export function CharacterPreview(props) {
                         padding: '4px 12px',
                         borderRadius: 8,
                         fontSize: 14,
-                        maxWidth: parentW - 150,
+                        maxWidth: parentW - 50,
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
@@ -590,8 +587,6 @@ export function CharacterPreview(props) {
                   && (
                     <Flex
                       vertical
-                      onMouseEnter={() => setScoringHovered(true)}
-                      onMouseLeave={() => setScoringHovered(false)}
                     >
                       <ScoreHeader result={simScoringResult} />
                       <Card

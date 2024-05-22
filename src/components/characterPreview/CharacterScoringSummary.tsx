@@ -71,7 +71,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       // const simStatValue = Utils.precisionRound(statUpgrade.simulationResult[stat]) * (isFlat ? 1 : 100)
 
       rows.push(
-        <Flex key={Utils.randomId()} align="center" gap={10}>
+        <Flex key={Utils.randomId()} align="center" gap={5}>
           <img src={Assets.getStatIcon(stat)} style={{ height: 30 }} />
           <pre
             style={{
@@ -81,10 +81,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           >{`+1x roll: ${StatsToShort[statUpgrade.stat]} +${rollValue.toFixed(1)}${suffix}`}
           </pre>
           <pre style={{ margin: 0, width: 250 }}>
-            {`Score: +${((statUpgrade.percent! - basePercent) * 100).toFixed(2)}%  ->  ${(statUpgrade.percent! * 100).toFixed(2)}%`}
+            {`Score: +${((statUpgrade.percent! - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
           </pre>
           <pre style={{ margin: 0, width: 250 }}>
-            {`Damage: +${(statUpgrade.SIM_SCORE - currentScore).toFixed(1)}  ->  ${statUpgrade.SIM_SCORE.toFixed(1)}`}
+            {`Damage: +${(statUpgrade.SIM_SCORE - currentScore).toFixed(1)} -> ${statUpgrade.SIM_SCORE.toFixed(1)}`}
           </pre>
         </Flex>,
       )
@@ -204,7 +204,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <Flex style={{ width: 120 }} justify="space-around">
+        <Flex style={{ width: 80 }} justify="space-around">
           <VerticalDivider />
         </Flex>
 
@@ -234,8 +234,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             Scoring
           </pre>
           <Flex vertical gap={10}>
-            <pre style={{ margin: 'auto 0' }}>
-              Ideal 50x mid substats sim
+            <pre style={{ margin: 'auto 0', marginBottom: 10 }}>
+              50x substats sim results
             </pre>
             <ScoringNumber label="Character DMG:      " number={result.currentSim.SIM_SCORE} />
             <ScoringNumber label="Ideal sim DMG:      " number={result.maxSim.result.SIM_SCORE} />

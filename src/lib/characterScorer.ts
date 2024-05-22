@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { DEFAULT_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -40,14 +40,35 @@ export type SimulationScore = {
 export function scoreCharacterSimulation(character: Character, finalStats: any, displayRelics: any, teamSelection: string) {
   // Since this is a compute heavy sim, and we don't currently control the reloads on the character tab well,
   // just cache the results for now
+  const originalForm = character.form
+  const characterId = originalForm.characterId
+  const characterEidolon = originalForm.characterEidolon
+  const lightCone = originalForm.lightCone
+  const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
-  const characterMetadata = DB.getMetadata().characters[character.id]
-  const metadata = teamSelection == DEFAULT_TEAM
-    ? characterMetadata?.scoringMetadata?.simulation
-    : DB.getScoringMetadata(character.id).simulation
+  // console.debug('LOADED CHARACTER', character)
+
+  const characterMetadata = DB.getMetadata().characters[characterId]
+  if (!characterMetadata) return null
+
+  const defaultMetadata = Utils.clone(characterMetadata.scoringMetadata.simulation)
+  const customMetadata = Utils.clone(DB.getScoringMetadata(characterId).simulation)
+
+  if (!defaultMetadata) {
+    // No scoring sim defined for this character
+    return null
+  }
+
+  if (teamSelection == CUSTOM_TEAM) {
+    defaultMetadata.teammates = customMetadata.teammates
+  }
+  const metadata = defaultMetadata
 
   const cacheKey = Utils.objectHash({
-    character,
+    characterId,
+    characterEidolon,
+    lightCone,
+    lightConeSuperimposition,
     displayRelics,
     metadata,
   })
@@ -56,12 +77,6 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
-
-  const originalForm = character.form
-  const characterId = originalForm.characterId!
-  const characterEidolon = originalForm.characterEidolon
-  const lightCone = originalForm.lightCone
-  const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
   const has6Piece = Object.values(displayRelics).filter((x) => x).length == 6
 
@@ -260,9 +275,7 @@ function computeOptimalSimulation(
 
   let breakpointsCap = true
   let speedCap = true
-
-  console.debug('STARTING ', maxSubstatRollCounts)
-  console.debug('STARTING ', sum)
+  let simulationRuns = 0
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -270,12 +283,12 @@ function computeOptimalSimulation(
     let bestSimDeductedStat: Stat | undefined
 
     const remainingStats = Object.entries(currentSimulation.request.stats)
-      .filter(([_key, value]) => value > 0)
+      .filter(([key, value]) => value > 2 && key != Stats.SPD)
       .map(([key, _value]) => key)
 
     for (const stat of remainingStats) {
       // Can't reduce further so we skip
-      if (currentSimulation.request.stats[stat] <= 0) continue
+      if (currentSimulation.request.stats[stat] <= FREE_ROLLS) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= SUBSTAT_GOAL) continue
       if (stat == Stats.SPD && speedCap && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
@@ -285,6 +298,7 @@ function computeOptimalSimulation(
       newSimulation.request.stats[stat] -= 1
 
       const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
+      simulationRuns++
 
       if (breakpointsCap && breakpoints[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
@@ -331,6 +345,7 @@ function computeOptimalSimulation(
   currentSimulation.result = currentSimulationResult
   currentSimulation.penaltyMultiplier = currentSimulationResult.penaltyMultiplier ?? 1
 
+  console.debug('simulationRuns', simulationRuns)
   return currentSimulation
 }
 
@@ -409,20 +424,28 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   }
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = 24
+    maxCounts[substat] = 32
   }
 
-  maxCounts[request.simBody] -= 4
-  maxCounts[request.simFeet] -= 4
-  maxCounts[request.simPlanarSphere] -= 4
-  maxCounts[request.simLinkRope] -= 4
-  maxCounts[Stats.ATK] -= 4
-  maxCounts[Stats.HP] -= 4
+  maxCounts[request.simBody] -= 5
+  maxCounts[request.simFeet] -= 5
+  maxCounts[request.simPlanarSphere] -= 5
+  maxCounts[request.simLinkRope] -= 5
+
+  for (const substat of metadata.substats) {
+    maxCounts[substat] = Math.min(maxCounts[substat], 32 - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
+  }
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(stat == Stats.SPD ? 0 : FREE_ROLLS, maxCounts[stat])
+    if (metadata.maxBonusRolls?.[stat] != undefined) {
+      maxCounts[stat] = Math.min(maxCounts[stat], metadata.maxBonusRolls[stat] + FREE_ROLLS)
+    }
   }
 
+  maxCounts[Stats.ATK] = FREE_ROLLS
+  maxCounts[Stats.HP] = FREE_ROLLS
+  maxCounts[Stats.DEF] = FREE_ROLLS
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   return maxCounts
@@ -584,26 +607,48 @@ function simSorter(a, b) {
 }
 
 // 1.00 => SSS
-const SimScoreGrades = {
-  'WTF+': 115,
-  'WTF': 110,
-  'SSS+': 105,
-  'SSS': 100,
-  'SS+': 95,
-  'SS': 90,
-  'S+': 85,
-  'S': 80,
-  'A+': 75,
-  'A': 70,
-  'B+': 65,
-  'B': 60,
-  'C+': 55,
-  'C': 50,
-  'D+': 45,
-  'D': 40,
-  'F+': 35,
-  'F': 30,
-}
+// const SimScoreGrades = {
+//   'WTF+': 115,
+//   'WTF': 110,
+//   'SSS+': 105,
+//   'SSS': 100,
+//   'SS+': 95,
+//   'SS': 90,
+//   'S+': 85,
+//   'S': 80,
+//   'A+': 75,
+//   'A': 70,
+//   'B+': 65,
+//   'B': 60,
+//   'C+': 55,
+//   'C': 50,
+//   'D+': 45,
+//   'D': 40,
+//   'F+': 35,
+//   'F': 30,
+// }
+
+// 1.00 => SSS, WTF nerf
+// const SimScoreGrades = {
+//   'WTF+': 130,
+//   'WTF': 120,
+//   'SSS+': 110,
+//   'SSS': 100,
+//   'SS+': 95,
+//   'SS': 90,
+//   'S+': 85,
+//   'S': 80,
+//   'A+': 75,
+//   'A': 70,
+//   'B+': 65,
+//   'B': 60,
+//   'C+': 55,
+//   'C': 50,
+//   'D+': 45,
+//   'D': 40,
+//   'F+': 35,
+//   'F': 30,
+// }
 
 // 1.00 => SS+
 // const SimScoreGrades = {
@@ -628,23 +673,23 @@ const SimScoreGrades = {
 // }
 
 // // 1.00 => SS
-// const SimScoreGrades = {
-//   'WTF+': 125,
-//   'WTF': 120,
-//   'SSS+': 115,
-//   'SSS': 110,
-//   'SS+': 105,
-//   'SS': 100,
-//   'S+': 95,
-//   'S': 90,
-//   'A+': 85,
-//   'A': 80,
-//   'B+': 75,
-//   'B': 70,
-//   'C+': 65,
-//   'C': 60,
-//   'D+': 55,
-//   'D': 50,
-//   'F+': 45,
-//   'F': 40,
-// }
+const SimScoreGrades = {
+  'WTF+': 125,
+  'WTF': 120,
+  'SSS+': 115,
+  'SSS': 110,
+  'SS+': 105,
+  'SS': 100,
+  'S+': 95,
+  'S': 90,
+  'A+': 85,
+  'A': 80,
+  'B+': 75,
+  'B': 70,
+  'C+': 65,
+  'C': 60,
+  'D+': 55,
+  'D': 50,
+  'F+': 45,
+  'F': 40,
+}

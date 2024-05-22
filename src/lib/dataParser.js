@@ -1433,7 +1433,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -1648,7 +1647,6 @@ function getScoringMetadata() {
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
       simulation: {
@@ -1952,7 +1950,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2130,7 +2127,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -2233,7 +2229,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -2445,7 +2440,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2471,7 +2465,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -2577,7 +2570,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.EHR,
           Stats.ATK,
-          Stats.SPD,
           Stats.CR,
           Stats.CD,
         ],
@@ -2683,7 +2675,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -2834,7 +2825,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.EHR,
-          Stats.SPD,
           Stats.CR,
         ],
         breakpoints: {},
@@ -2914,7 +2904,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(0),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2940,7 +2929,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -3018,9 +3006,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3045,7 +3031,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -3218,7 +3203,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3244,7 +3228,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -3322,9 +3305,7 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3349,7 +3330,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.SPD,
           Stats.ATK_P,
         ],
         breakpoints: {},
@@ -3454,7 +3434,6 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.ATK_P,
           Stats.BE,
-          Stats.SPD,
           Stats.ATK,
         ],
         breakpoints: {},
@@ -3625,9 +3604,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -3651,7 +3628,6 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -3823,7 +3799,6 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
             Stats.CD,
           ],
           [Parts.Feet]: [
@@ -3843,7 +3818,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -3957,7 +3931,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -4038,7 +4011,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(3),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -4046,7 +4018,6 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -4066,7 +4037,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.SPD,
           Stats.ATK,
         ],
         breakpoints: {},
@@ -4299,7 +4269,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -4425,7 +4394,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(7),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4451,7 +4419,6 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.DEF_P,
-          Stats.SPD,
           Stats.DEF,
           Stats.BE,
         ],
@@ -4532,7 +4499,6 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
-        PresetEffects.fnWindSoaringSet(1),
         PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
@@ -4560,7 +4526,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -4714,7 +4679,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.EHR,
           Stats.ATK,
-          Stats.SPD,
           Stats.CR,
           Stats.CD,
           Stats.BE,
@@ -4823,7 +4787,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -4912,8 +4875,8 @@ function getScoringMetadata() {
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.5,
-        [Constants.Stats.CD]: 0.5,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -4930,8 +4893,6 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.CD,
-          Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4951,8 +4912,6 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.CD,
             Stats.ATK_P,
           ],
           [Parts.Feet]: [
@@ -4973,10 +4932,13 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.SPD,
           Stats.ATK,
         ],
         breakpoints: {},
+        maxBonusRolls: {
+          [Stats.ATK]: 0,
+          [Stats.ATK_P]: 2,
+        },
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -5076,7 +5038,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -5154,9 +5115,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [
-        PresetEffects.fnWindSoaringSet(2),
-      ],
+      presets: [],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -5181,7 +5140,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -5193,8 +5151,8 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheWindSoaringValorous,
-        relicSet2: Sets.TheWindSoaringValorous,
+        relicSet1: Sets.GeniusOfBrilliantStars,
+        relicSet2: Sets.GeniusOfBrilliantStars,
         ornamentSet: Sets.DuranDynastyOfRunningWolves,
         teammates: [
           {
@@ -5286,7 +5244,6 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.ATK_P,
-          Stats.SPD,
           Stats.ATK,
         ],
         breakpoints: {},
@@ -5391,7 +5348,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -5496,7 +5452,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},

@@ -34,6 +34,7 @@ function PermutationDisplay(props) {
     </Flex>
   )
 }
+
 PermutationDisplay.propTypes = {
   total: PropTypes.number,
   right: PropTypes.number,
@@ -81,6 +82,7 @@ function SidebarContent() {
     setOptimizationInProgress(false)
     Optimizer.cancel(window.store.getState().optimizationId)
   }
+
   window.optimizerCancelClicked = cancelClicked
 
   function resetClicked() {
@@ -163,7 +165,7 @@ function SidebarContent() {
               value={statDisplay}
               style={{ width: '100%', display: 'flex' }}
             >
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Base stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
               <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
             </Radio.Group>
 
@@ -205,6 +207,7 @@ function MobileSidebarContent() {
     setOptimizationInProgress(false)
     Optimizer.cancel(window.store.getState().optimizationId)
   }
+
   window.optimizerCancelClicked = cancelClicked
 
   function resetClicked() {
@@ -263,7 +266,7 @@ function MobileSidebarContent() {
             value={statDisplay}
             style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Base stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
             <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
           </Radio.Group>
         </Flex>

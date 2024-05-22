@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { DEFAULT_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -47,7 +47,12 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const defaultMetadata = Utils.clone(characterMetadata.scoringMetadata.simulation)
   const customMetadata = Utils.clone(DB.getScoringMetadata(character.id).simulation)
 
-  if (teamSelection == DEFAULT_TEAM) {
+  if (!defaultMetadata) {
+    // No scoring sim defined for this character
+    return null
+  }
+
+  if (teamSelection == CUSTOM_TEAM) {
     defaultMetadata.teammates = customMetadata.teammates
   }
   const metadata = defaultMetadata
@@ -266,9 +271,7 @@ function computeOptimalSimulation(
 
   let breakpointsCap = true
   let speedCap = true
-
-  console.debug('STARTING ', maxSubstatRollCounts)
-  console.debug('STARTING ', sum)
+  console.debug('STARTING total subs', sum)
 
   while (sum > goal) {
     let bestSim: Simulation | undefined
@@ -336,7 +339,6 @@ function computeOptimalSimulation(
 
   currentSimulation.result = currentSimulationResult
   currentSimulation.penaltyMultiplier = currentSimulationResult.penaltyMultiplier ?? 1
-
   return currentSimulation
 }
 
@@ -427,6 +429,9 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
 
   for (const stat of SubStats) {
     maxCounts[stat] = Math.max(stat == Stats.SPD ? 0 : FREE_ROLLS, maxCounts[stat])
+    if (metadata.maxBonusRolls?.[stat] != undefined) {
+      maxCounts[stat] = Math.min(maxCounts[stat], metadata.maxBonusRolls[stat] + FREE_ROLLS)
+    }
   }
 
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction

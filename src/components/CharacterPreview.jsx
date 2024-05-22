@@ -504,7 +504,7 @@ export function CharacterPreview(props) {
                         padding: '4px 12px',
                         borderRadius: 8,
                         fontSize: 14,
-                        maxWidth: parentW - 150,
+                        maxWidth: parentW - 50,
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',

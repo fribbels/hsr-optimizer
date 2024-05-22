@@ -5,7 +5,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 05-21-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.24, 0.28, 0.32, 0.36, 0.40]

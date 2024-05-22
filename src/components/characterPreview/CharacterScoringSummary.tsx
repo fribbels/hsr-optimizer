@@ -235,7 +235,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={10}>
             <pre style={{ margin: 'auto 0', marginBottom: 10 }}>
-              50x mid substats sim results
+              50x substats sim results
             </pre>
             <ScoringNumber label="Character DMG:      " number={result.currentSim.SIM_SCORE} />
             <ScoringNumber label="Ideal sim DMG:      " number={result.maxSim.result.SIM_SCORE} />

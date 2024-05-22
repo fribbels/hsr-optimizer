@@ -1353,7 +1353,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -1458,7 +1457,6 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
           Stats.BE,
         ],
         breakpoints: {},
@@ -1567,8 +1565,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.EHR,
-          Stats.SPD,
           Stats.ATK,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -1579,9 +1577,9 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.WastelanderOfBanditryDesert,
-        relicSet2: Sets.WastelanderOfBanditryDesert,
-        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        relicSet1: Sets.PioneerDiverOfDeadWaters,
+        relicSet2: Sets.PioneerDiverOfDeadWaters,
+        ornamentSet: Sets.RutilantArena,
         teammates: [
           {
             characterId: '1308', // Acheron
@@ -1670,9 +1668,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.EHR,
-          Stats.SPD,
           Stats.CR,
           Stats.CD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -1824,7 +1822,7 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -1975,7 +1973,7 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -2572,6 +2570,7 @@ function getScoringMetadata() {
           Stats.ATK,
           Stats.CR,
           Stats.CD,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {
@@ -3331,6 +3330,7 @@ function getScoringMetadata() {
           Stats.HP_P,
           Stats.HP,
           Stats.ATK_P,
+          Stats.BE,
         ],
         breakpoints: {},
         formula: {

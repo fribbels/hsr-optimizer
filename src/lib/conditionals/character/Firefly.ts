@@ -14,11 +14,12 @@ export default (e: Eidolon): CharacterConditional => {
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.20)
+
   const skillScaling = skill(e, 2.00, 2.20)
   const skillEnhancedAtkScaling = skill(e, 2.00, 2.20)
+
   const ultSpdBuff = ult(e, 60, 66)
   const ultWeaknessBrokenBreakVulnerability = ult(e, 0.20, 0.22)
-  const ultWeaknessBreakEfficiencyBuff = 0.50
   const talentResBuff = talent(e, 0.30, 0.34)
   const talentDmgReductionBuff = talent(e, 0.40, 0.44)
 
@@ -121,10 +122,10 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
-      x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? ultWeaknessBreakEfficiencyBuff : 0
+      x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? 0.50 : 0
       x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1
 
-      x.DEF_SHRED += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
+      x.SKILL_DEF_PEN += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
       x[Stats.RES] += (e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0
       x.FIRE_RES_PEN += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0
       x.BREAK_EFFICIENCY_BOOST += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0
@@ -146,7 +147,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BREAK_VULNERABILITY += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenBreakVulnerability : 0
 
-      x[Stats.BE] += (r.atkToBeConversion && x[Stats.ATK] > 1600) ? 0.10 * Math.floor((x[Stats.ATK] - 1600) / 100) : 0
+      x[Stats.BE] += (r.atkToBeConversion && (x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF > 1600)) ? 0.10 * Math.floor(((x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF) - 1600) / 100) : 0
 
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0

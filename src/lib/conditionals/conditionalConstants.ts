@@ -104,6 +104,8 @@ export const baseComputedStatsObject = {
   BREAK_EFFICIENCY_BOOST: 0,
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
 
+  RATIO_BASED_ATK_BUFF: 0,
+
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,

@@ -1,6 +1,6 @@
-import { Constants, MainStatsValues, Parts, PartsMainStats, StatsValues, SubStatValues, SubStats } from 'lib/constants'
+import { Constants, MainStatsValues, Parts, PartsMainStats, StatsValues, SubStatValues } from 'lib/constants'
 import { Character, CharacterId } from 'types/Character'
-import { Relic, RelicEnhance, RelicGrade } from 'types/Relic'
+import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
 import { Utils } from 'lib/utils'
 
 import DB from './db.js'
@@ -123,8 +123,8 @@ export class RelicScorer {
       scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
 
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats)
-      .filter((x) => possibleSubstats.has(x[0]))
-      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+        .filter((x) => possibleSubstats.has(x[0]))
+        .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       scoringMetadata.groupedSubstats = new Map()
       for (const [s, w] of scoringMetadata.sortedSubstats) {
         if (!scoringMetadata.groupedSubstats.has(w)) {
@@ -209,7 +209,7 @@ export class RelicScorer {
     let maxWeight = 0
 
     const scoreEntries = Object.entries(scoringMetadata.stats)
-    .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     // Find the mainstat for this relic
     let mainStat = ''
@@ -262,8 +262,9 @@ export class RelicScorer {
     const substatScoreEntries = scoringMetadata.sortedSubstats.filter(([name, _]) => name !== mainStat)
 
     const substats = substatScoreEntries.slice(0, 4)
-    const subs = generateSubStats(5, substats[0][0], SubStatValues[substats[0][0]][5].high * 6, substats[1][0], SubStatValues[substats[1][0]][5].high
-      , substats[2][0], SubStatValues[substats[2][0]][5].high, substats[3][0], SubStatValues[substats[3][0]][5].high)
+    const subs = generateSubStats(5
+      , { stat: substats[0][0], value: SubStatValues[substats[0][0]][5].high * 6 }, { stat: substats[1][0], value: SubStatValues[substats[1][0]][5].high }
+      , { stat: substats[2][0], value: SubStatValues[substats[2][0]][5].high }, { stat: substats[3][0], value: SubStatValues[substats[3][0]][5].high })
     const fake = fakeRelic(5, 15, part, mainStat, subs)
     let ideal = parseFloat(this.score(fake, id).longscore)
     ideal -= mainStatFreeRoll(part, mainStat, scoringMetadata)
@@ -413,10 +414,10 @@ export class RelicScorer {
     let bestNewSubstats: string[] = []
 
     // Calculate the highest possible score
-    const fakesubs: { stat: string; value: number }[] = [{ stat: '', value: 0 }, { stat: '', value: 0 }, { stat: '', value: 0 }, { stat: '', value: 0 }]
+    const fakesubs: Stat[] = [{ stat: '', value: 0 }, { stat: '', value: 0 }, { stat: '', value: 0 }, { stat: '', value: 0 }]
     for (let i = 0; i < relic.substats.length; i++) { // Carry over the already existing substats
-      fakesubs[i].stat = relic.substats[i.toString()].stat
-      fakesubs[i].value = relic.substats[i.toString()].value
+      fakesubs[i].stat = relic.substats[i].stat
+      fakesubs[i].value = relic.substats[i].value
     }
     for (let i = relic.substats.length; i < 4; i++) { // Supplement with the highest weight available substats
       fakesubs[i].stat = remainingSubStats[i - relic.substats.length][0]
@@ -425,15 +426,14 @@ export class RelicScorer {
     }
     let index = findHighestWeight(fakesubs, scoringMetadata)
     fakesubs[index].value += SubStatValues[fakesubs[index].stat][relic.grade].high * remainingRolls
-    const bestCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(relic.grade
-      , fakesubs[0].stat, fakesubs[0].value, fakesubs[1].stat, fakesubs[1].value
-      , fakesubs[2].stat, fakesubs[2].value, fakesubs[3].stat, fakesubs[3].value,
+    const bestCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(
+      relic.grade, fakesubs[0], fakesubs[1], fakesubs[2], fakesubs[3],
     )), id).longscore) + mainScoreDeduction
 
     // Calculate the average score
     for (let i = 0; i < relic.substats.length; i++) { // Carry over the already existing substats and add the average number of mid rolls to the value
-      fakesubs[i].stat = relic.substats[i.toString()].stat
-      fakesubs[i].value = relic.substats[i.toString()].value + remainingRolls / 4 * SubStatValues[fakesubs[i].stat][relic.grade].mid
+      fakesubs[i].stat = relic.substats[i].stat
+      fakesubs[i].value = relic.substats[i].value + remainingRolls / 4 * SubStatValues[fakesubs[i].stat][relic.grade].mid
     }
     // We want to use the score() function to score relics for maximum accuracy (and easier maintainability potentially)
     // How do we score a relic with unknown substats?
@@ -443,6 +443,18 @@ export class RelicScorer {
     // We divide the average score of 1 mid roll we calculated earlier by the weight and normalization of the chosen camouflage stat
     // We then multiply this by the number of rolls our filler stat will have
     // This way, when the score() function evaluates our relic, all the additional lines will score their expected average score
+
+    // average score of 1 midroll = avg(weight * normalization * midroll)
+
+    // avg score = avg(weight * norm * midroll) * rolls
+    // AND
+    // acg score = value * weight * scaling
+
+    // Therefore
+
+    // value = avg(weight * norm * midroll) * rolls / (weight * scaling)
+    // value = average score of 1 midroll * rolls / (weight * scaling)
+
     let averageScore: number = 0
     const scaling = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
@@ -463,25 +475,19 @@ export class RelicScorer {
       averageScore += remainingSubStats[i][1] * scaling[remainingSubStats[i][0]] * SubStatValues[remainingSubStats[i][0]][relic.grade].mid
     }
     averageScore = averageScore / remainingSubStats.length
-    // average score of 1 midroll = avg(weight * normalization * midroll)
-    // avg score = avg(weight * norm * midroll) * rolls
-    // acg score = value * weight * scaling
-    // value = avg(weight * norm * midroll) * rolls / (weight * scaling)
-    // value = average score of 1 midroll * rolls / (weight * scaling)
     for (let i = relic.substats.length; i < 4; i++) {
       fakesubs[i].stat = remainingSubStats[0][0]
       fakesubs[i].value = (averageScore * (1 + remainingRolls / 4) / (remainingSubStats[0][1] * scaling[remainingSubStats[0][0]]))
     }
-    const averageCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(relic.grade
-      , fakesubs[0].stat, fakesubs[0].value, fakesubs[1].stat, fakesubs[1].value
-      , fakesubs[2].stat, fakesubs[2].value, fakesubs[3].stat, fakesubs[3].value,
+    const averageCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(
+      relic.grade, fakesubs[0], fakesubs[1], fakesubs[2], fakesubs[3],
     )), id).longscore) + mainScoreDeduction
 
     // Calculate the lowest possible substat scores
     remainingSubStats.reverse()
     for (let i = 0; i < relic.substats.length; i++) { // Carry over the already existing substats
-      fakesubs[i].stat = relic.substats[i.toString()].stat
-      fakesubs[i].value = relic.substats[i.toString()].value
+      fakesubs[i].stat = relic.substats[i].stat
+      fakesubs[i].value = relic.substats[i].value
     }
     for (let i = relic.substats.length; i < 4; i++) { // Supplement with the lowest weight available substats
       fakesubs[i].stat = remainingSubStats[i - relic.substats.length][0]
@@ -489,9 +495,8 @@ export class RelicScorer {
     }
     index = findLowestWeight(fakesubs, scoringMetadata)
     fakesubs[index].value += SubStatValues[fakesubs[index].stat][relic.grade].low * remainingRolls
-    const worstCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(relic.grade
-      , fakesubs[0].stat, fakesubs[0].value, fakesubs[1].stat, fakesubs[1].value
-      , fakesubs[2].stat, fakesubs[2].value, fakesubs[3].stat, fakesubs[3].value,
+    const worstCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(
+      relic.grade, fakesubs[0], fakesubs[1], fakesubs[2], fakesubs[3],
     )), id).longscore) + mainScoreDeduction
 
     // Generate Metadata
@@ -676,42 +681,42 @@ function fakeRelic(grade: RelicGrade, enhance: RelicEnhance, part: string, mains
 }
 
 // Create the substats array to feed into fakeRelic(), addedRolls is left at 0 as it is not used
-function generateSubStats(grade: RelicGrade, sub1: SubStats, val1: number, sub2: SubStats, val2: number, sub3: SubStats, val3: number, sub4: SubStats, val4: number) {
+function generateSubStats(grade: RelicGrade, sub1: Stat, sub2: Stat, sub3: Stat, sub4: Stat) {
   const substats = [
     {
-      stat: sub1,
-      value: val1,
+      stat: sub1.stat,
+      value: sub1.value,
       rolls: {
-        high: SubStatValues[sub1][grade].high,
-        mid: SubStatValues[sub1][grade].mid,
-        low: SubStatValues[sub1][grade].low,
+        high: SubStatValues[sub1.stat][grade].high,
+        mid: SubStatValues[sub1.stat][grade].mid,
+        low: SubStatValues[sub1.stat][grade].low,
       },
       addedRolls: 0,
     }, {
-      stat: sub2,
-      value: val2,
+      stat: sub2.stat,
+      value: sub2.value,
       rolls: {
-        high: SubStatValues[sub2][grade].high,
-        mid: SubStatValues[sub2][grade].mid,
-        low: SubStatValues[sub2][grade].low,
+        high: SubStatValues[sub2.stat][grade].high,
+        mid: SubStatValues[sub2.stat][grade].mid,
+        low: SubStatValues[sub2.stat][grade].low,
       },
       addedRolls: 0,
     }, {
-      stat: sub3,
-      value: val3,
+      stat: sub3.stat,
+      value: sub3.value,
       rolls: {
-        high: SubStatValues[sub3][grade].high,
-        mid: SubStatValues[sub3][grade].mid,
-        low: SubStatValues[sub3][grade].low,
+        high: SubStatValues[sub3.stat][grade].high,
+        mid: SubStatValues[sub3.stat][grade].mid,
+        low: SubStatValues[sub3.stat][grade].low,
       },
       addedRolls: 0,
     }, {
-      stat: sub4,
-      value: val4,
+      stat: sub4.stat,
+      value: sub4.value,
       rolls: {
-        high: SubStatValues[sub4][grade].high,
-        mid: SubStatValues[sub4][grade].mid,
-        low: SubStatValues[sub4][grade].low,
+        high: SubStatValues[sub4.stat][grade].high,
+        mid: SubStatValues[sub4.stat][grade].mid,
+        low: SubStatValues[sub4.stat][grade].low,
       },
       addedRolls: 0,
     },

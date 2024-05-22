@@ -608,9 +608,9 @@ function simSorter(a, b) {
 
 // 1.00 => SSS
 const SimScoreGrades = {
-  'WTF+': 115,
-  'WTF': 110,
-  'SSS+': 105,
+  'WTF+': 130,
+  'WTF': 120,
+  'SSS+': 110,
   'SSS': 100,
   'SS+': 95,
   'SS': 90,
@@ -650,7 +650,7 @@ const SimScoreGrades = {
 //   'F': 35,
 // }
 
-// // 1.00 => SS
+// 1.00 => SS
 // const SimScoreGrades = {
 //   'WTF+': 125,
 //   'WTF': 120,

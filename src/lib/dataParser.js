@@ -1672,7 +1672,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.BE,
         ],
-        breakpoints: {},
+        breakpoints: {
+          [Stats.EHR]: 0.282,
+        },
         formula: {
           BASIC: 0,
           SKILL: 2,

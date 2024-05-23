@@ -4866,7 +4866,7 @@ function getScoringMetadata() {
         ],
       },
       presets: [],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.ATK,
     },
     1310: { // Firefly
       stats: {

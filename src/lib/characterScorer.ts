@@ -112,10 +112,11 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     )
 
     // const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
-    result.SIM_SCORE = score
+    result.unpenalizedSimScore = score
+    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints)
+    result.SIM_SCORE = result.unpenalizedSimScore * result.penaltyMultiplier
 
     // We apply a penalty to the percent if the user did not reach thresholds
-    calculatePenaltyMultiplier(result, metadata.breakpoints)
   }
 
   // Simulate the original character
@@ -163,17 +164,17 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   // DEBUG - Apply the sims to optimizer page
   // window.store.getState().setStatSimulations(bestPartialSims)
 
-  const bestPenaltyMultiplier = bestSims[0].result.penaltyMultiplier
-  const originalPenaltyMultiplier = originalSimResult.penaltyMultiplier
+  // const bestPenaltyMultiplier = bestSims[0].result.penaltyMultiplier
+  // const originalPenaltyMultiplier = originalSimResult.penaltyMultiplier
 
   const percent = (originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
-  const percentModifier = (originalPenaltyMultiplier / bestPenaltyMultiplier)
+  // const percentModifier = (originalPenaltyMultiplier / bestPenaltyMultiplier)
 
   const statUpgrades = generateStatImprovements(originalSimResult, originalSim, simulationForm, metadata, applyScoringFunction)
   for (const statUpgrade of statUpgrades) {
     const percent = (statUpgrade.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
-    const percentModifier = (statUpgrade.simulationResult.penaltyMultiplier / bestPenaltyMultiplier)
-    statUpgrade.percent = percent * percentModifier
+    // const percentModifier = (statUpgrade.simulationResult.penaltyMultiplier / bestPenaltyMultiplier)
+    statUpgrade.percent = percent
   }
   statUpgrades.sort((a, b) => b.percent! - a.percent!)
 
@@ -181,7 +182,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     baselineSimValue: baselineSimResult.SIM_SCORE,
     currentSimValue: originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE,
     maxSimValue: bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE,
-    percent: percent * percentModifier,
+    percent: percent,
     maxSim: bestSims[0],
     currentSim: originalSimResult,
     baselineSim: baselineSimResult,
@@ -323,9 +324,6 @@ function computeOptimalSimulation(
         continue
       }
 
-      // // Calculate penalties for missing breakpoints
-      calculatePenaltyMultiplier(currentSimulationResult, breakpoints)
-
       // We still can't reach the target speed and breakpoints, stop trying to match speed and try again
       if (speedCap) {
         speedCap = false
@@ -343,7 +341,6 @@ function computeOptimalSimulation(
   }
 
   currentSimulation.result = currentSimulationResult
-  currentSimulation.penaltyMultiplier = currentSimulationResult.penaltyMultiplier ?? 1
 
   console.debug('simulationRuns', simulationRuns)
   return currentSimulation
@@ -579,9 +576,11 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
 export function calculatePenaltyMultiplier(simulationResult, breakpoints) {
   let newPenaltyMultiplier = 1
   for (const stat of Object.keys(breakpoints)) {
-    newPenaltyMultiplier *= Math.min(1, simulationResult[stat] / breakpoints[stat])
+    // Penalize by half of the missing stat breakpoint percentage
+    newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / (breakpoints[stat] * 2))
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
+  return newPenaltyMultiplier
 }
 
 // Score on 1.00 scale
@@ -600,10 +599,11 @@ export function getSimScoreGrade(score) {
 function simSorter(a, b) {
   const aResult = a.result || a
   const bResult = b.result || b
-  if (aResult.penaltyMultiplier === bResult.penaltyMultiplier) {
-    return bResult.SIM_SCORE - aResult.SIM_SCORE
-  }
-  return bResult.penaltyMultiplier - aResult.penaltyMultiplier
+  return bResult.SIM_SCORE - aResult.SIM_SCORE
+  // if (aResult.penaltyMultiplier === bResult.penaltyMultiplier) {
+  //   return bResult.SIM_SCORE - aResult.SIM_SCORE
+  // }
+  // return bResult.penaltyMultiplier - aResult.penaltyMultiplier
 }
 
 // 1.00 => SSS
@@ -651,45 +651,45 @@ function simSorter(a, b) {
 // }
 
 // 1.00 => SS+
-// const SimScoreGrades = {
-//   'WTF+': 120,
-//   'WTF': 115,
-//   'SSS+': 110,
-//   'SSS': 105,
-//   'SS+': 100,
-//   'SS': 95,
-//   'S+': 90,
-//   'S': 85,
-//   'A+': 80,
-//   'A': 75,
-//   'B+': 70,
-//   'B': 65,
-//   'C+': 60,
-//   'C': 55,
-//   'D+': 50,
-//   'D': 45,
-//   'F+': 40,
-//   'F': 35,
-// }
+const SimScoreGrades = {
+  'WTF+': 120,
+  'WTF': 115,
+  'SSS+': 110,
+  'SSS': 105,
+  'SS+': 100,
+  'SS': 95,
+  'S+': 90,
+  'S': 85,
+  'A+': 80,
+  'A': 75,
+  'B+': 70,
+  'B': 65,
+  'C+': 60,
+  'C': 55,
+  'D+': 50,
+  'D': 45,
+  'F+': 40,
+  'F': 35,
+}
 
 // // 1.00 => SS
-const SimScoreGrades = {
-  'WTF+': 125,
-  'WTF': 120,
-  'SSS+': 115,
-  'SSS': 110,
-  'SS+': 105,
-  'SS': 100,
-  'S+': 95,
-  'S': 90,
-  'A+': 85,
-  'A': 80,
-  'B+': 75,
-  'B': 70,
-  'C+': 65,
-  'C': 60,
-  'D+': 55,
-  'D': 50,
-  'F+': 45,
-  'F': 40,
-}
+// const SimScoreGrades = {
+//   'WTF+': 125,
+//   'WTF': 120,
+//   'SSS+': 115,
+//   'SSS': 110,
+//   'SS+': 105,
+//   'SS': 100,
+//   'S+': 95,
+//   'S': 90,
+//   'A+': 85,
+//   'A': 80,
+//   'B+': 75,
+//   'B': 70,
+//   'C+': 65,
+//   'C': 60,
+//   'D+': 55,
+//   'D': 50,
+//   'F+': 45,
+//   'F': 40,
+// }

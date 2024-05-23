@@ -108,6 +108,7 @@ function getChangelogContent() {
       title: '',
       date: '05-22-2024',
       content: [
+        'Updated with new character card layout',
         'Added damage simulation based character scoring',
         'newScore.webp',
         'Add custom teammates display',
@@ -121,7 +122,7 @@ function getChangelogContent() {
         'comboMenu.webp',
         'The combo results can be filtered and sorted in the optimizer',
         'comboGrid.webp',
-        'Added responsive handling to optimizer permutations sidebar, which now collapses into a footer when the screen is too small',
+        'Added responsive handling to optimizer permutations sidebar, which now collapses into a footer for smaller screens',
         'footer.webp',
         'Moved Combat Buffs menu into a drawer',
         'combatBuffs.webp',
@@ -144,7 +145,7 @@ function getChangelogContent() {
         'Fix: Various potential optimality bugs',
         'Fix: Characters with not enough desired stats now score correctly on relics tab',
         'Fix: Sparkle now correctly applies her skill CD',
-        'Fix: Renamed Base stats as Basic stats',
+        'Fix: Renamed Base stats to Basic stats',
       ],
     },
     {

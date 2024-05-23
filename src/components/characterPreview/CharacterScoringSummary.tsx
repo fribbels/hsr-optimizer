@@ -102,7 +102,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   function ScoringDetails() {
     return (
       <Flex vertical style={{ marginTop: 80, width: 1000 }}>
-        <h1 style={{ margin: 'auto' }}>DPS Score Calculation</h1>
+        <h1 style={{ margin: 'auto' }}>DPS Score Calculation (Beta)</h1>
         <Text style={{ fontSize: 18 }}>
           <h2>
             What is DPS Score?
@@ -223,7 +223,6 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
                 <li>F+ = 40%</li>
                 <li>F  = 35%</li>
               </ul>
-
             </Flex>
           </pre>
 
@@ -262,10 +261,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             The only forced breakpoints currently are Effect Hit Rate minimums for DoT characters.
             Take Black Swan for example, the purpose of forcing the sim to use her 120% breakpoint is so it can't just ignore EHR
             to chase more maximum DoT damage. EHR is more than just DMG conversion as it also lets her land Arcana debuffs to reach her 7th Arcana stack
-            for DEF pen. The penalty is calculated with half the missing percentage.
+            for DEF pen. The penalty is calculated as a 1% deduction per missing roll from the breakpoint.
           </p>
           <p>
-            <code>dmg scale = min(1, (breakpoint - combat stat) / (breakpoint) * (1/2))</code>
+            <code>dmg scale = min(1, (breakpoint - combat stat) / (min stat value))</code>
           </p>
 
           <h4>How were the default simulation teams / sets chosen?</h4>

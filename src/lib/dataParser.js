@@ -2140,7 +2140,7 @@ function getScoringMetadata() {
         },
         relicSet1: Sets.GeniusOfBrilliantStars,
         relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.RutilantArena,
+        ornamentSet: Sets.FirmamentFrontlineGlamoth,
         teammates: [
           {
             characterId: '1006', // SW

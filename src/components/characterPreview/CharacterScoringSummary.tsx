@@ -101,7 +101,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
   function ScoringDetails() {
     return (
-      <Flex vertical style={{ marginTop: 20, width: 1000 }}>
+      <Flex vertical style={{ marginTop: 80, width: 1000 }}>
         <h1 style={{ margin: 'auto' }}>DPS Score Calculation</h1>
         <Text style={{ fontSize: 18 }}>
           <h2>
@@ -112,8 +112,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             character's <i>damage performance in combat</i>.
           </p>
           <p>
-            This score is calculated using the results of simulating the character's damage performance through the optimizer,
-            for a more accurate evaluation than scores based solely on displayed stats.
+            This score is calculated using the results of simulating the character's damage through the optimizer,
+            for a more accurate evaluation than scores based solely on the displayed stats.
           </p>
           <p>
             The scoring calculation takes into consideration:
@@ -136,8 +136,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h2>
           <p>
             At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break
-            ability damage rotation, which is defined per character. These simulations use the character and teammates'
-            default optimizer conditional settings, and the damage sum is used to compare between builds.
+            ability damage rotation defined per character. These simulations use the optimizer's default conditional settings
+            for the character / teammates / light cones / sets, and the damage sum is then used to compare between builds.
           </p>
 
           <h4>
@@ -154,7 +154,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>The benchmark has 4 main stats and 50 total substats: 9 from head / hands, 8 from body / feet / sphere / rope</li>
             <li>Each substat is equivalent to a 5 star relic's low roll value</li>
             <li>First, 2 substats are allocated to each substat type, except for Speed, leaving 28 open substats</li>
-            <li>Enough substats are then allocated to Speed to match the original character's in-combat Speed</li>
+            <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
               restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
@@ -163,7 +163,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <p>
             This process is repeated through all the possible main stat permutations and substat distributions until the highest damage simulation
-            is found. This build's score is then used as the standard for a 100% DPS Score.
+            is found. That build's damage is then used as the standard for a 100% DPS Score.
           </p>
 
           <h4>
@@ -180,8 +180,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h4>
           <p>
             Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her passive EHR to DMG conversion, and to land
-            Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score by half the missing
-            percentage: <code>dmg scale = min(1, (breakpoint - combat stat) / (breakpoint) * (1/2))</code>. This penalty applies to both the
+            Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score for the missing percentage. This penalty applies to both the
             original character and the benchmark simulations.
           </p>
 
@@ -227,6 +226,53 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
             </Flex>
           </pre>
+
+          <h2>FAQs</h2>
+
+          <h4>Why does the sim match Speed?</h4>
+          <p>
+            Speed is controlled separately from the other stats because comparing builds between different speed thresholds
+            introduces a lot of complexity to the calculations. For example higher speed can actually result in lower damage with
+            Bronya as a teammate if the Speed tuning is thrown off. To simplify the comparisons, we equalize the Speed variable by using
+            the sim's substats to match the original character's combat speed.
+          </p>
+
+          <h4>What's the reasoning behind the benchmark simulation rules?</h4>
+          <p>
+            The simulation rules were designed to create a realistic benchmark build for 100% DPS Score, which should be difficult to achieve yet possible
+            with character investment. After trialing many methodologies for generating simulation stats, this set of rules produced the most
+            consistent and reasonable 100% benchmarks across all characters and builds.
+          </p>
+
+          <p>
+            The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are
+            imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and
+            require multiple stats to be effective, vs characters that only need two or three stats.
+          </p>
+
+          <h4>Why are the scores different for different teams?</h4>
+          <p>
+            Team buffs and synergy will change the ideal benchmark simulation's score. For example, a benchmark sim with Fu Xuan on
+            the team may invest more substats into Crit DMG instead of Crit Rate since her passive Crit Rate will change the optimal
+            distribution of crit rolls. Teams can be customized to fit the actual teammates used for the character ingame.
+          </p>
+
+          <h4>Why are certain stat breakpoints forced?</h4>
+          <p>
+            The only forced breakpoints currently are Effect Hit Rate minimums for DoT characters.
+            Take Black Swan for example, the purpose of forcing the sim to use her 120% breakpoint is so it can't just ignore EHR
+            to chase more maximum DoT damage. EHR is more than just DMG conversion as it also lets her land Arcana debuffs to reach her 7th Arcana stack
+            for DEF pen. The penalty is calculated with half the missing percentage.
+          </p>
+          <p>
+            <code>dmg scale = min(1, (breakpoint - combat stat) / (breakpoint) * (1/2))</code>
+          </p>
+
+          <h4>How were the default simulation teams / sets chosen?</h4>
+          <p>
+            The defaults come from a combination of usage statistics and community guidance. Best in slot sets and teammates will change
+            with new game updates, so the default parameters may also change. Please visit the Discord server for suggestions and feedback on the scoring design.
+          </p>
         </Text>
       </Flex>
     )

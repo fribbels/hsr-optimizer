@@ -14,7 +14,7 @@ export function calculateDamage(c, request, params) {
   const sets = c.sets
   const cLevel = 80
   const eLevel = request.enemyLevel
-  const defReduction = x.DEF_SHRED + request.buffDefShred
+  const defReduction = x.DEF_SHRED + request.combatBuffs.DEF_SHRED
   const defIgnore = 0
 
   x.ELEMENTAL_DMG += x[params.ELEMENTAL_DMG_TYPE]
@@ -40,6 +40,16 @@ export function calculateDamage(c, request, params) {
   const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
   const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
 
+  const ENEMY_EFFECT_RES = 0.20
+  // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
+
+  // For stacking dots where the first stack has extra value
+  // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
+  const effectiveDotChance = Math.min(1, x.DOT_CHANCE * (1 + x[Stats.EHR]) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_SHRED))
+  const dotEhrMultiplier = x.DOT_SPLIT
+    ? (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1))
+    : effectiveDotChance
+
   // BREAK
   const maxToughness = request.enemyMaxToughness
 
@@ -56,15 +66,16 @@ export function calculateDamage(c, request, params) {
   x.SUPER_BREAK_DMG
     = universalMulti
     * 3767.5533
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
     * breakVulnerability
     * (1 - baseResistance)
     * (1 + x[Stats.BE])
-    * x.SUPER_BREAK_MODIFIER
+    * (x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER)
     * (1 / 30)
     * (1 + x.BREAK_EFFICIENCY_BOOST)
 
-  x.BASIC_DMG = x.BASIC_DMG
+  x.BASIC_DMG
+    = x.BASIC_DMG
     * universalMulti
     * (dmgBoostMultiplier + x.BASIC_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
@@ -74,7 +85,8 @@ export function calculateDamage(c, request, params) {
     + (x.BASIC_BREAK_DMG_MODIFIER * x.BREAK_DMG)
     + (x.SUPER_BREAK_DMG * x.BASIC_TOUGHNESS_DMG * (1 + x.BASIC_BREAK_EFFICIENCY_BOOST))
 
-  x.SKILL_DMG = x.SKILL_DMG
+  x.SKILL_DMG
+    = x.SKILL_DMG
     * universalMulti
     * (dmgBoostMultiplier + x.SKILL_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
@@ -83,7 +95,8 @@ export function calculateDamage(c, request, params) {
     * (1 + x.SKILL_ORIGINAL_DMG_BOOST)
     + (x.SUPER_BREAK_DMG * x.SKILL_TOUGHNESS_DMG)
 
-  x.ULT_DMG = x.ULT_DMG
+  x.ULT_DMG
+    = x.ULT_DMG
     * universalMulti
     * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
@@ -92,7 +105,8 @@ export function calculateDamage(c, request, params) {
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
     + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
 
-  x.FUA_DMG = x.FUA_DMG
+  x.FUA_DMG
+    = x.FUA_DMG
     * universalMulti
     * (dmgBoostMultiplier + x.FUA_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.FUA_DEF_PEN)
@@ -100,12 +114,22 @@ export function calculateDamage(c, request, params) {
     * (1 - (baseResistance - x.FUA_RES_PEN))
     + (x.SUPER_BREAK_DMG * x.FUA_TOUGHNESS_DMG)
 
-  x.DOT_DMG = x.DOT_DMG
+  x.DOT_DMG
+    = x.DOT_DMG
     * universalMulti
     * (dmgBoostMultiplier + x.DOT_BOOST)
     * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.DOT_DEF_PEN)
     * dotVulnerability
     * (1 - (baseResistance - x.DOT_RES_PEN))
+    * dotEhrMultiplier
+
+  x.COMBO_DMG
+    = request.combo.BASIC * x.BASIC_DMG
+    + request.combo.SKILL * x.SKILL_DMG
+    + request.combo.ULT * x.ULT_DMG
+    + request.combo.FUA * x.FUA_DMG
+    + request.combo.DOT * x.DOT_DMG
+    + request.combo.BREAK * x.BREAK_DMG
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

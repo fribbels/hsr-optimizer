@@ -72,8 +72,8 @@ window.store = create((set) => ({
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
-  characterTabBlur: false,
   conditionalSetEffectsDrawerOpen: false,
+  combatBuffsDrawerOpen: false,
   settingsDrawerOpen: false,
   permutations: 0,
   permutationsResults: 0,
@@ -136,44 +136,44 @@ window.store = create((set) => ({
 
   settings: DefaultSettingOptions,
 
-  setVersion: (x) => set(() => ({ version: x })),
-  setActiveKey: (x) => set(() => ({ activeKey: x })),
-  setCharacters: (x) => set(() => ({ characters: x })),
-  setCharactersById: (x) => set(() => ({ charactersById: x })),
-  setCharacterTabBlur: (x) => set(() => ({ characterTabBlur: x })),
-  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-  setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
-  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-  setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
-  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
-  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
-  setPermutations: (x) => set(() => ({ permutations: x })),
-  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
-  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
-  setRelicsById: (x) => set(() => ({ relicsById: x })),
-  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
-  setScorerId: (x) => set(() => ({ scorerId: x })),
-  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
-  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
-  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
-  setStatSimulations: (x) => set(() => ({ statSimulations: x })),
-  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
-  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
-  setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
-  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
-  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
-  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
-  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-  setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
-  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
-  setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
-  setSettings: (x) => set(() => ({ settings: x })),
-  setSavedSession: (x) => set(() => ({ savedSession: x })),
+  setVersion: (x) => set(() => ({version: x})),
+  setActiveKey: (x) => set(() => ({activeKey: x})),
+  setCharacters: (x) => set(() => ({characters: x})),
+  setCharactersById: (x) => set(() => ({charactersById: x})),
+  setConditionalSetEffectsDrawerOpen: (x) => set(() => ({conditionalSetEffectsDrawerOpen: x})),
+  setCombatBuffsDrawerOpen: (x) => set(() => ({combatBuffsDrawerOpen: x})),
+  setSettingsDrawerOpen: (x) => set(() => ({settingsDrawerOpen: x})),
+  setOptimizerTabFocusCharacter: (characterId) => set(() => ({optimizerTabFocusCharacter: characterId})),
+  setCharacterTabFocusCharacter: (characterId) => set(() => ({characterTabFocusCharacter: characterId})),
+  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({scoringAlgorithmFocusCharacter: characterId})),
+  setPermutationDetails: (x) => set(() => ({permutationDetails: x})),
+  setPermutations: (x) => set(() => ({permutations: x})),
+  setPermutationsResults: (x) => set(() => ({permutationsResults: x})),
+  setPermutationsSearched: (x) => set(() => ({permutationsSearched: x})),
+  setRelicsById: (x) => set(() => ({relicsById: x})),
+  setRelicTabFilters: (x) => set(() => ({relicTabFilters: x})),
+  setScorerId: (x) => set(() => ({scorerId: x})),
+  setScoringMetadataOverrides: (x) => set(() => ({scoringMetadataOverrides: x})),
+  setStatDisplay: (x) => set(() => ({statDisplay: x})),
+  setStatSimulationDisplay: (x) => set(() => ({statSimulationDisplay: x})),
+  setStatSimulations: (x) => set(() => ({statSimulations: Utils.clone(x)})),
+  setSelectedStatSimulations: (x) => set(() => ({selectedStatSimulations: x})),
+  setOptimizerMenuState: (x) => set(() => ({optimizerMenuState: x})),
+  setOptimizationInProgress: (x) => set(() => ({optimizationInProgress: x})),
+  setOptimizationId: (x) => set(() => ({optimizationId: x})),
+  setTeammateCount: (x) => set(() => ({teammateCount: x})),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({optimizerFormCharacterEidolon: x})),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({optimizerFormSelectedLightCone: x})),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({optimizerFormSelectedLightConeSuperimposition: x})),
+  setZeroPermutationsModalOpen: (x) => set(() => ({zeroPermutationModalOpen: x})),
+  setExcludedRelicPotentialCharacters: (x) => set(() => ({excludedRelicPotentialCharacters: x})),
+  setMenuSidebarOpen: (x) => set(() => ({menuSidebarOpen: x})),
+  setSettings: (x) => set(() => ({settings: x})),
+  setSavedSession: (x) => set(() => ({savedSession: x})),
   setSavedSessionKey: (key, x) => set((state) => ({
-    savedSession: { ...state.savedSession, [key]: x },
+    savedSession: {...state.savedSession, [key]: x},
   })),
-  setColorTheme: (x) => set(() => ({ colorTheme: x })),
+  setColorTheme: (x) => set(() => ({colorTheme: x})),
 }))
 
 export const DB = {
@@ -283,7 +283,7 @@ export const DB = {
   getScoringMetadata: (id) => {
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides[id]
-    const returnScoringMetadata = scoringMetadataOverrides || defaultScoringMetadata
+    const returnScoringMetadata = Utils.mergeUndefinedValues(scoringMetadataOverrides || {}, defaultScoringMetadata)
 
     for (const key of Object.keys(returnScoringMetadata.stats)) {
       if (returnScoringMetadata.stats[key] == null) {
@@ -312,6 +312,11 @@ export const DB = {
     for (const character of x.characters) {
       character.equipped = {}
       charactersById[character.id] = character
+
+      // Previously sim requests didnt use the stats field
+      if (character.form?.statSim?.simulations) {
+        character.form.statSim.simulations = character.form.statSim.simulations.filter(x => x.request?.stats)
+      }
 
       // Previously characters had customizable options, now we're defaulting to 80s
       character.form.characterLevel = 80
@@ -411,10 +416,10 @@ export const DB = {
       }
       DB.setCharacters(characters)
     } else {
-      const defaultForm = getDefaultForm({ id: form.characterId })
+      const defaultForm = getDefaultForm({id: form.characterId})
       found = {
         id: form.characterId,
-        form: { ...defaultForm, ...form },
+        form: {...defaultForm, ...form},
         equipped: {},
       }
       DB.addCharacter(found)
@@ -427,7 +432,7 @@ export const DB = {
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
     if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({ rowData: characters })
+      window.characterGrid.current.api.updateGridOptions({rowData: characters})
       window.characterGrid.current.api.forEachNode((node) => node.data.id == found.id ? node.setSelected(true) : 0)
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
@@ -471,7 +476,7 @@ export const DB = {
     if (build) {
       const errorMessage = `Build name [${name}] already exists`
       console.warn(errorMessage)
-      return { error: errorMessage }
+      return {error: errorMessage}
     } else {
       if (!character.builds) character.builds = []
       character.builds.push({
@@ -595,7 +600,7 @@ export const DB = {
     console.log('Equipping relics to character', relicIds, characterId)
 
     for (const relicId of relicIds) {
-      DB.equipRelic({ id: relicId }, characterId, forceSwap)
+      DB.equipRelic({id: relicId}, characterId, forceSwap)
     }
   },
 
@@ -733,7 +738,7 @@ export const DB = {
 
     // only valid when on relics tab
     if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+      window.relicsGrid.current.api.updateGridOptions({rowData: replacementRelics})
     }
 
     // only valid when on character tab
@@ -784,9 +789,18 @@ export const DB = {
           const newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
 
           // Different substats mean different relics - break
-          if (!newSubstat) { exit = true; break }
-          if (matchSubstat.stat != newSubstat.stat) { exit = true; break }
-          if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) { exit = true; break }
+          if (!newSubstat) {
+            exit = true;
+            break
+          }
+          if (matchSubstat.stat != newSubstat.stat) {
+            exit = true;
+            break
+          }
+          if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
+            exit = true;
+            break
+          }
 
           // Track if the number of stat increases make sense
           if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {

@@ -106,6 +106,51 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '05-22-2024',
+      content: [
+        'Updated with new character card layout',
+        'Added damage simulation based character scoring',
+        'newScore.webp',
+        'Add custom teammates display',
+        'customTeam.webp',
+        'Added a substat upgrade calculation for damage scoring',
+        'scoreUpgrades.webp',
+        'More details about the simulation scoring can be found below the character card',
+        'scoreSummary.webp',
+        'Added EHR considerations for DoT damage calculation, assumes 20% enemy RES',
+        'Adding customizable Rotation Combo damage formula',
+        'comboMenu.webp',
+        'The combo results can be filtered and sorted in the optimizer',
+        'comboGrid.webp',
+        'Added responsive handling to optimizer permutations sidebar, which now collapses into a footer for smaller screens',
+        'footer.webp',
+        'Moved Combat Buffs menu into a drawer',
+        'combatBuffs.webp',
+        'Added a +3 enhance button to the Relic Edit modal for easy enhancing',
+        'plusThree.webp',
+        'Added bar search to damage sim selectors',
+        'Raised Robin’s ATK cap to 8000',
+        'Raised Robin’s ATK default to 5000',
+        'Reliquary version bumped to 0.1.6',
+        'Character / light cone images are now blurred while loading',
+        leaks('Updated with beta 5.3v3 changes'),
+        leaks('Fix: Fixed Firefly Break Effect conversion interaction with ratio converted ATK buffs (Robin/Lynx)'),
+        'Fix: Ruan Mei’s default sort is now Break Effect',
+        'Fix: Robin’s default sort is now ATK',
+        'Fix: Prevent Ult DMG buffs from applying to Robin’s ult (Salsotto)',
+        'Fix: Removed Jade skill damage',
+        'Fix: Sparkle now correctly applies her skill CD',
+        'Fix: Custom character weights are now applied to the optimizer page',
+        'Fix: Allow all main stats for Harmony MC on body and sphere',
+        'Fix: Super break override now applies correctly to HMC',
+        'Fix: Prevent teammate sync from adding messenger set to calculations',
+        'Fix: Various relics tab potential optimality bugs have been fixed',
+        'Fix: Characters with not enough desired stats now score correctly on relics tab',
+        'Fix: Renamed Base stats to Basic stats',
+      ],
+    },
+    {
+      title: '',
       date: '05-07-2024',
       content: [
         'Added a new "Character custom stats simulation" feature',
@@ -429,6 +474,6 @@ function getChangelogContent() {
     },
   ]
   // Filter out leaks from changelog
-  changelog.map(x => x.content = x.content.filter(x => x.length > 0))
+  changelog.map((x) => x.content = x.content.filter((x) => x.length > 0))
   return changelog
 }

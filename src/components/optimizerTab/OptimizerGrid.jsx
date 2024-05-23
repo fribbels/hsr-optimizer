@@ -1,16 +1,22 @@
 import { AgGridReact } from 'ag-grid-react'
-import { baseColumnDefs, combatColumnDefs, defaultColDef, gridOptions } from 'components/optimizerTab/optimizerTabConstants.ts'
+import {
+  baseColumnDefs,
+  combatColumnDefs,
+  defaultColDef,
+  gridOptions
+} from 'components/optimizerTab/optimizerTabConstants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Flex, theme } from 'antd'
 import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
 
-const { useToken } = theme
+const {useToken} = theme
+
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
 
-  const { token } = useToken()
+  const {token} = useToken()
   const optimizerGrid = useRef()
   window.optimizerGrid = optimizerGrid
 
@@ -20,7 +26,9 @@ export function OptimizerGrid() {
 
   const statDisplay = window.store((s) => s.statDisplay)
   const columnDefs = useMemo(() => {
-    return statDisplay == 'combat' ? combatColumnDefs : baseColumnDefs
+    return statDisplay == 'combat'
+      ? combatColumnDefs
+      : baseColumnDefs
   }, [statDisplay])
 
   gridOptions.datasource = datasource

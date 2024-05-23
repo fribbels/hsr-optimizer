@@ -1,5 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.3.0'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.3.3'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -52,25 +52,120 @@ export const MainStats = [
 export type MainStats = typeof MainStats[number]
 
 export const MainStatsValues = {
-  [Stats.HP_P]: { 5: { base: 6.912, increment: 2.4192 }, 4: { base: 5.5296, increment: 1.9354 }, 3: { base: 4.1472, increment: 1.4515 }, 2: { base: 2.7648, increment: 0.9677 } },
-  [Stats.ATK_P]: { 5: { base: 6.912, increment: 2.4192 }, 4: { base: 5.5296, increment: 1.9354 }, 3: { base: 4.1472, increment: 1.4515 }, 2: { base: 2.7648, increment: 0.9677 } },
-  [Stats.DEF_P]: { 5: { base: 8.64, increment: 3.024 }, 4: { base: 6.912, increment: 2.4192 }, 3: { base: 5.184, increment: 1.8144 }, 2: { base: 3.456, increment: 1.2096 } },
-  [Stats.HP]: { 5: { base: 112.896, increment: 39.5136 }, 4: { base: 90.3168, increment: 31.61088 }, 3: { base: 67.7376, increment: 23.70816 }, 2: { base: 45.1584, increment: 15.80544 } },
-  [Stats.ATK]: { 5: { base: 56.448, increment: 19.7568 }, 4: { base: 45.1584, increment: 15.80544 }, 3: { base: 33.8688, increment: 11.85408 }, 2: { base: 22.5792, increment: 7.90272 } },
-  [Stats.SPD]: { 5: { base: 4.032, increment: 1.4 }, 4: { base: 3.226, increment: 1.1 }, 3: { base: 2.419, increment: 1.0 }, 2: { base: 1.613, increment: 1.0 } },
-  [Stats.CR]: { 5: { base: 5.184, increment: 1.8144 }, 4: { base: 4.1472, increment: 1.4515 }, 3: { base: 3.1104, increment: 1.0886 }, 2: { base: 2.0736, increment: 0.7258 } },
-  [Stats.CD]: { 5: { base: 10.368, increment: 3.6288 }, 4: { base: 8.2944, increment: 2.9030 }, 3: { base: 6.2208, increment: 2.1773 }, 2: { base: 4.1472, increment: 1.4515 } },
-  [Stats.EHR]: { 5: { base: 6.912, increment: 2.4192 }, 4: { base: 5.5296, increment: 1.9354 }, 3: { base: 4.1472, increment: 1.4515 }, 2: { base: 2.7648, increment: 0.9677 } },
-  [Stats.BE]: { 5: { base: 10.3680, increment: 3.6288 }, 4: { base: 8.2944, increment: 2.9030 }, 3: { base: 6.2208, increment: 2.1773 }, 2: { base: 4.1472, increment: 1.4515 } },
-  [Stats.ERR]: { 5: { base: 3.1104, increment: 1.0886 }, 4: { base: 2.4883, increment: 0.8709 }, 3: { base: 1.8662, increment: 0.6532 }, 2: { base: 1.2442, increment: 0.4355 } },
-  [Stats.OHB]: { 5: { base: 5.5296, increment: 1.9354 }, 4: { base: 4.4237, increment: 1.5483 }, 3: { base: 3.3178, increment: 1.1612 }, 2: { base: 2.2118, increment: 0.7741 } },
-  [Stats.Physical_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Fire_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Ice_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Lightning_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Wind_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Quantum_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
-  [Stats.Imaginary_DMG]: { 5: { base: 6.2208, increment: 2.1773 }, 4: { base: 4.9766, increment: 1.7418 }, 3: { base: 3.7325, increment: 1.3064 }, 2: { base: 2.4883, increment: 0.8709 } },
+  [Stats.HP_P]: {
+    5: { base: 6.912, increment: 2.4192 },
+    4: { base: 5.5296, increment: 1.9354 },
+    3: { base: 4.1472, increment: 1.4515 },
+    2: { base: 2.7648, increment: 0.9677 },
+  },
+  [Stats.ATK_P]: {
+    5: { base: 6.912, increment: 2.4192 },
+    4: { base: 5.5296, increment: 1.9354 },
+    3: { base: 4.1472, increment: 1.4515 },
+    2: { base: 2.7648, increment: 0.9677 },
+  },
+  [Stats.DEF_P]: {
+    5: { base: 8.64, increment: 3.024 },
+    4: { base: 6.912, increment: 2.4192 },
+    3: { base: 5.184, increment: 1.8144 },
+    2: { base: 3.456, increment: 1.2096 },
+  },
+  [Stats.HP]: {
+    5: { base: 112.896, increment: 39.5136 },
+    4: { base: 90.3168, increment: 31.61088 },
+    3: { base: 67.7376, increment: 23.70816 },
+    2: { base: 45.1584, increment: 15.80544 },
+  },
+  [Stats.ATK]: {
+    5: { base: 56.448, increment: 19.7568 },
+    4: { base: 45.1584, increment: 15.80544 },
+    3: { base: 33.8688, increment: 11.85408 },
+    2: { base: 22.5792, increment: 7.90272 },
+  },
+  [Stats.SPD]: {
+    5: { base: 4.032, increment: 1.4 },
+    4: { base: 3.226, increment: 1.1 },
+    3: { base: 2.419, increment: 1.0 },
+    2: { base: 1.613, increment: 1.0 },
+  },
+  [Stats.CR]: {
+    5: { base: 5.184, increment: 1.8144 },
+    4: { base: 4.1472, increment: 1.4515 },
+    3: { base: 3.1104, increment: 1.0886 },
+    2: { base: 2.0736, increment: 0.7258 },
+  },
+  [Stats.CD]: {
+    5: { base: 10.368, increment: 3.6288 },
+    4: { base: 8.2944, increment: 2.9030 },
+    3: { base: 6.2208, increment: 2.1773 },
+    2: { base: 4.1472, increment: 1.4515 },
+  },
+  [Stats.EHR]: {
+    5: { base: 6.912, increment: 2.4192 },
+    4: { base: 5.5296, increment: 1.9354 },
+    3: { base: 4.1472, increment: 1.4515 },
+    2: { base: 2.7648, increment: 0.9677 },
+  },
+  [Stats.BE]: {
+    5: { base: 10.3680, increment: 3.6288 },
+    4: { base: 8.2944, increment: 2.9030 },
+    3: { base: 6.2208, increment: 2.1773 },
+    2: { base: 4.1472, increment: 1.4515 },
+  },
+  [Stats.ERR]: {
+    5: { base: 3.1104, increment: 1.0886 },
+    4: { base: 2.4883, increment: 0.8709 },
+    3: { base: 1.8662, increment: 0.6532 },
+    2: { base: 1.2442, increment: 0.4355 },
+  },
+  [Stats.OHB]: {
+    5: { base: 5.5296, increment: 1.9354 },
+    4: { base: 4.4237, increment: 1.5483 },
+    3: { base: 3.3178, increment: 1.1612 },
+    2: { base: 2.2118, increment: 0.7741 },
+  },
+  [Stats.Physical_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Fire_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Ice_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Lightning_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Wind_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Quantum_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
+  [Stats.Imaginary_DMG]: {
+    5: { base: 6.2208, increment: 2.1773 },
+    4: { base: 4.9766, increment: 1.7418 },
+    3: { base: 3.7325, increment: 1.3064 },
+    2: { base: 2.4883, increment: 0.8709 },
+  },
 }
 
 export const SubStats = [
@@ -219,6 +314,31 @@ export const StatsToShort = {
   [Stats.ATK_P]: 'ATK%',
   [Stats.DEF_P]: 'DEF%',
   [Stats.SPD_P]: 'SPD%',
+  [Stats.HP]: 'HP',
+  [Stats.ATK]: 'ATK',
+  [Stats.DEF]: 'DEF',
+  [Stats.SPD]: 'SPD',
+  [Stats.CR]: 'CR',
+  [Stats.CD]: 'CD',
+  [Stats.EHR]: 'EHR',
+  [Stats.RES]: 'RES',
+  [Stats.BE]: 'BE',
+  [Stats.ERR]: 'ERR',
+  [Stats.OHB]: 'OHB',
+  [Stats.Physical_DMG]: 'Physical',
+  [Stats.Fire_DMG]: 'Fire',
+  [Stats.Ice_DMG]: 'Ice',
+  [Stats.Lightning_DMG]: 'Lightning',
+  [Stats.Wind_DMG]: 'Wind',
+  [Stats.Quantum_DMG]: 'Quantum',
+  [Stats.Imaginary_DMG]: 'Imaginary',
+}
+
+export const StatsToShortSpaced = {
+  [Stats.HP_P]: 'HP %',
+  [Stats.ATK_P]: 'ATK %',
+  [Stats.DEF_P]: 'DEF %',
+  [Stats.SPD_P]: 'SPD %',
   [Stats.HP]: 'HP',
   [Stats.ATK]: 'ATK',
   [Stats.DEF]: 'DEF',
@@ -488,39 +608,98 @@ export const DEFAULT_STAT_DISPLAY = 'combat'
 export const MAX_RESULTS = 2_000_000
 
 export const BodyStatOptions = [
-  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Stats.CR, short: "Crit Rate", label: 'CRIT Rate'},
-  {value: Stats.CD, short: "Crit DMG", label: 'CRIT DMG'},
-  {value: Stats.EHR, short: "EHR", label: 'Effect HIT Rate'},
-  {value: Stats.OHB, short: "Healing", label: 'Outgoing Healing Boost'},
+  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
+  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
+  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
+  { value: Stats.CR, short: 'Crit Rate', label: 'CRIT Rate' },
+  { value: Stats.CD, short: 'Crit DMG', label: 'CRIT DMG' },
+  { value: Stats.EHR, short: 'EHR', label: 'Effect HIT Rate' },
+  { value: Stats.OHB, short: 'Healing', label: 'Outgoing Healing Boost' },
 ]
 
 export const FeetStatOptions = [
-  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Stats.SPD, short: "SPD", label: 'Speed'},
+  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
+  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
+  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
+  { value: Stats.SPD, short: 'SPD', label: 'Speed' },
 ]
 
 export const LinkRopeStatOptions = [
-  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Stats.BE, short: "Break", label: 'Break Effect'},
-  {value: Stats.ERR, short: "Energy", label: 'Energy Regeneration Rate'},
+  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
+  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
+  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
+  { value: Stats.BE, short: 'Break', label: 'Break Effect' },
+  { value: Stats.ERR, short: 'Energy', label: 'Energy Regeneration Rate' },
 ]
 
 export const PlanarSphereStatOptions = [
-  {value: Stats.HP_P, short: "HP%", label: 'HP%'},
-  {value: Stats.ATK_P, short: "ATK%", label: 'ATK%'},
-  {value: Stats.DEF_P, short: "DEF%", label: 'DEF%'},
-  {value: Stats.Physical_DMG, short: "Physical", label: 'Physical DMG'},
-  {value: Stats.Fire_DMG, short: "Fire", label: 'Fire DMG'},
-  {value: Stats.Ice_DMG, short: "Ice", label: 'Ice DMG'},
-  {value: Stats.Lightning_DMG, short: "Lightning", label: 'Lightning DMG'},
-  {value: Stats.Wind_DMG, short: "Wind", label: 'Wind DMG'},
-  {value: Stats.Quantum_DMG, short: "Quantum", label: 'Quantum DMG'},
-  {value: Stats.Imaginary_DMG, short: "Imaginary", label: 'Imaginary DMG'},
+  { value: Stats.HP_P, short: 'HP%', label: 'HP%' },
+  { value: Stats.ATK_P, short: 'ATK%', label: 'ATK%' },
+  { value: Stats.DEF_P, short: 'DEF%', label: 'DEF%' },
+  { value: Stats.Physical_DMG, short: 'Physical', label: 'Physical DMG' },
+  { value: Stats.Fire_DMG, short: 'Fire', label: 'Fire DMG' },
+  { value: Stats.Ice_DMG, short: 'Ice', label: 'Ice DMG' },
+  { value: Stats.Lightning_DMG, short: 'Lightning', label: 'Lightning DMG' },
+  { value: Stats.Wind_DMG, short: 'Wind', label: 'Wind DMG' },
+  { value: Stats.Quantum_DMG, short: 'Quantum', label: 'Quantum DMG' },
+  { value: Stats.Imaginary_DMG, short: 'Imaginary', label: 'Imaginary DMG' },
 ]
+
+export const CombatBuffs = {
+  ATK: {
+    title: 'ATK',
+    key: 'ATK',
+    percent: false,
+  },
+  ATK_P: {
+    title: 'ATK %',
+    key: 'ATK_P',
+    percent: true,
+  },
+  CR: {
+    title: 'Crit Rate %',
+    key: 'CR',
+    percent: true,
+  },
+  CD: {
+    title: 'Crit Dmg %',
+    key: 'CD',
+    percent: true,
+  },
+  SPD: {
+    title: 'SPD',
+    key: 'SPD',
+    percent: false,
+  },
+  SPD_P: {
+    title: 'SPD %',
+    key: 'SPD_P',
+    percent: true,
+  },
+  BE: {
+    title: 'BE %',
+    key: 'BE',
+    percent: true,
+  },
+  DMG_BOOST: {
+    title: 'Dmg Boost %',
+    key: 'DMG_BOOST',
+    percent: true,
+  },
+  DEF_SHRED: {
+    title: 'Def Shred %',
+    key: 'DEF_SHRED',
+    percent: true,
+  },
+  RES_SHRED: {
+    title: 'RES Pen %',
+    key: 'RES_SHRED',
+    percent: true,
+  },
+}
+
+export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
+
+export const DEFAULT_TEAM = 'Default'
+export const CUSTOM_TEAM = 'Custom'
+export const RESET_TEAM = 'Reset'

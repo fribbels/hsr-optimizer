@@ -1,9 +1,9 @@
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils'
-import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
+import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { StatCalculator } from 'lib/statCalculator'
-import { Stat } from 'types/Relic'
+import { Relic, Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
@@ -15,21 +15,48 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
+import { Form } from 'types/Form'
+import { SimulationResult } from 'lib/characterScorer'
+
+export type Simulation = {
+  name?: string
+  key: string
+  simType: string
+  request: SimulationRequest
+  result: any
+  penaltyMultiplier: number
+}
+
+export type SimulationRequest = {
+  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
+  simRelicSet1: string
+  simRelicSet2: string
+  simOrnamentSet: string
+  simBody: string
+  simFeet: string
+  simPlanarSphere: string
+  simLinkRope: string
+  stats: SimulationStats
+}
+
+export type SimulationStats = {
+  [key: string]: number
+}
 
 export function saveStatSimulationBuildFromForm() {
-  const form = window.optimizerForm.getFieldsValue()
+  const form: Form = window.optimizerForm.getFieldsValue()
   console.log('Save statSim', form.statSim)
 
-  const simType = window.store.getState().statSimulationDisplay
+  const simType: StatSimTypes = window.store.getState().statSimulationDisplay
 
   // Check for invalid button presses
-  if (simType == StatSimTypes.Disabled || !form.statSim || !form.statSim[simType]) {
+  if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
     return
   }
 
   // Check for missing fields
-  const simRequest = form.statSim[simType]
+  const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
     return
@@ -38,11 +65,11 @@ export function saveStatSimulationBuildFromForm() {
   saveStatSimulationRequest(simRequest, simType, true)
 }
 
-export function saveStatSimulationRequest(simRequest, simType, startSim = false) {
-  const existingSimulations = window.store.getState().statSimulations || []
+export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
+  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
   const key = Utils.randomId()
   const name = simRequest.name || undefined
-  const simulation = {
+  const simulation: Simulation = {
     name: name,
     key: key,
     simType: simType,
@@ -63,9 +90,8 @@ export function saveStatSimulationRequest(simRequest, simType, startSim = false)
   existingSimulations.push(simulation)
 
   // Update state
-  const cloned = Utils.clone(existingSimulations)
-  window.store.getState().setStatSimulations(cloned)
-  setFormStatSimulations(cloned)
+  window.store.getState().setStatSimulations(existingSimulations)
+  setFormStatSimulations(existingSimulations)
 
   if (startSim) {
     startOptimizerStatSimulation()
@@ -74,7 +100,7 @@ export function saveStatSimulationRequest(simRequest, simType, startSim = false)
   autosave()
 }
 
-function hashSim(sim) {
+function hashSim(sim: Simulation) {
   const cleanedRequest = {}
   for (const entry of Object.entries(sim.request)) {
     if (entry[1] != null) {
@@ -88,7 +114,7 @@ function hashSim(sim) {
   })
 }
 
-function validateRequest(request) {
+function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
     Message.error('Missing simulation main stats')
     return false
@@ -97,16 +123,16 @@ function validateRequest(request) {
   return true
 }
 
-export function renderDefaultSimulationName(sim) {
+export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim}/>
+      <SimSetsDisplay sim={sim} />
 
-      {'|'}
+      |
 
-      <SimMainsDisplay sim={sim}/>
+      <SimMainsDisplay sim={sim} />
 
-      {'|'}
+      |
 
       <Flex>
         {sim.name ? `${sim.name}` : null}
@@ -116,12 +142,12 @@ export function renderDefaultSimulationName(sim) {
         {sim.name ? `|` : null}
       </Flex>
 
-      <SimSubstatsDisplay sim={sim}/>
+      <SimSubstatsDisplay sim={sim} />
     </Flex>
   )
 }
 
-function SimSetsDisplay(props: { sim: any }) {
+function SimSetsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   const relicImage1 = Assets.getSetImage(request.simRelicSet1)
@@ -130,24 +156,24 @@ function SimSetsDisplay(props: { sim: any }) {
   return (
     <Flex gap={5}>
       <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage}/>
+      <img style={{ width: imgSize }} src={ornamentImage} />
     </Flex>
   )
 }
 
-function SimMainsDisplay(props: { sim: any }) {
+function SimMainsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
   const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
     </Flex>
   )
 }
@@ -167,22 +193,22 @@ const substatToPriority = {
   [Stats.RES]: 11,
 }
 
-function SimSubstatsDisplay(props: { sim: any }) {
+function SimSubstatsDisplay(props: { sim: Simulation }) {
   const renderArray: Stat[] = []
-  const substats = inputToSubstats(props.sim)
+  const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
     if (value) {
       renderArray.push({
         stat: stat,
-        value: value
+        value: value,
       })
     }
   }
 
   renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
 
-  function renderStat(x) {
+  function renderStat(x: Stat) {
     return props.sim.simType == StatSimTypes.SubstatRolls
       ? `${StatsToShort[x.stat]} x ${x.value}`
       : `${StatsToShort[x.stat]} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
@@ -207,10 +233,10 @@ function SimSubstatsDisplay(props: { sim: any }) {
   )
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
+export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
   console.log('Delete sim', record)
-  const statSims = window.store.getState().statSimulations
-  const updatedSims = Utils.clone(statSims.filter(x => x.key != record.key))
+  const statSims: Simulation[] = window.store.getState().statSimulations
+  const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
@@ -225,11 +251,11 @@ export function deleteAllStatSimulationBuilds() {
   autosave()
 }
 
-export function setFormStatSimulations(simulations) {
+export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form, simulations) {
+export function runSimulations(form: Form, simulations: Simulation[], quality = 1): SimulationResult[] {
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
@@ -262,15 +288,15 @@ export function runSimulations(form, simulations) {
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set
     // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
-    const unusedRelicSets = SetsRelicsNames.filter(x => x != request.simRelicSet1 && x != request.simRelicSet2)
-    const ornamentSet = request.simOrnamentSet || -1
+    // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
+    const unusedRelicSets = SetsRelicsNames.filter((x) => x != request.simRelicSet1 && x != request.simRelicSet2)
 
     head.set = request.simRelicSet1 || unusedRelicSets[0]
     hands.set = request.simRelicSet1 || unusedRelicSets[1]
     body.set = request.simRelicSet2 || unusedRelicSets[2]
     feet.set = request.simRelicSet2 || unusedRelicSets[3]
-    linkRope.set = ornamentSet
-    planarSphere.set = ornamentSet
+    linkRope.set = request.simOrnamentSet || SetsOrnamentsNames[0]
+    planarSphere.set = request.simOrnamentSet || SetsOrnamentsNames[1]
 
     head.part = Parts.Head
     hands.part = Parts.Hands
@@ -279,20 +305,22 @@ export function runSimulations(form, simulations) {
     linkRope.part = Parts.LinkRope
     planarSphere.part = Parts.PlanarSphere
 
+    // Convert substat rolls to value totals
     const substatValues: Stat[] = []
-    const requestSubstats = inputToSubstats(sim)
+    const requestSubstats = Utils.clone(sim.request.stats)
     if (sim.simType == StatSimTypes.SubstatRolls) {
       for (const substat of SubStats) {
-        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat))
+        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat, quality))
       }
     }
 
+    // Convert value totals to substat objects
     for (const substat of SubStats) {
       const value = requestSubstats[substat]
       if (value) {
         substatValues.push({
           stat: substat,
-          value: value
+          value: value,
         })
       }
     }
@@ -320,7 +348,9 @@ export function runSimulations(form, simulations) {
     const c = calculateBuild(form, relics)
 
     renameFields(c)
-    c.statSim = sim
+    c.statSim = {
+      key: sim.key,
+    }
     simulationResults.push(c)
   }
 
@@ -328,8 +358,8 @@ export function runSimulations(form, simulations) {
 }
 
 export function startOptimizerStatSimulation() {
-  const form = OptimizerTabController.getForm()
-  const existingSimulations = window.store.getState().statSimulations || []
+  const form: Form = OptimizerTabController.getForm()
+  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
 
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
@@ -348,24 +378,6 @@ export function startOptimizerStatSimulation() {
   setSortColumn(gridSortColumn)
 
   autosave()
-}
-
-function inputToSubstats(sim) {
-  const request = sim.request
-  return {
-    [Stats.HP_P]: request.simHpP,
-    [Stats.ATK_P]: request.simAtkP,
-    [Stats.DEF_P]: request.simDefP,
-    [Stats.HP]: request.simHp,
-    [Stats.ATK]: request.simAtk,
-    [Stats.DEF]: request.simDef,
-    [Stats.SPD]: request.simSpd,
-    [Stats.CR]: request.simCr,
-    [Stats.CD]: request.simCd,
-    [Stats.EHR]: request.simEhr,
-    [Stats.RES]: request.simRes,
-    [Stats.BE]: request.simBe,
-  }
 }
 
 function autosave() {
@@ -389,22 +401,8 @@ export function importOptimizerBuild() {
 
   // Generate relics from optimizer row
   const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id, true)
-  const relics = Object.values(relicsByPart)
-  const accumulatedSubstatRolls = {}
-  SubStats.map(x => accumulatedSubstatRolls[x] = 0)
-
-  // Sum up substat rolls
-  for (const relic of relics) {
-    for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat)
-    }
-  }
-
-  // Round them to 4 precision
-  SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Calculate relic sets
-  const relicSetNames: string[] = []
   const relicSetIndex = selectedRow.relicSetIndex
   const numSetsR = Object.values(Constants.SetsRelics).length
   const s1 = relicSetIndex % numSetsR
@@ -412,10 +410,67 @@ export function importOptimizerBuild() {
   const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
   const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
   const relicSets = [s1, s2, s3, s4]
+  const relicSetNames: string[] = calculateRelicSets(relicSets)
+
+  // Calculate ornament sets
+  const ornamentSetIndex = selectedRow.ornamentSetIndex
+  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+  const os1 = ornamentSetIndex % ornamentSetCount
+  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
+  const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2], false)
+
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
+  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+}
+
+export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1) {
+  const relics: Relic[] = Object.values(relicsByPart)
+  const accumulatedSubstatRolls = {}
+  SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
+
+  // Sum up substat rolls
+  for (const relic of relics) {
+    for (const substat of relic.substats) {
+      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat, quality)
+    }
+  }
+
+  // Round them to 4 precision
+  SubStats.map((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
+
+  // Generate the fake request and submit it
+  return {
+    name: '',
+    simRelicSet1: relicSet1,
+    simRelicSet2: relicSet2,
+    simOrnamentSet: ornamentSet,
+    simBody: relicsByPart[Parts.Body].main.stat,
+    simFeet: relicsByPart[Parts.Feet].main.stat,
+    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
+    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
+    stats: {
+      [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
+      [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,
+      [Stats.DEF]: accumulatedSubstatRolls[Stats.DEF] || null,
+      [Stats.HP_P]: accumulatedSubstatRolls[Stats.HP_P] || null,
+      [Stats.ATK_P]: accumulatedSubstatRolls[Stats.ATK_P] || null,
+      [Stats.DEF_P]: accumulatedSubstatRolls[Stats.DEF_P] || null,
+      [Stats.CR]: accumulatedSubstatRolls[Stats.CR] || null,
+      [Stats.CD]: accumulatedSubstatRolls[Stats.CD] || null,
+      [Stats.SPD]: accumulatedSubstatRolls[Stats.SPD] || null,
+      [Stats.EHR]: accumulatedSubstatRolls[Stats.EHR] || null,
+      [Stats.RES]: accumulatedSubstatRolls[Stats.RES] || null,
+      [Stats.BE]: accumulatedSubstatRolls[Stats.BE] || null,
+    },
+  }
+}
+
+export function calculateRelicSets(relicSets, nameProvided = false) {
+  const relicSetNames: string[] = []
   while (relicSets.length > 0) {
     const value = relicSets[0]
     if (relicSets.lastIndexOf(value)) {
-      const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
       relicSetNames.push(setName)
 
       const otherIndex = relicSets.lastIndexOf(value)
@@ -424,39 +479,12 @@ export function importOptimizerBuild() {
     relicSets.splice(0, 1)
   }
 
-  // Calculate ornament sets
-  let ornamentSetName: string | undefined
-  const ornamentSetIndex = selectedRow.ornamentSetIndex
-  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
-  const os1 = ornamentSetIndex % ornamentSetCount
-  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
-  if (os1 == os2) {
-    ornamentSetName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == os1)![0]
-  }
+  return relicSetNames
+}
 
-  // Generate the fake request and submit it
-  const request = {
-    name: '',
-    simRelicSet1: relicSetNames[0],
-    simRelicSet2: relicSetNames[1],
-    simOrnamentSet: ornamentSetName,
-    simBody: relicsByPart[Parts.Body].main.stat,
-    simFeet: relicsByPart[Parts.Feet].main.stat,
-    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
-    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
-    simHp: accumulatedSubstatRolls[Stats.HP] || null,
-    simAtk: accumulatedSubstatRolls[Stats.ATK] || null,
-    simDef: accumulatedSubstatRolls[Stats.DEF] || null,
-    simHpP: accumulatedSubstatRolls[Stats.HP_P] || null,
-    simAtkP: accumulatedSubstatRolls[Stats.ATK_P] || null,
-    simDefP: accumulatedSubstatRolls[Stats.DEF_P] || null,
-    simCr: accumulatedSubstatRolls[Stats.CR] || null,
-    simCd: accumulatedSubstatRolls[Stats.CD] || null,
-    simSpd: accumulatedSubstatRolls[Stats.SPD] || null,
-    simEhr: accumulatedSubstatRolls[Stats.EHR] || null,
-    simRes: accumulatedSubstatRolls[Stats.RES] || null,
-    simBe: accumulatedSubstatRolls[Stats.BE] || null,
+export function calculateOrnamentSets(ornamentSets, nameProvided = true) {
+  if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
+    return nameProvided ? ornamentSets[1] : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
   }
-
-  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+  return undefined
 }

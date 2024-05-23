@@ -28,8 +28,8 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
 
-const { useToken } = theme
-const { Text } = Typography
+const {useToken} = theme
+const {Text} = Typography
 
 function cellImageRenderer(params) {
   const data = params.data
@@ -40,7 +40,7 @@ function cellImageRenderer(params) {
       preview={false}
       width={50}
       src={characterIconSrc}
-      style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
+      style={{flex: '0 0 auto', maxWidth: '100%', minWidth: 50}}
     />
   )
 }
@@ -50,7 +50,7 @@ function cellRankRenderer(params) {
   const character = DB.getCharacters().find((x) => x.id == data.id)
 
   return (
-    <Text style={{ height: '100%' }}>
+    <Text style={{height: '100%'}}>
       {character.rank + 1}
     </Text>
   )
@@ -68,7 +68,7 @@ function cellNameRenderer(params) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align="center" justify="flex-start" style={{ height: '100%', width: '100%' }}>
+    <Flex align="center" justify="flex-start" style={{height: '100%', width: '100%'}}>
       <Text style={{
         margin: 'auto',
         padding: '0px 5px',
@@ -82,7 +82,7 @@ function cellNameRenderer(params) {
       }}>
         {characterName}
       </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
+      <Flex style={{display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2}}>
 
       </Flex>
     </Flex>
@@ -161,7 +161,7 @@ const items = [
 ]
 
 export default function CharacterTab() {
-  const { token } = useToken()
+  const {token} = useToken()
 
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [screenshotLoading, setScreenshotLoading] = useState(false)
@@ -208,9 +208,9 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
-    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
-    { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
+    {field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52},
+    {field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true},
+    {field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer},
   ], [])
 
   const gridOptions = useMemo(() => ({
@@ -224,14 +224,13 @@ export default function CharacterTab() {
 
   const defaultColDef = useMemo(() => ({
     sortable: false,
-    cellStyle: { display: 'flex' },
+    cellStyle: {display: 'flex'},
   }), [])
 
   const cellClickedListener = useCallback((event) => {
     const data = event.data
 
     // Only blur if different character
-    window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
   }, [setCharacterTabFocusCharacter])
@@ -360,9 +359,9 @@ export default function CharacterTab() {
     const characterList = DB.getCharacters()
 
     const scoredCharacters = characterList
-      .map((x) => ({ score: RelicScorer.scoreCharacter(x), character: x }))
-      .sort((a, b) => b.score.totalScore - a.score.totalScore)
-      .map((x) => x.character)
+    .map((x) => ({score: RelicScorer.scoreCharacter(x), character: x}))
+    .sort((a, b) => b.score.totalScore - a.score.totalScore)
+    .map((x) => x.character)
 
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
@@ -475,13 +474,14 @@ export default function CharacterTab() {
       vertical
       style={{
         height: '100%',
+        marginBottom: 200
       }}
     >
-      <Flex style={{ height: '100%' }}>
-        <Flex vertical gap={8} style={{ marginRight: 8 }}>
+      <Flex style={{height: '100%'}}>
+        <Flex vertical gap={8} style={{marginRight: 8}}>
           <div
             id="characterGrid" className="ag-theme-balham-dark" style={{
-            ...{ display: 'block', width: 230, height: parentH - 85 },
+            ...{display: 'block', width: 230, height: parentH - 76},
             ...getGridTheme(token),
           }}
           >
@@ -512,23 +512,25 @@ export default function CharacterTab() {
                 menu={actionsMenuProps}
                 trigger={['hover']}
               >
-                <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
+                <Button style={{width: '100%'}} icon={<UserOutlined/>}>
                   Character actions
                   <DownOutlined/>
                 </Button>
               </Dropdown>
             </Flex>
             <Flex gap={8}>
-              <Button style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked} type="primary"
+              <Button style={{flex: 'auto'}} icon={<CameraOutlined/>} onClick={clipboardClicked} type="primary"
                       loading={screenshotLoading}>
                 Copy screenshot
               </Button>
-              <Button style={{ width: 40 }} type="primary" icon={<DownloadOutlined/>} onClick={downloadClicked}
+              <Button style={{width: 40}} type="primary" icon={<DownloadOutlined/>} onClick={downloadClicked}
                       loading={downloadLoading}/>
             </Flex>
           </Flex>
         </Flex>
-        <CharacterPreview id="characterTabPreview" character={selectedCharacter}/>
+        <Flex vertical>
+          <CharacterPreview id="characterTabPreview" character={selectedCharacter}/>
+        </Flex>
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>

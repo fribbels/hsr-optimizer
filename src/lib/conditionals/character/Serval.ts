@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
 
@@ -17,21 +17,24 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 1.80, 1.944)
   const dotScaling = skill(e, 1.04, 1.144)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'targetShocked',
-    name: 'targetShocked',
-    text: 'Target shocked',
-    title: 'Target shocked',
-    content: `After Serval attacks, deals Additional Lightning DMG equal to ${precisionRound(talentExtraDmgScaling * 100)}% of Serval's ATK to all Shocked enemies.`,
-  }, {
-    formItem: 'switch',
-    id: 'enemyDefeatedBuff',
-    name: 'enemyDefeatedBuff',
-    text: 'Enemy defeated buff',
-    title: 'Enemy defeated buff',
-    content: `Upon defeating an enemy, ATK increases by 20% for 2 turn(s).`,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'targetShocked',
+      name: 'targetShocked',
+      text: 'Target shocked',
+      title: 'Target shocked',
+      content: `After Serval attacks, deals Additional Lightning DMG equal to ${precisionRound(talentExtraDmgScaling * 100)}% of Serval's ATK to all Shocked enemies.`,
+    },
+    {
+      formItem: 'switch',
+      id: 'enemyDefeatedBuff',
+      name: 'enemyDefeatedBuff',
+      text: 'Enemy defeated buff',
+      title: 'Enemy defeated buff',
+      content: `Upon defeating an enemy, ATK increases by 20% for 2 turn(s).`,
+    }
+  ]
 
   return {
     content: () => content,
@@ -40,8 +43,7 @@ export default (e: Eidolon): CharacterConditional => {
       targetShocked: true,
       enemyDefeatedBuff: true,
     }),
-    teammateDefaults: () => ({
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -65,6 +67,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 60
+
+      x.DOT_CHANCE = 0.65
 
       return x
     },

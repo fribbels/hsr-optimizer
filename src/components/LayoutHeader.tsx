@@ -31,7 +31,7 @@ export function LayoutHeader() {
             icon={menuSidebarOpen ? <CloseOutlined /> : <MenuOutlined />}
             onClick={() => setMenuSidebarOpen(!menuSidebarOpen)}
             style={{
-              fontSize: '15.5px',
+              fontSize: '16px',
               position: 'relative',
               left: '-20px',
             }}

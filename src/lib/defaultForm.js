@@ -1,4 +1,4 @@
-import { Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
+import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
 import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from './utils.js'
@@ -24,6 +24,9 @@ export function getDefaultForm(initialCharacter) {
     topPercent: 100,
   }
 
+  const combatBuffs = {}
+  Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
+
   const defaultForm = Utils.clone({
     characterId: initialCharacter?.id,
     mainBody: parts[Constants.Parts.Body] || [],
@@ -46,6 +49,8 @@ export function getDefaultForm(initialCharacter) {
     enemyCount: 1,
     enemyResistance: 0.2,
     enemyMaxToughness: 360,
+    enemyElementalWeak: true,
+    enemyWeaknessBroken: false,
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
@@ -57,6 +62,15 @@ export function getDefaultForm(initialCharacter) {
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
     resultLimit: 100000,
+    combatBuffs: combatBuffs,
+    combo: {
+      BASIC: 0,
+      SKILL: 0,
+      ULT: 0,
+      FUA: 0,
+      DOT: 0,
+      BREAK: 0,
+    },
   })
 
   defaultForm.topPercent = 100
@@ -89,7 +103,7 @@ export function defaultTeammate() {
 
 export const defaultStatSim = {
   simType: StatSimTypes.Disabled,
-  simulations: []
+  simulations: [],
 }
 
 export const defaultSetConditionals = {
@@ -112,7 +126,7 @@ export const defaultSetConditionals = {
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
   [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
-  [Constants.Sets.TheWindSoaringValorous]: [undefined, 0],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
@@ -128,6 +142,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
   [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
-  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
+  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 4],
   [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
 }

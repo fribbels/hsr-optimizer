@@ -89,12 +89,12 @@ export function calculateBaseStats(c, request, params) {
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
-    + 0.06 * p4(sets.MusketeerOfWildWheat)
+    + 0.06 * p4(sets.MusketeerOfWildWheat),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, request.baseHp, lc, trace, c,
     0.12 * p2(sets.FleetOfTheAgeless)
-    + 0.12 * p2(sets.LongevousDisciple)
+    + 0.12 * p2(sets.LongevousDisciple),
   )
 
   c[Stats.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, request.baseAtk, lc, trace, c,
@@ -103,12 +103,12 @@ export function calculateBaseStats(c, request, params) {
     + 0.12 * p2(sets.MusketeerOfWildWheat)
     + 0.12 * p2(sets.PrisonerInDeepConfinement)
     + 0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm)
-    + 0.12 * p2(sets.TheWindSoaringValorous)
+    + 0.12 * p2(sets.TheWindSoaringValorous),
   )
 
   c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, request.baseDef, lc, trace, c,
     0.15 * p2(sets.BelobogOfTheArchitects)
-    + 0.15 * p2(sets.KnightOfPurityPalace)
+    + 0.15 * p2(sets.KnightOfPurityPalace),
   )
 
   c[Stats.CR] = sumPercentStat(Stats.CR, base, lc, trace, c,
@@ -116,18 +116,19 @@ export function calculateBaseStats(c, request, params) {
     + 0.08 * p2(sets.RutilantArena)
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
+    + 0.06 * p4(sets.TheWindSoaringValorous),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
-    0.16 * p2(sets.CelestialDifferentiator)
+    0.16 * p2(sets.CelestialDifferentiator),
   )
 
   c[Stats.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c,
-    0.10 * p2(sets.PanCosmicCommercialEnterprise)
+    0.10 * p2(sets.PanCosmicCommercialEnterprise),
   )
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
-    0.10 * p2(sets.BrokenKeel)
+    0.10 * p2(sets.BrokenKeel),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -135,16 +136,16 @@ export function calculateBaseStats(c, request, params) {
     + 0.16 * p2(sets.ThiefOfShootingMeteor)
     + 0.16 * p4(sets.ThiefOfShootingMeteor)
     + 0.16 * p2(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.16 * p2(sets.IronCavalryAgainstScourge)
+    + 0.16 * p2(sets.IronCavalryAgainstScourge),
   )
 
   c[Stats.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c,
     0.05 * p2(sets.SprightlyVonwacq)
-    + 0.05 * p2(sets.PenaconyLandOfTheDreams)
+    + 0.05 * p2(sets.PenaconyLandOfTheDreams),
   )
 
   c[Stats.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c,
-    0.10 * p2(sets.PasserbyOfWanderingCloud)
+    0.10 * p2(sets.PasserbyOfWanderingCloud),
   )
 }
 
@@ -167,13 +168,13 @@ export function calculateComputedStats(c, request, params) {
   x[params.ELEMENTAL_DMG_TYPE] += c.ELEMENTAL_DMG
 
   // Combat buffs
-  x[Stats.ATK] += request.buffAtk
-  x[Stats.ATK] += request.buffAtkP * request.baseAtk
-  x[Stats.CD] += request.buffCd
-  x[Stats.CR] += request.buffCr
-  x[Stats.SPD] += request.buffSpdP * request.baseSpd + request.buffSpd
-  x[Stats.BE] += request.buffBe
-  x.ELEMENTAL_DMG += request.buffDmgBoost
+  x[Stats.ATK] += request.combatBuffs.ATK
+  x[Stats.ATK] += request.combatBuffs.ATK_P * request.baseAtk
+  x[Stats.CD] += request.combatBuffs.CD
+  x[Stats.CR] += request.combatBuffs.CR
+  x[Stats.SPD] += request.combatBuffs.SPD_P * request.baseSpd + request.combatBuffs.SPD
+  x[Stats.BE] += request.combatBuffs.BE
+  x.ELEMENTAL_DMG += request.combatBuffs.DMG_BOOST
 
   // Set effects
   x[Stats.SPD_P]
@@ -201,7 +202,7 @@ export function calculateComputedStats(c, request, params) {
     + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.24 * (params.valueDuranDynastyOfRunningWolves >= 6) * p2(sets.DuranDynastyOfRunningWolves)
+    + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
 
   x[Stats.CR]
     += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
@@ -240,16 +241,20 @@ export function calculateComputedStats(c, request, params) {
 
   x.BREAK_DEF_PEN
     += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstScourge)
-    + 0.08 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstScourge)
+
+  x.SUPER_BREAK_DEF_PEN
+    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstScourge)
 
   x.ELEMENTAL_DMG
     += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
-    + 0.20 * params.valueTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
 
   x.FUA_BOOST
-    += 0.04 * params.valueDuranDynastyOfRunningWolves * p2(sets.DuranDynastyOfRunningWolves)
+    += 0.05 * params.valueDuranDynastyOfRunningWolves * p2(sets.DuranDynastyOfRunningWolves)
+
+  x.ULT_BOOST
+    += 0.30 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
 
   return x
 }

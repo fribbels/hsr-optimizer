@@ -6,7 +6,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtkBuff = [0.04, 0.05, 0.06, 0.07, 0.08]
@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       text: '3 targets hit SPD buff',
       title: '3 targets hit SPD buff',
       content: betaUpdate,
-    }
+    },
   ]
 
   return {
@@ -48,7 +48,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += r.atkBuffStacks * sValuesAtkBuff[s]
       x[Stats.SPD_P] += (r.spdBuff) ? sValuesSpdBuff[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
     calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
     },
   }

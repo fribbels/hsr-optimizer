@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
   const skillCdBuffBase = skill(e, 0.45, 0.486)
@@ -76,7 +76,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'Skill: Dreamdiver',
       content: `Increases the CRIT DMG of a single ally by ${precisionRound(skillCdBuffScaling * 100)}% of Sparkle's CRIT DMG plus ${precisionRound(skillCdBuffBase * 100)}%, lasting for 1 turn(s).`,
       min: 0,
-      max: 3.00,
+      max: 3.50,
       percent: true,
     },
     findContentId(content, 'cipherBuff'),
@@ -98,6 +98,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       ...defaults,
       ...{
+        skillCdBuff: true,
         teammateCDValue: 2.5,
       },
     }),

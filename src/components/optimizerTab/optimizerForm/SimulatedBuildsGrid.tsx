@@ -4,6 +4,7 @@ import { STAT_SIMULATION_GRID_WIDTH } from 'components/optimizerTab/optimizerFor
 import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/statSimulationController.tsx'
 import { IRowNode } from 'ag-grid-community'
 import { useEffect } from 'react'
+import { Utils } from 'lib/utils'
 
 interface DataType {
   key: React.Key
@@ -15,7 +16,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{ marginLeft: 5 }}>Simulation details</Flex>),
+    title: (<Flex style={{marginLeft: 5}}>Simulation details</Flex>),
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -34,7 +35,7 @@ const columns: TableColumnsType<DataType> = [
       return (
         <a onClick={() => {
           deleteStatSimulationBuild(record)
-        }} style={{ display: 'flex', justifyContent: 'center' }}>
+        }} style={{display: 'flex', justifyContent: 'center'}}>
           <CloseOutlined/>
         </a>
       )
@@ -43,6 +44,15 @@ const columns: TableColumnsType<DataType> = [
     fixed: 'right',
   },
 ]
+
+function zeroesToNull(obj) {
+  for (const entry of Object.entries(obj)) {
+    if (entry[1] == 0) {
+      obj[entry[0]] = null
+    }
+  }
+  return obj
+}
 
 export function SimulatedBuildsGrid() {
   const statSimulations = window.store((s) => s.statSimulations)
@@ -73,7 +83,9 @@ export function SimulatedBuildsGrid() {
     }
 
     // Update the form with selected sim
-    window.optimizerForm.setFieldValue(['statSim', statSim.simType], statSim.request)
+    const cloneRequest = Utils.clone(statSim.request)
+    zeroesToNull(cloneRequest.stats)
+    window.optimizerForm.setFieldValue(['statSim', statSim.simType], cloneRequest)
     window.store.getState().setStatSimulationDisplay(statSim.simType)
   }
 
@@ -86,7 +98,7 @@ export function SimulatedBuildsGrid() {
   return (
     <Table
       showHeader={false}
-      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected"/> }}
+      locale={{emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No custom simulations selected"/>}}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations,
         type: 'radio',

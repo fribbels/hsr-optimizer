@@ -336,3 +336,8 @@ export type ConditionalBuff =
   | 'ultFuaCdBoost'
   | 'superBreakDmg'
   | 'routedVulnerability'
+  | 'fuaStacks'
+  | 'skillDot'
+  | 'e1EffectResShred'
+  | 'e4ResBuff'
+  | 'superBreakEnabled'

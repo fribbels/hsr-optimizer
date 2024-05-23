@@ -101,11 +101,6 @@ export const PresetEffects = {
       form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
     }
   },
-  fnWindSoaringSet: (value) => {
-    return (form) => {
-      form.setConditionals[Sets.TheWindSoaringValorous][1] = value
-    }
-  },
   PRISONER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
   },
@@ -130,7 +125,7 @@ export function setSortColumn(columnId) {
 const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const items = useMemo(function () {
+  const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
@@ -159,7 +154,7 @@ const RecommendedPresetsButton = () => {
       <a onClick={(e) => e.preventDefault()}>
         <Button type="primary" style={{ width: '100%' }}>
           Recommended presets
-          <DownOutlined/>
+          <DownOutlined />
         </Button>
       </a>
     </Dropdown>
@@ -209,6 +204,10 @@ export default RecommendedPresetsButton
 export function applyMetadataPresetToForm(form, scoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+
+  const formula = scoringMetadata?.simulation?.formula || {}
+  Utils.mergeUndefinedValues(form.combo, formula)
+  Object.keys(form.combo).map((key) => form.combo[key] = form.combo[key] || null)
 
   form.maxSpd = undefined
   form.mainBody = scoringMetadata.parts[Constants.Parts.Body]

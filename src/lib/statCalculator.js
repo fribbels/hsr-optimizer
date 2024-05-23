@@ -26,7 +26,13 @@ const maxedMainStats = {
 }
 
 export const StatCalculator = {
-  getMaxedSubstatValue: (stat) => {
+  getMaxedSubstatValue: (stat, quality = 1) => {
+    if (quality == 0.8) {
+      return Utils.precisionRound(SubStatValues[stat][5].low)
+    }
+    if (quality == 0.9) {
+      return Utils.precisionRound(SubStatValues[stat][5].mid)
+    }
     return Utils.precisionRound(SubStatValues[stat][5].high)
   },
   getMaxedStatValue: (stat) => {
@@ -41,9 +47,9 @@ export const StatCalculator = {
   calculateCharacterWithRelics(character, relics) {
     if (!character) return console.log('No character selected')
 
-    let form = character.form
-    let characterMetadata = DB.getMetadata().characters[character.id]
-    let characterLevel = 80
+    const form = character.form
+    const characterMetadata = DB.getMetadata().characters[character.id]
+    const characterLevel = 80
 
     let lightConeMetadata
     let lightConeLevel
@@ -65,11 +71,11 @@ export const StatCalculator = {
       superimpositionStats = {}
     }
 
-    let traceStats = characterMetadata.traces
-    let characterStats = characterMetadata.promotions[characterLevel]
+    const traceStats = characterMetadata.traces
+    const characterStats = characterMetadata.promotions[characterLevel]
 
-    let element = characterMetadata.element
-    let elementalMultipliers = [
+    const element = characterMetadata.element
+    const elementalMultipliers = [
       element == 'Physical' ? 1 : 0,
       element == 'Fire' ? 1 : 0,
       element == 'Ice' ? 1 : 0,
@@ -79,7 +85,7 @@ export const StatCalculator = {
       element == 'Imaginary' ? 1 : 0,
     ]
 
-    let baseStats = {
+    const baseStats = {
       base: {
         ...CharacterStats.getZeroes(),
         ...characterStats,
@@ -95,11 +101,11 @@ export const StatCalculator = {
       },
     }
 
-    let lc = baseStats.lightCone
-    let base = baseStats.base
-    let trace = baseStats.traces
+    const lc = baseStats.lightCone
+    const base = baseStats.base
+    const trace = baseStats.traces
 
-    let { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics)
+    const { relicSets, ornamentSets } = Utils.relicsToSetArrays(relics)
 
     /*
      * console.log(characterMetadata, lightConeMetadata)
@@ -109,7 +115,7 @@ export const StatCalculator = {
 
     function sum(relics, stat) {
       let total = 0
-      for (let relic of relics) {
+      for (const relic of relics) {
         if (!relic) continue
         total += relic.augmentedStats[stat] || 0
 
@@ -121,15 +127,15 @@ export const StatCalculator = {
       return total
     }
 
-    let crSum = sum(relics, Constants.Stats.CR)
-    let cdSum = sum(relics, Constants.Stats.CD)
+    const crSum = sum(relics, Constants.Stats.CR)
+    const cdSum = sum(relics, Constants.Stats.CD)
 
-    let hero = {
+    const hero = {
       [Constants.Stats.HP]: (base[Constants.Stats.HP] + lc[Constants.Stats.HP]) * (1 + 0.12 * Math.min(1, ornamentSets[1] >> 1) + 0.12 * Math.min(1, relicSets[12] >> 1) + sum(relics, Constants.Stats.HP_P) + trace[Constants.Stats.HP_P] + lc[Constants.Stats.HP_P]) + sum(relics, Constants.Stats.HP),
       [Constants.Stats.ATK]: (base[Constants.Stats.ATK] + lc[Constants.Stats.ATK]) * (1 + 0.12 * Math.min(1, relicSets[19] >> 1) + 0.12 * Math.min(1, ornamentSets[0] >> 1) + 0.12 * Math.min(1, ornamentSets[10] >> 1) + 0.12 * Math.min(1, ornamentSets[13] >> 1) + 0.12 * Math.min(1, relicSets[1] >> 1) + 0.12 * Math.min(1, relicSets[15] >> 1) + sum(relics, Constants.Stats.ATK_P) + trace[Constants.Stats.ATK_P] + lc[Constants.Stats.ATK_P]) + sum(relics, Constants.Stats.ATK),
       [Constants.Stats.DEF]: (base[Constants.Stats.DEF] + lc[Constants.Stats.DEF]) * (1 + 0.15 * Math.min(1, ornamentSets[3] >> 1) + 0.15 * Math.min(1, relicSets[2] >> 1) + sum(relics, Constants.Stats.DEF_P) + trace[Constants.Stats.DEF_P] + lc[Constants.Stats.DEF_P]) + sum(relics, Constants.Stats.DEF),
       [Constants.Stats.SPD]: (base[Constants.Stats.SPD] + lc[Constants.Stats.SPD]) * (1 + 0.06 * Math.min(1, ornamentSets[14] >> 1) + 0.06 * Math.min(1, relicSets[13] >> 1) + 0.06 * (relicSets[1] >> 2) + sum(relics, Constants.Stats.SPD_P) + trace[Constants.Stats.SPD_P]) + sum(relics, Constants.Stats.SPD) + trace[Constants.Stats.SPD],
-      [Constants.Stats.CR]: 0.04 * Math.min(1, relicSets[16] >> 2) + 0.08 * Math.min(1, ornamentSets[5] >> 1) + 0.04 * Math.min(1, ornamentSets[12] >> 1) + 0.08 * Math.min(1, ornamentSets[8] >> 1) + (base[Constants.Stats.CR] + lc[Constants.Stats.CR] + crSum + trace[Constants.Stats.CR]),
+      [Constants.Stats.CR]: 0.06 * Math.min(1, relicSets[19] >> 2) + 0.04 * Math.min(1, relicSets[16] >> 2) + 0.08 * Math.min(1, ornamentSets[5] >> 1) + 0.04 * Math.min(1, ornamentSets[12] >> 1) + 0.08 * Math.min(1, ornamentSets[8] >> 1) + (base[Constants.Stats.CR] + lc[Constants.Stats.CR] + crSum + trace[Constants.Stats.CR]),
       [Constants.Stats.CD]: 0.16 * Math.min(1, ornamentSets[4] >> 1) + (base[Constants.Stats.CD] + lc[Constants.Stats.CD] + cdSum + trace[Constants.Stats.CD]),
       [Constants.Stats.EHR]: 0.1 * Math.min(1, ornamentSets[2] >> 1) + (base[Constants.Stats.EHR] + lc[Constants.Stats.EHR] + sum(relics, Constants.Stats.EHR) + trace[Constants.Stats.EHR]),
       [Constants.Stats.RES]: 0.1 * Math.min(1, ornamentSets[9] >> 1) + (base[Constants.Stats.RES] + lc[Constants.Stats.RES] + sum(relics, Constants.Stats.RES) + trace[Constants.Stats.RES]),
@@ -155,8 +161,8 @@ export const StatCalculator = {
     if (elementalMultipliers[6]) elementalDmg = 0.1 * Math.min(1, relicSets[11] >> 1) + (base[Constants.Stats.Imaginary_DMG] + lc[Constants.Stats.Imaginary_DMG] + sum(relics, Constants.Stats.Imaginary_DMG) + trace[Constants.Stats.Imaginary_DMG])
 
     // let cappedCrit = Math.min(hero[Constants.Stats.CR] + form.buffCr, 1)
-    let ehp = hero[Constants.Stats.HP] / (1 - hero[Constants.Stats.DEF] / (hero[Constants.Stats.DEF] + 200 + 10 * 80))
-    let cv = 100 * (crSum * 2 + cdSum)
+    const ehp = hero[Constants.Stats.HP] / (1 - hero[Constants.Stats.DEF] / (hero[Constants.Stats.DEF] + 200 + 10 * 80))
+    const cv = 100 * (crSum * 2 + cdSum)
 
     hero.ED = elementalDmg
     hero.CV = cv
@@ -168,6 +174,8 @@ export const StatCalculator = {
     hero.ULT = 0
     hero.FUA = 0
     hero.DOT = 0
+    hero.BREAK = 0
+    hero.COMBO = 0
     hero.xATK = 0
     hero.xDEF = 0
     hero.xHP = 0
@@ -188,7 +196,7 @@ export const StatCalculator = {
     if (!character) return console.log('No character selected')
 
     const relicsById = window.store.getState().relicsById
-    let relics = Object.values(character.equipped).map((x) => relicsById[x])
+    const relics = Object.values(character.equipped).map((x) => relicsById[x])
 
     return StatCalculator.calculateCharacterWithRelics(character, relics)
   },

@@ -22,6 +22,7 @@ export type Form = {
   enhance: RelicEnhance
   grade: RelicGrade
   keepCurrentRelics: boolean
+  lightCone: string
   lightConeConditionals: ConditionalLightConeMap
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
@@ -37,22 +38,19 @@ export type Form = {
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
+  statSim?: any
 
   weights: {
     [key: string]: number
   }
   characterConditionals: CharacterConditionalMap
 
-  buffAtk: number
-  buffAtkP: number
-  buffBe: number
-  buffCd: number
-  buffCr: number
-  buffDefShred: number
-  buffDmgBoost: number
-  buffResPen: number
-  buffSpd: number
-  buffSpdP: number
+  combatBuffs: {
+    [key: string]: number
+  }
+  combo: {
+    [key: string]: number
+  }
 
   baseHp: number
   baseAtk: number
@@ -68,6 +66,7 @@ export type Form = {
   maxDmg: MAX_INT
   maxDot: MAX_INT
   maxBreak: MAX_INT
+  maxCombo: MAX_INT
   maxEhp: MAX_INT
   maxEhr: MAX_INT
   maxErr: MAX_INT
@@ -88,6 +87,7 @@ export type Form = {
   minDmg: MIN_INT
   minDot: MIN_INT
   minBreak: MIN_INT
+  minCombo: MIN_INT
   minEhp: MIN_INT
   minEhr: MIN_INT
   minErr: MIN_INT

@@ -114,9 +114,9 @@ function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(x => x)
   const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
   for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set == set).length == 4) {
+    if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
       activeTeammateSets.teamRelicSet = set
-    }
+    } 
   }
 
   for (const set of teammateOrnamentSets) {

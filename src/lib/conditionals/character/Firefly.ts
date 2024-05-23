@@ -7,19 +7,20 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const basicEnhancedScaling = basic(e, 2.70, 2.90)
-  const skillScaling = skill(e, 2.50, 2.75)
-  const skillEnhancedAtkScaling = skill(e, 4.00, 4.32)
-  const ultSpdBuff = ult(e, 50, 55)
-  const ultWeaknessBrokenVulnerability = ult(e, 0.12, 0.1296)
-  const ultWeaknessBreakEfficiencyBuff = 0.50
-  const talentResBuff = talent(e, 0.25, 0.28)
+  const basicEnhancedScaling = basic(e, 2.00, 2.20)
+
+  const skillScaling = skill(e, 2.00, 2.20)
+  const skillEnhancedAtkScaling = skill(e, 2.00, 2.20)
+
+  const ultSpdBuff = ult(e, 60, 66)
+  const ultWeaknessBrokenBreakVulnerability = ult(e, 0.20, 0.22)
+  const talentResBuff = talent(e, 0.30, 0.34)
   const talentDmgReductionBuff = talent(e, 0.40, 0.44)
 
   const content: ContentItem[] = [
@@ -35,8 +36,16 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'enhancedStateSpdBuff',
       name: 'enhancedStateSpdBuff',
-      text: 'Enhanced state SPD buff',
-      title: 'Enhanced state SPD buff',
+      text: 'Enhanced SPD buff',
+      title: 'Enhanced SPD buff',
+      content: betaUpdate,
+    },
+    {
+      formItem: 'switch',
+      id: 'superBreakDmg',
+      name: 'superBreakDmg',
+      text: 'Super Break enabled',
+      title: 'Super Break enabled',
       content: betaUpdate,
     },
     {
@@ -66,6 +75,15 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
+      id: 'e4ResBuff',
+      name: 'e4ResBuff',
+      text: 'E4 RES buff',
+      title: 'E4 RES buff',
+      content: betaUpdate,
+      disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
       id: 'e6Buffs',
       name: 'e6Buffs',
       text: 'E6 buffs',
@@ -80,9 +98,11 @@ export default (e: Eidolon): CharacterConditional => {
   const defaults = {
     enhancedStateActive: true,
     enhancedStateSpdBuff: true,
+    superBreakDmg: true,
     atkToBeConversion: true,
     talentDmgReductionBuff: true,
     e1DefShred: true,
+    e4ResBuff: true,
     e6Buffs: true,
   }
 
@@ -95,13 +115,20 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
+      // Special case where we force the weakness break on if the option is enabled
+      if (r.superBreakDmg) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      }
+
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0
-      x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? ultWeaknessBreakEfficiencyBuff : 0
+      x.BREAK_EFFICIENCY_BOOST += (r.enhancedStateActive) ? 0.50 : 0
       x.DMG_RED_MULTI *= (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1
 
-      x.SKILL_DEF_PEN += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
-      x.FIRE_RES_PEN += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.12 : 0
+      // Should be skill def shred but skill doesnt apply to super break
+      x.DEF_SHRED += (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0
+      x[Stats.RES] += (e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0
+      x.FIRE_RES_PEN += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0
       x.BREAK_EFFICIENCY_BOOST += (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0
 
       x.BASIC_SCALING += (r.enhancedStateActive) ? basicEnhancedScaling : basicScaling
@@ -119,14 +146,14 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      x.DMG_TAKEN_MULTI += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenVulnerability : 0
+      x.BREAK_VULNERABILITY += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenBreakVulnerability : 0
 
-      x[Stats.BE] += (r.atkToBeConversion && x[Stats.ATK] > 2400) ? Math.min(0.60, 0.06 * Math.floor((x[Stats.ATK] - 2400) / 100)) : 0
+      x[Stats.BE] += (r.atkToBeConversion && (x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF > 1600)) ? 0.10 * Math.floor(((x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF) - 1600) / 100) : 0
 
-      x.DEF_SHRED += (r.enhancedStateActive && x[Stats.BE] >= 2.50) ? 0.30 : 0
-      x.DEF_SHRED += (r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.10 : 0
+      x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
+      x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0
 
-      x.SKILL_SCALING += (r.enhancedStateActive) ? (0.5 * Math.min(3.60, x[Stats.BE]) + skillEnhancedAtkScaling) : skillScaling
+      x.SKILL_SCALING += (r.enhancedStateActive) ? (0.2 * Math.min(3.60, x[Stats.BE]) + skillEnhancedAtkScaling) : skillScaling
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

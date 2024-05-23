@@ -1,4 +1,4 @@
-import { Divider, Flex } from 'antd'
+import { Divider, Flex, Typography } from 'antd'
 import { defaultGap, iconSize } from 'lib/constantsUi'
 import { SimulationScore, SimulationStatUpgrade } from 'lib/characterScorer'
 import { ElementToDamage, Parts, Stats, StatsToShort, StatsToShortSpaced } from 'lib/constants'
@@ -10,6 +10,8 @@ import DB from 'lib/db'
 import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
 import StatText from 'components/characterPreview/StatText'
+
+const { Text } = Typography
 
 export const CharacterScoringSummary = (props: { simScoringResult: SimulationScore }) => {
   const result = Utils.clone(props.simScoringResult)
@@ -93,6 +95,139 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     return (
       <Flex vertical gap={defaultGap}>
         {rows}
+      </Flex>
+    )
+  }
+
+  function ScoringDetails() {
+    return (
+      <Flex vertical style={{ marginTop: 20, width: 1000 }}>
+        <h1 style={{ margin: 'auto' }}>DPS Score Calculation</h1>
+        <Text style={{ fontSize: 18 }}>
+          <h2>
+            What is DPS Score?
+          </h2>
+          <p>
+            DPS Score is a damage simulation based metric for accurately scoring a
+            character's <i>damage performance in combat</i>.
+          </p>
+          <p>
+            This score is calculated using the results of simulating the character's damage performance through the optimizer,
+            for a more accurate evaluation than scores based solely on displayed stats.
+          </p>
+          <p>
+            The scoring calculation takes into consideration:
+          </p>
+          <ul>
+            <li>Character eidolons / light cone / superimpositions</li>
+            <li>Teammate eidolons / light cone / superimpositions</li>
+            <li>Combat passives and buffs from abilities and light cones</li>
+            <li>Team composition and teammate synergies</li>
+            <li>Character ability rotations</li>
+            <li>Stat breakpoints</li>
+            <li>Stat overcapping</li>
+            <li>Relic set effects</li>
+            <li>Super break</li>
+            <li>... and more</li>
+          </ul>
+
+          <h2>
+            How is it calculated?
+          </h2>
+          <p>
+            At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break
+            ability damage rotation, which is defined per character. These simulations use the character and teammates'
+            default optimizer conditional settings, and the damage sum is used to compare between builds.
+          </p>
+
+          <h4>
+            Benchmark character generation
+          </h4>
+          <p>
+            The original character build is measured against a simulated benchmark character with an ideal distribution of stats,
+            which is generated following certain rules to produce a realistic stat build:
+          </p>
+
+          <ul style={{ lineHeight: '32px' }}>
+            <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
+            <li>The benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
+            <li>The benchmark has 4 main stats and 50 total substats: 9 from head / hands, 8 from body / feet / sphere / rope</li>
+            <li>Each substat is equivalent to a 5 star relic's low roll value</li>
+            <li>First, 2 substats are allocated to each substat type, except for Speed, leaving 28 open substats</li>
+            <li>Enough substats are then allocated to Speed to match the original character's in-combat Speed</li>
+            <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
+            <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
+              restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
+            </li>
+          </ul>
+
+          <p>
+            This process is repeated through all the possible main stat permutations and substat distributions until the highest damage simulation
+            is found. This build's score is then used as the standard for a 100% DPS Score.
+          </p>
+
+          <h4>
+            Score normalization
+          </h4>
+          <p>
+            All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light cone, but no main
+            stats and only 2 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
+            so that the DPS Score can then measure the resulting damage contribution of each additional substat.
+          </p>
+
+          <h4>
+            Stat breakpoint penalty
+          </h4>
+          <p>
+            Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her passive EHR to DMG conversion, and to land
+            Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score by half the missing
+            percentage: <code>dmg scale = min(1, (breakpoint - combat stat) / (breakpoint) * (1/2))</code>. This penalty applies to both the
+            original character and the benchmark simulations.
+          </p>
+
+          <h4>
+            Formula
+          </h4>
+          <p>
+            The resulting formula is <code>DMG Score % = (original dmg - baseline dmg) / (ideal benchmark dmg - baseline dmg)</code>
+          </p>
+
+          <h3>
+            What are the grade thresholds?
+          </h3>
+
+          <p>
+            DPS Score is still experimental so scores and grading may be subject to change. These are the current thresholds.
+          </p>
+
+          <pre style={{ width: 500 }}>
+            <Flex>
+              <ul style={{ width: 250 }}>
+                <li>WTF+ = 120%</li>
+                <li>WTF  = 115%</li>
+                <li>SSS+ = 110%</li>
+                <li>SSS  = 105%</li>
+                <li>SS+  = 100%</li>
+                <li>SS   = 95%</li>
+                <li>S+   = 90%</li>
+                <li>S    = 85%</li>
+                <li>A+   = 80%</li>
+              </ul>
+              <ul>
+                <li>A  = 75%</li>
+                <li>B+ = 70%</li>
+                <li>B  = 65%</li>
+                <li>C+ = 60%</li>
+                <li>C  = 55%</li>
+                <li>D+ = 50%</li>
+                <li>D  = 45%</li>
+                <li>F+ = 40%</li>
+                <li>F  = 35%</li>
+              </ul>
+
+            </Flex>
+          </pre>
+        </Text>
       </Flex>
     )
   }
@@ -199,7 +334,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{ width: 225 }}>
           <pre style={{ margin: 'auto' }}>
-            Ideal sim basic stats
+            Benchmark basic stats
           </pre>
           <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
@@ -219,7 +354,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{ width: 225 }}>
           <pre style={{ margin: 'auto' }}>
-            Ideal sim <u>combat stats</u>
+            Benchmark <u>combat stats</u>
           </pre>
           <CharacterStatSummary
             finalStats={result.maxSim.result.x} elementalDmgValue={elementalDmgValue}
@@ -238,12 +373,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               50x substats sim results
             </pre>
             <ScoringNumber label="Character DMG:      " number={result.currentSim.SIM_SCORE} />
-            <ScoringNumber label="Ideal sim DMG:      " number={result.maxSim.result.SIM_SCORE} />
-            <ScoringNumber label="Baseline sim DMG    " number={result.baselineSimValue} />
+            <ScoringNumber label="Benchmark DMG:      " number={result.maxSim.result.SIM_SCORE} />
+            <ScoringNumber label="Baseline DMG        " number={result.baselineSimValue} />
             <ScoringNumber label="Character scale:    " number={result.currentSim.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="Ideal sim scale:    " number={result.maxSim.result.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="Baseline sim scale: " number={result.baselineSim.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="Percentage:         " number={result.percent * 100} precision={2} />
+            <ScoringNumber label="Benchmark scale:    " number={result.maxSim.result.penaltyMultiplier} precision={3} />
+            <ScoringNumber label="Baseline scale:     " number={result.baselineSim.penaltyMultiplier} precision={3} />
+            <ScoringNumber label="DPS score %:        " number={result.percent * 100} precision={2} />
           </Flex>
         </Flex>
 
@@ -258,9 +393,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
 
       <Flex vertical gap={defaultGap}>
-        <Flex justify="space-around">
-          <pre style={{ fontSize: 20 }}>Scoring Details</pre>
-        </Flex>
+        <ScoringDetails />
       </Flex>
     </Flex>
   )

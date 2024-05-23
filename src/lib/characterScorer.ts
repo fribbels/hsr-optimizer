@@ -577,7 +577,7 @@ export function calculatePenaltyMultiplier(simulationResult, breakpoints) {
   let newPenaltyMultiplier = 1
   for (const stat of Object.keys(breakpoints)) {
     // Penalize by half of the missing stat breakpoint percentage
-    newPenaltyMultiplier *= Math.min(1, simulationResult.x[stat] / breakpoints[stat] / 2 + 0.5)
+    newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / (breakpoints[stat] * 2))
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
   return newPenaltyMultiplier

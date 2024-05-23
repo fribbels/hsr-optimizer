@@ -98,7 +98,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   }
 
   return (
-    <Flex vertical gap={40}>
+    <Flex vertical gap={20}>
       <div style={{ minHeight: 10 }} />
 
       <Flex gap={20}>
@@ -257,7 +257,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         </Flex>
       </Flex>
 
-      <img src="https://i.imgur.com/mhNZxc8.png" style={{ marginTop: 10 }} />
+      <Flex vertical gap={defaultGap}>
+        <Flex justify="space-around">
+          <pre style={{ fontSize: 20 }}>Scoring Details</pre>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }
@@ -285,8 +289,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   const currentScore = result.currentSim.SIM_SCORE
   const basePercent = result.percent
   const statUpgrades = result.statUpgrades.filter((x) => x.stat != Stats.SPD)
-
-  for (const x of statUpgrades) {
+  for (const x of statUpgrades.slice(0, 5)) {
     const statUpgrade: SimulationStatUpgrade = x
     const stat = statUpgrade.stat
     const isFlat = Utils.isFlat(statUpgrade.stat)

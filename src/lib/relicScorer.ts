@@ -208,7 +208,14 @@ export class RelicScorer {
     const scoringMetadata = this.getRelicScoreMeta(id)
     let maxWeight = 0
 
+    const optimalMainStats = scoringMetadata.parts[part] || []
     const scoreEntries = Object.entries(scoringMetadata.stats)
+      .map((entry: [string, number]) => {
+        if (optimalMainStats.includes(entry[0])) {
+          return [entry[0], 1]
+        }
+        return [entry[0], entry[1]]
+      })
       .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
 
     // Find the mainstat for this relic
@@ -224,7 +231,6 @@ export class RelicScorer {
       // which causes unintuitive optimal relic creation effects (i.e. it's best to choose the
       // lowest weighted one so the higher weighted one ends up as a substat and be scored
       // normally)
-      const optimalMainStats = scoringMetadata.parts[part]
       // First candidate, i.e. has the highest weight
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
       const mainStatWeight = scoreEntries[mainStatIndex][1]
@@ -265,6 +271,7 @@ export class RelicScorer {
     const subs = generateSubStats(5
       , { stat: substats[0][0], value: SubStatValues[substats[0][0]][5].high * 6 }, { stat: substats[1][0], value: SubStatValues[substats[1][0]][5].high }
       , { stat: substats[2][0], value: SubStatValues[substats[2][0]][5].high }, { stat: substats[3][0], value: SubStatValues[substats[3][0]][5].high })
+
     const fake = fakeRelic(5, 15, part, mainStat, subs)
     let ideal = parseFloat(this.score(fake, id).longscore)
     ideal -= mainStatFreeRoll(part, mainStat, scoringMetadata)

@@ -301,11 +301,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={defaultGap}>
             <Flex>
-              <ScoringSet set={result.metadata.relicSet1} />
-              <ScoringSet set={result.metadata.relicSet2} />
+              <ScoringSet set={result.maxSim.request.simRelicSet1} />
+              <ScoringSet set={result.maxSim.request.simRelicSet2} />
             </Flex>
 
-            <ScoringSet set={result.metadata.ornamentSet} />
+            <ScoringSet set={result.maxSim.request.simOrnamentSet} />
           </Flex>
         </Flex>
 

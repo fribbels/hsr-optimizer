@@ -127,7 +127,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const { baselineSimResult } = simulateBaselineCharacter(displayRelics, simulationForm)
 
   // Generate partials
-  const partialSimulationWrappers = generatePartialSimulations(metadata, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(metadata, displayRelics, originalBaseSpeed)
   // console.debug(partialSimulationWrappers)
 
   const bestPartialSims: Simulation[] = []
@@ -455,9 +455,44 @@ type PartialSimulationWrapper = {
 }
 
 // Generate all main stat possibilities
-function generatePartialSimulations(metadata, originalBaseSpeed) {
+function generatePartialSimulations(metadata, relicsByPart, originalBaseSpeed) {
   const forceSpdBoots = originalBaseSpeed > 140
   const feetParts = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
+  // Allow equivalent sets
+  const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
+
+  let relicSet1 = metadata.relicSets[0][0]
+  let relicSet2 = metadata.relicSets[0][1]
+  let ornamentSet = metadata.ornamentSets[0]
+
+  const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
+  for (const equivalent of equivalents) {
+    // Find 4p matches
+    if (relicSetNames[0] == equivalent[0] && relicSetNames[1] == equivalent[1]) {
+      relicSet1 = equivalent[0]
+      relicSet2 = equivalent[1]
+      break
+    }
+
+    // Find 2p matches
+    // A single array will contain all the 2p options
+    if (equivalent[0] != equivalent[1]) {
+      if (relicSetNames[0] in equivalent && relicSetNames[1] in equivalent) {
+        relicSet1 = relicSetNames[0]
+        relicSet2 = relicSetNames[1]
+        break
+      }
+    }
+  }
+
+  const relicEquivalents = metadata.ornamentSets
+  for (const equivalent of relicEquivalents) {
+    if (ornamentSetName == equivalent) {
+      ornamentSet = equivalent
+      break
+    }
+  }
 
   const results: PartialSimulationWrapper[] = []
   for (const body of metadata.parts[Parts.Body]) {
@@ -466,9 +501,9 @@ function generatePartialSimulations(metadata, originalBaseSpeed) {
         for (const linkRope of metadata.parts[Parts.LinkRope]) {
           const request: SimulationRequest = {
             name: '',
-            simRelicSet1: metadata.relicSet1,
-            simRelicSet2: metadata.relicSet2,
-            simOrnamentSet: metadata.ornamentSet,
+            simRelicSet1: relicSet1,
+            simRelicSet2: relicSet2,
+            simOrnamentSet: ornamentSet,
             simBody: body,
             simFeet: feet,
             simPlanarSphere: planarSphere,
@@ -546,6 +581,23 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
 
 function simulateOriginalCharacter(displayRelics, simulationForm) {
   const relicsByPart = Utils.clone(displayRelics)
+  const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
+
+  const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, QUALITY)
+  const originalSim: Simulation = {
+    name: '',
+    key: '',
+    simType: StatSimTypes.SubstatRolls,
+    request: originalSimRequest,
+  }
+  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
+  return {
+    originalSimResult,
+    originalSim,
+  }
+}
+
+function calculateSetNames(relicsByPart) {
   Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelic())
   const relicSets = [
     relicsByPart[Parts.Head].set,
@@ -559,18 +611,9 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
   ].filter((x) => x != -1)
   const relicSetNames = calculateRelicSets(relicSets, true)
   const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
-  const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, QUALITY)
-  const originalSim: Simulation = {
-    name: '',
-    key: '',
-    simType: StatSimTypes.SubstatRolls,
-    request: originalSimRequest,
-  }
-  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
-  return {
-    originalSimResult,
-    originalSim,
-  }
+  relicSetNames.sort()
+
+  return { relicSetNames, ornamentSetName }
 }
 
 export function calculatePenaltyMultiplier(simulationResult, breakpoints) {

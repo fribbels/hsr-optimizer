@@ -34,6 +34,7 @@ export type SimulationScore = {
   baselineSim: Simulation
   sims: Simulation[]
   statUpgrades: SimulationStatUpgrade[]
+  setUpgrades: SimulationStatUpgrade[]
   metadata: any
 }
 
@@ -170,13 +171,13 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   const percent = (originalSimResult.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
   // const percentModifier = (originalPenaltyMultiplier / bestPenaltyMultiplier)
 
-  const statUpgrades = generateStatImprovements(originalSimResult, originalSim, simulationForm, metadata, applyScoringFunction)
-  for (const statUpgrade of statUpgrades) {
-    const percent = (statUpgrade.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
-    // const percentModifier = (statUpgrade.simulationResult.penaltyMultiplier / bestPenaltyMultiplier)
-    statUpgrade.percent = percent
+  const { substatUpgradeResults, setUpgradeResults } = generateStatImprovements(originalSimResult, originalSim, bestSims[0], simulationForm, metadata, applyScoringFunction)
+  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults]) {
+    const percent = (upgrade.SIM_SCORE - baselineSimResult.SIM_SCORE) / (bestSims[0].result.SIM_SCORE - baselineSimResult.SIM_SCORE)
+    upgrade.percent = percent
   }
-  statUpgrades.sort((a, b) => b.percent! - a.percent!)
+  substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
 
   const simScoringResult: SimulationScore = {
     baselineSimValue: baselineSimResult.SIM_SCORE,
@@ -188,7 +189,8 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     baselineSim: baselineSimResult,
     currentRequest: simulationForm,
     sims: bestSims,
-    statUpgrades: statUpgrades,
+    statUpgrades: substatUpgradeResults,
+    setUpgrades: setUpgradeResults,
     metadata: metadata,
   }
 
@@ -199,36 +201,54 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 }
 
 export type SimulationStatUpgrade = {
-  stat: string
   SIM_SCORE: number
+  simulation: Simulation
   simulationResult: SimulationResult
+  stat?: string
   percent?: number
 }
 
 function generateStatImprovements(
   originalSimResult: SimulationResult,
   originalSim: Simulation,
+  benchmark: Simulation,
   simulationForm: Form,
   metadata: any,
   applyScoringFunction,
-): SimulationStatUpgrade[] {
-  const results: SimulationStatUpgrade[] = []
+) {
+  // Upgrade Stats
+  const substatUpgradeResults: SimulationStatUpgrade[] = []
   for (const stat of metadata.substats) {
     const originalSimClone = Utils.clone(originalSim)
     originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + QUALITY
 
     const statImprovementResult = runSimulations(simulationForm, [originalSimClone], QUALITY)[0]
     applyScoringFunction(statImprovementResult)
-    results.push({
+    substatUpgradeResults.push({
       stat: stat,
+      simulation: originalSimClone,
       SIM_SCORE: statImprovementResult.SIM_SCORE,
       simulationResult: statImprovementResult,
     })
   }
 
-  console.log(originalSimResult, originalSim, metadata, results)
+  // Upgrade Set
+  const setUpgradeResults: SimulationStatUpgrade[] = []
+  const originalSimClone = Utils.clone(originalSim)
+  originalSimClone.request.simRelicSet1 = benchmark.request.simRelicSet1
+  originalSimClone.request.simRelicSet2 = benchmark.request.simRelicSet2
+  originalSimClone.request.simOrnamentSet = benchmark.request.simOrnamentSet
+  const setUpgradeResult = runSimulations(simulationForm, [originalSimClone], QUALITY)[0]
+  applyScoringFunction(setUpgradeResult)
+  setUpgradeResults.push({
+    simulation: originalSimClone,
+    SIM_SCORE: setUpgradeResult.SIM_SCORE,
+    simulationResult: setUpgradeResult,
+  })
 
-  return results
+  console.log(originalSimResult, originalSim, metadata, substatUpgradeResults)
+
+  return { substatUpgradeResults, setUpgradeResults }
 }
 
 function generateFullDefaultForm(characterId: string, lightCone: string, characterEidolon: number, lightConeSuperimposition: number, teammate = false) {

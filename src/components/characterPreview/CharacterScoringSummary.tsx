@@ -484,6 +484,22 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
       </Flex>,
     )
   }
+
+  const setUpgrade = result.setUpgrades[0]
+  if (setUpgrade.percent! - basePercent > 0) {
+    rows.push(
+      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 2 }}>
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <StatText>{`+ ${((setUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>,
+    )
+  }
+
+  console.debug(setUpgrade)
+
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
     <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>

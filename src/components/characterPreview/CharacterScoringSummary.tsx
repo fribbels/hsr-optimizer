@@ -176,6 +176,14 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <h4>
+            Relic / ornament sets
+          </h4>
+          <p>
+            Each character has a defined BiS set, and a few other equivalent sets that can be considered similar in performance. If the original character's
+            sets matches any of the acceptable sets, the character will be scored against a benchmark generated matching that set, otherwise the original character will be scored against the BiS.
+          </p>
+
+          <h4>
             Stat breakpoint penalty
           </h4>
           <p>
@@ -272,6 +280,18 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             The defaults come from a combination of usage statistics and community guidance. Best in slot sets and teammates will change
             with new game updates, so the default parameters may also change. Please visit the Discord server for suggestions and feedback on the scoring design.
           </p>
+
+          <h4>Why is a character scoring low?</h4>
+          <p>
+            The `DPS score upgrades` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
+            the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
+            Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
+          </p>
+
+          <p>
+            An often underestimated component of the build is completed BiS set effects. Set effects can play a large part in optimizing a character's potential damage output
+            and rainbow or broken sets will often score worse than full sets.
+          </p>
         </Text>
       </Flex>
     )
@@ -301,11 +321,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={defaultGap}>
             <Flex>
-              <ScoringSet set={result.metadata.relicSet1} />
-              <ScoringSet set={result.metadata.relicSet2} />
+              <ScoringSet set={result.maxSim.request.simRelicSet1} />
+              <ScoringSet set={result.maxSim.request.simRelicSet2} />
             </Flex>
 
-            <ScoringSet set={result.metadata.ornamentSet} />
+            <ScoringSet set={result.maxSim.request.simOrnamentSet} />
           </Flex>
         </Flex>
 
@@ -484,6 +504,22 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
       </Flex>,
     )
   }
+
+  const setUpgrade = result.setUpgrades[0]
+  if (setUpgrade.percent! - basePercent > 0) {
+    rows.push(
+      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <StatText>{`+ ${((setUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>,
+    )
+  }
+
+  console.debug(setUpgrade)
+
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
     <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>

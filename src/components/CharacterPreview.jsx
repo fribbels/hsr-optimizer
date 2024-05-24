@@ -265,8 +265,8 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const textDisplay = (
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 5 }}>
-          Substat score upgrades
+        <HeaderText style={{ fontSize: 16, marginBottom: 4 }}>
+          DPS score upgrades
         </HeaderText>
       </Flex>
     )
@@ -308,7 +308,7 @@ export function CharacterPreview(props) {
     )
 
     return (
-      <Flex vertical style={{}} gap={5}>
+      <Flex vertical style={{}} gap={2}>
         <CharacterModal
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
@@ -548,24 +548,24 @@ export function CharacterPreview(props) {
                 justify="space-between"
               >
                 <Flex vertical gap={0}>
-                  <Flex justify="space-between" style={{ height: 50 }}>
+                  <Flex justify="space-between" style={{ height: 40 }}>
                     <Image
                       preview={false}
-                      width={50}
+                      width={40}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity} />
                     <Image
                       preview={false}
-                      width={50}
+                      width={40}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>
                   <Flex vertical>
-                    <StatText style={{ fontSize: 24, fontWeight: 400, textAlign: 'center' }}>
+                    <StatText style={{ fontSize: 24, lineHeight: '30px', fontWeight: 400, textAlign: 'center' }}>
                       {characterName}
                     </StatText>
-                    <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+                    <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
                       {`Lv${characterLevel} E${characterEidolon}`}
                     </StatText>
                   </Flex>
@@ -584,11 +584,14 @@ export function CharacterPreview(props) {
                 }
                 {
                   simScoringResult
+                  && <ScoreHeader result={simScoringResult} />
+                }
+                {
+                  simScoringResult
                   && (
                     <Flex
                       vertical
                     >
-                      <ScoreHeader result={simScoringResult} />
                       <Card
                         style={{
                           backgroundColor: token.colorBgLayout,

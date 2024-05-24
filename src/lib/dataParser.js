@@ -6,12 +6,35 @@ import lightConeRanks from 'data/en/light_cone_ranks.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
-import { Parts, Sets, Stats } from 'lib/constants.ts'
+import { Parts, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
 export const UnreleasedSets = {}
+
+const RELICS_2P_BREAK_EFFECT_SPEED = [
+  Sets.MessengerTraversingHackerspace,
+  Sets.ThiefOfShootingMeteor,
+  Sets.WatchmakerMasterOfDreamMachinations,
+  Sets.IronCavalryAgainstScourge,
+]
+
+const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
+  [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+  [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+]
+
+const SPREAD_ORNAMENTS_2P_FUA = [
+  Sets.DuranDynastyOfRunningWolves,
+  Sets.SigoniaTheUnclaimedDesolation,
+  Sets.InertSalsotto,
+]
+
+const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
+  Sets.FirmamentFrontlineGlamoth,
+  Sets.SigoniaTheUnclaimedDesolation,
+]
 
 export const DataParser = {
   parse: (officialOnly) => {
@@ -1364,9 +1387,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya
@@ -1468,9 +1496,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -1577,9 +1612,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1308', // Acheron
@@ -1683,9 +1723,12 @@ function getScoringMetadata() {
           DOT: 6,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+        ],
         teammates: [
           {
             characterId: '1307', // Swan
@@ -1835,9 +1878,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.BandOfSizzlingThunder,
-        relicSet2: Sets.BandOfSizzlingThunder,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya
@@ -1986,9 +2034,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1003', // Himeko
@@ -2138,9 +2193,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [SetsRelics.GeniusOfBrilliantStars, SetsRelics.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1006', // SW
@@ -2240,9 +2301,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.BandOfSizzlingThunder,
-        relicSet2: Sets.BandOfSizzlingThunder,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -2476,9 +2543,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.ChampionOfStreetwiseBoxing,
-        relicSet2: Sets.ChampionOfStreetwiseBoxing,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -2583,9 +2656,12 @@ function getScoringMetadata() {
           DOT: 30,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+        ],
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -2687,9 +2763,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya
@@ -2837,9 +2918,15 @@ function getScoringMetadata() {
           DOT: 2,
           BREAK: 1,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.TaliaKingdomOfBanditry,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          RELICS_2P_BREAK_EFFECT_SPEED,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.FirmamentFrontlineGlamoth,
+        ],
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -2941,9 +3028,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1305', // Ratio
@@ -3043,9 +3136,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1006', // SW
@@ -3240,9 +3339,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '1306', // Sparkle
@@ -3343,9 +3449,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.LongevousDisciple,
-        relicSet2: Sets.LongevousDisciple,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1212', // Jingliu
@@ -3447,9 +3558,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.IronCavalryAgainstScourge,
-        relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -3641,9 +3759,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.HunterOfGlacialForest,
-        relicSet2: Sets.HunterOfGlacialForest,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1303', // Ruan Mei
@@ -3831,17 +3955,13 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.HunterOfGlacialForest,
-        relicSet2: Sets.HunterOfGlacialForest,
-        ornamentSet: Sets.RutilantArena,
-        equivalentRelicSets: [
-          [
-            Sets.GeniusOfBrilliantStars,
-            Sets.GeniusOfBrilliantStars,
-          ],
+        relicSets: [
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
-        equivalentOrnamentSets: [
-          Sets.GeniusOfBrilliantStars,
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
           {
@@ -3944,9 +4064,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.MusketeerOfWildWheat,
-        relicSet2: Sets.MusketeerOfWildWheat,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1306', // Sparkle
@@ -4050,9 +4176,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -4282,9 +4415,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.ChampionOfStreetwiseBoxing,
-        relicSet2: Sets.ChampionOfStreetwiseBoxing,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '1303', // Ruan Mei
@@ -4433,9 +4572,20 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
+          [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.BrokenKeel,
+          Sets.PenaconyLandOfTheDreams,
+          Sets.FleetOfTheAgeless,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -4539,9 +4689,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -4696,9 +4852,13 @@ function getScoringMetadata() {
           DOT: 8,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.PanCosmicCommercialEnterprise,
+        ],
         teammates: [
           {
             characterId: '1005', // Kafka
@@ -4800,9 +4960,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.IzumoGenseiAndTakamaDivineRealm,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.IzumoGenseiAndTakamaDivineRealm,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1106', // Pela
@@ -4949,9 +5114,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.IronCavalryAgainstScourge,
-        relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        relicSets: [
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.ForgeOfTheKalpagniLantern,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -5051,9 +5222,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.HunterOfGlacialForest,
-        relicSet2: Sets.HunterOfGlacialForest,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1303', // Ruan Mei
@@ -5153,9 +5331,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.DuranDynastyOfRunningWolves,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -5257,9 +5442,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.IronCavalryAgainstScourge,
-        relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.TaliaKingdomOfBanditry,
+        relicSets: [
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -5361,9 +5551,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.ChampionOfStreetwiseBoxing,
-        relicSet2: Sets.ChampionOfStreetwiseBoxing,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya
@@ -5465,9 +5660,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.ChampionOfStreetwiseBoxing,
-        relicSet2: Sets.ChampionOfStreetwiseBoxing,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya

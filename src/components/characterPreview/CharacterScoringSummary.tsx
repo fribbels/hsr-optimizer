@@ -507,6 +507,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   const setUpgrade = result.setUpgrades[0]
   if (setUpgrade.percent! - basePercent > 0) {
+    rows.splice(4, 1)
     rows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />

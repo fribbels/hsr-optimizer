@@ -249,12 +249,12 @@ export function CharacterPreview(props) {
       fontWeight: '600',
       textAlign: 'center',
       color: '#DD624D',
-      height: 26,
+      height: 23,
       whiteSpace: 'pre-line',
     }
 
     const textDisplay = (
-      <Flex vertical>
+      <Flex vertical style={{ marginBottom: 4 }}>
         <StatText style={textStyle}>
           Combat Simulation
         </StatText>
@@ -274,7 +274,7 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const textDisplay = (
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 4 }}>
+        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
           DPS score upgrades
         </HeaderText>
       </Flex>

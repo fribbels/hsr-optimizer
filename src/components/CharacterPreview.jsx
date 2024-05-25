@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM } from 'lib/constants.ts'
+import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
@@ -25,6 +25,7 @@ import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'compo
 import CharacterModal from 'components/CharacterModal'
 import { HeaderText } from 'components/HeaderText'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
+import { SavedSessionKeys } from 'lib/constantsSession'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -52,6 +53,7 @@ export function CharacterPreview(props) {
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
+  const [scoringType, setScoringType] = useState(window.store.getState().savedSession[SavedSessionKeys.scoringType])
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
@@ -183,8 +185,12 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
-  let simScoringResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
-  if (!simScoringResult?.sims) simScoringResult = null
+  let combatSimResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
+  let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
+  if (!simScoringResult?.sims) {
+    combatSimResult = null
+    simScoringResult = null
+  }
 
   const scoredRelics = scoringResults.relics || []
 
@@ -242,17 +248,21 @@ export function CharacterPreview(props) {
   function ScoreHeader(props) {
     const result = props.result
 
+    const textStyle = {
+      fontSize: 17,
+      fontWeight: '600',
+      textAlign: 'center',
+      color: '#DD624D',
+      height: 23,
+      whiteSpace: 'pre-line',
+    }
+
     const textDisplay = (
-      <StatText style={{
-        fontSize: 17,
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#d53333',
-        height: 30,
-      }}
-      >
-        {`DPS score: ${Utils.truncate10ths(result.percent * 100).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
-      </StatText>
+      <Flex align="center" vertical style={{ marginBottom: 4 }}>
+        <StatText style={textStyle}>
+          {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
+        </StatText>
+      </Flex>
     )
 
     return (
@@ -265,7 +275,7 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const textDisplay = (
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 4 }}>
+        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
           DPS score upgrades
         </HeaderText>
       </Flex>
@@ -482,38 +492,40 @@ export function CharacterPreview(props) {
               simScoringResult
               && (
                 <Flex vertical>
-                  <Flex
-                    vertical
-                    style={{
-                      position: 'relative',
-                      height: 0,
-                      top: newLcHeight - 35,
-                      // top: newLcHeight - 221, // top right
-                      paddingRight: 12,
-                    }}
-                    align="flex-end"
-                  >
-                    <Text
+                  {lightConeName && (
+                    <Flex
+                      vertical
                       style={{
-                        position: 'absolute',
-                        height: 30,
-                        backgroundColor: 'rgb(0 0 0 / 70%)',
-                        padding: '4px 12px',
-                        borderRadius: 8,
-                        fontSize: 14,
-                        maxWidth: parentW - 50,
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        zIndex: 3,
-                        textShadow: '0px 0px 10px black',
-                        outline: outline,
-                        boxShadow: shadow,
+                        position: 'relative',
+                        height: 0,
+                        top: newLcHeight - 35,
+                        // top: newLcHeight - 221, // top right
+                        paddingRight: 12,
                       }}
+                      align="flex-end"
                     >
-                      {`S${lightConeSuperimposition} - ${lightConeName}`}
-                    </Text>
-                  </Flex>
+                      <Text
+                        style={{
+                          position: 'absolute',
+                          height: 30,
+                          backgroundColor: 'rgb(0 0 0 / 70%)',
+                          padding: '4px 12px',
+                          borderRadius: 8,
+                          fontSize: 14,
+                          maxWidth: parentW - 50,
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          zIndex: 3,
+                          textShadow: '0px 0px 10px black',
+                          outline: outline,
+                          boxShadow: shadow,
+                        }}
+                      >
+                        {`S${lightConeSuperimposition} - ${lightConeName}`}
+                      </Text>
+                    </Flex>
+                  )}
                   <Flex
                     style={{
                       width: `${tempLcParentW}px`,
@@ -576,8 +588,8 @@ export function CharacterPreview(props) {
                   !simScoringResult
                   && (
                     <Flex vertical>
-                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                      <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+                        {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
                       </StatText>
                     </Flex>
                   )
@@ -734,6 +746,35 @@ export function CharacterPreview(props) {
               />
             </Flex>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex justify="center">
+        <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
+          <Text style={{ width: 220 }}>
+            Character scoring algorithm:
+          </Text>
+          <Segmented
+            style={{ width: 480, height: 30 }}
+            onChange={(selection) => {
+              setScoringType(selection)
+              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
+              setTimeout(() => SaveState.save(), 1000)
+            }}
+            value={scoringType}
+            block
+            options={[
+              {
+                label: `${SIMULATION_SCORE}${combatSimResult == null ? ' (TBD)' : ''}`,
+                value: SIMULATION_SCORE,
+                disabled: false,
+              },
+              {
+                label: CHARACTER_SCORE,
+                value: CHARACTER_SCORE,
+                disabled: false,
+              },
+            ]}
+          />
         </Flex>
       </Flex>
       <CharacterScoringSummary simScoringResult={simScoringResult} />

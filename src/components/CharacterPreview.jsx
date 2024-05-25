@@ -486,38 +486,40 @@ export function CharacterPreview(props) {
               simScoringResult
               && (
                 <Flex vertical>
-                  <Flex
-                    vertical
-                    style={{
-                      position: 'relative',
-                      height: 0,
-                      top: newLcHeight - 35,
-                      // top: newLcHeight - 221, // top right
-                      paddingRight: 12,
-                    }}
-                    align="flex-end"
-                  >
-                    <Text
+                  {lightConeName && (
+                    <Flex
+                      vertical
                       style={{
-                        position: 'absolute',
-                        height: 30,
-                        backgroundColor: 'rgb(0 0 0 / 70%)',
-                        padding: '4px 12px',
-                        borderRadius: 8,
-                        fontSize: 14,
-                        maxWidth: parentW - 50,
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        zIndex: 3,
-                        textShadow: '0px 0px 10px black',
-                        outline: outline,
-                        boxShadow: shadow,
+                        position: 'relative',
+                        height: 0,
+                        top: newLcHeight - 35,
+                        // top: newLcHeight - 221, // top right
+                        paddingRight: 12,
                       }}
+                      align="flex-end"
                     >
-                      {`S${lightConeSuperimposition} - ${lightConeName}`}
-                    </Text>
-                  </Flex>
+                      <Text
+                        style={{
+                          position: 'absolute',
+                          height: 30,
+                          backgroundColor: 'rgb(0 0 0 / 70%)',
+                          padding: '4px 12px',
+                          borderRadius: 8,
+                          fontSize: 14,
+                          maxWidth: parentW - 50,
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          zIndex: 3,
+                          textShadow: '0px 0px 10px black',
+                          outline: outline,
+                          boxShadow: shadow,
+                        }}
+                      >
+                        {`S${lightConeSuperimposition} - ${lightConeName}`}
+                      </Text>
+                    </Flex>
+                  )}
                   <Flex
                     style={{
                       width: `${tempLcParentW}px`,

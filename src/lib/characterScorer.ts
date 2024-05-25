@@ -99,7 +99,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   const has6Piece = Object.values(relicsByPart).filter((x) => x).length == 6
 
-  if (!characterId || !originalForm || !metadata || !lightCone) {
+  if (!characterId || !originalForm || !metadata) {
     console.log('Invalid character sim setup')
     return null
   }

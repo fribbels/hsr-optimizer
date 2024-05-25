@@ -185,8 +185,12 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
-  let simScoringResult = scoringType == SIMULATION_SCORE && scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
-  if (!simScoringResult?.sims) simScoringResult = null
+  let combatSimResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
+  let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
+  if (!simScoringResult?.sims) {
+    combatSimResult = null
+    simScoringResult = null
+  }
 
   const scoredRelics = scoringResults.relics || []
 
@@ -759,8 +763,16 @@ export function CharacterPreview(props) {
             value={scoringType}
             block
             options={[
-              SIMULATION_SCORE,
-              CHARACTER_SCORE,
+              {
+                label: `${SIMULATION_SCORE}${combatSimResult == null ? ' (TBD)' : ''}`,
+                value: SIMULATION_SCORE,
+                disabled: false,
+              },
+              {
+                label: CHARACTER_SCORE,
+                value: CHARACTER_SCORE,
+                disabled: false,
+              },
             ]}
           />
         </Flex>

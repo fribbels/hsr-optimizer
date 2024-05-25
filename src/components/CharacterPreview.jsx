@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM } from 'lib/constants.ts'
+import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
@@ -25,6 +25,7 @@ import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'compo
 import CharacterModal from 'components/CharacterModal'
 import { HeaderText } from 'components/HeaderText'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
+import { SavedSessionKeys } from 'lib/constantsSession'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -52,6 +53,7 @@ export function CharacterPreview(props) {
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
+  const [scoringType, setScoringType] = useState(window.store.getState().savedSession[SavedSessionKeys.scoringType])
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
@@ -183,7 +185,7 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
-  let simScoringResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
+  let simScoringResult = scoringType == SIMULATION_SCORE && scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
   if (!simScoringResult?.sims) simScoringResult = null
 
   const scoredRelics = scoringResults.relics || []
@@ -246,13 +248,16 @@ export function CharacterPreview(props) {
       fontSize: 16,
       fontWeight: '600',
       textAlign: 'center',
-      color: '#EC5353',
+      color: '#DD624D',
       height: 26,
       whiteSpace: 'pre-line',
     }
 
     const textDisplay = (
       <Flex vertical>
+        <StatText style={textStyle}>
+          Combat Simulation
+        </StatText>
         <StatText style={textStyle}>
           {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
         </StatText>
@@ -740,6 +745,27 @@ export function CharacterPreview(props) {
               />
             </Flex>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex justify="center">
+        <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
+          <Text style={{ width: 220 }}>
+            Character scoring algorithm:
+          </Text>
+          <Segmented
+            style={{ width: 480, height: 30 }}
+            onChange={(selection) => {
+              setScoringType(selection)
+              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
+              setTimeout(() => SaveState.save(), 1000)
+            }}
+            value={scoringType}
+            block
+            options={[
+              SIMULATION_SCORE,
+              CHARACTER_SCORE,
+            ]}
+          />
         </Flex>
       </Flex>
       <CharacterScoringSummary simScoringResult={simScoringResult} />

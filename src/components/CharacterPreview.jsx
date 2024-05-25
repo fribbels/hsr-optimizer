@@ -259,6 +259,9 @@ export function CharacterPreview(props) {
     const textDisplay = (
       <Flex align="center" vertical style={{ marginBottom: 4 }}>
         <StatText style={textStyle}>
+          Combat Sim
+        </StatText>
+        <StatText style={textStyle}>
           {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
         </StatText>
       </Flex>

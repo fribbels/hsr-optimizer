@@ -23,7 +23,6 @@ import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characterScorer'
 import { Utils } from 'lib/utils'
 import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'components/characterPreview/CharacterScoringSummary'
 import CharacterModal from 'components/CharacterModal'
-import { HeaderText } from 'components/HeaderText'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
 
@@ -273,14 +272,6 @@ export function CharacterPreview(props) {
   }
 
   function ScoreFooter(props) {
-    const textDisplay = (
-      <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
-          DPS score upgrades
-        </HeaderText>
-      </Flex>
-    )
-
     const tabsDisplay = (
       <Segmented
         style={{ marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 4, alignItems: 'center' }}
@@ -326,7 +317,6 @@ export function CharacterPreview(props) {
           initialCharacter={characterModalInitialCharacter}
         />
         {tabsDisplay}
-        {textDisplay}
       </Flex>
     )
   }
@@ -640,9 +630,13 @@ export function CharacterPreview(props) {
                         </Flex>
                       </Card>
                       <ScoreFooter result={simScoringResult} />
-                      <Flex vertical gap={defaultGap}>
-                        <CharacterCardScoringStatUpgrades result={simScoringResult} />
-                      </Flex>
+                    </Flex>
+                  )
+                }
+                {
+                  simScoringResult && (
+                    <Flex vertical gap={defaultGap}>
+                      <CharacterCardScoringStatUpgrades result={simScoringResult} />
                     </Flex>
                   )
                 }

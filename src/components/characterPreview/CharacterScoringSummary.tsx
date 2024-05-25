@@ -10,6 +10,7 @@ import DB from 'lib/db'
 import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
 import StatText from 'components/characterPreview/StatText'
+import { HeaderText } from 'components/HeaderText'
 
 const { Text } = Typography
 
@@ -450,7 +451,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <VerticalDivider />
 
         <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: 'auto' }}>
+          <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
             Substat upgrade comparisons
           </pre>
           <ScoringStatUpgrades />
@@ -524,6 +525,11 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
     <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>
+      <Flex vertical align="center">
+        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
+          DPS score upgrades
+        </HeaderText>
+      </Flex>
       {rows}
     </Flex>
   )

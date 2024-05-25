@@ -242,17 +242,21 @@ export function CharacterPreview(props) {
   function ScoreHeader(props) {
     const result = props.result
 
+    const textStyle = {
+      fontSize: 16,
+      fontWeight: '600',
+      textAlign: 'center',
+      color: '#EC5353',
+      height: 26,
+      whiteSpace: 'pre-line',
+    }
+
     const textDisplay = (
-      <StatText style={{
-        fontSize: 17,
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#d53333',
-        height: 30,
-      }}
-      >
-        {`DPS score: ${Utils.truncate10ths(result.percent * 100).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
-      </StatText>
+      <Flex vertical>
+        <StatText style={textStyle}>
+          {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
+        </StatText>
+      </Flex>
     )
 
     return (
@@ -576,7 +580,7 @@ export function CharacterPreview(props) {
                   !simScoringResult
                   && (
                     <Flex vertical>
-                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+                      <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
                         {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
                       </StatText>
                     </Flex>

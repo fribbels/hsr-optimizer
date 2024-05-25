@@ -97,11 +97,24 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     return cachedSims[cacheKey]
   }
 
-  const has6Piece = Object.values(relicsByPart).filter((x) => x).length == 6
-
   if (!characterId || !originalForm || !metadata) {
     console.log('Invalid character sim setup')
     return null
+  }
+
+  // Optimize requested stats
+  const substats: string[] = metadata.substats
+  let addBreakEffect = false
+  if (metadata.formula.BREAK > 0) {
+    // Add break if the formula uses it
+    addBreakEffect = true
+  }
+  if (defaultMetadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006')) {
+    // Add break if the harmony trailblazer is on the team
+    addBreakEffect = true
+  }
+  if (addBreakEffect && !substats.includes(Stats.BE)) {
+    substats.push(Stats.BE)
   }
 
   // Set up default request, sets conditionals tbd
@@ -380,7 +393,7 @@ function computeOptimalSimulation(
 
   currentSimulation.result = currentSimulationResult
 
-  console.debug('simulationRuns', simulationRuns)
+  console.debug('simulationRuns', simulationRuns, partialSimulationWrapper.simulation.request.simBody, partialSimulationWrapper.simulation.request.simFeet, partialSimulationWrapper.simulation.request.simLinkRope, partialSimulationWrapper.simulation.request.simPlanarSphere)
   return currentSimulation
 }
 
@@ -390,33 +403,6 @@ function sumSubstatRolls(maxSubstatRollCounts) {
     sum += maxSubstatRollCounts[stat]
   }
   return sum
-}
-
-// This is an imperfect estimate of the optimal distribution of substats
-// We assume that substats have a priority and choose the top 4 substats to prioritize
-// This means we have to assume spd and flat stats are deprioritized but this will be close enough to the max to use
-function prioritizeFourSubstats(mins, substatPriority, excludes, speedRollsDeduction) {
-  let speedRolls = 0
-  for (const exclude of excludes) {
-    let count = 0
-    for (const stat of substatPriority) {
-      if (count == 4) break
-      if (stat == exclude) continue
-      if (stat == substatPriority[4] || stat == substatPriority[3]) {
-        if (speedRolls >= speedRollsDeduction) {
-
-        } else {
-          speedRolls++
-          count++
-          mins[Stats.SPD]++
-          continue
-        }
-      }
-      count++
-      mins[stat]++
-    }
-  }
-  mins[Stats.SPD] = speedRollsDeduction
 }
 
 function calculateMinSubstatRollCounts(partialSimulationWrapper: PartialSimulationWrapper, metadata) {

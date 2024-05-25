@@ -1581,7 +1581,6 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.EHR,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -2625,7 +2624,6 @@ function getScoringMetadata() {
         parts: {
           [Parts.Body]: [
             Stats.ATK_P,
-            Stats.EHR,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -2886,7 +2884,6 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.EHR,
             Stats.ATK_P,
           ],
           [Parts.Feet]: [

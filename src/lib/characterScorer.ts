@@ -380,7 +380,7 @@ function computeOptimalSimulation(
 
   currentSimulation.result = currentSimulationResult
 
-  console.debug('simulationRuns', simulationRuns)
+  console.debug('simulationRuns', simulationRuns, partialSimulationWrapper.simulation.request.simBody, partialSimulationWrapper.simulation.request.simFeet, partialSimulationWrapper.simulation.request.simLinkRope, partialSimulationWrapper.simulation.request.simPlanarSphere)
   return currentSimulation
 }
 

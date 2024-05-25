@@ -52,7 +52,7 @@ export function CharacterPreview(props) {
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
-  const [scoringType, setScoringType] = useState(window.store.getState().savedSession[SavedSessionKeys.scoringType])
+  const [scoringType, setScoringType] = useState(window.store.getState().savedSession[SavedSessionKeys.scoringType] || SIMULATION_SCORE)
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
@@ -253,7 +253,7 @@ export function CharacterPreview(props) {
       textAlign: 'center',
       color: '#DD624D',
       height: 23,
-      whiteSpace: 'pre-line',
+      whiteSpace: 'nowrap',
     }
 
     const textDisplay = (

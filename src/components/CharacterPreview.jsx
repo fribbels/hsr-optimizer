@@ -254,10 +254,7 @@ export function CharacterPreview(props) {
     }
 
     const textDisplay = (
-      <Flex vertical style={{ marginBottom: 4 }}>
-        <StatText style={textStyle}>
-          Combat Simulation
-        </StatText>
+      <Flex align="center" vertical style={{ marginBottom: 4 }}>
         <StatText style={textStyle}>
           {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
         </StatText>
@@ -588,7 +585,7 @@ export function CharacterPreview(props) {
                   && (
                     <Flex vertical>
                       <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Character score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                        {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
                       </StatText>
                     </Flex>
                   )

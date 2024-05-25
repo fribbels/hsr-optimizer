@@ -245,7 +245,7 @@ export function CharacterPreview(props) {
     const result = props.result
 
     const textStyle = {
-      fontSize: 16,
+      fontSize: 17,
       fontWeight: '600',
       textAlign: 'center',
       color: '#DD624D',

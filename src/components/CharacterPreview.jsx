@@ -758,7 +758,7 @@ export function CharacterPreview(props) {
             block
             options={[
               {
-                label: `${SIMULATION_SCORE}${combatSimResult == null ? ' (TBD)' : ''}`,
+                label: `${SIMULATION_SCORE}${characterMetadata.scoringMetadata.simulation == null ? ' (TBD)' : ''}`,
                 value: SIMULATION_SCORE,
                 disabled: false,
               },

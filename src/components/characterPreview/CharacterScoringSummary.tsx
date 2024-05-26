@@ -298,6 +298,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
+  // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+  const combatStats = Utils.clone(result.currentSim.x)
+  combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
+
   return (
     <Flex vertical gap={20}>
       <div style={{ minHeight: 10 }} />
@@ -389,41 +393,45 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
 
       <Flex>
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Character basic stats
           </pre>
           <CharacterStatSummary finalStats={result.currentSim} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 2px' }} />
+        </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Benchmark basic stats
           </pre>
           <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <Flex style={{ width: 80 }} justify="space-around">
-          <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 20px', borderInlineWidth: 3 }} />
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Character <u>combat stats</u>
           </pre>
-          <CharacterStatSummary finalStats={result.currentSim.x} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary finalStats={combatStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 2px' }} />
+        </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Benchmark <u>combat stats</u>
           </pre>
           <CharacterStatSummary
-            finalStats={result.maxSim.result.x} elementalDmgValue={elementalDmgValue}
+            finalStats={combatStats} elementalDmgValue={elementalDmgValue}
             hideCv={true}
           />
         </Flex>

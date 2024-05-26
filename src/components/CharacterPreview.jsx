@@ -213,7 +213,7 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 225
+  const newLcHeight = 180
   const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
@@ -258,6 +258,9 @@ export function CharacterPreview(props) {
 
     const textDisplay = (
       <Flex align="center" vertical style={{ marginBottom: 4 }}>
+        <StatText style={textStyle}>
+          Combat Sim
+        </StatText>
         <StatText style={textStyle}>
           {`DPS Score: ${Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1)}% (${getSimScoreGrade(result.percent)})`}
         </StatText>

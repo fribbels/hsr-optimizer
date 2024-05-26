@@ -299,8 +299,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   }
 
   // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
-  const benchmarkCombatStats = Utils.clone(result.maxSim.result.x)
-  const characterCombatStats = Utils.clone(result.currentSim.x)
+  const benchmarkBasicStats = Utils.clone(result.maxSim.result)
+  const characterBasicStats = Utils.clone(result.currentSim)
+  const benchmarkCombatStats = benchmarkBasicStats.x
+  const characterCombatStats = characterBasicStats.x
+  benchmarkBasicStats[elementalDmgValue] = benchmarkBasicStats.ELEMENTAL_DMG
+  characterBasicStats[elementalDmgValue] = characterBasicStats.ELEMENTAL_DMG
   benchmarkCombatStats[elementalDmgValue] = benchmarkCombatStats.ELEMENTAL_DMG
   characterCombatStats[elementalDmgValue] = characterCombatStats.ELEMENTAL_DMG
 
@@ -399,7 +403,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             Character basic stats
           </pre>
-          <CharacterStatSummary finalStats={result.currentSim} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary finalStats={characterBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
         <Flex vertical>
@@ -410,7 +414,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             Benchmark basic stats
           </pre>
-          <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary finalStats={benchmarkBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
         <Flex vertical>

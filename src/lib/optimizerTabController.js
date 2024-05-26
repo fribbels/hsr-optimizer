@@ -43,7 +43,7 @@ export const OptimizerTabController = {
 
   setTopRow: (x) => {
     // delete x.id
-    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: [x]})
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
   },
 
   getRows: () => {
@@ -51,7 +51,7 @@ export const OptimizerTabController = {
   },
 
   scrollToGrid: () => {
-    document.getElementById('optimizerGridContainer').scrollIntoView({behavior: 'smooth', block: 'nearest'})
+    document.getElementById('optimizerGridContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   },
 
   equipClicked: () => {
@@ -157,7 +157,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource(sortModel, filterModel)})
+    window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel, newFilterModel) => {
@@ -260,6 +260,7 @@ export const OptimizerTabController = {
   getDisplayFormValues: (form) => {
     const newForm = Utils.clone(form)
     const metadata = DB.getMetadata().characters[form.characterId]
+    const scoringMetadata = DB.getScoringMetadata(form.characterId)
 
     // Erase inputs where min == 0 and max == MAX_INT
     newForm.maxHp = unsetMax(form.maxHp)
@@ -385,23 +386,18 @@ export const OptimizerTabController = {
 
       // Apply any presets to new characters
       if (metadata) {
-        for (const applyPreset of metadata.scoringMetadata.presets || []) {
+        for (const applyPreset of scoringMetadata.presets || []) {
           applyPreset(newForm)
         }
 
-        const overrides = window.store.getState().scoringMetadataOverrides[newForm.characterId]
-        if (overrides) {
-          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata.scoringMetadata, overrides)
-        }
-
-        newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]
-        newForm.mainFeet = metadata.scoringMetadata.parts[Constants.Parts.Feet]
-        newForm.mainPlanarSphere = metadata.scoringMetadata.parts[Constants.Parts.PlanarSphere]
-        newForm.mainLinkRope = metadata.scoringMetadata.parts[Constants.Parts.LinkRope]
-        newForm.weights = metadata.scoringMetadata.stats
+        newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]
+        newForm.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
+        newForm.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
+        newForm.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
+        newForm.weights = scoringMetadata.stats
         newForm.weights.topPercent = 100
 
-        applyMetadataPresetToForm(newForm, metadata.scoringMetadata)
+        applyMetadataPresetToForm(newForm, scoringMetadata)
       }
     }
 
@@ -631,7 +627,7 @@ export const OptimizerTabController = {
     if (!characterId) return
     const character = DB.getCharacterById(characterId)
 
-    const form = character ? character.form : getDefaultForm({id: characterId})
+    const form = character ? character.form : getDefaultForm({ id: characterId })
     const displayFormValues = OptimizerTabController.getDisplayFormValues(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
@@ -809,6 +805,6 @@ function setPinnedRow(characterId) {
 
   // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
   if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
-    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: [stats]})
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
   }
 }

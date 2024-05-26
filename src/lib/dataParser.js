@@ -5087,6 +5087,7 @@ function getScoringMetadata() {
           BREAK: 1,
         },
         relicSets: [
+          [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
           [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
@@ -5392,7 +5393,6 @@ function getScoringMetadata() {
             Stats.Physical_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
             Stats.BE,
           ],
         },
@@ -5413,6 +5413,7 @@ function getScoringMetadata() {
           BREAK: 1,
         },
         relicSets: [
+          [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
           [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,

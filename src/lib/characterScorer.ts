@@ -15,9 +15,11 @@ import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
 const QUALITY = 0.8
-const SUBSTAT_GOAL = 50
-const FREE_ROLLS = 2
+const SUBSTAT_GOAL = 54
+const FREE_ROLLS = 3
+const MAX_PER_SUB = 36
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
+const BASELINE_FREE_ROLLS = 3
 
 export type SimulationResult = ComputedStatsObject & {
   SIM_SCORE: number
@@ -329,6 +331,13 @@ function computeOptimalSimulation(
   let speedCap = true
   let simulationRuns = 0
 
+  const sumRequest = Utils.sumArray(Object.values(currentSimulation.request.stats))
+  const sumMin = Utils.sumArray(Object.values(minSubstatRollCounts))
+  if (sumRequest == sumMin || sumRequest < goal) {
+    currentSimulation.result = runSimulations(simulationForm, [currentSimulation], QUALITY)[0]
+    return currentSimulation
+  }
+
   while (sum > goal) {
     let bestSim: Simulation | undefined
     let bestSimResult
@@ -445,16 +454,16 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   }
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = 32
+    maxCounts[substat] = MAX_PER_SUB
   }
 
-  maxCounts[request.simBody] -= 5
-  maxCounts[request.simFeet] -= 5
-  maxCounts[request.simPlanarSphere] -= 5
-  maxCounts[request.simLinkRope] -= 5
+  maxCounts[request.simBody] -= 6
+  maxCounts[request.simFeet] -= 6
+  maxCounts[request.simPlanarSphere] -= 6
+  maxCounts[request.simLinkRope] -= 6
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = Math.min(maxCounts[substat], 32 - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
+    maxCounts[substat] = Math.min(maxCounts[substat], Math.max(0, MAX_PER_SUB - Math.ceil(partialSimulationWrapper.speedRollsDeduction)))
   }
 
   for (const stat of SubStats) {
@@ -579,7 +588,7 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
 
         relic.substats.push({
           stat: substat,
-          value: StatCalculator.getMaxedSubstatValue(substat, QUALITY) * FREE_ROLLS,
+          value: StatCalculator.getMaxedSubstatValue(substat, QUALITY) * BASELINE_FREE_ROLLS,
         })
       }
     }
@@ -592,18 +601,18 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
     }
 
     // Simulate no main stats except HP/ATK
-    if (relic.part != Parts.Head && relic.part != Parts.Hands) {
-      relic.main.value = 0
-    }
+    // if (relic.part != Parts.Head && relic.part != Parts.Hands) {
+    relic.main.value = 0
+    // }
   })
 
-  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm)
+  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm, false)
   return {
     baselineSimResult: originalSimResult,
   }
 }
 
-function simulateOriginalCharacter(displayRelics, simulationForm) {
+function simulateOriginalCharacter(displayRelics, simulationForm, maxedMainStat = true) {
   const relicsByPart = Utils.clone(displayRelics)
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
@@ -614,7 +623,7 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
-  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
+  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY, maxedMainStat)[0]
   return {
     originalSimResult,
     originalSim,
@@ -717,46 +726,90 @@ function simSorter(a, b) {
 //   'F': 30,
 // }
 
-// 1.00 => SS+
+// // 1.00 => SS+
+// const SimScoreGrades = {
+//   'WTF+': 120,
+//   'WTF': 115,
+//   'SSS+': 110,
+//   'SSS': 105,
+//   'SS+': 100,
+//   'SS': 95,
+//   'S+': 90,
+//   'S': 85,
+//   'A+': 80,
+//   'A': 75,
+//   'B+': 70,
+//   'B': 65,
+//   'C+': 60,
+//   'C': 55,
+//   'D+': 50,
+//   'D': 45,
+//   'F+': 40,
+//   'F': 35,
+// }
+
+// 1.00 => SS
 const SimScoreGrades = {
-  'WTF+': 120,
-  'WTF': 115,
-  'SSS+': 110,
-  'SSS': 105,
-  'SS+': 100,
-  'SS': 95,
-  'S+': 90,
-  'S': 85,
-  'A+': 80,
-  'A': 75,
-  'B+': 70,
-  'B': 65,
-  'C+': 60,
-  'C': 55,
-  'D+': 50,
-  'D': 45,
-  'F+': 40,
-  'F': 35,
+  'WTF+': 125,
+  'WTF': 120,
+  'SSS+': 115,
+  'SSS': 110,
+  'SS+': 105,
+  'SS': 100,
+  'S+': 95,
+  'S': 90,
+  'A+': 85,
+  'A': 80,
+  'B+': 75,
+  'B': 70,
+  'C+': 65,
+  'C': 60,
+  'D+': 55,
+  'D': 50,
+  'F+': 45,
+  'F': 40,
 }
 
-// // 1.00 => SS
+// 1.00 => S+
 // const SimScoreGrades = {
-//   'WTF+': 125,
-//   'WTF': 120,
-//   'SSS+': 115,
-//   'SSS': 110,
-//   'SS+': 105,
-//   'SS': 100,
-//   'S+': 95,
-//   'S': 90,
-//   'A+': 85,
-//   'A': 80,
-//   'B+': 75,
-//   'B': 70,
-//   'C+': 65,
-//   'C': 60,
-//   'D+': 55,
-//   'D': 50,
-//   'F+': 45,
-//   'F': 40,
+//   'WTF+': 130,
+//   'WTF': 125,
+//   'SSS+': 120,
+//   'SSS': 115,
+//   'SS+': 110,
+//   'SS': 105,
+//   'S+': 100,
+//   'S': 95,
+//   'A+': 90,
+//   'A': 85,
+//   'B+': 80,
+//   'B': 75,
+//   'C+': 70,
+//   'C': 65,
+//   'D+': 60,
+//   'D': 55,
+//   'F+': 50,
+//   'F': 45,
+// }
+
+// 1.00 => S
+// const SimScoreGrades = {
+//   'WTF+': 135,
+//   'WTF': 130,
+//   'SSS+': 125,
+//   'SSS': 120,
+//   'SS+': 115,
+//   'SS': 110,
+//   'S+': 105,
+//   'S': 100,
+//   'A+': 95,
+//   'A': 90,
+//   'B+': 85,
+//   'B': 80,
+//   'C+': 75,
+//   'C': 70,
+//   'D+': 65,
+//   'D': 60,
+//   'F+': 55,
+//   'F': 50,
 // }

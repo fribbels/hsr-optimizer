@@ -152,9 +152,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <ul style={{ lineHeight: '32px' }}>
             <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
             <li>The benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
-            <li>The benchmark has 4 main stats and 50 total substats: 9 from head / hands, 8 from body / feet / sphere / rope</li>
+            <li>The benchmark has 4 main stats and 54 total substats: 9 from each gear slot</li>
             <li>Each substat is equivalent to a 5 star relic's low roll value</li>
-            <li>First, 2 substats are allocated to each substat type, except for Speed, leaving 28 open substats</li>
+            <li>First, 3 substats are allocated to each substat type, except for Speed</li>
             <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
@@ -172,7 +172,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h4>
           <p>
             All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light cone, but no main
-            stats and only 2 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
+            stats and only 3 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
             so that the DPS Score can then measure the resulting damage contribution of each additional substat.
           </p>
 
@@ -211,26 +211,26 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ width: 500 }}>
             <Flex>
               <ul style={{ width: 250 }}>
-                <li>WTF+ = 120%</li>
-                <li>WTF  = 115%</li>
-                <li>SSS+ = 110%</li>
-                <li>SSS  = 105%</li>
-                <li>SS+  = 100%</li>
-                <li>SS   = 95%</li>
-                <li>S+   = 90%</li>
-                <li>S    = 85%</li>
-                <li>A+   = 80%</li>
+                <li>WTF+ = 125%</li>
+                <li>WTF  = 120%</li>
+                <li>SSS+ = 115%</li>
+                <li>SSS  = 110%</li>
+                <li>SS+  = 105%</li>
+                <li>SS   = 100%</li>
+                <li>S+   = 95%</li>
+                <li>S    = 90%</li>
+                <li>A+   = 85%</li>
               </ul>
               <ul>
-                <li>A  = 75%</li>
-                <li>B+ = 70%</li>
-                <li>B  = 65%</li>
-                <li>C+ = 60%</li>
-                <li>C  = 55%</li>
-                <li>D+ = 50%</li>
-                <li>D  = 45%</li>
-                <li>F+ = 40%</li>
-                <li>F  = 35%</li>
+                <li>A  = 80%</li>
+                <li>B+ = 75%</li>
+                <li>B  = 70%</li>
+                <li>C+ = 65%</li>
+                <li>C  = 60%</li>
+                <li>D+ = 55%</li>
+                <li>D  = 50%</li>
+                <li>F+ = 45%</li>
+                <li>F  = 40%</li>
               </ul>
             </Flex>
           </pre>
@@ -253,7 +253,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <p>
-            The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are
+            The spread of 3 substats across all stat options provides some baseline consistency, and simulates how substats are
             imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and
             require multiple stats to be effective, vs characters that only need two or three stats.
           </p>
@@ -284,7 +284,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why is a character scoring low?</h4>
           <p>
-            The `DPS score upgrades` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
+            The `DPS score improvements` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
             the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
             Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
           </p>
@@ -297,6 +297,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
     )
   }
+
+  // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+  const combatStats = Utils.clone(result.currentSim.x)
+  combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
 
   return (
     <Flex vertical gap={20}>
@@ -389,41 +393,45 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
 
       <Flex>
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Character basic stats
           </pre>
           <CharacterStatSummary finalStats={result.currentSim} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 2px' }} />
+        </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Benchmark basic stats
           </pre>
           <CharacterStatSummary finalStats={result.maxSim.result} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <Flex style={{ width: 80 }} justify="space-around">
-          <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 20px', borderInlineWidth: 3 }} />
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Character <u>combat stats</u>
           </pre>
-          <CharacterStatSummary finalStats={result.currentSim.x} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary finalStats={combatStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>
 
-        <VerticalDivider />
+        <Flex vertical>
+          <Divider type="vertical" style={{ flexGrow: 1, margin: '2px 2px' }} />
+        </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: 225 }}>
+        <Flex vertical gap={defaultGap} style={{ width: 250 }}>
           <pre style={{ margin: 'auto' }}>
             Benchmark <u>combat stats</u>
           </pre>
           <CharacterStatSummary
-            finalStats={result.maxSim.result.x} elementalDmgValue={elementalDmgValue}
+            finalStats={combatStats} elementalDmgValue={elementalDmgValue}
             hideCv={true}
           />
         </Flex>
@@ -436,7 +444,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={10}>
             <pre style={{ margin: 'auto 0', marginBottom: 10 }}>
-              50x substats sim results
+              54x substats sim results
             </pre>
             <ScoringNumber label="Character DMG:      " number={result.currentSim.SIM_SCORE} />
             <ScoringNumber label="Benchmark DMG:      " number={result.maxSim.result.SIM_SCORE} />
@@ -527,7 +535,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
-          DPS score upgrades
+          DPS score improvements
         </HeaderText>
       </Flex>
       {rows}

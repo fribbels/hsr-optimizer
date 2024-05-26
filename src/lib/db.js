@@ -292,6 +292,9 @@ export const DB = {
       }
     }
 
+    // We don't want to carry over presets, use the optimizer defined ones
+    delete returnScoringMetadata.presets
+
     return returnScoringMetadata
   },
   updateCharacterScoreOverrides: (id, updated) => {

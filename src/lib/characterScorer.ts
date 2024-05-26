@@ -17,7 +17,7 @@ const cachedSims = {}
 const QUALITY = 0.8
 const SUBSTAT_GOAL = 54
 const FREE_ROLLS = 3
-const MAX_PER_SUB = 32
+const MAX_PER_SUB = 36
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
 const BASELINE_FREE_ROLLS = 3
 
@@ -457,10 +457,10 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
     maxCounts[substat] = MAX_PER_SUB
   }
 
-  maxCounts[request.simBody] -= 5
-  maxCounts[request.simFeet] -= 5
-  maxCounts[request.simPlanarSphere] -= 5
-  maxCounts[request.simLinkRope] -= 5
+  maxCounts[request.simBody] -= 6
+  maxCounts[request.simFeet] -= 6
+  maxCounts[request.simPlanarSphere] -= 6
+  maxCounts[request.simLinkRope] -= 6
 
   for (const substat of metadata.substats) {
     maxCounts[substat] = Math.min(maxCounts[substat], Math.max(0, MAX_PER_SUB - Math.ceil(partialSimulationWrapper.speedRollsDeduction)))

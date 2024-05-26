@@ -331,7 +331,9 @@ function computeOptimalSimulation(
   let speedCap = true
   let simulationRuns = 0
 
-  if (Utils.sumArray(Object.values(currentSimulation.request.stats)) == Utils.sumArray(Object.values(minSubstatRollCounts))) {
+  const sumRequest = Utils.sumArray(Object.values(currentSimulation.request.stats))
+  const sumMin = Utils.sumArray(Object.values(minSubstatRollCounts))
+  if (sumRequest == sumMin || sumRequest < goal) {
     currentSimulation.result = runSimulations(simulationForm, [currentSimulation], QUALITY)[0]
     return currentSimulation
   }

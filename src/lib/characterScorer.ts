@@ -14,11 +14,12 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
-const QUALITY = 0.9
+const QUALITY = 0.8
 const SUBSTAT_GOAL = 54
 const FREE_ROLLS = 3
-const MAX_PER_SUB = 6 * 6
+const MAX_PER_SUB = 30
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
+const BASELINE_FREE_ROLLS = 3
 
 export type SimulationResult = ComputedStatsObject & {
   SIM_SCORE: number
@@ -580,7 +581,7 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
 
         relic.substats.push({
           stat: substat,
-          value: StatCalculator.getMaxedSubstatValue(substat, QUALITY) * FREE_ROLLS,
+          value: StatCalculator.getMaxedSubstatValue(substat, QUALITY) * BASELINE_FREE_ROLLS,
         })
       }
     }
@@ -593,18 +594,18 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
     }
 
     // Simulate no main stats except HP/ATK
-    if (relic.part != Parts.Head && relic.part != Parts.Hands) {
-      relic.main.value = 0
-    }
+    // if (relic.part != Parts.Head && relic.part != Parts.Hands) {
+    relic.main.value = 0
+    // }
   })
 
-  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm)
+  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm, false)
   return {
     baselineSimResult: originalSimResult,
   }
 }
 
-function simulateOriginalCharacter(displayRelics, simulationForm) {
+function simulateOriginalCharacter(displayRelics, simulationForm, maxedMainStat = true) {
   const relicsByPart = Utils.clone(displayRelics)
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
@@ -615,7 +616,7 @@ function simulateOriginalCharacter(displayRelics, simulationForm) {
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
-  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY)[0]
+  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY, maxedMainStat)[0]
   return {
     originalSimResult,
     originalSim,

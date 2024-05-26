@@ -255,7 +255,7 @@ export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form: Form, simulations: Simulation[], quality = 1): SimulationResult[] {
+export function runSimulations(form: Form, simulations: Simulation[], quality = 1, maxedMainStat = true): SimulationResult[] {
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
@@ -268,22 +268,20 @@ export function runSimulations(form: Form, simulations: Simulation[], quality = 
     const planarSphere = emptyRelic()
 
     head.augmentedStats.mainStat = Constants.Stats.HP
-    head.augmentedStats.mainValue = 705.600
-
     hands.augmentedStats.mainStat = Constants.Stats.ATK
-    hands.augmentedStats.mainValue = 352.800
-
     body.augmentedStats.mainStat = request.simBody
-    body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody)
-
     feet.augmentedStats.mainStat = request.simFeet
-    feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet)
-
     linkRope.augmentedStats.mainStat = request.simLinkRope
-    linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope)
-
     planarSphere.augmentedStats.mainStat = request.simPlanarSphere
-    planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere)
+
+    head.augmentedStats.mainValue = 705.600
+    hands.augmentedStats.mainValue = 352.800
+    if (maxedMainStat) {
+      body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody)
+      feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet)
+      linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope)
+      planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere)
+    }
 
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set

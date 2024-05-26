@@ -153,7 +153,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
             <li>The benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
             <li>The benchmark has 4 main stats and 54 total substats: 9 from each gear slot</li>
-            <li>Each substat is equivalent to a 5 star relic's mid roll value</li>
+            <li>Each substat is equivalent to a 5 star relic's low roll value</li>
             <li>First, 3 substats are allocated to each substat type, except for Speed</li>
             <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
@@ -253,7 +253,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <p>
-            The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are
+            The spread of 3 substats across all stat options provides some baseline consistency, and simulates how substats are
             imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and
             require multiple stats to be effective, vs characters that only need two or three stats.
           </p>
@@ -284,7 +284,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why is a character scoring low?</h4>
           <p>
-            The `DPS score upgrades` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
+            The `DPS score improvements` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
             the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
             Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
           </p>
@@ -527,7 +527,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
-          DPS score upgrades
+          DPS score improvements
         </HeaderText>
       </Flex>
       {rows}

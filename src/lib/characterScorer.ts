@@ -17,7 +17,7 @@ const cachedSims = {}
 const QUALITY = 0.8
 const SUBSTAT_GOAL = 54
 const FREE_ROLLS = 3
-const MAX_PER_SUB = 30
+const MAX_PER_SUB = 21
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
 const BASELINE_FREE_ROLLS = 3
 
@@ -331,6 +331,11 @@ function computeOptimalSimulation(
   let speedCap = true
   let simulationRuns = 0
 
+  if (Utils.sumArray(Object.values(currentSimulation.request.stats)) == Utils.sumArray(Object.values(minSubstatRollCounts))) {
+    currentSimulation.result = runSimulations(simulationForm, [currentSimulation], QUALITY)[0]
+    return currentSimulation
+  }
+
   while (sum > goal) {
     let bestSim: Simulation | undefined
     let bestSimResult
@@ -456,7 +461,7 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
   maxCounts[request.simLinkRope] -= 5
 
   for (const substat of metadata.substats) {
-    maxCounts[substat] = Math.min(maxCounts[substat], MAX_PER_SUB - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
+    maxCounts[substat] = Math.min(maxCounts[substat], Math.max(0, MAX_PER_SUB - Math.ceil(partialSimulationWrapper.speedRollsDeduction)))
   }
 
   for (const stat of SubStats) {

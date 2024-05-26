@@ -152,7 +152,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <ul style={{ lineHeight: '32px' }}>
             <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
             <li>The benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
-            <li>The benchmark has 4 main stats and 54 total substats: 9 from each gear slot</li>
+            <li>The benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
             <li>Each substat is equivalent to a 5 star relic's low roll value</li>
             <li>First, 3 substats are allocated to each substat type, except for Speed</li>
             <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
@@ -172,7 +172,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h4>
           <p>
             All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light cone, but no main
-            stats and only 3 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
+            stats and only 2 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
             so that the DPS Score can then measure the resulting damage contribution of each additional substat.
           </p>
 
@@ -253,7 +253,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <p>
-            The spread of 3 substats across all stat options provides some baseline consistency, and simulates how substats are
+            The spread of 2 substats across all stat options provides some baseline consistency, and simulates how substats are
             imperfectly distributed in actual player builds. The spread rolls also help to balance out characters that are more stat hungry and
             require multiple stats to be effective, vs characters that only need two or three stats.
           </p>
@@ -450,7 +450,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={10}>
             <pre style={{ margin: 'auto 0', marginBottom: 10 }}>
-              54x substats sim results
+              48x substats sim results
             </pre>
             <ScoringNumber label="Character DMG:      " number={result.currentSim.SIM_SCORE} />
             <ScoringNumber label="Benchmark DMG:      " number={result.maxSim.result.SIM_SCORE} />

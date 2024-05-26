@@ -745,6 +745,18 @@ export function CharacterPreview(props) {
           </Flex>
         </Flex>
       </Flex>
+      {
+        scoringType == SIMULATION_SCORE && (
+          <Flex vertical align="center" style={{ width: '100%' }}>
+            <Text style={{ fontSize: 20, color: 'orange' }}>
+              Notice: DPS score is a work in progress as we gather feedback to balance scores, the numbers may change a bit
+            </Text>
+            <Text style={{ fontSize: 20, color: 'orange' }}>
+              The previous Character Score system can still be used with the selector below
+            </Text>
+          </Flex>
+        )
+      }
       <Flex justify="center">
         <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
           <Text style={{ width: 220 }}>

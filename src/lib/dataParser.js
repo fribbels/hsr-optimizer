@@ -4792,8 +4792,8 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.ATK_P,
             Stats.EHR,
+            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,

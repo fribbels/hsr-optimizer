@@ -15,11 +15,11 @@ import { StatCalculator } from 'lib/statCalculator'
 
 const cachedSims = {}
 const QUALITY = 0.8
-const SUBSTAT_GOAL = 54
-const FREE_ROLLS = 3
-const MAX_PER_SUB = 36
+const SUBSTAT_GOAL = 48
+const FREE_ROLLS = 2
+const MAX_PER_SUB = 30
 const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
-const BASELINE_FREE_ROLLS = 3
+const BASELINE_FREE_ROLLS = 2
 
 export type SimulationResult = ComputedStatsObject & {
   SIM_SCORE: number
@@ -606,7 +606,7 @@ function simulateBaselineCharacter(displayRelics, simulationForm) {
     // }
   })
 
-  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm, false)
+  const { originalSimResult } = simulateOriginalCharacter(relicsByPart, simulationForm, true)
   return {
     baselineSimResult: originalSimResult,
   }

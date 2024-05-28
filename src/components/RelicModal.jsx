@@ -174,12 +174,20 @@ export default function RelicModal(props) {
           low0 = Math.floor(low0)
           mid0 = Math.floor(mid0)
           high0 = Math.floor(high0)
+
+          setButton0low(parseFloat(low0))
+          setButton0mid(parseFloat(mid0))
+          setButton0high(parseFloat(high0))
         }
       } else {
         low0 = Math.floor(10 * low0) / 10
         mid0 = Math.floor(10 * mid0) / 10
         high0 = Math.floor(10 * high0) / 10
         setHide0('inline')
+
+        setButton0low(parseFloat(low0).toFixed(1))
+        setButton0mid(parseFloat(mid0).toFixed(1))
+        setButton0high(parseFloat(high0).toFixed(1))
       }
       if (Utils.isFlat(props.selectedRelic.substats[1].stat)) {
         if (props.selectedRelic.substats[1].stat == Constants.Stats.SPD) {
@@ -192,12 +200,20 @@ export default function RelicModal(props) {
           low1 = Math.floor(low1)
           mid1 = Math.floor(mid1)
           high1 = Math.floor(high1)
+
+          setButton1low(parseFloat(low1))
+          setButton1mid(parseFloat(mid1))
+          setButton1high(parseFloat(high1))
         }
       } else {
         low1 = Math.floor(10 * low1) / 10
         mid1 = Math.floor(10 * mid1) / 10
         high1 = Math.floor(10 * high1) / 10
         setHide1('inline')
+
+        setButton1low(parseFloat(low1).toFixed(1))
+        setButton1mid(parseFloat(mid1).toFixed(1))
+        setButton1high(parseFloat(high1).toFixed(1))
       }
       if (Utils.isFlat(props.selectedRelic.substats[2].stat)) {
         if (props.selectedRelic.substats[2].stat == Constants.Stats.SPD) {
@@ -210,12 +226,20 @@ export default function RelicModal(props) {
           low2 = Math.floor(low2)
           mid2 = Math.floor(mid2)
           high2 = Math.floor(high2)
+
+          setButton2low(parseFloat(low2))
+          setButton2mid(parseFloat(mid2))
+          setButton2high(parseFloat(high2))
         }
       } else {
         low2 = Math.floor(10 * low2) / 10
         mid2 = Math.floor(10 * mid2) / 10
         high2 = Math.floor(10 * high2) / 10
         setHide2('inline')
+
+        setButton2low(parseFloat(low2).toFixed(1))
+        setButton2mid(parseFloat(mid2).toFixed(1))
+        setButton2high(parseFloat(high2).toFixed(1))
       }
       if (Utils.isFlat(props.selectedRelic.substats[3].stat)) {
         if (props.selectedRelic.substats[3].stat == Constants.Stats.SPD) {
@@ -228,28 +252,20 @@ export default function RelicModal(props) {
           low3 = Math.floor(low3)
           mid3 = Math.floor(mid3)
           high3 = Math.floor(high3)
+          setButton3low(parseFloat(low3))
+          setButton3mid(parseFloat(mid3))
+          setButton3high(parseFloat(high3))
         }
       } else {
         low3 = Math.floor(10 * low3) / 10
         mid3 = Math.floor(10 * mid3) / 10
         high3 = Math.floor(10 * high3) / 10
         setHide3('inline')
+
+        setButton3low(parseFloat(low3).toFixed(1))
+        setButton3mid(parseFloat(mid3).toFixed(1))
+        setButton3high(parseFloat(high3).toFixed(1))
       }
-      setButton0low(parseFloat(low0).toFixed(1))
-      setButton0mid(parseFloat(mid0).toFixed(1))
-      setButton0high(parseFloat(high0).toFixed(1))
-
-      setButton1low(parseFloat(low1).toFixed(1))
-      setButton1mid(parseFloat(mid1).toFixed(1))
-      setButton1high(parseFloat(high1).toFixed(1))
-
-      setButton2low(parseFloat(low2).toFixed(1))
-      setButton2mid(parseFloat(mid2).toFixed(1))
-      setButton2high(parseFloat(high2).toFixed(1))
-
-      setButton3low(parseFloat(low3).toFixed(1))
-      setButton3mid(parseFloat(mid3).toFixed(1))
-      setButton3high(parseFloat(high3).toFixed(1))
     } else {
       setButton0low(undefined)
       setButton0mid(undefined)
@@ -513,9 +529,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
     } else if (Utils.isFlat(stat)) {
       stats.substat0 += increment
-      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
-      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
-      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      setButton0low(Math.floor(stats.substat0 + SubStatValues[stat][grade].low))
+      setButton0mid(Math.floor(stats.substat0 + SubStatValues[stat][grade].mid))
+      setButton0high(Math.floor(stats.substat0 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
     } else {
       stats.substat0 += increment
@@ -534,9 +550,9 @@ export default function RelicModal(props) {
     const stats = trueStats
     stats.substat0 += increment
     if (Utils.isFlat(stat)) {
-      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
-      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
-      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      setButton0low(Math.floor(stats.substat0 + SubStatValues[stat][grade].low))
+      setButton0mid(Math.floor(stats.substat0 + SubStatValues[stat][grade].mid))
+      setButton0high(Math.floor(stats.substat0 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
     } else {
       setButton0low(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
@@ -559,9 +575,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
     } else if (Utils.isFlat(stat)) {
       stats.substat0 += increment
-      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
-      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
-      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      setButton0low(Math.floor(stats.substat0 + SubStatValues[stat][grade].low))
+      setButton0mid(Math.floor(stats.substat0 + SubStatValues[stat][grade].mid))
+      setButton0high(Math.floor(stats.substat0 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
     } else {
       stats.substat0 += increment
@@ -585,9 +601,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
     } else if (Utils.isFlat(stat)) {
       stats.substat1 += increment
-      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
-      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
-      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      setButton1low(Math.floor(stats.substat1 + SubStatValues[stat][grade].low))
+      setButton1mid(Math.floor(stats.substat1 + SubStatValues[stat][grade].mid))
+      setButton1high(Math.floor(stats.substat1 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
     } else {
       stats.substat1 += increment
@@ -606,9 +622,9 @@ export default function RelicModal(props) {
     const stats = trueStats
     stats.substat1 += increment
     if (Utils.isFlat(stat)) {
-      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
-      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
-      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      setButton1low(Math.floor(stats.substat1 + SubStatValues[stat][grade].low))
+      setButton1mid(Math.floor(stats.substat1 + SubStatValues[stat][grade].mid))
+      setButton1high(Math.floor(stats.substat1 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
     } else {
       setButton1low(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
@@ -631,9 +647,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
     } else if (Utils.isFlat(stat)) {
       stats.substat1 += increment
-      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
-      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
-      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      setButton1low(Math.floor(stats.substat1 + SubStatValues[stat][grade].low))
+      setButton1mid(Math.floor(stats.substat1 + SubStatValues[stat][grade].mid))
+      setButton1high(Math.floor(stats.substat1 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
     } else {
       stats.substat1 += increment
@@ -657,9 +673,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
     } else if (Utils.isFlat(stat)) {
       stats.substat2 += increment
-      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
-      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
-      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      setButton2low(Math.floor(stats.substat2 + SubStatValues[stat][grade].low))
+      setButton2mid(Math.floor(stats.substat2 + SubStatValues[stat][grade].mid))
+      setButton2high(Math.floor(stats.substat2 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
     } else {
       stats.substat2 += increment
@@ -678,9 +694,9 @@ export default function RelicModal(props) {
     const stats = trueStats
     stats.substat2 += increment
     if (Utils.isFlat(stat)) {
-      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
-      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
-      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      setButton2low(Math.floor(stats.substat2 + SubStatValues[stat][grade].low))
+      setButton2mid(Math.floor(stats.substat2 + SubStatValues[stat][grade].mid))
+      setButton2high(Math.floor(stats.substat2 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
     } else {
       setButton2low(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
@@ -703,9 +719,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
     } else if (Utils.isFlat(stat)) {
       stats.substat2 += increment
-      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
-      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
-      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      setButton2low(Math.floor(stats.substat2 + SubStatValues[stat][grade].low))
+      setButton2mid(Math.floor(stats.substat2 + SubStatValues[stat][grade].mid))
+      setButton2high(Math.floor(stats.substat2 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
     } else {
       stats.substat2 += increment
@@ -729,9 +745,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
     } else if (Utils.isFlat(stat)) {
       stats.substat3 += increment
-      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
-      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
-      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      setButton3low(Math.floor(stats.substat3 + SubStatValues[stat][grade].low))
+      setButton3mid(Math.floor(stats.substat3 + SubStatValues[stat][grade].mid))
+      setButton3high(Math.floor(stats.substat3 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
     } else {
       stats.substat3 += increment
@@ -750,9 +766,9 @@ export default function RelicModal(props) {
     const stats = trueStats
     stats.substat3 += increment
     if (Utils.isFlat(stat)) {
-      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
-      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
-      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      setButton3low(Math.floor(stats.substat3 + SubStatValues[stat][grade].low))
+      setButton3mid(Math.floor(stats.substat3 + SubStatValues[stat][grade].mid))
+      setButton3high(Math.floor(stats.substat3 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
     } else {
       setButton3low(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
@@ -775,9 +791,9 @@ export default function RelicModal(props) {
       relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
     } else if (Utils.isFlat(stat)) {
       stats.substat3 += increment
-      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
-      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
-      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      setButton3low(Math.floor(stats.substat3 + SubStatValues[stat][grade].low))
+      setButton3mid(Math.floor(stats.substat3 + SubStatValues[stat][grade].mid))
+      setButton3high(Math.floor(stats.substat3 + SubStatValues[stat][grade].high))
       relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
     } else {
       stats.substat3 += increment
@@ -1185,6 +1201,7 @@ export default function RelicModal(props) {
                       </Button>
                       <Button
                         style={{ width: 50, padding: 0 }}
+                        disabled={hide0 == 'none'}
                         onClick={upgrade0mid}
                       >
                         {hide0 == 'none' ? '' : button0mid}
@@ -1234,6 +1251,7 @@ export default function RelicModal(props) {
                       </Button>
                       <Button
                         style={{ width: 50, padding: 0 }}
+                        disabled={hide2 == 'none'}
                         onClick={upgrade2mid}
                       >
                         {hide2 == 'none' ? '' : button2mid}
@@ -1258,6 +1276,7 @@ export default function RelicModal(props) {
                       </Button>
                       <Button
                         style={{ width: 50, padding: 0 }}
+                        disabled={hide3 == 'none'}
                         onClick={upgrade3mid}
                       >
                         {hide3 == 'none' ? '' : button3mid}

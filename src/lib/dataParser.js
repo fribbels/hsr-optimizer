@@ -5074,10 +5074,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
-        maxBonusRolls: {
-          [Stats.ATK]: 0,
-          [Stats.ATK_P]: 2,
-        },
+        maxBonusRolls: {},
         formula: {
           BASIC: 0,
           SKILL: 3,

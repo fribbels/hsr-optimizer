@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select } from 'antd'
+import { Button, Col, Flex, Form, Image, InputNumber, Modal, Radio, Row, Select, Space } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Constants } from 'lib/constants'
+import { Constants, SubStatValues } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Message } from 'lib/message'
@@ -129,6 +129,160 @@ export default function RelicModal(props) {
       }
     }
   }, [relicForm, mainStatOptions, props.selectedRelic?.main?.stat])
+
+  useEffect(() => { // Set the proper values for the level-up buttons
+    let low0 = 0
+    let mid0 = 0
+    let high0 = 0
+
+    let low1 = 0
+    let mid1 = 0
+    let high1 = 0
+
+    let low2 = 0
+    let mid2 = 0
+    let high2 = 0
+
+    let low3 = 0
+    let mid3 = 0
+    let high3 = 0
+    if (props.selectedRelic != undefined && props.type == 'edit') {
+      low0 = SubStatValues[props.selectedRelic.substats[0].stat][props.selectedRelic.grade].low + props.selectedRelic.substats[0].value
+      mid0 = SubStatValues[props.selectedRelic.substats[0].stat][props.selectedRelic.grade].mid + props.selectedRelic.substats[0].value
+      high0 = SubStatValues[props.selectedRelic.substats[0].stat][props.selectedRelic.grade].high + props.selectedRelic.substats[0].value
+
+      low1 = SubStatValues[props.selectedRelic.substats[1].stat][props.selectedRelic.grade].low + props.selectedRelic.substats[1].value
+      mid1 = SubStatValues[props.selectedRelic.substats[1].stat][props.selectedRelic.grade].mid + props.selectedRelic.substats[1].value
+      high1 = SubStatValues[props.selectedRelic.substats[1].stat][props.selectedRelic.grade].high + props.selectedRelic.substats[1].value
+
+      low2 = SubStatValues[props.selectedRelic.substats[2].stat][props.selectedRelic.grade].low + props.selectedRelic.substats[2].value
+      mid2 = SubStatValues[props.selectedRelic.substats[2].stat][props.selectedRelic.grade].mid + props.selectedRelic.substats[2].value
+      high2 = SubStatValues[props.selectedRelic.substats[2].stat][props.selectedRelic.grade].high + props.selectedRelic.substats[2].value
+
+      low3 = SubStatValues[props.selectedRelic.substats[3].stat][props.selectedRelic.grade].low + props.selectedRelic.substats[3].value
+      mid3 = SubStatValues[props.selectedRelic.substats[3].stat][props.selectedRelic.grade].mid + props.selectedRelic.substats[3].value
+      high3 = SubStatValues[props.selectedRelic.substats[3].stat][props.selectedRelic.grade].high + props.selectedRelic.substats[3].value
+
+      if (Utils.isFlat(props.selectedRelic.substats[0].stat)) {
+        if (props.selectedRelic.substats[0].stat == Constants.Stats.SPD) {
+          setHide0('none')
+          low0 = Math.floor(props.selectedRelic.substats[0].value) + 2
+          mid0 = undefined
+          high0 = Math.floor(props.selectedRelic.substats[0].value) + 3
+        } else {
+          setHide0('inline')
+          low0 = Math.floor(low0)
+          mid0 = Math.floor(mid0)
+          high0 = Math.floor(high0)
+        }
+      } else {
+        low0 = Math.floor(10 * low0) / 10
+        mid0 = Math.floor(10 * mid0) / 10
+        high0 = Math.floor(10 * high0) / 10
+        setHide0('inline')
+      }
+      if (Utils.isFlat(props.selectedRelic.substats[1].stat)) {
+        if (props.selectedRelic.substats[1].stat == Constants.Stats.SPD) {
+          setHide1('none')
+          low1 = Math.floor(props.selectedRelic.substats[1].value) + 2
+          mid1 = undefined
+          high1 = Math.floor(props.selectedRelic.substats[1].value) + 3
+        } else {
+          setHide1('inline')
+          low1 = Math.floor(low1)
+          mid1 = Math.floor(mid1)
+          high1 = Math.floor(high1)
+        }
+      } else {
+        low1 = Math.floor(10 * low1) / 10
+        mid1 = Math.floor(10 * mid1) / 10
+        high1 = Math.floor(10 * high1) / 10
+        setHide1('inline')
+      }
+      if (Utils.isFlat(props.selectedRelic.substats[2].stat)) {
+        if (props.selectedRelic.substats[2].stat == Constants.Stats.SPD) {
+          setHide2('none')
+          low2 = Math.floor(props.selectedRelic.substats[2].value) + 2
+          mid2 = undefined
+          high2 = Math.floor(props.selectedRelic.substats[2].value) + 3
+        } else {
+          setHide2('inline')
+          low2 = Math.floor(low2)
+          mid2 = Math.floor(mid2)
+          high2 = Math.floor(high2)
+        }
+      } else {
+        low2 = Math.floor(10 * low2) / 10
+        mid2 = Math.floor(10 * mid2) / 10
+        high2 = Math.floor(10 * high2) / 10
+        setHide2('inline')
+      }
+      if (Utils.isFlat(props.selectedRelic.substats[3].stat)) {
+        if (props.selectedRelic.substats[3].stat == Constants.Stats.SPD) {
+          setHide3('none')
+          low3 = Math.floor(props.selectedRelic.substats[3].value) + 2
+          mid3 = undefined
+          high3 = Math.floor(props.selectedRelic.substats[3].value) + 3
+        } else {
+          setHide3('inline')
+          low3 = Math.floor(low3)
+          mid3 = Math.floor(mid3)
+          high3 = Math.floor(high3)
+        }
+      } else {
+        low3 = Math.floor(10 * low3) / 10
+        mid3 = Math.floor(10 * mid3) / 10
+        high3 = Math.floor(10 * high3) / 10
+        setHide3('inline')
+      }
+      setButton0low(parseFloat(low0).toFixed(1))
+      setButton0mid(parseFloat(mid0).toFixed(1))
+      setButton0high(parseFloat(high0).toFixed(1))
+
+      setButton1low(parseFloat(low1).toFixed(1))
+      setButton1mid(parseFloat(mid1).toFixed(1))
+      setButton1high(parseFloat(high1).toFixed(1))
+
+      setButton2low(parseFloat(low2).toFixed(1))
+      setButton2mid(parseFloat(mid2).toFixed(1))
+      setButton2high(parseFloat(high2).toFixed(1))
+
+      setButton3low(parseFloat(low3).toFixed(1))
+      setButton3mid(parseFloat(mid3).toFixed(1))
+      setButton3high(parseFloat(high3).toFixed(1))
+    } else {
+      setButton0low(undefined)
+      setButton0mid(undefined)
+      setButton0high(undefined)
+      setHide0('inline')
+
+      setButton1low(undefined)
+      setButton1mid(undefined)
+      setButton1high(undefined)
+      setHide1('inline')
+
+      setButton2low(undefined)
+      setButton2mid(undefined)
+      setButton2high(undefined)
+      setHide2('inline')
+
+      setButton3low(undefined)
+      setButton3mid(undefined)
+      setButton3high(undefined)
+      setHide3('inline')
+    }
+  }, [props.selectedRelic, props.type])
+
+  useEffect(() => {
+    if (props.selectedRelic) {
+      setTrueStats({
+        substat0: props.selectedRelic.substats[0].value,
+        substat1: props.selectedRelic.substats[1].value,
+        substat2: props.selectedRelic.substats[2].value,
+        substat3: props.selectedRelic.substats[3].value,
+      })
+    }
+  }, [props.selectedRelic])
 
   const onFinish = (x) => {
     console.log('Form finished', x)
@@ -303,7 +457,336 @@ export default function RelicModal(props) {
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
   const plusThree = () => {
-    relicForm.setFieldValue("enhance", Math.min(relicForm.getFieldValue("enhance") + 3, 15));
+    relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
+  }
+
+  const [wearerID, setWearerID] = useState('None')
+
+  const [hide0, setHide0] = useState('inline')
+
+  const [hide1, setHide1] = useState('inline')
+
+  const [hide2, setHide2] = useState('inline')
+
+  const [hide3, setHide3] = useState('inline')
+
+  const [button0low, setButton0low] = useState(undefined)
+
+  const [button0mid, setButton0mid] = useState(undefined)
+
+  const [button0high, setButton0high] = useState(undefined)
+
+  const [button1low, setButton1low] = useState(undefined)
+
+  const [button1mid, setButton1mid] = useState(undefined)
+
+  const [button1high, setButton1high] = useState(undefined)
+
+  const [button2low, setButton2low] = useState(undefined)
+
+  const [button2mid, setButton2mid] = useState(undefined)
+
+  const [button2high, setButton2high] = useState(undefined)
+
+  const [button3low, setButton3low] = useState(undefined)
+
+  const [button3mid, setButton3mid] = useState(undefined)
+
+  const [button3high, setButton3high] = useState(undefined)
+
+  const [trueStats, setTrueStats] = useState({
+    substat0: 0,
+    substat1: 0,
+    substat2: 0,
+    substat3: 0,
+  })
+
+  const upgrade0low = () => {
+    const stat = relicForm.getFieldValue('substatType0')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].low
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat0 += 2
+      setButton0low(Math.floor(stats.substat0) + 2)
+      setButton0high(Math.floor(stats.substat0) + 3)
+      relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat0 += increment
+      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
+      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
+      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
+    } else {
+      stats.substat0 += increment
+      setButton0low(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton0mid(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton0high(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue0', parseFloat(Math.floor(10 * stats.substat0) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade0mid = () => {
+    const stat = relicForm.getFieldValue('substatType0')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].mid
+    const stats = trueStats
+    stats.substat0 += increment
+    if (Utils.isFlat(stat)) {
+      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
+      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
+      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
+    } else {
+      setButton0low(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton0mid(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton0high(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue0', parseFloat(Math.floor(10 * stats.substat0) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade0high = () => {
+    const stat = relicForm.getFieldValue('substatType0')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].high
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat0 += 3
+      setButton0low(Math.floor(stats.substat0) + 2)
+      setButton0high(Math.floor(stats.substat0) + 3)
+      relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat0 += increment
+      setButton0low(Math.floor(stats.substat0) + SubStatValues[stat][grade].low)
+      setButton0mid(Math.floor(stats.substat0) + SubStatValues[stat][grade].mid)
+      setButton0high(Math.floor(stats.substat0) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue0', Math.floor(stats.substat0))
+    } else {
+      stats.substat0 += increment
+      setButton0low(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton0mid(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton0high(parseFloat(Math.floor(10 * (stats.substat0 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue0', parseFloat(Math.floor(10 * stats.substat0) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade1low = () => {
+    const stat = relicForm.getFieldValue('substatType1')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].low
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat1 += 2
+      setButton1low(Math.floor(stats.substat1) + 2)
+      setButton1high(Math.floor(stats.substat1) + 3)
+      relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat1 += increment
+      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
+      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
+      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
+    } else {
+      stats.substat1 += increment
+      setButton1low(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton1mid(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton1high(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue1', parseFloat(Math.floor(10 * stats.substat1) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade1mid = () => {
+    const stat = relicForm.getFieldValue('substatType1')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].mid
+    const stats = trueStats
+    stats.substat1 += increment
+    if (Utils.isFlat(stat)) {
+      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
+      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
+      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
+    } else {
+      setButton1low(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton1mid(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton1high(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue1', parseFloat(Math.floor(10 * stats.substat1) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade1high = () => {
+    const stat = relicForm.getFieldValue('substatType1')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].high
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat1 += 3
+      setButton1low(Math.floor(stats.substat1) + 2)
+      setButton1high(Math.floor(stats.substat1) + 3)
+      relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat1 += increment
+      setButton1low(Math.floor(stats.substat1) + SubStatValues[stat][grade].low)
+      setButton1mid(Math.floor(stats.substat1) + SubStatValues[stat][grade].mid)
+      setButton1high(Math.floor(stats.substat1) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue1', Math.floor(stats.substat1))
+    } else {
+      stats.substat1 += increment
+      setButton1low(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton1mid(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton1high(parseFloat(Math.floor(10 * (stats.substat1 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue1', parseFloat(Math.floor(10 * stats.substat1) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade2low = () => {
+    const stat = relicForm.getFieldValue('substatType2')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].low
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat2 += 2
+      setButton2low(Math.floor(stats.substat2) + 2)
+      setButton2high(Math.floor(stats.substat2) + 3)
+      relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat2 += increment
+      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
+      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
+      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
+    } else {
+      stats.substat2 += increment
+      setButton2low(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton2mid(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton2high(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue2', parseFloat(Math.floor(10 * stats.substat2) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade2mid = () => {
+    const stat = relicForm.getFieldValue('substatType2')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].mid
+    const stats = trueStats
+    stats.substat2 += increment
+    if (Utils.isFlat(stat)) {
+      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
+      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
+      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
+    } else {
+      setButton2low(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton2mid(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton2high(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue2', parseFloat(Math.floor(10 * stats.substat2) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade2high = () => {
+    const stat = relicForm.getFieldValue('substatType2')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].high
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat2 += 3
+      setButton2low(Math.floor(stats.substat2) + 2)
+      setButton2high(Math.floor(stats.substat2) + 3)
+      relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat2 += increment
+      setButton2low(Math.floor(stats.substat2) + SubStatValues[stat][grade].low)
+      setButton2mid(Math.floor(stats.substat2) + SubStatValues[stat][grade].mid)
+      setButton2high(Math.floor(stats.substat2) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue2', Math.floor(stats.substat2))
+    } else {
+      stats.substat2 += increment
+      setButton2low(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton2mid(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton2high(parseFloat(Math.floor(10 * (stats.substat2 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue2', parseFloat(Math.floor(10 * stats.substat2) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade3low = () => {
+    const stat = relicForm.getFieldValue('substatType3')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].low
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat3 += 2
+      setButton3low(Math.floor(stats.substat3) + 2)
+      setButton3high(Math.floor(stats.substat3) + 3)
+      relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat3 += increment
+      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
+      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
+      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
+    } else {
+      stats.substat3 += increment
+      setButton3low(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton3mid(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton3high(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue3', parseFloat(Math.floor(10 * stats.substat3) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade3mid = () => {
+    const stat = relicForm.getFieldValue('substatType3')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].mid
+    const stats = trueStats
+    stats.substat3 += increment
+    if (Utils.isFlat(stat)) {
+      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
+      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
+      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
+    } else {
+      setButton3low(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton3mid(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton3high(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue3', parseFloat(Math.floor(10 * stats.substat3) / 10).toFixed(1))
+    }
+    plusThree()
+  }
+
+  const upgrade3high = () => {
+    const stat = relicForm.getFieldValue('substatType3')
+    const grade = relicForm.getFieldValue('grade')
+    const increment = SubStatValues[stat][grade].high
+    const stats = trueStats
+    if (stat == Constants.Stats.SPD) {
+      stats.substat3 += 3
+      setButton3low(Math.floor(stats.substat3) + 2)
+      setButton3high(Math.floor(stats.substat3) + 3)
+      relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
+    } else if (Utils.isFlat(stat)) {
+      stats.substat3 += increment
+      setButton3low(Math.floor(stats.substat3) + SubStatValues[stat][grade].low)
+      setButton3mid(Math.floor(stats.substat3) + SubStatValues[stat][grade].mid)
+      setButton3high(Math.floor(stats.substat3) + SubStatValues[stat][grade].high)
+      relicForm.setFieldValue('substatValue3', Math.floor(stats.substat3))
+    } else {
+      stats.substat3 += increment
+      setButton3low(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].low)) / 10).toFixed(1))
+      setButton3mid(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].mid)) / 10).toFixed(1))
+      setButton3high(parseFloat(Math.floor(10 * (stats.substat3 + SubStatValues[stat][grade].high)) / 10).toFixed(1))
+      relicForm.setFieldValue('substatValue3', parseFloat(Math.floor(10 * stats.substat3) / 10).toFixed(1))
+    }
+    plusThree()
   }
 
   return (
@@ -316,7 +799,7 @@ export default function RelicModal(props) {
       onValuesChange={onValuesChange}
     >
       <Modal
-        width={350}
+        width={525}
         centered
         destroyOnClose
         open={props.open} //
@@ -331,174 +814,466 @@ export default function RelicModal(props) {
         ]}
       >
         <Flex vertical gap={5}>
+          <Space size={15} direction="vertical">
+            <Row gutter={[10, 5]}>
+              <Col span={16}>
+                <Flex vertical gap={5}>
+                  <HeaderText>Part</HeaderText>
 
-          <HeaderText>Equipped by</HeaderText>
-          <Form.Item size="default" name="equippedBy">
-            <Select
-              showSearch
-              filterOption={filterOption}
-              style={{ width: 300 }}
-              options={characterOptions}
-            />
-          </Form.Item>
+                  <Form.Item size="default" name="part">
+                    <Radio.Group buttonStyle="solid">
+                      <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
+                      <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
+                      <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
+                      <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
+                      <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
+                      <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
+                    </Radio.Group>
+                  </Form.Item>
 
-          <HeaderText>Part</HeaderText>
+                  <HeaderText>Set</HeaderText>
+                  <Form.Item size="default" name="set">
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{
+                        width: 300,
+                      }}
+                      placeholder="Sets"
+                      options={setOptions}
+                      maxTagCount="responsive"
+                    >
+                    </Select>
+                  </Form.Item>
+                  <HeaderText>Enhance / Grade</HeaderText>
 
-          <Form.Item size="default" name="part">
-            <Radio.Group buttonStyle="solid">
-              <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
-              <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
-              <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
-              <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
-              <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
-              <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
-            </Radio.Group>
-          </Form.Item>
+                  <Flex gap={10}>
+                    <Form.Item size="default" name="enhance">
+                      <Select
+                        showSearch
+                        style={{ width: 115 }}
+                        options={enhanceOptions}
+                      />
+                    </Form.Item>
 
-          <HeaderText>Set</HeaderText>
-          <Form.Item size="default" name="set">
-            <Select
-              showSearch
-              allowClear
-              style={{
-                width: 300,
-              }}
-              placeholder="Sets"
-              options={setOptions}
-              maxTagCount="responsive"
-            >
-            </Select>
-          </Form.Item>
+                    <Form.Item size="default">
+                      <Button style={{ width: 50 }} onClick={plusThree}>
+                        +3
+                      </Button>
+                    </Form.Item>
 
-          <HeaderText>Enhance / Grade</HeaderText>
+                    <Form.Item size="default" name="grade">
+                      <Select
+                        showSearch
+                        style={{ width: 115 }}
+                        options={[
+                          { value: 2, label: '2 ★' },
+                          { value: 3, label: '3 ★' },
+                          { value: 4, label: '4 ★' },
+                          { value: 5, label: '5 ★' },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Flex>
+                </Flex>
+              </Col>
+              <Col span={8}>
+                <Flex vertical gap={5}>
+                  <HeaderText>Equipped by</HeaderText>
+                  <Form.Item size="default" name="equippedBy">
+                    <Select
+                      showSearch
+                      filterOption={filterOption}
+                      style={{ width: 150, height: 35 }}
+                      options={characterOptions}
+                      onChange={(e) => {
+                        setWearerID(relicForm.getFieldValue('equippedBy'))
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <Image
+                      style={{ marginLeft: 13 }}
+                      width={123}
+                      preview={false}
+                      src={Assets.getCharacterIconById(wearerID)}
+                      onLoad={(e) => {
+                        setWearerID(relicForm.getFieldValue('equippedBy'))
+                      }}
+                    />
+                  </Form.Item>
+                </Flex>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={16}>
+                <Flex vertical gap={5}>
+                  <HeaderText>Main stat</HeaderText>
+                  <Flex gap={10}>
+                    <Form.Item size="default" name="mainStatType">
+                      <Select
+                        showSearch
+                        style={{
+                          width: 200,
+                        }}
+                        placeholder="Main Stat"
+                        maxTagCount="responsive"
+                        options={mainStatOptions}
+                        disabled={mainStatOptions.length <= 1}
+                      />
+                    </Form.Item>
 
-          <Flex gap={10}>
-            <Form.Item size="default" name="enhance">
-              <Select
-                showSearch
-                style={{ width: 115 }}
-                options={enhanceOptions}
-              />
-            </Form.Item>
+                    <Form.Item size="default" name="mainStatValue">
+                      <InputNumberStyled controls={false} disabled />
+                    </Form.Item>
+                  </Flex>
+                </Flex>
+              </Col>
+            </Row>
+          </Space>
 
-            <Form.Item size="default">
-              <Button style={{ width: 50 }} onClick={plusThree}>
-                +3
-              </Button>
-            </Form.Item>
+          <Row>
+            <Col span={16}>
+              <Flex vertical gap={5}>
 
-            <Form.Item size="default" name="grade">
-              <Select
-                showSearch
-                style={{ width: 115 }}
-                options={[
-                  { value: 2, label: '2 ★' },
-                  { value: 3, label: '3 ★' },
-                  { value: 4, label: '4 ★' },
-                  { value: 5, label: '5 ★' },
-                ]}
-              />
-            </Form.Item>
-          </Flex>
+                <HeaderText>Substats</HeaderText>
 
-          <HeaderText>Main stat</HeaderText>
+                <Flex gap={10}>
+                  <Form.Item size="default" name="substatType0">
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{
+                        width: 200,
+                      }}
+                      placeholder="Substat"
+                      maxTagCount="responsive"
+                      options={substatOptions}
+                      onChange={(e) => {
+                        const stat = relicForm.getFieldValue('substatType0')
+                        if (stat) {
+                          if (stat == Constants.Stats.SPD) {
+                            setHide0('none')
+                            setButton0low(2)
+                            setButton0mid(undefined)
+                            setButton0high(3)
+                            relicForm.setFieldValue('substatValue0', 0)
+                            setTrueStats({ substat0: 0 })
+                          } else {
+                            let low = SubStatValues[stat][5].low
+                            let mid = SubStatValues[stat][5].mid
+                            let high = SubStatValues[stat][5].high
+                            if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              low = Math.floor(low)
+                              mid = Math.floor(mid)
+                              high = Math.floor(high)
+                            } else {
+                              low = Math.floor(10 * low) / 10
+                              mid = Math.floor(10 * mid) / 10
+                              high = Math.floor(10 * high) / 10
+                            }
+                            setButton0low(low)
+                            setButton0mid(mid)
+                            setButton0high(high)
+                            relicForm.setFieldValue('substatValue0', 0)
+                            setTrueStats({ substat0: 0 })
+                            setHide0('inline')
+                          }
+                        } else {
+                          relicForm.setFieldValue('substatValue0', undefined)
+                          setTrueStats({ substat0: 0 })
+                          setButton0low(undefined)
+                          setButton0mid(undefined)
+                          setButton0high(undefined)
+                          setHide0('inline')
+                        }
+                      }}
+                    />
+                  </Form.Item>
 
-          <Flex gap={10}>
-            <Form.Item size="default" name="mainStatType">
-              <Select
-                showSearch
-                style={{
-                  width: 200,
-                }}
-                placeholder="Main Stat"
-                maxTagCount="responsive"
-                options={mainStatOptions}
-                disabled={mainStatOptions.length <= 1}
-              />
-            </Form.Item>
+                  <Form.Item size="default" name="substatValue0">
+                    <InputNumberStyled controls={false} />
+                  </Form.Item>
+                </Flex>
 
-            <Form.Item size="default" name="mainStatValue">
-              <InputNumberStyled controls={false} disabled />
-            </Form.Item>
-          </Flex>
+                <Flex gap={10}>
+                  <Form.Item size="default" name="substatType1">
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{
+                        width: 200,
+                      }}
+                      placeholder="Substat"
+                      maxTagCount="responsive"
+                      options={substatOptions}
+                      onChange={(e) => {
+                        const stat = relicForm.getFieldValue('substatType1')
+                        if (stat) {
+                          if (stat == Constants.Stats.SPD) {
+                            setHide1('none')
+                            setButton1low(2)
+                            setButton1mid(undefined)
+                            setButton1high(3)
+                            relicForm.setFieldValue('substatValue1', 0)
+                            setTrueStats({ substat1: 0 })
+                          } else {
+                            let low = SubStatValues[stat][5].low
+                            let mid = SubStatValues[stat][5].mid
+                            let high = SubStatValues[stat][5].high
+                            if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              low = Math.floor(low)
+                              mid = Math.floor(mid)
+                              high = Math.floor(high)
+                            } else {
+                              low = Math.floor(10 * low) / 10
+                              mid = Math.floor(10 * mid) / 10
+                              high = Math.floor(10 * high) / 10
+                            }
+                            setButton1low(low)
+                            setButton1mid(mid)
+                            setButton1high(high)
+                            relicForm.setFieldValue('substatValue1', 0)
+                            setTrueStats({ substat1: 0 })
+                            setHide1('inline')
+                          }
+                        } else {
+                          relicForm.setFieldValue('substatValue1', undefined)
+                          setTrueStats({ substat1: 0 })
+                          setButton1low(undefined)
+                          setButton1mid(undefined)
+                          setButton1high(undefined)
+                          setHide1('inline')
+                        }
+                      }}
+                    />
+                  </Form.Item>
 
-          <HeaderText>Substats</HeaderText>
+                  <Form.Item size="default" name="substatValue1">
+                    <InputNumberStyled controls={false} />
+                  </Form.Item>
+                </Flex>
 
-          <Flex gap={10}>
-            <Form.Item size="default" name="substatType0">
-              <Select
-                showSearch
-                allowClear
-                style={{
-                  width: 200,
-                }}
-                placeholder="Substat"
-                maxTagCount="responsive"
-                options={substatOptions}
-              />
-            </Form.Item>
+                <Flex gap={10}>
+                  <Form.Item size="default" name="substatType2">
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{
+                        width: 200,
+                      }}
+                      placeholder="Substat"
+                      maxTagCount="responsive"
+                      options={substatOptions}
+                      onChange={(e) => {
+                        const stat = relicForm.getFieldValue('substatType2')
+                        if (stat) {
+                          if (stat == Constants.Stats.SPD) {
+                            setHide2('none')
+                            setButton2low(2)
+                            setButton2mid(undefined)
+                            setButton2high(3)
+                            relicForm.setFieldValue('substatValue2', 0)
+                            setTrueStats({ substat2: 0 })
+                          } else {
+                            let low = SubStatValues[stat][5].low
+                            let mid = SubStatValues[stat][5].mid
+                            let high = SubStatValues[stat][5].high
+                            if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              low = Math.floor(low)
+                              mid = Math.floor(mid)
+                              high = Math.floor(high)
+                            } else {
+                              low = Math.floor(10 * low) / 10
+                              mid = Math.floor(10 * mid) / 10
+                              high = Math.floor(10 * high) / 10
+                            }
+                            setButton2low(low)
+                            setButton2mid(mid)
+                            setButton2high(high)
+                            relicForm.setFieldValue('substatValue2', 0)
+                            setTrueStats({ substat2: 0 })
+                            setHide2('inline')
+                          }
+                        } else {
+                          relicForm.setFieldValue('substatValue2', undefined)
+                          setTrueStats({ substat2: 0 })
+                          setButton2low(undefined)
+                          setButton2mid(undefined)
+                          setButton2high(undefined)
+                          setHide2('inline')
+                        }
+                      }}
+                    />
+                  </Form.Item>
 
-            <Form.Item size="default" name="substatValue0">
-              <InputNumberStyled controls={false} />
-            </Form.Item>
-          </Flex>
+                  <Form.Item size="default" name="substatValue2">
+                    <InputNumberStyled controls={false} />
+                  </Form.Item>
+                </Flex>
 
-          <Flex gap={10}>
-            <Form.Item size="default" name="substatType1">
-              <Select
-                showSearch
-                allowClear
-                style={{
-                  width: 200,
-                }}
-                placeholder="Substat"
-                maxTagCount="responsive"
-                options={substatOptions}
-              />
-            </Form.Item>
+                <Flex gap={10}>
+                  <Form.Item size="default" name="substatType3">
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{
+                        width: 200,
+                      }}
+                      placeholder="Substat"
+                      maxTagCount="responsive"
+                      options={substatOptions}
+                      onChange={(e) => {
+                        const stat = relicForm.getFieldValue('substatType3')
+                        if (stat) {
+                          if (stat == Constants.Stats.SPD) {
+                            setHide3('none')
+                            setButton3low(2)
+                            setButton3mid(undefined)
+                            setButton3high(3)
+                            relicForm.setFieldValue('substatValue3', 0)
+                            setTrueStats({ substat3: 0 })
+                          } else {
+                            let low = SubStatValues[stat][5].low
+                            let mid = SubStatValues[stat][5].mid
+                            let high = SubStatValues[stat][5].high
+                            if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              low = Math.floor(low)
+                              mid = Math.floor(mid)
+                              high = Math.floor(high)
+                            } else {
+                              low = Math.floor(10 * low) / 10
+                              mid = Math.floor(10 * mid) / 10
+                              high = Math.floor(10 * high) / 10
+                            }
+                            setButton3low(low)
+                            setButton3mid(mid)
+                            setButton3high(high)
+                            relicForm.setFieldValue('substatValue3', 0)
+                            setTrueStats({ substat3: 0 })
+                            setHide3('inline')
+                          }
+                        } else {
+                          relicForm.setFieldValue('substatValue3', undefined)
+                          setTrueStats({ substat3: 0 })
+                          setButton3low(undefined)
+                          setButton3mid(undefined)
+                          setButton3high(undefined)
+                          setHide3('inline')
+                        }
+                      }}
+                    />
+                  </Form.Item>
 
-            <Form.Item size="default" name="substatValue1">
-              <InputNumberStyled controls={false} />
-            </Form.Item>
-          </Flex>
-
-          <Flex gap={10}>
-            <Form.Item size="default" name="substatType2">
-              <Select
-                showSearch
-                allowClear
-                style={{
-                  width: 200,
-                }}
-                placeholder="Substat"
-                maxTagCount="responsive"
-                options={substatOptions}
-              />
-            </Form.Item>
-
-            <Form.Item size="default" name="substatValue2">
-              <InputNumberStyled controls={false} />
-            </Form.Item>
-          </Flex>
-
-          <Flex gap={10}>
-            <Form.Item size="default" name="substatType3">
-              <Select
-                showSearch
-                allowClear
-                style={{
-                  width: 200,
-                }}
-                placeholder="Substat"
-                maxTagCount="responsive"
-                options={substatOptions}
-              />
-            </Form.Item>
-
-            <Form.Item size="default" name="substatValue3">
-              <InputNumberStyled controls={false} />
-            </Form.Item>
-          </Flex>
+                  <Form.Item size="default" name="substatValue3">
+                    <InputNumberStyled controls={false} />
+                  </Form.Item>
+                </Flex>
+              </Flex>
+            </Col>
+            <Col span={8}>
+              <Flex vertical gap={5}>
+                <HeaderText>Upgrade Options</HeaderText>
+                <Form.Item size="default" name="substat0Upgrader">
+                  <Button.Group>
+                    <Space size={3}>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade0low}
+                      >
+                        {button0low}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade0mid}
+                      >
+                        {hide0 == 'none' ? '' : button0mid}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade0high}
+                      >
+                        {button0high}
+                      </Button>
+                    </Space>
+                  </Button.Group>
+                </Form.Item>
+                <Form.Item size="default" name="substat1Upgrader">
+                  <Button.Group>
+                    <Space size={3}>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade1low}
+                      >
+                        {button1low}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        disabled={hide1 == 'none'}
+                        onClick={upgrade1mid}
+                      >
+                        {hide1 == 'none' ? '' : button1mid}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade1high}
+                      >
+                        {button1high}
+                      </Button>
+                    </Space>
+                  </Button.Group>
+                </Form.Item>
+                <Form.Item size="default" name="substat2Upgrader">
+                  <Button.Group>
+                    <Space size={3}>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade2low}
+                      >
+                        {button2low}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade2mid}
+                      >
+                        {hide2 == 'none' ? '' : button2mid}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade2high}
+                      >
+                        {button2high}
+                      </Button>
+                    </Space>
+                  </Button.Group>
+                </Form.Item>
+                <Form.Item size="default" name="substat3Upgrader">
+                  <Button.Group>
+                    <Space size={3}>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade3low}
+                      >
+                        {button3low}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade3mid}
+                      >
+                        {hide3 == 'none' ? '' : button3mid}
+                      </Button>
+                      <Button
+                        style={{ width: 50, padding: 0 }}
+                        onClick={upgrade3high}
+                      >
+                        {button3high}
+                      </Button>
+                    </Space>
+                  </Button.Group>
+                </Form.Item>
+              </Flex>
+            </Col>
+          </Row>
         </Flex>
       </Modal>
     </Form>

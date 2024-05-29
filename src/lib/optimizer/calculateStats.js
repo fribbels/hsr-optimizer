@@ -196,6 +196,19 @@ export function calculateComputedStats(c, request, params) {
 
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
 
+  x[Stats.BE]
+    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+    + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
+    + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
+
+  return x
+}
+
+// This is for set effects that happen after calculateBaseMultis
+export function calculatePostBaseSetEffects(c, request, params) {
+  const sets = c.sets
+  const x = c.x
+
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
     + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
@@ -210,11 +223,6 @@ export function calculateComputedStats(c, request, params) {
     + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
     + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
     + 0.12 * (params.enabledIzumoGenseiAndTakamaDivineRealm) * p2(sets.IzumoGenseiAndTakamaDivineRealm)
-
-  x[Stats.BE]
-    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-    + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
 
   x.BASIC_BOOST
     += 0.10 * p4(sets.MusketeerOfWildWheat)
@@ -255,8 +263,6 @@ export function calculateComputedStats(c, request, params) {
 
   x.ULT_BOOST
     += 0.30 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
-
-  return x
 }
 
 export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {

@@ -174,11 +174,10 @@ export default function RelicModal(props) {
           low0 = Math.floor(low0)
           mid0 = Math.floor(mid0)
           high0 = Math.floor(high0)
-
-          setButton0low(parseFloat(low0))
-          setButton0mid(parseFloat(mid0))
-          setButton0high(parseFloat(high0))
         }
+        setButton0low(parseFloat(low0))
+        setButton0mid(parseFloat(mid0))
+        setButton0high(parseFloat(high0))
         setPrecision0(0)
       } else {
         low0 = Math.floor(10 * low0) / 10
@@ -202,11 +201,10 @@ export default function RelicModal(props) {
           low1 = Math.floor(low1)
           mid1 = Math.floor(mid1)
           high1 = Math.floor(high1)
-
-          setButton1low(parseFloat(low1))
-          setButton1mid(parseFloat(mid1))
-          setButton1high(parseFloat(high1))
         }
+        setButton1low(parseFloat(low1))
+        setButton1mid(parseFloat(mid1))
+        setButton1high(parseFloat(high1))
         setPrecision1(0)
       } else {
         low1 = Math.floor(10 * low1) / 10
@@ -230,11 +228,10 @@ export default function RelicModal(props) {
           low2 = Math.floor(low2)
           mid2 = Math.floor(mid2)
           high2 = Math.floor(high2)
-
-          setButton2low(parseFloat(low2))
-          setButton2mid(parseFloat(mid2))
-          setButton2high(parseFloat(high2))
         }
+        setButton2low(parseFloat(low2))
+        setButton2mid(parseFloat(mid2))
+        setButton2high(parseFloat(high2))
         setPrecision2(0)
       } else {
         low2 = Math.floor(10 * low2) / 10
@@ -258,10 +255,10 @@ export default function RelicModal(props) {
           low3 = Math.floor(low3)
           mid3 = Math.floor(mid3)
           high3 = Math.floor(high3)
-          setButton3low(parseFloat(low3))
-          setButton3mid(parseFloat(mid3))
-          setButton3high(parseFloat(high3))
         }
+        setButton3low(parseFloat(low3))
+        setButton3mid(parseFloat(mid3))
+        setButton3high(parseFloat(high3))
         setPrecision3(0)
       } else {
         low3 = Math.floor(10 * low3) / 10

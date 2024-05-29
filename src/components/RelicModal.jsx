@@ -179,6 +179,7 @@ export default function RelicModal(props) {
           setButton0mid(parseFloat(mid0))
           setButton0high(parseFloat(high0))
         }
+        setPrecision0(0)
       } else {
         low0 = Math.floor(10 * low0) / 10
         mid0 = Math.floor(10 * mid0) / 10
@@ -188,6 +189,7 @@ export default function RelicModal(props) {
         setButton0low(parseFloat(low0).toFixed(1))
         setButton0mid(parseFloat(mid0).toFixed(1))
         setButton0high(parseFloat(high0).toFixed(1))
+        setPrecision0(1)
       }
       if (Utils.isFlat(props.selectedRelic.substats[1].stat)) {
         if (props.selectedRelic.substats[1].stat == Constants.Stats.SPD) {
@@ -205,6 +207,7 @@ export default function RelicModal(props) {
           setButton1mid(parseFloat(mid1))
           setButton1high(parseFloat(high1))
         }
+        setPrecision1(0)
       } else {
         low1 = Math.floor(10 * low1) / 10
         mid1 = Math.floor(10 * mid1) / 10
@@ -214,6 +217,7 @@ export default function RelicModal(props) {
         setButton1low(parseFloat(low1).toFixed(1))
         setButton1mid(parseFloat(mid1).toFixed(1))
         setButton1high(parseFloat(high1).toFixed(1))
+        setPrecision1(1)
       }
       if (Utils.isFlat(props.selectedRelic.substats[2].stat)) {
         if (props.selectedRelic.substats[2].stat == Constants.Stats.SPD) {
@@ -231,6 +235,7 @@ export default function RelicModal(props) {
           setButton2mid(parseFloat(mid2))
           setButton2high(parseFloat(high2))
         }
+        setPrecision2(0)
       } else {
         low2 = Math.floor(10 * low2) / 10
         mid2 = Math.floor(10 * mid2) / 10
@@ -240,6 +245,7 @@ export default function RelicModal(props) {
         setButton2low(parseFloat(low2).toFixed(1))
         setButton2mid(parseFloat(mid2).toFixed(1))
         setButton2high(parseFloat(high2).toFixed(1))
+        setPrecision2(1)
       }
       if (Utils.isFlat(props.selectedRelic.substats[3].stat)) {
         if (props.selectedRelic.substats[3].stat == Constants.Stats.SPD) {
@@ -256,6 +262,7 @@ export default function RelicModal(props) {
           setButton3mid(parseFloat(mid3))
           setButton3high(parseFloat(high3))
         }
+        setPrecision3(0)
       } else {
         low3 = Math.floor(10 * low3) / 10
         mid3 = Math.floor(10 * mid3) / 10
@@ -265,6 +272,7 @@ export default function RelicModal(props) {
         setButton3low(parseFloat(low3).toFixed(1))
         setButton3mid(parseFloat(mid3).toFixed(1))
         setButton3high(parseFloat(high3).toFixed(1))
+        setPrecision3(1)
       }
     } else {
       setButton0low(undefined)
@@ -516,6 +524,14 @@ export default function RelicModal(props) {
     substat2: 0,
     substat3: 0,
   })
+
+  const [precision0, setPrecision0] = useState(0)
+
+  const [precision1, setPrecision1] = useState(0)
+
+  const [precision2, setPrecision2] = useState(0)
+
+  const [precision3, setPrecision3] = useState(0)
 
   const upgrade0low = () => {
     const stat = relicForm.getFieldValue('substatType0')
@@ -969,6 +985,7 @@ export default function RelicModal(props) {
                         const stat = relicForm.getFieldValue('substatType0')
                         if (stat) {
                           if (stat == Constants.Stats.SPD) {
+                            setPrecision0(0)
                             setHide0('none')
                             setButton0low(2)
                             setButton0mid(undefined)
@@ -980,10 +997,12 @@ export default function RelicModal(props) {
                             let mid = SubStatValues[stat][5].mid
                             let high = SubStatValues[stat][5].high
                             if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              setPrecision0(0)
                               low = Math.floor(low)
                               mid = Math.floor(mid)
                               high = Math.floor(high)
                             } else {
+                              setPrecision0(1)
                               low = Math.floor(10 * low) / 10
                               mid = Math.floor(10 * mid) / 10
                               high = Math.floor(10 * high) / 10
@@ -1008,7 +1027,7 @@ export default function RelicModal(props) {
                   </Form.Item>
 
                   <Form.Item size="default" name="substatValue0">
-                    <InputNumberStyled controls={false} />
+                    <InputNumberStyled controls={false} precision={precision0} />
                   </Form.Item>
                 </Flex>
 
@@ -1027,6 +1046,7 @@ export default function RelicModal(props) {
                         const stat = relicForm.getFieldValue('substatType1')
                         if (stat) {
                           if (stat == Constants.Stats.SPD) {
+                            setPrecision1(0)
                             setHide1('none')
                             setButton1low(2)
                             setButton1mid(undefined)
@@ -1038,10 +1058,12 @@ export default function RelicModal(props) {
                             let mid = SubStatValues[stat][5].mid
                             let high = SubStatValues[stat][5].high
                             if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              setPrecision1(0)
                               low = Math.floor(low)
                               mid = Math.floor(mid)
                               high = Math.floor(high)
                             } else {
+                              setPrecision1(1)
                               low = Math.floor(10 * low) / 10
                               mid = Math.floor(10 * mid) / 10
                               high = Math.floor(10 * high) / 10
@@ -1066,7 +1088,7 @@ export default function RelicModal(props) {
                   </Form.Item>
 
                   <Form.Item size="default" name="substatValue1">
-                    <InputNumberStyled controls={false} />
+                    <InputNumberStyled controls={false} precision={precision1} />
                   </Form.Item>
                 </Flex>
 
@@ -1085,6 +1107,7 @@ export default function RelicModal(props) {
                         const stat = relicForm.getFieldValue('substatType2')
                         if (stat) {
                           if (stat == Constants.Stats.SPD) {
+                            setPrecision2(0)
                             setHide2('none')
                             setButton2low(2)
                             setButton2mid(undefined)
@@ -1096,10 +1119,12 @@ export default function RelicModal(props) {
                             let mid = SubStatValues[stat][5].mid
                             let high = SubStatValues[stat][5].high
                             if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              setPrecision2(0)
                               low = Math.floor(low)
                               mid = Math.floor(mid)
                               high = Math.floor(high)
                             } else {
+                              setPrecision2(1)
                               low = Math.floor(10 * low) / 10
                               mid = Math.floor(10 * mid) / 10
                               high = Math.floor(10 * high) / 10
@@ -1124,7 +1149,7 @@ export default function RelicModal(props) {
                   </Form.Item>
 
                   <Form.Item size="default" name="substatValue2">
-                    <InputNumberStyled controls={false} />
+                    <InputNumberStyled controls={false} precision={precision2} />
                   </Form.Item>
                 </Flex>
 
@@ -1143,6 +1168,7 @@ export default function RelicModal(props) {
                         const stat = relicForm.getFieldValue('substatType3')
                         if (stat) {
                           if (stat == Constants.Stats.SPD) {
+                            setPrecision3(0)
                             setHide3('none')
                             setButton3low(2)
                             setButton3mid(undefined)
@@ -1154,10 +1180,12 @@ export default function RelicModal(props) {
                             let mid = SubStatValues[stat][5].mid
                             let high = SubStatValues[stat][5].high
                             if ([Constants.Stats.HP, Constants.Stats.DEF, Constants.Stats.ATK].includes(stat)) {
+                              setPrecision3(0)
                               low = Math.floor(low)
                               mid = Math.floor(mid)
                               high = Math.floor(high)
                             } else {
+                              setPrecision3(1)
                               low = Math.floor(10 * low) / 10
                               mid = Math.floor(10 * mid) / 10
                               high = Math.floor(10 * high) / 10
@@ -1182,7 +1210,7 @@ export default function RelicModal(props) {
                   </Form.Item>
 
                   <Form.Item size="default" name="substatValue3">
-                    <InputNumberStyled controls={false} />
+                    <InputNumberStyled controls={false} precision={precision3} />
                   </Form.Item>
                 </Flex>
               </Flex>

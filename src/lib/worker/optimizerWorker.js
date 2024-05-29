@@ -1,6 +1,6 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculatePostBaseSetEffects, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
@@ -114,7 +114,6 @@ self.onmessage = function(e) {
 
     calculateComputedStats(c, request, params)
     calculateBaseMultis(c, request, params)
-    calculatePostBaseSetEffects(c, request, params)
     calculateDamage(c, request, params)
 
     if (failsCombatFilter(x)) {

@@ -20,7 +20,8 @@ export interface Conditional {
    * ComputedStatsObject arg is mutated by ref
    */
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
-  calculatePassives?: () => void
+  // Stat conversions
+  calculatePassives?: (c: ComputedStatsObject, request: Form) => void
 }
 
 export type ContentComponentMap = {

@@ -9,6 +9,12 @@ export function calculateBaseMultis(c, request, params) {
   if (characterConditionals.calculateBaseMultis) characterConditionals.calculateBaseMultis(c, request, params)
 }
 
+export function calculatePassiveStatConversions(c, request, params) {
+  const characterConditionals = params.characterConditionals
+
+  if (characterConditionals.calculatePassives) characterConditionals.calculatePassives(c, request, params)
+}
+
 export function calculateDamage(c, request, params) {
   const x = c.x
   const sets = c.sets

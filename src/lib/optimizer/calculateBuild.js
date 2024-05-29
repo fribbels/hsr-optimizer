@@ -2,7 +2,7 @@ import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculatePostBaseSetEffects, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { Constants } from 'lib/constants.ts'
@@ -57,7 +57,6 @@ export function calculateBuild(request, relics) {
   calculateElementalStats(c, request, params)
   calculateComputedStats(c, request, params)
   calculateBaseMultis(c, request, params)
-  calculatePostBaseSetEffects(c, request, params)
   calculateDamage(c, request, params)
 
   return c

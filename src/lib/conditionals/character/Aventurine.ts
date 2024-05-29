@@ -137,6 +137,12 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
       x.CRIT_VULNERABILITY += (m.enemyUnnervedDebuff) ? ultCritVulnerability : 0
     },
+    calculatePassives: (c: PrecomputedCharacterConditional, request: Form) => {
+      const r = request.characterConditionals
+      const x = c.x
+
+      x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
@@ -144,8 +150,6 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
-
-      x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },
   }
 }

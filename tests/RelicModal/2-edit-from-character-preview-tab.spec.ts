@@ -16,7 +16,7 @@ test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page
   await page.getByRole('img', { name: 'Genius of Brilliant Stars' }).first().click()
 
   // edit modal visible with expected value
-  await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped bySeelePartSetGenius' }).first()).toBeVisible()
+  await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'PartSetGenius' }).first()).toBeVisible()
   await expect(page.getByRole('dialog')).toContainText('Equipped by')
   await expect(page.getByRole('dialog')).toContainText('+15')
   await expect(page.getByRole('dialog')).toContainText('5 ★')

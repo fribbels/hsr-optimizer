@@ -190,7 +190,11 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
   for (const { stat, value } of statPairs) {
     if (stat != undefined && value != undefined) {
       if (stat == Stats.SPD) {
-        upgradeValues.push({ low: Math.floor(value + 2), mid: undefined, high: Math.floor(value + 3) })
+        if (relicForm.grade == 5) {
+          upgradeValues.push({ low: Math.floor(value + 2), mid: undefined, high: Math.floor(value + 3) })
+        } else {
+          upgradeValues.push({ low: Math.floor(value + 1), mid: undefined, high: Math.floor(value + 2) })
+        }
         continue
       }
 

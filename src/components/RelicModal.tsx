@@ -411,7 +411,12 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
         </Form.Item>
 
         <Form.Item name={`substatValue${props.index}`}>
-          <InputNumberStyled controls={false} />
+          <InputNumberStyled
+            controls={false}
+            onChange={(e) => {
+              props.resetUpgradeValues()
+            }}
+          />
         </Form.Item>
       </Flex>
       <CaretRightOutlined style={{ width: 12 }} />

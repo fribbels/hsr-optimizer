@@ -296,6 +296,7 @@ export default function RelicModal(props: {
                       { value: 4, label: '4 ★' },
                       { value: 5, label: '5 ★' },
                     ]}
+                    onChange={(e) => { resetUpgradeValues() }}
                   />
                 </Form.Item>
               </Flex>

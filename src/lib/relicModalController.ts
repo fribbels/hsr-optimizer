@@ -197,7 +197,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(value))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat][5])
+      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat][relicForm.grade])
 
       if (Utils.isFlat(stat)) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)

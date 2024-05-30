@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { Constants } from 'lib/constants'
+import { Constants, SubStatValues } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
@@ -403,6 +403,10 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             placeholder="Substat"
             maxTagCount="responsive"
             options={substatOptions}
+            onChange={(e) => {
+              props.relicForm.getFieldValue(`substatType${props.index}`) ? props.relicForm.setFieldValue(`substatValue${props.index}`, 0) : props.relicForm.setFieldValue(`substatValue${props.index}`, undefined)
+              props.resetUpgradeValues()
+            }}
           />
         </Form.Item>
 

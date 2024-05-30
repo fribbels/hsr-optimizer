@@ -5042,7 +5042,6 @@ function getScoringMetadata() {
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.BE,
         ],
       },
@@ -5360,14 +5359,25 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.HP_P,
+          Stats.DEF_P,
+          Stats.EHR,
+          Stats.OHB,
         ],
         [Parts.Feet]: [
-          Stats.ATK_P,
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.Physical_DMG,
+          Stats.HP_P,
+          Stats.DEF_P,
           Stats.ATK_P,
+          Stats.Wind_DMG,
+          Stats.Physical_DMG,
+          Stats.Fire_DMG,
+          Stats.Ice_DMG,
+          Stats.Lightning_DMG,
+          Stats.Quantum_DMG,
+          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.BE,
@@ -5382,12 +5392,11 @@ function getScoringMetadata() {
             Stats.CD,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
-            Stats.ATK_P,
             Stats.Physical_DMG,
+            Stats.ATK_P,
           ],
           [Parts.LinkRope]: [
             Stats.BE,

@@ -296,7 +296,7 @@ export default function RelicModal(props: {
                       { value: 4, label: '4 ★' },
                       { value: 5, label: '5 ★' },
                     ]}
-                    onChange={(e) => { resetUpgradeValues() }}
+                    onChange={resetUpgradeValues}
                   />
                 </Form.Item>
               </Flex>
@@ -414,9 +414,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
         <Form.Item name={`substatValue${props.index}`}>
           <InputNumberStyled
             controls={false}
-            onChange={(e) => {
-              props.resetUpgradeValues()
-            }}
+            onChange={props.resetUpgradeValues}
           />
         </Form.Item>
       </Flex>

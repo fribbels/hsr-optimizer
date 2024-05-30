@@ -1,13 +1,6 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import {
-  baseCharacterStats,
-  calculateBaseStats,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts
-} from 'lib/optimizer/calculateStats'
+import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
@@ -16,7 +9,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
 
-self.onmessage = function (e) {
+self.onmessage = function(e) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
@@ -42,7 +35,7 @@ self.onmessage = function (e) {
   const baseDisplay = !combatDisplay
   let passCount = 0
 
-  const {failsBasicFilter, failsCombatFilter} = generateResultMinFilter(request, combatDisplay)
+  const { failsBasicFilter, failsCombatFilter } = generateResultMinFilter(request, combatDisplay)
 
   calculateConditionals(request, params)
   calculateTeammates(request, params)
@@ -85,8 +78,8 @@ self.onmessage = function (e) {
       continue
     }
 
-    const c = {...baseCharacterStats}
-    const x = {...params.precomputedX}
+    const c = { ...baseCharacterStats }
+    const x = { ...params.precomputedX }
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex

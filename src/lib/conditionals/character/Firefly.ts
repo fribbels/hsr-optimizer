@@ -7,7 +7,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
-const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated v4 05-27-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -148,7 +148,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BREAK_VULNERABILITY += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenBreakVulnerability : 0
 
-      x[Stats.BE] += (r.atkToBeConversion && (x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF > 1600)) ? 0.10 * Math.floor(((x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF) - 1600) / 100) : 0
+      x[Stats.BE] += (r.atkToBeConversion && (x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF > 1800)) ? 0.008 * Math.floor(((x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF) - 1800) / 10) : 0
 
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0

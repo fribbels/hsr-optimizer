@@ -1,5 +1,6 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
+import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
 
 const statValues = Object.values(Stats)
 
@@ -195,6 +196,8 @@ export function calculateComputedStats(c, request, params) {
   x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
 
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
+
+  calculatePassiveStatConversions(c, request, params)
 
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)

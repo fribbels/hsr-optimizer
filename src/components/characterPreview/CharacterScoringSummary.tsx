@@ -350,8 +350,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <ScoringNumber label="BASIC: " number={result.metadata.formula.BASIC} precision={0} />
             <ScoringNumber label="SKILL: " number={result.metadata.formula.SKILL} precision={0} />
             <ScoringNumber label="ULT:   " number={result.metadata.formula.ULT} precision={0} />
-            <ScoringNumber label="DOT:   " number={result.metadata.formula.DOT} precision={0} />
             <ScoringNumber label="FUA:   " number={result.metadata.formula.FUA} precision={0} />
+            <ScoringNumber label="DOT:   " number={result.metadata.formula.DOT} precision={0} />
             <ScoringNumber label="BREAK: " number={result.metadata.formula.BREAK} precision={0} />
           </Flex>
         </Flex>

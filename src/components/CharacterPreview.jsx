@@ -10,7 +10,7 @@ import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleCol
 
 import Rarity from 'components/characterPreview/Rarity'
 import StatText from 'components/characterPreview/StatText'
-import RelicModal from 'components/RelicModal'
+import RelicModal from 'components/RelicModal.tsx'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
@@ -747,11 +747,11 @@ export function CharacterPreview(props) {
       </Flex>
       {
         scoringType == SIMULATION_SCORE && (
-          <Flex vertical align="center" style={{ width: '100%' }}>
-            <Text style={{ fontSize: 20, color: 'orange' }}>
+          <Flex vertical align="center" style={{ width: '100%', marginTop: 10 }}>
+            <Text style={{ fontSize: 16, color: 'orange' }}>
               Notice: DPS score is a work in progress as we gather feedback to balance scores, the numbers may change a bit
             </Text>
-            <Text style={{ fontSize: 20, color: 'orange' }}>
+            <Text style={{ fontSize: 16, color: 'orange' }}>
               The previous Character Score system can still be used with the selector below
             </Text>
           </Flex>

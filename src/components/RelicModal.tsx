@@ -348,7 +348,7 @@ export default function RelicModal(props: {
             <Flex vertical gap={5} style={{ width: '100%' }}>
               <Flex justify="space-between">
                 <HeaderText>Substats</HeaderText>
-                <Flex style={{ width: 170 }}>
+                <Flex style={{ width: 180 }}>
                   <HeaderText>Substat upgrades</HeaderText>
                 </Flex>
               </Flex>

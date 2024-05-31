@@ -18,8 +18,36 @@ const QUALITY = 0.8
 const SUBSTAT_GOAL = 48
 const FREE_ROLLS = 2
 const MAX_PER_SUB = 30
-const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
+const DEDUCTION_PER_MAIN = 5
+export const SIM_SPEED_ROLL_VALUE = 2.3
+const SPEED_DEDUCTION = SIM_SPEED_ROLL_VALUE // Utils.precisionRound(3 * QUALITY - 0.4)
 const BASELINE_FREE_ROLLS = 2
+
+const SCORER_SIM_PARAMS = {
+  quality: QUALITY,
+  speedQuality: SIM_SPEED_ROLL_VALUE,
+}
+
+function substatRollsModifier(rolls: number, stat: string, relics: { [key: string]: Relic }) {
+  if (stat == Stats.SPD) return rolls
+  // Diminishing returns
+
+  const mainsCount = Object.values(relics)
+    .filter((x) => x.augmentedStats.mainStat == stat)
+    .length
+
+  const lowerLimit = 18 - 3 * mainsCount
+  const diminishingScale = 0.2
+
+  if (rolls <= lowerLimit) {
+    return rolls
+  }
+
+  const excess = Math.max(0, rolls - (lowerLimit))
+  const diminishedExcess = excess / (1 + diminishingScale * Math.pow(excess, 0.5))
+
+  return lowerLimit + diminishedExcess
+}
 
 export type SimulationResult = ComputedStatsObject & {
   SIM_SCORE: number
@@ -133,7 +161,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   // Generate scoring function
   const formula = metadata.formula
-  const applyScoringFunction = (result) => {
+  const applyScoringFunction = (result, penalty = true) => {
     if (!result) return
 
     const score = (
@@ -148,7 +176,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     // const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
     result.unpenalizedSimScore = score
     result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints)
-    result.SIM_SCORE = result.unpenalizedSimScore * result.penaltyMultiplier
+    result.SIM_SCORE = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
 
     // We apply a penalty to the percent if the user did not reach thresholds
   }
@@ -168,7 +196,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   // Run sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
-    const simulationResult = runSimulations(simulationForm, [partialSimulationWrapper.simulation], QUALITY)[0]
+    const simulationResult = runSimulations(simulationForm, [partialSimulationWrapper.simulation], SCORER_SIM_PARAMS)[0]
 
     // Find the speed deduction
     const finalSpeed = simulationResult.xSPD
@@ -188,7 +216,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   }
 
   applyScoringFunction(originalSimResult)
-  applyScoringFunction(baselineSimResult)
+  applyScoringFunction(baselineSimResult, false)
   bestPartialSims.map((x) => applyScoringFunction(x.result))
 
   // Try to minimize the penalty modifier before optimizing sim score
@@ -255,7 +283,7 @@ function generateStatImprovements(
     const originalSimClone = Utils.clone(originalSim)
     originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + QUALITY
 
-    const statImprovementResult = runSimulations(simulationForm, [originalSimClone], QUALITY)[0]
+    const statImprovementResult = runSimulations(simulationForm, [originalSimClone], SCORER_SIM_PARAMS)[0]
     applyScoringFunction(statImprovementResult)
     substatUpgradeResults.push({
       stat: stat,
@@ -271,7 +299,7 @@ function generateStatImprovements(
   originalSimClone.request.simRelicSet1 = benchmark.request.simRelicSet1
   originalSimClone.request.simRelicSet2 = benchmark.request.simRelicSet2
   originalSimClone.request.simOrnamentSet = benchmark.request.simOrnamentSet
-  const setUpgradeResult = runSimulations(simulationForm, [originalSimClone], QUALITY)[0]
+  const setUpgradeResult = runSimulations(simulationForm, [originalSimClone], SCORER_SIM_PARAMS)[0]
   applyScoringFunction(setUpgradeResult)
   setUpgradeResults.push({
     simulation: originalSimClone,
@@ -334,7 +362,7 @@ function computeOptimalSimulation(
   const sumRequest = Utils.sumArray(Object.values(currentSimulation.request.stats))
   const sumMin = Utils.sumArray(Object.values(minSubstatRollCounts))
   if (sumRequest == sumMin || sumRequest < goal) {
-    currentSimulation.result = runSimulations(simulationForm, [currentSimulation], QUALITY)[0]
+    currentSimulation.result = runSimulations(simulationForm, [currentSimulation], { ...SCORER_SIM_PARAMS, substatRollsModifier })[0]
     return currentSimulation
   }
 
@@ -358,7 +386,7 @@ function computeOptimalSimulation(
       const newSimulation = Utils.clone(currentSimulation)
       newSimulation.request.stats[stat] -= 1
 
-      const newSimResult = runSimulations(simulationForm, [newSimulation], QUALITY)[0]
+      const newSimResult = runSimulations(simulationForm, [newSimulation], { ...SCORER_SIM_PARAMS, substatRollsModifier })[0]
       simulationRuns++
 
       if (breakpointsCap && breakpoints[stat]) {
@@ -457,10 +485,10 @@ function calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata) {
     maxCounts[substat] = MAX_PER_SUB
   }
 
-  maxCounts[request.simBody] -= 6
-  maxCounts[request.simFeet] -= 6
-  maxCounts[request.simPlanarSphere] -= 6
-  maxCounts[request.simLinkRope] -= 6
+  maxCounts[request.simBody] -= DEDUCTION_PER_MAIN
+  maxCounts[request.simFeet] -= DEDUCTION_PER_MAIN
+  maxCounts[request.simPlanarSphere] -= DEDUCTION_PER_MAIN
+  maxCounts[request.simLinkRope] -= DEDUCTION_PER_MAIN
 
   for (const substat of metadata.substats) {
     maxCounts[substat] = Math.min(maxCounts[substat], Math.max(0, MAX_PER_SUB - Math.ceil(partialSimulationWrapper.speedRollsDeduction)))
@@ -623,7 +651,7 @@ function simulateOriginalCharacter(displayRelics, simulationForm, maxedMainStat 
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
-  const originalSimResult = runSimulations(simulationForm, [originalSim], QUALITY, maxedMainStat)[0]
+  const originalSimResult = runSimulations(simulationForm, [originalSim], { ...SCORER_SIM_PARAMS, maxedMainStat: maxedMainStat })[0]
   return {
     originalSimResult,
     originalSim,

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { Constants, SubStatValues } from 'lib/constants'
+import { Constants } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
@@ -12,6 +12,7 @@ import { Relic, Stat } from 'types/Relic'
 import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
+import { FormInstance } from 'antd/es/form/hooks/useForm'
 
 const { useToken } = theme
 
@@ -225,7 +226,7 @@ export default function RelicModal(props: {
       onValuesChange={onValuesChange}
     >
       <Modal
-        width={550}
+        width={560}
         centered
         destroyOnClose
         open={props.open} //
@@ -337,7 +338,7 @@ export default function RelicModal(props: {
               </Form.Item>
 
               <img
-                style={{ width: '100%', marginTop: 10, borderRadius: 10, boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset` }}
+                style={{ width: '100%', marginTop: 7, borderRadius: 10, boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset` }}
                 src={Assets.getCharacterIconById(equippedBy == 'None' ? '' : equippedBy)}
               />
             </Flex>
@@ -370,11 +371,15 @@ RelicModal.propTypes = {
   open: PropTypes.bool,
 }
 
-function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: any; resetUpgradeValues: () => void; plusThree: () => void }) {
+function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
+  const [hovered, setHovered] = React.useState(false)
+  const statTypeField = `substatType${props.index}`
+  const statValueField = `substatValue${props.index}`
+
   function upgradeClicked(quality: string) {
     console.log(props, quality)
 
-    props.relicForm.setFieldValue(`substatValue${props.index}`, props.upgrades[props.index][quality])
+    props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
     props.resetUpgradeValues()
     props.plusThree()
   }
@@ -384,7 +389,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
 
     return (
       <Flex style={{ width: '100%' }}>
-        <Button type="dashed" style={{ width: '100%', padding: 0 }} onClick={() => upgradeClicked(subProps.quality)} disabled={value == undefined}>
+        <Button type={hovered ? 'default' : 'dashed'} style={{ width: '100%', padding: 0 }} onClick={() => upgradeClicked(subProps.quality)} disabled={value == undefined}>
           {value || ''}
         </Button>
       </Flex>
@@ -392,9 +397,9 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
   }
 
   return (
-    <Flex gap={10}>
+    <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Flex gap={10}>
-        <Form.Item name={`substatType${props.index}`}>
+        <Form.Item name={statTypeField}>
           <Select
             showSearch
             allowClear
@@ -404,8 +409,10 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             placeholder="Substat"
             maxTagCount="responsive"
             options={substatOptions}
-            onChange={(e) => {
-              props.relicForm.getFieldValue(`substatType${props.index}`) ? props.relicForm.setFieldValue(`substatValue${props.index}`, 0) : props.relicForm.setFieldValue(`substatValue${props.index}`, undefined)
+            onChange={() => {
+              props.relicForm.getFieldValue(statTypeField)
+                ? props.relicForm.setFieldValue(statValueField, 0)
+                : props.relicForm.setFieldValue(statValueField, undefined)
               props.resetUpgradeValues()
             }}
           />
@@ -419,7 +426,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
         </Form.Item>
       </Flex>
       <CaretRightOutlined style={{ width: 12 }} />
-      <Flex gap={10} style={{ width: '100%' }}>
+      <Flex gap={5} style={{ width: '100%' }}>
         <UpgradeButton quality="low" />
         <UpgradeButton quality="mid" />
         <UpgradeButton quality="high" />

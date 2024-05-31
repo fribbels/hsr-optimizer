@@ -178,6 +178,8 @@ export type RelicUpgradeValues = {
 }
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
+  console.debug('!!!')
+
   const statPairs: Stat[] = [
     { stat: relicForm.substatType0, value: relicForm.substatValue0 },
     { stat: relicForm.substatType1, value: relicForm.substatValue1 },
@@ -190,11 +192,9 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
   for (const { stat, value } of statPairs) {
     if (stat != undefined && value != undefined) {
       if (stat == Stats.SPD) {
-        if (relicForm.grade == 5) {
-          upgradeValues.push({ low: Math.floor(value + 2), mid: undefined, high: Math.floor(value + 3) })
-        } else {
-          upgradeValues.push({ low: Math.floor(value + 1), mid: undefined, high: Math.floor(value + 2) })
-        }
+        const lowSpdValue = value + (relicForm.grade == 5 ? 2 : 1)
+        upgradeValues.push({ low: Math.floor(lowSpdValue), mid: undefined, high: Math.floor(lowSpdValue + 1) })
+
         continue
       }
 

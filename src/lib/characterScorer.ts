@@ -18,7 +18,8 @@ const QUALITY = 0.8
 const SUBSTAT_GOAL = 48
 const FREE_ROLLS = 2
 const MAX_PER_SUB = 30
-const SPEED_DEDUCTION = Utils.precisionRound(3 * QUALITY - 0.4)
+export const SIM_SPEED_ROLL_VALUE = 2.3
+const SPEED_DEDUCTION = SIM_SPEED_ROLL_VALUE // Utils.precisionRound(3 * QUALITY - 0.4)
 const BASELINE_FREE_ROLLS = 2
 
 export type SimulationResult = ComputedStatsObject & {
@@ -133,7 +134,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
 
   // Generate scoring function
   const formula = metadata.formula
-  const applyScoringFunction = (result) => {
+  const applyScoringFunction = (result, penalty = true) => {
     if (!result) return
 
     const score = (
@@ -148,7 +149,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
     // const spdScaling = (1 + result.xSPD / baselineSimResult.xSPD)
     result.unpenalizedSimScore = score
     result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata.breakpoints)
-    result.SIM_SCORE = result.unpenalizedSimScore * result.penaltyMultiplier
+    result.SIM_SCORE = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
 
     // We apply a penalty to the percent if the user did not reach thresholds
   }
@@ -188,7 +189,7 @@ export function scoreCharacterSimulation(character: Character, finalStats: any, 
   }
 
   applyScoringFunction(originalSimResult)
-  applyScoringFunction(baselineSimResult)
+  applyScoringFunction(baselineSimResult, false)
   bestPartialSims.map((x) => applyScoringFunction(x.result))
 
   // Try to minimize the penalty modifier before optimizing sim score

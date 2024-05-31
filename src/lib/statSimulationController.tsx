@@ -16,7 +16,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
-import { SimulationResult } from 'lib/characterScorer'
+import { SIM_SPEED_ROLL_VALUE, SimulationResult } from 'lib/characterScorer'
 
 export type Simulation = {
   name?: string
@@ -308,7 +308,7 @@ export function runSimulations(form: Form, simulations: Simulation[], quality = 
     const requestSubstats = Utils.clone(sim.request.stats)
     if (sim.simType == StatSimTypes.SubstatRolls) {
       for (const substat of SubStats) {
-        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat, quality))
+        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * (substat == Stats.SPD ? SIM_SPEED_ROLL_VALUE : StatCalculator.getMaxedSubstatValue(substat, quality)))
       }
     }
 
@@ -429,7 +429,7 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
   // Sum up substat rolls
   for (const relic of relics) {
     for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat, quality)
+      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? SIM_SPEED_ROLL_VALUE : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
     }
   }
 

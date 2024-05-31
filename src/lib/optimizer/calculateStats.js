@@ -257,7 +257,7 @@ export function calculateComputedStats(c, request, params) {
     += 0.05 * params.valueDuranDynastyOfRunningWolves * p2(sets.DuranDynastyOfRunningWolves)
 
   x.ULT_BOOST
-    += 0.30 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
+    += 0.36 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
 
   return x
 }

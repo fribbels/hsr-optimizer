@@ -178,8 +178,6 @@ export type RelicUpgradeValues = {
 }
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
-  console.debug('!!!')
-
   const statPairs: Stat[] = [
     { stat: relicForm.substatType0, value: relicForm.substatValue0 },
     { stat: relicForm.substatType1, value: relicForm.substatValue1 },

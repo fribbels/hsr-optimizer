@@ -457,7 +457,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <ScoringNumber label="Baseline DMG        " number={result.baselineSimValue} />
             <ScoringNumber label="Character scale:    " number={result.currentSim.penaltyMultiplier} precision={3} />
             <ScoringNumber label="Benchmark scale:    " number={result.maxSim.result.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="Baseline scale:     " number={result.baselineSim.penaltyMultiplier} precision={3} />
+            {/* <ScoringNumber label="Baseline scale:     " number={result.baselineSim.penaltyMultiplier} precision={3} /> */}
             <ScoringNumber label="DPS score %:        " number={result.percent * 100} precision={2} />
           </Flex>
         </Flex>

@@ -1714,7 +1714,7 @@ function getScoringMetadata() {
           SKILL: 2,
           ULT: 1,
           FUA: 2,
-          DOT: 6,
+          DOT: 8,
           BREAK: 0,
         },
         relicSets: [

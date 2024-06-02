@@ -184,9 +184,9 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
-  let combatSimResult = scoreCharacterSimulation(character, finalStats, displayRelics, teamSelection)
+  let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
   let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
-  if (!simScoringResult?.sims) {
+  if (!simScoringResult?.originalSim) {
     combatSimResult = null
     simScoringResult = null
   }
@@ -327,7 +327,7 @@ export function CharacterPreview(props) {
   function CharacterPreviewScoringTeammate(props) {
     // <CharacterPreviewScoringTeammate result={simScoringResult} index={0}/>
     const { result, index, setCharacterModalOpen, setSelectedTeammateIndex } = props
-    const teammate = result.metadata.teammates[index]
+    const teammate = result.simulationMetadata.teammates[index]
     const iconSize = 65
     return (
       <Card.Grid
@@ -748,10 +748,10 @@ export function CharacterPreview(props) {
       {
         scoringType == SIMULATION_SCORE && (
           <Flex vertical align="center" style={{ width: '100%', marginTop: 10 }}>
-            <Text style={{ fontSize: 16, color: 'orange' }}>
+            <Text style={{ fontSize: 15, color: 'orange' }}>
               Notice: DPS score is a work in progress as we gather feedback to balance scores, the numbers may change a bit
             </Text>
-            <Text style={{ fontSize: 16, color: 'orange' }}>
+            <Text style={{ fontSize: 15, color: 'orange' }}>
               The previous Character Score system can still be used with the selector below
             </Text>
           </Flex>

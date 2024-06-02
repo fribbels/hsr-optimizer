@@ -7,7 +7,7 @@ import { PreconvertStatKey } from 'lib/characterConverter'
 export type SuperImpositionLevel = number
 export type SuperImposition = {
   [K in StatsValues]: SuperImpositionLevel;
-}
+} | number
 
 export type LightConeRanks = {
   id: DataMineId

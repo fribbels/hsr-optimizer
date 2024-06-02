@@ -16,14 +16,14 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
-import { SIM_SPEED_ROLL_VALUE, SimulationResult } from 'lib/characterScorer'
+import { SimulationResult } from 'lib/characterScorer'
 
 export type Simulation = {
   name?: string
   key: string
   simType: string
   request: SimulationRequest
-  result: any
+  result: SimulationResult
   penaltyMultiplier: number
 }
 
@@ -257,8 +257,8 @@ export function setFormStatSimulations(simulations: Simulation[]) {
 
 export type RunSimulationsParams = {
   quality: number
-  speedQuality: number
-  maxedMainStat: boolean
+  speedRollValue: number
+  mainStatMultiplier: number
   substatRollsModifier: (num: number, stat: string, relics: { [key: Parts]: Relic }) => number
 }
 
@@ -269,8 +269,8 @@ export function runSimulations(
 ): SimulationResult[] {
   const defaultParams: RunSimulationsParams = {
     quality: 1,
-    speedQuality: 1,
-    maxedMainStat: true,
+    speedRollValue: 2.6,
+    mainStatMultiplier: 1,
     substatRollsModifier: (num: number) => num,
   }
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
@@ -279,12 +279,12 @@ export function runSimulations(
   for (const sim of simulations) {
     const request = sim.request
 
-    const head = emptyRelic()
-    const hands = emptyRelic()
-    const body = emptyRelic()
-    const feet = emptyRelic()
-    const linkRope = emptyRelic()
-    const planarSphere = emptyRelic()
+    const head: Relic = emptyRelic()
+    const hands: Relic = emptyRelic()
+    const body: Relic = emptyRelic()
+    const feet: Relic = emptyRelic()
+    const linkRope: Relic = emptyRelic()
+    const planarSphere: Relic = emptyRelic()
 
     head.augmentedStats.mainStat = Constants.Stats.HP
     hands.augmentedStats.mainStat = Constants.Stats.ATK
@@ -293,14 +293,12 @@ export function runSimulations(
     linkRope.augmentedStats.mainStat = request.simLinkRope
     planarSphere.augmentedStats.mainStat = request.simPlanarSphere
 
-    head.augmentedStats.mainValue = 705.600
-    hands.augmentedStats.mainValue = 352.800
-    if (params.maxedMainStat) {
-      body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody)
-      feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet)
-      linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope)
-      planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere)
-    }
+    head.augmentedStats.mainValue = 705.600 * params.mainStatMultiplier
+    hands.augmentedStats.mainValue = 352.800 * params.mainStatMultiplier
+    body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody) * params.mainStatMultiplier
+    feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet) * params.mainStatMultiplier
+    linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope) * params.mainStatMultiplier
+    planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere) * params.mainStatMultiplier
 
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set
@@ -345,7 +343,7 @@ export function runSimulations(
     if (sim.simType == StatSimTypes.SubstatRolls) {
       for (const substat of SubStats) {
         const substatValue = substat == Stats.SPD
-          ? params.speedQuality
+          ? params.speedRollValue
           : StatCalculator.getMaxedSubstatValue(substat, params.quality)
 
         let substatCount = Utils.precisionRound((requestSubstats[substat] || 0))
@@ -373,6 +371,7 @@ export function runSimulations(
     const c = calculateBuild(form, relics)
 
     renameFields(c)
+    // For optimizer grid syncing with sim table
     c.statSim = {
       key: sim.key,
     }
@@ -448,7 +447,7 @@ export function importOptimizerBuild() {
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 
-export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1) {
+export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1, speedRollValue = 2.6) {
   const relics: Relic[] = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {}
   SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
@@ -456,7 +455,7 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
   // Sum up substat rolls
   for (const relic of relics) {
     for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? SIM_SPEED_ROLL_VALUE : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
     }
   }
 

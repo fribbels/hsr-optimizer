@@ -4,7 +4,7 @@ import { Form } from './Form'
 
 export type CharacterId = string // "1004"
 
-export type Eidolon = 0 | 1 | 2 | 3 | 4 | 5 | 6
+export type Eidolon = (0 | 1 | 2 | 3 | 4 | 5 | 6) | number
 
 export type Traces = {
   [key in StatsValues]: number;

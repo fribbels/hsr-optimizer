@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => [],
     defaults: () => ({
-      missedCritCrBuff: true,
+      missedCritCrBuff: false,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
       const r = request.lightConeConditionals

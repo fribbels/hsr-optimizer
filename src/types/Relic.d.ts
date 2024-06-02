@@ -28,6 +28,10 @@ export type Relic = {
     stat: MainStats
     value: number
   }
+  augmentedStats: {
+    mainStat: string
+    [key: string]: number
+  }
   part: Parts
   set: Sets
   substats: {

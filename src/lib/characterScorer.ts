@@ -67,7 +67,7 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
     .length
 
   const lowerLimit = 18 - 3 * mainsCount
-  const diminishingScale = 0.2
+  const diminishingScale = 0.25
 
   if (rolls <= lowerLimit) {
     return rolls

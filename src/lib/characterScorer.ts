@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Stats, SubStats } from 'lib/constants'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -26,6 +26,7 @@ export type ScoringParams = {
   deductionPerMain: number
   baselineFreeRolls: number
   limitFlatStats: boolean
+  enforcePossibleDistribution: boolean
   substatRollsModifier: (rolls: number, stat: string, relics: { [key: string]: Relic }) => number
 }
 
@@ -38,6 +39,7 @@ const benchmarkScoringParams: ScoringParams = {
   deductionPerMain: 5,
   baselineFreeRolls: 2,
   limitFlatStats: true,
+  enforcePossibleDistribution: false,
   substatRollsModifier: substatRollsModifier,
 }
 
@@ -55,6 +57,7 @@ const maximumScoringParams: ScoringParams = {
   deductionPerMain: 6,
   baselineFreeRolls: 0,
   limitFlatStats: false,
+  enforcePossibleDistribution: true,
   substatRollsModifier: (rolls: number) => rolls,
 }
 
@@ -549,17 +552,20 @@ function generateFullDefaultForm(
 
 function computeOptimalSimulation(
   partialSimulationWrapper: PartialSimulationWrapper,
-  minSubstatRollCounts: SimulationStats,
-  maxSubstatRollCounts: SimulationStats,
+  inputMinSubstatRollCounts: SimulationStats,
+  inputMaxSubstatRollCounts: SimulationStats,
   simulationForm: Form,
   applyScoringFunction: ScoringFunction,
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
 ) {
+  const minSubstatRollCounts = TsUtils.clone(inputMinSubstatRollCounts)
+  const maxSubstatRollCounts = TsUtils.clone(inputMaxSubstatRollCounts)
+
   const breakpoints = metadata.breakpoints
   const goal = scoringParams.substatGoal
   let sum = sumSubstatRolls(maxSubstatRollCounts)
-  let currentSimulation: Simulation = partialSimulationWrapper.simulation
+  let currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
   let currentSimulationResult: SimulationResult = undefined
 
   let breakpointsCap = true
@@ -573,19 +579,72 @@ function computeOptimalSimulation(
     return currentSimulation
   }
 
+  // For the perfect 200% sim, we have to force the build to be a possible build
+  // Track the substats per part and make sure there are enough slots being used
+  const possibleDistributionTracker: {
+    parts: {
+      main: string
+      substats: { [key: string]: boolean }
+    }[]
+  } = { parts: [] }
+  if (scoringParams.enforcePossibleDistribution) {
+    speedCap = false
+    maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    sum = sumSubstatRolls(maxSubstatRollCounts)
+
+    const candidateStats = [...metadata.substats, Stats.SPD]
+    const speedRollsMax = Math.ceil(maxSubstatRollCounts[Stats.SPD])
+    let speedCount = 0
+
+    const generate = (excluded: string) => {
+      const substats = {}
+      candidateStats.forEach((stat) => {
+        if (stat != excluded) {
+          // I dont think this speed logic is needed anymore
+          if (stat == Stats.SPD) {
+            speedCount++
+            if (speedCount > speedRollsMax) return
+          }
+          substats[stat] = true
+        }
+      })
+      return {
+        main: excluded,
+        substats: substats,
+      }
+    }
+
+    const request = partialSimulationWrapper.simulation.request
+    // Backwards so main stats go first
+    possibleDistributionTracker.parts = [
+      generate(request.simLinkRope),
+      generate(request.simPlanarSphere),
+      generate(request.simFeet),
+      generate(request.simBody),
+      generate(Stats.ATK),
+      generate(Stats.HP),
+    ]
+  }
+
+  // Tracker for stats that cant be reduced further
+  const excludedStats = {}
+
   while (sum > goal) {
     let bestSim: Simulation = undefined
     let bestSimResult: SimulationResult = undefined
+    let reducedStat: string = undefined
 
     const remainingStats = Object.entries(currentSimulation.request.stats)
-      .filter(([key, value]) => value > scoringParams.freeRolls && key != Stats.SPD)
+      .filter(([key, value]) => value > scoringParams.freeRolls)
       .map(([key]) => key)
+      .filter((stat) => !excludedStats[stat])
 
     for (const stat of remainingStats) {
       // Can't reduce further so we skip
       if (currentSimulation.request.stats[stat] <= scoringParams.freeRolls) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= scoringParams.substatGoal) continue
-      if (stat == Stats.SPD && speedCap && currentSimulation.request.stats[Stats.SPD] <= partialSimulationWrapper.speedRollsDeduction) continue
+      if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= Math.ceil(partialSimulationWrapper.speedRollsDeduction)) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
 
       // Try reducing this stat
@@ -607,6 +666,7 @@ function computeOptimalSimulation(
       if (!bestSim || newSimResult.simScore > bestSimResult.simScore) {
         bestSim = newSimulation
         bestSimResult = newSimResult
+        reducedStat = stat
       }
     }
 
@@ -626,6 +686,41 @@ function computeOptimalSimulation(
       // No solution possible, skip
       sum -= 1
       continue
+    }
+
+    if (scoringParams.enforcePossibleDistribution && bestSim.request.stats[reducedStat] < 6) {
+      const stat = reducedStat
+
+      // How many stats the sim's iteration is attempting
+      const simStatCount = bestSim.request.stats[stat]
+      // How many slots are open for the stat in question
+      const statSlotCount = possibleDistributionTracker.parts
+        .map((part) => part.substats[stat])
+        .filter((hasSubstat) => hasSubstat)
+        .length
+
+      if (simStatCount < statSlotCount) {
+        // We need to reduce the slots to fit the sim
+        let deleted = false
+        for (const part of possibleDistributionTracker.parts) {
+          // Can't do anything since it's not in the subs
+          if (!part.substats[stat]) continue
+          // Can't do anything since we need all 4 slots filled
+          if (Object.values(part.substats).length <= 4) continue
+
+          // Found one that we can reduce, and exit
+          delete part.substats[stat]
+          deleted = true
+          break
+        }
+
+        if (!deleted) {
+          // We didn't delete anything, so this distribution must be invalid
+          // Don't reduce the stat and continue the search
+          excludedStats[stat] = true
+          continue
+        }
+      }
     }
 
     currentSimulation = bestSim
@@ -826,7 +921,8 @@ function simulateBaselineCharacter(
   scoringParams: ScoringParams,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
-  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelic())
+  Object.values(Parts).forEach((part) => relicsByPart[part] = relicsByPart[part] || emptyRelic())
+  Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
   Object.values(relicsByPart).map((relic: Relic) => {
     // Remove all subs
     relic.substats = []
@@ -836,20 +932,14 @@ function simulateBaselineCharacter(
 
         relic.substats.push({
           stat: substat,
-          value: StatCalculator.getMaxedSubstatValue(substat, scoringParams.quality) * scoringParams.baselineFreeRolls,
+          // No substats for baseline
+          value: StatCalculator.getMaxedSubstatValue(substat, scoringParams.quality) * 0,
         })
       }
     }
-
-    // Simulate useless sets
-    if (relic.part == Parts.PlanarSphere || relic.part == Parts.LinkRope) {
-      relic.set = Sets.CelestialDifferentiator
-    } else {
-      relic.set = Sets.GuardOfWutheringSnow
-    }
   })
 
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, scoringParams, 1)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, scoringParams, 0)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
@@ -863,6 +953,8 @@ function simulateOriginalCharacter(
   mainStatMultiplier = 1,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
+  Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
+
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
   const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, scoringParams.quality, scoringParams.speedRollValue)
@@ -999,26 +1091,26 @@ function simSorter(a: Simulation, b: Simulation) {
 // }
 
 // 1.00 => SS
-const SimScoreGrades = {
-  'WTF+': 125,
-  'WTF': 120,
-  'SSS+': 115,
-  'SSS': 110,
-  'SS+': 105,
-  'SS': 100,
-  'S+': 95,
-  'S': 90,
-  'A+': 85,
-  'A': 80,
-  'B+': 75,
-  'B': 70,
-  'C+': 65,
-  'C': 60,
-  'D+': 55,
-  'D': 50,
-  'F+': 45,
-  'F': 40,
-}
+// const SimScoreGrades = {
+//   'WTF+': 125,
+//   'WTF': 120,
+//   'SSS+': 115,
+//   'SSS': 110,
+//   'SS+': 105,
+//   'SS': 100,
+//   'S+': 95,
+//   'S': 90,
+//   'A+': 85,
+//   'A': 80,
+//   'B+': 75,
+//   'B': 70,
+//   'C+': 65,
+//   'C': 60,
+//   'D+': 55,
+//   'D': 50,
+//   'F+': 45,
+//   'F': 40,
+// }
 
 // 1.00 => S+
 // const SimScoreGrades = {
@@ -1063,3 +1155,47 @@ const SimScoreGrades = {
 //   'F+': 55,
 //   'F': 50,
 // }
+
+// // Gradual scale
+// const SimScoreGrades = {
+//   'WTF+': 140, // +10
+//   'WTF': 130, // +9
+//   'SSS+': 121, // +8
+//   'SSS': 113, // +7
+//   'SS+': 106, // +6
+//   'SS': 100, // +5
+//   'S+': 95,
+//   'S': 90,
+//   'A+': 85,
+//   'A': 80,
+//   'B+': 75,
+//   'B': 70,
+//   'C+': 65,
+//   'C': 60,
+//   'D+': 55,
+//   'D': 50,
+//   'F+': 45,
+//   'F': 40,
+// }
+
+// Gradual scale
+const SimScoreGrades = {
+  'WTF+': 135, // +10
+  'WTF': 126, // +9
+  'SSS+': 118, // +8
+  'SSS': 111, // +7
+  'SS+': 105, // +6
+  'SS': 100, // +5
+  'S+': 95,
+  'S': 90,
+  'A+': 85,
+  'A': 80,
+  'B+': 75,
+  'B': 70,
+  'C+': 65,
+  'C': 60,
+  'D+': 55,
+  'D': 50,
+  'F+': 45,
+  'F': 40,
+}

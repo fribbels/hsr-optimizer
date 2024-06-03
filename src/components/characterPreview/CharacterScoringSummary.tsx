@@ -207,10 +207,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ width: 500 }}>
             <Flex>
               <ul style={{ width: 250 }}>
-                <li>WTF+ = 125%</li>
-                <li>WTF  = 120%</li>
-                <li>SSS+ = 115%</li>
-                <li>SSS  = 110%</li>
+                <li>WTF+ = 135%</li>
+                <li>WTF  = 126%</li>
+                <li>SSS+ = 118%</li>
+                <li>SSS  = 111%</li>
                 <li>SS+  = 105%</li>
                 <li>SS   = 100%</li>
                 <li>S+   = 95%</li>
@@ -384,7 +384,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             100% benchmark substats
           </pre>
           <Flex gap={5}>
-            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+            <Flex vertical gap={defaultGap} style={{ width: 95 }}>
               <ScoringNumber label="ATK%: " number={result.benchmarkSim.request.stats[Stats.ATK_P]} precision={0} />
               <ScoringNumber label="ATK:  " number={result.benchmarkSim.request.stats[Stats.ATK]} precision={0} />
               <ScoringNumber label="HP%:  " number={result.benchmarkSim.request.stats[Stats.HP_P]} precision={0} />
@@ -392,8 +392,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <ScoringNumber label="DEF%: " number={result.benchmarkSim.request.stats[Stats.DEF_P]} precision={0} />
               <ScoringNumber label="DEF:  " number={result.benchmarkSim.request.stats[Stats.DEF]} precision={0} />
             </Flex>
-            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-              <ScoringNumber label="SPD:  " number={result.benchmarkSim.request.stats[Stats.SPD]} precision={1} />
+            <Flex vertical gap={defaultGap} style={{ width: 105 }}>
+              <ScoringNumber label="SPD:  " number={result.benchmarkSim.request.stats[Stats.SPD]} precision={2} />
               <ScoringNumber label="CR:   " number={result.benchmarkSim.request.stats[Stats.CR]} precision={0} />
               <ScoringNumber label="CD:   " number={result.benchmarkSim.request.stats[Stats.CD]} precision={0} />
               <ScoringNumber label="EHR:  " number={result.benchmarkSim.request.stats[Stats.EHR]} precision={0} />
@@ -407,10 +407,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '0 auto' }}>
-            200% maximum substats
+            200% perfect substats
           </pre>
           <Flex gap={5}>
-            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+            <Flex vertical gap={defaultGap} style={{ width: 95 }}>
               <ScoringNumber label="ATK%: " number={result.maximumSim.request.stats[Stats.ATK_P]} precision={0} />
               <ScoringNumber label="ATK:  " number={result.maximumSim.request.stats[Stats.ATK]} precision={0} />
               <ScoringNumber label="HP%:  " number={result.maximumSim.request.stats[Stats.HP_P]} precision={0} />
@@ -418,8 +418,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
               <ScoringNumber label="DEF%: " number={result.maximumSim.request.stats[Stats.DEF_P]} precision={0} />
               <ScoringNumber label="DEF:  " number={result.maximumSim.request.stats[Stats.DEF]} precision={0} />
             </Flex>
-            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-              <ScoringNumber label="SPD:  " number={result.maximumSim.request.stats[Stats.SPD]} precision={1} />
+            <Flex vertical gap={defaultGap} style={{ width: 105 }}>
+              <ScoringNumber label="SPD:  " number={result.maximumSim.request.stats[Stats.SPD]} precision={2} />
               <ScoringNumber label="CR:   " number={result.maximumSim.request.stats[Stats.CR]} precision={0} />
               <ScoringNumber label="CD:   " number={result.maximumSim.request.stats[Stats.CD]} precision={0} />
               <ScoringNumber label="EHR:  " number={result.maximumSim.request.stats[Stats.EHR]} precision={0} />
@@ -482,7 +482,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
           <pre style={{ margin: 'auto' }}>
-            200% maximum <u>combat stats</u>
+            200% perfect <u>combat stats</u>
           </pre>
           <CharacterStatSummary
             finalStats={maximumCombatStats} elementalDmgValue={elementalDmgValue}

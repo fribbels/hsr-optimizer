@@ -293,8 +293,8 @@ export function runSimulations(
     linkRope.augmentedStats.mainStat = request.simLinkRope
     planarSphere.augmentedStats.mainStat = request.simPlanarSphere
 
-    head.augmentedStats.mainValue = 705.600 * params.mainStatMultiplier
-    hands.augmentedStats.mainValue = 352.800 * params.mainStatMultiplier
+    head.augmentedStats.mainValue = 705.600// * params.mainStatMultiplier
+    hands.augmentedStats.mainValue = 352.800// * params.mainStatMultiplier
     body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody) * params.mainStatMultiplier
     feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet) * params.mainStatMultiplier
     linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope) * params.mainStatMultiplier

@@ -591,6 +591,7 @@ function computeOptimalSimulation(
     speedCap = false
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    sum = sumSubstatRolls(maxSubstatRollCounts)
 
     const candidateStats = [...metadata.substats, Stats.SPD]
     const speedRollsMax = Math.ceil(maxSubstatRollCounts[Stats.SPD])

@@ -579,12 +579,14 @@ function computeOptimalSimulation(
     return currentSimulation
   }
 
+  // For the perfect 200% sim, we have to force the build to be a possible build
+  // Track the substats per part and make sure there are enough slots being used
   const possibleDistributionTracker: {
     parts: {
       main: string
       substats: { [key: string]: boolean }
     }[]
-  } = {}
+  } = { parts: [] }
   if (scoringParams.enforcePossibleDistribution) {
     speedCap = false
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
@@ -598,6 +600,7 @@ function computeOptimalSimulation(
       const substats = {}
       candidateStats.forEach((stat) => {
         if (stat != excluded) {
+          // I dont think this speed logic is needed anymore
           if (stat == Stats.SPD) {
             speedCount++
             if (speedCount > speedRollsMax) return
@@ -631,19 +634,12 @@ function computeOptimalSimulation(
     let bestSimResult: SimulationResult = undefined
     let reducedStat: string = undefined
 
-    if (scoringParams.enforcePossibleDistribution) {
-      console.log('!!!')
-    }
-
     const remainingStats = Object.entries(currentSimulation.request.stats)
       .filter(([key, value]) => value > scoringParams.freeRolls)
       .map(([key]) => key)
       .filter((stat) => !excludedStats[stat])
 
     for (const stat of remainingStats) {
-      if (scoringParams.enforcePossibleDistribution && stat == Stats.SPD) {
-        console.log('!!!')
-      }
       // Can't reduce further so we skip
       if (currentSimulation.request.stats[stat] <= scoringParams.freeRolls) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= scoringParams.substatGoal) continue
@@ -692,14 +688,9 @@ function computeOptimalSimulation(
     }
 
     if (scoringParams.enforcePossibleDistribution && bestSim.request.stats[reducedStat] < 6) {
-      // const possibleDistributionTracker: {
-      //   parts: {
-      //     main: string
-      //     substats: { [key: string]: boolean }
-      //   }[]
-      // } = {}
-      // How many stats the sim's iteration is attempting
       const stat = reducedStat
+
+      // How many stats the sim's iteration is attempting
       const simStatCount = bestSim.request.stats[stat]
       // How many slots are open for the stat in question
       const statSlotCount = possibleDistributionTracker.parts
@@ -710,14 +701,13 @@ function computeOptimalSimulation(
       if (simStatCount < statSlotCount) {
         // We need to reduce the slots to fit the sim
         let deleted = false
-        const debug = possibleDistributionTracker.parts.map((x) => Object.keys(x.substats))
         for (const part of possibleDistributionTracker.parts) {
-          // Can't do anything since its not in the subs
+          // Can't do anything since it's not in the subs
           if (!part.substats[stat]) continue
           // Can't do anything since we need all 4 slots filled
           if (Object.values(part.substats).length <= 4) continue
 
-          // Found one that we can reduce
+          // Found one that we can reduce, and exit
           delete part.substats[stat]
           deleted = true
           break
@@ -725,8 +715,7 @@ function computeOptimalSimulation(
 
         if (!deleted) {
           // We didn't delete anything, so this distribution must be invalid
-          // Dont reduce the stat and continue
-          console.log('!!!')
+          // Don't reduce the stat and continue the search
           excludedStats[stat] = true
           continue
         }

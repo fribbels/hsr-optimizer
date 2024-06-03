@@ -251,7 +251,7 @@ export function CharacterPreview(props) {
       fontSize: 17,
       fontWeight: '600',
       textAlign: 'center',
-      color: '#DD624D',
+      color: 'rgb(225, 165, 100)',
       height: 23,
       whiteSpace: 'nowrap',
     }

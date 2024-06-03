@@ -407,7 +407,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '0 auto' }}>
-            200% maximum substats
+            200% perfect substats
           </pre>
           <Flex gap={5}>
             <Flex vertical gap={defaultGap} style={{ width: 100 }}>
@@ -482,7 +482,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
           <pre style={{ margin: 'auto' }}>
-            200% maximum <u>combat stats</u>
+            200% perfect <u>combat stats</u>
           </pre>
           <CharacterStatSummary
             finalStats={maximumCombatStats} elementalDmgValue={elementalDmgValue}

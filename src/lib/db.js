@@ -299,7 +299,14 @@ export const DB = {
   },
   updateCharacterScoreOverrides: (id, updated) => {
     const overrides = window.store.getState().scoringMetadataOverrides
-    overrides[id] = updated
+    Utils.mergeDefinedValues(overrides[id], updated)
+    window.store.getState().setScoringMetadataOverrides(overrides)
+
+    SaveState.save()
+  },
+  updateSimulationScoreOverrides: (id, updated) => {
+    const overrides = window.store.getState().scoringMetadataOverrides
+    overrides[id].simulation = updated
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.save()

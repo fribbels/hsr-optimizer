@@ -720,20 +720,6 @@ function computeOptimalSimulation(
           continue
         }
       }
-
-      console.log(statSlotCount)
-      // if the sum of the distribution stats is
-
-      // let valid = true
-      // for (const part of possibleDistributionTracker.parts) {
-      //   const partMain = part.main
-      //   const partSubstats = part.substats
-      //   const length = Object.values(partSubstats).length
-      //
-      //   // if (!partSubstats.includes(stat)) continue
-      //   if (length <= 4 && )
-      //   console.log(possibleDistributionTracker.parts)
-      // }
     }
 
     currentSimulation = bestSim

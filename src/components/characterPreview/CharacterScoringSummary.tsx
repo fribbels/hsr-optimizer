@@ -207,10 +207,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ width: 500 }}>
             <Flex>
               <ul style={{ width: 250 }}>
-                <li>WTF+ = 125%</li>
-                <li>WTF  = 120%</li>
-                <li>SSS+ = 115%</li>
-                <li>SSS  = 110%</li>
+                <li>WTF+ = 135%</li>
+                <li>WTF  = 126%</li>
+                <li>SSS+ = 118%</li>
+                <li>SSS  = 111%</li>
                 <li>SS+  = 105%</li>
                 <li>SS   = 100%</li>
                 <li>S+   = 95%</li>

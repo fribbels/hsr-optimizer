@@ -65,7 +65,8 @@ export function CharacterPreview(props) {
       const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
       if (defaultScoringMetadata?.simulation) {
         const scoringMetadata = DB.getScoringMetadata(character.id)
-        if (scoringMetadata.simulation.teammates != defaultScoringMetadata.simulation.teammates) {
+
+        if (Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)) {
           setTeamSelection(CUSTOM_TEAM)
         } else {
           setTeamSelection(DEFAULT_TEAM)
@@ -285,7 +286,9 @@ export function CharacterPreview(props) {
               content: 'Reset your custom team configuration to default?',
               onOk() {
                 const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
-                DB.updateCharacterScoreOverrides(character.id, characterMetadata)
+                const simulation = characterMetadata.scoringMetadata.simulation
+
+                DB.updateSimulationScoreOverrides(character.id, simulation)
 
                 setTeamSelection(DEFAULT_TEAM)
                 setSelectedTeammateIndex(undefined)

@@ -32,6 +32,23 @@ export function ScannerImportSubmenu() {
   const [loading2, setLoading2] = useState(false)
   const [form] = Form.useForm()
 
+  const hoyolabSubmit = () => {
+    const json = form.getFieldValue('json input')
+    console.log(json)
+    const out = hoyolabParser(json)
+    const relics: Relic[] = out.relics
+    let characters = out.characters
+    // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
+    characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+    characters.map((c) => {
+      c.characterLevel = 80
+      c.lightConeLevel = 80
+    })
+    setCurrentCharacters(characters)
+    setCurrentRelics(relics)
+    setCurrentStage(Stages.CONFIRM_DATA)
+  }
+
   function beforeUpload(file): Promise<any> {
     return new Promise(() => {
       const reader = new FileReader()
@@ -171,22 +188,7 @@ export function ScannerImportSubmenu() {
               </Form.Item>
               <Button
                 style={{ width: importerTabButtonWidth }}
-                onClick={() => {
-                  const json = form.getFieldValue('json input')
-                  console.log(json)
-                  const out = hoyolabParser(json)
-                  const relics: Relic[] = out.relics
-                  let characters = out.characters
-                  // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-                  characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-                  characters.map((c) => {
-                    c.characterLevel = 80
-                    c.lightConeLevel = 80
-                  })
-                  setCurrentCharacters(characters)
-                  setCurrentRelics(relics)
-                  setCurrentStage(Stages.CONFIRM_DATA)
-                }}
+                onClick={hoyolabSubmit}
               >
                 Submit Hoyolab Data
               </Button>
@@ -258,7 +260,7 @@ export function ScannerImportSubmenu() {
   }
 
   return (
-    <Flex gap={300}>
+    <Flex gap={5}>
       <Steps
         direction="vertical"
         current={currentStage}

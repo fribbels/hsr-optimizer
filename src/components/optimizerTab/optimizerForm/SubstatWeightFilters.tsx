@@ -2,25 +2,21 @@ import { Flex, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
-import {
-  FormStatRollSlider,
-  FormStatRollSliderTopPercent,
-} from 'components/optimizerTab/optimizerForm/FormStatRollSlider.jsx'
+import { FormStatRollSlider, FormStatRollSliderTopPercent } from 'components/optimizerTab/optimizerForm/FormStatRollSlider.jsx'
 import { Constants } from 'lib/constants.ts'
-import { HorizontalDivider } from 'components/Dividers.tsx'
-import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants.ts'
 
 const { Text } = Typography
 
 export const SubstatWeightFilters = () => {
   return (
-    <Flex vertical gap={optimizerTabDefaultGap}>
-      <Flex justify="space-between" align="center">
-        <HeaderText>Substat weight filter</HeaderText>
-        <TooltipImage type={Hint.substatWeightFilter()} />
-      </Flex>
+    <Flex vertical gap={4}>
 
-      <Flex vertical gap={1}>
+      <Flex vertical gap={0}>
+        <Flex justify="space-between" align="center">
+          <HeaderText>Substat weight filter</HeaderText>
+          <TooltipImage type={Hint.substatWeightFilter()} />
+        </Flex>
+
         <FormStatRollSlider text="HP" name={Constants.Stats.HP_P} />
         <FormStatRollSlider text="ATK" name={Constants.Stats.ATK_P} />
         <FormStatRollSlider text="DEF" name={Constants.Stats.DEF_P} />
@@ -32,10 +28,14 @@ export const SubstatWeightFilters = () => {
         <FormStatRollSlider text="BE" name={Constants.Stats.BE} />
       </Flex>
 
-      <HorizontalDivider />
-
-      <Text>Top % of weighted relics</Text>
-      <FormStatRollSliderTopPercent />
+      <Flex vertical gap={3}>
+        <HeaderText>Min weighted rolls per relic</HeaderText>
+        <Flex vertical gap={5}>
+          <FormStatRollSliderTopPercent index={0} />
+          <FormStatRollSliderTopPercent index={1} />
+          <FormStatRollSliderTopPercent index={2} />
+        </Flex>
+      </Flex>
     </Flex>
   )
 }

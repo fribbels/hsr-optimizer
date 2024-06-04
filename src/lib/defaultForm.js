@@ -21,7 +21,9 @@ export function getDefaultForm(initialCharacter) {
     [Constants.Stats.EHR]: 1,
     [Constants.Stats.RES]: 1,
     [Constants.Stats.BE]: 1,
-    topPercent: 100,
+    headHands: 3,
+    bodyFeet: 2,
+    sphereRope: 2,
   }
 
   const combatBuffs = {}
@@ -72,8 +74,6 @@ export function getDefaultForm(initialCharacter) {
       BREAK: 0,
     },
   })
-
-  defaultForm.topPercent = 100
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[initialCharacter?.id]?.element

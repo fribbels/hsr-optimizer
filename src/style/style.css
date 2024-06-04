@@ -170,7 +170,7 @@ body,
 }
 
 .ant-form-item-control-input {
-    min-height: 24px !important;
+    min-height: 22px !important;
 }
 
 .ant-cascader-menu-item {
@@ -400,3 +400,6 @@ a {
     flex-grow: 0.45 !important;
 }
 
+.center-input-text > div > input {
+    text-align: center !important;
+}

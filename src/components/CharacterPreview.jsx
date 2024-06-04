@@ -226,7 +226,7 @@ export function CharacterPreview(props) {
 
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
-  // Reuse the same modal for both edit/add and scroll to the selected character
+  // Teammate character modal OK
   function onCharacterModalOk(form) {
     if (!form.characterId) {
       return Message.error('No selected character')
@@ -240,7 +240,7 @@ export function CharacterPreview(props) {
 
     simulation.teammates[selectedTeammateIndex] = form
 
-    DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+    DB.updateSimulationScoreOverrides(characterId, scoringMetadata)
 
     setTeamSelection(CUSTOM_TEAM)
   }

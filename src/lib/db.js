@@ -306,7 +306,11 @@ export const DB = {
   },
   updateSimulationScoreOverrides: (id, updated) => {
     const overrides = window.store.getState().scoringMetadataOverrides
-    overrides[id].simulation = updated
+    if (!overrides[id]) {
+      overrides[id] = updated
+    } else {
+      Utils.mergeDefinedValues(overrides[id], updated)
+    }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.save()

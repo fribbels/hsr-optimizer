@@ -49,7 +49,6 @@ export default function OptimizerForm() {
       keys[0].startsWith('min')
       || keys[0].startsWith('max')
       || keys[0].startsWith('buff')
-      || keys[0].startsWith('weights')
       || keys[0].startsWith('statDisplay')
       || keys[0].startsWith('statSim')
       || keys[0].startsWith('teammate')
@@ -129,38 +128,38 @@ export default function OptimizerForm() {
   window.optimizerStartClicked = startClicked
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <Form
         form={optimizerForm}
         layout="vertical"
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals/>
+        <FormSetConditionals />
 
         {/* Row 1 */}
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
-            <FormCard style={{overflow: 'hidden'}}>
-              <OptimizerTabCharacterPanel/>
+            <FormCard style={{ overflow: 'hidden' }}>
+              <OptimizerTabCharacterPanel />
             </FormCard>
 
             <FormCard>
-              <CharacterSelectorDisplay/>
+              <CharacterSelectorDisplay />
             </FormCard>
 
             <FormCard>
-              <CharacterConditionalDisplayWrapper/>
+              <CharacterConditionalDisplayWrapper />
             </FormCard>
 
             <FormCard justify="space-between">
-              <LightConeConditionalDisplayWrapper/>
+              <LightConeConditionalDisplayWrapper />
 
-              <EnemyOptionsDisplay/>
+              <EnemyOptionsDisplay />
             </FormCard>
 
             <FormCard>
-              <OptimizerOptionsDisplay/>
+              <OptimizerOptionsDisplay />
             </FormCard>
           </FormRow>
 
@@ -168,39 +167,39 @@ export default function OptimizerForm() {
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
-              <RelicMainSetFilters/>
+              <RelicMainSetFilters />
             </FormCard>
 
             <FormCard>
-              <SubstatWeightFilters/>
+              <SubstatWeightFilters />
             </FormCard>
 
             <FormCard>
-              <MinMaxStatFilters/>
+              <MinMaxStatFilters />
             </FormCard>
 
             <FormCard>
-              <MinMaxRatingFilters/>
+              <MinMaxRatingFilters />
             </FormCard>
 
             <FormCard>
-              <ComboFilters/>
-              <CombatBuffsFilters/>
+              <ComboFilters />
+              <CombatBuffsFilters />
             </FormCard>
           </FormRow>
 
           {/* Row 3 */}
 
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0}/>
-            <TeammateCard index={1}/>
-            <TeammateCard index={2}/>
+            <TeammateCard index={0} />
+            <TeammateCard index={1} />
+            <TeammateCard index={2} />
           </TeammateFormRow>
 
           {/* Row 4 */}
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay/>
+            <StatSimulationDisplay />
           </FormRow>
         </FilterContainer>
       </Form>

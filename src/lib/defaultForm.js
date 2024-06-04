@@ -3,11 +3,16 @@ import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from './utils.js'
 
-export function getDefaultForm(initialCharacter) {
-  // TODO: Clean this up
-  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
-  const parts = scoringMetadata?.parts || {}
-  const weights = scoringMetadata?.stats || {
+export function getDefaultWeights(characterId) {
+  if (characterId) {
+    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
+    scoringMetadata.stats.headHands = 3
+    scoringMetadata.stats.bodyFeet = 2
+    scoringMetadata.stats.sphereRope = 2
+    return scoringMetadata.stats
+  }
+
+  return {
     [Constants.Stats.HP_P]: 1,
     [Constants.Stats.ATK_P]: 1,
     [Constants.Stats.DEF_P]: 1,
@@ -21,8 +26,17 @@ export function getDefaultForm(initialCharacter) {
     [Constants.Stats.EHR]: 1,
     [Constants.Stats.RES]: 1,
     [Constants.Stats.BE]: 1,
-    topPercent: 100,
+    headHands: 3,
+    bodyFeet: 2,
+    sphereRope: 2,
   }
+}
+
+export function getDefaultForm(initialCharacter) {
+  // TODO: Clean this up
+  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
+  const parts = scoringMetadata?.parts || {}
+  const weights = scoringMetadata?.stats || getDefaultWeights()
 
   const combatBuffs = {}
   Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
@@ -72,8 +86,6 @@ export function getDefaultForm(initialCharacter) {
       BREAK: 0,
     },
   })
-
-  defaultForm.topPercent = 100
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[initialCharacter?.id]?.element

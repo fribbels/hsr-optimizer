@@ -34,7 +34,6 @@ export function ScannerImportSubmenu() {
 
   const hoyolabSubmit = () => {
     const json = form.getFieldValue('json input')
-    console.log(json)
     const out = hoyolabParser(json)
     const relics: Relic[] = out.relics
     let characters = out.characters

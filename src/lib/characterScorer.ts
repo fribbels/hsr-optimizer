@@ -441,28 +441,40 @@ function simulateMaximumBuild(
 ) {
   // Convert the benchmark spd rolls to max spd rolls
   const spdRolls = bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue
+  const maximumSimulations: Simulation[] = []
 
-  const bestSimClone: Simulation = TsUtils.clone(bestSim)
-  const partialSimulationWrapper: PartialSimulationWrapper = {
-    simulation: bestSimClone,
-    finalSpeed: 0, // not needed
-    speedRollsDeduction: spdRolls,
+  // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
+  // Permute the sphere options to find the best
+  for (const sphereMainStat of metadata.parts[Parts.PlanarSphere]) {
+    const bestSimClone: Simulation = TsUtils.clone(bestSim)
+    bestSimClone.request.simPlanarSphere = sphereMainStat
+
+    const partialSimulationWrapper: PartialSimulationWrapper = {
+      simulation: bestSimClone,
+      finalSpeed: 0, // not needed
+      speedRollsDeduction: spdRolls,
+    }
+
+    const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams)
+    Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
+    const maxSim = computeOptimalSimulation(
+      partialSimulationWrapper,
+      minSubstatRollCounts,
+      maxSubstatRollCounts,
+      simulationForm,
+      applyScoringFunction,
+      metadata,
+      maximumScoringParams,
+    )
+
+    maximumSimulations.push(maxSim)
   }
 
-  const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-  const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams)
-  Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
-  const maxSim = computeOptimalSimulation(
-    partialSimulationWrapper,
-    minSubstatRollCounts,
-    maxSubstatRollCounts,
-    simulationForm,
-    applyScoringFunction,
-    metadata,
-    maximumScoringParams,
-  )
+  // Find the highest scoring
+  maximumSimulations.sort(simSorter)
 
-  return maxSim
+  return maximumSimulations[0]
 }
 
 export type SimulationStatUpgrade = {

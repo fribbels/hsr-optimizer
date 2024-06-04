@@ -206,13 +206,13 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <pre style={{ width: 500 }}>
             <Flex>
-              <ul style={{ width: 250 }}>
-                <li>WTF+ = 135%</li>
-                <li>WTF  = 126%</li>
-                <li>SSS+ = 118%</li>
-                <li>SSS  = 111%</li>
-                <li>SS+  = 105%</li>
-                <li>SS   = 100%</li>
+              <ul style={{ width: 300 }}>
+                <li>WTF+ = 135% ↑ 9%</li>
+                <li>WTF  = 126% ↑ 8%</li>
+                <li>SSS+ = 118% ↑ 7%</li>
+                <li>SSS  = 111% ↑ 6%</li>
+                <li>SS+  = 105% ↑ 5%</li>
+                <li>SS   = 100% [Benchmark]</li>
                 <li>S+   = 95%</li>
                 <li>S    = 90%</li>
                 <li>A+   = 85%</li>
@@ -452,7 +452,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
           <pre style={{ margin: 'auto' }}>
-            200% maximum basic stats
+            200% perfect basic stats
           </pre>
           <CharacterStatSummary finalStats={maximumBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
         </Flex>

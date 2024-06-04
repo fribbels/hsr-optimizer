@@ -436,7 +436,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             Character basic stats
           </pre>
-          <CharacterStatSummary finalStats={originalBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary
+            finalStats={originalBasicStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
+          />
         </Flex>
 
         {divider}
@@ -445,7 +449,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             100% benchmark basic stats
           </pre>
-          <CharacterStatSummary finalStats={benchmarkBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary
+            finalStats={benchmarkBasicStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
+          />
         </Flex>
 
         {divider}
@@ -454,7 +462,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             200% perfect basic stats
           </pre>
-          <CharacterStatSummary finalStats={maximumBasicStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary
+            finalStats={maximumBasicStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
+          />
         </Flex>
       </Flex>
 
@@ -463,7 +475,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 'auto' }}>
             Character <u>combat stats</u>
           </pre>
-          <CharacterStatSummary finalStats={originalCombatStats} elementalDmgValue={elementalDmgValue} hideCv={true} />
+          <CharacterStatSummary
+            finalStats={originalCombatStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
+          />
         </Flex>
 
         {divider}
@@ -473,8 +489,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             100% benchmark <u>combat stats</u>
           </pre>
           <CharacterStatSummary
-            finalStats={benchmarkCombatStats} elementalDmgValue={elementalDmgValue}
-            hideCv={true}
+            finalStats={benchmarkCombatStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
           />
         </Flex>
 
@@ -485,8 +502,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             200% perfect <u>combat stats</u>
           </pre>
           <CharacterStatSummary
-            finalStats={maximumCombatStats} elementalDmgValue={elementalDmgValue}
-            hideCv={true}
+            finalStats={maximumCombatStats}
+            elementalDmgValue={elementalDmgValue}
+            showDamage={true}
           />
         </Flex>
       </Flex>
@@ -577,7 +595,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 5 }}>
+    <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 3 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
           DPS score improvements

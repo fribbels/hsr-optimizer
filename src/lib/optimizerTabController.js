@@ -7,7 +7,7 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
+import { defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -402,13 +402,17 @@ export const OptimizerTabController = {
       }
     }
 
-    if (!newForm.weights?.headHands) {
+    if (!newForm.weights) {
+      newForm.weights = getDefaultWeights(newForm.characterId)
+    }
+
+    if (!newForm.weights.headHands) {
       newForm.weights.headHands = 3
     }
-    if (!newForm.weights?.bodyFeet) {
+    if (!newForm.weights.bodyFeet) {
       newForm.weights.bodyFeet = 2
     }
-    if (!newForm.weights?.sphereRope) {
+    if (!newForm.weights.sphereRope) {
       newForm.weights.sphereRope = 2
     }
 

@@ -83,7 +83,6 @@ export class KelzFormatParser { // TODO abstract class
         })
     }
 
-    console.log(parsed)
     return parsed
   }
 }

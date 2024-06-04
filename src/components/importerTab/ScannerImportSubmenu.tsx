@@ -176,15 +176,21 @@ export function ScannerImportSubmenu() {
         </Flex>
         <Flex vertical>
           <Text>
-            <li>HoyoLab import</li>
             <ul>
-              <li>No download needed, limited to equipped relics only</li>
+              <li>HoyoLab import (
+                <ColorizedLink text="Tutorial" url="https://freesr-tools.pages.dev/resources/tutorial.mp4" />
+                )
+                <ul>
+                  <li>No download needed</li>
+                  <li>Limited to equipped relics only</li>
+                </ul>
+              </li>
             </ul>
           </Text>
           <Form form={form}>
             <Flex vertical gap={30}>
               <Form.Item name="json input">
-                <Input />
+                <Input style={{ width: importerTabButtonWidth }} />
               </Form.Item>
               <Button
                 style={{ width: importerTabButtonWidth }}

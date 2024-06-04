@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
 import { Message } from 'lib/message.js'
 import { SaveState } from 'lib/saveState.js'
-import { Button, Divider, Flex, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload, Form } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
 import { Relic } from 'types/Relic'
 import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
 import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription.tsx'
+import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 
 const { Text } = Typography
 
@@ -29,6 +30,7 @@ export function ScannerImportSubmenu() {
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
+  const [form] = Form.useForm()
 
   function beforeUpload(file): Promise<any> {
     return new Promise(() => {
@@ -110,7 +112,7 @@ export function ScannerImportSubmenu() {
 
   function uploadScannerFile() {
     return (
-      <Flex style={{ minHeight: 100, marginBottom: 30 }}>
+      <Flex style={{ minHeight: 100, marginBottom: 30 }} gap={30}>
         <Flex vertical gap={10}>
           <Text>
             Install and run one of the relic scanner options:
@@ -154,6 +156,42 @@ export function ScannerImportSubmenu() {
               Upload scanner json file
             </Button>
           </Upload>
+        </Flex>
+        <Flex vertical>
+          <Text>
+            <li>HoyoLab import</li>
+            <ul>
+              <li>No download needed, limited to equipped relics only</li>
+            </ul>
+          </Text>
+          <Form form={form}>
+            <Flex vertical gap={30}>
+              <Form.Item name="json input">
+                <Input />
+              </Form.Item>
+              <Button
+                style={{ width: importerTabButtonWidth }}
+                onClick={() => {
+                  const json = form.getFieldValue('json input')
+                  console.log(json)
+                  const out = hoyolabParser(json)
+                  const relics: Relic[] = out.relics
+                  let characters = out.characters
+                  // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
+                  characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+                  characters.map((c) => {
+                    c.characterLevel = 80
+                    c.lightConeLevel = 80
+                  })
+                  setCurrentCharacters(characters)
+                  setCurrentRelics(relics)
+                  setCurrentStage(Stages.CONFIRM_DATA)
+                }}
+              >
+                Submit Hoyolab Data
+              </Button>
+            </Flex>
+          </Form>
         </Flex>
       </Flex>
     )
@@ -220,7 +258,7 @@ export function ScannerImportSubmenu() {
   }
 
   return (
-    <Flex gap={5}>
+    <Flex gap={300}>
       <Steps
         direction="vertical"
         current={currentStage}

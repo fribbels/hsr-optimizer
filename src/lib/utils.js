@@ -117,7 +117,7 @@ export const Utils = {
        */
       if (action == 'clipboard') {
         try {
-          let data = [new window.ClipboardItem({[blob.type]: blob})]
+          let data = [new window.ClipboardItem({ [blob.type]: blob })]
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
@@ -231,8 +231,8 @@ export const Utils = {
     }
 
     return Object.values(lcData)
-    .filter((lc) => !pathFilter || lc.path === pathFilter)
-    .sort((a, b) => a.label.localeCompare(b.label))
+      .filter((lc) => !pathFilter || lc.path === pathFilter)
+      .sort((a, b) => a.label.localeCompare(b.label))
   },
 
   // Character selector options from current characters with some customization parameters
@@ -240,15 +240,15 @@ export const Utils = {
     let characterData = DB.getMetadata().characters
 
     let options = currentCharacters
-    .filter((character) => !excludeCharacters.includes(character))
-    .map((character) => ({
-      value: character.id,
-      label: characterData[character.id].displayName,
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label))
+      .filter((character) => !excludeCharacters.includes(character))
+      .map((character) => ({
+        value: character.id,
+        label: characterData[character.id].displayName,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
 
     if (withNobodyOption) {
-      options.unshift({value: 'None', label: 'Nobody'})
+      options.unshift({ value: 'None', label: 'Nobody' })
     }
 
     return options

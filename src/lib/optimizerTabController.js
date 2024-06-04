@@ -394,9 +394,9 @@ export const OptimizerTabController = {
         newForm.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
         newForm.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
         newForm.weights = scoringMetadata.stats
-        newForm.weights.headHands = 3
-        newForm.weights.bodyFeet = 2
-        newForm.weights.sphereRope = 2
+        newForm.weights.headHands = 0
+        newForm.weights.bodyFeet = 0
+        newForm.weights.sphereRope = 0
 
         applyMetadataPresetToForm(newForm, scoringMetadata)
       }
@@ -407,13 +407,13 @@ export const OptimizerTabController = {
     }
 
     if (!newForm.weights.headHands) {
-      newForm.weights.headHands = 3
+      newForm.weights.headHands = 0
     }
     if (!newForm.weights.bodyFeet) {
-      newForm.weights.bodyFeet = 2
+      newForm.weights.bodyFeet = 0
     }
     if (!newForm.weights.sphereRope) {
-      newForm.weights.sphereRope = 2
+      newForm.weights.sphereRope = 0
     }
 
     if (!newForm.exclude) {
@@ -455,9 +455,9 @@ export const OptimizerTabController = {
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 1,
         [Constants.Stats.BE]: 1,
-        headHands: 3,
-        bodyFeet: 2,
-        sphereRope: 2,
+        headHands: 0,
+        bodyFeet: 0,
+        sphereRope: 0,
       }
     }
 

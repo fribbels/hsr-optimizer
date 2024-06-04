@@ -189,7 +189,7 @@ export function ScannerImportSubmenu() {
           <Form form={form}>
             <Flex vertical gap={30}>
               <Form.Item name="json input">
-                <Input style={{ width: importerTabButtonWidth }} />
+                <Input style={{ width: importerTabButtonWidth }} placeholder="paste the hoyolab info here" />
               </Form.Item>
               <Button
                 style={{ width: importerTabButtonWidth }}

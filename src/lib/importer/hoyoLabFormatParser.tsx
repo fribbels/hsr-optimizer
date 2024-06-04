@@ -152,7 +152,6 @@ export function hoyolabParser(input) {
     }
   }
   output.relics.map((r) => RelicAugmenter.augment(r))
-  console.log(output)
   return output
 }
 

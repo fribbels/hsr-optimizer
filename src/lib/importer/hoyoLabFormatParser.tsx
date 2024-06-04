@@ -13,7 +13,7 @@ export function hoyolabParser(input) {
     }
     characters: {
       characterEidolon: number
-      characterID: string
+      characterId: string
       characterLevel: number
       lightCone: string | null
       lightConeLevel: number
@@ -50,7 +50,7 @@ export function hoyolabParser(input) {
     if (character.equip != null) {
       output.characters.push({
         characterEidolon: character.rank,
-        characterID: (character.id).toString(),
+        characterId: (character.id).toString(),
         characterLevel: character.level,
         lightCone: (character.equip.id).toString(),
         lightConeLevel: character.equip.level,
@@ -59,7 +59,7 @@ export function hoyolabParser(input) {
     } else {
       output.characters.push({
         characterEidolon: character.rank,
-        characterID: (character.id).toString(),
+        characterId: (character.id).toString(),
         characterLevel: character.level,
         lightCone: null,
         lightConeLevel: 80,

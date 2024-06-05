@@ -31,7 +31,8 @@ const { useToken } = theme
 const { Text } = Typography
 
 const outline = 'rgb(255 255 255 / 40%) solid 1px'
-const shadow = 'rgba(0, 0, 0, 0.74) 2px 2px 5px 0px'
+const shadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
+const filter = 'drop-shadow(rgb(0, 0, 0) 2px 2px 2px)'
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -433,7 +434,7 @@ export function CharacterPreview(props) {
                   borderRadius: '10px',
                   marginRight: defaultGap,
                   outline: outline,
-                  boxShadow: shadow,
+                  filter: filter,
                 }}
               >
                 <div
@@ -568,7 +569,7 @@ export function CharacterPreview(props) {
                       zIndex: 2,
                       borderRadius: '10px',
                       outline: outline,
-                      boxShadow: shadow,
+                      filter: filter,
                       position: 'relative',
                     }}
                   >
@@ -713,7 +714,7 @@ export function CharacterPreview(props) {
                       overflow: 'hidden',
                       borderRadius: '10px',
                       outline: outline,
-                      boxShadow: shadow,
+                      filter: filter,
                     }}
                     >
                       <LoadingBlurredImage
@@ -866,7 +867,7 @@ function OverlayText(props) {
           whiteSpace: 'nowrap',
           textShadow: '0px 0px 10px black',
           outline: outline,
-          boxShadow: shadow,
+          filter: filter,
           lineHeight: '12px',
         }}
       >

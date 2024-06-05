@@ -556,16 +556,16 @@ export function CharacterPreview(props) {
                 justify="space-between"
               >
                 <Flex vertical gap={0}>
-                  <Flex justify="space-between" style={{ height: 30 }}>
+                  <Flex justify="space-between" style={{ height: 36 }}>
                     <Image
                       preview={false}
-                      width={40}
+                      width={36}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity} />
                     <Image
                       preview={false}
-                      width={40}
+                      width={36}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>

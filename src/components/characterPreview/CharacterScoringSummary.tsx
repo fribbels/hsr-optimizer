@@ -591,11 +591,25 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     )
   }
 
-  console.debug(setUpgrade)
+  const mainUpgrade = result.mainUpgrades[0]
+  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
+    const part = mainUpgrade.part
+    const stat = mainUpgrade.stat
+
+    rows.splice(4, 1)
+    rows.push(
+      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
+        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>,
+    )
+  }
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={3} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 3 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 3 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
           DPS score improvements

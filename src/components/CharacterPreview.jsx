@@ -380,7 +380,7 @@ export function CharacterPreview(props) {
         }}
         className="custom-grid"
       >
-        <Flex vertical align="center" gap={4}>
+        <Flex vertical align="center" gap={0}>
           <img
             src={Assets.getCharacterAvatarById(teammate.characterId)}
             style={{
@@ -394,7 +394,7 @@ export function CharacterPreview(props) {
             }}
           />
           <OverlayText text={`E${teammate.characterEidolon}`} top={-14} />
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize }} />
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }} />
           <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16} />
         </Flex>
       </Card.Grid>

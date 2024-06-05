@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, RESET_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
+import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
@@ -14,7 +14,7 @@ import RelicModal from 'components/RelicModal.tsx'
 import RelicPreview from 'components/RelicPreview'
 import { RelicModalController } from 'lib/relicModalController'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
-import { DoubleRightOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { EditOutlined, SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
@@ -25,6 +25,7 @@ import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'compo
 import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
+import { HeaderText } from 'components/HeaderText.jsx'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -56,6 +57,7 @@ export function CharacterPreview(props) {
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
+  const [redrawTeammates, setRedrawTeammates] = useState()
 
   useEffect(() => {
     // Use any existing character's portrait instead of the default
@@ -240,7 +242,7 @@ export function CharacterPreview(props) {
 
     simulation.teammates[selectedTeammateIndex] = form
 
-    DB.updateSimulationScoreOverrides(characterId, scoringMetadata)
+    DB.updateSimulationScoreOverrides(characterId, simulation.teammates)
 
     setTeamSelection(CUSTOM_TEAM)
   }
@@ -280,19 +282,55 @@ export function CharacterPreview(props) {
       <Segmented
         style={{ marginLeft: 10, marginRight: 10, marginTop: 4, marginBottom: 2, alignItems: 'center' }}
         onChange={(selection) => {
-          if (selection == RESET_TEAM) {
-            window.modalApi.confirm({
-              icon: <ExclamationCircleOutlined />,
-              content: 'Reset your custom team configuration to default?',
-              onOk() {
-                const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
-                const simulation = characterMetadata.scoringMetadata.simulation
+          if (selection == SETTINGS_TEAM) {
+            window.modalApi.info({
+              icon: null,
+              width: 500,
+              content: (
+                <div style={{ width: '100%' }}>
+                  <Flex vertical gap={10}>
+                    <HeaderText>Combat sim scoring settings</HeaderText>
+                    <Button
+                      icon={<SyncOutlined />}
+                      onClick={() => {
+                        const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
+                        const simulation = characterMetadata.scoringMetadata.simulation
 
-                DB.updateSimulationScoreOverrides(character.id, simulation)
+                        DB.updateSimulationScoreOverrides(character.id, simulation.teammates)
 
-                setTeamSelection(DEFAULT_TEAM)
-                setSelectedTeammateIndex(undefined)
-              },
+                        setTeamSelection(DEFAULT_TEAM)
+                        setRedrawTeammates(Math.random())
+                      }}
+                    >
+                      Reset custom team to default
+                    </Button>
+                    <Button
+                      icon={<SwapOutlined />}
+                      onClick={() => {
+                        const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
+                        const simulation = characterMetadata.scoringMetadata.simulation
+
+                        for (const teammate of simulation.teammates) {
+                          const form = DB.getCharacterById(teammate.characterId)?.form
+                          if (form == null) continue
+
+                          teammate.characterEidolon = form.characterEidolon
+                          if (form.lightCone) {
+                            teammate.lightCone = form.lightCone
+                            teammate.lightConeSuperimposition = form.lightConeSuperimposition || 1
+                          }
+                        }
+
+                        DB.updateSimulationScoreOverrides(character.id, simulation.teammates)
+                        setTeamSelection(CUSTOM_TEAM)
+                        setRedrawTeammates(Math.random())
+                      }}
+                    >
+                      Sync optimizer teammate info
+                    </Button>
+                  </Flex>
+                </div>
+              ),
             })
           } else {
             setTeamSelection(selection)
@@ -304,9 +342,9 @@ export function CharacterPreview(props) {
           DEFAULT_TEAM,
           {
             label: (
-              <DoubleRightOutlined />
+              <SettingOutlined />
             ),
-            value: RESET_TEAM,
+            value: SETTINGS_TEAM,
             className: 'short-segmented',
           },
           CUSTOM_TEAM,

@@ -397,9 +397,17 @@ a {
 
 /* Target the second segment specifically */
 .short-segmented {
-    flex-grow: 0.45 !important;
+    flex-grow: 0.5 !important;
+}
+
+.short-segmented > .ant-segmented-item-label{
+    padding: 0px !important;
 }
 
 .center-input-text > div > input {
     text-align: center !important;
+}
+
+.ant-modal-confirm-paragraph {
+    max-width: unset !important;
 }

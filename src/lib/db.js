@@ -304,16 +304,18 @@ export const DB = {
 
     SaveState.save()
   },
-  updateSimulationScoreOverrides: (id, updated) => {
+  updateSimulationScoreOverrides: (id, updatedTeammates) => {
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
-      overrides[id] = updated
+      overrides[id] = updatedTeammates
     } else {
-      Utils.mergeDefinedValues(overrides[id], updated)
+      overrides[id].simulation.teammates = updatedTeammates
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
-    SaveState.save()
+    setTimeout(() => {
+      SaveState.save()
+    }, 2000)
   },
 
   setStore: (x) => {

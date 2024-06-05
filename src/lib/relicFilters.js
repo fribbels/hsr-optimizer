@@ -59,7 +59,7 @@ export const RelicFilters = {
 
     for (const part of Object.values(Constants.Parts)) {
       const partition = relics[part]
-      relics[part] = partition.filter((relic) => relic.weightScore > partMinRolls[part] * 6.48 * 0.8)
+      relics[part] = partition.filter((relic) => relic.weightScore >= partMinRolls[part] * 6.48 * 0.8)
     }
 
     return relics

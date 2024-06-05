@@ -278,7 +278,7 @@ export function CharacterPreview(props) {
   function ScoreFooter(props) {
     const tabsDisplay = (
       <Segmented
-        style={{ marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 4, alignItems: 'center' }}
+        style={{ marginLeft: 10, marginRight: 10, marginTop: 4, marginBottom: 2, alignItems: 'center' }}
         onChange={(selection) => {
           if (selection == RESET_TEAM) {
             window.modalApi.confirm({
@@ -331,7 +331,7 @@ export function CharacterPreview(props) {
     // <CharacterPreviewScoringTeammate result={simScoringResult} index={0}/>
     const { result, index, setCharacterModalOpen, setSelectedTeammateIndex } = props
     const teammate = result.simulationMetadata.teammates[index]
-    const iconSize = 65
+    const iconSize = 60
     return (
       <Card.Grid
         style={gridStyle} hoverable={true}
@@ -556,16 +556,16 @@ export function CharacterPreview(props) {
                 justify="space-between"
               >
                 <Flex vertical gap={0}>
-                  <Flex justify="space-between" style={{ height: 40 }}>
+                  <Flex justify="space-between" style={{ height: 36 }}>
                     <Image
                       preview={false}
-                      width={40}
+                      width={36}
                       src={Assets.getElement(characterElement)}
                     />
                     <Rarity rarity={characterMetadata.rarity} />
                     <Image
                       preview={false}
-                      width={40}
+                      width={36}
                       src={Assets.getPathFromClass(characterPath)}
                     />
                   </Flex>
@@ -579,7 +579,12 @@ export function CharacterPreview(props) {
                   </Flex>
                 </Flex>
 
-                <CharacterStatSummary finalStats={finalStats} elementalDmgValue={elementalDmgValue} />
+                <CharacterStatSummary
+                  finalStats={simScoringResult ? simScoringResult.originalSimResult : finalStats}
+                  elementalDmgValue={elementalDmgValue}
+                  cv={finalStats.CV}
+                  simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
+                />
                 {
                   !simScoringResult
                   && (

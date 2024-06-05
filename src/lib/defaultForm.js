@@ -6,9 +6,9 @@ import { Utils } from './utils.js'
 export function getDefaultWeights(characterId) {
   if (characterId) {
     const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
-    scoringMetadata.stats.headHands = 3
-    scoringMetadata.stats.bodyFeet = 2
-    scoringMetadata.stats.sphereRope = 2
+    scoringMetadata.stats.headHands = 0
+    scoringMetadata.stats.bodyFeet = 0
+    scoringMetadata.stats.sphereRope = 0
     return scoringMetadata.stats
   }
 
@@ -26,9 +26,9 @@ export function getDefaultWeights(characterId) {
     [Constants.Stats.EHR]: 1,
     [Constants.Stats.RES]: 1,
     [Constants.Stats.BE]: 1,
-    headHands: 3,
-    bodyFeet: 2,
-    sphereRope: 2,
+    headHands: 0,
+    bodyFeet: 0,
+    sphereRope: 0,
   }
 }
 

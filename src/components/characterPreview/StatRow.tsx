@@ -8,7 +8,7 @@ import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
 
-const checkSpeedInBreakpoint = (speedValue: number) : boolean => {
+const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   const breakpointPresets = [
     [111.1, 111.2],
     [114.2, 114.3],
@@ -16,25 +16,30 @@ const checkSpeedInBreakpoint = (speedValue: number) : boolean => {
     [142.8, 142.9],
     [155.5, 155.6],
     [171.4, 171.5],
-    [177.7, 177.8]
+    [177.7, 177.8],
   ]
 
   return breakpointPresets.some(([min, max]) => {
-    return speedValue >= min && speedValue < max;
-  });
+    return speedValue >= min && speedValue < max
+  })
 }
 
-const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
+const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.Element => {
   const { stat, finalStats } = props
-  const readableStat = stat.replace('DMG Boost', 'DMG')
+  const readableStat = stat == 'simScore'
+    ? 'Sim Damage'
+    : stat.replace('DMG Boost', 'DMG')
   const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay
   let value1000thsPrecision
 
   if (stat == 'CV') {
-    valueDisplay = Utils.truncate10ths(value).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
+    valueDisplay = Utils.truncate10ths(props.value).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
+  } else if (stat == 'simScore') {
+    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound(props.value / 1000)).toFixed(1)}K`
+    value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(value)
     valueDisplay = is1000thSpeed ? Utils.truncate1000ths(value).toFixed(3) : valueDisplay = Utils.truncate10ths(value).toFixed(1)
@@ -56,7 +61,7 @@ const StatRow = (props: { stat: string; finalStats: any }): JSX.Element => {
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       <StatText>{readableStat}</StatText>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' ? '' : '%'}`}</StatText>
+      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>
   )
 }

@@ -116,6 +116,7 @@ export type SimulationScore = {
 
   substatUpgrades: SimulationStatUpgrade[]
   setUpgrades: SimulationStatUpgrade[]
+  mainUpgrades: SimulationStatUpgrade[]
 
   simulationForm: Form
   simulationMetadata: SimulationMetadata
@@ -378,7 +379,7 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate upgrades =====
 
-  const { substatUpgradeResults, setUpgradeResults }
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
     = generateStatImprovements(
       originalSimResult,
       originalSim, candidateBenchmarkSims[0],
@@ -388,7 +389,7 @@ export function scoreCharacterSimulation(
       benchmarkScoringParams,
     )
 
-  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults]) {
+  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
     const upgradeSimScore = upgrade.simulationResult.simScore
     const percent
       = upgradeSimScore >= benchmarkSimScore
@@ -400,6 +401,7 @@ export function scoreCharacterSimulation(
   // Sort upgrades descending
   substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
   setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
 
   const simScoringResult: SimulationScore = {
     percent: percent,
@@ -421,6 +423,7 @@ export function scoreCharacterSimulation(
 
     substatUpgrades: substatUpgradeResults,
     setUpgrades: setUpgradeResults,
+    mainUpgrades: mainUpgradeResults,
 
     simulationForm: simulationForm,
     simulationMetadata: metadata,
@@ -480,6 +483,7 @@ function simulateMaximumBuild(
 export type SimulationStatUpgrade = {
   simulation: Simulation
   simulationResult: SimulationResult
+  part?: string
   stat?: string
   percent?: number
 }
@@ -522,9 +526,41 @@ function generateStatImprovements(
     simulationResult: setUpgradeResult,
   })
 
+  // Upgrade mains
+  const mainUpgradeResults: SimulationStatUpgrade[] = []
+  function upgradeMain(part: string) {
+    const originalSimClone: Simulation = TsUtils.clone(originalSim)
+    for (const upgradeMainStat of metadata.parts[part]) {
+      const simMainName = {
+        [Parts.Body]: 'simBody',
+        [Parts.Feet]: 'simFeet',
+        [Parts.PlanarSphere]: 'simPlanarSphere',
+        [Parts.LinkRope]: 'simLinkRope',
+      }[part]
+      const simMainStat: string = originalSimClone.request[simMainName]
+      if (upgradeMainStat == simMainStat) continue
+      if (upgradeMainStat == Stats.SPD) continue
+      if (simMainStat == Stats.SPD) continue
+
+      originalSimClone.request[simMainName] = upgradeMainStat
+      const mainUpgradeResult = runSimulations(simulationForm, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
+      applyScoringFunction(mainUpgradeResult)
+      mainUpgradeResults.push({
+        stat: upgradeMainStat,
+        part: part,
+        simulation: originalSimClone,
+        simulationResult: mainUpgradeResult,
+      })
+    }
+  }
+  upgradeMain(Parts.Body)
+  upgradeMain(Parts.Feet)
+  upgradeMain(Parts.PlanarSphere)
+  upgradeMain(Parts.LinkRope)
+
   console.log(originalSimResult, originalSim, metadata, substatUpgradeResults)
 
-  return { substatUpgradeResults, setUpgradeResults }
+  return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
 
 function generateFullDefaultForm(

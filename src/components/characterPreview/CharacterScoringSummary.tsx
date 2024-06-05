@@ -234,23 +234,24 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </h4>
           <p>
             The resulting formula is:
-            <ul>
-              <li>If DMG  &lt; 100% benchmark</li>
-              <ul style={{ paddingLeft: 20 }}>
-                <li>
-                  <code>DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)</code>
-                </li>
-              </ul>
-            </ul>
-            <ul>
-              <li>If DMG ≥ 100% benchmark</li>
-              <ul style={{ paddingLeft: 20 }}>
-                <li>
-                  <code>DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)</code>
-                </li>
-              </ul>
-            </ul>
           </p>
+
+          <ul>
+            <li>If DMG  &lt; 100% benchmark</li>
+            <ul style={{ paddingLeft: 20 }}>
+              <li>
+                <code>DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)</code>
+              </li>
+            </ul>
+          </ul>
+          <ul>
+            <li>If DMG ≥ 100% benchmark</li>
+            <ul style={{ paddingLeft: 20 }}>
+              <li>
+                <code>DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)</code>
+              </li>
+            </ul>
+          </ul>
 
           <h3>
             What are the grade thresholds?
@@ -494,7 +495,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   return (
     <Flex vertical gap={15} align="center">
       <Flex justify="space-around" style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 30, fontWeight: 'bold', margin: 0 }}>
+        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           Character build analysis
         </pre>
       </Flex>

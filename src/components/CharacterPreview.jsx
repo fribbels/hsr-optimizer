@@ -32,7 +32,16 @@ const { Text } = Typography
 
 const outline = 'rgb(255 255 255 / 40%) solid 1px'
 const shadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
-const filter = 'drop-shadow(rgb(0, 0, 0) 2px 2px 2px)'
+const filter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
+const buttonStyle = {
+  opacity: 0,
+  transition: 'opacity 0.3s ease',
+  visibility: 'hidden',
+  flex: 'auto',
+  position: 'absolute',
+  left: 5,
+  width: 150,
+}
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
@@ -40,7 +49,7 @@ export function CharacterPreview(props) {
 
   const { token } = useToken()
 
-  const { source, character } = props
+  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter } = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -286,7 +295,8 @@ export function CharacterPreview(props) {
           if (selection == SETTINGS_TEAM) {
             window.modalApi.info({
               icon: null,
-              width: 500,
+              width: 400,
+              maskClosable: true,
               content: (
                 <div style={{ width: '100%' }}>
                   <Flex vertical gap={10}>
@@ -367,7 +377,6 @@ export function CharacterPreview(props) {
   }
 
   function CharacterPreviewScoringTeammate(props) {
-    // <CharacterPreviewScoringTeammate result={simScoringResult} index={0}/>
     const { result, index, setCharacterModalOpen, setSelectedTeammateIndex } = props
     const teammate = result.simulationMetadata.teammates[index]
     const iconSize = 60
@@ -377,6 +386,7 @@ export function CharacterPreview(props) {
         onClick={() => {
           setCharacterModalInitialCharacter({ form: teammate })
           setCharacterModalOpen(true)
+
           setSelectedTeammateIndex(index)
         }}
         className="custom-grid"
@@ -423,10 +433,12 @@ export function CharacterPreview(props) {
             open={addModalOpen}
           />
 
-          <Flex vertical gap={15}>
+          <Flex
+            vertical gap={15}
+            className="character-build-portrait"
+          >
             {!isBuilds && (
               <div
-                className="character-build-portrait"
                 style={{
                   width: `${parentW}px`,
                   height: `${tempParentH}px`,
@@ -465,13 +477,23 @@ export function CharacterPreview(props) {
                   }
                   <Button
                     style={{
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
-                      visibility: 'hidden',
-                      flex: 'auto',
-                      position: 'absolute',
+                      ...buttonStyle,
                       top: 6,
-                      left: 5,
+                    }}
+                    className="character-build-portrait-button"
+                    icon={<EditOutlined />}
+                    onClick={() => {
+                      setOriginalCharacterModalInitialCharacter(character)
+                      setOriginalCharacterModalOpen(true)
+                    }}
+                    type="primary"
+                  >
+                    Edit character
+                  </Button>
+                  <Button
+                    style={{
+                      ...buttonStyle,
+                      top: 45,
                     }}
                     className="character-build-portrait-button"
                     icon={<EditOutlined />}
@@ -525,7 +547,7 @@ export function CharacterPreview(props) {
 
             {
               simScoringResult
-              && (
+              && !isBuilds && (
                 <Flex vertical>
                   {lightConeName && (
                     <Flex
@@ -792,48 +814,53 @@ export function CharacterPreview(props) {
           </Flex>
         </Flex>
       </Flex>
-      {
-        scoringType == SIMULATION_SCORE && (
-          <Flex vertical align="center" style={{ width: '100%', marginTop: 10 }}>
-            <Text style={{ fontSize: 15, color: 'orange' }}>
-              Notice: DPS score is a work in progress as we gather feedback to balance scores, the numbers may change a bit
-            </Text>
-            <Text style={{ fontSize: 15, color: 'orange' }}>
-              The previous Character Score system can still be used with the selector below
-            </Text>
+
+      {!isBuilds && (
+        <Flex vertical>
+          {
+            scoringType == SIMULATION_SCORE && (
+              <Flex vertical align="center" style={{ width: '100%', marginTop: 10 }}>
+                <Text style={{ fontSize: 15, color: 'orange' }}>
+                  Notice: DPS score is a work in progress as we gather feedback to balance scores, the numbers may change a bit
+                </Text>
+                <Text style={{ fontSize: 15, color: 'orange' }}>
+                  The previous Character Score system can still be used with the selector below
+                </Text>
+              </Flex>
+            )
+          }
+          <Flex justify="center">
+            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
+              <Text style={{ width: 220 }}>
+                Character scoring algorithm:
+              </Text>
+              <Segmented
+                style={{ width: 480, height: 30 }}
+                onChange={(selection) => {
+                  setScoringType(selection)
+                  window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
+                  setTimeout(() => SaveState.save(), 1000)
+                }}
+                value={scoringType}
+                block
+                options={[
+                  {
+                    label: `${SIMULATION_SCORE}${characterMetadata.scoringMetadata.simulation == null ? ' (TBD)' : ''}`,
+                    value: SIMULATION_SCORE,
+                    disabled: false,
+                  },
+                  {
+                    label: CHARACTER_SCORE,
+                    value: CHARACTER_SCORE,
+                    disabled: false,
+                  },
+                ]}
+              />
+            </Flex>
           </Flex>
-        )
-      }
-      <Flex justify="center">
-        <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
-          <Text style={{ width: 220 }}>
-            Character scoring algorithm:
-          </Text>
-          <Segmented
-            style={{ width: 480, height: 30 }}
-            onChange={(selection) => {
-              setScoringType(selection)
-              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
-              setTimeout(() => SaveState.save(), 1000)
-            }}
-            value={scoringType}
-            block
-            options={[
-              {
-                label: `${SIMULATION_SCORE}${characterMetadata.scoringMetadata.simulation == null ? ' (TBD)' : ''}`,
-                value: SIMULATION_SCORE,
-                disabled: false,
-              },
-              {
-                label: CHARACTER_SCORE,
-                value: CHARACTER_SCORE,
-                disabled: false,
-              },
-            ]}
-          />
+          <CharacterScoringSummary simScoringResult={simScoringResult} />
         </Flex>
-      </Flex>
-      <CharacterScoringSummary simScoringResult={simScoringResult} />
+      )}
     </Flex>
   )
 }

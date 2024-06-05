@@ -409,6 +409,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             placeholder="Substat"
             maxTagCount="responsive"
             options={substatOptions}
+            listHeight={750}
             onChange={() => {
               props.relicForm.getFieldValue(statTypeField)
                 ? props.relicForm.setFieldValue(statValueField, 0)

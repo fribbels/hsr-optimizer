@@ -30,7 +30,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   function ScoringSet(props: { set: string }) {
     return (
       <Flex vertical align="center" gap={2}>
-        <img src={Assets.getSetImage(props.set)} style={{ height: 35 }} />
+        <img src={Assets.getSetImage(props.set)} style={{ height: 60 }} />
       </Flex>
     )
   }
@@ -46,11 +46,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
   function ScoringNumber(props: { label: string; number: number; precision?: number }) {
     const precision = props.precision ?? 1
-    const show = props.number != 0
+    const value = props.number ?? 0
+    const show = value != 0
     return (
       <Flex align="center" gap={15}>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0 }}>{show && props.number.toFixed(precision)}</pre>
+        <pre style={{ margin: 0 }}>{show && value.toFixed(precision)}</pre>
       </Flex>
     )
   }
@@ -99,7 +100,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   function ScoringDetails() {
     return (
       <Flex vertical style={{ marginTop: 80, width: 1000 }}>
-        <h1 style={{ margin: 'auto' }}>DPS Score Calculation (Beta)</h1>
+        <h1 style={{ margin: 'auto' }}>DPS Score Calculation</h1>
         <Text style={{ fontSize: 18 }}>
           <h2>
             What is DPS Score?
@@ -295,6 +296,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   }
 
   // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+
   const originalBasicStats = TsUtils.clone(result.originalSimResult)
   const benchmarkBasicStats = TsUtils.clone(result.benchmarkSimResult)
   const maximumBasicStats = TsUtils.clone(result.maximumSimResult)
@@ -319,15 +321,18 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   )
 
   return (
-    <Flex vertical gap={20}>
-      <div style={{ minHeight: 10 }} />
-
-      <Flex gap={3}>
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 0, marginBottom: 0 }}>
+    <Flex vertical gap={15} align="center">
+      <Flex justify="space-around" style={{ marginTop: 15 }}>
+        <pre style={{ fontSize: 30, fontWeight: 'bold', margin: 0 }}>
+          Scoring analysis
+        </pre>
+      </Flex>
+      <Flex gap={40}>
+        <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
+          <pre style={{ margin: '5px auto' }}>
             Sim teammates
           </pre>
-          <Flex gap={10}>
+          <Flex gap={15}>
             <ScoringTeammate result={result} index={0} />
             <ScoringTeammate result={result} index={1} />
             <ScoringTeammate result={result} index={2} />
@@ -337,12 +342,14 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <VerticalDivider />
 
         <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
+          <pre style={{ margin: '5px auto' }}>
             Sim sets
           </pre>
           <Flex vertical gap={defaultGap}>
-            <ScoringSet set={result.maximumSim.request.simRelicSet1} />
-            <ScoringSet set={result.maximumSim.request.simRelicSet2} />
+            <Flex>
+              <ScoringSet set={result.maximumSim.request.simRelicSet1} />
+              <ScoringSet set={result.maximumSim.request.simRelicSet2} />
+            </Flex>
             <ScoringSet set={result.maximumSim.request.simOrnamentSet} />
           </Flex>
         </Flex>
@@ -350,183 +357,245 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         <VerticalDivider />
 
         <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
+          <pre style={{ margin: '5px auto' }}>
             Formula
           </pre>
           <Flex vertical gap={defaultGap}>
-            <ScoringNumber label="BASIC: " number={result.simulationMetadata.formula.BASIC} precision={0} />
-            <ScoringNumber label="SKILL: " number={result.simulationMetadata.formula.SKILL} precision={0} />
-            <ScoringNumber label="ULT:   " number={result.simulationMetadata.formula.ULT} precision={0} />
-            <ScoringNumber label="FUA:   " number={result.simulationMetadata.formula.FUA} precision={0} />
-            <ScoringNumber label="DOT:   " number={result.simulationMetadata.formula.DOT} precision={0} />
-            <ScoringNumber label="BREAK: " number={result.simulationMetadata.formula.BREAK} precision={0} />
+            <ScoringNumber label="BASIC:     " number={result.simulationMetadata.formula.BASIC} precision={0} />
+            <ScoringNumber label="SKILL:     " number={result.simulationMetadata.formula.SKILL} precision={0} />
+            <ScoringNumber label="ULT:       " number={result.simulationMetadata.formula.ULT} precision={0} />
+            <ScoringNumber label="FUA:       " number={result.simulationMetadata.formula.FUA} precision={0} />
+            <ScoringNumber label="DOT:       " number={result.simulationMetadata.formula.DOT} precision={0} />
+            <ScoringNumber label="BREAK:     " number={result.simulationMetadata.formula.BREAK} precision={0} />
           </Flex>
         </Flex>
 
         <VerticalDivider />
 
-        <Flex vertical gap={defaultGap} style={{ width: 150 }}>
-          <pre style={{ margin: '0 auto' }}>
-            Sim main stats
-          </pre>
-          <Flex vertical gap={defaultGap}>
-            <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simBody]} part={Parts.Body} />
-            <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simFeet]} part={Parts.Feet} />
-            <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
-            <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simLinkRope]} part={Parts.LinkRope} />
-          </Flex>
-        </Flex>
-
-        <VerticalDivider />
-
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
-            100% benchmark substats
-          </pre>
-          <Flex gap={5}>
-            <Flex vertical gap={defaultGap} style={{ width: 95 }}>
-              <ScoringNumber label="ATK%: " number={result.benchmarkSim.request.stats[Stats.ATK_P]} precision={0} />
-              <ScoringNumber label="ATK:  " number={result.benchmarkSim.request.stats[Stats.ATK]} precision={0} />
-              <ScoringNumber label="HP%:  " number={result.benchmarkSim.request.stats[Stats.HP_P]} precision={0} />
-              <ScoringNumber label="HP:   " number={result.benchmarkSim.request.stats[Stats.HP]} precision={0} />
-              <ScoringNumber label="DEF%: " number={result.benchmarkSim.request.stats[Stats.DEF_P]} precision={0} />
-              <ScoringNumber label="DEF:  " number={result.benchmarkSim.request.stats[Stats.DEF]} precision={0} />
-            </Flex>
-            <Flex vertical gap={defaultGap} style={{ width: 105 }}>
-              <ScoringNumber label="SPD:  " number={result.benchmarkSim.request.stats[Stats.SPD]} precision={2} />
-              <ScoringNumber label="CR:   " number={result.benchmarkSim.request.stats[Stats.CR]} precision={0} />
-              <ScoringNumber label="CD:   " number={result.benchmarkSim.request.stats[Stats.CD]} precision={0} />
-              <ScoringNumber label="EHR:  " number={result.benchmarkSim.request.stats[Stats.EHR]} precision={0} />
-              <ScoringNumber label="RES:  " number={result.benchmarkSim.request.stats[Stats.RES]} precision={0} />
-              <ScoringNumber label="BE:   " number={result.benchmarkSim.request.stats[Stats.BE]} precision={0} />
-            </Flex>
-          </Flex>
-        </Flex>
-
-        <VerticalDivider />
-
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
-            200% perfect substats
-          </pre>
-          <Flex gap={5}>
-            <Flex vertical gap={defaultGap} style={{ width: 95 }}>
-              <ScoringNumber label="ATK%: " number={result.maximumSim.request.stats[Stats.ATK_P]} precision={0} />
-              <ScoringNumber label="ATK:  " number={result.maximumSim.request.stats[Stats.ATK]} precision={0} />
-              <ScoringNumber label="HP%:  " number={result.maximumSim.request.stats[Stats.HP_P]} precision={0} />
-              <ScoringNumber label="HP:   " number={result.maximumSim.request.stats[Stats.HP]} precision={0} />
-              <ScoringNumber label="DEF%: " number={result.maximumSim.request.stats[Stats.DEF_P]} precision={0} />
-              <ScoringNumber label="DEF:  " number={result.maximumSim.request.stats[Stats.DEF]} precision={0} />
-            </Flex>
-            <Flex vertical gap={defaultGap} style={{ width: 105 }}>
-              <ScoringNumber label="SPD:  " number={result.maximumSim.request.stats[Stats.SPD]} precision={2} />
-              <ScoringNumber label="CR:   " number={result.maximumSim.request.stats[Stats.CR]} precision={0} />
-              <ScoringNumber label="CD:   " number={result.maximumSim.request.stats[Stats.CD]} precision={0} />
-              <ScoringNumber label="EHR:  " number={result.maximumSim.request.stats[Stats.EHR]} precision={0} />
-              <ScoringNumber label="RES:  " number={result.maximumSim.request.stats[Stats.RES]} precision={0} />
-              <ScoringNumber label="BE:   " number={result.maximumSim.request.stats[Stats.BE]} precision={0} />
-            </Flex>
-          </Flex>
-        </Flex>
-
-      </Flex>
-
-      <Flex>
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            Character basic stats
-          </pre>
-          <CharacterStatSummary
-            finalStats={originalBasicStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-
-        {divider}
-
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            100% benchmark basic stats
-          </pre>
-          <CharacterStatSummary
-            finalStats={benchmarkBasicStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-
-        {divider}
-
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            200% perfect basic stats
-          </pre>
-          <CharacterStatSummary
-            finalStats={maximumBasicStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-      </Flex>
-
-      <Flex style={{ marginTop: 10 }}>
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            Character <u>combat stats</u>
-          </pre>
-          <CharacterStatSummary
-            finalStats={originalCombatStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-
-        {divider}
-
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            100% benchmark <u>combat stats</u>
-          </pre>
-          <CharacterStatSummary
-            finalStats={benchmarkCombatStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-
-        {divider}
-
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            200% perfect <u>combat stats</u>
-          </pre>
-          <CharacterStatSummary
-            finalStats={maximumCombatStats}
-            elementalDmgValue={elementalDmgValue}
-            showDamage={true}
-          />
-        </Flex>
-      </Flex>
-
-      <Flex gap={defaultGap}>
         <Flex vertical gap={10}>
-          <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <pre style={{ margin: '5px auto' }}>
             Simulation damage results
           </pre>
           <Flex vertical gap={10}>
-            <ScoringNumber label="Character DMG:      " number={result.originalSimScore} />
-            <ScoringNumber label="Baseline DMG:       " number={result.baselineSimScore} />
-            <ScoringNumber label="Benchmark DMG:      " number={result.benchmarkSimScore} />
-            <ScoringNumber label="Maximum DMG:        " number={result.maximumSimScore} />
-            <ScoringNumber label="Character scale:    " number={result.originalSimResult.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="Benchmark scale:    " number={result.benchmarkSimResult.penaltyMultiplier} precision={3} />
-            <ScoringNumber label="DPS score %:        " number={result.percent * 100} precision={2} />
+            <ScoringNumber label="Character DMG:       " number={result.originalSimScore} />
+            <ScoringNumber label="Baseline DMG:        " number={result.baselineSimScore} />
+            <ScoringNumber label="Benchmark DMG:       " number={result.benchmarkSimScore} />
+            <ScoringNumber label="Maximum DMG:         " number={result.maximumSimScore} />
+            <ScoringNumber label="DPS score %:         " number={result.percent * 100} precision={2} />
+          </Flex>
+        </Flex>
+      </Flex>
+
+      <Flex>
+        <Flex vertical gap={50}>
+          <Flex vertical gap={defaultGap}>
+            <Flex justify="space-around">
+              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+                <u>{`Character build (${Utils.truncate10ths(Utils.precisionRound(result.percent * 100))}%)`}</u>
+              </pre>
+            </Flex>
+            <pre style={{ margin: '10px auto' }}>
+              Character subs (min rolls)
+            </pre>
+            <Flex gap={5} justify="space-around">
+              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
+                <ScoringNumber label="ATK%: " number={result.originalSim.request.stats[Stats.ATK_P]} precision={2} />
+                <ScoringNumber label="ATK:  " number={result.originalSim.request.stats[Stats.ATK]} precision={2} />
+                <ScoringNumber label="HP%:  " number={result.originalSim.request.stats[Stats.HP_P]} precision={2} />
+                <ScoringNumber label="HP:   " number={result.originalSim.request.stats[Stats.HP]} precision={2} />
+                <ScoringNumber label="DEF%: " number={result.originalSim.request.stats[Stats.DEF_P]} precision={2} />
+                <ScoringNumber label="DEF:  " number={result.originalSim.request.stats[Stats.DEF]} precision={2} />
+              </Flex>
+              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+                <ScoringNumber label="SPD:  " number={result.originalSim.request.stats[Stats.SPD]} precision={2} />
+                <ScoringNumber label="CR:   " number={result.originalSim.request.stats[Stats.CR]} precision={2} />
+                <ScoringNumber label="CD:   " number={result.originalSim.request.stats[Stats.CD]} precision={2} />
+                <ScoringNumber label="EHR:  " number={result.originalSim.request.stats[Stats.EHR]} precision={2} />
+                <ScoringNumber label="RES:  " number={result.originalSim.request.stats[Stats.RES]} precision={2} />
+                <ScoringNumber label="BE:   " number={result.originalSim.request.stats[Stats.BE]} precision={2} />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex vertical gap={defaultGap}>
+            <pre style={{ margin: '0 auto' }}>
+              Character main stats
+            </pre>
+            <Flex gap={defaultGap} justify="space-around">
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.originalSim.request.simBody]} part={Parts.Body} />
+                <ScoringStat stat={StatsToReadable[result.originalSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
+              </Flex>
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.originalSim.request.simFeet]} part={Parts.Feet} />
+                <ScoringStat stat={StatsToReadable[result.originalSim.request.simLinkRope]} part={Parts.LinkRope} />
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              Character basic stats
+            </pre>
+            <CharacterStatSummary
+              finalStats={originalBasicStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.originalSimScore}
+            />
+          </Flex>
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              Character <u>combat stats</u>
+            </pre>
+            <CharacterStatSummary
+              finalStats={originalCombatStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.originalSimScore}
+            />
           </Flex>
         </Flex>
 
-        <VerticalDivider />
+        {divider}
 
+        <Flex vertical gap={50}>
+          <Flex vertical gap={defaultGap}>
+            <Flex justify="space-around">
+              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+                <u>Benchmark build (100%)</u>
+              </pre>
+            </Flex>
+            <pre style={{ margin: '10px auto' }}>
+              100% benchmark subs (min rolls)
+            </pre>
+            <Flex gap={5} justify="space-around">
+              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
+                <ScoringNumber label="ATK%: " number={result.benchmarkSim.request.stats[Stats.ATK_P]} precision={0} />
+                <ScoringNumber label="ATK:  " number={result.benchmarkSim.request.stats[Stats.ATK]} precision={0} />
+                <ScoringNumber label="HP%:  " number={result.benchmarkSim.request.stats[Stats.HP_P]} precision={0} />
+                <ScoringNumber label="HP:   " number={result.benchmarkSim.request.stats[Stats.HP]} precision={0} />
+                <ScoringNumber label="DEF%: " number={result.benchmarkSim.request.stats[Stats.DEF_P]} precision={0} />
+                <ScoringNumber label="DEF:  " number={result.benchmarkSim.request.stats[Stats.DEF]} precision={0} />
+              </Flex>
+              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+                <ScoringNumber label="SPD:  " number={result.benchmarkSim.request.stats[Stats.SPD]} precision={2} />
+                <ScoringNumber label="CR:   " number={result.benchmarkSim.request.stats[Stats.CR]} precision={0} />
+                <ScoringNumber label="CD:   " number={result.benchmarkSim.request.stats[Stats.CD]} precision={0} />
+                <ScoringNumber label="EHR:  " number={result.benchmarkSim.request.stats[Stats.EHR]} precision={0} />
+                <ScoringNumber label="RES:  " number={result.benchmarkSim.request.stats[Stats.RES]} precision={0} />
+                <ScoringNumber label="BE:   " number={result.benchmarkSim.request.stats[Stats.BE]} precision={0} />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex vertical gap={defaultGap}>
+            <pre style={{ margin: '0 auto' }}>
+              100% benchmark main stats
+            </pre>
+            <Flex gap={defaultGap} justify="space-around">
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simBody]} part={Parts.Body} />
+                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
+              </Flex>
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simFeet]} part={Parts.Feet} />
+                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simLinkRope]} part={Parts.LinkRope} />
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              100% benchmark basic stats
+            </pre>
+            <CharacterStatSummary
+              finalStats={benchmarkBasicStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.benchmarkSimScore}
+            />
+          </Flex>
+
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              100% benchmark <u>combat stats</u>
+            </pre>
+            <CharacterStatSummary
+              finalStats={benchmarkCombatStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.benchmarkSimScore}
+            />
+          </Flex>
+        </Flex>
+
+        {divider}
+
+        <Flex vertical gap={50}>
+          <Flex vertical gap={defaultGap}>
+            <Flex justify="space-around">
+              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+                <u>Perfect build (200%)</u>
+              </pre>
+            </Flex>
+            <pre style={{ margin: '10px auto' }}>
+              200% perfect subs (max rolls)
+            </pre>
+            <Flex gap={5} justify="space-around">
+              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
+                <ScoringNumber label="ATK%: " number={result.maximumSim.request.stats[Stats.ATK_P]} precision={0} />
+                <ScoringNumber label="ATK:  " number={result.maximumSim.request.stats[Stats.ATK]} precision={0} />
+                <ScoringNumber label="HP%:  " number={result.maximumSim.request.stats[Stats.HP_P]} precision={0} />
+                <ScoringNumber label="HP:   " number={result.maximumSim.request.stats[Stats.HP]} precision={0} />
+                <ScoringNumber label="DEF%: " number={result.maximumSim.request.stats[Stats.DEF_P]} precision={0} />
+                <ScoringNumber label="DEF:  " number={result.maximumSim.request.stats[Stats.DEF]} precision={0} />
+              </Flex>
+              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+                <ScoringNumber label="SPD:  " number={result.maximumSim.request.stats[Stats.SPD]} precision={2} />
+                <ScoringNumber label="CR:   " number={result.maximumSim.request.stats[Stats.CR]} precision={0} />
+                <ScoringNumber label="CD:   " number={result.maximumSim.request.stats[Stats.CD]} precision={0} />
+                <ScoringNumber label="EHR:  " number={result.maximumSim.request.stats[Stats.EHR]} precision={0} />
+                <ScoringNumber label="RES:  " number={result.maximumSim.request.stats[Stats.RES]} precision={0} />
+                <ScoringNumber label="BE:   " number={result.maximumSim.request.stats[Stats.BE]} precision={0} />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex vertical gap={defaultGap}>
+            <pre style={{ margin: '0 auto' }}>
+              200% perfect main stats
+            </pre>
+            <Flex gap={defaultGap} justify="space-around">
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simBody]} part={Parts.Body} />
+                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
+              </Flex>
+              <Flex vertical gap={10}>
+                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simFeet]} part={Parts.Feet} />
+                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simLinkRope]} part={Parts.LinkRope} />
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              200% perfect basic stats
+            </pre>
+            <CharacterStatSummary
+              finalStats={maximumBasicStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.maximumSimScore}
+            />
+          </Flex>
+
+          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+            <pre style={{ margin: 'auto' }}>
+              200% perfect <u>combat stats</u>
+            </pre>
+            <CharacterStatSummary
+              finalStats={maximumCombatStats}
+              elementalDmgValue={elementalDmgValue}
+              simScore={result.maximumSimScore}
+            />
+          </Flex>
+        </Flex>
+      </Flex>
+
+      <Flex gap={defaultGap} justify="space-around">
         <Flex vertical gap={defaultGap}>
           <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
             Substat upgrade comparisons
@@ -544,9 +613,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
 export function ScoringTeammate(props: { result: SimulationScore; index: number }) {
   const teammate = props.result.simulationMetadata.teammates[props.index]
-  const iconSize = 45
+  const iconSize = 60
   return (
-    <Flex vertical align="center" gap={2}>
+    <Flex vertical align="center" gap={5}>
       <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{ height: iconSize }} />
       <pre style={{ margin: 0 }}>
         {`E${teammate.characterEidolon}`}

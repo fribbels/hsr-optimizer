@@ -12,13 +12,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined
-} from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
@@ -28,8 +22,8 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
 
-const {useToken} = theme
-const {Text} = Typography
+const { useToken } = theme
+const { Text } = Typography
 
 function cellImageRenderer(params) {
   const data = params.data
@@ -40,7 +34,7 @@ function cellImageRenderer(params) {
       preview={false}
       width={50}
       src={characterIconSrc}
-      style={{flex: '0 0 auto', maxWidth: '100%', minWidth: 50}}
+      style={{ flex: '0 0 auto', maxWidth: '100%', minWidth: 50 }}
     />
   )
 }
@@ -50,7 +44,7 @@ function cellRankRenderer(params) {
   const character = DB.getCharacters().find((x) => x.id == data.id)
 
   return (
-    <Text style={{height: '100%'}}>
+    <Text style={{ height: '100%' }}>
       {character.rank + 1}
     </Text>
   )
@@ -68,7 +62,7 @@ function cellNameRenderer(params) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align="center" justify="flex-start" style={{height: '100%', width: '100%'}}>
+    <Flex align="center" justify="flex-start" style={{ height: '100%', width: '100%' }}>
       <Text style={{
         margin: 'auto',
         padding: '0px 5px',
@@ -78,11 +72,12 @@ function cellNameRenderer(params) {
         textWrap: 'wrap',
         fontSize: 14,
         width: '100%',
-        lineHeight: '18px'
-      }}>
+        lineHeight: '18px',
+      }}
+      >
         {characterName}
       </Text>
-      <Flex style={{display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2}}>
+      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
 
       </Flex>
     </Flex>
@@ -161,7 +156,7 @@ const items = [
 ]
 
 export default function CharacterTab() {
-  const {token} = useToken()
+  const { token } = useToken()
 
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [screenshotLoading, setScreenshotLoading] = useState(false)
@@ -208,9 +203,9 @@ export default function CharacterTab() {
   }
 
   const columnDefs = useMemo(() => [
-    {field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52},
-    {field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true},
-    {field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer},
+    { field: '', headerName: 'Icon', cellRenderer: cellImageRenderer, width: 52 },
+    { field: '', headerName: 'Priority', cellRenderer: cellRankRenderer, width: 50, rowDrag: true },
+    { field: '', headerName: 'Character', flex: 1, cellRenderer: cellNameRenderer },
   ], [])
 
   const gridOptions = useMemo(() => ({
@@ -224,7 +219,7 @@ export default function CharacterTab() {
 
   const defaultColDef = useMemo(() => ({
     sortable: false,
-    cellStyle: {display: 'flex'},
+    cellStyle: { display: 'flex' },
   }), [])
 
   const cellClickedListener = useCallback((event) => {
@@ -350,7 +345,7 @@ export default function CharacterTab() {
 
   async function sortByScoreClicked() {
     if (!await confirm(<>
-      Are you sure you want to sort all characters? <br/>
+      Are you sure you want to sort all characters? <br />
       You will lose any custom rankings you have set.
     </>)) {
       return
@@ -359,9 +354,9 @@ export default function CharacterTab() {
     const characterList = DB.getCharacters()
 
     const scoredCharacters = characterList
-    .map((x) => ({score: RelicScorer.scoreCharacter(x), character: x}))
-    .sort((a, b) => b.score.totalScore - a.score.totalScore)
-    .map((x) => x.character)
+      .map((x) => ({ score: RelicScorer.scoreCharacter(x), character: x }))
+      .sort((a, b) => b.score.totalScore - a.score.totalScore)
+      .map((x) => x.character)
 
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
@@ -393,7 +388,7 @@ export default function CharacterTab() {
     const score = RelicScorer.scoreCharacter(selectedCharacter)
     const res = DB.saveCharacterBuild(name, selectedCharacter.id, {
       score: score.totalScore.toFixed(0),
-      rating: score.totalRating
+      rating: score.totalRating,
     })
     if (res) {
       Message.error(res.error)
@@ -458,7 +453,7 @@ export default function CharacterTab() {
   async function confirm(content) {
     return confirmationModal.confirm({
       title: 'Confirm',
-      icon: <ExclamationCircleOutlined/>,
+      icon: <ExclamationCircleOutlined />,
       content: content,
       okText: 'Confirm',
       cancelText: 'Cancel',
@@ -474,16 +469,16 @@ export default function CharacterTab() {
       vertical
       style={{
         height: '100%',
-        marginBottom: 200
+        marginBottom: 200,
       }}
     >
-      <Flex style={{height: '100%'}}>
-        <Flex vertical gap={8} style={{marginRight: 8}}>
+      <Flex style={{ height: '100%' }}>
+        <Flex vertical gap={8} style={{ marginRight: 8 }}>
           <div
             id="characterGrid" className="ag-theme-balham-dark" style={{
-            ...{display: 'block', width: 230, height: parentH - 76},
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: 230, height: parentH - 76 },
+              ...getGridTheme(token),
+            }}
           >
             <AgGridReact
               ref={characterGrid}
@@ -512,36 +507,53 @@ export default function CharacterTab() {
                 menu={actionsMenuProps}
                 trigger={['hover']}
               >
-                <Button style={{width: '100%'}} icon={<UserOutlined/>}>
+                <Button style={{ width: '100%' }} icon={<UserOutlined />}>
                   Character actions
-                  <DownOutlined/>
+                  <DownOutlined />
                 </Button>
               </Dropdown>
             </Flex>
             <Flex gap={8}>
-              <Button style={{flex: 'auto'}} icon={<CameraOutlined/>} onClick={clipboardClicked} type="primary"
-                      loading={screenshotLoading}>
+              <Button
+                style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked}
+                type="primary"
+                loading={screenshotLoading}
+              >
                 Copy screenshot
               </Button>
-              <Button style={{width: 40}} type="primary" icon={<DownloadOutlined/>} onClick={downloadClicked}
-                      loading={downloadLoading}/>
+              <Button
+                style={{ width: 40 }} type="primary" icon={<DownloadOutlined />}
+                onClick={downloadClicked}
+                loading={downloadLoading}
+              />
             </Flex>
           </Flex>
         </Flex>
         <Flex vertical>
-          <CharacterPreview id="characterTabPreview" character={selectedCharacter}/>
+          <CharacterPreview
+            id="characterTabPreview"
+            character={selectedCharacter}
+            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          />
         </Flex>
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
-      <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
-                      initialCharacter={characterModalInitialCharacter}/>
-      <SwitchRelicsModal onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen}
-                         setOpen={setSwitchRelicsModalOpen}
-                         currentCharacter={selectedCharacter}/>
-      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild}/>
-      <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
-                   imgRenderer={cellImageRenderer}/>
+      <CharacterModal
+        onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
+        initialCharacter={characterModalInitialCharacter}
+      />
+      <SwitchRelicsModal
+        onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen}
+        setOpen={setSwitchRelicsModalOpen}
+        currentCharacter={selectedCharacter}
+      />
+      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
+      <BuildsModal
+        open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
+        imgRenderer={cellImageRenderer}
+      />
       {contextHolder}
     </Flex>
   )

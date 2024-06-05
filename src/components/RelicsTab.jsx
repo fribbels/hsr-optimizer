@@ -99,6 +99,7 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [filterstate, setFilterState] = useState(true)
 
   const [relicInsight, setRelicInsight] = useState('buckets')
   const relicInsightOptions = [
@@ -351,36 +352,50 @@ export default function RelicsTab() {
   }
 
   const numScores = 10
-  let scores = null
-  let scoreBuckets = null
-  if (selectedRelic) {
-    const chars = DB.getMetadata().characters
-    const excluded = window.store.getState().excludedRelicPotentialCharacters
-    const allScores = Object.keys(chars)
-      .filter((id) => !excluded.includes(id))
-      .map((id) => ({
-        cid: id,
-        name: chars[id].displayName,
-        score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
-        color: '#000',
-        owned: !!DB.getCharacterById(id),
-      }))
-    allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
-    allScores.forEach((x, idx) => {
-      x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
-    })
-    scores = allScores.slice(0, numScores)
+  const [scores, setScores] = useState(null)
+  const [scoreBuckets, setScoreBuckets] = useState(null)
+  useEffect(() => {
+    if (selectedRelic) {
+      const chars = DB.getMetadata().characters
+      const excluded = window.store.getState().excludedRelicPotentialCharacters
+      let allScores
+      if (filterstate) {
+        allScores = Object.keys(chars)
+          .filter((id) => !excluded.includes(id))
+          .map((id) => ({
+            cid: id,
+            name: chars[id].displayName,
+            score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+            color: '#000',
+            owned: !!DB.getCharacterById(id),
+          }))
+      } else {
+        allScores = Object.keys(chars)
+          .map((id) => ({
+            cid: id,
+            name: chars[id].displayName,
+            score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+            color: '#000',
+            owned: !!DB.getCharacterById(id),
+          }))
+      }
+      allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
+      allScores.forEach((x, idx) => {
+        x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
+      })
+      setScores(allScores.slice(0, numScores))
 
-    //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
-    const sb = [[], [], [], [], [], [], [], [], [], []]
-    for (const score of allScores) {
-      let lowerBound = Math.floor(score.score.bestPct / 10)
-      lowerBound = Math.min(9, Math.max(0, lowerBound))
-      sb[lowerBound].push(score)
+      //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
+      const sb = [[], [], [], [], [], [], [], [], [], []]
+      for (const score of allScores) {
+        let lowerBound = Math.floor(score.score.bestPct / 10)
+        lowerBound = Math.min(9, Math.max(0, lowerBound))
+        sb[lowerBound].push(score)
+      }
+      sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
+      setScoreBuckets(sb)
     }
-    sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
-    scoreBuckets = sb
-  }
+  }, [filterstate, selectedRelic])
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
@@ -438,7 +453,8 @@ export default function RelicsTab() {
             style={{ marginTop: 5 }}
             defaultChecked
             checkedChildren="selected characters"
-            unCheckedChildren="all characters"
+            unCheckedChildren="show all characters"
+            onChange={() => { setFilterState(!filterstate) }}
           />
           <Select
             value={relicInsight}

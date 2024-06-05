@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select, theme } from 'antd'
+import { Button, Flex, Popconfirm, Select, Switch, theme } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -434,6 +434,12 @@ export default function RelicsTab() {
               Delete Relic
             </Button>
           </Popconfirm>
+          <Switch
+            style={{ marginTop: 5 }}
+            defaultChecked
+            checkedChildren="selected characters"
+            unCheckedChildren="all characters"
+          />
           <Select
             value={relicInsight}
             onChange={setRelicInsight}

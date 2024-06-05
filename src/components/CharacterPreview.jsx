@@ -311,6 +311,8 @@ export function CharacterPreview(props) {
 
                         setTeamSelection(DEFAULT_TEAM)
                         setRedrawTeammates(Math.random())
+
+                        Message.success('Reset to default teams')
                       }}
                     >
                       Reset custom team to default
@@ -335,6 +337,8 @@ export function CharacterPreview(props) {
                         DB.updateSimulationScoreOverrides(character.id, simulation.teammates)
                         setTeamSelection(CUSTOM_TEAM)
                         setRedrawTeammates(Math.random())
+
+                        Message.success('Synced teammates')
                       }}
                     >
                       Sync optimizer teammate info

@@ -45,69 +45,31 @@ export function hoyolabParser(input) {
     characters: [],
     relics: [],
   }
-  for (let i = 0; i < json.data.avatar_list.length; i++) {
-    const character = json.data.avatar_list[i]
+  for (const character of json.data.avatar_list) {
+    const characterData = {
+      characterEidolon: character.rank,
+      characterId: character.id.toString(),
+      characterLevel: character.level,
+      lightCone: null,
+      lightConeLevel: 80,
+      lightConeSuperimposition: 1,
+    }
     if (character.equip != null) {
-      output.characters.push({
-        characterEidolon: character.rank,
-        characterId: (character.id).toString(),
-        characterLevel: character.level,
-        lightCone: (character.equip.id).toString(),
-        lightConeLevel: character.equip.level,
-        lightConeSuperimposition: character.equip.rank,
-      })
-    } else {
-      output.characters.push({
-        characterEidolon: character.rank,
-        characterId: (character.id).toString(),
-        characterLevel: character.level,
-        lightCone: null,
-        lightConeLevel: 80,
-        lightConeSuperimposition: 1,
-      })
+      characterData.lightCone = character.equip.id.toString()
+      characterData.lightConeSuperimposition = character.equip.rank
     }
-    for (let j = 0; j < character.relics.length; j++) {
-      const relic = character.relics[j]
+    output.characters.push(characterData)
+    for (const relic of [...character.relics, ...character.ornaments]) {
       const substats: {
         stat: SubStats
         value: number
         addedRolls: number
       }[] = []
-      for (let k = 0; k < relic.properties.length; k++) {
+      for (const property of relic.properties) {
         const substat = {
-          stat: getStat(relic.properties[k].property_type),
-          value: readValue(relic.properties[k].value),
-          addedRolls: relic.properties[k].times - 1,
-        }
-        substats.push(substat)
-      }
-      output.relics.push({
-        enhance: relic.level,
-        equippedBy: (character.id).toString(),
-        grade: relic.rarity,
-        id: uuidv4(),
-        part: getSlot(relic.pos),
-        set: getSet(relic.id),
-        main: {
-          stat: getStat(relic.main_property.property_type),
-          value: readValue(relic.main_property.value),
-        },
-        substats: substats,
-        verified: false,
-      })
-    }
-    for (let j = 0; j < character.ornaments.length; j++) {
-      const relic = character.ornaments[j]
-      const substats: {
-        stat: SubStats
-        value: number
-        addedRolls: number
-      }[] = []
-      for (let k = 0; k < relic.properties.length; k++) {
-        const substat = {
-          stat: getStat(relic.properties[k].property_type),
-          value: readValue(relic.properties[k].value),
-          addedRolls: relic.properties[k].times - 1,
+          stat: getStat(property.property_type),
+          value: readValue(property.value),
+          addedRolls: property.times - 1,
         }
         substats.push(substat)
       }
@@ -231,104 +193,13 @@ function getSlot(id: number) {
 }
 
 function getSet(id: number) {
-  let set = ''
-  switch (Math.floor((id % 10000) / 10)) { // Set
-    case 101:
-      set = Sets.PasserbyOfWanderingCloud
-      break
-    case 102:
-      set = Sets.MusketeerOfWildWheat
-      break
-    case 103:
-      set = Sets.KnightOfPurityPalace
-      break
-    case 104:
-      set = Sets.HunterOfGlacialForest
-      break
-    case 105:
-      set = Sets.ChampionOfStreetwiseBoxing
-      break
-    case 106:
-      set = Sets.GuardOfWutheringSnow
-      break
-    case 107:
-      set = Sets.FiresmithOfLavaForging
-      break
-    case 108:
-      set = Sets.GeniusOfBrilliantStars
-      break
-    case 109:
-      set = Sets.BandOfSizzlingThunder
-      break
-    case 110:
-      set = Sets.EagleOfTwilightLine
-      break
-    case 111:
-      set = Sets.ThiefOfShootingMeteor
-      break
-    case 112:
-      set = Sets.WastelanderOfBanditryDesert
-      break
-    case 113:
-      set = Sets.LongevousDisciple
-      break
-    case 114:
-      set = Sets.MessengerTraversingHackerspace
-      break
-    case 115:
-      set = Sets.TheAshblazingGrandDuke
-      break
-    case 116:
-      set = Sets.PrisonerInDeepConfinement
-      break
-    case 117:
-      set = Sets.PioneerDiverOfDeadWaters
-      break
-    case 118:
-      set = Sets.WatchmakerMasterOfDreamMachinations
-      break
-    case 301:
-      set = Sets.SpaceSealingStation
-      break
-    case 302:
-      set = Sets.FleetOfTheAgeless
-      break
-    case 303:
-      set = Sets.PanCosmicCommercialEnterprise
-      break
-    case 304:
-      set = Sets.BelobogOfTheArchitects
-      break
-    case 305:
-      set = Sets.CelestialDifferentiator
-      break
-    case 306:
-      set = Sets.InertSalsotto
-      break
-    case 307:
-      set = Sets.TaliaKingdomOfBanditry
-      break
-    case 308:
-      set = Sets.SprightlyVonwacq
-      break
-    case 309:
-      set = Sets.RutilantArena
-      break
-    case 310:
-      set = Sets.BrokenKeel
-      break
-    case 311:
-      set = Sets.FirmamentFrontlineGlamoth
-      break
-    case 312:
-      set = Sets.PenaconyLandOfTheDreams
-      break
-    case 313:
-      set = Sets.SigoniaTheUnclaimedDesolation
-      break
-    case 314:
-      set = Sets.IzumoGenseiAndTakamaDivineRealm
-      break
+  const setID = Math.floor((id % 10000) / 10)
+  const setsJson = JSON.parse('src/data/relic_sets.json')
+  for (const set in setsJson) {
+    if (setID == parseInt(set.id)) {
+      return set.name
+    }
   }
-  return set
+  console.log(`=========no matching set found for relic id: ${id}=========`)
+  return ''
 }

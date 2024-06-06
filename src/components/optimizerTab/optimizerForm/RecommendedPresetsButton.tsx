@@ -215,7 +215,9 @@ export function applyMetadataPresetToForm(form, scoringMetadata) {
   form.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
   form.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
   form.weights = scoringMetadata.stats
-  form.weights.topPercent = 100
+  form.weights.headHands = form.weights.headHands || 0
+  form.weights.bodyFeet = form.weights.bodyFeet || 0
+  form.weights.sphereRope = form.weights.sphereRope || 0
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[form.characterId].element

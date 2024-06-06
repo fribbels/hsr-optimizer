@@ -703,6 +703,7 @@ export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const RESET_TEAM = 'Reset'
+export const SETTINGS_TEAM = 'Settings'
 
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'

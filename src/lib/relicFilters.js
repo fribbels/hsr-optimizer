@@ -1,4 +1,4 @@
-import { Constants, RelicSetFilterOptions } from './constants.ts'
+import { Constants, Parts, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
 import { StatCalculator } from 'lib/statCalculator'
@@ -48,11 +48,18 @@ export const RelicFilters = {
 
   applyTopFilter: (request, relics, originalRelics) => {
     const weights = request.weights || {}
+    const partMinRolls = {
+      [Parts.Head]: weights.headHands || 0,
+      [Parts.Hands]: weights.headHands || 0,
+      [Parts.Body]: weights.bodyFeet || 0,
+      [Parts.Feet]: weights.bodyFeet || 0,
+      [Parts.PlanarSphere]: weights.sphereRope || 0,
+      [Parts.LinkRope]: weights.sphereRope || 0,
+    }
 
     for (const part of Object.values(Constants.Parts)) {
       const partition = relics[part]
-      const index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
-      relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
+      relics[part] = partition.filter((relic) => relic.weightScore >= partMinRolls[part] * 6.48 * 0.8)
     }
 
     return relics

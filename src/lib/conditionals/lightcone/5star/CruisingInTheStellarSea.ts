@@ -56,7 +56,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => [],
     defaults: () => ({
-      enemyHp50CrBoost: true,
+      enemyHp50CrBoost: false,
       enemyDefeatedAtkBuff: true,
     }),
     precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {

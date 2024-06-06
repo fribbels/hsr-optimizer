@@ -13,13 +13,6 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
   const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
     characters, [currentCharacter], false,
   ), [characters, currentCharacter])
-  const labelledOptions = []
-  for (const option of characterOptions) {
-    labelledOptions.push({
-      value: option.value,
-      label: <Flex gap={5}><img src={Assets.getCharacterAvatarById(option.value)} style={{ height: 25 }} />{option.label}</Flex>,
-    })
-  }
 
   useEffect(() => {
     if (!open) return
@@ -76,7 +69,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
                 showSearch
                 filterOption={Utils.labelFilterOption}
                 style={{ width: panelWidth }}
-                options={labelledOptions}
+                options={characterOptions}
               />
             </Form.Item>
           </Flex>

@@ -408,6 +408,10 @@ a {
     text-align: center !important;
 }
 
+.centered-placeholder::placeholder {
+    text-align: center;
+}
+
 .ant-modal-confirm-paragraph {
     max-width: unset !important;
 }

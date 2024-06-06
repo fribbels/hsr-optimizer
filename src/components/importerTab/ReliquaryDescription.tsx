@@ -7,13 +7,12 @@ export function ReliquaryDescription(): ReactElement {
     <>
       {true && (
         <li>
-          {'(Recommended) IceDynamix Reliquary Archiver'} (
-          <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases}/>
+          <b>(Recommended) IceDynamix Reliquary Archiver</b> (
+          <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
           )
           <ul>
-            <li>Network scanner</li>
-            <li>Imports accurate speed decimals for the entire inventory</li>
-            <li>Beta release - run from command line if exe doesn't work, please report bugs to the Discord server</li>
+            <li>Accurate speed decimals, instant scan</li>
+            <li>Imports full inventory and character roster</li>
           </ul>
         </li>
       )}

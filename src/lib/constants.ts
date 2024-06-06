@@ -407,7 +407,7 @@ export const SetsRelics = {
   PrisonerInDeepConfinement: 'Prisoner in Deep Confinement',
   PioneerDiverOfDeadWaters: 'Pioneer Diver of Dead Waters',
   WatchmakerMasterOfDreamMachinations: 'Watchmaker, Master of Dream Machinations',
-  IronCavalryAgainstScourge: 'Iron Cavalry Against Scourge',
+  IronCavalryAgainstTheScourge: 'Iron Cavalry Against the Scourge',
   TheWindSoaringValorous: 'The Wind-Soaring Valorous',
 }
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]

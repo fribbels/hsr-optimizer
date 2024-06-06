@@ -320,8 +320,8 @@ export function CharacterPreview(props) {
                     <Button
                       icon={<SwapOutlined />}
                       onClick={() => {
-                        const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
-                        const simulation = characterMetadata.scoringMetadata.simulation
+                        const characterMetadata = Utils.clone(DB.getScoringMetadata(character.id))
+                        const simulation = characterMetadata.simulation
 
                         for (const teammate of simulation.teammates) {
                           const form = DB.getCharacterById(teammate.characterId)?.form
@@ -341,7 +341,7 @@ export function CharacterPreview(props) {
                         Message.success('Synced teammates')
                       }}
                     >
-                      Sync optimizer teammate info
+                      Sync imported eidolons / light cones
                     </Button>
                   </Flex>
                 </div>

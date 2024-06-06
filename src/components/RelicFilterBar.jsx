@@ -103,7 +103,7 @@ export default function RelicFilterBar(props) {
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags([false, true])
-  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter(x => !UnreleasedSets[x]),
+  const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter((x) => !UnreleasedSets[x]),
     (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
@@ -133,6 +133,8 @@ export default function RelicFilterBar(props) {
   }, [])
 
   function characterSelectorChange(id) {
+    if (!id) return
+
     const relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
@@ -234,7 +236,7 @@ export default function RelicFilterBar(props) {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis={`${100/Object.values(SetsRelics).length}%`} />
+        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`} />
       </Flex>
 
       <Flex vertical>

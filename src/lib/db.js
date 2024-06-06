@@ -305,6 +305,8 @@ export const DB = {
     SaveState.save()
   },
   updateSimulationScoreOverrides: (id, updatedTeammates) => {
+    if (!updatedTeammates) return
+
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
       overrides[id] = updatedTeammates

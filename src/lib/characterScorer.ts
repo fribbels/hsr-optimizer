@@ -1012,6 +1012,7 @@ function simulateOriginalCharacter(
   }
   const originalSimResult = runSimulations(simulationForm, [originalSim], { ...scoringParams, substatRollsModifier: (rolls: number) => rolls, mainStatMultiplier: mainStatMultiplier })[0]
 
+  originalSim.result = originalSimResult
   return {
     originalSimResult,
     originalSim,

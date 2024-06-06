@@ -12,6 +12,7 @@ import { StatCalculator } from 'lib/statCalculator'
 import StatText from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
+import { Simulation } from 'lib/statSimulationController'
 
 const { Text } = Typography
 
@@ -36,10 +37,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   }
 
   function ScoringStat(props: { stat: string; part: string }) {
+    const display = props.stat?.replace('Boost', '') || ''
     return (
       <Flex align="center" gap={10}>
         <img src={Assets.getPart(props.part)} style={{ height: 30 }} />
-        <pre style={{ margin: 0 }}>{props.stat.replace('Boost', '')}</pre>
+        <pre style={{ margin: 0 }}>{display}</pre>
       </Flex>
     )
   }
@@ -110,8 +112,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             character's <i>damage performance in combat</i>.
           </p>
           <p>
-            This score is calculated using the results of simulating the character's damage through the optimizer,
-            for a more accurate evaluation than scores based solely on the displayed stats.
+            This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
+            how much the relics contributes to damage, for a more accurate evaluation than scores based solely on stat weights.
           </p>
           <p>
             The scoring calculation takes into consideration:
@@ -120,13 +122,13 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>Character eidolons / light cone / superimpositions</li>
             <li>Teammate eidolons / light cone / superimpositions</li>
             <li>Combat passives and buffs from abilities and light cones</li>
-            <li>Team composition and teammate synergies</li>
+            <li>Team composition and teammate buffs</li>
             <li>Character ability rotations</li>
             <li>Stat breakpoints</li>
             <li>Stat overcapping</li>
             <li>Relic set effects</li>
             <li>Super break</li>
-            <li>... and more</li>
+            <li>...etc</li>
           </ul>
 
           <h2>
@@ -135,28 +137,51 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <p>
             At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break
             ability damage rotation defined per character. These simulations use the optimizer's default conditional settings
-            for the character / teammates / light cones / sets, and the damage sum is then used to compare between builds.
+            for the character / teammates / light cones / relic sets, and the damage sum is then used to compare between builds.
           </p>
 
           <h4>
-            Benchmark character generation
+            Simulation benchmarks
           </h4>
+
           <p>
-            The original character build is measured against a simulated benchmark character with an ideal distribution of stats,
-            which is generated following certain rules to produce a realistic stat build:
+            The scoring algorithm generates three builds to measure the damage of the original character against.
+          </p>
+
+          <ul style={{ lineHeight: '32px' }}>
+            <li>Baseline (0%) - No substats, no main stats</li>
+            <li>
+              Benchmark (100%) - A strong build, generated following certain rules with a realistic distribution of 48x min rolls
+            </li>
+            <li>Perfection (200%) - The perfect build, generated with an ideal distribution of 54x max rolled substats</li>
+          </ul>
+
+          <p>
+            The original character's build is scored based on how its damage compares to the benchmark percentages.
+            The benchmark and perfection builds will always match the original character's speed.
+          </p>
+
+          <h4>
+            100% benchmark ruleset
+          </h4>
+
+          <p>
+            The 100% benchmark character is designed to be a strong and realistic build that is difficult to reach,
+            but attainable with some character investment into relic farming. The following ruleset defines how the build is generated and why it differs from the perfect build.
           </p>
 
           <ul style={{ lineHeight: '32px' }}>
             <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
-            <li>The benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
-            <li>The benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
-            <li>Each substat is equivalent to a 5 star relic's low roll value</li>
-            <li>First, 3 substats are allocated to each substat type, except for Speed</li>
+            <li>The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
+            <li>The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
+            <li>Each substat is equivalent to a 5 star relic's low roll value, except for speed which uses mid rolls</li>
+            <li>First, 2 substats are allocated to each substat type, except for Speed</li>
             <li>Substats are then allocated to Speed to match the original character's in-combat Speed</li>
             <li>The remaining substats are then distributed to the other stats options to maximize the build's damage output</li>
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
               restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
             </li>
+            <li>An artificial diminishing returns penalty is applied to substats with greater than <code>18 - (3 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
           </ul>
 
           <p>
@@ -165,11 +190,25 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <h4>
+            200% benchmark ruleset
+          </h4>
+
+          <p>
+            The 200% perfection character follows a similar generation process with a few differences.
+          </p>
+
+          <ul style={{ lineHeight: '32px' }}>
+            <li>54x max roll substats</li>
+            <li>No diminishing returns penalty</li>
+            <li>All substats are ideally distributed, but the build must still be possible to make</li>
+          </ul>
+
+          <h4>
             Score normalization
           </h4>
           <p>
             All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and light cone, but no main
-            stats and only 2 substats distributed to each of the stats except speed. This adjusts for the base amount of damage that a character's kit deals,
+            stats and no substats. This adjusts for the base amount of damage that a character's kit deals,
             so that the DPS Score can then measure the resulting damage contribution of each additional substat.
           </p>
 
@@ -187,22 +226,39 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <p>
             Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her passive EHR to DMG conversion, and to land
             Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score for the missing percentage. This penalty applies to both the
-            original character and the benchmark simulations.
+            original character and the benchmark simulations but not the baseline.
           </p>
 
           <h4>
             Formula
           </h4>
           <p>
-            The resulting formula is <code>DMG Score % = (original dmg - baseline dmg) / (ideal benchmark dmg - baseline dmg)</code>
+            The resulting formula is:
           </p>
+
+          <ul>
+            <li>If DMG  &lt; 100% benchmark</li>
+            <ul style={{ paddingLeft: 20 }}>
+              <li>
+                <code>DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)</code>
+              </li>
+            </ul>
+          </ul>
+          <ul>
+            <li>If DMG ≥ 100% benchmark</li>
+            <ul style={{ paddingLeft: 20 }}>
+              <li>
+                <code>DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)</code>
+              </li>
+            </ul>
+          </ul>
 
           <h3>
             What are the grade thresholds?
           </h3>
 
           <p>
-            DPS Score is still experimental so scores and grading may be subject to change. These are the current thresholds.
+            Grading is based on the benchmark as 100%.
           </p>
 
           <pre style={{ width: 500 }}>
@@ -236,10 +292,15 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why does the sim match Speed?</h4>
           <p>
-            Speed is controlled separately from the other stats because comparing builds between different speed thresholds
-            introduces a lot of complexity to the calculations. For example higher speed can actually result in lower damage with
-            Bronya as a teammate if the Speed tuning is thrown off. To simplify the comparisons, we equalize the Speed variable by using
-            the sim's substats to match the original character's combat speed.
+            Speed is controlled separately from the other stats because damage isnt comparable between different speed thresholds.
+            For example higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
+            To make the damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
+          </p>
+
+          <h4>Why does a build score lower even though it has higher Sim Damage?</h4>
+          <p>
+            The benchmark sims have to equalize speed, so if the higher damage build has lower speed, then it will be compared to benchmark builds at that same lower speed, and therefore may score lower.
+            In general this means that the sim will reallocate every reduced speed roll into a damage stat instead.
           </p>
 
           <h4>What's the reasoning behind the benchmark simulation rules?</h4>
@@ -255,11 +316,17 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             require multiple stats to be effective, vs characters that only need two or three stats.
           </p>
 
+          <p>
+            Applying diminishing returns to high stacking substats is a way to make the benchmark fair for characters that primarily scale off
+            of a single stat, for example Boothill and break effect. The ideal distribution will want every relic roll to go into break effect, but stacking
+            5x rolls of a single stat on a relic is extremely rare / unrealistic in practice, so the simulation rules add diminishing returns to account for that.
+          </p>
+
           <h4>Why are the scores different for different teams?</h4>
           <p>
             Team buffs and synergy will change the ideal benchmark simulation's score. For example, a benchmark sim with Fu Xuan on
             the team may invest more substats into Crit DMG instead of Crit Rate since her passive Crit Rate will change the optimal
-            distribution of crit rolls. Teams can be customized to fit the actual teammates used for the character ingame.
+            distribution of crit rolls. Teams should be customized to fit the actual teammates used for the character ingame for an accurate score.
           </p>
 
           <h4>Why are certain stat breakpoints forced?</h4>
@@ -320,17 +387,122 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     </Flex>
   )
 
+  function ScoringColumn(props: {
+    simulation: Simulation
+    percent: number
+    subText: string
+    mainText: string
+    basicText: string
+    damageText: string
+    statText: string
+    nameText: string
+    precision: number
+  }) {
+    const request = props.simulation.request
+    const simResult = TsUtils.clone(props.simulation.result)
+    const basicStats = simResult
+    const combatStats = basicStats.x
+    basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
+    combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
+
+    return (
+      <Flex vertical gap={50}>
+        <Flex vertical gap={defaultGap}>
+          <Flex justify="space-around">
+            <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+              <u>{`${props.nameText} build (${Utils.truncate10ths(Utils.precisionRound(props.percent * 100))}%)`}</u>
+            </pre>
+          </Flex>
+
+          <pre style={{ margin: '10px auto' }}>
+            {props.subText}
+          </pre>
+          <Flex gap={5} justify="space-around">
+            <Flex vertical gap={defaultGap} style={{ width: 120 }}>
+              <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision} />
+              <ScoringNumber label="ATK:  " number={request.stats[Stats.ATK]} precision={props.precision} />
+              <ScoringNumber label="HP%:  " number={request.stats[Stats.HP_P]} precision={props.precision} />
+              <ScoringNumber label="HP:   " number={request.stats[Stats.HP]} precision={props.precision} />
+              <ScoringNumber label="DEF%: " number={request.stats[Stats.DEF_P]} precision={props.precision} />
+              <ScoringNumber label="DEF:  " number={request.stats[Stats.DEF]} precision={props.precision} />
+            </Flex>
+            <Flex vertical gap={defaultGap} style={{ width: 100 }}>
+              <ScoringNumber label="SPD:  " number={request.stats[Stats.SPD]} precision={2} />
+              <ScoringNumber label="CR:   " number={request.stats[Stats.CR]} precision={props.precision} />
+              <ScoringNumber label="CD:   " number={request.stats[Stats.CD]} precision={props.precision} />
+              <ScoringNumber label="EHR:  " number={request.stats[Stats.EHR]} precision={props.precision} />
+              <ScoringNumber label="RES:  " number={request.stats[Stats.RES]} precision={props.precision} />
+              <ScoringNumber label="BE:   " number={request.stats[Stats.BE]} precision={props.precision} />
+            </Flex>
+          </Flex>
+        </Flex>
+
+        <Flex vertical gap={defaultGap}>
+          <pre style={{ margin: '0 auto' }}>
+            {props.mainText}
+          </pre>
+          <Flex gap={defaultGap} justify="space-around">
+            <Flex vertical gap={10}>
+              <ScoringStat stat={StatsToReadable[request.simBody]} part={Parts.Body} />
+              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
+              <ScoringStat stat={StatsToReadable[request.simFeet]} part={Parts.Feet} />
+              <ScoringStat stat={StatsToReadable[request.simLinkRope]} part={Parts.LinkRope} />
+            </Flex>
+          </Flex>
+        </Flex>
+
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+          <pre style={{ margin: 'auto' }}>
+            {props.basicText}
+          </pre>
+          <CharacterStatSummary
+            finalStats={basicStats}
+            elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
+          />
+        </Flex>
+
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+          <pre style={{ margin: 'auto' }}>
+            {props.statText} <u>combat stats</u>
+          </pre>
+          <CharacterStatSummary
+            finalStats={combatStats}
+            elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
+          />
+        </Flex>
+
+        <Flex vertical gap={defaultGap}>
+          <pre style={{ margin: '0 auto' }}>
+            {props.damageText}
+          </pre>
+          <Flex gap={defaultGap} justify="space-around">
+            <Flex vertical gap={10}>
+              <ScoringNumber label="Basic DMG:           " number={simResult.BASIC} />
+              <ScoringNumber label="Skill DMG:           " number={simResult.SKILL} />
+              <ScoringNumber label="Ult DMG:             " number={simResult.ULT} />
+              <ScoringNumber label="Fua DMG:             " number={simResult.FUA} />
+              <ScoringNumber label="Dot DMG:             " number={simResult.DOT} />
+              <ScoringNumber label="Break DMG:           " number={simResult.BREAK} />
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    )
+  }
+
   return (
     <Flex vertical gap={15} align="center">
       <Flex justify="space-around" style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 30, fontWeight: 'bold', margin: 0 }}>
-          Scoring analysis
+        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
+          Character build analysis
         </pre>
       </Flex>
       <Flex gap={40}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
           <pre style={{ margin: '5px auto' }}>
-            Sim teammates
+            Simulation teammates
           </pre>
           <Flex gap={15}>
             <ScoringTeammate result={result} index={0} />
@@ -343,7 +515,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
-            Sim sets
+            Simulation sets
           </pre>
           <Flex vertical gap={defaultGap}>
             <Flex>
@@ -387,212 +559,45 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       </Flex>
 
       <Flex>
-        <Flex vertical gap={50}>
-          <Flex vertical gap={defaultGap}>
-            <Flex justify="space-around">
-              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-                <u>{`Character build (${Utils.truncate10ths(Utils.precisionRound(result.percent * 100))}%)`}</u>
-              </pre>
-            </Flex>
-            <pre style={{ margin: '10px auto' }}>
-              Character subs (min rolls)
-            </pre>
-            <Flex gap={5} justify="space-around">
-              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
-                <ScoringNumber label="ATK%: " number={result.originalSim.request.stats[Stats.ATK_P]} precision={2} />
-                <ScoringNumber label="ATK:  " number={result.originalSim.request.stats[Stats.ATK]} precision={2} />
-                <ScoringNumber label="HP%:  " number={result.originalSim.request.stats[Stats.HP_P]} precision={2} />
-                <ScoringNumber label="HP:   " number={result.originalSim.request.stats[Stats.HP]} precision={2} />
-                <ScoringNumber label="DEF%: " number={result.originalSim.request.stats[Stats.DEF_P]} precision={2} />
-                <ScoringNumber label="DEF:  " number={result.originalSim.request.stats[Stats.DEF]} precision={2} />
-              </Flex>
-              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-                <ScoringNumber label="SPD:  " number={result.originalSim.request.stats[Stats.SPD]} precision={2} />
-                <ScoringNumber label="CR:   " number={result.originalSim.request.stats[Stats.CR]} precision={2} />
-                <ScoringNumber label="CD:   " number={result.originalSim.request.stats[Stats.CD]} precision={2} />
-                <ScoringNumber label="EHR:  " number={result.originalSim.request.stats[Stats.EHR]} precision={2} />
-                <ScoringNumber label="RES:  " number={result.originalSim.request.stats[Stats.RES]} precision={2} />
-                <ScoringNumber label="BE:   " number={result.originalSim.request.stats[Stats.BE]} precision={2} />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex vertical gap={defaultGap}>
-            <pre style={{ margin: '0 auto' }}>
-              Character main stats
-            </pre>
-            <Flex gap={defaultGap} justify="space-around">
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.originalSim.request.simBody]} part={Parts.Body} />
-                <ScoringStat stat={StatsToReadable[result.originalSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
-              </Flex>
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.originalSim.request.simFeet]} part={Parts.Feet} />
-                <ScoringStat stat={StatsToReadable[result.originalSim.request.simLinkRope]} part={Parts.LinkRope} />
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              Character basic stats
-            </pre>
-            <CharacterStatSummary
-              finalStats={originalBasicStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.originalSimScore}
-            />
-          </Flex>
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              Character <u>combat stats</u>
-            </pre>
-            <CharacterStatSummary
-              finalStats={originalCombatStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.originalSimScore}
-            />
-          </Flex>
-        </Flex>
+        <ScoringColumn
+          simulation={result.originalSim}
+          percent={result.percent}
+          precision={2}
+          subText="Character subs (min rolls)"
+          mainText="Character main stats"
+          basicText="Character basic stats"
+          damageText="Character ability damage"
+          statText="Character"
+          nameText="Character"
+        />
 
         {divider}
 
-        <Flex vertical gap={50}>
-          <Flex vertical gap={defaultGap}>
-            <Flex justify="space-around">
-              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-                <u>Benchmark build (100%)</u>
-              </pre>
-            </Flex>
-            <pre style={{ margin: '10px auto' }}>
-              100% benchmark subs (min rolls)
-            </pre>
-            <Flex gap={5} justify="space-around">
-              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
-                <ScoringNumber label="ATK%: " number={result.benchmarkSim.request.stats[Stats.ATK_P]} precision={0} />
-                <ScoringNumber label="ATK:  " number={result.benchmarkSim.request.stats[Stats.ATK]} precision={0} />
-                <ScoringNumber label="HP%:  " number={result.benchmarkSim.request.stats[Stats.HP_P]} precision={0} />
-                <ScoringNumber label="HP:   " number={result.benchmarkSim.request.stats[Stats.HP]} precision={0} />
-                <ScoringNumber label="DEF%: " number={result.benchmarkSim.request.stats[Stats.DEF_P]} precision={0} />
-                <ScoringNumber label="DEF:  " number={result.benchmarkSim.request.stats[Stats.DEF]} precision={0} />
-              </Flex>
-              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-                <ScoringNumber label="SPD:  " number={result.benchmarkSim.request.stats[Stats.SPD]} precision={2} />
-                <ScoringNumber label="CR:   " number={result.benchmarkSim.request.stats[Stats.CR]} precision={0} />
-                <ScoringNumber label="CD:   " number={result.benchmarkSim.request.stats[Stats.CD]} precision={0} />
-                <ScoringNumber label="EHR:  " number={result.benchmarkSim.request.stats[Stats.EHR]} precision={0} />
-                <ScoringNumber label="RES:  " number={result.benchmarkSim.request.stats[Stats.RES]} precision={0} />
-                <ScoringNumber label="BE:   " number={result.benchmarkSim.request.stats[Stats.BE]} precision={0} />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex vertical gap={defaultGap}>
-            <pre style={{ margin: '0 auto' }}>
-              100% benchmark main stats
-            </pre>
-            <Flex gap={defaultGap} justify="space-around">
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simBody]} part={Parts.Body} />
-                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
-              </Flex>
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simFeet]} part={Parts.Feet} />
-                <ScoringStat stat={StatsToReadable[result.benchmarkSim.request.simLinkRope]} part={Parts.LinkRope} />
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              100% benchmark basic stats
-            </pre>
-            <CharacterStatSummary
-              finalStats={benchmarkBasicStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.benchmarkSimScore}
-            />
-          </Flex>
-
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              100% benchmark <u>combat stats</u>
-            </pre>
-            <CharacterStatSummary
-              finalStats={benchmarkCombatStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.benchmarkSimScore}
-            />
-          </Flex>
-        </Flex>
+        <ScoringColumn
+          simulation={result.benchmarkSim}
+          percent={1.00}
+          precision={0}
+          subText="100% benchmark subs (min rolls)"
+          mainText="100% benchmark main stats"
+          basicText="100% benchmark basic stats"
+          damageText="100% benchmark ability damage"
+          statText="100% benchmark"
+          nameText="Benchmark"
+        />
 
         {divider}
 
-        <Flex vertical gap={50}>
-          <Flex vertical gap={defaultGap}>
-            <Flex justify="space-around">
-              <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-                <u>Perfect build (200%)</u>
-              </pre>
-            </Flex>
-            <pre style={{ margin: '10px auto' }}>
-              200% perfect subs (max rolls)
-            </pre>
-            <Flex gap={5} justify="space-around">
-              <Flex vertical gap={defaultGap} style={{ width: 120 }}>
-                <ScoringNumber label="ATK%: " number={result.maximumSim.request.stats[Stats.ATK_P]} precision={0} />
-                <ScoringNumber label="ATK:  " number={result.maximumSim.request.stats[Stats.ATK]} precision={0} />
-                <ScoringNumber label="HP%:  " number={result.maximumSim.request.stats[Stats.HP_P]} precision={0} />
-                <ScoringNumber label="HP:   " number={result.maximumSim.request.stats[Stats.HP]} precision={0} />
-                <ScoringNumber label="DEF%: " number={result.maximumSim.request.stats[Stats.DEF_P]} precision={0} />
-                <ScoringNumber label="DEF:  " number={result.maximumSim.request.stats[Stats.DEF]} precision={0} />
-              </Flex>
-              <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-                <ScoringNumber label="SPD:  " number={result.maximumSim.request.stats[Stats.SPD]} precision={2} />
-                <ScoringNumber label="CR:   " number={result.maximumSim.request.stats[Stats.CR]} precision={0} />
-                <ScoringNumber label="CD:   " number={result.maximumSim.request.stats[Stats.CD]} precision={0} />
-                <ScoringNumber label="EHR:  " number={result.maximumSim.request.stats[Stats.EHR]} precision={0} />
-                <ScoringNumber label="RES:  " number={result.maximumSim.request.stats[Stats.RES]} precision={0} />
-                <ScoringNumber label="BE:   " number={result.maximumSim.request.stats[Stats.BE]} precision={0} />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex vertical gap={defaultGap}>
-            <pre style={{ margin: '0 auto' }}>
-              200% perfect main stats
-            </pre>
-            <Flex gap={defaultGap} justify="space-around">
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simBody]} part={Parts.Body} />
-                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simPlanarSphere]} part={Parts.PlanarSphere} />
-              </Flex>
-              <Flex vertical gap={10}>
-                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simFeet]} part={Parts.Feet} />
-                <ScoringStat stat={StatsToReadable[result.maximumSim.request.simLinkRope]} part={Parts.LinkRope} />
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              200% perfect basic stats
-            </pre>
-            <CharacterStatSummary
-              finalStats={maximumBasicStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.maximumSimScore}
-            />
-          </Flex>
-
-          <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-            <pre style={{ margin: 'auto' }}>
-              200% perfect <u>combat stats</u>
-            </pre>
-            <CharacterStatSummary
-              finalStats={maximumCombatStats}
-              elementalDmgValue={elementalDmgValue}
-              simScore={result.maximumSimScore}
-            />
-          </Flex>
-        </Flex>
+        <ScoringColumn
+          simulation={result.maximumSim}
+          percent={1.00}
+          precision={0}
+          subText="200% perfect subs (min rolls)"
+          mainText="200% perfect main stats"
+          basicText="200% perfect basic stats"
+          damageText="200% perfect ability damage"
+          statText="200% perfect"
+          nameText="Perfect"
+        />
       </Flex>
 
       <Flex gap={defaultGap} justify="space-around">
@@ -646,10 +651,26 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     )
   }
 
+  const extraRows: ReactElement[] = []
+
+  const mainUpgrade = result.mainUpgrades[0]
+  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
+    const part = mainUpgrade.part
+    const stat = mainUpgrade.stat
+
+    extraRows.push(
+      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
+        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>,
+    )
+  }
+
   const setUpgrade = result.setUpgrades[0]
   if (setUpgrade.percent! - basePercent > 0) {
-    rows.splice(4, 1)
-    rows.push(
+    extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
@@ -660,20 +681,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     )
   }
 
-  const mainUpgrade = result.mainUpgrades[0]
-  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
-    const part = mainUpgrade.part
-    const stat = mainUpgrade.stat
-
-    rows.splice(4, 1)
-    rows.push(
-      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
-      </Flex>,
-    )
+  if (extraRows.length) {
+    rows.splice(5 - extraRows.length, extraRows.length)
+    extraRows.map((row) => rows.push(row))
   }
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%

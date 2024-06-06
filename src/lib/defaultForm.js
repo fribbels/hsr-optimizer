@@ -137,7 +137,7 @@ export const defaultSetConditionals = {
   [Constants.Sets.PrisonerInDeepConfinement]: [undefined, 0],
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
-  [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
+  [Constants.Sets.IronCavalryAgainstTheScourge]: [undefined, true],
   [Constants.Sets.TheWindSoaringValorous]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],

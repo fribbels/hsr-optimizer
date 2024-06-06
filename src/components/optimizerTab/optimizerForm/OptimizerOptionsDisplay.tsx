@@ -20,12 +20,21 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
     characters, [DB.getCharacterById(optimizerTabFocusCharacter)], false,
   ), [characters, optimizerTabFocusCharacter])
 
+  const labelledExcludeOptions: { value: string; label; name }[] = []
+  for (const option of characterExcludeOptions) {
+    labelledExcludeOptions.push({
+      value: option.value,
+      label: <Flex gap={5}><img src={Assets.getCharacterAvatarById(option.value)} style={{ height: 25, marginTop: 2 }} />{option.label}</Flex>,
+      name: option.label,
+    })
+  }
+
   const characterPriorityOptions = useMemo(() => {
     const characterMetadata = DB.getMetadata().characters
     return characters.map((x) => {
       return {
         value: x.rank,
-        label: <Flex gap={5}># {x.rank + 1} <img src={Assets.getCharacterAvatarById(x.id)} style={{ height: 25 }} /> {characterMetadata[x.id].displayName} </Flex>,
+        label: <Flex gap={5}># {x.rank + 1}<img src={Assets.getCharacterAvatarById(x.id)} style={{ height: 25 }} />{characterMetadata[x.id].displayName} </Flex>,
         number: `# ${x.rank + 1}`,
       }
     })
@@ -118,8 +127,9 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 listHeight={500}
                 allowClear
                 showSearch
+                optionLabelProp="name"
                 placeholder="Exclude"
-                options={characterExcludeOptions}
+                options={labelledExcludeOptions}
                 filterOption={Utils.labelFilterOption}
               />
             </Form.Item>

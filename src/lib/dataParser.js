@@ -17,7 +17,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
   Sets.ThiefOfShootingMeteor,
   Sets.WatchmakerMasterOfDreamMachinations,
-  Sets.IronCavalryAgainstScourge,
+  Sets.IronCavalryAgainstTheScourge,
 ]
 
 const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
@@ -40,7 +40,7 @@ export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
       UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] = true
+      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
       UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
       UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
@@ -3540,7 +3540,7 @@ function getScoringMetadata() {
         },
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -5096,7 +5096,7 @@ function getScoringMetadata() {
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -5432,7 +5432,7 @@ function getScoringMetadata() {
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

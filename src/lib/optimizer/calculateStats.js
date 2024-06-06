@@ -24,7 +24,7 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     PrisonerInDeepConfinement: (1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)),
     PioneerDiverOfDeadWaters: (1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)),
     WatchmakerMasterOfDreamMachinations: (1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)),
-    IronCavalryAgainstScourge: (1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)),
+    IronCavalryAgainstTheScourge: (1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)),
     TheWindSoaringValorous: (1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)),
 
     SpaceSealingStation: (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)),
@@ -137,7 +137,7 @@ export function calculateBaseStats(c, request, params) {
     + 0.16 * p2(sets.ThiefOfShootingMeteor)
     + 0.16 * p4(sets.ThiefOfShootingMeteor)
     + 0.16 * p2(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.16 * p2(sets.IronCavalryAgainstScourge),
+    + 0.16 * p2(sets.IronCavalryAgainstTheScourge),
   )
 
   c[Stats.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c,
@@ -243,10 +243,10 @@ export function calculateComputedStats(c, request, params) {
     += 0.06 * params.valuePrisonerInDeepConfinement * p4(sets.PrisonerInDeepConfinement)
 
   x.BREAK_DEF_PEN
-    += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstScourge)
+    += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
 
   x.SUPER_BREAK_DEF_PEN
-    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstScourge)
+    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
 
   x.ELEMENTAL_DMG
     += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)

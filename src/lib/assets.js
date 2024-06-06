@@ -173,7 +173,7 @@ export const Assets = {
       [Constants.Sets.PrisonerInDeepConfinement]: '116',
       [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
       [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
-      [Constants.Sets.IronCavalryAgainstScourge]: '119',
+      [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
       [Constants.Sets.TheWindSoaringValorous]: '120',
 
       [Constants.Sets.SpaceSealingStation]: '301',

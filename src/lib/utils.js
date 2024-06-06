@@ -198,6 +198,10 @@ export const Utils = {
     return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
   },
 
+  nameFilterOption: (input, option) => {
+    return (option?.name ?? '').toLowerCase().includes(input.toLowerCase())
+  },
+
   // Returns body/feet/rope/sphere
   hasMainStat: (part) => {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere

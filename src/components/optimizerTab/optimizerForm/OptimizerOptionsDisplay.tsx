@@ -35,7 +35,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
       return {
         value: x.rank,
         label: <Flex gap={5}># {x.rank + 1}<img src={Assets.getCharacterAvatarById(x.id)} style={{ height: 25 }} />{characterMetadata[x.id].displayName} </Flex>,
-        number: `# ${x.rank + 1}`,
+        name: `# ${x.rank + 1}`,
       }
     })
   }, [characters])
@@ -107,10 +107,10 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 options={characterPriorityOptions}
                 popupMatchSelectWidth={160}
                 listHeight={500}
-                optionLabelProp="number"
+                optionLabelProp="name"
                 placeholder="Priority"
                 showSearch
-                filterOption={Utils.labelFilterOption}
+                filterOption={Utils.nameFilterOption}
               />
             </Form.Item>
           </Flex>
@@ -130,7 +130,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 optionLabelProp="name"
                 placeholder="Exclude"
                 options={labelledExcludeOptions}
-                filterOption={Utils.labelFilterOption}
+                filterOption={Utils.nameFilterOption}
               />
             </Form.Item>
           </Flex>

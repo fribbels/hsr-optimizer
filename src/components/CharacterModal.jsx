@@ -109,6 +109,7 @@ export default function CharacterModal(props) {
                 value=""
                 selectStyle={{ width: panelWidth - 60 - defaultGap }}
                 onChange={setCharacterId}
+                withIcon={true}
               />
             </Form.Item>
             <Form.Item size="default" name="characterEidolon">

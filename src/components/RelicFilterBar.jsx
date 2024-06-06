@@ -260,6 +260,7 @@ export default function RelicFilterBar(props) {
                 // Wait until after modal closes to update
                 setTimeout(() => characterSelectorChange(x), 20)
               }}
+              withIcon={true}
             />
             <Button
               onClick={rescoreClicked}

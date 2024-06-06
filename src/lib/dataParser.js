@@ -4448,8 +4448,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.DEF_P,
           Stats.HP_P,
+          Stats.DEF_P,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -4457,6 +4460,14 @@ function getScoringMetadata() {
         [Parts.PlanarSphere]: [
           Stats.HP_P,
           Stats.DEF_P,
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+          Stats.Physical_DMG,
+          Stats.Fire_DMG,
+          Stats.Ice_DMG,
+          Stats.Lightning_DMG,
+          Stats.Quantum_DMG,
+          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,

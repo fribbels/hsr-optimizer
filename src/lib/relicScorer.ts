@@ -234,6 +234,7 @@ export class RelicScorer {
       // First candidate, i.e. has the highest weight
       const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
       const mainStatWeight = scoreEntries[mainStatIndex][1]
+      mainStat = scoreEntries[mainStatIndex][0]
       // Worst case, will be overriden on first loop iteration by true values
       let isIdeal = false
       let isSubstat = true

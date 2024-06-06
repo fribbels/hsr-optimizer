@@ -17,7 +17,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
   Sets.ThiefOfShootingMeteor,
   Sets.WatchmakerMasterOfDreamMachinations,
-  Sets.IronCavalryAgainstScourge,
+  Sets.IronCavalryAgainstTheScourge,
 ]
 
 const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
@@ -40,7 +40,7 @@ export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
       UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] = true
+      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
       UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
       UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
@@ -1049,11 +1049,11 @@ function getOverrideImageCenter() {
     },
     1004: { // Welt
       x: 885,
-      y: 1000,
+      y: 950,
     },
     1005: { // Kafka
       x: 980,
-      y: 1024,
+      y: 950,
     },
     1006: { // Silver Wolf
       x: 1010,
@@ -1061,7 +1061,7 @@ function getOverrideImageCenter() {
     },
     1008: { // Arlan
       x: 1240,
-      y: 1024,
+      y: 1000,
     },
     1009: { // Asta
       x: 1024,
@@ -1069,7 +1069,7 @@ function getOverrideImageCenter() {
     },
     1013: { // Herta
       x: 970,
-      y: 1010,
+      y: 920,
     },
     1101: { // Bronya
       x: 950,
@@ -1077,7 +1077,7 @@ function getOverrideImageCenter() {
     },
     1102: { // Seele
       x: 820,
-      y: 1160,
+      y: 1100,
     },
     1103: { // Serval
       x: 1050,
@@ -1097,11 +1097,11 @@ function getOverrideImageCenter() {
     },
     1107: { // Clara
       x: 880,
-      y: 980,
+      y: 900,
     },
     1108: { // Sampo
       x: 1024,
-      y: 1024,
+      y: 925,
     },
     1109: { // Hook
       x: 930,
@@ -1113,11 +1113,11 @@ function getOverrideImageCenter() {
     },
     1111: { // Luka
       x: 930,
-      y: 1024,
+      y: 1000,
     },
     1112: { // Topaz and Numby
       x: 1120,
-      y: 930,
+      y: 875,
     },
     1201: { // Qingque
       x: 1000,
@@ -1137,7 +1137,7 @@ function getOverrideImageCenter() {
     },
     1205: { // Blade
       x: 990,
-      y: 900,
+      y: 800,
     },
     1206: { // Sushang
       x: 1100,
@@ -1153,7 +1153,7 @@ function getOverrideImageCenter() {
     },
     1209: { // Yanqing
       x: 1024,
-      y: 1024,
+      y: 1000,
     },
     1210: { // Guinaifen
       x: 1024,
@@ -1169,11 +1169,11 @@ function getOverrideImageCenter() {
     },
     1213: { // Dan Heng • Imbibitor Lunae
       x: 1050,
-      y: 1024,
+      y: 1000,
     },
     1214: { // Xueyi
       x: 1000,
-      y: 1024,
+      y: 900,
     },
     1215: { // Hanya
       x: 1000,
@@ -1197,7 +1197,7 @@ function getOverrideImageCenter() {
     },
     1304: { // Aventurine
       x: 1150,
-      y: 1024,
+      y: 1000,
     },
     1305: { // Dr Ratio
       x: 900,
@@ -1209,11 +1209,11 @@ function getOverrideImageCenter() {
     },
     1307: { // Black Swan
       x: 920,
-      y: 950,
+      y: 900,
     },
     1308: { // Acheron
       x: 1000,
-      y: 960,
+      y: 900,
     },
     1309: { // Robin
       x: 1024,
@@ -1229,7 +1229,7 @@ function getOverrideImageCenter() {
     },
     1314: { // Jade
       x: 1024,
-      y: 950,
+      y: 925,
     },
     1315: { // Boothill
       x: 1000,
@@ -1714,7 +1714,7 @@ function getScoringMetadata() {
           SKILL: 2,
           ULT: 1,
           FUA: 2,
-          DOT: 6,
+          DOT: 8,
           BREAK: 0,
         },
         relicSets: [
@@ -3540,7 +3540,7 @@ function getScoringMetadata() {
         },
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -4448,8 +4448,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.DEF_P,
           Stats.HP_P,
+          Stats.DEF_P,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -4457,6 +4460,14 @@ function getScoringMetadata() {
         [Parts.PlanarSphere]: [
           Stats.HP_P,
           Stats.DEF_P,
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+          Stats.Physical_DMG,
+          Stats.Fire_DMG,
+          Stats.Ice_DMG,
+          Stats.Lightning_DMG,
+          Stats.Quantum_DMG,
+          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -5085,7 +5096,7 @@ function getScoringMetadata() {
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -5421,7 +5432,7 @@ function getScoringMetadata() {
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

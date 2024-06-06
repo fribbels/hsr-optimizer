@@ -7,15 +7,16 @@ interface CharacterCustomPortraitProps {
 }
 
 const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
-                                                                           customPortrait,
-                                                                           parentW,
-                                                                         }) => {
+  customPortrait,
+  parentW,
+}) => {
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
 
   return (
     <div style={{
       position: 'absolute',
-    }}>
+    }}
+    >
       <LoadingBlurredImage
         src={customPortrait.imageUrl}
         style={{

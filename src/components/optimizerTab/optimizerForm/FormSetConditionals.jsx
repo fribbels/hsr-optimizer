@@ -266,9 +266,9 @@ export const FormSetConditionals = () => {
             description="When the wearer uses their Ultimate on an ally, Break Effect for all allies increases by 30% for 2 turn(s). This effect cannot be stacked."
             conditional="When enabled, the Break Effect buff is applied to Combat stat calculations."
           />
-          {!UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstScourge] && (
+          {!UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] && (
             <ConditionalSetOption
-              set={Constants.Sets.IronCavalryAgainstScourge}
+              set={Constants.Sets.IronCavalryAgainstTheScourge}
               description="If the wearer's Break Effect is 150% or higher, ignores 10% of the enemy target's DEF when dealing Break DMG to them. When the wearer's Break Effect is 250% or higher, the Super Break DMG they deal to enemy targets additionally ignores 15% of the targets' DEF."
               conditional={defaultMessage}
               p4Checked

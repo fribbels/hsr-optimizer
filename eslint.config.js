@@ -73,6 +73,7 @@ const config = tseslint.config(
       'react-hooks/rules-of-hooks': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
       'react/prop-types': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
   {

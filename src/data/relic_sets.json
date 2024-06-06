@@ -592,5 +592,21 @@
         ],
         "icon": "icon/relic/314.png",
         "guide_overview": []
+    },
+    "119": {
+        "id": "119",
+        "name": "Iron Cavalry Against the Scourge"
+    },
+    "120": {
+        "id": "120",
+        "name": "The Wind-Soaring Valorous"
+    },
+    "315": {
+        "id": "315",
+        "name": "Duran, Dynasty of Running Wolves"
+    },
+    "316": {
+        "id": "316",
+        "name": "Forge of the Kalpagni Lantern"
     }
 }

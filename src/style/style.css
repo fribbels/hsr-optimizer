@@ -170,7 +170,7 @@ body,
 }
 
 .ant-form-item-control-input {
-    min-height: 24px !important;
+    min-height: 22px !important;
 }
 
 .ant-cascader-menu-item {
@@ -397,6 +397,21 @@ a {
 
 /* Target the second segment specifically */
 .short-segmented {
-    flex-grow: 0.45 !important;
+    flex-grow: 0.5 !important;
 }
 
+.short-segmented > .ant-segmented-item-label{
+    padding: 0px !important;
+}
+
+.center-input-text > div > input {
+    text-align: center !important;
+}
+
+.centered-placeholder::placeholder {
+    text-align: center;
+}
+
+.ant-modal-confirm-paragraph {
+    max-width: unset !important;
+}

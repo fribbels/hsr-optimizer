@@ -39,6 +39,7 @@ export const Assets = {
       }
     }
     if (stat == 'CV') return getImageUrl(`/misc/cv.webp`)
+    if (stat == 'simScore') return getImageUrl(`/misc/battle.webp`)
     if (stat == Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
     if (stat == Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)
     if (stat == Constants.Stats.DEF_P && percented) return getImageUrl(`/misc/IconDefencePercent.webp`)
@@ -172,7 +173,7 @@ export const Assets = {
       [Constants.Sets.PrisonerInDeepConfinement]: '116',
       [Constants.Sets.PioneerDiverOfDeadWaters]: '117',
       [Constants.Sets.WatchmakerMasterOfDreamMachinations]: '118',
-      [Constants.Sets.IronCavalryAgainstScourge]: '119',
+      [Constants.Sets.IronCavalryAgainstTheScourge]: '119',
       [Constants.Sets.TheWindSoaringValorous]: '120',
 
       [Constants.Sets.SpaceSealingStation]: '301',

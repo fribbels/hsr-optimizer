@@ -7,8 +7,7 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { StatCalculator } from './statCalculator'
-import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
+import { defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -395,10 +394,26 @@ export const OptimizerTabController = {
         newForm.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
         newForm.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
         newForm.weights = scoringMetadata.stats
-        newForm.weights.topPercent = 100
+        newForm.weights.headHands = 0
+        newForm.weights.bodyFeet = 0
+        newForm.weights.sphereRope = 0
 
         applyMetadataPresetToForm(newForm, scoringMetadata)
       }
+    }
+
+    if (!newForm.weights) {
+      newForm.weights = getDefaultWeights(newForm.characterId)
+    }
+
+    if (!newForm.weights.headHands) {
+      newForm.weights.headHands = 0
+    }
+    if (!newForm.weights.bodyFeet) {
+      newForm.weights.bodyFeet = 0
+    }
+    if (!newForm.weights.sphereRope) {
+      newForm.weights.sphereRope = 0
     }
 
     if (!newForm.exclude) {
@@ -440,7 +455,9 @@ export const OptimizerTabController = {
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 1,
         [Constants.Stats.BE]: 1,
-        topPercent: 100,
+        headHands: 0,
+        bodyFeet: 0,
+        sphereRope: 0,
       }
     }
 
@@ -486,14 +503,8 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (!x.weights || !x.weights.topPercent) {
-      Message.error('Substat weight filter should have a Top % value greater than 0%. Make sure to set the Top % value with your substat weights.', 10)
-      console.log('Top percent')
-      return false
-    }
-
-    if (x.weights.topPercent > 0 && Object.values(Constants.Stats).map((stat) => x.weights[stat]).filter((x) => !!x).length == 0) {
-      Message.error('Top % of weighted relics was selected but all weights are set to 0. Make sure to set the substat weights for your character.', 10)
+    if (Object.values(Constants.Stats).map((stat) => x.weights[stat]).filter((x) => !!x).length == 0) {
+      Message.error('All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.', 10)
       console.log('Top percent')
       return false
     }
@@ -797,14 +808,4 @@ function filter(filterModel) {
   }
 
   filteredIndices = indices
-}
-
-function setPinnedRow(characterId) {
-  const character = DB.getCharacterById(characterId)
-  const stats = StatCalculator.calculate(character)
-
-  // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
-  if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
-  }
 }

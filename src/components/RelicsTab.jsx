@@ -5,7 +5,7 @@ import Plot from 'react-plotly.js'
 
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
-import RelicModal from './RelicModal'
+import RelicModal from './RelicModal.tsx'
 import { RelicScorer } from 'lib/relicScorer'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
@@ -549,13 +549,13 @@ export default function RelicsTab() {
           )}
           <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
             {relicInsight === 'buckets' && scoreBuckets && (
-            // Since plotly doesn't natively support images as points, we emulate it in this plot
-            // by adding invisible points for each character (to get 'name on hover' behavior),
-            // then adding an image on top of each point
+              // Since plotly doesn't natively support images as points, we emulate it in this plot
+              // by adding invisible points for each character (to get 'name on hover' behavior),
+              // then adding an image on top of each point
               <Plot
                 data={[
-                // Add fake data in each category to make sure we don't elide any categories - that would
-                // mess up our image placement
+                  // Add fake data in each category to make sure we don't elide any categories - that would
+                  // mess up our image placement
                   {
                     type: 'scatter',
                     x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

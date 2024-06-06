@@ -651,10 +651,26 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     )
   }
 
+  const extraRows: ReactElement[] = []
+
+  const mainUpgrade = result.mainUpgrades[0]
+  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
+    const part = mainUpgrade.part
+    const stat = mainUpgrade.stat
+
+    extraRows.push(
+      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
+        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+      </Flex>,
+    )
+  }
+
   const setUpgrade = result.setUpgrades[0]
   if (setUpgrade.percent! - basePercent > 0) {
-    rows.splice(4, 1)
-    rows.push(
+    extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
@@ -665,20 +681,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     )
   }
 
-  const mainUpgrade = result.mainUpgrades[0]
-  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
-    const part = mainUpgrade.part
-    const stat = mainUpgrade.stat
-
-    rows.splice(4, 1)
-    rows.push(
-      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
-      </Flex>,
-    )
+  if (extraRows.length) {
+    rows.splice(5 - extraRows.length, extraRows.length)
+    extraRows.map((row) => rows.push(row))
   }
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%

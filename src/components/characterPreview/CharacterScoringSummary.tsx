@@ -113,7 +113,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
           <p>
             This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
-            how much the relics contributes to damage, for a more accurate evaluation than scores based solely on stat weights.
+            how much the relics contribute to damage, for a more accurate evaluation than scores based solely on stat weights.
           </p>
           <p>
             The scoring calculation takes into consideration:
@@ -292,9 +292,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why does the sim match Speed?</h4>
           <p>
-            Speed is controlled separately from the other stats because damage isnt comparable between different speed thresholds.
-            For example higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
-            To make the damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
+            Speed is controlled separately from the other stats because damage isn't comparable between different speed thresholds.
+            For example, higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
+            To make damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
           </p>
 
           <h4>Why does a build score lower even though it has higher Sim Damage?</h4>

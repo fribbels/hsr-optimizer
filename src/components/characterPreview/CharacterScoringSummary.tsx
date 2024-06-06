@@ -113,7 +113,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
           <p>
             This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
-            how much the relics contributes to damage, for a more accurate evaluation than scores based solely on stat weights.
+            how much the relics contribute to damage, for a more accurate evaluation than scores based solely on stat weights.
           </p>
           <p>
             The scoring calculation takes into consideration:
@@ -292,9 +292,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why does the sim match Speed?</h4>
           <p>
-            Speed is controlled separately from the other stats because damage isnt comparable between different speed thresholds.
-            For example higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
-            To make the damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
+            Speed is controlled separately from the other stats because damage isn't comparable between different speed thresholds.
+            For example, higher speed can actually result in lower damage with Bronya as a teammate if the Speed tuning is thrown off.
+            To make damage comparisons fair, we equalize the Speed variable by forcing the sim's substats to match the original character's combat speed.
           </p>
 
           <h4>Why does a build score lower even though it has higher Sim Damage?</h4>
@@ -589,7 +589,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <ScoringColumn
           simulation={result.maximumSim}
-          percent={1.00}
+          percent={2.00}
           precision={0}
           subText="200% perfect subs (min rolls)"
           mainText="200% perfect main stats"
@@ -688,9 +688,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 3 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
+        <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
           DPS score improvements
         </HeaderText>
       </Flex>

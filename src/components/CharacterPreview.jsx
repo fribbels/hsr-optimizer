@@ -226,7 +226,7 @@ export function CharacterPreview(props) {
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
-  const newLcHeight = 180
+  const newLcHeight = 140
   const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
@@ -473,7 +473,7 @@ export function CharacterPreview(props) {
                           style={{
                             position: 'absolute',
                             left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-                            top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2,
+                            top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2 - (scoringType == SIMULATION_SCORE && simScoringResult ? newLcHeight / 2 : 0),
                             width: innerW,
                           }}
                         />
@@ -620,8 +620,8 @@ export function CharacterPreview(props) {
                 vertical style={{ width: middleColumnWidth, height: '100%' /* 280 * 2 + defaultGap */ }}
                 justify="space-between"
               >
-                <Flex vertical gap={0}>
-                  <Flex justify="space-between" style={{ height: 36 }}>
+                <Flex vertical>
+                  <Flex justify="space-around" style={{ height: 36 }}>
                     <Image
                       preview={false}
                       width={36}

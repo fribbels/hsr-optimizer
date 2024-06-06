@@ -180,7 +180,7 @@ export function ScannerImportSubmenu() {
                   <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
                 </ul>
               </li>
-              <li>HoyoLab import (
+              <li>HoyoLab Import (
                 <ColorizedLink text="Instructions" url="https://github.com/fribbels/hsr-optimizer/discussions/403" />
                 )
                 <ul>

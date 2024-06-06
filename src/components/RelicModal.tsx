@@ -337,10 +337,12 @@ export default function RelicModal(props: {
                 />
               </Form.Item>
 
-              <img
-                style={{ width: '100%', marginTop: 7, borderRadius: 10, boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset` }}
-                src={Assets.getCharacterIconById(equippedBy == 'None' ? '' : equippedBy)}
-              />
+              <div style={{ height: 180, overflow: 'hidden', marginTop: 7, borderRadius: 10, boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset` }}>
+                <img
+                  style={{ width: '100%' }}
+                  src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
+                />
+              </div>
             </Flex>
           </Flex>
 

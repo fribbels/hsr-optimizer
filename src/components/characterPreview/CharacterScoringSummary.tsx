@@ -589,7 +589,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <ScoringColumn
           simulation={result.maximumSim}
-          percent={1.00}
+          percent={2.00}
           precision={0}
           subText="200% perfect subs (min rolls)"
           mainText="200% perfect main stats"
@@ -688,9 +688,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 3 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 2 }}>
+        <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
           DPS score improvements
         </HeaderText>
       </Flex>

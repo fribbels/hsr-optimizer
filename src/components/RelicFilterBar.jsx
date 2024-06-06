@@ -133,8 +133,6 @@ export default function RelicFilterBar(props) {
   }, [])
 
   function characterSelectorChange(id) {
-    if (!id) return
-
     const relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 

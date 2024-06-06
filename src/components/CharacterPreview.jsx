@@ -252,7 +252,8 @@ export function CharacterPreview(props) {
 
     simulation.teammates[selectedTeammateIndex] = form
 
-    DB.updateSimulationScoreOverrides(characterId, simulation.teammates)
+    DB.updateSimulationScoreOverrides(characterId, simulation)
+    setRedrawTeammates(Utils.randomId)
 
     setTeamSelection(CUSTOM_TEAM)
   }
@@ -307,7 +308,7 @@ export function CharacterPreview(props) {
                         const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
                         const simulation = characterMetadata.scoringMetadata.simulation
 
-                        DB.updateSimulationScoreOverrides(character.id, simulation.teammates)
+                        DB.updateSimulationScoreOverrides(character.id, simulation)
 
                         setTeamSelection(DEFAULT_TEAM)
                         setRedrawTeammates(Math.random())
@@ -334,7 +335,7 @@ export function CharacterPreview(props) {
                           }
                         }
 
-                        DB.updateSimulationScoreOverrides(character.id, simulation.teammates)
+                        DB.updateSimulationScoreOverrides(character.id, simulation)
                         setTeamSelection(CUSTOM_TEAM)
                         setRedrawTeammates(Math.random())
 

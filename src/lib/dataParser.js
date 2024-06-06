@@ -2640,7 +2640,7 @@ function getScoringMetadata() {
           SKILL: 3,
           ULT: 1,
           FUA: 0,
-          DOT: 30,
+          DOT: 60,
           BREAK: 0,
         },
         relicSets: [
@@ -2900,7 +2900,7 @@ function getScoringMetadata() {
           SKILL: 1,
           ULT: 1,
           FUA: 0,
-          DOT: 2,
+          DOT: 5,
           BREAK: 1,
         },
         relicSets: [

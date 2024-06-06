@@ -162,8 +162,7 @@ export function hoyolabParser(json: HoyolabData) {
     }
 
     const trailblazerMetadata: TrailblazerMetadata = getTrailblazerMetadata(character.id)
-    output.metadata.trailblazer = trailblazerMetadata.trailblazer
-    output.metadata.current_trailblazer_path = trailblazerMetadata.current_trailblazer_path
+    if (trailblazerMetadata) output.metadata = trailblazerMetadata
   }
   output.relics.map((relic) => RelicAugmenter.augment(relic))
   return output
@@ -188,7 +187,7 @@ const trailblazerMetadataLookup: { [key: number]: TrailblazerMetadata } = {
   8005: { trailblazer: 'Caelus', current_trailblazer_path: 'Harmony' },
 }
 function getTrailblazerMetadata(id: number) {
-  return trailblazerMetadataLookup[id] || trailblazerMetadataLookup[8002]
+  return trailblazerMetadataLookup[id]
 }
 
 const statLookup: { [key: number]: string } = {

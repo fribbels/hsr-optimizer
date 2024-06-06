@@ -8,9 +8,9 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const standoffDmgBoost = skill(e, 0.30, 0.33)
+  const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.20, 2.42)
@@ -31,7 +31,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'Standoff Active',
       title: 'Standoff Active',
       content: `Forces Boothill and a single target enemy into the Standoff state. Boothill's Basic ATK gets Enhanced, and he cannot use his Skill, lasting for 2 turn(s). This duration reduces by 1 at the start of Boothill's every turn.
-The enemy target in the Standoff becomes Taunted. When this enemy target/Boothill gets attacked by the other party in the Standoff, the DMG they receive increases by ${precisionRound(standoffDmgBoost * 100)}%/15%.`,
+The enemy target in the Standoff becomes Taunted. When this enemy target/Boothill gets attacked by the other party in the Standoff, the DMG they receive increases by ${precisionRound(standoffVulnerabilityBoost * 100)}%/15%.`,
     },
     {
       formItem: 'slider',
@@ -126,7 +126,7 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       }
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
-      x.ELEMENTAL_DMG += (r.standoffActive) ? standoffDmgBoost : 0
+      x.DMG_TAKEN_MULTI += (r.standoffActive) ? standoffVulnerabilityBoost : 0
 
       x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
       x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0

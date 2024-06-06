@@ -12,13 +12,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { useSubscribe } from 'hooks/useSubscribe'
-import {
-  CameraOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined
-} from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import CharacterModal from './CharacterModal'
 import { Utils } from 'lib/utils'
 import NameBuild from 'components/SaveBuildModal'
@@ -78,8 +72,9 @@ function cellNameRenderer(params) {
         textWrap: 'wrap',
         fontSize: 14,
         width: '100%',
-        lineHeight: '18px'
-      }}>
+        lineHeight: '18px',
+      }}
+      >
         {characterName}
       </Text>
       <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
@@ -231,7 +226,6 @@ export default function CharacterTab() {
     const data = event.data
 
     // Only blur if different character
-    window.store.getState().setCharacterTabBlur(window.store.getState().characterTabFocusCharacter != data.id)
     setCharacterTabFocusCharacter(data.id)
     console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
   }, [setCharacterTabFocusCharacter])
@@ -351,7 +345,7 @@ export default function CharacterTab() {
 
   async function sortByScoreClicked() {
     if (!await confirm(<>
-      Are you sure you want to sort all characters? <br/>
+      Are you sure you want to sort all characters? <br />
       You will lose any custom rankings you have set.
     </>)) {
       return
@@ -394,7 +388,7 @@ export default function CharacterTab() {
     const score = RelicScorer.scoreCharacter(selectedCharacter)
     const res = DB.saveCharacterBuild(name, selectedCharacter.id, {
       score: score.totalScore.toFixed(0),
-      rating: score.totalRating
+      rating: score.totalRating,
     })
     if (res) {
       Message.error(res.error)
@@ -459,7 +453,7 @@ export default function CharacterTab() {
   async function confirm(content) {
     return confirmationModal.confirm({
       title: 'Confirm',
-      icon: <ExclamationCircleOutlined/>,
+      icon: <ExclamationCircleOutlined />,
       content: content,
       okText: 'Confirm',
       cancelText: 'Cancel',
@@ -475,15 +469,16 @@ export default function CharacterTab() {
       vertical
       style={{
         height: '100%',
+        marginBottom: 200,
       }}
     >
       <Flex style={{ height: '100%' }}>
         <Flex vertical gap={8} style={{ marginRight: 8 }}>
           <div
             id="characterGrid" className="ag-theme-balham-dark" style={{
-            ...{ display: 'block', width: 230, height: parentH - 85 },
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: 230, height: parentH - 76 },
+              ...getGridTheme(token),
+            }}
           >
             <AgGridReact
               ref={characterGrid}
@@ -512,34 +507,53 @@ export default function CharacterTab() {
                 menu={actionsMenuProps}
                 trigger={['hover']}
               >
-                <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
+                <Button style={{ width: '100%' }} icon={<UserOutlined />}>
                   Character actions
-                  <DownOutlined/>
+                  <DownOutlined />
                 </Button>
               </Dropdown>
             </Flex>
             <Flex gap={8}>
-              <Button style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked} type="primary"
-                      loading={screenshotLoading}>
+              <Button
+                style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked}
+                type="primary"
+                loading={screenshotLoading}
+              >
                 Copy screenshot
               </Button>
-              <Button style={{ width: 40 }} type="primary" icon={<DownloadOutlined/>} onClick={downloadClicked}
-                      loading={downloadLoading}/>
+              <Button
+                style={{ width: 40 }} type="primary" icon={<DownloadOutlined />}
+                onClick={downloadClicked}
+                loading={downloadLoading}
+              />
             </Flex>
           </Flex>
         </Flex>
-        <CharacterPreview id="characterTabPreview" character={selectedCharacter}/>
+        <Flex vertical>
+          <CharacterPreview
+            id="characterTabPreview"
+            character={selectedCharacter}
+            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          />
+        </Flex>
 
         {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
       </Flex>
-      <CharacterModal onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
-                      initialCharacter={characterModalInitialCharacter}/>
-      <SwitchRelicsModal onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen}
-                         setOpen={setSwitchRelicsModalOpen}
-                         currentCharacter={selectedCharacter}/>
-      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild}/>
-      <BuildsModal open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
-                   imgRenderer={cellImageRenderer}/>
+      <CharacterModal
+        onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
+        initialCharacter={characterModalInitialCharacter}
+      />
+      <SwitchRelicsModal
+        onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen}
+        setOpen={setSwitchRelicsModalOpen}
+        currentCharacter={selectedCharacter}
+      />
+      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
+      <BuildsModal
+        open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
+        imgRenderer={cellImageRenderer}
+      />
       {contextHolder}
     </Flex>
   )

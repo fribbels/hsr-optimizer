@@ -2,13 +2,12 @@ import { inPlaceSort } from 'fast-sort'
 import DB from './db'
 import { Message } from './message'
 import { SaveState } from './saveState'
-import { Constants, DEFAULT_STAT_DISPLAY } from './constants.ts'
+import { CombatBuffs, Constants, DamageKeys, DEFAULT_STAT_DISPLAY } from './constants.ts'
 import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { StatCalculator } from './statCalculator'
-import { defaultSetConditionals, defaultTeammate, getDefaultForm } from 'lib/defaultForm'
+import { defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -135,6 +134,7 @@ export const OptimizerTabController = {
         FUA: true,
         DOT: true,
         BREAK: true,
+        COMBO: true,
 
         xATK: true,
         xDEF: true,
@@ -148,7 +148,6 @@ export const OptimizerTabController = {
         xERR: true,
         xOHB: true,
         xELEMENTAL_DMG: true,
-
       }
       columnsToAggregate = Object.keys(columnsToAggregateMap)
     }
@@ -260,6 +259,7 @@ export const OptimizerTabController = {
   getDisplayFormValues: (form) => {
     const newForm = Utils.clone(form)
     const metadata = DB.getMetadata().characters[form.characterId]
+    const scoringMetadata = DB.getScoringMetadata(form.characterId)
 
     // Erase inputs where min == 0 and max == MAX_INT
     newForm.maxHp = unsetMax(form.maxHp)
@@ -299,17 +299,20 @@ export const OptimizerTabController = {
     newForm.minDot = unsetMin(form.minDot)
     newForm.maxBreak = unsetMax(form.maxBreak)
     newForm.minBreak = unsetMin(form.minBreak)
+    newForm.maxCombo = unsetMax(form.maxCombo)
+    newForm.minCombo = unsetMin(form.minCombo)
 
-    newForm.buffAtk = unsetMin(form.buffAtk)
-    newForm.buffAtkP = unsetMin(form.buffAtkP, true)
-    newForm.buffCr = unsetMin(form.buffCr, true)
-    newForm.buffCd = unsetMin(form.buffCd, true)
-    newForm.buffSpd = unsetMin(form.buffSpd)
-    newForm.buffSpdP = unsetMin(form.buffSpdP, true)
-    newForm.buffBe = unsetMin(form.buffBe, true)
-    newForm.buffDmgBoost = unsetMin(form.buffDmgBoost, true)
-    newForm.buffDefShred = unsetMin(form.buffDefShred, true)
-    newForm.buffResPen = unsetMin(form.buffResPen, true)
+    newForm.combatBuffs = {}
+    if (!form.combatBuffs) form.combatBuffs = {}
+    for (const buff of Object.values(CombatBuffs)) {
+      newForm.combatBuffs[buff.key] = unsetMin(form.combatBuffs[buff.key], buff.percent)
+    }
+
+    newForm.combo = {}
+    if (!form.combo) form.combo = {}
+    for (const key of DamageKeys) {
+      newForm.combo[key] = unsetMin(form.combo[key])
+    }
 
     if (!newForm.setConditionals) {
       newForm.setConditionals = defaultSetConditionals
@@ -382,24 +385,35 @@ export const OptimizerTabController = {
 
       // Apply any presets to new characters
       if (metadata) {
-        for (const applyPreset of metadata.scoringMetadata.presets || []) {
+        for (const applyPreset of scoringMetadata.presets || []) {
           applyPreset(newForm)
         }
 
-        const overrides = window.store.getState().scoringMetadataOverrides[newForm.characterId]
-        if (overrides) {
-          metadata.scoringMetadata = Utils.mergeDefinedValues(metadata.scoringMetadata, overrides)
-        }
+        newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]
+        newForm.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
+        newForm.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
+        newForm.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
+        newForm.weights = scoringMetadata.stats
+        newForm.weights.headHands = 0
+        newForm.weights.bodyFeet = 0
+        newForm.weights.sphereRope = 0
 
-        newForm.mainBody = metadata.scoringMetadata.parts[Constants.Parts.Body]
-        newForm.mainFeet = metadata.scoringMetadata.parts[Constants.Parts.Feet]
-        newForm.mainPlanarSphere = metadata.scoringMetadata.parts[Constants.Parts.PlanarSphere]
-        newForm.mainLinkRope = metadata.scoringMetadata.parts[Constants.Parts.LinkRope]
-        newForm.weights = metadata.scoringMetadata.stats
-        newForm.weights.topPercent = 100
-
-        applyMetadataPresetToForm(newForm, metadata.scoringMetadata)
+        applyMetadataPresetToForm(newForm, scoringMetadata)
       }
+    }
+
+    if (!newForm.weights) {
+      newForm.weights = getDefaultWeights(newForm.characterId)
+    }
+
+    if (!newForm.weights.headHands) {
+      newForm.weights.headHands = 0
+    }
+    if (!newForm.weights.bodyFeet) {
+      newForm.weights.bodyFeet = 0
+    }
+    if (!newForm.weights.sphereRope) {
+      newForm.weights.sphereRope = 0
     }
 
     if (!newForm.exclude) {
@@ -441,7 +455,9 @@ export const OptimizerTabController = {
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 1,
         [Constants.Stats.BE]: 1,
-        topPercent: 100,
+        headHands: 0,
+        bodyFeet: 0,
+        sphereRope: 0,
       }
     }
 
@@ -487,14 +503,8 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (!x.weights || !x.weights.topPercent) {
-      Message.error('Substat weight filter should have a Top % value greater than 0%. Make sure to set the Top % value with your substat weights.', 10)
-      console.log('Top percent')
-      return false
-    }
-
-    if (x.weights.topPercent > 0 && Object.values(Constants.Stats).map((stat) => x.weights[stat]).filter((x) => !!x).length == 0) {
-      Message.error('Top % of weighted relics was selected but all weights are set to 0. Make sure to set the substat weights for your character.', 10)
+    if (Object.values(Constants.Stats).map((stat) => x.weights[stat]).filter((x) => !!x).length == 0) {
+      Message.error('All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.', 10)
       console.log('Top percent')
       return false
     }
@@ -553,17 +563,18 @@ export const OptimizerTabController = {
     x.minDot = fixValue(x.minDot, 0)
     x.maxBreak = fixValue(x.maxBreak, MAX_INT)
     x.minBreak = fixValue(x.minBreak, 0)
+    x.maxCombo = fixValue(x.maxCombo, MAX_INT)
+    x.minCombo = fixValue(x.minCombo, 0)
 
-    x.buffAtk = fixValue(x.buffAtk, 0)
-    x.buffAtkP = fixValue(x.buffAtkP, 0, 100)
-    x.buffCr = fixValue(x.buffCr, 0, 100)
-    x.buffCd = fixValue(x.buffCd, 0, 100)
-    x.buffSpd = fixValue(x.buffSpd, 0)
-    x.buffSpdP = fixValue(x.buffSpdP, 0, 100)
-    x.buffBe = fixValue(x.buffBe, 0, 100)
-    x.buffDmgBoost = fixValue(x.buffDmgBoost, 0, 100)
-    x.buffDefShred = fixValue(x.buffDefShred, 0, 100)
-    x.buffResPen = fixValue(x.buffResPen, 0, 100)
+    if (!x.combatBuffs) x.combatBuffs = {}
+    for (const buff of Object.values(CombatBuffs)) {
+      x.combatBuffs[buff.key] = fixValue(x.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
+    }
+
+    if (!x.combo) x.combo = {}
+    for (const key of DamageKeys) {
+      x.combo[key] = fixValue(x.combo[key], 0, 0)
+    }
 
     x.mainHead = x.mainHead || []
     x.mainHands = x.mainHands || []
@@ -701,6 +712,7 @@ function aggregate(subArray) {
   setMinMax('FUA')
   setMinMax('DOT')
   setMinMax('BREAK')
+  setMinMax('COMBO')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')
@@ -761,6 +773,7 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }
@@ -787,6 +800,7 @@ function filter(filterModel) {
         && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
+        && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
       if (valid) {
         indices.push(i)
       }
@@ -794,14 +808,4 @@ function filter(filterModel) {
   }
 
   filteredIndices = indices
-}
-
-function setPinnedRow(characterId) {
-  const character = DB.getCharacterById(characterId)
-  const stats = StatCalculator.calculate(character)
-
-  // transitioning from CharacterTab to OptimizerTab, grid is not yet rendered - check or throw
-  if (window.optimizerGrid?.current?.api?.updateGridOptions !== undefined) {
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [stats] })
-  }
 }

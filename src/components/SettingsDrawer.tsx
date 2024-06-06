@@ -1,11 +1,16 @@
 import { Drawer, Flex, Form, Select, Typography } from 'antd'
 import React, { useEffect } from 'react'
-import { SaveState } from "lib/saveState";
-import { Utils } from "lib/utils";
+import { SaveState } from 'lib/saveState'
+import { Utils } from 'lib/utils'
+import styled from 'styled-components'
 
 const { Text } = Typography
 
 const defaultGap = 5
+
+const SelectOptionWordWrap = styled.span`
+  white-space: wrap !important;
+  word-break: break-word !important;`
 
 export const SettingOptions = {
   RelicEquippingBehavior: {
@@ -13,10 +18,17 @@ export const SettingOptions = {
     Swap: 'Swap',
     Replace: 'Replace',
   },
+  PermutationsSidebarBehavior: {
+    name: 'PermutationsSidebarBehavior',
+    NoShow: 'Do Not Show',
+    ShowXL: 'Show XL',
+    ShowXXL: 'Show XXL',
+  },
 }
 
 export const DefaultSettingOptions = {
-  [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace
+  [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
+  [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
 }
 
 export const SettingsDrawer = () => {
@@ -27,6 +39,32 @@ export const SettingsDrawer = () => {
 
   const settings = window.store((s) => s.settings)
   const setSettings = window.store((s) => s.setSettings)
+
+  const optionsRelicEquippingBehavior = [
+    {
+      value: SettingOptions.RelicEquippingBehavior.Swap,
+      label: <span>Swap relics with previous owner</span>,
+    },
+    {
+      value: SettingOptions.RelicEquippingBehavior.Replace,
+      label: <span>Replace relics without swapping</span>,
+    },
+  ]
+
+  const optionsPermutationsSidebarBehavior = [
+    {
+      value: SettingOptions.PermutationsSidebarBehavior.NoShow,
+      label: <span>No, always keep the sidebar on the right</span>,
+    },
+    {
+      value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
+      label: <span>Show on bottom only at the smallest possible screen size</span>,
+    },
+    {
+      value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
+      label: <span>Show on bottom for best-looking layout</span>,
+    },
+  ]
 
   useEffect(() => {
     const initialSettings = Utils.clone(DefaultSettingOptions)
@@ -55,15 +93,22 @@ export const SettingsDrawer = () => {
         forceRender
       >
         <Flex vertical gap={defaultGap}>
-          <Flex justify="space-between" align='center'>
+          <Flex justify="space-between" align="center">
             <Text>
               Equipping relics from another character
             </Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
-              <Select style={{width: 300}}>
-                <Select.Option value={SettingOptions.RelicEquippingBehavior.Swap}>Swap relics with previous owner</Select.Option>
-                <Select.Option value={SettingOptions.RelicEquippingBehavior.Replace}>Replace relics without swapping</Select.Option>
-              </Select>
+              <Select style={{ width: 300 }} options={optionsRelicEquippingBehavior} />
+            </Form.Item>
+          </Flex>
+          <Flex justify="space-between" align="center">
+            <Text>Move Optimizer sidebar to the bottom on smaller screens</Text>
+            <Form.Item name={SettingOptions.PermutationsSidebarBehavior.name}>
+              <Select
+                style={{ width: 300 }}
+                options={optionsPermutationsSidebarBehavior}
+                optionRender={(option) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
+              />
             </Form.Item>
           </Flex>
         </Flex>

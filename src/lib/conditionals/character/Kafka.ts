@@ -12,7 +12,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -23,23 +23,26 @@ export default (e: Eidolon): CharacterConditional => {
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
-  const content: ContentItem[] = [{
-    formItem: 'switch',
-    id: 'e1DotDmgReceivedDebuff',
-    name: 'e1DotDmgReceivedDebuff',
-    text: 'E1 DoT DMG debuff',
-    title: 'E1 DoT DMG debuff',
-    content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
-    disabled: e < 1,
-  }, {
-    formItem: 'switch',
-    id: 'e2TeamDotBoost',
-    name: 'e2TeamDotBoost',
-    text: 'E2 Team DoT DMG boost',
-    title: 'E2 Team DoT DMG boost',
-    content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
-    disabled: e < 2,
-  }]
+  const content: ContentItem[] = [
+    {
+      formItem: 'switch',
+      id: 'e1DotDmgReceivedDebuff',
+      name: 'e1DotDmgReceivedDebuff',
+      text: 'E1 DoT DMG debuff',
+      title: 'E1 DoT DMG debuff',
+      content: `E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).`,
+      disabled: e < 1,
+    },
+    {
+      formItem: 'switch',
+      id: 'e2TeamDotBoost',
+      name: 'e2TeamDotBoost',
+      text: 'E2 Team DoT DMG boost',
+      title: 'E2 Team DoT DMG boost',
+      content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
+      disabled: e < 2,
+    }
+  ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'e1DotDmgReceivedDebuff'),
@@ -75,6 +78,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_TOUGHNESS_DMG += 60
       x.FUA_TOUGHNESS_DMG += 30
 
+      x.DOT_CHANCE = 1.30
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
@@ -86,7 +91,7 @@ export default (e: Eidolon): CharacterConditional => {
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const x = c.x
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

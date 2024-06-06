@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
-import { ConfigProvider, Layout, message, notification, theme } from 'antd'
+import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
 import Tabs from 'components/Tabs'
 import { LayoutHeader } from 'components/LayoutHeader.tsx'
 import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const { useToken, getDesignToken } = theme
-const { Content } = Layout
+const {useToken, getDesignToken} = theme
+const {Content} = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification();
+  const [modalApi, modalContextHolder] = Modal.useModal();
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
+  window.modalApi = modalApi
 
   const colorTheme = store((s) => s.colorTheme)
   useEffect(() => {
@@ -22,7 +24,6 @@ const App = () => {
       token: colorTheme,
     }))
   }, [colorTheme])
-
 
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
@@ -38,6 +39,10 @@ const App = () => {
           colorTextBase: colorTheme.colorTextBase,
           colorPrimary: colorTheme.colorPrimary,
           colorPrimaryBorderHover: colorTheme.colorPrimary,
+          screenXL: 1530,
+          screenXLMin: 1530,
+          screenXXL: 1660,
+          screenXXLMin: 1660,
         },
         components: {
           // OptimizerForm.js
@@ -54,6 +59,7 @@ const App = () => {
           // MenuDrawer.js
           Menu: {
             margin: 2,
+            itemPaddingInline: 0,
           },
 
           Table: {
@@ -79,13 +85,13 @@ const App = () => {
             railSize: 3,
           },
           InputNumber: {
-            paddingInlineSM: 4,
+            paddingInlineSM: 6,
           },
           Tag: {
             defaultColor: '#ffffff',
           },
           Notification: {
-            width: 450
+            width: 450,
           },
         },
         algorithm: theme.darkAlgorithm,
@@ -93,10 +99,11 @@ const App = () => {
     >
       {messageContextHolder}
       {notificationContextHolder}
-      <Layout style={{ minHeight: '100%' }}>
-        <LayoutHeader />
+      {modalContextHolder}
+      <Layout style={{minHeight: '100%'}}>
+        <LayoutHeader/>
         <Layout hasSider>
-          <LayoutSider />
+          <LayoutSider/>
           <Content
             style={{
               padding: 10,
@@ -110,9 +117,9 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs />
+            <Tabs/>
           </Content>
-          <SettingsDrawer />
+          <SettingsDrawer/>
         </Layout>
       </Layout>
     </ConfigProvider>

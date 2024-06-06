@@ -1,7 +1,7 @@
-import { Constants, RelicSetFilterOptions } from './constants.ts'
+import { Constants, Parts, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
-import { calculateRelicMainStatValue } from './tsutils'
+import { TsUtils } from './TsUtils'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
@@ -48,11 +48,18 @@ export const RelicFilters = {
 
   applyTopFilter: (request, relics, originalRelics) => {
     const weights = request.weights || {}
+    const partMinRolls = {
+      [Parts.Head]: weights.headHands || 0,
+      [Parts.Hands]: weights.headHands || 0,
+      [Parts.Body]: weights.bodyFeet || 0,
+      [Parts.Feet]: weights.bodyFeet || 0,
+      [Parts.PlanarSphere]: weights.sphereRope || 0,
+      [Parts.LinkRope]: weights.sphereRope || 0,
+    }
 
     for (const part of Object.values(Constants.Parts)) {
       const partition = relics[part]
-      const index = Math.max(1, Math.floor(weights.topPercent / 100 * originalRelics[part].length))
-      relics[part] = partition.sort((a, b) => b.weightScore - a.weightScore).slice(0, index)
+      relics[part] = partition.filter((relic) => relic.weightScore >= partMinRolls[part] * 6.48 * 0.8)
     }
 
     return relics
@@ -255,7 +262,7 @@ export const RelicFilters = {
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
-          const newValue = calculateRelicMainStatValue(stat, grade, newEnhance)
+          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance)
           return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
         }
       })

@@ -1,13 +1,18 @@
-import { Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
+import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from './constants.ts'
 import DB from 'lib/db'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from './utils.js'
 
-export function getDefaultForm(initialCharacter) {
-  // TODO: Clean this up
-  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
-  const parts = scoringMetadata?.parts || {}
-  const weights = scoringMetadata?.stats || {
+export function getDefaultWeights(characterId) {
+  if (characterId) {
+    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
+    scoringMetadata.stats.headHands = 0
+    scoringMetadata.stats.bodyFeet = 0
+    scoringMetadata.stats.sphereRope = 0
+    return scoringMetadata.stats
+  }
+
+  return {
     [Constants.Stats.HP_P]: 1,
     [Constants.Stats.ATK_P]: 1,
     [Constants.Stats.DEF_P]: 1,
@@ -21,8 +26,20 @@ export function getDefaultForm(initialCharacter) {
     [Constants.Stats.EHR]: 1,
     [Constants.Stats.RES]: 1,
     [Constants.Stats.BE]: 1,
-    topPercent: 100,
+    headHands: 0,
+    bodyFeet: 0,
+    sphereRope: 0,
   }
+}
+
+export function getDefaultForm(initialCharacter) {
+  // TODO: Clean this up
+  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
+  const parts = scoringMetadata?.parts || {}
+  const weights = scoringMetadata?.stats || getDefaultWeights()
+
+  const combatBuffs = {}
+  Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
   const defaultForm = Utils.clone({
     characterId: initialCharacter?.id,
@@ -59,19 +76,16 @@ export function getDefaultForm(initialCharacter) {
     teammate2: defaultTeammate(),
     resultSort: scoringMetadata?.sortOption.key,
     resultLimit: 100000,
-    buffAtk: 0,
-    buffAtkP: 0,
-    buffCr: 0,
-    buffCd: 0,
-    buffSpd: 0,
-    buffSpdP: 0,
-    buffBe: 0,
-    buffDmgBoost: 0,
-    buffDefShred: 0,
-    buffResPen: 0,
+    combatBuffs: combatBuffs,
+    combo: {
+      BASIC: 0,
+      SKILL: 0,
+      ULT: 0,
+      FUA: 0,
+      DOT: 0,
+      BREAK: 0,
+    },
   })
-
-  defaultForm.topPercent = 100
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = DB.getMetadata().characters[initialCharacter?.id]?.element
@@ -101,7 +115,7 @@ export function defaultTeammate() {
 
 export const defaultStatSim = {
   simType: StatSimTypes.Disabled,
-  simulations: []
+  simulations: [],
 }
 
 export const defaultSetConditionals = {
@@ -124,7 +138,7 @@ export const defaultSetConditionals = {
   [Constants.Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
   [Constants.Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
   [Constants.Sets.IronCavalryAgainstScourge]: [undefined, true],
-  [Constants.Sets.TheWindSoaringValorous]: [undefined, 0],
+  [Constants.Sets.TheWindSoaringValorous]: [undefined, true],
 
   [Constants.Sets.SpaceSealingStation]: [undefined, true],
   [Constants.Sets.FleetOfTheAgeless]: [undefined, true],
@@ -140,6 +154,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.PenaconyLandOfTheDreams]: [undefined, true],
   [Constants.Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
-  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
+  [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 4],
   [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
 }

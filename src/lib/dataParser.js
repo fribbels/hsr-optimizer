@@ -6,12 +6,35 @@ import lightConeRanks from 'data/en/light_cone_ranks.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
-import { Parts, Sets, Stats } from 'lib/constants.ts'
+import { Parts, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
 export const UnreleasedSets = {}
+
+const RELICS_2P_BREAK_EFFECT_SPEED = [
+  Sets.MessengerTraversingHackerspace,
+  Sets.ThiefOfShootingMeteor,
+  Sets.WatchmakerMasterOfDreamMachinations,
+  Sets.IronCavalryAgainstScourge,
+]
+
+const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
+  [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+  [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+]
+
+const SPREAD_ORNAMENTS_2P_FUA = [
+  Sets.DuranDynastyOfRunningWolves,
+  Sets.SigoniaTheUnclaimedDesolation,
+  Sets.InertSalsotto,
+]
+
+const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
+  Sets.FirmamentFrontlineGlamoth,
+  Sets.SigoniaTheUnclaimedDesolation,
+]
 
 export const DataParser = {
   parse: (officialOnly) => {
@@ -57,15 +80,24 @@ export const DataParser = {
 
     const lightConeSuperimpositions = getSuperimpositions()
     const lightConeRanks = getLightConeRanks()
+    const lightConeCenters = getLightConeOverrideCenter()
+
     for (const [id, lcData] of Object.entries(lightCones)) {
       if (lightConeSuperimpositions[id]) {
         lcData.superimpositions = lightConeSuperimpositions[id]
       } else {
         lcData.superimpositions = {}
       }
+
+      let imageCenter = 200
+      if (lightConeCenters[id] != undefined && lightConeCenters[id] != {}) {
+        imageCenter = lightConeCenters[id]
+      }
+
       lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
       lcData.ranks = lightConeRanks[id]
       lcData.displayName = lcData.name
+      lcData.imageCenter = imageCenter
     }
 
     const characterTraces = getOverrideTraces()
@@ -78,7 +110,7 @@ export const DataParser = {
         continue
       }
 
-      let imageCenter = {x: 1024, y: 1024}
+      let imageCenter = { x: 1024, y: 1024 }
       if (imageCenters[id] != undefined) {
         imageCenter = imageCenters[id]
       }
@@ -173,11 +205,11 @@ function getSuperimpositions() {
     20001: {},
     20002: {},
     20003: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     20004: {},
     20005: {},
@@ -197,43 +229,43 @@ function getSuperimpositions() {
     20019: {},
     20020: {},
     21000: {
-      1: {[Stats.ERR]: 0.08},
-      2: {[Stats.ERR]: 0.10},
-      3: {[Stats.ERR]: 0.12},
-      4: {[Stats.ERR]: 0.14},
-      5: {[Stats.ERR]: 0.16},
+      1: { [Stats.ERR]: 0.08 },
+      2: { [Stats.ERR]: 0.10 },
+      3: { [Stats.ERR]: 0.12 },
+      4: { [Stats.ERR]: 0.14 },
+      5: { [Stats.ERR]: 0.16 },
     },
     21001: {},
     21002: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.18},
-      3: {[Stats.DEF_P]: 0.20},
-      4: {[Stats.DEF_P]: 0.22},
-      5: {[Stats.DEF_P]: 0.24},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.18 },
+      3: { [Stats.DEF_P]: 0.20 },
+      4: { [Stats.DEF_P]: 0.22 },
+      5: { [Stats.DEF_P]: 0.24 },
     },
     21003: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21004: {
-      1: {[Stats.BE]: 0.28},
-      2: {[Stats.BE]: 0.35},
-      3: {[Stats.BE]: 0.42},
-      4: {[Stats.BE]: 0.49},
-      5: {[Stats.BE]: 0.56},
+      1: { [Stats.BE]: 0.28 },
+      2: { [Stats.BE]: 0.35 },
+      3: { [Stats.BE]: 0.42 },
+      4: { [Stats.BE]: 0.49 },
+      5: { [Stats.BE]: 0.56 },
     },
     21005: {},
     21006: {},
     21007: {},
     21008: {
-      1: {[Stats.EHR]: 0.20},
-      2: {[Stats.EHR]: 0.25},
-      3: {[Stats.EHR]: 0.30},
-      4: {[Stats.EHR]: 0.35},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.20 },
+      2: { [Stats.EHR]: 0.25 },
+      3: { [Stats.EHR]: 0.30 },
+      4: { [Stats.EHR]: 0.35 },
+      5: { [Stats.EHR]: 0.40 },
     },
     21009: {},
     21010: {},
@@ -241,368 +273,478 @@ function getSuperimpositions() {
     21012: {},
     21013: {},
     21014: {
-      1: {[Stats.RES]: 0.16},
-      2: {[Stats.RES]: 0.20},
-      3: {[Stats.RES]: 0.24},
-      4: {[Stats.RES]: 0.28},
-      5: {[Stats.RES]: 0.32},
+      1: { [Stats.RES]: 0.16 },
+      2: { [Stats.RES]: 0.20 },
+      3: { [Stats.RES]: 0.24 },
+      4: { [Stats.RES]: 0.28 },
+      5: { [Stats.RES]: 0.32 },
     },
     21015: {},
     21016: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21017: {},
     21018: {},
     21019: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21020: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     21021: {},
     21022: {
-      1: {[Stats.BE]: 0.16},
-      2: {[Stats.BE]: 0.20},
-      3: {[Stats.BE]: 0.24},
-      4: {[Stats.BE]: 0.28},
-      5: {[Stats.BE]: 0.32},
+      1: { [Stats.BE]: 0.16 },
+      2: { [Stats.BE]: 0.20 },
+      3: { [Stats.BE]: 0.24 },
+      4: { [Stats.BE]: 0.28 },
+      5: { [Stats.BE]: 0.32 },
     },
     21023: {},
     21024: {},
     21025: {},
     21026: {
-      1: {[Stats.ATK_P]: 0.10},
-      2: {[Stats.ATK_P]: 0.125},
-      3: {[Stats.ATK_P]: 0.15},
-      4: {[Stats.ATK_P]: 0.175},
-      5: {[Stats.ATK_P]: 0.20},
+      1: { [Stats.ATK_P]: 0.10 },
+      2: { [Stats.ATK_P]: 0.125 },
+      3: { [Stats.ATK_P]: 0.15 },
+      4: { [Stats.ATK_P]: 0.175 },
+      5: { [Stats.ATK_P]: 0.20 },
     },
     21027: {},
     21028: {
-      1: {[Stats.HP_P]: 0.16},
-      2: {[Stats.HP_P]: 0.20},
-      3: {[Stats.HP_P]: 0.24},
-      4: {[Stats.HP_P]: 0.28},
-      5: {[Stats.HP_P]: 0.32},
+      1: { [Stats.HP_P]: 0.16 },
+      2: { [Stats.HP_P]: 0.20 },
+      3: { [Stats.HP_P]: 0.24 },
+      4: { [Stats.HP_P]: 0.28 },
+      5: { [Stats.HP_P]: 0.32 },
     },
     21029: {},
     21030: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21031: {
-      1: {[Stats.CR]: 0.12},
-      2: {[Stats.CR]: 0.15},
-      3: {[Stats.CR]: 0.18},
-      4: {[Stats.CR]: 0.21},
-      5: {[Stats.CR]: 0.24},
+      1: { [Stats.CR]: 0.12 },
+      2: { [Stats.CR]: 0.15 },
+      3: { [Stats.CR]: 0.18 },
+      4: { [Stats.CR]: 0.21 },
+      5: { [Stats.CR]: 0.24 },
     },
     21032: {},
     21033: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.30},
-      3: {[Stats.ATK_P]: 0.36},
-      4: {[Stats.ATK_P]: 0.42},
-      5: {[Stats.ATK_P]: 0.48},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.30 },
+      3: { [Stats.ATK_P]: 0.36 },
+      4: { [Stats.ATK_P]: 0.42 },
+      5: { [Stats.ATK_P]: 0.48 },
     },
     21034: {},
     21035: {
-      1: {[Stats.BE]: 0.24},
-      2: {[Stats.BE]: 0.30},
-      3: {[Stats.BE]: 0.36},
-      4: {[Stats.BE]: 0.42},
-      5: {[Stats.BE]: 0.48},
+      1: { [Stats.BE]: 0.24 },
+      2: { [Stats.BE]: 0.30 },
+      3: { [Stats.BE]: 0.36 },
+      4: { [Stats.BE]: 0.42 },
+      5: { [Stats.BE]: 0.48 },
     },
     21036: {},
     21037: {
-      1: {[Stats.ATK_P]: 0.12},
-      2: {[Stats.ATK_P]: 0.14},
-      3: {[Stats.ATK_P]: 0.16},
-      4: {[Stats.ATK_P]: 0.18},
-      5: {[Stats.ATK_P]: 0.20},
+      1: { [Stats.ATK_P]: 0.12 },
+      2: { [Stats.ATK_P]: 0.14 },
+      3: { [Stats.ATK_P]: 0.16 },
+      4: { [Stats.ATK_P]: 0.18 },
+      5: { [Stats.ATK_P]: 0.20 },
     },
     21038: {},
     21039: {
-      1: {[Stats.RES]: 0.12},
-      2: {[Stats.RES]: 0.14},
-      3: {[Stats.RES]: 0.16},
-      4: {[Stats.RES]: 0.18},
-      5: {[Stats.RES]: 0.20},
+      1: { [Stats.RES]: 0.12 },
+      2: { [Stats.RES]: 0.14 },
+      3: { [Stats.RES]: 0.16 },
+      4: { [Stats.RES]: 0.18 },
+      5: { [Stats.RES]: 0.20 },
     },
     21040: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.18},
-      3: {[Stats.ATK_P]: 0.20},
-      4: {[Stats.ATK_P]: 0.22},
-      5: {[Stats.ATK_P]: 0.24},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.18 },
+      3: { [Stats.ATK_P]: 0.20 },
+      4: { [Stats.ATK_P]: 0.22 },
+      5: { [Stats.ATK_P]: 0.24 },
     },
     21041: {},
     21042: {
-      1: {[Stats.BE]: 0.28},
-      2: {[Stats.BE]: 0.35},
-      3: {[Stats.BE]: 0.42},
-      4: {[Stats.BE]: 0.49},
-      5: {[Stats.BE]: 0.56},
+      1: { [Stats.BE]: 0.28 },
+      2: { [Stats.BE]: 0.35 },
+      3: { [Stats.BE]: 0.42 },
+      4: { [Stats.BE]: 0.49 },
+      5: { [Stats.BE]: 0.56 },
     },
     21043: {
-      1: {[Stats.DEF_P]: 0.16},
-      2: {[Stats.DEF_P]: 0.20},
-      3: {[Stats.DEF_P]: 0.24},
-      4: {[Stats.DEF_P]: 0.28},
-      5: {[Stats.DEF_P]: 0.32},
+      1: { [Stats.DEF_P]: 0.16 },
+      2: { [Stats.DEF_P]: 0.20 },
+      3: { [Stats.DEF_P]: 0.24 },
+      4: { [Stats.DEF_P]: 0.28 },
+      5: { [Stats.DEF_P]: 0.32 },
     },
     21044: {
-      1: {[Stats.CR]: 0.08},
-      2: {[Stats.CR]: 0.10},
-      3: {[Stats.CR]: 0.12},
-      4: {[Stats.CR]: 0.14},
-      5: {[Stats.CR]: 0.16},
+      1: { [Stats.CR]: 0.08 },
+      2: { [Stats.CR]: 0.10 },
+      3: { [Stats.CR]: 0.12 },
+      4: { [Stats.CR]: 0.14 },
+      5: { [Stats.CR]: 0.16 },
     },
     21045: {
-      1: {[Constants.Stats.BE]: 0.28},
-      2: {[Constants.Stats.BE]: 0.35},
-      3: {[Constants.Stats.BE]: 0.42},
-      4: {[Constants.Stats.BE]: 0.49},
-      5: {[Constants.Stats.BE]: 0.56},
+      1: { [Constants.Stats.BE]: 0.28 },
+      2: { [Constants.Stats.BE]: 0.35 },
+      3: { [Constants.Stats.BE]: 0.42 },
+      4: { [Constants.Stats.BE]: 0.49 },
+      5: { [Constants.Stats.BE]: 0.56 },
     },
     22000: {
-      1: {[Stats.EHR]: 0.20},
-      2: {[Stats.EHR]: 0.25},
-      3: {[Stats.EHR]: 0.30},
-      4: {[Stats.EHR]: 0.35},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.20 },
+      2: { [Stats.EHR]: 0.25 },
+      3: { [Stats.EHR]: 0.30 },
+      4: { [Stats.EHR]: 0.35 },
+      5: { [Stats.EHR]: 0.40 },
     },
     22001: {
-      1: {[Stats.HP_P]: 0.08},
-      2: {[Stats.HP_P]: 0.09},
-      3: {[Stats.HP_P]: 0.10},
-      4: {[Stats.HP_P]: 0.11},
-      5: {[Stats.HP_P]: 0.12},
+      1: { [Stats.HP_P]: 0.08 },
+      2: { [Stats.HP_P]: 0.09 },
+      3: { [Stats.HP_P]: 0.10 },
+      4: { [Stats.HP_P]: 0.11 },
+      5: { [Stats.HP_P]: 0.12 },
     },
     22002: {
-      1: {[Stats.ATK_P]: 0.16},
-      2: {[Stats.ATK_P]: 0.20},
-      3: {[Stats.ATK_P]: 0.24},
-      4: {[Stats.ATK_P]: 0.28},
-      5: {[Stats.ATK_P]: 0.32},
+      1: { [Stats.ATK_P]: 0.16 },
+      2: { [Stats.ATK_P]: 0.20 },
+      3: { [Stats.ATK_P]: 0.24 },
+      4: { [Stats.ATK_P]: 0.28 },
+      5: { [Stats.ATK_P]: 0.32 },
     },
     23000: {},
     23001: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23002: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.28},
-      3: {[Stats.ATK_P]: 0.32},
-      4: {[Stats.ATK_P]: 0.36},
-      5: {[Stats.ATK_P]: 0.40},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.28 },
+      3: { [Stats.ATK_P]: 0.32 },
+      4: { [Stats.ATK_P]: 0.36 },
+      5: { [Stats.ATK_P]: 0.40 },
     },
     23003: {},
     23004: {},
     23005: {
-      1: {[Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24},
-      2: {[Stats.DEF_P]: 0.28, [Stats.EHR]: 0.28},
-      3: {[Stats.DEF_P]: 0.32, [Stats.EHR]: 0.32},
-      4: {[Stats.DEF_P]: 0.36, [Stats.EHR]: 0.36},
-      5: {[Stats.DEF_P]: 0.40, [Stats.EHR]: 0.40},
+      1: { [Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24 },
+      2: { [Stats.DEF_P]: 0.28, [Stats.EHR]: 0.28 },
+      3: { [Stats.DEF_P]: 0.32, [Stats.EHR]: 0.32 },
+      4: { [Stats.DEF_P]: 0.36, [Stats.EHR]: 0.36 },
+      5: { [Stats.DEF_P]: 0.40, [Stats.EHR]: 0.40 },
     },
     23006: {},
     23007: {
-      1: {[Stats.EHR]: 0.24},
-      2: {[Stats.EHR]: 0.28},
-      3: {[Stats.EHR]: 0.32},
-      4: {[Stats.EHR]: 0.36},
-      5: {[Stats.EHR]: 0.40},
+      1: { [Stats.EHR]: 0.24 },
+      2: { [Stats.EHR]: 0.28 },
+      3: { [Stats.EHR]: 0.32 },
+      4: { [Stats.EHR]: 0.36 },
+      5: { [Stats.EHR]: 0.40 },
     },
     23008: {
-      1: {[Stats.ATK_P]: 0.24},
-      2: {[Stats.ATK_P]: 0.28},
-      3: {[Stats.ATK_P]: 0.32},
-      4: {[Stats.ATK_P]: 0.36},
-      5: {[Stats.ATK_P]: 0.40},
+      1: { [Stats.ATK_P]: 0.24 },
+      2: { [Stats.ATK_P]: 0.28 },
+      3: { [Stats.ATK_P]: 0.32 },
+      4: { [Stats.ATK_P]: 0.36 },
+      5: { [Stats.ATK_P]: 0.40 },
     },
     23009: {
-      1: {[Stats.CR]: 0.18, [Stats.HP_P]: 0.18},
-      2: {[Stats.CR]: 0.21, [Stats.HP_P]: 0.21},
-      3: {[Stats.CR]: 0.24, [Stats.HP_P]: 0.24},
-      4: {[Stats.CR]: 0.27, [Stats.HP_P]: 0.27},
-      5: {[Stats.CR]: 0.30, [Stats.HP_P]: 0.30},
+      1: { [Stats.CR]: 0.18, [Stats.HP_P]: 0.18 },
+      2: { [Stats.CR]: 0.21, [Stats.HP_P]: 0.21 },
+      3: { [Stats.CR]: 0.24, [Stats.HP_P]: 0.24 },
+      4: { [Stats.CR]: 0.27, [Stats.HP_P]: 0.27 },
+      5: { [Stats.CR]: 0.30, [Stats.HP_P]: 0.30 },
     },
     23010: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23011: {
-      1: {[Stats.HP_P]: 0.24, [Stats.ERR]: 0.12},
-      2: {[Stats.HP_P]: 0.28, [Stats.ERR]: 0.14},
-      3: {[Stats.HP_P]: 0.32, [Stats.ERR]: 0.16},
-      4: {[Stats.HP_P]: 0.36, [Stats.ERR]: 0.18},
-      5: {[Stats.HP_P]: 0.40, [Stats.ERR]: 0.20},
+      1: { [Stats.HP_P]: 0.24, [Stats.ERR]: 0.12 },
+      2: { [Stats.HP_P]: 0.28, [Stats.ERR]: 0.14 },
+      3: { [Stats.HP_P]: 0.32, [Stats.ERR]: 0.16 },
+      4: { [Stats.HP_P]: 0.36, [Stats.ERR]: 0.18 },
+      5: { [Stats.HP_P]: 0.40, [Stats.ERR]: 0.20 },
     },
     23012: {
-      1: {[Stats.CD]: 0.30},
-      2: {[Stats.CD]: 0.35},
-      3: {[Stats.CD]: 0.40},
-      4: {[Stats.CD]: 0.45},
-      5: {[Stats.CD]: 0.50},
+      1: { [Stats.CD]: 0.30 },
+      2: { [Stats.CD]: 0.35 },
+      3: { [Stats.CD]: 0.40 },
+      4: { [Stats.CD]: 0.45 },
+      5: { [Stats.CD]: 0.50 },
     },
     23013: {
-      1: {[Stats.HP_P]: 0.18, [Stats.OHB]: 0.12},
-      2: {[Stats.HP_P]: 0.21, [Stats.OHB]: 0.14},
-      3: {[Stats.HP_P]: 0.24, [Stats.OHB]: 0.16},
-      4: {[Stats.HP_P]: 0.27, [Stats.OHB]: 0.18},
-      5: {[Stats.HP_P]: 0.30, [Stats.OHB]: 0.20},
+      1: { [Stats.HP_P]: 0.18, [Stats.OHB]: 0.12 },
+      2: { [Stats.HP_P]: 0.21, [Stats.OHB]: 0.14 },
+      3: { [Stats.HP_P]: 0.24, [Stats.OHB]: 0.16 },
+      4: { [Stats.HP_P]: 0.27, [Stats.OHB]: 0.18 },
+      5: { [Stats.HP_P]: 0.30, [Stats.OHB]: 0.20 },
     },
     23014: {
-      1: {[Stats.CD]: 0.20},
-      2: {[Stats.CD]: 0.23},
-      3: {[Stats.CD]: 0.26},
-      4: {[Stats.CD]: 0.29},
-      5: {[Stats.CD]: 0.32},
+      1: { [Stats.CD]: 0.20 },
+      2: { [Stats.CD]: 0.23 },
+      3: { [Stats.CD]: 0.26 },
+      4: { [Stats.CD]: 0.29 },
+      5: { [Stats.CD]: 0.32 },
     },
     23015: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23016: {
-      1: {[Stats.CR]: 0.18},
-      2: {[Stats.CR]: 0.21},
-      3: {[Stats.CR]: 0.24},
-      4: {[Stats.CR]: 0.27},
-      5: {[Stats.CR]: 0.30},
+      1: { [Stats.CR]: 0.18 },
+      2: { [Stats.CR]: 0.21 },
+      3: { [Stats.CR]: 0.24 },
+      4: { [Stats.CR]: 0.27 },
+      5: { [Stats.CR]: 0.30 },
     },
     23017: {
-      1: {[Stats.ERR]: 0.12},
-      2: {[Stats.ERR]: 0.14},
-      3: {[Stats.ERR]: 0.16},
-      4: {[Stats.ERR]: 0.18},
-      5: {[Stats.ERR]: 0.20},
+      1: { [Stats.ERR]: 0.12 },
+      2: { [Stats.ERR]: 0.14 },
+      3: { [Stats.ERR]: 0.16 },
+      4: { [Stats.ERR]: 0.18 },
+      5: { [Stats.ERR]: 0.20 },
     },
     23018: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23019: {
-      1: {[Stats.BE]: 0.60},
-      2: {[Stats.BE]: 0.70},
-      3: {[Stats.BE]: 0.80},
-      4: {[Stats.BE]: 0.90},
-      5: {[Stats.BE]: 1.00},
+      1: { [Stats.BE]: 0.60 },
+      2: { [Stats.BE]: 0.70 },
+      3: { [Stats.BE]: 0.80 },
+      4: { [Stats.BE]: 0.90 },
+      5: { [Stats.BE]: 1.00 },
     },
     23020: {
-      1: {[Stats.CD]: 0.20},
-      2: {[Stats.CD]: 0.23},
-      3: {[Stats.CD]: 0.26},
-      4: {[Stats.CD]: 0.29},
-      5: {[Stats.CD]: 0.32},
+      1: { [Stats.CD]: 0.20 },
+      2: { [Stats.CD]: 0.23 },
+      3: { [Stats.CD]: 0.26 },
+      4: { [Stats.CD]: 0.29 },
+      5: { [Stats.CD]: 0.32 },
     },
     23021: { // Earthly Escapade
-      1: {[Stats.CD]: 0.32},
-      2: {[Stats.CD]: 0.39},
-      3: {[Stats.CD]: 0.46},
-      4: {[Stats.CD]: 0.53},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.32 },
+      2: { [Stats.CD]: 0.39 },
+      3: { [Stats.CD]: 0.46 },
+      4: { [Stats.CD]: 0.53 },
+      5: { [Stats.CD]: 0.60 },
     },
     23022: { // Reforged Remembrance
-      1: {[Stats.EHR]: 0.40},
-      2: {[Stats.EHR]: 0.45},
-      3: {[Stats.EHR]: 0.50},
-      4: {[Stats.EHR]: 0.55},
-      5: {[Stats.EHR]: 0.60},
+      1: { [Stats.EHR]: 0.40 },
+      2: { [Stats.EHR]: 0.45 },
+      3: { [Stats.EHR]: 0.50 },
+      4: { [Stats.EHR]: 0.55 },
+      5: { [Stats.EHR]: 0.60 },
     },
     23023: {
-      1: {[Stats.DEF_P]: 0.40},
-      2: {[Stats.DEF_P]: 0.46},
-      3: {[Stats.DEF_P]: 0.52},
-      4: {[Stats.DEF_P]: 0.58},
-      5: {[Stats.DEF_P]: 0.64},
+      1: { [Stats.DEF_P]: 0.40 },
+      2: { [Stats.DEF_P]: 0.46 },
+      3: { [Stats.DEF_P]: 0.52 },
+      4: { [Stats.DEF_P]: 0.58 },
+      5: { [Stats.DEF_P]: 0.64 },
     },
     23024: {
-      1: {[Stats.CD]: 0.36},
-      2: {[Stats.CD]: 0.42},
-      3: {[Stats.CD]: 0.48},
-      4: {[Stats.CD]: 0.54},
-      5: {[Stats.CD]: 0.60},
+      1: { [Stats.CD]: 0.36 },
+      2: { [Stats.CD]: 0.42 },
+      3: { [Stats.CD]: 0.48 },
+      4: { [Stats.CD]: 0.54 },
+      5: { [Stats.CD]: 0.60 },
     },
     23025: {
-      1: {[Constants.Stats.BE]: 0.60},
-      2: {[Constants.Stats.BE]: 0.70},
-      3: {[Constants.Stats.BE]: 0.80},
-      4: {[Constants.Stats.BE]: 0.90},
-      5: {[Constants.Stats.BE]: 1.00},
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.70 },
+      3: { [Constants.Stats.BE]: 0.80 },
+      4: { [Constants.Stats.BE]: 0.90 },
+      5: { [Constants.Stats.BE]: 1.00 },
     },
     23026: {},
     23027: {
-      1: {[Stats.BE]: 0.60},
-      2: {[Stats.BE]: 0.70},
-      3: {[Stats.BE]: 0.80},
-      4: {[Stats.BE]: 0.90},
-      5: {[Stats.BE]: 1.00},
+      1: { [Stats.BE]: 0.60 },
+      2: { [Stats.BE]: 0.70 },
+      3: { [Stats.BE]: 0.80 },
+      4: { [Stats.BE]: 0.90 },
+      5: { [Stats.BE]: 1.00 },
     },
     23028: {
-      1: {[Constants.Stats.CR]: 0.16},
-      2: {[Constants.Stats.CR]: 0.19},
-      3: {[Constants.Stats.CR]: 0.22},
-      4: {[Constants.Stats.CR]: 0.25},
-      5: {[Constants.Stats.CR]: 0.28},
+      1: { [Constants.Stats.CR]: 0.16 },
+      2: { [Constants.Stats.CR]: 0.19 },
+      3: { [Constants.Stats.CR]: 0.22 },
+      4: { [Constants.Stats.CR]: 0.25 },
+      5: { [Constants.Stats.CR]: 0.28 },
     },
     24000: {},
     24001: {
-      1: {[Stats.CR]: 0.08},
-      2: {[Stats.CR]: 0.10},
-      3: {[Stats.CR]: 0.12},
-      4: {[Stats.CR]: 0.14},
-      5: {[Stats.CR]: 0.16},
+      1: { [Stats.CR]: 0.08 },
+      2: { [Stats.CR]: 0.10 },
+      3: { [Stats.CR]: 0.12 },
+      4: { [Stats.CR]: 0.14 },
+      5: { [Stats.CR]: 0.16 },
     },
     24002: {
-      1: {[Stats.RES]: 0.08},
-      2: {[Stats.RES]: 0.10},
-      3: {[Stats.RES]: 0.12},
-      4: {[Stats.RES]: 0.14},
-      5: {[Stats.RES]: 0.16},
+      1: { [Stats.RES]: 0.08 },
+      2: { [Stats.RES]: 0.10 },
+      3: { [Stats.RES]: 0.12 },
+      4: { [Stats.RES]: 0.14 },
+      5: { [Stats.RES]: 0.16 },
     },
     24003: {
-      1: {[Stats.BE]: 0.20},
-      2: {[Stats.BE]: 0.25},
-      3: {[Stats.BE]: 0.30},
-      4: {[Stats.BE]: 0.35},
-      5: {[Stats.BE]: 0.40},
+      1: { [Stats.BE]: 0.20 },
+      2: { [Stats.BE]: 0.25 },
+      3: { [Stats.BE]: 0.30 },
+      4: { [Stats.BE]: 0.35 },
+      5: { [Stats.BE]: 0.40 },
     },
     24004: {
-      1: {[Constants.Stats.ATK_P]: 0.08},
-      2: {[Constants.Stats.ATK_P]: 0.09},
-      3: {[Constants.Stats.ATK_P]: 0.10},
-      4: {[Constants.Stats.ATK_P]: 0.11},
-      5: {[Constants.Stats.ATK_P]: 0.12},
+      1: { [Constants.Stats.ATK_P]: 0.08 },
+      2: { [Constants.Stats.ATK_P]: 0.09 },
+      3: { [Constants.Stats.ATK_P]: 0.10 },
+      4: { [Constants.Stats.ATK_P]: 0.11 },
+      5: { [Constants.Stats.ATK_P]: 0.12 },
     },
+  }
+}
+
+// Standardized to 450 width
+function getLightConeOverrideCenter() {
+  return {
+    20000: 270,
+    20001: 220,
+    20002: 160,
+    20003: 310,
+    20004: 180,
+    20005: 210,
+    20006: 390,
+    20007: 180,
+    20008: 220,
+    20009: 230,
+    20010: 250,
+    20011: 390,
+    20012: 300,
+    20013: 220,
+    20014: 210,
+    20015: 270,
+    20016: 270,
+    20017: 410,
+    20018: 190,
+    20019: 230,
+    20020: 250,
+    21000: 200,
+    21001: 270,
+    21002: 170,
+    21003: 210,
+    21004: 210,
+    21005: 250,
+    21006: 190,
+    21007: 270,
+    21008: 140,
+    21009: 180,
+    21010: 180,
+    21011: 140,
+    21012: 190,
+    21013: 200,
+    21014: 140,
+    21015: 140,
+    21016: 190,
+    21017: 140,
+    21018: 210,
+    21019: 180,
+    21020: 240,
+    21021: 180,
+    21022: 320,
+    21023: 240,
+    21024: 160,
+    21025: 140,
+    21026: 180,
+    21027: 200,
+    21028: 250,
+    21029: 160,
+    21030: 290,
+    21031: 210,
+    21032: 260,
+    21033: 190,
+    21034: 220,
+    21035: 350,
+    21036: 240,
+    21037: 220,
+    21038: 170,
+    21039: 220,
+    21040: 150,
+    21041: 160,
+    21042: 200,
+    21043: 210,
+    21044: 150,
+    21045: 160,
+    22000: 290,
+    22001: 220,
+    22002: 160,
+    23000: 160,
+    23001: 160,
+    23002: 170,
+    23003: 250,
+    23004: 140,
+    23005: 150,
+    23006: 230,
+    23007: 180,
+    23008: 180,
+    23009: 140,
+    23010: 200,
+    23011: 180,
+    23012: 300,
+    23013: 180,
+    23014: 140,
+    23015: 190,
+    23016: 150,
+    23017: 200,
+    23018: 170,
+    23019: 270,
+    23020: 220,
+    23021: 160,
+    23022: 210,
+    23023: 160,
+    23024: 120,
+    23025: 140,
+    23026: 200,
+    23027: 180,
+    23028: 170,
+    24000: 170,
+    24001: 270,
+    24002: 140,
+    24003: 250,
+    24004: 270,
   }
 }
 
@@ -935,7 +1077,7 @@ function getOverrideImageCenter() {
     },
     1102: { // Seele
       x: 820,
-      y: 1060,
+      y: 1160,
     },
     1103: { // Serval
       x: 1050,
@@ -1163,17 +1305,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -1218,20 +1349,72 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1003: { // Himeko
       stats: {
@@ -1274,20 +1457,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.FiresmithOfLavaForging,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -1313,8 +1484,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -1323,9 +1494,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -1344,9 +1522,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1004: { // Welt
       stats: {
@@ -1391,19 +1569,73 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1308', // Acheron
+            lightCone: '23024', // Shore
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1005: { // Kafka
       stats: {
@@ -1445,21 +1677,9 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.PrisonerInDeepConfinement,
-        Sets.BandOfSizzlingThunder,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.DOT,
       simulation: {
@@ -1483,20 +1703,26 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.ATK,
           Stats.EHR,
-          Stats.SPD,
           Stats.CR,
+          Stats.CD,
         ],
+        breakpoints: {
+          [Stats.EHR]: 0.282,
+        },
         formula: {
           BASIC: 0,
           SKILL: 2,
           ULT: 1,
           FUA: 2,
-          DOT: 6,
+          DOT: 8,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.PanCosmicCommercialEnterprise,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+        ],
         teammates: [
           {
             characterId: '1307', // Swan
@@ -1515,9 +1741,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1006: { // Silver Wolf
       stats: {
@@ -1564,21 +1790,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.ThiefOfShootingMeteor,
-        Sets.GeniusOfBrilliantStars,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.BrokenKeel,
-        Sets.FleetOfTheAgeless,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-        Sets.SprightlyVonwacq,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -1625,19 +1836,70 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.BandOfSizzlingThunder,
-        Sets.LongevousDisciple,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1009: { // Asta
       stats: {
@@ -1683,17 +1945,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.ThiefOfShootingMeteor,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -1738,21 +1989,74 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.HunterOfGlacialForest,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(4),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 2,
+          ULT: 1,
+          FUA: 3,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1003', // Himeko
+            lightCone: '23000', // Milky way
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1101: { // Bronya
       stats: {
@@ -1801,16 +2105,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.CD,
     },
@@ -1855,16 +2149,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -1890,8 +2174,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -1900,9 +2184,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [SetsRelics.GeniusOfBrilliantStars, SetsRelics.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1006', // SW
@@ -1914,16 +2204,16 @@ function getScoringMetadata() {
             characterId: '1306', // Sparkle
             lightCone: '23003', // But the battle
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1217', // Huohuo
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1103: { // Serval
       stats: {
@@ -1966,17 +2256,71 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.BandOfSizzlingThunder,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Patience
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1104: { // Gepard
       stats: {
@@ -2018,17 +2362,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -2073,15 +2406,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -2127,17 +2451,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.EagleOfTwilightLine,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -2182,20 +2495,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.TheAshblazingGrandDuke,
-        Sets.LongevousDisciple,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(2),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2221,8 +2522,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 1,
@@ -2231,9 +2532,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.ChampionOfStreetwiseBoxing,
-        relicSet2: Sets.ChampionOfStreetwiseBoxing,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -2252,9 +2559,9 @@ function getScoringMetadata() {
             lightCone: '21016', // Trend
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1108: { // Sampo
       stats: {
@@ -2299,24 +2606,70 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-        Sets.PrisonerInDeepConfinement,
-        Sets.EagleOfTwilightLine,
-      ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-        Sets.TaliaKingdomOfBanditry,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.EHR,
+          Stats.ATK,
+          Stats.CR,
+          Stats.CD,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 30,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+        ],
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Patience
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1109: { // Hook
       stats: {
@@ -2359,21 +2712,72 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.FiresmithOfLavaForging,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1110: { // Lynx
       stats: {
@@ -2416,15 +2820,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -2470,21 +2865,74 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-        Sets.ThiefOfShootingMeteor,
-        Sets.PrisonerInDeepConfinement,
+      presets: [
+        PresetEffects.PRISONER_SET,
       ],
-      ornamentSets: [
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-        Sets.TaliaKingdomOfBanditry,
-      ],
-      presets: [],
       sortOption: SortOption.DOT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.EHR,
+          Stats.CR,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 2,
+          SKILL: 1,
+          ULT: 1,
+          FUA: 0,
+          DOT: 2,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          RELICS_2P_BREAK_EFFECT_SPEED,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.FirmamentFrontlineGlamoth,
+        ],
+        teammates: [
+          {
+            characterId: '1005', // Kafka
+            lightCone: '23006', // Patience
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1112: { // Topaz and Numby
       stats: {
@@ -2527,20 +2975,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.FiresmithOfLavaForging,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(0),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2566,8 +3002,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 1,
@@ -2576,9 +3012,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1305', // Ratio
@@ -2597,9 +3039,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1201: { // Qingque
       stats: {
@@ -2642,18 +3084,7 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -2678,8 +3109,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -2688,9 +3119,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1006', // SW
@@ -2709,9 +3146,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1202: { // Tingyun
       stats: {
@@ -2755,17 +3192,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.KnightOfPurityPalace,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -2812,17 +3238,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.SpaceSealingStation,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -2869,19 +3284,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.TheAshblazingGrandDuke,
-        Sets.BandOfSizzlingThunder,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.fnAshblazingSet(8),
-        PresetEffects.fnWindSoaringSet(2),
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -2907,8 +3311,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -2917,9 +3321,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheAshblazingGrandDuke,
-        relicSet2: Sets.TheAshblazingGrandDuke,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '1306', // Sparkle
@@ -2938,9 +3349,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1205: { // Blade
       stats: {
@@ -2983,18 +3394,7 @@ function getScoringMetadata() {
           Stats.HP_P,
         ],
       },
-      relicSets: [
-        Sets.MessengerTraversingHackerspace,
-        Sets.EagleOfTwilightLine,
-        Sets.LongevousDisciple,
-      ],
-      ornamentSets: [
-        Sets.InertSalsotto,
-        Sets.RutilantArena,
-      ],
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
         parts: {
@@ -3018,9 +3418,10 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.HP_P,
+          Stats.HP,
           Stats.ATK_P,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -3029,9 +3430,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.LongevousDisciple,
-        relicSet2: Sets.LongevousDisciple,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1212', // Jingliu
@@ -3050,9 +3456,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1206: { // Sushang
       stats: {
@@ -3096,17 +3502,73 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK_P,
+          Stats.BE,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
+        teammates: [
+          {
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+        ],
+      },
     },
     1207: { // Yukong
       stats: {
@@ -3149,18 +3611,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.InertSalsotto,
-        Sets.SpaceSealingStation,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3210,16 +3660,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.LongevousDisciple,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -3264,18 +3704,70 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.HunterOfGlacialForest,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
-      presets: [
-        PresetEffects.fnWindSoaringSet(1),
-      ],
+      presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 2,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1210: { // Guinaifen
       stats: {
@@ -3318,18 +3810,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.PrisonerInDeepConfinement,
-        Sets.FiresmithOfLavaForging,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.FirmamentFrontlineGlamoth,
-        Sets.PanCosmicCommercialEnterprise,
-        Sets.SpaceSealingStation,
-        Sets.FleetOfTheAgeless,
-      ],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -3375,16 +3855,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -3429,24 +3899,11 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.GeniusOfBrilliantStars,
-        Sets.HunterOfGlacialForest,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
             Stats.CD,
           ],
           [Parts.Feet]: [
@@ -3466,8 +3923,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -3476,9 +3933,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.HunterOfGlacialForest,
-        relicSet2: Sets.HunterOfGlacialForest,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1101', // Bronya
@@ -3497,9 +3959,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1213: { // Dan Heng • Imbibitor Lunae
       stats: {
@@ -3542,17 +4004,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [
-        Sets.WastelanderOfBanditryDesert,
-        Sets.MusketeerOfWildWheat,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.InertSalsotto,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -3580,8 +4031,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -3590,9 +4041,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.MusketeerOfWildWheat,
-        relicSet2: Sets.MusketeerOfWildWheat,
-        ornamentSet: Sets.RutilantArena,
+        relicSets: [
+          [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1306', // Sparkle
@@ -3611,9 +4068,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1214: { // Xueyi
       stats: {
@@ -3657,11 +4114,8 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(3),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.SKILL,
       simulation: {
@@ -3669,7 +4123,6 @@ function getScoringMetadata() {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
-            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -3689,25 +4142,33 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.SPD,
+          Stats.ATK,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
           ULT: 1,
           FUA: 3,
           DOT: 0,
-          BREAK: 0,
+          BREAK: 1,
         },
-        relicSet1: Sets.GeniusOfBrilliantStars,
-        relicSet2: Sets.GeniusOfBrilliantStars,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            characterId: '8006', // Stelle
+            lightCone: '21004', // Memories
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -3716,13 +4177,13 @@ function getScoringMetadata() {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
-          }
-        ]
-      }
+            characterId: '1301', // Gallagher
+            lightCone: '20015', // Multi
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+        ],
+      },
     },
     1215: { // Hanya
       stats: {
@@ -3764,8 +4225,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.SPD,
     },
@@ -3810,17 +4269,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.LongevousDisciple,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.PenaconyLandOfTheDreams,
-      ],
       presets: [],
       sortOption: SortOption.EHP,
     },
@@ -3864,17 +4312,6 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.MusketeerOfWildWheat,
-        Sets.PasserbyOfWanderingCloud,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BrokenKeel,
-        Sets.SprightlyVonwacq,
-        Sets.SpaceSealingStation,
-      ],
       presets: [],
       sortOption: SortOption.BE,
     },
@@ -3919,10 +4356,71 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1202', // Tingyun
+            lightCone: '21018', // Dance
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1303: { // Ruan Mei
       stats: {
@@ -3965,10 +4463,8 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
-      sortOption: SortOption.SPD,
+      sortOption: SortOption.BE,
     },
     1304: { // Aventurine
       stats: {
@@ -4013,13 +4509,79 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(7),
-        PresetEffects.fnWindSoaringSet(1),
       ],
       sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.DEF_P,
+          ],
+          [Parts.Feet]: [
+            Stats.DEF_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.DEF_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.DEF_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.DEF_P,
+          Stats.DEF,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 2,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 2,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
+          [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.BrokenKeel,
+          Sets.PenaconyLandOfTheDreams,
+          Sets.FleetOfTheAgeless,
+        ],
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1305', // Ratio
+            lightCone: '23020', // Baptism
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1305: { // Dr Ratio
       stats: {
@@ -4062,11 +4624,8 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnAshblazingSet(1),
-        PresetEffects.fnWindSoaringSet(1),
         PresetEffects.fnPioneerSet(4),
         PresetEffects.WASTELANDER_SET,
       ],
@@ -4094,8 +4653,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -4104,9 +4663,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.InertSalsotto,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -4125,9 +4690,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1306: { // Sparkle
       stats: {
@@ -4176,8 +4741,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.CD,
     },
@@ -4222,8 +4785,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -4231,8 +4792,8 @@ function getScoringMetadata() {
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.ATK_P,
             Stats.EHR,
+            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -4250,26 +4811,33 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.EHR,
           Stats.ATK,
-          Stats.SPD,
-          Stats.CR
+          Stats.CR,
+          Stats.CD,
         ],
+        breakpoints: {
+          [Stats.EHR]: 1.20,
+        },
         formula: {
           BASIC: 2,
           SKILL: 1,
           ULT: 1,
           FUA: 0,
-          DOT: 6,
+          DOT: 8,
           BREAK: 0,
         },
-        relicSet1: Sets.PrisonerInDeepConfinement,
-        relicSet2: Sets.PrisonerInDeepConfinement,
-        ornamentSet: Sets.FirmamentFrontlineGlamoth,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.PanCosmicCommercialEnterprise,
+        ],
         teammates: [
           {
             characterId: '1005', // Kafka
-            lightCone: '23006', // Pearls
+            lightCone: '23006', // Patience
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -4282,9 +4850,9 @@ function getScoringMetadata() {
             lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1308: { // Acheron
       stats: {
@@ -4327,8 +4895,6 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -4356,8 +4922,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -4366,9 +4932,14 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.PioneerDiverOfDeadWaters,
-        relicSet2: Sets.PioneerDiverOfDeadWaters,
-        ornamentSet: Sets.IzumoGenseiAndTakamaDivineRealm,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.IzumoGenseiAndTakamaDivineRealm,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
         teammates: [
           {
             characterId: '1106', // Pela
@@ -4378,18 +4949,18 @@ function getScoringMetadata() {
           },
           {
             characterId: '1006', // SW
-            lightCone: '22000', // Tutorial
+            lightCone: '23007', // Rain
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1304', // Aventurine
             lightCone: '21016', // Trend
             characterEidolon: 0,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1309: { // Robin
       stats: {
@@ -4431,10 +5002,8 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.ATK,
     },
     1310: { // Firefly
       stats: {
@@ -4445,8 +5014,8 @@ function getScoringMetadata() {
         [Constants.Stats.HP]: 0,
         [Constants.Stats.HP_P]: 0,
         [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 0.5,
-        [Constants.Stats.CD]: 0.5,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
@@ -4463,8 +5032,6 @@ function getScoringMetadata() {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.CD,
-          Constants.Stats.CR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4475,19 +5042,14 @@ function getScoringMetadata() {
           Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.SKILL,
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.CD,
             Stats.ATK_P,
           ],
           [Parts.Feet]: [
@@ -4508,19 +5070,28 @@ function getScoringMetadata() {
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
-          Stats.SPD,
+          Stats.ATK,
         ],
+        breakpoints: {},
+        maxBonusRolls: {},
         formula: {
           BASIC: 0,
           SKILL: 3,
           ULT: 0,
           FUA: 0,
           DOT: 0,
-          BREAK: 0,
+          BREAK: 1,
         },
-        relicSet1: Sets.IronCavalryAgainstScourge,
-        relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        relicSets: [
+          [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.ForgeOfTheKalpagniLantern,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -4539,9 +5110,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1312: { // Misha
       stats: {
@@ -4584,10 +5155,72 @@ function getScoringMetadata() {
           Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.ULT,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1314: { // Jade
       stats: {
@@ -4630,11 +5263,7 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
-      presets: [
-        PresetEffects.fnWindSoaringSet(2),
-      ],
+      presets: [],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -4659,8 +5288,8 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.SPD,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -4669,9 +5298,16 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 0,
         },
-        relicSet1: Sets.TheWindSoaringValorous,
-        relicSet2: Sets.TheWindSoaringValorous,
-        ornamentSet: Sets.DuranDynastyOfRunningWolves,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.RutilantArena,
+        ],
         teammates: [
           {
             characterId: '1112', // Topaz
@@ -4690,9 +5326,9 @@ function getScoringMetadata() {
             lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     1315: { // Boothill
       stats: {
@@ -4723,21 +5359,30 @@ function getScoringMetadata() {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.HP_P,
+          Stats.DEF_P,
+          Stats.EHR,
+          Stats.OHB,
         ],
         [Parts.Feet]: [
-          Stats.ATK_P,
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.Physical_DMG,
+          Stats.HP_P,
+          Stats.DEF_P,
           Stats.ATK_P,
+          Stats.Wind_DMG,
+          Stats.Physical_DMG,
+          Stats.Fire_DMG,
+          Stats.Ice_DMG,
+          Stats.Lightning_DMG,
+          Stats.Quantum_DMG,
+          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.BE,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BASIC,
       simulation: {
@@ -4747,15 +5392,13 @@ function getScoringMetadata() {
             Stats.CD,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
-            Stats.ATK_P,
             Stats.Physical_DMG,
+            Stats.ATK_P,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
             Stats.BE,
           ],
         },
@@ -4764,8 +5407,9 @@ function getScoringMetadata() {
           Stats.CD,
           Stats.CR,
           Stats.ATK_P,
-          Stats.SPD,
+          Stats.ATK,
         ],
+        breakpoints: {},
         formula: {
           BASIC: 3,
           SKILL: 0,
@@ -4774,9 +5418,15 @@ function getScoringMetadata() {
           DOT: 0,
           BREAK: 1,
         },
-        relicSet1: Sets.IronCavalryAgainstScourge,
-        relicSet2: Sets.IronCavalryAgainstScourge,
-        ornamentSet: Sets.ForgeOfTheKalpagniLantern,
+        relicSets: [
+          [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          [Sets.IronCavalryAgainstScourge, Sets.IronCavalryAgainstScourge],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+        ],
         teammates: [
           {
             characterId: '8006', // Stelle
@@ -4795,9 +5445,9 @@ function getScoringMetadata() {
             lightCone: '20015', // Multi
             characterEidolon: 6,
             lightConeSuperimposition: 5,
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     8001: { // Physical Trailblazer M
       stats: {
@@ -4841,18 +5491,71 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     8002: { // Physical Trailblazer F
       stats: {
@@ -4896,18 +5599,71 @@ function getScoringMetadata() {
           Stats.BE,
         ],
       },
-      relicSets: [
-        Sets.ChampionOfStreetwiseBoxing,
-        Sets.MessengerTraversingHackerspace,
-        Sets.MusketeerOfWildWheat,
-      ],
-      ornamentSets: [
-        Sets.RutilantArena,
-        Sets.SpaceSealingStation,
-        Sets.FirmamentFrontlineGlamoth,
-      ],
       presets: [],
       sortOption: SortOption.SKILL,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 3,
+          ULT: 1,
+          FUA: 0,
+          DOT: 0,
+          BREAK: 1,
+        },
+        relicSets: [
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     8003: { // Fire Trailblazer M
       stats: {
@@ -4949,17 +5705,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -5003,17 +5748,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [
-        Sets.KnightOfPurityPalace,
-        Sets.GuardOfWutheringSnow,
-        Sets.MessengerTraversingHackerspace,
-      ],
-      ornamentSets: [
-        Sets.FleetOfTheAgeless,
-        Sets.BelobogOfTheArchitects,
-        Sets.SprightlyVonwacq,
-        Sets.BrokenKeel,
-      ],
       presets: [],
       sortOption: SortOption.DEF,
     },
@@ -5069,8 +5803,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BE,
     },
@@ -5126,8 +5858,6 @@ function getScoringMetadata() {
           Stats.ERR,
         ],
       },
-      relicSets: [],
-      ornamentSets: [],
       presets: [],
       sortOption: SortOption.BE,
     },

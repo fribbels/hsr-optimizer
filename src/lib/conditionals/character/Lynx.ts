@@ -78,7 +78,10 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.HP] += (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0
       x[Stats.HP] += (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0
       x[Stats.HP] += (t.skillBuff) ? skillHpFlatBuff : 0
-      x[Stats.ATK] += (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
+
+      const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
+      x[Stats.ATK] += atkBuffValue
+      x.RATIO_BASED_ATK_BUFF += atkBuffValue
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

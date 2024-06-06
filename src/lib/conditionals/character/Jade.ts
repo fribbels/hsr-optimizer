@@ -1,5 +1,5 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -7,18 +7,30 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 05-05-2024.'
+const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   // TODO: Ashblazing
   const basicScaling = basic(e, 0.90, 0.99)
-  const skillScaling = skill(e, 0.20, 0.22)
+  const skillScaling = skill(e, 0.25, 0.27)
   const ultScaling = ult(e, 2.40, 2.64)
   const ultFuaScalingBuff = ult(e, 0.80, 0.88)
   const fuaScaling = talent(e, 1.20, 1.32)
   const pawnedAssetCdScaling = talent(e, 0.024, 0.0264)
+
+  const unenhancedHitMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25), // 0.15
+    3: ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.345
+    5: ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.405
+  }
+
+  const enhancedHitMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1 * 0.10 + 2 * 0.10 + 3 * 0.10 + 4 * 0.10 + 5 * 0.60), // 0.24
+    3: ASHBLAZING_ATK_STACK * (2 * 0.10 + 5 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.426
+    5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
+  }
 
   const content: ContentItem[] = [
     {
@@ -122,7 +134,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0
 
-      x.FUA_BOOST += (e >= 1 && r.e1FuaDmgBoost) ? 0.20 : 0
+      x.FUA_BOOST += (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0
       x.DEF_SHRED += (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0
       x.QUANTUM_RES_PEN += (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0
 
@@ -146,7 +158,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       // x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK] // Removing since its not on her action
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+
+      const hitMulti = r.enhancedFollowUp ? enhancedHitMultiByTargets[request.enemyCount] : unenhancedHitMultiByTargets[request.enemyCount]
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }
 }

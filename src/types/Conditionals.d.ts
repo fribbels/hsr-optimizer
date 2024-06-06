@@ -20,7 +20,8 @@ export interface Conditional {
    * ComputedStatsObject arg is mutated by ref
    */
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
-  calculatePassives?: () => void
+  // Stat conversions
+  calculatePassives?: (c: ComputedStatsObject, request: Form) => void
 }
 
 export type ContentComponentMap = {
@@ -336,3 +337,8 @@ export type ConditionalBuff =
   | 'ultFuaCdBoost'
   | 'superBreakDmg'
   | 'routedVulnerability'
+  | 'fuaStacks'
+  | 'skillDot'
+  | 'e1EffectResShred'
+  | 'e4ResBuff'
+  | 'superBreakEnabled'

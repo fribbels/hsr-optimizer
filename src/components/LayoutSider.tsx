@@ -16,7 +16,7 @@ export function LayoutSider() {
         background: token.colorBgContainer,
       }}
       collapsible
-      collapsedWidth={0}
+      collapsedWidth={48}
       collapsed={!menuSidebarOpen}
       trigger={null}
     >

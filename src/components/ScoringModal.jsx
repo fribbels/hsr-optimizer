@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Collapse, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -28,9 +28,9 @@ export default function ScoringModal() {
   const [scoringAlgorithmForm] = Form.useForm()
   window.scoringAlgorithmForm = scoringAlgorithmForm
 
-  let scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
-  let setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
-  let charactersById = window.store((s) => s.charactersById)
+  const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
+  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const charactersById = window.store((s) => s.charactersById)
 
   const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
   window.setIsScoringModalOpen = setIsScoringModalOpen
@@ -41,7 +41,7 @@ export default function ScoringModal() {
 
   // Cleans up 0's to not show up on the form
   function getScoringValuesForDisplay(scoringMetadata) {
-    for (let x of Object.entries(scoringMetadata.stats)) {
+    for (const x of Object.entries(scoringMetadata.stats)) {
       if (x[1] == 0) {
         scoringMetadata.stats[x[0]] = null
       }
@@ -51,7 +51,7 @@ export default function ScoringModal() {
   }
 
   useEffect(() => {
-    let id = scoringAlgorithmFocusCharacter
+    const id = scoringAlgorithmFocusCharacter
     if (id) {
       let scoringMetadata = Utils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
@@ -64,10 +64,6 @@ export default function ScoringModal() {
   const panelWidth = 225
   const defaultGap = 5
   const selectWidth = 360
-
-  const characterOptions = useMemo(() => {
-    return Utils.generateCharacterOptions()
-  }, [])
 
   function StatValueRow(props) {
     return (
@@ -88,7 +84,8 @@ export default function ScoringModal() {
 
   function onModalOk() {
     console.log('onModalOk OK')
-    scoringAlgorithmForm.submit()
+    const values = scoringAlgorithmForm.getFieldsValue()
+    onFinish(values)
     setIsScoringModalOpen(false)
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
@@ -101,7 +98,10 @@ export default function ScoringModal() {
     x.stats[Constants.Stats.DEF_P] = x.stats[Constants.Stats.DEF]
     x.stats[Constants.Stats.HP_P] = x.stats[Constants.Stats.HP]
 
-    let defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+    const defaultScoringMetadata = Utils.clone(DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata)
+    const existingScoringMetadata = DB.getScoringMetadata(scoringAlgorithmFocusCharacter)
+
+    defaultScoringMetadata.simulation = existingScoringMetadata.simulation
 
     function nullUndefinedToZero(x) {
       if (x == null) return 0
@@ -109,7 +109,7 @@ export default function ScoringModal() {
     }
 
     x.modified = false
-    for (let stat of Object.values(Constants.Stats)) {
+    for (const stat of Object.values(Constants.Stats)) {
       if (nullUndefinedToZero(x.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
         x.modified = true
       }
@@ -121,25 +121,24 @@ export default function ScoringModal() {
   const handleResetDefault = () => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    let defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
-    let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+    const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+    const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   }
 
   function ResetAllCharactersButton() {
-
     const resetAllCharacters = () => {
-      console.log("Reset the scoring algorithm for all characters")
-      for (let character of Object.keys(charactersById)) {
-        let defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
+      console.log('Reset the scoring algorithm for all characters')
+      for (const character of Object.keys(charactersById)) {
+        const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
         DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)
       }
 
       // Update values for current screen
-      let defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
-      let displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+      const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+      const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
       scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
     }
 
@@ -160,12 +159,9 @@ export default function ScoringModal() {
     setIsScoringModalOpen(false)
   }
 
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+  const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
-  let previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
-
-  let methodologyCollapse = (
+  const methodologyCollapse = (
     <Text>
       <PStyled>
         Substat scoring is calculated by
@@ -249,31 +245,31 @@ export default function ScoringModal() {
 
       <Flex justify="space-between" style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P 1.280</code></li>
-          <li><code>Body ATK_P 1.278</code></li>
+          <li><code>Body HP_P 1.320</code></li>
+          <li><code>Body ATK_P 1.284</code></li>
           <li><code>Body DEF_P 1.305</code></li>
-          <li><code>Body CR 1.647</code></li>
-          <li><code>Body CD 1.643</code></li>
+          <li><code>Body CR 1.644</code></li>
+          <li><code>Body CD 1.658</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB 1.713</code></li>
-          <li><code>Body EHR 1.653</code></li>
-          <li><code>Feet HP_P 1.045</code></li>
-          <li><code>Feet ATK_P 1.000</code></li>
-          <li><code>Feet DEF_P 1.002</code></li>
+          <li><code>Body OHB 1.712</code></li>
+          <li><code>Body EHR 1.668</code></li>
+          <li><code>Feet HP_P 1.058</code></li>
+          <li><code>Feet ATK_P 1.019</code></li>
+          <li><code>Feet DEF_P 1.000</code></li>
         </ul>
         <ul>
-          <li><code>Feet SPD 1.573</code></li>
+          <li><code>Feet SPD 1.567</code></li>
           <li><code>PlanarSphere HP_P 1.583</code></li>
-          <li><code>PlanarSphere ATK_P 1.545</code></li>
-          <li><code>PlanarSphere DEF_P 1.595</code></li>
-          <li><code>PlanarSphere ELEM 1.747</code></li>
+          <li><code>PlanarSphere ATK_P 1.559</code></li>
+          <li><code>PlanarSphere DEF_P 1.587</code></li>
+          <li><code>PlanarSphere ELEM 1.763</code></li>
         </ul>
         <ul>
-          <li><code>LinkRope HP_P 1.056</code></li>
-          <li><code>LinkRope ATK_P 1.016</code></li>
-          <li><code>LinkRope DEF_P 1.161</code></li>
-          <li><code>LinkRope BE 1.417</code></li>
+          <li><code>LinkRope HP_P 1.073</code></li>
+          <li><code>LinkRope ATK_P 1.076</code></li>
+          <li><code>LinkRope DEF_P 1.172</code></li>
+          <li><code>LinkRope BE 1.416</code></li>
           <li><code>LinkRope ERR 2.000</code></li>
         </ul>
       </Flex>

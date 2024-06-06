@@ -1,6 +1,6 @@
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { Utils } from 'lib/utils'
-import { Constants, Parts, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
+import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, StatsToShort, SubStats } from 'lib/constants'
 import { emptyRelic } from 'lib/optimizer/optimizerUtils'
 import { StatCalculator } from 'lib/statCalculator'
 import { Relic, Stat } from 'types/Relic'
@@ -16,13 +16,15 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
+import { SimulationResult } from 'lib/characterScorer'
 
 export type Simulation = {
   name?: string
   key: string
   simType: string
   request: SimulationRequest
-  result: any
+  result: SimulationResult
+  penaltyMultiplier: number
 }
 
 export type SimulationRequest = {
@@ -48,7 +50,7 @@ export function saveStatSimulationBuildFromForm() {
   const simType: StatSimTypes = window.store.getState().statSimulationDisplay
 
   // Check for invalid button presses
-  if (simType == StatSimTypes.Disabled || !form.statSim || !form.statSim[simType]) {
+  if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
     return
   }
@@ -124,13 +126,13 @@ function validateRequest(request: SimulationRequest) {
 export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim}/>
+      <SimSetsDisplay sim={sim} />
 
-      {'|'}
+      |
 
-      <SimMainsDisplay sim={sim}/>
+      <SimMainsDisplay sim={sim} />
 
-      {'|'}
+      |
 
       <Flex>
         {sim.name ? `${sim.name}` : null}
@@ -140,7 +142,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
         {sim.name ? `|` : null}
       </Flex>
 
-      <SimSubstatsDisplay sim={sim}/>
+      <SimSubstatsDisplay sim={sim} />
     </Flex>
   )
 }
@@ -153,12 +155,12 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{width: imgSize * 2 + 5}} justify="center">
-        <img style={{width: request.simRelicSet1 ? imgSize : 0}} src={relicImage1}/>
-        <img style={{width: request.simRelicSet2 ? imgSize : 0}} src={relicImage2}/>
+      <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
       </Flex>
 
-      <img style={{width: imgSize}} src={ornamentImage}/>
+      <img style={{ width: imgSize }} src={ornamentImage} />
     </Flex>
   )
 }
@@ -168,10 +170,10 @@ function SimMainsDisplay(props: { sim: Simulation }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simBody, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
-      <img style={{width: imgSize}} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
     </Flex>
   )
 }
@@ -199,7 +201,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
     if (value) {
       renderArray.push({
         stat: stat,
-        value: value
+        value: value,
       })
     }
   }
@@ -219,7 +221,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
           return (
             <Flex key={x.stat}>
               <Tag
-                style={{paddingInline: '5px', marginInlineEnd: '5px'}}
+                style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
               >
                 {renderStat(x)}
               </Tag>
@@ -231,10 +233,10 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
   )
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key, name: string }) {
+export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
   console.log('Delete sim', record)
   const statSims: Simulation[] = window.store.getState().statSimulations
-  const updatedSims: Simulation[] = Utils.clone(statSims.filter(x => x.key != record.key))
+  const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
@@ -253,48 +255,63 @@ export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export function runSimulations(form: Form, simulations: Simulation[]) {
+export type RunSimulationsParams = {
+  quality: number
+  speedRollValue: number
+  mainStatMultiplier: number
+  substatRollsModifier: (num: number, stat: string, relics: { [key: Parts]: Relic }) => number
+}
+
+export function runSimulations(
+  form: Form,
+  simulations: Simulation[],
+  inputParams: Partial<RunSimulationsParams> = {},
+): SimulationResult[] {
+  const defaultParams: RunSimulationsParams = {
+    quality: 1,
+    speedRollValue: 2.6,
+    mainStatMultiplier: 1,
+    substatRollsModifier: (num: number) => num,
+  }
+  const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
+
   const simulationResults = []
   for (const sim of simulations) {
     const request = sim.request
 
-    const head = emptyRelic()
-    const hands = emptyRelic()
-    const body = emptyRelic()
-    const feet = emptyRelic()
-    const linkRope = emptyRelic()
-    const planarSphere = emptyRelic()
+    const head: Relic = emptyRelic()
+    const hands: Relic = emptyRelic()
+    const body: Relic = emptyRelic()
+    const feet: Relic = emptyRelic()
+    const linkRope: Relic = emptyRelic()
+    const planarSphere: Relic = emptyRelic()
 
     head.augmentedStats.mainStat = Constants.Stats.HP
-    head.augmentedStats.mainValue = 705.600
-
     hands.augmentedStats.mainStat = Constants.Stats.ATK
-    hands.augmentedStats.mainValue = 352.800
-
     body.augmentedStats.mainStat = request.simBody
-    body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody)
-
     feet.augmentedStats.mainStat = request.simFeet
-    feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet)
-
     linkRope.augmentedStats.mainStat = request.simLinkRope
-    linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope)
-
     planarSphere.augmentedStats.mainStat = request.simPlanarSphere
-    planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere)
+
+    head.augmentedStats.mainValue = 705.600// * params.mainStatMultiplier
+    hands.augmentedStats.mainValue = 352.800// * params.mainStatMultiplier
+    body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody) * params.mainStatMultiplier
+    feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet) * params.mainStatMultiplier
+    linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope) * params.mainStatMultiplier
+    planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere) * params.mainStatMultiplier
 
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set
     // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
-    const unusedRelicSets = SetsRelicsNames.filter(x => x != request.simRelicSet1 && x != request.simRelicSet2)
-    const ornamentSet = request.simOrnamentSet || -1
+    // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
+    const unusedRelicSets = SetsRelicsNames.filter((x) => x != request.simRelicSet1 && x != request.simRelicSet2)
 
     head.set = request.simRelicSet1 || unusedRelicSets[0]
     hands.set = request.simRelicSet1 || unusedRelicSets[1]
     body.set = request.simRelicSet2 || unusedRelicSets[2]
     feet.set = request.simRelicSet2 || unusedRelicSets[3]
-    linkRope.set = ornamentSet
-    planarSphere.set = ornamentSet
+    linkRope.set = request.simOrnamentSet || SetsOrnamentsNames[0]
+    planarSphere.set = request.simOrnamentSet || SetsOrnamentsNames[1]
 
     head.part = Parts.Head
     hands.part = Parts.Hands
@@ -302,28 +319,6 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
     feet.part = Parts.Feet
     linkRope.part = Parts.LinkRope
     planarSphere.part = Parts.PlanarSphere
-
-    // Convert substat rolls to value totals
-    const substatValues: Stat[] = []
-    const requestSubstats = Utils.clone(sim.request.stats)
-    if (sim.simType == StatSimTypes.SubstatRolls) {
-      for (const substat of SubStats) {
-        requestSubstats[substat] = Utils.precisionRound((requestSubstats[substat] || 0) * StatCalculator.getMaxedSubstatValue(substat))
-      }
-    }
-
-    // Convert value totals to substat objects
-    for (const substat of SubStats) {
-      const value = requestSubstats[substat]
-      if (value) {
-        substatValues.push({
-          stat: substat,
-          value: value
-        })
-      }
-    }
-
-    head.substats = substatValues
 
     const relicsByPart = {
       [Parts.Head]: [head],
@@ -333,7 +328,7 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
       [Parts.LinkRope]: [linkRope],
       [Parts.PlanarSphere]: [planarSphere],
     }
-    const relics = {
+    const relics: { [key: string]: Relic } = {
       [Parts.Head]: head,
       [Parts.Hands]: hands,
       [Parts.Body]: body,
@@ -341,12 +336,45 @@ export function runSimulations(form: Form, simulations: Simulation[]) {
       [Parts.LinkRope]: linkRope,
       [Parts.PlanarSphere]: planarSphere,
     }
+
+    // Convert substat rolls to value totals
+    const substatValues: Stat[] = []
+    const requestSubstats: SimulationStats = Utils.clone(sim.request.stats)
+    if (sim.simType == StatSimTypes.SubstatRolls) {
+      for (const substat of SubStats) {
+        const substatValue = substat == Stats.SPD
+          ? params.speedRollValue
+          : StatCalculator.getMaxedSubstatValue(substat, params.quality)
+
+        let substatCount = Utils.precisionRound((requestSubstats[substat] || 0))
+        substatCount = params.substatRollsModifier(substatCount, substat, relics)
+
+        requestSubstats[substat] = substatCount * substatValue
+      }
+    }
+
+    // Convert value totals to substat objects
+    for (const substat of SubStats) {
+      const value = requestSubstats[substat]
+      if (value) {
+        substatValues.push({
+          stat: substat,
+          value: value,
+        })
+      }
+    }
+
+    head.substats = substatValues
+
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
     const c = calculateBuild(form, relics)
 
     renameFields(c)
-    c.statSim = sim
+    // For optimizer grid syncing with sim table
+    c.statSim = {
+      key: sim.key,
+    }
     simulationResults.push(c)
   }
 
@@ -367,7 +395,7 @@ export function startOptimizerStatSimulation() {
   OptimizerTabController.setRows(simulationResults)
 
   calculateCurrentlyEquippedRow(form)
-  window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource()})
+  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
@@ -415,24 +443,24 @@ export function importOptimizerBuild() {
   const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
   const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2], false)
 
-  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName)
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 
-export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet) {
+export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1, speedRollValue = 2.6) {
   const relics: Relic[] = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {}
-  SubStats.map(x => accumulatedSubstatRolls[x] = 0)
+  SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
 
   // Sum up substat rolls
   for (const relic of relics) {
     for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / StatCalculator.getMaxedSubstatValue(substat.stat)
+      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
     }
   }
 
   // Round them to 4 precision
-  SubStats.map(x => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
+  SubStats.map((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Generate the fake request and submit it
   return {
@@ -457,7 +485,7 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
       [Stats.EHR]: accumulatedSubstatRolls[Stats.EHR] || null,
       [Stats.RES]: accumulatedSubstatRolls[Stats.RES] || null,
       [Stats.BE]: accumulatedSubstatRolls[Stats.BE] || null,
-    }
+    },
   }
 }
 

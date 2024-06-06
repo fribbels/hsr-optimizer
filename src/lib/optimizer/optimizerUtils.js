@@ -13,13 +13,14 @@ export function emptyRelic() {
     mainStat: Constants.Stats.HP,
     mainValue: 0,
   }
-  for (let stat of Object.values(Constants.Stats)) {
+  for (const stat of Object.values(Constants.Stats)) {
     augmentedStats[stat] = 0
   }
   return {
     set: -1,
     augmentedStats: augmentedStats,
     substats: [],
+
   }
 }
 

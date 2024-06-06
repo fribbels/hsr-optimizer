@@ -22,7 +22,7 @@ enum ZeroPermRootCause {
   PRIORITY = 'PRIORITY',
   EXCLUDE_ENABLED = 'EXCLUDE_ENABLED',
   EQUIPPED_DISABLED = 'EQUIPPED_DISABLED',
-  TOP_PERCENT = 'TOP_PERCENT',
+  MINIMUM_ROLLS = 'MINIMUM_ROLLS',
 }
 
 const RootCauseFixes: {
@@ -93,12 +93,14 @@ const RootCauseFixes: {
       Message.success('Enabled "Include equipped relics"', 2)
     },
   },
-  [ZeroPermRootCause.TOP_PERCENT]: {
-    description: 'The substat weight filter has a configured Top % that\'s under 100%, which can exclude some low weighted relics',
-    buttonText: 'Set Top % to 100%',
+  [ZeroPermRootCause.MINIMUM_ROLLS]: {
+    description: 'The substat weight filter has a minimum roll threshold that might be too high',
+    buttonText: 'Set minimum rolls to 0',
     applyFix: () => {
-      window.optimizerForm.setFieldValue(['weights', 'topPercent'], 100)
-      Message.success('Set substat priority Top % to 100%', 2)
+      window.optimizerForm.setFieldValue(['weights', 'headHands'], 0)
+      window.optimizerForm.setFieldValue(['weights', 'bodyFeet'], 0)
+      window.optimizerForm.setFieldValue(['weights', 'sphereRope'], 0)
+      Message.success('Set minimum rolls to 0', 2)
     },
   },
 }
@@ -183,9 +185,9 @@ export function activateZeroPermutationsSuggestionsModal(request) {
     rootCauses.push(ZeroPermRootCause.EQUIPPED_DISABLED)
   }
 
-  // TOP_PERCENT
-  if (request.weights.topPercent != 100) {
-    rootCauses.push(ZeroPermRootCause.TOP_PERCENT)
+  // MINIMUM_ROLLS
+  if (request.weights.headHands > 0 || request.weights.bodyFeet > 0 || request.weights.sphereRope > 0) {
+    rootCauses.push(ZeroPermRootCause.MINIMUM_ROLLS)
   }
 
   // I don't know whats wrong, default to import issue

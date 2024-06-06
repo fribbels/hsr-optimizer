@@ -39,6 +39,7 @@ export const Assets = {
       }
     }
     if (stat == 'CV') return getImageUrl(`/misc/cv.webp`)
+    if (stat == 'simScore') return getImageUrl(`/misc/battle.png`)
     if (stat == Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
     if (stat == Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)
     if (stat == Constants.Stats.DEF_P && percented) return getImageUrl(`/misc/IconDefencePercent.webp`)
@@ -58,6 +59,11 @@ export const Assets = {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
+  },
+  getCharacterIconById: (id) => {
+    if (!id) return Assets.getBlank()
+
+    return getImageUrl(`/icon/character/${id}.webp`)
   },
   getCharacterPreviewById: (id) => {
     if (!id) return Assets.getBlank()

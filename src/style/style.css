@@ -400,3 +400,6 @@ a {
     flex-grow: 0.45 !important;
 }
 
+.centered-placeholder::placeholder {
+    text-align: center;
+}

@@ -1,43 +1,116 @@
-import { Constants, Parts, Sets, SubStats } from '../constants.ts'
-import { v4 as uuidv4 } from 'uuid'
+import { Constants, Parts, SubStats } from '../constants.ts'
 import { Utils } from '../utils'
 import { RelicAugmenter } from '../relicAugmenter'
-import { RelicEnhance, RelicGrade } from 'types/Relic.js'
 
-export function hoyolabParser(input) {
-  const json = JSON.parse(input)
-  const output: {
-    metadata: {
-      trailblazer: string
-      current_trailblazer_path: string
+import relicSetsData from 'data/relic_sets.json'
+/*
+
+  Sample data:
+
+            "id": 1309,
+            "level": 80,
+            "name": "Robin",
+            "element": "physical",
+            "rarity": 5,
+            "rank": 0,
+            "equip": {
+                "id": 22002,
+                "level": 70,
+                "rank": 5,
+                "rarity": 4
+            },
+            "relics": [{
+                "id": 61141,
+                "level": 15,
+                "pos": 1,
+                "rarity": 5,
+                "main_property": {
+                    "property_type": 27,
+                    "value": "705",
+                    "times": 0
+                },
+                "properties": [{
+                    "property_type": 29,
+                    "value": "33",
+                    "times": 2
+
+                    ...
+                }]
+            }, {
+ */
+
+type HoyolabRelic = {
+  id: number
+  level: number
+  pos: number
+  rarity: number
+  main_property: Property
+  properties: Property[]
+}
+
+type Property = {
+  property_type: number
+  value: string
+  times: number
+}
+
+type Equip = {
+  id: number
+  level: number
+  rank: number
+  rarity: number
+}
+
+type Avatar = {
+  id: number
+  level: number
+  name: string
+  rank: number
+  equip: Equip
+  relics: HoyolabRelic[]
+  ornaments: HoyolabRelic[]
+}
+
+type HoyolabData = {
+  data: {
+    avatar_list: Avatar[]
+  }
+}
+
+type HoyolabOutput = {
+  metadata: {
+    trailblazer: string
+    current_trailblazer_path: string
+  }
+  characters: {
+    characterEidolon: number
+    characterId: string
+    characterLevel: number
+    lightCone: string | null
+    lightConeLevel: number
+    lightConeSuperimposition: number
+  }[]
+  relics: {
+    enhance: number
+    equippedBy: string
+    grade: number
+    id: string
+    part: string
+    set: string
+    main: {
+      stat: string
+      value: number
     }
-    characters: {
-      characterEidolon: number
-      characterId: string
-      characterLevel: number
-      lightCone: string | null
-      lightConeLevel: number
-      lightConeSuperimposition: number
+    substats: {
+      stat: SubStats
+      value: number
     }[]
-    relics: {
-      enhance: RelicEnhance
-      equippedBy: string
-      grade: RelicGrade
-      id: string
-      part: string
-      set: string
-      main: {
-        stat: string
-        value: number
-      }
-      substats: {
-        stat: SubStats
-        value: number
-        addedRolls: number
-      }[]
-      verified: boolean
-    }[]
-  } = {
+    verified: boolean
+  }[]
+}
+
+export function hoyolabParser(json: HoyolabData) {
+  const output: HoyolabOutput = {
     metadata: {
       trailblazer: 'Stelle',
       current_trailblazer_path: 'Destruction',
@@ -59,17 +132,16 @@ export function hoyolabParser(input) {
       characterData.lightConeSuperimposition = character.equip.rank
     }
     output.characters.push(characterData)
-    for (const relic of [...character.relics, ...character.ornaments]) {
+    const relics: HoyolabRelic[] = [...character.relics, ...character.ornaments]
+    for (const relic of relics) {
       const substats: {
         stat: SubStats
         value: number
-        addedRolls: number
       }[] = []
       for (const property of relic.properties) {
         const substat = {
           stat: getStat(property.property_type),
           value: readValue(property.value),
-          addedRolls: property.times - 1,
         }
         substats.push(substat)
       }
@@ -77,7 +149,7 @@ export function hoyolabParser(input) {
         enhance: relic.level,
         equippedBy: (character.id).toString(),
         grade: relic.rarity,
-        id: uuidv4(),
+        id: Utils.randomId(),
         part: getSlot(relic.pos),
         set: getSet(relic.id),
         main: {
@@ -88,32 +160,12 @@ export function hoyolabParser(input) {
         verified: false,
       })
     }
-    if (character.id == 8002) {
-      output.metadata.trailblazer = 'Stelle'
-      output.metadata.current_trailblazer_path = 'Destruction'
-    }
-    if (character.id == 8004) {
-      output.metadata.trailblazer = 'Stelle'
-      output.metadata.current_trailblazer_path = 'Preservation'
-    }
-    if (character.id == 8006) {
-      output.metadata.trailblazer = 'Stelle'
-      output.metadata.current_trailblazer_path = 'Harmony'
-    }
-    if (character.id == 8001) {
-      output.metadata.trailblazer = 'Caelus'
-      output.metadata.current_trailblazer_path = 'Destruction'
-    }
-    if (character.id == 8003) {
-      output.metadata.trailblazer = 'Caelus'
-      output.metadata.current_trailblazer_path = 'Preservation'
-    }
-    if (character.id == 8005) {
-      output.metadata.trailblazer = 'Caelus'
-      output.metadata.current_trailblazer_path = 'Harmony'
-    }
+
+    const trailblazerMetadata: TrailblazerMetadata = getTrailblazerMetadata(character.id)
+    output.metadata.trailblazer = trailblazerMetadata.trailblazer
+    output.metadata.current_trailblazer_path = trailblazerMetadata.current_trailblazer_path
   }
-  output.relics.map((r) => RelicAugmenter.augment(r))
+  output.relics.map((relic) => RelicAugmenter.augment(relic))
   return output
 }
 
@@ -124,82 +176,61 @@ function readValue(value: string) {
   return Utils.precisionRound(parseFloat(value))
 }
 
+type TrailblazerMetadata = { trailblazer: string; current_trailblazer_path: string }
+const trailblazerMetadataLookup: { [key: number]: TrailblazerMetadata } = {
+  8001: { trailblazer: 'Caelus', current_trailblazer_path: 'Destruction' },
+  8002: { trailblazer: 'Stelle', current_trailblazer_path: 'Destruction' },
+
+  8003: { trailblazer: 'Caelus', current_trailblazer_path: 'Preservation' },
+  8004: { trailblazer: 'Stelle', current_trailblazer_path: 'Preservation' },
+
+  8006: { trailblazer: 'Stelle', current_trailblazer_path: 'Harmony' },
+  8005: { trailblazer: 'Caelus', current_trailblazer_path: 'Harmony' },
+}
+function getTrailblazerMetadata(id: number) {
+  return trailblazerMetadataLookup[id] || trailblazerMetadataLookup[8002]
+}
+
+const statLookup: { [key: number]: string } = {
+  27: Constants.Stats.HP,
+  32: Constants.Stats.HP_P,
+  29: Constants.Stats.ATK,
+  33: Constants.Stats.ATK_P,
+  31: Constants.Stats.DEF,
+  34: Constants.Stats.DEF_P,
+  51: Constants.Stats.SPD,
+  52: Constants.Stats.CR,
+  53: Constants.Stats.CD,
+  56: Constants.Stats.EHR,
+  57: Constants.Stats.RES,
+  59: Constants.Stats.BE,
+  54: Constants.Stats.ERR,
+  55: Constants.Stats.OHB,
+  12: Constants.Stats.Physical_DMG,
+  14: Constants.Stats.Fire_DMG,
+  16: Constants.Stats.Ice_DMG,
+  18: Constants.Stats.Lightning_DMG,
+  20: Constants.Stats.Wind_DMG,
+  22: Constants.Stats.Quantum_DMG,
+  24: Constants.Stats.Imaginary_DMG,
+}
 function getStat(id: number) {
-  switch (id) {
-    case 27:
-      return Constants.Stats.HP
-    case 32:
-      return Constants.Stats.HP_P
-    case 29:
-      return Constants.Stats.ATK
-    case 33:
-      return Constants.Stats.ATK_P
-    case 31:
-      return Constants.Stats.DEF
-    case 34:
-      return Constants.Stats.DEF_P
-    case 51:
-      return Constants.Stats.SPD
-    case 52:
-      return Constants.Stats.CR
-    case 53:
-      return Constants.Stats.CD
-    case 56:
-      return Constants.Stats.EHR
-    case 57:
-      return Constants.Stats.RES
-    case 59:
-      return Constants.Stats.BE
-    case 54:
-      return Constants.Stats.ERR
-    case 55:
-      return Constants.Stats.OHB
-    case 12:
-      return Constants.Stats.Physical_DMG
-    case 14:
-      return Constants.Stats.Fire_DMG
-    case 16:
-      return Constants.Stats.Ice_DMG
-    case 18:
-      return Constants.Stats.Lightning_DMG
-    case 20:
-      return Constants.Stats.Wind_DMG
-    case 22:
-      return Constants.Stats.Quantum_DMG
-    case 24:
-      return Constants.Stats.Imaginary_DMG
-    default:
-      return ''
-  }
+  return statLookup[id] || ''
 }
 
+const slotLookup: { [key: number]: string } = {
+  1: Parts.Head,
+  2: Parts.Hands,
+  3: Parts.Body,
+  4: Parts.Feet,
+  5: Parts.PlanarSphere,
+  6: Parts.LinkRope,
+}
 function getSlot(id: number) {
-  switch (id) {
-    case 1:
-      return Parts.Head
-    case 2:
-      return Parts.Hands
-    case 3:
-      return Parts.Body
-    case 4:
-      return Parts.Feet
-    case 5:
-      return Parts.PlanarSphere
-    case 6:
-      return Parts.LinkRope
-    default:
-      return ''
-  }
+  return slotLookup[id] || ''
 }
 
-function getSet(id: number) {
-  const setID = Math.floor((id % 10000) / 10)
-  const setsJson = JSON.parse('src/data/relic_sets.json')
-  for (const set in setsJson) {
-    if (setID == parseInt(set.id)) {
-      return set.name
-    }
-  }
-  console.log(`=========no matching set found for relic id: ${id}=========`)
-  return ''
+function getSet(id: number): string {
+  const setId = id.toString().substring(1, 4)
+  return relicSetsData[setId].name
 }

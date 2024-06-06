@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
-import { Message } from 'lib/message.js'
 import { SaveState } from 'lib/saveState.js'
-import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload, Form } from 'antd'
+import { Button, Divider, Flex, Form, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
@@ -10,6 +9,7 @@ import { Relic } from 'types/Relic'
 import { ColorizedLink } from 'components/common/ColorizedLink.tsx'
 import { ReliquaryDescription } from 'components/importerTab/ReliquaryDescription.tsx'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
+import { Message } from 'lib/message'
 
 const { Text } = Typography
 
@@ -53,57 +53,81 @@ export function ScannerImportSubmenu() {
       const reader = new FileReader()
       reader.readAsText(file)
       reader.onload = () => {
-        try {
-          const fileUploadText = String(reader.result)
-
-          const json = JSON.parse(fileUploadText)
-          console.log('JSON', json)
-
-          setLoading1(true)
-
-          if (!json) {
-            throw new Error('Invalid JSON')
-          }
-
-          if (!ValidScannerSources.includes(json.source)) {
-            throw new Error('Invalid scanner file')
-          }
-
-          const parser = ScannerSourceToParser[json.source]
-          const output = parser.parse(json)
-          let characters: ParsedCharacter[] = output.characters
-          const relics: Relic[] = output.relics
-
-          // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-          characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-          characters.map((c) => {
-            c.characterLevel = 80
-            c.lightConeLevel = 80
-          })
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentRelics(relics)
-            setCurrentCharacters(characters)
-            setCurrentStage(Stages.CONFIRM_DATA)
-          }, importerTabSpinnerMs)
-        } catch (e) {
-          let message = 'Unknown Error'
-          if (e instanceof Error) message = e.message
-
-          console.error(e)
-          Message.error('Error occurred while importing file: ' + message, 10)
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentRelics(undefined)
-            setCurrentCharacters(undefined)
-            setCurrentStage(Stages.CONFIRM_DATA)
-          }, importerTabSpinnerMs)
-        }
+        const fileUploadText = String(reader.result)
+        uploadedText(fileUploadText)
       }
       return false
     })
+  }
+
+  function uploadedText(text): Promise<any> {
+    try {
+      const json = JSON.parse(text)
+      console.log('JSON', json)
+
+      setLoading1(true)
+
+      if (!json) {
+        throw new Error('Invalid JSON')
+      }
+
+      if (json.data) {
+        // Hoyolab import
+        const out = hoyolabParser(json)
+        const relics: Relic[] = out.relics
+        let characters = out.characters
+        // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
+        characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+        characters.map((c) => {
+          c.characterLevel = 80
+          c.lightConeLevel = 80
+        })
+        setTimeout(() => {
+          setCurrentCharacters(characters)
+          setCurrentRelics(relics)
+          setCurrentStage(Stages.CONFIRM_DATA)
+          setLoading1(false)
+        }, importerTabSpinnerMs)
+
+        return
+      }
+
+      if (!ValidScannerSources.includes(json.source)) {
+        throw new Error('Invalid scanner file')
+      }
+
+      const parser = ScannerSourceToParser[json.source]
+      const output = parser.parse(json)
+      let characters: ParsedCharacter[] = output.characters
+      const relics: Relic[] = output.relics
+
+      // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
+      characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+      characters.map((c) => {
+        c.characterLevel = 80
+        c.lightConeLevel = 80
+      })
+
+      setTimeout(() => {
+        setLoading1(false)
+        setCurrentRelics(relics)
+        setCurrentCharacters(characters)
+        setCurrentStage(Stages.CONFIRM_DATA)
+      }, importerTabSpinnerMs)
+    } catch (e) {
+      let message = 'Unknown Error'
+      if (e instanceof Error) message = e.message
+
+      console.error(e)
+      Message.error('Error occurred while importing file: ' + message, 10)
+
+      setTimeout(() => {
+        setLoading1(false)
+        setCurrentRelics(undefined)
+        setCurrentCharacters(undefined)
+        setCurrentStage(Stages.CONFIRM_DATA)
+      }, importerTabSpinnerMs)
+    }
   }
 
   function mergeRelicsConfirmed() {
@@ -141,8 +165,8 @@ export function ScannerImportSubmenu() {
                 <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
                 )
                 <ul>
-                  <li>OCR scanner</li>
-                  <li>Supports all 16:9 screen resolutions</li>
+                  <li>Inaccurate speed decimals, 5-10 minutes OCR scan</li>
+                  <li>Imports full inventory and character roster</li>
                 </ul>
               </li>
               <li>
@@ -152,53 +176,57 @@ export function ScannerImportSubmenu() {
                 </span>
                 )
                 <ul>
+                  <li>Accurate speed decimals, instant scan</li>
                   <li>No download needed, but limited to relics from the 8 characters on profile showcase</li>
-                  <li>Imports accurate speed decimals</li>
                 </ul>
               </li>
-            </ul>
-          </Text>
-          <Upload
-            accept=".json"
-            name="file"
-            beforeUpload={beforeUpload}
-          >
-            <Button
-              style={{ width: importerTabButtonWidth }}
-              icon={<UploadOutlined />}
-              loading={loading1}
-              onClick={() => setCurrentStage(Stages.LOAD_FILE)}
-            >
-              Upload scanner json file
-            </Button>
-          </Upload>
-        </Flex>
-        <Flex vertical>
-          <Text>
-            <ul>
               <li>HoyoLab import (
-                <ColorizedLink text="Tutorial" url="https://freesr-tools.pages.dev/resources/tutorial.mp4" />
+                <ColorizedLink text="Instructions" url="https://github.com/fribbels/hsr-optimizer/discussions/403" />
                 )
                 <ul>
-                  <li>No download needed</li>
-                  <li>Limited to equipped relics only</li>
+                  <li>Inaccurate speed decimals, instant scan</li>
+                  <li>No download needed, but limited to ingame characters' equipped relics</li>
                 </ul>
               </li>
             </ul>
           </Text>
-          <Form form={form}>
-            <Flex vertical gap={30}>
-              <Form.Item name="json input">
-                <Input style={{ width: importerTabButtonWidth }} placeholder="paste the hoyolab info here" />
-              </Form.Item>
-              <Button
-                style={{ width: importerTabButtonWidth }}
-                onClick={hoyolabSubmit}
+          <Flex vertical align="flex-start">
+            <Flex gap={10} align="center">
+              <Upload
+                accept=".json"
+                name="file"
+                beforeUpload={beforeUpload}
               >
-                Submit Hoyolab Data
-              </Button>
+                <Button
+                  style={{ width: importerTabButtonWidth }}
+                  icon={<UploadOutlined />}
+                  loading={loading1}
+                  onClick={() => setCurrentStage(Stages.LOAD_FILE)}
+                >
+                  Upload scanner json file
+                </Button>
+              </Upload>
+
+              or
+
+              <Input
+                style={{ width: importerTabButtonWidth }}
+                className="centered-placeholder"
+                placeholder="Paste json file contents"
+                value=""
+                disabled={loading1}
+                onChange={(e) => {
+                  const text = e.target.value
+                  try {
+                    const json = JSON.parse(text)
+                    uploadedText(text)
+                  } catch (e) {
+                    // Not valid json, ignore
+                  }
+                }}
+              />
             </Flex>
-          </Form>
+          </Flex>
         </Flex>
       </Flex>
     )

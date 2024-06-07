@@ -253,7 +253,7 @@ export function CharacterPreview(props) {
     simulation.teammates[selectedTeammateIndex] = form
 
     DB.updateSimulationScoreOverrides(characterId, simulation)
-    setRedrawTeammates(Utils.randomId)
+    setRedrawTeammates(Utils.randomId())
 
     setTeamSelection(CUSTOM_TEAM)
   }

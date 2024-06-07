@@ -207,6 +207,7 @@ export default function RelicModal(props: {
     props.setOpen(false)
   }
   const handleOk = () => {
+    relicForm.submit()
     const currentValue = {
       grade: relicForm.getFieldValue('grade'),
       enhance: relicForm.getFieldValue('enhance'),
@@ -222,10 +223,7 @@ export default function RelicModal(props: {
       substatType3: relicForm.getFieldValue('substatType3'),
       substatValue3: relicForm.getFieldValue('substatValue3'),
     }
-    if (props.selectedRelic.verified) {
-      if (compareRelics(props.selectedRelic, currentValue)) props.selectedRelic.verified = false
-    }
-    relicForm.submit()
+    if (compareRelics(props.selectedRelic, currentValue)) props.selectedRelic.verified = false
   }
 
   const filterOption = (input, option) =>

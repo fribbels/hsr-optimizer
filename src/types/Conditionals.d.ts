@@ -342,3 +342,4 @@ export type ConditionalBuff =
   | 'e1EffectResShred'
   | 'e4ResBuff'
   | 'superBreakEnabled'
+  | 'ultCdBoost'

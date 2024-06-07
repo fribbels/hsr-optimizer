@@ -384,8 +384,14 @@ export const DB = {
       }
     }
 
-    window.store.getState().setScorerId(x.scorerId)
+    for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
+      // Previously the overrides were an array, invalidate the arrays
+      if (value.length) {
+        delete x.scoringMetadataOverrides[key]
+      }
+    }
     window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
+    window.store.getState().setScorerId(x.scorerId)
     if (x.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
       for (const key of Object.values(OptimizerMenuIds)) {

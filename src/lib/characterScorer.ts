@@ -292,11 +292,20 @@ export function scoreCharacterSimulation(
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
-  // Simulate the original character
+  // ===== Simulate the original character =====
   const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, originalScoringParams)
   const originalFinalSpeed = originalSimResult.xSPD
   const originalBaseSpeed = originalSimResult.SPD
   applyScoringFunction(originalSimResult)
+
+  // ===== Calculate the baseline build =====
+
+  const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
+    relicsByPart,
+    simulationForm,
+    benchmarkScoringParams,
+  )
+  applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
   const partialSimulationWrappers = generatePartialSimulations(metadata, relicsByPart, originalBaseSpeed)
@@ -316,7 +325,7 @@ export function scoreCharacterSimulation(
 
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult)
 
     // Start the sim search at the max then iterate downwards
     Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
@@ -345,15 +354,6 @@ export function scoreCharacterSimulation(
 
   console.debug('bestSims', candidateBenchmarkSims)
 
-  // ===== Calculate the baseline build =====
-
-  const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
-    relicsByPart,
-    simulationForm,
-    benchmarkScoringParams,
-  )
-  applyScoringFunction(baselineSimResult)
-
   // ===== Calculate the maximum build =====
 
   const maximumSim = simulateMaximumBuild(
@@ -361,6 +361,7 @@ export function scoreCharacterSimulation(
     metadata,
     simulationForm,
     applyScoringFunction,
+    baselineSimResult,
   )
   const maximumSimResult = maximumSim.result
   applyScoringFunction(maximumSimResult)
@@ -441,6 +442,7 @@ function simulateMaximumBuild(
   metadata: SimulationMetadata,
   simulationForm: Form,
   applyScoringFunction: ScoringFunction,
+  baselineSimResult: SimulationResult,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
   const spdRolls = bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue
@@ -459,7 +461,7 @@ function simulateMaximumBuild(
     }
 
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult)
     Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     const maxSim = computeOptimalSimulation(
       partialSimulationWrapper,
@@ -731,6 +733,10 @@ function computeOptimalSimulation(
       continue
     }
 
+    // if (scoringParams.enforcePossibleDistribution) {
+    //   console.log(debug)
+    // }
+
     if (scoringParams.enforcePossibleDistribution && bestSim.request.stats[reducedStat] < 6) {
       const stat = reducedStat
 
@@ -818,6 +824,7 @@ function calculateMaxSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
+  baselineSimResult: SimulationResult,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts = {
@@ -835,16 +842,19 @@ function calculateMaxSubstatRollCounts(
     [Stats.BE]: 0,
   }
 
+  // Only account for desired subs
   for (const substat of metadata.substats) {
     maxCounts[substat] = scoringParams.maxPerSub
   }
 
+  // Every main stat deducts some potential rolls
   maxCounts[request.simBody] -= scoringParams.deductionPerMain
   maxCounts[request.simFeet] -= scoringParams.deductionPerMain
   maxCounts[request.simPlanarSphere] -= scoringParams.deductionPerMain
   maxCounts[request.simLinkRope] -= scoringParams.deductionPerMain
 
   for (const stat of SubStats) {
+    // What does this do?
     maxCounts[stat] = Math.min(maxCounts[stat], scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
     if (metadata.maxBonusRolls?.[stat] != undefined) {
@@ -852,18 +862,45 @@ function calculateMaxSubstatRollCounts(
     }
   }
 
+  // If enabled, don't let flat stats be chosen aside from the free rolls
   if (scoringParams.limitFlatStats) {
     maxCounts[Stats.ATK] = scoringParams.freeRolls
     maxCounts[Stats.HP] = scoringParams.freeRolls
     maxCounts[Stats.DEF] = scoringParams.freeRolls
   }
 
+  // Naively assume flat stats won't be chosen more than 10 times. Are there real scenarios for flat atk?
+  maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
+  maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
+  maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
+
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
+  // Simplify crit rate so the sim is not wasting permutations
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
-  maxCounts[Stats.CR] = Math.min(request.simBody == Stats.CR ? 20 : 30, maxCounts[Stats.CR])
+  // Assumes maximum 100 CR is needed ever
+  const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
+  const missingCrit = 100 - baselineSimResult.x[Stats.CR] * 100
+  maxCounts[Stats.CR] = Math.min(
+    request.simBody == Stats.CR
+      ? Math.ceil((missingCrit - 32.4) / critValue)
+      : Math.ceil(missingCrit / critValue),
+    maxCounts[Stats.CR],
+  )
+
+  // Simplify EHR so the sim is not wasting permutations
+  // Assumes 20 enemy effect RES
+  // Assumes maximum 120 EHR is needed ever
+  const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
+  const missingEhr = 120 - baselineSimResult.x[Stats.EHR] * 100
+  maxCounts[Stats.EHR] = Math.min(
+    request.simBody == Stats.EHR
+      ? Math.ceil((missingEhr - 43.2) / ehrValue)
+      : Math.ceil(missingEhr / ehrValue),
+    maxCounts[Stats.EHR],
+  )
 
   return maxCounts
 }

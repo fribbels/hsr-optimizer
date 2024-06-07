@@ -11,7 +11,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
-  const ultCritVulnerability = ult(e, 0.15, 0.162)
+  const ultCdBoost = ult(e, 0.15, 0.162)
 
   const talentDmgScaling = talent(e, 0.25, 0.275)
   const talentResScaling = talent(e, 0.50, 0.55)
@@ -43,7 +43,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       name: 'enemyUnnervedDebuff',
       text: 'Enemy Unnerved',
       title: 'Roulette Shark',
-      content: `When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by ${precisionRound(ultCritVulnerability * 100)}%.`,
+      content: `When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by ${precisionRound(ultCdBoost * 100)}%.`,
     },
     {
       formItem: 'slider',
@@ -135,7 +135,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
-      x.CRIT_VULNERABILITY += (m.enemyUnnervedDebuff) ? ultCritVulnerability : 0
+      x[Stats.CD] += (m.ultCdBoost) ? ultCdBoost : 0
     },
     calculatePassives: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

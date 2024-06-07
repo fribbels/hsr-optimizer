@@ -6,6 +6,7 @@ import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
+import { TsUtils } from 'lib/TsUtils'
 import { Assets } from 'lib/assets'
 import { enhanceOptions, generateImageLabel, getSetOptions, substatOptions } from 'components/SelectOptions'
 import { Relic, Stat } from 'types/Relic'
@@ -184,7 +185,7 @@ export default function RelicModal(props: {
       const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG]
       const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD]
 
-      let mainStatValue: number = Constants.MainStatsValues[mainStatType][grade].base + Constants.MainStatsValues[mainStatType][grade].increment * enhance
+      let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
 
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Utils.truncate10ths(mainStatValue)

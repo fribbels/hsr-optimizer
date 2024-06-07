@@ -60,10 +60,10 @@ export function LoadDataSubmenu() {
   function loadConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      setLoading2(false)
       DB.setStore(currentSave)
       window.refreshRelicsScore()
       setCurrentStage(Stages.FINISHED)
+      setLoading2(false)
     }, importerTabSpinnerMs)
   }
 
@@ -94,7 +94,7 @@ export function LoadDataSubmenu() {
   }
 
   function ConfirmLoadData() {
-    if (!currentSave || !currentSave.relics || !currentSave.characters) {
+    if (!currentSave?.relics || !currentSave.characters) {
       return (
         <Flex style={{ minHeight: 100 }}>
           <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>

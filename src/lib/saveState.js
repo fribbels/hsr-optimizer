@@ -12,10 +12,10 @@ export const SaveState = {
       excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
       savedSession: window.store.getState().savedSession,
       settings: window.store.getState().settings,
-      version: CURRENT_OPTIMIZER_VERSION
+      version: CURRENT_OPTIMIZER_VERSION,
     }
 
-    console.log('Saved state', state)
+    console.log('Saved state')
     const stateString = JSON.stringify(state)
     localStorage.state = stateString
     return stateString

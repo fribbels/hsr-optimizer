@@ -238,6 +238,9 @@ export function CharacterPreview(props) {
 
   const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
 
+  // Since the lc takes some space, we want to zoom the portrait out
+  const tempInnerW = simScoringResult ? 875 : innerW
+
   // Teammate character modal OK
   function onCharacterModalOk(form) {
     if (!form.characterId) {
@@ -473,32 +476,34 @@ export function CharacterPreview(props) {
                           src={Assets.getCharacterPortraitById(character.id)}
                           style={{
                             position: 'absolute',
-                            left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 + parentW / 2,
-                            top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 + parentH / 2 - (scoringType == SIMULATION_SCORE && simScoringResult ? newLcHeight / 2 : 0),
-                            width: innerW,
+                            left: -DB.getMetadata().characters[character.id].imageCenter.x / 2 * tempInnerW / 1024 + parentW / 2,
+                            top: -DB.getMetadata().characters[character.id].imageCenter.y / 2 * tempInnerW / 1024 + tempParentH / 2,
+                            width: tempInnerW,
                           }}
                         />
                       )
                   }
+                  {!isScorer && (
+                    <Button
+                      style={{
+                        ...buttonStyle,
+                        top: 46,
+                      }}
+                      className="character-build-portrait-button"
+                      icon={<EditOutlined />}
+                      onClick={() => {
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }}
+                      type="primary"
+                    >
+                      Edit character
+                    </Button>
+                  )}
                   <Button
                     style={{
                       ...buttonStyle,
                       top: 7,
-                    }}
-                    className="character-build-portrait-button"
-                    icon={<EditOutlined />}
-                    onClick={() => {
-                      setOriginalCharacterModalInitialCharacter(character)
-                      setOriginalCharacterModalOpen(true)
-                    }}
-                    type="primary"
-                  >
-                    Edit character
-                  </Button>
-                  <Button
-                    style={{
-                      ...buttonStyle,
-                      top: 46,
                     }}
                     className="character-build-portrait-button"
                     icon={<EditOutlined />}

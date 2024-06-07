@@ -471,6 +471,10 @@ export const OptimizerTabController = {
       newForm.resultLimit = 100000
     }
 
+    if (!newForm.mainStatUpscaleLevel) {
+      newForm.mainStatUpscaleLevel = 15
+    }
+
     if (!newForm.statSim) {
       newForm.statSim = {}
     }

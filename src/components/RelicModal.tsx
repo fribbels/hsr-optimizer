@@ -208,6 +208,22 @@ export default function RelicModal(props: {
   }
   const handleOk = () => {
     relicForm.submit()
+    const currentValue = {
+      grade: relicForm.getFieldValue('grade'),
+      enhance: relicForm.getFieldValue('enhance'),
+      part: relicForm.getFieldValue('part'),
+      set: relicForm.getFieldValue('set'),
+      mainStatType: relicForm.getFieldValue('mainStatType'),
+      substatType0: relicForm.getFieldValue('substatType0'),
+      substatValue0: relicForm.getFieldValue('substatValue0'),
+      substatType1: relicForm.getFieldValue('substatType1'),
+      substatValue1: relicForm.getFieldValue('substatValue1'),
+      substatType2: relicForm.getFieldValue('substatType2'),
+      substatValue2: relicForm.getFieldValue('substatValue2'),
+      substatType3: relicForm.getFieldValue('substatType3'),
+      substatValue3: relicForm.getFieldValue('substatValue3'),
+    }
+    if (compareRelics(props.selectedRelic, currentValue)) props.selectedRelic.verified = false
   }
 
   const filterOption = (input, option) =>
@@ -439,4 +455,41 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
       </Flex>
     </Flex>
   )
+}
+
+function reformatRelic(relic) {
+  const thing = {
+    grade: relic.grade,
+    enhance: relic.enhance,
+    part: relic.part,
+    set: relic.set,
+    mainStatType: renderMainStat(relic).stat,
+    substatType0: renderSubstat(relic, 0).stat,
+    substatValue0: renderSubstat(relic, 0).value,
+    substatType1: renderSubstat(relic, 1).stat,
+    substatValue1: renderSubstat(relic, 1).value,
+    substatType2: renderSubstat(relic, 2).stat,
+    substatValue2: renderSubstat(relic, 2).value,
+    substatType3: renderSubstat(relic, 3).stat,
+    substatValue3: renderSubstat(relic, 3).value,
+  }
+  return thing
+}
+
+function compareRelics(relic, final) {
+  const initial = reformatRelic(relic)
+  if (initial.grade != final.grade) return true
+  if (initial.enhance != final.enhance) return true
+  if (initial.part != final.part) return true
+  if (initial.set != final.set) return true
+  if (initial.mainStatType != final.mainStatType) return true
+  if (initial.substatType0 != final.substatType0) return true
+  if (initial.substatValue0 != final.substatValue0) return true
+  if (initial.substatType1 != final.substatType1) return true
+  if (initial.substatValue1 != final.substatValue1) return true
+  if (initial.substatType2 != final.substatType2) return true
+  if (initial.substatValue2 != final.substatValue2) return true
+  if (initial.substatType3 != final.substatType3) return true
+  if (initial.substatValue3 != final.substatValue3) return true
+  return false
 }

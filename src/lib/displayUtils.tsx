@@ -41,12 +41,12 @@ export function generateCharacterList(
             {characterData[character.id].displayName}
           </Flex>
         ),
-      name: characterData[character.id].displayName,
+      title: characterData[character.id].displayName,
     }))
-    .sort((a, b) => a.name.localeCompare(b.label))
+    .sort((a, b) => a.title.localeCompare(b.title))
 
   if (withNobodyOption) {
-    options.unshift({ value: 'None', label: 'Nobody' })
+    options.unshift({ value: 'None', label: 'None', title: 'None' })
   }
 
   return options

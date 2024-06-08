@@ -14,8 +14,8 @@ test('Add new relic from RelicsTab', async ({ page }) => {
 
   // assert empty form state
   await page.locator('#equippedBy').click()
-  await page.getByText('Nobody').click()
-  await expect(page.getByRole('dialog')).toContainText('Nobody')
+  await page.getByTitle('None').locator('div').click()
+  await expect(page.getByRole('dialog')).toContainText('None')
 
   // add "hands"
   await page.locator('label:nth-child(2) > span:nth-child(2) > .ant-image > .ant-image-img').click()
@@ -68,7 +68,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   // // re-edit relic - assert values carried over
   await page.locator('#RELICS div').locator('.ant-card-body').click()
   await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped' }).first()).toBeVisible()
-  await expect(page.getByRole('dialog')).toContainText('Nobody')
+  await expect(page.getByRole('dialog')).toContainText('None')
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
   await expect(page.getByRole('dialog')).toContainText('+12+35 ★')
   await expect(page.getByRole('dialog')).toContainText('CRIT DMG')

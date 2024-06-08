@@ -328,7 +328,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(`Successfully switched relics to ${switchToCharacter.label}`)
+    Message.success(`Successfully switched relics to ${switchToCharacter.title}`)
     window.relicsGrid.current.api.redrawRows()
   }
 
@@ -545,7 +545,8 @@ export default function CharacterTab() {
         initialCharacter={characterModalInitialCharacter}
       />
       <SwitchRelicsModal
-        onOk={onSwitchRelicsModalOk} open={isSwitchRelicsModalOpen}
+        onOk={onSwitchRelicsModalOk}
+        open={isSwitchRelicsModalOpen}
         setOpen={setSwitchRelicsModalOpen}
         currentCharacter={selectedCharacter}
       />

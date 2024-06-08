@@ -131,7 +131,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 listHeight={500}
                 allowClear
                 showSearch
-                optionLabelProp="name"
+                optionLabelProp="title"
                 placeholder="Exclude"
                 options={characterExcludeOptions}
                 filterOption={Utils.nameFilterOption}

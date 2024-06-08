@@ -335,7 +335,7 @@ export default function RelicModal(props: {
                   filterOption={filterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
-                  optionLabelProp="name"
+                  optionLabelProp="title"
                 />
               </Form.Item>
 

@@ -11,7 +11,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   await page.getByRole('button', { name: 'Actions down' }).click()
   await page.getByText('Switch relics with').click()
   await page.getByRole('dialog').locator('#selectedCharacter').click()
-  await page.locator('.ant-select-dropdown').getByTitle('Kafka').click()
+  await page.locator('.ant-select-dropdown').getByText('Kafka').click()
   await expect(page.getByRole('dialog')).toContainText('Kafka')
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click()
   await expect(page.locator('body')).toContainText('Successfully switched relics to Kafka')

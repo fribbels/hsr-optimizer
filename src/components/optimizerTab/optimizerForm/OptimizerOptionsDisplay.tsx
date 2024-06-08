@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Flex, Form, Select, Switch, Typography } from 'antd'
+import { DefaultOptionType } from 'rc-select/lib/Select'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import { Hint } from 'lib/hint.jsx'
@@ -11,6 +12,7 @@ import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/opti
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets'
 import { generateCharacterList } from 'lib/displayUtils'
+import { CharacterId, MetadataCharacter } from '../../../types/Character'
 
 const { Text } = Typography
 
@@ -25,7 +27,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   }), [characters, optimizerTabFocusCharacter])
 
   const characterPriorityOptions = useMemo(() => {
-    const characterMetadata = DB.getMetadata().characters
+    const characterMetadata = DB.getMetadata().characters as Record<CharacterId, MetadataCharacter>
     return characters.map((x) => {
       return {
         value: x.rank,
@@ -50,18 +52,6 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
-        </Flex>
-
-        <Flex align="center">
-          <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              defaultChecked
-              style={{ width: 45, marginRight: 5 }}
-            />
-          </Form.Item>
-          <Text>Maxed main stat</Text>
         </Flex>
 
         <Flex align="center">
@@ -140,7 +130,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
           </Flex>
         </Flex>
 
-        <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
+        <Flex justify="space-between" align="center" style={{ marginTop: 8 }}>
           <HeaderText>Relic enhance / rarity</HeaderText>
           {/* <TooltipImage type={Hint.optimizerOptions()} /> */}
         </Flex>
@@ -171,6 +161,26 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               ]}
             />
           </Form.Item>
+        </Flex>
+
+        <Flex justify="space-between" align="center" style={{ marginTop: 8 }}>
+          <Flex vertical gap={2}>
+            <HeaderText>
+              Boost main stat
+            </HeaderText>
+            <Form.Item name="mainStatUpscaleLevel">
+              <Select
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                options={[
+                  { value: 3, label: '+3' },
+                  { value: 6, label: '+6' },
+                  { value: 9, label: '+9' },
+                  { value: 12, label: '+12' },
+                  { value: 15, label: '+15' },
+                ]}
+              />
+            </Form.Item>
+          </Flex>
         </Flex>
 
         {/*

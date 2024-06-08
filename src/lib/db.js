@@ -299,19 +299,25 @@ export const DB = {
   },
   updateCharacterScoreOverrides: (id, updated) => {
     const overrides = window.store.getState().scoringMetadataOverrides
-    Utils.mergeDefinedValues(overrides[id], updated)
+    if (!overrides[id]) {
+      overrides[id] = updated
+    } else {
+      Utils.mergeDefinedValues(overrides[id], updated)
+    }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.save()
   },
-  updateSimulationScoreOverrides: (id, updatedTeammates) => {
-    if (!updatedTeammates) return
+  updateSimulationScoreOverrides: (id, updatedSimulation) => {
+    if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
-      overrides[id] = updatedTeammates
+      overrides[id] = {
+        simulation: updatedSimulation,
+      }
     } else {
-      overrides[id].simulation.teammates = updatedTeammates
+      overrides[id].simulation = updatedSimulation
     }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -382,8 +388,17 @@ export const DB = {
       }
     }
 
+    if (x.scoringMetadataOverrides) {
+      for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
+        // Previously the overrides were an array, invalidate the arrays
+        if (value.length) {
+          delete x.scoringMetadataOverrides[key]
+        }
+      }
+      window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
+    }
+
     window.store.getState().setScorerId(x.scorerId)
-    window.store.getState().setScoringMetadataOverrides(x.scoringMetadataOverrides || {})
     if (x.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
       for (const key of Object.values(OptimizerMenuIds)) {

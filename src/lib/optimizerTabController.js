@@ -471,6 +471,10 @@ export const OptimizerTabController = {
       newForm.resultLimit = 100000
     }
 
+    if (!newForm.mainStatUpscaleLevel) {
+      newForm.mainStatUpscaleLevel = 15
+    }
+
     if (!newForm.statSim) {
       newForm.statSim = {}
     }
@@ -602,7 +606,7 @@ export const OptimizerTabController = {
       characterLevel: 80,
       enhance: 9,
       grade: 5,
-      predictMaxedMainStat: true,
+      mainStatUpscaleLevel: 15,
       rankFilter: true,
       includeEquippedRelics: true,
       keepCurrentRelics: false,

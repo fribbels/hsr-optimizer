@@ -157,6 +157,9 @@ export default function RelicModal(props: {
   const onFinish = (relicForm: RelicForm) => {
     const relic = validateRelic(relicForm)
     if (!relic) return
+    if (relicsAreDifferent(props.selectedRelic, relic)) {
+      relic.verified = false
+    }
 
     console.log('Completed relic', relic)
 
@@ -438,4 +441,24 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
       </Flex>
     </Flex>
   )
+}
+
+function relicHash(relic: Relic) {
+  return Utils.objectHash({
+    grade: relic.grade,
+    enhance: relic.enhance,
+    part: relic.part,
+    set: relic.set,
+    mainStatType: relic.main.stat,
+    substats: relic.substats,
+  })
+}
+
+function relicsAreDifferent(relic1: Relic, relic2: Relic) {
+  if (!relic1 || !relic2) return true
+
+  const relic1Hash = relicHash(relic1)
+  const relic2Hash = relicHash(relic2)
+
+  return relic1Hash != relic2Hash
 }

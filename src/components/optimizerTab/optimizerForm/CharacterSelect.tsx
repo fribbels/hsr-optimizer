@@ -42,7 +42,15 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,
-      label: <Flex gap={5}><img src={Assets.getCharacterAvatarById(option.value)} style={{ height: 25, marginTop: 2 }} />{option.label}</Flex>,
+      label: (
+        <Flex gap={5} align="center">
+          <img
+            src={Assets.getCharacterAvatarById(option.value)}
+            style={{ height: 22, marginRight: 4 }}
+          />
+          {option.label}
+        </Flex>
+      ),
     })
   }
 

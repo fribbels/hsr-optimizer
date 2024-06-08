@@ -13,6 +13,7 @@ import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { generateCharacterList } from 'lib/displayUtils'
 
 const { useToken } = theme
 
@@ -85,7 +86,7 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(characters), [characters])
+  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters])
   const setOptions = useMemo(() => getSetOptions(), [])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
@@ -334,6 +335,7 @@ export default function RelicModal(props: {
                   filterOption={filterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
+                  optionLabelProp="name"
                 />
               </Form.Item>
 

@@ -7,8 +7,10 @@ import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Utils } from 'lib/utils.js'
+import { Assets } from 'lib/assets'
+import { generateCharacterList } from 'lib/displayUtils'
 
 const { Text } = Typography
 
@@ -16,25 +18,27 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   const characters = window.store((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const characterExcludeOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
-    characters, [DB.getCharacterById(optimizerTabFocusCharacter)], false,
-  ), [characters, optimizerTabFocusCharacter])
-
-  const labelledExcludeOptions: { value: string; label; name }[] = []
-  for (const option of characterExcludeOptions) {
-    labelledExcludeOptions.push({
-      value: option.value,
-      label: <Flex gap={5}><img src={Assets.getCharacterAvatarById(option.value)} style={{ height: 25, marginTop: 2 }} />{option.label}</Flex>,
-      name: option.label,
-    })
-  }
+  const characterExcludeOptions = useMemo(() => generateCharacterList({
+    currentCharacters: characters,
+    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter)],
+    withNobodyOption: false,
+  }), [characters, optimizerTabFocusCharacter])
 
   const characterPriorityOptions = useMemo(() => {
     const characterMetadata = DB.getMetadata().characters
     return characters.map((x) => {
       return {
         value: x.rank,
-        label: <Flex gap={5}># {x.rank + 1}<img src={Assets.getCharacterAvatarById(x.id)} style={{ height: 25 }} />{characterMetadata[x.id].displayName} </Flex>,
+        label: (
+          <Flex gap={5}>
+            <img
+              src={Assets.getCharacterAvatarById(x.id)}
+              style={{ height: 22, marginRight: 6 }}
+            />
+
+            {`#${x.rank + 1} - ${characterMetadata[x.id].displayName}`}
+          </Flex>
+        ),
         name: `# ${x.rank + 1}`,
       }
     })
@@ -105,7 +109,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={characterPriorityOptions}
-                popupMatchSelectWidth={160}
+                popupMatchSelectWidth={225}
                 listHeight={500}
                 optionLabelProp="name"
                 placeholder="Priority"
@@ -123,13 +127,13 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 mode="multiple"
                 maxTagCount="responsive"
-                popupMatchSelectWidth={160}
+                popupMatchSelectWidth={225}
                 listHeight={500}
                 allowClear
                 showSearch
                 optionLabelProp="name"
                 placeholder="Exclude"
-                options={labelledExcludeOptions}
+                options={characterExcludeOptions}
                 filterOption={Utils.nameFilterOption}
               />
             </Form.Item>

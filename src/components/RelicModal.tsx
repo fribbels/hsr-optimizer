@@ -90,22 +90,7 @@ export default function RelicModal(props: {
   const setOptions = useMemo(() => getSetOptions(), [])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
-  const [currentValue, setCurrentValue] = useState<{
-    grade: number
-    enhance: number
-    part: string
-    set: string
-    mainStatType: string
-    substatType0: string
-    substatValue0: number
-    substatType1: string
-    substatValue1: number
-    substatType2: string
-    substatValue2: number
-    substatType3: string
-    substatValue3: number
-  }>()
-
+  const [hasChanged, setHasChanged] = useState(false)
   useEffect(() => {
     let defaultValues = {
       grade: 5,
@@ -170,11 +155,9 @@ export default function RelicModal(props: {
 
   const onFinish = (relicForm: RelicForm) => {
     const relic = validateRelic(relicForm)
-    if (!relic) return
-
-    if (compareRelics(props.selectedRelic, currentValue)) {
-      props.selectedRelic.verified = false
-      console.log('Relic unverified')
+    if (!relic) {
+      if (hasChanged) props.selectedRelic.verified = true
+      return
     }
 
     console.log('Completed relic', relic)
@@ -227,7 +210,8 @@ export default function RelicModal(props: {
     props.setOpen(false)
   }
   const handleOk = () => {
-    setCurrentValue({
+    relicForm.submit()
+    const currentValue = {
       grade: relicForm.getFieldValue('grade'),
       enhance: relicForm.getFieldValue('enhance'),
       part: relicForm.getFieldValue('part'),
@@ -241,8 +225,12 @@ export default function RelicModal(props: {
       substatValue2: relicForm.getFieldValue('substatValue2'),
       substatType3: relicForm.getFieldValue('substatType3'),
       substatValue3: relicForm.getFieldValue('substatValue3'),
-    })
-    relicForm.submit()
+    }
+    if (compareRelics(props.selectedRelic, currentValue)) {
+      if (props.selectedRelic.verified) setHasChanged(true)
+      props.selectedRelic.verified = false
+      console.log('Relic unverified')
+    } else (setHasChanged(false))
   }
 
   const filterOption = (input, option) =>

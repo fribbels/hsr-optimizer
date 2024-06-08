@@ -91,7 +91,8 @@ function readCharacter(character, lightCones, trailblazer, path) {
   let lightCone = undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
-      lightCone = lightCones.find((x) => x.location.startsWith('Trailblazer'))
+      lightCone = lightCones.find((x) => x.location === character.key)
+        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
@@ -332,26 +333,25 @@ function lowerAlphaNumeric(str) {
 }
 
 function getTrailblazerId(name, trailblazer, path) {
-  let id = '8002'
   if (name === 'TrailblazerDestruction') {
-    id = trailblazer === 'Stelle' ? '8002' : '8001'
+    return trailblazer === 'Stelle' ? '8002' : '8001'
   }
   if (name === 'TrailblazerPreservation') {
-    id = trailblazer === 'Stelle' ? '8004' : '8003'
+    return trailblazer === 'Stelle' ? '8004' : '8003'
   }
   if (name === 'TrailblazerHarmony') {
-    id = trailblazer === 'Stelle' ? '8006' : '8005'
+    return trailblazer === 'Stelle' ? '8006' : '8005'
   }
 
   if (path === 'Destruction') {
-    id = trailblazer === 'Stelle' ? '8002' : '8001'
+    return trailblazer === 'Stelle' ? '8002' : '8001'
   }
   if (path === 'Preservation') {
-    id = trailblazer === 'Stelle' ? '8004' : '8003'
+    return trailblazer === 'Stelle' ? '8004' : '8003'
   }
   if (path === 'Harmony') {
-    id = trailblazer === 'Stelle' ? '8006' : '8005'
+    return trailblazer === 'Stelle' ? '8006' : '8005'
   }
 
-  return id
+  return '8002'
 }

@@ -14,6 +14,7 @@ import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { generateCharacterList } from 'lib/displayUtils'
 
 const { useToken } = theme
 
@@ -86,7 +87,7 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(characters), [characters])
+  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters])
   const setOptions = useMemo(() => getSetOptions(), [])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
@@ -210,9 +211,6 @@ export default function RelicModal(props: {
     relicForm.submit()
   }
 
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-
   const plusThree = () => {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
   }
@@ -332,9 +330,10 @@ export default function RelicModal(props: {
               <Form.Item name="equippedBy">
                 <Select
                   showSearch
-                  filterOption={filterOption}
+                  filterOption={Utils.titleFilterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
+                  optionLabelProp="title"
                 />
               </Form.Item>
 

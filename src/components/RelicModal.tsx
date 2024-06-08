@@ -90,6 +90,21 @@ export default function RelicModal(props: {
   const setOptions = useMemo(() => getSetOptions(), [])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
+  const [currentValue, setCurrentValue] = useState<{
+    grade: number
+    enhance: number
+    part: string
+    set: string
+    mainStatType: string
+    substatType0: string
+    substatValue0: number
+    substatType1: string
+    substatValue1: number
+    substatType2: string
+    substatValue2: number
+    substatType3: string
+    substatValue3: number
+  }>()
 
   useEffect(() => {
     let defaultValues = {
@@ -157,6 +172,11 @@ export default function RelicModal(props: {
     const relic = validateRelic(relicForm)
     if (!relic) return
 
+    if (compareRelics(props.selectedRelic, currentValue)) {
+      props.selectedRelic.verified = false
+      console.log('Relic unverified')
+    }
+
     console.log('Completed relic', relic)
 
     props.onOk(relic)
@@ -207,8 +227,7 @@ export default function RelicModal(props: {
     props.setOpen(false)
   }
   const handleOk = () => {
-    relicForm.submit()
-    const currentValue = {
+    setCurrentValue({
       grade: relicForm.getFieldValue('grade'),
       enhance: relicForm.getFieldValue('enhance'),
       part: relicForm.getFieldValue('part'),
@@ -222,8 +241,8 @@ export default function RelicModal(props: {
       substatValue2: relicForm.getFieldValue('substatValue2'),
       substatType3: relicForm.getFieldValue('substatType3'),
       substatValue3: relicForm.getFieldValue('substatValue3'),
-    }
-    if (compareRelics(props.selectedRelic, currentValue)) props.selectedRelic.verified = false
+    })
+    relicForm.submit()
   }
 
   const filterOption = (input, option) =>

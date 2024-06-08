@@ -15,14 +15,12 @@ export type Relic = {
     best: number
     potentialAllAll: number
   }
-  cs?: number
-  ds?: number
-  ss?: number
 
   enhance: RelicEnhance
   equippedBy: DataMineId
   grade: RelicGrade
   id: GUID
+  verified?: boolean
 
   main: {
     stat: MainStats

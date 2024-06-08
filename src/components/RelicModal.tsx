@@ -210,9 +210,6 @@ export default function RelicModal(props: {
     relicForm.submit()
   }
 
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-
   const plusThree = () => {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
   }
@@ -332,7 +329,7 @@ export default function RelicModal(props: {
               <Form.Item name="equippedBy">
                 <Select
                   showSearch
-                  filterOption={filterOption}
+                  filterOption={Utils.titleFilterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
                   optionLabelProp="title"

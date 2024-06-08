@@ -70,7 +70,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
               <Select
                 labelInValue
                 showSearch
-                filterOption={Utils.nameFilterOption}
+                filterOption={Utils.titleFilterOption}
                 style={{ width: panelWidth }}
                 options={characterOptions}
               />

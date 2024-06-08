@@ -134,7 +134,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 optionLabelProp="title"
                 placeholder="Exclude"
                 options={characterExcludeOptions}
-                filterOption={Utils.nameFilterOption}
+                filterOption={Utils.titleFilterOption}
               />
             </Form.Item>
           </Flex>

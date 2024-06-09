@@ -73,7 +73,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       const rollValue = Utils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat, 0.8))
 
       rows.push(
-        <Flex key={Utils.randomId()} align="center" gap={5}>
+        <Flex key={Utils.randomId()} align="center" gap={10}>
           <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }} />
           <pre
             style={{
@@ -85,8 +85,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 0, width: 250 }}>
             {`Score: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
           </pre>
-          <pre style={{ margin: 0, width: 250 }}>
+          <pre style={{ margin: 0, width: 300 }}>
             {`Damage: +${(upgradeSimScore - originalScore).toFixed(1)} -> ${upgradeSimScore.toFixed(1)}`}
+          </pre>
+          <pre style={{ margin: 0, width: 150 }}>
+            {`Damage %: +${((upgradeSimScore - originalScore) / originalScore * 100).toFixed(3)}%`}
           </pre>
         </Flex>,
       )

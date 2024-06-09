@@ -656,6 +656,26 @@ export const CombatBuffs = {
     key: 'ATK_P',
     percent: true,
   },
+  HP: {
+    title: 'HP',
+    key: 'HP',
+    percent: false,
+  },
+  HP_P: {
+    title: 'HP %',
+    key: 'HP_P',
+    percent: true,
+  },
+  DEF: {
+    title: 'DEF',
+    key: 'DEF',
+    percent: false,
+  },
+  DEF_P: {
+    title: 'DEF %',
+    key: 'DEF_P',
+    percent: true,
+  },
   CR: {
     title: 'Crit Rate %',
     key: 'CR',
@@ -692,8 +712,23 @@ export const CombatBuffs = {
     percent: true,
   },
   RES_SHRED: {
-    title: 'RES Pen %',
+    title: 'Dmg RES Shred %',
     key: 'RES_SHRED',
+    percent: true,
+  },
+  EFFECT_RES_SHRED: {
+    title: 'Effect RES Shred %',
+    key: 'EFFECT_RES_SHRED',
+    percent: true,
+  },
+  VULNERABILITY: {
+    title: 'Vulnerability %',
+    key: 'VULNERABILITY',
+    percent: true,
+  },
+  BREAK_EFFICIENCY: {
+    title: 'Break Efficiency %',
+    key: 'BREAK_EFFICIENCY',
     percent: true,
   },
 }

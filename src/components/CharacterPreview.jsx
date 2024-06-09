@@ -412,7 +412,7 @@ export function CharacterPreview(props) {
               outline: '1px solid rgba(255, 255, 255, 0.3)',
             }}
           />
-          <OverlayText text={`E${teammate.characterEidolon}`} top={-14} />
+          <OverlayText text={`E${teammate.characterEidolon}`} top={-12} />
           <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }} />
           <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16} />
         </Flex>

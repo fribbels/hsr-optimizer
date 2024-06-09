@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { CUSTOM_TEAM, Parts, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -262,6 +262,14 @@ export function scoreCharacterSimulation(
   }
   if (addBreakEffect && !substats.includes(Stats.BE)) {
     substats.push(Stats.BE)
+  }
+  if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+    metadata.parts[Parts.LinkRope].push(Stats.BE)
+  }
+  if (addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
 
   // Set up default request

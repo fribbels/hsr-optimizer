@@ -197,11 +197,19 @@ export function CharacterPreview(props) {
     finalStats = StatCalculator.calculate(character)
   }
 
+  const characterId = character.form.characterId
+  const characterMetadata = DB.getMetadata().characters[characterId]
+  const characterElement = characterMetadata.element
+  const elementalDmgValue = ElementToDamage[characterElement]
+
   let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
   let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
   if (!simScoringResult?.originalSim) {
     combatSimResult = null
     simScoringResult = null
+  } else {
+    // Fix elemental damage
+    simScoringResult.originalSimResult[elementalDmgValue] = simScoringResult.originalSimResult.ELEMENTAL_DMG
   }
 
   const scoredRelics = scoringResults.relics || []
@@ -213,15 +221,10 @@ export function CharacterPreview(props) {
   const lightConeName = lightConeMetadata?.name || ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
-  const characterId = character.form.characterId
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterMetadata = DB.getMetadata().characters[characterId]
   const characterName = characterMetadata.displayName
   const characterPath = characterMetadata.path
-  const characterElement = characterMetadata.element
-
-  const elementalDmgValue = ElementToDamage[characterElement]
   // console.log(displayRelics)
 
   // Temporary w/h overrides while we're split between sim scoring and weight scoring

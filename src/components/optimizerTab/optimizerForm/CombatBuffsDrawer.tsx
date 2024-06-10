@@ -7,7 +7,7 @@ import { CombatBuffs } from 'lib/constants'
 
 const { Text } = Typography
 
-export const CombatBuffsFilters = () => {
+export const CombatBuffsDrawer = () => {
   const combatBuffsDrawerOpen = window.store((s) => s.combatBuffsDrawerOpen)
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
 

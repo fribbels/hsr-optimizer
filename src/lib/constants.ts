@@ -556,7 +556,19 @@ export const enemyResistanceOptions = (() => {
   for (let i = 20; i <= 60; i += 20) {
     options.push({
       value: i / 100,
-      label: `${i}% RES`,
+      label: `${i}% Damage RES`,
+    })
+  }
+
+  return options
+})()
+
+export const enemyEffectResistanceOptions = (() => {
+  const options: { value: number; label: string }[] = []
+  for (let i = 0; i <= 40; i += 10) {
+    options.push({
+      value: i / 100,
+      label: `${i}% Effect RES`,
     })
   }
 
@@ -569,7 +581,7 @@ export const enemyMaxToughnessOptions = (() => {
     options.push({
       value: i,
       label: `${i} max toughness`,
-      number: `${i} tough`,
+      number: `${i} max toughness`,
     })
   }
 

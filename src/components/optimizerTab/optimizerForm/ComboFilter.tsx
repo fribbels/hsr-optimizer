@@ -1,25 +1,14 @@
-import { Button, Flex, Form, Typography } from 'antd'
+import { Flex, Form, Typography } from 'antd'
 import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabConstants'
-import { SettingOutlined } from '@ant-design/icons'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
+import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
 
 const { Text } = Typography
 
 export const ComboFilters = () => {
-  const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
-
-  // Count the # of active buffs to display
-  const formCombatBuffs = Form.useWatch((values) => values.combatBuffs, window.optimizerForm)
-  const buffsActive = useMemo(() => {
-    if (!formCombatBuffs) return 0
-
-    return Object.values(formCombatBuffs).filter((x) => x != null).length
-  }, [formCombatBuffs])
-
   return (
-
     <Flex vertical gap={optimizerTabDefaultGap}>
       <HeaderText>Rotation COMBO formula</HeaderText>
       <Flex vertical gap={optimizerTabDefaultGap}>
@@ -31,13 +20,7 @@ export const ComboFilters = () => {
         <ComboRow title="Break DMG" name="BREAK" />
       </Flex>
 
-      <HeaderText style={{ marginTop: 60 }}>Additional options</HeaderText>
-      <Button
-        onClick={() => setCombatBuffsDrawerOpen(true)}
-        icon={<SettingOutlined />}
-      >
-        {`Extra combat buffs${buffsActive ? ` (${buffsActive})` : ''}`}
-      </Button>
+      <AdvancedOptionsPanel />
     </Flex>
   )
 }

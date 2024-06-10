@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Flex, Image, Segmented, theme, Typography } from 'antd'
+import { Button, Card, Flex, Image, Segmented, Skeleton, theme, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
@@ -19,7 +19,7 @@ import EditImageModal from './EditImageModal'
 import { Message } from 'lib/message'
 import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
-import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characterScorer'
+import { getSimScoreGrade, scoreCharacterSimulationPromise } from 'lib/characterScorer'
 import { Utils } from 'lib/utils'
 import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'components/characterPreview/CharacterScoringSummary'
 import CharacterModal from 'components/CharacterModal'
@@ -68,6 +68,9 @@ export function CharacterPreview(props) {
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
   const [redrawTeammates, setRedrawTeammates] = useState()
+
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(null)
 
   useEffect(() => {
     // Use any existing character's portrait instead of the default
@@ -130,6 +133,46 @@ export function CharacterPreview(props) {
     }
     setEditPortraitModalOpen(false)
   }
+
+  useEffect(() => {
+    if (!character) return
+
+    if (isScorer || isBuilds) {
+      displayRelics = character.equipped
+    } else {
+      displayRelics = {
+        Head: relicsById[character.equipped?.Head],
+        Hands: relicsById[character.equipped?.Hands],
+        Body: relicsById[character.equipped?.Body],
+        Feet: relicsById[character.equipped?.Feet],
+        PlanarSphere: relicsById[character.equipped?.PlanarSphere],
+        LinkRope: relicsById[character.equipped?.LinkRope],
+      }
+    }
+
+    (async () => {
+      setLoading(true)
+      scoreCharacterSimulationPromise(character, displayRelics, teamSelection).then((combatSimResult) => {
+        let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
+        if (!simScoringResult?.originalSim) {
+          combatSimResult = null
+          simScoringResult = null
+
+          setData(null)
+          setLoading(false)
+        } else {
+          // Fix elemental damage
+          simScoringResult.originalSimResult[elementalDmgValue] = simScoringResult.originalSimResult.ELEMENTAL_DMG
+
+          setData(simScoringResult)
+          setLoading(false)
+        }
+      }).catch(() => {
+        setData(null)
+        setLoading(false)
+      })
+    })()
+  }, [character, teamSelection])
 
   if (!character) {
     return (
@@ -202,16 +245,6 @@ export function CharacterPreview(props) {
   const characterElement = characterMetadata.element
   const elementalDmgValue = ElementToDamage[characterElement]
 
-  let combatSimResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
-  let simScoringResult = scoringType == SIMULATION_SCORE && combatSimResult
-  if (!simScoringResult?.originalSim) {
-    combatSimResult = null
-    simScoringResult = null
-  } else {
-    // Fix elemental damage
-    simScoringResult.originalSimResult[elementalDmgValue] = simScoringResult.originalSimResult.ELEMENTAL_DMG
-  }
-
   const scoredRelics = scoringResults.relics || []
 
   const lightConeId = character.form.lightCone
@@ -232,17 +265,17 @@ export function CharacterPreview(props) {
   const newLcHeight = 140
   const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
-  const tempLcParentW = simScoringResult ? parentW : lcParentW
+  const tempLcParentW = data ? parentW : lcParentW
 
-  const tempLcParentH = simScoringResult ? newLcHeight : lcParentH
-  const tempLcInnerW = simScoringResult ? parentW + 16 : lcInnerW
+  const tempLcParentH = data ? newLcHeight : lcParentH
+  const tempLcInnerW = data ? parentW + 16 : lcInnerW
 
-  const tempLcInnerH = simScoringResult ? 1260 / 902 * tempLcInnerW : lcInnerH
+  const tempLcInnerH = data ? 1260 / 902 * tempLcInnerW : lcInnerH
 
-  const tempParentH = simScoringResult ? parentH - newLcHeight - newLcMargin : parentH
+  const tempParentH = data ? parentH - newLcHeight - newLcMargin : parentH
 
   // Since the lc takes some space, we want to zoom the portrait out
-  const tempInnerW = simScoringResult ? 875 : innerW
+  const tempInnerW = data ? 875 : innerW
 
   // Teammate character modal OK
   function onCharacterModalOk(form) {
@@ -530,7 +563,7 @@ export function CharacterPreview(props) {
                   vertical
                   style={{
                     position: 'relative',
-                    top: simScoringResult ? tempParentH - 44 : tempParentH - 34,
+                    top: data ? tempParentH - 44 : tempParentH - 34,
                     height: 34,
                     paddingLeft: 4,
                     display: getArtistName() ? 'flex' : 'none',
@@ -559,66 +592,68 @@ export function CharacterPreview(props) {
             )}
 
             {
-              simScoringResult
+              data
               && !isBuilds && (
-                <Flex vertical>
-                  {lightConeName && (
+                (
+                  <Flex vertical>
+                    {lightConeName && (
+                      <Flex
+                        vertical
+                        style={{
+                          position: 'relative',
+                          height: 0,
+                          top: newLcHeight - 35,
+                          // top: newLcHeight - 221, // top right
+                          paddingRight: 12,
+                        }}
+                        align="flex-end"
+                      >
+                        <Text
+                          style={{
+                            position: 'absolute',
+                            height: 30,
+                            backgroundColor: 'rgb(0 0 0 / 70%)',
+                            padding: '4px 12px',
+                            borderRadius: 8,
+                            fontSize: 14,
+                            maxWidth: parentW - 50,
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            zIndex: 3,
+                            textShadow: '0px 0px 10px black',
+                            outline: outline,
+                            boxShadow: shadow,
+                          }}
+                        >
+                          {`S${lightConeSuperimposition} - ${lightConeName}`}
+                        </Text>
+                      </Flex>
+                    )}
                     <Flex
-                      vertical
                       style={{
+                        width: `${tempLcParentW}px`,
+                        height: `${tempLcParentH}px`,
+                        overflow: 'hidden',
+                        zIndex: 2,
+                        borderRadius: '10px',
+                        outline: outline,
+                        filter: filter,
                         position: 'relative',
-                        height: 0,
-                        top: newLcHeight - 35,
-                        // top: newLcHeight - 221, // top right
-                        paddingRight: 12,
                       }}
-                      align="flex-end"
                     >
-                      <Text
+                      <LoadingBlurredImage
+                        src={lightConeSrc}
                         style={{
                           position: 'absolute',
-                          height: 30,
-                          backgroundColor: 'rgb(0 0 0 / 70%)',
-                          padding: '4px 12px',
-                          borderRadius: 8,
-                          fontSize: 14,
-                          maxWidth: parentW - 50,
-                          textOverflow: 'ellipsis',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          zIndex: 3,
-                          textShadow: '0px 0px 10px black',
-                          outline: outline,
-                          boxShadow: shadow,
+                          width: 420,
+                          top: -lcCenter + newLcHeight / 2,
+                          left: -8,
                         }}
-                      >
-                        {`S${lightConeSuperimposition} - ${lightConeName}`}
-                      </Text>
+                      />
                     </Flex>
-                  )}
-                  <Flex
-                    style={{
-                      width: `${tempLcParentW}px`,
-                      height: `${tempLcParentH}px`,
-                      overflow: 'hidden',
-                      zIndex: 2,
-                      borderRadius: '10px',
-                      outline: outline,
-                      filter: filter,
-                      position: 'relative',
-                    }}
-                  >
-                    <LoadingBlurredImage
-                      src={lightConeSrc}
-                      style={{
-                        position: 'absolute',
-                        width: 420,
-                        top: -lcCenter + newLcHeight / 2,
-                        left: -8,
-                      }}
-                    />
                   </Flex>
-                </Flex>
+                )
               )
             }
           </Flex>
@@ -654,13 +689,13 @@ export function CharacterPreview(props) {
                 </Flex>
 
                 <CharacterStatSummary
-                  finalStats={simScoringResult ? simScoringResult.originalSimResult : finalStats}
+                  finalStats={data ? data.originalSimResult : finalStats}
                   elementalDmgValue={elementalDmgValue}
                   cv={finalStats.CV}
-                  simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
+                  simScore={data ? data.originalSimResult.simScore : undefined}
                 />
                 {
-                  !simScoringResult
+                  !data
                   && (
                     <Flex vertical>
                       <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
@@ -670,64 +705,78 @@ export function CharacterPreview(props) {
                   )
                 }
                 {
-                  simScoringResult
-                  && <ScoreHeader result={simScoringResult} />
+                  data
+                  && (loading
+                    ? (
+                      <Skeleton active title={false} />
+                    )
+                    : <ScoreHeader result={data} />)
                 }
                 {
-                  simScoringResult
-                  && (
-                    <Flex
-                      vertical
-                    >
-                      <Card
-                        style={{
-                          backgroundColor: token.colorBgLayout,
-                          padding: '0px !important',
-                          body: {
-                            height: 500,
-                          },
-                        }}
-                        styles={{
-                          body: {
-                            padding: 0,
-                            borderRadius: 10,
-                          },
-                        }}
-                        size="small"
-                        bordered={false}
+                  data
+                  && (loading
+                    ? (
+                      <Skeleton active />
+                    )
+                    : (
+                      <Flex
+                        vertical
                       >
-                        <Flex justify="space-around" style={{ paddingTop: 0 }}>
-                          <CharacterPreviewScoringTeammate
-                            result={simScoringResult} index={0}
-                            setCharacterModalOpen={setCharacterModalOpen}
-                            setSelectedTeammateIndex={setSelectedTeammateIndex}
-                          />
-                          <CharacterPreviewScoringTeammate
-                            result={simScoringResult} index={1}
-                            setCharacterModalOpen={setCharacterModalOpen}
-                            setSelectedTeammateIndex={setSelectedTeammateIndex}
-                          />
-                          <CharacterPreviewScoringTeammate
-                            result={simScoringResult} index={2}
-                            setCharacterModalOpen={setCharacterModalOpen}
-                            setSelectedTeammateIndex={setSelectedTeammateIndex}
-                          />
-                        </Flex>
-                      </Card>
-                      <ScoreFooter result={simScoringResult} />
-                    </Flex>
+                        <Card
+                          style={{
+                            backgroundColor: token.colorBgLayout,
+                            padding: '0px !important',
+                            body: {
+                              height: 500,
+                            },
+                          }}
+                          styles={{
+                            body: {
+                              padding: 0,
+                              borderRadius: 10,
+                            },
+                          }}
+                          size="small"
+                          bordered={false}
+                        >
+                          <Flex justify="space-around" style={{ paddingTop: 0 }}>
+                            <CharacterPreviewScoringTeammate
+                              result={data} index={0}
+                              setCharacterModalOpen={setCharacterModalOpen}
+                              setSelectedTeammateIndex={setSelectedTeammateIndex}
+                            />
+                            <CharacterPreviewScoringTeammate
+                              result={data} index={1}
+                              setCharacterModalOpen={setCharacterModalOpen}
+                              setSelectedTeammateIndex={setSelectedTeammateIndex}
+                            />
+                            <CharacterPreviewScoringTeammate
+                              result={data} index={2}
+                              setCharacterModalOpen={setCharacterModalOpen}
+                              setSelectedTeammateIndex={setSelectedTeammateIndex}
+                            />
+                          </Flex>
+                        </Card>
+                        <ScoreFooter result={data} />
+                      </Flex>
+                    )
                   )
                 }
                 {
-                  simScoringResult && (
-                    <Flex vertical gap={defaultGap}>
-                      <CharacterCardScoringStatUpgrades result={simScoringResult} />
-                    </Flex>
+                  data && (loading
+                    ? (
+                      <Skeleton active />
+                    )
+                    : (
+                      <Flex vertical gap={defaultGap}>
+                        <CharacterCardScoringStatUpgrades result={data} />
+                      </Flex>
+                    )
                   )
                 }
               </Flex>
               {
-                !simScoringResult
+                !data
                 && (
                   <Flex vertical style={{ width: middleColumnWidth }}>
 
@@ -859,7 +908,7 @@ export function CharacterPreview(props) {
               />
             </Flex>
           </Flex>
-          <CharacterScoringSummary simScoringResult={simScoringResult} />
+          <CharacterScoringSummary simScoringResult={data} />
         </Flex>
       )}
     </Flex>

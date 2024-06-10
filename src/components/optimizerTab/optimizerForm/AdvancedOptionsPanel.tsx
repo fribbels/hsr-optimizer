@@ -29,7 +29,7 @@ export const AdvancedOptionsPanel = () => {
         onClick={() => setEnemyConfigurationsDrawerOpen(true)}
         icon={<SettingOutlined />}
       >
-        Enemy configuration
+        Enemy configurations
       </Button>
     </Flex>
   )

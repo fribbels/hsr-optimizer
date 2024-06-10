@@ -54,6 +54,9 @@ export type HsrOptimizerStore = {
   zeroPermutationModalOpen: boolean
   menuSidebarOpen: boolean
   relicScorerSidebarOpen: boolean
+  enemyConfigurationsDrawerOpen: boolean
+  setCombatBuffsDrawerOpen: (open: boolean) => void
+  setEnemyConfigurationsDrawerOpen: (open: boolean) => void
 
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone

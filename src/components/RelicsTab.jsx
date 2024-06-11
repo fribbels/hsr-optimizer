@@ -394,6 +394,8 @@ export default function RelicsTab() {
     }
   }, [plottedCharacterType, selectedRelic])
 
+  const [rowCount, setRowCount] = useState(relicRows.length)
+
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
@@ -401,7 +403,6 @@ export default function RelicsTab() {
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
-
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
             ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
@@ -425,6 +426,10 @@ export default function RelicsTab() {
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
+
+            pagination={true}
+            suppressPaginationPanel={true}
+            onPaginationChanged={() => { setRowCount(gridRef.current.api.paginationGetRowCount()) }}
           />
         </div>
         <Flex gap={10}>
@@ -460,6 +465,10 @@ export default function RelicsTab() {
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()} />
+          </Flex>
+          <Flex style={{ marginLeft: 10 }} gap={25}>
+            <Flex style={{ marginTop: 5 }}>filtered relics: {rowCount}</Flex>
+            <Flex style={{ marginTop: 5 }}>total relics: {relicRows.length}</Flex>
           </Flex>
         </Flex>
         <Flex gap={10}>

@@ -178,7 +178,7 @@ export default function ScoringModal() {
         <ul>
           <li><code>CD BE = 64.8 / 64.8 == 1.0</code></li>
           <li><code>DEF% = 64.8 / 54.0 == 1.2</code></li>
-          <li><code>HP% ATK% EHR = 64.8 / 43.2 == 1.5</code></li>
+          <li><code>HP% ATK% EHR RES = 64.8 / 43.2 == 1.5</code></li>
           <li><code>CR = 64.8 / 32.4 == 2</code></li>
         </ul>
         <ul>
@@ -317,7 +317,7 @@ export default function ScoringModal() {
               <Form.Item size="default" name="characterId">
                 <CharacterSelect
                   value=""
-                  selectStyle={{ }}
+                  selectStyle={{}}
                   onChange={characterSelectorChange}
                 />
               </Form.Item>

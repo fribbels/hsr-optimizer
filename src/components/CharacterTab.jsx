@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 
-import { Button, Dropdown, Flex, Image, Modal, theme, Typography } from 'antd'
+import { Button, Dropdown, Flex, Image, Modal, theme, Typography, Input } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
@@ -21,6 +21,8 @@ import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
+import { CardGridFilterRow, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { ClassToPath } from 'lib/constants'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -82,6 +84,12 @@ function cellNameRenderer(params) {
       </Flex>
     </Flex>
   )
+}
+
+const defaultFilters = {
+  path: [],
+  element: [],
+  name: '',
 }
 
 const items = [
@@ -168,6 +176,8 @@ export default function CharacterTab() {
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
 
+  const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
+
   console.log('CharacterTab')
 
   useSubscribe('refreshRelicsScore', () => {
@@ -221,6 +231,33 @@ export default function CharacterTab() {
     sortable: false,
     cellStyle: { display: 'flex' },
   }), [])
+
+  const externalFilterChanged = useCallback((newValue) => {
+    setCurrentFilters(newValue)
+    gridRef.current.api.onFilterChanged()
+  }, [])
+
+  const charinfo = JSON.parse(JSON.stringify(DB.getMetadata().characters))
+
+  const doesExternalFilterPass = useCallback(
+    (node) => {
+      if (currentFilters.element.length && !currentFilters.element.includes(charinfo[node.data.id].element)) {
+        return false
+      }
+      if (currentFilters.path.length && !currentFilters.path.includes(ClassToPath[charinfo[node.data.id].path])) {
+        return false
+      }
+      if (!((charinfo[node.data.id].name).toLowerCase().includes(currentFilters.name) || (charinfo[node.data.id].displayName).toLowerCase().includes(currentFilters.name))) {
+        return false
+      }
+      return true
+    }, [charinfo, currentFilters],
+  )
+
+  const isExternalFilterPresent = useCallback(() => {
+    if (!currentFilters.element.length && !currentFilters.path.length && !currentFilters.name.length) return false
+    return true
+  }, [currentFilters])
 
   const cellClickedListener = useCallback((event) => {
     const data = event.data
@@ -472,73 +509,112 @@ export default function CharacterTab() {
         marginBottom: 200,
       }}
     >
-      <Flex style={{ height: '100%' }}>
-        <Flex vertical gap={8} style={{ marginRight: 8 }}>
-          <div
-            id="characterGrid" className="ag-theme-balham-dark" style={{
-              ...{ display: 'block', width: 230, height: parentH - 76 },
-              ...getGridTheme(token),
-            }}
-          >
-            <AgGridReact
-              ref={characterGrid}
-
-              rowData={characterRows}
-              gridOptions={gridOptions}
-              getRowNodeId={(data) => data.id}
-
-              columnDefs={columnDefs}
-              defaultColDef={defaultColDef}
-              deltaRowDataMode={true}
-
-              headerHeight={24}
-
-              onCellClicked={cellClickedListener}
-              onCellDoubleClicked={cellDoubleClickedListener}
-              onRowDragEnd={onRowDragEnd}
-              onRowDragLeave={onRowDragLeave}
-              navigateToNextCell={navigateToNextCell}
+      <Flex vertical gap={defaultGap}>
+        <Flex gap={10} style={{ margin: 'auto' }}>
+          <Flex style={{ width: 350 }}>
+            <Input
+              size="large"
+              style={{ height: 40 }}
+              placeholder="Search character name"
+              onChange={(e) => {
+                const newFilters = Utils.clone(currentFilters)
+                newFilters.name = e.target.value.toLowerCase()
+                setCurrentFilters(newFilters)
+                externalFilterChanged(newFilters)
+              }}
             />
-          </div>
-          <Flex vertical gap={8}>
-            <Flex justify="space-between" gap={8}>
-              <Dropdown
-                placement="topLeft"
-                menu={actionsMenuProps}
-                trigger={['hover']}
-              >
-                <Button style={{ width: '100%' }} icon={<UserOutlined />}>
-                  Character actions
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
-            </Flex>
-            <Flex gap={8}>
-              <Button
-                style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked}
-                type="primary"
-                loading={screenshotLoading}
-              >
-                Copy screenshot
-              </Button>
-              <Button
-                style={{ width: 40 }} type="primary" icon={<DownloadOutlined />}
-                onClick={downloadClicked}
-                loading={downloadLoading}
-              />
-            </Flex>
+          </Flex>
+          <Flex style={{ width: 350 }}>
+            <CardGridFilterRow
+              name="element"
+              tags={generateElementTags()}
+              flexBasis="14.2%"
+              currentFilters={currentFilters}
+              setCurrentFilters={setCurrentFilters}
+              onChange={() => externalFilterChanged(currentFilters)}
+            />
+          </Flex>
+          <Flex style={{ width: 350 }}>
+            <CardGridFilterRow
+              name="path"
+              tags={generatePathTags()}
+              flexBasis="14.2%"
+              currentFilters={currentFilters}
+              setCurrentFilters={setCurrentFilters}
+              onChange={() => externalFilterChanged(currentFilters)}
+            />
           </Flex>
         </Flex>
-        <Flex vertical>
-          <CharacterPreview
-            id="characterTabPreview"
-            character={selectedCharacter}
-            setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          />
-        </Flex>
+        <Flex style={{ height: '100%' }}>
+          <Flex vertical gap={8} style={{ marginRight: 8 }}>
+            <div
+              id="characterGrid" className="ag-theme-balham-dark" style={{
+                ...{ display: 'block', width: 230, height: parentH - 76 },
+                ...getGridTheme(token),
+              }}
+            >
+              <AgGridReact
+                ref={characterGrid}
 
-        {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
+                rowData={characterRows}
+                gridOptions={gridOptions}
+                getRowNodeId={(data) => data.id}
+
+                columnDefs={columnDefs}
+                defaultColDef={defaultColDef}
+                deltaRowDataMode={true}
+
+                headerHeight={24}
+
+                onCellClicked={cellClickedListener}
+                onCellDoubleClicked={cellDoubleClickedListener}
+                onRowDragEnd={onRowDragEnd}
+                onRowDragLeave={onRowDragLeave}
+                navigateToNextCell={navigateToNextCell}
+                isExternalFilterPresent={isExternalFilterPresent}
+                doesExternalFilterPass={doesExternalFilterPass}
+              />
+            </div>
+            <Flex vertical gap={8}>
+              <Flex justify="space-between" gap={8}>
+                <Dropdown
+                  placement="topLeft"
+                  menu={actionsMenuProps}
+                  trigger={['hover']}
+                >
+                  <Button style={{ width: '100%' }} icon={<UserOutlined />}>
+                    Character actions
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </Flex>
+              <Flex gap={8}>
+                <Button
+                  style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked}
+                  type="primary"
+                  loading={screenshotLoading}
+                >
+                  Copy screenshot
+                </Button>
+                <Button
+                  style={{ width: 40 }} type="primary" icon={<DownloadOutlined />}
+                  onClick={downloadClicked}
+                  loading={downloadLoading}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex vertical>
+            <CharacterPreview
+              id="characterTabPreview"
+              character={selectedCharacter}
+              setOriginalCharacterModalOpen={setCharacterModalOpen}
+              setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+            />
+          </Flex>
+
+          {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
+        </Flex>
       </Flex>
       <CharacterModal
         onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}

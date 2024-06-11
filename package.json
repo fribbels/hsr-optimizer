@@ -7,6 +7,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@js-sdsl/priority-queue": "^4.4.0",
+    "@webgpu/types": "^0.1.42",
     "ag-grid-community": "^31.2.1",
     "ag-grid-react": "^31.2.1",
     "antd": "^5.16.2",

@@ -466,27 +466,29 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()} />
           </Flex>
-          <Flex style={{
-            marginTop: 1,
-            borderRadius: 5,
-            width: 140,
-            height: 30,
-            background: '#243356',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-            outline: '1px solid #3f5a96',
-          }}
-          ><Typography style={{ margin: 'auto' }}>Filtered Relics: {rowCount}</Typography>
-          </Flex>
-          <Flex style={{
-            marginTop: 1,
-            borderRadius: 5,
-            width: 140,
-            height: 30,
-            background: '#243356',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-            outline: '1px solid #3f5a96',
-          }}
-          ><Typography style={{ margin: 'auto' }}>Total Relics: {relicRows.length}</Typography>
+          <Flex style={{ marginLeft: 113 }} gap={10}>
+            <Flex style={{
+              marginTop: 1,
+              borderRadius: 5,
+              width: 140,
+              height: 30,
+              background: '#243356',
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+              outline: '1px solid #3f5a96',
+            }}
+            ><Typography style={{ margin: 'auto' }}>Filtered Relics: {rowCount}</Typography>
+            </Flex>
+            <Flex style={{
+              marginTop: 1,
+              borderRadius: 5,
+              width: 140,
+              height: 30,
+              background: '#243356',
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+              outline: '1px solid #3f5a96',
+            }}
+            ><Typography style={{ margin: 'auto' }}>Total Relics: {relicRows.length}</Typography>
+            </Flex>
           </Flex>
         </Flex>
         <Flex gap={10}>

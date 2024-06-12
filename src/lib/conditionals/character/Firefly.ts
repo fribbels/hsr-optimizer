@@ -148,7 +148,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BREAK_VULNERABILITY += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenBreakVulnerability : 0
 
-      x[Stats.BE] += (r.atkToBeConversion && (x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF > 1800)) ? 0.008 * Math.floor(((x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF) - 1800) / 10) : 0
+      const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - (x.RATIO_BASED_ATK_P_BUFF * request.baseAtk)
+      x[Stats.BE] += (r.atkToBeConversion && (trueAtk > 1800)) ? 0.008 * Math.floor((trueAtk - 1800) / 10) : 0
 
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0

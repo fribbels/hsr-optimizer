@@ -112,6 +112,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
+      x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0
       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 1.00 : 0
 
       // Scaling
@@ -126,7 +127,6 @@ export default (e: Eidolon): CharacterConditional => {
       const m = request.characterConditionals
 
       x[Stats.BE] += (m.teamBEBuff) ? 0.20 : 0
-      x[Stats.ATK_P] += (e >= 2 && m.e2AtkBoost) ? 0.40 : 0
 
       x.ELEMENTAL_DMG += (m.skillOvertoneBuff) ? skillScaling : 0
       x.BREAK_EFFICIENCY_BOOST += (m.skillOvertoneBuff) ? 0.50 : 0
@@ -139,6 +139,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD_P] += (t.teamSpdBuff) ? talentSpdScaling : 0
       x.ELEMENTAL_DMG += t.teamDmgBuff
+
+      x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
+      x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x

@@ -5094,13 +5094,9 @@ function getScoringMetadata() {
           BREAK: 1,
         },
         relicSets: [
-          [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
-          RELICS_2P_BREAK_EFFECT_SPEED,
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.TaliaKingdomOfBanditry,
           Sets.ForgeOfTheKalpagniLantern,
         ],
         teammates: [

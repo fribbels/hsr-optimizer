@@ -353,10 +353,10 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
-  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
   if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+    score = RelicScorer.score(selectedRelic, focusCharacter)
   }
 
   const numScores = 10

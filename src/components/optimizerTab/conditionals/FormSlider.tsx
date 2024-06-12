@@ -5,8 +5,8 @@ import WithPopover from 'components/common/WithPopover.tsx'
 
 const justify = 'flex-start'
 const align = 'center'
-const inputWidth = 57
-const numberWidth = 50
+const inputWidth = 61
+const numberWidth = 55
 const sliderWidth = 155
 
 const Text = styled(Typography)`

@@ -503,7 +503,7 @@ function generateStatImprovements(
   for (const substatType of metadata.substats) {
     const stat: string = substatType
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
-    originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + scoringParams.quality
+    originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + 1.0
 
     const statImprovementResult = runSimulations(simulationForm, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
     applyScoringFunction(statImprovementResult)

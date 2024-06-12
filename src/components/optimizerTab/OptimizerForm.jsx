@@ -1,4 +1,4 @@
-import { Form } from 'antd'
+import { Flex, Form } from 'antd'
 import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
@@ -25,6 +25,7 @@ import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
 import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { ComboFilters } from 'components/optimizerTab/optimizerForm/ComboFilter'
 import { EnemyConfigurationsDrawer } from 'components/optimizerTab/optimizerForm/EnemyConfigurationsDrawer'
+import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -241,9 +242,12 @@ function LightConeConditionalDisplayWrapper() {
   }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
 
   return (
-    <LightConeConditionalDisplay
-      id={optimizerFormSelectedLightCone}
-      superImposition={optimizerFormSelectedLightConeSuperimposition}
-    />
+    <Flex vertical justify="space-between" style={{ height: '100%', marginBottom: 8 }}>
+      <LightConeConditionalDisplay
+        id={optimizerFormSelectedLightCone}
+        superImposition={optimizerFormSelectedLightConeSuperimposition}
+      />
+      <AdvancedOptionsPanel />
+    </Flex>
   )
 }

@@ -26,7 +26,7 @@ const BLANK = Assets.getBlank()
 
 export default function RelicFilterBar(props) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
-  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
 
   const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState()
 
@@ -136,7 +136,7 @@ export default function RelicFilterBar(props) {
     const relics = Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
-    setScoringAlgorithmFocusCharacter(id)
+    setRelicsTabFocusCharacter(id)
     setCurrentlySelectedCharacterId(id)
 
     const allCharacters = characterOptions.map((val) => val.id)

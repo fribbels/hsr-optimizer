@@ -3,7 +3,6 @@ import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabCons
 import React from 'react'
 import { HeaderText } from 'components/HeaderText'
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
-import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
 
 const { Text } = Typography
 
@@ -19,8 +18,6 @@ export const ComboFilters = () => {
         <ComboRow title="Dot DMG" name="DOT" />
         <ComboRow title="Break DMG" name="BREAK" />
       </Flex>
-
-      <AdvancedOptionsPanel />
     </Flex>
   )
 }

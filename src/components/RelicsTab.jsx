@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select, theme } from 'antd'
+import { Button, Flex, Popconfirm, Select, Typography, theme } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -466,9 +466,27 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()} />
           </Flex>
-          <Flex style={{ marginLeft: 10 }} gap={25}>
-            <Flex style={{ marginTop: 5 }}>filtered relics: {rowCount}</Flex>
-            <Flex style={{ marginTop: 5 }}>total relics: {relicRows.length}</Flex>
+          <Flex style={{
+            marginTop: 1,
+            borderRadius: 5,
+            width: 140,
+            height: 30,
+            background: '#243356',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+            outline: '1px solid #3f5a96',
+          }}
+          ><Typography style={{ margin: 'auto' }}>Filtered Relics: {rowCount}</Typography>
+          </Flex>
+          <Flex style={{
+            marginTop: 1,
+            borderRadius: 5,
+            width: 140,
+            height: 30,
+            background: '#243356',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+            outline: '1px solid #3f5a96',
+          }}
+          ><Typography style={{ margin: 'auto' }}>Total Relics: {relicRows.length}</Typography>
           </Flex>
         </Flex>
         <Flex gap={10}>

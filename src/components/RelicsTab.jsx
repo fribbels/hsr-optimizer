@@ -472,9 +472,9 @@ export default function RelicsTab() {
               borderRadius: 5,
               width: 140,
               height: 30,
-              background: '#243356',
+              background: 'rgba(36, 51, 86)',
               boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-              outline: '1px solid #3f5a96',
+              outline: '1px solid rgba(63, 90, 150)',
             }}
             ><Typography style={{ margin: 'auto' }}>Filtered Relics: {rowCount}</Typography>
             </Flex>
@@ -483,9 +483,9 @@ export default function RelicsTab() {
               borderRadius: 5,
               width: 140,
               height: 30,
-              background: '#243356',
+              background: 'rgba(36, 51, 86)',
               boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-              outline: '1px solid #3f5a96',
+              outline: '1px solid rgba(63, 90, 150)',
             }}
             ><Typography style={{ margin: 'auto' }}>Total Relics: {relicRows.length}</Typography>
             </Flex>

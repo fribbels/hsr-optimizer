@@ -174,7 +174,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <ul style={{ lineHeight: '32px' }}>
-            <li>The default damage simulation uses a common team composition and the character's BiS relic + ornament set</li>
+            <li>The default damage simulation uses a common team composition and the character's <a onClick={() => { console.log(DB.getMetadata().characters) }}>BiS relic + ornament set</a></li>
             <li>The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
             <li>The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
             <li>Each substat is equivalent to a 5 star relic's low roll value, except for speed which uses mid rolls</li>

@@ -73,6 +73,9 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   if (relicForm.enhance > 15 || relicForm.enhance < 0) {
     return Message.error('Enhance value is invalid')
   }
+  if (relicForm.enhance > relicForm.grade * 3) {
+    return Message.error('Enhance value is too high for this grade')
+  }
   if (!Constants.SetsRelicsNames.includes(relicForm.set) && !Constants.SetsOrnamentsNames.includes(relicForm.set)) {
     return Message.error('Set value is invalid')
   }

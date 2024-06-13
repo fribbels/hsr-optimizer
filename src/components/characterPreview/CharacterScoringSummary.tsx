@@ -7,12 +7,13 @@ import { Assets } from 'lib/assets'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
 import { VerticalDivider } from 'components/Dividers'
 import DB from 'lib/db'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
 import StatText from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
+import { RelicsetModal } from './RelicsetModal'
 
 const { Text } = Typography
 
@@ -103,6 +104,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   }
 
   function ScoringDetails() {
+    const [relicsetopen, setRelicsetopen] = useState(false)
     return (
       <Flex vertical style={{ marginTop: 80, width: 1000 }}>
         <h1 style={{ margin: 'auto' }}>DPS Score Calculation</h1>
@@ -174,7 +176,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </p>
 
           <ul style={{ lineHeight: '32px' }}>
-            <li>The default damage simulation uses a common team composition and the character's <a onClick={() => { console.log(DB.getMetadata().characters) }}>BiS relic + ornament set</a></li>
+            <li>The default damage simulation uses a common team composition and the character's <a onClick={() => { setRelicsetopen(true) }}>BiS relic + ornament set</a></li>
             <li>The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces</li>
             <li>The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot</li>
             <li>Each substat is equivalent to a 5 star relic's low roll value, except for speed which uses mid rolls</li>
@@ -361,6 +363,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             and rainbow or broken sets will often score worse than full sets.
           </p>
         </Text>
+        <RelicsetModal open={relicsetopen} setOpen={setRelicsetopen} />
       </Flex>
     )
   }

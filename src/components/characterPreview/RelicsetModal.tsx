@@ -57,7 +57,7 @@ function relic2pcIconRenderer(params) { // feels like there should be a better w
         <img src={Assets.getSetImage(array[6])} style={{ display: 6 > safe ? 'none' : 'block', height: 40, width: 40 }} />
       </Flex>
     </Flex>
-  )// can only fit up to 7 planar / 2pc relics
+  )// can only fit up to 7 planar / 2pc relics before running out of space in the column
 }
 
 function relic4pcIconRenderer(params) {
@@ -83,7 +83,7 @@ function relic4pcIconRenderer(params) {
         <img src={Assets.getSetImage(array[3])} style={{ display: 3 > safe ? 'none' : 'block', height: 40, width: 40 }} />
       </Flex>
     </Flex>
-  )// having more than 4 valid 2pc sets doesn't fit with the current formatting, can be pushed to 7 if only show 1 icon instead of 2
+  )// having more than 4 valid 2pc sets doesn't fit with the current column size, can be pushed to 7 if only show 1 icon instead of 2
 }
 
 interface IRow {

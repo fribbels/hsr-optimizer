@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button, Dropdown, Flex, Image, Modal, theme, Typography, Input } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
@@ -89,7 +89,6 @@ function cellNameRenderer(params) {
 const defaultFilters = {
   path: [],
   element: [],
-  name: '',
 }
 
 const items = [
@@ -176,7 +175,9 @@ export default function CharacterTab() {
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
 
-  const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
+  const [cardfilters, setCardfilters] = useState(Utils.clone(defaultFilters))
+
+  const namefilter = useRef('')
 
   console.log('CharacterTab')
 
@@ -232,32 +233,31 @@ export default function CharacterTab() {
     cellStyle: { display: 'flex' },
   }), [])
 
-  const externalFilterChanged = useCallback((newValue) => {
-    setCurrentFilters(newValue)
-    gridRef.current.api.onFilterChanged()
+  const externalFilterChanged = useCallback(() => {
+    characterGrid.current.api.onFilterChanged()
   }, [])
-
-  const charinfo = JSON.parse(JSON.stringify(DB.getMetadata().characters))
 
   const doesExternalFilterPass = useCallback(
     (node) => {
-      if (currentFilters.element.length && !currentFilters.element.includes(charinfo[node.data.id].element)) {
+      const charinfo = Utils.clone(DB.getMetadata().characters)
+      const filteredCharacter = charinfo[node.data.id]
+      if (cardfilters.element.length && !cardfilters.element.includes(filteredCharacter.element)) {
         return false
       }
-      if (currentFilters.path.length && !currentFilters.path.includes(ClassToPath[charinfo[node.data.id].path])) {
+      if (cardfilters.path.length && !cardfilters.path.includes(ClassToPath[filteredCharacter.path])) {
         return false
       }
-      if (!((charinfo[node.data.id].name).toLowerCase().includes(currentFilters.name) || (charinfo[node.data.id].displayName).toLowerCase().includes(currentFilters.name))) {
-        return false
+      if ((filteredCharacter.name).toLowerCase().includes(namefilter.current) || (filteredCharacter.displayName).toLowerCase().includes(namefilter.current)) {
+        return true
       }
-      return true
-    }, [charinfo, currentFilters],
+      return false
+    }, [cardfilters],
   )
 
   const isExternalFilterPresent = useCallback(() => {
-    if (!currentFilters.element.length && !currentFilters.path.length && !currentFilters.name.length) return false
+    if (!cardfilters.element.length && !cardfilters.path.length && !namefilter.current.length) return false
     return true
-  }, [currentFilters])
+  }, [cardfilters])
 
   const cellClickedListener = useCallback((event) => {
     const data = event.data
@@ -517,10 +517,10 @@ export default function CharacterTab() {
               style={{ height: 40 }}
               placeholder="Search character name"
               onChange={(e) => {
-                const newFilters = Utils.clone(currentFilters)
-                newFilters.name = e.target.value.toLowerCase()
-                setCurrentFilters(newFilters)
-                externalFilterChanged(newFilters)
+                let newFilters = Utils.clone(namefilter.current)
+                newFilters = e.target.value.toLowerCase()
+                namefilter.current = newFilters
+                externalFilterChanged()
               }}
             />
           </Flex>
@@ -529,9 +529,9 @@ export default function CharacterTab() {
               name="element"
               tags={generateElementTags()}
               flexBasis="14.2%"
-              currentFilters={currentFilters}
-              setCurrentFilters={setCurrentFilters}
-              onChange={() => externalFilterChanged(currentFilters)}
+              currentFilters={cardfilters}
+              setCurrentFilters={setCardfilters}
+              onChange={() => externalFilterChanged()}
             />
           </Flex>
           <Flex style={{ width: 350 }}>
@@ -539,9 +539,9 @@ export default function CharacterTab() {
               name="path"
               tags={generatePathTags()}
               flexBasis="14.2%"
-              currentFilters={currentFilters}
-              setCurrentFilters={setCurrentFilters}
-              onChange={() => externalFilterChanged(currentFilters)}
+              currentFilters={cardfilters}
+              setCurrentFilters={setCardfilters}
+              onChange={() => externalFilterChanged()}
             />
           </Flex>
         </Flex>

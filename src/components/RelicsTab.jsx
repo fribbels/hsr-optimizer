@@ -1,4 +1,4 @@
-import { Button, Flex, Popconfirm, Select, Typography, theme } from 'antd'
+import { Button, Flex, Popconfirm, Select, theme } from 'antd'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
@@ -353,10 +353,10 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
-  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
   if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+    score = RelicScorer.score(selectedRelic, focusCharacter)
   }
 
   const numScores = 10
@@ -394,8 +394,6 @@ export default function RelicsTab() {
     }
   }, [plottedCharacterType, selectedRelic])
 
-  const [rowCount, setRowCount] = useState(relicRows.length)
-
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
       <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
@@ -403,6 +401,7 @@ export default function RelicsTab() {
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
+
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
             ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
@@ -423,13 +422,13 @@ export default function RelicsTab() {
             headerHeight={24}
             rowSelection="single"
 
+            pagination={true}
+            paginationPageSizeSelector={false}
+            paginationPageSize={2000}
+
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
-
-            pagination={true}
-            suppressPaginationPanel={true}
-            onPaginationChanged={() => { setRowCount(gridRef.current.api.paginationGetRowCount()) }}
           />
         </div>
         <Flex gap={10}>
@@ -465,30 +464,6 @@ export default function RelicsTab() {
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()} />
-          </Flex>
-          <Flex style={{ marginLeft: 113 }} gap={10}>
-            <Flex style={{
-              marginTop: 1,
-              borderRadius: 5,
-              width: 140,
-              height: 30,
-              background: 'rgba(36, 51, 86)',
-              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-              outline: '1px solid rgba(63, 90, 150)',
-            }}
-            ><Typography style={{ margin: 'auto' }}>Filtered Relics: {rowCount}</Typography>
-            </Flex>
-            <Flex style={{
-              marginTop: 1,
-              borderRadius: 5,
-              width: 140,
-              height: 30,
-              background: 'rgba(36, 51, 86)',
-              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-              outline: '1px solid rgba(63, 90, 150)',
-            }}
-            ><Typography style={{ margin: 'auto' }}>Total Relics: {relicRows.length}</Typography>
-            </Flex>
           </Flex>
         </Flex>
         <Flex gap={10}>

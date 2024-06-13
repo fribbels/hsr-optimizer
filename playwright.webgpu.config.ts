@@ -26,7 +26,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000/hsr-optimizer', // Base URL to use in actions like `await page.goto('/')`.
     trace: 'on-first-retry', // Collect trace when retrying the failed test.
     video: 'off',// // Record video only when retrying a test for the first time.
-    headless: false, // Set to false if you want to see the browser during tests
+    headless: true, // Set to false if you want to see the browser during tests
     browserName: 'chromium',
     channel: 'chrome', // Use Chrome for better WebGPU support
     launchOptions: {

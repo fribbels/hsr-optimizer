@@ -19,7 +19,8 @@
     "noImplicitAny": false,
     "baseUrl": "./src",
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["src/*"],
+      "tests-webgpu/*": ["tests-webgpu/*"]
     },
     "esModuleInterop": true,
     "types": ["@webgpu/types"]

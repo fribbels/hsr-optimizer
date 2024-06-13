@@ -247,10 +247,7 @@ export default function CharacterTab() {
       if (cardfilters.path.length && !cardfilters.path.includes(ClassToPath[filteredCharacter.path])) {
         return false
       }
-      if ((filteredCharacter.name).toLowerCase().includes(namefilter.current) || (filteredCharacter.displayName).toLowerCase().includes(namefilter.current)) {
-        return true
-      }
-      return false
+      return ((filteredCharacter.name).toLowerCase().includes(namefilter.current) || (filteredCharacter.displayName).toLowerCase().includes(namefilter.current))
     }, [cardfilters],
   )
 

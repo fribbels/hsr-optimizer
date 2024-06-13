@@ -415,3 +415,10 @@ a {
 .ant-modal-confirm-paragraph {
     max-width: unset !important;
 }
+
+#relicGrid .ag-paging-page-summary-panel {
+    display: none !important;
+}
+#relicGrid .ag-paging-row-summary-panel {
+    padding-right: 10px !important;
+}

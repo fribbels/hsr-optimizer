@@ -422,6 +422,10 @@ export default function RelicsTab() {
             headerHeight={24}
             rowSelection="single"
 
+            pagination={true}
+            paginationPageSizeSelector={false}
+            paginationPageSize={2000}
+
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}

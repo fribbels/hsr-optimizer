@@ -161,6 +161,8 @@ struct Sets {
   PrisonerInDeepConfinement: i32,
   PioneerDiverOfDeadWaters: i32,
   WatchmakerMasterOfDreamMachinations: i32,
+  IronCavalryAgainstTheScourge: i32,
+  TheWindSoaringValorous: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,
@@ -173,6 +175,10 @@ struct Sets {
   BrokenKeel: i32,
   FirmamentFrontlineGlamoth: i32,
   PenaconyLandOfTheDreams: i32,
+  SigoniaTheUnclaimedDesolation: i32,
+  IzumoGenseiAndTakamaDivineRealm: i32,
+  DuranDynastyOfRunningWolves: i32,
+  ForgeOfTheKalpagniLantern: i32,
 }
 
 struct ComputedStats {
@@ -354,8 +360,8 @@ struct Params {
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
 @group(0) @binding(2) var<storage, read_write> results : array<BasicStats>; // Temporarily f32 for testing, should be boolean
 
-@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
-@group(1) @binding(1) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
+@group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
+//@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
 @compute @workgroup_size(16, 16)
 fn main(
   @builtin(workgroup_id) workgroup_id : vec3<u32>,
@@ -433,6 +439,8 @@ fn main(
   var c : BasicStats = BasicStats();
   var x : ComputedStats = ComputedStats();
 
+  var trace : BasicStats = BasicStats();
+
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
   c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
@@ -440,7 +448,7 @@ fn main(
   c.HP = head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
   c.ATK = head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
   c.DEF = head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
-  c.SPD = head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
+  c.SPD = 0.00001f + head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
   c.CR = head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
   c.CD = head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
   c.EHR = head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
@@ -475,6 +483,8 @@ fn main(
   c.sets.PrisonerInDeepConfinement           = i32((1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)));
   c.sets.PioneerDiverOfDeadWaters            = i32((1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)));
   c.sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
+  c.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
+  c.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
 
   c.sets.SpaceSealingStation                 = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
   c.sets.FleetOfTheAgeless                   = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
@@ -488,12 +498,20 @@ fn main(
   c.sets.BrokenKeel                          = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
   c.sets.FirmamentFrontlineGlamoth           = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
   c.sets.PenaconyLandOfTheDreams             = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+  c.sets.SigoniaTheUnclaimedDesolation       = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+  c.sets.IzumoGenseiAndTakamaDivineRealm     = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+  c.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+  c.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
 
   let baseHP = params.baseHP + params.lcHP;
   let baseATK = params.baseATK + params.lcATK;
   let baseDEF = params.baseDEF + params.lcDEF;
   let baseSPD = params.baseSPD + params.lcSPD;
-  const setEffects = 0;
+
+  let setEffects = 0.0f;
+  let spdSetEffects = 0.06f * p2(c.sets.MessengerTraversingHackerspace);
+  let crSetEffects = 0.08f * p2(c.sets.RutilantArena);
+
 
 //  c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
 //    0.06 * p2(sets.MessengerTraversingHackerspace)
@@ -505,17 +523,22 @@ fn main(
 //  return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
 //}
 
+
+
   c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;
   c.DEF = (baseDEF) * (1 + setEffects + c.DEF_P + params.traceDEF_P + params.lcDEF_P) + c.DEF + params.traceDEF;
   c.ATK = (baseATK) * (1 + setEffects + c.ATK_P + params.traceATK_P + params.lcATK_P) + c.ATK + params.traceATK;
-  c.SPD = (baseSPD) * (1 + setEffects + c.SPD_P + params.traceSPD_P + params.lcSPD_P) + c.SPD + params.traceSPD;
-  c.CR  += params.baseCR + params.lcCR + params.traceCR + setEffects;
+  c.SPD = (baseSPD) * (1 + spdSetEffects + c.SPD_P + params.traceSPD_P + params.lcSPD_P) + c.SPD + params.traceSPD;
+  c.CR  += params.baseCR + params.lcCR + params.traceCR + crSetEffects;
   c.CD  += params.baseCD + params.lcCD + params.traceCD + setEffects;
   c.EHR += params.baseEHR + params.lcEHR + params.traceEHR + setEffects;
   c.RES += params.baseRES + params.lcRES + params.traceRES + setEffects;
   c.BE  += params.baseBE + params.lcBE + params.traceBE + setEffects;
   c.ERR += params.baseERR + params.lcERR + params.traceERR + setEffects;
   c.OHB += params.baseOHB + params.lcOHB + params.traceOHB + setEffects;
+
+  x.BASIC_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
+  x.SKILL_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
 
 //  if (1 == 3) {
   results[index] = c;
@@ -529,3 +552,15 @@ fn main(
 //    results[index] = f32(c.CD);
 //  }
 }
+
+fn p2(n: i32) -> f32 {
+  return f32(min(1, n >> 1));
+}
+fn p4(n: i32) -> f32 {
+  return f32(n >> 2);
+}
+
+
+//function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
+//  return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
+//}

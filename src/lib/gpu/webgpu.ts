@@ -123,7 +123,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   const bindGroupLayout1 = device.createBindGroupLayout({
     entries: [
       { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+      // { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
     ],
   })
   const computePipeline = device.createComputePipeline({
@@ -183,7 +183,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   ])
 
   const relicsMatrix = createBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
-  const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  // const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrix = createBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const paramsMatrix = createBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 
@@ -199,13 +199,13 @@ export async function experiment({ params, request, relics, permutations, relicS
   const bindGroup1 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(1),
     entries: [
-      { binding: 0, resource: { buffer: relicSetSolutionsMatrix } },
-      { binding: 1, resource: { buffer: ornamentSetSolutionsMatrix } },
+      { binding: 0, resource: { buffer: ornamentSetSolutionsMatrix } },
+      // { binding: 1, resource: { buffer: relicSetSolutionsMatrix } },
     ],
   })
 
   console.log('Transformed inputs', { paramsArray, mergedRelics, relicSetSolutions })
-  console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
+  // console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
 
   const date1 = new Date()
   const iterations = 100

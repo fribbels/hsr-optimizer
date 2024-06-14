@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test'
 import { executeSimpleWgsl } from '../webgpuTestUtils'
 
 test('Simple input/output test', async ({ page }) => {
-  // Setup includes constants declarations, structs, functions, etc
+  // Code in setup includes constants declarations, structs, functions, etc
   // Anything that needs to be defined outside the main function
   const setup = `
   `
 
-  // Execute runs inside the main function, has the results[] to work with and i as the global index
+  // Code in execute runs inside the main function, has results[] to work with and i as the global index
   const execute = `
     results[0] = 2;
   `
@@ -17,14 +17,14 @@ test('Simple input/output test', async ({ page }) => {
   expect(results[0]).toEqual(2)
 })
 
-test('Step test', async ({ page }) => {
+test('Math test', async ({ page }) => {
   const setup = `
   `
 
   const execute = `
-    results[0] = step(2, 3);
-    results[1] = step(4, 3);
-    results[2] = step(3, 3);
+    results[0] = select(0, 1, 1 < 2);
+    results[1] = select(0, 1, 1 > 2);
+    results[2] = select(1, 0, 1 == 2);
   `
 
   const results = await executeSimpleWgsl(page, setup, execute)

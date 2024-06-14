@@ -425,11 +425,7 @@ a {
     padding-right: 10px !important;
 }
 
-.highlight-column {
-    box-shadow: inset 2px 0px 0px 0px #00000063, inset 2px 0px 0px 0px #00000063
-}
-
-.ag-header-cell-sorted-desc, .ag-header-cell-sorted-asc {
+#optimizerGridContainer .ag-header-cell-sorted-desc, #optimizerGridContainer .ag-header-cell-sorted-asc {
     background-color: #1b6d85 !important;
     color: #fff !important;
 }

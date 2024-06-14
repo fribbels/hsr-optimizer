@@ -5050,7 +5050,6 @@ function getScoringMetadata() {
         ],
         [Constants.Parts.PlanarSphere]: [
           Constants.Stats.ATK_P,
-          Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,

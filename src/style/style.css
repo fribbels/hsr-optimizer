@@ -212,8 +212,10 @@ body,
     margin-top: -6px;
 }
 
-.ag-icon-desc {
-    margin-top: -6px !important;
+.ag-icon-desc, .ag-icon-asc {
+    margin-top: -3px !important;
+    margin-right: 2px !important;
+    font-size: 12px !important;
 }
 
 .ag-icon-asc {
@@ -421,4 +423,9 @@ a {
 }
 #relicGrid .ag-paging-row-summary-panel {
     padding-right: 10px !important;
+}
+
+#optimizerGridContainer .ag-header-cell-sorted-desc, #optimizerGridContainer .ag-header-cell-sorted-asc {
+    background-color: #1b6d85 !important;
+    color: #fff !important;
 }

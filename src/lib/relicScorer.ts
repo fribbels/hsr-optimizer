@@ -532,7 +532,12 @@ export class RelicScorer {
           bestRolledSubstats.push(stat)
         }
       }
-
+      if (!bestRolledSubstats.length) { // the above section only finds substats if they have the max weight, this gives substats of non max weight if max weight rolls are impossible
+        const weight = scoringMetadata.stats[relic.substats[findHighestWeight(relic.substats, scoringMetadata)].stat]
+        for (const substat of relic.substats) {
+          if (scoringMetadata.stats[substat.stat] >= weight) bestRolledSubstats.push(substat.stat)
+        }
+      }
       meta = {
         bestNewSubstats: bestNewSubstats,
         bestRolledSubstats: bestRolledSubstats,

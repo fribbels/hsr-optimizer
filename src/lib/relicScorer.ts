@@ -523,7 +523,10 @@ export class RelicScorer {
       const bestRolledSubstats: string[] = [] // Array of all substats possibly on relic sharing highest weight
       const bestWeight = candidateSubstats[0][1]
 
-      const validUpgrades = Utils.arrayToMap(relic.substats, 'stat')
+      const validUpgrades = {
+        ...Utils.arrayToMap(relic.substats, 'stat'),
+        ...Utils.stringArrayToMap(bestNewSubstats),
+      }
       for (const [stat, weight] of candidateSubstats) {
         if (validUpgrades[stat] && weight >= bestWeight) {
           bestRolledSubstats.push(stat)

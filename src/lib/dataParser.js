@@ -4306,6 +4306,7 @@ function getScoringMetadata() {
         [Parts.PlanarSphere]: [
           Stats.HP_P,
           Stats.DEF_P,
+          Stats.Fire_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -5068,10 +5069,8 @@ function getScoringMetadata() {
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,
-            Stats.Fire_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
             Stats.BE,
           ],
         },

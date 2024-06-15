@@ -512,23 +512,27 @@ export class RelicScorer {
     if (withMeta) {
       bestNewSubstats = [] // Array of all potential additional stats
       if (relic.substats.length !== 4) {
-        const worstWeight = remainingSubStats[3 - relic.substats.length][1]
-        let i = 0
-        while (remainingSubStats[i][1] >= worstWeight) {
-          bestNewSubstats.push(remainingSubStats[i][0])
-          i++
-          if (i == remainingSubStats.length) break
+        const bestWeight = remainingSubStats[remainingSubStats.length - 1][1]
+        for (const [stat, weight] of remainingSubStats) {
+          if (weight >= bestWeight) {
+            bestNewSubstats.push(stat)
+          }
         }
       }
       const candidateSubstats: [string, number][] = scoringMetadata.sortedSubstats.filter((x) => relic.main.stat !== x[0]) // All substats that could possibly exist on the relic
       const bestRolledSubstats: string[] = [] // Array of all substats possibly on relic sharing highest weight
       const bestWeight = candidateSubstats[0][1]
-      let i = 0
-      while (candidateSubstats[i][1] >= bestWeight) {
-        bestRolledSubstats.push(candidateSubstats[i][0])
-        i++
-        if (i == candidateSubstats.length) break
+
+      const validUpgrades = {
+        ...Utils.arrayToMap(relic.substats, 'stat'),
+        ...Utils.stringArrayToMap(bestNewSubstats),
       }
+      for (const [stat, weight] of candidateSubstats) {
+        if (validUpgrades[stat] && weight >= bestWeight) {
+          bestRolledSubstats.push(stat)
+        }
+      }
+
       meta = {
         bestNewSubstats: bestNewSubstats,
         bestRolledSubstats: bestRolledSubstats,

@@ -302,4 +302,20 @@ export const Utils = {
   sumArray: (arr) => {
     return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   },
+
+  // ([{'x': 'y'}], 'x') => {'y': {'x': 'y'}}
+  arrayToMap: (array, key) => {
+    return array.reduce((map, obj) => {
+      map[obj[key]] = obj
+      return map
+    }, {})
+  },
+
+  // ['z'] => {'z': true}
+  stringArrayToMap: (array) => {
+    return array.reduce((map, str) => {
+      map[str] = true
+      return map
+    }, {})
+  },
 }

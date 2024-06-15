@@ -10,8 +10,8 @@ import {
   TraitMatcher,
   UnassumingStatMatcher,
 } from '../stats/matcher'
-import { StatCollector } from '../stats/stat'
-import { StatBuilder } from '../stats/statBuilder'
+import { StatAggregator } from '../stats/stat'
+import { SimpleStatBuilder } from '../stats/builder'
 import { Formula } from '../step/formula'
 import { NormalDamageStep } from '../step/step'
 import { ObjectMapper } from './serializer'
@@ -24,8 +24,8 @@ import { ObjectMapper } from './serializer'
  */
 const DEFAULT_CLASSES = [
   BasicPercentageStats,
-  StatCollector,
-  StatBuilder,
+  StatAggregator,
+  SimpleStatBuilder,
   Formula,
   NormalDamageStep,
   // --------

@@ -1,6 +1,6 @@
 import { Serializable } from '../format/serializable'
-import { MapLikeModifiers } from '../stats/modifier'
 import { HsrElement, Trait } from '../stats/context'
+import { MapLikeModifiers } from '../stats/modifier'
 import { FinalStats, VisibleStats } from '../stats/stat'
 
 // This file will need a lot of cleaning. That's all I have to say. Note to
@@ -92,7 +92,7 @@ export abstract class DamageStep implements Step {
     return 1 + percent
   }
 
-  protected dmgReduction(reductions: number[]) {
+  protected dmgReduction(reductions: readonly number[]) {
     return reductions.reduce((prev, val) => prev * (1 - val), 1)
   }
 

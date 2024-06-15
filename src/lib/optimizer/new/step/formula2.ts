@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { BasicStats } from '../stats/basicStat'
+import { SimpleStatBuilder, StatBuilder } from '../stats/builder'
+import { ModifiersLike } from '../stats/builder2'
 import { EarlyConditional, LateConditional } from '../stats/conditional'
-import { SimpleStatBuilder } from '../stats/builder'
 import { Modifiers } from '../stats/modifier'
 import { PartialModifiableStats } from '../stats/stat'
 import { checkLimit } from './limit'
@@ -17,10 +18,14 @@ type FormulaCreationOptions = {
   basic: { lv: number; base: BasicStats }
   maxEnergy: number
   targetBaseDef: number
-  nonCombat?: {
-    stat: Modifiers
-    limit: StatLimit
-  }
+}
+
+type Formula2<T extends ModifiersLike = Modifiers> = {
+  calculate(modifiers: T): number
+}
+
+class NoncombatCapable {
+  constructor(private stepStatBuilders: StatBuilder[]) {}
 }
 
 /**
@@ -56,13 +61,9 @@ export class Formula {
       basic,
       maxEnergy,
       targetBaseDef,
-      nonCombat,
     }: FormulaCreationOptions,
   ): Formula {
     const stepStatBuilders: SimpleStatBuilder[] = []
-    let nonCombatBuilder: SimpleStatBuilder | undefined = undefined
-    let nonCombatLimit: StatLimit | undefined = undefined
-
     // TODO: lazy initialize
     const uncModMap = new Map<string, PartialModifiableStats>()
     const earlyModMap = new Map<string, EarlyConditional>()
@@ -109,20 +110,10 @@ export class Formula {
       if (step.mods.late) {
         removeMods(step.mods.late, lateModMap)
       }
-
-      if (nonCombat) {
-        nonCombatBuilder = new SimpleStatBuilder(
-          ctx,
-          { unconditional: nonCombat.stat.unconditional, early: nonCombat.stat.early, late: nonCombat.stat.late },
-        )
-        nonCombatLimit = nonCombat.limit
-      }
     }
     return new Formula(
       steps,
       stepStatBuilders,
-      nonCombatBuilder,
-      nonCombatLimit,
     )
   }
 

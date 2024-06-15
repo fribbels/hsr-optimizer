@@ -3,7 +3,7 @@ import { ObjectMapper } from 'lib/optimizer/new/format/serializer'
 import { OptimizationRequest } from 'lib/optimizer/new/request'
 import { BasicPercentageStats } from 'lib/optimizer/new/stats/basicStat'
 import { Trait } from 'lib/optimizer/new/stats/context'
-import { StatCollector } from 'lib/optimizer/new/stats/stat'
+import { StatAggregator } from 'lib/optimizer/new/stats/stat'
 import { describe, expect, test } from 'vitest'
 import { limited } from '../jingliu'
 
@@ -23,7 +23,7 @@ describe('serialization', () => {
   })
 
   test('statCollector', () => {
-    const zero = StatCollector.zero({
+    const zero = StatAggregator.zero({
       basic: {
         lv: 90,
         base: {
@@ -48,7 +48,7 @@ describe('serialization', () => {
     expect(serialize(zero), 'serialized form should contain class name metadata').toContain('__serializable_name')
 
     expect(zero, 'serialization should be invariant')
-      .toMatchObject<StatCollector>(deserialize(serialize(zero)))
+      .toMatchObject<StatAggregator>(deserialize(serialize(zero)))
   })
 
   test('Optimization Request', () => {

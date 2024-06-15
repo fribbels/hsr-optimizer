@@ -4,7 +4,7 @@
  * get it automatically serializable/deserializable.
  */
 
-export type Serializable<K extends object, T extends object> = {
+export type Serializable<K extends object, T extends object = K> = {
   serialize(): K
   /**
    * Construct a new instance of ```T``` from a ```K```. Remember that K is an

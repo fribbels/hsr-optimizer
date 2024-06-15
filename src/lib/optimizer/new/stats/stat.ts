@@ -8,13 +8,7 @@
 import { Serializable } from '../format/serializable'
 import { BasicPercentageStats, BasicStats } from './basicStat'
 import { HsrElement, Trait } from './context'
-
-// These types are only used locally for some simple types, dont need to bring
-// some utility types dependency into the project. This is optimized to work
-// only with types in this file. DO NOT USE IT ANYWHERE ELSE.
-type __DeepPartial<T> = T extends (infer K)[] ? K[] : { [P in keyof T]?: __DeepPartial<T[P]> }
-type __DeepReadonly<T> = T extends (infer K)[] ? K[]
-  : { readonly [P in keyof T]: __DeepReadonly<T[P]> }
+import { __DeepPartial, __DeepReadonly } from './typesUtils'
 
 type CritStats = {
   critRate: number
@@ -102,9 +96,9 @@ export type PartialModifiableStats = __DeepPartial<
  * - RES PEN, RES reduce and RES ignore -> `res`
  * - DMG Bonus of any condition -> `dmgBoost`
  */
-export class StatCollector implements __FinalStats, Serializable<StatCollector, StatCollector> {
+export class StatAggregator implements __FinalStats, Serializable<StatAggregator, StatAggregator> {
   static zero(context: __HitContext) {
-    return new StatCollector(
+    return new StatAggregator(
       new BasicPercentageStats(context.basic.lv, context.basic.base),
       undefined,
       undefined,
@@ -131,8 +125,8 @@ export class StatCollector implements __FinalStats, Serializable<StatCollector, 
     )
   }
 
-  static copy(other: StatCollector) {
-    return new StatCollector(
+  static copy(other: StatAggregator) {
+    return new StatAggregator(
       BasicPercentageStats.copy(other.basic),
       { ...other.crit },
       other.breakEffect,
@@ -255,12 +249,12 @@ export class StatCollector implements __FinalStats, Serializable<StatCollector, 
     if (other.speed) thisArg.speed += other.speed
   }
 
-  serialize(): StatCollector {
+  serialize(): StatAggregator {
     return this
   }
 
-  __deserialize(json: StatCollector): StatCollector {
-    return StatCollector.copy(json)
+  __deserialize(json: StatAggregator): StatAggregator {
+    return StatAggregator.copy(json)
   }
 }
 

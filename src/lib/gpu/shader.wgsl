@@ -266,6 +266,8 @@ struct ComputedStats {
   DMG_RED_MULTI: f32,
 
   ORIGINAL_DMG_BOOST: f32,
+
+  EHP: f32,
 }
 
 struct Params {
@@ -358,7 +360,7 @@ struct Params {
 
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<BasicStats>; // Temporarily f32 for testing, should be boolean
+@group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // Temporarily f32 for testing, should be boolean
 
 @group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
 //@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
@@ -376,7 +378,7 @@ fn main(
     workgroup_id.y * num_workgroups.x +
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
 
-  // // global_invocation_index
+  // global_invocation_index
   let index =
     i32(workgroup_index * 256 +
     local_invocation_index);
@@ -398,6 +400,7 @@ fn main(
   let ornamentSetCount = u32(params.ornamentSetCount);
 
   // Calculate relic index per slot
+
   let l = (index % lSize);
   let p = (((index - l) / lSize) % pSize);
   let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
@@ -406,6 +409,7 @@ fn main(
   let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
 
   // ???
+
   let zl = (l+xl) % lSize;
   let yl = (l+xl-zl) / lSize;
   let zp = (p+xp+yl) % pSize;
@@ -418,13 +422,16 @@ fn main(
   let yg = (g+xg+yb-zg) % gSize;
   let zh = (h+xh+yg) % hSize;
 
-  // Calculate relic struct
+  // Calculate Relic structs
+
   let head  : Relic = (relics[zh]);
   let hands : Relic = (relics[zg + hSize]);
   let body  : Relic = (relics[zb + hSize + gSize]);
   let feet  : Relic = (relics[zf + hSize + gSize + bSize]);
   let planarSphere : Relic = (relics[zp + hSize + gSize + bSize + fSize]);
   let linkRope     : Relic = (relics[zl + hSize + gSize + bSize + fSize + pSize]);
+
+  // Convert set ID
 
   let setH : u32 = u32(head.relicSet);
   let setG : u32 = u32(hands.relicSet);
@@ -433,37 +440,42 @@ fn main(
   let setP : u32 = u32(planarSphere.relicSet);
   let setL : u32 = u32(linkRope.relicSet);
 
+  // Get the index for set permutation lookup
+
   let relicSetIndex : u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
   let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
   var c : BasicStats = BasicStats();
   var x : ComputedStats = ComputedStats();
 
-  var trace : BasicStats = BasicStats();
+  // Calculate relic stat sums
+
+  let epsilon = 0.00001f + f32(local_invocation_index) / 10000.0f;
 
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
   c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
   c.SPD_P = head.SPD_P + hands.SPD_P + body.SPD_P + feet.SPD_P + planarSphere.SPD_P + linkRope.SPD_P;
-  c.HP = head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
-  c.ATK = head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
-  c.DEF = head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
-  c.SPD = 0.00001f + head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
-  c.CR = head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
-  c.CD = head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
-  c.EHR = head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
-  c.RES = head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
-  c.BE = head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
-  c.ERR = head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
-  c.OHB = head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-  c.Physical_DMG = head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
-  c.Fire_DMG = head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
-  c.Ice_DMG = head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
-  c.Lightning_DMG = head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
-  c.Wind_DMG = head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
-  c.Quantum_DMG = head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
-  c.Imaginary_DMG = head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
-  c.weightScore = head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
+  c.HP = epsilon + head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
+  c.ATK = epsilon + head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
+  c.DEF = epsilon + head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
+  c.SPD = epsilon + head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
+  c.CR = epsilon + head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
+  c.CD = epsilon + head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
+  c.EHR = epsilon + head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
+  c.RES = epsilon + head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
+  c.BE = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
+  c.ERR = epsilon + head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
+  c.OHB = epsilon + head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
+  c.Physical_DMG = epsilon + head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
+  c.Fire_DMG = epsilon + head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
+  c.Ice_DMG = epsilon + head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
+  c.Lightning_DMG = epsilon + head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
+  c.Wind_DMG = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
+  c.Quantum_DMG = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
+  c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
+
+  // Calculate relic set counts
 
   c.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
   c.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
@@ -486,6 +498,8 @@ fn main(
   c.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
   c.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
 
+  // Calculate ornament set counts
+
   c.sets.SpaceSealingStation                 = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
   c.sets.FleetOfTheAgeless                   = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
   c.sets.PanCosmicCommercialEnterprise       = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
@@ -503,27 +517,20 @@ fn main(
   c.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
   c.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
 
+  // Base stats, this should probably be passed in from params
+
   let baseHP = params.baseHP + params.lcHP;
   let baseATK = params.baseATK + params.lcATK;
   let baseDEF = params.baseDEF + params.lcDEF;
   let baseSPD = params.baseSPD + params.lcSPD;
 
+  // Calculate set effects
+
   let setEffects = 0.0f;
   let spdSetEffects = 0.06f * p2(c.sets.MessengerTraversingHackerspace);
   let crSetEffects = 0.08f * p2(c.sets.RutilantArena);
 
-
-//  c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
-//    0.06 * p2(sets.MessengerTraversingHackerspace)
-//    + 0.06 * p4(sets.MusketeerOfWildWheat))
-//function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
-//
-//}
-//function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {
-//  return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
-//}
-
-
+  // Calculate basic stats
 
   c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;
   c.DEF = (baseDEF) * (1 + setEffects + c.DEF_P + params.traceDEF_P + params.lcDEF_P) + c.DEF + params.traceDEF;
@@ -537,19 +544,121 @@ fn main(
   c.ERR += params.baseERR + params.lcERR + params.traceERR + setEffects;
   c.OHB += params.baseOHB + params.lcOHB + params.traceOHB + setEffects;
 
+  // Calculate elemental stats
+
+  c.Ice_DMG += 0.10 * p2(c.sets.HunterOfGlacialForest);
+
+
+  // Precompute combat conditional stats
+  // This should ideally all happen outside the GPU, and passed through in params
+  // Assumptions: Jingliu E1S1, default conditionals
+
+  x.CR += 0.50f;
+  x.ATK_P += 1.80f;
+  x.RES += 0.35f;
+
+  x.ULT_BOOST += 0.20f;
+  x.CD += 0.24f;
+
+  x.BASIC_SCALING += 1.00f;
+  x.SKILL_SCALING += 2.50f;
+  x.SKILL_SCALING += 1.00f;
+
+  x.ULT_SCALING += 3.00f;
+  x.ULT_SCALING += 1.00f;
+
+  x.ELEMENTAL_DMG += 0.14f * 3.0f;
+  x.DEF_SHRED += 0.12f;
+
+
+  // Add basic stats to combat stats
+
+  x.HP += c.HP;
+  x.DEF += c.DEF;
+  x.ATK += c.ATK;
+  x.SPD += c.SPD;
+  x.CR += c.CR;
+  x.CD += c.CD;
+  x.EHR += c.EHR;
+  x.RES += c.RES;
+  x.BE += c.BE;
+  x.ERR += c.ERR;
+  x.OHB += c.OHB;
+  x.Ice_DMG += c.Ice_DMG;
+
+  x.SPD += x.SPD_P * baseSPD;
+  x.ATK += x.ATK_P * baseATK;
+  x.DEF += x.DEF_P * baseDEF;
+  x.HP += x.HP_P * baseHP;
+
+  // Add custom combat buffs
+
+  // Add combat stats set conditionals
+
+
+
   x.BASIC_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
   x.SKILL_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
 
-//  if (1 == 3) {
-  results[index] = c;
-//  }
+  // Calculate passive stat conversions
+
+  // Calculate base multis
+
+  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+  x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+  x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+  let cLevel = 80.0f;
+  let eLevel = 95.0f;
+  let defReduction = x.DEF_SHRED;
+  let defIgnore = 0.0f;
+  
+  x.ELEMENTAL_DMG += x.Ice_DMG;
+  let dmgBoostMultiplier = 1.0f + x.ELEMENTAL_DMG;
+  let dmgReductionMultiplier = 1.0f;
+  
+  let ehp = (x.HP / (1 - x.DEF / (x.DEF + 200 + 10 + 95))) * (1.0f / (x.DMG_RED_MULTI));
+  x.EHP = ehp;
+  
+  let brokenMultiplier = 0.9f;
+  let universalMulti = dmgReductionMultiplier * brokenMultiplier;
+  let baseResistance = 0.0f - x.RES_PEN - x.ICE_RES_PEN;
+
+  let basicVulnerability = 1.0f + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY;
+  let skillVulnerability = 1.0f + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY;
+  let ultVulnerability = 1.0f + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY;
+
+  x.BASIC_DMG = x.BASIC_DMG
+    * universalMulti
+    * (dmgBoostMultiplier + x.BASIC_BOOST)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
+    * ((basicVulnerability) * min(1.0f, x.CR + x.BASIC_CR_BOOST) * (1.0f + x.CD + x.BASIC_CD_BOOST) + basicVulnerability * (1.0f - min(1.0f, x.CR + x.BASIC_CR_BOOST)))
+    * (1.0f - (baseResistance - x.BASIC_RES_PEN));
+
+
+  x.SKILL_DMG = x.SKILL_DMG
+    * universalMulti
+    * (dmgBoostMultiplier + x.SKILL_BOOST)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.SKILL_DEF_PEN)
+    * ((skillVulnerability) * min(1.0f, x.CR + x.SKILL_CR_BOOST) * (1.0f + x.CD + x.SKILL_CD_BOOST) + skillVulnerability * (1.0f - min(1.0f, x.CR + x.SKILL_CR_BOOST)))
+    * (1.0f - (baseResistance - x.SKILL_RES_PEN));
+
+
+  x.ULT_DMG = x.ULT_DMG
+    * universalMulti
+    * (dmgBoostMultiplier + x.ULT_BOOST)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN)
+    * ((ultVulnerability) * min(1.0f, x.CR + x.ULT_CR_BOOST) * (1.0f + x.CD + x.ULT_CD_BOOST) + ultVulnerability * (1.0f - min(1.0f, x.CR + x.ULT_CR_BOOST)))
+    * (1.0f - (baseResistance - x.ULT_RES_PEN));
+
+  // Calculate damage
+
+  results[index] = x;
 
 //  if (relicSetSolutionsMatrix[relicSetIndex] != 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] != 1) {
 //    // Fail
-//    results[index] = f32(params.lSize);
 //  } else {
 //    // Pass
-//    results[index] = f32(c.CD);
 //  }
 }
 
@@ -560,7 +669,6 @@ fn p4(n: i32) -> f32 {
   return f32(n >> 2);
 }
 
-
-//function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
-//  return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
-//}
+fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore: f32, additionalPen: f32) -> f32 {
+  return (cLevel + 20.0f) / ((eLevel + 20.0f) * max(0.0f, 1.0f - defReduction - defIgnore - additionalPen) + cLevel + 20.0f);
+}

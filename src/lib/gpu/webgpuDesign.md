@@ -76,7 +76,7 @@ where each value is 0 (no set), 1 (2p), or 2(4p)
 
 ## Conditionals
 
-Stat summation can process as normal:
+Stat summation can proceed as normal:
 
 ```wgsl
   c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;

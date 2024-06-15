@@ -13,6 +13,7 @@ import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTa
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { experiment } from 'lib/gpu/webgpu'
 
 let CANCEL = false
 
@@ -62,7 +63,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: function(request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
@@ -184,7 +185,7 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
-          window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource()})
+          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
           return
@@ -199,6 +200,15 @@ export const Optimizer = {
 
       WorkerPool.execute(task, callback)
     }
+
+    experiment({
+      params: params,
+      request: request,
+      relics: relics,
+      permutations: permutations,
+      relicSetSolutions: relicSetSolutions,
+      ornamentSetSolutions: ornamentSetSolutions,
+    })
   },
 }
 

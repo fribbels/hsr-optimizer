@@ -521,13 +521,15 @@ export class RelicScorer {
       }
       const candidateSubstats: [string, number][] = scoringMetadata.sortedSubstats.filter((x) => relic.main.stat !== x[0]) // All substats that could possibly exist on the relic
       const bestRolledSubstats: string[] = [] // Array of all substats possibly on relic sharing highest weight
-      const bestWeight = candidateSubstats[0][1]
 
       const validUpgrades = {
         ...Utils.arrayToMap(relic.substats, 'stat'),
         ...Utils.stringArrayToMap(bestNewSubstats),
       }
-      for (const [stat, weight] of candidateSubstats) {
+
+      const upgradeCandidates = candidateSubstats.filter((candidateSubstats) => validUpgrades[candidateSubstats[0]])
+      const bestWeight = upgradeCandidates[0][1]
+      for (const [stat, weight] of upgradeCandidates) {
         if (validUpgrades[stat] && weight >= bestWeight) {
           bestRolledSubstats.push(stat)
         }

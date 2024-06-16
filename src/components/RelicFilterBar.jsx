@@ -169,10 +169,11 @@ export default function RelicFilterBar(props) {
       }
     }
 
-    DB.setRelics(relics)
+    // Clone the relics to refresh the sort
+    DB.setRelics(Utils.clone(relics))
 
     if (id && window.relicsGrid?.current?.api) {
-      const isSorted = window.relicsGrid.current.columnApi.getColumnState().filter((s) => s.sort !== null)
+      const isSorted = window.relicsGrid.current.api.getColumnState().filter((s) => s.sort !== null)
 
       if (!isSorted) {
         window.relicsGrid.current.api.applyColumnState({

@@ -376,9 +376,9 @@ export class RelicScorer {
       maxWeight -= mainStatFreeRoll(relic.part, relic.main.stat, this.getRelicScoreMeta(id))
     }
     return {
-      bestPct: Math.max(0, 100 * Utils.precisionRound(score.best) / maxWeight),
-      averagePct: Math.max(0, 100 * Utils.precisionRound(score.average) / maxWeight),
-      worstPct: Math.max(0, 100 * Utils.precisionRound(score.worst) / maxWeight),
+      bestPct: Math.max(0, Utils.precisionRound(100 * score.best / maxWeight)),
+      averagePct: Math.max(0, Utils.precisionRound(100 * score.average / maxWeight)),
+      worstPct: Math.max(0, Utils.precisionRound(100 * score.worst / maxWeight)),
       meta: score.meta,
     }
   }
@@ -486,6 +486,11 @@ export class RelicScorer {
     for (let i = relic.substats.length; i < 4; i++) {
       fakesubs[i].stat = remainingSubStats[0][0]
       fakesubs[i].value = (averageScore * (1 + remainingRolls / 4) / (remainingSubStats[0][1] * scaling[remainingSubStats[0][0]]))
+
+      // This is a band-aid patch for the case where all the remainingSubStats with value are taken up by the existing subs
+      // So the denominator is 0. We should set it to 0 in this case?
+      // TODO: Rewrite/clean up the scoring logic
+      fakesubs[i].value = isNaN(fakesubs[i].value) ? 0 : fakesubs[i].value
     }
     const averageCase = parseFloat(this.score(fakeRelic(relic.grade, relic.enhance, relic.part, relic.main.stat, generateSubStats(
       relic.grade, fakesubs[0], fakesubs[1], fakesubs[2], fakesubs[3],

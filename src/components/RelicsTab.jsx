@@ -272,7 +272,14 @@ export default function RelicsTab() {
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 75 }
+      {
+        field: field.value,
+        headerName: field.column,
+        cellStyle: Gradient.getRelicGradient,
+        valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor,
+        filter: 'agNumberColumnFilter',
+        width: 75,
+      }
     )),
   ), [flatValueColumnOptions, valueColumns])
 

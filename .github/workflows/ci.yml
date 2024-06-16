@@ -11,7 +11,7 @@ jobs:
                                # using "pandoc/latex" because of dependencies
                                # used in the specific "build.sh"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Find and Replace homepage
         uses: jacobtomlinson/gha-find-replace@v3
         with:

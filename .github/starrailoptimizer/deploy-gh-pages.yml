@@ -12,10 +12,10 @@ jobs:
       GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
       GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version: 20
           cache: 'npm'
       - run: git config --global user.email "starrailoptimizer@gmail.com"
       - run: git config --global user.name "GH Actions"

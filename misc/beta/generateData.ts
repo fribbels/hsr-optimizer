@@ -5,12 +5,12 @@ import fs from 'fs'
 // npx tsx misc/beta/generateData.ts
 
 const unreleasedIds = [
-  '1310',
-  '1314',
-  '21045',
-  '23025',
-  '23028',
-  '24004',
+  // '1310',
+  // '1314',
+  // '21045',
+  // '23025',
+  // '23028',
+  // '24004',
 ]
 
 const {

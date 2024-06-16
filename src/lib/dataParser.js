@@ -1,8 +1,4 @@
-import characters from 'data/characters.json'
-import characterPromotions from 'data/character_promotions.json'
-import lightCones from 'data/light_cones.json'
-import lightConePromotions from 'data/light_cone_promotions.json'
-import lightConeRanks from 'data/en/light_cone_ranks.json'
+import gameData from 'data/game_data.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
@@ -10,6 +6,9 @@ import { Parts, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
+
+const characters = gameData.characters
+const lightCones = gameData.lightCones
 
 export const UnreleasedSets = {}
 
@@ -56,37 +55,29 @@ export const DataParser = {
       // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
 
       // Delete unreleased characters
-      for (const [key, value] of Object.entries(characters)) {
-        if (value.unreleased) {
-          delete characters[key]
+      for (const character of Object.values(characters)) {
+        if (character.unreleased) {
+          delete characters[character.id]
         }
       }
 
       // Delete unreleased light cones
-      for (const [key, value] of Object.entries(lightCones)) {
-        if (value.unreleased) {
-          delete lightCones[key]
+      for (const lightCone of Object.values(lightCones)) {
+        if (lightCone.unreleased) {
+          delete lightCones[lightCone.id]
         }
       }
     }
 
-    for (const [id, characterData] of Object.entries(characters)) {
-      characterData.promotions = parseBaseStatsByLevel(characterPromotions[id])
-
-      delete characterData.ranks
-      delete characterData.skills
-      delete characterData.skill_trees
-    }
-
     const lightConeSuperimpositions = getSuperimpositions()
-    const lightConeRanks = getLightConeRanks()
     const lightConeCenters = getLightConeOverrideCenter()
 
-    for (const [id, lcData] of Object.entries(lightCones)) {
+    for (const lightCone of Object.values(lightCones)) {
+      const id = lightCone.id
       if (lightConeSuperimpositions[id]) {
-        lcData.superimpositions = lightConeSuperimpositions[id]
+        lightCone.superimpositions = lightConeSuperimpositions[id]
       } else {
-        lcData.superimpositions = {}
+        lightCone.superimpositions = {}
       }
 
       let imageCenter = 200
@@ -94,10 +85,8 @@ export const DataParser = {
         imageCenter = lightConeCenters[id]
       }
 
-      lcData.promotions = parseBaseLightConeStatsByLevel(lightConePromotions[id])
-      lcData.ranks = lightConeRanks[id]
-      lcData.displayName = lcData.name
-      lcData.imageCenter = imageCenter
+      lightCone.displayName = lightCone.name
+      lightCone.imageCenter = imageCenter
     }
 
     const characterTraces = getOverrideTraces()
@@ -130,8 +119,6 @@ export const DataParser = {
 
     const data = {
       characters: characters,
-      characterPromotions: characterPromotions,
-      nicknames: characterPromotions,
       lightCones: lightCones,
       relics: relics,
     }
@@ -156,47 +143,6 @@ function getDisplayName(character) {
     return displayNameMapping[character.id]
   }
   return character.name
-}
-
-function parseBaseLightConeStatsByLevel(promotions) {
-  const base = {}
-  for (let i = 1; i <= 80; i++) {
-    let valueIndex = (Math.floor((i - 1) / 10) - 1)
-    if (i <= 20) valueIndex = 0
-    if (i > 79) valueIndex = 6
-
-    const statScaling = promotions.values[valueIndex]
-
-    base[i] = {
-      [Stats.HP]: statScaling['hp'].base + statScaling['hp'].step * (i - 1),
-      [Stats.ATK]: statScaling['atk'].base + statScaling['atk'].step * (i - 1),
-      [Stats.DEF]: statScaling['def'].base + statScaling['def'].step * (i - 1),
-    }
-  }
-
-  return base
-}
-
-function parseBaseStatsByLevel(promotions) {
-  const base = {}
-  for (let i = 1; i <= 80; i++) {
-    let valueIndex = (Math.floor((i - 1) / 10) - 1)
-    if (i <= 20) valueIndex = 0
-    if (i > 79) valueIndex = 6
-
-    const statScaling = promotions.values[valueIndex]
-
-    base[i] = {
-      [Stats.HP]: statScaling['hp'].base + statScaling['hp'].step * (i - 1),
-      [Stats.ATK]: statScaling['atk'].base + statScaling['atk'].step * (i - 1),
-      [Stats.CR]: statScaling['crit_rate'].base + statScaling['crit_rate'].step * (i - 1),
-      [Stats.CD]: statScaling['crit_dmg'].base + statScaling['crit_dmg'].step * (i - 1),
-      [Stats.DEF]: statScaling['def'].base + statScaling['def'].step * (i - 1),
-      [Stats.SPD]: statScaling['spd'].base + statScaling['spd'].step * (i - 1),
-    }
-  }
-
-  return base
 }
 
 function getSuperimpositions() {
@@ -5867,8 +5813,4 @@ function getScoringMetadata() {
       sortOption: SortOption.BE,
     },
   }
-}
-
-const getLightConeRanks = () => {
-  return lightConeRanks
 }

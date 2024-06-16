@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import { PathToClass } from 'lib/constants.ts'
 import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
@@ -69,7 +68,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
-    if (currentFilters.path.length && !currentFilters.path.map((x) => PathToClass[x]).includes(x.path)) {
+    if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
     if (!x.label.toLowerCase().includes(currentFilters.name) || !x.displayName.toLowerCase().includes(currentFilters.name)) {

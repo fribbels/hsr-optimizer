@@ -1,4 +1,10 @@
-// Auto Generated
+export function exportRaw() {
+  return {
+    characters: _avatar,
+    lightCones: _weapon,
+    relics: _relic,
+  }
+}
 
 var _avatar = [
   {

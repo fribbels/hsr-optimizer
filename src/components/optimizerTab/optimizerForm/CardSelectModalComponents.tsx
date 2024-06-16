@@ -2,7 +2,7 @@ import { Flex, theme, Typography } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementToDamage, PathToClass } from 'lib/constants.ts'
+import { ElementToDamage, PathNames } from 'lib/constants.ts'
 import { ReactElement } from 'react'
 
 const { useToken } = theme
@@ -66,7 +66,7 @@ export const CardGridItemContent = (props: {
 }
 
 export function generatePathTags() {
-  return Object.keys(PathToClass).map((x) => {
+  return Object.keys(PathNames).map((x) => {
     return {
       key: x,
       display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,

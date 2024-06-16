@@ -454,30 +454,22 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-export const PathToClass = {
-  Abundance: 'Priest',
-  Destruction: 'Warrior',
-  Erudition: 'Mage',
-  Harmony: 'Shaman',
-  Hunt: 'Rogue',
-  Nihility: 'Warlock',
-  Preservation: 'Knight',
-}
-export const ClassToPath = {
-  Priest: 'Abundance',
-  Warrior: 'Destruction',
-  Mage: 'Erudition',
-  Shaman: 'Harmony',
-  Rogue: 'Hunt',
-  Warlock: 'Nihility',
-  Knight: 'Preservation',
+// TODO: This shouldnt be used anymore
+export const PathNames = {
+  Abundance: 'Abundance',
+  Destruction: 'Destruction',
+  Erudition: 'Erudition',
+  Harmony: 'Harmony',
+  Hunt: 'Hunt',
+  Nihility: 'Nihility',
+  Preservation: 'Preservation',
 }
 
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,
   Fire: Stats.Fire_DMG,
   Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
+  Lightning: Stats.Lightning_DMG,
   Wind: Stats.Wind_DMG,
   Quantum: Stats.Quantum_DMG,
   Imaginary: Stats.Imaginary_DMG,
@@ -487,7 +479,7 @@ export const ElementToResPenType = {
   Physical: 'PHYSICAL_RES_PEN',
   Fire: 'FIRE_RES_PEN',
   Ice: 'ICE_RES_PEN',
-  Thunder: 'LIGHTNING_RES_PEN',
+  Lightning: 'LIGHTNING_RES_PEN',
   Wind: 'WIND_RES_PEN',
   Quantum: 'QUANTUM_RES_PEN',
   Imaginary: 'IMAGINARY_RES_PEN',

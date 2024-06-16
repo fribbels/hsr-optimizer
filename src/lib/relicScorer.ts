@@ -117,10 +117,10 @@ export class RelicScorer {
     if (!scoringMetadata) {
       scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
 
-      const level80Stats = DB.getMetadata().characters[id].promotions[80]
-      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (level80Stats[Constants.Stats.HP] * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (level80Stats[Constants.Stats.ATK] * 2 * 0.03888)
-      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (level80Stats[Constants.Stats.DEF] * 2 * 0.04860)
+      const baseStats = DB.getMetadata().characters[id].stats
+      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * 38 / (baseStats[Constants.Stats.HP] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * 19 / (baseStats[Constants.Stats.ATK] * 2 * 0.03888)
+      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * 19 / (baseStats[Constants.Stats.DEF] * 2 * 0.04860)
 
       scoringMetadata.sortedSubstats = Object.entries(scoringMetadata.stats)
         .filter((x) => possibleSubstats.has(x[0]))
@@ -464,13 +464,14 @@ export class RelicScorer {
     // value = average score of 1 midroll * rolls / (weight * scaling)
 
     let averageScore: number = 0
+    const baseStats = DB.getMetadata().characters[id].stats
     const scaling = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[id].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[id].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[id].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
+      [Constants.Stats.HP]: 1 / (baseStats[Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (baseStats[Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (baseStats[Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5606,
@@ -594,13 +595,14 @@ export class RelicScorer {
       }
     }
 
+    const baseStats = DB.getMetadata().characters[characterId].stats
     const scaling = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[characterId].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
+      [Constants.Stats.HP]: 1 / (baseStats[Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (baseStats[Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (baseStats[Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5606,

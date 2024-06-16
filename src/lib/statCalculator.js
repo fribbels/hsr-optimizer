@@ -52,7 +52,6 @@ export const StatCalculator = {
 
     const form = character.form
     const characterMetadata = DB.getMetadata().characters[character.id]
-    const characterLevel = 80
 
     let lightConeMetadata
     let lightConeLevel
@@ -64,7 +63,7 @@ export const StatCalculator = {
       lightConeMetadata = DB.getMetadata().lightCones[form.lightCone]
       lightConeLevel = 80
       lightConeSuperimposition = form.lightConeSuperimposition
-      lightConeStats = lightConeMetadata.promotions[lightConeLevel]
+      lightConeStats = lightConeMetadata.stats
       superimpositionStats = lightConeMetadata.superimpositions[lightConeSuperimposition]
     } else {
       console.log('No light cone selected')
@@ -75,7 +74,7 @@ export const StatCalculator = {
     }
 
     const traceStats = characterMetadata.traces
-    const characterStats = characterMetadata.promotions[characterLevel]
+    const characterStats = characterMetadata.stats
 
     const element = characterMetadata.element
     const elementalMultipliers = [

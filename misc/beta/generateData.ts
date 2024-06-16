@@ -2,6 +2,17 @@ import { exportRaw } from './raw-data'
 
 import fs from 'fs'
 
+// npx tsx misc/beta/generateData.ts
+
+const unreleasedIds = [
+  '1310',
+  '1314',
+  '21045',
+  '23025',
+  '23028',
+  '24004',
+]
+
 const {
   characters,
   relics,
@@ -15,13 +26,6 @@ const arrayToMap = (array, key) => {
   }, {})
 }
 
-// [Stats.Physical_DMG]: 'Physical',
-//   [Stats.Fire_DMG]: 'Fire',
-//   [Stats.Ice_DMG]: 'Ice',
-//   [Stats.Lightning_DMG]: 'Lightning',
-//   [Stats.Wind_DMG]: 'Wind',
-//   [Stats.Quantum_DMG]: 'Quantum',
-//   [Stats.Imaginary_DMG]: 'Imaginary',
 const elementMapping = {
   'Phys': 'Physical',
   'Fire': 'Fire',
@@ -32,6 +36,8 @@ const elementMapping = {
   'Imaginary': 'Imaginary',
 }
 const cleanedCharacters = characters.map(character => {
+  const id = '' + character['_id']
+  const unreleased = unreleasedIds.includes(id)
   const stats = {
     'HP': character['Stats']['HP'],
     'ATK': character['Stats']['ATK'],
@@ -41,31 +47,36 @@ const cleanedCharacters = characters.map(character => {
     'CRIT DMG': 0.50,
   }
   return {
-    id: '' + character['_id'],
+    id: id,
     name: character['Name'],
     rarity: character['Rarity'],
     path: character['Path'],
     element: elementMapping[character['Element']],
     max_sp: character['SP'],
     stats: stats,
+    unreleased: unreleased
   }
 })
 const characterMap = arrayToMap(cleanedCharacters, 'id')
 
 const cleanedLightcones = lightCones.map(lightCone => {
+  const id = '' + lightCone['_id']
+  const unreleased = unreleasedIds.includes(id)
   return {
-    id: '' + lightCone['_id'],
+    id: id,
     name: lightCone['Name'],
     rarity: lightCone['Rarity'],
     path: lightCone['Path'],
     stats: lightCone['Stats'],
+    unreleased: unreleased
   }
 })
 const lightConeMap = arrayToMap(cleanedLightcones, 'id')
 
 const merged = {
   characters: characterMap,
-  lightCones: lightConeMap
+  lightCones: lightConeMap,
+  // relics: relics
 }
 
 fs.writeFile('./src/data/game_data.json', JSON.stringify(merged, null, 2), (err) => {

@@ -362,13 +362,12 @@ export const DB = {
       // Unset light cone fields for mismatched light cone path
       const dbLightCone = dbLightCones[character.form?.lightCone] || {}
       const dbCharacter = dbCharacters[character.id]
-      // TODO: Reenable this later
-      // if (dbLightCone?.path != dbCharacter?.path) {
-      //   character.form.lightCone = undefined
-      //   character.form.lightConeLevel = 80
-      //   character.form.lightConeSuperimposition = 1
-      //   character.form.lightConeConditionals = {}
-      // }
+      if (dbLightCone?.path != dbCharacter?.path) {
+        character.form.lightCone = undefined
+        character.form.lightConeLevel = 80
+        character.form.lightConeSuperimposition = 1
+        character.form.lightConeConditionals = {}
+      }
 
       // Deduplicate main stat filter values
       for (const part of Object.keys(Constants.Parts)) {

@@ -745,3 +745,5 @@ export const SETTINGS_TEAM = 'Settings'
 
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'
+
+export const BETA_UPDATE = 'All calculations are subject to change. Last updated v1 06-17-2024.'

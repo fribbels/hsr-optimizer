@@ -27,9 +27,9 @@ function presetCharacters() {
   return [
     { characterId: char('Firefly'), lightConeId: lc('Whereabouts Should Dreams Rest') },
     { characterId: char('Jade'), lightConeId: lc('Yet Hope Is Priceless') },
-    { characterId: char('Robin'), lightConeId: lc('Flowing Nightglow') },
-    { characterId: char('Boothill'), lightConeId: lc('Sailing Towards a Second Life') },
-    { characterId: char('Stelle (Harmony)'), lightConeId: lc('Memories of the Past') },
+    { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
+    { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
+    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

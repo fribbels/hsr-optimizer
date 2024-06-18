@@ -80,6 +80,9 @@ function generateCharacterBaseParams(request, params) {
   const characterStats = characterMetadata.stats
 
   params.element = characterMetadata.element
+  params.path = characterMetadata.path
+
+  request.path = params.path
 
   const baseStats = {
     base: {

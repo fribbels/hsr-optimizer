@@ -38,10 +38,10 @@ const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
-      UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
-      UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
+      // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
+      // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
+      // UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
+      // UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
       // Delete unreleased sets
       // delete Constants.SetsRelics.TheWindSoaringValorous
@@ -136,6 +136,7 @@ const displayNameMapping = {
   8005: 'Caelus (Harmony)',
   8006: 'Stelle (Harmony)',
   1213: 'Imbibitor Lunae',
+  1224: 'March 7th (Hunt)',
 }
 
 function getDisplayName(character) {
@@ -358,6 +359,13 @@ function getSuperimpositions() {
       4: { [Constants.Stats.BE]: 0.49 },
       5: { [Constants.Stats.BE]: 0.56 },
     },
+    21046: {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.20 },
+      3: { [Constants.Stats.ATK_P]: 0.24 },
+      4: { [Constants.Stats.ATK_P]: 0.28 },
+      5: { [Constants.Stats.ATK_P]: 0.32 },
+    },
     22000: {
       1: { [Stats.EHR]: 0.20 },
       2: { [Stats.EHR]: 0.25 },
@@ -552,6 +560,20 @@ function getSuperimpositions() {
       4: { [Constants.Stats.CR]: 0.25 },
       5: { [Constants.Stats.CR]: 0.28 },
     },
+    23029: {
+      1: { [Constants.Stats.EHR]: 0.60 },
+      2: { [Constants.Stats.EHR]: 0.70 },
+      3: { [Constants.Stats.EHR]: 0.80 },
+      4: { [Constants.Stats.EHR]: 0.90 },
+      5: { [Constants.Stats.EHR]: 1.00 },
+    },
+    23030: {
+      1: { [Constants.Stats.CD]: 0.36 },
+      2: { [Constants.Stats.CD]: 0.42 },
+      3: { [Constants.Stats.CD]: 0.48 },
+      4: { [Constants.Stats.CD]: 0.54 },
+      5: { [Constants.Stats.CD]: 0.60 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -620,7 +642,7 @@ function getLightConeOverrideCenter() {
     21009: 180,
     21010: 180,
     21011: 140,
-    21012: 190,
+    21012: 160,
     21013: 200,
     21014: 140,
     21015: 140,
@@ -654,6 +676,7 @@ function getLightConeOverrideCenter() {
     21043: 210,
     21044: 150,
     21045: 160,
+    21046: 135,
     22000: 290,
     22001: 220,
     22002: 160,
@@ -686,6 +709,7 @@ function getLightConeOverrideCenter() {
     23026: 200,
     23027: 180,
     23028: 170,
+    23029: 140,
     24000: 170,
     24001: 270,
     24002: 140,
@@ -880,6 +904,21 @@ function getOverrideTraces() {
       [Stats.HP_P]: 0.28,
       [Stats.RES]: 0.18,
       [Stats.SPD]: 5,
+    },
+    1218: { // Jiaoqiu
+      [Stats.EHR]: 0.28,
+      [Stats.Fire_DMG]: 0.144,
+      [Stats.SPD]: 5,
+    },
+    1221: { // Yunli
+      [Stats.ATK_P]: 0.28,
+      [Stats.HP_P]: 0.18,
+      [Stats.CR]: 0.067,
+    },
+    1224: { // March 8th
+      [Stats.ATK_P]: 0.28,
+      [Stats.CR]: 0.12,
+      [Stats.DEF_P]: 0.125,
     },
     1301: { // Gallagher
       [Stats.BE]: 0.133,
@@ -1127,6 +1166,18 @@ function getOverrideImageCenter() {
     },
     1217: { // Huohuo
       x: 950,
+      y: 950,
+    },
+    1218: { // Jiaoqiu
+      x: 950,
+      y: 900,
+    },
+    1221: { // Yunli
+      x: 1024,
+      y: 1024,
+    },
+    1224: { // March 8th
+      x: 825,
       y: 950,
     },
     1301: { // Gallagher
@@ -4217,6 +4268,267 @@ function getScoringMetadata() {
       },
       presets: [],
       sortOption: SortOption.EHP,
+    },
+    1218: { // Jiaoqiu
+      stats: {
+        [Constants.Stats.ATK]: 1,
+        [Constants.Stats.ATK_P]: 1,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0,
+        [Constants.Stats.EHR]: 1,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 1,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.EHR,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Fire_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.ERR,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.EHR,
+    },
+    1221: { // Yunli
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 1,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Physical_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.FUA,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        formula: {
+          BASIC: 0,
+          SKILL: 1,
+          ULT: 0,
+          FUA: 1,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '21016', // Trend
+            characterEidolon: 0,
+            lightConeSuperimposition: 5,
+          },
+        ],
+      },
+    },
+    1224: { // March 8th
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+        [Constants.Stats.ERR]: 0,
+        [Constants.Stats.OHB]: 0,
+        [Constants.Stats.Physical_DMG]: 0,
+        [Constants.Stats.Fire_DMG]: 0,
+        [Constants.Stats.Ice_DMG]: 0,
+        [Constants.Stats.Lightning_DMG]: 0,
+        [Constants.Stats.Wind_DMG]: 0,
+        [Constants.Stats.Quantum_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Imaginary_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK,
+        ],
+        breakpoints: {},
+        maxBonusRolls: {},
+        formula: {
+          BASIC: 1,
+          SKILL: 0,
+          ULT: 1,
+          FUA: 1,
+          DOT: 0,
+          BREAK: 0,
+        },
+        relicSets: [
+          [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1301: { // Gallagher
       stats: {

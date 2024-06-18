@@ -629,6 +629,57 @@
       },
       "unreleased": false
     },
+    "1218": {
+      "id": "1218",
+      "name": "Jiaoqiu",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Fire",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 601.524,
+        "DEF": 509.355,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1221": {
+      "id": "1221",
+      "name": "Yunli",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "max_sp": 240,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 679.14,
+        "DEF": 460.845,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1224": {
+      "id": "1224",
+      "name": "March 7th",
+      "rarity": 4,
+      "path": "Hunt",
+      "element": "Imaginary",
+      "max_sp": 110,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 564.48,
+        "DEF": 418.95,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1301": {
       "id": "1301",
       "name": "Gallagher",
@@ -797,7 +848,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1312": {
       "id": "1312",
@@ -831,7 +882,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1315": {
       "id": "1315",
@@ -1756,7 +1807,19 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
+    },
+    "21046": {
+      "id": "21046",
+      "name": "Poised to Bloom",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
     },
     "22000": {
       "id": "22000",
@@ -2104,7 +2167,7 @@
         "ATK": 476.28,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23026": {
       "id": "23026",
@@ -2140,7 +2203,31 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
+    },
+    "23029": {
+      "id": "23029",
+      "name": "Those Many Springs",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23030": {
+      "id": "23030",
+      "name": "Dance at Sunset",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
     },
     "24000": {
       "id": "24000",
@@ -2200,7 +2287,7 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     }
   }
 }

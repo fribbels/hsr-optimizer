@@ -4441,10 +4441,10 @@ function getScoringMetadata() {
         [Constants.Stats.Physical_DMG]: 0,
         [Constants.Stats.Fire_DMG]: 0,
         [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 1,
+        [Constants.Stats.Lightning_DMG]: 0,
         [Constants.Stats.Wind_DMG]: 0,
         [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
+        [Constants.Stats.Imaginary_DMG]: 1,
       },
       parts: {
         [Constants.Parts.Body]: [

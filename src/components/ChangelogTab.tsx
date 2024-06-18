@@ -109,7 +109,7 @@ function getChangelogContent() {
       date: '06-18-2024',
       content: [
         leaks('Added 2.4 characters and light cones'),
-        'beta.webp',
+        leaks('beta.webp'),
         'Changed DPS Score Improvements -> Damage improvements and updated the percentage to use damage',
         'damageImprovements.webp',
         'Added relic counter on the relics tab grid',

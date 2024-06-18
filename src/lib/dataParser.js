@@ -136,7 +136,7 @@ const displayNameMapping = {
   8005: 'Caelus (Harmony)',
   8006: 'Stelle (Harmony)',
   1213: 'Imbibitor Lunae',
-  1224: 'March 8th',
+  1224: 'March 7th (Hunt)',
 }
 
 function getDisplayName(character) {
@@ -642,7 +642,7 @@ function getLightConeOverrideCenter() {
     21009: 180,
     21010: 180,
     21011: 140,
-    21012: 190,
+    21012: 160,
     21013: 200,
     21014: 140,
     21015: 140,

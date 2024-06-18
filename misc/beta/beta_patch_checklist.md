@@ -14,5 +14,5 @@ Checklist items for beta patches:
   * Light cones
     * change to lightconemediumicon
     * lightconemaxfigures -> light_cone_portrait
-    * -> icon/light_cone
+    * images/itemfigures/lightcone -> icon/light_cone
   * Fix char/lc offsets

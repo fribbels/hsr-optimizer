@@ -7,7 +7,7 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesCd = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO BETA_UPDATE
+  const sValuesCd = [0.16, 0.20, 0.24, 0.28, 0.32]
 
   const content: ContentItem[] = [
     {

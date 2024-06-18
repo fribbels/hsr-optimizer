@@ -102,6 +102,9 @@ import AfterTheCharmonyFall from 'lib/conditionals/lightcone/4star/AfterTheCharm
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
+import PoisedToBloom from 'lib/conditionals/lightcone/4star/PoisedToBloom'
+import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
+import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -133,6 +136,9 @@ const fiveStar = {
   23026: FlowingNightglow,
   23027: SailingTowardsASecondLife,
   23028: YetHopeIsPriceless,
+  23029: ThoseManySprings,
+  23030: DanceAtSunset,
+
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
   24002: TextureOfMemories,
@@ -187,6 +193,7 @@ const fourStar = {
   21043: ConcertForTwo,
   21044: BoundlessChoreo,
   21045: AfterTheCharmonyFall,
+  21046: PoisedToBloom,
 
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,
@@ -225,7 +232,7 @@ export const lightConeOptionMapping = {
 
 export const LightConeConditionals = {
   get: (request) => {
-    let lcFn = lightConeOptionMapping[request.lightCone]
+    const lcFn = lightConeOptionMapping[request.lightCone]
     if (!lcFn) {
       return {
         content: () => [],

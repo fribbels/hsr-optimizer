@@ -7,8 +7,8 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { BETA_UPDATE } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesVulnerability = [0.10, 0.10, 0.10, 0.10, 0.10]
-  const sValuesVulnerabilityEnhanced = [0.18, 0.18, 0.18, 0.18, 0.18]
+  const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
+  const sValuesVulnerabilityEnhanced = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const content: ContentItem[] = [
     {

@@ -50,6 +50,7 @@ export type Form = {
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: any
+  path?: string
 
   weights: {
     [key: string]: number

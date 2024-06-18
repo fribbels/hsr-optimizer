@@ -1,4 +1,4 @@
-import { Form } from 'antd'
+import { Flex, Form } from 'antd'
 import React, { useEffect } from 'react'
 import { Optimizer } from 'lib/optimizer/optimizer'
 import { Constants } from 'lib/constants.ts'
@@ -15,16 +15,17 @@ import { CharacterConditionalDisplay } from 'components/optimizerTab/conditional
 import { LightConeConditionalDisplay } from 'components/optimizerTab/conditionals/LightConeConditionalDisplay'
 import TeammateCard from 'components/optimizerTab/optimizerForm/TeammateCard'
 import CharacterSelectorDisplay from 'components/optimizerTab/optimizerForm/CharacterSelectorDisplay.tsx'
-import EnemyOptionsDisplay from 'components/optimizerTab/optimizerForm/EnemyOptionsDisplay'
 import RelicMainSetFilters from 'components/optimizerTab/optimizerForm/RelicMainSetFilters'
 import { SubstatWeightFilters } from 'components/optimizerTab/optimizerForm/SubstatWeightFilters'
 import { MinMaxRatingFilters, MinMaxStatFilters } from 'components/optimizerTab/optimizerForm/ResultFilters'
-import { CombatBuffsFilters } from 'components/optimizerTab/optimizerForm/CombatBuffsFilters'
+import { CombatBuffsDrawer } from 'components/optimizerTab/optimizerForm/CombatBuffsDrawer'
 import { OptimizerTabCharacterPanel } from 'components/optimizerTab/optimizerForm/OptimizerTabCharacterPanel'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import FilterContainer from 'components/optimizerTab/FilterContainer.tsx'
 import { StatSimulationDisplay } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { ComboFilters } from 'components/optimizerTab/optimizerForm/ComboFilter'
+import { EnemyConfigurationsDrawer } from 'components/optimizerTab/optimizerForm/EnemyConfigurationsDrawer'
+import { AdvancedOptionsPanel } from 'components/optimizerTab/optimizerForm/AdvancedOptionsPanel'
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -154,8 +155,6 @@ export default function OptimizerForm() {
 
             <FormCard justify="space-between">
               <LightConeConditionalDisplayWrapper />
-
-              <EnemyOptionsDisplay />
             </FormCard>
 
             <FormCard>
@@ -184,7 +183,8 @@ export default function OptimizerForm() {
 
             <FormCard>
               <ComboFilters />
-              <CombatBuffsFilters />
+              <CombatBuffsDrawer />
+              <EnemyConfigurationsDrawer />
             </FormCard>
           </FormRow>
 
@@ -242,9 +242,12 @@ function LightConeConditionalDisplayWrapper() {
   }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
 
   return (
-    <LightConeConditionalDisplay
-      id={optimizerFormSelectedLightCone}
-      superImposition={optimizerFormSelectedLightConeSuperimposition}
-    />
+    <Flex vertical justify="space-between" style={{ height: '100%', marginBottom: 8 }}>
+      <LightConeConditionalDisplay
+        id={optimizerFormSelectedLightCone}
+        superImposition={optimizerFormSelectedLightConeSuperimposition}
+      />
+      <AdvancedOptionsPanel />
+    </Flex>
   )
 }

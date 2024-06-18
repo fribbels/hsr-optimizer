@@ -46,7 +46,7 @@ export function calculateDamage(c, request, params) {
   const fuaVulnerability = 1 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY
   const dotVulnerability = 1 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY
 
-  const ENEMY_EFFECT_RES = 0.20
+  const ENEMY_EFFECT_RES = request.enemyEffectResistance
   // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
 
   // For stacking dots where the first stack has extra value

@@ -13,10 +13,9 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   // lightcone passives rendered
   await expect(page.getByRole('main')).toContainText('Enemy shocked / wind sheared')
   // enemy options rendered
-  await expect(page.getByRole('main')).toContainText('Enemy options')
-  await expect(page.getByRole('main')).toContainText('Elemental weakness')
+  await expect(page.getByRole('main')).toContainText('Enemy configurations')
   // optimizer options rendered
-  await expect(page.getByRole('main')).toContainText('Maxed main stat')
+  await expect(page.getByRole('main')).toContainText('Boost main stat')
 
   // nav back to characters
   await page.getByRole('menuitem', { name: 'Characters' }).click()
@@ -26,6 +25,5 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   await expect(page.getByRole('main')).toContainText('Blade')
   await expect(page.getByRole('main')).toContainText('Hellscape state')
   await expect(page.getByRole('main')).toContainText('HP% lost total')
-  await expect(page.getByRole('main')).toContainText('Elemental weakness')
-  await expect(page.getByRole('main')).toContainText('Maxed main stat')
+  await expect(page.getByRole('main')).toContainText('Boost main stat')
 })

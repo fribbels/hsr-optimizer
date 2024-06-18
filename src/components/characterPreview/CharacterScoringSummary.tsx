@@ -73,7 +73,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       const rollValue = Utils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat, 0.8))
 
       rows.push(
-        <Flex key={Utils.randomId()} align="center" gap={5}>
+        <Flex key={Utils.randomId()} align="center" gap={10}>
           <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }} />
           <pre
             style={{
@@ -85,8 +85,11 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ margin: 0, width: 250 }}>
             {`Score: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
           </pre>
-          <pre style={{ margin: 0, width: 250 }}>
+          <pre style={{ margin: 0, width: 300 }}>
             {`Damage: +${(upgradeSimScore - originalScore).toFixed(1)} -> ${upgradeSimScore.toFixed(1)}`}
+          </pre>
+          <pre style={{ margin: 0, width: 150 }}>
+            {`Damage %: +${((upgradeSimScore - originalScore) / originalScore * 100).toFixed(3)}%`}
           </pre>
         </Flex>,
       )
@@ -348,8 +351,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why is a character scoring low?</h4>
           <p>
-            The `DPS score improvements` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
-            the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
+            The `Damage improvements` section will give a quick overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll.
+            For a more detailed explanation, the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
             Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
           </p>
 
@@ -636,17 +639,19 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
 export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
   const result = props.result
   const rows: ReactElement[] = []
+  const baseDmg = result.originalSimResult.simScore
   const basePercent = result.percent
   const statUpgrades = result.substatUpgrades.filter((statUpgrade) => statUpgrade.stat != Stats.SPD)
   for (const statUpgrade of statUpgrades.slice(0, 5)) {
     const stat = statUpgrade.stat!
+    const upgradeDmg = statUpgrade.simulationResult.simScore / baseDmg - 1
 
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <StatText>{`+1x ${StatsToShortSpaced[stat]}`}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((statUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
@@ -657,26 +662,29 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
     const part = mainUpgrade.part
     const stat = mainUpgrade.stat
+    const upgradeDmg = mainUpgrade.simulationResult.simScore / baseDmg - 1
 
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
 
   const setUpgrade = result.setUpgrades[0]
   if (setUpgrade.percent! - basePercent > 0) {
+    const upgradeDmg = setUpgrade.simulationResult.simScore / baseDmg - 1
+
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((setUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
@@ -691,7 +699,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
-          DPS score improvements
+          Damage improvements
         </HeaderText>
       </Flex>
       {rows}

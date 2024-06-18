@@ -1,5 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.3.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.4.1'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -454,30 +454,22 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-export const PathToClass = {
-  Abundance: 'Priest',
-  Destruction: 'Warrior',
-  Erudition: 'Mage',
-  Harmony: 'Shaman',
-  Hunt: 'Rogue',
-  Nihility: 'Warlock',
-  Preservation: 'Knight',
-}
-export const ClassToPath = {
-  Priest: 'Abundance',
-  Warrior: 'Destruction',
-  Mage: 'Erudition',
-  Shaman: 'Harmony',
-  Rogue: 'Hunt',
-  Warlock: 'Nihility',
-  Knight: 'Preservation',
+// TODO: This shouldnt be used anymore
+export const PathNames = {
+  Abundance: 'Abundance',
+  Destruction: 'Destruction',
+  Erudition: 'Erudition',
+  Harmony: 'Harmony',
+  Hunt: 'Hunt',
+  Nihility: 'Nihility',
+  Preservation: 'Preservation',
 }
 
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,
   Fire: Stats.Fire_DMG,
   Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
+  Lightning: Stats.Lightning_DMG,
   Wind: Stats.Wind_DMG,
   Quantum: Stats.Quantum_DMG,
   Imaginary: Stats.Imaginary_DMG,
@@ -487,7 +479,7 @@ export const ElementToResPenType = {
   Physical: 'PHYSICAL_RES_PEN',
   Fire: 'FIRE_RES_PEN',
   Ice: 'ICE_RES_PEN',
-  Thunder: 'LIGHTNING_RES_PEN',
+  Lightning: 'LIGHTNING_RES_PEN',
   Wind: 'WIND_RES_PEN',
   Quantum: 'QUANTUM_RES_PEN',
   Imaginary: 'IMAGINARY_RES_PEN',
@@ -556,7 +548,19 @@ export const enemyResistanceOptions = (() => {
   for (let i = 20; i <= 60; i += 20) {
     options.push({
       value: i / 100,
-      label: `${i}% RES`,
+      label: `${i}% Damage RES`,
+    })
+  }
+
+  return options
+})()
+
+export const enemyEffectResistanceOptions = (() => {
+  const options: { value: number; label: string }[] = []
+  for (let i = 0; i <= 40; i += 10) {
+    options.push({
+      value: i / 100,
+      label: `${i}% Effect RES`,
     })
   }
 
@@ -569,7 +573,7 @@ export const enemyMaxToughnessOptions = (() => {
     options.push({
       value: i,
       label: `${i} max toughness`,
-      number: `${i} tough`,
+      number: `${i} max toughness`,
     })
   }
 
@@ -656,6 +660,26 @@ export const CombatBuffs = {
     key: 'ATK_P',
     percent: true,
   },
+  HP: {
+    title: 'HP',
+    key: 'HP',
+    percent: false,
+  },
+  HP_P: {
+    title: 'HP %',
+    key: 'HP_P',
+    percent: true,
+  },
+  DEF: {
+    title: 'DEF',
+    key: 'DEF',
+    percent: false,
+  },
+  DEF_P: {
+    title: 'DEF %',
+    key: 'DEF_P',
+    percent: true,
+  },
   CR: {
     title: 'Crit Rate %',
     key: 'CR',
@@ -692,8 +716,23 @@ export const CombatBuffs = {
     percent: true,
   },
   RES_SHRED: {
-    title: 'RES Pen %',
+    title: 'Dmg RES Shred %',
     key: 'RES_SHRED',
+    percent: true,
+  },
+  EFFECT_RES_SHRED: {
+    title: 'Effect RES Shred %',
+    key: 'EFFECT_RES_SHRED',
+    percent: true,
+  },
+  VULNERABILITY: {
+    title: 'Vulnerability %',
+    key: 'VULNERABILITY',
+    percent: true,
+  },
+  BREAK_EFFICIENCY: {
+    title: 'Break Efficiency %',
+    key: 'BREAK_EFFICIENCY',
     percent: true,
   },
 }
@@ -706,3 +745,5 @@ export const SETTINGS_TEAM = 'Settings'
 
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'
+
+export const BETA_UPDATE = 'All calculations are subject to change. Last updated v1 06-17-2024.'

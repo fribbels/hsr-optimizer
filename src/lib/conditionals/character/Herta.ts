@@ -1,9 +1,5 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -12,7 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.00, 1.10)
@@ -126,7 +122,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => [],
     defaults: () => ({
       fuaStacks: 5,
-      techniqueBuff: true,
+      techniqueBuff: false,
       targetFrozen: true,
       e2TalentCritStacks: 5,
       e6UltAtkBuff: true,
@@ -181,7 +177,7 @@ export default (e: Eidolon): CharacterConditional => {
       }
 
       const hitMulti = hitMultiByTargets[request.enemyCount]
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * r.fuaStacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }

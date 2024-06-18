@@ -1,0 +1,2293 @@
+{
+  "characters": {
+    "1001": {
+      "id": "1001",
+      "name": "March 7th",
+      "rarity": 4,
+      "path": "Preservation",
+      "element": "Ice",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 511.56,
+        "DEF": 573.3,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1002": {
+      "id": "1002",
+      "name": "Dan Heng",
+      "rarity": 4,
+      "path": "Hunt",
+      "element": "Wind",
+      "max_sp": 100,
+      "stats": {
+        "HP": 882,
+        "ATK": 546.84,
+        "DEF": 396.9,
+        "SPD": 110,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1003": {
+      "id": "1003",
+      "name": "Himeko",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 756.756,
+        "DEF": 436.59,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1004": {
+      "id": "1004",
+      "name": "Welt",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Imaginary",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 620.928,
+        "DEF": 509.355,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1005": {
+      "id": "1005",
+      "name": "Kafka",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Lightning",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1006": {
+      "id": "1006",
+      "name": "Silver Wolf",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Quantum",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 640.332,
+        "DEF": 460.845,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1008": {
+      "id": "1008",
+      "name": "Arlan",
+      "rarity": 4,
+      "path": "Destruction",
+      "element": "Lightning",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1199.52,
+        "ATK": 599.76,
+        "DEF": 330.75,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1009": {
+      "id": "1009",
+      "name": "Asta",
+      "rarity": 4,
+      "path": "Harmony",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1023.12,
+        "ATK": 511.56,
+        "DEF": 463.05,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1013": {
+      "id": "1013",
+      "name": "Herta",
+      "rarity": 4,
+      "path": "Erudition",
+      "element": "Ice",
+      "max_sp": 110,
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 396.9,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1101": {
+      "id": "1101",
+      "name": "Bronya",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Wind",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 582.12,
+        "DEF": 533.61,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1102": {
+      "id": "1102",
+      "name": "Seele",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Quantum",
+      "max_sp": 120,
+      "stats": {
+        "HP": 931.392,
+        "ATK": 640.332,
+        "DEF": 363.825,
+        "SPD": 115,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1103": {
+      "id": "1103",
+      "name": "Serval",
+      "rarity": 4,
+      "path": "Erudition",
+      "element": "Lightning",
+      "max_sp": 100,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 652.68,
+        "DEF": 374.85,
+        "SPD": 104,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1104": {
+      "id": "1104",
+      "name": "Gepard",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Ice",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1397.088,
+        "ATK": 543.312,
+        "DEF": 654.885,
+        "SPD": 92,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1105": {
+      "id": "1105",
+      "name": "Natasha",
+      "rarity": 4,
+      "path": "Abundance",
+      "element": "Physical",
+      "max_sp": 90,
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 507.15,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1106": {
+      "id": "1106",
+      "name": "Pela",
+      "rarity": 4,
+      "path": "Nihility",
+      "element": "Ice",
+      "max_sp": 110,
+      "stats": {
+        "HP": 987.84,
+        "ATK": 546.84,
+        "DEF": 463.05,
+        "SPD": 105,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1107": {
+      "id": "1107",
+      "name": "Clara",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 737.352,
+        "DEF": 485.1,
+        "SPD": 90,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1108": {
+      "id": "1108",
+      "name": "Sampo",
+      "rarity": 4,
+      "path": "Nihility",
+      "element": "Wind",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1023.12,
+        "ATK": 617.4,
+        "DEF": 396.9,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1109": {
+      "id": "1109",
+      "name": "Hook",
+      "rarity": 4,
+      "path": "Destruction",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1340.64,
+        "ATK": 617.4,
+        "DEF": 352.8,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1110": {
+      "id": "1110",
+      "name": "Lynx",
+      "rarity": 4,
+      "path": "Abundance",
+      "element": "Quantum",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 493.92,
+        "DEF": 551.25,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1111": {
+      "id": "1111",
+      "name": "Luka",
+      "rarity": 4,
+      "path": "Nihility",
+      "element": "Physical",
+      "max_sp": 130,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 582.12,
+        "DEF": 485.1,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1112": {
+      "id": "1112",
+      "name": "Topaz & Numby",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Fire",
+      "max_sp": 130,
+      "stats": {
+        "HP": 931.392,
+        "ATK": 620.928,
+        "DEF": 412.335,
+        "SPD": 110,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1201": {
+      "id": "1201",
+      "name": "Qingque",
+      "rarity": 4,
+      "path": "Erudition",
+      "element": "Quantum",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1023.12,
+        "ATK": 652.68,
+        "DEF": 441,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1202": {
+      "id": "1202",
+      "name": "Tingyun",
+      "rarity": 4,
+      "path": "Harmony",
+      "element": "Lightning",
+      "max_sp": 130,
+      "stats": {
+        "HP": 846.72,
+        "ATK": 529.2,
+        "DEF": 396.9,
+        "SPD": 112,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1203": {
+      "id": "1203",
+      "name": "Luocha",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Imaginary",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1280.664,
+        "ATK": 756.756,
+        "DEF": 363.825,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1204": {
+      "id": "1204",
+      "name": "Jing Yuan",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Lightning",
+      "max_sp": 130,
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 698.544,
+        "DEF": 485.1,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1205": {
+      "id": "1205",
+      "name": "Blade",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Wind",
+      "max_sp": 130,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 543.312,
+        "DEF": 485.1,
+        "SPD": 97,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1206": {
+      "id": "1206",
+      "name": "Sushang",
+      "rarity": 4,
+      "path": "Hunt",
+      "element": "Physical",
+      "max_sp": 120,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 564.48,
+        "DEF": 418.95,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1207": {
+      "id": "1207",
+      "name": "Yukong",
+      "rarity": 4,
+      "path": "Harmony",
+      "element": "Imaginary",
+      "max_sp": 130,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 599.76,
+        "DEF": 374.85,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1208": {
+      "id": "1208",
+      "name": "Fu Xuan",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Quantum",
+      "max_sp": 135,
+      "stats": {
+        "HP": 1474.704,
+        "ATK": 465.696,
+        "DEF": 606.375,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1209": {
+      "id": "1209",
+      "name": "Yanqing",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Ice",
+      "max_sp": 140,
+      "stats": {
+        "HP": 892.584,
+        "ATK": 679.14,
+        "DEF": 412.335,
+        "SPD": 109,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1210": {
+      "id": "1210",
+      "name": "Guinaifen",
+      "rarity": 4,
+      "path": "Nihility",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 882,
+        "ATK": 582.12,
+        "DEF": 441,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1211": {
+      "id": "1211",
+      "name": "Bailu",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Lightning",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1319.472,
+        "ATK": 562.716,
+        "DEF": 485.1,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1212": {
+      "id": "1212",
+      "name": "Jingliu",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Ice",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1435.896,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1213": {
+      "id": "1213",
+      "name": "Dan Heng • Imbibitor Lunae",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Imaginary",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 698.544,
+        "DEF": 363.825,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1214": {
+      "id": "1214",
+      "name": "Xueyi",
+      "rarity": 4,
+      "path": "Destruction",
+      "element": "Quantum",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 599.76,
+        "DEF": 396.9,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1215": {
+      "id": "1215",
+      "name": "Hanya",
+      "rarity": 4,
+      "path": "Harmony",
+      "element": "Physical",
+      "max_sp": 140,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 564.48,
+        "DEF": 352.8,
+        "SPD": 110,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1217": {
+      "id": "1217",
+      "name": "Huohuo",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Wind",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 601.524,
+        "DEF": 509.355,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1218": {
+      "id": "1218",
+      "name": "Jiaoqiu",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Fire",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 601.524,
+        "DEF": 509.355,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1221": {
+      "id": "1221",
+      "name": "Yunli",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "max_sp": 240,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 679.14,
+        "DEF": 460.845,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1224": {
+      "id": "1224",
+      "name": "March 7th",
+      "rarity": 4,
+      "path": "Hunt",
+      "element": "Imaginary",
+      "max_sp": 110,
+      "stats": {
+        "HP": 917.28,
+        "ATK": 564.48,
+        "DEF": 418.95,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1301": {
+      "id": "1301",
+      "name": "Gallagher",
+      "rarity": 4,
+      "path": "Abundance",
+      "element": "Fire",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1305.36,
+        "ATK": 529.2,
+        "DEF": 441,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1302": {
+      "id": "1302",
+      "name": "Argenti",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Physical",
+      "max_sp": 180,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 737.352,
+        "DEF": 363.825,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1303": {
+      "id": "1303",
+      "name": "Ruan Mei",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Ice",
+      "max_sp": 130,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 659.736,
+        "DEF": 485.1,
+        "SPD": 104,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1304": {
+      "id": "1304",
+      "name": "Aventurine",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Imaginary",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 446.292,
+        "DEF": 654.885,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1305": {
+      "id": "1305",
+      "name": "Dr. Ratio",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Imaginary",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 776.16,
+        "DEF": 460.845,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1306": {
+      "id": "1306",
+      "name": "Sparkle",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Quantum",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1397.088,
+        "ATK": 523.908,
+        "DEF": 485.1,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1307": {
+      "id": "1307",
+      "name": "Black Swan",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Wind",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 659.736,
+        "DEF": 485.1,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1308": {
+      "id": "1308",
+      "name": "Acheron",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Lightning",
+      "max_sp": 9,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 698.544,
+        "DEF": 436.59,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1309": {
+      "id": "1309",
+      "name": "Robin",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Physical",
+      "max_sp": 160,
+      "stats": {
+        "HP": 1280.664,
+        "ATK": 640.332,
+        "DEF": 485.1,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1310": {
+      "id": "1310",
+      "name": "Firefly",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Fire",
+      "max_sp": 240,
+      "stats": {
+        "HP": 814.968,
+        "ATK": 523.908,
+        "DEF": 776.16,
+        "SPD": 104,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1312": {
+      "id": "1312",
+      "name": "Misha",
+      "rarity": 4,
+      "path": "Destruction",
+      "element": "Ice",
+      "max_sp": 100,
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 599.76,
+        "DEF": 396.9,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1314": {
+      "id": "1314",
+      "name": "Jade",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Quantum",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 659.736,
+        "DEF": 509.355,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1315": {
+      "id": "1315",
+      "name": "Boothill",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Physical",
+      "max_sp": 115,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 620.928,
+        "DEF": 436.59,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8001": {
+      "id": "8001",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 620.928,
+        "DEF": 460.845,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8002": {
+      "id": "8002",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 620.928,
+        "DEF": 460.845,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8003": {
+      "id": "8003",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 601.524,
+        "DEF": 606.375,
+        "SPD": 95,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8004": {
+      "id": "8004",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Fire",
+      "max_sp": 120,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 601.524,
+        "DEF": 606.375,
+        "SPD": 95,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8005": {
+      "id": "8005",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Imaginary",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 446.292,
+        "DEF": 679.14,
+        "SPD": 105,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "8006": {
+      "id": "8006",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Imaginary",
+      "max_sp": 140,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 446.292,
+        "DEF": 679.14,
+        "SPD": 105,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    }
+  },
+  "lightCones": {
+    "20000": {
+      "id": "20000",
+      "name": "Arrows",
+      "rarity": 3,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20001": {
+      "id": "20001",
+      "name": "Cornucopia",
+      "rarity": 3,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 264.6,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20002": {
+      "id": "20002",
+      "name": "Collapsing Sky",
+      "rarity": 3,
+      "path": "Destruction",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 370.44,
+        "DEF": 198.45
+      },
+      "unreleased": false
+    },
+    "20003": {
+      "id": "20003",
+      "name": "Amber",
+      "rarity": 3,
+      "path": "Preservation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 264.6,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "20004": {
+      "id": "20004",
+      "name": "Void",
+      "rarity": 3,
+      "path": "Nihility",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20005": {
+      "id": "20005",
+      "name": "Chorus",
+      "rarity": 3,
+      "path": "Harmony",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20006": {
+      "id": "20006",
+      "name": "Data Bank",
+      "rarity": 3,
+      "path": "Erudition",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20007": {
+      "id": "20007",
+      "name": "Darting Arrow",
+      "rarity": 3,
+      "path": "Hunt",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20008": {
+      "id": "20008",
+      "name": "Fine Fruit",
+      "rarity": 3,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 317.52,
+        "DEF": 198.45
+      },
+      "unreleased": false
+    },
+    "20009": {
+      "id": "20009",
+      "name": "Shattered Home",
+      "rarity": 3,
+      "path": "Destruction",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 370.44,
+        "DEF": 198.45
+      },
+      "unreleased": false
+    },
+    "20010": {
+      "id": "20010",
+      "name": "Defense",
+      "rarity": 3,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 264.6,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20011": {
+      "id": "20011",
+      "name": "Loop",
+      "rarity": 3,
+      "path": "Nihility",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20012": {
+      "id": "20012",
+      "name": "Meshing Cogs",
+      "rarity": 3,
+      "path": "Harmony",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20013": {
+      "id": "20013",
+      "name": "Passkey",
+      "rarity": 3,
+      "path": "Erudition",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20014": {
+      "id": "20014",
+      "name": "Adversarial",
+      "rarity": 3,
+      "path": "Hunt",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20015": {
+      "id": "20015",
+      "name": "Multiplication",
+      "rarity": 3,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 317.52,
+        "DEF": 198.45
+      },
+      "unreleased": false
+    },
+    "20016": {
+      "id": "20016",
+      "name": "Mutual Demise",
+      "rarity": 3,
+      "path": "Destruction",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 370.44,
+        "DEF": 198.45
+      },
+      "unreleased": false
+    },
+    "20017": {
+      "id": "20017",
+      "name": "Pioneering",
+      "rarity": 3,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 264.6,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20018": {
+      "id": "20018",
+      "name": "Hidden Shadow",
+      "rarity": 3,
+      "path": "Nihility",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20019": {
+      "id": "20019",
+      "name": "Mediation",
+      "rarity": 3,
+      "path": "Harmony",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20020": {
+      "id": "20020",
+      "name": "Sagacity",
+      "rarity": 3,
+      "path": "Erudition",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21000": {
+      "id": "21000",
+      "name": "Post-Op Conversation",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 423.36,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21001": {
+      "id": "21001",
+      "name": "Good Night and Sleep Well",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21002": {
+      "id": "21002",
+      "name": "Day One of My New Life",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 370.44,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "21003": {
+      "id": "21003",
+      "name": "Only Silence Remains",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21004": {
+      "id": "21004",
+      "name": "Memories of the Past",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21005": {
+      "id": "21005",
+      "name": "The Moles Welcome You",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21006": {
+      "id": "21006",
+      "name": "The Birth of the Self",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21007": {
+      "id": "21007",
+      "name": "Shared Feeling",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21008": {
+      "id": "21008",
+      "name": "Eyes of the Prey",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21009": {
+      "id": "21009",
+      "name": "Landau's Choice",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21010": {
+      "id": "21010",
+      "name": "Swordplay",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21011": {
+      "id": "21011",
+      "name": "Planetary Rendezvous",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 423.36,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21012": {
+      "id": "21012",
+      "name": "A Secret Vow",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21013": {
+      "id": "21013",
+      "name": "Make the World Clamor",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21014": {
+      "id": "21014",
+      "name": "Perfect Timing",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21015": {
+      "id": "21015",
+      "name": "Resolution Shines As Pearls of Sweat",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21016": {
+      "id": "21016",
+      "name": "Trend of the Universal Market",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 370.44,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21017": {
+      "id": "21017",
+      "name": "Subscribe for More!",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21018": {
+      "id": "21018",
+      "name": "Dance! Dance! Dance!",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21019": {
+      "id": "21019",
+      "name": "Under the Blue Sky",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21020": {
+      "id": "21020",
+      "name": "Geniuses' Repose",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21021": {
+      "id": "21021",
+      "name": "Quid Pro Quo",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21022": {
+      "id": "21022",
+      "name": "Fermata",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21023": {
+      "id": "21023",
+      "name": "We Are Wildfire",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 476.28,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "21024": {
+      "id": "21024",
+      "name": "River Flows in Spring",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21025": {
+      "id": "21025",
+      "name": "Past and Future",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21026": {
+      "id": "21026",
+      "name": "Woof! Walk Time!",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21027": {
+      "id": "21027",
+      "name": "The Seriousness of Breakfast",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21028": {
+      "id": "21028",
+      "name": "Warmth Shortens Cold Nights",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 370.44,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21029": {
+      "id": "21029",
+      "name": "We Will Meet Again",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21030": {
+      "id": "21030",
+      "name": "This Is Me!",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 370.44,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "21031": {
+      "id": "21031",
+      "name": "Return to Darkness",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21032": {
+      "id": "21032",
+      "name": "Carve the Moon, Weave the Clouds",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21033": {
+      "id": "21033",
+      "name": "Nowhere to Run",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21034": {
+      "id": "21034",
+      "name": "Today Is Another Peaceful Day",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21035": {
+      "id": "21035",
+      "name": "What Is Real?",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 423.36,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21036": {
+      "id": "21036",
+      "name": "Dreamville Adventure",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21037": {
+      "id": "21037",
+      "name": "Final Victor",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21038": {
+      "id": "21038",
+      "name": "Flames Afar",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21039": {
+      "id": "21039",
+      "name": "Destiny's Threads Forewoven",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 370.44,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "21040": {
+      "id": "21040",
+      "name": "The Day The Cosmos Fell",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21041": {
+      "id": "21041",
+      "name": "It's Showtime",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "21042": {
+      "id": "21042",
+      "name": "Indelible Promise",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21043": {
+      "id": "21043",
+      "name": "Concert for Two",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 370.44,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "21044": {
+      "id": "21044",
+      "name": "Boundless Choreo",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "21045": {
+      "id": "21045",
+      "name": "After the Charmony Fall",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21046": {
+      "id": "21046",
+      "name": "Poised to Bloom",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "22000": {
+      "id": "22000",
+      "name": "Before the Tutorial Mission Starts",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "22001": {
+      "id": "22001",
+      "name": "Hey, Over Here",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "22002": {
+      "id": "22002",
+      "name": "For Tomorrow's Journey",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "23000": {
+      "id": "23000",
+      "name": "Night on the Milky Way",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 582.12,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23001": {
+      "id": "23001",
+      "name": "In the Night",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23002": {
+      "id": "23002",
+      "name": "Something Irreplaceable",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 582.12,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23003": {
+      "id": "23003",
+      "name": "But the Battle Isn't Over",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23004": {
+      "id": "23004",
+      "name": "In the Name of the World",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23005": {
+      "id": "23005",
+      "name": "Moment of Victory",
+      "rarity": 5,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 595.35
+      },
+      "unreleased": false
+    },
+    "23006": {
+      "id": "23006",
+      "name": "Patience Is All You Need",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23007": {
+      "id": "23007",
+      "name": "Incessant Rain",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23008": {
+      "id": "23008",
+      "name": "Echoes of the Coffin",
+      "rarity": 5,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 582.12,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23009": {
+      "id": "23009",
+      "name": "The Unreachable Side",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 582.12,
+        "DEF": 330.75
+      },
+      "unreleased": false
+    },
+    "23010": {
+      "id": "23010",
+      "name": "Before Dawn",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23011": {
+      "id": "23011",
+      "name": "She Already Shut Her Eyes",
+      "rarity": 5,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 423.36,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23012": {
+      "id": "23012",
+      "name": "Sleep Like the Dead",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23013": {
+      "id": "23013",
+      "name": "Time Waits for No One",
+      "rarity": 5,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 476.28,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23014": {
+      "id": "23014",
+      "name": "I Shall Be My Own Sword",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 582.12,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23015": {
+      "id": "23015",
+      "name": "Brighter Than the Sun",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 635.04,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23016": {
+      "id": "23016",
+      "name": "Worrisome, Blissful",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23017": {
+      "id": "23017",
+      "name": "Night of Fright",
+      "rarity": 5,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23018": {
+      "id": "23018",
+      "name": "An Instant Before A Gaze",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23019": {
+      "id": "23019",
+      "name": "Past Self in Mirror",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23020": {
+      "id": "23020",
+      "name": "Baptism of Pure Thought",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23021": {
+      "id": "23021",
+      "name": "Earthly Escapade",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23022": {
+      "id": "23022",
+      "name": "Reforged Remembrance",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23023": {
+      "id": "23023",
+      "name": "Inherently Unjust Destiny",
+      "rarity": 5,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 423.36,
+        "DEF": 661.5
+      },
+      "unreleased": false
+    },
+    "23024": {
+      "id": "23024",
+      "name": "Along the Passing Shore",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 635.04,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23025": {
+      "id": "23025",
+      "name": "Whereabouts Should Dreams Rest",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23026": {
+      "id": "23026",
+      "name": "Flowing Nightglow",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23027": {
+      "id": "23027",
+      "name": "Sailing Towards a Second Life",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23028": {
+      "id": "23028",
+      "name": "Yet Hope Is Priceless",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23029": {
+      "id": "23029",
+      "name": "Those Many Springs",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23030": {
+      "id": "23030",
+      "name": "Dance at Sunset",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "24000": {
+      "id": "24000",
+      "name": "On the Fall of an Aeon",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "24001": {
+      "id": "24001",
+      "name": "Cruising in the Stellar Sea",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "24002": {
+      "id": "24002",
+      "name": "Texture of Memories",
+      "rarity": 5,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 423.36,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "24003": {
+      "id": "24003",
+      "name": "Solitary Healing",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "24004": {
+      "id": "24004",
+      "name": "Eternal Calculus",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    }
+  }
+}

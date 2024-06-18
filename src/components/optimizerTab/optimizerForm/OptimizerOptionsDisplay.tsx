@@ -7,8 +7,11 @@ import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { useMemo } from 'react'
 import DB from 'lib/db.js'
-import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
+import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants'
 import { Utils } from 'lib/utils.js'
+import { Assets } from 'lib/assets'
+import { generateCharacterList } from 'lib/displayUtils'
+import { CharacterId, MetadataCharacter } from '../../../types/Character'
 
 const { Text } = Typography
 
@@ -16,17 +19,28 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   const characters = window.store((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const characterExcludeOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
-    characters, [DB.getCharacterById(optimizerTabFocusCharacter)], false,
-  ), [characters, optimizerTabFocusCharacter])
+  const characterExcludeOptions = useMemo(() => generateCharacterList({
+    currentCharacters: characters,
+    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter)],
+    withNobodyOption: false,
+  }), [characters, optimizerTabFocusCharacter])
 
   const characterPriorityOptions = useMemo(() => {
-    const characterMetadata = DB.getMetadata().characters
+    const characterMetadata = DB.getMetadata().characters as Record<CharacterId, MetadataCharacter>
     return characters.map((x) => {
       return {
         value: x.rank,
-        label: `# ${x.rank + 1} - ${characterMetadata[x.id].displayName}`,
-        number: `# ${x.rank + 1}`,
+        label: (
+          <Flex gap={5}>
+            <img
+              src={Assets.getCharacterAvatarById(x.id)}
+              style={{ height: 22, marginRight: 6 }}
+            />
+
+            {`#${x.rank + 1} - ${characterMetadata[x.id].displayName}`}
+          </Flex>
+        ),
+        name: `# ${x.rank + 1}`,
       }
     })
   }, [characters])
@@ -36,26 +50,14 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Optimizer options</HeaderText>
-          <TooltipImage type={Hint.optimizerOptions()}/>
-        </Flex>
-
-        <Flex align="center">
-          <Form.Item name="predictMaxedMainStat" valuePropName="checked">
-            <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
-              defaultChecked
-              style={{ width: 45, marginRight: 5 }}
-            />
-          </Form.Item>
-          <Text>Maxed main stat</Text>
+          <TooltipImage type={Hint.optimizerOptions()} />
         </Flex>
 
         <Flex align="center">
           <Form.Item name="includeEquippedRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -66,8 +68,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="rankFilter" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -78,8 +80,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align="center">
           <Form.Item name="keepCurrentRelics" valuePropName="checked">
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
@@ -96,12 +98,12 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={characterPriorityOptions}
-                popupMatchSelectWidth={160}
+                popupMatchSelectWidth={225}
                 listHeight={500}
-                optionLabelProp="number"
+                optionLabelProp="name"
                 placeholder="Priority"
                 showSearch
-                filterOption={Utils.labelFilterOption}
+                filterOption={Utils.nameFilterOption}
               />
             </Form.Item>
           </Flex>
@@ -114,49 +116,75 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 mode="multiple"
                 maxTagCount="responsive"
-                popupMatchSelectWidth={160}
+                popupMatchSelectWidth={225}
                 listHeight={500}
                 allowClear
                 showSearch
+                optionLabelProp="title"
                 placeholder="Exclude"
                 options={characterExcludeOptions}
-                filterOption={Utils.labelFilterOption}
+                filterOption={Utils.titleFilterOption}
               />
             </Form.Item>
           </Flex>
         </Flex>
 
-        <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
-          <HeaderText>Relic enhance / rarity</HeaderText>
-          {/* <TooltipImage type={Hint.optimizerOptions()} /> */}
+        <Flex justify="space-between">
+          <Flex vertical gap={2}>
+            <HeaderText>
+              Min enhance
+            </HeaderText>
+            <Form.Item name="enhance">
+              <Select
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                options={[
+                  { value: 0, label: '+0' },
+                  { value: 3, label: '+3' },
+                  { value: 6, label: '+6' },
+                  { value: 9, label: '+9' },
+                  { value: 12, label: '+12' },
+                  { value: 15, label: '+15' },
+                ]}
+              />
+            </Form.Item>
+          </Flex>
+
+          <Flex vertical gap={2}>
+            <HeaderText>
+              Min rarity
+            </HeaderText>
+            <Form.Item name="grade">
+              <Select
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                options={[
+                  { value: 2, label: '2 ★ +' },
+                  { value: 3, label: '3 ★ +' },
+                  { value: 4, label: '4 ★ +' },
+                  { value: 5, label: '5 ★' },
+                ]}
+              />
+            </Form.Item>
+          </Flex>
         </Flex>
 
-        <Flex justify="space-between">
-          <Form.Item name="enhance">
-            <Select
-              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              options={[
-                { value: 0, label: '+0' },
-                { value: 3, label: '+3' },
-                { value: 6, label: '+6' },
-                { value: 9, label: '+9' },
-                { value: 12, label: '+12' },
-                { value: 15, label: '+15' },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item name="grade">
-            <Select
-              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              options={[
-                { value: 2, label: '2 ★ +' },
-                { value: 3, label: '3 ★ +' },
-                { value: 4, label: '4 ★ +' },
-                { value: 5, label: '5 ★' },
-              ]}
-            />
-          </Form.Item>
+        <Flex justify="space-between" align="center">
+          <Flex vertical gap={2}>
+            <HeaderText>
+              Boost main stat
+            </HeaderText>
+            <Form.Item name="mainStatUpscaleLevel">
+              <Select
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                options={[
+                  { value: 3, label: '+3' },
+                  { value: 6, label: '+6' },
+                  { value: 9, label: '+9' },
+                  { value: 12, label: '+12' },
+                  { value: 15, label: '+15' },
+                ]}
+              />
+            </Form.Item>
+          </Flex>
         </Flex>
 
         {/*

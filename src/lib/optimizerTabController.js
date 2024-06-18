@@ -7,7 +7,7 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
+import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -320,28 +320,34 @@ export const OptimizerTabController = {
       Utils.mergeUndefinedValues(newForm.setConditionals, defaultSetConditionals)
     }
 
+    const enemyOptions = defaultEnemyOptions()
+
     if (!form.enemyLevel) {
-      newForm.enemyLevel = 95
+      newForm.enemyLevel = enemyOptions.enemyLevel
     }
 
     if (!form.enemyCount) {
-      newForm.enemyCount = 1
+      newForm.enemyCount = enemyOptions.enemyCount
     }
 
     if (!form.enemyResistance) {
-      newForm.enemyResistance = 0.2
+      newForm.enemyResistance = enemyOptions.enemyResistance
+    }
+
+    if (!form.enemyEffectResistance) {
+      newForm.enemyEffectResistance = enemyOptions.enemyEffectResistance
     }
 
     if (form.enemyElementalWeak == null) {
-      newForm.enemyElementalWeak = true
+      newForm.enemyElementalWeak = enemyOptions.enemyElementalWeak
     }
 
     if (form.enemyWeaknessBroken == null) {
-      newForm.enemyWeaknessBroken = false
+      newForm.enemyWeaknessBroken = enemyOptions.enemyWeaknessBroken
     }
 
     if (!form.enemyMaxToughness) {
-      newForm.enemyMaxToughness = 360
+      newForm.enemyMaxToughness = enemyOptions.enemyMaxToughness
     }
 
     if (newForm.characterId) {
@@ -469,6 +475,10 @@ export const OptimizerTabController = {
 
     if (!newForm.resultLimit) {
       newForm.resultLimit = 100000
+    }
+
+    if (!newForm.mainStatUpscaleLevel) {
+      newForm.mainStatUpscaleLevel = 15
     }
 
     if (!newForm.statSim) {
@@ -602,7 +612,7 @@ export const OptimizerTabController = {
       characterLevel: 80,
       enhance: 9,
       grade: 5,
-      predictMaxedMainStat: true,
+      mainStatUpscaleLevel: 15,
       rankFilter: true,
       includeEquippedRelics: true,
       keepCurrentRelics: false,

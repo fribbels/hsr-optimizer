@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
-import { ClassToPath, PathToClass } from 'lib/constants.ts'
 import DB from 'lib/db.js'
 import { CardGridFilterRow, CardGridItemContent, generatePathTags, generateRarityTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
@@ -36,7 +35,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const defaultFilters = useMemo(() => {
     return {
       rarity: [],
-      path: characterId ? [ClassToPath[characterMetadata[characterId].path]] : [],
+      path: characterId ? [characterMetadata[characterId].path] : [],
       name: '',
     }
   }, [characterId])
@@ -55,7 +54,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
       return false
     }
-    if (currentFilters.path.length && !currentFilters.path.map((x) => PathToClass[x]).includes(x.path)) {
+    if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
     if (!x.name.toLowerCase().includes(currentFilters.name)) {

@@ -53,18 +53,12 @@ export function getDefaultForm(initialCharacter) {
     characterEidolon: 0,
     lightConeLevel: 80,
     lightConeSuperimposition: 1,
-    predictMaxedMainStat: true,
+    mainStatUpscaleLevel: 15,
     rankFilter: true,
     includeEquippedRelics: true,
     keepCurrentRelics: false,
     enhance: 9,
     grade: 5,
-    enemyLevel: 95,
-    enemyCount: 1,
-    enemyResistance: 0.2,
-    enemyMaxToughness: 360,
-    enemyElementalWeak: true,
-    enemyWeaknessBroken: false,
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
@@ -85,6 +79,7 @@ export function getDefaultForm(initialCharacter) {
       DOT: 0,
       BREAK: 0,
     },
+    ...defaultEnemyOptions(),
   })
 
   // Disable elemental conditions by default if the character is not of the same element
@@ -116,6 +111,18 @@ export function defaultTeammate() {
 export const defaultStatSim = {
   simType: StatSimTypes.Disabled,
   simulations: [],
+}
+
+export function defaultEnemyOptions() {
+  return {
+    enemyLevel: 95,
+    enemyCount: 1,
+    enemyResistance: 0.2,
+    enemyEffectResistance: 0.2,
+    enemyMaxToughness: 360,
+    enemyElementalWeak: true,
+    enemyWeaknessBroken: false,
+  }
 }
 
 export const defaultSetConditionals = {

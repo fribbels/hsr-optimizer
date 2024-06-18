@@ -88,24 +88,12 @@ export const Assets = {
     return getImageUrl(`/icon/path/${path}.webp`)
   },
   getPathFromClass: (c) => {
-    if (!pathFromClassMapping) {
-      pathFromClassMapping = {
-        Warrior: 'Destruction',
-        Warlock: 'Nihility',
-        Knight: 'Preservation',
-        Priest: 'Abundance',
-        Rogue: 'Hunt',
-        Shaman: 'Harmony',
-        Mage: 'Erudition',
-      }
-    }
-    if (!c || !pathFromClassMapping[c]) return Assets.getBlank()
-    return getImageUrl(`/icon/path/${pathFromClassMapping[c]}.webp`)
+    if (!c) return Assets.getBlank()
+    return getImageUrl(`/icon/path/${c}.webp`)
   },
 
   getElement: (element) => {
     if (!element) return Assets.getBlank()
-    if (element == 'Thunder') element = 'Lightning'
     return getImageUrl(`/icon/element/${element}.webp`)
   },
   getBlank: () => {

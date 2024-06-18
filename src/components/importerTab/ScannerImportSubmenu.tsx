@@ -133,20 +133,20 @@ export function ScannerImportSubmenu() {
   function mergeRelicsConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      setLoading2(false)
       DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
       setCurrentStage(Stages.FINISHED)
+      setLoading2(false)
     }, importerTabSpinnerMs)
   }
 
   function mergeCharactersConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      setLoading2(false)
       DB.mergeRelicsWithState(currentRelics, currentCharacters)
       SaveState.save()
       setCurrentStage(Stages.FINISHED)
+      setLoading2(false)
     }, importerTabSpinnerMs)
   }
 

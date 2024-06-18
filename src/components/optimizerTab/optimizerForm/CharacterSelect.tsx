@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import { PathToClass } from 'lib/constants.ts'
 import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
@@ -11,6 +10,7 @@ interface CharacterSelectProps {
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
   multipleSelect?: boolean
+  withIcon?: boolean
 }
 
 const parentW = 100
@@ -28,7 +28,7 @@ const defaultFilters = {
   name: '',
 }
 
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect }) => {
+const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon }) => {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const [open, setOpen] = useState(false)
@@ -36,6 +36,22 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
+
+  const labelledOptions: { value: string; label }[] = []
+  for (const option of characterOptions) {
+    labelledOptions.push({
+      value: option.value,
+      label: (
+        <Flex gap={5} align="center">
+          <img
+            src={Assets.getCharacterAvatarById(option.value)}
+            style={{ height: 22, marginRight: 4 }}
+          />
+          {option.label}
+        </Flex>
+      ),
+    })
+  }
 
   useEffect(() => {
     if (open) {
@@ -52,7 +68,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
-    if (currentFilters.path.length && !currentFilters.path.map((x) => PathToClass[x]).includes(x.path)) {
+    if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
     if (!x.label.toLowerCase().includes(currentFilters.name) || !x.displayName.toLowerCase().includes(currentFilters.name)) {
@@ -77,7 +93,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       <Select
         style={selectStyle}
         value={value}
-        options={characterOptions}
+        options={withIcon ? labelledOptions : characterOptions}
         placeholder={multipleSelect ? 'Customize characters' : 'Character'}
         allowClear
         maxTagCount={0}

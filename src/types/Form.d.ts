@@ -22,12 +22,14 @@ export type Form = {
   characterEidolon: Eidolon
   characterId: CharacterId | undefined
   characterLevel: number
-  enemyCount: number
-  enemyElementalWeak: number
-  enemyLevel: number
-  enemyMaxToughness: number
-  enemyResistance: number
-  enemyWeaknessBroken: boolean
+  enemyOptions: {
+    enemyCount: number
+    enemyElementalWeak: number
+    enemyLevel: number
+    enemyMaxToughness: number
+    enemyResistance: number
+    enemyWeaknessBroken: boolean
+  }
   enhance: RelicEnhance | number
   grade: RelicGrade | number
   keepCurrentRelics: boolean
@@ -42,12 +44,13 @@ export type Form = {
   mainLinkRope: any[]
   mainPlanarSphere: any[]
   ornamentSets: any[]
-  predictMaxedMainStat: boolean
+  mainStatUpscaleLevel: number
   rankFilter: boolean
   relicSets: RelicSet[]
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: any
+  path?: string
 
   weights: {
     [key: string]: number

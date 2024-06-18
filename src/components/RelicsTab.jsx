@@ -85,6 +85,18 @@ GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
 
+const PLOT_ALL = 'PLOT_ALL'
+const PLOT_CUSTOM = 'PLOT_CUSTOM'
+
+const relicInsightOptions = [
+  { value: 'buckets', label: 'Relic Insight: Buckets' },
+  { value: 'top10', label: 'Relic Insight: Top 10' },
+]
+const characterPlotOptions = [
+  { value: PLOT_ALL, label: 'Show all characters' },
+  { value: PLOT_CUSTOM, label: 'Show custom characters' },
+]
+
 export default function RelicsTab() {
   const { token } = useToken()
 
@@ -99,14 +111,11 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
-
+  const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_ALL)
   const [relicInsight, setRelicInsight] = useState('buckets')
-  const relicInsightOptions = [
-    { value: 'buckets', label: 'Relic Insight: Buckets' },
-    { value: 'top10', label: 'Relic Insight: Top 10' },
-  ]
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
+
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)
@@ -263,7 +272,14 @@ export default function RelicsTab() {
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 75 }
+      {
+        field: field.value,
+        headerName: field.column,
+        cellStyle: Gradient.getRelicGradient,
+        valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor,
+        filter: 'agNumberColumnFilter',
+        width: 75,
+      }
     )),
   ), [flatValueColumnOptions, valueColumns])
 
@@ -344,43 +360,46 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
-  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
   if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+    score = RelicScorer.score(selectedRelic, focusCharacter)
   }
 
   const numScores = 10
-  let scores = null
-  let scoreBuckets = null
-  if (selectedRelic) {
-    const chars = DB.getMetadata().characters
-    const excluded = window.store.getState().excludedRelicPotentialCharacters
-    const allScores = Object.keys(chars)
-      .filter((id) => !excluded.includes(id))
-      .map((id) => ({
-        cid: id,
-        name: chars[id].displayName,
-        score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
-        color: '#000',
-        owned: !!DB.getCharacterById(id),
-      }))
-    allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
-    allScores.forEach((x, idx) => {
-      x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
-    })
-    scores = allScores.slice(0, numScores)
+  const [scores, setScores] = useState(null)
+  const [scoreBuckets, setScoreBuckets] = useState(null)
+  useEffect(() => {
+    if (selectedRelic) {
+      const chars = DB.getMetadata().characters
+      const excluded = window.store.getState().excludedRelicPotentialCharacters
+      const allScores = Object.keys(chars)
+        .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
+        .map((id) => ({
+          cid: id,
+          name: chars[id].displayName,
+          score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+          color: '#000',
+          owned: !!DB.getCharacterById(id),
+        }))
 
-    //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
-    const sb = [[], [], [], [], [], [], [], [], [], []]
-    for (const score of allScores) {
-      let lowerBound = Math.floor(score.score.bestPct / 10)
-      lowerBound = Math.min(9, Math.max(0, lowerBound))
-      sb[lowerBound].push(score)
+      allScores.sort((a, b) => b.score.bestPct - a.score.bestPct)
+      allScores.forEach((x, idx) => {
+        x.color = 'hsl(' + (idx * 360 / (numScores + 1)) + ',50%,50%)'
+      })
+      setScores(allScores.slice(0, numScores))
+
+      //        0+  10+ 20+ 30+ 40+ 50+ 60+ 70+ 80+ 90+
+      const sb = [[], [], [], [], [], [], [], [], [], []]
+      for (const score of allScores) {
+        let lowerBound = Math.floor(score.score.bestPct / 10)
+        lowerBound = Math.min(9, Math.max(0, lowerBound))
+        sb[lowerBound].push(score)
+      }
+      sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
+      setScoreBuckets(sb)
     }
-    sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
-    scoreBuckets = sb
-  }
+  }, [plottedCharacterType, selectedRelic])
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
@@ -410,6 +429,10 @@ export default function RelicsTab() {
             headerHeight={24}
             rowSelection="single"
 
+            pagination={true}
+            paginationPageSizeSelector={false}
+            paginationPageSize={2000}
+
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
@@ -435,10 +458,16 @@ export default function RelicsTab() {
             </Button>
           </Popconfirm>
           <Select
+            value={plottedCharacterType}
+            onChange={setPlottedCharacterType}
+            options={characterPlotOptions}
+            style={{ width: 210 }}
+          />
+          <Select
             value={relicInsight}
             onChange={setRelicInsight}
             options={relicInsightOptions}
-            style={{ width: '200px' }}
+            style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()} />

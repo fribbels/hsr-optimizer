@@ -48,7 +48,7 @@ export const Utils = {
   },
 
   mergeDefinedValues: (target, source) => {
-    for (let key of Object.keys(target)) {
+    for (const key of Object.keys(target)) {
       if (source[key] != null) {
         target[key] = source[key]
       }
@@ -57,7 +57,7 @@ export const Utils = {
   },
 
   mergeUndefinedValues: (target, source) => {
-    for (let key of Object.keys(source)) {
+    for (const key of Object.keys(source)) {
       if (target[key] == null) {
         target[key] = source[key]
       }
@@ -72,16 +72,16 @@ export const Utils = {
 
   // Store a count of relic sets into an array indexed by the set index
   relicsToSetArrays: (relics) => {
-    let relicSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 0)
-    let ornamentSets = Utils.arrayOfValue(Object.values(Constants.SetsOrnaments).length, 0)
+    const relicSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 0)
+    const ornamentSets = Utils.arrayOfValue(Object.values(Constants.SetsOrnaments).length, 0)
 
-    for (let relic of relics) {
+    for (const relic of relics) {
       if (!relic) continue
       if (relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-        let set = Constants.OrnamentSetToIndex[relic.set]
+        const set = Constants.OrnamentSetToIndex[relic.set]
         ornamentSets[set]++
       } else {
-        let set = Constants.RelicSetToIndex[relic.set]
+        const set = Constants.RelicSetToIndex[relic.set]
         relicSets[set]++
       }
     }
@@ -117,7 +117,7 @@ export const Utils = {
        */
       if (action == 'clipboard') {
         try {
-          let data = [new window.ClipboardItem({ [blob.type]: blob })]
+          const data = [new window.ClipboardItem({ [blob.type]: blob })]
           await navigator.clipboard.write(data)
           Message.success('Copied screenshot to clipboard')
         } catch (e) {
@@ -150,8 +150,8 @@ export const Utils = {
 
   // Convert an array to an object keyed by id field
   collectById: (arr) => {
-    let byId = {}
-    for (let x of arr) {
+    const byId = {}
+    for (const x of arr) {
       byId[x.id] = x
     }
     return byId
@@ -178,7 +178,7 @@ export const Utils = {
   },
   // Round a number to a certain precision. Useful for js floats: precisionRound(16.1999999312682. 5) == 16.2
   precisionRound(number, precision = 5) {
-    let factor = Math.pow(10, precision)
+    const factor = Math.pow(10, precision)
     return Math.round(number * factor) / factor
   },
 
@@ -198,6 +198,15 @@ export const Utils = {
     return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
   },
 
+  // TODO: standardize all these
+  nameFilterOption: (input, option) => {
+    return (option?.name ?? '').toLowerCase().includes(input.toLowerCase())
+  },
+
+  titleFilterOption: (input, option) => {
+    return (option?.title ?? '').toLowerCase().includes(input.toLowerCase())
+  },
+
   // Returns body/feet/rope/sphere
   hasMainStat: (part) => {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
@@ -205,9 +214,9 @@ export const Utils = {
 
   // Character selector options from current db metadata
   generateCharacterOptions: () => {
-    let characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters))
+    const characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters))
 
-    for (let value of Object.values(characterData)) {
+    for (const value of Object.values(characterData)) {
       value.value = value.id
       value.label = value.displayName
     }
@@ -217,15 +226,15 @@ export const Utils = {
 
   // Light cone selector options from current db metadata
   generateLightConeOptions: (characterId) => {
-    let lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
+    const lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
 
     let pathFilter = null
     if (characterId) {
-      let character = DB.getMetadata().characters[characterId]
+      const character = DB.getMetadata().characters[characterId]
       pathFilter = character.path
     }
 
-    for (let value of Object.values(lcData)) {
+    for (const value of Object.values(lcData)) {
       value.value = value.id
       value.label = value.name
     }
@@ -237,9 +246,9 @@ export const Utils = {
 
   // Character selector options from current characters with some customization parameters
   generateCurrentCharacterOptions: (currentCharacters, excludeCharacters = [], withNobodyOption = true) => {
-    let characterData = DB.getMetadata().characters
+    const characterData = DB.getMetadata().characters
 
-    let options = currentCharacters
+    const options = currentCharacters
       .filter((character) => !excludeCharacters.includes(character))
       .map((character) => ({
         value: character.id,
@@ -292,5 +301,21 @@ export const Utils = {
   // [1, 2, 3] => 6
   sumArray: (arr) => {
     return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-  }
+  },
+
+  // ([{'x': 'y'}], 'x') => {'y': {'x': 'y'}}
+  arrayToMap: (array, key) => {
+    return array.reduce((map, obj) => {
+      map[obj[key]] = obj
+      return map
+    }, {})
+  },
+
+  // ['z'] => {'z': true}
+  stringArrayToMap: (array) => {
+    return array.reduce((map, str) => {
+      map[str] = true
+      return map
+    }, {})
+  },
 }

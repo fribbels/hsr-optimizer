@@ -5,15 +5,15 @@ import { optimizerTabDefaultGap } from 'components/optimizerTab/optimizerTabCons
 import InputNumberStyled from 'components/optimizerTab/optimizerForm/InputNumberStyled'
 import { CombatBuffs } from 'lib/constants'
 
-const {Text} = Typography
+const { Text } = Typography
 
-export const CombatBuffsFilters = () => {
+export const CombatBuffsDrawer = () => {
   const combatBuffsDrawerOpen = window.store((s) => s.combatBuffsDrawerOpen)
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
 
   const combatBuffsList = useMemo(() => {
-    return Object.values(CombatBuffs).map(x => (
-      <CombatBuff title={x.title} name={x.key} key={x.key}/>
+    return Object.values(CombatBuffs).map((x) => (
+      <CombatBuff title={x.title} name={x.key} key={x.key} />
     ))
   }, [])
 
@@ -35,14 +35,14 @@ export const CombatBuffsFilters = () => {
   )
 }
 
-function CombatBuff(props: { title: string, name: string }) {
+function CombatBuff(props: { title: string; name: string }) {
   return (
     <Flex justify="space-between">
       <Text>
         {props.title}
       </Text>
       <Form.Item name={['combatBuffs', props.name]}>
-        <InputNumberStyled size="small" controls={false}/>
+        <InputNumberStyled size="small" controls={false} />
       </Form.Item>
     </Flex>
   )

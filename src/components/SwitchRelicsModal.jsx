@@ -4,15 +4,18 @@ import { HeaderText } from './HeaderText'
 import { defaultGap } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 import PropTypes from 'prop-types'
+import { generateCharacterList } from 'lib/displayUtils'
 
 export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacter }) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
   const characters = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(
-    characters, [currentCharacter], false,
-  ), [characters, currentCharacter])
+  const characterOptions = useMemo(() => generateCharacterList({
+    currentCharacters: characters,
+    excludeCharacters: [currentCharacter],
+    withNobodyOption: false,
+  }), [characters, currentCharacter])
 
   useEffect(() => {
     if (!open) return
@@ -67,7 +70,7 @@ export default function SwitchRelicsModal({ onOk, open, setOpen, currentCharacte
               <Select
                 labelInValue
                 showSearch
-                filterOption={Utils.labelFilterOption}
+                filterOption={Utils.titleFilterOption}
                 style={{ width: panelWidth }}
                 options={characterOptions}
               />

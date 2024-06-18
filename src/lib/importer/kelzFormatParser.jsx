@@ -2,8 +2,7 @@ import stringSimilarity from 'string-similarity'
 import { Constants, Parts, Sets } from '../constants.ts'
 import { RelicAugmenter } from '../relicAugmenter'
 
-import characters from '../../data/characters.json'
-import lightCones from '../../data/light_cones.json'
+import gameData from 'data/game_data.json'
 import DB from '../db'
 import { Utils } from '../utils'
 import semver from 'semver'
@@ -12,10 +11,10 @@ import { Message } from 'lib/message'
 
 const { Text } = Typography
 
-const characterList = Object.values(characters)
-const lightConeList = Object.values(lightCones)
-let relicSetList = Object.entries(Sets)
-for (let set of relicSetList) {
+const characterList = Object.values(gameData.characters)
+const lightConeList = Object.values(gameData.lightCones)
+const relicSetList = Object.entries(Sets)
+for (const set of relicSetList) {
   set[2] = set[1]
   set[1] = lowerAlphaNumeric(set[1])
 }
@@ -26,10 +25,10 @@ export class KelzFormatParser { // TODO abstract class
   }
 
   parse(json) {
-    let parsed = {
+    const parsed = {
       metadata: {
         trailblazer: 'Stelle',
-        current_trailblazer_path: 'Destruction'
+        current_trailblazer_path: 'Destruction',
       },
       characters: [],
       relics: [],
@@ -91,12 +90,12 @@ function readCharacter(character, lightCones, trailblazer, path) {
   let lightCone = undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
-      lightCone = lightCones.find((x) => x.location.startsWith('Trailblazer'))
+      lightCone = lightCones.find((x) => x.location === character.key)
+      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
   }
-
 
   let characterId
   if (character.key.startsWith('Trailblazer')) {
@@ -105,7 +104,7 @@ function readCharacter(character, lightCones, trailblazer, path) {
     characterId = characterList.find((x) => x.name === character.key)?.id
   }
 
-  let lcKey = lightCone?.key
+  const lcKey = lightCone?.key
   const lightConeId = lightConeList.find((x) => x.name === lcKey)?.id
 
   if (!characterId) return null
@@ -121,20 +120,20 @@ function readCharacter(character, lightCones, trailblazer, path) {
 }
 
 function readRelic(relic, trailblazer, path, config) {
-  let partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
-  let part = partMatches.bestMatch.target
+  const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
+  const part = partMatches.bestMatch.target
 
-  let setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map((x) => x[1]))
-  let set = relicSetList[setMatches.bestMatchIndex][2]
+  const setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetList.map((x) => x[1]))
+  const set = relicSetList[setMatches.bestMatchIndex][2]
 
-  let enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
-  let grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
+  const enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
+  const grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
 
-  let { main, substats } = readRelicStats(relic, part, grade, enhance)
+  const { main, substats } = readRelicStats(relic, part, grade, enhance)
 
   let equippedBy = undefined
   if (relic.location !== '') {
-    let lookup = characterList.find((x) => x.name == relic.location)?.id
+    const lookup = characterList.find((x) => x.name == relic.location)?.id
     if (lookup) {
       equippedBy = lookup
     } else if (relic.location.startsWith('Trailblazer')) {
@@ -164,15 +163,15 @@ function readRelicStats(relic, part, grade, enhance) {
     mainStat = mapMainStatToId(relic.mainstat)
   }
 
-  let partId = mapPartIdToIndex(part)
-  let query = `${grade}${partId}`
-  let affixes = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
+  const partId = mapPartIdToIndex(part)
+  const query = `${grade}${partId}`
+  const affixes = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
 
-  let mainId = mapAffixIdToString(mainStat)
-  let mainData = affixes.find((x) => x.property === mainId)
-  let mainValue = mainData.base + mainData.step * enhance
+  const mainId = mapAffixIdToString(mainStat)
+  const mainData = affixes.find((x) => x.property === mainId)
+  const mainValue = mainData.base + mainData.step * enhance
 
-  let substats = relic.substats
+  const substats = relic.substats
     .map((s) => ({
       stat: mapSubstatToId(s.key),
       value: s.value,
@@ -332,26 +331,25 @@ function lowerAlphaNumeric(str) {
 }
 
 function getTrailblazerId(name, trailblazer, path) {
-  let id = '8002'
   if (name === 'TrailblazerDestruction') {
-    id = trailblazer === 'Stelle' ? '8002' : '8001'
+    return trailblazer === 'Stelle' ? '8002' : '8001'
   }
   if (name === 'TrailblazerPreservation') {
-    id = trailblazer === 'Stelle' ? '8004' : '8003'
+    return trailblazer === 'Stelle' ? '8004' : '8003'
   }
   if (name === 'TrailblazerHarmony') {
-    id = trailblazer === 'Stelle' ? '8006' : '8005'
+    return trailblazer === 'Stelle' ? '8006' : '8005'
   }
 
   if (path === 'Destruction') {
-    id = trailblazer === 'Stelle' ? '8002' : '8001'
+    return trailblazer === 'Stelle' ? '8002' : '8001'
   }
   if (path === 'Preservation') {
-    id = trailblazer === 'Stelle' ? '8004' : '8003'
+    return trailblazer === 'Stelle' ? '8004' : '8003'
   }
   if (path === 'Harmony') {
-    id = trailblazer === 'Stelle' ? '8006' : '8005'
+    return trailblazer === 'Stelle' ? '8006' : '8005'
   }
 
-  return id
+  return '8002'
 }

@@ -6,6 +6,7 @@ import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
 import { Utils } from 'lib/utils'
+import { TsUtils } from 'lib/TsUtils'
 import { Assets } from 'lib/assets'
 import { enhanceOptions, generateImageLabel, getSetOptions, substatOptions } from 'components/SelectOptions'
 import { Relic, Stat } from 'types/Relic'
@@ -13,6 +14,7 @@ import { Character } from 'types/Character'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/relicModalController'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { generateCharacterList } from 'lib/displayUtils'
 
 const { useToken } = theme
 
@@ -85,7 +87,7 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
-  const characterOptions = useMemo(() => Utils.generateCurrentCharacterOptions(characters), [characters])
+  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters }), [characters])
   const setOptions = useMemo(() => getSetOptions(), [])
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
@@ -155,6 +157,9 @@ export default function RelicModal(props: {
   const onFinish = (relicForm: RelicForm) => {
     const relic = validateRelic(relicForm)
     if (!relic) return
+    if (relicsAreDifferent(props.selectedRelic, relic)) {
+      relic.verified = false
+    }
 
     console.log('Completed relic', relic)
 
@@ -184,7 +189,7 @@ export default function RelicModal(props: {
       const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG]
       const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD]
 
-      let mainStatValue: number = Constants.MainStatsValues[mainStatType][grade].base + Constants.MainStatsValues[mainStatType][grade].increment * enhance
+      let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
 
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Utils.truncate10ths(mainStatValue)
@@ -208,9 +213,6 @@ export default function RelicModal(props: {
   const handleOk = () => {
     relicForm.submit()
   }
-
-  const filterOption = (input, option) =>
-    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
   const plusThree = () => {
     relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
@@ -331,9 +333,10 @@ export default function RelicModal(props: {
               <Form.Item name="equippedBy">
                 <Select
                   showSearch
-                  filterOption={filterOption}
+                  filterOption={Utils.titleFilterOption}
                   style={{ height: 35 }}
                   options={characterOptions}
+                  optionLabelProp="title"
                 />
               </Form.Item>
 
@@ -438,4 +441,24 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
       </Flex>
     </Flex>
   )
+}
+
+function relicHash(relic: Relic) {
+  return Utils.objectHash({
+    grade: relic.grade,
+    enhance: relic.enhance,
+    part: relic.part,
+    set: relic.set,
+    mainStatType: relic.main.stat,
+    substats: relic.substats,
+  })
+}
+
+function relicsAreDifferent(relic1: Relic, relic2: Relic) {
+  if (!relic1 || !relic2) return true
+
+  const relic1Hash = relicHash(relic1)
+  const relic2Hash = relicHash(relic2)
+
+  return relic1Hash != relic2Hash
 }

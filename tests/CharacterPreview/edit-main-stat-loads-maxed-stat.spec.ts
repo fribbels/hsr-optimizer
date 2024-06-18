@@ -16,7 +16,7 @@ test('Editing relics show the correct main stat at maxed value', async ({ page }
   await page.locator('#characterTabPreview').getByText('ATK %43.2%').click()
   await expect(page.locator('#mainStatValue').first()).toHaveValue('43.2')
   await page.getByRole('button', { name: 'Cancel' }).click()
-  await page.locator('#characterTabPreview').getByText('Ice DMG38.8%').nth(1).click()
+  await page.locator('#characterTabPreview').getByText('Ice DMG38.8%').click()
   await expect(page.locator('#mainStatValue').first()).toHaveValue('38.8')
   await page.getByRole('button', { name: 'Cancel' }).click()
   await page.locator('#characterTabPreview').getByText('HP705').click()

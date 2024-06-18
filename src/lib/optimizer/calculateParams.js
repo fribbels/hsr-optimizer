@@ -73,13 +73,16 @@ function generateElementParams(request, params) {
 
 function generateCharacterBaseParams(request, params) {
   const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  const lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
+  const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
   const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
   const characterMetadata = DB.getMetadata().characters[request.characterId]
-  const characterStats = characterMetadata.promotions[80]
+  const characterStats = characterMetadata.stats
 
   params.element = characterMetadata.element
+  params.path = characterMetadata.path
+
+  request.path = params.path
 
   const baseStats = {
     base: {

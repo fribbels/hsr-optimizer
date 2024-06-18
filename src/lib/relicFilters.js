@@ -1,18 +1,19 @@
 import { Constants, Parts, RelicSetFilterOptions } from './constants.ts'
 import DB from './db'
 import { Utils } from './utils'
-import { StatCalculator } from 'lib/statCalculator'
+import { TsUtils } from './TsUtils'
 
 export const RelicFilters = {
   calculateWeightScore: (request, relics) => {
     const weights = request.weights || {}
+    const baseStats = DB.getMetadata().characters[request.characterId].stats
     const statScalings = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.ATK]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.DEF]: 1 / (DB.getMetadata().characters[request.characterId].promotions[80][Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
+      [Constants.Stats.HP]: 1 / (baseStats[Constants.Stats.HP] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.ATK]: 1 / (baseStats[Constants.Stats.ATK] * 2 * 0.01) * (64.8 / 43.2),
+      [Constants.Stats.DEF]: 1 / (baseStats[Constants.Stats.DEF] * 2 * 0.01) * (64.8 / 54),
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5,
@@ -255,9 +256,17 @@ export const RelicFilters = {
     }
   },
 
-  applyMaxedMainStatsFilter: (request, relics) => {
-    if (request.predictMaxedMainStat) {
-      relics.map((x) => x.augmentedStats.mainValue = Utils.isFlat(x.main.stat) ? StatCalculator.getMaxedMainStat(x) : StatCalculator.getMaxedMainStat(x) / 100)
+  applyMainStatsFilter: ({ mainStatUpscaleLevel }, relics) => {
+    if (mainStatUpscaleLevel) {
+      relics.map((x) => {
+        const { grade, enhance, main: { stat } } = x
+        const maxEnhance = grade * 3
+        if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
+          const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
+          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance)
+          return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
+        }
+      })
     }
     return relics
   },

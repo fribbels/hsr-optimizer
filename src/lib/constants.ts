@@ -1,5 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.3.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.4.1'
 
 export const Stats = {
   ATK_P: 'ATK%',

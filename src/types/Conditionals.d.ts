@@ -343,3 +343,7 @@ export type ConditionalBuff =
   | 'e4ResBuff'
   | 'superBreakEnabled'
   | 'ultCdBoost'
+  | 'cdBuff'
+  | 'fuaDmgStacks'
+  | 'unarmoredVulnerability'
+  | 'corneredVulnerability'

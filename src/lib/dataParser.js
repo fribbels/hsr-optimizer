@@ -38,10 +38,10 @@ const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
 export const DataParser = {
   parse: (officialOnly) => {
     if (officialOnly) {
-      UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
-      UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
-      UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
+      // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
+      // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
+      // UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
+      // UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
 
       // Delete unreleased sets
       // delete Constants.SetsRelics.TheWindSoaringValorous

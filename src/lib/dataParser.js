@@ -2,7 +2,7 @@ import gameData from 'data/game_data.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
-import { Parts, Sets, SetsRelics, Stats } from 'lib/constants.ts'
+import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
@@ -92,6 +92,14 @@ export const DataParser = {
     const characterTraces = getOverrideTraces()
     const imageCenters = getOverrideImageCenter()
     const scoringMetadata = getScoringMetadata()
+
+    for (const metadata of Object.values(scoringMetadata)) {
+      for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {
+        if (metadata.parts[part].length === 0) {
+          metadata.parts[part] = PartsMainStats[part]
+        }
+      }
+    }
 
     for (const [id, traceData] of Object.entries(characterTraces)) {
       if (!characters[id]) {
@@ -1924,18 +1932,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Fire_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
@@ -2087,16 +2088,6 @@ function getScoringMetadata() {
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -4208,15 +4199,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.DEF_P,
-          Stats.HP_P,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.DEF_P,
-          Stats.HP_P,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -4271,12 +4258,12 @@ function getScoringMetadata() {
     },
     1218: { // Jiaoqiu
       stats: {
-        [Constants.Stats.ATK]: 1,
-        [Constants.Stats.ATK_P]: 1,
-        [Constants.Stats.DEF]: 0,
-        [Constants.Stats.DEF_P]: 0,
-        [Constants.Stats.HP]: 0,
-        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.ATK]: 0.5,
+        [Constants.Stats.ATK_P]: 0.5,
+        [Constants.Stats.DEF]: 0.5,
+        [Constants.Stats.DEF_P]: 0.5,
+        [Constants.Stats.HP]: 0.5,
+        [Constants.Stats.HP_P]: 0.5,
         [Constants.Stats.SPD]: 1,
         [Constants.Stats.CR]: 0,
         [Constants.Stats.CD]: 0,
@@ -4295,20 +4282,14 @@ function getScoringMetadata() {
       },
       parts: {
         [Constants.Parts.Body]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
-          Constants.Stats.ATK_P,
           Constants.Stats.SPD,
         ],
         [Constants.Parts.PlanarSphere]: [
-          Constants.Stats.ATK_P,
-          Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
-          Constants.Stats.ERR,
         ],
       },
       presets: [],
@@ -4562,9 +4543,6 @@ function getScoringMetadata() {
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.Fire_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -4707,26 +4685,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.CR,
-          Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -4808,7 +4771,9 @@ function getScoringMetadata() {
           Stats.DEF_P,
           Stats.DEF,
         ],
-        breakpoints: {},
+        breakpoints: {
+          [Stats.DEF]: 4000,
+        },
         formula: {
           BASIC: 2,
           SKILL: 0,
@@ -4996,16 +4961,6 @@ function getScoringMetadata() {
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -5619,28 +5574,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CR,
-          Stats.CD,
-          Stats.ATK_P,
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.EHR,
-          Stats.OHB,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.BE,
@@ -6040,26 +5978,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.CR,
-          Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.BE,
@@ -6095,26 +6018,11 @@ function getScoringMetadata() {
       },
       parts: {
         [Parts.Body]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.CR,
-          Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP_P,
-          Stats.DEF_P,
-          Stats.ATK_P,
-          Stats.Wind_DMG,
-          Stats.Physical_DMG,
-          Stats.Fire_DMG,
-          Stats.Ice_DMG,
-          Stats.Lightning_DMG,
-          Stats.Quantum_DMG,
-          Stats.Imaginary_DMG,
         ],
         [Parts.LinkRope]: [
           Stats.BE,

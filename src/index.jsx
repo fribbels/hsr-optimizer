@@ -25,6 +25,7 @@ import { BufferPacker } from './lib/bufferPacker'
 import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
 import { Themes } from 'lib/theme'
+import { MihomoCharacterConverter } from 'lib/mihomoCharacterConverter'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -44,6 +45,7 @@ window.CharacterConverter = CharacterConverter
 window.RelicScorer = RelicScorer
 window.BufferPacker = BufferPacker
 window.RelicRollFixer = RelicRollFixer
+window.MihomoCharacterConverter = MihomoCharacterConverter
 
 window.officialOnly = false
 window.colorTheme = Themes.BLUE

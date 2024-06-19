@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'components/CharacterPreview'
 import { SaveState } from 'lib/saveState'
-import { CharacterConverter } from 'lib/characterConverter'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
@@ -15,6 +14,7 @@ import { applySpdPreset } from 'components/optimizerTab/optimizerForm/Recommende
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Constants } from 'lib/constants'
+import { MihomoCharacterConverter } from 'lib/mihomoCharacterConverter'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -72,45 +72,9 @@ export default function RelicScorerTab() {
       })
       .then((data) => {
         console.log(data)
-        const useBackup = false
+        data = JSON.parse(data)
 
-        let characters
-        if (useBackup) {
-          // Backup
-          data = Utils.recursiveToCamel(data)
-          characters = [
-            data.detailInfo.assistAvatars[0],
-            data.detailInfo.assistAvatars[1],
-            data.detailInfo.assistAvatars[2],
-            data.detailInfo.avatarDetailList[0],
-            data.detailInfo.avatarDetailList[1],
-            data.detailInfo.avatarDetailList[2],
-            data.detailInfo.avatarDetailList[3],
-            data.detailInfo.avatarDetailList[4],
-          ]
-        } else {
-          if (!data.detailInfo) {
-            setLoading(false)
-            Message.error('Error loading ID')
-            return 'ERROR'
-          }
-
-          characters = data.detailInfo.avatarDetailList
-            .filter((x) => !!x)
-            .sort((a, b) => {
-              if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
-              if (b._assist) return 1
-              if (a._assist) return -1
-              return 0
-            })
-            .filter((item, index, array) => {
-              return array.findIndex((i) => i.avatarId === item.avatarId) === index
-            })
-        }
-
-        console.log('characters', characters)
-
-        const converted = characters.map((x) => CharacterConverter.convert(x))
+        const converted = data.characters.map((x) => MihomoCharacterConverter.convert(x))
         for (let i = 0; i < converted.length; i++) {
           converted[i].index = i
         }

@@ -644,7 +644,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1221": {
       "id": "1221",
@@ -661,7 +661,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1224": {
       "id": "1224",
@@ -678,7 +678,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1301": {
       "id": "1301",
@@ -1819,7 +1819,7 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
-      "unreleased": false
+      "unreleased": true
     },
     "22000": {
       "id": "22000",
@@ -2215,7 +2215,7 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
-      "unreleased": false
+      "unreleased": true
     },
     "23030": {
       "id": "23030",
@@ -2227,7 +2227,7 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
-      "unreleased": false
+      "unreleased": true
     },
     "24000": {
       "id": "24000",

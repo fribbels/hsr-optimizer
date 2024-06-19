@@ -72,7 +72,6 @@ export default function RelicScorerTab() {
       })
       .then((data) => {
         console.log(data)
-        data = JSON.parse(data)
 
         const converted = data.characters.map((x) => MihomoCharacterConverter.convert(x))
         for (let i = 0; i < converted.length; i++) {

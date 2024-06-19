@@ -365,3 +365,5 @@ export type ConditionalBuff =
   | 'ultCull'
   | 'ultCullHits'
   | 'e4DefShred'
+  | 'masterToughnessRedBuff'
+  | 'masterAdditionalDmgBuff'

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
 import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
@@ -88,6 +88,22 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     }
   }
 
+  const selectAllCharacters = () => {
+    const newSelected = new Map<string, boolean>(selected)
+    characterOptions
+      .filter(applyFilters)
+      .forEach(option => newSelected.set(option.id, true))
+    setSelected(newSelected)
+  }
+
+  const deselectAllCharacters = () => {
+    const newSelected = new Map<string, boolean>(selected)
+    characterOptions
+      .filter(applyFilters)
+      .forEach(option => newSelected.delete(option.id))
+    setSelected(newSelected)
+  }
+
   return (
     <>
       <Select
@@ -132,7 +148,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       >
         <Flex vertical gap={12}>
           <Flex gap={12} wrap="wrap">
-            <Flex vertical wrap="wrap" style={{ minWidth: 300, flexGrow: 1 }}>
+            <Flex wrap="nowrap" style={{ minWidth: 300, flexGrow: 1 }} gap={10}>
               <Input
                 size="large"
                 style={{ height: 40 }}
@@ -150,6 +166,22 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   }
                 }}
               />
+              {multipleSelect && (
+                <>
+                  <Button
+                    onClick={deselectAllCharacters}
+                    style={{ flexGrow: 1, height: '100%' }}
+                  >
+                    All
+                  </Button>
+                  <Button
+                    onClick={selectAllCharacters}
+                    style={{ flexGrow: 1, height: '100%' }}
+                  >
+                    None
+                  </Button>
+                </>
+              )}
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>

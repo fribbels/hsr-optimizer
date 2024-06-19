@@ -449,7 +449,7 @@ function relicHash(relic: Relic) {
     enhance: relic.enhance,
     part: relic.part,
     set: relic.set,
-    mainStatType: relic.main.stat,
+    mainStatType: relic.main?.stat,
     substats: relic.substats,
   })
 }

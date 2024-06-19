@@ -73,7 +73,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
 }
 
 async function getProfile(accountId: string): Promise<ProfileResponse> {
-  const endpoint = `https://api.mihomo.me/sr_info_parsed/${accountId}?lang=en`
+  const endpoint = `https://enka.network/api/hsr/uid/${accountId}`
   console.log('GET ' + endpoint)
 
   const response = await fetch(endpoint, {

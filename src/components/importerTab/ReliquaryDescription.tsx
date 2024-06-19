@@ -11,6 +11,7 @@ export function ReliquaryDescription(): ReactElement {
           <ColorizedLink text="Github" url={ReliquaryArchiverConfig.releases} />
           )
           <ul>
+            <li><b>******* Will be down for maintenance for a few hours after new game patches *******</b></li>
             <li>Accurate speed decimals, instant scan</li>
             <li>Imports full inventory and character roster</li>
           </ul>

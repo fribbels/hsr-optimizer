@@ -88,19 +88,19 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     }
   }
 
-  const selectAllCharacters = () => {
+  const excludeAll = () => {
     const newSelected = new Map<string, boolean>(selected)
     characterOptions
       .filter(applyFilters)
-      .forEach(option => newSelected.set(option.id, true))
+      .forEach((option) => newSelected.set(option.id, true))
     setSelected(newSelected)
   }
 
-  const deselectAllCharacters = () => {
+  const includeAll = () => {
     const newSelected = new Map<string, boolean>(selected)
     characterOptions
       .filter(applyFilters)
-      .forEach(option => newSelected.delete(option.id))
+      .forEach((option) => newSelected.delete(option.id))
     setSelected(newSelected)
   }
 
@@ -148,10 +148,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       >
         <Flex vertical gap={12}>
           <Flex gap={12} wrap="wrap">
-            <Flex wrap="nowrap" style={{ minWidth: 300, flexGrow: 1 }} gap={10}>
+            <Flex wrap="nowrap" style={{ minWidth: 500, flexGrow: 1 }} gap={10}>
               <Input
                 size="large"
-                style={{ height: 40 }}
+                style={{
+                  height: 40,
+                  flex: 1,
+                }}
                 placeholder="Search character name"
                 ref={inputRef}
                 onChange={(e) => {
@@ -167,20 +170,20 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 }}
               />
               {multipleSelect && (
-                <>
+                <Flex gap={12}>
                   <Button
-                    onClick={deselectAllCharacters}
-                    style={{ flexGrow: 1, height: '100%' }}
+                    onClick={excludeAll}
+                    style={{ height: '100%', width: 120 }}
                   >
-                    All
+                    Exclude all
                   </Button>
                   <Button
-                    onClick={selectAllCharacters}
-                    style={{ flexGrow: 1, height: '100%' }}
+                    onClick={includeAll}
+                    style={{ height: '100%', width: 120 }}
                   >
-                    None
+                    Clear
                   </Button>
-                </>
+                </Flex>
               )}
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>

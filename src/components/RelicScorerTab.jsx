@@ -140,9 +140,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-        <Flex gap={10} vertical align="center">
-          <Text><h2>The relic scorer may be slow today, try refreshing the page</h2></Text>
-        </Flex>
+        {/* <Flex gap={10} vertical align="center"> */}
+        {/*  <Text><h2>The relic scorer may be slow today, try refreshing the page</h2></Text> */}
+        {/* </Flex> */}
         <Flex gap={10} vertical align="center">
           <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>

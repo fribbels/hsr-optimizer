@@ -654,7 +654,7 @@ export function CharacterPreview(props) {
                 </Flex>
 
                 <CharacterStatSummary
-                  finalStats={simScoringResult ? simScoringResult.originalSimResult : finalStats}
+                  finalStats={finalStats}
                   elementalDmgValue={elementalDmgValue}
                   cv={finalStats.CV}
                   simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}

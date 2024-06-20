@@ -146,9 +146,9 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         }}
         footer={null}
       >
-        <Flex vertical gap={12}>
+        <Flex vertical gap={12} style={{ minWidth: 350 }}>
           <Flex gap={12} wrap="wrap">
-            <Flex wrap="nowrap" style={{ minWidth: 500, flexGrow: 1 }} gap={10}>
+            <Flex wrap="nowrap" style={{ flexGrow: 1 }} gap={10}>
               <Input
                 size="large"
                 style={{

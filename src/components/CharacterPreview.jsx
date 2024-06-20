@@ -430,6 +430,7 @@ export function CharacterPreview(props) {
           style={{
             display: character ? 'flex' : 'none',
             height: parentH,
+            margin: 1,
           }}
         >
           <RelicModal
@@ -629,7 +630,7 @@ export function CharacterPreview(props) {
                 justify="space-between"
               >
                 <Flex vertical>
-                  <Flex justify="space-around" style={{ height: 36 }}>
+                  <Flex justify="space-around" style={{ height: 26, marginBottom: 8 }} align="center">
                     <Image
                       preview={false}
                       width={36}

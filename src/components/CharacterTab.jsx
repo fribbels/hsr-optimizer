@@ -524,7 +524,6 @@ export default function CharacterTab() {
               flexBasis="14.2%"
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
-              onChange={() => externalFilterChanged()}
             />
           </Flex>
           <Flex style={{ flex: 1 }}>
@@ -534,7 +533,6 @@ export default function CharacterTab() {
               flexBasis="14.2%"
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
-              onChange={() => externalFilterChanged()}
             />
           </Flex>
         </Flex>

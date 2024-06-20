@@ -134,6 +134,16 @@ export function CharacterPreview(props) {
   if (!character) {
     return (
       <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
+        <div style={{
+          width: parentW + 4,
+          overflow: 'hidden',
+          outline: `2px solid ${token.colorBgContainer}`,
+          height: '100%',
+          borderRadius: '10px',
+        }}
+        >
+          {/* This is a placeholder for the character portrait when no character is selected */}
+        </div>
 
         <Flex gap={defaultGap}>
           <Flex

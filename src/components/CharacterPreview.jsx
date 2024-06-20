@@ -135,16 +135,6 @@ export function CharacterPreview(props) {
     return (
       <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
 
-        <div style={{
-          width: parentW,
-          overflow: 'hidden',
-          outline: `2px solid ${token.colorBgContainer}`,
-          height: '100%',
-          borderRadius: '10px',
-        }}
-        >
-        </div>
-
         <Flex gap={defaultGap}>
           <Flex
             vertical gap={defaultGap} align="center"
@@ -454,7 +444,7 @@ export function CharacterPreview(props) {
                   width: `${parentW}px`,
                   height: `${tempParentH}px`,
                   overflow: 'hidden',
-                  borderRadius: '10px',
+                  borderRadius: '8px',
                   marginRight: defaultGap,
                   outline: outline,
                   filter: filter,
@@ -602,7 +592,7 @@ export function CharacterPreview(props) {
                       height: `${tempLcParentH}px`,
                       overflow: 'hidden',
                       zIndex: 2,
-                      borderRadius: '10px',
+                      borderRadius: '8px',
                       outline: outline,
                       filter: filter,
                       position: 'relative',
@@ -747,7 +737,7 @@ export function CharacterPreview(props) {
                       width: `${tempLcParentW}px`,
                       height: `${tempLcParentH}px`,
                       overflow: 'hidden',
-                      borderRadius: '10px',
+                      borderRadius: '8px',
                       outline: outline,
                       filter: filter,
                     }}

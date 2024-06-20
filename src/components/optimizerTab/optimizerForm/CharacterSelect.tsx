@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
   value
@@ -188,7 +188,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="element"
                   tags={generateElementTags()}
                   flexBasis="14.2%"
@@ -197,7 +197,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"

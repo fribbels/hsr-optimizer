@@ -18,7 +18,6 @@ let CANCEL = false
 
 export function calculateCurrentlyEquippedRow(request) {
   let relics = Utils.clone(DB.getRelics())
-  RelicFilters.calculateWeightScore(request, relics)
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
   relics = RelicFilters.splitRelicsByPart(relics)
@@ -62,7 +61,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: function(request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
@@ -184,7 +183,7 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
-          window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource()})
+          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
           return
@@ -212,7 +211,6 @@ export function renameFields(c) {
   c.DOT = c.x.DOT_DMG
   c.BREAK = c.x.BREAK_DMG
   c.COMBO = c.x.COMBO_DMG
-  c.WEIGHT = c.x.WEIGHT
   c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]

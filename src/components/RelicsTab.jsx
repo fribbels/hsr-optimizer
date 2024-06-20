@@ -111,7 +111,7 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
-  const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_ALL)
+  const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)

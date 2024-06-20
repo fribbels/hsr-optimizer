@@ -4,7 +4,7 @@ import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import DB from 'lib/db.js'
-import { CardGridFilterRow, CardGridItemContent, generatePathTags, generateRarityTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface LightConeSelectProps {
   value
@@ -123,7 +123,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
             </Flex>
             <Flex wrap="wrap" style={{ flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"
@@ -132,7 +132,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="rarity"
                   tags={generateRarityTags()}
                   flexBasis="14.2%"

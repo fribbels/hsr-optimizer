@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 
-import { Button, Dropdown, Flex, Image, Modal, theme, Typography, Input } from 'antd'
+import { Button, Dropdown, Flex, Image, Input, Modal, theme, Typography } from 'antd'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
@@ -21,8 +21,7 @@ import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import SwitchRelicsModal from './SwitchRelicsModal'
 import { getGridTheme } from 'lib/theme'
-import { CardGridFilterRow, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
-import { ClassToPath } from 'lib/constants'
+import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -174,10 +173,9 @@ export default function CharacterTab() {
   const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
+  const nameFilter = useRef('')
 
-  const [cardfilters, setCardfilters] = useState(Utils.clone(defaultFilters))
-
-  const namefilter = useRef('')
+  const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
   console.log('CharacterTab')
 
@@ -239,22 +237,21 @@ export default function CharacterTab() {
 
   const doesExternalFilterPass = useCallback(
     (node) => {
-      const charinfo = Utils.clone(DB.getMetadata().characters)
-      const filteredCharacter = charinfo[node.data.id]
-      if (cardfilters.element.length && !cardfilters.element.includes(filteredCharacter.element)) {
+      const filteredCharacter = DB.getMetadata().characters[node.data.id]
+      if (characterFilters.element.length && !characterFilters.element.includes(filteredCharacter.element)) {
         return false
       }
-      if (cardfilters.path.length && !cardfilters.path.includes(ClassToPath[filteredCharacter.path])) {
+      if (characterFilters.path.length && !characterFilters.path.includes(filteredCharacter.path)) {
         return false
       }
-      return ((filteredCharacter.name).toLowerCase().includes(namefilter.current) || (filteredCharacter.displayName).toLowerCase().includes(namefilter.current))
-    }, [cardfilters],
+      return filteredCharacter.name.toLowerCase().includes(nameFilter.current)
+        || filteredCharacter.displayName.toLowerCase().includes(nameFilter.current)
+    }, [characterFilters],
   )
 
   const isExternalFilterPresent = useCallback(() => {
-    if (!cardfilters.element.length && !cardfilters.path.length && !namefilter.current.length) return false
-    return true
-  }, [cardfilters])
+    return characterFilters.element.length + characterFilters.path.length + nameFilter.current.length > 0
+  }, [characterFilters])
 
   const cellClickedListener = useCallback((event) => {
     const data = event.data
@@ -507,37 +504,36 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={10} style={{ margin: 'auto' }}>
-          <Flex style={{ width: 350 }}>
+        <Flex gap={10} style={{ width: '100%', marginBottom: 5 }}>
+          <Flex style={{ width: 230 }}>
             <Input
+              allowClear
               size="large"
               style={{ height: 40 }}
               placeholder="Search character name"
               onChange={(e) => {
-                let newFilters = Utils.clone(namefilter.current)
-                newFilters = e.target.value.toLowerCase()
-                namefilter.current = newFilters
+                nameFilter.current = e.target.value.toLowerCase()
                 externalFilterChanged()
               }}
             />
           </Flex>
-          <Flex style={{ width: 350 }}>
-            <CardGridFilterRow
+          <Flex style={{ flex: 1 }}>
+            <SegmentedFilterRow
               name="element"
               tags={generateElementTags()}
               flexBasis="14.2%"
-              currentFilters={cardfilters}
-              setCurrentFilters={setCardfilters}
+              currentFilters={characterFilters}
+              setCurrentFilters={setCharacterFilters}
               onChange={() => externalFilterChanged()}
             />
           </Flex>
-          <Flex style={{ width: 350 }}>
-            <CardGridFilterRow
+          <Flex style={{ flex: 1 }}>
+            <SegmentedFilterRow
               name="path"
               tags={generatePathTags()}
               flexBasis="14.2%"
-              currentFilters={cardfilters}
-              setCurrentFilters={setCardfilters}
+              currentFilters={characterFilters}
+              setCurrentFilters={setCharacterFilters}
               onChange={() => externalFilterChanged()}
             />
           </Flex>
@@ -609,8 +605,6 @@ export default function CharacterTab() {
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
             />
           </Flex>
-
-          {/* <CharacterTabDebugPanel selectedCharacter={selectedCharacter} /> */}
         </Flex>
       </Flex>
       <CharacterModal

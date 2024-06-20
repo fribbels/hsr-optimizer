@@ -429,3 +429,7 @@ a {
     background-color: #1b6d85 !important;
     color: #fff !important;
 }
+
+.ag-root-wrapper {
+    border-radius: 8px !important;
+}

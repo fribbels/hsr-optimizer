@@ -79,7 +79,6 @@ export const baseColumnDefs = [
   { field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'ERR' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'DMG' },
-  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'WEIGHT' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
@@ -162,7 +161,6 @@ export const combatColumnDefs = [
   { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'Σ ERR' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ DMG' },
-  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'WEIGHT' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },

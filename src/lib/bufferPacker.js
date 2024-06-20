@@ -19,7 +19,7 @@ export const BufferPacker = {
       [Constants.Stats.ERR]: arr[offset + 10], // 10
       [Constants.Stats.OHB]: arr[offset + 11],
       ED: arr[offset + 12],
-      WEIGHT: arr[offset + 13],
+      WEIGHT: arr[offset + 13], // DELETE
       EHP: arr[offset + 14],
       BASIC: arr[offset + 15],
       SKILL: arr[offset + 16],

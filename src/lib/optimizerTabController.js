@@ -125,7 +125,6 @@ export const OptimizerTabController = {
         [Constants.Stats.OHB]: true,
         // For custom ones remember to set the min/max in aggregate()
         ED: true,
-        WEIGHT: true,
         EHP: true,
 
         BASIC: true,
@@ -283,8 +282,6 @@ export const OptimizerTabController = {
     newForm.maxErr = unsetMax(form.maxErr, true)
     newForm.minErr = unsetMin(form.minErr, true)
 
-    newForm.maxWeight = unsetMax(form.maxWeight)
-    newForm.minWeight = unsetMin(form.minWeight)
     newForm.maxEhp = unsetMax(form.maxEhp)
     newForm.minEhp = unsetMin(form.minEhp)
     newForm.maxBasic = unsetMax(form.maxBasic)
@@ -556,8 +553,6 @@ export const OptimizerTabController = {
     x.maxErr = fixValue(x.maxErr, MAX_INT, 100)
     x.minErr = fixValue(x.minErr, 0, 100)
 
-    x.maxWeight = fixValue(x.maxWeight, MAX_INT)
-    x.minWeight = fixValue(x.minWeight, 0)
     x.maxEhp = fixValue(x.maxEhp, MAX_INT)
     x.minEhp = fixValue(x.minEhp, 0)
 
@@ -711,8 +706,6 @@ function aggregate(subArray) {
   const maxAgg = CharacterStats.getZeroes()
   minAgg['ED'] = Constants.MAX_INT
   maxAgg['ED'] = 0
-  minAgg['WEIGHT'] = Constants.MAX_INT
-  maxAgg['WEIGHT'] = 0
   minAgg['EHP'] = Constants.MAX_INT
   maxAgg['EHP'] = 0
 
@@ -776,7 +769,6 @@ function filter(filterModel) {
         && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
         && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
@@ -803,7 +795,6 @@ function filter(filterModel) {
         && row[Constants.Stats.BE] >= filterModel.minBe && row[Constants.Stats.BE] <= filterModel.maxBe
         && row[Constants.Stats.ERR] >= filterModel.minErr && row[Constants.Stats.ERR] <= filterModel.maxErr
         && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-        && row.WEIGHT >= filterModel.minWeight && row.WEIGHT <= filterModel.maxWeight
         && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
         && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
         && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt

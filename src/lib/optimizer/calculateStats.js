@@ -274,14 +274,6 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
       c[condensedStat[0]] += condensedStat[1]
     }
   }
-
-  c.x.WEIGHT
-    = head.weightScore
-    + hands.weightScore
-    + body.weightScore
-    + feet.weightScore
-    + planarSphere.weightScore
-    + linkRope.weightScore
 }
 
 function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {

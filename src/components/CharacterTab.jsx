@@ -504,7 +504,7 @@ export default function CharacterTab() {
       }}
     >
       <Flex vertical gap={defaultGap}>
-        <Flex gap={10} style={{ width: '100%', marginBottom: 5 }}>
+        <Flex gap={8} style={{ width: '100%', marginBottom: 5 }}>
           <Flex style={{ width: 230 }}>
             <Input
               allowClear
@@ -537,10 +537,10 @@ export default function CharacterTab() {
           </Flex>
         </Flex>
         <Flex style={{ height: '100%' }}>
-          <Flex vertical gap={8} style={{ marginRight: 8 }}>
+          <Flex vertical gap={10} style={{ marginRight: 8 }}>
             <div
               id="characterGrid" className="ag-theme-balham-dark" style={{
-                ...{ display: 'block', width: 230, height: parentH - 76 },
+                ...{ display: 'block', width: 230, height: parentH - 80 },
                 ...getGridTheme(token),
               }}
             >

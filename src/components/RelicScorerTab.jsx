@@ -95,7 +95,7 @@ export default function RelicScorerTab() {
             return 'ERROR'
           }
 
-          characters = [...data.detailInfo.assistAvatarList, ...data.detailInfo.avatarDetailList]
+          characters = [...(data.detailInfo.assistAvatarList || []), ...(data.detailInfo.avatarDetailList || [])]
             .filter((x) => !!x)
             .sort((a, b) => {
               if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)

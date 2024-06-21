@@ -19,7 +19,7 @@ export const ReliquaryArchiverConfig = {
   releases: 'https://github.com/IceDynamix/reliquary-archiver/releases/latest',
   defaultFileName: 'archiver_output.json',
   sourceString: 'reliquary_archiver',
-  latestBuildVersion: 'v0.1.6',
+  latestBuildVersion: 'v0.1.7',
   latestOutputVersion: 3,
   speedVerified: true,
 }

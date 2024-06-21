@@ -34,7 +34,8 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   let data
   let dataString
   try {
-    data = await getProfile(accountId)
+    data = await getProfile(accountId, enkaEndpoint)
+    data.source = 'enka'
     dataString = JSON.stringify(data)
     console.log(data)
     idCache[accountId] = {
@@ -42,12 +43,23 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
       data: dataString,
     }
   } catch (e) {
-    console.error(e)
-    idCache[accountId] = {
-      date: new Date(),
-      data: '',
+    try {
+      data = await getProfile(accountId, manaEndpoint)
+      data.source = 'mana'
+      dataString = JSON.stringify(data)
+      console.log(data)
+      idCache[accountId] = {
+        date: new Date(),
+        data: dataString,
+      }
+    } catch (e) {
+      console.error(e)
+      idCache[accountId] = {
+        date: new Date(),
+        data: '',
+      }
+      return { statusCode: 500, body: 'Error' }
     }
-    return { statusCode: 500, body: 'Error' }
   }
 
   // Cache value
@@ -72,8 +84,11 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   return generate200Response(dataString)
 }
 
-async function getProfile(accountId: string): Promise<ProfileResponse> {
-  const endpoint = `https://enka.network/api/hsr/uid/${accountId}`
+const enkaEndpoint = 'https://enka.network/api/hsr/uid/'
+const manaEndpoint = 'https://starrail-showcase.mana.wiki/api/showcase/'
+
+async function getProfile(accountId: string, url: string): Promise<ProfileResponse> {
+  const endpoint = `${url}${accountId}`
   console.log('GET ' + endpoint)
 
   const response = await fetch(endpoint, {

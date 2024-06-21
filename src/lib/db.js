@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, SIMULATION_SCORE } from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -372,6 +372,11 @@ export const DB = {
       // Deduplicate main stat filter values
       for (const part of Object.keys(Constants.Parts)) {
         character.form['main' + part] = deduplicateArray(character.form['main' + part])
+      }
+
+      // In beta, Duran maxed out at 6
+      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
+        character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
     }
 

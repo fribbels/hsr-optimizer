@@ -447,8 +447,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <Flex gap={defaultGap} justify="space-around">
             <Flex vertical gap={10}>
               <ScoringStat stat={StatsToReadable[request.simBody]} part={Parts.Body} />
-              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
               <ScoringStat stat={StatsToReadable[request.simFeet]} part={Parts.Feet} />
+              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
               <ScoringStat stat={StatsToReadable[request.simLinkRope]} part={Parts.LinkRope} />
             </Flex>
           </Flex>

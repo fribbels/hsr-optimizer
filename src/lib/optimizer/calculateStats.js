@@ -2,8 +2,6 @@ import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
 
-const statValues = Object.values(Stats)
-
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   c.sets = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),

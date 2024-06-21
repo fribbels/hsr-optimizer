@@ -19,7 +19,7 @@ import { Constants } from 'lib/constants'
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
 // BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
-export const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'
+export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
 function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
@@ -65,17 +65,16 @@ export default function RelicScorerTab() {
 
     fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {
-        if (!response.ok) {
+        if (!response.ok && !response.source) {
           throw new Error(`HTTP error! Status: ${response.status}`)
         }
         return response.json()
       })
       .then((data) => {
         console.log(data)
-        const useBackup = false
 
         let characters
-        if (useBackup) {
+        if (data.source == 'mana') {
           // Backup
           data = Utils.recursiveToCamel(data)
           characters = [

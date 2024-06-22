@@ -271,6 +271,19 @@ export function scoreCharacterSimulation(
       sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
     metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
   }
+  if (addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+    metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
+  }
+  if (addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+    metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
 
   // Set up default request
   const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)

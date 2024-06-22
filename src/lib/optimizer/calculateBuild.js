@@ -27,8 +27,8 @@ function generateUnusedSets(relics) {
     RelicSetToIndex[relics.Hands.set],
     RelicSetToIndex[relics.Body.set],
     RelicSetToIndex[relics.Feet.set],
-    RelicSetToIndex[relics.PlanarSphere.set],
-    RelicSetToIndex[relics.LinkRope.set],
+    OrnamentSetToIndex[relics.PlanarSphere.set],
+    OrnamentSetToIndex[relics.LinkRope.set],
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
@@ -49,12 +49,12 @@ export function calculateBuild(request, relics) {
   const unusedSets = generateUnusedSets(relics)
   let unusedSetCounter = 0
 
-  const setH = RelicSetToIndex[relics.Head.set] || unusedSets[unusedSetCounter++]
-  const setG = RelicSetToIndex[relics.Hands.set] || unusedSets[unusedSetCounter++]
-  const setB = RelicSetToIndex[relics.Body.set] || unusedSets[unusedSetCounter++]
-  const setF = RelicSetToIndex[relics.Feet.set] || unusedSets[unusedSetCounter++]
-  const setP = OrnamentSetToIndex[relics.PlanarSphere.set] || unusedSets[unusedSetCounter++]
-  const setL = OrnamentSetToIndex[relics.LinkRope.set] || unusedSets[unusedSetCounter++]
+  const setH = RelicSetToIndex[relics.Head.set] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set] ?? unusedSets[unusedSetCounter++]
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount

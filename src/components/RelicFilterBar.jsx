@@ -161,8 +161,7 @@ export default function RelicFilterBar(props) {
           averagePct: Math.max(pct.averagePct, relic.weights.potentialAllAll.averagePct),
         }
 
-        const preferredRelics = relicScorer.getRelicScoreMeta(cid).preferredRelics
-        let preferred = preferredRelics ? preferredRelics.indexOf(relic.set) >= 0 : false
+        let preferred = relicScorer.getRelicScoreMeta(cid).preferredRelics.indexOf(relic.set) >= 0
         if (preferred) {
           relic.weights.potentialPreferredAll = {
             bestPct: Math.max(pct.bestPct, relic.weights.potentialPreferredAll.bestPct),

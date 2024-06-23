@@ -271,7 +271,7 @@ export const Hint = {
       title: 'Relic Insight',
       content: (
         <Flex vertical gap={10}>
-          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of.</p>
+          <p>When a relic is selected in the table above, you can choose an analysis to view a plot of. The plot can show all characters, a custom set, or just characters that prefer this relic set.</p>
           <p>'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<br />
             If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<br />
             ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.

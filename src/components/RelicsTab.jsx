@@ -87,6 +87,7 @@ GradeFilter.propTypes = {
 
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
+const PLOT_PREFERRED = 'PLOT_PREFERRED'
 
 const relicInsightOptions = [
   { value: 'buckets', label: 'Relic Insight: Buckets' },
@@ -95,6 +96,7 @@ const relicInsightOptions = [
 const characterPlotOptions = [
   { value: PLOT_ALL, label: 'Show all characters' },
   { value: PLOT_CUSTOM, label: 'Show custom characters' },
+  { value: PLOT_PREFERRED, label: 'Show preferred characters' },
 ]
 
 export default function RelicsTab() {
@@ -375,14 +377,17 @@ export default function RelicsTab() {
   const [scoreBuckets, setScoreBuckets] = useState(null)
   useEffect(() => {
     if (selectedRelic) {
+      const relicScorer = new RelicScorer()
       const chars = DB.getMetadata().characters
       const excluded = window.store.getState().excludedRelicPotentialCharacters
       const allScores = Object.keys(chars)
         .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
+        .filter((id) => !(plottedCharacterType === PLOT_PREFERRED &&
+          relicScorer.getRelicScoreMeta(id).preferredRelics.indexOf(selectedRelic.set) < 0))
         .map((id) => ({
           cid: id,
           name: chars[id].displayName,
-          score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+          score: relicScorer.scoreRelicPct(selectedRelic, id, true),
           color: '#000',
           owned: !!DB.getCharacterById(id),
         }))

@@ -13,7 +13,12 @@ export type Relic = {
     current: number
     average: number
     best: number
+    potentialSelected: number
     potentialAllAll: number
+    potentialAllCustom: number
+    potentialAllCustom: number
+    potentialPreferredAll: number
+    potentialPreferredCustom: number
   }
 
   enhance: RelicEnhance

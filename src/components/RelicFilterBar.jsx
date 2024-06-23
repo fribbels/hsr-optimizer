@@ -151,6 +151,8 @@ export default function RelicFilterBar(props) {
       relic.weights.potentialSelected = id ? relicScorer.scoreRelicPct(relic, id) : { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       relic.weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
+      relic.weights.potentialPreferredAll = { bestPct: 0, averagePct: 0 }
+      relic.weights.potentialPreferredCustom = { bestPct: 0, averagePct: 0 }
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPct(relic, cid)
@@ -159,11 +161,26 @@ export default function RelicFilterBar(props) {
           averagePct: Math.max(pct.averagePct, relic.weights.potentialAllAll.averagePct),
         }
 
+        const preferredRelics = relicScorer.getRelicScoreMeta(cid).preferredRelics
+        let preferred = preferredRelics ? preferredRelics.indexOf(relic.set) >= 0 : false
+        if (preferred) {
+          relic.weights.potentialPreferredAll = {
+            bestPct: Math.max(pct.bestPct, relic.weights.potentialPreferredAll.bestPct),
+            averagePct: Math.max(pct.averagePct, relic.weights.potentialPreferredAll.averagePct),
+          }
+        }
+
         // For custom characters only consider the ones that aren't excluded
         if (!excludedCharacters.includes(cid)) {
           relic.weights.potentialAllCustom = {
             bestPct: Math.max(pct.bestPct, relic.weights.potentialAllCustom.bestPct),
             averagePct: Math.max(pct.averagePct, relic.weights.potentialAllCustom.averagePct),
+          }
+          if (preferred) {
+            relic.weights.potentialPreferredCustom = {
+              bestPct: Math.max(pct.bestPct, relic.weights.potentialPreferredCustom.bestPct),
+              averagePct: Math.max(pct.averagePct, relic.weights.potentialPreferredCustom.averagePct),
+            }
           }
         }
       }

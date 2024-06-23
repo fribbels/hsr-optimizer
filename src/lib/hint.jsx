@@ -1,5 +1,7 @@
 import React from 'react'
 import { Flex } from 'antd'
+import { Utils } from 'lib/utils'
+import DB from './db'
 
 export const Hint = {
   ratingFilters: () => {
@@ -240,19 +242,24 @@ export const Hint = {
   },
 
   valueColumns: () => {
+    let missingRelicData = Utils.generateCharacterOptions()
+      .filter((co) => DB.getScoringMetadata(co.id).preferredRelics.length === 0)
+      .map((co) => co.displayName)
+      .sort()
     return {
       title: 'Value Columns',
       content: (
         <Flex vertical gap={10}>
-          <p>You can optionally display a number of columns that assess the relative 'value' of a relic.</p>
+          <p>These columns assess the relative 'value' of a relic.</p>
           <p><b>Weight</b></p>
-          <p>Weight columns assess the contribution of a particular relic to the overall letter grading of the selected recommendation character (if any).</p>
-          <p>Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see</p>
+          <p>Weight columns assess the contribution of a relic to the overall letter grading of the selected recommendation character (if any).</p>
+          <p>Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see.</p>
           <p>Weight is useful to focus on a single character and see which relics might give them a higher letter grading.</p>
           <p><b>Potential</b></p>
-          <p>Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
-          <p>Potential can look at all characters or just owned. It then takes the maximum percentage for any character.</p>
+          <p>Potential is a character-specific % of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.</p>
+          <p>Potential can look at all characters or a custom set. It then takes the maximum % for any character.</p>
           <p>Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.</p>
+          <p>Note the following characters have missing data on their preferred relics: {missingRelicData.join(', ')}</p>
           <p>Note ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats.</p>
         </Flex>
       ),

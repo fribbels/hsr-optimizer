@@ -211,6 +211,8 @@ export default function RelicsTab() {
       options: [
         { column: 'Custom Chars\nAvg Potential', value: 'weights.potentialAllCustom.averagePct', label: 'Custom characters: Avg potential', percent: true },
         { column: 'Custom Chars\nMax Potential', value: 'weights.potentialAllCustom.bestPct', label: 'Custom characters: Max potential', percent: true },
+        { column: 'Custom Chars\nPref Relics\nAvg Potential', value: 'weights.potentialPreferredCustom.averagePct', label: 'Custom characters, pref relics: Avg potential', percent: true },
+        { column: 'Custom Chars\nPref Relics\nMax Potential', value: 'weights.potentialPreferredCustom.bestPct', label: 'Custom characters, pref relics: Max potential', percent: true },
       ],
     },
     {
@@ -218,6 +220,8 @@ export default function RelicsTab() {
       options: [
         { column: 'All Chars\nAvg Potential', value: 'weights.potentialAllAll.averagePct', label: 'All characters: Avg potential', percent: true },
         { column: 'All Chars\nMax Potential', value: 'weights.potentialAllAll.bestPct', label: 'All characters: Max potential', percent: true },
+        { column: 'All Chars, Pref Relics\nAvg Potential', value: 'weights.potentialPreferredAll.averagePct', label: 'All characters, pref relics: Avg potential', percent: true },
+        { column: 'All Chars, Pref Relics\nMax Potential', value: 'weights.potentialPreferredAll.bestPct', label: 'All characters, pref relics: Max potential', percent: true },
       ],
     },
     {

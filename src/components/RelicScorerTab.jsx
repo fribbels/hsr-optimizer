@@ -7,7 +7,14 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled } from '@ant-design/icons'
+import Icon, {
+  CameraOutlined,
+  DownloadOutlined,
+  ExperimentOutlined,
+  ImportOutlined,
+  LineChartOutlined,
+  PlusCircleFilled
+} from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -29,7 +36,7 @@ function presetCharacters() {
     { characterId: char('Jade'), lightConeId: lc('Yet Hope Is Priceless') },
     { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
     { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
-    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea') },
+    { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea'), lightConeSuperimposition: 5 },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -288,7 +295,7 @@ function CharacterPreviewSelection(props) {
       characterLevel: 80,
       lightConeLevel: 80,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: e.lightConeSuperimposition || 1,
     })
   }
 

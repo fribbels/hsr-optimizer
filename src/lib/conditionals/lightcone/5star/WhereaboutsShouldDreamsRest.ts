@@ -5,8 +5,6 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
-const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.24, 0.28, 0.32, 0.36, 0.40]
 
@@ -18,7 +16,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: 'Routed vulnerability',
       title: 'Routed vulnerability',
-      content: betaUpdate,
+      content: `When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s). 
+      Targets afflicted with Routed receive ${sValuesVulnerability[s] * 100}% increased Break DMG from the wearer, and their SPD is lowered by 20%. 
+      Effects of the similar type cannot be stacked.`,
     },
   ]
 

@@ -7,8 +7,6 @@ import { Stats } from 'lib/constants.ts'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { precisionRound } from 'lib/conditionals/utils'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]

@@ -7,8 +7,6 @@ import { Stats } from 'lib/constants.ts'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { findContentId, precisionRound } from 'lib/conditionals/utils.ts'
 
-const betaUpdate = 'All calculations are subject to change. Last updated 04-08-2024.'
-
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
   const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]

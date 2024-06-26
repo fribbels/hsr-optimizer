@@ -5,8 +5,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
-
-const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
+import { precisionRound } from 'lib/conditionals/utils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtkBuff = [0.04, 0.05, 0.06, 0.07, 0.08]
@@ -20,7 +19,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'slider',
       text: 'ATK buff stacks',
       title: 'ATK buff stacks',
-      content: betaUpdate,
+      content: `After using an attack, for each enemy target hit, additionally increases ATK by ${precisionRound(sValuesAtkBuff[s] * 100)}%. 
+      This effect can stack up to 5 times and last until the next attack.`,
       min: 0,
       max: 5,
     },
@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       formItem: 'switch',
       text: '3 targets hit SPD buff',
       title: '3 targets hit SPD buff',
-      content: betaUpdate,
+      content: `If there are 3 or more enemy targets hit, this unit's SPD increases by ${sValuesSpdBuff[s] * 100}%, lasting for 1 turn(s).`,
     },
   ]
 

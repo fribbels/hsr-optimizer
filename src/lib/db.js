@@ -2,7 +2,14 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import {
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DEFAULT_STAT_DISPLAY,
+  RelicSetFilterOptions,
+  Sets,
+  SIMULATION_SCORE
+} from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -128,7 +135,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
     [OptimizerMenuIds.teammates]: true,
-    [OptimizerMenuIds.characterStatsSimulation]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: false,
   },
 
   savedSession: {

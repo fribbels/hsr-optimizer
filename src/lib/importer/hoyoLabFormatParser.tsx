@@ -231,5 +231,19 @@ function getSlot(id: number) {
 
 function getSet(id: number): string {
   const setId = id.toString().substring(1, 4)
+  if (tidOverrides[id]) {
+    return relicSetsData[tidOverrides[id].set].name
+  }
+
   return relicSetsData[setId].name
+}
+
+
+const tidOverrides = {
+  55001: { set: '101', part: '3', main: '436' },
+  55002: { set: '101', part: '4', main: '441' },
+  55003: { set: '102', part: '3', main: '434' },
+  55004: { set: '103', part: '3', main: '433' },
+  55005: { set: '103', part: '4', main: '443' },
+  55006: { set: '105', part: '3', main: '434' },
 }

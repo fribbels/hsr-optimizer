@@ -1,13 +1,15 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants.ts'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
-
-const betaUpdate = 'All calculations are subject to change. Last updated v3 05-20-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -39,7 +41,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'enhancedFollowUp',
       text: 'Enhanced Followup',
       title: 'Enhanced Followup',
-      content: betaUpdate,
+      content: `Jade enhances her Talent's follow-up attack, increasing its DMG multiplier 
+      by ${precisionRound(ultFuaScalingBuff * 100)}%.`,
     },
     {
       formItem: 'slider',
@@ -47,7 +50,9 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'pawnedAssetStacks',
       text: 'Pawned Asset stacks',
       title: 'Pawned Asset stacks',
-      content: betaUpdate,
+      content: `When launching her Talent's follow-up attack, Jade immediately gains 5 stack(s) of Pawned Asset, 
+      with each stack increasing CRIT DMG by ${precisionRound(pawnedAssetCdScaling * 100)}%, stacking up to 50 times. 
+      Each Pawned Asset stack from the Talent additionally increases Jade's ATK by 0.5%.`,
       min: 0,
       max: 50,
     },
@@ -57,7 +62,9 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e1FuaDmgBoost',
       text: 'E1 FUA DMG boost',
       title: 'E1 FUA DMG boost',
-      content: betaUpdate,
+      content: `The follow-up attack DMG from Jade's Talent increases by 32%. After the Debt Collector character 
+      attacks and the number of the enemy target(s) hit is either 2 or 1, Jade additionally gains 1 or 2 point(s) of 
+      Charge respectively.`,
       disabled: e < 1,
     },
     {
@@ -67,7 +74,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e2CrBuff',
       text: 'E2 CR buff',
       title: 'E2 CR buff',
-      content: betaUpdate,
+      content: `When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%.`,
       disabled: e < 2,
     },
     {
@@ -77,7 +84,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e4DefShredBuff',
       text: 'E4 DEF shred buff',
       title: 'E4 DEF shred buff',
-      content: betaUpdate,
+      content: `When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting 
+      for 3 turn(s).`,
       disabled: e < 4,
     },
     {
@@ -86,7 +94,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e6ResShredBuff',
       text: 'E6 RES shred buff',
       title: 'E6 RES shred buff',
-      content: betaUpdate,
+      content: `When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, 
+      and Jade gains the Debt Collector state.`,
       disabled: e < 6,
     },
   ]
@@ -98,7 +107,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'debtCollectorSpdBuff',
       text: 'Debt Collector SPD buff',
       title: 'Debt Collector SPD buff',
-      content: betaUpdate,
+      content: `Makes a single target ally become the Debt Collector and increases their SPD by 30, lasting for 3 turn(s).`,
     },
   ]
 

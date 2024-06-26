@@ -1,13 +1,11 @@
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
-
-const betaUpdate = 'All calculations are subject to change. Last updated v4 05-27-2024.'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -30,7 +28,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'enhancedStateActive',
       text: 'Enhanced state',
       title: 'Enhanced state',
-      content: betaUpdate,
+      content: `Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK 
+      and Enhanced Skill.`,
     },
     {
       formItem: 'switch',
@@ -38,7 +37,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'enhancedStateSpdBuff',
       text: 'Enhanced SPD buff',
       title: 'Enhanced SPD buff',
-      content: betaUpdate,
+      content: `While in Complete Combustion, increases SPD by ${ultSpdBuff}.`,
     },
     {
       formItem: 'switch',
@@ -46,7 +45,9 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'superBreakDmg',
       text: 'Super Break enabled',
       title: 'Super Break enabled',
-      content: betaUpdate,
+      content: `When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, 
+      attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 
+      35%/50% Super Break DMG.`,
     },
     {
       formItem: 'switch',
@@ -54,7 +55,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'atkToBeConversion',
       text: 'ATK to BE conversion',
       title: 'ATK to BE conversion',
-      content: betaUpdate,
+      content: `For every 10 point(s) of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.`,
     },
     {
       formItem: 'switch',
@@ -62,7 +63,9 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'talentDmgReductionBuff',
       text: 'Max EHP buff',
       title: 'Max EHP buff',
-      content: betaUpdate,
+      content: `The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum 
+      effect, reducing up to ${precisionRound(talentDmgReductionBuff * 100)}%. During the Complete Combustion, the DMG 
+      Reduction remains at its maximum effect, and the Effect RES increases by ${precisionRound(talentResBuff * 100)}%.`,
     },
     {
       formItem: 'switch',
@@ -70,7 +73,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e1DefShred',
       text: 'E1 DEF shred',
       title: 'E1 DEF shred',
-      content: betaUpdate,
+      content: `When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume 
+      Skill Points.`,
       disabled: e < 1,
     },
     {
@@ -79,7 +83,7 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e4ResBuff',
       text: 'E4 RES buff',
       title: 'E4 RES buff',
-      content: betaUpdate,
+      content: `While in Complete Combustion, increases SAM's Effect RES by 50%.`,
       disabled: e < 4,
     },
     {
@@ -88,7 +92,8 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'e6Buffs',
       text: 'E6 buffs',
       title: 'E6 buffs',
-      content: betaUpdate,
+      content: `While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or 
+      Enhanced Skill, increases the Weakness Break efficiency by 50%.`,
       disabled: e < 6,
     },
   ]

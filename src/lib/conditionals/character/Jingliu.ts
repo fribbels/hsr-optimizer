@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -98,7 +99,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += 0
 
       // BOOST
-      x.SKILL_BOOST += (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0
+      e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff && buffAbilityDmg(x, [SKILL_TYPE], 0.80)
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

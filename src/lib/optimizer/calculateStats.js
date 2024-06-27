@@ -1,7 +1,7 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
-import { buffDmgTypeBoost } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
@@ -225,21 +225,21 @@ export function calculateComputedStats(c, request, params) {
 
 
   // Basic boost
-  p4(sets.MusketeerOfWildWheat) && buffDmgTypeBoost(x, [BASIC_TYPE], 0.10)
+  p4(sets.MusketeerOfWildWheat) && buffAbilityDmg(x, [BASIC_TYPE], 0.10)
 
   // Skill boost
-  p4(sets.FiresmithOfLavaForging) && buffDmgTypeBoost(x, [SKILL_TYPE], 0.12)
+  p4(sets.FiresmithOfLavaForging) && buffAbilityDmg(x, [SKILL_TYPE], 0.12)
 
   // Fua boost
-  p2(sets.TheAshblazingGrandDuke) && buffDmgTypeBoost(x, [FUA_TYPE], 0.20)
-  p2(sets.DuranDynastyOfRunningWolves) && buffDmgTypeBoost(x, [FUA_TYPE], 0.05 * params.valueDuranDynastyOfRunningWolves)
+  p2(sets.TheAshblazingGrandDuke) && buffAbilityDmg(x, [FUA_TYPE], 0.20)
+  p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, [FUA_TYPE], 0.05 * params.valueDuranDynastyOfRunningWolves)
 
   // Ult boost
-  p4(sets.TheWindSoaringValorous) && buffDmgTypeBoost(x, [ULT_TYPE], 0.36 * params.enabledTheWindSoaringValorous)
+  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, [ULT_TYPE], 0.36 * params.enabledTheWindSoaringValorous)
 
   // Multiple boost
-  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffDmgTypeBoost(x, [BASIC_TYPE, SKILL_TYPE], 0.20)
-  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffDmgTypeBoost(x, [ULT_TYPE, FUA_TYPE], 0.15)
+  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffAbilityDmg(x, [BASIC_TYPE, SKILL_TYPE], 0.20)
+  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffAbilityDmg(x, [ULT_TYPE, FUA_TYPE], 0.15)
 
   x.DEF_SHRED
     += p4(sets.GeniusOfBrilliantStars) ? (params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0

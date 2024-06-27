@@ -5,7 +5,7 @@ import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
-import { buffDmgTypeBoost, buffDmgTypeCdBoost } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -58,8 +58,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       const stacks = Math.max(0, Math.min(6, Math.floor((x[Stats.SPD] - 100) / 10)))
 
-      r.spdScalingBuffs && buffDmgTypeBoost(x, [BASIC_TYPE, SKILL_TYPE], stacks * sValuesDmg[s])
-      r.spdScalingBuffs && buffDmgTypeCdBoost(x, [ULT_TYPE], stacks * sValuesCd[s])
+      r.spdScalingBuffs && buffAbilityDmg(x, [BASIC_TYPE, SKILL_TYPE], stacks * sValuesDmg[s])
+      r.spdScalingBuffs && buffAbilityCd(x, [ULT_TYPE], stacks * sValuesCd[s])
     },
   }
 }

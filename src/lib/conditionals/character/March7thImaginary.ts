@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffDmgTypeCdBoost } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -125,9 +125,9 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.SPD_P] += (r.selfSpdBuff) ? 0.10 : 0
-      x.BASIC_BOOST += (r.talentDmgBuff) ? talentDmgBuff : 0
+      r.talentDmgBuff && buffAbilityDmg(x, [BASIC_TYPE], talentDmgBuff)
 
-      e >= 1 && r.e1EnhancedBasicCdBuff && r.enhancedBasic && buffDmgTypeCdBoost(x, [BASIC_TYPE], 0.36)
+      e >= 1 && r.e1EnhancedBasicCdBuff && r.enhancedBasic && buffAbilityCd(x, [BASIC_TYPE], 0.36)
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff) ? basicExtraScalingMasterBuff * r.basicAttackHits : 0
       x.BASIC_SCALING += (r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling

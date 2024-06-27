@@ -11,7 +11,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffDmgTypeCrBoost } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const {basic, skill, ult} = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -114,7 +114,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      buffDmgTypeCrBoost(x, [BASIC_TYPE], 1.00)
+      buffAbilityCr(x, [BASIC_TYPE], 1.00)
 
       // Scaling
       x.BASIC_SCALING += basicScaling

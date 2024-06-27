@@ -4,7 +4,7 @@ import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
-import { buffDmgTypeDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -52,7 +52,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.ATK_P] += r.prophetStacks * sValuesAtk[s]
 
-      buffDmgTypeDefShred(x, [DOT_TYPE], r.prophetStacks * sValuesDotPen[s])
+      buffAbilityDefShred(x, [DOT_TYPE], r.prophetStacks * sValuesDotPen[s])
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

@@ -6,7 +6,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffDmgTypeDefShred, buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const {basic, skill, ult, talent} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -104,7 +104,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.ULT_SCALING += ultScaling
       x.DOT_SCALING += dotScaling + arcanaStackMultiplier * r.arcanaStacks
 
-      r.arcanaStacks >= 7 && buffDmgTypeDefShred(x, [DOT_TYPE], 0.20)
+      r.arcanaStacks >= 7 && buffAbilityDefShred(x, [DOT_TYPE], 0.20)
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
@@ -120,7 +120,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       const m = request.characterConditionals
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
-      m.epiphanyDebuff && buffDmgTypeVulnerability(x, [DOT_TYPE], epiphanyDmgTakenBoost)
+      m.epiphanyDebuff && buffAbilityVulnerability(x, [DOT_TYPE], epiphanyDmgTakenBoost)
 
       x.DEF_SHRED += (m.defDecreaseDebuff) ? defShredValue : 0
       x.WIND_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0

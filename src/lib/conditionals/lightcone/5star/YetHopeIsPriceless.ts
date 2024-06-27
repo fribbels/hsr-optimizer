@@ -6,7 +6,7 @@ import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/condit
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/utils'
-import { buffDmgTypeDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesFuaDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -45,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      r.ultFuaDefShred && buffDmgTypeDefShred(x, [ULT_TYPE, FUA_TYPE], sValuesUltFuaDefShred[s])
+      r.ultFuaDefShred && buffAbilityDefShred(x, [ULT_TYPE, FUA_TYPE], sValuesUltFuaDefShred[s])
     },
     calculatePassives: (/* c, request */) => {
     },

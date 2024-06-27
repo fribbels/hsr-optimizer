@@ -26,7 +26,7 @@ function extractAbilityTypeFlags(x: ComputedStatsObject, abilityTypeBitFlags: nu
   return activeAbilityTypes
 }
 
-export function buffDmgTypeBoost(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityDmg(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_BOOST += value
@@ -37,7 +37,7 @@ export function buffDmgTypeBoost(x: ComputedStatsObject, dmgTypeBitFlags: number
   // No break
 }
 
-export function buffDmgTypeVulnerability(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityVulnerability(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_VULNERABILITY += value
@@ -49,7 +49,7 @@ export function buffDmgTypeVulnerability(x: ComputedStatsObject, dmgTypeBitFlags
   // No super break
 }
 
-export function buffDmgTypeResShred(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityResShred(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_RES_PEN += value
@@ -60,7 +60,7 @@ export function buffDmgTypeResShred(x: ComputedStatsObject, dmgTypeBitFlags: num
   // No break
 }
 
-export function buffDmgTypeDefShred(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityDefShred(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_DEF_PEN += value
@@ -72,7 +72,7 @@ export function buffDmgTypeDefShred(x: ComputedStatsObject, dmgTypeBitFlags: num
   if (activeAbilityTypes & SUPER_BREAK_TYPE) x.SUPER_BREAK_DEF_PEN += value
 }
 
-export function buffDmgTypeCrBoost(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityCr(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_CR_BOOST += value
@@ -82,7 +82,7 @@ export function buffDmgTypeCrBoost(x: ComputedStatsObject, dmgTypeBitFlags: numb
   // No fua break
 }
 
-export function buffDmgTypeCdBoost(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
+export function buffAbilityCd(x: ComputedStatsObject, dmgTypeBitFlags: number[], value: number) {
   const activeAbilityTypes = extractAbilityTypeFlags(x, dmgTypeBitFlags)
 
   if (activeAbilityTypes & BASIC_TYPE) x.BASIC_CD_BOOST += value

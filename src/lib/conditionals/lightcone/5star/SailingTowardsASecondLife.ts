@@ -6,7 +6,7 @@ import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalCon
 import { Stats } from 'lib/constants.ts'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { precisionRound } from 'lib/conditionals/utils'
-import { buffDmgTypeDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -49,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.SPD] += (r.spdBuffConditional && x[Stats.BE] >= 1.50) ? sValuesSpdBuff[s] * request.baseSpd : 0
 
-      r.breakDmgDefShred && buffDmgTypeDefShred(x, [BREAK_TYPE], sValuesDefShred[s])
+      r.breakDmgDefShred && buffAbilityDefShred(x, [BREAK_TYPE], sValuesDefShred[s])
     },
   }
 }

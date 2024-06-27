@@ -11,7 +11,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { buffDmgTypeResShred, buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -147,8 +147,8 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
       x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
-      buffDmgTypeResShred(x, [ULT_TYPE], talentResPen)
-      e >= 6 && r.e6UltBuffs && buffDmgTypeResShred(x, [ULT_TYPE], 0.20)
+      buffAbilityResShred(x, [ULT_TYPE], talentResPen)
+      e >= 6 && r.e6UltBuffs && buffAbilityResShred(x, [ULT_TYPE], 0.20)
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
@@ -173,7 +173,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      e >= 4 && m.e4UltVulnerability && buffDmgTypeVulnerability(x, [ULT_TYPE], 0.08)
+      e >= 4 && m.e4UltVulnerability && buffAbilityVulnerability(x, [ULT_TYPE], 0.08)
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

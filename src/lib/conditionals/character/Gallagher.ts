@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 const Gallagher = (e: Eidolon): CharacterConditional => {
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -108,7 +108,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      m.targetBesotted && buffDmgTypeVulnerability(x, [BREAK_TYPE], talentBesottedScaling)
+      m.targetBesotted && buffAbilityVulnerability(x, [BREAK_TYPE], talentBesottedScaling)
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x

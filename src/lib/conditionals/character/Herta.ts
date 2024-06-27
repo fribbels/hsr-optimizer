@@ -3,7 +3,9 @@ import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
   ComputedStatsObject,
-  SKILL_TYPE
+  FUA_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
@@ -155,8 +157,8 @@ export default (e: Eidolon): CharacterConditional => {
       r.enemyHpGte50 && buffAbilityDmg(x, [SKILL_TYPE], 0.20)
 
       // Boost
-      x.ULT_BOOST += (r.targetFrozen) ? 0.20 : 0
-      x.FUA_BOOST += (e >= 4) ? 0.10 : 0
+      r.targetFrozen && buffAbilityDmg(x, [ULT_TYPE], 0.20)
+      e >= 4 && buffAbilityDmg(x, [FUA_TYPE], 0.10)
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30

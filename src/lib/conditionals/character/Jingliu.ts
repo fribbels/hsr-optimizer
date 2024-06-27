@@ -1,6 +1,11 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  baseComputedStatsObject,
+  ComputedStatsObject,
+  SKILL_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ConditionalMap, ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -81,7 +86,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
 
       // Traces
       x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
-      x.ULT_BOOST += (r.talentEnhancedState) ? 0.20 : 0
+      r.talentEnhancedState && buffAbilityDmg(x, [ULT_TYPE], 0.20)
 
       // Eidolons
       x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0

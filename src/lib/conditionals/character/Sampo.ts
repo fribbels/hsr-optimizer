@@ -1,11 +1,12 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -91,7 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DOT_VULNERABILITY += (m.targetDotTakenDebuff) ? dotVulnerabilityValue : 0
+      m.targetDotTakenDebuff && buffDmgTypeVulnerability(x, [DOT_TYPE], dotVulnerabilityValue)
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x

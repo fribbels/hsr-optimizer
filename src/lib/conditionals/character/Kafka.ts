@@ -2,7 +2,8 @@ import { Stats } from 'lib/constants'
 import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
-  ComputedStatsObject
+  ComputedStatsObject,
+  DOT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
 
@@ -10,6 +11,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import { buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -85,7 +87,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DOT_VULNERABILITY += (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0
+      e >= 1 && m.e1DotDmgReceivedDebuff && buffDmgTypeVulnerability(x, [DOT_TYPE], 0.30)
       x.DOT_BOOST += (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

@@ -1,11 +1,19 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  baseComputedStatsObject,
+  BASIC_TYPE,
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import { buffDmgTypeBoost, buffDmgTypeCdBoost, buffDmgTypeVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -90,12 +98,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling
 
       // Boost
-      x.FUA_CD_BOOST += (r.talentHitsPerAction >= 6) ? 0.25 : 0
-      x.BASIC_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
-      x.SKILL_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
-      x.ULT_BOOST += (e >= 2 && r.e2DmgBuff) ? 0.20 : 0
-
-      x.FUA_VULNERABILITY += (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0
+      r.talentHitsPerAction >= 6 && buffDmgTypeCdBoost(x, [FUA_TYPE], 0.25)
+      e >= 2 && r.e2DmgBuff && buffDmgTypeBoost(x, [BASIC_TYPE, SKILL_TYPE, ULT_TYPE], 0.20)
+      e >= 6 && buffDmgTypeVulnerability(x, [FUA_TYPE], r.e6FuaVulnerabilityStacks * 0.12)
 
       // Lightning lord calcs
       const stacks = r.talentHitsPerAction

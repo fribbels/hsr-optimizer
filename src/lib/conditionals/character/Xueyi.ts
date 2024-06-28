@@ -3,14 +3,17 @@ import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/cond
 import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
-  ComputedStatsObject
+  ComputedStatsObject,
+  FUA_TYPE,
+  ULT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 
-import { ConditionalMap, ContentItem } from 'types/Conditionals'
+import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -91,7 +94,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
-      const r: ConditionalMap = request.characterConditionals
+      const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
@@ -104,14 +107,14 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling * (r.fuaHits as number)
 
       // Boost
-      x.ULT_BOOST += (r.enemyToughness50) ? 0.10 : 0
-      x.ULT_BOOST += r.toughnessReductionDmgBoost as number
-      x.FUA_BOOST += (e >= 1) ? 0.40 : 0
+      buffAbilityDmg(x, ULT_TYPE, r.toughnessReductionDmgBoost)
+      buffAbilityDmg(x, ULT_TYPE, 0.10, (r.enemyToughness50))
+      buffAbilityDmg(x, FUA_TYPE, 0.40, (e >= 1))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 120
-      x.FUA_TOUGHNESS_DMG += 15 * (r.fuaHits as number)
+      x.FUA_TOUGHNESS_DMG += 15 * (r.fuaHits)
 
       return x
     },

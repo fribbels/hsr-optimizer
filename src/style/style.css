@@ -223,8 +223,8 @@ body,
 }
 
 .ag-header-cell {
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 .ant-layout {

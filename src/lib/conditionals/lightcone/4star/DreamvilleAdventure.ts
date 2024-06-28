@@ -4,7 +4,8 @@ import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -70,9 +71,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.BASIC_BOOST += (m.basicDmgBuff) ? sValues[s] : 0
-      x.SKILL_BOOST += (m.skillDmgBuff) ? sValues[s] : 0
-      x.ULT_BOOST += (m.ultDmgBuff) ? sValues[s] : 0
+      buffAbilityDmg(x, BASIC_TYPE, sValues[s], (m.basicDmgBuff))
+      buffAbilityDmg(x, SKILL_TYPE, sValues[s], (m.skillDmgBuff))
+      buffAbilityDmg(x, ULT_TYPE, sValues[s], (m.ultDmgBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

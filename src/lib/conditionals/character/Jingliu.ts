@@ -7,8 +7,12 @@ import {
   ULT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
-import { ConditionalMap, ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { ContentItem } from 'types/Conditionals'
+import {
+  CharacterConditional,
+  CharacterConditionalMap,
+  PrecomputedCharacterConditional
+} from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
@@ -77,7 +81,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
     }),
     precomputeEffects: (request: Form) => {
-      const r: ConditionalMap = request.characterConditionals
+      const r: CharacterConditionalMap = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
@@ -86,7 +90,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
 
       // Traces
       x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
-      r.talentEnhancedState && buffAbilityDmg(x, [ULT_TYPE], 0.20)
+      buffAbilityDmg(x, [ULT_TYPE], 0.20, (r.talentEnhancedState))
 
       // Eidolons
       x[Stats.CD] += (e >= 1 && r.e1CdBuff) ? 0.24 : 0
@@ -104,7 +108,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += 0
 
       // BOOST
-      e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff && buffAbilityDmg(x, [SKILL_TYPE], 0.80)
+      buffAbilityDmg(x, [SKILL_TYPE], 0.80, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

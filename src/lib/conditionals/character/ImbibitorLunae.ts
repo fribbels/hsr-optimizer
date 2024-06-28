@@ -96,7 +96,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += r.talentRighteousHeartStacks * righteousHeartDmgValue
-      e >= 6 && r.basicEnhanced == 3 && buffAbilityResShred(x, [BASIC_TYPE], 0.20 * r.e6ResPenStacks)
+      buffAbilityResShred(x, [BASIC_TYPE], 0.20 * r.e6ResPenStacks, (e >= 6 && r.basicEnhanced == 3))
 
       x.BASIC_TOUGHNESS_DMG += 30 + 30 * r.basicEnhanced
       x.ULT_TOUGHNESS_DMG += 60

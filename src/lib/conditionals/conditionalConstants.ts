@@ -74,7 +74,6 @@ export const baseComputedStatsObject = {
   ULT_BOOST: 0,
   FUA_BOOST: 0,
   DOT_BOOST: 0,
-  BREAK_BOOST: 0,
 
   DMG_TAKEN_MULTI: 0, // TODO: Rename to VULNERABILITY
   BASIC_VULNERABILITY: 0,

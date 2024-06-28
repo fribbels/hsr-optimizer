@@ -148,7 +148,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
       buffAbilityResShred(x, [ULT_TYPE], talentResPen)
-      e >= 6 && r.e6UltBuffs && buffAbilityResShred(x, [ULT_TYPE], 0.20)
+      buffAbilityResShred(x, [ULT_TYPE], 0.20, (e >= 6 && r.e6UltBuffs))
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
@@ -173,7 +173,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      e >= 4 && m.e4UltVulnerability && buffAbilityVulnerability(x, [ULT_TYPE], 0.08)
+      buffAbilityVulnerability(x, [ULT_TYPE], 0.08, (e >= 4 && m.e4UltVulnerability))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

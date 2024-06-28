@@ -72,7 +72,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.RES_PEN += (r.talentPenBuff) ? extraPenValue : 0
-      r.enemySlowed && buffAbilityDmg(x, [BASIC_TYPE], 0.40)
+      buffAbilityDmg(x, [BASIC_TYPE], 0.40, (r.enemySlowed))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

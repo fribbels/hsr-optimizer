@@ -83,7 +83,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += r.skillDmgIncreaseStacks * skillStackDmg
-      e >= 1 && buffAbilityDmg(x, [ULT_TYPE], 0.10)
+      buffAbilityDmg(x, [ULT_TYPE], 0.10, (e >= 1))
 
       x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 60

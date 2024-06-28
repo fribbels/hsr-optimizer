@@ -69,7 +69,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
 
-      r.postUltBuff && buffAbilityDefShred(x, [FUA_TYPE], sValuesFuaPen[s])
+      buffAbilityDefShred(x, [FUA_TYPE], sValuesFuaPen[s], (r.postUltBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

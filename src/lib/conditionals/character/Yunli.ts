@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefShred, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -125,7 +125,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_RED_MULTI *= (r.blockActive) ? 1 - 0.20 : 1
 
       x[Stats.CR] += (e >= 2 && r.e2CrBuff) ? 0.18 : 0
-      e >= 4 && r.e4DefShred && buffAbilityDefShred(x, [FUA_TYPE], 0.20)
+      buffAbilityDefShred(x, [FUA_TYPE], 0.20, (e >= 4 && r.e4DefShred))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.BASIC_TOUGHNESS_DMG += 60
@@ -143,7 +143,8 @@ export default (e: Eidolon): CharacterConditional => {
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
-      x.FUA_BOOST += (e >= 1 && r.e1UltBuff) ? 0.20 : 0
+
+      buffAbilityDmg(x, [FUA_TYPE], 0.20, (e >= 1 && r.e1UltBuff))
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

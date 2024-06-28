@@ -161,7 +161,8 @@ export const combatColumnDefs = [
   { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'Σ ERR' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ DMG' },
-  { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
+  { field: 'EHP', valueFormatter: Renderer.floor, width: 102, headerName: 'EHP' },
+  // { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
 
   { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
   { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },

@@ -108,7 +108,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      m.targetBesotted && buffAbilityVulnerability(x, [BREAK_TYPE], talentBesottedScaling)
+      buffAbilityVulnerability(x, [BREAK_TYPE], talentBesottedScaling, m.targetBesotted)
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x

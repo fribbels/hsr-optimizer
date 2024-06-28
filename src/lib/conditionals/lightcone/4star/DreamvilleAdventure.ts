@@ -71,9 +71,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      m.basicDmgBuff && buffAbilityDmg(x, [BASIC_TYPE], sValues[s])
-      m.skillDmgBuff && buffAbilityDmg(x, [SKILL_TYPE], sValues[s])
-      m.ultDmgBuff && buffAbilityDmg(x, [ULT_TYPE], sValues[s])
+      buffAbilityDmg(x, [BASIC_TYPE], sValues[s], (m.basicDmgBuff))
+      buffAbilityDmg(x, [SKILL_TYPE], sValues[s], (m.skillDmgBuff))
+      buffAbilityDmg(x, [ULT_TYPE], sValues[s], (m.ultDmgBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

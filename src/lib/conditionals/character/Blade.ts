@@ -92,7 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += r.enhancedStateActive ? enhancedStateDmgBoost : 0
-      buffAbilityDmg(x, [FUA_TYPE], 0.20)
+      buffAbilityDmg(x, FUA_TYPE, 0.20)
 
       x.BASIC_TOUGHNESS_DMG += (r.enhancedStateActive) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 60

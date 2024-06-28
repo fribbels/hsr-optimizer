@@ -55,8 +55,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      buffAbilityDmg(x, [SKILL_TYPE], 0.10, (e >= 1 && r.selfCurrentHpPercent <= 0.50))
-      buffAbilityDmg(x, [ULT_TYPE], 0.20, (e >= 6 && r.selfCurrentHpPercent <= 0.50))
+      buffAbilityDmg(x, SKILL_TYPE, 0.10, (e >= 1 && r.selfCurrentHpPercent <= 0.50))
+      buffAbilityDmg(x, ULT_TYPE, 0.20, (e >= 6 && r.selfCurrentHpPercent <= 0.50))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

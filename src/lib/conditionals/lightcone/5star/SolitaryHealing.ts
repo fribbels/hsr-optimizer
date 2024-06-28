@@ -48,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      buffAbilityDmg(x, [DOT_TYPE], sValues[s], (r.postUltDotDmgBuff))
+      buffAbilityDmg(x, DOT_TYPE, sValues[s], (r.postUltDotDmgBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

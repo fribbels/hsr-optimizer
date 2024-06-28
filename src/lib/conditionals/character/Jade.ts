@@ -145,7 +145,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0
 
-      buffAbilityDmg(x, [FUA_TYPE], 0.32, (e >= 1 && r.e1FuaDmgBoost))
+      buffAbilityDmg(x, FUA_TYPE, 0.32, (e >= 1 && r.e1FuaDmgBoost))
       x.DEF_SHRED += (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0
       x.QUANTUM_RES_PEN += (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0
 

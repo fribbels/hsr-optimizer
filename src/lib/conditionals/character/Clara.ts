@@ -93,7 +93,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_RED_MULTI *= (1 - 0.10)
       x.DMG_RED_MULTI *= r.ultBuff ? (1 - ultDmgReductionValue) : 1
       x.DMG_RED_MULTI *= (e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1
-      buffAbilityDmg(x, [FUA_TYPE], 0.30)
+      buffAbilityDmg(x, FUA_TYPE, 0.30)
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30

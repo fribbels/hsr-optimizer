@@ -107,9 +107,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling * (r.fuaHits as number)
 
       // Boost
-      buffAbilityDmg(x, [ULT_TYPE], r.toughnessReductionDmgBoost)
-      buffAbilityDmg(x, [ULT_TYPE], 0.10, (r.enemyToughness50))
-      buffAbilityDmg(x, [FUA_TYPE], 0.40, (e >= 1))
+      buffAbilityDmg(x, ULT_TYPE, r.toughnessReductionDmgBoost)
+      buffAbilityDmg(x, ULT_TYPE, 0.10, (r.enemyToughness50))
+      buffAbilityDmg(x, FUA_TYPE, 0.40, (e >= 1))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

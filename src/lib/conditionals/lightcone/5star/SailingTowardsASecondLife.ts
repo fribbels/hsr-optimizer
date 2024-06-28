@@ -49,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.SPD] += (r.spdBuffConditional && x[Stats.BE] >= 1.50) ? sValuesSpdBuff[s] * request.baseSpd : 0
 
-      buffAbilityDefShred(x, [BREAK_TYPE], sValuesDefShred[s], (r.breakDmgDefShred))
+      buffAbilityDefShred(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
   }
 }

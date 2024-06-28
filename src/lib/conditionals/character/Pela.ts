@@ -96,7 +96,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
 
-      buffAbilityDmg(x, [BASIC_TYPE, SKILL_TYPE, ULT_TYPE], 0.20, (r.skillRemovedBuff))
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, 0.20, (r.skillRemovedBuff))
       x.ELEMENTAL_DMG += (r.enemyDebuffed) ? 0.20 : 0
 
       x.BASIC_TOUGHNESS_DMG += 30

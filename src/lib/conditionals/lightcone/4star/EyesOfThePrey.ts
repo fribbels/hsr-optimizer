@@ -12,7 +12,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
     }),
     precomputeEffects: (x: ComputedStatsObject/* , request: Form */) => {
-      buffAbilityDmg(x, [DOT_TYPE], sValues[s])
+      buffAbilityDmg(x, DOT_TYPE, sValues[s])
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

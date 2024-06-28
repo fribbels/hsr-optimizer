@@ -87,8 +87,8 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      buffAbilityVulnerability(x, [DOT_TYPE], 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
-      buffAbilityDmg(x, [DOT_TYPE], 0.25, (e >= 2 && m.e2TeamDotBoost))
+      buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
+      buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const x = c.x

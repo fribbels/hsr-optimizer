@@ -97,7 +97,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      buffAbilityDmg(x, [BASIC_TYPE], 0.40)
+      buffAbilityDmg(x, BASIC_TYPE, 0.40)
       x.BENEDICTION_LIGHTNING_DMG = (r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0
 
       x.BASIC_TOUGHNESS_DMG += 30

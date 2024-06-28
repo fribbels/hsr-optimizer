@@ -98,9 +98,9 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling
 
       // Boost
-      buffAbilityCd(x, [FUA_TYPE], 0.25, (r.talentHitsPerAction >= 6))
-      buffAbilityDmg(x, [BASIC_TYPE, SKILL_TYPE, ULT_TYPE], 0.20, (e >= 2 && r.e2DmgBuff))
-      buffAbilityVulnerability(x, [FUA_TYPE], r.e6FuaVulnerabilityStacks * 0.12, (e >= 6))
+      buffAbilityCd(x, FUA_TYPE, 0.25, (r.talentHitsPerAction >= 6))
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, 0.20, (e >= 2 && r.e2DmgBuff))
+      buffAbilityVulnerability(x, FUA_TYPE, r.e6FuaVulnerabilityStacks * 0.12, (e >= 6))
 
       // Lightning lord calcs
       const stacks = r.talentHitsPerAction

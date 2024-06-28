@@ -45,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      buffAbilityDefShred(x, [ULT_TYPE, FUA_TYPE], sValuesUltFuaDefShred[s], (r.ultFuaDefShred))
+      buffAbilityDefShred(x, ULT_TYPE | FUA_TYPE, sValuesUltFuaDefShred[s], (r.ultFuaDefShred))
     },
     calculatePassives: (/* c, request */) => {
     },
@@ -53,7 +53,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 
-      buffAbilityDmg(x, [FUA_TYPE], sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
+      buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
     },
   }
 }

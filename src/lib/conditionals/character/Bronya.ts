@@ -114,7 +114,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
-      buffAbilityCr(x, [BASIC_TYPE], 1.00)
+      buffAbilityCr(x, BASIC_TYPE, 1.00)
 
       // Scaling
       x.BASIC_SCALING += basicScaling

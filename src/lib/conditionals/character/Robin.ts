@@ -158,7 +158,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.RATIO_BASED_ATK_BUFF += (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0
 
       x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
-      buffAbilityCd(x, [FUA_TYPE], 0.25, (t.traceFuaCdBoost && t.concertoActive))
+      buffAbilityCd(x, FUA_TYPE, 0.25, (t.traceFuaCdBoost && t.concertoActive))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
@@ -166,7 +166,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
-      buffAbilityCr(x, [ULT_TYPE], 1.00)
+      buffAbilityCr(x, ULT_TYPE, 1.00)
       x.ULT_CD_OVERRIDE = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

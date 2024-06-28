@@ -62,7 +62,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_SCALING += dotScaling
 
       // Boost
-      buffAbilityDmg(x, [SKILL_TYPE], 0.20, (e >= 1 && r.enhancedSkill))
+      buffAbilityDmg(x, SKILL_TYPE, 0.20, (e >= 1 && r.enhancedSkill))
       x.ELEMENTAL_DMG += (e >= 6 && r.targetBurned) ? 0.20 : 0
 
       x.BASIC_TOUGHNESS_DMG += 30

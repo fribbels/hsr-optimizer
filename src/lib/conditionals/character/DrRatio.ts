@@ -99,7 +99,7 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0
-      buffAbilityDmg(x, [FUA_TYPE], 0.50, (e >= 6))
+      buffAbilityDmg(x, FUA_TYPE, 0.50, (e >= 6))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

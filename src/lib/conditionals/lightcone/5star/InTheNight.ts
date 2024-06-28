@@ -58,8 +58,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       const stacks = Math.max(0, Math.min(6, Math.floor((x[Stats.SPD] - 100) / 10)))
 
-      buffAbilityDmg(x, [BASIC_TYPE, SKILL_TYPE], stacks * sValuesDmg[s], (r.spdScalingBuffs))
-      buffAbilityCd(x, [ULT_TYPE], stacks * sValuesCd[s], (r.spdScalingBuffs))
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, stacks * sValuesDmg[s], (r.spdScalingBuffs))
+      buffAbilityCd(x, ULT_TYPE, stacks * sValuesCd[s], (r.spdScalingBuffs))
     },
   }
 }

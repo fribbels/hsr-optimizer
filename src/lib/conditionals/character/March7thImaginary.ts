@@ -125,9 +125,9 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.SPD_P] += (r.selfSpdBuff) ? 0.10 : 0
-      buffAbilityDmg(x, [BASIC_TYPE], talentDmgBuff, (r.talentDmgBuff))
+      buffAbilityDmg(x, BASIC_TYPE, talentDmgBuff, (r.talentDmgBuff))
 
-      buffAbilityCd(x, [BASIC_TYPE], 0.36, (e >= 1 && r.e1EnhancedBasicCdBuff && r.enhancedBasic))
+      buffAbilityCd(x, BASIC_TYPE, 0.36, (e >= 1 && r.e1EnhancedBasicCdBuff && r.enhancedBasic))
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff) ? basicExtraScalingMasterBuff * r.basicAttackHits : 0
       x.BASIC_SCALING += (r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling

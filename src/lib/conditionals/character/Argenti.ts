@@ -103,7 +103,7 @@ export default (e: Eidolon): CharacterConditional => {
       // BOOST
       x.ELEMENTAL_DMG += (r.enemyHp50) ? 0.15 : 0
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefShred(x, [ULT_TYPE], 0.30, (e >= 6))
+      buffAbilityDefShred(x, ULT_TYPE, 0.30, (e >= 6))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30

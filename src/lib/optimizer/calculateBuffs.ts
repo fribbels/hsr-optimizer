@@ -1,21 +1,17 @@
-import { ABILITY_TYPE_TO_DMG_TYPE_VARIABLE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 /*
  * These methods handle buffing damage types for characters who have dynamic ability types. For example Yunli's FUA
  * can be both ULT and FUA dmg so buffs must be applied to both without overlapping.
+ *
+ * The flags are bitwise, so the usage should be:
+ * buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 1.00, condition)
+ *
+ * And changing characters ability type should be:
+ * x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
  */
 
 type Condition = boolean | number | undefined
-
-function extractAbilityTypeFlags(x: ComputedStatsObject, abilityTypeBitFlags: number[]) {
-  let activeAbilityTypes = 0
-  for (const abilityTypeBitFlag of abilityTypeBitFlags) {
-    const dmgTypeVarName = ABILITY_TYPE_TO_DMG_TYPE_VARIABLE[abilityTypeBitFlag]
-    activeAbilityTypes |= x[dmgTypeVarName]
-  }
-
-  return activeAbilityTypes
-}
 
 export function buffAbilityDmg(x: ComputedStatsObject, abilityTypeFlags: number, value: number, condition?: Condition) {
   if (condition === false) return
@@ -70,7 +66,7 @@ export function buffAbilityCr(x: ComputedStatsObject, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.SKILL_DMG_TYPE) x.SKILL_CR_BOOST += value
   if (abilityTypeFlags & x.ULT_DMG_TYPE)   x.ULT_CR_BOOST += value
   if (abilityTypeFlags & x.FUA_DMG_TYPE)   x.FUA_CR_BOOST += value
-  // No fua break
+  // No dot, break
 }
 
 export function buffAbilityCd(x: ComputedStatsObject, abilityTypeFlags: number, value: number, condition?: Condition) {
@@ -80,5 +76,5 @@ export function buffAbilityCd(x: ComputedStatsObject, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.SKILL_DMG_TYPE) x.SKILL_CD_BOOST += value
   if (abilityTypeFlags & x.ULT_DMG_TYPE)   x.ULT_CD_BOOST += value
   if (abilityTypeFlags & x.FUA_DMG_TYPE)   x.FUA_CD_BOOST += value
-  // No fua break
+  // No dot, break
 }

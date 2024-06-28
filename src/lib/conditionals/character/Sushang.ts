@@ -106,7 +106,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, r.skillTriggerStacks * 0.02 * stanceScalingProportion)
+      buffAbilityDmg(x, SKILL_TYPE, r.skillTriggerStacks * 0.025 * stanceScalingProportion)
       x.DMG_RED_MULTI *= (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1
 
       x.BASIC_TOUGHNESS_DMG += 30

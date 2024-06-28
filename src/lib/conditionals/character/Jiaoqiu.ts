@@ -125,7 +125,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      buffAbilityVulnerability(x, [ULT_TYPE], ultVulnerabilityScaling, (m.ultFieldActive))
+      buffAbilityVulnerability(x, ULT_TYPE, ultVulnerabilityScaling, (m.ultFieldActive))
 
       x.DMG_TAKEN_MULTI += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
       x.DMG_TAKEN_MULTI += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling

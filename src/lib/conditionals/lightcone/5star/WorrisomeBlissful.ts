@@ -1,5 +1,4 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
@@ -55,8 +54,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       targetTameStacks: 2,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, _request: Form) => {
-      buffAbilityDmg(x, [FUA_TYPE], sValuesFuaDmg[s])
+    precomputeEffects: (x: ComputedStatsObject, _request: Form) => {
+      buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s])
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals

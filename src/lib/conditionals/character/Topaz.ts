@@ -88,9 +88,12 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
 
-      // Numby buffs only applies to the skill/fua not basic
-      buffAbilityCd(x, [SKILL_TYPE, FUA_TYPE], enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResShred(x, [SKILL_TYPE, FUA_TYPE], 0.10, (e >= 6))
+      buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
+      buffAbilityResShred(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
+
+      // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
+      buffAbilityCd(x, BASIC_TYPE, -enhancedStateFuaCdBoost, (r.numbyEnhancedState))
+      buffAbilityResShred(x, BASIC_TYPE, -0.10, (e >= 6))
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -111,8 +114,8 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      buffAbilityVulnerability(x, [FUA_TYPE], proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
-      buffAbilityCd(x, [FUA_TYPE], 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
+      buffAbilityVulnerability(x, FUA_TYPE, proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
+      buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

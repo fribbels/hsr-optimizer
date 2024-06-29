@@ -440,6 +440,7 @@ export type Sets = typeof Sets[keyof typeof Sets]
 
 export const SetsRelicsNames = Object.values(SetsRelics)
 export const SetsOrnamentsNames = Object.values(SetsOrnaments)
+export const SetsNames = Object.values(Sets)
 
 export const OrnamentSetToIndex: { [key: string]: number } = {}
 for (let i = 0; i < SetsOrnamentsNames.length; i++) {
@@ -496,6 +497,7 @@ export const Constants = {
   SetsRelics,
   SetsRelicsNames,
   SetsOrnamentsNames,
+  SetsNames,
   StatsToReadable,
   PartsToReadable,
   PartsMainStats,

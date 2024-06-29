@@ -87,6 +87,7 @@ GradeFilter.propTypes = {
 
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
+const PLOT_PREFERRED = 'PLOT_PREFERRED'
 
 const relicInsightOptions = [
   { value: 'buckets', label: 'Relic Insight: Buckets' },
@@ -95,6 +96,7 @@ const relicInsightOptions = [
 const characterPlotOptions = [
   { value: PLOT_ALL, label: 'Show all characters' },
   { value: PLOT_CUSTOM, label: 'Show custom characters' },
+  { value: PLOT_PREFERRED, label: 'Show preferred characters' },
 ]
 
 export default function RelicsTab() {
@@ -211,6 +213,8 @@ export default function RelicsTab() {
       options: [
         { column: 'Custom Chars\nAvg Potential', value: 'weights.potentialAllCustom.averagePct', label: 'Custom characters: Avg potential', percent: true },
         { column: 'Custom Chars\nMax Potential', value: 'weights.potentialAllCustom.bestPct', label: 'Custom characters: Max potential', percent: true },
+        { column: 'Custom Chars\nPref Relics\nAvg Potential', value: 'weights.potentialPreferredCustom.averagePct', label: 'Custom characters, pref relics: Avg potential', percent: true },
+        { column: 'Custom Chars\nPref Relics\nMax Potential', value: 'weights.potentialPreferredCustom.bestPct', label: 'Custom characters, pref relics: Max potential', percent: true },
       ],
     },
     {
@@ -218,6 +222,8 @@ export default function RelicsTab() {
       options: [
         { column: 'All Chars\nAvg Potential', value: 'weights.potentialAllAll.averagePct', label: 'All characters: Avg potential', percent: true },
         { column: 'All Chars\nMax Potential', value: 'weights.potentialAllAll.bestPct', label: 'All characters: Max potential', percent: true },
+        { column: 'All Chars, Pref Relics\nAvg Potential', value: 'weights.potentialPreferredAll.averagePct', label: 'All characters, pref relics: Avg potential', percent: true },
+        { column: 'All Chars, Pref Relics\nMax Potential', value: 'weights.potentialPreferredAll.bestPct', label: 'All characters, pref relics: Max potential', percent: true },
       ],
     },
     {
@@ -371,14 +377,17 @@ export default function RelicsTab() {
   const [scoreBuckets, setScoreBuckets] = useState(null)
   useEffect(() => {
     if (selectedRelic) {
+      const relicScorer = new RelicScorer()
       const chars = DB.getMetadata().characters
       const excluded = window.store.getState().excludedRelicPotentialCharacters
       const allScores = Object.keys(chars)
         .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
+        .filter((id) => !(plottedCharacterType === PLOT_PREFERRED &&
+          relicScorer.getRelicScoreMeta(id).preferredRelics.indexOf(selectedRelic.set) < 0))
         .map((id) => ({
           cid: id,
           name: chars[id].displayName,
-          score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+          score: relicScorer.scoreRelicPct(selectedRelic, id, true),
           color: '#000',
           owned: !!DB.getCharacterById(id),
         }))

@@ -1,8 +1,9 @@
 import gameData from 'data/game_data.json'
+import prydwenData from 'data/prydwen.json'
 import relicMainAffixes from 'data/relic_main_affixes.json'
 import relicSubAffixes from 'data/relic_sub_affixes.json'
 import relicSets from 'data/relic_sets.json'
-import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
+import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions'
@@ -117,6 +118,14 @@ export const DataParser = {
       characters[id].displayName = getDisplayName(characters[id])
       characters[id].scoringMetadata = scoringMetadata[id]
       characters[id].scoringMetadata.characterId = id
+
+      let characterPrydwenPreferredRelics = prydwenData[characters[id].displayName] || []
+      for (let relic of characterPrydwenPreferredRelics) {
+        if (Constants.SetsNames.indexOf(relic) < 0) {
+          throw relic
+        }
+      }
+      characters[id].scoringMetadata.preferredRelics = characterPrydwenPreferredRelics
     }
 
     const relics = {

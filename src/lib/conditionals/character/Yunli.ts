@@ -133,6 +133,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 60
       x.FUA_TOUGHNESS_DMG += (r.blockActive) ? 60 : 30
 
+      // Each instance of Intuit: Cull's bounce DMG deals 25% of the Toughness reduction DMG of this skill's central target DMG.
+
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
 

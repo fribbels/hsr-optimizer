@@ -6,13 +6,13 @@ import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const {useToken, getDesignToken} = theme
-const {Content} = Layout
+const { useToken, getDesignToken } = theme
+const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
-  const [notificationApi, notificationContextHolder] = notification.useNotification();
-  const [modalApi, modalContextHolder] = Modal.useModal();
+  const [notificationApi, notificationContextHolder] = notification.useNotification()
+  const [modalApi, modalContextHolder] = Modal.useModal()
 
   window.messageApi = messageApi
   window.notificationApi = notificationApi
@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     checkForUpdatesNotification(DB.getState().version)
-  }, []);
+  }, [])
 
   return (
     <ConfigProvider
@@ -100,10 +100,10 @@ const App = () => {
       {messageContextHolder}
       {notificationContextHolder}
       {modalContextHolder}
-      <Layout style={{minHeight: '100%'}}>
-        <LayoutHeader/>
+      <Layout style={{ minHeight: '100%' }}>
+        <LayoutHeader />
         <Layout hasSider>
-          <LayoutSider/>
+          <LayoutSider />
           <Content
             style={{
               padding: 10,
@@ -117,9 +117,9 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs/>
+            <Tabs />
           </Content>
-          <SettingsDrawer/>
+          <SettingsDrawer />
         </Layout>
       </Layout>
     </ConfigProvider>

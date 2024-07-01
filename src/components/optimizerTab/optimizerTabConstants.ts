@@ -2,11 +2,12 @@ import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
 import { Renderer } from 'lib/renderer.jsx'
 
-export const DIGITS_3 = 46
-export const DIGITS_4 = 50
+export const DIGITS_3 = 44
+export const DIGITS_4 = 48
 export const DIGITS_4_WEIGHT = 52
-export const DIGITS_5 = 56
-export const DIGITS_6 = 62
+export const DIGITS_5 = 58
+export const DIGITS_6 = 65
+export const DIGITS_7 = 75
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
@@ -88,6 +89,7 @@ export const baseColumnDefs = [
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
   { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
   { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
 ]
 
 export const combatColumnDefs = [
@@ -170,6 +172,7 @@ export const combatColumnDefs = [
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
   { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
   { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
 ]
 
 export const gridOptions = {

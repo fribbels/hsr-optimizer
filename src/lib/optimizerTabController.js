@@ -495,6 +495,21 @@ export const OptimizerTabController = {
       newForm.statSim.simulations = []
     }
 
+    if (!newForm.combo) {
+      newForm.combo = {}
+    }
+
+    if (Object.values(newForm.combo).every(value => !value)) {
+      const formula = scoringMetadata?.simulation?.formula
+      if (formula) {
+        for (const key of DamageKeys) {
+          if (formula[key]) {
+            newForm.combo[key] = formula[key]
+          }
+        }
+      }
+    }
+
     console.log('Form update', newForm)
     return newForm
   },

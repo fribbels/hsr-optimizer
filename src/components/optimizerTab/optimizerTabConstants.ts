@@ -89,7 +89,7 @@ export const baseColumnDefs = [
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
   { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
   { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
+  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
 ]
 
 export const combatColumnDefs = [
@@ -172,7 +172,7 @@ export const combatColumnDefs = [
   { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
   { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
   { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
+  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
 ]
 
 export const gridOptions = {

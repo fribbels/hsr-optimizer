@@ -7,7 +7,13 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
+import {
+  defaultEnemyOptions,
+  defaultSetConditionals,
+  defaultTeammate,
+  getDefaultForm,
+  getDefaultWeights
+} from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -134,6 +140,7 @@ export const OptimizerTabController = {
         DOT: true,
         BREAK: true,
         COMBO: true,
+        COMBO_AV: true,
 
         xATK: true,
         xDEF: true,
@@ -298,6 +305,8 @@ export const OptimizerTabController = {
     newForm.minBreak = unsetMin(form.minBreak)
     newForm.maxCombo = unsetMax(form.maxCombo)
     newForm.minCombo = unsetMin(form.minCombo)
+    newForm.maxComboAv = unsetMax(form.maxComboAv)
+    newForm.minComboAv = unsetMin(form.minComboAv)
 
     newForm.combatBuffs = {}
     if (!form.combatBuffs) form.combatBuffs = {}
@@ -570,6 +579,8 @@ export const OptimizerTabController = {
     x.minBreak = fixValue(x.minBreak, 0)
     x.maxCombo = fixValue(x.maxCombo, MAX_INT)
     x.minCombo = fixValue(x.minCombo, 0)
+    x.maxComboAv = fixValue(x.maxComboAv, MAX_INT)
+    x.minComboAv = fixValue(x.minComboAv, 0)
 
     if (!x.combatBuffs) x.combatBuffs = {}
     for (const buff of Object.values(CombatBuffs)) {
@@ -716,6 +727,7 @@ function aggregate(subArray) {
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')
+  setMinMax('COMBO_AV')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')
@@ -776,6 +788,7 @@ function filter(filterModel) {
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
         && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
+        && row.COMBO_AV >= filterModel.minComboAv && row.COMBO_AV <= filterModel.maxComboAv
       if (valid) {
         indices.push(i)
       }
@@ -802,6 +815,7 @@ function filter(filterModel) {
         && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
         && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
         && row.COMBO >= filterModel.minCombo && row.COMBO <= filterModel.maxCombo
+        && row.COMBO_AV >= filterModel.minComboAv && row.COMBO_AV <= filterModel.maxComboAv
       if (valid) {
         indices.push(i)
       }

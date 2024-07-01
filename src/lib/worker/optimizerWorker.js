@@ -1,6 +1,13 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts
+} from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
@@ -148,6 +155,7 @@ self.onmessage = function(e) {
       || x.DOT_DMG < request.minDot || x.DOT_DMG > request.maxDot
       || x.BREAK_DMG < request.minBreak || x.BREAK_DMG > request.maxBreak
       || x.COMBO_DMG < request.minCombo || x.COMBO_DMG > request.maxCombo
+      || x.COMBO_AV < request.minComboAv || x.COMBO_AV > request.maxComboAv
     if (fail) {
       continue
     }

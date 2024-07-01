@@ -19,15 +19,15 @@ export const BufferPacker = {
       [Constants.Stats.ERR]: arr[offset + 10], // 10
       [Constants.Stats.OHB]: arr[offset + 11],
       ED: arr[offset + 12],
-      WEIGHT: arr[offset + 13], // DELETE
-      EHP: arr[offset + 14],
-      BASIC: arr[offset + 15],
-      SKILL: arr[offset + 16],
-      ULT: arr[offset + 17],
-      FUA: arr[offset + 18],
-      DOT: arr[offset + 19],
-      BREAK: arr[offset + 20], // 20
-      COMBO: arr[offset + 21],
+      EHP: arr[offset + 13],
+      BASIC: arr[offset + 14],
+      SKILL: arr[offset + 15],
+      ULT: arr[offset + 16],
+      FUA: arr[offset + 17],
+      DOT: arr[offset + 18],
+      BREAK: arr[offset + 19],
+      COMBO: arr[offset + 20], // 20
+      COMBO_AV: arr[offset + 21],
       xHP: arr[offset + 22],
       xATK: arr[offset + 23],
       xDEF: arr[offset + 24],
@@ -73,15 +73,15 @@ export const BufferPacker = {
     arr[offset + 10] = character[Stats.ERR] // 10
     arr[offset + 11] = character[Stats.OHB]
     arr[offset + 12] = character.ELEMENTAL_DMG
-    arr[offset + 13] = character.x.WEIGHT
-    arr[offset + 14] = character.x.EHP
-    arr[offset + 15] = character.x.BASIC_DMG
-    arr[offset + 16] = character.x.SKILL_DMG
-    arr[offset + 17] = character.x.ULT_DMG
-    arr[offset + 18] = character.x.FUA_DMG
-    arr[offset + 19] = character.x.DOT_DMG
-    arr[offset + 20] = character.x.BREAK_DMG // 20
-    arr[offset + 21] = character.x.COMBO_DMG
+    arr[offset + 13] = character.x.EHP
+    arr[offset + 14] = character.x.BASIC_DMG
+    arr[offset + 15] = character.x.SKILL_DMG
+    arr[offset + 16] = character.x.ULT_DMG
+    arr[offset + 17] = character.x.FUA_DMG
+    arr[offset + 18] = character.x.DOT_DMG
+    arr[offset + 19] = character.x.BREAK_DMG
+    arr[offset + 20] = character.x.COMBO_DMG // 20
+    arr[offset + 21] = character.x.COMBO_AV
     arr[offset + 22] = character.x[Stats.HP]
     arr[offset + 23] = character.x[Stats.ATK]
     arr[offset + 24] = character.x[Stats.DEF]

@@ -136,6 +136,8 @@ export function calculateDamage(c, request, params) {
     + request.combo.FUA * x.FUA_DMG
     + request.combo.DOT * x.DOT_DMG
     + request.combo.BREAK * x.BREAK_DMG
+
+  x.COMBO_AV = x.COMBO_DMG / (10000 / x[Stats.SPD])
 }
 
 function calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, additionalPen) {

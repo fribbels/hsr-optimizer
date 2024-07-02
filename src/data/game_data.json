@@ -671,10 +671,10 @@
       "element": "Imaginary",
       "max_sp": 110,
       "stats": {
-        "HP": 917.28,
+        "HP": 1058.4,
         "ATK": 564.48,
-        "DEF": 418.95,
-        "SPD": 107,
+        "DEF": 441,
+        "SPD": 102,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },

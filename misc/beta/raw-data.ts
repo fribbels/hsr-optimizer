@@ -5,12 +5,15 @@ export function exportRaw() {
     relics: _relic,
   }
 }
+
+// npx tsx misc/beta/generateData.ts
+
 // Auto Generated
 
 var _avatar = [
   {
     "_id": 1218,
-    "Ver": "2.4v1",
+    "Ver": "2.4v3",
     "Name": "Jiaoqiu",
     "Desc": "A foxian healer and counselor from the Xianzhou Yaoqing. Often greets people with a smile on his face and a scheme in his heart.<br>Born into a prestigious Alchemy Commission family, he once withdrew from practicing medicine due to a broken heart. However, he returned to the field to treat \"the Merlin's Claw,\" General Feixiao.<br>Skilled in the study of alchemical prescription that views food as medicine, especially those that induce a sensation of spiciness. They invented a cauldron-based medicinal formula known as the \"nine-squared grid.\"",
     "Rarity": 5,
@@ -36,10 +39,10 @@ var _avatar = [
     "Icon": "avatarshopicon/Avatar/1218",
     "Pic": "avatardrawcard/1218.png",
     "Mat": [
-      114013,
+      113003,
       110422,
       110223,
-      110505
+      110503
     ],
     "Stats": {
       "HP": 1358.28,
@@ -58,14 +61,16 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
     "_id": 1221,
-    "Ver": "2.4v1",
+    "Ver": "2.4v3",
     "Name": "Yunli",
-    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She practiced swordsmanship and forging from Huaiyan since young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
+    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She has learned swordsmanship and forging from Huaiyan since young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
     "Rarity": 5,
     "Element": "Phys",
     "Path": "Destruction",
@@ -89,10 +94,10 @@ var _avatar = [
     "Icon": "avatarshopicon/Avatar/1221",
     "Pic": "avatardrawcard/1221.png",
     "Mat": [
-      114003,
+      113013,
       110421,
       110183,
-      110505
+      110503
     ],
     "Stats": {
       "HP": 1358.28,
@@ -111,12 +116,14 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
     "_id": 1224,
-    "Ver": "2.4v1",
+    "Ver": "2.4v3",
     "Name": "March 7th",
     "Desc": "March 7th in a Xianzhou-styled outfit. A sword-wielding female martial artist.<br>Learning swordsmanship from both Yunli and Yanqing, she is eager to create more beautiful memories on the Xianzhou.",
     "Rarity": 4,
@@ -149,10 +156,10 @@ var _avatar = [
       110501
     ],
     "Stats": {
-      "HP": 917.28,
+      "HP": 1058.4,
       "ATK": 564.48,
-      "DEF": 418.95,
-      "SPD": 107.0,
+      "DEF": 441.0,
+      "SPD": 102.0,
       "Aggro": 75.0
     },
     "CV": [
@@ -165,7 +172,9 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
@@ -211,12 +220,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "宋媛媛&淦子齐",
+      "Analesa Fisher & Adin Rudd",
+      "楠木ともり&笠間淳",
+      "유혜지&장서화"
     ],
-    "Camp": 0,
+    "Camp": 101,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -232,7 +241,7 @@ var _avatar = [
     "_id": 1314,
     "Ver": "2.3",
     "Name": "Jade",
-    "Desc": "A senior manager in the IPC Strategic Investment Department and one of the Ten Stonehearts, known for her cornerstone \"Jade of Credit.\"<br>A cold and elegant moneylender, she is skilled at understanding the human heart, with a personal hobby called \"Bonajade Exchange.\"<br>She's willing to wait patiently for high-value acquisitions and adept at extracting value from seemingly destitute clients.",
+    "Desc": "A senior manager in the IPC Strategic Investment Department and one of the Ten Stonehearts, known for her cornerstone \"Jade of Credit.\"<br>A beautiful and elegant moneylender, she is skilled in deciphering the depths of people's minds, with a personal hobby called \"Bonajade Exchange.\"<br>She's willing to wait patiently for high-value acquisitions and adept at extracting value from seemingly destitute clients.",
     "Rarity": 5,
     "Element": "Quantum",
     "Path": "Erudition",
@@ -269,12 +278,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "张若瑜",
+      "Faye Mata",
+      "三石琴乃",
+      "김순미"
     ],
-    "Camp": 0,
+    "Camp": 105,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -327,12 +336,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "钱琛 / Song Vocals: Chevy",
+      "Alice Himora / <br>Song Vocals: Chevy",
+      "名塚佳織 / Song Vocals: Chevy",
+      "신온유/ Song Vocals: Chevy"
     ],
-    "Camp": 0,
+    "Camp": 108,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -385,12 +394,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "彭博",
+      "Andrew Russell",
+      "小西克幸",
+      "김단"
     ],
-    "Camp": 0,
+    "Camp": 111,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -557,12 +566,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "马语非",
+      "Erik Braa",
+      "三上哲",
+      "박상훈"
     ],
-    "Camp": 0,
+    "Camp": 108,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -614,12 +623,12 @@ var _avatar = [
       "Aggro": 150.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "杨超然",
+      "Camden Sutkowski",
+      "河西健吾",
+      "박준원"
     ],
-    "Camp": 0,
+    "Camp": 105,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -675,12 +684,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "菊花花",
+      "Allegra Clark",
+      "沢城みゆき",
+      "박지윤"
     ],
-    "Camp": 0,
+    "Camp": 111,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -732,12 +741,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "赵爽",
+      "Lizzie Freeman",
+      "上田麗奈",
+      "성예원"
     ],
-    "Camp": 0,
+    "Camp": 110,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -786,12 +795,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "杨梦露",
+      "Arryn Zech",
+      "生天目仁美",
+      "김하영"
     ],
-    "Camp": 0,
+    "Camp": 109,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -840,12 +849,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "柳知萧",
+      "Cat Protano",
+      "松井恵理子",
+      "박신희"
     ],
-    "Camp": 0,
+    "Camp": 108,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -894,12 +903,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "溯浔",
+      "Jenny Yokobori",
+      "河瀬茉希",
+      "박리나"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -947,12 +956,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "张文钰",
+      "Emi Lo",
+      "大西沙織",
+      "윤여진"
     ],
-    "Camp": 0,
+    "Camp": 102,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1000,12 +1009,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "桑毓泽",
+      "Jordan Paul Haro",
+      "武内駿輔",
+      "이동훈"
     ],
-    "Camp": 0,
+    "Camp": 107,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1053,12 +1062,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "张雨曦",
+      "Suzie Yeung",
+      "鈴代紗弓",
+      "윤은서"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1106,12 +1115,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "葛子瑞&刘北辰",
+      "Courtney Lin & Adam Michael Gold",
+      "長縄まりあ&平林剛",
+      "김채린&한복현"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1160,12 +1169,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "梁达伟",
+      "Adam Michael Gold",
+      "立花慎之介",
+      "최승훈"
     ],
-    "Camp": 0,
+    "Camp": 106,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1213,12 +1222,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "陆敏悦",
+      "Sam Slade",
+      "南條愛乃",
+      "방시우"
     ],
-    "Camp": 0,
+    "Camp": 105,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1266,12 +1275,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "小敢",
+      "Morgan Lauré",
+      "直田姫奈",
+      "김수영"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1320,12 +1329,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "杜冥鸦",
+      "AmaLee",
+      "桑島法子",
+      "박이서"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1373,12 +1382,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "米糊",
+      "Risa Mei",
+      "照井春佳",
+      "이은조"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1426,12 +1435,12 @@ var _avatar = [
       "Aggro": 150.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "花玲",
+      "Sarah Wiedenheft",
+      "伊藤美来",
+      "이지현"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1483,12 +1492,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "李春胤",
+      "Nicholas Leung",
+      "伊東健人",
+      "김혜성"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1536,12 +1545,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "徐慧",
+      "Cheryl Texiera",
+      "伊藤静",
+      "사문영"
     ],
-    "Camp": 0,
+    "Camp": 101,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1590,12 +1599,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "萧翟",
+      "Howard Wang",
+      "梶原岳人",
+      "이주승"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1644,12 +1653,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "刘以嘉",
+      "Daman Mills",
+      "三木眞一郎",
+      "곽윤상"
     ],
-    "Camp": 0,
+    "Camp": 101,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1697,12 +1706,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "Hanser",
+      "Melissa Fahn",
+      "阿澄佳奈",
+      "장미"
     ],
-    "Camp": 0,
+    "Camp": 101,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1750,12 +1759,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "赵路",
+      "Craig Lee Thomas",
+      "石田彰",
+      "신용우"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1803,12 +1812,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "钟可",
+      "Dawn M. Bennett",
+      "冬馬由美",
+      "전숙경"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1856,12 +1865,12 @@ var _avatar = [
       "Aggro": 150.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "诺亚",
+      "Skyler Davenport",
+      "小倉唯",
+      "정혜원"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1909,12 +1918,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "李春胤",
+      "Nicholas Leung",
+      "伊東健人",
+      "김혜성"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -1962,12 +1971,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "林簌",
+      "Cia Court",
+      "田中理恵",
+      "김보나"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2015,12 +2024,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "彭博",
+      "Corey Landis",
+      "細谷佳正",
+      "한신"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2068,12 +2077,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "陶典",
+      "Dani Chambers",
+      "白石涼子",
+      "김율"
     ],
-    "Camp": 0,
+    "Camp": 102,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2121,12 +2130,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "龟娘",
+      "Felecia Angelle",
+      "赤﨑千夏",
+      "김현지"
     ],
-    "Camp": 0,
+    "Camp": 102,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2174,12 +2183,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "侯小菲",
+      "PJ Mattson",
+      "山崎はるか",
+      "김서영"
     ],
-    "Camp": 0,
+    "Camp": 102,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2227,12 +2236,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "谢莹",
+      "Madeline Reiter",
+      "阿澄佳奈",
+      "이보희"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2280,12 +2289,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "唐雅菁",
+      "Molly Zhang",
+      "中原麻衣",
+      "송하림"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2333,12 +2342,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "穆雪婷",
+      "Natalie Van Sistine",
+      "愛美",
+      "민아"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2386,12 +2395,12 @@ var _avatar = [
       "Aggro": 150.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "马洋",
+      "Bryson Baugus",
+      "古川慎",
+      "민승우"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2439,12 +2448,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "秦紫翼",
+      "Elizabeth Maxwell",
+      "内山夕実",
+      "강은애"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2492,12 +2501,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "宴宁",
+      "Xanthe Huynh",
+      "諸星すみれ",
+      "이다은"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2545,12 +2554,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "紫苏九月&王宇航",
+      "Emily Sun & D.C. Douglas",
+      "日高里菜&安元洋貴",
+      "김예림&최낙윤"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2598,12 +2607,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "刘圣博",
+      "Roger Rose",
+      "平川大輔",
+      "정재헌"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2652,12 +2661,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "王晓彤",
+      "Felecia Angelle",
+      "徳井青空",
+      "이재현"
     ],
-    "Camp": 0,
+    "Camp": 103,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2706,12 +2715,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "刘十四",
+      "Bryn Apprill",
+      "伊達朱里紗",
+      "서다혜"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2759,12 +2768,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "蒋丽",
+      "Laci Morgan",
+      "高田憂希",
+      "이명호"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2812,12 +2821,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "孙晔",
+      "Alejandro Saab",
+      "小野大輔",
+      "류승곤"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2865,12 +2874,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "陈婷婷",
+      "Anjali Kunapaneni",
+      "福圓美里",
+      "박시윤"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2918,12 +2927,12 @@ var _avatar = [
       "Aggro": 75.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "喵酱",
+      "Amber May",
+      "井上麻里奈",
+      "이새아"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -2971,12 +2980,12 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "多多",
+      "Su Ling Chan",
+      "加藤英美里",
+      "조현정"
     ],
-    "Camp": 0,
+    "Camp": 104,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -3026,12 +3035,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "秦且歌",
+      "Caleb Yen",
+      "榎木淳弥",
+      "김명준"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -3081,12 +3090,12 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "陈婷婷",
+      "Rachael Chau",
+      "石川由依",
+      "김하루"
     ],
-    "Camp": 0,
+    "Camp": 100,
     "ISN": "",
     "ISD": "",
     "V": [
@@ -4278,195 +4287,552 @@ var _changelog_relic = {
         "@4P#Increases the wearer's CRIT Rate by <b>6.0%</b>. When the wearer uses a follow-up attack, increases the DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
       ]
     }
+  ],
+  "v2": [],
+  "v3": [
+    {
+      "Icon": "71034.png",
+      "Name": "Duran, Dynasty of Running Wolves",
+      "Changes": [
+        "@2P#When allies use follow-up attacks, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> times. Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>.<br>@↓↓#When an ally uses follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      ]
+    },
+    {
+      "Icon": "71022.png",
+      "Name": "Rutilant Arena",
+      "Changes": [
+        "@2P#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, the wearer's Basic ATK and Skill DMG increase by <b>20.0%</b>.<br>@↓↓#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20.0%</b>."
+      ]
+    },
+    {
+      "Icon": "71017.png",
+      "Name": "Inert Salsotto",
+      "Changes": [
+        "@2P#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the wearer's Ultimate and follow-up attack DMG increases by <b>15.0%</b>.<br>@↓↓#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15.0%</b>."
+      ]
+    },
+    {
+      "Icon": "71033.png",
+      "Name": "The Wind-Soaring Valorous",
+      "Changes": [
+        "@4P#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
+      ]
+    },
+    {
+      "Icon": "71025.png",
+      "Name": "Prisoner in Deep Confinement",
+      "Changes": [
+        "@4P#For every DoT the target enemy is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs.<br>@↓↓#For every DoT the enemy target is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs."
+      ]
+    },
+    {
+      "Icon": "71024.png",
+      "Name": "The Ashblazing Grand Duke",
+      "Changes": [
+        "@2P#Increases the DMG dealt by follow-up attacks by <b>20.0%</b>.<br>@↓↓#Increases the DMG dealt by follow-up attack by <b>20.0%</b>."
+      ]
+    },
+    {
+      "Icon": "71006.png",
+      "Name": "Firesmith of Lava-Forging",
+      "Changes": [
+        "@4P#Increases the wearer's Skill DMG by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack.<br>@↓↓#Increases DMG by the wearer's Skill by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack."
+      ]
+    },
+    {
+      "Icon": "71001.png",
+      "Name": "Musketeer of Wild Wheat",
+      "Changes": [
+        "@4P#The wearer's SPD increases by <b>6.0%</b> and Basic ATK DMG increases by <b>10.0%</b>.<br>@↓↓#The wearer's SPD increases by <b>6.0%</b> and DMG dealt by Basic ATK increases by <b>10.0%</b>."
+      ]
+    }
   ]
 }
 
 var _changelog_avatar = {
-  "1218": "",
-  "1221": "",
-  "1224": ""
+  "1218": {},
+  "1221": {},
+  "1224": {
+    "v3": [
+      "``Base Stats`- HP 917.28 → 1058.4 ;<br>- DEF 418.95 → 441.0 ;<br>- SPD 107.0 → 102.0 ;"
+    ]
+  },
+  "21046": {},
+  "23030": {},
+  "23029": {}
 }
 
 var _changelog_veradd = {
-  "v1": [
+  "v2": [
     {
-      "HP": [
-        40.0,
-        37.5
+      "Name": "March 7th (In-Depth Mechanics)",
+      "Notes": [
+        "``Master`When Master is unselectable (e.g. Svarog's hand), the effects provided by the Master will still work.<br>In v1, the effects will disappear if Master becomes unselectable."
       ],
-      "Name": "Cocolia",
-      "_id": 100401003,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_1004010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral",
-      "_id": 100401401,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_1004010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral",
-      "_id": 100401402,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_1004010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral",
-      "_id": 100401403,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_1004010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral",
-      "_id": 100401404,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_1004010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral: Mother of Deception",
-      "_id": 100501401,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_1005010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral: Mother of Deception",
-      "_id": 100501402,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_1005010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral: Mother of Deception",
-      "_id": 100501403,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_1005010.png"
-    },
-    {
-      "HP": [
-        65.0,
-        62.5
-      ],
-      "Name": "Annihilator of Desolation Mistral: Mother of Deception",
-      "_id": 100501404,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_1005010.png"
-    },
-    {
-      "HP": [
-        17.0,
-        32.5
-      ],
-      "Name": "Stellaron Hunter: Kafka",
-      "_id": 200401006,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
+      "Icon": "avataricon/avatar/1224.png",
+      "Priority": true
     }
   ],
   "v3": [
     {
       "HP": [
-        24.0,
-        27.0
+        30.0,
+        36.0
       ],
-      "Name": "The Past, Present, and Eternal Show (Complete)",
-      "_id": 3004011,
-      "Rank": 0
+      "Name": "Stellaron Hunter: Sam",
+      "_id": 302402202,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_3024020.png"
     },
     {
       "Stance": [
         [
-          28.0,
+          10.0,
           [
             "Phys",
             "Fire",
-            "Ice",
-            "Imaginary"
+            "Ice"
           ]
         ],
         [
-          26.0,
+          11.0,
           [
             "Phys",
             "Fire",
-            "Ice",
-            "Imaginary"
+            "Ice"
           ]
         ]
       ],
-      "Name": "Silver Knight of Virtuous Gallantry",
-      "_id": 3024013,
-      "Rank": 0
-    }
-  ],
-  "v5": [
+      "Name": "Disaster's Right Hand",
+      "_id": 8012146,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
     {
       "Stance": [
         [
-          26.0,
+          10.0,
           [
             "Phys",
             "Fire",
-            "Ice",
-            "Imaginary"
+            "Ice"
           ]
         ],
         [
-          27.0,
+          11.0,
           [
             "Phys",
             "Fire",
-            "Ice",
-            "Imaginary"
+            "Ice"
           ]
         ]
       ],
-      "Name": "Silver Knight of Virtuous Gallantry",
-      "_id": 3024013,
+      "Name": "Disaster's Right Hand",
+      "_id": 801214601,
       "Rank": 0,
-      "Icon": "images/mostericon/Monster_3024010.png"
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214602,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214603,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214604,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 8012147,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214701,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214702,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214703,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "Stance": [
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214704,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
     },
     {
       "HP": [
-        17.5,
-        16.0
+        80.0,
+        85.0
       ],
-      "Name": "Stellaron Hunter: Sam (Complete)",
-      "_id": 3024023,
-      "Rank": 0,
-      "Icon": "images/mostericon/Monster_3024020.png"
+      "Stance": [
+        [
+          0.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "All-Exterminating Star-Annihilation Beast",
+      "_id": 8015012,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        85.0
+      ],
+      "Stance": [
+        [
+          0.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "All-Exterminating Star-Annihilation Beast",
+      "_id": 801501201,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        85.0
+      ],
+      "Stance": [
+        [
+          0.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "All-Exterminating Star-Annihilation Beast",
+      "_id": 801501202,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        85.0
+      ],
+      "Stance": [
+        [
+          0.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "All-Exterminating Star-Annihilation Beast",
+      "_id": 801501203,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        85.0
+      ],
+      "Stance": [
+        [
+          0.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "All-Exterminating Star-Annihilation Beast",
+      "_id": 801501204,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
     }
   ]
 }
 
 var _hidden = [
+  {
+    "Name": "2.5+ Pure Fiction New Mode",
+    "Hidden": true,
+    "Date": "2024/07/04",
+    "Ver": "2.4v1",
+    "Notes": [
+      {
+        "Title": "Level",
+        "Desc": "- After defeating a minion enemy, elite enemies and bosses will take DMG equal to a percentage of their Max HP.<br>- After defeating an elite enemy or boss, the current wave ends."
+      },
+      {
+        "Title": "Scoring",
+        "Desc": "Defeating minion enemies will not give score. Score can only be gained by reducing elite enemies and bosses' HP."
+      }
+    ]
+  },
+  {
+    "Name": "2.5+ Memory of Chaos",
+    "Hidden": true,
+    "Date": "2024/07/03",
+    "Ver": "2.4v1",
+    "Notes": [
+      {
+        "Title": "Memory Turbulence",
+        "Desc": "- After an enemy's Weakness is broken, they will recieve a secondary Toughness bar equal to a percentage of their original Toughness, while still considered to be Weakness Broken.<br>- When a character breaks the secondary Toughness bar, they will deal another instance of Break DMG and delay the target's action."
+      }
+    ]
+  },
+  {
+    "Name": "2.5 Apocalyptic Shadow: Phantylia",
+    "Hidden": true,
+    "Date": "2024/07/02",
+    "Ver": "2.4v2",
+    "Notes": [
+      {
+        "Title": "Boss Mechanics",
+        "Desc": "- The Abundance Lotuses are also unkillable. They will enter Dormancy after their HP is emptied.<br>- The Abundance Lotuses have changed from reducing Skill Points to @reducing a fixed amount of Energy# from all characters and healing own HP every time they take action. They will also @regenerate a fixed amount of Energy# for all characters when entering Dormancy, instead of recovering Skill Points.<br>- When taking @Imaginary, Wind or Lightning DMG#, if Phantylia does not have the corresponding Weakness, she will still take Toughness DMG equal to a percentage of the attack's original Toughness DMG."
+      },
+      {
+        "Title": "Apocalyptic Shadow Effects",
+        "Desc": "Just like 2.3 and 2.4 AS, the boss has DMG reduction while not Weakness Broken, and will @Transfer# its Weaknesses to its summons."
+      }
+    ]
+  },
+  {
+    "Name": "2.5+ Lightcones",
+    "Date": "2024/06/18",
+    "Ver": "2.4v1",
+    "Notes": [
+      {
+        "Title": "Limited 5★",
+        "Desc": "After the wearer performs an attack, they gain 1 stack of Boost, lasting for 1 turn. When the wearer has Boost, every stack will increase all team members' SPD by a fixed amount. When the wearer's Break Effect is greater than some constant, the SPD increase effect provided by every stack of Boost is strengthened."
+      }
+    ]
+  },
   {
     "Name": "Future Character Name Compilation",
     "Date": "2024/05/27",
@@ -4474,11 +4840,11 @@ var _hidden = [
     "Notes": [
       {
         "Title": "Characters",
-        "Desc": "- Jiaoqiu<br>- Screwllum<br>- Feixiao<br>- Yunli<br>- March 7th New Path<br>- Moze<br>- Lingsha<br>- Rappa<br>- Aglaea<br>- Zaika"
+        "Desc": "- Screwllum<br>- Feixiao<br>- Moze<br>- Lingsha<br>- Rappa<br>- Aglaea<br>- Zaika"
       },
       {
         "Title": "Enemies",
-        "Desc": "- Doomsday Beast (Illusion)<br>- Feixiao"
+        "Desc": "- Feixiao"
       }
     ]
   },
@@ -4545,232 +4911,18 @@ var _hidden = [
         "Desc": "Feixiao will become an enemy in some patch 2.x. In combat, Feixiao will summon enemies and build connections with them.<br>There will be an R assist skill in the combat."
       }
     ]
-  },
-  {
-    "Name": "Yunli",
-    "Date": "2024/06/07",
-    "Ver": "2.3v5",
-    "Notes": [
-      {
-        "Title": "Recap of already released info",
-        "Desc": "Granddaughter of General Huaiyan of Xianzhou Zhuming. Of similar age as Yanqing, loves collecting all manner of swords, and has studied swordsmanship since her youth."
-      },
-      {
-        "Title": "Overview",
-        "Desc": "· Character ID: 1221 (12xx - Xianzhou character series)<br>· In early testing, is teamed with Topaz, Ruan Mei, Luocha.<br>· In early testing, she wears the relics Musketeer of Wild Wheat and Space Sealing Station. The main stats are SPD and Energy Recharge."
-      },
-      {
-        "Title": "Technique",
-        "Desc": "Provides protection to the on-field character. When attacked by an enemy, the on-field character will automatically retreat one step, and Yunli's weapon will appear to block the hit."
-      },
-      {
-        "Title": "Story Battle Assist Skill",
-        "Desc": "Should be similar to the playable character's abilities (ref. Danheng IL, Huohuo, Black Swan)<br>Yunli stands at the center of her allies, facing the opponents in front of her. She consumes all stacks of something, considers the DMG type of some attacks as another type, and launches the Super Counterattack of her Ultimate, dealing Physical follow-up DMG to a single target and adjacent targets, and then deals Physical follow-up DMG to a random enemy for a few times."
-      }
-    ]
-  },
-  {
-    "Name": "March 7th",
-    "Date": "2024/06/07",
-    "Ver": "2.3v5",
-    "Notes": [
-      {
-        "Title": "Overview",
-        "Desc": "· Character ID: 1224 (12xx - Xianzhou character series)<br>· Will appear in combat in a story, with trial.<br>· Her abilities will buff teammates' damage."
-      },
-      {
-        "Title": "Enhanced Basic ATK",
-        "Desc": "Currently I only know it triggers something with a probability.<br>In the story trial, the first Enhanced Basic ATK is guaranteed not to trigger, while the second Enhanced Basic ATK is guaranteed to trigger."
-      },
-      {
-        "Title": "Skill",
-        "Desc": "Will apply some effect to teammates."
-      },
-      {
-        "Title": "Overworld Passive",
-        "Desc": "When another character in the party uses their Technique, March 7th gains some effect, stackable."
-      }
-    ]
-  },
-  {
-    "Name": "Jiaoqiu",
-    "Date": "2024/03/22",
-    "Ver": "2.1v5",
-    "Color": "Fire",
-    "Notes": [
-      {
-        "Title": "Basic ATK",
-        "Desc": "Deals Fire DMG to a single target, and has a Base Chance to apply 1 stack of Flavour to the target."
-      },
-      {
-        "Title": "Skill",
-        "Desc": "Deals Fire DMG to a single target and adjacent targets, and has a Base Chance to apply 1 stack of Flavour to the targets.<br>The Base Chance on the central target is higher. The Base Chance on adjacent targets is equal to the chance in Basic ATK."
-      },
-      {
-        "Title": "Ultimate",
-        "Desc": "Applies Aura to delf, lasting for some turns.<br>Deals Fire DMG to all targets, and has a Base Chance to apply 1 stack of Flavour to the targets. The Base Chance is equal to the chance in Basic ATK.<br>After the application, the Flavour stack of all enemy targets will be set to the maximum number of stacks of Flavour held by enemy targets. This effect ignores RES."
-      },
-      {
-        "Title": "Talent",
-        "Desc": "<b>Flavour: </b>Decreases DEF, stackable, has upper limit. When stacking more than 1 stack, the increase in DEF reduction will be lower than the DEF reduction of the first stack.<br><b>Aura: </b>The remaining duration decreases by 1 at the start of Jiaoqiu's turn. When Aura is active, at the start of every ally's turn, this ally heals an amount of HP <color style='color:#ff77ff'>[Correction] based on Jiaoqiu's ATK</color>. During Aura, all enemies take increased Ultimate DMG.<br><b>Extra Effect: </b>When Jiaoqiu is on field, all enemies will be inflicted with an unknown debuff."
-      },
-      {
-        "Title": "Trace #1",
-        "Desc": "During Aura, at the start of any enemy's turn, Jiaoqiu deals Additional Fire DMG to this target.<br>During Aura, when any enemy takes action, Jiaoqiu has a Base Chance to apply 1 stack of Flavour to this target."
-      },
-      {
-        "Title": "Trace #2",
-        "Desc": "When casting Skill, regenerate some extra Energy."
-      },
-      {
-        "Title": "Trace #3",
-        "Desc": "During Aura, when a new enemy enters the battle:<br>- If no enemy has Flavour, or if the Flavour stack of every enemy is lower than some number, the Flavour stack of all enemy targets will be set to this number. This effect ignores RES.<br>- Otherwise, the Flavour stack of all enemy targets will be set to the maximum number of stacks of Flavour held by enemy targets. This effect ignores RES."
-      },
-      {
-        "Title": "Technique",
-        "Desc": "After using this technique, creats a dimension. After entering battle with enemies in the dimension, will ???"
-      }
-    ]
-  },
-  {
-    "Name": "Future Pure Fiction",
-    "Date": "2024/05/28",
-    "Ver": "2.3v4",
-    "Notes": [
-      {
-        "Title": "Main Blessing",
-        "Desc": "All enemies share HP: All DMG taken by enemies will be redistributed to the enemy with highest HP.<br>Every time a character triggers Weakness Break, the blessing gains 1 Charge. When Charges reach the cap, deals fixed DMG to enemies."
-      }
-    ]
-  },
-  {
-    "Name": "2.4 Apocalyptic Shadow",
-    "Date": "2024/05/27",
-    "Ver": "2.3v4",
-    "Notes": [
-      {
-        "Title": "Name",
-        "Desc": "Dominated Evils"
-      },
-      {
-        "Title": "Recommended Elements",
-        "Desc": "Upper Half: Thunder Imaginary<br>Lower Half: Ice Wind"
-      }
-    ]
-  },
-  {
-    "Name": "Doomsday Beast (Illusion)",
-    "Date": "2024/05/24",
-    "Ver": "2.3v3",
-    "Notes": [
-      {
-        "Title": "Overview",
-        "Desc": "Will appear in Apocalyptic Shadow.<br>Cannot take damage unless Dawn's Left Hand, Disaster's Right Hand and Antimatter Engine are all defeated.<br>Similar to 2.3's Apocalyptic Shadow, all enemies' DMG taken is reduced. After they are Weakness Broken, they take increased DMG and have action delayed."
-      },
-      {
-        "Title": "Marks",
-        "Desc": "In combat, enemies will randomly apply Quantum or Imaginary Marks to all characters."
-      },
-      {
-        "Title": "Quantum Mark",
-        "Desc": "- When the character attacks an enemy with Quantum Weakness, will deal extra DMG, and reduces the enemy's Toughness regardless of Weakness Types. If the type of this attack is Quantum, Toughness Reduction will be doubled. This Mark is removed after the attack.<br>- When the character attacks an enemy without Quantum Weakness, will trigger a counter attack, dealing massive Imaginary DMG to all characters.<br>- When the character takes Imaginary DMG, will take extra DMG. Then, has a base chance of being applied Entanglement, and also a base chance of being applied Imprisonment, and then this Mark is removed."
-      },
-      {
-        "Title": "Imaginary Mark",
-        "Desc": "- When the character attacks an enemy with Imaginary Weakness, will deal extra DMG, and reduces the enemy's Toughness regardless of Weakness Types. If the type of this attack is Imaginary, Toughness Reduction will be doubled. This Mark is removed after the attack.<br>- When the character attacks an enemy without Imaginary Weakness, will trigger a counter attack, dealing massive Quantum DMG to all characters.<br>- When the character takes Quantum DMG, will take extra DMG. Then, has a base chance of being applied Imprisonment, and also a base chance of being applied Entanglement, and then this Mark is removed."
-      }
-    ]
-  },
-  {
-    "Name": "2.4+ Lightcones",
-    "Date": "2024/05/08",
-    "Ver": "2.3v1",
-    "Notes": [
-      {
-        "Title": "Limited 5★",
-        "Desc": "When the wearer's attack hits an enemy:<br>· If the target does not have Fragile I, then has a base chance to apply Fragile I to the target, reducing its DEF for some turns.<br>· If the target has Fragile I, there is a base chance to upgrade it to Fragile II, which reduces even more DEF and inherits the number of remaining turns.<br>If the upgrade fails, Fragile I will be removed."
-      },
-      {
-        "Title": "Limited 5★",
-        "Desc": "When the wearer uses Ultimate, they gain 1 stack of Boost, lasting for 1 turn. Every stack of Boost increases the DMG dealt by follow-up attacks."
-      }
-    ]
-  },
-  {
-    "Name": "Feixiao",
-    "Date": "2024/05/12",
-    "Ver": "2.3v1",
-    "Notes": [
-      {
-        "Title": "Recap of already released info",
-        "Desc": "General of Xianzhou Yaoqing: \"The Merlin's Claw\" Feixiao"
-      },
-      {
-        "Title": "Overview",
-        "Desc": "Kit is related to Weakness Break and (possibly) follow-up attacks. Has an Enhanced Skill."
-      },
-      {
-        "Title": "Technique",
-        "Desc": "Continuously fires missiles that will apply some effect upon hitting enemies. (Will not enter combat)<br>Enter a special state, greatly increasing move speed, blocking all incoming attacks, and hauls all nearby enemies towards her."
-      },
-      {
-        "Title": "Enemy",
-        "Desc": "Feixiao will become an enemy in some patch 2.x. In combat, Feixiao will summon enemies and build connections with them.<br>There will be an R assist skill in the combat."
-      }
-    ]
-  },
-  {
-    "Name": "Yunli",
-    "Date": "2024/05/12",
-    "Ver": "2.3v1",
-    "Notes": [
-      {
-        "Title": "Recap of already released info",
-        "Desc": "Granddaughter of General Huaiyan of Xianzhou Zhuming. Of similar age as Yanqing, loves collecting all manner of swords, and has studied swordsmanship since her youth."
-      },
-      {
-        "Title": "Overview",
-        "Desc": "Character ID: 1221 (12xx - Xianzhou character series)"
-      },
-      {
-        "Title": "Technique",
-        "Desc": "Provides protection to the on-field character. When attacked by an enemy, the on-field character will automatically retreat one step, and Yunli's weapon will appear to block the hit."
-      },
-      {
-        "Title": "Assist",
-        "Desc": "Yunli will assist in some story battle, launching a counterattack from a defensive stance, dealing DMG to enemies."
-      }
-    ]
-  },
-  {
-    "Name": "March 7th",
-    "Date": "2024/05/09",
-    "Ver": "2.3v1",
-    "Notes": [
-      {
-        "Title": "Overview",
-        "Desc": "Character ID: 1224 (12xx - Xianzhou character series)<br>Will appear in combat in a story, with trial.<br>Her skills might buff teammates' DMG."
-      },
-      {
-        "Title": "Enhanced Basic ATK",
-        "Desc": "Currently I only know it uses some probability. In the story trial this probability is modified."
-      },
-      {
-        "Title": "Skill",
-        "Desc": "Will apply some effect to teammates."
-      },
-      {
-        "Title": "Technique",
-        "Desc": "When another character in the party uses their Technique, March 7th gains a stack of something."
-      }
-    ]
   }
 ]
 
-var cl_select = {}
+var cl_select = {
+  "v2 - v3": 2,
+  "v1 - v2": 1
+}
 
 var cl_vers = [
-  "v1"
+  "v1",
+  "v2",
+  "v3"
 ]
 
 var _diff_avatar = [
@@ -4794,7 +4946,7 @@ var _weapon = [
     "Skill": 23030,
     "Pic": "23030.png",
     "Mat": [
-      114003,
+      113013,
       110183
     ],
     "Stats": {
@@ -4811,7 +4963,7 @@ var _weapon = [
     "Skill": 23029,
     "Pic": "23029.png",
     "Mat": [
-      114013,
+      113003,
       110223
     ],
     "Stats": {
@@ -6621,7 +6773,7 @@ var _relic = [
     "Name": "Duran, Dynasty of Running Wolves",
     "Icon": "71034.png",
     "Skills": [
-      "When allies use follow-up attacks, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> times. Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      "When an ally uses follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
     ]
   },
   {
@@ -6669,7 +6821,7 @@ var _relic = [
     "Name": "Rutilant Arena",
     "Icon": "71022.png",
     "Skills": [
-      "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, the wearer's Basic ATK and Skill DMG increase by <b>20.0%</b>."
+      "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20.0%</b>."
     ]
   },
   {
@@ -6693,7 +6845,7 @@ var _relic = [
     "Name": "Inert Salsotto",
     "Icon": "71017.png",
     "Skills": [
-      "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the wearer's Ultimate and follow-up attack DMG increases by <b>15.0%</b>."
+      "Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15.0%</b>."
     ]
   },
   {
@@ -6742,7 +6894,7 @@ var _relic = [
     "Icon": "71033.png",
     "Skills": [
       "Increases ATK by <b>12.0%</b>.",
-      "Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
+      "Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
     ]
   },
   {
@@ -6778,7 +6930,7 @@ var _relic = [
     "Icon": "71025.png",
     "Skills": [
       "Increases ATK by <b>12.0%</b>.",
-      "For every DoT the target enemy is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs."
+      "For every DoT the enemy target is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs."
     ]
   },
   {
@@ -6786,7 +6938,7 @@ var _relic = [
     "Name": "The Ashblazing Grand Duke",
     "Icon": "71024.png",
     "Skills": [
-      "Increases the DMG dealt by follow-up attacks by <b>20.0%</b>.",
+      "Increases the DMG dealt by follow-up attack by <b>20.0%</b>.",
       "When the wearer uses follow-up attacks, increases the wearer's ATK by <b>6.0%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8.0</b> time(s) and lasts for <b>3.0</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
     ]
   },
@@ -6859,7 +7011,7 @@ var _relic = [
     "Icon": "71006.png",
     "Skills": [
       "Increases Fire DMG by <b>10.0%</b>.",
-      "Increases the wearer's Skill DMG by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack."
+      "Increases DMG by the wearer's Skill by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack."
     ]
   },
   {
@@ -6904,7 +7056,7 @@ var _relic = [
     "Icon": "71001.png",
     "Skills": [
       "Increases ATK by <b>12.0%</b>.",
-      "The wearer's SPD increases by <b>6.0%</b> and Basic ATK DMG increases by <b>10.0%</b>."
+      "The wearer's SPD increases by <b>6.0%</b> and DMG dealt by Basic ATK increases by <b>10.0%</b>."
     ]
   },
   {
@@ -6921,6 +7073,96 @@ var _relic = [
 var _avatarskill = {
   "121801": {
     "v1": {
+      "Name": "Heart Afire",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Normal"
+    },
+    "v2": {
+      "Name": "Heart Afire",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Normal"
+    },
+    "v3": {
       "Name": "Heart Afire",
       "MaxLevel": 9,
       "Type": "Basic ATK",
@@ -7059,6 +7301,192 @@ var _avatarskill = {
         1.0
       ],
       "Icon": "SkillIcon_1218_BP"
+    },
+    "v2": {
+      "Name": "Scorch Onslaught",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Blast",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy and Fire DMG equal to @<b>#2[p]</b># of Jiaoqiu's ATK to enemies adjacent to it. Has a <b>#3[p]</b> <u>base chance</u> to inflict 1 stack of Ashen Roast on the primary target.",
+      "Params": [
+        [
+          0.9,
+          0.45,
+          1.0
+        ],
+        [
+          0.99,
+          0.495,
+          1.0
+        ],
+        [
+          1.08,
+          0.54,
+          1.0
+        ],
+        [
+          1.17,
+          0.585,
+          1.0
+        ],
+        [
+          1.26,
+          0.63,
+          1.0
+        ],
+        [
+          1.35,
+          0.675,
+          1.0
+        ],
+        [
+          1.4625,
+          0.73125,
+          1.0
+        ],
+        [
+          1.575,
+          0.7875,
+          1.0
+        ],
+        [
+          1.6875,
+          0.84375,
+          1.0
+        ],
+        [
+          1.8,
+          0.9,
+          1.0
+        ],
+        [
+          1.89,
+          0.945,
+          1.0
+        ],
+        [
+          1.98,
+          0.99,
+          1.0
+        ],
+        [
+          2.07,
+          1.035,
+          1.0
+        ],
+        [
+          2.16,
+          1.08,
+          1.0
+        ],
+        [
+          2.25,
+          1.125,
+          1.0
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1218_BP"
+    },
+    "v3": {
+      "Name": "Scorch Onslaught",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Blast",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy and Fire DMG equal to @<b>#2[p]</b># of Jiaoqiu's ATK to enemies adjacent to it. Has a <b>#3[p]</b> <u>base chance</u> to inflict 1 stack of Ashen Roast on the primary target.",
+      "Params": [
+        [
+          0.75,
+          0.45,
+          1.0
+        ],
+        [
+          0.825,
+          0.495,
+          1.0
+        ],
+        [
+          0.9,
+          0.54,
+          1.0
+        ],
+        [
+          0.975,
+          0.585,
+          1.0
+        ],
+        [
+          1.05,
+          0.63,
+          1.0
+        ],
+        [
+          1.125,
+          0.675,
+          1.0
+        ],
+        [
+          1.21875,
+          0.73125,
+          1.0
+        ],
+        [
+          1.3125,
+          0.7875,
+          1.0
+        ],
+        [
+          1.40625,
+          0.84375,
+          1.0
+        ],
+        [
+          1.5,
+          0.9,
+          1.0
+        ],
+        [
+          1.575,
+          0.945,
+          1.0
+        ],
+        [
+          1.65,
+          0.99,
+          1.0
+        ],
+        [
+          1.725,
+          1.035,
+          1.0
+        ],
+        [
+          1.8,
+          1.08,
+          1.0
+        ],
+        [
+          1.875,
+          1.125,
+          1.0
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1218_BP"
     }
   },
   "121803": {
@@ -7155,6 +7583,224 @@ var _avatarskill = {
         ],
         [
           2.4,
+          0.65,
+          0.18,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 100.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Ultra"
+    },
+    "v2": {
+      "Name": "Pyrograph Arcanum",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "AoE",
+      "Desc": "Sets the number of Ashen Roast stacks on enemy targets to the highest number of Ashen Roast stacks present on the battlefield. Then, activates a Field and deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to all enemies.<br>While inside the field, enemy targets take @<b>#3[p]</b># more Ultimate DMG, with a @<b>#2[p]</b># <u>base chance</u> of being inflicted with 1 stack of Ashen Roast when taking action. This effect can only be triggered once for enemies in each turn.<br>The Field lasts for <b>#4[f]</b> turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu is <u>knocked down</u>, the Field will also be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
+      "Params": [
+        [
+          1.2,
+          0.5,
+          0.09,
+          3.0
+        ],
+        [
+          1.28,
+          0.51,
+          0.096,
+          3.0
+        ],
+        [
+          1.36,
+          0.52,
+          0.102,
+          3.0
+        ],
+        [
+          1.44,
+          0.53,
+          0.108,
+          3.0
+        ],
+        [
+          1.52,
+          0.54,
+          0.114,
+          3.0
+        ],
+        [
+          1.6,
+          0.55,
+          0.12,
+          3.0
+        ],
+        [
+          1.7,
+          0.5625,
+          0.1275,
+          3.0
+        ],
+        [
+          1.8,
+          0.575,
+          0.135,
+          3.0
+        ],
+        [
+          1.9,
+          0.5875,
+          0.1425,
+          3.0
+        ],
+        [
+          2.0,
+          0.6,
+          0.15,
+          3.0
+        ],
+        [
+          2.08,
+          0.61,
+          0.156,
+          3.0
+        ],
+        [
+          2.16,
+          0.62,
+          0.162,
+          3.0
+        ],
+        [
+          2.24,
+          0.63,
+          0.168,
+          3.0
+        ],
+        [
+          2.32,
+          0.64,
+          0.174,
+          3.0
+        ],
+        [
+          2.4,
+          0.65,
+          0.18,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 100.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Ultra"
+    },
+    "v3": {
+      "Name": "Pyrograph Arcanum",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "AoE",
+      "Desc": "Sets the number of Ashen Roast stacks on enemy targets to the highest number of Ashen Roast stacks present on the battlefield. Then, activates a Field and deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to all enemies.<br>While inside the field, enemy targets receive @<b>#3[p]</b># more Ultimate DMG, with a @<b>#2[p]</b># <u>base chance</u> of being inflicted with 1 stack of Ashen Roast when taking action. This effect can only be triggered once for enemies in each turn.<br>The Field lasts for <b>#4[f]</b> turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu is <u>knocked down</u>, the Field will also be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
+      "Params": [
+        [
+          0.6,
+          0.5,
+          0.09,
+          3.0
+        ],
+        [
+          0.64,
+          0.51,
+          0.096,
+          3.0
+        ],
+        [
+          0.68,
+          0.52,
+          0.102,
+          3.0
+        ],
+        [
+          0.72,
+          0.53,
+          0.108,
+          3.0
+        ],
+        [
+          0.76,
+          0.54,
+          0.114,
+          3.0
+        ],
+        [
+          0.8,
+          0.55,
+          0.12,
+          3.0
+        ],
+        [
+          0.85,
+          0.5625,
+          0.1275,
+          3.0
+        ],
+        [
+          0.9,
+          0.575,
+          0.135,
+          3.0
+        ],
+        [
+          0.95,
+          0.5875,
+          0.1425,
+          3.0
+        ],
+        [
+          1.0,
+          0.6,
+          0.15,
+          3.0
+        ],
+        [
+          1.04,
+          0.61,
+          0.156,
+          3.0
+        ],
+        [
+          1.08,
+          0.62,
+          0.162,
+          3.0
+        ],
+        [
+          1.12,
+          0.63,
+          0.168,
+          3.0
+        ],
+        [
+          1.16,
+          0.64,
+          0.174,
+          3.0
+        ],
+        [
+          1.2,
           0.65,
           0.18,
           3.0
@@ -7294,6 +7940,265 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1218_Passive"
+    },
+    "v2": {
+      "Name": "Quartet Finesse, Octave Finery",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Impair",
+      "Desc": "When Jiaoqiu uses his Basic ATK, Skill, or Ultimate to hit an enemy, there is a <b>#1[p]</b> <u>base chance</u> of dealing 1 stack of Ashen Roast, increasing the initial DMG enemies receive by @<b>#2[p]</b>#, with each stack additionally increasing DMG by @<b>#3[p]</b># to a max of <b>#4[f]</b> stack(s). Ashen Roast will last <b>#5[f]</b> turn(s).",
+      "Params": [
+        [
+          1.0,
+          0.075,
+          0.025,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.0825,
+          0.0275,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.09,
+          0.03,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.0975,
+          0.0325,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.105,
+          0.035,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.1125,
+          0.0375,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.12188,
+          0.04063,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.13125,
+          0.04375,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.14062,
+          0.04688,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.15,
+          0.05,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.1575,
+          0.0525,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.165,
+          0.055,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.1725,
+          0.0575,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.18,
+          0.06,
+          5.0,
+          2.0
+        ],
+        [
+          1.0,
+          0.1875,
+          0.0625,
+          5.0,
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Passive"
+    },
+    "v3": {
+      "Name": "Quartet Finesse, Octave Finery",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Impair",
+      "Desc": "When Jiaoqiu uses his Basic ATK, Skill, or Ultimate to hit an enemy, there is a <b>#1[p]</b> <u>base chance</u> of dealing 1 stack of Ashen Roast, with 1 stack increasing the initial DMG enemies receive by @<b>#2[p]</b>#, and each subsequent stack increasing DMG by @<b>#3[p]</b>#.<br>Ashen Roast has a max of <b>#4[f]</b> stack(s) and lasts for <b>#5[f]</b> turn(s).<br>When the enemy target is in the Ashen Roast state, they are also considered as being in the Burned state, and take @<b>#6[p]</b># DoT equal to Jiaoqiu's Fire DMG at the start of each turn.",
+      "Params": [
+        [
+          1.0,
+          0.075,
+          0.025,
+          5.0,
+          2.0,
+          0.9
+        ],
+        [
+          1.0,
+          0.0825,
+          0.0275,
+          5.0,
+          2.0,
+          0.99
+        ],
+        [
+          1.0,
+          0.09,
+          0.03,
+          5.0,
+          2.0,
+          1.08
+        ],
+        [
+          1.0,
+          0.0975,
+          0.0325,
+          5.0,
+          2.0,
+          1.17
+        ],
+        [
+          1.0,
+          0.105,
+          0.035,
+          5.0,
+          2.0,
+          1.26
+        ],
+        [
+          1.0,
+          0.1125,
+          0.0375,
+          5.0,
+          2.0,
+          1.35
+        ],
+        [
+          1.0,
+          0.12188,
+          0.04063,
+          5.0,
+          2.0,
+          1.4625
+        ],
+        [
+          1.0,
+          0.13125,
+          0.04375,
+          5.0,
+          2.0,
+          1.575
+        ],
+        [
+          1.0,
+          0.14062,
+          0.04688,
+          5.0,
+          2.0,
+          1.6875
+        ],
+        [
+          1.0,
+          0.15,
+          0.05,
+          5.0,
+          2.0,
+          1.8
+        ],
+        [
+          1.0,
+          0.1575,
+          0.0525,
+          5.0,
+          2.0,
+          1.89
+        ],
+        [
+          1.0,
+          0.165,
+          0.055,
+          5.0,
+          2.0,
+          1.98
+        ],
+        [
+          1.0,
+          0.1725,
+          0.0575,
+          5.0,
+          2.0,
+          2.07
+        ],
+        [
+          1.0,
+          0.18,
+          0.06,
+          5.0,
+          2.0,
+          2.16
+        ],
+        [
+          1.0,
+          0.1875,
+          0.0625,
+          5.0,
+          2.0,
+          2.25
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Passive"
     }
   },
   "121806": {
@@ -7315,10 +8220,94 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1218_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Normal"
+    },
+    "v3": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Normal"
     }
   },
   "121807": {
     "v1": {
+      "Name": "Fiery Queller",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Impair",
+      "Desc": "After using Technique, creates a special dimension that lasts for <b>#2[f]</b> second(s). After engaging enemies in the dimension, deals Fire DMG equal to <b>#1[p]</b> of Jiaoqiu's ATK to all enemies and has a <b>#3[p]</b> <u>base chance</u> of applying 1 Ashen Roast stack. Only 1 dimension created by allies can exist at the same time.",
+      "Params": [
+        [
+          1.0,
+          15.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Maze"
+    },
+    "v2": {
+      "Name": "Fiery Queller",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Impair",
+      "Desc": "After using Technique, creates a special dimension that lasts for <b>#2[f]</b> second(s). After engaging enemies in the dimension, deals Fire DMG equal to <b>#1[p]</b> of Jiaoqiu's ATK to all enemies and has a <b>#3[p]</b> <u>base chance</u> of applying 1 Ashen Roast stack. Only 1 dimension created by allies can exist at the same time.",
+      "Params": [
+        [
+          1.0,
+          15.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1218_Maze"
+    },
+    "v3": {
       "Name": "Fiery Queller",
       "MaxLevel": 1,
       "Type": "Technique",
@@ -7387,10 +8376,316 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1221_Normal"
+    },
+    "v2": {
+      "Name": "Galespin Summersault",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Normal"
+    },
+    "v3": {
+      "Name": "Galespin Summersault",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Normal"
     }
   },
   "122102": {
     "v1": {
+      "Name": "Bladeborne Quake",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Blast",
+      "Desc": "Restores HP equal to @<b>#3[p]</b># of Yunli's ATK plus @<b>#4[f]</b>#, and deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy target and Physical DMG equal to @<b>#2[p]</b># of Yunli's ATK to adjacent targets.",
+      "Params": [
+        [
+          0.6,
+          0.3,
+          0.2,
+          50.0
+        ],
+        [
+          0.66,
+          0.33,
+          0.2125,
+          80.0
+        ],
+        [
+          0.72,
+          0.36,
+          0.225,
+          102.5
+        ],
+        [
+          0.78,
+          0.39,
+          0.2375,
+          125.0
+        ],
+        [
+          0.84,
+          0.42,
+          0.25,
+          140.0
+        ],
+        [
+          0.9,
+          0.45,
+          0.26,
+          155.0
+        ],
+        [
+          0.975,
+          0.4875,
+          0.27,
+          166.25
+        ],
+        [
+          1.05,
+          0.525,
+          0.28,
+          177.5
+        ],
+        [
+          1.125,
+          0.5625,
+          0.29,
+          188.75
+        ],
+        [
+          1.2,
+          0.6,
+          0.3,
+          200.0
+        ],
+        [
+          1.26,
+          0.63,
+          0.31,
+          211.25
+        ],
+        [
+          1.32,
+          0.66,
+          0.32,
+          222.5
+        ],
+        [
+          1.38,
+          0.69,
+          0.33,
+          233.75
+        ],
+        [
+          1.44,
+          0.72,
+          0.34,
+          245.0
+        ],
+        [
+          1.5,
+          0.75,
+          0.35,
+          256.25
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_BP"
+    },
+    "v2": {
+      "Name": "Bladeborne Quake",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Blast",
+      "Desc": "Restores HP equal to @<b>#3[p]</b># of Yunli's ATK plus @<b>#4[f]</b>#, and deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy target and Physical DMG equal to @<b>#2[p]</b># of Yunli's ATK to adjacent targets.",
+      "Params": [
+        [
+          0.6,
+          0.3,
+          0.2,
+          50.0
+        ],
+        [
+          0.66,
+          0.33,
+          0.2125,
+          80.0
+        ],
+        [
+          0.72,
+          0.36,
+          0.225,
+          102.5
+        ],
+        [
+          0.78,
+          0.39,
+          0.2375,
+          125.0
+        ],
+        [
+          0.84,
+          0.42,
+          0.25,
+          140.0
+        ],
+        [
+          0.9,
+          0.45,
+          0.26,
+          155.0
+        ],
+        [
+          0.975,
+          0.4875,
+          0.27,
+          166.25
+        ],
+        [
+          1.05,
+          0.525,
+          0.28,
+          177.5
+        ],
+        [
+          1.125,
+          0.5625,
+          0.29,
+          188.75
+        ],
+        [
+          1.2,
+          0.6,
+          0.3,
+          200.0
+        ],
+        [
+          1.26,
+          0.63,
+          0.31,
+          211.25
+        ],
+        [
+          1.32,
+          0.66,
+          0.32,
+          222.5
+        ],
+        [
+          1.38,
+          0.69,
+          0.33,
+          233.75
+        ],
+        [
+          1.44,
+          0.72,
+          0.34,
+          245.0
+        ],
+        [
+          1.5,
+          0.75,
+          0.35,
+          256.25
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_BP"
+    },
+    "v3": {
       "Name": "Bladeborne Quake",
       "MaxLevel": 15,
       "Type": "Skill",
@@ -7668,6 +8963,344 @@ var _avatarskill = {
         1.0
       ],
       "Icon": "SkillIcon_1221_Ultra"
+    },
+    "v2": {
+      "Name": "Earthbind, Etherbreak",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Enhance",
+      "Desc": "Consumes <b>#8[f]</b> Energy. Yunli gains Parry and Taunts all enemies, lasting until the end of the next turn of an allied or enemy unit. While Parry is active, Yunli's CRIT DMG increases by @<b>#2[p]</b>#. When the Counter Talent effect is triggered while Parry is active, it will be switched to a <u>Counter</u> Intuit: Cull effect and also dispel Parry. If no Counters are triggered while Parry is active, when the effect ends, Yunli will immediately launch a <u>Counter</u> Intuit: Slash effect on a random enemy target. When an Intuit: Slash is inflicted, it will cause the next Intuit: Slash to become an Intuit: Cull.<br>Intuit: Slash: Deals Physical DMG to the target equal to @<b>#1[p]</b># of Yunli's ATK, and deals Physical DMG to adjacent targets equal to @<b>#6[p]</b># of Yunli's ATK.<br>Intuit: Cull: Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to the target, and deals Physical DMG equal to @<b>#6[p]</b># of Yunli's ATK to adjacent targets. Then, additionally deals <b>#4[f]</b> instance(s) of DMG, with each instance dealing Physical DMG equal to @<b>#7[p]</b># of Yunli's ATK to a random single enemy target. When Yunli deals DMG through this ability, it will be viewed as Ultimate DMG.<br>Hidden Stat: #3[f]<br>Hidden Stat: #5[f]<br><br>@<b>Counter</b>#<br>An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.<br>Counter is also considered a follow-up attack.",
+      "Params": [
+        [
+          1.44,
+          0.6,
+          0.0,
+          6.0,
+          0.0,
+          0.72,
+          0.48,
+          120.0
+        ],
+        [
+          1.536,
+          0.64,
+          0.0,
+          6.0,
+          0.0,
+          0.768,
+          0.512,
+          120.0
+        ],
+        [
+          1.632,
+          0.68,
+          0.0,
+          6.0,
+          0.0,
+          0.816,
+          0.544,
+          120.0
+        ],
+        [
+          1.728,
+          0.72,
+          0.0,
+          6.0,
+          0.0,
+          0.864,
+          0.576,
+          120.0
+        ],
+        [
+          1.824,
+          0.76,
+          0.0,
+          6.0,
+          0.0,
+          0.912,
+          0.608,
+          120.0
+        ],
+        [
+          1.92,
+          0.8,
+          0.0,
+          6.0,
+          0.0,
+          0.96,
+          0.64,
+          120.0
+        ],
+        [
+          2.04,
+          0.85,
+          0.0,
+          6.0,
+          0.0,
+          1.02,
+          0.68,
+          120.0
+        ],
+        [
+          2.16,
+          0.9,
+          0.0,
+          6.0,
+          0.0,
+          1.08,
+          0.72,
+          120.0
+        ],
+        [
+          2.28,
+          0.95,
+          0.0,
+          6.0,
+          0.0,
+          1.14,
+          0.76,
+          120.0
+        ],
+        [
+          2.4,
+          1.0,
+          0.0,
+          6.0,
+          0.0,
+          1.2,
+          0.8,
+          120.0
+        ],
+        [
+          2.496,
+          1.04,
+          0.0,
+          6.0,
+          0.0,
+          1.248,
+          0.832,
+          120.0
+        ],
+        [
+          2.592,
+          1.08,
+          0.0,
+          6.0,
+          0.0,
+          1.296,
+          0.864,
+          120.0
+        ],
+        [
+          2.688,
+          1.12,
+          0.0,
+          6.0,
+          0.0,
+          1.344,
+          0.896,
+          120.0
+        ],
+        [
+          2.784,
+          1.16,
+          0.0,
+          6.0,
+          0.0,
+          1.392,
+          0.928,
+          120.0
+        ],
+        [
+          2.88,
+          1.2,
+          0.0,
+          6.0,
+          0.0,
+          1.44,
+          0.96,
+          120.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 120.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_Ultra"
+    },
+    "v3": {
+      "Name": "Earthbind, Etherbreak",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Enhance",
+      "Desc": "Consumes <b>#8[f]</b> Energy. Yunli gains Parry and Taunts all enemies, lasting until the end of the next turn of an ally or an enemy, and increases the CRIT DMG of Yunli's next Counter by @<b>#2[p]</b>#. When the Counter Talent effect is triggered while Parry is active, it will be switched to a <u>Counter</u> Intuit: Cull effect and also dispel Parry. If no Counters are triggered while Parry is active, when the effect ends, Yunli will immediately launch a <u>Counter</u> Intuit: Slash effect on a random enemy target.<br>Intuit: Slash: Deals Physical DMG to the target equal to @<b>#1[p]</b># of Yunli's ATK, and deals Physical DMG to adjacent targets equal to @<b>#6[p]</b># of Yunli's ATK.<br>Intuit: Cull: Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to the target, and deals Physical DMG equal to @<b>#6[p]</b># of Yunli's ATK to adjacent targets. Then, additionally deals <b>#4[f]</b> instance(s) of DMG, with each instance dealing Physical DMG equal to @<b>#7[p]</b># of Yunli's ATK to a random single enemy target.<br>When Yunli deals DMG through this ability, it will be considered as Ultimate DMG.<br>Each instance of Intuit: Cull's bounce DMG deals <b>25%</b> of the Toughness reduction DMG of this skill's central target DMG.<br><br>@<b>Counter</b>#<br>An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.<br>Counter is also considered a follow-up attack.",
+      "Params": [
+        [
+          1.2,
+          0.6,
+          0.0,
+          6.0,
+          0.0,
+          0.6,
+          0.36,
+          120.0
+        ],
+        [
+          1.28,
+          0.64,
+          0.0,
+          6.0,
+          0.0,
+          0.64,
+          0.384,
+          120.0
+        ],
+        [
+          1.36,
+          0.68,
+          0.0,
+          6.0,
+          0.0,
+          0.68,
+          0.408,
+          120.0
+        ],
+        [
+          1.44,
+          0.72,
+          0.0,
+          6.0,
+          0.0,
+          0.72,
+          0.432,
+          120.0
+        ],
+        [
+          1.52,
+          0.76,
+          0.0,
+          6.0,
+          0.0,
+          0.76,
+          0.456,
+          120.0
+        ],
+        [
+          1.6,
+          0.8,
+          0.0,
+          6.0,
+          0.0,
+          0.8,
+          0.48,
+          120.0
+        ],
+        [
+          1.7,
+          0.85,
+          0.0,
+          6.0,
+          0.0,
+          0.85,
+          0.51,
+          120.0
+        ],
+        [
+          1.8,
+          0.9,
+          0.0,
+          6.0,
+          0.0,
+          0.9,
+          0.54,
+          120.0
+        ],
+        [
+          1.9,
+          0.95,
+          0.0,
+          6.0,
+          0.0,
+          0.95,
+          0.57,
+          120.0
+        ],
+        [
+          2.0,
+          1.0,
+          0.0,
+          6.0,
+          0.0,
+          1.0,
+          0.6,
+          120.0
+        ],
+        [
+          2.08,
+          1.04,
+          0.0,
+          6.0,
+          0.0,
+          1.04,
+          0.624,
+          120.0
+        ],
+        [
+          2.16,
+          1.08,
+          0.0,
+          6.0,
+          0.0,
+          1.08,
+          0.648,
+          120.0
+        ],
+        [
+          2.24,
+          1.12,
+          0.0,
+          6.0,
+          0.0,
+          1.12,
+          0.672,
+          120.0
+        ],
+        [
+          2.32,
+          1.16,
+          0.0,
+          6.0,
+          0.0,
+          1.16,
+          0.696,
+          120.0
+        ],
+        [
+          2.4,
+          1.2,
+          0.0,
+          6.0,
+          0.0,
+          1.2,
+          0.72,
+          120.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 120.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        2.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_Ultra"
     }
   },
   "122104": {
@@ -7747,10 +9380,217 @@ var _avatarskill = {
         1.0
       ],
       "Icon": "SkillIcon_1221_Passive"
+    },
+    "v2": {
+      "Name": "Flashforge",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Blast",
+      "Desc": "When Yunli is attacked by an enemy target, immediately launches a <u>Counter</u> on the attacker, dealing Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK and Physical DMG to adjacent targets equal to @<b>#2[p]</b># of Yunli's ATK.",
+      "Params": [
+        [
+          0.6,
+          0.3
+        ],
+        [
+          0.66,
+          0.33
+        ],
+        [
+          0.72,
+          0.36
+        ],
+        [
+          0.78,
+          0.39
+        ],
+        [
+          0.84,
+          0.42
+        ],
+        [
+          0.9,
+          0.45
+        ],
+        [
+          0.975,
+          0.4875
+        ],
+        [
+          1.05,
+          0.525
+        ],
+        [
+          1.125,
+          0.5625
+        ],
+        [
+          1.2,
+          0.6
+        ],
+        [
+          1.26,
+          0.63
+        ],
+        [
+          1.32,
+          0.66
+        ],
+        [
+          1.38,
+          0.69
+        ],
+        [
+          1.44,
+          0.72
+        ],
+        [
+          1.5,
+          0.75
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
+      "Stance": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_Passive"
+    },
+    "v3": {
+      "Name": "Flashforge",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Blast",
+      "Desc": "When Yunli is attacked by an enemy target, additionally regenerates <b>#3[f]</b> Energy and immediately launches a <u>Counter</u> on the attacker, dealing Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK and Physical DMG to adjacent targets equal to @<b>#2[p]</b># of Yunli's ATK.",
+      "Params": [
+        [
+          0.6,
+          0.3,
+          15.0
+        ],
+        [
+          0.66,
+          0.33,
+          15.0
+        ],
+        [
+          0.72,
+          0.36,
+          15.0
+        ],
+        [
+          0.78,
+          0.39,
+          15.0
+        ],
+        [
+          0.84,
+          0.42,
+          15.0
+        ],
+        [
+          0.9,
+          0.45,
+          15.0
+        ],
+        [
+          0.975,
+          0.4875,
+          15.0
+        ],
+        [
+          1.05,
+          0.525,
+          15.0
+        ],
+        [
+          1.125,
+          0.5625,
+          15.0
+        ],
+        [
+          1.2,
+          0.6,
+          15.0
+        ],
+        [
+          1.26,
+          0.63,
+          15.0
+        ],
+        [
+          1.32,
+          0.66,
+          15.0
+        ],
+        [
+          1.38,
+          0.69,
+          15.0
+        ],
+        [
+          1.44,
+          0.72,
+          15.0
+        ],
+        [
+          1.5,
+          0.75,
+          15.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
+      "Stance": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "Icon": "SkillIcon_1221_Passive"
     }
   },
   "122106": {
     "v1": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Normal"
+    },
+    "v3": {
       "Name": "Attack",
       "MaxLevel": 1,
       "Type": "",
@@ -7791,10 +9631,161 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1221_Maze"
+    },
+    "v2": {
+      "Name": "Posterior Precedence",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "Gains the Ward effect for <b>15</b> seconds. When entering combat by attacking enemies or receiving an attack, immediately inflicts Intuit: Cull on a random enemy target, and increases this attack's DMG by <b>#1[p]</b>.",
+      "Params": [
+        [
+          0.8
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Maze"
+    },
+    "v3": {
+      "Name": "Posterior Precedence",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "Gains the Ward effect for <b>#2[f]</b> second(s). When entering combat by attacking enemies or receiving an attack, immediately inflicts Intuit: Cull on a random enemy target, and increases the DMG dealt by this attack by <b>#1[p]</b>.",
+      "Params": [
+        [
+          0.8,
+          20.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1221_Maze"
     }
   },
   "122401": {
     "v1": {
+      "Name": "My Sword Zaps Demons",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single enemy and gains <b>#2[f]</b> Charge(s).",
+      "Params": [
+        [
+          0.5,
+          1.0
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.7,
+          1.0
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          1.1,
+          1.0
+        ],
+        [
+          1.2,
+          1.0
+        ],
+        [
+          1.3,
+          1.0
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal"
+    },
+    "v2": {
+      "Name": "My Sword Zaps Demons",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single enemy and gains <b>#2[f]</b> Charge(s).",
+      "Params": [
+        [
+          0.5,
+          1.0
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.7,
+          1.0
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          1.1,
+          1.0
+        ],
+        [
+          1.2,
+          1.0
+        ],
+        [
+          1.3,
+          1.0
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal"
+    },
+    "v3": {
       "Name": "My Sword Zaps Demons",
       "MaxLevel": 9,
       "Type": "Basic ATK",
@@ -7921,10 +9912,340 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1224_Normal02"
+    },
+    "v2": {
+      "Name": "Brows Be Smitten, Heart Be Bitten",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "This attack deals <b>#4[f]</b> Hits Per Action initially. Each hit against the target enemy deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK. After dealing the final hit, there is a <b>#2[p]</b> <u>fixed chance</u> to deal 1 extra hit, up to <b>#3[f]</b> extra hit(s). Energy regenerated from using Enhanced Basic ATK does not increase with the number of Hits Per Action.<br>Enhanced Basic ATK cannot recover Skill Points.",
+      "Params": [
+        [
+          0.5,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.6,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.7,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.8,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.9,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          1.0,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          1.1,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          1.2,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          1.3,
+          0.6,
+          3.0,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 30.0,
+      "AttackType": "Normal",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal02"
+    },
+    "v3": {
+      "Name": "Brows Be Smitten, Heart Be Bitten",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "This attack deals DMG <b>#4[f]</b> time(s) initially. Each hit against the target enemy deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK. After dealing the final hit, there is a <b>#2[p]</b> <u>fixed chance</u> to deal 1 extra hit, up to <b>#3[f]</b> extra hit(s). Energy regenerated from using Enhanced Basic ATK does not increase with the number of Hits Per Action.<br>Enhanced Basic ATK cannot recover Skill Points.",
+      "Params": [
+        [
+          0.4,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.48,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.56,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.64,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.72,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.8,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.88,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          0.96,
+          0.6,
+          3.0,
+          3.0
+        ],
+        [
+          1.04,
+          0.6,
+          3.0,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 30.0,
+      "AttackType": "Normal",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal02"
     }
   },
   "122402": {
     "v1": {
+      "Name": "Master, It's Tea Time!",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Support",
+      "Desc": "Designates a single ally (excluding this character) as the Master and increases Master's SPD by @<b>#1[p]</b>#. Only the latest target of March 7th's Skill will be regarded as her \"Master.\"<br>When using Basic ATK or dealing DMG from 1 hit of her Enhanced Basic ATK, triggers the following effects based on the specific Path of the Master:<br>Erudition, Destruction, The Hunt: Additionally deals <u>Additional DMG</u> (Combat Type based on the Master's Combat Type) equal to @<b>#2[p]</b># of March 7th's ATK.<br>Harmony, Nihility, Preservation, Abundance: The Toughness Reduction for this DMG increases by <b>#3[p]</b>.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.",
+      "Params": [
+        [
+          0.06,
+          0.1,
+          1.0
+        ],
+        [
+          0.064,
+          0.11,
+          1.0
+        ],
+        [
+          0.068,
+          0.12,
+          1.0
+        ],
+        [
+          0.072,
+          0.13,
+          1.0
+        ],
+        [
+          0.076,
+          0.14,
+          1.0
+        ],
+        [
+          0.08,
+          0.15,
+          1.0
+        ],
+        [
+          0.085,
+          0.1625,
+          1.0
+        ],
+        [
+          0.09,
+          0.175,
+          1.0
+        ],
+        [
+          0.095,
+          0.1875,
+          1.0
+        ],
+        [
+          0.1,
+          0.2,
+          1.0
+        ],
+        [
+          0.104,
+          0.21,
+          1.0
+        ],
+        [
+          0.108,
+          0.22,
+          1.0
+        ],
+        [
+          0.112,
+          0.23,
+          1.0
+        ],
+        [
+          0.116,
+          0.24,
+          1.0
+        ],
+        [
+          0.12,
+          0.25,
+          1.0
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_BP"
+    },
+    "v2": {
+      "Name": "Master, It's Tea Time!",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Support",
+      "Desc": "Designates a single ally (excluding this character) as the Master and increases Master's SPD by @<b>#1[p]</b>#. Only the latest target of March 7th's Skill will be regarded as her \"Master.\"<br>When using Basic ATK or dealing DMG from 1 hit of her Enhanced Basic ATK, triggers the following effects based on the specific Path of the Master:<br>Erudition, Destruction, The Hunt: Additionally deals <u>Additional DMG</u> (Combat Type based on the Master's Combat Type) equal to @<b>#2[p]</b># of March 7th's ATK.<br>Harmony, Nihility, Preservation, Abundance: The Toughness Reduction for this DMG increases by <b>#3[p]</b>.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.",
+      "Params": [
+        [
+          0.06,
+          0.1,
+          1.0
+        ],
+        [
+          0.064,
+          0.11,
+          1.0
+        ],
+        [
+          0.068,
+          0.12,
+          1.0
+        ],
+        [
+          0.072,
+          0.13,
+          1.0
+        ],
+        [
+          0.076,
+          0.14,
+          1.0
+        ],
+        [
+          0.08,
+          0.15,
+          1.0
+        ],
+        [
+          0.085,
+          0.1625,
+          1.0
+        ],
+        [
+          0.09,
+          0.175,
+          1.0
+        ],
+        [
+          0.095,
+          0.1875,
+          1.0
+        ],
+        [
+          0.1,
+          0.2,
+          1.0
+        ],
+        [
+          0.104,
+          0.21,
+          1.0
+        ],
+        [
+          0.108,
+          0.22,
+          1.0
+        ],
+        [
+          0.112,
+          0.23,
+          1.0
+        ],
+        [
+          0.116,
+          0.24,
+          1.0
+        ],
+        [
+          0.12,
+          0.25,
+          1.0
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_BP"
+    },
+    "v3": {
       "Name": "Master, It's Tea Time!",
       "MaxLevel": 15,
       "Type": "Skill",
@@ -8112,6 +10433,194 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1224_Ultra"
+    },
+    "v2": {
+      "Name": "March 7th, the Apex Heroine",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single target enemy.<br>Increases the initial Hits Per Action of the next Enhanced Basic ATK by <b>#2[f]</b> hits and increase the <u>fixed chance </u>of additionally dealing DMG by <b>#3[p]</b>.",
+      "Params": [
+        [
+          1.44,
+          2.0,
+          0.2
+        ],
+        [
+          1.536,
+          2.0,
+          0.2
+        ],
+        [
+          1.632,
+          2.0,
+          0.2
+        ],
+        [
+          1.728,
+          2.0,
+          0.2
+        ],
+        [
+          1.824,
+          2.0,
+          0.2
+        ],
+        [
+          1.92,
+          2.0,
+          0.2
+        ],
+        [
+          2.04,
+          2.0,
+          0.2
+        ],
+        [
+          2.16,
+          2.0,
+          0.2
+        ],
+        [
+          2.28,
+          2.0,
+          0.2
+        ],
+        [
+          2.4,
+          2.0,
+          0.2
+        ],
+        [
+          2.496,
+          2.0,
+          0.2
+        ],
+        [
+          2.592,
+          2.0,
+          0.2
+        ],
+        [
+          2.688,
+          2.0,
+          0.2
+        ],
+        [
+          2.784,
+          2.0,
+          0.2
+        ],
+        [
+          2.88,
+          2.0,
+          0.2
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 110.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Ultra"
+    },
+    "v3": {
+      "Name": "March 7th, the Apex Heroine",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single target enemy.<br>Increases the initial Hits Per Action of the next Enhanced Basic ATK by <b>#2[f]</b> hits and increase the <u>fixed chance </u>of additionally dealing DMG by <b>#3[p]</b>.",
+      "Params": [
+        [
+          1.44,
+          2.0,
+          0.2
+        ],
+        [
+          1.536,
+          2.0,
+          0.2
+        ],
+        [
+          1.632,
+          2.0,
+          0.2
+        ],
+        [
+          1.728,
+          2.0,
+          0.2
+        ],
+        [
+          1.824,
+          2.0,
+          0.2
+        ],
+        [
+          1.92,
+          2.0,
+          0.2
+        ],
+        [
+          2.04,
+          2.0,
+          0.2
+        ],
+        [
+          2.16,
+          2.0,
+          0.2
+        ],
+        [
+          2.28,
+          2.0,
+          0.2
+        ],
+        [
+          2.4,
+          2.0,
+          0.2
+        ],
+        [
+          2.496,
+          2.0,
+          0.2
+        ],
+        [
+          2.592,
+          2.0,
+          0.2
+        ],
+        [
+          2.688,
+          2.0,
+          0.2
+        ],
+        [
+          2.784,
+          2.0,
+          0.2
+        ],
+        [
+          2.88,
+          2.0,
+          0.2
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 110.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Ultra"
     }
   },
   "122404": {
@@ -8191,6 +10700,175 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1224_Passive"
+    },
+    "v2": {
+      "Name": "Master, I've Ascended!",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Enhance",
+      "Desc": "After the Master uses an attack or Ultimate, March 7th gains up to 1 Charge each time.<br>When the Charge is at <b>#1[f]</b> or more, March 7th immediately takes action again, and increases the DMG she deals by @<b>#2[p]</b>#. Her Basic ATK is Enhanced, and only her Enhanced Basic ATK can be used. After using Enhanced Basic ATK, consumes <b>#1[f]</b> Charge.",
+      "Params": [
+        [
+          7.0,
+          0.4
+        ],
+        [
+          7.0,
+          0.44
+        ],
+        [
+          7.0,
+          0.48
+        ],
+        [
+          7.0,
+          0.52
+        ],
+        [
+          7.0,
+          0.56
+        ],
+        [
+          7.0,
+          0.6
+        ],
+        [
+          7.0,
+          0.65
+        ],
+        [
+          7.0,
+          0.7
+        ],
+        [
+          7.0,
+          0.75
+        ],
+        [
+          7.0,
+          0.8
+        ],
+        [
+          7.0,
+          0.84
+        ],
+        [
+          7.0,
+          0.88
+        ],
+        [
+          7.0,
+          0.92
+        ],
+        [
+          7.0,
+          0.96
+        ],
+        [
+          7.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Passive"
+    },
+    "v3": {
+      "Name": "Master, I've Ascended!",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Enhance",
+      "Desc": "After the Master uses an attack or Ultimate, March 7th gains up to 1 Charge each time.<br>When the Charge is at <b>#1[f]</b> or more, March 7th immediately takes action again, and increases the DMG she deals by @<b>#2[p]</b>#. Her Basic ATK is Enhanced, and her Skill can't be used. After using Enhanced Basic ATK, consumes <b>#1[f]</b> Charge. Charge max is at <b>#3[f]</b>.",
+      "Params": [
+        [
+          7.0,
+          0.4,
+          10.0
+        ],
+        [
+          7.0,
+          0.44,
+          10.0
+        ],
+        [
+          7.0,
+          0.48,
+          10.0
+        ],
+        [
+          7.0,
+          0.52,
+          10.0
+        ],
+        [
+          7.0,
+          0.56,
+          10.0
+        ],
+        [
+          7.0,
+          0.6,
+          10.0
+        ],
+        [
+          7.0,
+          0.65,
+          10.0
+        ],
+        [
+          7.0,
+          0.7,
+          10.0
+        ],
+        [
+          7.0,
+          0.75,
+          10.0
+        ],
+        [
+          7.0,
+          0.8,
+          10.0
+        ],
+        [
+          7.0,
+          0.84,
+          10.0
+        ],
+        [
+          7.0,
+          0.88,
+          10.0
+        ],
+        [
+          7.0,
+          0.92,
+          10.0
+        ],
+        [
+          7.0,
+          0.96,
+          10.0
+        ],
+        [
+          7.0,
+          1.0,
+          10.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Passive"
     }
   },
   "122406": {
@@ -8212,10 +10890,92 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1224_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal"
+    },
+    "v3": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Normal"
     }
   },
   "122407": {
     "v1": {
+      "Name": "Feast in One Go",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "If March 7th is in the team, every time an ally uses Technique, March 7th gains a Charge upon entering the next battle, up to <b>#1[f]</b> Charge(s).<br>After using her Technique, March 7th regenerates <b>#2[f]</b> Energy upon entering the next battle.",
+      "Params": [
+        [
+          3.0,
+          30.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Maze"
+    },
+    "v2": {
+      "Name": "Feast in One Go",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "If March 7th is in the team, every time an ally uses Technique, March 7th gains a Charge upon entering the next battle, up to <b>#1[f]</b> Charge(s).<br>After using her Technique, March 7th regenerates <b>#2[f]</b> Energy upon entering the next battle.",
+      "Params": [
+        [
+          3.0,
+          30.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1224_Maze"
+    },
+    "v3": {
       "Name": "Feast in One Go",
       "MaxLevel": 1,
       "Type": "Technique",
@@ -8263,6 +11023,50 @@ var _avatarskilltree = {
         "Desc": "When a Field exists, enemies entering combat will be inflicted with Ashen Roast stacks. The number of stacks applied will match the highest number of Ashen Roast stacks inflicted while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
         "Icon": "SkillIcon_1218_SkillTree3"
       }
+    },
+    "v2": {
+      "Add": {
+        "StatusProbabilityBase": 0.28,
+        "FireAddedRatio": 0.144,
+        "SpeedDelta": 5.0
+      },
+      "Tree1": {
+        "Name": "Pyre Cleanse",
+        "Desc": "When a Field exists, the enemies' Effect Hit Rate is reduced by <b><color style='color:#f29e38'>30.0%</color></b>. At the start of each turn, they receive Fire Additional DMG equal to <b><color style='color:#f29e38'>150.0%</color></b> of Jiaoqiu's ATK.",
+        "Icon": "SkillIcon_1218_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Hearth Kindle",
+        "Desc": "When Jiaoqiu's Effect Hit Rate is higher than <b><color style='color:#f29e38'>80.0%</color></b>, for each <b><color style='color:#f29e38'>15.0%</color></b> exceeded, Jiaoqiu additionally gains <b><color style='color:#f29e38'>60.0%</color></b> ATK, up to a maximum of <b><color style='color:#f29e38'>240.0%</color></b>.",
+        "Icon": "SkillIcon_1218_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Seared Scent",
+        "Desc": "When a Field exists, enemies entering combat will be inflicted with Ashen Roast stacks. The number of stacks applied will match the highest number of Ashen Roast stacks inflicted while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
+        "Icon": "SkillIcon_1218_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "StatusProbabilityBase": 0.28,
+        "FireAddedRatio": 0.144,
+        "SpeedDelta": 5.0
+      },
+      "Tree1": {
+        "Name": "Pyre Cleanse",
+        "Desc": "At the start of the battle, immediately regenerates <b><color style='color:#f29e38'>15.0</color></b> Energy.",
+        "Icon": "SkillIcon_1218_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Hearth Kindle",
+        "Desc": "When Jiaoqiu's Effect Hit Rate is higher than <b><color style='color:#f29e38'>80.0%</color></b>, for each <b><color style='color:#f29e38'>15.0%</color></b> exceeded, Jiaoqiu additionally gains <b><color style='color:#f29e38'>60.0%</color></b> ATK, up to a maximum of <b><color style='color:#f29e38'>240.0%</color></b>.",
+        "Icon": "SkillIcon_1218_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Seared Scent",
+        "Desc": "While the Field exists, enemies entering combat will be inflicted with Ashen Roast. The number of stacks applied will match the highest number of Ashen Roast stacks possessed by any unit while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
+        "Icon": "SkillIcon_1218_SkillTree3"
+      }
     }
   },
   "1221": {
@@ -8280,6 +11084,50 @@ var _avatarskilltree = {
       "Tree2": {
         "Name": "Demon Quell",
         "Desc": "While in the Block state, resists the Crowd Control debuff received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1221_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "True Sunder",
+        "Desc": "When using a Counter, increases Yunli's ATK by <b><color style='color:#f29e38'>30.0%</color></b> for 1 turn.",
+        "Icon": "SkillIcon_1221_SkillTree3"
+      }
+    },
+    "v2": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "HPAddedRatio": 0.18,
+        "CriticalChanceBase": 0.067
+      },
+      "Tree1": {
+        "Name": "Fiery Wheel",
+        "Desc": "Upon being attacked, Yunli additionally regenerates <b><color style='color:#f29e38'>15.0</color></b> extra Energy.",
+        "Icon": "SkillIcon_1221_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Demon Quell",
+        "Desc": "While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1221_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "True Sunder",
+        "Desc": "When using a Counter, increases Yunli's ATK by <b><color style='color:#f29e38'>30.0%</color></b> for 1 turn.",
+        "Icon": "SkillIcon_1221_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "HPAddedRatio": 0.18,
+        "CriticalChanceBase": 0.067
+      },
+      "Tree1": {
+        "Name": "Fiery Wheel",
+        "Desc": "Every time 1 Intuit: Slash is used, the next Intuit: Slash will become Intuit: Cull.",
+        "Icon": "SkillIcon_1221_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Demon Quell",
+        "Desc": "While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
         "Icon": "SkillIcon_1221_SkillTree2"
       },
       "Tree3": {
@@ -8311,6 +11159,50 @@ var _avatarskilltree = {
         "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
         "Icon": "SkillIcon_1224_SkillTree3"
       }
+    },
+    "v2": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "CriticalChanceBase": 0.12,
+        "DefenceAddedRatio": 0.125
+      },
+      "Tree1": {
+        "Name": "Swan Soar",
+        "Desc": "When the battle starts, March 7th's action is Advanced Forward by <b><color style='color:#f29e38'>25.0%</color></b>.",
+        "Icon": "SkillIcon_1224_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Filigree",
+        "Desc": "March 7th can reduce the Toughness of enemies with Weakness of Master's Type. When inflicting Weakness Break, also triggers the Imaginary Weakness Break effect.",
+        "Icon": "SkillIcon_1224_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Tide Tamer",
+        "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
+        "Icon": "SkillIcon_1224_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "CriticalDamageBase": 0.24,
+        "DefenceAddedRatio": 0.125
+      },
+      "Tree1": {
+        "Name": "Swan Soar",
+        "Desc": "When the battle starts, March 7th's action is Advanced Forward by <b><color style='color:#f29e38'>25.0%</color></b>.",
+        "Icon": "SkillIcon_1224_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Filigree",
+        "Desc": "March 7th can reduce the Toughness of enemies with Weakness of Master's Type. When inflicting Weakness Break, also triggers the Imaginary Weakness Break effect.",
+        "Icon": "SkillIcon_1224_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Tide Tamer",
+        "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1224_SkillTree3"
+      }
     }
   }
 }
@@ -8318,6 +11210,18 @@ var _avatarskilltree = {
 var _avatarrank = {
   "121801": {
     "v1": {
+      "Rank": 1,
+      "Name": "Pentapathic Transference",
+      "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
+      "Icon": "SkillIcon_1218_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "Pentapathic Transference",
+      "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
+      "Icon": "SkillIcon_1218_Rank1"
+    },
+    "v3": {
       "Rank": 1,
       "Name": "Pentapathic Transference",
       "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
@@ -8330,10 +11234,34 @@ var _avatarrank = {
       "Name": "From Savor Comes Suffer",
       "Desc": "Ashen Roast can be considered as a Burn status. Enemies with Ashen Roast will suffer Fire DoT equal to <b><color style='color:#f29e38'>300.0%</color></b> of Jiaoqiu's ATK at the start of each turn.",
       "Icon": "SkillIcon_1218_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "From Savor Comes Suffer",
+      "Desc": "Ashen Roast can be considered as a Burn status. Enemies with Ashen Roast will suffer Fire DoT equal to <b><color style='color:#f29e38'>300.0%</color></b> of Jiaoqiu's ATK at the start of each turn.",
+      "Icon": "SkillIcon_1218_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "From Savor Comes Suffer",
+      "Desc": "When an enemy is in Ashen Roast state, increases the DMG multiplier of Fire DoT inflicted by Ashen Roast by <b><color style='color:#f29e38'>300.0%</color></b>.",
+      "Icon": "SkillIcon_1218_Rank2"
     }
   },
   "121803": {
     "v1": {
+      "Rank": 3,
+      "Name": "Flavored Euphony Reigns Supreme",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1218_BP"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Flavored Euphony Reigns Supreme",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1218_BP"
+    },
+    "v3": {
       "Rank": 3,
       "Name": "Flavored Euphony Reigns Supreme",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
@@ -8346,10 +11274,34 @@ var _avatarrank = {
       "Name": "Leisure In, Luster Out",
       "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
       "Icon": "SkillIcon_1218_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Leisure In, Luster Out",
+      "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
+      "Icon": "SkillIcon_1218_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Leisure In, Luster Out",
+      "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
+      "Icon": "SkillIcon_1218_Rank4"
     }
   },
   "121805": {
     "v1": {
+      "Rank": 5,
+      "Name": "Duel in Dawn, Dash in Dusk",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1218_Ultra"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Duel in Dawn, Dash in Dusk",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1218_Ultra"
+    },
+    "v3": {
       "Rank": 5,
       "Name": "Duel in Dawn, Dash in Dusk",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
@@ -8362,6 +11314,18 @@ var _avatarrank = {
       "Name": "Nonamorphic Pyrobind",
       "Desc": "When the enemy target is defeated, existing Ashen Roast stacks will be transferred to a surviving enemy with the lowest amount of Ashen Roast stacks. Increases max Ashen Roast stacks to <b><color style='color:#f29e38'>9.0</color></b>. Every stack of Ashen Roast will reduce all enemies' All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
       "Icon": "SkillIcon_1218_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Nonamorphic Pyrobind",
+      "Desc": "When an enemy target is eliminated, their accumulated \"Ashen Roast\" stacks will transfer to the enemy on the field with the lowest number of \"Ashen Roast\" stacks. The maximum stack limit of \"Ashen Roast\" increases to <b><color style='color:#f29e38'>9.0</color></b>, and each stack of \"Ashen Roast\" reduces the target's All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
+      "Icon": "SkillIcon_1218_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Nonamorphic Pyrobind",
+      "Desc": "When an enemy target is eliminated, their accumulated Ashen Roast stacks will transfer to the enemy on the field with the lowest number of Ashen Roast stacks. The maximum stack limit of Ashen Roast increases to <b><color style='color:#f29e38'>9.0</color></b>, and each stack of Ashen Roast reduces the target's All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
+      "Icon": "SkillIcon_1218_Rank6"
     }
   },
   "122101": {
@@ -8369,6 +11333,18 @@ var _avatarrank = {
       "Rank": 1,
       "Name": "Weathered Blade Does Not Sully",
       "Desc": "DMG from Intuit: Slash and Intuit: Cull increases by <b><color style='color:#f29e38'>20.0%</color></b>, and Intuit: Cull's extra DMG Hits increases by <b><color style='color:#f29e38'>3.0</color></b>.",
+      "Icon": "SkillIcon_1221_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "Weathered Blade Does Not Sully",
+      "Desc": "Increases DMG from Intuit: Slash and Intuit: Cull by <b><color style='color:#f29e38'>20.0%</color></b>, and increases Intuit: Cull's extra DMG Hits by <b><color style='color:#f29e38'>3.0</color></b>.",
+      "Icon": "SkillIcon_1221_Rank1"
+    },
+    "v3": {
+      "Rank": 1,
+      "Name": "Weathered Blade Does Not Sully",
+      "Desc": "Increases DMG from Intuit: Slash and Intuit: Cull by <b><color style='color:#f29e38'>20.0%</color></b>, and increases Intuit: Cull's extra DMG Hits by <b><color style='color:#f29e38'>3.0</color></b>.",
       "Icon": "SkillIcon_1221_Rank1"
     }
   },
@@ -8378,6 +11354,18 @@ var _avatarrank = {
       "Name": "First Luster Breaks Dawn",
       "Desc": "Yunli increases her own CRIT Rate by <b><color style='color:#f29e38'>18.0%</color></b> at the end of the turn, lasting until the beginning of the next turn.",
       "Icon": "SkillIcon_1221_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "First Luster Breaks Dawn",
+      "Desc": "Yunli increases her CRIT Rate by <b><color style='color:#f29e38'>18.0%</color></b> at the end of her turn, lasting until the beginning of the next turn.",
+      "Icon": "SkillIcon_1221_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "First Luster Breaks Dawn",
+      "Desc": "When dealing DMG by launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
+      "Icon": "SkillIcon_1221_Rank2"
     }
   },
   "122103": {
@@ -8386,6 +11374,18 @@ var _avatarrank = {
       "Name": "Mastlength Twirls Mountweight",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
       "Icon": "SkillIcon_1221_BP"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Mastlength Twirls Mountweight",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1221_BP"
+    },
+    "v3": {
+      "Rank": 3,
+      "Name": "Mastlength Twirls Mountweight",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1221_Ultra"
     }
   },
   "122104": {
@@ -8393,6 +11393,18 @@ var _avatarrank = {
       "Rank": 4,
       "Name": "Artisan's Ironsong",
       "Desc": "When Yunli deals DMG via launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
+      "Icon": "SkillIcon_1221_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Artisan's Ironsong",
+      "Desc": "When Yunli deals DMG via launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
+      "Icon": "SkillIcon_1221_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Artisan's Ironsong",
+      "Desc": "After launching \"Intuit: Slash\" or \"Intuit: Cull\", increases this unit's Effect RES by <b><color style='color:#f29e38'>50.0%</color></b>, lasting for <b><color style='color:#f29e38'>1.0</color></b> turn(s).",
       "Icon": "SkillIcon_1221_Rank4"
     }
   },
@@ -8402,6 +11414,18 @@ var _avatarrank = {
       "Name": "Blade of Old Outlasts All",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
       "Icon": "SkillIcon_1221_Ultra"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Blade of Old Outlasts All",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1221_Ultra"
+    },
+    "v3": {
+      "Rank": 5,
+      "Name": "Blade of Old Outlasts All",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1221_BP"
     }
   },
   "122106": {
@@ -8409,6 +11433,18 @@ var _avatarrank = {
       "Rank": 6,
       "Name": "Walk in Blade, Talk in Zither",
       "Desc": "After using Ultimate, if the next unit to act is an enemy unit, Intuit: Cull will be triggered regardless of whether it is targeting Yunli, and the Block effect provided by the Ultimate will not be dispelled and will last until the end of the next turn. This effect can only be triggered <b><color style='color:#f29e38'>1.0</color></b> per turn.",
+      "Icon": "SkillIcon_1221_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Walk in Blade, Talk in Zither",
+      "Desc": "After using Ultimate, if the next unit to act is an enemy unit, Intuit: Cull will be triggered regardless of whether it is targeting Yunli, and the Parry effect provided by the Ultimate will not be dispelled and will last until the end of the next turn. This effect can only be triggered <b><color style='color:#f29e38'>1.0</color></b> per turn.",
+      "Icon": "SkillIcon_1221_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Walk in Blade, Talk in Zither",
+      "Desc": "After using the Ultimate, if the next action belongs to an enemy target, Intuit: Cull will be triggered regardless if they attack Yunli, and when dealing DMG via Intuit: Slash or Intuit: Cull, increases Yunli's CRIT Rate by <b><color style='color:#f29e38'>15.0%</color></b> and Physical RES PEN by <b><color style='color:#f29e38'>20.0%</color></b>.",
       "Icon": "SkillIcon_1221_Rank6"
     }
   },
@@ -8418,6 +11454,18 @@ var _avatarrank = {
       "Name": "My Sword Stirs Starlight",
       "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>36.0%</color></b>.",
       "Icon": "SkillIcon_1224_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "My Sword Stirs Starlight",
+      "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>36.0%</color></b>.",
+      "Icon": "SkillIcon_1224_Rank1"
+    },
+    "v3": {
+      "Rank": 1,
+      "Name": "My Sword Stirs Starlight",
+      "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
+      "Icon": "SkillIcon_1224_Rank1"
     }
   },
   "122402": {
@@ -8426,10 +11474,34 @@ var _avatarrank = {
       "Name": "Blade Dances on Waves' Fight",
       "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the target enemy. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no target enemy that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn.<br><br>Hidden Stat: 5.0<br>Hidden Stat: 15.0",
       "Icon": "SkillIcon_1224_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "Blade Dances on Waves' Fight",
+      "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the target enemy. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no target enemy that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn.<br><br>Hidden Stat: 5.0<br>Hidden Stat: 15.0",
+      "Icon": "SkillIcon_1224_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "Blade Dances on Waves' Fight",
+      "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the main target. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no main target that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn. This attack deals a base Toughness reduction DMG of <b><color style='color:#f29e38'>1.0</color></b> and regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
+      "Icon": "SkillIcon_1224_Rank2"
     }
   },
   "122403": {
     "v1": {
+      "Rank": 3,
+      "Name": "Sharp Wit in Martial Might",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1224_BP"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Sharp Wit in Martial Might",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1224_BP"
+    },
+    "v3": {
       "Rank": 3,
       "Name": "Sharp Wit in Martial Might",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
@@ -8442,10 +11514,34 @@ var _avatarrank = {
       "Name": "Being Fabulous Never Frights",
       "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
       "Icon": "SkillIcon_1224_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Being Fabulous Never Frights",
+      "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
+      "Icon": "SkillIcon_1224_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Being Fabulous Never Frights",
+      "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
+      "Icon": "SkillIcon_1224_Rank4"
     }
   },
   "122405": {
     "v1": {
+      "Rank": 5,
+      "Name": "Sword Delights, Sugar Blights",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1224_Ultra"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Sword Delights, Sugar Blights",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1224_Ultra"
+    },
+    "v3": {
       "Rank": 5,
       "Name": "Sword Delights, Sugar Blights",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
@@ -8457,6 +11553,18 @@ var _avatarrank = {
       "Rank": 6,
       "Name": "Me, the Best Girl on Sight",
       "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1224_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Me, the Best Girl on Sight",
+      "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1224_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Me, the Best Girl on Sight",
+      "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>50.0%</color></b>.",
       "Icon": "SkillIcon_1224_Rank6"
     }
   }
@@ -8475,17 +11583,39 @@ var _voice = {
 }
 
 var _changelog2 = {
-  "1218": [],
-  "1221": [],
-  "1224": []
+  "1218": [
+    "The Field's effects will also apply to enemies that are unselectable. The effects include:<br>- Increased incoming Ultimate DMG<br>- Chance of Ashen Roast when taking action<br>- Takes DMG at the start of every turn<br>- Eidolon #4 ATK decrease",
+    "(v1) The +10 energy on Jiaoqiu's Passive is present in game data, but is never triggered. That is, no extra energy is regenerated when triggering Passive."
+  ],
+  "1221": [
+    "Counter DMG count (for comparing relic sets Valorous and Duke): <br>- Passive: 1 hit<br>- Slash: 1 hit<br>- Cull: 8 hits + 6~9 bounces<br>- Cull's main DMG split ratio: 12%x7+16%",
+    "Each instance of Intuit: Cull's bounce DMG deals <b>25%</b> of the Toughness reduction DMG of this skill's central target DMG.",
+    "Although counters are considered as both Ult and FUA DMG, Salsotto's effect won't be doubled.",
+    "The DMG dealt by Intuit: Slash and Intuit: Cull is considered as both Ultimate and Follow-Up DMG. However, she is not considered to be casting a Ultimate when triggering these, only considered to be casting a follow-up attack."
+  ],
+  "1224": [
+    "Eidolon #2's follow-up attack deals @1.0# base Toughness reduction DMG, and regenerates @5.0# Energy.",
+    "When Master is unselectable (e.g. Svarog's hand), the effects provided by the Master will still work.<br>In v1, the effects will disappear if Master becomes unselectable."
+  ]
 }
 
 var _notes = {}
 
-var _adiff = {}
+var _adiff = {
+  "1218": {},
+  "1221": {},
+  "1224": {
+    "v3": [
+      "``Base Stats`- HP 917.28 → 1058.4 ;<br>- DEF 418.95 → 441.0 ;<br>- SPD 107.0 → 102.0 ;"
+    ]
+  },
+  "21046": {},
+  "23030": {},
+  "23029": {}
+}
 
 var _weapondesc = {
-  "23030": "<i>A swift figure is running along the rooftops in the resplendent dusk.</i><br><br><i>\"Coco, Gugu, let's see who makes it to the end first</i><br>Like a dexterous small animal, the girl climbs up the eaves, evades the guards, and swings in the wind as she chases the final shaft of daylight.<br><br>The slightly heated evening breeze brushes past the girl's face and the dying glows of the day dye the cats into fluorescent colors.<br><i>\"You guys won!\"</i><br>She wipes off the sweat on her brows and takes the cats into her arms.<br>The stars surface in the sky and her innocent unguarded smiling face blooms among them, like the layers of radiant sunset clouds flowing along the horizon.",
+  "23030": "<i>A swift figure is running along the rooftops in the resplendent dusk.</i><br><br><i>\"Lili, Guoguo, let's see who makes it to the end first!\"</i><br>Like a dexterous small animal, the girl climbs up the eaves, evades the guards, and swings in the wind as she chases the final shaft of daylight.<br><br>The slightly heated evening breeze brushes past the girl's face and the dying glows of the day dye the cats into fluorescent colors.<br><i>\"You guys won!\"</i><br>She wipes off the sweat on her brows and takes the cats into her arms.<br>The stars surface in the sky and her innocent unguarded smiling face blooms among them, like the layers of radiant sunset clouds flowing along the horizon.",
   "23029": "After a few sudden drizzles, spring tides rise, birthing lush greenery.<br><i>\"How many springs has it been?\"</i><br>He recalls those young soldiers heading to the battlefield for the first time. That happens every year. The people are different, but they are all similarly lively and full of hope.<br>The willow withers as it waits for the person to return. In the end, what they manage to bring home... is often icy frost that will never melt.<br><br>The birds warble as he shuts his eyes, letting the sunlight fall on his face through the gaps between the leaves.<br>—<i>\"And that's why those who are left behind are the loneliest.\"</i>",
   "21046": "In the early morning light, a shifting form dances gracefully through the silent flowers, startling birds into flight one after another.<br><br>Silently reciting sword techniques, she moves with the flow, her once-clumsy moves becoming increasingly proficient. Where the sword's cuts rend the air, petals fall like rain, swirling chaotically as they fall. Unbeknownst to her, the cool mist has dampened her hair.<br><br><i> \"Excellent swordsmanship!\" </i><br>Startled, she instinctively turns her sword—<br>Behind her, a young {F#woman}{M#man} with gray hair lowers the camera in hand.<br><i> \"Beautiful memories won't just fade away with the wind.\"</i>"
 }
@@ -8497,6 +11627,18 @@ var _weaponskill = {
       "Desc": [
         "Greatly increases the odds that the wearer will be attacked, increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
       ]
+    },
+    "v2": {
+      "Name": "Deeply Engrossed",
+      "Desc": [
+        "Greatly increases the odds that the wearer will be attacked, increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
+      ]
+    },
+    "v3": {
+      "Name": "Deeply Engrossed",
+      "Desc": [
+        "Greatly increases the odds that the wearer will be attacked and increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
+      ]
     }
   },
   "23029": {
@@ -8505,10 +11647,34 @@ var _weaponskill = {
       "Desc": [
         "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . If the target is not under the Unarmored effect dealt by the wearer, when the wearer uses a Basic ATK, Skill, or Ultimate on enemy targets, there is a <b>60.0%</b> base chance to inflict Unarmored to the enemy. Under the Unarmored state, the target enemy's DMG received is increased by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the wearer deals DMG to an enemy with the Unarmored effect inflicted by themselves, there is a <b>60.0%</b> base chance to escalate the Unarmored state from them into the Cornered state, which increases the target enemy's DMG received by <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>21.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>27.0%</color> / <color style='color:#f29e38;'>30.0%</color> ."
       ]
+    },
+    "v2": {
+      "Name": "Worldly Affairs Leave No Mark",
+      "Desc": [
+        "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . If the target is not under the Unarmored effect dealt by the wearer, when the wearer uses a Basic ATK, Skill, or Ultimate on enemy targets, there is a <b>60.0%</b> base chance to inflict Unarmored to the enemy. Under the Unarmored state, the target enemy's DMG received is increased by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the wearer deals DMG to an enemy with the Unarmored effect inflicted by themselves, there is a <b>60.0%</b> base chance to escalate the Unarmored state from them into the Cornered state, which increases the target enemy's DMG received by <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>21.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>27.0%</color> / <color style='color:#f29e38;'>30.0%</color> ."
+      ]
+    },
+    "v3": {
+      "Name": "Worldly Affairs Leave No Mark",
+      "Desc": [
+        "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After the wearer uses Basic ATK, Skill, or Ultimate to attack enemy target(s), there is a <b>60.0%</b> base chance to inflict Unarmored to the target. While in the Unarmored state, increase the DMG the target enemy receives by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the target is under the DoT state the wearer inflicted, there is a <b>60.0%</b> base chance to escalate the Unarmored state inflicted by the wearer to the Cornered state, which further increases the DMG the target enemy receives by <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.0%</color> , lasting for <b>2.0</b> turn(s). During this period, the wearer will not be able to apply Unarmored."
+      ]
     }
   },
   "21046": {
     "v1": {
+      "Name": "Lose Not, Forget Not",
+      "Desc": [
+        "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."
+      ]
+    },
+    "v2": {
+      "Name": "Lose Not, Forget Not",
+      "Desc": [
+        "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."
+      ]
+    },
+    "v3": {
       "Name": "Lose Not, Forget Not",
       "Desc": [
         "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."

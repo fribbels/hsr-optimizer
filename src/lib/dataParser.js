@@ -925,7 +925,7 @@ function getOverrideTraces() {
     },
     1224: { // March 8th
       [Stats.ATK_P]: 0.28,
-      [Stats.CR]: 0.12,
+      [Stats.CD]: 0.24,
       [Stats.DEF_P]: 0.125,
     },
     1301: { // Gallagher

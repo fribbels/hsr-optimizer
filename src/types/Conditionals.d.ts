@@ -367,3 +367,6 @@ export type ConditionalBuff =
   | 'e4DefShred'
   | 'masterToughnessRedBuff'
   | 'masterAdditionalDmgBuff'
+  | 'e2DefShred'
+  | 'masterCdBeBuffs'
+  | 'e6CdBuff'

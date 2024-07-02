@@ -12,7 +12,7 @@ export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const basicEnhancedScaling = basic(e, 1.00, 1.10)
+  const basicEnhancedScaling = basic(e, 0.80, 0.88)
   const basicExtraScalingMasterBuff = basic(e, 0.20, 0.22)
   const ultScaling = ult(e, 2.40, 2.592)
   const talentDmgBuff = talent(e, 0.80, 0.88)
@@ -65,18 +65,19 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'selfSpdBuff',
       name: 'selfSpdBuff',
-      text: 'Self SPD buff',
-      title: 'Self SPD buff',
+      text: 'E1 self SPD buff',
+      title: 'E1 self SPD buff',
       content: BETA_UPDATE,
+      disabled: e < 1.
     },
     {
       formItem: 'switch',
-      id: 'e1EnhancedBasicCdBuff',
-      name: 'e1EnhancedBasicCdBuff',
-      text: 'E1 Basic CD buff',
-      title: 'E1 Basic CD buff',
+      id: 'e6CdBuff',
+      name: 'e6CdBuff',
+      text: 'E6 Basic CD buff',
+      title: 'E6 Basic CD buff',
       content: BETA_UPDATE,
-      disabled: e < 1,
+      disabled: e < 6.
     },
   ]
 
@@ -91,12 +92,11 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e6MasterBuffs',
-      name: 'e6MasterBuffs',
-      text: 'E6 master buffs',
-      title: 'E6 master buffs',
+      id: 'masterCdBeBuffs',
+      name: 'masterCdBeBuffs',
+      text: 'Master CD / BE buffs',
+      title: 'Master CD / BE buffs',
       content: BETA_UPDATE,
-      disabled: e < 6,
     },
   ]
 
@@ -106,13 +106,13 @@ export default (e: Eidolon): CharacterConditional => {
     talentDmgBuff: true,
     selfSpdBuff: true,
     masterAdditionalDmgBuff: true,
-    masterToughnessRedBuff: false,
-    e1EnhancedBasicCdBuff: true,
+    masterToughnessRedBuff: true,
+    e6CdBuff: true,
   }
 
   const teammateDefaults = {
     masterBuff: true,
-    e6MasterBuff: true,
+    masterCdBeBuffs: true,
   }
 
   return {
@@ -124,20 +124,21 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x[Stats.SPD_P] += (r.selfSpdBuff) ? 0.10 : 0
+      x[Stats.SPD_P] += (e >= 1 && r.selfSpdBuff) ? 0.10 : 0
       buffAbilityDmg(x, BASIC_TYPE, talentDmgBuff, (r.talentDmgBuff))
 
-      buffAbilityCd(x, BASIC_TYPE, 0.36, (e >= 1 && r.e1EnhancedBasicCdBuff && r.enhancedBasic))
+      buffAbilityCd(x, BASIC_TYPE, 0.50, (e >= 6 && r.e6CdBuff && r.enhancedBasic))
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff) ? basicExtraScalingMasterBuff * r.basicAttackHits : 0
       x.BASIC_SCALING += (r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling
-      x.BASIC_SCALING += additionalMasterBuffScaling
+      x.BASIC_SCALING += (r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += (e >= 2) ? 0.60 : 0
 
       const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
       x.BASIC_TOUGHNESS_DMG += toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30)
       x.ULT_TOUGHNESS_DMG += 90
+      x.FUA_TOUGHNESS_DMG += (e >= 2) ? 30 : 0
 
       return x
     },
@@ -148,8 +149,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD_P] += (t.masterBuff) ? skillSpdScaling : 0
 
-      x[Stats.CD] += (e >= 6 && t.masterBuff && t.e6MasterBuffs) ? 0.60 : 0
-      x[Stats.BE] += (e >= 6 && t.masterBuff && t.e6MasterBuffs) ? 0.36 : 0
+      x[Stats.CD] += (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0
+      x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

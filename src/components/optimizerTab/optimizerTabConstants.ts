@@ -6,8 +6,7 @@ export const DIGITS_3 = 44
 export const DIGITS_4 = 48
 export const DIGITS_4_WEIGHT = 52
 export const DIGITS_5 = 58
-export const DIGITS_6 = 65
-export const DIGITS_7 = 75
+export const DIGITS_6 = 63
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
@@ -82,14 +81,14 @@ export const baseColumnDefs = [
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'DMG' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
 
-  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
-  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
-  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
-  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
-  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
-  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
+  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC\nDMG' },
+  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL\nDMG' },
+  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT\nDMG' },
+  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA\nDMG' },
+  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT\nDMG' },
+  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK\nDMG' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO\nDMG' },
+  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'CUSTOM\nVALUE' },
 ]
 
 export const combatColumnDefs = [
@@ -165,14 +164,14 @@ export const combatColumnDefs = [
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ DMG' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
 
-  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
-  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
-  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
-  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
-  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
-  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO/AV' },
+  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC\nDMG' },
+  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL\nDMG' },
+  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT\nDMG' },
+  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA\nDMG' },
+  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT\nDMG' },
+  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK\nDMG' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO\nDMG' },
+  { field: 'COMBO_AV', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'SPD x\nCOMBO' },
 ]
 
 export const gridOptions = {
@@ -194,4 +193,6 @@ export const defaultColDef = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,
   sortingOrder: ['desc', 'asc'],
+  wrapHeaderText: true,
+  autoHeaderHeight: true,
 }

@@ -437,3 +437,7 @@ a {
     font-size: 11px !important;
     font-weight: 400 !important;
 }
+#optimizerGridContainer .ag-header {
+    height: 36px !important;
+    min-height: 36px !important;
+}

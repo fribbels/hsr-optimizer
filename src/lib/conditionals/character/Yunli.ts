@@ -34,8 +34,8 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'blockActive',
       name: 'blockActive',
-      text: 'Block active',
-      title: 'Block active',
+      text: 'Parry active',
+      title: 'Parry active',
       content: BETA_UPDATE,
     },
     {

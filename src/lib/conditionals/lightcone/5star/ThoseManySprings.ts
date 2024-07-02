@@ -8,7 +8,7 @@ import { BETA_UPDATE } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
-  const sValuesVulnerabilityEnhanced = [0.18, 0.21, 0.24, 0.27, 0.30]
+  const sValuesVulnerabilityEnhanced = [0.14, 0.16, 0.18, 0.20, 0.22]
 
   const content: ContentItem[] = [
     {
@@ -47,7 +47,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += m.unarmoredVulnerability ? sValuesVulnerability[s] : 0
+      x.DMG_TAKEN_MULTI += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
       x.DMG_TAKEN_MULTI += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
     },
     calculatePassives: (/* c, request */) => {

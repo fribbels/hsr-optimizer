@@ -44,6 +44,7 @@ export const MinMaxRatingFilters = () => {
       <FilterRow name="Dot" label="DOT" />
       <FilterRow name="Break" label="BREAK" />
       <FilterRow name="Combo" label="COMBO" />
+      <FilterRow name="ComboAv" label="COMBO/AV" />
     </Flex>
   )
 }

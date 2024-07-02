@@ -38,6 +38,7 @@ const resultSortOptions = (() => {
         { value: SortOption.DOT.key, label: resultSortString('DoT DMG') },
         { value: SortOption.BREAK.key, label: resultSortString('Break DMG') },
         { value: SortOption.COMBO.key, label: resultSortString('Combo DMG') },
+        { value: SortOption.COMBO_AV.key, label: resultSortString('Combo DMG/AV') },
       ],
     },
     {

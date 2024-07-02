@@ -150,4 +150,12 @@ export const SortOption = {
     combatGridColumn: 'COMBO',
     isComputedRating: true,
   },
+  COMBO_AV: {
+    key: 'COMBO_AV',
+    basicProperty: 'COMBO_AV',
+    combatProperty: 'COMBO_AV',
+    basicGridColumn: 'COMBO_AV',
+    combatGridColumn: 'COMBO_AV',
+    isComputedRating: true,
+  },
 }

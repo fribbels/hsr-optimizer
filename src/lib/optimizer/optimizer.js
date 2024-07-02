@@ -211,6 +211,7 @@ export function renameFields(c) {
   c.DOT = c.x.DOT_DMG
   c.BREAK = c.x.BREAK_DMG
   c.COMBO = c.x.COMBO_DMG
+  c.COMBO_AV = c.x.COMBO_AV
   c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]

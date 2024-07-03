@@ -42,6 +42,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER',
+  INFO: 'INFO',
 }
 
 export const PageToRoute = {

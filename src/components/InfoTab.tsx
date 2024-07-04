@@ -5,13 +5,14 @@ import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { LinkOutlined } from '@ant-design/icons'
+import { AppPages } from 'lib/db'
 
 // Total API requests = 1 + sizeof(roadmap)
 // API limit = 60 requests per hour per IP address
 const owner = 'fribbels'
 const repo = 'hsr-optimizer'
 const MyOctokit = Octokit.plugin(restEndpointMethods)
-const octokit = new MyOctokit(/* {<auth token>} */)
+const octokit = new MyOctokit(/* { auth: <auth token> } */)
 
 const contributors = await getContributors()
 
@@ -83,6 +84,8 @@ function generateLinks() {
 }
 
 export default function InfoTab() {
+  const activeKey = window.store((s) => s.activeKey)
+  if (activeKey != AppPages.INFO) return (<></>)
   return (
     <Flex vertical>
       <RoadMap />

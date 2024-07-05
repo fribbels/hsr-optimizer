@@ -6,38 +6,60 @@ import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { LinkOutlined } from '@ant-design/icons'
 import { AppPages } from 'lib/db'
+import { useEffect, useState } from 'react'
+import { precisionRound } from 'lib/conditionals/utils'
 
 // Total API requests = 1 + sizeof(roadmap)
 // API limit = 60 requests per hour per IP address
 const owner = 'fribbels'
 const repo = 'hsr-optimizer'
 const MyOctokit = Octokit.plugin(restEndpointMethods)
-const octokit = new MyOctokit(/* { auth: <auth token> } */)
-
-const contributors = await getContributors()
-
-async function getContributors() { // TODO: add error + rate limit handling
-  console.log('fetching contributors')
-  const output: { profile?: string; avatar?: string; name?: string }[] = []
-  const request = await octokit.rest.repos.listContributors({ owner: owner, repo: repo })
-  for (const contributor of request.data) {
-    output.push({
-      profile: contributor.html_url,
-      avatar: contributor.avatar_url,
-      name: contributor.login,
-    })
-  }
-  output.slice(0, 500)// only the first 500 contributors' profile information is conserved by the API, beyond that are anonymised
-  return output
-}
+const octokit = new MyOctokit({ /* auth: '<auth token>' */ })
 
 // updating the roadmap dynamically based on the Kanban has to be done via graphql as restAPI for projects is being deprecated, graphql can't be used unauthenticated
 // could this be improved via with github actions maybe?
 // in the meantime the issue numbers are manually updated
 const roadmapIssueList = [173, 27, 190, 375, 420, 372, 247, 29]
-const roadmap = await generateRoadmap(roadmapIssueList)
 
-async function generateRoadmap(issues: number[]) { // TODO: add error + rate limit handling
+export default function InfoTab() {
+  const activeKey = window.store((s) => s.activeKey)
+
+  const links = generateLinks()
+  const [contributors, setContributors] = useState<object[]>([])
+  const [roadmap, setRoadmap] = useState<object[]>([])
+
+  useEffect(() => {
+    const d = new Date()
+    const callsRequired = 1 + roadmapIssueList.length
+    const callsRemaining = 15// TODO: DB shenanigans
+    const waitUntil = 1// TODO: DB shenanigans
+
+    if (callsRequired < callsRemaining && (precisionRound(d.getTime()) / 1000) > waitUntil + 1) { // return // +1 just to have some margin
+      getContributors()
+        .then(
+          (output) => setContributors(output))
+        .catch(
+          () => { console.error('ERROR fetching contributors') })
+
+      generateRoadmap(roadmapIssueList)
+        .then(
+          (output) => setRoadmap(output))
+        .catch(
+          () => { console.error('ERROR fetching roadmap') })
+    }
+  }, [])
+
+  if (activeKey != AppPages.INFO) return (<></>)
+  return (
+    <Flex vertical>
+      <RoadMap roadmap={roadmap} />
+      <Links links={links} />
+      <ContributorInfo contributors={contributors} />
+    </Flex>
+  )
+}
+
+async function generateRoadmap(issues: number[]) { // TODO: add error handling
   console.log('fetching issues')
   const output: { title: string; link: string }[] = []
   for (const number of issues) {
@@ -53,7 +75,29 @@ async function generateRoadmap(issues: number[]) { // TODO: add error + rate lim
   return output
 }
 
-const links = generateLinks()
+function RoadMap(props: { roadmap }) {
+  return (
+    <Flex vertical>
+      <Typography.Title>Upcoming features</Typography.Title>
+      <List
+        grid={{ gutter: 20 }}
+        dataSource={props.roadmap}
+        renderItem={(item) => (
+          <List.Item>
+            <Card
+              hoverable
+              size="small"
+              style={{ width: 200, marginTop: 16, height: 120 }}
+              onClick={() => window.open(item.link)}
+            >
+              <Typography>{item.title}</Typography>
+            </Card>
+          </List.Item>
+        )}
+      />
+    </Flex>
+  )
+}
 
 function generateLinks() {
   const output = [
@@ -83,56 +127,19 @@ function generateLinks() {
   return output
 }
 
-export default function InfoTab() {
-  const activeKey = window.store((s) => s.activeKey)
-  if (activeKey != AppPages.INFO) return (<></>)
-  return (
-    <Flex vertical>
-      <RoadMap />
-      <Links />
-      <ContributorInfo />
-    </Flex>
-  )
-}
-
-function RoadMap() {
-  return (
-    <Flex vertical>
-      <Typography.Title>Upcoming features</Typography.Title>
-      <List
-        bordered
-        grid={{ gutter: 0 }}
-        dataSource={roadmap}
-        renderItem={(item) => (
-          <List.Item>
-            <Card
-              hoverable
-              size="small"
-              style={{ width: 200, marginTop: 16, height: 120 }}
-              onClick={() => window.open(item.link)}
-            >
-              <Typography>{item.title}</Typography>
-            </Card>
-          </List.Item>
-        )}
-      />
-    </Flex>
-  )
-}
-
-function Links() {
+function Links(props: { links }) {
   return (
     <Flex vertical>
       <Typography.Title>Useful Links</Typography.Title>
       <List
-        grid={{ gutter: 0 }}
-        dataSource={links}
+        grid={{ gutter: 20 }}
+        dataSource={props.links}
         renderItem={(item) => (
           <List.Item>
             <Card
               hoverable
               size="small"
-              style={{ width: 200, margin: 16, height: 70 }}
+              style={{ width: 200, height: 70 }}
               onClick={() => window.open(item.link)}
             >
               <Flex>
@@ -147,13 +154,28 @@ function Links() {
   )
 }
 
-function ContributorInfo() {
+async function getContributors() { // TODO: add error handling
+  console.log('fetching contributors')
+  const output: { profile?: string; avatar?: string; name?: string }[] = []
+  const request = await octokit.rest.repos.listContributors({ owner: owner, repo: repo })
+  for (const contributor of request.data) {
+    output.push({
+      profile: contributor.html_url,
+      avatar: contributor.avatar_url,
+      name: contributor.login,
+    })
+  }
+  output.slice(0, 500)// only the first 500 contributors' profile information is conserved by the API, beyond that are anonymised
+  return output
+}
+
+function ContributorInfo(props: { contributors }) {
   return (
     <Flex vertical>
       <Typography.Title>Contributors</Typography.Title>
       <List
         grid={{ gutter: 20 }}
-        dataSource={contributors}
+        dataSource={props.contributors}
         renderItem={(item) => (
           <List.Item>
             <Card

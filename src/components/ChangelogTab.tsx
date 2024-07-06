@@ -98,6 +98,15 @@ function leaks(str: string) {
   return window.officialOnly ? '' : str
 }
 
+// Issue numbers for the roadmap issues displayed in the "Info" tab
+export const roadmapIssueList = [173, 27, 190, 375, 420, 372, 247, 29]
+/*
+* updating the roadmap dynamically based on the Kanban has to be done via graphql as restAPI for projects is being deprecated, graphql can't be used unauthenticated
+* could this be improved via github actions maybe?
+* in the meantime the issue numbers are manually updated
+* Other option would be to fetch all the issues (should cost less points which is a silver lining) and then display based on the "status" field but ew
+*/
+
 /*
 NOTES:
  */

@@ -1,22 +1,24 @@
-import { Card, Flex, Image, List, Typography } from 'antd'
+import { Button, Card, Flex, Image, List, Typography } from 'antd'
 import { Octokit } from '@octokit/core'
 import { restEndpointMethods } from '@octokit/plugin-rest-endpoint-methods'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { LinkOutlined } from '@ant-design/icons'
-import { AppPages } from 'lib/db'
+import DB, { AppPages } from 'lib/db'
 import { useEffect, useState } from 'react'
 import { roadmapIssueList } from 'components/ChangelogTab'
+import { SaveState } from 'lib/saveState'
 
 // Total API requests = 1 + sizeof(roadmap)
 // API limit = 60 requests per hour per IP address
 const owner = 'fribbels'
 const repo = 'hsr-optimizer'
 const MyOctokit = Octokit.plugin(restEndpointMethods)
-const octokit = new MyOctokit({/* auth: '<auth token>' */ })
+const octokit = new MyOctokit({/* auth: '<token>' */ })
 
 export default function InfoTab() {
+  console.log(`api info: ${DB.getGithubAPI().limited}, ${DB.getGithubAPI().limit_reset}`)
   const activeKey = window.store((s) => s.activeKey)
 
   const links = generateLinks()
@@ -28,13 +30,23 @@ export default function InfoTab() {
       .then(
         (output) => setContributors(output))
       .catch(
-        () => { console.error('ERROR fetching contributors') })
+        () => {
+          const info = DB.getGithubAPI()
+          info.limited = true
+          DB.setGithubAPI(info)
+          console.error('ERROR fetching contributors')
+        })
 
     generateRoadmap(roadmapIssueList)
       .then(
         (output) => setRoadmap(output))
       .catch(
-        () => { console.error('ERROR fetching roadmap') })
+        () => {
+          const info = DB.getGithubAPI()
+          info.limited = true
+          DB.setGithubAPI(info)
+          console.error('ERROR fetching roadmap')
+        })
   }, [])
 
   if (activeKey != AppPages.INFO) return (<></>)
@@ -43,6 +55,7 @@ export default function InfoTab() {
       <RoadMap roadmap={roadmap} />
       <Links links={links} />
       <ContributorInfo contributors={contributors} />
+      <Button onClick={() => console.log(DB.getState())} />
     </Flex>
   )
 }
@@ -51,32 +64,39 @@ async function generateRoadmap(issues: number[]) {
   console.log('fetching issues')
   const output: { title: string; link: string }[] = []
   for (const number of issues) {
-    const reset = 1// TODO: Fetch from DB
-    if (Date.now() / 1000 <= reset) break
-
-    const response = await octokit.rest.issues.get({ owner: owner, repo: repo, issue_number: number })
-
-    if ([403, 429].includes(response.status)) {
-      console.log('rate limited while generating roadmap')
-      // TODO: update reset time in DB
+    const reset = DB.getGithubAPI().limit_reset
+    const limited: boolean = DB.getGithubAPI().limited
+    if (Date.now() / 1000 <= reset && limited) {
+      console.log('rate limited, exiting roadmap')
       break
     }
+    DB.setGithubAPI({ limited: false, limit_reset: reset })
 
-    if ([301, 304, 404, 410].includes(response.status)) {
-      console.error(`error while generating roadmap (status code: ${response.status})`)
-    }
-
-    output.push({
-      title: response.data.title,
-      link: response.data.html_url,
-    })
-
-    if (response.headers['x-ratelimit-remaining'] == '0') {
-      console.log('rate limit reached while generating roadmap')
-      // TODO: Update reset time in DB
-      break
+    try {
+      const response = await octokit.rest.issues.get({ owner: owner, repo: repo, issue_number: number })
+      DB.setGithubAPI({ limited: limited, limit_reset: parseInt(response.headers['x-ratelimit-reset']) })
+      output.push({
+        title: response.data.title,
+        link: response.data.html_url,
+      })
+      if (parseInt(response.headers['x-ratelimit-remaining']) == 0) {
+        console.log('rate limit reached while generating roadmap')
+        DB.setGithubAPI({ limited: true, limit_reset: reset })
+        break
+      }
+    } catch (error) {
+      if ([403, 429].includes(error.status)) {
+        console.log('rate limited while generating roadmap')
+        DB.setGithubAPI({ limited: true, limit_reset: reset })
+        break
+      }
+      if ([301, 304, 404, 410].includes(error.status)) {
+        console.error(`error while generating roadmap (status code: ${error.status})`)
+      }
     }
   }
+  SaveState.save()
+  console.log('returning roadmap')
   return output
 }
 
@@ -166,37 +186,47 @@ function Links(props: { links }) {
 }
 
 async function getContributors() {
-  const reset = 1// TODO: Fetch reset time from DB
-  if (Date.now() / 1000 <= reset) return []
+  const reset = DB.getGithubAPI().limit_reset
+  const limited: boolean = DB.getGithubAPI().limited
+  if (Date.now() / 1000 <= reset && limited) {
+    console.log('rate limited, exiting contributors')
+    return []
+  }
+  DB.setGithubAPI({ limited: false, limit_reset: reset })
   const output: { profile?: string; avatar?: string; name?: string }[] = []
   console.log('fetching contributors')
-  const request = await octokit.rest.repos.listContributors({ owner: owner, repo: repo })
-  if ([403, 429].includes(request.status)) {
-    console.log('rate limited while fetching contributors')
-    // TODO: Update the reset time in DB
-    return []
+
+  try {
+    const request = await octokit.rest.repos.listContributors({ owner: owner, repo: repo })
+    for (const contributor of request.data) {
+      output.push({
+        profile: contributor.html_url,
+        avatar: contributor.avatar_url,
+        name: contributor.login,
+      })
+    }
+    if (parseInt(request.headers['x-ratelimit-remaining']) == 0) {
+      console.log('rate limit reached while generating roadmap')
+    }
+    DB.setGithubAPI({ limited: parseInt(request.headers['x-ratelimit-remaining']) == 0, limit_reset: parseInt(request.headers['x-ratelimit-reset']) })
+  } catch (error) {
+    if ([403, 429].includes(error.status)) {
+      console.log('rate limited while fetching contributors')
+      DB.setGithubAPI({ limited: true, limit_reset: reset })
+    }
+    if (error.status == 404) {
+      console.error('Repository contributors: resource not found (code 404)')
+    }
+    console.log('returning contributors')
   }
-  if (request.headers['x-ratelimit-remaining'] == '0') {
-    console.log('rate limit reached while fetching contributors')
-    // TODO: Update the reset time in DB
-  }
-  if (request.status == 404) {
-    console.error('Repository contributors: resource not found (code 404)')
-    return []
-  }
-  for (const contributor of request.data) {
-    output.push({
-      profile: contributor.html_url,
-      avatar: contributor.avatar_url,
-      name: contributor.login,
-    })
-  }
+  console.log('returning contributors')
+  SaveState.save()
   return output
 }
 
 function ContributorInfo(props: { contributors: object[] }) {
   if (!props.contributors.length) return (
-    <Flex>
+    <Flex vertical>
       <Typography.Title>Contributors</Typography.Title>
       <Typography>Awaiting API/currently rate limited</Typography>
     </Flex>

@@ -15,7 +15,7 @@ import { SaveState } from 'lib/saveState'
 const owner = 'fribbels'
 const repo = 'hsr-optimizer'
 const MyOctokit = Octokit.plugin(restEndpointMethods)
-const octokit = new MyOctokit({/* auth: '<token>' */ })
+const octokit = new MyOctokit({ /*auth: '<token>'*/ })
 
 export default function InfoTab() {
   console.log(`api info: ${DB.getGithubAPI().limited}, ${DB.getGithubAPI().limit_reset}`)
@@ -24,6 +24,9 @@ export default function InfoTab() {
   const links = generateLinks()
   const [contributors, setContributors] = useState<object[]>([])
   const [roadmap, setRoadmap] = useState<object[]>([])
+
+  const [loadingRoadmap, setLoadingRoadmap] = useState(true)
+  const [loadingContributors, setLoadingContributors] = useState(true)
 
   useEffect(() => {
     getContributors()
@@ -36,6 +39,7 @@ export default function InfoTab() {
           DB.setGithubAPI(info)
           console.error('ERROR fetching contributors')
         })
+      .finally(() => setLoadingContributors(false))
 
     generateRoadmap(roadmapIssueList)
       .then(
@@ -47,14 +51,15 @@ export default function InfoTab() {
           DB.setGithubAPI(info)
           console.error('ERROR fetching roadmap')
         })
+      .finally(() => setLoadingRoadmap(false))
   }, [])
 
   if (activeKey != AppPages.INFO) return (<></>)
   return (
     <Flex vertical>
-      <RoadMap roadmap={roadmap} />
+      <RoadMap roadmap={roadmap} loading={loadingRoadmap} />
       <Links links={links} />
-      <ContributorInfo contributors={contributors} />
+      <ContributorInfo contributors={contributors} loading={loadingContributors} />
       <Button onClick={() => console.log(DB.getState())} />
     </Flex>
   )
@@ -100,11 +105,16 @@ async function generateRoadmap(issues: number[]) {
   return output
 }
 
-function RoadMap(props: { roadmap: object[] }) {
+function RoadMap(props: { roadmap: object[]; loading: boolean }) {
   if (!props.roadmap.length) return (
     <Flex vertical>
       <Typography.Title>Upcoming features</Typography.Title>
-      <Typography>Awaiting API/rate limited</Typography>
+      <Card
+        size="small"
+        style={{ width: 200, marginTop: 16, height: 120 }}
+      >
+        <Typography>{props.loading ? 'waiting on API' : 'You are currently rate limited, reload the page again at a later time'}</Typography>
+      </Card>
     </Flex>
   )
   return (
@@ -224,11 +234,16 @@ async function getContributors() {
   return output
 }
 
-function ContributorInfo(props: { contributors: object[] }) {
+function ContributorInfo(props: { contributors: object[]; loading: boolean }) {
   if (!props.contributors.length) return (
     <Flex vertical>
       <Typography.Title>Contributors</Typography.Title>
-      <Typography>Awaiting API/currently rate limited</Typography>
+      <Card
+        size="small"
+        style={{ width: 200, marginTop: 16, height: 120 }}
+      >
+        <Typography>{props.loading ? 'waiting on API' : 'You are currently rate limited, reload the page again at a later time'}</Typography>
+      </Card>
     </Flex>
   )
   return (

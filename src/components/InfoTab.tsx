@@ -18,7 +18,6 @@ const MyOctokit = Octokit.plugin(restEndpointMethods)
 const octokit = new MyOctokit({ /*auth: '<token>'*/ })
 
 export default function InfoTab() {
-  console.log(`api info: ${DB.getGithubAPI().limited}, ${DB.getGithubAPI().limit_reset}`)
   const activeKey = window.store((s) => s.activeKey)
 
   const links = generateLinks()
@@ -66,13 +65,13 @@ export default function InfoTab() {
 }
 
 async function generateRoadmap(issues: number[]) {
-  console.log('fetching issues')
+  console.log('fetching roadmap')
   const output: { title: string; link: string }[] = []
   for (const number of issues) {
     const reset = DB.getGithubAPI().limit_reset
     const limited: boolean = DB.getGithubAPI().limited
     if (Date.now() / 1000 <= reset && limited) {
-      console.log('rate limited, exiting roadmap')
+      console.log('rate limited, roadmap will return partial / empty')
       break
     }
     DB.setGithubAPI({ limited: false, limit_reset: reset })
@@ -199,7 +198,7 @@ async function getContributors() {
   const reset = DB.getGithubAPI().limit_reset
   const limited: boolean = DB.getGithubAPI().limited
   if (Date.now() / 1000 <= reset && limited) {
-    console.log('rate limited, exiting contributors')
+    console.log('rate limited, will not fetch contributors')
     return []
   }
   DB.setGithubAPI({ limited: false, limit_reset: reset })
@@ -227,7 +226,6 @@ async function getContributors() {
     if (error.status == 404) {
       console.error('Repository contributors: resource not found (code 404)')
     }
-    console.log('returning contributors')
   }
   console.log('returning contributors')
   SaveState.save()

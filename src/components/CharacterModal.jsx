@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Flex, Form, Modal, Select } from 'antd'
+import { Button, Flex, Form, Modal, Radio, Select } from 'antd'
 import { HeaderText } from './HeaderText'
 import { eidolonOptions, superimpositionOptions } from 'lib/constants'
 import { defaultGap } from 'lib/constantsUi'
@@ -49,6 +49,10 @@ export default function CharacterModal(props) {
 
   const [characterId, setCharacterId] = useState('')
 
+  const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
+
+  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
+
   const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
 
   const initialPath = !props.addCharacter && props.initialCharacter ? characterMetadata[props.initialCharacter.form.characterId].path : undefined
@@ -79,12 +83,12 @@ export default function CharacterModal(props) {
     props.setOpen(false)
   }
 
-  const panelWidth = 300 - 47
+  const panelWidth = 400 - 47
 
   return (
     <Modal
       open={props.open}
-      width={300}
+      width={400}
       destroyOnClose
       centered
       onOk={onModalOk}
@@ -108,44 +112,48 @@ export default function CharacterModal(props) {
         </Flex>
 
         <Flex vertical gap={defaultGap} style={{ marginBottom: 10 }}>
-          <Flex gap={defaultGap} justify="space-between">
-            <Form.Item size="default" name="characterId">
-              <CharacterSelect
-                value=""
-                selectStyle={{ width: panelWidth - 60 - defaultGap }}
-                onChange={setCharacterId}
-                withIcon={true}
-              />
-            </Form.Item>
-            <Form.Item size="default" name="characterEidolon">
-              <Select
-                showSearch
-                style={{ width: 60 }}
-                options={eidolonOptions}
-              />
-            </Form.Item>
-          </Flex>
+          <Form.Item size="default" name="characterId">
+            <CharacterSelect
+              value=""
+              selectStyle={{ width: panelWidth - 60 - defaultGap + 38 }}
+              onChange={setCharacterId}
+              withIcon={true}
+            />
+          </Form.Item>
+          <Form.Item size="default" name="characterEidolon">
+            <Radio.Group value={eidolon} onChange={(e) => setEidolon(e.target.value)}>
+              <Radio.Button value={0}>E0</Radio.Button>
+              <Radio.Button value={1}>E1</Radio.Button>
+              <Radio.Button value={2}>E2</Radio.Button>
+              <Radio.Button value={3}>E3</Radio.Button>
+              <Radio.Button value={4}>E4</Radio.Button>
+              <Radio.Button value={5}>E5</Radio.Button>
+              <Radio.Button value={6}>E6</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
         </Flex>
 
         <Flex justify="space-between" align="center">
           <HeaderText>Light cone</HeaderText>
         </Flex>
         <Flex vertical gap={defaultGap}>
-          <Flex gap={defaultGap}>
-            <Form.Item size="default" name="lightCone">
-              <LightConeSelect
-                value=""
-                selectStyle={{ width: panelWidth - 60 - defaultGap }}
-                characterId={characterId}
-                initialPath={initialPath}
-              />
-            </Form.Item>
+          <Form.Item size="default" name="lightCone">
+            <LightConeSelect
+              value=""
+              selectStyle={{ width: panelWidth - 60 - defaultGap + 38 }}
+              characterId={characterId}
+              initialPath={initialPath}
+            />
+          </Form.Item>
+          <Flex style={{ marginLeft: 0/* 46 */ }}>
             <Form.Item size="default" name="lightConeSuperimposition">
-              <Select
-                showSearch
-                style={{ width: 60 }}
-                options={superimpositionOptions}
-              />
+              <Radio.Group value={superimposition} onChange={(e) => setSuperimposition(e.target.value)}>
+                <Radio.Button value={1}>S1</Radio.Button>
+                <Radio.Button value={2}>S2</Radio.Button>
+                <Radio.Button value={3}>S3</Radio.Button>
+                <Radio.Button value={4}>S4</Radio.Button>
+                <Radio.Button value={5}>S5</Radio.Button>
+              </Radio.Group>
             </Form.Item>
           </Flex>
         </Flex>

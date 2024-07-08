@@ -86,6 +86,14 @@ export const SortOption = {
     combatGridColumn: 'xELEMENTAL_DMG',
     isComputedRating: true,
   },
+  WEIGHT: {
+    key: 'WEIGHT',
+    basicProperty: 'WEIGHT',
+    combatProperty: 'WEIGHT',
+    basicGridColumn: 'WEIGHT',
+    combatGridColumn: 'WEIGHT',
+    isComputedRating: true,
+  },
   EHP: {
     key: 'EHP',
     basicProperty: 'EHP',

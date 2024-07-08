@@ -18,6 +18,7 @@ let CANCEL = false
 
 export function calculateCurrentlyEquippedRow(request) {
   let relics = Utils.clone(DB.getRelics())
+  RelicFilters.calculateWeightScore(request, relics)
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
   relics = RelicFilters.splitRelicsByPart(relics)
@@ -211,6 +212,7 @@ export function renameFields(c) {
   c.DOT = c.x.DOT_DMG
   c.BREAK = c.x.BREAK_DMG
   c.COMBO = c.x.COMBO_DMG
+  c.WEIGHT = c.x.WEIGHT
   c.EHP = c.x.EHP
   c.xHP = c.x[Stats.HP]
   c.xATK = c.x[Stats.ATK]

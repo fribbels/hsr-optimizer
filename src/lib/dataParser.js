@@ -4377,28 +4377,28 @@ function getScoringMetadata() {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
-          },
-          {
-            characterId: '1304', // Aventurine
-            lightCone: '21016', // Trend
-            characterEidolon: 0,
+            characterId: '1202', // Tingyun
+            lightCone: '21018', // Dance
+            characterEidolon: 6,
             lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },

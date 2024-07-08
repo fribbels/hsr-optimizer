@@ -1,5 +1,11 @@
-import { baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject,
+  FUA_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -28,6 +34,19 @@ export default (e: Eidolon): CharacterConditional => {
   const talentCounterScaling = talent(e, 1.20, 1.32)
 
   const maxCullHits = (e >= 1) ? 9 : 6
+
+  // Slash is the same, 1 hit
+  const fuaHitCountMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
+    5: ASHBLAZING_ATK_STACK * (3 * 1 / 1), // 0.18
+  }
+
+  const cullHitCountMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1*0.12 + 2*0.12 + 3*0.12 + 4*0.12 + 5*0.12 + 6*0.12 + 7*0.12 + 8*0.16), // 0.2784
+    3: ASHBLAZING_ATK_STACK * (2*0.12 + 5*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.4152
+    5: ASHBLAZING_ATK_STACK * (3*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.444
+  }
 
   const content: ContentItem[] = [
     {
@@ -165,9 +184,14 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request,
+        (r.blockActive && r.ultCull)
+          ? cullHitCountMultiByTargets[request.enemyCount]
+          : fuaHitCountMultiByTargets[request.enemyCount])
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }
 }

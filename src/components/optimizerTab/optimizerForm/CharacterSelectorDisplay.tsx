@@ -56,6 +56,7 @@ const resultSortOptions = (() => {
         { value: SortOption.ERR.key, label: resultSortString(StatsToReadable[Stats.ERR]) },
         { value: SortOption.ELEMENTAL_DMG.key, label: resultSortString('Elemental DMG') },
         { value: SortOption.EHP.key, label: resultSortString('Effective HP') },
+        { value: SortOption.WEIGHT.key, label: resultSortString('Weight') },
       ],
     },
   ]

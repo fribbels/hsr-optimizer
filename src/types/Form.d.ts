@@ -91,6 +91,7 @@ export type Form = {
   maxSkill: MAX_INT
   maxSpd: MAX_INT
   maxUlt: MAX_INT
+  maxWeight: MAX_INT
   minAtk: MIN_INT
   minBasic: MIN_INT
   minBe: MIN_INT
@@ -111,4 +112,5 @@ export type Form = {
   minSkill: MIN_INT
   minSpd: MIN_INT
   minUlt: MIN_INT
+  minWeight: MIN_INT
 }

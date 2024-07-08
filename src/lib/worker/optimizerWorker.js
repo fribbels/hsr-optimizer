@@ -1,6 +1,13 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
 import { BufferPacker } from '../bufferPacker.js'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts
+} from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
@@ -141,6 +148,7 @@ self.onmessage = function(e) {
 
     // Rating filters
     const fail = x.EHP < request.minEhp || x.EHP > request.maxEhp
+      || x.WEIGHT < request.minWeight || x.WEIGHT > request.maxWeight
       || x.BASIC_DMG < request.minBasic || x.BASIC_DMG > request.maxBasic
       || x.SKILL_DMG < request.minSkill || x.SKILL_DMG > request.maxSkill
       || x.ULT_DMG < request.minUlt || x.ULT_DMG > request.maxUlt

@@ -1,5 +1,10 @@
-import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  BASIC_TYPE,
+  ComputedStatsObject
+} from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -17,6 +22,9 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.40, 2.592)
   const talentDmgBuff = talent(e, 0.80, 0.88)
   const skillSpdScaling = skill(e, 0.10, 0.108)
+
+  // 0.06
+  const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.40 + 2 * 0.60)
 
   const content: ContentItem[] = [
     {
@@ -156,10 +164,12 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
+      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, fuaHitCountMulti)
+
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }
 }

@@ -172,6 +172,7 @@ export default function CharacterTab() {
   const [isSwitchRelicsModalOpen, setSwitchRelicsModalOpen] = useState(false)
   const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
+  const [characterModalAdd, setCharacterModalAdd] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const nameFilter = useRef('')
 
@@ -438,10 +439,12 @@ export default function CharacterTab() {
 
     switch (e.key) {
       case 'add':
+        setCharacterModalAdd(true)
         setCharacterModalInitialCharacter(null)
         setCharacterModalOpen(true)
         break
       case 'edit':
+        setCharacterModalAdd(false)
         setCharacterModalInitialCharacter(selectedCharacter)
         setCharacterModalOpen(true)
         break
@@ -601,13 +604,14 @@ export default function CharacterTab() {
               character={selectedCharacter}
               setOriginalCharacterModalOpen={setCharacterModalOpen}
               setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+              setCharacterModalAdd={setCharacterModalAdd}
             />
           </Flex>
         </Flex>
       </Flex>
       <CharacterModal
         onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter}
+        initialCharacter={characterModalInitialCharacter} addCharacter={characterModalAdd}
       />
       <SwitchRelicsModal
         onOk={onSwitchRelicsModalOk}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Flex, Form, Modal, Select } from 'antd'
 import { HeaderText } from './HeaderText'
 import { eidolonOptions, superimpositionOptions } from 'lib/constants'
@@ -6,6 +6,7 @@ import { defaultGap } from 'lib/constantsUi'
 import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import DB from 'lib/db'
 
 // Keep new characters/lcs at the top of the list for convenience. More popular should be at the bottom
 // TODO: These no longer work because we changed the character selector
@@ -47,6 +48,10 @@ export default function CharacterModal(props) {
   window.characterForm = characterForm
 
   const [characterId, setCharacterId] = useState('')
+
+  const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
+
+  const initialPath = !props.addCharacter && props.initialCharacter ? characterMetadata[props.initialCharacter.form.characterId].path : undefined
 
   useEffect(() => {
     if (!props.open) return
@@ -132,6 +137,7 @@ export default function CharacterModal(props) {
                 value=""
                 selectStyle={{ width: panelWidth - 60 - defaultGap }}
                 characterId={characterId}
+                initialPath={initialPath}
               />
             </Form.Item>
             <Form.Item size="default" name="lightConeSuperimposition">
@@ -152,4 +158,5 @@ CharacterModal.propTypes = {
   onOk: PropTypes.func,
   setOpen: PropTypes.func,
   initialCharacter: PropTypes.object,
+  addCharacter: PropTypes.bool,
 }

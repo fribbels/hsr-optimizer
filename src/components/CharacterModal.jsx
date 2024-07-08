@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Flex, Form, Modal, Radio, Select } from 'antd'
+import { Button, Flex, Form, Modal, Radio } from 'antd'
 import { HeaderText } from './HeaderText'
-import { eidolonOptions, superimpositionOptions } from 'lib/constants'
 import { defaultGap } from 'lib/constantsUi'
 import PropTypes from 'prop-types'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect'

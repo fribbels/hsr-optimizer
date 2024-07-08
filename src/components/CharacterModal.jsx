@@ -115,7 +115,7 @@ export default function CharacterModal(props) {
           <Form.Item size="default" name="characterId">
             <CharacterSelect
               value=""
-              selectStyle={{ width: panelWidth - 60 - defaultGap + 38 }}
+              selectStyle={{ width: panelWidth - 22 - defaultGap }}
               onChange={setCharacterId}
               withIcon={true}
             />
@@ -140,12 +140,12 @@ export default function CharacterModal(props) {
           <Form.Item size="default" name="lightCone">
             <LightConeSelect
               value=""
-              selectStyle={{ width: panelWidth - 60 - defaultGap + 38 }}
+              selectStyle={{ width: panelWidth - 22 - defaultGap }}
               characterId={characterId}
               initialPath={initialPath}
             />
           </Form.Item>
-          <Flex style={{ marginLeft: 0/* 46 */ }}>
+          <Flex>
             <Form.Item size="default" name="lightConeSuperimposition">
               <Radio.Group value={superimposition} onChange={(e) => setSuperimposition(e.target.value)}>
                 <Radio.Button value={1}>S1</Radio.Button>

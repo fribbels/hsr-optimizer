@@ -1,11 +1,4 @@
-import {
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  FUA_TYPE,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -13,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -121,7 +114,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.ULT_SCALING += ultScaling//
+      x.ULT_SCALING += ultScaling
       x.DOT_SCALING += (r.ashenRoastStacks > 0) ? talentDotScaling : 0
       x.DOT_SCALING += (e >= 2 && r.e2Dot && r.ashenRoastStacks > 0) ? 3.00 : 0
       x.DOT_CHANCE = 100
@@ -140,7 +133,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_TAKEN_MULTI += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
       x.DMG_TAKEN_MULTI += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling
 
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE | FUA_TYPE , 0.48, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0))
+      x.ELEMENTAL_DMG += (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.48 : 0
 
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0
     },
@@ -152,7 +145,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.ATK] += (r.ehrToAtkBoost && x[Stats.EHR] > 0.80)
         ? Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * request.baseAtk
-        : 0//
+        : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

@@ -1,20 +1,33 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import {
+  ASHBLAZING_ATK_STACK,
+  baseComputedStatsObject,
+  ComputedStatsObject,
+  FUA_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
+import {
+  buffAbilityCd,
+  buffAbilityCr,
+  buffAbilityDefShred,
+  buffAbilityDmg,
+  buffAbilityResShred
+} from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.20, 1.32)
-  const ultSlashScaling = ult(e, 2.40, 2.592)
-  const ultCullScaling = ult(e, 2.40, 2.592)
-  const ultCullHitsScaling = ult(e, 0.80, 0.864)
+  const ultSlashScaling = ult(e, 2.00, 2.16)
+  const ultCullScaling = ult(e, 2.00, 2.16)
+  const ultCullHitsScaling = ult(e, 0.60, 0.648)
 
   const blockCdBuff = ult(e, 1.00, 1.08)
 
@@ -22,13 +35,26 @@ export default (e: Eidolon): CharacterConditional => {
 
   const maxCullHits = (e >= 1) ? 9 : 6
 
+  // Slash is the same, 1 hit
+  const fuaHitCountMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
+    5: ASHBLAZING_ATK_STACK * (3 * 1 / 1), // 0.18
+  }
+
+  const cullHitCountMultiByTargets = {
+    1: ASHBLAZING_ATK_STACK * (1*0.12 + 2*0.12 + 3*0.12 + 4*0.12 + 5*0.12 + 6*0.12 + 7*0.12 + 8*0.16), // 0.2784
+    3: ASHBLAZING_ATK_STACK * (2*0.12 + 5*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.4152
+    5: ASHBLAZING_ATK_STACK * (3*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.444
+  }
+
   const content: ContentItem[] = [
     {
       formItem: 'switch',
       id: 'blockActive',
       name: 'blockActive',
-      text: 'Block active',
-      title: 'Block active',
+      text: 'Parry active',
+      title: 'Parry active',
       content: BETA_UPDATE,
     },
     {
@@ -68,21 +94,30 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e2CrBuff',
-      name: 'e2CrBuff',
-      text: 'E2 CR buff',
-      title: 'E2 CR buff',
+      id: 'e2DefShred',
+      name: 'e2DefShred',
+      text: 'E2 FUA DEF shred',
+      title: 'E2 FUA DEF shred',
       content: BETA_UPDATE,
       disabled: e < 2,
     },
     {
       formItem: 'switch',
-      id: 'e4DefShred',
-      name: 'e4DefShred',
-      text: 'E4 DEF shred',
-      title: 'E4 DEF shred',
+      id: 'e4ResBuff',
+      name: 'e4ResBuff',
+      text: 'E4 RES buff',
+      title: 'E4 RES buff',
       content: BETA_UPDATE,
       disabled: e < 4,
+    },
+    {
+      formItem: 'switch',
+      id: 'e6Buffs',
+      name: 'e6Buffs',
+      text: 'E6 buffs',
+      title: 'E6 buffs',
+      content: BETA_UPDATE,
+      disabled: e < 6,
     },
   ]
 
@@ -94,8 +129,9 @@ export default (e: Eidolon): CharacterConditional => {
     ultCullHits: maxCullHits,
     counterAtkBuff: true,
     e1UltBuff: true,
-    e2CrBuff: true,
-    e4DefShred: true,
+    e2DefShred: true,
+    e4ResBuff: true,
+    e6Buffs: true,
   }
 
   return {
@@ -107,20 +143,9 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x[Stats.CD] += (r.blockActive) ? blockCdBuff : 0
-      x[Stats.ATK_P] += (r.counterAtkBuff) ? 0.30 : 0
-      x.DMG_RED_MULTI *= (r.blockActive) ? 1 - 0.20 : 1
-
-      x[Stats.CR] += (e >= 2 && r.e2CrBuff) ? 0.18 : 0
-
-      x.BASIC_TOUGHNESS_DMG += 30
-      x.BASIC_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += (r.blockActive) ? 60 : 30
-
-      x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
       if (r.blockActive) {
         if (r.ultCull) {
+          x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
           x.FUA_SCALING += ultCullScaling + r.ultCullHits * ultCullHitsScaling
         } else {
           x.FUA_SCALING += ultSlashScaling
@@ -128,6 +153,26 @@ export default (e: Eidolon): CharacterConditional => {
       } else {
         x.FUA_SCALING += talentCounterScaling
       }
+
+      buffAbilityCd(x, FUA_TYPE, blockCdBuff, (r.blockActive))
+      x[Stats.ATK_P] += (r.counterAtkBuff) ? 0.30 : 0
+
+      x.DMG_RED_MULTI *= (r.blockActive) ? 1 - 0.20 : 1
+
+
+      buffAbilityDmg(x, FUA_TYPE, 0.20, (e >= 1 && r.e1UltBuff && r.blockActive))
+      buffAbilityDefShred(x, FUA_TYPE, 0.20, (e >= 2 && r.e2DefShred))
+      x[Stats.RES] += (e >= 4 && r.e4ResBuff) ? 0.50 : 0
+      buffAbilityCr(x, FUA_TYPE, 0.15, (e >= 6 && r.e6Buffs && r.blockActive))
+      buffAbilityResShred(x, FUA_TYPE, 0.20, (e >= 6 && r.e6Buffs && r.blockActive))
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += (r.blockActive) ? 60 : 30
+      x.FUA_TOUGHNESS_DMG += (r.blockActive && r.ultCull) ? r.ultCullHits * 15 : 0
+
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
 
       return x
     },
@@ -139,21 +184,14 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      if (r.blockActive && r.ultCull) {
-        x.FUA_BOOST += x.ULT_BOOST
-        x.FUA_CD_BOOST += x.ULT_CD_BOOST
-        x.FUA_CR_BOOST += x.ULT_CR_BOOST
-        x.FUA_VULNERABILITY = x.ULT_VULNERABILITY
-        x.FUA_DEF_PEN = x.ULT_DEF_PEN
-        x.FUA_RES_PEN = x.ULT_RES_PEN
-      }
-
-      x.FUA_DEF_PEN += (e >= 4 && r.e4DefShred) ? 0.20 : 0
-      x.FUA_BOOST += (e >= 1 && r.e1UltBuff) ? 0.20 : 0
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request,
+        (r.blockActive && r.ultCull)
+          ? cullHitCountMultiByTargets[request.enemyCount]
+          : fuaHitCountMultiByTargets[request.enemyCount])
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }
 }

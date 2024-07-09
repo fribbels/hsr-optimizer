@@ -62,7 +62,7 @@ export default (e: Eidolon): CharacterConditional => {
     defaults: () => ({
       buffedState: true,
       speedBoostStacks: speedBoostStacksMax,
-      e1EnemyHp80CrBoost: true,
+      e1EnemyHp80CrBoost: false,
       e6UltTargetDebuff: true,
     }),
     teammateDefaults: () => ({

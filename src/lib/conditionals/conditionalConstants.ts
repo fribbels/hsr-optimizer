@@ -4,8 +4,35 @@ const Stats = Constants.Stats
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
+// Ability types
+export const BASIC_TYPE = 1
+export const SKILL_TYPE = 2
+export const ULT_TYPE = 4
+export const FUA_TYPE = 8
+export const DOT_TYPE = 16
+export const BREAK_TYPE = 32
+export const SUPER_BREAK_TYPE = 64
+
+export const ABILITY_TYPE_TO_DMG_TYPE_VARIABLE = {
+  [BASIC_TYPE]: 'BASIC_DMG_TYPE',
+  [SKILL_TYPE]: 'SKILL_DMG_TYPE',
+  [ULT_TYPE]: 'ULT_DMG_TYPE',
+  [FUA_TYPE]: 'FUA_DMG_TYPE',
+  [DOT_TYPE]: 'DOT_DMG_TYPE',
+  [BREAK_TYPE]: 'BREAK_DMG_TYPE',
+  [SUPER_BREAK_TYPE]: 'SUPER_BREAK_TYPE',
+}
+
 // TODO profile & convert to array for performance?
 export const baseComputedStatsObject = {
+  BASIC_DMG_TYPE: BASIC_TYPE,
+  SKILL_DMG_TYPE: SKILL_TYPE,
+  ULT_DMG_TYPE: ULT_TYPE,
+  FUA_DMG_TYPE: FUA_TYPE,
+  DOT_DMG_TYPE: DOT_TYPE,
+  BREAK_DMG_TYPE: BREAK_TYPE,
+  SUPER_BREAK_TYPE: SUPER_BREAK_TYPE,
+
   [Stats.HP_P]: 0,
   [Stats.ATK_P]: 0,
   [Stats.DEF_P]: 0,
@@ -133,3 +160,4 @@ export const baseComputedStatsObject = {
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 }
 export type ComputedStatsObject = typeof baseComputedStatsObject
+

@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtk = [0.05, 0.06, 0.07, 0.08, 0.09]
@@ -46,11 +47,12 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       prophetStacks: 4,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.ATK_P] += r.prophetStacks * sValuesAtk[s]
-      x.DOT_DEF_PEN += r.prophetStacks * sValuesDotPen[s]
+
+      buffAbilityDefShred(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s])
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

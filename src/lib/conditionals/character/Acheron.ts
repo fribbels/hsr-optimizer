@@ -1,10 +1,17 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  baseComputedStatsObject,
+  BASIC_TYPE,
+  ComputedStatsObject,
+  SKILL_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
+import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -132,11 +139,16 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = Object.assign({}, baseComputedStatsObject)
 
+      if (e >= 6 && r.e6UltBuffs) {
+        x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
+        x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
+      }
+
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
-      x.ULT_RES_PEN += talentResPen
       x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
-      x.ULT_RES_PEN += (e >= 6 && r.e6UltBuffs) ? 0.20 : 0
+      buffAbilityResShred(x, ULT_TYPE, talentResPen)
+      buffAbilityResShred(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
@@ -161,7 +173,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.ULT_VULNERABILITY += (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0
+      buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
@@ -170,22 +182,6 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_BOOST += x.ULT_BOOST
-        x.BASIC_CD_BOOST += x.ULT_CD_BOOST
-        x.BASIC_CR_BOOST += x.ULT_CR_BOOST
-        x.BASIC_VULNERABILITY = x.ULT_VULNERABILITY
-        x.BASIC_DEF_PEN = x.ULT_DEF_PEN
-        x.BASIC_RES_PEN = x.ULT_RES_PEN
-
-        x.SKILL_BOOST += x.ULT_BOOST
-        x.SKILL_CD_BOOST += x.ULT_CD_BOOST
-        x.SKILL_CR_BOOST += x.ULT_CR_BOOST
-        x.SKILL_VULNERABILITY = x.ULT_VULNERABILITY
-        x.SKILL_DEF_PEN = x.ULT_DEF_PEN
-        x.SKILL_RES_PEN = x.ULT_RES_PEN
-      }
     },
   }
 }

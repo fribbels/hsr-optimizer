@@ -2,7 +2,10 @@ import { Stats } from 'lib/constants'
 import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
-  ComputedStatsObject
+  BASIC_TYPE,
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
 
@@ -10,6 +13,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityCd, buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -81,7 +85,15 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      // Stats
+      x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
+      x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
+
+      buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
+      buffAbilityResShred(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
+
+      // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
+      buffAbilityCd(x, BASIC_TYPE, -enhancedStateFuaCdBoost, (r.numbyEnhancedState))
+      buffAbilityResShred(x, BASIC_TYPE, -0.10, (e >= 6))
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -102,8 +114,8 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.FUA_VULNERABILITY += (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0
-      x.FUA_CD_BOOST += (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0
+      buffAbilityVulnerability(x, FUA_TYPE, proofOfDebtFuaVulnerability, (m.enemyProofOfDebtDebuff))
+      buffAbilityCd(x, FUA_TYPE, 0.25 * m.e1DebtorStacks, (e >= 1 && m.enemyProofOfDebtDebuff))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
@@ -116,32 +128,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingFuaData.ashblazingAtk + ashblazingFuaData.ashblazingMulti)
       x.SKILL_DMG = x.FUA_DMG
-
-      /*
-       * Copy fua boosts to skill/basic
-       * BOOSTS get added, while vulnerability / def pen gets replaced (?)
-       */
-      x.SKILL_BOOST += x.FUA_BOOST
-      x.SKILL_CD_BOOST += x.FUA_CD_BOOST
-      x.SKILL_CR_BOOST += x.FUA_CR_BOOST
-      x.SKILL_VULNERABILITY = x.FUA_VULNERABILITY
-      x.SKILL_DEF_PEN = x.FUA_DEF_PEN
-      x.SKILL_RES_PEN = x.FUA_RES_PEN
-
-      x.BASIC_BOOST += x.FUA_BOOST
-      x.BASIC_CD_BOOST += x.FUA_CD_BOOST
-      x.BASIC_CR_BOOST += x.FUA_CR_BOOST
-      x.BASIC_VULNERABILITY = x.FUA_VULNERABILITY
-      x.BASIC_DEF_PEN = x.FUA_DEF_PEN
-      x.BASIC_RES_PEN = x.FUA_RES_PEN
-
-      // Her ult buff only applies to the skill/fua not basic
-      x.FUA_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
-      x.SKILL_CD_BOOST += (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0
-
-      // Her e6 only applies to skill/fua not basic
-      x.SKILL_RES_PEN += (e >= 6) ? 0.10 : 0
-      x.FUA_RES_PEN += (e >= 6) ? 0.10 : 0
     },
   }
 }

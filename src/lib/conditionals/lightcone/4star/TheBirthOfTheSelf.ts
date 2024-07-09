@@ -1,9 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
@@ -39,11 +40,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       enemyHp50FuaBuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.FUA_BOOST += sValues[s]
-      x.FUA_BOOST += (r.enemyHp50FuaBuff) ? sValues[s] : 0
+      buffAbilityDmg(x, FUA_TYPE, sValues[s])
+      buffAbilityDmg(x, FUA_TYPE, sValues[s], (r.enemyHp50FuaBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

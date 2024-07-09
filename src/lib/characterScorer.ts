@@ -1,7 +1,15 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
-import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
+import {
+  calculateOrnamentSets,
+  calculateRelicSets,
+  convertRelicsToSimulation,
+  runSimulations,
+  Simulation,
+  SimulationRequest,
+  SimulationStats
+} from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Utils } from 'lib/utils'
@@ -69,15 +77,13 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
     .filter((x) => x.augmentedStats.mainStat == stat)
     .length
 
-  const lowerLimit = 18 - 3 * mainsCount
-  const diminishingScale = 0.25
-
+  const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {
     return rolls
   }
 
   const excess = Math.max(0, rolls - (lowerLimit))
-  const diminishedExcess = excess / (1 + diminishingScale * Math.pow(excess, 0.5))
+  const diminishedExcess = excess / (Math.pow(excess, 0.25))
 
   return lowerLimit + diminishedExcess
 }

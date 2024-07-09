@@ -2,7 +2,8 @@ import { Stats } from 'lib/constants'
 import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
-  ComputedStatsObject
+  ComputedStatsObject,
+  ULT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
@@ -10,6 +11,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -81,7 +83,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Boost
       x.ELEMENTAL_DMG += r.skillDmgIncreaseStacks * skillStackDmg
-      x.ULT_BOOST += (e >= 1) ? 0.10 : 0
+      buffAbilityDmg(x, ULT_TYPE, 0.10, (e >= 1))
 
       x.BASIC_TOUGHNESS_DMG += (r.basicEnhanced) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 60

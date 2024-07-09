@@ -22,14 +22,12 @@ export type Form = {
   characterEidolon: Eidolon
   characterId: CharacterId | undefined
   characterLevel: number
-  enemyOptions: {
-    enemyCount: number
-    enemyElementalWeak: number
-    enemyLevel: number
-    enemyMaxToughness: number
-    enemyResistance: number
-    enemyWeaknessBroken: boolean
-  }
+  enemyCount: number
+  enemyElementalWeak: number
+  enemyLevel: number
+  enemyMaxToughness: number
+  enemyResistance: number
+  enemyWeaknessBroken: boolean
   enhance: RelicEnhance | number
   grade: RelicGrade | number
   keepCurrentRelics: boolean

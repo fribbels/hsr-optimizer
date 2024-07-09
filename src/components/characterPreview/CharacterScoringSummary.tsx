@@ -184,7 +184,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
               restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
             </li>
-            <li>An artificial diminishing returns penalty is applied to substats with greater than <code>18 - (3 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
+            <li>An artificial diminishing returns penalty is applied to substats with greater than <code>12 - (2 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
           </ul>
 
           <p>

@@ -129,6 +129,12 @@ window.store = create((set) => ({
     grade: [],
     verified: [],
   },
+  characterTabFilters: {
+    name: '',
+    element: [],
+    path: [],
+    rarity: [],
+  },
   excludedRelicPotentialCharacters: [],
 
   optimizerMenuState: {
@@ -164,6 +170,7 @@ window.store = create((set) => ({
   setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
   setRelicsById: (x) => set(() => ({ relicsById: x })),
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
   setScorerId: (x) => set(() => ({ scorerId: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),

@@ -1,4 +1,4 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -6,6 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -151,7 +152,7 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      x.BREAK_VULNERABILITY += (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN) ? ultWeaknessBrokenBreakVulnerability : 0
+      buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
 
       const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - (x.RATIO_BASED_ATK_P_BUFF * request.baseAtk)
       x[Stats.BE] += (r.atkToBeConversion && (trueAtk > 1800)) ? 0.008 * Math.floor((trueAtk - 1800) / 10) : 0

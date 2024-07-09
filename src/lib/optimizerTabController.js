@@ -7,7 +7,13 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
+import {
+  defaultEnemyOptions,
+  defaultSetConditionals,
+  defaultTeammate,
+  getDefaultForm,
+  getDefaultWeights
+} from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -487,6 +493,21 @@ export const OptimizerTabController = {
 
     if (!newForm.statSim.simulations) {
       newForm.statSim.simulations = []
+    }
+
+    if (!newForm.combo) {
+      newForm.combo = {}
+    }
+
+    if (Object.values(newForm.combo).every(value => !value)) {
+      const formula = scoringMetadata?.simulation?.formula
+      if (formula) {
+        for (const key of DamageKeys) {
+          if (formula[key]) {
+            newForm.combo[key] = formula[key]
+          }
+        }
+      }
     }
 
     console.log('Form update', newForm)

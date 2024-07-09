@@ -133,7 +133,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_TAKEN_MULTI += (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0
       x.DMG_TAKEN_MULTI += Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling
 
-      x.ELEMENTAL_DMG += (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.48 : 0
+      x.ELEMENTAL_DMG += (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0
 
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0
     },

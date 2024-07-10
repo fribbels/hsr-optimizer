@@ -326,6 +326,6 @@ export const Utils = {
     const minutesS = (minutes < 10) ? `0${minutes}` : `${minutes}`
     const secondsS = (seconds < 10) ? `0${seconds}` : `${seconds}`
 
-    return `${hoursS}:${minutesS}:${secondsS}`
+    return `${minutesS}:${secondsS}`
   },
 }

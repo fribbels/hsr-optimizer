@@ -218,6 +218,8 @@ function MobileSidebarContent() {
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
+  const [startTime, setStartTime] = useState(undefined)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -234,6 +236,11 @@ function MobileSidebarContent() {
   function filterClicked() {
     console.log('Filter clicked')
     OptimizerTabController.applyRowFilters()
+  }
+
+  function startClicked() {
+    setStartTime(Date.now())
+    window.optimizerStartClicked()
   }
 
   return (
@@ -293,7 +300,7 @@ function MobileSidebarContent() {
           </Flex>
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
-              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ flex: 1 }}>
+              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={startClicked} style={{ flex: 1 }}>
                 Start optimizer
               </Button>
             </Flex>
@@ -319,6 +326,14 @@ function MobileSidebarContent() {
               size={[8, 5]}
               percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
             />
+            <Flex>
+              <Typography>Time remaining:</Typography>
+              <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+              <Typography>{optimizationInProgress
+                ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
+                : '00:00:00'}
+              </Typography>
+            </Flex>
           </Flex>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>

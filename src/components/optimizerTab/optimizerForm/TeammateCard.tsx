@@ -239,7 +239,7 @@ const TeammateCard = (props: { index: number }) => {
     }
     for (const item of Sliders) {
       const newValue = (item.oldValue - item.oldRange.min) / (item.oldRange.max - item.oldRange.min) * (item.newRange.max - item.newRange.min) + item.newRange.min
-      window.optimizerForm.setFieldValue([teammateProperty, `characterConditionals`, `e2AtkBoost`], newValue)
+      window.optimizerForm.setFieldValue([teammateProperty, `characterConditionals`, item.id], newValue)
     }
   }
 

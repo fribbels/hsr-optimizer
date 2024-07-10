@@ -11,6 +11,7 @@ import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSele
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions.ts'
 import { Utils } from 'lib/utils.js'
+import { characterOptionMapping } from 'lib/characterConditionals.js'
 
 type CharacterSelectorDisplayProps = {}
 
@@ -74,6 +75,47 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
     OptimizerTabController.updateCharacter(optimizerTabFocusCharacter)
   }, [optimizerTabFocusCharacter])
 
+  function updateSliders(newEidolon: number) {
+    const oldEidolon = window.store.getState().optimizerFormCharacterEidolon
+    const characterId = window.store.getState().optimizerTabFocusCharacter
+    const characterFn = characterOptionMapping[characterId]
+    const oldConditionals = characterFn(oldEidolon).content()
+    const newConditionals = characterFn(newEidolon).content()
+    const Sliders: {
+      id: string
+      oldRange: {
+        min: number
+        max: number
+      }
+      newRange: {
+        min: number
+        max: number
+      }
+      oldValue: number
+    }[] = []
+    for (const item of oldConditionals) {
+      const newItem = newConditionals.filter((x) => x.id == item.id).pop()
+      if (item.formItem == 'slider') {
+        Sliders.push({
+          id: item.id,
+          oldRange: {
+            min: item.min,
+            max: item.max,
+          },
+          newRange: {
+            min: newItem.min,
+            max: newItem.max,
+          },
+          oldValue: window.optimizerForm.getFieldValue('characterConditionals')[item.id],
+        })
+      }
+    }
+    for (const item of Sliders) {
+      const newValue = (item.oldValue - item.oldRange.min) / (item.oldRange.max - item.oldRange.min) * (item.newRange.max - item.newRange.min) + item.newRange.min
+      window.optimizerForm.setFieldValue([`characterConditionals`, item.id], newValue)
+    }
+  }
+
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify="space-between" align="center">
@@ -93,7 +135,10 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
             showSearch
             style={{ width: 50 }}
             options={eidolonOptions}
-            onChange={setOptimizerFormCharacterEidolon}
+            onChange={(e) => {
+              updateSliders(e)
+              setOptimizerFormCharacterEidolon(e)
+            }}
             placeholder="E"
             popupMatchSelectWidth={55}
             suffixIcon={null}

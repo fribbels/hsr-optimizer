@@ -141,7 +141,7 @@ function SidebarContent() {
                 <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
                 <Typography>{optimizationInProgress
                   ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
-                  : '00:00:00'}
+                  : '00:00'}
                 </Typography>
               </Flex>
             </Flex>
@@ -331,7 +331,7 @@ function MobileSidebarContent() {
               <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
               <Typography>{optimizationInProgress
                 ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
-                : '00:00:00'}
+                : '00:00'}
               </Typography>
             </Flex>
           </Flex>

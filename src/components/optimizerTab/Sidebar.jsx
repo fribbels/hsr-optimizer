@@ -1,5 +1,5 @@
 import { Button, Divider, Flex, Grid, Progress, Radio, theme, Typography } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
@@ -11,6 +11,7 @@ import { Optimizer } from 'lib/optimizer/optimizer'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
+import { Utils } from 'lib/utils'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -77,6 +78,8 @@ function SidebarContent() {
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
+  const [startTime, setStartTime] = useState(undefined)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -93,6 +96,11 @@ function SidebarContent() {
   function filterClicked() {
     console.log('Filter clicked')
     OptimizerTabController.applyRowFilters()
+  }
+
+  function startClicked() {
+    setStartTime(Date.now())
+    window.optimizerStartClicked()
   }
 
   return (
@@ -128,6 +136,14 @@ function SidebarContent() {
                 size={[8, 5]}
                 percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
               />
+              <Flex>
+                <Typography>Time remaining:</Typography>
+                <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+                <Typography>{optimizationInProgress
+                  ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
+                  : '00:00:00'}
+                </Typography>
+              </Flex>
             </Flex>
 
             <Flex justify="space-between" align="center">
@@ -135,7 +151,7 @@ function SidebarContent() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ flex: 1 }}>
+                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={startClicked} style={{ flex: 1 }}>
                   Start optimizer
                 </Button>
               </Flex>

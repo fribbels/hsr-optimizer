@@ -191,6 +191,15 @@ export default function RelicsTab() {
       operator: 'OR',
     }
 
+    filterModel.equipped = {
+      conditions: relicTabFilters.equipped.map((x) => ({
+        filterType: 'text',
+        type: 'equals',
+        filter: x,
+      })),
+      operator: 'OR',
+    }
+
     console.log('FilterModel', filterModel)
 
     // Apply to grid
@@ -233,6 +242,7 @@ export default function RelicsTab() {
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
+    { field: 'equipped', headerName: 'HideMe', width: 40, filter: 'agTextColumnFilter', hide: 'true' },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {

@@ -191,6 +191,12 @@ export const Renderer = {
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
     )
   },
+  renderEquipped: (x) => {
+    const status = x == 'true' ? 'equipped' : 'unequipped'
+    return (
+      <Image src={Assets.getEquippedImage(status)} preview={false} />
+    )
+  },
 }
 
 const gradeToColor = {

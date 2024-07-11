@@ -170,6 +170,9 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   }
   relic.substats = substats
   RelicAugmenter.augment(relic)
+  if (relic.equippedBy == undefined) {
+    relic.equipped = 'false'
+  } else relic.equipped = 'true'
 
   return relic
 }

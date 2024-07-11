@@ -35,7 +35,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
-  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
   const labelledOptions: { value: string; label }[] = []
   for (const option of characterOptions) {
@@ -58,7 +57,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setTimeout(() => inputRef?.current?.focus(), 100)
 
       if (multipleSelect) {
-        const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
+        const newSelected = new Map<string, boolean>(value.map((characterId: string) => [characterId, true]))
         setSelected(newSelected)
       }
     }
@@ -114,7 +113,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
-          <span>{excludedRelicPotentialCharacters.length ? `${excludedRelicPotentialCharacters.length} characters excluded` : 'All characters enabled'}</span>
+          <span>{value.length ? `${value.length} characters excluded` : 'All characters enabled'}</span>
         )}
         onClear={() => {
           if (onChange) onChange(null)

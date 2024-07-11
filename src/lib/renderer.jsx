@@ -192,7 +192,7 @@ export const Renderer = {
     )
   },
   renderEquipped: (x) => {
-    const status = x == 'true' ? 'equipped' : 'unequipped'
+    const status = x ? 'equipped' : 'unequipped'
     return (
       <Image src={Assets.getEquippedImage(status)} preview={false} />
     )

@@ -410,9 +410,6 @@ export const DB = {
       } else {
         relic.equippedBy = undefined
       }
-      if (relic.equippedBy == undefined) {
-        relic.equipped = 'false'
-      } else relic.equipped = 'true'
     }
 
     if (x.scoringMetadataOverrides) {

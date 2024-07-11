@@ -18,7 +18,6 @@ export type Relic = {
 
   enhance: RelicEnhance
   equippedBy: DataMineId
-  equipped: string
   grade: RelicGrade
   id: GUID
   verified?: boolean

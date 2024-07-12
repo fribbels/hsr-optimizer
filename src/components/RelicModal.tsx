@@ -106,6 +106,8 @@ export default function RelicModal(props: {
 
     const relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
+      relicForm.setFieldValue('restrictionEnabled', false)
+      relicForm.setFieldValue('restrictionList', [])
       // Ignore
     } else {
       defaultValues = {

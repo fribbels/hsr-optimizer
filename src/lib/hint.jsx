@@ -128,14 +128,14 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>
+            <strong>Allow equipped relics</strong>
+            {' '}
+            - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
+          </p>
+          <p>
             <strong>Character priority filter</strong>
             {' '}
             - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
-          </p>
-          <p>
-            <strong>Boost main stat</strong>
-            {' '}
-            - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.
           </p>
           <p>
             <strong>Keep current relics</strong>
@@ -143,9 +143,9 @@ export const Hint = {
             - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
           </p>
           <p>
-            <strong>Include equipped relics</strong>
+            <strong>Ignore wearer restrictions</strong>
             {' '}
-            - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
+            - When this option is enabled, the character will ignore the wearer restrictions of relics
           </p>
           <p>
             <strong>Priority</strong>
@@ -158,9 +158,14 @@ export const Hint = {
             - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
           </p>
           <p>
-            <strong>Enhance / grade</strong>
+            <strong>Enhance / Rarity</strong>
             {' '}
             - Select the minimum enhance to search for and minimum stars for relics to include
+          </p>
+          <p>
+            <strong>Boost main stat</strong>
+            {' '}
+            - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.
           </p>
         </Flex>
       ),

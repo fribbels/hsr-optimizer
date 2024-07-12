@@ -25,9 +25,9 @@ export default (e: Eidolon): CharacterConditional => {
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.20, 1.32)
-  const ultSlashScaling = ult(e, 2.00, 2.16)
-  const ultCullScaling = ult(e, 2.00, 2.16)
-  const ultCullHitsScaling = ult(e, 0.60, 0.648)
+  const ultSlashScaling = ult(e, 2.20, 2.376)
+  const ultCullScaling = ult(e, 2.20, 2.376)
+  const ultCullHitsScaling = ult(e, 0.72, 0.7776)
 
   const blockCdBuff = ult(e, 1.00, 1.08)
 
@@ -43,9 +43,9 @@ export default (e: Eidolon): CharacterConditional => {
   }
 
   const cullHitCountMultiByTargets = {
-    1: ASHBLAZING_ATK_STACK * (1*0.12 + 2*0.12 + 3*0.12 + 4*0.12 + 5*0.12 + 6*0.12 + 7*0.12 + 8*0.16), // 0.2784
-    3: ASHBLAZING_ATK_STACK * (2*0.12 + 5*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.4152
-    5: ASHBLAZING_ATK_STACK * (3*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.12 + 8*0.16), // 0.444
+    1: ASHBLAZING_ATK_STACK * (1 * 0.12 + 2 * 0.12 + 3 * 0.12 + 4 * 0.12 + 5 * 0.12 + 6 * 0.12 + 7 * 0.12 + 8 * 0.16), // 0.2784
+    3: ASHBLAZING_ATK_STACK * (2 * 0.12 + 5 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.4152
+    5: ASHBLAZING_ATK_STACK * (3 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.444
   }
 
   const content: ContentItem[] = [

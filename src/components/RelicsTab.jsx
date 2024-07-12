@@ -292,7 +292,7 @@ export default function RelicsTab() {
     },
     {
       field: 'restricted',
-      width: 40,
+      width: 55,
       cellRenderer: Renderer.renderFilterCell,
       filter: RestrictedFilter,
     },

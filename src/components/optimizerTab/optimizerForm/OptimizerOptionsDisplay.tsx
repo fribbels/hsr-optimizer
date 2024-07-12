@@ -89,6 +89,17 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
           <Text>Keep current relics</Text>
         </Flex>
 
+        <Flex align="center">
+          <Form.Item name="ignoreRestrictions" valuePropName="checked">
+            <Switch
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
+              style={{ width: 45, marginRight: 5 }}
+            />
+          </Form.Item>
+          <Text>Ignore wearer restrictions</Text>
+        </Flex>
+
         <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
           <Flex vertical gap={2}>
             <HeaderText>

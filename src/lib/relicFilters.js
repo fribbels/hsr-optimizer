@@ -135,6 +135,12 @@ export const RelicFilters = {
     return ret
   },
 
+  applyRestrictionFilter: (request, relics) => {
+    if (request.ignoreRestrictions) return relics
+    const ret = relics.filter((x) => (!(x.restriction.list).includes(request.characterId) && x.restriction.enabled) || !x.restriction.enabled)
+    return ret
+  },
+
   applyGradeFilter: (request, relics) => {
     return relics.filter((x) => x.grade ? x.grade >= request.grade : true)
   },

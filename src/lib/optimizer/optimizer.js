@@ -46,6 +46,8 @@ export const Optimizer = {
     relics = RelicFilters.applyRankFilter(request, relics)
     relics = RelicFilters.applyExcludeFilter(request, relics)
 
+    relics = RelicFilters.applyRestrictionFilter(request, relics)
+
     // Pre-split filters
     const preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
@@ -62,7 +64,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function(request) {
+  optimize: function (request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)

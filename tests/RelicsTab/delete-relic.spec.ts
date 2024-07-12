@@ -9,7 +9,7 @@ test('Delete relic from RelicsTab', async ({ page }) => {
 
   // nav to RelicsTab
   await page.getByRole('menuitem', { name: 'Relics' }).click()
-  await page.getByRole('row', { name: 'Hunter of Glacial Forest unlock unlock Head 15 HP 705 11.0 10.3 3.4 5.1 32.4' }).click()
+  await page.getByRole('row', { name: 'Hunter of Glacial Forest unlock Head 15 HP 705 11.0 10.3 3.4 5.1 32.4' }).click()
   await page.getByRole('button', { name: 'Delete Relic' }).click()
   await page.getByRole('button', { name: 'Yes' }).click()
 

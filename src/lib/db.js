@@ -409,6 +409,12 @@ export const DB = {
       } else {
         relic.equippedBy = undefined
       }
+      if (!relic.restriction) {
+        relic.restriction = {
+          enabled: false,
+          list: [],
+        }
+      }
     }
 
     if (x.scoringMetadataOverrides) {

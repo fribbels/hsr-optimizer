@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, Switch, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Constants } from 'lib/constants'
 import { HeaderText } from './HeaderText'
@@ -15,6 +15,7 @@ import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } 
 import { CaretRightOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { generateCharacterList } from 'lib/displayUtils'
+import CharacterSelect from './optimizerTab/optimizerForm/CharacterSelect'
 
 const { useToken } = theme
 
@@ -92,6 +93,8 @@ export default function RelicModal(props: {
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
+  const [restrictionList, setRestrictionList] = useState<string[]>([])
+
   useEffect(() => {
     let defaultValues = {
       grade: 5,
@@ -121,7 +124,10 @@ export default function RelicModal(props: {
         substatValue2: renderSubstat(relic, 2).value,
         substatType3: renderSubstat(relic, 3).stat,
         substatValue3: renderSubstat(relic, 3).value,
+        restrictionEnabled: relic.restriction.enabled,
+        restrictionList: relic.restriction.list,
       }
+      setRestrictionList(relic.restriction.list)
     }
     onValuesChange(defaultValues)
     relicForm.setFieldsValue(defaultValues)
@@ -361,6 +367,32 @@ export default function RelicModal(props: {
               <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
               <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
               <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
+            </Flex>
+          </Flex>
+          <Flex vertical>
+            <HeaderText>Restrict in Optimiser</HeaderText>
+            <Flex gap={10}>
+              <Form.Item name="restrictionList">
+                <CharacterSelect
+                  selectStyle={{ width: 200 }}
+                  value={restrictionList}
+                  onChange={(x) => {
+                    const excludedCharacterIds = Array.from(x || new Map())
+                      .filter((entry) => entry[1] == true)
+                      .map((entry) => entry[0])
+                    relicForm.setFieldValue('restrictionList', excludedCharacterIds)
+                    setRestrictionList(excludedCharacterIds)
+                  }}
+                  multipleSelect={true}
+                />
+              </Form.Item>
+              <Form.Item name="restrictionEnabled">
+                <Switch
+                  style={{ width: 90 }}
+                  checkedChildren="Restricted"
+                  unCheckedChildren="Free"
+                />
+              </Form.Item>
             </Flex>
           </Flex>
         </Flex>

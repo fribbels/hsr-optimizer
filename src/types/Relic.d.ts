@@ -21,6 +21,7 @@ export type Relic = {
   grade: RelicGrade
   id: GUID
   verified?: boolean
+  restriction?: RelicOptimizerRestriction
 
   main: {
     stat: MainStats
@@ -49,4 +50,9 @@ type StatRolls = {
 export type Stat = {
   stat: string
   value: number
+}
+
+type RelicOptimizerRestriction = {
+  enabled: boolean
+  list: string[]
 }

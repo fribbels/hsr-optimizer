@@ -45,6 +45,8 @@ export type RelicForm = {
   substatValue2: number
   substatValue3: number
   equippedBy: string
+  restrictionEnabled: boolean
+  restrictionList: string[]
 }
 
 export function validateRelic(relicForm: RelicForm): Relic | void {
@@ -170,6 +172,10 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   }
   relic.substats = substats
   RelicAugmenter.augment(relic)
+  relic.restriction = {
+    enabled: relicForm.restrictionEnabled,
+    list: relicForm.restrictionList,
+  }
 
   return relic
 }

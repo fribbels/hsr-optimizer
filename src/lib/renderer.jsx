@@ -1,5 +1,5 @@
 import { Flex, Image, Tooltip } from 'antd'
-import { CheckCircleFilled } from '@ant-design/icons'
+import { CheckCircleFilled, LockOutlined, UnlockOutlined } from '@ant-design/icons'
 import { Constants, StatsToReadableShort } from './constants.ts'
 import { Assets } from './assets'
 import { Utils } from './utils'
@@ -189,6 +189,18 @@ export const Renderer = {
       relic.verified
         ? <Tooltip mouseEnterDelay={0.4} title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
+    )
+  },
+
+  renderFilterCell: (x) => {
+    const enabled = x.data.restriction.enabled
+    return Renderer.renderFilter(enabled)
+  },
+  renderFilter: (enabled) => {
+    return (
+      enabled
+        ? <Tooltip mouseEnterDelay={0.4} title="Relic wearers restricted for optimizer"><LockOutlined style={{ width: 14 }} /></Tooltip>
+        : <Tooltip mouseEnterDelay={0.4} title="Relic wearers unrestricted for optimizer"><UnlockOutlined /></Tooltip>
     )
   },
 }

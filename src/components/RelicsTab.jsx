@@ -97,7 +97,7 @@ const RestrictedFilter = forwardRef((props, ref) => {
     return {
       doesFilterPass(params) {
         if ([0, 2].includes(model.restricted.length)) return true
-        if ((model.restricted[0] && params.data.restriction.enabled) || (!model.restricted[0] && !params.data.restriction.enabled)) return true
+        if ((model.restricted[0] == params.data.restriction.enabled)) return true
         return false
       },
 

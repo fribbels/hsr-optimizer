@@ -21,7 +21,7 @@ export type Relic = {
   grade: RelicGrade
   id: GUID
   verified?: boolean
-  restriction?: RelicOptimizerRestriction
+  restriction: RelicOptimizerRestriction
 
   main: {
     stat: MainStats

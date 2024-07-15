@@ -905,6 +905,8 @@ export const DB = {
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
   },
+  mergePartialCharactersWithState: (newRelics, sourceCharacters) => {
+  },
 }
 
 export default DB

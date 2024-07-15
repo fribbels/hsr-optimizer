@@ -13,7 +13,7 @@ import Icon, {
   ExperimentOutlined,
   ImportOutlined,
   LineChartOutlined,
-  PlusCircleFilled
+  PlusCircleFilled,
 } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
@@ -196,6 +196,30 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
+  const items = [
+    {
+      label: <Flex gap={10}><ImportOutlined />Import character and relics into optimizer</Flex>,
+      key: 'import characters',
+    },
+  ]
+
+  const handleMenuClicked = (e) => {
+    switch (e.key) {
+      case 'import characters':
+        console.log('importing with characters')
+        importCharactersClicked()
+        break
+      default:
+        Message.error('unknown button clicked')
+        break
+    }
+  }
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClicked,
+  }
+
   console.log('CharacterPreviewSelection', props)
 
   useEffect(() => {
@@ -260,6 +284,15 @@ function CharacterPreviewSelection(props) {
 
     console.log('importClicked', props.availableCharacters, newRelics)
     DB.mergeVerifiedRelicsWithState(newRelics)
+    SaveState.save()
+  }
+
+  function importCharactersClicked() {
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+    console.log('importCharactersClicked', props.availableCharacters, newRelics)
+    DB.mergePartialCharactersWithState(newRelics, props.availableCharacters)
     SaveState.save()
   }
 
@@ -345,9 +378,14 @@ function CharacterPreviewSelection(props) {
               Copy screenshot
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-            <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+            <Dropdown.Button
+              onClick={importClicked}
+              style={{ width: 250 }}
+              menu={menuProps}
+            >
+              <ImportOutlined />
               Import relics into optimizer
-            </Button>
+            </Dropdown.Button>
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>

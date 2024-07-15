@@ -739,14 +739,17 @@ export const DB = {
           found.equippedBy = newRelic.equippedBy
           newRelic = found
         }
+        // Fix metadata if field not present
+        if (!found.restriction) found.restriction = { enabled: false, list: [] }
 
         // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
         replacementRelics.push(found)
         stableRelicId = found.id
         delete oldRelicHashes[hash]
       } else {
-        // No match found - save the new relic
+        // No match found - add the restriction field - save the new relic
         stableRelicId = newRelic.id
+        newRelic.restriction = { enabled: false, list: [] }
         replacementRelics.push(newRelic)
       }
 
@@ -890,6 +893,7 @@ export const DB = {
         match.verified = true
         updatedOldRelics.push(match)
       } else {
+        newRelic.restriction = { enabled: false, list: [] }
         oldRelics.push(newRelic)
 
         newRelic.verified = true

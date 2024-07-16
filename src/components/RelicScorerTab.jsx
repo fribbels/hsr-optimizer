@@ -283,7 +283,7 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
 
     console.log('importClicked', props.availableCharacters, newRelics)
-    DB.mergeVerifiedRelicsWithState(newRelics)
+    DB.mergePartialRelicsWithState(newRelics)
     SaveState.save()
   }
 

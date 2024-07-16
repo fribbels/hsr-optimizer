@@ -813,17 +813,9 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergeVerifiedRelicsWithState: (newRelics) => {
+  mergePartialRelicsWithState: (newRelics) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
-
-    // part set grade mainstat substatStats
-    const oldRelicPartialHashes = {}
-    for (const oldRelic of oldRelics) {
-      const hash = partialHashRelic(oldRelic)
-      if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
-      oldRelicPartialHashes[hash].push(oldRelic)
-    }
 
     // Tracking these for debug / messaging
     const updatedOldRelics = []
@@ -831,61 +823,16 @@ export const DB = {
 
     for (const newRelic of newRelics) {
       newRelic.equippedBy = undefined
-      const partialHash = partialHashRelic(newRelic)
-      const partialMatches = oldRelicPartialHashes[partialHash] || []
-
-      let match
-      for (const partialMatch of partialMatches) {
-        if (newRelic.enhance < partialMatch.enhance) continue
-        if (newRelic.substats.length < partialMatch.substats.length) continue
-
-        let exit = false
-        let upgrades = 0
-        for (let i = 0; i < partialMatch.substats.length; i++) {
-          const matchSubstat = partialMatch.substats[i]
-          const newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
-
-          // Different substats mean different relics - break
-          if (!newSubstat) {
-            exit = true
-            break
-          }
-          if (matchSubstat.stat != newSubstat.stat) {
-            exit = true
-            break
-          }
-          if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
-            exit = true
-            break
-          }
-
-          // Track if the number of stat increases make sense
-          if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
-            upgrades++
-          }
-        }
-
-        if (exit) continue
-
-        const possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
-        if (upgrades > possibleUpgrades) continue
-
-        // If it passes all the tests, keep it
-        match = partialMatch
-        break
-      }
+      const match = findMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-
-        match.verified = true
+        match.verified = newRelic.verified
         updatedOldRelics.push(match)
       } else {
         oldRelics.push(newRelic)
-
-        newRelic.verified = true
         addedNewRelics.push(newRelic)
       }
     }
@@ -905,11 +852,133 @@ export const DB = {
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
   },
-  mergePartialCharactersWithState: (newRelics, sourceCharacters) => {
+  mergePartialCharactersWithState: (sourceRelics, sourceCharacters) => {
+    const oldRelics = Utils.clone(DB.getRelics())
+    const oldCharacters = Utils.clone(DB.getCharacters())
+    console.log('oldRelics: ', Utils.clone(DB.getRelics()), 'oldCharacters: ', Utils.clone(DB.getCharacters()))
+    // Add missing relics and update existing ones
+    for (const relic of sourceRelics) {
+      const match = findMatch(relic, oldRelics)
+
+      if (match) {
+        match.substats = relic.substats
+        match.main = relic.main
+        match.enhance = relic.enhance
+        match.verified = relic.verified
+        match.equippedBy = relic.equippedBy
+      } else {
+        oldRelics.push(relic)
+      }
+    }
+
+    // Add missing characters and update lc/eidolon/equipped of existing ones
+    for (const character of sourceCharacters) {
+      const match = oldCharacters.find((x) => x.id == character.id)
+      const equipped = {}
+      for (const key of Object.keys(character.equipped)) {
+        equipped[key] = character.equipped[key].id
+      }
+      if (match) {
+        match.form = character.form
+        match.equipped = equipped
+      } else {
+        oldCharacters.push({
+          equipped: equipped,
+          id: character.id,
+          form: character.form,
+        })
+      }
+    }
+
+    // Update relic 'equippedBy' values
+    for (const relic of oldRelics) {
+      if (!relic.equippedBy) continue
+      const wearer = oldCharacters.find((x) => x.id == relic.equippedBy)
+      if (wearer.equipped[relic.part] != relic.id) {
+        relic.equippedBy = undefined
+      }
+    }
+
+    // Update character 'equipped' values for characters not included in the partial import
+    for (const character of oldCharacters) {
+      for (const slot of Object.keys(character.equipped)) {
+        if (!character.equipped[slot]) continue
+        if (oldRelics.find((x) => x.id == character.equipped[slot]).equippedBy != character.id) {
+          character.equipped[slot] = undefined
+        }
+      }
+    }
+
+    oldRelics.map((x) => RelicAugmenter.augment(x))
+    DB.setRelics(oldRelics)
+    DB.setCharacters(oldCharacters)
+    window.refreshRelicsScore()
+
+    if (window.characterGrid?.current?.api) {
+      window.characterGrid.current.api.updateGridOptions({ rowData: oldCharacters })
+      window.characterGrid.current.api.redrawRows()
+    }
+    if (window.relicsGrid?.current?.api) {
+      window.relicsGrid.current.api.updateGridOptions({ rowData: oldRelics })
+    }
   },
 }
 
 export default DB
+
+function findMatch(relic, oldRelics) {
+  // part set grade mainstat substatStats
+  const oldRelicPartialHashes = {}
+  for (const oldRelic of oldRelics) {
+    const hash = partialHashRelic(oldRelic)
+    if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
+    oldRelicPartialHashes[hash].push(oldRelic)
+  }
+  const partialHash = partialHashRelic(relic)
+  const partialMatches = oldRelicPartialHashes[partialHash] || []
+
+  let match = undefined
+  for (const partialMatch of partialMatches) {
+    if (relic.enhance < partialMatch.enhance) continue
+    if (relic.substats.length < partialMatch.substats.length) continue
+
+    let exit = false
+    let upgrades = 0
+    for (let i = 0; i < partialMatch.substats.length; i++) {
+      const matchSubstat = partialMatch.substats[i]
+      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat)
+
+      // Different substats mean different relics - break
+      if (!newSubstat) {
+        exit = true
+        break
+      }
+      if (matchSubstat.stat != newSubstat.stat) {
+        exit = true
+        break
+      }
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
+        exit = true
+        break
+      }
+
+      // Track if the number of stat increases make sense
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
+        upgrades++
+      }
+    }
+
+    if (exit) continue
+
+    const possibleUpgrades = Math.round((Math.floor(relic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
+    if (upgrades > possibleUpgrades) continue
+
+    // If it passes all the tests, keep it
+    match = partialMatch
+    break
+  }
+  return match
+}
 
 function assignRanks(characters) {
   for (let i = 0; i < characters.length; i++) {

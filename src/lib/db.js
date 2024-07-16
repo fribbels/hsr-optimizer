@@ -878,14 +878,22 @@ export const DB = {
       for (const key of Object.keys(character.equipped)) {
         equipped[key] = character.equipped[key].id
       }
+      const form = {}
+      for (const key of Object.keys(character.form)) {
+        if (key == 'characterLevel' || key == 'lightConeLevel') {
+          form[key] = 80
+        } else {
+          form[key] = character.form[key]
+        }
+      }
       if (match) {
-        match.form = character.form
+        match.form = form
         match.equipped = equipped
       } else {
         oldCharacters.push({
           equipped: equipped,
           id: character.id,
-          form: character.form,
+          form: form,
         })
       }
     }

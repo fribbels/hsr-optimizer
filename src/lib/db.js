@@ -823,7 +823,7 @@ export const DB = {
 
     for (const newRelic of newRelics) {
       newRelic.equippedBy = undefined
-      const match = findMatch(newRelic, oldRelics)
+      const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats
@@ -858,7 +858,7 @@ export const DB = {
     console.log('oldRelics: ', Utils.clone(DB.getRelics()), 'oldCharacters: ', Utils.clone(DB.getCharacters()))
     // Add missing relics and update existing ones
     for (const relic of sourceRelics) {
-      const match = findMatch(relic, oldRelics)
+      const match = findRelicMatch(relic, oldRelics)
 
       if (match) {
         match.substats = relic.substats
@@ -934,7 +934,7 @@ export const DB = {
 
 export default DB
 
-function findMatch(relic, oldRelics) {
+function findRelicMatch(relic, oldRelics) {
   // part set grade mainstat substatStats
   const oldRelicPartialHashes = {}
   for (const oldRelic of oldRelics) {

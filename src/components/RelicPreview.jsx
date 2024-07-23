@@ -6,7 +6,6 @@ import { Assets } from 'lib/assets'
 import { iconSize } from 'lib/constantsUi'
 import RelicStatText from 'components/relicPreview/RelicStatText'
 import { GenerateStat } from 'components/relicPreview/GenerateStat'
-import { LockOutlined, UnlockOutlined } from '@ant-design/icons'
 
 const RelicPreview = ({
   relic,

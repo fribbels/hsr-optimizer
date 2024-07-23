@@ -137,7 +137,7 @@ export const RelicFilters = {
 
   applyRestrictionFilter: (request, relics) => {
     if (request.ignoreRestrictions) return relics
-    const ret = relics.filter((x) => (!(x.restriction.list).includes(request.characterId) && x.restriction.enabled) || !x.restriction.enabled)
+    const ret = relics.filter((x) => !(x.restriction.list).includes(request.characterId) || !x.restriction.enabled)
     return ret
   },
 

@@ -118,8 +118,10 @@ function SidebarContent() {
               <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
+              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere}
+                                  total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope}
+                                  total={permutationDetails.LinkRopeTotal} />
             </Flex>
 
             <Flex vertical>
@@ -129,21 +131,15 @@ function SidebarContent() {
             </Flex>
 
             <Flex vertical>
-              <HeaderText>Progress</HeaderText>
+              <HeaderText>
+                {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+              </HeaderText>
               <Progress
                 strokeColor={token.colorPrimary}
                 steps={17}
                 size={[8, 5]}
                 percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
               />
-              <Flex>
-                <Typography>Time remaining:</Typography>
-                <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-                <Typography>{optimizationInProgress
-                  ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
-                  : '00:00'}
-                </Typography>
-              </Flex>
             </Flex>
 
             <Flex justify="space-between" align="center">
@@ -151,7 +147,8 @@ function SidebarContent() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={startClicked} style={{ flex: 1 }}>
+                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
+                        onClick={startClicked} style={{ flex: 1 }}>
                   Start optimizer
                 </Button>
               </Flex>
@@ -181,8 +178,10 @@ function SidebarContent() {
               value={statDisplay}
               style={{ width: '100%', display: 'flex' }}
             >
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
+                     defaultChecked>Basic stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
+                stats</Radio>
             </Radio.Group>
 
             <Flex justify="space-between" align="center">
@@ -289,8 +288,10 @@ function MobileSidebarContent() {
             value={statDisplay}
             style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
+                   defaultChecked>Basic stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
+              stats</Radio>
           </Radio.Group>
         </Flex>
         {/* Controls Column */}
@@ -300,7 +301,9 @@ function MobileSidebarContent() {
           </Flex>
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
-              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={startClicked} style={{ flex: 1 }}>
+              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
+                      onClick={startClicked}
+                      style={{ flex: 1 }}>
                 Start optimizer
               </Button>
             </Flex>
@@ -319,21 +322,15 @@ function MobileSidebarContent() {
         {/* Progress & Results Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex vertical>
-            <HeaderText>Progress</HeaderText>
+            <HeaderText>
+              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+            </HeaderText>
             <Progress
               strokeColor={token.colorPrimary}
               steps={17}
               size={[8, 5]}
               percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
             />
-            <Flex>
-              <Typography>Time remaining:</Typography>
-              <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-              <Typography>{optimizationInProgress
-                ? Utils.msToReadable((permutations / (permutationsSearched ? permutationsSearched : 1) * (Date.now() - startTime)) - (Date.now() - startTime))
-                : '00:00'}
-              </Typography>
-            </Flex>
           </Flex>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
@@ -351,4 +348,18 @@ function MobileSidebarContent() {
       </Flex>
     </Flex>
   )
+}
+
+function calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress) {
+  if (!optimizationInProgress) {
+    return 'Progress'
+  }
+
+  const msDiff = Date.now() - startTime
+  if (msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
+    return 'Progress  (calculating ETA..)'
+  }
+
+  const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
+  return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
 }

@@ -49,7 +49,7 @@ export function CharacterPreview(props) {
 
   const { token } = useToken()
 
-  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter } = props
+  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -495,6 +495,7 @@ export function CharacterPreview(props) {
                       className="character-build-portrait-button"
                       icon={<EditOutlined />}
                       onClick={() => {
+                        setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}

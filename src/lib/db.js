@@ -866,6 +866,7 @@ export const DB = {
         match.enhance = relic.enhance
         match.verified = relic.verified
         match.equippedBy = relic.equippedBy
+        match.id = relic.id // idk why this line is needed but without it there's a chance of errors
       } else {
         oldRelics.push(relic)
       }

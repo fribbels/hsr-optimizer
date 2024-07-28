@@ -1,7 +1,8 @@
-import { ComponentProps, ComponentType, useState } from 'react'
+import { ComponentProps, ComponentType, useEffect, useRef } from 'react'
 import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
 import styled from 'styled-components'
 import WithPopover from 'components/common/WithPopover.tsx'
+import { precisionRound } from 'lib/conditionals/utils'
 
 const justify = 'flex-start'
 const align = 'center'
@@ -10,12 +11,8 @@ const numberWidth = 55
 const sliderWidth = 155
 
 const Text = styled(Typography)`
-  white-space: pre-line;
+    white-space: pre-line;
 `
-function precisionRound(number: number, precision: number = 8) {
-  const factor = Math.pow(10, precision)
-  return Math.round(number * factor) / factor
-}
 
 function conditionalType(props: FormSliderProps) {
   if (props.lc) {
@@ -36,21 +33,36 @@ export interface FormSliderProps {
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
-  const [inputValue, setInputValue] = useState<number | null>(1)
-
   const multiplier = (props.percent ? 100 : 1)
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
+
+  const minRef = useRef(props.min)
+  const maxRef = useRef(props.max)
 
   const itemName = [conditionalType(props), props.name]
   if (props.teammateIndex != null) {
     itemName.unshift(`teammate${props.teammateIndex}`)
   }
 
+  // Update the min and max values of the slider if eidolons change their bounds.
+  useEffect(() => {
+    const fieldValue = window.optimizerForm.getFieldValue(itemName)
+    if (fieldValue >= props.max || fieldValue == maxRef.current) {
+      window.optimizerForm.setFieldValue(itemName, props.max)
+    }
+    if (fieldValue <= props.min || fieldValue == minRef.current) {
+      window.optimizerForm.setFieldValue(itemName, props.min)
+    }
+
+    minRef.current = props.min
+    maxRef.current = props.max
+  }, [props.min, props.max]);
+
   return (
-    <Flex vertical gap={5} style={{ marginBottom: 0 }}>
+    <Flex vertical gap={5} style={{marginBottom: 0}}>
       <Flex justify={justify} align={align}>
-        <div style={{ minWidth: inputWidth, display: 'block' }}>
+        <div style={{minWidth: inputWidth, display: 'block'}}>
           <Form.Item name={itemName}>
             <InputNumber
               min={props.min}
@@ -62,20 +74,21 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
               }}
               parser={(value) => value == null || value == '' ? 0 : precisionRound(parseFloat(value) / multiplier)}
               formatter={(value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`}
-              onChange={setInputValue}
               disabled={props.disabled}
             />
           </Form.Item>
         </div>
-        <Text>{props.text}</Text>
+        <Text>
+          {props.text}
+        </Text>
       </Flex>
-      <Flex align="center" justify="flex-start" gap={5} style={{ height: 14 }}>
+
+      <Flex align="center" justify="flex-start" gap={5} style={{height: 14}}>
         <Form.Item name={itemName}>
           <Slider
             min={props.min}
             max={props.max}
             step={step}
-            value={typeof inputValue === 'number' ? inputValue : 0}
             style={{
               minWidth: sliderWidth,
               marginTop: 0,
@@ -85,11 +98,16 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
             tooltip={{
               formatter: (value) => `${precisionRound((value ?? 0) * multiplier)}${symbol}`,
             }}
-            onChange={setInputValue}
             disabled={props.disabled}
           />
         </Form.Item>
-        <Text style={{ minWidth: 20, marginBottom: 2, textAlign: 'center' }}>{`${precisionRound(props.max * multiplier)}${symbol}`}</Text>
+        <Text style={{
+          minWidth: 20,
+          marginBottom: 2,
+          textAlign: 'center'
+        }}>
+          {`${precisionRound(props.max * multiplier)}${symbol}`}
+        </Text>
       </Flex>
     </Flex>
   )

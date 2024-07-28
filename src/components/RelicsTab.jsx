@@ -85,6 +85,44 @@ GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
 
+const EquippedFilter = forwardRef((props, ref) => {
+  const [model, setModel] = useState(null)
+
+  const isFilterActive = useCallback(() => {
+    return model != null && (model.equipped.length > 0)
+  }, [model])
+
+  useImperativeHandle(ref, () => {
+    return {
+      doesFilterPass(params) {
+        if ([0, 2].includes(model.equipped.length)) return true
+        if (model.equipped[0] && params.data.equippedBy != undefined) return true
+        if (!model.equipped[0] && params.data.equippedBy == undefined) return true
+        return false
+      },
+
+      isFilterActive,
+
+      getModel() {
+        return model
+      },
+
+      setModel(model) {
+        setModel(model)
+      },
+    }
+  })
+
+  useEffect(() => {
+    props.filterChangedCallback()
+  }, [model, props])
+})
+
+EquippedFilter.displayName = 'EquippedFilter'
+EquippedFilter.propTypes = {
+  filterChangedCallback: PropTypes.func,
+}
+
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
 
@@ -191,6 +229,10 @@ export default function RelicsTab() {
       operator: 'OR',
     }
 
+    filterModel.equipped = {
+      equipped: relicTabFilters.equipped,
+    }
+
     console.log('FilterModel', filterModel)
 
     // Apply to grid
@@ -233,6 +275,11 @@ export default function RelicsTab() {
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
+    {
+      field: 'equipped',
+      filter: EquippedFilter,
+      hide: true,
+    },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {

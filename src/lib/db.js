@@ -128,6 +128,7 @@ window.store = create((set) => ({
     subStats: [],
     grade: [],
     verified: [],
+    equipped: [],
   },
   characterTabFilters: {
     name: '',

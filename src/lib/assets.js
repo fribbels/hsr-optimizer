@@ -120,9 +120,6 @@ export const Assets = {
   getStarBw: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')
   },
-  getEquippedImage: (status) => {
-    return getImageUrl(`/misc/${status}.webp`)
-  },
 
   getPart: (part) => {
     const mapping = {

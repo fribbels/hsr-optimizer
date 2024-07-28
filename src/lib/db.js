@@ -857,8 +857,10 @@ export const DB = {
     const oldCharacters = Utils.clone(DB.getCharacters())
     console.log('oldRelics: ', Utils.clone(DB.getRelics()), 'oldCharacters: ', Utils.clone(DB.getCharacters()))
     const importedCharacters = sourceCharacters.map((x) => x.id)
+    console.log('importing', importedCharacters)
     // Add missing relics and update existing ones
-    for (const relic of sourceRelics) {
+    const newRelics = Utils.clone(sourceRelics)
+    for (const relic of newRelics) {
       const match = findRelicMatch(relic, oldRelics)
 
       if (match) {

@@ -308,7 +308,7 @@ function CharacterPreviewSelection(props) {
     const newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
       .filter((x) => !!x)
-    console.log('importCharactersClicked', props.availableCharacters, newRelics)
+    console.log('importCharacterClicked', props.selectedCharacter, newRelics)
     DB.mergePartialCharactersWithState(newRelics, [props.selectedCharacter]) // character has to be in an array because the import function calls a map on the imported character(s)
     SaveState.save()
   }

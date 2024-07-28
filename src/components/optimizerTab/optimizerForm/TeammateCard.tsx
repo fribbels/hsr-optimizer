@@ -14,7 +14,6 @@ import { Character } from 'types/Character'
 import { Message } from 'lib/message.js'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
-import { characterOptionMapping } from 'lib/characterConditionals.js'
 
 const { Text } = Typography
 
@@ -117,7 +116,7 @@ function calculateTeammateSets(teammateCharacter: Character) {
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
       activeTeammateSets.teamRelicSet = set
-    }
+    } 
   }
 
   for (const set of teammateOrnamentSets) {
@@ -201,48 +200,6 @@ const TeammateCard = (props: { index: number }) => {
     window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
   }, [teammateLightConeId, teammateSuperimposition, props.index])
 
-  function updateSliders() {
-    const characterId = window.optimizerForm.getFieldValue([teammateProperty, `characterId`])
-    const characterFn = characterOptionMapping[characterId]
-    const oldEidolon = teammateEidolon
-    const newEidolon = window.optimizerForm.getFieldValue([teammateProperty, `characterEidolon`])
-    const oldConditionals = characterFn(oldEidolon).teammateContent(props.index)
-    const newConditionals = characterFn(newEidolon).teammateContent(props.index)
-    const Sliders: {
-      id: string
-      oldRange: {
-        min: number
-        max: number
-      }
-      newRange: {
-        min: number
-        max: number
-      }
-      oldValue: number
-    }[] = []
-    for (const item of oldConditionals) {
-      const newItem = newConditionals.filter((x) => x.id == item.id).pop()
-      if (item.formItem == 'slider') {
-        Sliders.push({
-          id: item.id,
-          oldRange: {
-            min: item.min,
-            max: item.max,
-          },
-          newRange: {
-            min: newItem.min,
-            max: newItem.max,
-          },
-          oldValue: window.optimizerForm.getFieldValue(`teammate${props.index}`).characterConditionals[item.id],
-        })
-      }
-    }
-    for (const item of Sliders) {
-      const newValue = (item.oldValue - item.oldRange.min) / (item.oldRange.max - item.oldRange.min) * (item.newRange.max - item.newRange.min) + item.newRange.min
-      window.optimizerForm.setFieldValue([teammateProperty, `characterConditionals`, `e2AtkBoost`], newValue)
-    }
-  }
-
   return (
     <FormCard size="medium" height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
@@ -250,7 +207,7 @@ const TeammateCard = (props: { index: number }) => {
           <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
               value=""
-              selectStyle={{}}
+              selectStyle={{ }}
             />
           </Form.Item>
 
@@ -271,7 +228,6 @@ const TeammateCard = (props: { index: number }) => {
               options={eidolonOptions}
               placeholder="Eidolon"
               disabled={disabled}
-              onChange={updateSliders}
             />
           </Form.Item>
         </Flex>

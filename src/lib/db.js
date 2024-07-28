@@ -856,6 +856,7 @@ export const DB = {
     const oldRelics = Utils.clone(DB.getRelics())
     const oldCharacters = Utils.clone(DB.getCharacters())
     console.log('oldRelics: ', Utils.clone(DB.getRelics()), 'oldCharacters: ', Utils.clone(DB.getCharacters()))
+    const importedCharacters = sourceCharacters.map((x) => x.id)
     // Add missing relics and update existing ones
     for (const relic of sourceRelics) {
       const match = findRelicMatch(relic, oldRelics)
@@ -865,9 +866,10 @@ export const DB = {
         match.main = relic.main
         match.enhance = relic.enhance
         match.verified = relic.verified
-        match.equippedBy = relic.equippedBy
         match.id = relic.id // idk why this line is needed but without it there's a chance of errors
+        if (importedCharacters.includes(relic.equippedBy)) match.equippedBy = relic.equippedBy // Only update wearer for imported character(s)
       } else {
+        if (!importedCharacters.includes(relic.equippedBy)) relic.equippedBy = undefined // wearer doesn't necessarily exist in the save file
         oldRelics.push(relic)
       }
     }

@@ -198,8 +198,12 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined />Import character and relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined />Import relics and all characters into optimizer</Flex>,
       key: 'import characters',
+    },
+    {
+      label: <Flex gap={10}><ImportOutlined />Import relics and selected character into optimizer</Flex>,
+      key: 'import single character',
     },
   ]
 
@@ -208,6 +212,10 @@ function CharacterPreviewSelection(props) {
       case 'import characters':
         console.log('importing with characters')
         importCharactersClicked()
+        break
+      case 'import single character':
+        console.log('importing single character')
+        importCharacterClicked()
         break
       default:
         Message.error('unknown button clicked')
@@ -293,6 +301,15 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
     console.log('importCharactersClicked', props.availableCharacters, newRelics)
     DB.mergePartialCharactersWithState(newRelics, props.availableCharacters)
+    SaveState.save()
+  }
+
+  function importCharacterClicked() {
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+    console.log('importCharactersClicked', props.availableCharacters, newRelics)
+    DB.mergePartialCharactersWithState(newRelics, [props.selectedCharacter]) // character has to be in an array because the import function calls a map on the imported character(s)
     SaveState.save()
   }
 

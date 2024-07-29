@@ -349,7 +349,7 @@ export const DB = {
       character.equipped = {}
       charactersById[character.id] = character
 
-      // Previously sim requests didnt use the stats field
+      // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
         character.form.statSim.simulations = character.form.statSim.simulations.filter((x) => x.request?.stats)
       }
@@ -827,12 +827,12 @@ export const DB = {
         match.verified = true
         updatedOldRelics.push(match)
 
-        equipUpdates.push({relic: match, equippedBy: newRelic.equippedBy})
+        equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })
       } else {
         oldRelics.push(newRelic)
         addedNewRelics.push(newRelic)
 
-        equipUpdates.push({relic: newRelic, equippedBy: newRelic.equippedBy})
+        equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
       }
     }
 
@@ -843,8 +843,10 @@ export const DB = {
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
-      if (sourceCharacters.find(character => character.id == equipUpdate.equippedBy)) {
+      if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
+      } else {
+        if (addedNewRelics.find((x) => x.id == equipUpdate.relic.id)) DB.unequipRelicById(equipUpdate.relic.id)
       }
     }
 

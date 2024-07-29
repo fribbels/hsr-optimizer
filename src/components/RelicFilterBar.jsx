@@ -61,6 +61,7 @@ export default function RelicFilterBar(props) {
           <img style={{ width: width }} src={src} />
         )
     }
+
     return arr.map((x) => {
       return {
         key: x,
@@ -68,6 +69,7 @@ export default function RelicFilterBar(props) {
       }
     })
   }
+
   function generateTextTags(arr, width) { // arr contains [key, value]
     return arr.map((x) => {
       return {
@@ -110,8 +112,17 @@ export default function RelicFilterBar(props) {
     })
   }
 
+  function generateEquippedTags(arr) {
+    return arr.map((x) => {
+      return {
+        key: x,
+        display: Renderer.renderEquipped({ equipped: x }),
+      }
+    })
+  }
+
   const gradeData = generateGradeTags([2, 3, 4, 5])
-  const verifiedData = generateVerifiedTags([false, true])
+  const verifiedData = generateVerifiedTags([true, false])
   const restrictedData = generateRestrictedTags([false, true])
   const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter((x) => !UnreleasedSets[x]),
     (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
@@ -119,6 +130,7 @@ export default function RelicFilterBar(props) {
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+  const equippedData = generateEquippedTags([true, false])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -205,6 +217,7 @@ export default function RelicFilterBar(props) {
       subStats: [],
       grade: [],
       verified: [],
+      equipped: [],
     })
   }
 
@@ -238,6 +251,10 @@ export default function RelicFilterBar(props) {
         <Flex vertical flex={0.25}>
           <HeaderText>Restricted</HeaderText>
           <FilterRow name="restricted" tags={restrictedData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Equipped</HeaderText>
+          <FilterRow name="equipped" tags={equippedData} flexBasis="15%" />
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>Clear</HeaderText>
@@ -318,8 +335,8 @@ export default function RelicFilterBar(props) {
             selectStyle={{ flex: 1 }}
             onChange={(x) => {
               const excludedCharacterIds = Array.from(x || new Map())
-                .filter((entry) => entry[1] == true)
-                .map((entry) => entry[0])
+              .filter((entry) => entry[1] == true)
+              .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.save()
               setTimeout(() => rescoreClicked(), 100)
@@ -388,6 +405,7 @@ function FilterRow(props) {
     </Flex>
   )
 }
+
 FilterRow.propTypes = {
   name: PropTypes.string,
   tags: PropTypes.array,

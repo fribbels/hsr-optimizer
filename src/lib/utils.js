@@ -318,4 +318,14 @@ export const Utils = {
       return map
     }, {})
   },
+
+  msToReadable: (duration) => {
+    const seconds = Math.floor((duration / 1000) % 60)
+    const minutes = Math.floor((duration / (1000 * 60)) % 60)
+
+    const minutesS = (minutes < 10) ? `0${minutes}` : `${minutes}`
+    const secondsS = (seconds < 10) ? `0${seconds}` : `${seconds}`
+
+    return `${minutesS}:${secondsS}`
+  },
 }

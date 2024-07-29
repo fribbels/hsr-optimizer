@@ -49,16 +49,16 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'masterAdditionalDmgBuff',
       name: 'masterAdditionalDmgBuff',
-      text: 'DPS Master buff',
-      title: 'DPS Master buff',
+      text: 'DPS Shifu buff',
+      title: 'DPS Shifu buff',
       content: BETA_UPDATE,
     },
     {
       formItem: 'switch',
       id: 'masterToughnessRedBuff',
       name: 'masterToughnessRedBuff',
-      text: 'Support Master buff',
-      title: 'Master support buff',
+      text: 'Support Shifu buff',
+      title: 'Shifu support buff',
       content: BETA_UPDATE,
     },
     {
@@ -76,7 +76,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E1 self SPD buff',
       title: 'E1 self SPD buff',
       content: BETA_UPDATE,
-      disabled: e < 1.
+      disabled: e < 1,
     },
     {
       formItem: 'switch',
@@ -85,7 +85,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E6 Basic CD buff',
       title: 'E6 Basic CD buff',
       content: BETA_UPDATE,
-      disabled: e < 6.
+      disabled: e < 6,
     },
   ]
 
@@ -94,16 +94,16 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'masterBuff',
       name: 'masterBuff',
-      text: 'Master buff',
-      title: 'Master buff',
+      text: 'Shifu buff',
+      title: 'Shifu buff',
       content: BETA_UPDATE,
     },
     {
       formItem: 'switch',
       id: 'masterCdBeBuffs',
       name: 'masterCdBeBuffs',
-      text: 'Master CD / BE buffs',
-      title: 'Master CD / BE buffs',
+      text: 'Shifu CD / BE buffs',
+      title: 'Shifu CD / BE buffs',
       content: BETA_UPDATE,
     },
   ]
@@ -164,7 +164,7 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, fuaHitCountMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, fuaHitCountMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

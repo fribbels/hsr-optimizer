@@ -129,6 +129,7 @@ window.store = create((set) => ({
     grade: [],
     verified: [],
     restricted: [],
+    equipped: [],
   },
   characterTabFilters: {
     name: '',

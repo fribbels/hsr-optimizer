@@ -406,7 +406,7 @@ function CharacterPreviewSelection(props) {
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>
-            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 248 }}>
+            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 228 }}>
               Optimize character stats
             </Button>
           </Flex>

@@ -7,14 +7,7 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  LineChartOutlined,
-  PlusCircleFilled
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled, } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -196,6 +189,38 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
+  const items = [
+    {
+      label: <Flex gap={10}><ImportOutlined />Import all characters & all relics into optimizer</Flex>,
+      key: 'import characters',
+    },
+    {
+      label: <Flex gap={10}><ImportOutlined />Import selected character & all relics into optimizer</Flex>,
+      key: 'import single character',
+    },
+  ]
+
+  const handleMenuClicked = (e) => {
+    switch (e.key) {
+      case 'import characters':
+        console.log('importing with characters')
+        importCharactersClicked()
+        break
+      case 'import single character':
+        console.log('importing single character')
+        importCharacterClicked()
+        break
+      default:
+        Message.error('unknown button clicked')
+        break
+    }
+  }
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClicked,
+  }
+
   console.log('CharacterPreviewSelection', props)
 
   useEffect(() => {
@@ -259,7 +284,32 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
 
     console.log('importClicked', props.availableCharacters, newRelics)
-    DB.mergeVerifiedRelicsWithState(newRelics)
+    DB.mergePartialRelicsWithState(newRelics)
+    SaveState.save()
+  }
+
+  function importCharactersClicked() {
+    for (const character of props.availableCharacters) {
+      DB.addFromForm(character.form, false)
+    }
+
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+
+    console.log('importCharactersClicked', props.availableCharacters, newRelics)
+    DB.mergePartialRelicsWithState(newRelics, props.availableCharacters)
+    SaveState.save()
+  }
+
+  function importCharacterClicked() {
+    DB.addFromForm(props.selectedCharacter.form, false)
+
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+    console.log('importCharacterClicked', props.selectedCharacter, newRelics)
+    DB.mergePartialRelicsWithState(newRelics, [props.selectedCharacter])
     SaveState.save()
   }
 
@@ -345,13 +395,18 @@ function CharacterPreviewSelection(props) {
               Copy screenshot
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-            <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+            <Dropdown.Button
+              onClick={importClicked}
+              style={{ width: 250 }}
+              menu={menuProps}
+            >
+              <ImportOutlined />
               Import relics into optimizer
-            </Button>
+            </Dropdown.Button>
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>
-            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 248 }}>
+            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 228 }}>
               Optimize character stats
             </Button>
           </Flex>

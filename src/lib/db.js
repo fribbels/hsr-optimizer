@@ -833,6 +833,7 @@ export const DB = {
         addedNewRelics.push(newRelic)
 
         equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
+        newRelic.equippedBy = undefined
       }
     }
 
@@ -845,8 +846,6 @@ export const DB = {
     for (const equipUpdate of equipUpdates) {
       if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
-      } else {
-        if (addedNewRelics.find((x) => x.id == equipUpdate.relic.id)) DB.unequipRelicById(equipUpdate.relic.id)
       }
     }
 

@@ -7,14 +7,7 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  LineChartOutlined,
-  PlusCircleFilled,
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled, } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -198,11 +191,11 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined />Import relics and all characters into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined />Import all characters & all relics into optimizer</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined />Import relics and selected character into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined />Import selected character & all relics into optimizer</Flex>,
       key: 'import single character',
     },
   ]
@@ -296,20 +289,27 @@ function CharacterPreviewSelection(props) {
   }
 
   function importCharactersClicked() {
+    for (const character of props.availableCharacters) {
+      DB.addFromForm(character.form, false)
+    }
+
     const newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
       .filter((x) => !!x)
+
     console.log('importCharactersClicked', props.availableCharacters, newRelics)
-    DB.mergePartialCharactersWithState(newRelics, props.availableCharacters)
+    DB.mergePartialRelicsWithState(newRelics, props.availableCharacters)
     SaveState.save()
   }
 
   function importCharacterClicked() {
+    DB.addFromForm(props.selectedCharacter.form, false)
+
     const newRelics = props.availableCharacters
       .flatMap((x) => Object.values(x.equipped))
       .filter((x) => !!x)
     console.log('importCharacterClicked', props.selectedCharacter, newRelics)
-    DB.mergePartialCharactersWithState(newRelics, [props.selectedCharacter]) // character has to be in an array because the import function calls a map on the imported character(s)
+    DB.mergePartialRelicsWithState(newRelics, [props.selectedCharacter])
     SaveState.save()
   }
 

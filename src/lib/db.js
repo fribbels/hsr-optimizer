@@ -2,14 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import {
-  Constants,
-  CURRENT_OPTIMIZER_VERSION,
-  DEFAULT_STAT_DISPLAY,
-  RelicSetFilterOptions,
-  Sets,
-  SIMULATION_SCORE
-} from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -463,7 +456,7 @@ export const DB = {
     })
   },
 
-  addFromForm: (form) => {
+  addFromForm: (form, autosave = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -494,7 +487,9 @@ export const DB = {
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
 
-    SaveState.save()
+    if (autosave) {
+      SaveState.save()
+    }
 
     return found
   },
@@ -813,35 +808,46 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergePartialRelicsWithState: (newRelics) => {
+  mergePartialRelicsWithState: (newRelics, sourceCharacters = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
 
     // Tracking these for debug / messaging
     const updatedOldRelics = []
     const addedNewRelics = []
+    const equipUpdates = []
 
     for (const newRelic of newRelics) {
-      newRelic.equippedBy = undefined
       const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-        match.verified = newRelic.verified
+        match.verified = true
         updatedOldRelics.push(match)
+
+        equipUpdates.push({relic: match, equippedBy: newRelic.equippedBy})
       } else {
         oldRelics.push(newRelic)
         addedNewRelics.push(newRelic)
+
+        equipUpdates.push({relic: newRelic, equippedBy: newRelic.equippedBy})
       }
     }
 
-    console.warn('addedNewRelics', addedNewRelics)
-    console.warn('updatedOldRelics', updatedOldRelics)
+    console.log('addedNewRelics', addedNewRelics)
+    console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
+
+    for (const equipUpdate of equipUpdates) {
+      if (sourceCharacters.find(character => character.id == equipUpdate.equippedBy)) {
+        DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
+      }
+    }
+
     DB.refreshRelics()
     window.refreshRelicsScore()
 
@@ -851,89 +857,6 @@ export const DB = {
 
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
-  },
-  mergePartialCharactersWithState: (sourceRelics, sourceCharacters) => {
-    const oldRelics = Utils.clone(DB.getRelics())
-    const oldCharacters = Utils.clone(DB.getCharacters())
-    console.log('oldRelics: ', Utils.clone(DB.getRelics()), 'oldCharacters: ', Utils.clone(DB.getCharacters()))
-    const importedCharacters = sourceCharacters.map((x) => x.id)
-    console.log('importing', importedCharacters)
-    // Add missing relics and update existing ones
-    const newRelics = Utils.clone(sourceRelics)
-    for (const relic of newRelics) {
-      const match = findRelicMatch(relic, oldRelics)
-
-      if (match) {
-        match.substats = relic.substats
-        match.main = relic.main
-        match.enhance = relic.enhance
-        match.verified = relic.verified
-        match.id = relic.id // idk why this line is needed but without it there's a chance of errors
-        if (importedCharacters.includes(relic.equippedBy)) match.equippedBy = relic.equippedBy // Only update wearer for imported character(s)
-      } else {
-        if (!importedCharacters.includes(relic.equippedBy)) relic.equippedBy = undefined // wearer doesn't necessarily exist in the save file
-        oldRelics.push(relic)
-      }
-    }
-
-    // Add missing characters and update lc/eidolon/equipped of existing ones
-    for (const character of sourceCharacters) {
-      const match = oldCharacters.find((x) => x.id == character.id)
-      const equipped = {}
-      for (const key of Object.keys(character.equipped)) {
-        equipped[key] = character.equipped[key].id
-      }
-      const form = {}
-      for (const key of Object.keys(character.form)) {
-        if (key == 'characterLevel' || key == 'lightConeLevel') {
-          form[key] = 80
-        } else {
-          form[key] = character.form[key]
-        }
-      }
-      if (match) {
-        match.form = form
-        match.equipped = equipped
-      } else {
-        oldCharacters.push({
-          equipped: equipped,
-          id: character.id,
-          form: form,
-        })
-      }
-    }
-
-    // Update relic 'equippedBy' values
-    for (const relic of oldRelics) {
-      if (!relic.equippedBy) continue
-      const wearer = oldCharacters.find((x) => x.id == relic.equippedBy)
-      if (wearer.equipped[relic.part] != relic.id) {
-        relic.equippedBy = undefined
-      }
-    }
-
-    // Update character 'equipped' values for characters not included in the partial import
-    for (const character of oldCharacters) {
-      for (const slot of Object.keys(character.equipped)) {
-        if (!character.equipped[slot]) continue
-        if (oldRelics.find((x) => x.id == character.equipped[slot]).equippedBy != character.id) {
-          character.equipped[slot] = undefined
-        }
-      }
-    }
-
-    oldRelics.map((x) => RelicAugmenter.augment(x))
-    DB.setRelics(oldRelics)
-    DB.setCharacters(oldCharacters)
-    window.refreshRelicsScore()
-
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({ rowData: oldCharacters })
-      window.characterGrid.current.api.redrawRows()
-    }
-    if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({ rowData: oldRelics })
-    }
   },
 }
 

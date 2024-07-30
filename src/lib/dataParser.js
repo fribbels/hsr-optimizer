@@ -605,11 +605,11 @@ function getSuperimpositions() {
     },
     24000: {},
     24001: {
-      1: { [Stats.BE]: 0.08 },
-      2: { [Stats.BE]: 0.10 },
-      3: { [Stats.BE]: 0.12 },
-      4: { [Stats.BE]: 0.14 },
-      5: { [Stats.BE]: 0.16 },
+      1: { [Stats.CR]: 0.08 },
+      2: { [Stats.CR]: 0.10 },
+      3: { [Stats.CR]: 0.12 },
+      4: { [Stats.CR]: 0.14 },
+      5: { [Stats.CR]: 0.16 },
     },
     24002: {
       1: { [Stats.RES]: 0.08 },

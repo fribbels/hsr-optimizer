@@ -8,8 +8,8 @@ import { BETA_UPDATE, Stats } from "lib/constants";
 import { findContentId } from "lib/conditionals/utils";
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesVulnerability = [0.18, 0.18, 0.18, 0.18, 0.18] // TODO
-  const sValuesVulnerabilityAdditional = [0.16, 0.16, 0.16, 0.16, 0.16] // TODO
+  const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
+  const sValuesVulnerabilityAdditional = [0.08, 0.10, 0.12, 0.14, 0.16]
 
   const content: ContentItem[] = [
     {

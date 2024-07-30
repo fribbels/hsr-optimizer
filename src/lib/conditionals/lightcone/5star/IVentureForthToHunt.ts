@@ -8,7 +8,7 @@ import { BETA_UPDATE } from "lib/constants";
 import { buffAbilityDefShred } from "lib/optimizer/calculateBuffs";
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesDefShred = [0.13, 0.13, 0.13, 0.13, 0.13] // TODO
+  const sValuesDefShred = [0.09, 0.10, 0.11, 0.12, 0.13]
 
   const content: ContentItem[] = [
     {

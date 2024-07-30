@@ -43,6 +43,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     IzumoGenseiAndTakamaDivineRealm: (1 >> (setP ^ 13)) + (1 >> (setL ^ 13)),
     DuranDynastyOfRunningWolves: (1 >> (setP ^ 14)) + (1 >> (setL ^ 14)),
     ForgeOfTheKalpagniLantern: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
+    LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
+    TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
   return c.sets
 }
@@ -121,7 +123,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
-    0.16 * p2(sets.CelestialDifferentiator),
+    0.16 * p2(sets.CelestialDifferentiator)
+    + 0.16 * p2(sets.TheWondrousBananAmusementPark),
   )
 
   c[Stats.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c,
@@ -129,7 +132,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
-    0.10 * p2(sets.BrokenKeel),
+    0.10 * p2(sets.BrokenKeel)
+    + 0.10 * p2(sets.LushakaTheSunkenSeas),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -193,6 +197,8 @@ export function calculateComputedStats(c, request, params) {
     + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
     + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
     + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+    + 0.16 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
+
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
   x[Stats.DEF_P]
@@ -210,6 +216,7 @@ export function calculateComputedStats(c, request, params) {
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
+    + 0.28 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
 
   x[Stats.CR]
     += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)

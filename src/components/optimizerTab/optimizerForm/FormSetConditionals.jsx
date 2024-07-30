@@ -372,21 +372,27 @@ export const FormSetConditionals = () => {
             description="Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
             conditional="When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations."
           />
-          {!UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] && (
-            <ConditionalSetOption
-              set={Constants.Sets.DuranDynastyOfRunningWolves}
-              selectOptions={setDuranDynastyOfRunningWolves}
-              description="When allies use follow-up attacks, the wearer receives 1 stack of Merit, stacking up to 5 times. Every stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
-              conditional="The selected buff is applied to damage calculations based on the number of stacks."
-            />
-          )}
-          {!UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] && (
-            <ConditionalSetOption
-              set={Constants.Sets.ForgeOfTheKalpagniLantern}
-              description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
-              conditional="When enabled, applies the Break Effect buff to combat stat calculations."
-            />
-          )}
+          <ConditionalSetOption
+            set={Constants.Sets.DuranDynastyOfRunningWolves}
+            selectOptions={setDuranDynastyOfRunningWolves}
+            description="When allies use follow-up attacks, the wearer receives 1 stack of Merit, stacking up to 5 times. Every stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+            conditional="The selected buff is applied to damage calculations based on the number of stacks."
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.ForgeOfTheKalpagniLantern}
+            description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
+            conditional="When enabled, applies the Break Effect buff to combat stat calculations."
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.LushakaTheSunkenSeas}
+            description="Increases the wearer's Effect RES by 10%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 16%."
+            conditional="The selected buff is applied to damage calculations."
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.TheWondrousBananAmusementPark}
+            description="Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 28%."
+            conditional="The selected buff is applied to damage calculations."
+          />
         </Flex>
       </Flex>
     </Drawer>

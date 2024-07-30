@@ -163,4 +163,6 @@ export const defaultSetConditionals = {
   [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
   [Constants.Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
   [Constants.Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
+  [Constants.Sets.LushakaTheSunkenSeas]: [undefined, true],
+  [Constants.Sets.TheWondrousBananAmusementPark]: [undefined, false],
 }

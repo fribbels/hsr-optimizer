@@ -12,8 +12,170 @@ export function exportRaw() {
 
 var _avatar = [
   {
+    "_id": 1220,
+    "Ver": "2.5v1",
+    "Name": "Feixiao",
+    "Desc": "The Xianzhou Yaoqing's Merlin's Claw and one of the Seven Arbiter-Generals. Her personality is unrestrained and frank, dashing and straightforward.<br>She is skilled in all forms of martial arts and has honed herself into a supreme weapon. She is widely adored by Xianzhou soldiers and civilians alike as \"The Vanquishing General.\"<br>However, she bears the burden of the Moon Rage affliction. If she were to hunt down all the abominations in her limited lifetime — Then the only enemy Feixiao has would be herself.",
+    "Rarity": 5,
+    "Element": "Wind",
+    "Path": "Hunt",
+    "SP": 12.0,
+    "Skills": [
+      122001,
+      122002,
+      122003,
+      122004,
+      122006,
+      122007,
+      122008,
+      122009,
+      122014
+    ],
+    "Ranks": [
+      122001,
+      122002,
+      122003,
+      122004,
+      122005,
+      122006
+    ],
+    "Icon": "avatarshopicon/Avatar/1220",
+    "Pic": "avatardrawcard/1220.png",
+    "Mat": [
+      113013,
+      110425,
+      110193,
+      110503
+    ],
+    "Stats": {
+      "HP": 1047.816,
+      "ATK": 601.524,
+      "DEF": 388.08,
+      "SPD": 125.0,
+      "Aggro": 75.0
+    },
+    "CV": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "Camp": 0,
+    "ISN": "",
+    "ISD": "",
+    "V": [
+      "v1"
+    ]
+  },
+  {
+    "_id": 1222,
+    "Ver": "2.5v1",
+    "Name": "Lingsha",
+    "Desc": "The new Cauldron Master of the Xianzhou Luofu's Alchemy Commission. An intelligent and quick-witted Vidyadhara healer.<br>She has a sharp sense of smell and often uses this to diagnose illnesses, as well as utilizing incense to calm the minds of others.<br>She is adept at dealing with complicated social relationships. Though she might be fuming inside, her expression would remain calm and serene.",
+    "Rarity": 5,
+    "Element": "Fire",
+    "Path": "Abundance",
+    "SP": 110.0,
+    "Skills": [
+      122201,
+      122202,
+      122203,
+      122204,
+      122206,
+      122207
+    ],
+    "Ranks": [
+      122201,
+      122202,
+      122203,
+      122204,
+      122205,
+      122206
+    ],
+    "Icon": "avatarshopicon/Avatar/1222",
+    "Pic": "avatardrawcard/1222.png",
+    "Mat": [
+      113003,
+      110422,
+      110243,
+      110506
+    ],
+    "Stats": {
+      "HP": 1358.28,
+      "ATK": 679.14,
+      "DEF": 436.59,
+      "SPD": 98.0,
+      "Aggro": 100.0
+    },
+    "CV": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "Camp": 0,
+    "ISN": "",
+    "ISD": "",
+    "V": [
+      "v1"
+    ]
+  },
+  {
+    "_id": 1223,
+    "Ver": "2.5v1",
+    "Name": "Moze",
+    "Desc": "A Shadow Guard of the Yaoqing. He is reticent and silent, always acting on his own.<br>As an expert in intelligence services and other affairs that must remain obscure, Moze rarely shows himself before others. The moment he shows his true capacities is usually the moment for his enemies to face death.<br>He has a wealth of knowledge regarding methods of assassination and seems to have an extraordinary obsession with tidiness and cleanliness.",
+    "Rarity": 4,
+    "Element": "Elec",
+    "Path": "Hunt",
+    "SP": 110.0,
+    "Skills": [
+      122301,
+      122302,
+      122303,
+      122304,
+      122306,
+      122307
+    ],
+    "Ranks": [
+      122301,
+      122302,
+      122303,
+      122304,
+      122305,
+      122306
+    ],
+    "Icon": "avatarshopicon/Avatar/1223",
+    "Pic": "avatardrawcard/1223.png",
+    "Mat": [
+      113013,
+      110424,
+      110193,
+      110506
+    ],
+    "Stats": {
+      "HP": 811.44,
+      "ATK": 546.84,
+      "DEF": 352.8,
+      "SPD": 114.0,
+      "Aggro": 75.0
+    },
+    "CV": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "Camp": 0,
+    "ISN": "",
+    "ISD": "",
+    "V": [
+      "v1"
+    ]
+  },
+  {
     "_id": 1218,
-    "Ver": "2.4v3",
+    "Ver": "2.4",
     "Name": "Jiaoqiu",
     "Desc": "A foxian healer and counselor from the Xianzhou Yaoqing. Often greets people with a smile on his face and a scheme in his heart.<br>Born into a prestigious Alchemy Commission family, he once withdrew from practicing medicine due to a broken heart. However, he returned to the field to treat \"the Merlin's Claw,\" General Feixiao.<br>Skilled in the study of alchemical prescription that views food as medicine, especially those that induce a sensation of spiciness. They invented a cauldron-based medicinal formula known as the \"nine-squared grid.\"",
     "Rarity": 5,
@@ -52,25 +214,28 @@ var _avatar = [
       "Aggro": 100.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "陈张太康",
+      "Mark Whitten",
+      "豊永利行",
+      "이정민"
     ],
-    "Camp": 0,
+    "Camp": 114,
     "ISN": "",
     "ISD": "",
     "V": [
       "v1",
       "v2",
-      "v3"
+      "v3",
+      "v4",
+      "v5",
+      "Live"
     ]
   },
   {
     "_id": 1221,
-    "Ver": "2.4v3",
+    "Ver": "2.4",
     "Name": "Yunli",
-    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She has learned swordsmanship and forging from Huaiyan since young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
+    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She has learned swordplay and forging from Huaiyan since young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
     "Rarity": 5,
     "Element": "Phys",
     "Path": "Destruction",
@@ -107,25 +272,28 @@ var _avatar = [
       "Aggro": 125.0
     },
     "CV": [
-      "",
-      "",
-      "",
-      ""
+      "刘雯",
+      "Brenna Larsen",
+      "若山詩音",
+      "이주은"
     ],
-    "Camp": 0,
+    "Camp": 113,
     "ISN": "",
     "ISD": "",
     "V": [
       "v1",
       "v2",
-      "v3"
+      "v3",
+      "v4",
+      "v5",
+      "Live"
     ]
   },
   {
     "_id": 1224,
-    "Ver": "2.4v3",
+    "Ver": "2.4",
     "Name": "March 7th",
-    "Desc": "March 7th in a Xianzhou-styled outfit. A sword-wielding female martial artist.<br>Learning swordsmanship from both Yunli and Yanqing, she is eager to create more beautiful memories on the Xianzhou.",
+    "Desc": "March 7th in a Xianzhou-styled outfit. A sword-wielding female martial artist.<br>Learning swordplay from both Yunli and Yanqing, she is eager to create more beautiful memories on the Xianzhou.",
     "Rarity": 4,
     "Element": "Imaginary",
     "Path": "Hunt",
@@ -174,7 +342,10 @@ var _avatar = [
     "V": [
       "v1",
       "v2",
-      "v3"
+      "v3",
+      "v4",
+      "v5",
+      "Live"
     ]
   },
   {
@@ -1116,7 +1287,7 @@ var _avatar = [
     },
     "CV": [
       "葛子瑞&刘北辰",
-      "Courtney Lin & Adam Michael Gold",
+      "Courtney Lin & Aaron Veach",
       "長縄まりあ&平林剛",
       "김채린&한복현"
     ],
@@ -1170,7 +1341,7 @@ var _avatar = [
     },
     "CV": [
       "梁达伟",
-      "Adam Michael Gold",
+      "Talon Warburton",
       "立花慎之介",
       "최승훈"
     ],
@@ -3437,21 +3608,21 @@ var _item = {
     "Name": "Nail of the Ape",
     "Icon": "itemicon/110416.png"
   },
+  "114001": {
+    "Name": "Dream Collection Component",
+    "Icon": "itemicon/114001.png"
+  },
   "110417": {
     "Name": "Suppressing Edict",
     "Icon": "itemicon/110417.png"
-  },
-  "114002": {
-    "Name": "Dream Flow Valve",
-    "Icon": "itemicon/114002.png"
   },
   "114003": {
     "Name": "Dream Making Engine",
     "Icon": "itemicon/114003.png"
   },
-  "114001": {
-    "Name": "Dream Collection Component",
-    "Icon": "itemicon/114001.png"
+  "114002": {
+    "Name": "Dream Flow Valve",
+    "Icon": "itemicon/114002.png"
   },
   "110421": {
     "Name": "IPC Work Permit",
@@ -3464,6 +3635,14 @@ var _item = {
   "110423": {
     "Name": "Dream Fridge",
     "Icon": "itemicon/110423.png"
+  },
+  "110424": {
+    "Name": "Nail of the Beast Coffin",
+    "Icon": "itemicon/110424.png"
+  },
+  "110425": {
+    "Name": "A glass of the Besotted Era",
+    "Icon": "itemicon/110425.png"
   },
   "110426": {
     "Name": "Dream Flamer",
@@ -3569,6 +3748,10 @@ var _item = {
     "Name": "Past Evils of the Borehole Planet Disaster",
     "Icon": "itemicon/110504.png"
   },
+  "110506": {
+    "Name": "",
+    "Icon": "itemicon/110506.png"
+  },
   "110505": {
     "Name": "Lost Echo of the Shared Wish",
     "Icon": "itemicon/110505.png"
@@ -3630,606 +3813,630 @@ var _camp = {
 }
 
 var _search_avatar = {
-  "1218": 0,
-  "椒丘": 0,
-  "JIAOQIU": 0,
-  "1221": 1,
-  "云璃": 1,
-  "YUNLI": 1,
-  "1224": 2,
-  "三月七": 33,
-  "MARCH7TH": 33,
-  "1310": 3,
-  "流萤": 3,
-  "FIREFLY": 3,
-  "1314": 4,
-  "翡翠": 4,
-  "JADE": 4,
-  "1309": 5,
-  "知更鸟": 5,
-  "ROBIN": 5,
-  "1315": 6,
-  "波提欧": 6,
-  "BOOTHILL": 6,
-  "8005": 7,
-  "开拓者": 58,
-  "TRAILBLAZER": 58,
-  "8006": 8,
-  "1301": 9,
-  "加拉赫": 9,
-  "GALLAGHER": 9,
-  "1304": 10,
-  "砂金": 10,
-  "AVENTURINE": 10,
-  "1308": 11,
-  "黄泉": 11,
-  "ACHERON": 11,
-  "1306": 12,
-  "花火": 12,
-  "SPARKLE": 12,
-  "1307": 13,
-  "黑天鹅": 13,
-  "BLACKSWAN": 13,
-  "1312": 14,
-  "米沙": 14,
-  "MISHA": 14,
-  "1214": 15,
-  "雪衣": 15,
-  "XUEYI": 15,
-  "1303": 16,
-  "阮·梅": 16,
-  "RUANMEI": 16,
-  "1305": 17,
-  "真理医生": 17,
-  "DR.RATIO": 17,
-  "1215": 18,
-  "寒鸦": 18,
-  "HANYA": 18,
-  "1217": 19,
-  "藿藿": 19,
-  "HUOHUO": 19,
-  "1302": 20,
-  "银枝": 20,
-  "ARGENTI": 20,
-  "1112": 21,
-  "托帕&账账": 21,
-  "TOPAZ&NUMBY": 21,
-  "1210": 22,
-  "桂乃芬": 22,
-  "GUINAIFEN": 22,
-  "1212": 23,
-  "镜流": 23,
-  "JINGLIU": 23,
-  "1110": 24,
-  "玲可": 24,
-  "LYNX": 24,
-  "1208": 25,
-  "符玄": 25,
-  "FUXUAN": 25,
-  "1213": 26,
-  "丹恒·饮月": 26,
-  "DANHENG•IMBIBITORLUNAE": 26,
-  "1005": 27,
-  "卡芙卡": 27,
-  "KAFKA": 27,
-  "1111": 28,
-  "卢卡": 28,
-  "LUKA": 28,
-  "1205": 29,
-  "刃": 29,
-  "BLADE": 29,
-  "1006": 30,
-  "银狼": 30,
-  "SILVERWOLF": 30,
-  "1203": 31,
-  "罗刹": 31,
-  "LUOCHA": 31,
-  "1207": 32,
-  "驭空": 32,
-  "YUKONG": 32,
-  "1001": 33,
-  "1002": 34,
-  "丹恒": 34,
-  "DANHENG": 34,
-  "1003": 35,
-  "姬子": 35,
-  "HIMEKO": 35,
-  "1004": 36,
-  "瓦尔特": 36,
-  "WELT": 36,
-  "1008": 37,
-  "阿兰": 37,
-  "ARLAN": 37,
-  "1009": 38,
-  "艾丝妲": 38,
-  "ASTA": 38,
-  "1013": 39,
-  "黑塔": 39,
-  "HERTA": 39,
-  "1101": 40,
-  "布洛妮娅": 40,
-  "BRONYA": 40,
-  "1102": 41,
-  "希儿": 41,
-  "SEELE": 41,
-  "1103": 42,
-  "希露瓦": 42,
-  "SERVAL": 42,
-  "1104": 43,
-  "杰帕德": 43,
-  "GEPARD": 43,
-  "1105": 44,
-  "娜塔莎": 44,
-  "NATASHA": 44,
-  "1106": 45,
-  "佩拉": 45,
-  "PELA": 45,
-  "1107": 46,
-  "克拉拉": 46,
-  "CLARA": 46,
-  "1108": 47,
-  "桑博": 47,
-  "SAMPO": 47,
-  "1109": 48,
-  "虎克": 48,
-  "HOOK": 48,
-  "1201": 49,
-  "青雀": 49,
-  "QINGQUE": 49,
-  "1202": 50,
-  "停云": 50,
-  "TINGYUN": 50,
-  "1204": 51,
-  "景元": 51,
-  "JINGYUAN": 51,
-  "1206": 52,
-  "素裳": 52,
-  "SUSHANG": 52,
-  "1209": 53,
-  "彦卿": 53,
-  "YANQING": 53,
-  "1211": 54,
-  "白露": 54,
-  "BAILU": 54,
-  "8001": 55,
-  "8002": 56,
-  "8003": 57,
-  "8004": 58
+  "1220": 0,
+  "飞霄": 0,
+  "FEIXIAO": 0,
+  "1222": 1,
+  "灵砂": 1,
+  "LINGSHA": 1,
+  "1223": 2,
+  "貊泽": 2,
+  "MOZE": 2,
+  "1218": 3,
+  "椒丘": 3,
+  "JIAOQIU": 3,
+  "1221": 4,
+  "云璃": 4,
+  "YUNLI": 4,
+  "1224": 5,
+  "三月七": 36,
+  "MARCH7TH": 36,
+  "1310": 6,
+  "流萤": 6,
+  "FIREFLY": 6,
+  "1314": 7,
+  "翡翠": 7,
+  "JADE": 7,
+  "1309": 8,
+  "知更鸟": 8,
+  "ROBIN": 8,
+  "1315": 9,
+  "波提欧": 9,
+  "BOOTHILL": 9,
+  "8005": 10,
+  "开拓者": 61,
+  "TRAILBLAZER": 61,
+  "8006": 11,
+  "1301": 12,
+  "加拉赫": 12,
+  "GALLAGHER": 12,
+  "1304": 13,
+  "砂金": 13,
+  "AVENTURINE": 13,
+  "1308": 14,
+  "黄泉": 14,
+  "ACHERON": 14,
+  "1306": 15,
+  "花火": 15,
+  "SPARKLE": 15,
+  "1307": 16,
+  "黑天鹅": 16,
+  "BLACKSWAN": 16,
+  "1312": 17,
+  "米沙": 17,
+  "MISHA": 17,
+  "1214": 18,
+  "雪衣": 18,
+  "XUEYI": 18,
+  "1303": 19,
+  "阮·梅": 19,
+  "RUANMEI": 19,
+  "1305": 20,
+  "真理医生": 20,
+  "DR.RATIO": 20,
+  "1215": 21,
+  "寒鸦": 21,
+  "HANYA": 21,
+  "1217": 22,
+  "藿藿": 22,
+  "HUOHUO": 22,
+  "1302": 23,
+  "银枝": 23,
+  "ARGENTI": 23,
+  "1112": 24,
+  "托帕&账账": 24,
+  "TOPAZ&NUMBY": 24,
+  "1210": 25,
+  "桂乃芬": 25,
+  "GUINAIFEN": 25,
+  "1212": 26,
+  "镜流": 26,
+  "JINGLIU": 26,
+  "1110": 27,
+  "玲可": 27,
+  "LYNX": 27,
+  "1208": 28,
+  "符玄": 28,
+  "FUXUAN": 28,
+  "1213": 29,
+  "丹恒·饮月": 29,
+  "DANHENG•IMBIBITORLUNAE": 29,
+  "1005": 30,
+  "卡芙卡": 30,
+  "KAFKA": 30,
+  "1111": 31,
+  "卢卡": 31,
+  "LUKA": 31,
+  "1205": 32,
+  "刃": 32,
+  "BLADE": 32,
+  "1006": 33,
+  "银狼": 33,
+  "SILVERWOLF": 33,
+  "1203": 34,
+  "罗刹": 34,
+  "LUOCHA": 34,
+  "1207": 35,
+  "驭空": 35,
+  "YUKONG": 35,
+  "1001": 36,
+  "1002": 37,
+  "丹恒": 37,
+  "DANHENG": 37,
+  "1003": 38,
+  "姬子": 38,
+  "HIMEKO": 38,
+  "1004": 39,
+  "瓦尔特": 39,
+  "WELT": 39,
+  "1008": 40,
+  "阿兰": 40,
+  "ARLAN": 40,
+  "1009": 41,
+  "艾丝妲": 41,
+  "ASTA": 41,
+  "1013": 42,
+  "黑塔": 42,
+  "HERTA": 42,
+  "1101": 43,
+  "布洛妮娅": 43,
+  "BRONYA": 43,
+  "1102": 44,
+  "希儿": 44,
+  "SEELE": 44,
+  "1103": 45,
+  "希露瓦": 45,
+  "SERVAL": 45,
+  "1104": 46,
+  "杰帕德": 46,
+  "GEPARD": 46,
+  "1105": 47,
+  "娜塔莎": 47,
+  "NATASHA": 47,
+  "1106": 48,
+  "佩拉": 48,
+  "PELA": 48,
+  "1107": 49,
+  "克拉拉": 49,
+  "CLARA": 49,
+  "1108": 50,
+  "桑博": 50,
+  "SAMPO": 50,
+  "1109": 51,
+  "虎克": 51,
+  "HOOK": 51,
+  "1201": 52,
+  "青雀": 52,
+  "QINGQUE": 52,
+  "1202": 53,
+  "停云": 53,
+  "TINGYUN": 53,
+  "1204": 54,
+  "景元": 54,
+  "JINGYUAN": 54,
+  "1206": 55,
+  "素裳": 55,
+  "SUSHANG": 55,
+  "1209": 56,
+  "彦卿": 56,
+  "YANQING": 56,
+  "1211": 57,
+  "白露": 57,
+  "BAILU": 57,
+  "8001": 58,
+  "8002": 59,
+  "8003": 60,
+  "8004": 61
 }
 
 var _search_weapon = {
-  "23030": 0,
-  "落日时起舞": 0,
-  "DANCEATSUNSET": 0,
-  "23029": 1,
-  "那无数个春天": 1,
-  "THOSEMANYSPRINGS": 1,
-  "21046": 2,
-  "芳华待灼": 2,
-  "POISEDTOBLOOM": 2,
-  "23028": 3,
-  "偏偏希望无价": 3,
-  "YETHOPEISPRICELESS": 3,
-  "23027": 4,
-  "驶向第二次生命": 4,
-  "SAILINGTOWARDSASECONDLIFE": 4,
-  "23026": 5,
-  "夜色流光溢彩": 5,
-  "FLOWINGNIGHTGLOW": 5,
-  "23025": 6,
-  "梦应归于何处": 6,
-  "WHEREABOUTSSHOULDDREAMSREST": 6,
-  "23024": 7,
-  "行于流逝的岸": 7,
-  "ALONGTHEPASSINGSHORE": 7,
-  "23023": 8,
-  "命运从未公平": 8,
-  "INHERENTLYUNJUSTDESTINY": 8,
-  "23022": 9,
-  "重塑时光之忆": 9,
-  "REFORGEDREMEMBRANCE": 9,
-  "23021": 10,
-  "游戏尘寰": 10,
-  "EARTHLYESCAPADE": 10,
-  "23020": 11,
-  "纯粹思维的洗礼": 11,
-  "BAPTISMOFPURETHOUGHT": 11,
-  "23019": 12,
-  "镜中故我": 12,
-  "PASTSELFINMIRROR": 12,
-  "23018": 13,
-  "片刻，留在眼底": 13,
-  "ANINSTANTBEFOREAGAZE": 13,
-  "23017": 14,
-  "惊魂夜": 14,
-  "NIGHTOFFRIGHT": 14,
-  "23016": 15,
-  "烦恼着，幸福着": 15,
-  "WORRISOME,BLISSFUL": 15,
-  "23015": 16,
-  "比阳光更明亮的": 16,
-  "BRIGHTERTHANTHESUN": 16,
-  "23014": 17,
-  "此身为剑": 17,
-  "ISHALLBEMYOWNSWORD": 17,
-  "23013": 18,
-  "时节不居": 18,
-  "TIMEWAITSFORNOONE": 18,
-  "23012": 19,
-  "如泥酣眠": 19,
-  "SLEEPLIKETHEDEAD": 19,
-  "23011": 20,
-  "她已闭上双眼": 20,
-  "SHEALREADYSHUTHEREYES": 20,
-  "23010": 21,
-  "拂晓之前": 21,
-  "BEFOREDAWN": 21,
-  "23009": 22,
-  "到不了的彼岸": 22,
-  "THEUNREACHABLESIDE": 22,
-  "23008": 23,
-  "棺的回响": 23,
-  "ECHOESOFTHECOFFIN": 23,
-  "23007": 24,
-  "雨一直下": 24,
-  "INCESSANTRAIN": 24,
-  "23006": 25,
-  "只需等待": 25,
-  "PATIENCEISALLYOUNEED": 25,
-  "23005": 26,
-  "制胜的瞬间": 26,
-  "MOMENTOFVICTORY": 26,
-  "23004": 27,
-  "以世界之名": 27,
-  "INTHENAMEOFTHEWORLD": 27,
-  "23003": 28,
-  "但战斗还未结束": 28,
-  "BUTTHEBATTLEISNTOVER": 28,
-  "23002": 29,
-  "无可取代的东西": 29,
-  "SOMETHINGIRREPLACEABLE": 29,
-  "23001": 30,
-  "于夜色中": 30,
-  "INTHENIGHT": 30,
-  "23000": 31,
-  "银河铁道之夜": 31,
-  "NIGHTONTHEMILKYWAY": 31,
-  "24004": 32,
-  "不息的演算": 32,
-  "ETERNALCALCULUS": 32,
-  "24003": 33,
-  "孤独的疗愈": 33,
-  "SOLITARYHEALING": 33,
-  "24002": 34,
-  "记忆的质料": 34,
-  "TEXTUREOFMEMORIES": 34,
-  "24001": 35,
-  "星海巡航": 35,
-  "CRUISINGINTHESTELLARSEA": 35,
-  "24000": 36,
-  "记一位星神的陨落": 36,
-  "ONTHEFALLOFANAEON": 36,
-  "22002": 37,
-  "为了明日的旅途": 37,
-  "FORTOMORROWSJOURNEY": 37,
-  "22001": 38,
-  "嘿，我在这儿": 38,
-  "HEY,OVERHERE": 38,
-  "22000": 39,
-  "新手任务开始前": 39,
-  "BEFORETHETUTORIALMISSIONSTARTS": 39,
-  "21045": 40,
-  "谐乐静默之后": 40,
-  "AFTERTHECHARMONYFALL": 40,
-  "21044": 41,
-  "无边曼舞": 41,
-  "BOUNDLESSCHOREO": 41,
-  "21043": 42,
-  "两个人的演唱会": 42,
-  "CONCERTFORTWO": 42,
-  "21042": 43,
-  "铭记于心的约定": 43,
-  "INDELIBLEPROMISE": 43,
-  "21041": 44,
-  "好戏开演": 44,
-  "ITSSHOWTIME": 44,
-  "21040": 45,
-  "银河沦陷日": 45,
-  "THEDAYTHECOSMOSFELL": 45,
-  "21039": 46,
-  "织造命运之线": 46,
-  "DESTINYSTHREADSFOREWOVEN": 46,
-  "21038": 47,
-  "在火的远处": 47,
-  "FLAMESAFAR": 47,
-  "21037": 48,
-  "最后的赢家": 48,
-  "FINALVICTOR": 48,
-  "21036": 49,
-  "美梦小镇大冒险": 49,
-  "DREAMVILLEADVENTURE": 49,
-  "21035": 50,
-  "何物为真": 50,
-  "WHATISREAL?": 50,
-  "21034": 51,
-  "今日亦是和平的一日": 51,
-  "TODAYISANOTHERPEACEFULDAY": 51,
-  "21033": 52,
-  "无处可逃": 52,
-  "NOWHERETORUN": 52,
-  "21032": 53,
-  "镂月裁云之意": 53,
-  "CARVETHEMOON,WEAVETHECLOUDS": 53,
-  "21031": 54,
-  "重返幽冥": 54,
-  "RETURNTODARKNESS": 54,
-  "21030": 55,
-  "这就是我啦！": 55,
-  "THISISME!": 55,
-  "21029": 56,
-  "后会有期": 56,
-  "WEWILLMEETAGAIN": 56,
-  "21028": 57,
-  "暖夜不会漫长": 57,
-  "WARMTHSHORTENSCOLDNIGHTS": 57,
-  "21027": 58,
-  "早餐的仪式感": 58,
-  "THESERIOUSNESSOFBREAKFAST": 58,
-  "21026": 59,
-  "汪！散步时间！": 59,
-  "WOOF!WALKTIME!": 59,
-  "21025": 60,
-  "过往未来": 60,
-  "PASTANDFUTURE": 60,
-  "21024": 61,
-  "春水初生": 61,
-  "RIVERFLOWSINSPRING": 61,
-  "21023": 62,
-  "我们是地火": 62,
-  "WEAREWILDFIRE": 62,
-  "21022": 63,
-  "延长记号": 63,
-  "FERMATA": 63,
-  "21021": 64,
-  "等价交换": 64,
-  "QUIDPROQUO": 64,
-  "21020": 65,
-  "天才们的休憩": 65,
-  "GENIUSESREPOSE": 65,
-  "21019": 66,
-  "在蓝天下": 66,
-  "UNDERTHEBLUESKY": 66,
-  "21018": 67,
-  "舞！舞！舞！": 67,
-  "DANCE!DANCE!DANCE!": 67,
-  "21017": 68,
-  "点个关注吧！": 68,
-  "SUBSCRIBEFORMORE!": 68,
-  "21016": 69,
-  "宇宙市场趋势": 69,
-  "TRENDOFTHEUNIVERSALMARKET": 69,
-  "21015": 70,
-  "决心如汗珠般闪耀": 70,
-  "RESOLUTIONSHINESASPEARLSOFSWEAT": 70,
-  "21014": 71,
-  "此时恰好": 71,
-  "PERFECTTIMING": 71,
-  "21013": 72,
-  "别让世界静下来": 72,
-  "MAKETHEWORLDCLAMOR": 72,
-  "21012": 73,
-  "秘密誓心": 73,
-  "ASECRETVOW": 73,
-  "21011": 74,
-  "与行星相会": 74,
-  "PLANETARYRENDEZVOUS": 74,
-  "21010": 75,
-  "论剑": 75,
-  "SWORDPLAY": 75,
-  "21009": 76,
-  "朗道的选择": 76,
-  "LANDAUSCHOICE": 76,
-  "21008": 77,
-  "猎物的视线": 77,
-  "EYESOFTHEPREY": 77,
-  "21007": 78,
-  "同一种心情": 78,
-  "SHAREDFEELING": 78,
-  "21006": 79,
-  "「我」的诞生": 79,
-  "THEBIRTHOFTHESELF": 79,
-  "21005": 80,
-  "鼹鼠党欢迎你": 80,
-  "THEMOLESWELCOMEYOU": 80,
-  "21004": 81,
-  "记忆中的模样": 81,
-  "MEMORIESOFTHEPAST": 81,
-  "21003": 82,
-  "唯有沉默": 82,
-  "ONLYSILENCEREMAINS": 82,
-  "21002": 83,
-  "余生的第一天": 83,
-  "DAYONEOFMYNEWLIFE": 83,
-  "21001": 84,
-  "晚安与睡颜": 84,
-  "GOODNIGHTANDSLEEPWELL": 84,
-  "21000": 85,
-  "一场术后对话": 85,
-  "POSTOPCONVERSATION": 85,
-  "20020": 86,
-  "睿见": 86,
-  "SAGACITY": 86,
-  "20019": 87,
-  "调和": 87,
-  "MEDIATION": 87,
-  "20018": 88,
-  "匿影": 88,
-  "HIDDENSHADOW": 88,
-  "20017": 89,
-  "开疆": 89,
-  "PIONEERING": 89,
-  "20016": 90,
-  "俱殁": 90,
-  "MUTUALDEMISE": 90,
-  "20015": 91,
-  "蕃息": 91,
-  "MULTIPLICATION": 91,
-  "20014": 92,
-  "相抗": 92,
-  "ADVERSARIAL": 92,
-  "20013": 93,
-  "灵钥": 93,
-  "PASSKEY": 93,
-  "20012": 94,
-  "轮契": 94,
-  "MESHINGCOGS": 94,
-  "20011": 95,
-  "渊环": 95,
-  "LOOP": 95,
-  "20010": 96,
-  "戍御": 96,
-  "DEFENSE": 96,
-  "20009": 97,
-  "乐圮": 97,
-  "SHATTEREDHOME": 97,
-  "20008": 98,
-  "嘉果": 98,
-  "FINEFRUIT": 98,
-  "20007": 99,
-  "离弦": 99,
-  "DARTINGARROW": 99,
-  "20006": 100,
-  "智库": 100,
-  "DATABANK": 100,
-  "20005": 101,
-  "齐颂": 101,
-  "CHORUS": 101,
-  "20004": 102,
-  "幽邃": 102,
-  "VOID": 102,
-  "20003": 103,
-  "琥珀": 103,
-  "AMBER": 103,
-  "20002": 104,
-  "天倾": 104,
-  "COLLAPSINGSKY": 104,
-  "20001": 105,
-  "物穰": 105,
-  "CORNUCOPIA": 105,
-  "20000": 106,
-  "锋镝": 106,
-  "ARROWS": 106
+  "23032": 0,
+  "唯有香如故": 0,
+  "SCENTALONESTAYSTRUE": 0,
+  "23031": 1,
+  "我将，巡征追猎": 1,
+  "IVENTUREFORTHTOHUNT": 1,
+  "21047": 2,
+  "黑夜如影随行": 2,
+  "SHADOWEDBYNIGHT": 2,
+  "23030": 3,
+  "落日时起舞": 3,
+  "DANCEATSUNSET": 3,
+  "23029": 4,
+  "那无数个春天": 4,
+  "THOSEMANYSPRINGS": 4,
+  "23028": 5,
+  "偏偏希望无价": 5,
+  "YETHOPEISPRICELESS": 5,
+  "23027": 6,
+  "驶向第二次生命": 6,
+  "SAILINGTOWARDSASECONDLIFE": 6,
+  "23026": 7,
+  "夜色流光溢彩": 7,
+  "FLOWINGNIGHTGLOW": 7,
+  "23025": 8,
+  "梦应归于何处": 8,
+  "WHEREABOUTSSHOULDDREAMSREST": 8,
+  "23024": 9,
+  "行于流逝的岸": 9,
+  "ALONGTHEPASSINGSHORE": 9,
+  "23023": 10,
+  "命运从未公平": 10,
+  "INHERENTLYUNJUSTDESTINY": 10,
+  "23022": 11,
+  "重塑时光之忆": 11,
+  "REFORGEDREMEMBRANCE": 11,
+  "23021": 12,
+  "游戏尘寰": 12,
+  "EARTHLYESCAPADE": 12,
+  "23020": 13,
+  "纯粹思维的洗礼": 13,
+  "BAPTISMOFPURETHOUGHT": 13,
+  "23019": 14,
+  "镜中故我": 14,
+  "PASTSELFINMIRROR": 14,
+  "23018": 15,
+  "片刻，留在眼底": 15,
+  "ANINSTANTBEFOREAGAZE": 15,
+  "23017": 16,
+  "惊魂夜": 16,
+  "NIGHTOFFRIGHT": 16,
+  "23016": 17,
+  "烦恼着，幸福着": 17,
+  "WORRISOME,BLISSFUL": 17,
+  "23015": 18,
+  "比阳光更明亮的": 18,
+  "BRIGHTERTHANTHESUN": 18,
+  "23014": 19,
+  "此身为剑": 19,
+  "ISHALLBEMYOWNSWORD": 19,
+  "23013": 20,
+  "时节不居": 20,
+  "TIMEWAITSFORNOONE": 20,
+  "23012": 21,
+  "如泥酣眠": 21,
+  "SLEEPLIKETHEDEAD": 21,
+  "23011": 22,
+  "她已闭上双眼": 22,
+  "SHEALREADYSHUTHEREYES": 22,
+  "23010": 23,
+  "拂晓之前": 23,
+  "BEFOREDAWN": 23,
+  "23009": 24,
+  "到不了的彼岸": 24,
+  "THEUNREACHABLESIDE": 24,
+  "23008": 25,
+  "棺的回响": 25,
+  "ECHOESOFTHECOFFIN": 25,
+  "23007": 26,
+  "雨一直下": 26,
+  "INCESSANTRAIN": 26,
+  "23006": 27,
+  "只需等待": 27,
+  "PATIENCEISALLYOUNEED": 27,
+  "23005": 28,
+  "制胜的瞬间": 28,
+  "MOMENTOFVICTORY": 28,
+  "23004": 29,
+  "以世界之名": 29,
+  "INTHENAMEOFTHEWORLD": 29,
+  "23003": 30,
+  "但战斗还未结束": 30,
+  "BUTTHEBATTLEISNTOVER": 30,
+  "23002": 31,
+  "无可取代的东西": 31,
+  "SOMETHINGIRREPLACEABLE": 31,
+  "23001": 32,
+  "于夜色中": 32,
+  "INTHENIGHT": 32,
+  "23000": 33,
+  "银河铁道之夜": 33,
+  "NIGHTONTHEMILKYWAY": 33,
+  "24004": 34,
+  "不息的演算": 34,
+  "ETERNALCALCULUS": 34,
+  "24003": 35,
+  "孤独的疗愈": 35,
+  "SOLITARYHEALING": 35,
+  "24002": 36,
+  "记忆的质料": 36,
+  "TEXTUREOFMEMORIES": 36,
+  "24001": 37,
+  "星海巡航": 37,
+  "CRUISINGINTHESTELLARSEA": 37,
+  "24000": 38,
+  "记一位星神的陨落": 38,
+  "ONTHEFALLOFANAEON": 38,
+  "22002": 39,
+  "为了明日的旅途": 39,
+  "FORTOMORROWSJOURNEY": 39,
+  "22001": 40,
+  "嘿，我在这儿": 40,
+  "HEY,OVERHERE": 40,
+  "22000": 41,
+  "新手任务开始前": 41,
+  "BEFORETHETUTORIALMISSIONSTARTS": 41,
+  "21046": 42,
+  "芳华待灼": 42,
+  "POISEDTOBLOOM": 42,
+  "21045": 43,
+  "谐乐静默之后": 43,
+  "AFTERTHECHARMONYFALL": 43,
+  "21044": 44,
+  "无边曼舞": 44,
+  "BOUNDLESSCHOREO": 44,
+  "21043": 45,
+  "两个人的演唱会": 45,
+  "CONCERTFORTWO": 45,
+  "21042": 46,
+  "铭记于心的约定": 46,
+  "INDELIBLEPROMISE": 46,
+  "21041": 47,
+  "好戏开演": 47,
+  "ITSSHOWTIME": 47,
+  "21040": 48,
+  "银河沦陷日": 48,
+  "THEDAYTHECOSMOSFELL": 48,
+  "21039": 49,
+  "织造命运之线": 49,
+  "DESTINYSTHREADSFOREWOVEN": 49,
+  "21038": 50,
+  "在火的远处": 50,
+  "FLAMESAFAR": 50,
+  "21037": 51,
+  "最后的赢家": 51,
+  "FINALVICTOR": 51,
+  "21036": 52,
+  "美梦小镇大冒险": 52,
+  "DREAMVILLEADVENTURE": 52,
+  "21035": 53,
+  "何物为真": 53,
+  "WHATISREAL?": 53,
+  "21034": 54,
+  "今日亦是和平的一日": 54,
+  "TODAYISANOTHERPEACEFULDAY": 54,
+  "21033": 55,
+  "无处可逃": 55,
+  "NOWHERETORUN": 55,
+  "21032": 56,
+  "镂月裁云之意": 56,
+  "CARVETHEMOON,WEAVETHECLOUDS": 56,
+  "21031": 57,
+  "重返幽冥": 57,
+  "RETURNTODARKNESS": 57,
+  "21030": 58,
+  "这就是我啦！": 58,
+  "THISISME!": 58,
+  "21029": 59,
+  "后会有期": 59,
+  "WEWILLMEETAGAIN": 59,
+  "21028": 60,
+  "暖夜不会漫长": 60,
+  "WARMTHSHORTENSCOLDNIGHTS": 60,
+  "21027": 61,
+  "早餐的仪式感": 61,
+  "THESERIOUSNESSOFBREAKFAST": 61,
+  "21026": 62,
+  "汪！散步时间！": 62,
+  "WOOF!WALKTIME!": 62,
+  "21025": 63,
+  "过往未来": 63,
+  "PASTANDFUTURE": 63,
+  "21024": 64,
+  "春水初生": 64,
+  "RIVERFLOWSINSPRING": 64,
+  "21023": 65,
+  "我们是地火": 65,
+  "WEAREWILDFIRE": 65,
+  "21022": 66,
+  "延长记号": 66,
+  "FERMATA": 66,
+  "21021": 67,
+  "等价交换": 67,
+  "QUIDPROQUO": 67,
+  "21020": 68,
+  "天才们的休憩": 68,
+  "GENIUSESREPOSE": 68,
+  "21019": 69,
+  "在蓝天下": 69,
+  "UNDERTHEBLUESKY": 69,
+  "21018": 70,
+  "舞！舞！舞！": 70,
+  "DANCE!DANCE!DANCE!": 70,
+  "21017": 71,
+  "点个关注吧！": 71,
+  "SUBSCRIBEFORMORE!": 71,
+  "21016": 72,
+  "宇宙市场趋势": 72,
+  "TRENDOFTHEUNIVERSALMARKET": 72,
+  "21015": 73,
+  "决心如汗珠般闪耀": 73,
+  "RESOLUTIONSHINESASPEARLSOFSWEAT": 73,
+  "21014": 74,
+  "此时恰好": 74,
+  "PERFECTTIMING": 74,
+  "21013": 75,
+  "别让世界静下来": 75,
+  "MAKETHEWORLDCLAMOR": 75,
+  "21012": 76,
+  "秘密誓心": 76,
+  "ASECRETVOW": 76,
+  "21011": 77,
+  "与行星相会": 77,
+  "PLANETARYRENDEZVOUS": 77,
+  "21010": 78,
+  "论剑": 78,
+  "SWORDPLAY": 78,
+  "21009": 79,
+  "朗道的选择": 79,
+  "LANDAUSCHOICE": 79,
+  "21008": 80,
+  "猎物的视线": 80,
+  "EYESOFTHEPREY": 80,
+  "21007": 81,
+  "同一种心情": 81,
+  "SHAREDFEELING": 81,
+  "21006": 82,
+  "「我」的诞生": 82,
+  "THEBIRTHOFTHESELF": 82,
+  "21005": 83,
+  "鼹鼠党欢迎你": 83,
+  "THEMOLESWELCOMEYOU": 83,
+  "21004": 84,
+  "记忆中的模样": 84,
+  "MEMORIESOFTHEPAST": 84,
+  "21003": 85,
+  "唯有沉默": 85,
+  "ONLYSILENCEREMAINS": 85,
+  "21002": 86,
+  "余生的第一天": 86,
+  "DAYONEOFMYNEWLIFE": 86,
+  "21001": 87,
+  "晚安与睡颜": 87,
+  "GOODNIGHTANDSLEEPWELL": 87,
+  "21000": 88,
+  "一场术后对话": 88,
+  "POSTOPCONVERSATION": 88,
+  "20020": 89,
+  "睿见": 89,
+  "SAGACITY": 89,
+  "20019": 90,
+  "调和": 90,
+  "MEDIATION": 90,
+  "20018": 91,
+  "匿影": 91,
+  "HIDDENSHADOW": 91,
+  "20017": 92,
+  "开疆": 92,
+  "PIONEERING": 92,
+  "20016": 93,
+  "俱殁": 93,
+  "MUTUALDEMISE": 93,
+  "20015": 94,
+  "蕃息": 94,
+  "MULTIPLICATION": 94,
+  "20014": 95,
+  "相抗": 95,
+  "ADVERSARIAL": 95,
+  "20013": 96,
+  "灵钥": 96,
+  "PASSKEY": 96,
+  "20012": 97,
+  "轮契": 97,
+  "MESHINGCOGS": 97,
+  "20011": 98,
+  "渊环": 98,
+  "LOOP": 98,
+  "20010": 99,
+  "戍御": 99,
+  "DEFENSE": 99,
+  "20009": 100,
+  "乐圮": 100,
+  "SHATTEREDHOME": 100,
+  "20008": 101,
+  "嘉果": 101,
+  "FINEFRUIT": 101,
+  "20007": 102,
+  "离弦": 102,
+  "DARTINGARROW": 102,
+  "20006": 103,
+  "智库": 103,
+  "DATABANK": 103,
+  "20005": 104,
+  "齐颂": 104,
+  "CHORUS": 104,
+  "20004": 105,
+  "幽邃": 105,
+  "VOID": 105,
+  "20003": 106,
+  "琥珀": 106,
+  "AMBER": 106,
+  "20002": 107,
+  "天倾": 107,
+  "COLLAPSINGSKY": 107,
+  "20001": 108,
+  "物穰": 108,
+  "CORNUCOPIA": 108,
+  "20000": 109,
+  "锋镝": 109,
+  "ARROWS": 109
 }
 
 var _search_relic = {
-  "316": 0,
-  "劫火莲灯铸炼宫": 0,
-  "FORGEOFTHEKALPAGNILANTERN": 0,
-  "315": 1,
-  "奔狼的都蓝王朝": 1,
-  "DURAN,DYNASTYOFRUNNINGWOLVES": 1,
-  "314": 2,
-  "出云显世与高天神国": 2,
-  "IZUMOGENSEIANDTAKAMADIVINEREALM": 2,
-  "313": 3,
-  "无主荒星茨冈尼亚": 3,
-  "SIGONIA,THEUNCLAIMEDDESOLATION": 3,
-  "312": 4,
-  "梦想之地匹诺康尼": 4,
-  "PENACONY,LANDOFTHEDREAMS": 4,
-  "311": 5,
-  "苍穹战线格拉默": 5,
-  "FIRMAMENTFRONTLINE:GLAMOTH": 5,
-  "310": 6,
-  "折断的龙骨": 6,
-  "BROKENKEEL": 6,
-  "309": 7,
-  "繁星竞技场": 7,
-  "RUTILANTARENA": 7,
-  "308": 8,
-  "生命的翁瓦克": 8,
-  "SPRIGHTLYVONWACQ": 8,
-  "307": 9,
-  "盗贼公国塔利亚": 9,
-  "TALIA:KINGDOMOFBANDITRY": 9,
-  "306": 10,
-  "停转的萨尔索图": 10,
-  "INERTSALSOTTO": 10,
-  "305": 11,
-  "星体差分机": 11,
-  "CELESTIALDIFFERENTIATOR": 11,
-  "304": 12,
-  "筑城者的贝洛伯格": 12,
-  "BELOBOGOFTHEARCHITECTS": 12,
-  "303": 13,
-  "泛银河商业公司": 13,
-  "PANCOSMICCOMMERCIALENTERPRISE": 13,
-  "302": 14,
-  "不老者的仙舟": 14,
-  "FLEETOFTHEAGELESS": 14,
-  "301": 15,
-  "太空封印站": 15,
-  "SPACESEALINGSTATION": 15,
-  "120": 16,
-  "风举云飞的勇烈": 16,
-  "THEWINDSOARINGVALOROUS": 16,
-  "119": 17,
-  "荡除蠹灾的铁骑": 17,
-  "IRONCAVALRYAGAINSTTHESCOURGE": 17,
-  "118": 18,
-  "机心戏梦的钟表匠": 18,
-  "WATCHMAKER,MASTEROFDREAMMACHINATIONS": 18,
-  "117": 19,
-  "死水深潜的先驱": 19,
-  "PIONEERDIVEROFDEADWATERS": 19,
-  "116": 20,
-  "幽锁深牢的系囚": 20,
-  "PRISONERINDEEPCONFINEMENT": 20,
-  "115": 21,
-  "毁烬焚骨的大公": 21,
-  "THEASHBLAZINGGRANDDUKE": 21,
-  "114": 22,
-  "骇域漫游的信使": 22,
-  "MESSENGERTRAVERSINGHACKERSPACE": 22,
-  "113": 23,
-  "宝命长存的莳者": 23,
-  "LONGEVOUSDISCIPLE": 23,
-  "112": 24,
-  "盗匪荒漠的废土客": 24,
-  "WASTELANDEROFBANDITRYDESERT": 24,
-  "111": 25,
-  "流星追迹的怪盗": 25,
-  "THIEFOFSHOOTINGMETEOR": 25,
-  "110": 26,
-  "晨昏交界的翔鹰": 26,
-  "EAGLEOFTWILIGHTLINE": 26,
-  "109": 27,
-  "激奏雷电的乐队": 27,
-  "BANDOFSIZZLINGTHUNDER": 27,
-  "108": 28,
-  "繁星璀璨的天才": 28,
-  "GENIUSOFBRILLIANTSTARS": 28,
-  "107": 29,
-  "熔岩锻铸的火匠": 29,
-  "FIRESMITHOFLAVAFORGING": 29,
-  "106": 30,
-  "戍卫风雪的铁卫": 30,
-  "GUARDOFWUTHERINGSNOW": 30,
-  "105": 31,
-  "街头出身的拳王": 31,
-  "CHAMPIONOFSTREETWISEBOXING": 31,
-  "104": 32,
-  "密林卧雪的猎人": 32,
-  "HUNTEROFGLACIALFOREST": 32,
-  "103": 33,
-  "净庭教宗的圣骑士": 33,
-  "KNIGHTOFPURITYPALACE": 33,
-  "102": 34,
-  "野穗伴行的快枪手": 34,
-  "MUSKETEEROFWILDWHEAT": 34,
-  "101": 35,
-  "云无留迹的过客": 35,
-  "PASSERBYOFWANDERINGCLOUD": 35
+  "318": 0,
+  "奇想蕉乐园": 0,
+  "THEWONDROUSBANANAMUSEMENTPARK": 0,
+  "317": 1,
+  "沉陆海域露莎卡": 1,
+  "LUSHAKA,THESUNKENSEAS": 1,
+  "316": 2,
+  "劫火莲灯铸炼宫": 2,
+  "FORGEOFTHEKALPAGNILANTERN": 2,
+  "315": 3,
+  "奔狼的都蓝王朝": 3,
+  "DURAN,DYNASTYOFRUNNINGWOLVES": 3,
+  "314": 4,
+  "出云显世与高天神国": 4,
+  "IZUMOGENSEIANDTAKAMADIVINEREALM": 4,
+  "313": 5,
+  "无主荒星茨冈尼亚": 5,
+  "SIGONIA,THEUNCLAIMEDDESOLATION": 5,
+  "312": 6,
+  "梦想之地匹诺康尼": 6,
+  "PENACONY,LANDOFTHEDREAMS": 6,
+  "311": 7,
+  "苍穹战线格拉默": 7,
+  "FIRMAMENTFRONTLINE:GLAMOTH": 7,
+  "310": 8,
+  "折断的龙骨": 8,
+  "BROKENKEEL": 8,
+  "309": 9,
+  "繁星竞技场": 9,
+  "RUTILANTARENA": 9,
+  "308": 10,
+  "生命的翁瓦克": 10,
+  "SPRIGHTLYVONWACQ": 10,
+  "307": 11,
+  "盗贼公国塔利亚": 11,
+  "TALIA:KINGDOMOFBANDITRY": 11,
+  "306": 12,
+  "停转的萨尔索图": 12,
+  "INERTSALSOTTO": 12,
+  "305": 13,
+  "星体差分机": 13,
+  "CELESTIALDIFFERENTIATOR": 13,
+  "304": 14,
+  "筑城者的贝洛伯格": 14,
+  "BELOBOGOFTHEARCHITECTS": 14,
+  "303": 15,
+  "泛银河商业公司": 15,
+  "PANCOSMICCOMMERCIALENTERPRISE": 15,
+  "302": 16,
+  "不老者的仙舟": 16,
+  "FLEETOFTHEAGELESS": 16,
+  "301": 17,
+  "太空封印站": 17,
+  "SPACESEALINGSTATION": 17,
+  "120": 18,
+  "风举云飞的勇烈": 18,
+  "THEWINDSOARINGVALOROUS": 18,
+  "119": 19,
+  "荡除蠹灾的铁骑": 19,
+  "IRONCAVALRYAGAINSTTHESCOURGE": 19,
+  "118": 20,
+  "机心戏梦的钟表匠": 20,
+  "WATCHMAKER,MASTEROFDREAMMACHINATIONS": 20,
+  "117": 21,
+  "死水深潜的先驱": 21,
+  "PIONEERDIVEROFDEADWATERS": 21,
+  "116": 22,
+  "幽锁深牢的系囚": 22,
+  "PRISONERINDEEPCONFINEMENT": 22,
+  "115": 23,
+  "毁烬焚骨的大公": 23,
+  "THEASHBLAZINGGRANDDUKE": 23,
+  "114": 24,
+  "骇域漫游的信使": 24,
+  "MESSENGERTRAVERSINGHACKERSPACE": 24,
+  "113": 25,
+  "宝命长存的莳者": 25,
+  "LONGEVOUSDISCIPLE": 25,
+  "112": 26,
+  "盗匪荒漠的废土客": 26,
+  "WASTELANDEROFBANDITRYDESERT": 26,
+  "111": 27,
+  "流星追迹的怪盗": 27,
+  "THIEFOFSHOOTINGMETEOR": 27,
+  "110": 28,
+  "晨昏交界的翔鹰": 28,
+  "EAGLEOFTWILIGHTLINE": 28,
+  "109": 29,
+  "激奏雷电的乐队": 29,
+  "BANDOFSIZZLINGTHUNDER": 29,
+  "108": 30,
+  "繁星璀璨的天才": 30,
+  "GENIUSOFBRILLIANTSTARS": 30,
+  "107": 31,
+  "熔岩锻铸的火匠": 31,
+  "FIRESMITHOFLAVAFORGING": 31,
+  "106": 32,
+  "戍卫风雪的铁卫": 32,
+  "GUARDOFWUTHERINGSNOW": 32,
+  "105": 33,
+  "街头出身的拳王": 33,
+  "CHAMPIONOFSTREETWISEBOXING": 33,
+  "104": 34,
+  "密林卧雪的猎人": 34,
+  "HUNTEROFGLACIALFOREST": 34,
+  "103": 35,
+  "净庭教宗的圣骑士": 35,
+  "KNIGHTOFPURITYPALACE": 35,
+  "102": 36,
+  "野穗伴行的快枪手": 36,
+  "MUSKETEEROFWILDWHEAT": 36,
+  "101": 37,
+  "云无留迹的过客": 37,
+  "PASSERBYOFWANDERINGCLOUD": 37
 }
 
 var _changelog_relic = {
@@ -4346,20 +4553,17 @@ var _changelog_relic = {
         "@4P#The wearer's SPD increases by <b>6.0%</b> and Basic ATK DMG increases by <b>10.0%</b>.<br>@↓↓#The wearer's SPD increases by <b>6.0%</b> and DMG dealt by Basic ATK increases by <b>10.0%</b>."
       ]
     }
-  ]
+  ],
+  "v4": []
 }
 
 var _changelog_avatar = {
-  "1218": {},
-  "1221": {},
-  "1224": {
-    "v3": [
-      "``Base Stats`- HP 917.28 → 1058.4 ;<br>- DEF 418.95 → 441.0 ;<br>- SPD 107.0 → 102.0 ;"
-    ]
-  },
-  "21046": {},
-  "23030": {},
-  "23029": {}
+  "1220": {},
+  "1222": {},
+  "1223": {},
+  "21047": {},
+  "23031": {},
+  "23032": {}
 }
 
 var _changelog_veradd = {
@@ -4774,10 +4978,637 @@ var _changelog_veradd = {
       "Rank": 1,
       "Icon": "mostericon/Monster_8015010.png"
     }
+  ],
+  "v5": [
+    {
+      "HP": [
+        80.0,
+        77.5
+      ],
+      "Name": "Soulhook Sovereign",
+      "_id": 2004014,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        77.5
+      ],
+      "Name": "Soulhook Sovereign",
+      "_id": 200401401,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        77.5
+      ],
+      "Name": "Soulhook Sovereign",
+      "_id": 200401402,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        77.5
+      ],
+      "Name": "Soulhook Sovereign",
+      "_id": 200401403,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004010.png"
+    },
+    {
+      "HP": [
+        80.0,
+        77.5
+      ],
+      "Name": "Soulhook Sovereign",
+      "_id": 200401404,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004010.png"
+    },
+    {
+      "Stance": [
+        [
+          12.0,
+          []
+        ],
+        [
+          10.0,
+          []
+        ]
+      ],
+      "Name": "Blaze Out of Space",
+      "_id": 800302201,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8003020.png"
+    },
+    {
+      "Stance": [
+        [
+          12.0,
+          []
+        ],
+        [
+          10.0,
+          []
+        ]
+      ],
+      "Name": "Blaze Out of Space",
+      "_id": 800302202,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8003020.png"
+    },
+    {
+      "Stance": [
+        [
+          12.0,
+          []
+        ],
+        [
+          10.0,
+          []
+        ]
+      ],
+      "Name": "Blaze Out of Space",
+      "_id": 800302203,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8003020.png"
+    },
+    {
+      "Stance": [
+        [
+          12.0,
+          []
+        ],
+        [
+          10.0,
+          []
+        ]
+      ],
+      "Name": "Blaze Out of Space",
+      "_id": 800302204,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8003020.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 8012146,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214601,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214602,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214603,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice"
+          ]
+        ]
+      ],
+      "Name": "Disaster's Right Hand",
+      "_id": 801214604,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012140.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 8012147,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214701,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214702,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214703,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "HP": [
+        16.0,
+        15.0
+      ],
+      "Stance": [
+        [
+          11.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Phys",
+            "Fire",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Dawn's Left Hand",
+      "_id": 801214704,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8012142.png"
+    },
+    {
+      "HP": [
+        85.0,
+        82.5
+      ],
+      "Name": "Starbane Doombringer",
+      "_id": 8015012,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        85.0,
+        82.5
+      ],
+      "Name": "Starbane Doombringer",
+      "_id": 801501201,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        85.0,
+        82.5
+      ],
+      "Name": "Starbane Doombringer",
+      "_id": 801501202,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        85.0,
+        82.5
+      ],
+      "Name": "Starbane Doombringer",
+      "_id": 801501203,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    },
+    {
+      "HP": [
+        85.0,
+        82.5
+      ],
+      "Name": "Starbane Doombringer",
+      "_id": 801501204,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015010.png"
+    }
+  ],
+  "v1": [
+    {
+      "HP": [
+        5.0,
+        5.5
+      ],
+      "Name": "Aurumaton Spectral Envoy",
+      "_id": 201302006,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2013020.png"
+    },
+    {
+      "HP": [
+        11.0,
+        11.5
+      ],
+      "Stance": [
+        [
+          14.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Imaginary"
+          ]
+        ],
+        [
+          14.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Quantum"
+          ]
+        ]
+      ],
+      "Name": "The Ascended",
+      "_id": 202303013,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2023030.png"
+    },
+    {
+      "HP": [
+        12.0,
+        11.5
+      ],
+      "Stance": [
+        [
+          12.0,
+          [
+            "Elec",
+            "Wind",
+            "Quantum"
+          ]
+        ],
+        [
+          12.0,
+          [
+            "Fire",
+            "Wind",
+            "Imaginary"
+          ]
+        ]
+      ],
+      "Name": "Howling Casket",
+      "_id": 203301001,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2033010.png"
+    },
+    {
+      "HP": [
+        12.0,
+        11.0
+      ],
+      "Stance": [
+        [
+          10.0,
+          [
+            "Elec",
+            "Wind",
+            "Quantum"
+          ]
+        ],
+        [
+          10.0,
+          [
+            "Fire",
+            "Wind",
+            "Imaginary"
+          ]
+        ]
+      ],
+      "Name": "\"Present Inebriated in Revelry\"",
+      "_id": 300305003,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_3003050.png"
+    },
+    {
+      "HP": [
+        4.0,
+        5.5
+      ],
+      "Name": "Memory Zone Meme \"Shell of Faded Rage\"",
+      "_id": 301301001,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_3013010.png"
+    }
   ]
 }
 
 var _hidden = [
+  {
+    "Name": "Algaea & \"Remembrance\"",
+    "Date": "2024/07/14",
+    "Ver": "2.4v5",
+    "Notes": [
+      {
+        "Title": "Algaea",
+        "Desc": "Teams up with \"Remembrance\" in early tests."
+      },
+      {
+        "Title": "\"Remembrance\"",
+        "Desc": "Possibly the Remembrance Trailblazer (indicated by CN internal name), and teams up with Aglaea in early tests, equipped with the same Lightcones and Relics as Jingliu. Relic stats: SPD, Ice DMG Boost, Energy Regeneration Rate<br>Early tests are for reference only and are not indicative of actual kit"
+      }
+    ]
+  },
+  {
+    "Name": "2.5+ Memory of Chaos",
+    "Date": "2024/07/10",
+    "Ver": "2.4v4",
+    "Notes": [
+      {
+        "Title": "Memory Turbulence",
+        "Desc": "- After an enemy's Weakness is broken, they will recieve a secondary Toughness bar equal to a percentage of their original Toughness, while still considered to be Weakness Broken.<br>- When a character breaks the secondary Toughness bar, they will deal another instance of Break DMG and further delay the target's action.<br>- When an enemy's Weakness is Broken, add hits to Memory Turbulence. At the start of every cycle, every hit will deal DMG based on Max HP to random enemies."
+      }
+    ]
+  },
+  {
+    "Name": "Future Characters Compilation",
+    "Date": "2024/07/09",
+    "Ver": "2.4v4",
+    "Notes": [
+      {
+        "Title": "???",
+        "Desc": "- Judging from CN name, this may be a Remembrance Path Trailblazer, or a \"Master of Remembrance\"<br>- Played with Aglaea (see below)"
+      },
+      {
+        "Title": "Feixiao",
+        "Desc": "- Wind, Hunt<br>- Kit is related to Weakness Break and follow-up attacks.<br>- Ultimate does not perform an attack but enhances herself, gaining Enhanced Basic ATK and Enhanced Skill, dealing 7 and 6 instances of DMG respectively.<br>- Will apply BlueDot and RedDot to targets in battle.<br>- Technique: Continuously fires missiles that will apply some effect upon hitting enemies. (Will not enter combat)<br>Summons a dimension that follows the active character (like Jingliu & Robin), which greatly increases the active character's move speed, blocks all incoming enemy attacks, and hauls all nearby enemies towards the active character."
+      },
+      {
+        "Title": "Moze",
+        "Desc": "- Basic ATK, Skill and Ultimate all performs attacks, with Skill dealing 3 instances of DMG and able to select ShadowTarget(s).<br>- Technique: Enters the Stealth state for 20s, during which cannot be detected by enemies. Like Seele, the distance at which Moze can lock onto enemy targets is greatly increased during Stealth."
+      },
+      {
+        "Title": "Sunday (new model)",
+        "Desc": "- Only Basic ATK performs an attack; Skill and Ultimate are supports.<br>- The code name suggests that he uses the same model but has new appearance, like the Trailblazer and Marchh 7th's new paths. Unlike Danheng IL which is a new model."
+      },
+      {
+        "Title": "Lingsha",
+        "Desc": "- Basic ATK, Skill and Ultimate all performs attacks.<br>- Can summon action bar events that heal and performs attacks, lasting for multiple turns."
+      },
+      {
+        "Title": "Rappa",
+        "Desc": "- Ordinary Ultimate does not perform an attack, but enhances self and gains 3 Enhanced Ultimates, 2 of which performs an attack, one of which does not attack.<br>- Technique can block all enemy attacks. Ultimate mentioned FPS."
+      },
+      {
+        "Title": "Screwllum",
+        "Desc": "- Basic ATK, Skill and Ultimate all performs attacks, with Skill dealing 8 instances of DMG."
+      },
+      {
+        "Title": "Fugue",
+        "Desc": "- Basic ATK and Ultimate performs attacks; Skill does not perform an attack."
+      },
+      {
+        "Title": "Aglaea",
+        "Desc": "- Can summon an event on the action bar."
+      },
+      {
+        "Title": "Enemy Feixiao",
+        "Desc": "- In combat, Feixiao will summon enemies and build connections with them. There will be an R assist skill in the combat."
+      }
+    ]
+  },
   {
     "Name": "2.5+ Pure Fiction New Mode",
     "Hidden": true,
@@ -4795,82 +5626,28 @@ var _hidden = [
     ]
   },
   {
-    "Name": "2.5+ Memory of Chaos",
-    "Hidden": true,
-    "Date": "2024/07/03",
-    "Ver": "2.4v1",
-    "Notes": [
-      {
-        "Title": "Memory Turbulence",
-        "Desc": "- After an enemy's Weakness is broken, they will recieve a secondary Toughness bar equal to a percentage of their original Toughness, while still considered to be Weakness Broken.<br>- When a character breaks the secondary Toughness bar, they will deal another instance of Break DMG and delay the target's action."
-      }
-    ]
-  },
-  {
     "Name": "2.5 Apocalyptic Shadow: Phantylia",
-    "Hidden": true,
-    "Date": "2024/07/02",
-    "Ver": "2.4v2",
+    "Date": "2024/07/03",
+    "Ver": "2.4v3",
     "Notes": [
       {
         "Title": "Boss Mechanics",
-        "Desc": "- The Abundance Lotuses are also unkillable. They will enter Dormancy after their HP is emptied.<br>- The Abundance Lotuses have changed from reducing Skill Points to @reducing a fixed amount of Energy# from all characters and healing own HP every time they take action. They will also @regenerate a fixed amount of Energy# for all characters when entering Dormancy, instead of recovering Skill Points.<br>- When taking @Imaginary, Wind or Lightning DMG#, if Phantylia does not have the corresponding Weakness, she will still take Toughness DMG equal to a percentage of the attack's original Toughness DMG."
+        "Desc": "- The Abundance Lotuses are also unkillable. They will enter Dormancy after their HP is emptied.<br>- The Abundance Lotuses have changed from reducing Skill Points to healing own HP and @reducing a fixed amount of Energy# from all characters every time they take action. They will also @restore a fixed amount of Energy# for all characters when entering Dormancy, instead of giving Skill Points.<br>- When taking @Imaginary, Wind or Lightning DMG#, if Phantylia does not have the corresponding Weakness, she will still take Toughness DMG equal to a percentage of the attack's original Toughness DMG."
       },
       {
         "Title": "Apocalyptic Shadow Effects",
-        "Desc": "Just like 2.3 and 2.4 AS, the boss has DMG reduction while not Weakness Broken, and will @Transfer# its Weaknesses to its summons."
+        "Desc": "Just like 2.3 and 2.4 AS, the boss has DMG reduction while not Weakness Broken, and will @Transfer# its Weaknesses to its summons (lotuses)."
       }
     ]
   },
   {
-    "Name": "2.5+ Lightcones",
-    "Date": "2024/06/18",
-    "Ver": "2.4v1",
-    "Notes": [
-      {
-        "Title": "Limited 5★",
-        "Desc": "After the wearer performs an attack, they gain 1 stack of Boost, lasting for 1 turn. When the wearer has Boost, every stack will increase all team members' SPD by a fixed amount. When the wearer's Break Effect is greater than some constant, the SPD increase effect provided by every stack of Boost is strengthened."
-      }
-    ]
-  },
-  {
-    "Name": "Future Character Name Compilation",
-    "Date": "2024/05/27",
-    "Ver": "2.3v4",
-    "Notes": [
-      {
-        "Title": "Characters",
-        "Desc": "- Screwllum<br>- Feixiao<br>- Moze<br>- Lingsha<br>- Rappa<br>- Aglaea<br>- Zaika"
-      },
-      {
-        "Title": "Enemies",
-        "Desc": "- Feixiao"
-      }
-    ]
-  },
-  {
-    "Name": "Rappa & Aglaea (Preliminary)",
-    "Date": "2024/06/07",
-    "Ver": "2.3v5",
+    "Name": "Rappa",
+    "Date": "2024/07/09",
+    "Ver": "2.4v4",
     "Notes": [
       {
         "Title": "Rappa",
-        "Desc": "Technique can block all enemy attacks. Ultimate mentioned FPS."
-      },
-      {
-        "Title": "Aglaea",
-        "Desc": "Can summon an event on the action bar."
-      }
-    ]
-  },
-  {
-    "Name": "Lingsha",
-    "Date": "2024/06/07",
-    "Ver": "2.3v5",
-    "Notes": [
-      {
-        "Title": "Skill",
-        "Desc": "Will summon events on the action bar that last for more than 1 turn. Can summon multiple such events."
+        "Desc": "- Ordinary Ultimate does not perform an attack, but enhances self and gains 3 Enhanced Ultimates, 2 of which performs an attack, one of which does not attack.<br>- Technique can block all enemy attacks. Ultimate mentioned FPS."
       }
     ]
   },
@@ -4914,30 +5691,76 @@ var _hidden = [
   }
 ]
 
-var cl_select = {
-  "v2 - v3": 2,
-  "v1 - v2": 1
-}
+var cl_select = {}
 
 var cl_vers = [
-  "v1",
-  "v2",
-  "v3"
+  "v1"
 ]
 
 var _diff_avatar = [
-  1218,
-  1221,
-  1224
+  1220,
+  1222,
+  1223
 ]
 
 var _diff_weapon = [
-  21046,
-  23030,
-  23029
+  21047,
+  23031,
+  23032
 ]
 
 var _weapon = [
+  {
+    "_id": 23032,
+    "Name": "Scent Alone Stays True",
+    "Rarity": 5,
+    "Path": "Abundance",
+    "Skill": 23032,
+    "Pic": "23032.png",
+    "Mat": [
+      113003,
+      110243
+    ],
+    "Stats": {
+      "HP": 1058.4,
+      "ATK": 529.2,
+      "DEF": 529.2
+    }
+  },
+  {
+    "_id": 23031,
+    "Name": "I Venture Forth to Hunt",
+    "Rarity": 5,
+    "Path": "Hunt",
+    "Skill": 23031,
+    "Pic": "23031.png",
+    "Mat": [
+      113013,
+      110193
+    ],
+    "Stats": {
+      "HP": 952.56,
+      "ATK": 635.04,
+      "DEF": 463.05
+    }
+  },
+  {
+    "_id": 21047,
+    "Name": "Shadowed by Night",
+    "Rarity": 4,
+    "Path": "Hunt",
+    "Skill": 21047,
+    "Pic": "21047.png",
+    "Mat": [
+      113013,
+      110193
+    ],
+    "Stats": {
+      "HP": 846.72,
+      "ATK": 476.28,
+      "DEF": 396.9
+    }
+  },
   {
     "_id": 23030,
     "Name": "Dance at Sunset",
@@ -4970,23 +5793,6 @@ var _weapon = [
       "HP": 952.56,
       "ATK": 582.12,
       "DEF": 529.2
-    }
-  },
-  {
-    "_id": 21046,
-    "Name": "Poised to Bloom",
-    "Rarity": 4,
-    "Path": "Harmony",
-    "Skill": 21046,
-    "Pic": "21046.png",
-    "Mat": [
-      114003,
-      110233
-    ],
-    "Stats": {
-      "HP": 952.56,
-      "ATK": 423.36,
-      "DEF": 396.9
     }
   },
   {
@@ -5616,6 +6422,23 @@ var _weapon = [
       "HP": 952.56,
       "ATK": 476.28,
       "DEF": 330.75
+    }
+  },
+  {
+    "_id": 21046,
+    "Name": "Poised to Bloom",
+    "Rarity": 4,
+    "Path": "Harmony",
+    "Skill": 21046,
+    "Pic": "21046.png",
+    "Mat": [
+      114003,
+      110233
+    ],
+    "Stats": {
+      "HP": 952.56,
+      "ATK": 423.36,
+      "DEF": 396.9
     }
   },
   {
@@ -6761,6 +7584,22 @@ var _weapon = [
 
 var _relic = [
   {
+    "_id": 318,
+    "Name": "The Wondrous BananAmusement Park",
+    "Icon": "71037.png",
+    "Skills": [
+      "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>28.0%</b>."
+    ]
+  },
+  {
+    "_id": 317,
+    "Name": "Lushaka, the Sunken Seas",
+    "Icon": "71036.png",
+    "Skills": [
+      "Increases the wearer's Effect RES by <b>10.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>16.0%</b>."
+    ]
+  },
+  {
     "_id": 316,
     "Name": "Forge of the Kalpagni Lantern",
     "Icon": "71035.png",
@@ -7071,13 +7910,13 @@ var _relic = [
 ]
 
 var _avatarskill = {
-  "121801": {
+  "122001": {
     "v1": {
-      "Name": "Heart Afire",
+      "Name": "Boltsunder",
       "MaxLevel": 9,
       "Type": "Basic ATK",
       "Tag": "Single Target",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy.",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy.",
       "Params": [
         [
           0.5
@@ -7108,1463 +7947,1215 @@ var _avatarskill = {
         ]
       ],
       "BP": 1,
-      "SPAdd": 20.0,
+      "SPAdd": 0,
       "AttackType": "Normal",
       "Stance": [
         1.0,
         0.0,
         0.0
       ],
-      "Icon": "SkillIcon_1218_Normal"
-    },
-    "v2": {
-      "Name": "Heart Afire",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy.",
-      "Params": [
-        [
-          0.5
-        ],
-        [
-          0.6
-        ],
-        [
-          0.7
-        ],
-        [
-          0.8
-        ],
-        [
-          0.9
-        ],
-        [
-          1.0
-        ],
-        [
-          1.1
-        ],
-        [
-          1.2
-        ],
-        [
-          1.3
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Normal"
-    },
-    "v3": {
-      "Name": "Heart Afire",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy.",
-      "Params": [
-        [
-          0.5
-        ],
-        [
-          0.6
-        ],
-        [
-          0.7
-        ],
-        [
-          0.8
-        ],
-        [
-          0.9
-        ],
-        [
-          1.0
-        ],
-        [
-          1.1
-        ],
-        [
-          1.2
-        ],
-        [
-          1.3
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Normal"
+      "Icon": "SkillIcon_1220_Normal"
     }
   },
-  "121802": {
+  "122002": {
     "v1": {
-      "Name": "Scorch Onslaught",
+      "Name": "Waraxe",
       "MaxLevel": 15,
       "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy and Fire DMG equal to @<b>#2[p]</b># of Jiaoqiu's ATK to enemies adjacent to it. Has a <b>#3[p]</b> <u>base chance</u> to inflict 1 stack of Ashen Roast on the primary target.",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy, then <u>Advances Forward</u> Feixiao's next action by @<b>#2[p]</b>#.<br><br>@<b>Action Advanced</b>#<br>Reduces the target's waiting interval before the next action.",
       "Params": [
         [
-          0.9,
-          0.45,
-          1.0
+          1.2,
+          0.05
         ],
         [
-          0.99,
-          0.495,
-          1.0
+          1.32,
+          0.055
         ],
         [
-          1.08,
-          0.54,
-          1.0
+          1.44,
+          0.06
         ],
         [
-          1.17,
-          0.585,
-          1.0
+          1.56,
+          0.065
         ],
         [
-          1.26,
-          0.63,
-          1.0
-        ],
-        [
-          1.35,
-          0.675,
-          1.0
-        ],
-        [
-          1.4625,
-          0.73125,
-          1.0
-        ],
-        [
-          1.575,
-          0.7875,
-          1.0
-        ],
-        [
-          1.6875,
-          0.84375,
-          1.0
+          1.68,
+          0.07
         ],
         [
           1.8,
-          0.9,
-          1.0
+          0.075
         ],
         [
-          1.89,
-          0.945,
-          1.0
+          1.95,
+          0.08125
         ],
         [
-          1.98,
-          0.99,
-          1.0
-        ],
-        [
-          2.07,
-          1.035,
-          1.0
-        ],
-        [
-          2.16,
-          1.08,
-          1.0
+          2.1,
+          0.0875
         ],
         [
           2.25,
-          1.125,
-          1.0
+          0.09375
+        ],
+        [
+          2.4,
+          0.1
+        ],
+        [
+          2.52,
+          0.105
+        ],
+        [
+          2.64,
+          0.11
+        ],
+        [
+          2.76,
+          0.115
+        ],
+        [
+          2.88,
+          0.12
+        ],
+        [
+          3.0,
+          0.125
         ]
       ],
       "BP": -1,
-      "SPAdd": 30.0,
+      "SPAdd": 0,
       "AttackType": "BPSkill",
       "Stance": [
         2.0,
         0.0,
-        1.0
+        0.0
       ],
-      "Icon": "SkillIcon_1218_BP"
-    },
-    "v2": {
-      "Name": "Scorch Onslaught",
+      "Icon": "SkillIcon_1220_BP"
+    }
+  },
+  "122003": {
+    "v1": {
+      "Name": "Terrasplit",
       "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy and Fire DMG equal to @<b>#2[p]</b># of Jiaoqiu's ATK to enemies adjacent to it. Has a <b>#3[p]</b> <u>base chance</u> to inflict 1 stack of Ashen Roast on the primary target.",
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#4[p]</b># – @<b>#5[p]</b># of Feixiao's ATK to a single enemy, reducing its Toughness regardless of Weakness Type. If the target is not <u>Weakness Broken</u>, Feixiao's Weakness Break Efficiency increases by <b>#7[p]</b>.<br>During the attack, Feixiao first launches Boltsunder Blitz or Waraxe Skyward multiple times, until Flying Aureus is depleted.<br>After that, she launches the final hit: For every point of Flying Aureus consumed, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to the target. If the target is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#6[p]</b>#.<br>From hit no. <b>#3[f]</b> onward, if the target's HP is 0, reserves the remaining Flying Aureus and launches the final hit immediately.<br>Hidden Stat: #2[f]<br><br>@<b>Weakness Break State</b>#<br>When enemy targets' Toughness is reduced to 0, they will enter the Weakness Break State, which delays their actions.",
       "Params": [
         [
-          0.9,
-          0.45,
+          0.06,
+          12.0,
+          6.0,
+          5.04,
+          10.08,
+          0.09,
           1.0
         ],
         [
-          0.99,
-          0.495,
+          0.064,
+          12.0,
+          6.0,
+          5.376,
+          10.752,
+          0.096,
           1.0
         ],
         [
-          1.08,
-          0.54,
+          0.068,
+          12.0,
+          6.0,
+          5.712,
+          11.424,
+          0.102,
           1.0
         ],
         [
-          1.17,
-          0.585,
+          0.072,
+          12.0,
+          6.0,
+          6.048,
+          12.096,
+          0.108,
           1.0
         ],
         [
-          1.26,
-          0.63,
+          0.076,
+          12.0,
+          6.0,
+          6.384,
+          12.768,
+          0.114,
           1.0
         ],
         [
-          1.35,
-          0.675,
+          0.08,
+          12.0,
+          6.0,
+          6.72,
+          13.44,
+          0.12,
           1.0
         ],
         [
-          1.4625,
-          0.73125,
+          0.085,
+          12.0,
+          6.0,
+          7.14,
+          14.28,
+          0.1275,
           1.0
         ],
         [
-          1.575,
-          0.7875,
+          0.09,
+          12.0,
+          6.0,
+          7.56,
+          15.12,
+          0.135,
           1.0
         ],
         [
-          1.6875,
-          0.84375,
+          0.095,
+          12.0,
+          6.0,
+          7.98,
+          15.96,
+          0.1425,
           1.0
         ],
         [
-          1.8,
-          0.9,
+          0.1,
+          12.0,
+          6.0,
+          8.4,
+          16.8,
+          0.15,
           1.0
         ],
         [
-          1.89,
-          0.945,
+          0.104,
+          12.0,
+          6.0,
+          8.736,
+          17.472,
+          0.156,
           1.0
         ],
         [
-          1.98,
-          0.99,
+          0.108,
+          12.0,
+          6.0,
+          9.072,
+          18.144,
+          0.162,
           1.0
         ],
         [
-          2.07,
-          1.035,
+          0.112,
+          12.0,
+          6.0,
+          9.408,
+          18.816,
+          0.168,
           1.0
         ],
         [
-          2.16,
-          1.08,
+          0.116,
+          12.0,
+          6.0,
+          9.744,
+          19.488,
+          0.174,
           1.0
         ],
         [
-          2.25,
-          1.125,
+          0.12,
+          12.0,
+          6.0,
+          10.08,
+          20.16,
+          0.18,
           1.0
         ]
       ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
+      "BP": 0,
+      "SPAdd": 0,
+      "SPNeed": 6.0,
+      "AttackType": "Ultra",
       "Stance": [
-        2.0,
+        0.5,
         0.0,
-        1.0
+        0.0
       ],
-      "Icon": "SkillIcon_1218_BP"
-    },
-    "v3": {
-      "Name": "Scorch Onslaught",
+      "Icon": "SkillIcon_1220_Ultra"
+    }
+  },
+  "122004": {
+    "v1": {
+      "Name": "Thunderhunt",
       "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to a single enemy and Fire DMG equal to @<b>#2[p]</b># of Jiaoqiu's ATK to enemies adjacent to it. Has a <b>#3[p]</b> <u>base chance</u> to inflict 1 stack of Ashen Roast on the primary target.",
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "The Ultimate can be activated when Flying Aureus reaches <b>#3[f]</b> points, up to <b>#4[f]</b> points. Feixiao gains 1 point of Flying Aureus for every <b>#2[f]</b> attacks used by allies. Attacks from Feixiao's Ultimate are not counted.<br>After other teammates use an attack, Feixiao launches <u>follow-up attacks</u> against the primary target, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK. If no primary targets are available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger 1 time per turn and the trigger count is reset at the start of Feixiao's turn.<br>Hidden Stat: #5[f]<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.",
       "Params": [
         [
-          0.75,
-          0.45,
+          1.0,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          0.825,
-          0.495,
+          1.1,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          0.9,
-          0.54,
+          1.2,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          0.975,
-          0.585,
+          1.3,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          1.05,
-          0.63,
-          1.0
-        ],
-        [
-          1.125,
-          0.675,
-          1.0
-        ],
-        [
-          1.21875,
-          0.73125,
-          1.0
-        ],
-        [
-          1.3125,
-          0.7875,
-          1.0
-        ],
-        [
-          1.40625,
-          0.84375,
+          1.4,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
           1.5,
-          0.9,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          1.575,
-          0.945,
+          1.625,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
-          1.65,
-          0.99,
-          1.0
-        ],
-        [
-          1.725,
-          1.035,
-          1.0
-        ],
-        [
-          1.8,
-          1.08,
+          1.75,
+          2.0,
+          6.0,
+          12.0,
           1.0
         ],
         [
           1.875,
-          1.125,
+          2.0,
+          6.0,
+          12.0,
           1.0
+        ],
+        [
+          2.0,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.1,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.2,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.3,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.4,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.5,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Passive"
+    }
+  },
+  "122006": {
+    "v1": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Normal"
+    }
+  },
+  "122007": {
+    "v1": {
+      "Name": "Stormborn",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using the Technique, this character enters the Onrush state, lasting for <b>#1[f]</b> seconds. While in the Onrush state, this character pulls in enemies within a certain range, increases SPD by <b>#2[p]</b>, and receives <b>#4[f]</b> point(s) of Flying Aureus after entering battle.<br>Active attacks in the Onrush state will strike all pulled enemies and enter combat. After entering battle, deal Wind DMG equal to <b>#3[p]</b> of Feixiao's ATK to all enemies at the start of each wave. This DMG is guaranteed to CRIT. When more than 1 enemy is pulled in, increase the multiplier of this DMG by <b>#5[p]</b> for each additional enemy pulled in, up to an increase of <b>#6[p]</b>.",
+      "Params": [
+        [
+          20.0,
+          0.35,
+          2.0,
+          1.0,
+          1.0,
+          10.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Maze"
+    }
+  },
+  "122008": {
+    "v1": {
+      "Name": "Boltsunder Blitz",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.45,
+          0.24
+        ],
+        [
+          0.48,
+          0.256
+        ],
+        [
+          0.51,
+          0.272
+        ],
+        [
+          0.54,
+          0.288
+        ],
+        [
+          0.57,
+          0.304
+        ],
+        [
+          0.6,
+          0.32
+        ],
+        [
+          0.6375,
+          0.34
+        ],
+        [
+          0.675,
+          0.36
+        ],
+        [
+          0.7125,
+          0.38
+        ],
+        [
+          0.75,
+          0.4
+        ],
+        [
+          0.78,
+          0.416
+        ],
+        [
+          0.81,
+          0.432
+        ],
+        [
+          0.84,
+          0.448
+        ],
+        [
+          0.87,
+          0.464
+        ],
+        [
+          0.9,
+          0.48
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_02"
+    }
+  },
+  "122009": {
+    "v1": {
+      "Name": "Waraxe Skyward",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is not <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.45,
+          0.24
+        ],
+        [
+          0.48,
+          0.256
+        ],
+        [
+          0.51,
+          0.272
+        ],
+        [
+          0.54,
+          0.288
+        ],
+        [
+          0.57,
+          0.304
+        ],
+        [
+          0.6,
+          0.32
+        ],
+        [
+          0.6375,
+          0.34
+        ],
+        [
+          0.675,
+          0.36
+        ],
+        [
+          0.7125,
+          0.38
+        ],
+        [
+          0.75,
+          0.4
+        ],
+        [
+          0.78,
+          0.416
+        ],
+        [
+          0.81,
+          0.432
+        ],
+        [
+          0.84,
+          0.448
+        ],
+        [
+          0.87,
+          0.464
+        ],
+        [
+          0.9,
+          0.48
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_03"
+    }
+  },
+  "122014": {
+    "v1": {
+      "Name": "Terrasplit",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "",
+      "Params": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra"
+    }
+  },
+  "122201": {
+    "v1": {
+      "Name": "Votive Incense",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to a single target enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
+    }
+  },
+  "122202": {
+    "v1": {
+      "Name": "Smoke and Splendor",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "AoE",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies, and <u>Action Advances</u> Fuyuan by <b>#4[p]</b>.<br><br>@<b>Action Advanced</b>#<br>Reduces the target's waiting interval before the next action.",
+      "Params": [
+        [
+          0.4,
+          0.1,
+          105.0,
+          0.2
+        ],
+        [
+          0.44,
+          0.105,
+          168.0,
+          0.2
+        ],
+        [
+          0.48,
+          0.11,
+          215.25,
+          0.2
+        ],
+        [
+          0.52,
+          0.115,
+          262.5,
+          0.2
+        ],
+        [
+          0.56,
+          0.12,
+          294.0,
+          0.2
+        ],
+        [
+          0.6,
+          0.124,
+          325.5,
+          0.2
+        ],
+        [
+          0.65,
+          0.128,
+          349.125,
+          0.2
+        ],
+        [
+          0.7,
+          0.132,
+          372.75,
+          0.2
+        ],
+        [
+          0.75,
+          0.136,
+          396.375,
+          0.2
+        ],
+        [
+          0.8,
+          0.14,
+          420.0,
+          0.2
+        ],
+        [
+          0.84,
+          0.144,
+          443.625,
+          0.2
+        ],
+        [
+          0.88,
+          0.148,
+          467.25,
+          0.2
+        ],
+        [
+          0.92,
+          0.152,
+          490.875,
+          0.2
+        ],
+        [
+          0.96,
+          0.156,
+          514.5,
+          0.2
+        ],
+        [
+          1.0,
+          0.16,
+          538.125,
+          0.2
         ]
       ],
       "BP": -1,
       "SPAdd": 30.0,
       "AttackType": "BPSkill",
       "Stance": [
-        2.0,
         0.0,
-        1.0
+        1.0,
+        0.0
       ],
-      "Icon": "SkillIcon_1218_BP"
+      "Icon": "SkillIcon_1222_BP"
     }
   },
-  "121803": {
+  "122203": {
     "v1": {
-      "Name": "Pyrograph Arcanum",
+      "Name": "Dripping Mistscape",
       "MaxLevel": 15,
       "Type": "Ultimate",
       "Tag": "AoE",
-      "Desc": "Sets the number of \"Ashen Roast\" stacks on enemy targets to the highest number of \"Ashen Roast\" stacks present on the battlefield. Then, activates a Field and deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to all enemies.<br>While inside the field, enemy targets take @<b>#3[p]</b># increased Ultimate DMG, with a @<b>#2[p]</b># base chance of being inflicted with 1 stack of Ashen Roast when taking action. This effect can only be triggered once for enemies in each turn.<br>The Field lasts for <b>#4[f]</b> turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu is <u>knocked down</u>, the Field will also be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
+      "Desc": "Inflicts Befog on all enemies. When in the Befog state, <u>Break DMG</u> taken by affected enemies increases by @<b>#4[p]</b>#, lasting for <b>#5[f]</b> turn(s).<br>Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, and at the same time restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies. <u>Action Advances</u> Fuyuan by <b>#6[p]</b>.<br><br>@<b>Break DMG</b>#<br>Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.<br>Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.",
       "Params": [
         [
-          1.2,
-          0.5,
-          0.09,
-          3.0
-        ],
-        [
-          1.28,
-          0.51,
-          0.096,
-          3.0
-        ],
-        [
-          1.36,
-          0.52,
-          0.102,
-          3.0
-        ],
-        [
-          1.44,
-          0.53,
-          0.108,
-          3.0
-        ],
-        [
-          1.52,
-          0.54,
-          0.114,
-          3.0
-        ],
-        [
-          1.6,
-          0.55,
-          0.12,
-          3.0
-        ],
-        [
-          1.7,
-          0.5625,
-          0.1275,
-          3.0
-        ],
-        [
-          1.8,
-          0.575,
-          0.135,
-          3.0
-        ],
-        [
-          1.9,
-          0.5875,
-          0.1425,
-          3.0
-        ],
-        [
-          2.0,
-          0.6,
+          0.75,
+          0.08,
+          90.0,
           0.15,
-          3.0
-        ],
-        [
-          2.08,
-          0.61,
-          0.156,
-          3.0
-        ],
-        [
-          2.16,
-          0.62,
-          0.162,
-          3.0
-        ],
-        [
-          2.24,
-          0.63,
-          0.168,
-          3.0
-        ],
-        [
-          2.32,
-          0.64,
-          0.174,
-          3.0
-        ],
-        [
-          2.4,
-          0.65,
-          0.18,
-          3.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 100.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        0.0,
-        2.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Ultra"
-    },
-    "v2": {
-      "Name": "Pyrograph Arcanum",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "AoE",
-      "Desc": "Sets the number of Ashen Roast stacks on enemy targets to the highest number of Ashen Roast stacks present on the battlefield. Then, activates a Field and deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to all enemies.<br>While inside the field, enemy targets take @<b>#3[p]</b># more Ultimate DMG, with a @<b>#2[p]</b># <u>base chance</u> of being inflicted with 1 stack of Ashen Roast when taking action. This effect can only be triggered once for enemies in each turn.<br>The Field lasts for <b>#4[f]</b> turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu is <u>knocked down</u>, the Field will also be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
-      "Params": [
-        [
-          1.2,
-          0.5,
-          0.09,
-          3.0
-        ],
-        [
-          1.28,
-          0.51,
-          0.096,
-          3.0
-        ],
-        [
-          1.36,
-          0.52,
-          0.102,
-          3.0
-        ],
-        [
-          1.44,
-          0.53,
-          0.108,
-          3.0
-        ],
-        [
-          1.52,
-          0.54,
-          0.114,
-          3.0
-        ],
-        [
-          1.6,
-          0.55,
-          0.12,
-          3.0
-        ],
-        [
-          1.7,
-          0.5625,
-          0.1275,
-          3.0
-        ],
-        [
-          1.8,
-          0.575,
-          0.135,
-          3.0
-        ],
-        [
-          1.9,
-          0.5875,
-          0.1425,
-          3.0
-        ],
-        [
           2.0,
-          0.6,
-          0.15,
-          3.0
+          1.0
         ],
         [
-          2.08,
-          0.61,
-          0.156,
-          3.0
-        ],
-        [
-          2.16,
-          0.62,
-          0.162,
-          3.0
-        ],
-        [
-          2.24,
-          0.63,
-          0.168,
-          3.0
-        ],
-        [
-          2.32,
-          0.64,
-          0.174,
-          3.0
-        ],
-        [
-          2.4,
-          0.65,
-          0.18,
-          3.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 100.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        0.0,
-        2.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Ultra"
-    },
-    "v3": {
-      "Name": "Pyrograph Arcanum",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "AoE",
-      "Desc": "Sets the number of Ashen Roast stacks on enemy targets to the highest number of Ashen Roast stacks present on the battlefield. Then, activates a Field and deals Fire DMG equal to @<b>#1[p]</b># of Jiaoqiu's ATK to all enemies.<br>While inside the field, enemy targets receive @<b>#3[p]</b># more Ultimate DMG, with a @<b>#2[p]</b># <u>base chance</u> of being inflicted with 1 stack of Ashen Roast when taking action. This effect can only be triggered once for enemies in each turn.<br>The Field lasts for <b>#4[f]</b> turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu is <u>knocked down</u>, the Field will also be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
-      "Params": [
-        [
-          0.6,
-          0.5,
-          0.09,
-          3.0
-        ],
-        [
-          0.64,
-          0.51,
-          0.096,
-          3.0
-        ],
-        [
-          0.68,
-          0.52,
-          0.102,
-          3.0
-        ],
-        [
-          0.72,
-          0.53,
-          0.108,
-          3.0
-        ],
-        [
-          0.76,
-          0.54,
-          0.114,
-          3.0
-        ],
-        [
-          0.8,
-          0.55,
-          0.12,
-          3.0
-        ],
-        [
-          0.85,
-          0.5625,
-          0.1275,
-          3.0
+          0.825,
+          0.085,
+          144.0,
+          0.16,
+          2.0,
+          1.0
         ],
         [
           0.9,
-          0.575,
-          0.135,
-          3.0
+          0.09,
+          184.5,
+          0.17,
+          2.0,
+          1.0
         ],
         [
-          0.95,
-          0.5875,
-          0.1425,
-          3.0
-        ],
-        [
-          1.0,
-          0.6,
-          0.15,
-          3.0
-        ],
-        [
-          1.04,
-          0.61,
-          0.156,
-          3.0
-        ],
-        [
-          1.08,
-          0.62,
-          0.162,
-          3.0
-        ],
-        [
-          1.12,
-          0.63,
-          0.168,
-          3.0
-        ],
-        [
-          1.16,
-          0.64,
-          0.174,
-          3.0
-        ],
-        [
-          1.2,
-          0.65,
+          0.975,
+          0.095,
+          225.0,
           0.18,
-          3.0
+          2.0,
+          1.0
+        ],
+        [
+          1.05,
+          0.1,
+          252.0,
+          0.19,
+          2.0,
+          1.0
+        ],
+        [
+          1.125,
+          0.104,
+          279.0,
+          0.2,
+          2.0,
+          1.0
+        ],
+        [
+          1.21875,
+          0.108,
+          299.25,
+          0.2125,
+          2.0,
+          1.0
+        ],
+        [
+          1.3125,
+          0.112,
+          319.5,
+          0.225,
+          2.0,
+          1.0
+        ],
+        [
+          1.40625,
+          0.116,
+          339.75,
+          0.2375,
+          2.0,
+          1.0
+        ],
+        [
+          1.5,
+          0.12,
+          360.0,
+          0.25,
+          2.0,
+          1.0
+        ],
+        [
+          1.575,
+          0.124,
+          380.25,
+          0.26,
+          2.0,
+          1.0
+        ],
+        [
+          1.65,
+          0.128,
+          400.5,
+          0.27,
+          2.0,
+          1.0
+        ],
+        [
+          1.725,
+          0.132,
+          420.75,
+          0.28,
+          2.0,
+          1.0
+        ],
+        [
+          1.8,
+          0.136,
+          441.0,
+          0.29,
+          2.0,
+          1.0
+        ],
+        [
+          1.875,
+          0.14,
+          461.25,
+          0.3,
+          2.0,
+          1.0
         ]
       ],
       "BP": 0,
       "SPAdd": 5.0,
-      "SPNeed": 100.0,
+      "SPNeed": 110.0,
       "AttackType": "Ultra",
       "Stance": [
         0.0,
         2.0,
         0.0
       ],
-      "Icon": "SkillIcon_1218_Ultra"
+      "Icon": "SkillIcon_1222_Ultra"
     }
   },
-  "121804": {
+  "122204": {
     "v1": {
-      "Name": "Quartet Finesse, Octave Finery",
+      "Name": "Mistdance Manifest",
       "MaxLevel": 15,
       "Type": "Talent",
-      "Tag": "Impair",
-      "Desc": "When Jiaoqiu uses his Basic ATK, Skill, or Ultimate to hit an enemy, there is a <b>#1[p]</b> <u>base chance</u> of dealing 1 stack of Ashen Roast, increasing the initial DMG enemies receive by @<b>#2[p]</b>#, with each stack additionally increasing DMG by @<b>#3[p]</b># to a max of <b>#4[f]</b> stack(s). Ashen Roast will last <b>#5[f]</b> turn(s).",
+      "Tag": "AoE",
+      "Desc": "Summons Fuyuan when using Skill. Fuyuan has an initial SPD of <b>#1[f]</b> and an initial action count of <b>#7[f]</b>. During Fuyuan's action, launch <u>follow-up attack</u> on all enemies, dealing Fire DMG equal to @<b>#2[p]</b># Lingsha's ATK, dispels <b>#6[f]</b> <u>debuff(s)</u> from all allies, and restores HP equal to @<b>#3[p]</b># of Lingsha's ATK plus @<b>#4[f]</b># to all allies.<br>Fuyuan can accumulate a maximum of <b>#5[f]</b> action counts. When the action count reaches 0 or when Lingsha is <u>downed</u>, Fuyuan disappears.<br>While Fuyuan is present on the battlefield, using Lingsha's Skill increases Fuyuan's action count by <b>#7[f]</b>.<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.<br><br>@<b>Debuff</b>#<br>Debuffs are negative status effects that render units weaker. Unless otherwise specified, debuffs can be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
       "Params": [
         [
-          1.0,
-          0.075,
-          0.025,
+          80.0,
+          0.45,
+          0.08,
+          90.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.0825,
-          0.0275,
+          80.0,
+          0.495,
+          0.085,
+          144.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
+          80.0,
+          0.54,
           0.09,
-          0.03,
+          184.5,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.0975,
-          0.0325,
+          80.0,
+          0.585,
+          0.095,
+          225.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.105,
-          0.035,
+          80.0,
+          0.63,
+          0.1,
+          252.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.1125,
-          0.0375,
+          80.0,
+          0.675,
+          0.104,
+          279.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.12188,
-          0.04063,
+          80.0,
+          0.73125,
+          0.108,
+          299.25,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.13125,
-          0.04375,
+          80.0,
+          0.7875,
+          0.112,
+          319.5,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.14062,
-          0.04688,
+          80.0,
+          0.84375,
+          0.116,
+          339.75,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.15,
-          0.05,
+          80.0,
+          0.9,
+          0.12,
+          360.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.1575,
-          0.0525,
+          80.0,
+          0.945,
+          0.124,
+          380.25,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.165,
-          0.055,
+          80.0,
+          0.99,
+          0.128,
+          400.5,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.1725,
-          0.0575,
+          80.0,
+          1.035,
+          0.132,
+          420.75,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.18,
-          0.06,
+          80.0,
+          1.08,
+          0.136,
+          441.0,
           5.0,
-          2.0
+          1.0,
+          3.0
         ],
         [
-          1.0,
-          0.1875,
-          0.0625,
+          80.0,
+          1.125,
+          0.14,
+          461.25,
           5.0,
+          1.0,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.0,
+        1.5,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Passive"
+    }
+  },
+  "122206": {
+    "v1": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "Single Target",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
+    }
+  },
+  "122207": {
+    "v1": {
+      "Name": "Wisps of Aurora",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Support",
+      "Desc": "After using the Technique, immediately summons Fuyuan at the start of the next battle and inflicts Befog on all enemies, lasting for <b>#1[f]</b> turn(s).",
+      "Params": [
+        [
           2.0
         ]
       ],
       "BP": 0,
-      "SPAdd": 10.0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
       "Stance": [
         0.0,
         0.0,
         0.0
       ],
-      "Icon": "SkillIcon_1218_Passive"
-    },
-    "v2": {
-      "Name": "Quartet Finesse, Octave Finery",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Impair",
-      "Desc": "When Jiaoqiu uses his Basic ATK, Skill, or Ultimate to hit an enemy, there is a <b>#1[p]</b> <u>base chance</u> of dealing 1 stack of Ashen Roast, increasing the initial DMG enemies receive by @<b>#2[p]</b>#, with each stack additionally increasing DMG by @<b>#3[p]</b># to a max of <b>#4[f]</b> stack(s). Ashen Roast will last <b>#5[f]</b> turn(s).",
+      "Icon": "SkillIcon_1222_Maze"
+    }
+  },
+  "122301": {
+    "v1": {
+      "Name": "Hurlthorn",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to a single enemy.",
       "Params": [
         [
-          1.0,
-          0.075,
-          0.025,
-          5.0,
-          2.0
+          0.5
         ],
         [
-          1.0,
-          0.0825,
-          0.0275,
-          5.0,
-          2.0
+          0.6
         ],
         [
-          1.0,
-          0.09,
-          0.03,
-          5.0,
-          2.0
+          0.7
         ],
         [
-          1.0,
-          0.0975,
-          0.0325,
-          5.0,
-          2.0
+          0.8
         ],
         [
-          1.0,
-          0.105,
-          0.035,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.1125,
-          0.0375,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.12188,
-          0.04063,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.13125,
-          0.04375,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.14062,
-          0.04688,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.15,
-          0.05,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.1575,
-          0.0525,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.165,
-          0.055,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.1725,
-          0.0575,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.18,
-          0.06,
-          5.0,
-          2.0
-        ],
-        [
-          1.0,
-          0.1875,
-          0.0625,
-          5.0,
-          2.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 10.0,
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Passive"
-    },
-    "v3": {
-      "Name": "Quartet Finesse, Octave Finery",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Impair",
-      "Desc": "When Jiaoqiu uses his Basic ATK, Skill, or Ultimate to hit an enemy, there is a <b>#1[p]</b> <u>base chance</u> of dealing 1 stack of Ashen Roast, with 1 stack increasing the initial DMG enemies receive by @<b>#2[p]</b>#, and each subsequent stack increasing DMG by @<b>#3[p]</b>#.<br>Ashen Roast has a max of <b>#4[f]</b> stack(s) and lasts for <b>#5[f]</b> turn(s).<br>When the enemy target is in the Ashen Roast state, they are also considered as being in the Burned state, and take @<b>#6[p]</b># DoT equal to Jiaoqiu's Fire DMG at the start of each turn.",
-      "Params": [
-        [
-          1.0,
-          0.075,
-          0.025,
-          5.0,
-          2.0,
           0.9
         ],
         [
-          1.0,
-          0.0825,
-          0.0275,
-          5.0,
-          2.0,
-          0.99
+          1.0
         ],
         [
-          1.0,
-          0.09,
-          0.03,
-          5.0,
-          2.0,
-          1.08
+          1.1
         ],
         [
-          1.0,
-          0.0975,
-          0.0325,
-          5.0,
-          2.0,
-          1.17
+          1.2
         ],
         [
-          1.0,
-          0.105,
-          0.035,
-          5.0,
-          2.0,
-          1.26
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Normal"
+    }
+  },
+  "122302": {
+    "v1": {
+      "Name": "Fleetwinged Raid",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Single Target",
+      "Desc": "Marks a designated single enemy target as the Prey and deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to it.<br>When there are no other characters on the field that are capable of combat, Moze cannot use his Skill and dispels the enemy's Prey state.",
+      "Params": [
+        [
+          0.75
         ],
         [
-          1.0,
-          0.1125,
-          0.0375,
-          5.0,
-          2.0,
-          1.35
+          0.825
         ],
         [
-          1.0,
-          0.12188,
-          0.04063,
-          5.0,
-          2.0,
-          1.4625
+          0.9
         ],
         [
-          1.0,
-          0.13125,
-          0.04375,
-          5.0,
-          2.0,
+          0.975
+        ],
+        [
+          1.05
+        ],
+        [
+          1.125
+        ],
+        [
+          1.21875
+        ],
+        [
+          1.3125
+        ],
+        [
+          1.40625
+        ],
+        [
+          1.5
+        ],
+        [
           1.575
         ],
         [
-          1.0,
-          0.14062,
-          0.04688,
-          5.0,
-          2.0,
-          1.6875
+          1.65
         ],
         [
-          1.0,
-          0.15,
-          0.05,
-          5.0,
-          2.0,
+          1.725
+        ],
+        [
           1.8
         ],
         [
-          1.0,
-          0.1575,
-          0.0525,
-          5.0,
-          2.0,
-          1.89
-        ],
-        [
-          1.0,
-          0.165,
-          0.055,
-          5.0,
-          2.0,
-          1.98
-        ],
-        [
-          1.0,
-          0.1725,
-          0.0575,
-          5.0,
-          2.0,
-          2.07
-        ],
-        [
-          1.0,
-          0.18,
-          0.06,
-          5.0,
-          2.0,
-          2.16
-        ],
-        [
-          1.0,
-          0.1875,
-          0.0625,
-          5.0,
-          2.0,
-          2.25
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Passive"
-    }
-  },
-  "121806": {
-    "v1": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Normal"
-    },
-    "v2": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Normal"
-    },
-    "v3": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Normal"
-    }
-  },
-  "121807": {
-    "v1": {
-      "Name": "Fiery Queller",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Impair",
-      "Desc": "After using Technique, creates a special dimension that lasts for <b>#2[f]</b> second(s). After engaging enemies in the dimension, deals Fire DMG equal to <b>#1[p]</b> of Jiaoqiu's ATK to all enemies and has a <b>#3[p]</b> <u>base chance</u> of applying 1 Ashen Roast stack. Only 1 dimension created by allies can exist at the same time.",
-      "Params": [
-        [
-          1.0,
-          15.0,
-          1.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Maze"
-    },
-    "v2": {
-      "Name": "Fiery Queller",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Impair",
-      "Desc": "After using Technique, creates a special dimension that lasts for <b>#2[f]</b> second(s). After engaging enemies in the dimension, deals Fire DMG equal to <b>#1[p]</b> of Jiaoqiu's ATK to all enemies and has a <b>#3[p]</b> <u>base chance</u> of applying 1 Ashen Roast stack. Only 1 dimension created by allies can exist at the same time.",
-      "Params": [
-        [
-          1.0,
-          15.0,
-          1.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Maze"
-    },
-    "v3": {
-      "Name": "Fiery Queller",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Impair",
-      "Desc": "After using Technique, creates a special dimension that lasts for <b>#2[f]</b> second(s). After engaging enemies in the dimension, deals Fire DMG equal to <b>#1[p]</b> of Jiaoqiu's ATK to all enemies and has a <b>#3[p]</b> <u>base chance</u> of applying 1 Ashen Roast stack. Only 1 dimension created by allies can exist at the same time.",
-      "Params": [
-        [
-          1.0,
-          15.0,
-          1.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1218_Maze"
-    }
-  },
-  "122101": {
-    "v1": {
-      "Name": "Galespin Summersault",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy.",
-      "Params": [
-        [
-          0.5
-        ],
-        [
-          0.6
-        ],
-        [
-          0.7
-        ],
-        [
-          0.8
-        ],
-        [
-          0.9
-        ],
-        [
-          1.0
-        ],
-        [
-          1.1
-        ],
-        [
-          1.2
-        ],
-        [
-          1.3
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    },
-    "v2": {
-      "Name": "Galespin Summersault",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy.",
-      "Params": [
-        [
-          0.5
-        ],
-        [
-          0.6
-        ],
-        [
-          0.7
-        ],
-        [
-          0.8
-        ],
-        [
-          0.9
-        ],
-        [
-          1.0
-        ],
-        [
-          1.1
-        ],
-        [
-          1.2
-        ],
-        [
-          1.3
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    },
-    "v3": {
-      "Name": "Galespin Summersault",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy.",
-      "Params": [
-        [
-          0.5
-        ],
-        [
-          0.6
-        ],
-        [
-          0.7
-        ],
-        [
-          0.8
-        ],
-        [
-          0.9
-        ],
-        [
-          1.0
-        ],
-        [
-          1.1
-        ],
-        [
-          1.2
-        ],
-        [
-          1.3
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    }
-  },
-  "122102": {
-    "v1": {
-      "Name": "Bladeborne Quake",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Restores HP equal to @<b>#3[p]</b># of Yunli's ATK plus @<b>#4[f]</b>#, and deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy target and Physical DMG equal to @<b>#2[p]</b># of Yunli's ATK to adjacent targets.",
-      "Params": [
-        [
-          0.6,
-          0.3,
-          0.2,
-          50.0
-        ],
-        [
-          0.66,
-          0.33,
-          0.2125,
-          80.0
-        ],
-        [
-          0.72,
-          0.36,
-          0.225,
-          102.5
-        ],
-        [
-          0.78,
-          0.39,
-          0.2375,
-          125.0
-        ],
-        [
-          0.84,
-          0.42,
-          0.25,
-          140.0
-        ],
-        [
-          0.9,
-          0.45,
-          0.26,
-          155.0
-        ],
-        [
-          0.975,
-          0.4875,
-          0.27,
-          166.25
-        ],
-        [
-          1.05,
-          0.525,
-          0.28,
-          177.5
-        ],
-        [
-          1.125,
-          0.5625,
-          0.29,
-          188.75
-        ],
-        [
-          1.2,
-          0.6,
-          0.3,
-          200.0
-        ],
-        [
-          1.26,
-          0.63,
-          0.31,
-          211.25
-        ],
-        [
-          1.32,
-          0.66,
-          0.32,
-          222.5
-        ],
-        [
-          1.38,
-          0.69,
-          0.33,
-          233.75
-        ],
-        [
-          1.44,
-          0.72,
-          0.34,
-          245.0
-        ],
-        [
-          1.5,
-          0.75,
-          0.35,
-          256.25
+          1.875
         ]
       ],
       "BP": -1,
@@ -8573,1053 +9164,235 @@ var _avatarskill = {
       "Stance": [
         2.0,
         0.0,
-        1.0
+        0.0
       ],
-      "Icon": "SkillIcon_1221_BP"
-    },
-    "v2": {
-      "Name": "Bladeborne Quake",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Restores HP equal to @<b>#3[p]</b># of Yunli's ATK plus @<b>#4[f]</b>#, and deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy target and Physical DMG equal to @<b>#2[p]</b># of Yunli's ATK to adjacent targets.",
-      "Params": [
-        [
-          0.6,
-          0.3,
-          0.2,
-          50.0
-        ],
-        [
-          0.66,
-          0.33,
-          0.2125,
-          80.0
-        ],
-        [
-          0.72,
-          0.36,
-          0.225,
-          102.5
-        ],
-        [
-          0.78,
-          0.39,
-          0.2375,
-          125.0
-        ],
-        [
-          0.84,
-          0.42,
-          0.25,
-          140.0
-        ],
-        [
-          0.9,
-          0.45,
-          0.26,
-          155.0
-        ],
-        [
-          0.975,
-          0.4875,
-          0.27,
-          166.25
-        ],
-        [
-          1.05,
-          0.525,
-          0.28,
-          177.5
-        ],
-        [
-          1.125,
-          0.5625,
-          0.29,
-          188.75
-        ],
-        [
-          1.2,
-          0.6,
-          0.3,
-          200.0
-        ],
-        [
-          1.26,
-          0.63,
-          0.31,
-          211.25
-        ],
-        [
-          1.32,
-          0.66,
-          0.32,
-          222.5
-        ],
-        [
-          1.38,
-          0.69,
-          0.33,
-          233.75
-        ],
-        [
-          1.44,
-          0.72,
-          0.34,
-          245.0
-        ],
-        [
-          1.5,
-          0.75,
-          0.35,
-          256.25
-        ]
-      ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
-      "Stance": [
-        2.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_BP"
-    },
-    "v3": {
-      "Name": "Bladeborne Quake",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Blast",
-      "Desc": "Restores HP equal to @<b>#3[p]</b># of Yunli's ATK plus @<b>#4[f]</b>#, and deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to a single enemy target and Physical DMG equal to @<b>#2[p]</b># of Yunli's ATK to adjacent targets.",
-      "Params": [
-        [
-          0.6,
-          0.3,
-          0.2,
-          50.0
-        ],
-        [
-          0.66,
-          0.33,
-          0.2125,
-          80.0
-        ],
-        [
-          0.72,
-          0.36,
-          0.225,
-          102.5
-        ],
-        [
-          0.78,
-          0.39,
-          0.2375,
-          125.0
-        ],
-        [
-          0.84,
-          0.42,
-          0.25,
-          140.0
-        ],
-        [
-          0.9,
-          0.45,
-          0.26,
-          155.0
-        ],
-        [
-          0.975,
-          0.4875,
-          0.27,
-          166.25
-        ],
-        [
-          1.05,
-          0.525,
-          0.28,
-          177.5
-        ],
-        [
-          1.125,
-          0.5625,
-          0.29,
-          188.75
-        ],
-        [
-          1.2,
-          0.6,
-          0.3,
-          200.0
-        ],
-        [
-          1.26,
-          0.63,
-          0.31,
-          211.25
-        ],
-        [
-          1.32,
-          0.66,
-          0.32,
-          222.5
-        ],
-        [
-          1.38,
-          0.69,
-          0.33,
-          233.75
-        ],
-        [
-          1.44,
-          0.72,
-          0.34,
-          245.0
-        ],
-        [
-          1.5,
-          0.75,
-          0.35,
-          256.25
-        ]
-      ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
-      "Stance": [
-        2.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_BP"
+      "Icon": "SkillIcon_1223_BP"
     }
   },
-  "122103": {
+  "122303": {
     "v1": {
-      "Name": "Earthbind, Etherbreak",
+      "Name": "Dash In, Gash Out",
       "MaxLevel": 15,
       "Type": "Ultimate",
-      "Tag": "Enhance",
-      "Desc": "Consumes <b>#8[f]</b> Energy. Yunli gains Block and Taunts all enemies, lasting until the end of the next turn of an allied or enemy unit. While Block is active, Yunli's CRIT DMG increases by @<b>#2[p]</b>#. When the Counter Talent effect is triggered while Block is active, it will be switched to a <u>Counter</u> Intuit: Cull effect and also dispel Block. If no Counters are triggered while Block is active, when the effect ends, Yunli will immediately launch a <u>Counter</u> Intuit: Slash effect on a random enemy target. When an Intuit: Slash is inflicted, it will cause the next Intuit: Slash to become an Intuit: Cull.<br>Intuit: Slash: Deals Physical DMG to the target equal to @<b>#1[p]</b># of Yunli's ATK, and deals Physical DMG to adjacent targets equal to @<b>#6[p]</b># of Yunli's ATK.<br>Intuit: Cull: Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to the target, and deals Physical DMG equal to @<b>#6[p]</b># of Yunli's ATK to adjacent targets. Then, additionally deals <b>#4[f]</b> instance(s) of DMG, with each instance dealing Physical DMG equal to @<b>#7[p]</b># of Yunli's ATK to a random single enemy target. When Yunli deals DMG through this ability, it will be viewed as Ultimate DMG.<br>Hidden Stat: #3[f]<br>Hidden Stat: #5[f]<br><br>@<b>Counter</b>#<br>An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.<br>Counter is also considered a follow-up attack.",
+      "Tag": "Single Target",
+      "Desc": "Increases the DMG dealt by this character by @<b>#2[p]</b>#, lasting for <b>#3[f]</b> turn(s), and deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to a single target enemy.",
       "Params": [
         [
-          1.44,
-          0.6,
-          0.0,
-          6.0,
-          0.0,
-          0.72,
-          0.48,
-          120.0
-        ],
-        [
-          1.536,
-          0.64,
-          0.0,
-          6.0,
-          0.0,
-          0.768,
-          0.512,
-          120.0
-        ],
-        [
-          1.632,
-          0.68,
-          0.0,
-          6.0,
-          0.0,
-          0.816,
-          0.544,
-          120.0
-        ],
-        [
-          1.728,
-          0.72,
-          0.0,
-          6.0,
-          0.0,
-          0.864,
-          0.576,
-          120.0
-        ],
-        [
-          1.824,
-          0.76,
-          0.0,
-          6.0,
-          0.0,
-          0.912,
-          0.608,
-          120.0
-        ],
-        [
-          1.92,
-          0.8,
-          0.0,
-          6.0,
-          0.0,
-          0.96,
-          0.64,
-          120.0
-        ],
-        [
-          2.04,
-          0.85,
-          0.0,
-          6.0,
-          0.0,
-          1.02,
-          0.68,
-          120.0
-        ],
-        [
-          2.16,
-          0.9,
-          0.0,
-          6.0,
-          0.0,
-          1.08,
-          0.72,
-          120.0
-        ],
-        [
-          2.28,
-          0.95,
-          0.0,
-          6.0,
-          0.0,
-          1.14,
-          0.76,
-          120.0
-        ],
-        [
-          2.4,
-          1.0,
-          0.0,
-          6.0,
-          0.0,
-          1.2,
-          0.8,
-          120.0
-        ],
-        [
-          2.496,
-          1.04,
-          0.0,
-          6.0,
-          0.0,
-          1.248,
-          0.832,
-          120.0
-        ],
-        [
-          2.592,
-          1.08,
-          0.0,
-          6.0,
-          0.0,
-          1.296,
-          0.864,
-          120.0
-        ],
-        [
-          2.688,
-          1.12,
-          0.0,
-          6.0,
-          0.0,
-          1.344,
-          0.896,
-          120.0
-        ],
-        [
-          2.784,
-          1.16,
-          0.0,
-          6.0,
-          0.0,
-          1.392,
-          0.928,
-          120.0
-        ],
-        [
-          2.88,
-          1.2,
-          0.0,
-          6.0,
-          0.0,
-          1.44,
-          0.96,
-          120.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 120.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        2.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_Ultra"
-    },
-    "v2": {
-      "Name": "Earthbind, Etherbreak",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "Enhance",
-      "Desc": "Consumes <b>#8[f]</b> Energy. Yunli gains Parry and Taunts all enemies, lasting until the end of the next turn of an allied or enemy unit. While Parry is active, Yunli's CRIT DMG increases by @<b>#2[p]</b>#. When the Counter Talent effect is triggered while Parry is active, it will be switched to a <u>Counter</u> Intuit: Cull effect and also dispel Parry. If no Counters are triggered while Parry is active, when the effect ends, Yunli will immediately launch a <u>Counter</u> Intuit: Slash effect on a random enemy target. When an Intuit: Slash is inflicted, it will cause the next Intuit: Slash to become an Intuit: Cull.<br>Intuit: Slash: Deals Physical DMG to the target equal to @<b>#1[p]</b># of Yunli's ATK, and deals Physical DMG to adjacent targets equal to @<b>#6[p]</b># of Yunli's ATK.<br>Intuit: Cull: Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to the target, and deals Physical DMG equal to @<b>#6[p]</b># of Yunli's ATK to adjacent targets. Then, additionally deals <b>#4[f]</b> instance(s) of DMG, with each instance dealing Physical DMG equal to @<b>#7[p]</b># of Yunli's ATK to a random single enemy target. When Yunli deals DMG through this ability, it will be viewed as Ultimate DMG.<br>Hidden Stat: #3[f]<br>Hidden Stat: #5[f]<br><br>@<b>Counter</b>#<br>An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.<br>Counter is also considered a follow-up attack.",
-      "Params": [
-        [
-          1.44,
-          0.6,
-          0.0,
-          6.0,
-          0.0,
-          0.72,
-          0.48,
-          120.0
-        ],
-        [
-          1.536,
-          0.64,
-          0.0,
-          6.0,
-          0.0,
-          0.768,
-          0.512,
-          120.0
-        ],
-        [
-          1.632,
-          0.68,
-          0.0,
-          6.0,
-          0.0,
-          0.816,
-          0.544,
-          120.0
-        ],
-        [
-          1.728,
-          0.72,
-          0.0,
-          6.0,
-          0.0,
-          0.864,
-          0.576,
-          120.0
-        ],
-        [
-          1.824,
-          0.76,
-          0.0,
-          6.0,
-          0.0,
-          0.912,
-          0.608,
-          120.0
-        ],
-        [
-          1.92,
-          0.8,
-          0.0,
-          6.0,
-          0.0,
-          0.96,
-          0.64,
-          120.0
-        ],
-        [
-          2.04,
-          0.85,
-          0.0,
-          6.0,
-          0.0,
-          1.02,
-          0.68,
-          120.0
-        ],
-        [
-          2.16,
-          0.9,
-          0.0,
-          6.0,
-          0.0,
-          1.08,
-          0.72,
-          120.0
-        ],
-        [
-          2.28,
-          0.95,
-          0.0,
-          6.0,
-          0.0,
-          1.14,
-          0.76,
-          120.0
-        ],
-        [
-          2.4,
-          1.0,
-          0.0,
-          6.0,
-          0.0,
-          1.2,
-          0.8,
-          120.0
-        ],
-        [
-          2.496,
-          1.04,
-          0.0,
-          6.0,
-          0.0,
-          1.248,
-          0.832,
-          120.0
-        ],
-        [
-          2.592,
-          1.08,
-          0.0,
-          6.0,
-          0.0,
-          1.296,
-          0.864,
-          120.0
-        ],
-        [
-          2.688,
-          1.12,
-          0.0,
-          6.0,
-          0.0,
-          1.344,
-          0.896,
-          120.0
-        ],
-        [
-          2.784,
-          1.16,
-          0.0,
-          6.0,
-          0.0,
-          1.392,
-          0.928,
-          120.0
-        ],
-        [
-          2.88,
-          1.2,
-          0.0,
-          6.0,
-          0.0,
-          1.44,
-          0.96,
-          120.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 120.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        2.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_Ultra"
-    },
-    "v3": {
-      "Name": "Earthbind, Etherbreak",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "Enhance",
-      "Desc": "Consumes <b>#8[f]</b> Energy. Yunli gains Parry and Taunts all enemies, lasting until the end of the next turn of an ally or an enemy, and increases the CRIT DMG of Yunli's next Counter by @<b>#2[p]</b>#. When the Counter Talent effect is triggered while Parry is active, it will be switched to a <u>Counter</u> Intuit: Cull effect and also dispel Parry. If no Counters are triggered while Parry is active, when the effect ends, Yunli will immediately launch a <u>Counter</u> Intuit: Slash effect on a random enemy target.<br>Intuit: Slash: Deals Physical DMG to the target equal to @<b>#1[p]</b># of Yunli's ATK, and deals Physical DMG to adjacent targets equal to @<b>#6[p]</b># of Yunli's ATK.<br>Intuit: Cull: Deals Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK to the target, and deals Physical DMG equal to @<b>#6[p]</b># of Yunli's ATK to adjacent targets. Then, additionally deals <b>#4[f]</b> instance(s) of DMG, with each instance dealing Physical DMG equal to @<b>#7[p]</b># of Yunli's ATK to a random single enemy target.<br>When Yunli deals DMG through this ability, it will be considered as Ultimate DMG.<br>Each instance of Intuit: Cull's bounce DMG deals <b>25%</b> of the Toughness reduction DMG of this skill's central target DMG.<br><br>@<b>Counter</b>#<br>An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.<br>Counter is also considered a follow-up attack.",
-      "Params": [
-        [
-          1.2,
-          0.6,
-          0.0,
-          6.0,
-          0.0,
-          0.6,
-          0.36,
-          120.0
-        ],
-        [
-          1.28,
-          0.64,
-          0.0,
-          6.0,
-          0.0,
-          0.64,
-          0.384,
-          120.0
-        ],
-        [
-          1.36,
-          0.68,
-          0.0,
-          6.0,
-          0.0,
-          0.68,
-          0.408,
-          120.0
-        ],
-        [
-          1.44,
-          0.72,
-          0.0,
-          6.0,
-          0.0,
-          0.72,
-          0.432,
-          120.0
-        ],
-        [
-          1.52,
-          0.76,
-          0.0,
-          6.0,
-          0.0,
-          0.76,
-          0.456,
-          120.0
-        ],
-        [
-          1.6,
-          0.8,
-          0.0,
-          6.0,
-          0.0,
-          0.8,
-          0.48,
-          120.0
-        ],
-        [
-          1.7,
-          0.85,
-          0.0,
-          6.0,
-          0.0,
-          0.85,
-          0.51,
-          120.0
-        ],
-        [
-          1.8,
-          0.9,
-          0.0,
-          6.0,
-          0.0,
-          0.9,
-          0.54,
-          120.0
-        ],
-        [
-          1.9,
-          0.95,
-          0.0,
-          6.0,
-          0.0,
-          0.95,
-          0.57,
-          120.0
-        ],
-        [
-          2.0,
-          1.0,
-          0.0,
-          6.0,
-          0.0,
-          1.0,
-          0.6,
-          120.0
-        ],
-        [
-          2.08,
-          1.04,
-          0.0,
-          6.0,
-          0.0,
-          1.04,
-          0.624,
-          120.0
-        ],
-        [
-          2.16,
-          1.08,
-          0.0,
-          6.0,
-          0.0,
-          1.08,
-          0.648,
-          120.0
+          2.1,
+          0.3,
+          2.0
         ],
         [
           2.24,
-          1.12,
-          0.0,
-          6.0,
-          0.0,
-          1.12,
-          0.672,
-          120.0
+          0.32,
+          2.0
         ],
         [
-          2.32,
-          1.16,
-          0.0,
-          6.0,
-          0.0,
-          1.16,
-          0.696,
-          120.0
+          2.38,
+          0.34,
+          2.0
         ],
         [
-          2.4,
-          1.2,
-          0.0,
-          6.0,
-          0.0,
-          1.2,
-          0.72,
-          120.0
+          2.52,
+          0.36,
+          2.0
+        ],
+        [
+          2.66,
+          0.38,
+          2.0
+        ],
+        [
+          2.8,
+          0.4,
+          2.0
+        ],
+        [
+          2.975,
+          0.425,
+          2.0
+        ],
+        [
+          3.15,
+          0.45,
+          2.0
+        ],
+        [
+          3.325,
+          0.475,
+          2.0
+        ],
+        [
+          3.5,
+          0.5,
+          2.0
+        ],
+        [
+          3.64,
+          0.52,
+          2.0
+        ],
+        [
+          3.78,
+          0.54,
+          2.0
+        ],
+        [
+          3.92,
+          0.56,
+          2.0
+        ],
+        [
+          4.06,
+          0.58,
+          2.0
+        ],
+        [
+          4.2,
+          0.6,
+          2.0
         ]
       ],
       "BP": 0,
       "SPAdd": 5.0,
-      "SPNeed": 120.0,
+      "SPNeed": 110.0,
       "AttackType": "Ultra",
+      "Stance": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Ultra"
+    }
+  },
+  "122304": {
+    "v1": {
+      "Name": "Cascading Featherblade",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "Moze will enter the <u>Departed</u> state while a Prey exists on the field.<br>After allies attack the Prey, Moze will additionally deal 1 instance of <u>Additional Lightning DMG</u> equal to @<b>#1[p]</b># of his ATK and gains 1 Charge. When Moze's Charge reaches <b>#2[f]</b> points, consume all Charges to launch 1 <u>follow-up attack</u> to the Prey, dealing Lightning DMG equal to @<b>#3[p]</b># of Moze's ATK and dispel the target's Prey state.<br><br>@<b>Depart</b>#<br>Departed allies cannot be designated as targets for this ability and will not appear in the Action Order.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.",
+      "Params": [
+        [
+          0.15,
+          7.0,
+          1.0
+        ],
+        [
+          0.165,
+          7.0,
+          1.1
+        ],
+        [
+          0.18,
+          7.0,
+          1.2
+        ],
+        [
+          0.195,
+          7.0,
+          1.3
+        ],
+        [
+          0.21,
+          7.0,
+          1.4
+        ],
+        [
+          0.225,
+          7.0,
+          1.5
+        ],
+        [
+          0.24375,
+          7.0,
+          1.625
+        ],
+        [
+          0.2625,
+          7.0,
+          1.75
+        ],
+        [
+          0.28125,
+          7.0,
+          1.875
+        ],
+        [
+          0.3,
+          7.0,
+          2.0
+        ],
+        [
+          0.315,
+          7.0,
+          2.1
+        ],
+        [
+          0.33,
+          7.0,
+          2.2
+        ],
+        [
+          0.345,
+          7.0,
+          2.3
+        ],
+        [
+          0.36,
+          7.0,
+          2.4
+        ],
+        [
+          0.375,
+          7.0,
+          2.5
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
       "Stance": [
         2.0,
         0.0,
-        1.0
+        0.0
       ],
-      "Icon": "SkillIcon_1221_Ultra"
+      "Icon": "SkillIcon_1223_Passive"
     }
   },
-  "122104": {
+  "122306": {
     "v1": {
-      "Name": "Flashforge",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Blast",
-      "Desc": "When Yunli is attacked by an enemy target, immediately launches a <u>Counter</u> on the attacker, dealing Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK, and Physical DMG to adjacent targets equal to @<b>#2[p]</b># of Yunli's ATK.",
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
       "Params": [
-        [
-          0.6,
-          0.3
-        ],
-        [
-          0.66,
-          0.33
-        ],
-        [
-          0.72,
-          0.36
-        ],
-        [
-          0.78,
-          0.39
-        ],
-        [
-          0.84,
-          0.42
-        ],
-        [
-          0.9,
-          0.45
-        ],
-        [
-          0.975,
-          0.4875
-        ],
-        [
-          1.05,
-          0.525
-        ],
-        [
-          1.125,
-          0.5625
-        ],
-        [
-          1.2,
-          0.6
-        ],
-        [
-          1.26,
-          0.63
-        ],
-        [
-          1.32,
-          0.66
-        ],
-        [
-          1.38,
-          0.69
-        ],
-        [
-          1.44,
-          0.72
-        ],
-        [
-          1.5,
-          0.75
-        ]
+        []
       ],
       "BP": 0,
-      "SPAdd": 10.0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
       "Stance": [
         1.0,
         0.0,
-        1.0
+        0.0
       ],
-      "Icon": "SkillIcon_1221_Passive"
-    },
-    "v2": {
-      "Name": "Flashforge",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Blast",
-      "Desc": "When Yunli is attacked by an enemy target, immediately launches a <u>Counter</u> on the attacker, dealing Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK and Physical DMG to adjacent targets equal to @<b>#2[p]</b># of Yunli's ATK.",
+      "Icon": "SkillIcon_1223_Normal"
+    }
+  },
+  "122307": {
+    "v1": {
+      "Name": "Bated Wings",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using his Technique, Moze gains Stealth for <b>#1[f]</b> second(s). While Stealth is active, Moze cannot be detected by enemies. Action Advances by <b>#4[p]</b> and increases the DMG Moze deals by <b>#2[p]</b> when he enters combat by attacking enemies while in Stealth mode, lasting for <b>#3[f]</b> turn(s).",
       "Params": [
         [
-          0.6,
-          0.3
-        ],
-        [
-          0.66,
-          0.33
-        ],
-        [
-          0.72,
-          0.36
-        ],
-        [
-          0.78,
-          0.39
-        ],
-        [
-          0.84,
-          0.42
-        ],
-        [
-          0.9,
-          0.45
-        ],
-        [
-          0.975,
-          0.4875
-        ],
-        [
-          1.05,
-          0.525
-        ],
-        [
-          1.125,
-          0.5625
-        ],
-        [
-          1.2,
-          0.6
-        ],
-        [
-          1.26,
-          0.63
-        ],
-        [
-          1.32,
-          0.66
-        ],
-        [
-          1.38,
-          0.69
-        ],
-        [
-          1.44,
-          0.72
-        ],
-        [
-          1.5,
-          0.75
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 10.0,
-      "Stance": [
-        1.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_Passive"
-    },
-    "v3": {
-      "Name": "Flashforge",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Blast",
-      "Desc": "When Yunli is attacked by an enemy target, additionally regenerates <b>#3[f]</b> Energy and immediately launches a <u>Counter</u> on the attacker, dealing Physical DMG equal to @<b>#1[p]</b># of Yunli's ATK and Physical DMG to adjacent targets equal to @<b>#2[p]</b># of Yunli's ATK.",
-      "Params": [
-        [
-          0.6,
+          20.0,
           0.3,
-          15.0
-        ],
-        [
-          0.66,
-          0.33,
-          15.0
-        ],
-        [
-          0.72,
-          0.36,
-          15.0
-        ],
-        [
-          0.78,
-          0.39,
-          15.0
-        ],
-        [
-          0.84,
-          0.42,
-          15.0
-        ],
-        [
-          0.9,
-          0.45,
-          15.0
-        ],
-        [
-          0.975,
-          0.4875,
-          15.0
-        ],
-        [
-          1.05,
-          0.525,
-          15.0
-        ],
-        [
-          1.125,
-          0.5625,
-          15.0
-        ],
-        [
-          1.2,
-          0.6,
-          15.0
-        ],
-        [
-          1.26,
-          0.63,
-          15.0
-        ],
-        [
-          1.32,
-          0.66,
-          15.0
-        ],
-        [
-          1.38,
-          0.69,
-          15.0
-        ],
-        [
-          1.44,
-          0.72,
-          15.0
-        ],
-        [
-          1.5,
-          0.75,
-          15.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 10.0,
-      "Stance": [
-        1.0,
-        0.0,
-        1.0
-      ],
-      "Icon": "SkillIcon_1221_Passive"
-    }
-  },
-  "122106": {
-    "v1": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    },
-    "v2": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    },
-    "v3": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Normal"
-    }
-  },
-  "122107": {
-    "v1": {
-      "Name": "Posterior Precedence",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "Gains the Ward effect for <b>15</b> seconds. When entering combat by attacking enemies or receiving an attack, immediately inflicts Intuit: Cull on a random enemy target, and increases this attack's DMG by <b>#1[p]</b>.",
-      "Params": [
-        [
-          0.8
+          1.0,
+          0.5
         ]
       ],
       "BP": 0,
@@ -9630,2054 +9403,290 @@ var _avatarskill = {
         0.0,
         0.0
       ],
-      "Icon": "SkillIcon_1221_Maze"
-    },
-    "v2": {
-      "Name": "Posterior Precedence",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "Gains the Ward effect for <b>15</b> seconds. When entering combat by attacking enemies or receiving an attack, immediately inflicts Intuit: Cull on a random enemy target, and increases this attack's DMG by <b>#1[p]</b>.",
-      "Params": [
-        [
-          0.8
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Maze"
-    },
-    "v3": {
-      "Name": "Posterior Precedence",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "Gains the Ward effect for <b>#2[f]</b> second(s). When entering combat by attacking enemies or receiving an attack, immediately inflicts Intuit: Cull on a random enemy target, and increases the DMG dealt by this attack by <b>#1[p]</b>.",
-      "Params": [
-        [
-          0.8,
-          20.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1221_Maze"
-    }
-  },
-  "122401": {
-    "v1": {
-      "Name": "My Sword Zaps Demons",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single enemy and gains <b>#2[f]</b> Charge(s).",
-      "Params": [
-        [
-          0.5,
-          1.0
-        ],
-        [
-          0.6,
-          1.0
-        ],
-        [
-          0.7,
-          1.0
-        ],
-        [
-          0.8,
-          1.0
-        ],
-        [
-          0.9,
-          1.0
-        ],
-        [
-          1.0,
-          1.0
-        ],
-        [
-          1.1,
-          1.0
-        ],
-        [
-          1.2,
-          1.0
-        ],
-        [
-          1.3,
-          1.0
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    },
-    "v2": {
-      "Name": "My Sword Zaps Demons",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single enemy and gains <b>#2[f]</b> Charge(s).",
-      "Params": [
-        [
-          0.5,
-          1.0
-        ],
-        [
-          0.6,
-          1.0
-        ],
-        [
-          0.7,
-          1.0
-        ],
-        [
-          0.8,
-          1.0
-        ],
-        [
-          0.9,
-          1.0
-        ],
-        [
-          1.0,
-          1.0
-        ],
-        [
-          1.1,
-          1.0
-        ],
-        [
-          1.2,
-          1.0
-        ],
-        [
-          1.3,
-          1.0
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    },
-    "v3": {
-      "Name": "My Sword Zaps Demons",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single enemy and gains <b>#2[f]</b> Charge(s).",
-      "Params": [
-        [
-          0.5,
-          1.0
-        ],
-        [
-          0.6,
-          1.0
-        ],
-        [
-          0.7,
-          1.0
-        ],
-        [
-          0.8,
-          1.0
-        ],
-        [
-          0.9,
-          1.0
-        ],
-        [
-          1.0,
-          1.0
-        ],
-        [
-          1.1,
-          1.0
-        ],
-        [
-          1.2,
-          1.0
-        ],
-        [
-          1.3,
-          1.0
-        ]
-      ],
-      "BP": 1,
-      "SPAdd": 20.0,
-      "AttackType": "Normal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    }
-  },
-  "122408": {
-    "v1": {
-      "Name": "Brows Be Smitten, Heart Be Bitten",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "This attack deals <b>#4[f]</b> Hits Per Action initially. Each hit against the target enemy deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK. After dealing the final hit, there is a <b>#2[p]</b> <u>fixed chance</u> to deal 1 extra hit, up to <b>#3[f]</b> extra hit(s). Energy regenerated from using Enhanced Basic ATK does not increase with the number of Hits Per Action.<br>Enhanced Basic ATK cannot recover Skill Points.",
-      "Params": [
-        [
-          0.5,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.6,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.7,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.8,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.9,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.0,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.1,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.2,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.3,
-          0.6,
-          3.0,
-          3.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 30.0,
-      "AttackType": "Normal",
-      "Stance": [
-        0.5,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal02"
-    },
-    "v2": {
-      "Name": "Brows Be Smitten, Heart Be Bitten",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "This attack deals <b>#4[f]</b> Hits Per Action initially. Each hit against the target enemy deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK. After dealing the final hit, there is a <b>#2[p]</b> <u>fixed chance</u> to deal 1 extra hit, up to <b>#3[f]</b> extra hit(s). Energy regenerated from using Enhanced Basic ATK does not increase with the number of Hits Per Action.<br>Enhanced Basic ATK cannot recover Skill Points.",
-      "Params": [
-        [
-          0.5,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.6,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.7,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.8,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.9,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.0,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.1,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.2,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.3,
-          0.6,
-          3.0,
-          3.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 30.0,
-      "AttackType": "Normal",
-      "Stance": [
-        0.5,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal02"
-    },
-    "v3": {
-      "Name": "Brows Be Smitten, Heart Be Bitten",
-      "MaxLevel": 9,
-      "Type": "Basic ATK",
-      "Tag": "Single Target",
-      "Desc": "This attack deals DMG <b>#4[f]</b> time(s) initially. Each hit against the target enemy deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK. After dealing the final hit, there is a <b>#2[p]</b> <u>fixed chance</u> to deal 1 extra hit, up to <b>#3[f]</b> extra hit(s). Energy regenerated from using Enhanced Basic ATK does not increase with the number of Hits Per Action.<br>Enhanced Basic ATK cannot recover Skill Points.",
-      "Params": [
-        [
-          0.4,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.48,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.56,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.64,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.72,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.8,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.88,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          0.96,
-          0.6,
-          3.0,
-          3.0
-        ],
-        [
-          1.04,
-          0.6,
-          3.0,
-          3.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 30.0,
-      "AttackType": "Normal",
-      "Stance": [
-        0.5,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal02"
-    }
-  },
-  "122402": {
-    "v1": {
-      "Name": "Master, It's Tea Time!",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Support",
-      "Desc": "Designates a single ally (excluding this character) as the Master and increases Master's SPD by @<b>#1[p]</b>#. Only the latest target of March 7th's Skill will be regarded as her \"Master.\"<br>When using Basic ATK or dealing DMG from 1 hit of her Enhanced Basic ATK, triggers the following effects based on the specific Path of the Master:<br>Erudition, Destruction, The Hunt: Additionally deals <u>Additional DMG</u> (Combat Type based on the Master's Combat Type) equal to @<b>#2[p]</b># of March 7th's ATK.<br>Harmony, Nihility, Preservation, Abundance: The Toughness Reduction for this DMG increases by <b>#3[p]</b>.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.",
-      "Params": [
-        [
-          0.06,
-          0.1,
-          1.0
-        ],
-        [
-          0.064,
-          0.11,
-          1.0
-        ],
-        [
-          0.068,
-          0.12,
-          1.0
-        ],
-        [
-          0.072,
-          0.13,
-          1.0
-        ],
-        [
-          0.076,
-          0.14,
-          1.0
-        ],
-        [
-          0.08,
-          0.15,
-          1.0
-        ],
-        [
-          0.085,
-          0.1625,
-          1.0
-        ],
-        [
-          0.09,
-          0.175,
-          1.0
-        ],
-        [
-          0.095,
-          0.1875,
-          1.0
-        ],
-        [
-          0.1,
-          0.2,
-          1.0
-        ],
-        [
-          0.104,
-          0.21,
-          1.0
-        ],
-        [
-          0.108,
-          0.22,
-          1.0
-        ],
-        [
-          0.112,
-          0.23,
-          1.0
-        ],
-        [
-          0.116,
-          0.24,
-          1.0
-        ],
-        [
-          0.12,
-          0.25,
-          1.0
-        ]
-      ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_BP"
-    },
-    "v2": {
-      "Name": "Master, It's Tea Time!",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Support",
-      "Desc": "Designates a single ally (excluding this character) as the Master and increases Master's SPD by @<b>#1[p]</b>#. Only the latest target of March 7th's Skill will be regarded as her \"Master.\"<br>When using Basic ATK or dealing DMG from 1 hit of her Enhanced Basic ATK, triggers the following effects based on the specific Path of the Master:<br>Erudition, Destruction, The Hunt: Additionally deals <u>Additional DMG</u> (Combat Type based on the Master's Combat Type) equal to @<b>#2[p]</b># of March 7th's ATK.<br>Harmony, Nihility, Preservation, Abundance: The Toughness Reduction for this DMG increases by <b>#3[p]</b>.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.",
-      "Params": [
-        [
-          0.06,
-          0.1,
-          1.0
-        ],
-        [
-          0.064,
-          0.11,
-          1.0
-        ],
-        [
-          0.068,
-          0.12,
-          1.0
-        ],
-        [
-          0.072,
-          0.13,
-          1.0
-        ],
-        [
-          0.076,
-          0.14,
-          1.0
-        ],
-        [
-          0.08,
-          0.15,
-          1.0
-        ],
-        [
-          0.085,
-          0.1625,
-          1.0
-        ],
-        [
-          0.09,
-          0.175,
-          1.0
-        ],
-        [
-          0.095,
-          0.1875,
-          1.0
-        ],
-        [
-          0.1,
-          0.2,
-          1.0
-        ],
-        [
-          0.104,
-          0.21,
-          1.0
-        ],
-        [
-          0.108,
-          0.22,
-          1.0
-        ],
-        [
-          0.112,
-          0.23,
-          1.0
-        ],
-        [
-          0.116,
-          0.24,
-          1.0
-        ],
-        [
-          0.12,
-          0.25,
-          1.0
-        ]
-      ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_BP"
-    },
-    "v3": {
-      "Name": "Master, It's Tea Time!",
-      "MaxLevel": 15,
-      "Type": "Skill",
-      "Tag": "Support",
-      "Desc": "Designates a single ally (excluding this character) as the Master and increases Master's SPD by @<b>#1[p]</b>#. Only the latest target of March 7th's Skill will be regarded as her \"Master.\"<br>When using Basic ATK or dealing DMG from 1 hit of her Enhanced Basic ATK, triggers the following effects based on the specific Path of the Master:<br>Erudition, Destruction, The Hunt: Additionally deals <u>Additional DMG</u> (Combat Type based on the Master's Combat Type) equal to @<b>#2[p]</b># of March 7th's ATK.<br>Harmony, Nihility, Preservation, Abundance: The Toughness Reduction for this DMG increases by <b>#3[p]</b>.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.",
-      "Params": [
-        [
-          0.06,
-          0.1,
-          1.0
-        ],
-        [
-          0.064,
-          0.11,
-          1.0
-        ],
-        [
-          0.068,
-          0.12,
-          1.0
-        ],
-        [
-          0.072,
-          0.13,
-          1.0
-        ],
-        [
-          0.076,
-          0.14,
-          1.0
-        ],
-        [
-          0.08,
-          0.15,
-          1.0
-        ],
-        [
-          0.085,
-          0.1625,
-          1.0
-        ],
-        [
-          0.09,
-          0.175,
-          1.0
-        ],
-        [
-          0.095,
-          0.1875,
-          1.0
-        ],
-        [
-          0.1,
-          0.2,
-          1.0
-        ],
-        [
-          0.104,
-          0.21,
-          1.0
-        ],
-        [
-          0.108,
-          0.22,
-          1.0
-        ],
-        [
-          0.112,
-          0.23,
-          1.0
-        ],
-        [
-          0.116,
-          0.24,
-          1.0
-        ],
-        [
-          0.12,
-          0.25,
-          1.0
-        ]
-      ],
-      "BP": -1,
-      "SPAdd": 30.0,
-      "AttackType": "BPSkill",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_BP"
-    }
-  },
-  "122403": {
-    "v1": {
-      "Name": "March 7th, the Apex Heroine",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single target enemy.<br>Increases the initial Hits Per Action of the next Enhanced Basic ATK by <b>#2[f]</b> hits and increase the <u>fixed chance </u>of additionally dealing DMG by <b>#3[p]</b>.",
-      "Params": [
-        [
-          1.44,
-          2.0,
-          0.2
-        ],
-        [
-          1.536,
-          2.0,
-          0.2
-        ],
-        [
-          1.632,
-          2.0,
-          0.2
-        ],
-        [
-          1.728,
-          2.0,
-          0.2
-        ],
-        [
-          1.824,
-          2.0,
-          0.2
-        ],
-        [
-          1.92,
-          2.0,
-          0.2
-        ],
-        [
-          2.04,
-          2.0,
-          0.2
-        ],
-        [
-          2.16,
-          2.0,
-          0.2
-        ],
-        [
-          2.28,
-          2.0,
-          0.2
-        ],
-        [
-          2.4,
-          2.0,
-          0.2
-        ],
-        [
-          2.496,
-          2.0,
-          0.2
-        ],
-        [
-          2.592,
-          2.0,
-          0.2
-        ],
-        [
-          2.688,
-          2.0,
-          0.2
-        ],
-        [
-          2.784,
-          2.0,
-          0.2
-        ],
-        [
-          2.88,
-          2.0,
-          0.2
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 110.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        3.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Ultra"
-    },
-    "v2": {
-      "Name": "March 7th, the Apex Heroine",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single target enemy.<br>Increases the initial Hits Per Action of the next Enhanced Basic ATK by <b>#2[f]</b> hits and increase the <u>fixed chance </u>of additionally dealing DMG by <b>#3[p]</b>.",
-      "Params": [
-        [
-          1.44,
-          2.0,
-          0.2
-        ],
-        [
-          1.536,
-          2.0,
-          0.2
-        ],
-        [
-          1.632,
-          2.0,
-          0.2
-        ],
-        [
-          1.728,
-          2.0,
-          0.2
-        ],
-        [
-          1.824,
-          2.0,
-          0.2
-        ],
-        [
-          1.92,
-          2.0,
-          0.2
-        ],
-        [
-          2.04,
-          2.0,
-          0.2
-        ],
-        [
-          2.16,
-          2.0,
-          0.2
-        ],
-        [
-          2.28,
-          2.0,
-          0.2
-        ],
-        [
-          2.4,
-          2.0,
-          0.2
-        ],
-        [
-          2.496,
-          2.0,
-          0.2
-        ],
-        [
-          2.592,
-          2.0,
-          0.2
-        ],
-        [
-          2.688,
-          2.0,
-          0.2
-        ],
-        [
-          2.784,
-          2.0,
-          0.2
-        ],
-        [
-          2.88,
-          2.0,
-          0.2
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 110.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        3.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Ultra"
-    },
-    "v3": {
-      "Name": "March 7th, the Apex Heroine",
-      "MaxLevel": 15,
-      "Type": "Ultimate",
-      "Tag": "Single Target",
-      "Desc": "Deals Imaginary DMG equal to @<b>#1[p]</b># of March 7th's ATK to a single target enemy.<br>Increases the initial Hits Per Action of the next Enhanced Basic ATK by <b>#2[f]</b> hits and increase the <u>fixed chance </u>of additionally dealing DMG by <b>#3[p]</b>.",
-      "Params": [
-        [
-          1.44,
-          2.0,
-          0.2
-        ],
-        [
-          1.536,
-          2.0,
-          0.2
-        ],
-        [
-          1.632,
-          2.0,
-          0.2
-        ],
-        [
-          1.728,
-          2.0,
-          0.2
-        ],
-        [
-          1.824,
-          2.0,
-          0.2
-        ],
-        [
-          1.92,
-          2.0,
-          0.2
-        ],
-        [
-          2.04,
-          2.0,
-          0.2
-        ],
-        [
-          2.16,
-          2.0,
-          0.2
-        ],
-        [
-          2.28,
-          2.0,
-          0.2
-        ],
-        [
-          2.4,
-          2.0,
-          0.2
-        ],
-        [
-          2.496,
-          2.0,
-          0.2
-        ],
-        [
-          2.592,
-          2.0,
-          0.2
-        ],
-        [
-          2.688,
-          2.0,
-          0.2
-        ],
-        [
-          2.784,
-          2.0,
-          0.2
-        ],
-        [
-          2.88,
-          2.0,
-          0.2
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "SPNeed": 110.0,
-      "AttackType": "Ultra",
-      "Stance": [
-        3.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Ultra"
-    }
-  },
-  "122404": {
-    "v1": {
-      "Name": "Master, I've Ascended!",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Enhance",
-      "Desc": "After the Master uses an attack or Ultimate, March 7th gains up to 1 Charge each time.<br>When the Charge is at <b>#1[f]</b> or more, March 7th immediately takes action again, and increases the DMG she deals by @<b>#2[p]</b>#. Her Basic ATK is Enhanced, and only her Enhanced Basic ATK can be used. After using Enhanced Basic ATK, consumes <b>#1[f]</b> Charge.",
-      "Params": [
-        [
-          7.0,
-          0.4
-        ],
-        [
-          7.0,
-          0.44
-        ],
-        [
-          7.0,
-          0.48
-        ],
-        [
-          7.0,
-          0.52
-        ],
-        [
-          7.0,
-          0.56
-        ],
-        [
-          7.0,
-          0.6
-        ],
-        [
-          7.0,
-          0.65
-        ],
-        [
-          7.0,
-          0.7
-        ],
-        [
-          7.0,
-          0.75
-        ],
-        [
-          7.0,
-          0.8
-        ],
-        [
-          7.0,
-          0.84
-        ],
-        [
-          7.0,
-          0.88
-        ],
-        [
-          7.0,
-          0.92
-        ],
-        [
-          7.0,
-          0.96
-        ],
-        [
-          7.0,
-          1.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Passive"
-    },
-    "v2": {
-      "Name": "Master, I've Ascended!",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Enhance",
-      "Desc": "After the Master uses an attack or Ultimate, March 7th gains up to 1 Charge each time.<br>When the Charge is at <b>#1[f]</b> or more, March 7th immediately takes action again, and increases the DMG she deals by @<b>#2[p]</b>#. Her Basic ATK is Enhanced, and only her Enhanced Basic ATK can be used. After using Enhanced Basic ATK, consumes <b>#1[f]</b> Charge.",
-      "Params": [
-        [
-          7.0,
-          0.4
-        ],
-        [
-          7.0,
-          0.44
-        ],
-        [
-          7.0,
-          0.48
-        ],
-        [
-          7.0,
-          0.52
-        ],
-        [
-          7.0,
-          0.56
-        ],
-        [
-          7.0,
-          0.6
-        ],
-        [
-          7.0,
-          0.65
-        ],
-        [
-          7.0,
-          0.7
-        ],
-        [
-          7.0,
-          0.75
-        ],
-        [
-          7.0,
-          0.8
-        ],
-        [
-          7.0,
-          0.84
-        ],
-        [
-          7.0,
-          0.88
-        ],
-        [
-          7.0,
-          0.92
-        ],
-        [
-          7.0,
-          0.96
-        ],
-        [
-          7.0,
-          1.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Passive"
-    },
-    "v3": {
-      "Name": "Master, I've Ascended!",
-      "MaxLevel": 15,
-      "Type": "Talent",
-      "Tag": "Enhance",
-      "Desc": "After the Master uses an attack or Ultimate, March 7th gains up to 1 Charge each time.<br>When the Charge is at <b>#1[f]</b> or more, March 7th immediately takes action again, and increases the DMG she deals by @<b>#2[p]</b>#. Her Basic ATK is Enhanced, and her Skill can't be used. After using Enhanced Basic ATK, consumes <b>#1[f]</b> Charge. Charge max is at <b>#3[f]</b>.",
-      "Params": [
-        [
-          7.0,
-          0.4,
-          10.0
-        ],
-        [
-          7.0,
-          0.44,
-          10.0
-        ],
-        [
-          7.0,
-          0.48,
-          10.0
-        ],
-        [
-          7.0,
-          0.52,
-          10.0
-        ],
-        [
-          7.0,
-          0.56,
-          10.0
-        ],
-        [
-          7.0,
-          0.6,
-          10.0
-        ],
-        [
-          7.0,
-          0.65,
-          10.0
-        ],
-        [
-          7.0,
-          0.7,
-          10.0
-        ],
-        [
-          7.0,
-          0.75,
-          10.0
-        ],
-        [
-          7.0,
-          0.8,
-          10.0
-        ],
-        [
-          7.0,
-          0.84,
-          10.0
-        ],
-        [
-          7.0,
-          0.88,
-          10.0
-        ],
-        [
-          7.0,
-          0.92,
-          10.0
-        ],
-        [
-          7.0,
-          0.96,
-          10.0
-        ],
-        [
-          7.0,
-          1.0,
-          10.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 5.0,
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Passive"
-    }
-  },
-  "122406": {
-    "v1": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    },
-    "v2": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    },
-    "v3": {
-      "Name": "Attack",
-      "MaxLevel": 1,
-      "Type": "",
-      "Tag": "",
-      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
-      "Params": [
-        []
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "MazeNormal",
-      "Stance": [
-        1.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Normal"
-    }
-  },
-  "122407": {
-    "v1": {
-      "Name": "Feast in One Go",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "If March 7th is in the team, every time an ally uses Technique, March 7th gains a Charge upon entering the next battle, up to <b>#1[f]</b> Charge(s).<br>After using her Technique, March 7th regenerates <b>#2[f]</b> Energy upon entering the next battle.",
-      "Params": [
-        [
-          3.0,
-          30.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Maze"
-    },
-    "v2": {
-      "Name": "Feast in One Go",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "If March 7th is in the team, every time an ally uses Technique, March 7th gains a Charge upon entering the next battle, up to <b>#1[f]</b> Charge(s).<br>After using her Technique, March 7th regenerates <b>#2[f]</b> Energy upon entering the next battle.",
-      "Params": [
-        [
-          3.0,
-          30.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Maze"
-    },
-    "v3": {
-      "Name": "Feast in One Go",
-      "MaxLevel": 1,
-      "Type": "Technique",
-      "Tag": "Enhance",
-      "Desc": "If March 7th is in the team, every time an ally uses Technique, March 7th gains a Charge upon entering the next battle, up to <b>#1[f]</b> Charge(s).<br>After using her Technique, March 7th regenerates <b>#2[f]</b> Energy upon entering the next battle.",
-      "Params": [
-        [
-          3.0,
-          30.0
-        ]
-      ],
-      "BP": 0,
-      "SPAdd": 0,
-      "AttackType": "Maze",
-      "Stance": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "Icon": "SkillIcon_1224_Maze"
+      "Icon": "SkillIcon_1223_Maze"
     }
   }
 }
 
 var _avatarskilltree = {
-  "1218": {
-    "v1": {
-      "Add": {
-        "StatusProbabilityBase": 0.28,
-        "FireAddedRatio": 0.144,
-        "SpeedDelta": 5.0
-      },
-      "Tree1": {
-        "Name": "Pyre Cleanse",
-        "Desc": "When a Field exists, the enemies' Effect Hit Rate is reduced by <b><color style='color:#f29e38'>30.0%</color></b>. At the start of each turn, they receive Fire Additional DMG equal to <b><color style='color:#f29e38'>150.0%</color></b> of Jiaoqiu's ATK.",
-        "Icon": "SkillIcon_1218_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Hearth Kindle",
-        "Desc": "When Jiaoqiu's Effect Hit Rate is higher than <b><color style='color:#f29e38'>80.0%</color></b>, for each <b><color style='color:#f29e38'>15.0%</color></b> exceeded, Jiaoqiu additionally gains <b><color style='color:#f29e38'>60.0%</color></b> ATK, up to a maximum of <b><color style='color:#f29e38'>240.0%</color></b>.",
-        "Icon": "SkillIcon_1218_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "Seared Scent",
-        "Desc": "When a Field exists, enemies entering combat will be inflicted with Ashen Roast stacks. The number of stacks applied will match the highest number of Ashen Roast stacks inflicted while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
-        "Icon": "SkillIcon_1218_SkillTree3"
-      }
-    },
-    "v2": {
-      "Add": {
-        "StatusProbabilityBase": 0.28,
-        "FireAddedRatio": 0.144,
-        "SpeedDelta": 5.0
-      },
-      "Tree1": {
-        "Name": "Pyre Cleanse",
-        "Desc": "When a Field exists, the enemies' Effect Hit Rate is reduced by <b><color style='color:#f29e38'>30.0%</color></b>. At the start of each turn, they receive Fire Additional DMG equal to <b><color style='color:#f29e38'>150.0%</color></b> of Jiaoqiu's ATK.",
-        "Icon": "SkillIcon_1218_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Hearth Kindle",
-        "Desc": "When Jiaoqiu's Effect Hit Rate is higher than <b><color style='color:#f29e38'>80.0%</color></b>, for each <b><color style='color:#f29e38'>15.0%</color></b> exceeded, Jiaoqiu additionally gains <b><color style='color:#f29e38'>60.0%</color></b> ATK, up to a maximum of <b><color style='color:#f29e38'>240.0%</color></b>.",
-        "Icon": "SkillIcon_1218_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "Seared Scent",
-        "Desc": "When a Field exists, enemies entering combat will be inflicted with Ashen Roast stacks. The number of stacks applied will match the highest number of Ashen Roast stacks inflicted while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
-        "Icon": "SkillIcon_1218_SkillTree3"
-      }
-    },
-    "v3": {
-      "Add": {
-        "StatusProbabilityBase": 0.28,
-        "FireAddedRatio": 0.144,
-        "SpeedDelta": 5.0
-      },
-      "Tree1": {
-        "Name": "Pyre Cleanse",
-        "Desc": "At the start of the battle, immediately regenerates <b><color style='color:#f29e38'>15.0</color></b> Energy.",
-        "Icon": "SkillIcon_1218_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Hearth Kindle",
-        "Desc": "When Jiaoqiu's Effect Hit Rate is higher than <b><color style='color:#f29e38'>80.0%</color></b>, for each <b><color style='color:#f29e38'>15.0%</color></b> exceeded, Jiaoqiu additionally gains <b><color style='color:#f29e38'>60.0%</color></b> ATK, up to a maximum of <b><color style='color:#f29e38'>240.0%</color></b>.",
-        "Icon": "SkillIcon_1218_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "Seared Scent",
-        "Desc": "While the Field exists, enemies entering combat will be inflicted with Ashen Roast. The number of stacks applied will match the highest number of Ashen Roast stacks possessed by any unit while the Field is active, with a minimum of <b><color style='color:#f29e38'>1.0</color></b> stack(s).",
-        "Icon": "SkillIcon_1218_SkillTree3"
-      }
-    }
-  },
-  "1221": {
-    "v1": {
-      "Add": {
-        "AttackAddedRatio": 0.28,
-        "HPAddedRatio": 0.18,
-        "CriticalChanceBase": 0.067
-      },
-      "Tree1": {
-        "Name": "Fiery Wheel",
-        "Desc": "Upon being attacked, Yunli additionaly regenerates <b><color style='color:#f29e38'>15.0</color></b> extra Energy.",
-        "Icon": "SkillIcon_1221_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Demon Quell",
-        "Desc": "While in the Block state, resists the Crowd Control debuff received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
-        "Icon": "SkillIcon_1221_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "True Sunder",
-        "Desc": "When using a Counter, increases Yunli's ATK by <b><color style='color:#f29e38'>30.0%</color></b> for 1 turn.",
-        "Icon": "SkillIcon_1221_SkillTree3"
-      }
-    },
-    "v2": {
-      "Add": {
-        "AttackAddedRatio": 0.28,
-        "HPAddedRatio": 0.18,
-        "CriticalChanceBase": 0.067
-      },
-      "Tree1": {
-        "Name": "Fiery Wheel",
-        "Desc": "Upon being attacked, Yunli additionally regenerates <b><color style='color:#f29e38'>15.0</color></b> extra Energy.",
-        "Icon": "SkillIcon_1221_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Demon Quell",
-        "Desc": "While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
-        "Icon": "SkillIcon_1221_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "True Sunder",
-        "Desc": "When using a Counter, increases Yunli's ATK by <b><color style='color:#f29e38'>30.0%</color></b> for 1 turn.",
-        "Icon": "SkillIcon_1221_SkillTree3"
-      }
-    },
-    "v3": {
-      "Add": {
-        "AttackAddedRatio": 0.28,
-        "HPAddedRatio": 0.18,
-        "CriticalChanceBase": 0.067
-      },
-      "Tree1": {
-        "Name": "Fiery Wheel",
-        "Desc": "Every time 1 Intuit: Slash is used, the next Intuit: Slash will become Intuit: Cull.",
-        "Icon": "SkillIcon_1221_SkillTree1"
-      },
-      "Tree2": {
-        "Name": "Demon Quell",
-        "Desc": "While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by <b><color style='color:#f29e38'>20.0%</color></b>.",
-        "Icon": "SkillIcon_1221_SkillTree2"
-      },
-      "Tree3": {
-        "Name": "True Sunder",
-        "Desc": "When using a Counter, increases Yunli's ATK by <b><color style='color:#f29e38'>30.0%</color></b> for 1 turn.",
-        "Icon": "SkillIcon_1221_SkillTree3"
-      }
-    }
-  },
-  "1224": {
+  "1220": {
     "v1": {
       "Add": {
         "AttackAddedRatio": 0.28,
         "CriticalChanceBase": 0.12,
-        "DefenceAddedRatio": 0.125
+        "SpeedDelta": 5.0
       },
       "Tree1": {
-        "Name": "Soaring Swan",
-        "Desc": "When the battle starts, March 7th's action is Advanced Forward by <b><color style='color:#f29e38'>25.0%</color></b>.",
-        "Icon": "SkillIcon_1224_SkillTree1"
+        "Name": "Heavenpath",
+        "Desc": "Receive <b><color style='color:#f29e38'>4.0</color></b> point(s) of Flying Aureus at the start of the battle. If there are no teammates active in battle on the field at the start of a turn, receive 1 point of Flying Aureus.",
+        "Icon": "SkillIcon_1220_SkillTree1"
       },
       "Tree2": {
-        "Name": "Acute Smarts",
-        "Desc": "March 7th can reduce the Toughness of enemies with Weakness of Master's Type. When inflicting Weakness Break, also triggers the Imaginary Weakness Break effect.",
-        "Icon": "SkillIcon_1224_SkillTree2"
+        "Name": "Formshift",
+        "Desc": "When dealing DMG to enemy targets via launching this unit's Ultimate, it will be considered as launching a follow-up attack.",
+        "Icon": "SkillIcon_1220_SkillTree2"
       },
       "Tree3": {
-        "Name": "Gliding Waves",
-        "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
-        "Icon": "SkillIcon_1224_SkillTree3"
+        "Name": "Boltcatch",
+        "Desc": "Follow-up attack CRIT DMG increases by <b><color style='color:#f29e38'>60.0%</color></b>.",
+        "Icon": "SkillIcon_1220_SkillTree3"
       }
-    },
-    "v2": {
+    }
+  },
+  "1222": {
+    "v1": {
       "Add": {
-        "AttackAddedRatio": 0.28,
-        "CriticalChanceBase": 0.12,
-        "DefenceAddedRatio": 0.125
+        "BreakDamageAddedRatioBase": 0.373,
+        "HPAddedRatio": 0.18,
+        "AttackAddedRatio": 0.1
       },
       "Tree1": {
-        "Name": "Swan Soar",
-        "Desc": "When the battle starts, March 7th's action is Advanced Forward by <b><color style='color:#f29e38'>25.0%</color></b>.",
-        "Icon": "SkillIcon_1224_SkillTree1"
+        "Name": "Vermilion Waft",
+        "Desc": "Increases this unit's ATK/Outgoing Healing by an amount equal to <b><color style='color:#f29e38'>20.0%</color></b>/<b><color style='color:#f29e38'>8.0%</color></b> of their Break Effect, up to a maximum ATK/Outgoing Healing increase of <b><color style='color:#f29e38'>50.0%</color></b>/<b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1222_SkillTree1"
       },
       "Tree2": {
-        "Name": "Filigree",
-        "Desc": "March 7th can reduce the Toughness of enemies with Weakness of Master's Type. When inflicting Weakness Break, also triggers the Imaginary Weakness Break effect.",
-        "Icon": "SkillIcon_1224_SkillTree2"
+        "Name": "Sylvan Smoke",
+        "Desc": "When using Basic ATK, additionally regenerates <b><color style='color:#f29e38'>10.0</color></b> Energy.",
+        "Icon": "SkillIcon_1222_SkillTree2"
       },
       "Tree3": {
-        "Name": "Tide Tamer",
-        "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
-        "Icon": "SkillIcon_1224_SkillTree3"
+        "Name": "Ember's Echo",
+        "Desc": "When any ally takes DMG or consumes HP, if their current HP percentage is less than or equal to <b><color style='color:#f29e38'>60.0%</color></b>, Fuyuan will immediately trigger the follow-up attack from the Talent. This attack will not consume Fuyuan's action. This effect can be triggered again after <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1222_SkillTree3"
       }
-    },
-    "v3": {
+    }
+  },
+  "1223": {
+    "v1": {
       "Add": {
-        "AttackAddedRatio": 0.28,
-        "CriticalDamageBase": 0.24,
-        "DefenceAddedRatio": 0.125
+        "CriticalDamageBase": 0.373,
+        "AttackAddedRatio": 0.18,
+        "HPAddedRatio": 0.1
       },
       "Tree1": {
-        "Name": "Swan Soar",
-        "Desc": "When the battle starts, March 7th's action is Advanced Forward by <b><color style='color:#f29e38'>25.0%</color></b>.",
-        "Icon": "SkillIcon_1224_SkillTree1"
+        "Name": "Nightfeather",
+        "Desc": "Recover <b><color style='color:#f29e38'>1.0</color></b> Skill Point(s) after using a follow-up attack. This effect can be triggered again after <b><color style='color:#f29e38'>1.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1223_SkillTree1"
       },
       "Tree2": {
-        "Name": "Filigree",
-        "Desc": "March 7th can reduce the Toughness of enemies with Weakness of Master's Type. When inflicting Weakness Break, also triggers the Imaginary Weakness Break effect.",
-        "Icon": "SkillIcon_1224_SkillTree2"
+        "Name": "Daggerhold",
+        "Desc": "Moze's Action is Advanced Forward by <b><color style='color:#f29e38'>30.0%</color></b> when his Departed status is dispelled. If Moze's current Charge equals <b><color style='color:#f29e38'>4.0</color></b> or greater, then his action will instead be Advanced Forward by <b><color style='color:#f29e38'>60.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree2"
       },
       "Tree3": {
-        "Name": "Tide Tamer",
-        "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
-        "Icon": "SkillIcon_1224_SkillTree3"
+        "Name": "Vengewise",
+        "Desc": "When an ally attacks an enemy marked as Prey, increases the CRIT DMG dealt by <b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree3"
       }
     }
   }
 }
 
 var _avatarrank = {
-  "121801": {
+  "122001": {
     "v1": {
       "Rank": 1,
-      "Name": "Pentapathic Transference",
-      "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
-      "Icon": "SkillIcon_1218_Rank1"
-    },
-    "v2": {
-      "Rank": 1,
-      "Name": "Pentapathic Transference",
-      "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
-      "Icon": "SkillIcon_1218_Rank1"
-    },
-    "v3": {
-      "Rank": 1,
-      "Name": "Pentapathic Transference",
-      "Desc": "When an ally attacks an enemy target afflicted with Ashen Roast, increases DMG dealt by <b><color style='color:#f29e38'>48.0%</color></b>. Each time the Talent triggers Ashen Roast, additionally increases the present Ashen Roast stacks by <b><color style='color:#f29e38'>1.0</color></b>.",
-      "Icon": "SkillIcon_1218_Rank1"
+      "Name": "Skyward I Quell",
+      "Desc": "When using Ultimate, for each point of Flying Aureus consumed, the final hit additionally deals Wind DMG equal to <b><color style='color:#f29e38'>30.0%</color></b> of Feixiao's ATK to a random enemy.",
+      "Icon": "SkillIcon_1220_Rank1"
     }
   },
-  "121802": {
+  "122002": {
     "v1": {
       "Rank": 2,
-      "Name": "From Savor Comes Suffer",
-      "Desc": "Ashen Roast can be considered as a Burn status. Enemies with Ashen Roast will suffer Fire DoT equal to <b><color style='color:#f29e38'>300.0%</color></b> of Jiaoqiu's ATK at the start of each turn.",
-      "Icon": "SkillIcon_1218_Rank2"
-    },
-    "v2": {
-      "Rank": 2,
-      "Name": "From Savor Comes Suffer",
-      "Desc": "Ashen Roast can be considered as a Burn status. Enemies with Ashen Roast will suffer Fire DoT equal to <b><color style='color:#f29e38'>300.0%</color></b> of Jiaoqiu's ATK at the start of each turn.",
-      "Icon": "SkillIcon_1218_Rank2"
-    },
-    "v3": {
-      "Rank": 2,
-      "Name": "From Savor Comes Suffer",
-      "Desc": "When an enemy is in Ashen Roast state, increases the DMG multiplier of Fire DoT inflicted by Ashen Roast by <b><color style='color:#f29e38'>300.0%</color></b>.",
-      "Icon": "SkillIcon_1218_Rank2"
+      "Name": "Moonward I Wish",
+      "Desc": "In Talent's effect, the attack count required to gain Flying Aureus reduces by <b><color style='color:#f29e38'>1.0</color></b> count(s).",
+      "Icon": "SkillIcon_1220_Rank2"
     }
   },
-  "121803": {
+  "122003": {
     "v1": {
       "Rank": 3,
-      "Name": "Flavored Euphony Reigns Supreme",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1218_BP"
-    },
-    "v2": {
-      "Rank": 3,
-      "Name": "Flavored Euphony Reigns Supreme",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1218_BP"
-    },
-    "v3": {
-      "Rank": 3,
-      "Name": "Flavored Euphony Reigns Supreme",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1218_BP"
-    }
-  },
-  "121804": {
-    "v1": {
-      "Rank": 4,
-      "Name": "Leisure In, Luster Out",
-      "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
-      "Icon": "SkillIcon_1218_Rank4"
-    },
-    "v2": {
-      "Rank": 4,
-      "Name": "Leisure In, Luster Out",
-      "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
-      "Icon": "SkillIcon_1218_Rank4"
-    },
-    "v3": {
-      "Rank": 4,
-      "Name": "Leisure In, Luster Out",
-      "Desc": "When the Field exists, reduces enemy target's ATK by <b><color style='color:#f29e38'>15.0%</color></b>.",
-      "Icon": "SkillIcon_1218_Rank4"
-    }
-  },
-  "121805": {
-    "v1": {
-      "Rank": 5,
-      "Name": "Duel in Dawn, Dash in Dusk",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1218_Ultra"
-    },
-    "v2": {
-      "Rank": 5,
-      "Name": "Duel in Dawn, Dash in Dusk",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1218_Ultra"
-    },
-    "v3": {
-      "Rank": 5,
-      "Name": "Duel in Dawn, Dash in Dusk",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1218_Ultra"
-    }
-  },
-  "121806": {
-    "v1": {
-      "Rank": 6,
-      "Name": "Nonamorphic Pyrobind",
-      "Desc": "When the enemy target is defeated, existing Ashen Roast stacks will be transferred to a surviving enemy with the lowest amount of Ashen Roast stacks. Increases max Ashen Roast stacks to <b><color style='color:#f29e38'>9.0</color></b>. Every stack of Ashen Roast will reduce all enemies' All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
-      "Icon": "SkillIcon_1218_Rank6"
-    },
-    "v2": {
-      "Rank": 6,
-      "Name": "Nonamorphic Pyrobind",
-      "Desc": "When an enemy target is eliminated, their accumulated \"Ashen Roast\" stacks will transfer to the enemy on the field with the lowest number of \"Ashen Roast\" stacks. The maximum stack limit of \"Ashen Roast\" increases to <b><color style='color:#f29e38'>9.0</color></b>, and each stack of \"Ashen Roast\" reduces the target's All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
-      "Icon": "SkillIcon_1218_Rank6"
-    },
-    "v3": {
-      "Rank": 6,
-      "Name": "Nonamorphic Pyrobind",
-      "Desc": "When an enemy target is eliminated, their accumulated Ashen Roast stacks will transfer to the enemy on the field with the lowest number of Ashen Roast stacks. The maximum stack limit of Ashen Roast increases to <b><color style='color:#f29e38'>9.0</color></b>, and each stack of Ashen Roast reduces the target's All-Type RES by <b><color style='color:#f29e38'>3.0%</color></b>.<br><br>Hidden Stat: 1.0",
-      "Icon": "SkillIcon_1218_Rank6"
-    }
-  },
-  "122101": {
-    "v1": {
-      "Rank": 1,
-      "Name": "Weathered Blade Does Not Sully",
-      "Desc": "DMG from Intuit: Slash and Intuit: Cull increases by <b><color style='color:#f29e38'>20.0%</color></b>, and Intuit: Cull's extra DMG Hits increases by <b><color style='color:#f29e38'>3.0</color></b>.",
-      "Icon": "SkillIcon_1221_Rank1"
-    },
-    "v2": {
-      "Rank": 1,
-      "Name": "Weathered Blade Does Not Sully",
-      "Desc": "Increases DMG from Intuit: Slash and Intuit: Cull by <b><color style='color:#f29e38'>20.0%</color></b>, and increases Intuit: Cull's extra DMG Hits by <b><color style='color:#f29e38'>3.0</color></b>.",
-      "Icon": "SkillIcon_1221_Rank1"
-    },
-    "v3": {
-      "Rank": 1,
-      "Name": "Weathered Blade Does Not Sully",
-      "Desc": "Increases DMG from Intuit: Slash and Intuit: Cull by <b><color style='color:#f29e38'>20.0%</color></b>, and increases Intuit: Cull's extra DMG Hits by <b><color style='color:#f29e38'>3.0</color></b>.",
-      "Icon": "SkillIcon_1221_Rank1"
-    }
-  },
-  "122102": {
-    "v1": {
-      "Rank": 2,
-      "Name": "First Luster Breaks Dawn",
-      "Desc": "Yunli increases her own CRIT Rate by <b><color style='color:#f29e38'>18.0%</color></b> at the end of the turn, lasting until the beginning of the next turn.",
-      "Icon": "SkillIcon_1221_Rank2"
-    },
-    "v2": {
-      "Rank": 2,
-      "Name": "First Luster Breaks Dawn",
-      "Desc": "Yunli increases her CRIT Rate by <b><color style='color:#f29e38'>18.0%</color></b> at the end of her turn, lasting until the beginning of the next turn.",
-      "Icon": "SkillIcon_1221_Rank2"
-    },
-    "v3": {
-      "Rank": 2,
-      "Name": "First Luster Breaks Dawn",
-      "Desc": "When dealing DMG by launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
-      "Icon": "SkillIcon_1221_Rank2"
-    }
-  },
-  "122103": {
-    "v1": {
-      "Rank": 3,
-      "Name": "Mastlength Twirls Mountweight",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1221_BP"
-    },
-    "v2": {
-      "Rank": 3,
-      "Name": "Mastlength Twirls Mountweight",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1221_BP"
-    },
-    "v3": {
-      "Rank": 3,
-      "Name": "Mastlength Twirls Mountweight",
+      "Name": "Starward I Bode",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1221_Ultra"
+      "Icon": "SkillIcon_1220_Ultra"
     }
   },
-  "122104": {
+  "122004": {
     "v1": {
       "Rank": 4,
-      "Name": "Artisan's Ironsong",
-      "Desc": "When Yunli deals DMG via launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
-      "Icon": "SkillIcon_1221_Rank4"
-    },
-    "v2": {
-      "Rank": 4,
-      "Name": "Artisan's Ironsong",
-      "Desc": "When Yunli deals DMG via launching a Counter, ignores <b><color style='color:#f29e38'>20.0%</color></b> of the target's DEF.",
-      "Icon": "SkillIcon_1221_Rank4"
-    },
-    "v3": {
-      "Rank": 4,
-      "Name": "Artisan's Ironsong",
-      "Desc": "After launching \"Intuit: Slash\" or \"Intuit: Cull\", increases this unit's Effect RES by <b><color style='color:#f29e38'>50.0%</color></b>, lasting for <b><color style='color:#f29e38'>1.0</color></b> turn(s).",
-      "Icon": "SkillIcon_1221_Rank4"
+      "Name": "Stormward I Hear",
+      "Desc": "When Basic ATK or Skill deals DMG to the enemy target, it will be considered as a follow-up attack.",
+      "Icon": "SkillIcon_1220_Rank4"
     }
   },
-  "122105": {
+  "122005": {
     "v1": {
       "Rank": 5,
-      "Name": "Blade of Old Outlasts All",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1221_Ultra"
-    },
-    "v2": {
-      "Rank": 5,
-      "Name": "Blade of Old Outlasts All",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1221_Ultra"
-    },
-    "v3": {
-      "Rank": 5,
-      "Name": "Blade of Old Outlasts All",
+      "Name": "Heavenward I Leap",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1221_BP"
+      "Icon": "SkillIcon_1220_BP"
     }
   },
-  "122106": {
+  "122006": {
     "v1": {
       "Rank": 6,
-      "Name": "Walk in Blade, Talk in Zither",
-      "Desc": "After using Ultimate, if the next unit to act is an enemy unit, Intuit: Cull will be triggered regardless of whether it is targeting Yunli, and the Block effect provided by the Ultimate will not be dispelled and will last until the end of the next turn. This effect can only be triggered <b><color style='color:#f29e38'>1.0</color></b> per turn.",
-      "Icon": "SkillIcon_1221_Rank6"
-    },
-    "v2": {
-      "Rank": 6,
-      "Name": "Walk in Blade, Talk in Zither",
-      "Desc": "After using Ultimate, if the next unit to act is an enemy unit, Intuit: Cull will be triggered regardless of whether it is targeting Yunli, and the Parry effect provided by the Ultimate will not be dispelled and will last until the end of the next turn. This effect can only be triggered <b><color style='color:#f29e38'>1.0</color></b> per turn.",
-      "Icon": "SkillIcon_1221_Rank6"
-    },
-    "v3": {
-      "Rank": 6,
-      "Name": "Walk in Blade, Talk in Zither",
-      "Desc": "After using the Ultimate, if the next action belongs to an enemy target, Intuit: Cull will be triggered regardless if they attack Yunli, and when dealing DMG via Intuit: Slash or Intuit: Cull, increases Yunli's CRIT Rate by <b><color style='color:#f29e38'>15.0%</color></b> and Physical RES PEN by <b><color style='color:#f29e38'>20.0%</color></b>.",
-      "Icon": "SkillIcon_1221_Rank6"
+      "Name": "Homeward I Near",
+      "Desc": "Increases follow-up attacks' Wind RES PEN by <b><color style='color:#f29e38'>20.0%</color></b>. Increases the DMG multiplier of the Talent's follow-up attack by <b><color style='color:#f29e38'>360.0%</color></b>, and the DMG dealt is considered as Ultimate DMG.",
+      "Icon": "SkillIcon_1220_Rank6"
     }
   },
-  "122401": {
+  "122201": {
     "v1": {
       "Rank": 1,
-      "Name": "My Sword Stirs Starlight",
-      "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>36.0%</color></b>.",
-      "Icon": "SkillIcon_1224_Rank1"
-    },
-    "v2": {
+      "Name": "Bloom on Vileward Bouquet",
+      "Desc": "Lingsha's Weakness Break Efficiency increases by <b><color style='color:#f29e38'>50.0%</color></b>. When an enemy's Weakness is Broken, reduces their DEF by <b><color style='color:#f29e38'>20.0%</color></b>.",
+      "Icon": "SkillIcon_1222_Rank1"
+    }
+  },
+  "122202": {
+    "v1": {
+      "Rank": 2,
+      "Name": "Leisure in Carmine Smokeveil",
+      "Desc": "When using Ultimate, all allies' Break Effect increases by <b><color style='color:#f29e38'>40.0%</color></b>, lasting for <b><color style='color:#f29e38'>3.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1222_Rank2"
+    }
+  },
+  "122203": {
+    "v1": {
+      "Rank": 3,
+      "Name": "Shine of Floral Wick",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1222_Ultra"
+    }
+  },
+  "122204": {
+    "v1": {
+      "Rank": 4,
+      "Name": "Redolence from Canopied Banquet",
+      "Desc": "During Fuyuan's action, restores HP equal to <b><color style='color:#f29e38'>40.0%</color></b> of Lingsha's ATK for the ally with the currently lowest HP percentage.",
+      "Icon": "SkillIcon_1222_Rank4"
+    }
+  },
+  "122205": {
+    "v1": {
+      "Rank": 5,
+      "Name": "Poise Atop Twists and Turns",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1222_BP"
+    }
+  },
+  "122206": {
+    "v1": {
+      "Rank": 6,
+      "Name": "Arcadia Under Deep Seclusion",
+      "Desc": "While Fuyuan is present on the battlefield, all enemies' All-Type RES reduces by <b><color style='color:#f29e38'>20.0%</color></b>. Fuyuan's attack additionally deals <b><color style='color:#f29e38'>3.0</color></b> hit(s) of DMG, with each hit dealing Fire DMG equal to <b><color style='color:#f29e38'>50.0%</color></b> of Lingsha's ATK and <b><color style='color:#f29e38'>5.0</color></b> Toughness Reduction.",
+      "Icon": "SkillIcon_1222_Rank6"
+    }
+  },
+  "122301": {
+    "v1": {
       "Rank": 1,
-      "Name": "My Sword Stirs Starlight",
-      "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>36.0%</color></b>.",
-      "Icon": "SkillIcon_1224_Rank1"
-    },
-    "v3": {
-      "Rank": 1,
-      "Name": "My Sword Stirs Starlight",
-      "Desc": "When Master is on the field, increases March 7th's SPD by <b><color style='color:#f29e38'>10.0%</color></b>.",
-      "Icon": "SkillIcon_1224_Rank1"
+      "Name": "Oathkeeper",
+      "Desc": "When this character deals DMG with his Ultimate, it is considered as having launched a follow-up attack. Increases follow-up attack DMG taken by the enemy marked as Prey by <b><color style='color:#f29e38'>25.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank1"
     }
   },
-  "122402": {
+  "122302": {
     "v1": {
       "Rank": 2,
-      "Name": "Blade Dances on Waves' Fight",
-      "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the target enemy. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no target enemy that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn.<br><br>Hidden Stat: 5.0<br>Hidden Stat: 15.0",
-      "Icon": "SkillIcon_1224_Rank2"
-    },
-    "v2": {
-      "Rank": 2,
-      "Name": "Blade Dances on Waves' Fight",
-      "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the target enemy. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no target enemy that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn.<br><br>Hidden Stat: 5.0<br>Hidden Stat: 15.0",
-      "Icon": "SkillIcon_1224_Rank2"
-    },
-    "v3": {
-      "Rank": 2,
-      "Name": "Blade Dances on Waves' Fight",
-      "Desc": "After the Master uses their Basic ATK or Skill to attack an enemy, March 7th immediately launches a follow-up attack and deals Imaginary DMG equal to <b><color style='color:#f29e38'>60.0%</color></b> of March 7th's ATK to the main target. Additionally, triggers an effect corresponding to Master's Path and gains <b><color style='color:#f29e38'>1.0</color></b> Charge(s). If there is no main target that can be attacked, March 7th attacks a random enemy. This effect can only be triggered once per turn. This attack deals a base Toughness reduction DMG of <b><color style='color:#f29e38'>1.0</color></b> and regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
-      "Icon": "SkillIcon_1224_Rank2"
+      "Name": "Wrathbearer",
+      "Desc": "After entering battle, Moze regenerates <b><color style='color:#f29e38'>20.0</color></b> point(s) of Energy. For every time the Additional DMG from his Talent is triggered, Moze regenerates <b><color style='color:#f29e38'>3.0</color></b> point(s) of Energy.",
+      "Icon": "SkillIcon_1223_Rank2"
     }
   },
-  "122403": {
+  "122303": {
     "v1": {
       "Rank": 3,
-      "Name": "Sharp Wit in Martial Might",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1224_BP"
-    },
-    "v2": {
-      "Rank": 3,
-      "Name": "Sharp Wit in Martial Might",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1224_BP"
-    },
-    "v3": {
-      "Rank": 3,
-      "Name": "Sharp Wit in Martial Might",
-      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
-      "Icon": "SkillIcon_1224_BP"
+      "Name": "Deathchaser",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1223_Ultra"
     }
   },
-  "122404": {
+  "122304": {
     "v1": {
       "Rank": 4,
-      "Name": "Being Fabulous Never Frights",
-      "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
-      "Icon": "SkillIcon_1224_Rank4"
-    },
-    "v2": {
-      "Rank": 4,
-      "Name": "Being Fabulous Never Frights",
-      "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
-      "Icon": "SkillIcon_1224_Rank4"
-    },
-    "v3": {
-      "Rank": 4,
-      "Name": "Being Fabulous Never Frights",
-      "Desc": "At the start of the turn, regenerates <b><color style='color:#f29e38'>5.0</color></b> Energy.",
-      "Icon": "SkillIcon_1224_Rank4"
+      "Name": "Heathprowler",
+      "Desc": "The CRIT DMG boost effect of the Vengewise additionally increases by <b><color style='color:#f29e38'>20.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank4"
     }
   },
-  "122405": {
+  "122305": {
     "v1": {
       "Rank": 5,
-      "Name": "Sword Delights, Sugar Blights",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1224_Ultra"
-    },
-    "v2": {
-      "Rank": 5,
-      "Name": "Sword Delights, Sugar Blights",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1224_Ultra"
-    },
-    "v3": {
-      "Rank": 5,
-      "Name": "Sword Delights, Sugar Blights",
-      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
-      "Icon": "SkillIcon_1224_Ultra"
+      "Name": "Truthbender",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1223_BP"
     }
   },
-  "122406": {
+  "122306": {
     "v1": {
       "Rank": 6,
-      "Name": "Me, the Best Girl on Sight",
-      "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
-      "Icon": "SkillIcon_1224_Rank6"
-    },
-    "v2": {
-      "Rank": 6,
-      "Name": "Me, the Best Girl on Sight",
-      "Desc": "After using Enhanced Basic ATK, increases the Master's CRIT DMG by <b><color style='color:#f29e38'>60.0%</color></b> and Break Effect by <b><color style='color:#f29e38'>36.0%</color></b>, lasting for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
-      "Icon": "SkillIcon_1224_Rank6"
-    },
-    "v3": {
-      "Rank": 6,
-      "Name": "Me, the Best Girl on Sight",
-      "Desc": "After using Ultimate, increases the CRIT DMG of the next Enhanced Basic ATK by <b><color style='color:#f29e38'>50.0%</color></b>.",
-      "Icon": "SkillIcon_1224_Rank6"
+      "Name": "Faithbinder",
+      "Desc": "After using the Ultimate to attack an enemy target, Moze immediately launches the follow-up attack from Talent against this target. If the target is defeated before this follow-up attack is used, then activate the follow-up attack against a random single enemy.",
+      "Icon": "SkillIcon_1223_Rank6"
     }
   }
 }
 
 var _story = {
-  "1218": [],
-  "1221": [],
-  "1224": []
+  "1220": [],
+  "1222": [],
+  "1223": []
 }
 
 var _voice = {
-  "1218": [],
-  "1221": [],
-  "1224": []
+  "1220": [],
+  "1222": [],
+  "1223": []
 }
 
 var _changelog2 = {
-  "1218": [
-    "The Field's effects will also apply to enemies that are unselectable. The effects include:<br>- Increased incoming Ultimate DMG<br>- Chance of Ashen Roast when taking action<br>- Takes DMG at the start of every turn<br>- Eidolon #4 ATK decrease",
-    "(v1) The +10 energy on Jiaoqiu's Passive is present in game data, but is never triggered. That is, no extra energy is regenerated when triggering Passive."
-  ],
-  "1221": [
-    "Counter DMG count (for comparing relic sets Valorous and Duke): <br>- Passive: 1 hit<br>- Slash: 1 hit<br>- Cull: 8 hits + 6~9 bounces<br>- Cull's main DMG split ratio: 12%x7+16%",
-    "Each instance of Intuit: Cull's bounce DMG deals <b>25%</b> of the Toughness reduction DMG of this skill's central target DMG.",
-    "Although counters are considered as both Ult and FUA DMG, Salsotto's effect won't be doubled.",
-    "The DMG dealt by Intuit: Slash and Intuit: Cull is considered as both Ultimate and Follow-Up DMG. However, she is not considered to be casting a Ultimate when triggering these, only considered to be casting a follow-up attack."
-  ],
-  "1224": [
-    "Eidolon #2's follow-up attack deals @1.0# base Toughness reduction DMG, and regenerates @5.0# Energy.",
-    "When Master is unselectable (e.g. Svarog's hand), the effects provided by the Master will still work.<br>In v1, the effects will disappear if Master becomes unselectable."
-  ]
+  "1220": [],
+  "1222": [],
+  "1223": []
 }
 
 var _notes = {}
 
 var _adiff = {
-  "1218": {},
-  "1221": {},
-  "1224": {
-    "v3": [
-      "``Base Stats`- HP 917.28 → 1058.4 ;<br>- DEF 418.95 → 441.0 ;<br>- SPD 107.0 → 102.0 ;"
-    ]
-  },
-  "21046": {},
-  "23030": {},
-  "23029": {}
+  "1220": {},
+  "1222": {},
+  "1223": {},
+  "21047": {},
+  "23031": {},
+  "23032": {}
 }
 
 var _weapondesc = {
-  "23030": "<i>A swift figure is running along the rooftops in the resplendent dusk.</i><br><br><i>\"Lili, Guoguo, let's see who makes it to the end first!\"</i><br>Like a dexterous small animal, the girl climbs up the eaves, evades the guards, and swings in the wind as she chases the final shaft of daylight.<br><br>The slightly heated evening breeze brushes past the girl's face and the dying glows of the day dye the cats into fluorescent colors.<br><i>\"You guys won!\"</i><br>She wipes off the sweat on her brows and takes the cats into her arms.<br>The stars surface in the sky and her innocent unguarded smiling face blooms among them, like the layers of radiant sunset clouds flowing along the horizon.",
-  "23029": "After a few sudden drizzles, spring tides rise, birthing lush greenery.<br><i>\"How many springs has it been?\"</i><br>He recalls those young soldiers heading to the battlefield for the first time. That happens every year. The people are different, but they are all similarly lively and full of hope.<br>The willow withers as it waits for the person to return. In the end, what they manage to bring home... is often icy frost that will never melt.<br><br>The birds warble as he shuts his eyes, letting the sunlight fall on his face through the gaps between the leaves.<br>—<i>\"And that's why those who are left behind are the loneliest.\"</i>",
-  "21046": "In the early morning light, a shifting form dances gracefully through the silent flowers, startling birds into flight one after another.<br><br>Silently reciting sword techniques, she moves with the flow, her once-clumsy moves becoming increasingly proficient. Where the sword's cuts rend the air, petals fall like rain, swirling chaotically as they fall. Unbeknownst to her, the cool mist has dampened her hair.<br><br><i> \"Excellent swordsmanship!\" </i><br>Startled, she instinctively turns her sword—<br>Behind her, a young {F#woman}{M#man} with gray hair lowers the camera in hand.<br><i> \"Beautiful memories won't just fade away with the wind.\"</i>"
+  "23032": "<i>\"First, overhaul the department's work habits.\"</i><br><i>\"Then, strictly implement rewards and penalties.\"</i><br><i>\"Of course, the most important part is figuring out everyone's tangled web of personal interests as soon as possible...\"</i><br>Though she was originally here to admire the scenery, her mind had unknowingly drifted toward work, with stress and trouble naturally following.<br><br>She hurriedly ignites the soothing incense she always carried with her.<br><i>\"The world is so beautiful, yet I am so irritable... Best not to think of such miserable matters while on vacation...\"</i>",
+  "23031": "<i>\"Pitiful, laughable slaves...\"</i><br>The Denizens of Abundance's legions come crashing upon the border like an avalanche, with Lupitoxin rushing toward the Verdant Knights like a tide, trying to arouse the deep-set fear hidden in the soldiers' hearts. Illusions of dread came forth, striking the wills of the warriors, compelling them to drop their blades and be seized by hesitation.<br>But the front remains stalwart like a bronze wall, unstirred by the borisins' disdainful words. From among the soldiers, a single figure saunters forth.<br>She moves her body at a slow pace, and the flags behind her rustle under the unseen killing intent.<br><i>\"The general... it's the general...\"</i><br><i>\"General Feixiao...\"</i><br><i>\"The Merlin's Claw!\"</i><br>These small cheers and calls then come together into a thunderous battle cry.<br><br><i>\"Always soaring! Forever triumphant!\"</i><br>She stands there, alone. A single figure, but imbued with the might of an entire army.",
+  "21047": "<i>\"Footprints.\"</i><br><i>\"Scratches.\"</i><br><i>\"Scents.\"</i><br><br>After everything has been appropriately handled, he picks up a crow feather and gracefully leaps onto the roof.<br>In the vast city, a pitch-black shadow shuttles through the corners unseen.<br><br><i>\"I shall merge into shadows and keep vigil over you all.\"</i>"
 }
 
 var _weaponskill = {
-  "23030": {
+  "23032": {
     "v1": {
-      "Name": "Deeply Engrossed",
+      "Name": "Contentment",
       "Desc": [
-        "Greatly increases the odds that the wearer will be attacked, increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
-      ]
-    },
-    "v2": {
-      "Name": "Deeply Engrossed",
-      "Desc": [
-        "Greatly increases the odds that the wearer will be attacked, increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
-      ]
-    },
-    "v3": {
-      "Name": "Deeply Engrossed",
-      "Desc": [
-        "Greatly increases the odds that the wearer will be attacked and increases the wearer's CRIT DMG by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> . After the wearer uses their Ultimate, they receive 1 stack of Firedance, lasting for 2 turns and up to <b>2.0</b> stacks. Each stack of Firedance increases the DMG dealt by the wearer's follow-up attack by <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>48.0%</color> / <color style='color:#f29e38;'>54.0%</color> / <color style='color:#f29e38;'>60.0%</color> .<br>Hidden Stat: 5.0"
+        "Increases wearer's Break Effect by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After wearer attacks an enemy with an Ultimate, causes them to enter the Woefree state for <b>2.0</b> turn(s). During the Woefree state, increases DMG dealt to enemy targets by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color>  and if the wearer's current Break Effect is greater or equal to <b>150.0%</b>, additionally increases DMG received effect by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> ."
       ]
     }
   },
-  "23029": {
+  "23031": {
     "v1": {
-      "Name": "Worldly Affairs Leave No Mark",
+      "Name": "Intimidation",
       "Desc": [
-        "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . If the target is not under the Unarmored effect dealt by the wearer, when the wearer uses a Basic ATK, Skill, or Ultimate on enemy targets, there is a <b>60.0%</b> base chance to inflict Unarmored to the enemy. Under the Unarmored state, the target enemy's DMG received is increased by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the wearer deals DMG to an enemy with the Unarmored effect inflicted by themselves, there is a <b>60.0%</b> base chance to escalate the Unarmored state from them into the Cornered state, which increases the target enemy's DMG received by <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>21.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>27.0%</color> / <color style='color:#f29e38;'>30.0%</color> ."
-      ]
-    },
-    "v2": {
-      "Name": "Worldly Affairs Leave No Mark",
-      "Desc": [
-        "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . If the target is not under the Unarmored effect dealt by the wearer, when the wearer uses a Basic ATK, Skill, or Ultimate on enemy targets, there is a <b>60.0%</b> base chance to inflict Unarmored to the enemy. Under the Unarmored state, the target enemy's DMG received is increased by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the wearer deals DMG to an enemy with the Unarmored effect inflicted by themselves, there is a <b>60.0%</b> base chance to escalate the Unarmored state from them into the Cornered state, which increases the target enemy's DMG received by <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>21.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>27.0%</color> / <color style='color:#f29e38;'>30.0%</color> ."
-      ]
-    },
-    "v3": {
-      "Name": "Worldly Affairs Leave No Mark",
-      "Desc": [
-        "Increases the wearer's Effect Hit Rate by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After the wearer uses Basic ATK, Skill, or Ultimate to attack enemy target(s), there is a <b>60.0%</b> base chance to inflict Unarmored to the target. While in the Unarmored state, increase the DMG the target enemy receives by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> , lasting for <b>2.0</b> turn(s). When the target is under the DoT state the wearer inflicted, there is a <b>60.0%</b> base chance to escalate the Unarmored state inflicted by the wearer to the Cornered state, which further increases the DMG the target enemy receives by <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.0%</color> , lasting for <b>2.0</b> turn(s). During this period, the wearer will not be able to apply Unarmored."
+        "Increases the wearer's CRIT Rate by <color style='color:#f29e38;'>15.0%</color> / <color style='color:#f29e38;'>17.5%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.5%</color> / <color style='color:#f29e38;'>25.0%</color> . When any single ally uses an attack, the wearer gains 1 stack of Luminflux to a max of <b>6.0</b> stack(s). Each stack of Luminflux enables the Ultimate DMG deal by the wearer to ignore <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>13.0%</color>  of the target's DEF. This effect will be dispelled after the wearer uses their Ultimate."
       ]
     }
   },
-  "21046": {
+  "21047": {
     "v1": {
-      "Name": "Lose Not, Forget Not",
+      "Name": "Concealment",
       "Desc": [
-        "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."
-      ]
-    },
-    "v2": {
-      "Name": "Lose Not, Forget Not",
-      "Desc": [
-        "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."
-      ]
-    },
-    "v3": {
-      "Name": "Lose Not, Forget Not",
-      "Desc": [
-        "Increases the wearer's ATK by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Upon entering the battle, if there are two or more allies in the team who follow the same Path, these characters' CRIT DMG increases by <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>24.0%</color> / <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>32.0%</color> . Abilities of the same type cannot stack."
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>35.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>49.0%</color> / <color style='color:#f29e38;'>56.0%</color> . Upon entering battle or dealing Break DMG, increases SPD by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> , lasting for <b>2.0</b> turn(s). This effect can only be triggered 1 time per turn."
       ]
     }
   }

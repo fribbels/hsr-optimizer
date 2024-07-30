@@ -109,7 +109,7 @@ export function calculateDamage(c, request, params) {
     * ((ultVulnerability) * Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST) * (1 + ULT_CD) + ultVulnerability * (1 - Math.min(1, x[Stats.CR] + x.ULT_CR_BOOST)))
     * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
-    + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG)
+    + (x.SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1 + x.ULT_BREAK_EFFICIENCY_BOOST))
 
   x.FUA_DMG
     = x.FUA_DMG

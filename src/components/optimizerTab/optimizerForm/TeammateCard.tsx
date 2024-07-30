@@ -83,6 +83,11 @@ const teammateOrnamentSetOptions = (() => {
       desc: `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
       label: labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
     },
+    {
+      value: Sets.LushakaTheSunkenSeas,
+      desc: `${Sets.LushakaTheSunkenSeas} (+16% ATK)`,
+      label: labelRender(Sets.LushakaTheSunkenSeas, '16% ATK'),
+    },
   ]
 })()
 
@@ -107,6 +112,7 @@ const teammateOrnamentSets = [
   Sets.BrokenKeel,
   Sets.FleetOfTheAgeless,
   Sets.PenaconyLandOfTheDreams,
+  Sets.LushakaTheSunkenSeas
 ]
 
 // Find 4 piece relic sets and 2 piece ornament sets

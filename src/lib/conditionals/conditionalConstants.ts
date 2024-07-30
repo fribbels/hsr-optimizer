@@ -129,6 +129,7 @@ export const baseComputedStatsObject = {
 
   BREAK_EFFICIENCY_BOOST: 0,
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
+  ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
   RATIO_BASED_ATK_BUFF: 0,
   RATIO_BASED_ATK_P_BUFF: 0,

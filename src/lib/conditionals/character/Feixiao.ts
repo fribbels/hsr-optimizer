@@ -39,9 +39,9 @@ export default (e: Eidolon): CharacterConditional => {
       formItem: 'switch',
       id: 'weaknessBrokenUlt',
       name: 'weaknessBrokenUlt',
-      text: 'Weakness broken ult',
-      title: 'Weakness broken ult',
-      content: BETA_UPDATE,
+      text: 'Weakness broken ult (force weakness break)',
+      title: 'Weakness broken ult (force weakness break)',
+      content: `Overrides weakness break to be enabled. ${BETA_UPDATE}`,
     },
     {
       formItem: 'slider',
@@ -93,12 +93,19 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
+      // Special case where we force the weakness break on if the ult break option is enabled
+      if (r.weaknessBrokenUlt) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      } else {
+        x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
+      }
+
       buffAbilityCd(x, FUA_TYPE, 0.60)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
-      x.ULT_SCALING += r.ultStacks * (ultScaling + ultFinalScaling + (r.weaknessBrokenUlt ? ultBrokenScaling + ultFinalBrokenScaling : 0))
+      x.ULT_SCALING += r.ultStacks * (ultScaling + ultFinalScaling + ultBrokenScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0)) // The two ults currently do the same thing
       x.ULT_SCALING += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
 
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
@@ -118,6 +125,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 15 * r.ultStacks
       x.FUA_TOUGHNESS_DMG += 15
+
 
       return x
     },

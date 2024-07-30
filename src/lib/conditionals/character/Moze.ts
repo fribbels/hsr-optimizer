@@ -6,17 +6,18 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
+import { buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.87, 1.87)
-  const ultScaling = ult(e, 4.20, 4.20)
-  const ultDmgBuffValue = ult(e, 0.60, 0.60)
+  const skillScaling = skill(e, 1.50, 1.65)
+  const ultScaling = ult(e, 3.50, 3.78)
+  const ultDmgBuffValue = ult(e, 0.50, 0.54)
 
-  const fuaScaling = talent(e, 2.50, 2.50)
-  const additionalDmgScaling = talent(e, 0.37, 0.37)
+  const fuaScaling = talent(e, 2.00, 2.20)
+  const additionalDmgScaling = talent(e, 0.30, 0.33)
 
   // TODO: Ashblazing
 
@@ -53,7 +54,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E4 CD boost',
       title: 'E4 CD boost',
       content: BETA_UPDATE,
-      disabled: e < 1
+      disabled: e < 4
     },
   ]
 
@@ -93,12 +94,17 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling + ((r.preyMark) ? additionalDmgScaling : 0)
       x.ULT_SCALING += ultScaling + ((r.preyMark) ? additionalDmgScaling : 0)
 
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 90
+      x.FUA_TOUGHNESS_DMG += 60
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.FUA_VULNERABILITY += (e >= 1 && m.e1Buffs && m.preyMark) ? 0.25 : 0
+      buffAbilityVulnerability(x, FUA_TYPE, 0.25, (e >= 1 && m.e1Buffs && m.preyMark))
       x[Stats.CD] += (m.preyMark) ? 0.20 : 0
       x[Stats.CD] += (e >= 4 && m.e4CdBoost) ? 0.20 : 0
     },

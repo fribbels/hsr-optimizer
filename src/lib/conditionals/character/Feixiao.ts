@@ -9,18 +9,18 @@ import { BETA_UPDATE, Stats } from 'lib/constants'
 import { buffAbilityCd, buffAbilityResShred } from "lib/optimizer/calculateBuffs";
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 3.00, 3.00)
+  const skillScaling = skill(e, 2.40, 2.64)
 
-  const ultScaling = ult(e, 0.90, 0.90)
-  const ultBrokenScaling = ult(e, 0.24, 0.24)
+  const ultScaling = ult(e, 0.75, 0.81)
+  const ultBrokenScaling = ult(e, 0.40, 0.432)
 
-  const ultFinalScaling = ult(e, 0.12, 0.12)
-  const ultFinalBrokenScaling = ult(e, 0.18, 0.18)
+  const ultFinalScaling = ult(e, 0.10, 0.108)
+  const ultFinalBrokenScaling = ult(e, 0.15, 0.162)
 
-  const fuaScaling = talent(e, 2.50, 2.50)
+  const fuaScaling = talent(e, 2.00, 2.20)
 
   // TODO: Ashblazing
 
@@ -99,7 +99,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
       x.ULT_SCALING += r.ultStacks * (ultScaling + ultFinalScaling + (r.weaknessBrokenUlt ? ultBrokenScaling + ultFinalBrokenScaling : 0))
-      x.ULT_SCALING += (e >= 1 && r.e1UltDmg) ? 0.30 : 0
+      x.ULT_SCALING += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
 
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
@@ -113,6 +113,11 @@ export default (e: Eidolon): CharacterConditional => {
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
         x.FUA_SCALING += 3.60
       }
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 60
+      x.ULT_TOUGHNESS_DMG += 15 * r.ultStacks
+      x.FUA_TOUGHNESS_DMG += 15
 
       return x
     },

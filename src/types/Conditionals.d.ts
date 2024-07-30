@@ -382,3 +382,4 @@ export type ConditionalBuff =
   | 'luminfluxStacks'
   | 'woefreeState'
   | 'additionalVulnerability'
+  | 'e1UltHitsOnTarget'

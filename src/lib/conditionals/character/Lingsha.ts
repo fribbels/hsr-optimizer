@@ -1,4 +1,4 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -6,15 +6,16 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
+import { buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
 
 export default (e: Eidolon): CharacterConditional => {
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5 // TODO
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.00, 1.00)
-  const ultScaling = ult(e, 1.87, 1.87)
-  const ultBreakVulnerability = ult(e, 0.30, 0.30)
-  const fuaScaling = talent(e, 1.12, 1.12)
+  const skillScaling = skill(e, 0.80, 0.88)
+  const ultScaling = ult(e, 1.50, 1.65)
+  const ultBreakVulnerability = ult(e, 0.25, 0.27)
+  const fuaScaling = talent(e, 0.90, 0.99)
 
   // TODO: Ashblazing
 
@@ -95,8 +96,6 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x.BREAK_VULNERABILITY += (r.befogState) ? ultBreakVulnerability : 0
-
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
@@ -104,14 +103,24 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BREAK_EFFICIENCY_BOOST += (e >= 1) ? 0.50 : 0
       x.FUA_SCALING += (e >= 6 && r.e6ResShred) ? 0.50 : 0
-      // TODO: Also e6 fua toughness reduction
+
+      x.BASIC_TOUGHNESS_DMG += 30
+      x.SKILL_TOUGHNESS_DMG += 30
+      x.ULT_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += 45
+      x.FUA_TOUGHNESS_DMG += (e >= 6) ? 15 : 0
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
+      buffAbilityVulnerability(x, BREAK_TYPE, ultBreakVulnerability, (m.befogState))
+
+      if (x.ENEMY_WEAKNESS_BROKEN) {
+        x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
+      }
+
       x[Stats.BE] += (e >= 2 && m.e2BeBuff) ? 0.40 : 0
       x.RES_PEN += (e >= 6 && m.e6ResShred) ? 0.20 : 0
     },

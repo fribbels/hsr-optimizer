@@ -105,6 +105,9 @@ import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
 import PoisedToBloom from 'lib/conditionals/lightcone/4star/PoisedToBloom'
 import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
+import ScentAloneStaysTrue from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import IVentureForthToHunt from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import ShadowedByNight from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 
 const fiveStar = {
   23000: NightOnTheMilkyWay,
@@ -138,6 +141,8 @@ const fiveStar = {
   23028: YetHopeIsPriceless,
   23029: ThoseManySprings,
   23030: DanceAtSunset,
+  23031: IVentureForthToHunt,
+  23032: ScentAloneStaysTrue,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
@@ -194,6 +199,7 @@ const fourStar = {
   21044: BoundlessChoreo,
   21045: AfterTheCharmonyFall,
   21046: PoisedToBloom,
+  21047: ShadowedByNight,
 
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,

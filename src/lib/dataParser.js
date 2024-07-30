@@ -706,6 +706,7 @@ function getLightConeOverrideCenter() {
     21044: 150,
     21045: 160,
     21046: 145,
+    21047: 145,
     22000: 275,
     22001: 220,
     22002: 160,
@@ -739,6 +740,8 @@ function getLightConeOverrideCenter() {
     23027: 140,
     23028: 150,
     23029: 140,
+    23031: 145,
+    23032: 180,
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1216,8 +1219,20 @@ function getOverrideImageCenter() {
       x: 950,
       y: 900,
     },
+    1220: { // Feixiao
+      x: 1024,
+      y: 1050,
+    },
     1221: { // Yunli
       x: 1024,
+      y: 1024,
+    },
+    1222: { // Lingsha
+      x: 1110,
+      y: 1000,
+    },
+    1223: { // Moze
+      x: 975,
       y: 1024,
     },
     1224: { // March 8th
@@ -3001,6 +3016,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(0),
+        PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -3310,6 +3326,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
+        PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
       simulation: {
@@ -4591,7 +4608,9 @@ function getScoringMetadata() {
           Constants.Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.BE,
     },
     1223: { // Moze

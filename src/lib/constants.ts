@@ -430,6 +430,8 @@ export const SetsOrnaments = {
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
   DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
+  LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
+  TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

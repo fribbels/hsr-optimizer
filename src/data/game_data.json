@@ -644,6 +644,23 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
+      "unreleased": false
+    },
+    "1220": {
+      "id": "1220",
+      "name": "Feixiao",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Wind",
+      "max_sp": 12,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 601.524,
+        "DEF": 388.08,
+        "SPD": 125,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
       "unreleased": true
     },
     "1221": {
@@ -658,6 +675,40 @@
         "ATK": 679.14,
         "DEF": 460.845,
         "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1222": {
+      "id": "1222",
+      "name": "Lingsha",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Fire",
+      "max_sp": 110,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 679.14,
+        "DEF": 436.59,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1223": {
+      "id": "1223",
+      "name": "Moze",
+      "rarity": 4,
+      "path": "Hunt",
+      "element": "Lightning",
+      "max_sp": 110,
+      "stats": {
+        "HP": 811.44,
+        "ATK": 546.84,
+        "DEF": 352.8,
+        "SPD": 114,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -678,7 +729,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1301": {
       "id": "1301",
@@ -1819,6 +1870,18 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "unreleased": false
+    },
+    "21047": {
+      "id": "21047",
+      "name": "Shadowed by Night",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
       "unreleased": true
     },
     "22000": {
@@ -2215,7 +2278,7 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23030": {
       "id": "23030",
@@ -2226,6 +2289,30 @@
         "HP": 1058.4,
         "ATK": 582.12,
         "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23031": {
+      "id": "23031",
+      "name": "I Venture Forth to Hunt",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
+    "23032": {
+      "id": "23032",
+      "name": "Scent Alone Stays True",
+      "rarity": 5,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 529.2
       },
       "unreleased": true
     },

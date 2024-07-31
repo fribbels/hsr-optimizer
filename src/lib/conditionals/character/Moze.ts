@@ -60,6 +60,8 @@ export default (e: Eidolon): CharacterConditional => {
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'preyMark'),
+    findContentId(content, 'e1Buffs'),
+    findContentId(content, 'e4CdBoost'),
   ]
 
   const defaults = {
@@ -71,6 +73,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   const teammateDefaults = {
     preyMark: true,
+    e1Buffs: true,
     e4CdBoost: true,
   }
 
@@ -106,7 +109,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, FUA_TYPE, 0.25, (e >= 1 && m.e1Buffs && m.preyMark))
       x[Stats.CD] += (m.preyMark) ? 0.20 : 0
-      x[Stats.CD] += (e >= 4 && m.e4CdBoost) ? 0.20 : 0
+      x[Stats.CD] += (e >= 4 && m.e4CdBoost && m.preyMark) ? 0.20 : 0
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },

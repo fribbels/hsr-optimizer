@@ -7,14 +7,7 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  LineChartOutlined,
-  PlusCircleFilled
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -147,9 +140,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-        {/* <Flex gap={10} vertical align="center"> */}
-        {/*  <Text><h2>The relic scorer may be slow today, try refreshing the page</h2></Text> */}
-        {/* </Flex> */}
+         {/*<Flex gap={10} vertical align="center">*/}
+         {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
+         {/*</Flex>*/}
         <Flex gap={10} vertical align="center">
           <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>

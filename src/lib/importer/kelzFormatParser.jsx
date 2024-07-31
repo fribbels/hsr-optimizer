@@ -91,17 +91,19 @@ function readCharacter(character, lightCones, trailblazer, path) {
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
   }
 
-  let characterId
-  if (character.key.startsWith('Trailblazer')) {
-    characterId = getTrailblazerId(character.key, trailblazer, path)
-  } else {
-    characterId = characterList.find((x) => x.name === character.key)?.id
+  let characterId = characterList.find((x) => x.name === character.key)
+  if (!characterId) {
+    if (character.key.startsWith('Trailblazer')) {
+      characterId = getTrailblazerId(character.key, trailblazer, path)
+    } else {
+      characterId = getSplitPathId(character.key)
+    }
   }
 
   const lcKey = lightCone?.key
@@ -138,6 +140,8 @@ function readRelic(relic, trailblazer, path, config) {
       equippedBy = lookup
     } else if (relic.location.startsWith('Trailblazer')) {
       equippedBy = getTrailblazerId(relic.location, trailblazer, path)
+    } else {
+      equippedBy = getSplitPathId(relic.location)
     }
   }
 
@@ -352,4 +356,12 @@ function getTrailblazerId(name, trailblazer, path) {
   }
 
   return '8002'
+}
+
+const splitPathIdLookup = {
+  'March 7thPreservation': '1001',
+  'March 7thHunt': '1224',
+}
+function getSplitPathId(name) {
+  return splitPathIdLookup[name]
 }

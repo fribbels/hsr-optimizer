@@ -4683,7 +4683,7 @@ function getScoringMetadata() {
         breakpoints: {},
         maxBonusRolls: {},
         formula: {
-          BASIC: 1,
+          BASIC: 0,
           SKILL: 1,
           ULT: 1,
           FUA: 2,

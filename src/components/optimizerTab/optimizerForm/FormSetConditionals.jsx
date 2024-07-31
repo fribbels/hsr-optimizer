@@ -387,6 +387,7 @@ export const FormSetConditionals = () => {
             set={Constants.Sets.LushakaTheSunkenSeas}
             description="Increases the wearer's Effect RES by 10%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 16%."
             conditional="The selected buff is applied to damage calculations."
+            p2Checked
           />
           <ConditionalSetOption
             set={Constants.Sets.TheWondrousBananAmusementPark}

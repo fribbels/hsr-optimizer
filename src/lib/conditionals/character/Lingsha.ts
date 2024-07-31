@@ -117,12 +117,15 @@ export default (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultBreakVulnerability, (m.befogState))
 
+      x[Stats.BE] += (e >= 2 && m.e2BeBuff) ? 0.40 : 0
+      x.RES_PEN += (e >= 6 && m.e6ResShred) ? 0.20 : 0
+    },
+    postPreComputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
       if (x.ENEMY_WEAKNESS_BROKEN) {
         x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
       }
-
-      x[Stats.BE] += (e >= 2 && m.e2BeBuff) ? 0.40 : 0
-      x.RES_PEN += (e >= 6 && m.e6ResShred) ? 0.20 : 0
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },

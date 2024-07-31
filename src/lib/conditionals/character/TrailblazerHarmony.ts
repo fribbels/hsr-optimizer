@@ -111,16 +111,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    prePrecomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
       // Special case where we force the weakness break on if the option is enabled
       if (m.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
       x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0

@@ -27,3 +27,14 @@ export function calculateConditionals(request, params) {
   params.characterConditionals = characterConditionals
   params.lightConeConditionals = lightConeConditionals
 }
+
+export function calculatePostPrecomputeConditionals(request, params) {
+  let characterConditionals = params.characterConditionals
+  let lightConeConditionals = params.lightConeConditionals
+
+  if (characterConditionals.postPreComputeMutualEffects) characterConditionals.postPreComputeMutualEffects(params.precomputedX, request)
+
+  if (lightConeConditionals) {
+    if (lightConeConditionals.postPreComputeMutualEffects) lightConeConditionals.postPreComputeMutualEffects(params.precomputedX, request)
+  }
+}

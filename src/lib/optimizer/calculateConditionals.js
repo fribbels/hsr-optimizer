@@ -12,15 +12,16 @@ export function calculateConditionals(request, params) {
   }
 
   let precomputedX = characterConditionals.precomputeEffects(request)
+
+  // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
+  precomputedX.ENEMY_WEAKNESS_BROKEN = precomputedX.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0)
+
   if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
 
   if (lightConeConditionals) {
     if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request)
     if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
   }
-
-  // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  precomputedX.ENEMY_WEAKNESS_BROKEN = precomputedX.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0)
 
   params.precomputedX = precomputedX
   params.characterConditionals = characterConditionals

@@ -1,6 +1,6 @@
 import { generateParams } from 'lib/optimizer/calculateParams'
-import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
@@ -40,6 +40,10 @@ export function calculateBuild(request, relics) {
   // Precompute
   calculateConditionals(request, params)
   calculateTeammates(request, params)
+
+  // Postcompute
+  calculatePostPrecomputeConditionals(request, params)
+  calculatePostPrecomputeTeammates(request, params)
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)

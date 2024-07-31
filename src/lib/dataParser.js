@@ -4399,7 +4399,7 @@ function getScoringMetadata() {
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
-            Constants.Stats.SPD,
+            Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,

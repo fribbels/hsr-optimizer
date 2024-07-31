@@ -924,11 +924,11 @@ function calculateMaxSubstatRollCounts(
   return maxCounts
 }
 
-function getBaseSpeed(character: Character) {
+function calculateCharacterSpdStat(character: Character) {
   const statMetadata = DB.getMetadata().characters[character.id]
-  const baseSpd = statMetadata.stats.SPD + (statMetadata.traces.SPD || 0)
+  const baseSpdStat = statMetadata.stats.SPD + (statMetadata.traces.SPD || 0)
 
-  return baseSpd
+  return baseSpdStat
 }
 
 // Generate all main stat possibilities
@@ -938,7 +938,7 @@ function generatePartialSimulations(
   relicsByPart: RelicBuild,
   originalBaseSpeed: number,
 ) {
-  const characterSpdStat = getBaseSpeed(character)
+  const characterSpdStat = calculateCharacterSpdStat(character)
   const forceSpdBoots = originalBaseSpeed - characterSpdStat > 25
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 

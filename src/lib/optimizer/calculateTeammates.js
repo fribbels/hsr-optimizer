@@ -12,7 +12,7 @@ export function calculateTeammates(request, params) {
     request.teammate2,
   ].filter((x) => !!x && !!x.characterId)
   for (let i = 0; i < teammates.length; i++) {
-    // This set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
+    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
     teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, request, teammates[i])
 
@@ -69,7 +69,7 @@ export function calculatePostPrecomputeTeammates(request, params) {
     request.teammate2,
   ].filter((x) => !!x && !!x.characterId)
   for (let i = 0; i < teammates.length; i++) {
-    // This set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
+    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
     teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, request, teammates[i])
 

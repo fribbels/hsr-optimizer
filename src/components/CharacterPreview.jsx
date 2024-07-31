@@ -230,7 +230,8 @@ export function CharacterPreview(props) {
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
   const newLcHeight = 140
-  const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
+  // Some APIs return empty light cone as '0'
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0') ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
 

@@ -17,9 +17,11 @@ export function calculateTeammates(request, params) {
     const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
     const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
 
+    if (teammateCharacterConditionals.prePrecomputeMutualEffects) teammateCharacterConditionals.prePrecomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
 
+    if (teammateLightConeConditionals.prePrecomputeMutualEffects) teammateLightConeConditionals.prePrecomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
 

@@ -7,6 +7,7 @@ export interface CharacterConditional extends Conditional {
   precomputeEffects: (request: Form) => ComputedStatsObject
 
   // Shared effects between teammates and main character
+  prePrecomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
   precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
 
   // Effects unique to teammate calculation

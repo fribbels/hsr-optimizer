@@ -12,16 +12,16 @@ export function calculateTeammates(request, params) {
     request.teammate2,
   ].filter((x) => !!x && !!x.characterId)
   for (let i = 0; i < teammates.length; i++) {
+    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
+    teammates[i].lightCone = teammates[i].lightCone || null
     const teammateRequest = Object.assign({}, request, teammates[i])
 
     const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
     const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
 
-    if (teammateCharacterConditionals.prePrecomputeMutualEffects) teammateCharacterConditionals.prePrecomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
 
-    if (teammateLightConeConditionals.prePrecomputeMutualEffects) teammateLightConeConditionals.prePrecomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(precomputedX, teammateRequest)
     if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(precomputedX, teammateRequest)
 
@@ -57,5 +57,26 @@ export function calculateTeammates(request, params) {
     // Track unique buffs
     teammateSetEffects[teammateRequest.teamOrnamentSet] = true
     teammateSetEffects[teammateRequest.teamRelicSet] = true
+  }
+}
+
+export function calculatePostPrecomputeTeammates(request, params) {
+  // Postcompute teammate effects
+  const precomputedX = params.precomputedX
+  const teammates = [
+    request.teammate0,
+    request.teammate1,
+    request.teammate2,
+  ].filter((x) => !!x && !!x.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
+    teammates[i].lightCone = teammates[i].lightCone || null
+    const teammateRequest = Object.assign({}, request, teammates[i])
+
+    const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
+    const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
+
+    if (teammateCharacterConditionals.postPreComputeMutualEffects) teammateCharacterConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
+    if (teammateLightConeConditionals.postPreComputeMutualEffects) teammateLightConeConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
   }
 }

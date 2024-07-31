@@ -1,15 +1,7 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
-import {
-  calculateOrnamentSets,
-  calculateRelicSets,
-  convertRelicsToSimulation,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-  SimulationStats
-} from 'lib/statSimulationController'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { Utils } from 'lib/utils'
@@ -335,7 +327,7 @@ export function scoreCharacterSimulation(
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(metadata, relicsByPart, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, relicsByPart, originalBaseSpeed)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -932,13 +924,22 @@ function calculateMaxSubstatRollCounts(
   return maxCounts
 }
 
+function calculateCharacterSpdStat(character: Character) {
+  const statMetadata = DB.getMetadata().characters[character.id]
+  const baseSpdStat = statMetadata.stats.SPD + (statMetadata.traces.SPD || 0)
+
+  return baseSpdStat
+}
+
 // Generate all main stat possibilities
 function generatePartialSimulations(
+  character: Character,
   metadata: SimulationMetadata,
   relicsByPart: RelicBuild,
   originalBaseSpeed: number,
 ) {
-  const forceSpdBoots = originalBaseSpeed > 140
+  const characterSpdStat = calculateCharacterSpdStat(character)
+  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 25
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
   // Allow equivalent sets

@@ -7,8 +7,8 @@ export const KelzScannerConfig = {
   releases: 'https://github.com/kel-z/HSR-Scanner/releases/latest',
   defaultFileName: 'HSRScanData.json',
   sourceString: 'HSR-Scanner',
-  latestBuildVersion: 'v1.1.0',
-  latestOutputVersion: 3,
+  latestBuildVersion: 'v1.2.0',
+  latestOutputVersion: 4,
   speedVerified: false,
 }
 

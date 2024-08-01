@@ -1,12 +1,11 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import './style/style.css'
 import './style/hsro.css'
 import App from './App'
 
 import { WorkerPool } from './lib/workerPool'
-import { Constants } from './lib/constants.ts'
+import { Constants } from './lib/constants'
 import { DataParser } from './lib/dataParser'
 import { DB } from './lib/db'
 import { CharacterStats } from './lib/characterStats'
@@ -20,11 +19,11 @@ import { Renderer } from './lib/renderer'
 import { Message } from './lib/message'
 import { Hint } from './lib/hint'
 import { CharacterConverter } from './lib/characterConverter'
-import { RelicScorer } from './lib/relicScorer.ts'
+import { RelicScorer } from './lib/relicScorer'
 import { BufferPacker } from './lib/bufferPacker'
-import { Typography } from 'antd'
 import { RelicRollFixer } from './lib/relicRollFixer'
-import { Themes } from 'lib/theme'
+import { Themes } from './lib/theme'
+import { Typography } from 'antd'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -51,12 +50,17 @@ window.colorTheme = Themes.BLUE
 DataParser.parse(window.officialOnly)
 SaveState.load()
 
-const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
+function defaultErrorRender({ error }: FallbackProps) {
+  if (error instanceof Error) return <Typography>Something went wrong: {error.message}</Typography>
+  return null
+}
+
+const domRoot = document.getElementById('root')
 
 document.addEventListener('DOMContentLoaded', function() {
-  const root = ReactDOM.createRoot(document.getElementById('root'))
+  if (!domRoot) return
 
-  root.render(
+  ReactDOM.createRoot(domRoot).render(
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <App />
     </ErrorBoundary>,

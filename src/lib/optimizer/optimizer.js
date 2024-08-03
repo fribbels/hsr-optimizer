@@ -9,7 +9,7 @@ import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
@@ -62,7 +62,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function(request) {
+  optimize: function (request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
@@ -187,6 +187,7 @@ export const Optimizer = {
           window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
+          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
           return
         }
 

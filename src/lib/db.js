@@ -91,6 +91,7 @@ window.store = create((set) => ({
   optimizationId: undefined,
   teammateCount: 0,
   zeroPermutationModalOpen: false,
+  zeroResultModalOpen: false,
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
 
@@ -179,6 +180,7 @@ window.store = create((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+  setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
   setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
   setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
   setSettings: (x) => set(() => ({ settings: x })),

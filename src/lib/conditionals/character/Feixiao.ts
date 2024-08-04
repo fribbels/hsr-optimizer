@@ -1,5 +1,5 @@
-import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
@@ -22,7 +22,7 @@ export default (e: Eidolon): CharacterConditional => {
 
   const fuaScaling = talent(e, 2.00, 2.20)
 
-  // TODO: Ashblazing
+  let hitMulti = 0
 
   const content: ContentItem[] = [
     {
@@ -105,8 +105,41 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
-      x.ULT_SCALING += r.ultStacks * (ultScaling + ultFinalScaling + ultBrokenScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0)) // The two ults currently do the same thing
-      x.ULT_SCALING += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
+
+      // The two ults currently do the same thing
+      const ultBaseScalingTotal = r.ultStacks * (ultScaling + ultBrokenScaling)
+      let ultFinalScalingTotal = r.ultStacks * (ultFinalScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0))
+      ultFinalScalingTotal += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
+
+      x.ULT_SCALING += ultBaseScalingTotal + ultFinalScalingTotal
+
+
+      // The broken enemies ult has a 2 hit 0.30 + 0.70 split per stack, while the unbroken one is 1 hit 1.00 split
+      // The last hit is separate from that so we need to calculate its percentage contribution to the full ult and distribute it
+      const lastHitPercentage = ultFinalScalingTotal / (ultBaseScalingTotal + ultFinalScalingTotal)
+      const mainUltPercentagePerStack = (1 - lastHitPercentage) / r.ultStacks
+      let atkBoostSum = 0
+      let ashblazingStacks = 1
+      if (r.weaknessBrokenUlt) {
+        // 2 hits
+        for (let i = 0; i < r.ultStacks; i++) {
+          atkBoostSum += ashblazingStacks * (0.3 * mainUltPercentagePerStack)
+          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+
+          atkBoostSum += ashblazingStacks * (0.7 * mainUltPercentagePerStack)
+          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+        }
+
+        atkBoostSum += ashblazingStacks * lastHitPercentage
+      } else {
+        // 1 hit
+        for (let i = 0; i < r.ultStacks; i++) {
+          atkBoostSum += ashblazingStacks * (mainUltPercentagePerStack)
+          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+        }
+      }
+
+      hitMulti = ASHBLAZING_ATK_STACK * atkBoostSum
 
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
@@ -137,10 +170,23 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+      {
+        // Ult is multi hit ashblazing
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      }
+
+      // Everything else is single hit
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+
+      if (e >= 4 && r.e4DmgTypeChange) {
+        x.BASIC_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        x.SKILL_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      } else {
+        x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+        x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      }
     },
   }
 }

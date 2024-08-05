@@ -825,7 +825,7 @@ export const DB = {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-        match.verified = true
+        match.verified = newRelic.verified ?? true
         updatedOldRelics.push(match)
 
         equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })

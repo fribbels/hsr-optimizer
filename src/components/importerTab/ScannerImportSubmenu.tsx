@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig.js'
 import { SaveState } from 'lib/saveState.js'
-import { Button, Divider, Flex, Form, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Divider, Flex, Input, Popconfirm, Steps, Switch, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import DB, { AppPages } from 'lib/db.js'
 import { importerTabButtonWidth, importerTabSpinnerMs } from 'components/importerTab/importerTabUiConstants.ts'
@@ -30,23 +30,7 @@ export function ScannerImportSubmenu() {
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
-  const [form] = Form.useForm()
-
-  const hoyolabSubmit = () => {
-    const json = form.getFieldValue('json input')
-    const out = hoyolabParser(json)
-    const relics: Relic[] = out.relics
-    let characters = out.characters
-    // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-    characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-    characters.map((c) => {
-      c.characterLevel = 80
-      c.lightConeLevel = 80
-    })
-    setCurrentCharacters(characters)
-    setCurrentRelics(relics)
-    setCurrentStage(Stages.CONFIRM_DATA)
-  }
+  const [partial, setPartial] = useState(false)
 
   function beforeUpload(file): Promise<any> {
     return new Promise(() => {
@@ -133,7 +117,9 @@ export function ScannerImportSubmenu() {
   function mergeRelicsConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.mergeRelicsWithState(currentRelics)
+      if (partial) {
+        DB.mergePartialRelicsWithState(currentRelics)
+      } else DB.mergeRelicsWithState(currentRelics)
       SaveState.save()
       setCurrentStage(Stages.FINISHED)
       setLoading2(false)
@@ -143,7 +129,12 @@ export function ScannerImportSubmenu() {
   function mergeCharactersConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.mergeRelicsWithState(currentRelics, currentCharacters)
+      if (partial) {
+        for (const character of currentCharacters) {
+          DB.addFromForm(character, false)
+        }
+        DB.mergePartialRelicsWithState(currentRelics, currentCharacters)
+      } else DB.mergeRelicsWithState(currentRelics, currentCharacters)
       SaveState.save()
       setCurrentStage(Stages.FINISHED)
       setLoading2(false)
@@ -249,6 +240,16 @@ export function ScannerImportSubmenu() {
           <Text>
             {`File contains ${currentRelics.length || 0} relics and ${currentCharacters?.length || 0} characters.`}
           </Text>
+
+          <Flex gap={5}>
+            <Switch onChange={() => setPartial(!partial)} style={{ maxWidth: 100 }} checkedChildren="Partial" unCheckedChildren="Total" />
+
+            <Text>
+              import. {partial ? 'Update the optimizer without deleting any relics' : 'Overwrites current relic inventory'}
+            </Text>
+          </Flex>
+
+          <Divider />
 
           <Text>
             Import relics only. Updates the optimizer with the new dataset of relics and doesn't overwrite builds.

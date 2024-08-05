@@ -1066,7 +1066,7 @@ function simulateBaselineCharacter(
     }
   })
 
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, scoringParams, 0)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, scoringParams, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
@@ -1080,6 +1080,7 @@ function simulateOriginalCharacter(
   simulationForm: Form,
   scoringParams: ScoringParams,
   mainStatMultiplier = 1,
+  overwriteSets = false,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
   Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
@@ -1087,11 +1088,14 @@ function simulateOriginalCharacter(
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
   const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, scoringParams.quality, scoringParams.speedRollValue)
-  const { relicSet1, relicSet2, ornamentSet } = simulationSets
 
-  originalSimRequest.simRelicSet1 = relicSet1
-  originalSimRequest.simRelicSet2 = relicSet2
-  originalSimRequest.simOrnamentSet = ornamentSet
+  if (overwriteSets) {
+    const { relicSet1, relicSet2, ornamentSet } = simulationSets
+
+    originalSimRequest.simRelicSet1 = relicSet1
+    originalSimRequest.simRelicSet2 = relicSet2
+    originalSimRequest.simOrnamentSet = ornamentSet
+  }
 
   const originalSim: Simulation = {
     name: '',

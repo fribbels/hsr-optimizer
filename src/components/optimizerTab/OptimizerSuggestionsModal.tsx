@@ -350,6 +350,7 @@ const ZeroResultRootCauseFixes: {
       } else {
         setStatDisplay('combat')
       }
+      Message.success(`switched to ${statDisplay == 'base' ? 'combat stats' : 'basic stats'}`)
     },
   },
 }
@@ -362,7 +363,10 @@ function FilterFixes(filter: string) {
   return {
     description: `The ${isMax ? 'maximum' : 'minimum'} ${readable[1]} may be too ${isMax ? 'low' : 'high'}`,
     buttonText: `Reset ${readable[0]} ${readable[1]} filter`,
-    applyFix: () => window.optimizerForm.setFieldValue(formAddress, undefined),
+    applyFix: () => {
+      window.optimizerForm.setFieldValue(formAddress, undefined)
+      Message.success(`Reset ${readable[0]} ${readable[1]} filter`, 2)
+    },
   }
 }
 

@@ -11,11 +11,11 @@ export function calculateConditionals(request, params) {
     request.lightConeConditionals = lightConeConditionals.defaults()
   }
 
-  let precomputedX = characterConditionals.precomputeEffects(request)
+  let precomputedX = characterConditionals.precomputeEffects(request, params)
   if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
 
   if (lightConeConditionals) {
-    if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request)
+    if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request, params)
     if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
   }
 

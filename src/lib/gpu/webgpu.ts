@@ -208,7 +208,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   // console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
 
   const date1 = new Date()
-  const iterations = 100
+  const iterations = 25
 
   let printed = false
   for (let i = 0; i < iterations; i++) {

@@ -1,6 +1,7 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
+import { RutilantArenaConditional } from "lib/gpu/newConditionals";
 
 const statValues = Object.values(Stats)
 
@@ -151,6 +152,10 @@ export function calculateBaseStats(c, request, params) {
 }
 
 export function calculateComputedStats(c, request, params) {
+  params.conditionalMetadata = {
+    activationKeys: []
+  }
+
   const sets = c.sets
   const x = c.x
 
@@ -181,87 +186,25 @@ export function calculateComputedStats(c, request, params) {
   x.DMG_TAKEN_MULTI += request.combatBuffs.VULNERABILITY
   x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
 
-  // Set effects
-  x[Stats.SPD_P]
-    += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
   x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
-
-  x[Stats.ATK_P]
-    += 0.05 * params.valueChampionOfStreetwiseBoxing * p4(sets.ChampionOfStreetwiseBoxing)
-    + 0.20 * params.enabledBandOfSizzlingThunder * p4(sets.BandOfSizzlingThunder)
-    + 0.06 * params.valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke)
-    + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
-    + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-    + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
-
-  x[Stats.DEF_P]
-    += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
   x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
-
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
-
-  calculatePassiveStatConversions(c, request, params)
 
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
-    + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
-    + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
+  //
 
-  x[Stats.CR]
-    += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
-    + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-    + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.12 * (params.enabledIzumoGenseiAndTakamaDivineRealm) * p2(sets.IzumoGenseiAndTakamaDivineRealm)
+  // x.BASIC_BOOST
+  //   += 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
+  //
+  // x.SKILL_BOOST
+  //   += 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
 
-  x[Stats.BE]
-    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-    + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
-
-  x.BASIC_BOOST
-    += 0.10 * p4(sets.MusketeerOfWildWheat)
-    + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
-
-  x.SKILL_BOOST
-    += 0.12 * p4(sets.FiresmithOfLavaForging)
-    + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
-
-  x.ULT_BOOST
-    += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(sets.InertSalsotto)
-
-  x.FUA_BOOST
-    += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(sets.InertSalsotto)
-
-  x.FUA_BOOST
-    += 0.20 * p2(sets.TheAshblazingGrandDuke)
-
-  x.DEF_SHRED
-    += p4(sets.GeniusOfBrilliantStars) ? (params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
-
-  x.DEF_SHRED
-    += 0.06 * params.valuePrisonerInDeepConfinement * p4(sets.PrisonerInDeepConfinement)
-
-  x.BREAK_DEF_PEN
-    += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-
-  x.SUPER_BREAK_DEF_PEN
-    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-
-  x.ELEMENTAL_DMG
-    += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
-
-  x.FUA_BOOST
-    += 0.05 * params.valueDuranDynastyOfRunningWolves * p2(sets.DuranDynastyOfRunningWolves)
-
-  x.ULT_BOOST
-    += 0.36 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
+  if (p2(sets.RutilantArena)) {
+    RutilantArenaConditional.evaluate(x, params)
+  }
+  calculatePassiveStatConversions(c, request, params)
 
   return x
 }

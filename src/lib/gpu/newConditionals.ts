@@ -5,10 +5,10 @@ export type NewConditional = {
   id: string
   activationKey: number
   statDependencies: string[]
-  evaluate: (x: ComputedStatsObject, conditionalMetadata: ConditionalMetadata) => void
+  evaluate: (x: ComputedStatsObject, params) => void
   condition: (x: ComputedStatsObject) => boolean
-  cpu: (x: ComputedStatsObject) => void
-  gpu: (x: ComputedStatsObject) => void
+  cpu: (x: ComputedStatsObject, params) => void
+  gpu: (x: ComputedStatsObject, params) => void
 }
 
 export type ConditionalMetadata = {
@@ -19,14 +19,16 @@ export const RutilantArenaConditional: NewConditional = {
   id: "Rutilant Arena",
   activationKey: 1,
   statDependencies: [Stats.CR],
-  evaluate: function(x: ComputedStatsObject, conditionalMetadata: ConditionalMetadata) {
-    if (conditionalMetadata.activationKeys[this.activationKey]) {
+  evaluate: function(x: ComputedStatsObject, params) {
+    if (params.conditionalMetadata && params.conditionalMetadata.activationKeys[this.activationKey]) {
       return
     }
 
     if (this.condition(x)) {
-      this.cpu(x)
-      conditionalMetadata.activationKeys[this.activationKey] = 1
+      this.cpu(x, params)
+      if (params.conditionalMetadata) {
+        params.conditionalMetadata.activationKeys[this.activationKey] = 1
+      }
     }
   },
   condition: function (x: ComputedStatsObject) {
@@ -41,11 +43,39 @@ export const RutilantArenaConditional: NewConditional = {
   }
 }
 
-function buffStat(x: ComputedStatsObject, conditionalMetadata: ConditionalMetadata, stat: string, value: number) {
+export const AventurineConversionConditional: NewConditional = {
+  id: "AventurineConversionConditional",
+  activationKey: 2,
+  statDependencies: [Stats.DEF],
+  evaluate: function(x: ComputedStatsObject, params) {
+    if (params.conditionalMetadata && params.conditionalMetadata.activationKeys[this.activationKey]) {
+      return
+    }
+
+    if (this.condition(x)) {
+      this.cpu(x, params)
+      if (params.conditionalMetadata) {
+        params.conditionalMetadata.activationKeys[this.activationKey] = 1
+      }
+    }
+  },
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.CR] >= 0.70
+  },
+  cpu: (x: ComputedStatsObject) => {
+    x.BASIC_BOOST += 0.20
+    x.SKILL_BOOST += 0.20
+  },
+  gpu: () => {
+
+  }
+}
+
+export function buffStat(x: ComputedStatsObject, params, stat: string, value: number) {
   x[stat] += value
 
   for (const conditional of RegisteredConditionals[stat] || []) {
-    conditional.evaluate(x, conditionalMetadata)
+    conditional.evaluate(x, params)
   }
 }
 

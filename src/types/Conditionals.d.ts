@@ -22,6 +22,8 @@ export interface Conditional {
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
   // Stat conversions
   calculatePassives?: (c: ComputedStatsObject, request: Form) => void
+  //
+  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params) => void
 }
 
 export type ContentComponentMap = {

@@ -48,23 +48,23 @@ export const AventurineConversionConditional: NewConditional = {
   activationKey: 2,
   statDependencies: [Stats.DEF],
   evaluate: function(x: ComputedStatsObject, params) {
-    if (params.conditionalMetadata && params.conditionalMetadata.activationKeys[this.activationKey]) {
+    const metadata = params.conditionalMetadata
+    if (metadata && metadata.activationKeys[this.activationKey]) {
       return
     }
 
     if (this.condition(x)) {
       this.cpu(x, params)
-      if (params.conditionalMetadata) {
-        params.conditionalMetadata.activationKeys[this.activationKey] = 1
+      if (metadata) {
+        metadata.activationKeys[this.activationKey] = 1
       }
     }
   },
   condition: function (x: ComputedStatsObject) {
-    return x[Stats.CR] >= 0.70
+    return x[Stats.DEF] > 1600
   },
-  cpu: (x: ComputedStatsObject) => {
-    x.BASIC_BOOST += 0.20
-    x.SKILL_BOOST += 0.20
+  cpu: (x: ComputedStatsObject, params) => {
+    buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
   },
   gpu: () => {
 

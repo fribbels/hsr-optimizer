@@ -1,6 +1,5 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
 import { RutilantArenaConditional } from "lib/gpu/newConditionals";
 
 const statValues = Object.values(Stats)
@@ -204,7 +203,12 @@ export function calculateComputedStats(c, request, params) {
   if (p2(sets.RutilantArena)) {
     RutilantArenaConditional.evaluate(x, params)
   }
-  calculatePassiveStatConversions(c, request, params)
+
+  const characterConditionals = params.characterConditionals
+  const lightConeConditionals = params.lightConeConditionals
+
+  if (characterConditionals.calculateStatConditionals) characterConditionals.calculateStatConditionals(c, request, params)
+  if (lightConeConditionals.calculateStatConditionals) lightConeConditionals.calculateStatConditionals(c, request, params)
 
   return x
 }

@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { buffStat } from "lib/gpu/newConditionals";
+import { AventurineConversionConditional } from "lib/gpu/newConditionals";
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -138,15 +138,13 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
       x[Stats.CD] += (m.ultCdBoost) ? ultCdBoost : 0
     },
-    calculatePassives: (c: PrecomputedCharacterConditional, request: Form, params) => {
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
       const r = request.characterConditionals
       const x = c.x
 
-      if (r.defToCrBoost && x[Stats.DEF] > 1600) {
-        buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
+      if (r.defToCrBoost) {
+        AventurineConversionConditional.evaluate(x, params)
       }
-
-      // x[Stats.CR] += (r.defToCrBoost && x[Stats.DEF] > 1600) ? Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)) : 0
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

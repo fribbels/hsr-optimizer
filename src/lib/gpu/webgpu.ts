@@ -98,6 +98,7 @@ function createBuffer(device, matrix, usage, mapped = true, int = false) {
   return gpuBuffer
 }
 export async function experiment({ params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions }) {
+  return
   // ======================================== Init ========================================
 
   const adapter = await navigator.gpu.requestAdapter()

@@ -444,7 +444,8 @@ export function ZeroResultSuggestionModal() {
           <Button
             onClick={() => {
               for (const rootCause of rootCauses) {
-                rootCause.applyFix()
+                if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
+                ZeroResultRootCauseFixes[rootCause].applyFix()
               }
             }}
             style={{ width: 250 }}

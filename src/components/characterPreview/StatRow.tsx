@@ -28,7 +28,7 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   const { stat, finalStats } = props
   const readableStat = stat == 'simScore'
     ? 'Sim Damage'
-    : stat.replace('DMG Boost', 'DMG').replace('Outgoing Healing Boost', 'Healing Boost')
+    : stat.replace('DMG Boost', 'DMG').replace('Outgoing Healing Boost', 'Healing Boost').replace('Energy Regeneration Rate', 'Energy Regen')
   const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay

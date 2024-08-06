@@ -103,6 +103,26 @@ function SidebarContent() {
     window.optimizerStartClicked()
   }
 
+  function addToPinned() {
+    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    console.log('currentPinned', currentPinned)
+    const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
+    if (!selectedNodes || selectedNodes.length == 0) {
+      console.log('no row selected, ignoring')
+    } else {
+      const selectedRow = selectedNodes[0].data
+      console.log('added row to pinned', selectedRow)
+      currentPinned.push(selectedRow)
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+    }
+  }
+
+  function clearPinned() {
+    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    const currentBuild = currentPinned.filter((x) => x.id == undefined)
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentBuild })
+  }
+
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
@@ -118,10 +138,8 @@ function SidebarContent() {
               <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere}
-                                  total={permutationDetails.PlanarSphereTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope}
-                                  total={permutationDetails.LinkRopeTotal} />
+              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
             </Flex>
 
             <Flex vertical>
@@ -147,8 +165,12 @@ function SidebarContent() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
-                        onClick={startClicked} style={{ flex: 1 }}>
+                <Button
+                  icon={<ThunderboltFilled />}
+                  type="primary"
+                  loading={optimizationInProgress}
+                  onClick={startClicked} style={{ flex: 1 }}
+                >
                   Start optimizer
                 </Button>
               </Flex>
@@ -178,10 +200,16 @@ function SidebarContent() {
               value={statDisplay}
               style={{ width: '100%', display: 'flex' }}
             >
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
-                     defaultChecked>Basic stats</Radio>
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
-                stats</Radio>
+              <Radio
+                style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                value="base"
+                defaultChecked
+              >
+                Basic stats
+              </Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
+                Combat stats
+              </Radio>
             </Radio.Group>
 
             <Flex justify="space-between" align="center">
@@ -194,6 +222,14 @@ function SidebarContent() {
               </Button>
               <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
                 Equip
+              </Button>
+            </Flex>
+            <Flex gap={defaultGap} justify="space-around">
+              <Button style={{ width: '100px' }} onClick={addToPinned}>
+                Pin build
+              </Button>
+              <Button style={{ width: '100px' }} onClick={clearPinned}>
+                Clear pins
               </Button>
             </Flex>
           </Flex>
@@ -288,10 +324,12 @@ function MobileSidebarContent() {
             value={statDisplay}
             style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
-                   defaultChecked>Basic stats</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
-              stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>
+              Basic stats
+            </Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
+              Combat stats
+            </Radio>
           </Radio.Group>
         </Flex>
         {/* Controls Column */}
@@ -301,9 +339,13 @@ function MobileSidebarContent() {
           </Flex>
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
-              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
-                      onClick={startClicked}
-                      style={{ flex: 1 }}>
+              <Button
+                icon={<ThunderboltFilled />}
+                type="primary"
+                loading={optimizationInProgress}
+                onClick={startClicked}
+                style={{ flex: 1 }}
+              >
                 Start optimizer
               </Button>
             </Flex>

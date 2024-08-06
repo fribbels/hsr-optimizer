@@ -46,7 +46,7 @@ export async function executeWgsl(page: Page, wgsl: string) {
       usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
     })
 
-    // Setup a bindGroup to tell the shader which
+    // Setup a bindGroup to tell the wgsl which
     // buffer to use for the computation
     const bindGroup = device.createBindGroup({
       layout: pipeline.getBindGroupLayout(0),

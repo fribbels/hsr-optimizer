@@ -1,4 +1,4 @@
-import shader from 'lib/gpu/shader.wgsl?raw'
+import shader from 'lib/gpu/wgsl/shader.wgsl?raw'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from '../constants.ts'
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'

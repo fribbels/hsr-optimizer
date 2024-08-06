@@ -7,7 +7,7 @@ export type NewConditional = {
   statDependencies: string[]
   evaluate: (x: ComputedStatsObject, params) => void
   condition: (x: ComputedStatsObject) => boolean
-  cpu: (x: ComputedStatsObject, params) => void
+  effect: (x: ComputedStatsObject, params) => void
   gpu: (x: ComputedStatsObject, params) => void
 }
 
@@ -16,25 +16,14 @@ export type ConditionalMetadata = {
 }
 
 export const RutilantArenaConditional: NewConditional = {
-  id: "Rutilant Arena",
+  id: "RutilantArenaConditional",
   activationKey: 1,
   statDependencies: [Stats.CR],
-  evaluate: function(x: ComputedStatsObject, params) {
-    if (params.conditionalMetadata && params.conditionalMetadata.activationKeys[this.activationKey]) {
-      return
-    }
-
-    if (this.condition(x)) {
-      this.cpu(x, params)
-      if (params.conditionalMetadata) {
-        params.conditionalMetadata.activationKeys[this.activationKey] = 1
-      }
-    }
-  },
+  evaluate: function(x, params) { evaluator(this, x, params) },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
-  cpu: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject) => {
     x.BASIC_BOOST += 0.20
     x.SKILL_BOOST += 0.20
   },
@@ -43,27 +32,29 @@ export const RutilantArenaConditional: NewConditional = {
   }
 }
 
+function evaluator(self: NewConditional, x: ComputedStatsObject, params) {
+  const metadata = params.conditionalMetadata
+  if (metadata && metadata.activationKeys[self.activationKey]) {
+    return
+  }
+
+  if (self.condition(x)) {
+    self.effect(x, params)
+    if (metadata) {
+      metadata.activationKeys[self.activationKey] = 1
+    }
+  }
+}
+
 export const AventurineConversionConditional: NewConditional = {
   id: "AventurineConversionConditional",
   activationKey: 2,
   statDependencies: [Stats.DEF],
-  evaluate: function(x: ComputedStatsObject, params) {
-    const metadata = params.conditionalMetadata
-    if (metadata && metadata.activationKeys[this.activationKey]) {
-      return
-    }
-
-    if (this.condition(x)) {
-      this.cpu(x, params)
-      if (metadata) {
-        metadata.activationKeys[this.activationKey] = 1
-      }
-    }
-  },
+  evaluate: function(x, params) { evaluator(this, x, params) },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.DEF] > 1600
   },
-  cpu: (x: ComputedStatsObject, params) => {
+  effect: (x: ComputedStatsObject, params) => {
     buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
   },
   gpu: () => {

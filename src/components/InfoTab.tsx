@@ -9,6 +9,7 @@ import DB, { AppPages } from 'lib/db'
 import { useEffect, useState } from 'react'
 import { roadmapIssueList } from 'components/ChangelogTab'
 import { SaveState } from 'lib/saveState'
+import { HeaderText } from './HeaderText'
 
 // Total API requests = 1 + sizeof(roadmap)
 // API limit = 60 requests per hour per IP address
@@ -22,9 +23,6 @@ export default function InfoTab() {
 
   const links = generateLinks()
   const [contributors, setContributors] = useState<object[]>([])
-  const [roadmap, setRoadmap] = useState<object[]>([])
-
-  const [loadingRoadmap, setLoadingRoadmap] = useState(true)
   const [loadingContributors, setLoadingContributors] = useState(true)
 
   useEffect(() => {
@@ -39,78 +37,25 @@ export default function InfoTab() {
           console.error('ERROR fetching contributors')
         })
       .finally(() => setLoadingContributors(false))
-
-    generateRoadmap(roadmapIssueList)
-      .then(
-        (output) => setRoadmap(output))
-      .catch(
-        () => {
-          const info = DB.getGithubAPI()
-          info.limited = true
-          DB.setGithubAPI(info)
-          console.error('ERROR fetching roadmap')
-        })
-      .finally(() => setLoadingRoadmap(false))
   }, [])
 
   if (activeKey != AppPages.INFO) return (<></>)
   return (
     <Flex vertical>
-      <RoadMap roadmap={roadmap} loading={loadingRoadmap} />
+      <RoadMap roadmap={roadmapIssueList} />
       <Links links={links} />
       <ContributorInfo contributors={contributors} loading={loadingContributors} />
-      <Button onClick={() => console.log(DB.getState())} />
     </Flex>
   )
 }
 
-async function generateRoadmap(issues: number[]) {
-  console.log('fetching roadmap')
-  const output: { title: string; link: string }[] = []
-  for (const number of issues) {
-    const reset = DB.getGithubAPI().limit_reset
-    const limited: boolean = DB.getGithubAPI().limited
-    if (Date.now() / 1000 <= reset && limited) {
-      console.log('rate limited, roadmap will return partial / empty')
-      break
-    }
-    DB.setGithubAPI({ limited: false, limit_reset: reset })
-
-    try {
-      const response = await octokit.rest.issues.get({ owner: owner, repo: repo, issue_number: number })
-      DB.setGithubAPI({ limited: limited, limit_reset: parseInt(response.headers['x-ratelimit-reset']) })
-      output.push({
-        title: response.data.title,
-        link: response.data.html_url,
-      })
-      if (parseInt(response.headers['x-ratelimit-remaining']) == 0) {
-        console.log('rate limit reached while generating roadmap')
-        DB.setGithubAPI({ limited: true, limit_reset: reset })
-        break
-      }
-    } catch (error) {
-      if ([403, 429].includes(error.status)) {
-        console.log('rate limited while generating roadmap')
-        DB.setGithubAPI({ limited: true, limit_reset: reset })
-        break
-      }
-      if ([301, 304, 404, 410].includes(error.status)) {
-        console.error(`error while generating roadmap (status code: ${error.status})`)
-      }
-    }
-  }
-  SaveState.save()
-  console.log('returning roadmap')
-  return output
-}
-
-function RoadMap(props: { roadmap: object[]; loading: boolean }) {
+function RoadMap(props: { roadmap: object[] }) {
   if (!props.roadmap.length) return (
     <Flex vertical>
       <Typography.Title>Upcoming features</Typography.Title>
       <Card
         size="small"
-        style={{ width: 200, marginTop: 16, height: 120 }}
+        style={{ minWidth: 200, marginTop: 16, minHeight: 100 }}
       >
         <Typography>{props.loading ? 'waiting on API' : 'You are currently rate limited, reload the page again at a later time'}</Typography>
       </Card>
@@ -127,10 +72,11 @@ function RoadMap(props: { roadmap: object[]; loading: boolean }) {
             <Card
               hoverable
               size="small"
-              style={{ width: 200, marginTop: 16, height: 120 }}
+              style={{ minWidth: 200, maxWidth: 350, marginTop: 16, minHeight: 100 }}
               onClick={() => window.open(item.link)}
             >
-              <Typography>{item.title}</Typography>
+              <HeaderText>{item.title}</HeaderText>
+              {item.description}
             </Card>
           </List.Item>
         )}

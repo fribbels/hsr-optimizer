@@ -454,7 +454,10 @@ export const DB = {
 
     DB.refreshCharacters()
     DB.refreshRelics()
-    DB.setGithubAPI(x.githubAPI)
+    DB.setGithubAPI(x.githubAPI || {
+      limited: false,
+      limit_reset: 0,
+    })
     SaveState.save()
   },
   resetStore: () => {

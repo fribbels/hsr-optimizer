@@ -119,8 +119,13 @@ function SidebarContent() {
 
   function clearPinned() {
     const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
-    const currentBuild = currentPinned.filter((x) => x.id == undefined)
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentBuild })
+    if (currentPinned.length) {
+      console.log('currentPinned', currentPinned)
+      const currentBuild = currentPinned[0]// setting pinnedTopRowData to currentBuild generates an error ¯\(°_o)/¯ so work around it
+      console.log('currentBuild', currentBuild)
+      const equipped = currentPinned.filter((x) => x.id == currentBuild.id)
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: equipped })
+    }
   }
 
   return (

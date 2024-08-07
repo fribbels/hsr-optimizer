@@ -107,6 +107,9 @@ export const PresetEffects = {
   WASTELANDER_SET: (form) => {
     form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 2
   },
+  BANANA_SET: (form) => {
+    form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
+  },
 }
 
 export function setSortColumn(columnId) {

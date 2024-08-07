@@ -180,6 +180,8 @@ export const Assets = {
       [Constants.Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
       [Constants.Sets.DuranDynastyOfRunningWolves]: '315',
       [Constants.Sets.ForgeOfTheKalpagniLantern]: '316',
+      [Constants.Sets.LushakaTheSunkenSeas]: '317',
+      [Constants.Sets.TheWondrousBananAmusementPark]: '318',
     }
 
     const partToId = {

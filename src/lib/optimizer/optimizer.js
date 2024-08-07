@@ -62,7 +62,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: function(request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
@@ -184,7 +184,7 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
-          window.optimizerGrid.current.api.updateGridOptions({datasource: OptimizerTabController.getDataSource()})
+          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
           return

@@ -100,7 +100,7 @@ export function generateElementTags() {
   })
 }
 
-export function CardGridFilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
+export function SegmentedFilterRow({ currentFilters, name, flexBasis, tags, setCurrentFilters }) {
   const { token } = useToken()
   const selectedTags = currentFilters[name]
 

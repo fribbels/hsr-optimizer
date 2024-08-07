@@ -1,5 +1,5 @@
 import { Flex, Image, Tooltip } from 'antd'
-import { CheckCircleFilled } from '@ant-design/icons'
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Constants, StatsToReadableShort } from './constants.ts'
 import { Assets } from './assets'
 import { Utils } from './utils'
@@ -187,8 +187,17 @@ export const Renderer = {
     const color = gradeToColor[relic.grade] || ''
     return (
       relic.verified
-        ? <Tooltip mouseEnterDelay={0.4} title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled style={{ fontSize: '14px', color: color }} /></Tooltip>
+        ? <Tooltip mouseEnterDelay={0.4}
+                   title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled
+          style={{ fontSize: '14px', color: color }} /></Tooltip>
         : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
+    )
+  },
+  renderEquipped: ({ equipped }) => {
+    return (
+      equipped
+        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }} />
+        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }} />
     )
   },
 }
@@ -212,6 +221,7 @@ function SetDisplay(props) {
     return ''
   }
 }
+
 SetDisplay.propTypes = {
   asset: PropTypes.string,
 }

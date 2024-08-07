@@ -4,6 +4,13 @@
   "private": true,
   "homepage": "https://fribbels.github.io/hsr-optimizer",
   "type": "module",
+  "packageManager": "npm@10.8.1",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0",
+    "pnpm": ">=999.0.0",
+    "yarn": ">=999.0.0"
+  },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@js-sdsl/priority-queue": "^4.4.0",

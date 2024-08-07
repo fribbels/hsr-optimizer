@@ -1,6 +1,8 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { calculatePassiveStatConversions } from 'lib/optimizer/calculateDamage.js'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   c.sets = {
@@ -41,6 +43,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     IzumoGenseiAndTakamaDivineRealm: (1 >> (setP ^ 13)) + (1 >> (setL ^ 13)),
     DuranDynastyOfRunningWolves: (1 >> (setP ^ 14)) + (1 >> (setL ^ 14)),
     ForgeOfTheKalpagniLantern: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
+    LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
+    TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
   return c.sets
 }
@@ -119,7 +123,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
-    0.16 * p2(sets.CelestialDifferentiator),
+    0.16 * p2(sets.CelestialDifferentiator)
+    + 0.16 * p2(sets.TheWondrousBananAmusementPark),
   )
 
   c[Stats.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c,
@@ -127,7 +132,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
-    0.10 * p2(sets.BrokenKeel),
+    0.10 * p2(sets.BrokenKeel)
+    + 0.10 * p2(sets.LushakaTheSunkenSeas),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -191,6 +197,8 @@ export function calculateComputedStats(c, request, params) {
     + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
     + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
     + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+    + 0.16 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
+
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
   x[Stats.DEF_P]
@@ -208,6 +216,7 @@ export function calculateComputedStats(c, request, params) {
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
+    + 0.28 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
 
   x[Stats.CR]
     += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
@@ -221,22 +230,23 @@ export function calculateComputedStats(c, request, params) {
     + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
     + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
 
-  x.BASIC_BOOST
-    += 0.10 * p4(sets.MusketeerOfWildWheat)
-    + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
 
-  x.SKILL_BOOST
-    += 0.12 * p4(sets.FiresmithOfLavaForging)
-    + 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
+  // Basic boost
+  p4(sets.MusketeerOfWildWheat) && buffAbilityDmg(x, BASIC_TYPE, 0.10)
 
-  x.ULT_BOOST
-    += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(sets.InertSalsotto)
+  // Skill boost
+  p4(sets.FiresmithOfLavaForging) && buffAbilityDmg(x, SKILL_TYPE, 0.12)
 
-  x.FUA_BOOST
-    += 0.15 * (x[Stats.CR] >= 0.50 ? 1 : 0) * p2(sets.InertSalsotto)
+  // Fua boost
+  p2(sets.TheAshblazingGrandDuke) && buffAbilityDmg(x, FUA_TYPE, 0.20)
+  p2(sets.DuranDynastyOfRunningWolves) && buffAbilityDmg(x, FUA_TYPE, 0.05 * params.valueDuranDynastyOfRunningWolves)
 
-  x.FUA_BOOST
-    += 0.20 * p2(sets.TheAshblazingGrandDuke)
+  // Ult boost
+  p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
+
+  // Multiple boost
+  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
+  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
 
   x.DEF_SHRED
     += p4(sets.GeniusOfBrilliantStars) ? (params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
@@ -254,12 +264,6 @@ export function calculateComputedStats(c, request, params) {
     += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
-
-  x.FUA_BOOST
-    += 0.05 * params.valueDuranDynastyOfRunningWolves * p2(sets.DuranDynastyOfRunningWolves)
-
-  x.ULT_BOOST
-    += 0.36 * params.enabledTheWindSoaringValorous * p4(sets.TheWindSoaringValorous)
 
   return x
 }

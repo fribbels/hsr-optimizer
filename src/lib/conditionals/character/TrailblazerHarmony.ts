@@ -120,7 +120,6 @@ export default (e: Eidolon): CharacterConditional => {
       }
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
-
       x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {

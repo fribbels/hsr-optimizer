@@ -49,7 +49,7 @@ export function CharacterPreview(props) {
 
   const { token } = useToken()
 
-  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter } = props
+  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -134,15 +134,15 @@ export function CharacterPreview(props) {
   if (!character) {
     return (
       <Flex style={{ display: 'flex', height: parentH, backgroundColor: backgroundColor }} gap={defaultGap} id={props.id}>
-
         <div style={{
           width: parentW,
           overflow: 'hidden',
           outline: `2px solid ${token.colorBgContainer}`,
           height: '100%',
-          borderRadius: '10px',
+          borderRadius: '8px',
         }}
         >
+          {/* This is a placeholder for the character portrait when no character is selected */}
         </div>
 
         <Flex gap={defaultGap}>
@@ -152,7 +152,7 @@ export function CharacterPreview(props) {
               outline: `2px solid ${token.colorBgContainer}`,
               width: '100%',
               height: '100%',
-              borderRadius: '10px',
+              borderRadius: '8px',
             }}
           >
             <Flex vertical style={{ width: middleColumnWidth, height: 280 * 2 + defaultGap }} justify="space-between">
@@ -230,7 +230,8 @@ export function CharacterPreview(props) {
   // Temporary w/h overrides while we're split between sim scoring and weight scoring
   const newLcMargin = 5
   const newLcHeight = 140
-  const lcCenter = character.form.lightCone ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
+  // Some APIs return empty light cone as '0'
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0') ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter : 0
 
   const tempLcParentW = simScoringResult ? parentW : lcParentW
 
@@ -430,7 +431,7 @@ export function CharacterPreview(props) {
           style={{
             display: character ? 'flex' : 'none',
             height: parentH,
-            margin: 2,
+            margin: 1,
           }}
         >
           <RelicModal
@@ -454,7 +455,7 @@ export function CharacterPreview(props) {
                   width: `${parentW}px`,
                   height: `${tempParentH}px`,
                   overflow: 'hidden',
-                  borderRadius: '10px',
+                  borderRadius: '8px',
                   marginRight: defaultGap,
                   outline: outline,
                   filter: filter,
@@ -495,6 +496,7 @@ export function CharacterPreview(props) {
                       className="character-build-portrait-button"
                       icon={<EditOutlined />}
                       onClick={() => {
+                        setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}
@@ -602,7 +604,7 @@ export function CharacterPreview(props) {
                       height: `${tempLcParentH}px`,
                       overflow: 'hidden',
                       zIndex: 2,
-                      borderRadius: '10px',
+                      borderRadius: '8px',
                       outline: outline,
                       filter: filter,
                       position: 'relative',
@@ -630,7 +632,7 @@ export function CharacterPreview(props) {
                 justify="space-between"
               >
                 <Flex vertical>
-                  <Flex justify="space-around" style={{ height: 36 }}>
+                  <Flex justify="space-around" style={{ height: 26, marginBottom: 8 }} align="center">
                     <Image
                       preview={false}
                       width={36}
@@ -747,7 +749,7 @@ export function CharacterPreview(props) {
                       width: `${tempLcParentW}px`,
                       height: `${tempLcParentH}px`,
                       overflow: 'hidden',
-                      borderRadius: '10px',
+                      borderRadius: '8px',
                       outline: outline,
                       filter: filter,
                     }}

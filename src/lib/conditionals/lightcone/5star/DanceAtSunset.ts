@@ -2,9 +2,10 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { BETA_UPDATE } from 'lib/constants'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesFuaDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
@@ -32,7 +33,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.FUA_BOOST += r.fuaDmgStacks * sValuesFuaDmg[s]
+      buffAbilityDmg(x, FUA_TYPE, r.fuaDmgStacks * sValuesFuaDmg[s])
     },
     calculatePassives: (/* c, request */) => {
     },

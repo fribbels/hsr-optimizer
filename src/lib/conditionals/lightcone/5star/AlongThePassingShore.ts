@@ -1,9 +1,10 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { precisionRound } from 'lib/conditionals/utils.ts'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesDmgBoost = [0.24, 0.28, 0.32, 0.36, 0.40]
@@ -27,11 +28,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       emptyBubblesDebuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (r.emptyBubblesDebuff) ? sValuesDmgBoost[s] : 0
-      x.ULT_BOOST += (r.emptyBubblesDebuff) ? sValuesUltDmgBoost[s] : 0
+      buffAbilityDmg(x, ULT_TYPE, sValuesUltDmgBoost[s], (r.emptyBubblesDebuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

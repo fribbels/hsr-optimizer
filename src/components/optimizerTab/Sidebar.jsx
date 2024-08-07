@@ -1,5 +1,5 @@
 import { Button, Divider, Flex, Grid, Progress, Radio, theme, Typography } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
 import { TooltipImage } from '../TooltipImage'
@@ -11,6 +11,7 @@ import { Optimizer } from 'lib/optimizer/optimizer'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
+import { Utils } from 'lib/utils'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -77,6 +78,8 @@ function SidebarContent() {
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
+  const [startTime, setStartTime] = useState(undefined)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -95,6 +98,11 @@ function SidebarContent() {
     OptimizerTabController.applyRowFilters()
   }
 
+  function startClicked() {
+    setStartTime(Date.now())
+    window.optimizerStartClicked()
+  }
+
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
@@ -110,8 +118,10 @@ function SidebarContent() {
               <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
+              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere}
+                                  total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope}
+                                  total={permutationDetails.LinkRopeTotal} />
             </Flex>
 
             <Flex vertical>
@@ -121,7 +131,9 @@ function SidebarContent() {
             </Flex>
 
             <Flex vertical>
-              <HeaderText>Progress</HeaderText>
+              <HeaderText>
+                {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+              </HeaderText>
               <Progress
                 strokeColor={token.colorPrimary}
                 steps={17}
@@ -135,7 +147,8 @@ function SidebarContent() {
             </Flex>
             <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
               <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ flex: 1 }}>
+                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
+                        onClick={startClicked} style={{ flex: 1 }}>
                   Start optimizer
                 </Button>
               </Flex>
@@ -165,8 +178,10 @@ function SidebarContent() {
               value={statDisplay}
               style={{ width: '100%', display: 'flex' }}
             >
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
+                     defaultChecked>Basic stats</Radio>
+              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
+                stats</Radio>
             </Radio.Group>
 
             <Flex justify="space-between" align="center">
@@ -202,6 +217,8 @@ function MobileSidebarContent() {
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
+  const [startTime, setStartTime] = useState(undefined)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -218,6 +235,11 @@ function MobileSidebarContent() {
   function filterClicked() {
     console.log('Filter clicked')
     OptimizerTabController.applyRowFilters()
+  }
+
+  function startClicked() {
+    setStartTime(Date.now())
+    window.optimizerStartClicked()
   }
 
   return (
@@ -266,8 +288,10 @@ function MobileSidebarContent() {
             value={statDisplay}
             style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>Basic stats</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
+                   defaultChecked>Basic stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
+              stats</Radio>
           </Radio.Group>
         </Flex>
         {/* Controls Column */}
@@ -277,7 +301,9 @@ function MobileSidebarContent() {
           </Flex>
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
-              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress} onClick={window.optimizerStartClicked} style={{ flex: 1 }}>
+              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
+                      onClick={startClicked}
+                      style={{ flex: 1 }}>
                 Start optimizer
               </Button>
             </Flex>
@@ -296,7 +322,9 @@ function MobileSidebarContent() {
         {/* Progress & Results Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex vertical>
-            <HeaderText>Progress</HeaderText>
+            <HeaderText>
+              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+            </HeaderText>
             <Progress
               strokeColor={token.colorPrimary}
               steps={17}
@@ -320,4 +348,18 @@ function MobileSidebarContent() {
       </Flex>
     </Flex>
   )
+}
+
+function calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress) {
+  if (!optimizationInProgress) {
+    return 'Progress'
+  }
+
+  const msDiff = Date.now() - startTime
+  if (msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
+    return 'Progress  (calculating ETA..)'
+  }
+
+  const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
+  return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
 }

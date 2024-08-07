@@ -1,5 +1,6 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.4.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.4.4'
+export const BETA_UPDATE = 'All calculations are subject to change. Last updated v1 07-30-2024.'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -429,6 +430,8 @@ export const SetsOrnaments = {
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
   DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
+  LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
+  TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
@@ -746,4 +749,3 @@ export const SETTINGS_TEAM = 'Settings'
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'
 
-export const BETA_UPDATE = 'All calculations are subject to change. Last updated v2 06-25-2024.'

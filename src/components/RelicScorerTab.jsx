@@ -7,14 +7,7 @@ import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
 import DB, { AppPages } from 'lib/db'
 import { Utils } from 'lib/utils'
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-  LineChartOutlined,
-  PlusCircleFilled
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined, PlusCircleFilled } from '@ant-design/icons'
 import { Message } from 'lib/message'
 import CharacterModal from 'components/CharacterModal'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -32,11 +25,12 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
-    { characterId: char('Firefly'), lightConeId: lc('Whereabouts Should Dreams Rest') },
-    { characterId: char('Jade'), lightConeId: lc('Yet Hope Is Priceless') },
     { characterId: char('Yunli'), lightConeId: lc('Dance at Sunset') },
     { characterId: char('Jiaoqiu'), lightConeId: lc('Those Many Springs') },
     { characterId: char('March 7th (Hunt)'), lightConeId: lc('Cruising in the Stellar Sea'), lightConeSuperimposition: 5 },
+    { characterId: char('Feixiao'), lightConeId: lc('I Venture Forth to Hunt') },
+    { characterId: char('Lingsha'), lightConeId: lc('Scent Alone Stays True') },
+    { characterId: char('Moze'), lightConeId: lc('Shadowed by Night') },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -146,9 +140,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-        {/* <Flex gap={10} vertical align="center"> */}
-        {/*  <Text><h2>The relic scorer may be slow today, try refreshing the page</h2></Text> */}
-        {/* </Flex> */}
+         {/*<Flex gap={10} vertical align="center">*/}
+         {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
+         {/*</Flex>*/}
         <Flex gap={10} vertical align="center">
           <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
         </Flex>
@@ -195,6 +189,38 @@ function CharacterPreviewSelection(props) {
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
+
+  const items = [
+    {
+      label: <Flex gap={10}><ImportOutlined />Import all characters & all relics into optimizer</Flex>,
+      key: 'import characters',
+    },
+    {
+      label: <Flex gap={10}><ImportOutlined />Import selected character & all relics into optimizer</Flex>,
+      key: 'import single character',
+    },
+  ]
+
+  const handleMenuClicked = (e) => {
+    switch (e.key) {
+      case 'import characters':
+        console.log('importing with characters')
+        importCharactersClicked()
+        break
+      case 'import single character':
+        console.log('importing single character')
+        importCharacterClicked()
+        break
+      default:
+        Message.error('unknown button clicked')
+        break
+    }
+  }
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClicked,
+  }
 
   console.log('CharacterPreviewSelection', props)
 
@@ -259,7 +285,32 @@ function CharacterPreviewSelection(props) {
       .filter((x) => !!x)
 
     console.log('importClicked', props.availableCharacters, newRelics)
-    DB.mergeVerifiedRelicsWithState(newRelics)
+    DB.mergePartialRelicsWithState(newRelics)
+    SaveState.save()
+  }
+
+  function importCharactersClicked() {
+    for (const character of props.availableCharacters) {
+      DB.addFromForm(character.form, false)
+    }
+
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+
+    console.log('importCharactersClicked', props.availableCharacters, newRelics)
+    DB.mergePartialRelicsWithState(newRelics, props.availableCharacters)
+    SaveState.save()
+  }
+
+  function importCharacterClicked() {
+    DB.addFromForm(props.selectedCharacter.form, false)
+
+    const newRelics = props.availableCharacters
+      .flatMap((x) => Object.values(x.equipped))
+      .filter((x) => !!x)
+    console.log('importCharacterClicked', props.selectedCharacter, newRelics)
+    DB.mergePartialRelicsWithState(newRelics, [props.selectedCharacter])
     SaveState.save()
   }
 
@@ -345,13 +396,18 @@ function CharacterPreviewSelection(props) {
               Copy screenshot
             </Button>
             <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
-            <Button icon={<ImportOutlined />} onClick={importClicked} style={{ width: 230 }}>
+            <Dropdown.Button
+              onClick={importClicked}
+              style={{ width: 250 }}
+              menu={menuProps}
+            >
+              <ImportOutlined />
               Import relics into optimizer
-            </Button>
+            </Dropdown.Button>
             <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>
-            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 248 }}>
+            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 228 }}>
               Optimize character stats
             </Button>
           </Flex>

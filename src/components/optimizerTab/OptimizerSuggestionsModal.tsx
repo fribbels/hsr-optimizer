@@ -340,17 +340,12 @@ const ZeroResultRootCauseFixes: {
   [ZeroResultRootCause.MAX_COMBO]: FilterFixes(ZeroResultRootCause.MAX_COMBO),
   [ZeroResultRootCause.MIN_COMBO]: FilterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
-    description: 'You may be viewing the results in the wrong stat and filter view',
-    buttonText: 'Switch view',
+    description: 'Your filters may be configured for combat stats',
+    buttonText: 'Switch to combat stats',
     applyFix: () => {
-      const statDisplay = window.store.getState().statDisplay
       const setStatDisplay = window.store.getState().setStatDisplay
-      if (statDisplay == 'combat') {
-        setStatDisplay('base')
-      } else {
-        setStatDisplay('combat')
-      }
-      Message.success(`switched to ${statDisplay == 'base' ? 'combat stats' : 'basic stats'}`)
+      setStatDisplay('combat')
+      Message.success(`switched to combat stats`)
     },
   },
 }
@@ -372,7 +367,7 @@ function FilterFixes(filter: string) {
 
 export function activateZeroResultSuggestionsModal(request) {
   rootCauses = []
-  rootCauses.push(ZeroResultRootCause.STAT_VIEW)// always suggest switching between combat/basic views
+  if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)// always suggest switching between combat/basic views
   if (request.minHp) rootCauses.push(ZeroResultRootCause.MIN_HP)
   if (request.maxHp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HP)
   if (request.minAtk) rootCauses.push(ZeroResultRootCause.MIN_ATK)

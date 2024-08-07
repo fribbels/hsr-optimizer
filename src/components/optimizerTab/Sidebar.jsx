@@ -121,10 +121,8 @@ function SidebarContent() {
     const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
     if (currentPinned.length) {
       console.log('currentPinned', currentPinned)
-      const currentBuild = currentPinned[0]// setting pinnedTopRowData to currentBuild generates an error ¯\(°_o)/¯ so work around it
-      console.log('currentBuild', currentBuild)
-      const equipped = currentPinned.filter((x) => x.id == currentBuild.id)
-      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: equipped })
+      console.log('setting pinned top rows to', [currentPinned[0]])
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
     }
   }
 
@@ -301,10 +299,8 @@ function MobileSidebarContent() {
     const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
     if (currentPinned.length) {
       console.log('currentPinned', currentPinned)
-      const currentBuild = currentPinned[0]// setting pinnedTopRowData to currentBuild generates an error ¯\(°_o)/¯ so work around it
-      console.log('currentBuild', currentBuild)
-      const equipped = currentPinned.filter((x) => x.id == currentBuild.id)
-      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: equipped })
+      console.log('setting pinned top rows to', [currentPinned[0]])
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
     }
   }
 

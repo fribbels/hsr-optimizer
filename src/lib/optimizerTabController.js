@@ -98,6 +98,7 @@ export const OptimizerTabController = {
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicsFromId(rowId)
           window.setOptimizerBuild(build)
+          selectRow(data.id)// feels kinda hacky but it works ¯\_(ツ)_/¯
         } else if (character) {
           window.setOptimizerBuild(character.equipped)
         }
@@ -702,6 +703,20 @@ export const OptimizerTabController = {
     console.log('Apply filters to rows', fieldValues)
     OptimizerTabController.resetDataSource()
   },
+}
+
+function selectRow(rowId) {
+  const selected = []
+  const deselected = []
+  window.optimizerGrid.current.api.forEachNode(function (node) {
+    if (node.data.id == rowId) {
+      selected.push(node)
+    } else {
+      deselected.push(node)
+    }
+  })
+  window.optimizerGrid.current.api.setNodesSelected({ nodes: selected, newValue: true })
+  window.optimizerGrid.current.api.setNodesSelected({ nodes: deselected, newValue: false })
 }
 
 function unsetMin(value, percent) {

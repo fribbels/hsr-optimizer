@@ -94,7 +94,11 @@ export const OptimizerTabController = {
       if (event.data && fieldValues.characterId) {
         const character = DB.getCharacterById(fieldValues.characterId)
 
-        if (character) {
+        if (data.id) {
+          const rowId = data.id
+          const build = OptimizerTabController.calculateRelicsFromId(rowId)
+          window.setOptimizerBuild(build)
+        } else if (character) {
           window.setOptimizerBuild(character.equipped)
         }
       }

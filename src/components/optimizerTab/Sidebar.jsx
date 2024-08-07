@@ -131,7 +131,7 @@ function SidebarContent() {
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-        <FormCard height={600}>
+        <FormCard height={640}>
           <Flex vertical gap={10}>
             <Flex justify="space-between" align="center">
               <HeaderText>Permutations</HeaderText>
@@ -283,6 +283,31 @@ function MobileSidebarContent() {
     window.optimizerStartClicked()
   }
 
+  function addToPinned() {
+    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    console.log('currentPinned', currentPinned)
+    const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
+    if (!selectedNodes || selectedNodes.length == 0) {
+      console.log('no row selected, ignoring')
+    } else {
+      const selectedRow = selectedNodes[0].data
+      console.log('added row to pinned', selectedRow)
+      currentPinned.push(selectedRow)
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+    }
+  }
+
+  function clearPinned() {
+    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    if (currentPinned.length) {
+      console.log('currentPinned', currentPinned)
+      const currentBuild = currentPinned[0]// setting pinnedTopRowData to currentBuild generates an error ¯\(°_o)/¯ so work around it
+      console.log('currentBuild', currentBuild)
+      const equipped = currentPinned.filter((x) => x.id == currentBuild.id)
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: equipped })
+    }
+  }
+
   return (
     <Flex
       height={150}
@@ -336,6 +361,17 @@ function MobileSidebarContent() {
               Combat stats
             </Radio>
           </Radio.Group>
+          <Flex vertical>
+            <HeaderText>
+              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+            </HeaderText>
+            <Progress
+              strokeColor={token.colorPrimary}
+              steps={17}
+              size={[8, 5]}
+              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+            />
+          </Flex>
         </Flex>
         {/* Controls Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
@@ -368,17 +404,8 @@ function MobileSidebarContent() {
         </Flex>
         {/* Progress & Results Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
-          <Flex vertical>
-            <HeaderText>
-              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
-            </HeaderText>
-            <Progress
-              strokeColor={token.colorPrimary}
-              steps={17}
-              size={[8, 5]}
-              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-            />
-          </Flex>
+        </Flex>
+        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
             <TooltipImage type={Hint.actions()} />
@@ -389,6 +416,14 @@ function MobileSidebarContent() {
             </Button>
             <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
               Equip
+            </Button>
+          </Flex>
+          <Flex gap={defaultGap} justify="space-around">
+            <Button style={{ width: '100px' }} onClick={addToPinned}>
+              Pin build
+            </Button>
+            <Button style={{ width: '100px' }} onClick={clearPinned}>
+              Clear pins
             </Button>
           </Flex>
         </Flex>

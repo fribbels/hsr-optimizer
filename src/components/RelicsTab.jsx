@@ -122,6 +122,44 @@ EquippedFilter.displayName = 'EquippedFilter'
 EquippedFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
+        
+const RestrictedFilter = forwardRef((props, ref) => {
+  const [model, setModel] = useState(null)
+
+  const isFilterActive = useCallback(() => {
+    return model != null && (model.restricted.length > 0)
+  }, [model])
+
+  // expose AG Grid Filter Lifecycle callbacks
+  useImperativeHandle(ref, () => {
+    return {
+      doesFilterPass(params) {
+        if ([0, 2].includes(model.restricted.length)) return true
+        if ((model.restricted[0] == params.data.restriction.enabled)) return true
+        return false
+      },
+
+      isFilterActive,
+
+      getModel() {
+        return model
+      },
+
+      setModel(model) {
+        setModel(model)
+      },
+    }
+  })
+
+  useEffect(() => {
+    props.filterChangedCallback()
+  }, [model, props])
+})
+
+RestrictedFilter.displayName = 'RestrictedFilter'
+RestrictedFilter.propTypes = {
+  filterChangedCallback: PropTypes.func,
+}
 
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
@@ -173,6 +211,10 @@ export default function RelicsTab() {
         filter: x,
       })),
       operator: 'OR',
+    }
+
+    filterModel.restricted = {
+      restricted: relicTabFilters.restricted,
     }
 
     filterModel.part = {
@@ -294,6 +336,12 @@ export default function RelicsTab() {
           return a - b
         }
       },
+    },
+    {
+      field: 'restricted',
+      width: 55,
+      cellRenderer: Renderer.renderFilterCell,
+      filter: RestrictedFilter,
     },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 55, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },

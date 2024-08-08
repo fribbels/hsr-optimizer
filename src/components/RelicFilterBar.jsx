@@ -103,6 +103,15 @@ export default function RelicFilterBar(props) {
     })
   }
 
+  function generateRestrictedTags(arr) {
+    return arr.map((x) => {
+      return {
+        key: x,
+        display: Renderer.renderFilter(x),
+      }
+    })
+  }
+
   function generateEquippedTags(arr) {
     return arr.map((x) => {
       return {
@@ -114,6 +123,7 @@ export default function RelicFilterBar(props) {
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags([true, false])
+  const restrictedData = generateRestrictedTags([false, true])
   const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter((x) => !UnreleasedSets[x]),
     (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
@@ -237,6 +247,10 @@ export default function RelicFilterBar(props) {
         <Flex vertical flex={0.25}>
           <HeaderText>Verified</HeaderText>
           <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>Restricted</HeaderText>
+          <FilterRow name="restricted" tags={restrictedData} flexBasis="15%" />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Equipped</HeaderText>

@@ -1,10 +1,11 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 const Gallagher = (e: Eidolon): CharacterConditional => {
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -107,7 +108,7 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.BREAK_VULNERABILITY += (m.targetBesotted) ? talentBesottedScaling : 0
+      buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x

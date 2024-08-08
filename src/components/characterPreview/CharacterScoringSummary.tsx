@@ -184,7 +184,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             <li>The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
               restrictions (For example, relics with a main stat cannot also have the same substat, and no duplicate substat slots per piece, etc)
             </li>
-            <li>An artificial diminishing returns penalty is applied to substats with greater than <code>18 - (3 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
+            <li>An artificial diminishing returns penalty is applied to substats with greater than <code>12 - (2 * main stats)</code> rolls, to simulate the difficulty of obtaining multiple rolls in a single stat</li>
           </ul>
 
           <p>
@@ -351,8 +351,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why is a character scoring low?</h4>
           <p>
-            The `DPS score improvements` section will give a quick overview of the sets and stats that could be improved. For a more detailed explanation,
-            the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
+            The `Damage improvements` section will give a quick overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll.
+            For a more detailed explanation, the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
             Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
           </p>
 
@@ -447,8 +447,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <Flex gap={defaultGap} justify="space-around">
             <Flex vertical gap={10}>
               <ScoringStat stat={StatsToReadable[request.simBody]} part={Parts.Body} />
-              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
               <ScoringStat stat={StatsToReadable[request.simFeet]} part={Parts.Feet} />
+              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
               <ScoringStat stat={StatsToReadable[request.simLinkRope]} part={Parts.LinkRope} />
             </Flex>
           </Flex>
@@ -639,17 +639,19 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
 export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
   const result = props.result
   const rows: ReactElement[] = []
+  const baseDmg = result.originalSimResult.simScore
   const basePercent = result.percent
   const statUpgrades = result.substatUpgrades.filter((statUpgrade) => statUpgrade.stat != Stats.SPD)
   for (const statUpgrade of statUpgrades.slice(0, 5)) {
     const stat = statUpgrade.stat!
+    const upgradeDmg = statUpgrade.simulationResult.simScore / baseDmg - 1
 
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <StatText>{`+1x ${StatsToShortSpaced[stat]}`}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((statUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
@@ -660,26 +662,29 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
     const part = mainUpgrade.part
     const stat = mainUpgrade.stat
+    const upgradeDmg = mainUpgrade.simulationResult.simScore / baseDmg - 1
 
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((mainUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
 
   const setUpgrade = result.setUpgrades[0]
   if (setUpgrade.percent! - basePercent > 0) {
+    const upgradeDmg = setUpgrade.simulationResult.simScore / baseDmg - 1
+
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-        <StatText>{`+ ${((setUpgrade.percent! - basePercent) * 100).toFixed(2)}%`}</StatText>
+        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
@@ -694,7 +699,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
-          DPS score improvements
+          Damage improvements
         </HeaderText>
       </Flex>
       {rows}

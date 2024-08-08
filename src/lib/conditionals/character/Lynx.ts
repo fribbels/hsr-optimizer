@@ -81,7 +81,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
       x[Stats.ATK] += atkBuffValue
-      x.RATIO_BASED_ATK_BUFF += atkBuffValue
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals

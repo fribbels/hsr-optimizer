@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, SIMULATION_SCORE } from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -68,6 +68,7 @@ window.store = create((set) => ({
   optimizerTabFocusCharacter: undefined,
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
+  relicsTabFocusCharacter: undefined,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
   characters: [],
@@ -120,6 +121,13 @@ window.store = create((set) => ({
     subStats: [],
     grade: [],
     verified: [],
+    equipped: [],
+  },
+  characterTabFilters: {
+    name: '',
+    element: [],
+    path: [],
+    rarity: [],
   },
   excludedRelicPotentialCharacters: [],
 
@@ -127,7 +135,7 @@ window.store = create((set) => ({
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
     [OptimizerMenuIds.teammates]: true,
-    [OptimizerMenuIds.characterStatsSimulation]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: false,
   },
 
   savedSession: {
@@ -149,12 +157,14 @@ window.store = create((set) => ({
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
   setPermutations: (x) => set(() => ({ permutations: x })),
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
   setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
   setRelicsById: (x) => set(() => ({ relicsById: x })),
   setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
   setScorerId: (x) => set(() => ({ scorerId: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
@@ -340,7 +350,7 @@ export const DB = {
       character.equipped = {}
       charactersById[character.id] = character
 
-      // Previously sim requests didnt use the stats field
+      // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
         character.form.statSim.simulations = character.form.statSim.simulations.filter((x) => x.request?.stats)
       }
@@ -370,6 +380,11 @@ export const DB = {
       // Deduplicate main stat filter values
       for (const part of Object.keys(Constants.Parts)) {
         character.form['main' + part] = deduplicateArray(character.form['main' + part])
+      }
+
+      // In beta, Duran maxed out at 6
+      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] > 5) {
+        character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
     }
 
@@ -442,7 +457,7 @@ export const DB = {
     })
   },
 
-  addFromForm: (form) => {
+  addFromForm: (form, autosave = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -473,7 +488,9 @@ export const DB = {
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
 
-    SaveState.save()
+    if (autosave) {
+      SaveState.save()
+    }
 
     return found
   },
@@ -792,88 +809,47 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergeVerifiedRelicsWithState: (newRelics) => {
+  mergePartialRelicsWithState: (newRelics, sourceCharacters = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
     newRelics = Utils.clone(newRelics) || []
-
-    // part set grade mainstat substatStats
-    const oldRelicPartialHashes = {}
-    for (const oldRelic of oldRelics) {
-      const hash = partialHashRelic(oldRelic)
-      if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
-      oldRelicPartialHashes[hash].push(oldRelic)
-    }
 
     // Tracking these for debug / messaging
     const updatedOldRelics = []
     const addedNewRelics = []
+    const equipUpdates = []
 
     for (const newRelic of newRelics) {
-      newRelic.equippedBy = undefined
-      const partialHash = partialHashRelic(newRelic)
-      const partialMatches = oldRelicPartialHashes[partialHash] || []
-
-      let match
-      for (const partialMatch of partialMatches) {
-        if (newRelic.enhance < partialMatch.enhance) continue
-        if (newRelic.substats.length < partialMatch.substats.length) continue
-
-        let exit = false
-        let upgrades = 0
-        for (let i = 0; i < partialMatch.substats.length; i++) {
-          const matchSubstat = partialMatch.substats[i]
-          const newSubstat = newRelic.substats.find((x) => x.stat == matchSubstat.stat)
-
-          // Different substats mean different relics - break
-          if (!newSubstat) {
-            exit = true
-            break
-          }
-          if (matchSubstat.stat != newSubstat.stat) {
-            exit = true
-            break
-          }
-          if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
-            exit = true
-            break
-          }
-
-          // Track if the number of stat increases make sense
-          if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
-            upgrades++
-          }
-        }
-
-        if (exit) continue
-
-        const possibleUpgrades = Math.round((Math.floor(newRelic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
-        if (upgrades > possibleUpgrades) continue
-
-        // If it passes all the tests, keep it
-        match = partialMatch
-        break
-      }
+      const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-
         match.verified = true
         updatedOldRelics.push(match)
+
+        equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })
       } else {
         oldRelics.push(newRelic)
-
-        newRelic.verified = true
         addedNewRelics.push(newRelic)
+
+        equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
+        newRelic.equippedBy = undefined
       }
     }
 
-    console.warn('addedNewRelics', addedNewRelics)
-    console.warn('updatedOldRelics', updatedOldRelics)
+    console.log('addedNewRelics', addedNewRelics)
+    console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
     DB.setRelics(oldRelics)
+
+    for (const equipUpdate of equipUpdates) {
+      if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
+        DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
+      }
+    }
+
     DB.refreshRelics()
     window.refreshRelicsScore()
 
@@ -887,6 +863,60 @@ export const DB = {
 }
 
 export default DB
+
+function findRelicMatch(relic, oldRelics) {
+  // part set grade mainstat substatStats
+  const oldRelicPartialHashes = {}
+  for (const oldRelic of oldRelics) {
+    const hash = partialHashRelic(oldRelic)
+    if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
+    oldRelicPartialHashes[hash].push(oldRelic)
+  }
+  const partialHash = partialHashRelic(relic)
+  const partialMatches = oldRelicPartialHashes[partialHash] || []
+
+  let match = undefined
+  for (const partialMatch of partialMatches) {
+    if (relic.enhance < partialMatch.enhance) continue
+    if (relic.substats.length < partialMatch.substats.length) continue
+
+    let exit = false
+    let upgrades = 0
+    for (let i = 0; i < partialMatch.substats.length; i++) {
+      const matchSubstat = partialMatch.substats[i]
+      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat)
+
+      // Different substats mean different relics - break
+      if (!newSubstat) {
+        exit = true
+        break
+      }
+      if (matchSubstat.stat != newSubstat.stat) {
+        exit = true
+        break
+      }
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
+        exit = true
+        break
+      }
+
+      // Track if the number of stat increases make sense
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
+        upgrades++
+      }
+    }
+
+    if (exit) continue
+
+    const possibleUpgrades = Math.round((Math.floor(relic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
+    if (upgrades > possibleUpgrades) continue
+
+    // If it passes all the tests, keep it
+    match = partialMatch
+    break
+  }
+  return match
+}
 
 function assignRanks(characters) {
   for (let i = 0; i < characters.length; i++) {

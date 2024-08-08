@@ -1,6 +1,6 @@
 import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
@@ -21,6 +21,17 @@ export function calculateBuildByCharacterEquippedIds(character) {
   return calculateBuild(request, relics)
 }
 
+function generateUnusedSets(relics) {
+  const usedSets = new Set([
+    RelicSetToIndex[relics.Head.set],
+    RelicSetToIndex[relics.Hands.set],
+    RelicSetToIndex[relics.Body.set],
+    RelicSetToIndex[relics.Feet.set],
+    OrnamentSetToIndex[relics.PlanarSphere.set],
+    OrnamentSetToIndex[relics.LinkRope.set],
+  ])
+  return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
+}
 export function calculateBuild(request, relics) {
   request = Utils.clone(request)
 
@@ -30,16 +41,24 @@ export function calculateBuild(request, relics) {
   calculateConditionals(request, params)
   calculateTeammates(request, params)
 
+  // Postcompute
+  calculatePostPrecomputeConditionals(request, params)
+  calculatePostPrecomputeTeammates(request, params)
+
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
   RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
 
-  const setH = RelicSetToIndex[relics.Head.set]
-  const setG = RelicSetToIndex[relics.Hands.set]
-  const setB = RelicSetToIndex[relics.Body.set]
-  const setF = RelicSetToIndex[relics.Feet.set]
-  const setP = OrnamentSetToIndex[relics.PlanarSphere.set]
-  const setL = OrnamentSetToIndex[relics.LinkRope.set]
+  // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
+  const unusedSets = generateUnusedSets(relics)
+  let unusedSetCounter = 0
+
+  const setH = RelicSetToIndex[relics.Head.set] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set] ?? unusedSets[unusedSetCounter++]
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount

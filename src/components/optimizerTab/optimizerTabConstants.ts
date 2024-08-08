@@ -79,16 +79,16 @@ export const baseColumnDefs = [
   { field: Constants.Stats.ERR, valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'ERR' },
 
   { field: 'ED', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'DMG' },
-  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'WEIGHT' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
+  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'STAT\nWEIGHT' },
 
-  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
-  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
-  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
-  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
-  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
+  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC\nDMG' },
+  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL\nDMG' },
+  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT\nDMG' },
+  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA\nDMG' },
+  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT\nDMG' },
+  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK\nDMG' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO\nDMG' },
 ]
 
 export const combatColumnDefs = [
@@ -162,16 +162,16 @@ export const combatColumnDefs = [
   { field: 'xERR', valueFormatter: Renderer.x100Tenths, width: DIGITS_3, headerName: 'Σ ERR' },
 
   { field: 'xELEMENTAL_DMG', valueFormatter: Renderer.x100Tenths, width: DIGITS_4, headerName: 'Σ DMG' },
-  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'WEIGHT' },
   { field: 'EHP', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'EHP' },
+  { field: 'WEIGHT', valueFormatter: Renderer.floor, width: DIGITS_4_WEIGHT, headerName: 'STAT\nWEIGHT' },
 
-  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC' },
-  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL' },
-  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT' },
-  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA' },
-  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT' },
-  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK' },
-  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO' },
+  { field: 'BASIC', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'BASIC\nDMG' },
+  { field: 'SKILL', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'SKILL\nDMG' },
+  { field: 'ULT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'ULT\nDMG' },
+  { field: 'FUA', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'FUA\nDMG' },
+  { field: 'DOT', valueFormatter: Renderer.floor, width: DIGITS_5, headerName: 'DOT\nDMG' },
+  { field: 'BREAK', valueFormatter: Renderer.floor, width: DIGITS_4, headerName: 'BREAK\nDMG' },
+  { field: 'COMBO', valueFormatter: Renderer.floor, width: DIGITS_6, headerName: 'COMBO\nDMG' },
 ]
 
 export const gridOptions = {
@@ -193,4 +193,6 @@ export const defaultColDef = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,
   sortingOrder: ['desc', 'asc'],
+  wrapHeaderText: true,
+  autoHeaderHeight: true,
 }

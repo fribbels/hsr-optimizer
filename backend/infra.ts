@@ -45,7 +45,7 @@ export class HsrOptimizerApiStack extends Stack {
         TABLE_NAME: dynamoTable.tableName,
       },
       runtime: Runtime.NODEJS_16_X,
-      timeout: Duration.seconds(10),
+      timeout: Duration.seconds(20),
       memorySize: 256,
     }
 

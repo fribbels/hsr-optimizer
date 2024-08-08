@@ -136,7 +136,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
-      x[Stats.CD] += (m.ultCdBoost) ? ultCdBoost : 0
+      x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
     },
     calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
       const r = request.characterConditionals

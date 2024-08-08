@@ -2,7 +2,10 @@ import { Stats } from 'lib/constants'
 import {
   ASHBLAZING_ATK_STACK,
   baseComputedStatsObject,
-  ComputedStatsObject
+  ComputedStatsObject,
+  FUA_TYPE,
+  SKILL_TYPE,
+  ULT_TYPE
 } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
@@ -10,9 +13,10 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.00, 1.10)
@@ -126,7 +130,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => [],
     defaults: () => ({
       fuaStacks: 5,
-      techniqueBuff: true,
+      techniqueBuff: false,
       targetFrozen: true,
       e2TalentCritStacks: 5,
       e6UltAtkBuff: true,
@@ -150,11 +154,11 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
 
-      x.SKILL_BOOST += (r.enemyHpGte50) ? 0.45 : 0
+      buffAbilityDmg(x, SKILL_TYPE, 0.20, (r.enemyHpGte50))
 
       // Boost
-      x.ULT_BOOST += (r.targetFrozen) ? 0.20 : 0
-      x.FUA_BOOST += (e >= 4) ? 0.10 : 0
+      buffAbilityDmg(x, ULT_TYPE, 0.20, (r.targetFrozen))
+      buffAbilityDmg(x, FUA_TYPE, 0.10, (e >= 4))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30
@@ -181,7 +185,7 @@ export default (e: Eidolon): CharacterConditional => {
       }
 
       const hitMulti = hitMultiByTargets[request.enemyCount]
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * r.fuaStacks * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }

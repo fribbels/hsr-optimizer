@@ -17,11 +17,11 @@ type CharacterSelectorDisplayProps = {}
 const resultLimitString = (limit: number) => `Find top ${limit.toLocaleString()} results`
 const resultLimitOptions = (() => {
   return [
-    {value: 100, label: resultLimitString(100)},
-    {value: 1000, label: resultLimitString(1000)},
-    {value: 10000, label: resultLimitString(10000)},
-    {value: 100000, label: resultLimitString(100000)},
-    {value: 1000000, label: resultLimitString(1000000)},
+    { value: 100, label: resultLimitString(100) },
+    { value: 1000, label: resultLimitString(1000) },
+    { value: 10000, label: resultLimitString(10000) },
+    { value: 100000, label: resultLimitString(100000) },
+    { value: 1000000, label: resultLimitString(1000000) },
   ]
 })()
 
@@ -31,37 +31,32 @@ const resultSortOptions = (() => {
     {
       label: 'Damage calculations',
       options: [
-        {value: SortOption.BASIC.key, label: resultSortString('Basic DMG')},
-        {value: SortOption.SKILL.key, label: resultSortString('Skill DMG')},
-        {value: SortOption.ULT.key, label: resultSortString('Ult DMG')},
-        {value: SortOption.FUA.key, label: resultSortString('Follow-up DMG')},
-        {value: SortOption.DOT.key, label: resultSortString('DoT DMG')},
-        {value: SortOption.BREAK.key, label: resultSortString('Break DMG')},
-        {value: SortOption.COMBO.key, label: resultSortString('Combo DMG')},
-      ],
-    },
-    {
-      label: 'Computed ratings',
-      options: [
-        {value: SortOption.WEIGHT.key, label: resultSortString('Weight')},
-        {value: SortOption.EHP.key, label: resultSortString('Effective HP')},
+        { value: SortOption.BASIC.key, label: resultSortString('Basic DMG') },
+        { value: SortOption.SKILL.key, label: resultSortString('Skill DMG') },
+        { value: SortOption.ULT.key, label: resultSortString('Ult DMG') },
+        { value: SortOption.FUA.key, label: resultSortString('Follow-up DMG') },
+        { value: SortOption.DOT.key, label: resultSortString('DoT DMG') },
+        { value: SortOption.BREAK.key, label: resultSortString('Break DMG') },
+        { value: SortOption.COMBO.key, label: resultSortString('Combo DMG') },
       ],
     },
     {
       label: 'Stats',
       options: [
-        {value: SortOption.HP.key, label: resultSortString(StatsToReadable[Stats.HP])},
-        {value: SortOption.ATK.key, label: resultSortString(StatsToReadable[Stats.ATK])},
-        {value: SortOption.DEF.key, label: resultSortString(StatsToReadable[Stats.DEF])},
-        {value: SortOption.SPD.key, label: resultSortString(StatsToReadable[Stats.SPD])},
-        {value: SortOption.CR.key, label: resultSortString(StatsToReadable[Stats.CR])},
-        {value: SortOption.CD.key, label: resultSortString(StatsToReadable[Stats.CD])},
-        {value: SortOption.EHR.key, label: resultSortString(StatsToReadable[Stats.EHR])},
-        {value: SortOption.RES.key, label: resultSortString(StatsToReadable[Stats.RES])},
-        {value: SortOption.BE.key, label: resultSortString(StatsToReadable[Stats.BE])},
-        {value: SortOption.OHB.key, label: resultSortString(StatsToReadable[Stats.OHB])},
-        {value: SortOption.ERR.key, label: resultSortString(StatsToReadable[Stats.ERR])},
-        {value: SortOption.ELEMENTAL_DMG.key, label: resultSortString('Elemental DMG')},
+        { value: SortOption.HP.key, label: resultSortString(StatsToReadable[Stats.HP]) },
+        { value: SortOption.ATK.key, label: resultSortString(StatsToReadable[Stats.ATK]) },
+        { value: SortOption.DEF.key, label: resultSortString(StatsToReadable[Stats.DEF]) },
+        { value: SortOption.SPD.key, label: resultSortString(StatsToReadable[Stats.SPD]) },
+        { value: SortOption.CR.key, label: resultSortString(StatsToReadable[Stats.CR]) },
+        { value: SortOption.CD.key, label: resultSortString(StatsToReadable[Stats.CD]) },
+        { value: SortOption.EHR.key, label: resultSortString(StatsToReadable[Stats.EHR]) },
+        { value: SortOption.RES.key, label: resultSortString(StatsToReadable[Stats.RES]) },
+        { value: SortOption.BE.key, label: resultSortString(StatsToReadable[Stats.BE]) },
+        { value: SortOption.OHB.key, label: resultSortString(StatsToReadable[Stats.OHB]) },
+        { value: SortOption.ERR.key, label: resultSortString(StatsToReadable[Stats.ERR]) },
+        { value: SortOption.ELEMENTAL_DMG.key, label: resultSortString('Elemental DMG') },
+        { value: SortOption.EHP.key, label: resultSortString('Effective HP') },
+        { value: SortOption.WEIGHT.key, label: resultSortString('Weight') },
       ],
     },
   ]
@@ -83,20 +78,20 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify="space-between" align="center">
         <HeaderText>Character</HeaderText>
-        <TooltipImage type={Hint.character()}/>
+        <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
         <Form.Item name="characterId">
           <CharacterSelect
             value=""
-            selectStyle={{width: 156}}
+            selectStyle={{ width: 156 }}
             onChange={setOptimizerTabFocusCharacter}
           />
         </Form.Item>
         <Form.Item name="characterEidolon">
           <Select
             showSearch
-            style={{width: 50}}
+            style={{ width: 50 }}
             options={eidolonOptions}
             onChange={setOptimizerFormCharacterEidolon}
             placeholder="E"
@@ -107,14 +102,14 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       </Flex>
       <Flex justify="space-between" align="center">
         <HeaderText>Light cone</HeaderText>
-        <TooltipImage type={Hint.lightCone()}/>
+        <TooltipImage type={Hint.lightCone()} />
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
           <Form.Item name="lightCone">
             <LightConeSelect
               value=""
-              selectStyle={{width: 156}}
+              selectStyle={{ width: 156 }}
               characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
             />
@@ -122,7 +117,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           <Form.Item name="lightConeSuperimposition">
             <Select
               showSearch
-              style={{width: 50}}
+              style={{ width: 50 }}
               onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
               placeholder="S"
@@ -133,20 +128,20 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         </Flex>
       </Flex>
 
-      <Flex justify="space-between" align="center" style={{marginTop: 10}}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
         <HeaderText>Presets</HeaderText>
       </Flex>
 
-      <RecommendedPresetsButton/>
+      <RecommendedPresetsButton />
 
-      <Flex justify="space-between" align="center" style={{marginTop: 15}}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
         <HeaderText>Optimization target</HeaderText>
       </Flex>
 
       <Form.Item name="resultLimit">
         <Select
           showSearch
-          style={{width: panelWidth}}
+          style={{ width: panelWidth }}
           options={resultLimitOptions}
           placeholder="Find top results"
         />
@@ -155,7 +150,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       <Form.Item name="resultSort">
         <Select
           showSearch
-          style={{width: panelWidth}}
+          style={{ width: panelWidth }}
           options={resultSortOptions}
           listHeight={800}
           popupMatchSelectWidth={250}

@@ -4,7 +4,7 @@ import { CharacterStats } from 'lib/characterStats'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { Form } from "types/Form";
-import { calculateConditionals } from "lib/optimizer/calculateConditionals";
+import { calculateConditionals } from "lib/optimizer/calculateConditionals.ts";
 
 export type CharacterStats = {
   base: { [key: string]: number }
@@ -60,11 +60,11 @@ export function generateParams(request: Form): Params {
 
 function generateCharacterBaseParams(request: Form, params: Partial<Params>) {
   const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  const lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
+  const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
   const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
 
   const characterMetadata = DB.getMetadata().characters[request.characterId]
-  const characterStats = characterMetadata.promotions[80]
+  const characterStats = characterMetadata.stats
 
   params.element = characterMetadata.element
 

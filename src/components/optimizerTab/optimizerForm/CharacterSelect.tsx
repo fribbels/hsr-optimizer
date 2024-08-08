@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Utils } from 'lib/utils.js'
 import { Assets } from 'lib/assets.js'
-import { PathToClass } from 'lib/constants.ts'
-import { CardGridFilterRow, CardGridItemContent, generateElementTags, generatePathTags } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
+import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'components/optimizerTab/optimizerForm/CardSelectModalComponents.tsx'
 
 interface CharacterSelectProps {
   value
@@ -69,7 +68,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
-    if (currentFilters.path.length && !currentFilters.path.map((x) => PathToClass[x]).includes(x.path)) {
+    if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
     if (!x.label.toLowerCase().includes(currentFilters.name) || !x.displayName.toLowerCase().includes(currentFilters.name)) {
@@ -87,6 +86,22 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setOpen(false)
       if (onChange) onChange(id)
     }
+  }
+
+  const excludeAll = () => {
+    const newSelected = new Map<string, boolean>(selected)
+    characterOptions
+      .filter(applyFilters)
+      .forEach((option) => newSelected.set(option.id, true))
+    setSelected(newSelected)
+  }
+
+  const includeAll = () => {
+    const newSelected = new Map<string, boolean>(selected)
+    characterOptions
+      .filter(applyFilters)
+      .forEach((option) => newSelected.delete(option.id))
+    setSelected(newSelected)
   }
 
   return (
@@ -131,12 +146,15 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         }}
         footer={null}
       >
-        <Flex vertical gap={12}>
+        <Flex vertical gap={12} style={{ minWidth: 350 }}>
           <Flex gap={12} wrap="wrap">
-            <Flex vertical wrap="wrap" style={{ minWidth: 300, flexGrow: 1 }}>
+            <Flex wrap="nowrap" style={{ flexGrow: 1 }} gap={10}>
               <Input
                 size="large"
-                style={{ height: 40 }}
+                style={{
+                  height: 40,
+                  flex: 1,
+                }}
                 placeholder="Search character name"
                 ref={inputRef}
                 onChange={(e) => {
@@ -151,10 +169,26 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   }
                 }}
               />
+              {multipleSelect && (
+                <Flex gap={12}>
+                  <Button
+                    onClick={excludeAll}
+                    style={{ height: '100%', width: 120 }}
+                  >
+                    Exclude all
+                  </Button>
+                  <Button
+                    onClick={includeAll}
+                    style={{ height: '100%', width: 120 }}
+                  >
+                    Clear
+                  </Button>
+                </Flex>
+              )}
             </Flex>
             <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="element"
                   tags={generateElementTags()}
                   flexBasis="14.2%"
@@ -163,7 +197,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 />
               </Flex>
               <Flex wrap="wrap" style={{ minWidth: 350, flexGrow: 1 }}>
-                <CardGridFilterRow
+                <SegmentedFilterRow
                   name="path"
                   tags={generatePathTags()}
                   flexBasis="14.2%"

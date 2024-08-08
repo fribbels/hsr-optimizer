@@ -1,10 +1,16 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import {
+  baseComputedStatsObject,
+  ComputedStatsObject,
+  SKILL_TYPE,
+  ULT_TYPE
+} from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const {basic, skill, ult, talent} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -58,8 +64,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += (r.enhancedUlt) ? ultEnhancedScaling : ultScaling
 
       // Boost
-      x.SKILL_BOOST += 0.25
-      x.ULT_BOOST += (r.enhancedUlt) ? 0.25 : 0
+      buffAbilityDmg(x, SKILL_TYPE, 0.25)
+      buffAbilityDmg(x, ULT_TYPE, 0.25, (r.enhancedUlt))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

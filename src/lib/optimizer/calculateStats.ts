@@ -43,6 +43,8 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     IzumoGenseiAndTakamaDivineRealm: (1 >> (setP ^ 13)) + (1 >> (setL ^ 13)),
     DuranDynastyOfRunningWolves: (1 >> (setP ^ 14)) + (1 >> (setL ^ 14)),
     ForgeOfTheKalpagniLantern: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
+    LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
+    TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
   return c.sets
 }
@@ -121,7 +123,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
-    0.16 * p2(sets.CelestialDifferentiator),
+    0.16 * p2(sets.CelestialDifferentiator)
+    + 0.16 * p2(sets.TheWondrousBananAmusementPark),
   )
 
   c[Stats.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c,
@@ -129,7 +132,8 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
-    0.10 * p2(sets.BrokenKeel),
+    0.10 * p2(sets.BrokenKeel)
+    + 0.10 * p2(sets.LushakaTheSunkenSeas),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -192,7 +196,6 @@ export function calculateComputedStats(c, request, params) {
 
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
-  //
 
   // x.BASIC_BOOST
   //   += 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)

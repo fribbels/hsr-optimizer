@@ -2,7 +2,7 @@ import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats }
 import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
@@ -39,6 +39,10 @@ self.onmessage = function(e) {
 
   calculateConditionals(request, params)
   calculateTeammates(request, params)
+
+  // PostPrecompute
+  calculatePostPrecomputeConditionals(request, params)
+  calculatePostPrecomputeTeammates(request, params)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 

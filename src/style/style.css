@@ -63,16 +63,12 @@ body,
     text-align: center;
 }
 
-.ag-header-cell {
-    padding-top: 2px !important;
-}
-
 .ag-header-cell:after {
     top: 5% !important;
 }
 
 .ag-header-cell-label {
-    padding-top: 2px !important;
+    padding-top: 4px !important;
 }
 
 .ag-icon {
@@ -209,11 +205,13 @@ body,
 .ag-header-cell-text {
     overflow: hidden;
     text-overflow: clip !important;
-    margin-top: -6px;
+    margin-top: -4px;
 }
 
-.ag-icon-desc {
-    margin-top: -6px !important;
+.ag-icon-desc, .ag-icon-asc {
+    margin-top: -3px !important;
+    margin-right: 2px !important;
+    font-size: 12px !important;
 }
 
 .ag-icon-asc {
@@ -221,8 +219,8 @@ body,
 }
 
 .ag-header-cell {
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 .ant-layout {
@@ -414,4 +412,32 @@ a {
 
 .ant-modal-confirm-paragraph {
     max-width: unset !important;
+}
+
+#relicGrid .ag-paging-page-summary-panel {
+    display: none !important;
+}
+#relicGrid .ag-paging-row-summary-panel {
+    padding-right: 10px !important;
+}
+
+#optimizerGridContainer .ag-header-cell-sorted-desc, #optimizerGridContainer .ag-header-cell-sorted-asc {
+    background-color: #1b6d85 !important;
+    color: #fff !important;
+}
+
+.ag-root-wrapper {
+    border-radius: 8px !important;
+}
+
+#optimizerGridContainer .ag-cell-value {
+    font-size: 14px !important;
+}
+#optimizerGridContainer .ag-header-cell-text {
+    font-size: 11px !important;
+    font-weight: 400 !important;
+}
+#optimizerGridContainer .ag-header {
+    height: 36px !important;
+    min-height: 36px !important;
 }

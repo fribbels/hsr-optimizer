@@ -1,11 +1,12 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 // TODO: missing A4 SPD buff
 export default (e: Eidolon): CharacterConditional => {
@@ -70,8 +71,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_SCALING += (r.enemySlowed) ? ultExtraScaling : 0
 
       // Boost
-      x.BASIC_BOOST += (r.enemySlowed) ? 0.40 : 0
       x.RES_PEN += (r.talentPenBuff) ? extraPenValue : 0
+      buffAbilityDmg(x, BASIC_TYPE, 0.40, (r.enemySlowed))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

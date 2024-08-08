@@ -167,7 +167,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
           </Flex>
         </Flex>
 
-        <Flex justify="space-between" align="center" style={{ marginTop: 8 }}>
+        <Flex justify="space-between" align="center">
           <Flex vertical gap={2}>
             <HeaderText>
               Boost main stat

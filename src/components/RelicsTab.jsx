@@ -85,6 +85,44 @@ GradeFilter.propTypes = {
   filterChangedCallback: PropTypes.func,
 }
 
+const EquippedFilter = forwardRef((props, ref) => {
+  const [model, setModel] = useState(null)
+
+  const isFilterActive = useCallback(() => {
+    return model != null && (model.equipped.length > 0)
+  }, [model])
+
+  useImperativeHandle(ref, () => {
+    return {
+      doesFilterPass(params) {
+        if ([0, 2].includes(model.equipped.length)) return true
+        if (model.equipped[0] && params.data.equippedBy != undefined) return true
+        if (!model.equipped[0] && params.data.equippedBy == undefined) return true
+        return false
+      },
+
+      isFilterActive,
+
+      getModel() {
+        return model
+      },
+
+      setModel(model) {
+        setModel(model)
+      },
+    }
+  })
+
+  useEffect(() => {
+    props.filterChangedCallback()
+  }, [model, props])
+})
+
+EquippedFilter.displayName = 'EquippedFilter'
+EquippedFilter.propTypes = {
+  filterChangedCallback: PropTypes.func,
+}
+
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
 
@@ -111,7 +149,7 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
-  const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_ALL)
+  const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
@@ -191,6 +229,10 @@ export default function RelicsTab() {
       operator: 'OR',
     }
 
+    filterModel.equipped = {
+      equipped: relicTabFilters.equipped,
+    }
+
     console.log('FilterModel', filterModel)
 
     // Apply to grid
@@ -233,6 +275,11 @@ export default function RelicsTab() {
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
+    {
+      field: 'equipped',
+      filter: EquippedFilter,
+      hide: true,
+    },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {
@@ -272,7 +319,14 @@ export default function RelicsTab() {
     })
     .sort((a, b) => a[0] - b[0])
     .map(([_i, field]) => (
-      { field: field.value, headerName: field.column, cellStyle: Gradient.getRelicGradient, valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor, filter: 'agNumberColumnFilter', width: 75 }
+      {
+        field: field.value,
+        headerName: field.column,
+        cellStyle: Gradient.getRelicGradient,
+        valueFormatter: field.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor,
+        filter: 'agNumberColumnFilter',
+        width: 75,
+      }
     )),
   ), [flatValueColumnOptions, valueColumns])
 
@@ -353,10 +407,10 @@ export default function RelicsTab() {
     Message.success('Successfully deleted relic')
   }
 
-  const focusCharacter = window.store.getState().scoringAlgorithmFocusCharacter
+  const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
   if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, window.store.getState().scoringAlgorithmFocusCharacter)
+    score = RelicScorer.score(selectedRelic, focusCharacter)
   }
 
   const numScores = 10
@@ -421,6 +475,10 @@ export default function RelicsTab() {
             animateRows={true}
             headerHeight={24}
             rowSelection="single"
+
+            pagination={true}
+            paginationPageSizeSelector={false}
+            paginationPageSize={2000}
 
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}

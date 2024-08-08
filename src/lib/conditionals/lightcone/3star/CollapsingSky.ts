@@ -1,9 +1,10 @@
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
@@ -38,11 +39,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       basicSkillDmgBuff: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.BASIC_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
-      x.SKILL_BOOST += (r.basicSkillDmgBuff) ? sValues[s] : 0
+      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, sValues[s], (r.basicSkillDmgBuff))
     },
     calculatePassives: (/* c, request */) => { },
     calculateBaseMultis: (/* c, request */) => { },

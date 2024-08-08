@@ -1,6 +1,6 @@
 import { Character } from 'types/Character'
 import { StatSimTypes } from 'components/optimizerTab/optimizerForm/StatSimulationDisplay'
-import { CUSTOM_TEAM, Parts, Stats, SubStats } from 'lib/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/statSimulationController'
 import { getDefaultForm } from 'lib/defaultForm'
 import { CharacterConditionals } from 'lib/characterConditionals'
@@ -69,15 +69,13 @@ function substatRollsModifier(rolls: number, stat: string, relics: { [key: strin
     .filter((x) => x.augmentedStats.mainStat == stat)
     .length
 
-  const lowerLimit = 18 - 3 * mainsCount
-  const diminishingScale = 0.25
-
+  const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {
     return rolls
   }
 
   const excess = Math.max(0, rolls - (lowerLimit))
-  const diminishedExcess = excess / (1 + diminishingScale * Math.pow(excess, 0.5))
+  const diminishedExcess = excess / (Math.pow(excess, 0.25))
 
   return lowerLimit + diminishedExcess
 }
@@ -263,6 +261,27 @@ export function scoreCharacterSimulation(
   if (addBreakEffect && !substats.includes(Stats.BE)) {
     substats.push(Stats.BE)
   }
+  if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+    metadata.parts[Parts.LinkRope].push(Stats.BE)
+  }
+  if (addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+    metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
+  }
+  if (addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+    metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
 
   // Set up default request
   const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
@@ -292,8 +311,11 @@ export function scoreCharacterSimulation(
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
+  // Get the simulation sets
+  const simulationSets = calculateSimSets(metadata, relicsByPart)
+
   // ===== Simulate the original character =====
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, originalScoringParams)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, originalScoringParams)
   const originalFinalSpeed = originalSimResult.xSPD
   const originalBaseSpeed = originalSimResult.SPD
   applyScoringFunction(originalSimResult)
@@ -303,12 +325,13 @@ export function scoreCharacterSimulation(
   const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
     relicsByPart,
     simulationForm,
+    simulationSets,
     benchmarkScoringParams,
   )
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(metadata, relicsByPart, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -380,22 +403,20 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate upgrades =====
 
-  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
-    = generateStatImprovements(
-      originalSimResult,
-      originalSim, candidateBenchmarkSims[0],
-      simulationForm,
-      metadata,
-      applyScoringFunction,
-      benchmarkScoringParams,
-    )
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+    originalSimResult,
+    originalSim, candidateBenchmarkSims[0],
+    simulationForm,
+    metadata,
+    applyScoringFunction,
+    benchmarkScoringParams,
+  )
 
   for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
     const upgradeSimScore = upgrade.simulationResult.simScore
-    const percent
-      = upgradeSimScore >= benchmarkSimScore
-        ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-        : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    const percent = upgradeSimScore >= benchmarkSimScore
+      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
     upgrade.percent = percent
   }
 
@@ -503,7 +524,7 @@ function generateStatImprovements(
   for (const substatType of metadata.substats) {
     const stat: string = substatType
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
-    originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + scoringParams.quality
+    originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + 1.0
 
     const statImprovementResult = runSimulations(simulationForm, [originalSimClone], { ...scoringParams, substatRollsModifier: (num: number) => num })[0]
     applyScoringFunction(statImprovementResult)
@@ -743,7 +764,8 @@ function computeOptimalSimulation(
       // How many stats the sim's iteration is attempting
       const simStatCount = bestSim.request.stats[stat]
       // How many slots are open for the stat in question
-      const statSlotCount = possibleDistributionTracker.parts
+      const statSlotCount = possibleDistributionTracker
+        .parts
         .map((part) => part.substats[stat])
         .filter((hasSubstat) => hasSubstat)
         .length
@@ -905,15 +927,20 @@ function calculateMaxSubstatRollCounts(
   return maxCounts
 }
 
-// Generate all main stat possibilities
-function generatePartialSimulations(
-  metadata: SimulationMetadata,
-  relicsByPart: RelicBuild,
-  originalBaseSpeed: number,
-) {
-  const forceSpdBoots = originalBaseSpeed > 140
-  const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+function calculateCharacterSpdStat(character: Character) {
+  const statMetadata = DB.getMetadata().characters[character.id]
+  const baseSpdStat = statMetadata.stats.SPD + (statMetadata.traces.SPD || 0)
 
+  return baseSpdStat
+}
+
+type SimulationSets = {
+  relicSet1: string,
+  relicSet2: string,
+  ornamentSet: string
+}
+
+function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
   // Allow equivalent sets
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
@@ -948,6 +975,22 @@ function generatePartialSimulations(
       break
     }
   }
+
+  return { relicSet1, relicSet2, ornamentSet }
+}
+
+// Generate all main stat possibilities
+function generatePartialSimulations(
+  character: Character,
+  metadata: SimulationMetadata,
+  simulationSets: SimulationSets,
+  originalBaseSpeed: number,
+) {
+  const characterSpdStat = calculateCharacterSpdStat(character)
+  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 36 // 3 min spd rolls per piece
+  const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
+  const { relicSet1, relicSet2, ornamentSet } = simulationSets
 
   const results: PartialSimulationWrapper[] = []
   for (const body of metadata.parts[Parts.Body]) {
@@ -1001,6 +1044,7 @@ function generatePartialSimulations(
 function simulateBaselineCharacter(
   displayRelics: RelicBuild,
   simulationForm: Form,
+  simulationSets: SimulationSets,
   scoringParams: ScoringParams,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
@@ -1022,18 +1066,21 @@ function simulateBaselineCharacter(
     }
   })
 
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, scoringParams, 0)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, scoringParams, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
   }
 }
 
+// TODO: why is this function used twice
 function simulateOriginalCharacter(
   displayRelics: RelicBuild,
+  simulationSets: SimulationSets,
   simulationForm: Form,
   scoringParams: ScoringParams,
   mainStatMultiplier = 1,
+  overwriteSets = false,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
   Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
@@ -1041,12 +1088,22 @@ function simulateOriginalCharacter(
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
   const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, scoringParams.quality, scoringParams.speedRollValue)
+
+  if (overwriteSets) {
+    const { relicSet1, relicSet2, ornamentSet } = simulationSets
+
+    originalSimRequest.simRelicSet1 = relicSet1
+    originalSimRequest.simRelicSet2 = relicSet2
+    originalSimRequest.simOrnamentSet = ornamentSet
+  }
+
   const originalSim: Simulation = {
     name: '',
     key: '',
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
+
   const originalSimResult = runSimulations(simulationForm, [originalSim], { ...scoringParams, substatRollsModifier: (rolls: number) => rolls, mainStatMultiplier: mainStatMultiplier })[0]
 
   originalSim.result = originalSimResult
@@ -1082,8 +1139,13 @@ export function calculatePenaltyMultiplier(
 ) {
   let newPenaltyMultiplier = 1
   for (const stat of Object.keys(breakpoints)) {
-    // Penalize by half of the missing stat breakpoint percentage
-    newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+    if (Utils.isFlat(stat)) {
+      // Flats are penalized by their percentage
+      newPenaltyMultiplier *= Math.min(1, simulationResult.x[stat] / breakpoints[stat])
+    } else {
+      // Percents are penalize by half of the missing stat's breakpoint roll percentage
+      newPenaltyMultiplier *= Math.min(1, 1 - (breakpoints[stat] - simulationResult.x[stat]) / StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality))
+    }
   }
   simulationResult.penaltyMultiplier = newPenaltyMultiplier
   return newPenaltyMultiplier

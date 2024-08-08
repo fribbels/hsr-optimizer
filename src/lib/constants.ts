@@ -1,5 +1,6 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.3.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.4.4'
+export const BETA_UPDATE = 'All calculations are subject to change. Last updated v1 07-30-2024.'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -429,6 +430,8 @@ export const SetsOrnaments = {
   IzumoGenseiAndTakamaDivineRealm: 'Izumo Gensei and Takama Divine Realm',
   DuranDynastyOfRunningWolves: 'Duran, Dynasty of Running Wolves',
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
+  LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
+  TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
 }
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
@@ -454,30 +457,22 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-export const PathToClass = {
-  Abundance: 'Priest',
-  Destruction: 'Warrior',
-  Erudition: 'Mage',
-  Harmony: 'Shaman',
-  Hunt: 'Rogue',
-  Nihility: 'Warlock',
-  Preservation: 'Knight',
-}
-export const ClassToPath = {
-  Priest: 'Abundance',
-  Warrior: 'Destruction',
-  Mage: 'Erudition',
-  Shaman: 'Harmony',
-  Rogue: 'Hunt',
-  Warlock: 'Nihility',
-  Knight: 'Preservation',
+// TODO: This shouldnt be used anymore
+export const PathNames = {
+  Abundance: 'Abundance',
+  Destruction: 'Destruction',
+  Erudition: 'Erudition',
+  Harmony: 'Harmony',
+  Hunt: 'Hunt',
+  Nihility: 'Nihility',
+  Preservation: 'Preservation',
 }
 
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,
   Fire: Stats.Fire_DMG,
   Ice: Stats.Ice_DMG,
-  Thunder: Stats.Lightning_DMG,
+  Lightning: Stats.Lightning_DMG,
   Wind: Stats.Wind_DMG,
   Quantum: Stats.Quantum_DMG,
   Imaginary: Stats.Imaginary_DMG,
@@ -487,7 +482,7 @@ export const ElementToResPenType = {
   Physical: 'PHYSICAL_RES_PEN',
   Fire: 'FIRE_RES_PEN',
   Ice: 'ICE_RES_PEN',
-  Thunder: 'LIGHTNING_RES_PEN',
+  Lightning: 'LIGHTNING_RES_PEN',
   Wind: 'WIND_RES_PEN',
   Quantum: 'QUANTUM_RES_PEN',
   Imaginary: 'IMAGINARY_RES_PEN',
@@ -753,3 +748,4 @@ export const SETTINGS_TEAM = 'Settings'
 
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'
+

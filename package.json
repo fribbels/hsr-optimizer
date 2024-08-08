@@ -4,12 +4,19 @@
   "private": true,
   "homepage": "https://fribbels.github.io/hsr-optimizer",
   "type": "module",
+  "packageManager": "npm@10.8.1",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0",
+    "pnpm": ">=999.0.0",
+    "yarn": ">=999.0.0"
+  },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@js-sdsl/priority-queue": "^4.4.0",
     "@webgpu/types": "^0.1.42",
-    "ag-grid-community": "^31.2.1",
-    "ag-grid-react": "^31.2.1",
+    "ag-grid-community": "^31.3.2",
+    "ag-grid-react": "^31.3.2",
     "antd": "^5.16.2",
     "btoa": "^1.2.1",
     "fast-sort": "^3.4.0",

@@ -51,6 +51,12 @@ import boothill from 'lib/conditionals/character/Boothill'
 import topaz from 'lib/conditionals/character/Topaz'
 import firefly from 'lib/conditionals/character/Firefly'
 import jade from 'lib/conditionals/character/Jade'
+import march7thImaginary from 'lib/conditionals/character/March7thImaginary'
+import yunli from 'lib/conditionals/character/Yunli'
+import jiaoqiu from 'lib/conditionals/character/Jiaoqiu'
+import feixiao from 'lib/conditionals/character/Feixiao'
+import lingsha from 'lib/conditionals/character/Lingsha'
+import moze from 'lib/conditionals/character/Moze'
 
 export const characterOptionMapping = {
   1001: march7th,
@@ -90,6 +96,12 @@ export const characterOptionMapping = {
   1214: xueyi,
   1215: hanya,
   1217: huohuo,
+  1218: jiaoqiu,
+  1220: feixiao,
+  1221: yunli,
+  1222: lingsha,
+  1223: moze,
+  1224: march7thImaginary,
   1301: gallagher,
   1302: argenti,
   1303: ruanmei,

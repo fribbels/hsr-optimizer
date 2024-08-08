@@ -201,12 +201,6 @@ export function calculateComputedStats(c, request, params) {
   x[Stats.CD]
     += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
 
-  // x.BASIC_BOOST
-  //   += 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
-  //
-  // x.SKILL_BOOST
-  //   += 0.20 * (x[Stats.CR] >= 0.70 ? 1 : 0) * p2(sets.RutilantArena)
-
   if (p2(sets.RutilantArena)) {
     RutilantArenaConditional.evaluate(x, params)
   }

@@ -3,20 +3,48 @@ import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { SortOption } from 'lib/optimizer/sortOptions'
+import { Form } from "types/Form";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { CharacterConditionals } from "lib/characterConditionals";
+import { LightConeConditionals } from "lib/lightConeConditionals";
+import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
 
-self.onmessage = function(e) {
+type OptimizerEventData = {
+  relics: {
+    LinkRope: any[]
+    PlanarSphere: any[]
+    Feet: any[]
+    Body: any[]
+    Hands: any[]
+    Head: any[]
+  },
+  request: Form
+  params: OptimizerParams
+  buffer: ArrayBuffer
+  relicSetSolutions: number[]
+  ornamentSetSolutions: number[]
+  permutations: number
+  WIDTH: number
+  skip: number
+}
+
+type BasicStatsObject = {
+  [key: string]: number
+  x: ComputedStatsObject
+}
+
+self.onmessage = function(e: MessageEvent) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
-  const data = e.data
-  const request = data.request
-
-  const params = data.params
+  const data: OptimizerEventData = e.data
+  const request: Form = data.request
+  const params: OptimizerParams = data.params
 
   const relics = data.relics
   const arr = new Float64Array(data.buffer)
@@ -35,9 +63,15 @@ self.onmessage = function(e) {
   const baseDisplay = !combatDisplay
   let passCount = 0
 
-  const { failsBasicFilter, failsCombatFilter } = generateResultMinFilter(request, combatDisplay)
+  const {
+    failsBasicFilter,
+    failsCombatFilter
+  } = generateResultMinFilter(request, combatDisplay)
 
-  calculateConditionals(request, params)
+  params.characterConditionals = CharacterConditionals.get(request)
+  params.lightConeConditionals = LightConeConditionals.get(request)
+
+  // TODO: Can move teammates into precompute step as well
   calculateTeammates(request, params)
 
   // PostPrecompute
@@ -82,8 +116,8 @@ self.onmessage = function(e) {
       continue
     }
 
-    const c = { ...baseCharacterStats }
-    const x = { ...params.precomputedX }
+    const c: BasicStatsObject = { ...baseCharacterStats } as BasicStatsObject
+    const x: ComputedStatsObject = { ...params.precomputedX }
 
     c.relicSetIndex = relicSetIndex
     c.ornamentSetIndex = ornamentSetIndex

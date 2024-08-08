@@ -363,7 +363,7 @@ struct Params {
 @group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // Temporarily f32 for testing, should be boolean
 
 @group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
-//@group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
+@group(1) @binding(1) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
 @compute @workgroup_size(16, 16)
 fn main(
   @builtin(workgroup_id) workgroup_id : vec3<u32>,
@@ -553,22 +553,25 @@ fn main(
   // This should ideally all happen outside the GPU, and passed through in params
   // Assumptions: Jingliu E1S1, default conditionals
 
-  x.CR += 0.50f;
-  x.ATK_P += 1.80f;
-  x.RES += 0.35f;
+//  x.CR += 0.50f;
+//  x.ATK_P += 1.80f;
+//  x.RES += 0.35f;
+//
+//  x.ULT_BOOST += 0.20f;
+//  x.CD += 0.24f;
+//
+//  x.BASIC_SCALING += 1.00f;
+//  x.SKILL_SCALING += 2.50f;
+//  x.SKILL_SCALING += 1.00f;
+//
+//  x.ULT_SCALING += 3.00f;
+//  x.ULT_SCALING += 1.00f;
+//
+//  x.ELEMENTAL_DMG += 0.14f * 3.0f;
+//  x.DEF_SHRED += 0.12f;
 
-  x.ULT_BOOST += 0.20f;
-  x.CD += 0.24f;
+  // Aventurine E0S1
 
-  x.BASIC_SCALING += 1.00f;
-  x.SKILL_SCALING += 2.50f;
-  x.SKILL_SCALING += 1.00f;
-
-  x.ULT_SCALING += 3.00f;
-  x.ULT_SCALING += 1.00f;
-
-  x.ELEMENTAL_DMG += 0.14f * 3.0f;
-  x.DEF_SHRED += 0.12f;
 
 
   // Add basic stats to combat stats

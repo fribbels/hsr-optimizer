@@ -98,7 +98,7 @@ function createBuffer(device, matrix, usage, mapped = true, int = false) {
   return gpuBuffer
 }
 export async function experiment({ params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions }) {
-  return
+  // return
   // ======================================== Init ========================================
 
   const adapter = await navigator.gpu.requestAdapter()
@@ -209,7 +209,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   // console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
 
   const date1 = new Date()
-  const iterations = 25
+  const iterations = 2
 
   let printed = false
   for (let i = 0; i < iterations; i++) {

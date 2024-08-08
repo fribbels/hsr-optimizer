@@ -6,6 +6,8 @@ import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { Form } from "types/Form";
 import { calculateConditionals } from "lib/optimizer/calculateConditionals.ts";
 import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
+import { LightConeConditional } from "types/LightConeConditionals";
+import { CharacterConditional } from "types/CharacterConditional";
 
 export type CharacterStats = {
   base: { [key: string]: number }
@@ -13,7 +15,7 @@ export type CharacterStats = {
   traces: { [key: string]: number }
 }
 
-export type Params = {
+export type OptimizerParams = {
   element: string,
   ELEMENTAL_BREAK_SCALING: number
   ELEMENTAL_DMG_TYPE: string
@@ -40,6 +42,8 @@ export type Params = {
   valueSigoniaTheUnclaimedDesolation: number
   valueDuranDynastyOfRunningWolves: number
   precomputedX: ComputedStatsObject
+  characterConditionals: CharacterConditional
+  lightConeConditionals: LightConeConditional
 }
 
 /**
@@ -47,8 +51,8 @@ export type Params = {
  * params - stores some precomputed data for easier use through the optimizer
  * These are currently somewhat mixed up, could use a cleanup
  */
-export function generateParams(request: Form): Params {
-  const params: Partial<Params> = {}
+export function generateParams(request: Form): OptimizerParams {
+  const params: Partial<OptimizerParams> = {}
 
   generateCharacterBaseParams(request, params)
   generateSetConditionalParams(request, params)
@@ -57,10 +61,10 @@ export function generateParams(request: Form): Params {
 
   calculateConditionals(request, params)
 
-  return params as Params
+  return params as OptimizerParams
 }
 
-function generateCharacterBaseParams(request: Form, params: Partial<Params>) {
+function generateCharacterBaseParams(request: Form, params: Partial<OptimizerParams>) {
   const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
   const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
   const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
@@ -99,7 +103,7 @@ function generateCharacterBaseParams(request: Form, params: Partial<Params>) {
   request.baseSpd = baseSpd
 }
 
-function generateSetConditionalParams(request: Form, params: Partial<Params>) {
+function generateSetConditionalParams(request: Form, params: Partial<OptimizerParams>) {
   const setConditionals = request.setConditionals
 
   for (const set of Object.values(Constants.Sets)) {
@@ -129,12 +133,12 @@ function generateSetConditionalParams(request: Form, params: Partial<Params>) {
   params.valueDuranDynastyOfRunningWolves = setConditionals[Constants.Sets.DuranDynastyOfRunningWolves][1] || 0
 }
 
-function generateMultiplierParams(request: Form, params: Partial<Params>) {
+function generateMultiplierParams(request: Form, params: Partial<OptimizerParams>) {
   params.brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
   params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED
 }
 
-function generateElementParams(request: Form, params: Partial<Params>) {
+function generateElementParams(request: Form, params: Partial<OptimizerParams>) {
   const ELEMENTAL_DMG_TYPE: string = ElementToDamage[params.element!]
 
   params.ELEMENTAL_DMG_TYPE = ELEMENTAL_DMG_TYPE

@@ -825,7 +825,7 @@ export const DB = {
         match.substats = newRelic.substats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
-        match.verified = true
+        match.verified = newRelic.verified ?? true
         updatedOldRelics.push(match)
 
         equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })
@@ -845,7 +845,7 @@ export const DB = {
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
-      if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
+      if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy || character.characterId == equipUpdate.equippedBy)) {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
       }
     }

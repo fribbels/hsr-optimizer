@@ -64,6 +64,29 @@ export default function Sidebar() {
   return renderSidebarAtBreakpoint()
 }
 
+function addToPinned() {
+  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
+  if (!selectedNodes || selectedNodes.length == 0) {
+    Message.warning('No row selected')
+  } else if (selectedNodes[0].data.statSim) {
+    Message.warning('Custom simulation rows are not pinnable')
+  } else if (currentPinned.find(x => String(x.id) == String(selectedNodes[0].data.id))) {
+    Message.warning('This build is already pinned')
+  } else {
+    const selectedRow = selectedNodes[0].data
+    currentPinned.push(selectedRow)
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+  }
+}
+
+function clearPinned() {
+  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  if (currentPinned.length) {
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
+  }
+}
+
 function SidebarContent() {
   const { token } = useToken()
 
@@ -106,7 +129,7 @@ function SidebarContent() {
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-        <FormCard height={600}>
+        <FormCard height={615}>
           <Flex vertical gap={10}>
             <Flex justify="space-between" align="center">
               <HeaderText>Permutations</HeaderText>
@@ -118,10 +141,8 @@ function SidebarContent() {
               <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
               <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
               <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere}
-                                  total={permutationDetails.PlanarSphereTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope}
-                                  total={permutationDetails.LinkRopeTotal} />
+              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
             </Flex>
 
             <Flex vertical>
@@ -142,59 +163,81 @@ function SidebarContent() {
               />
             </Flex>
 
-            <Flex justify="space-between" align="center">
+            <Flex vertical gap={5}>
               <HeaderText>Controls</HeaderText>
-            </Flex>
-            <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
-              <Flex gap={defaultGap}>
-                <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
-                        onClick={startClicked} style={{ flex: 1 }}>
-                  Start optimizer
-                </Button>
-              </Flex>
-              <Flex gap={defaultGap}>
-                <Button onClick={cancelClicked} style={{ flex: 1 }}>
-                  Cancel
-                </Button>
-                <Button onClick={resetClicked} style={{ flex: 1 }}>
-                  Reset
-                </Button>
-              </Flex>
-              <Flex gap={defaultGap}>
+              <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
+                <Flex gap={defaultGap}>
+                  <Button
+                    icon={<ThunderboltFilled />}
+                    type="primary"
+                    loading={optimizationInProgress}
+                    onClick={startClicked} style={{ flex: 1 }}
+                  >
+                    Start optimizer
+                  </Button>
+                </Flex>
+                <Flex gap={defaultGap}>
+                  <Button onClick={cancelClicked} style={{ flex: 1 }}>
+                    Cancel
+                  </Button>
+                  <Button onClick={resetClicked} style={{ flex: 1 }}>
+                    Reset
+                  </Button>
+                </Flex>
+                <Flex gap={defaultGap}>
+                </Flex>
               </Flex>
             </Flex>
 
-            <Flex justify="space-between" align="center">
-              <HeaderText>Stat and filter view</HeaderText>
-              <TooltipImage type={Hint.statDisplay()} />
+            <Flex vertical gap={5}>
+              <Flex justify="space-between" align="center">
+                <HeaderText>Stat and filter view</HeaderText>
+                <TooltipImage type={Hint.statDisplay()} />
+              </Flex>
+              <Radio.Group
+                onChange={(e) => {
+                  const { target: { value } } = e
+                  setStatDisplay(value)
+                }}
+                optionType="button"
+                buttonStyle="solid"
+                value={statDisplay}
+                style={{ width: '100%', display: 'flex' }}
+              >
+                <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
+                  Combat stats
+                </Radio>
+                <Radio
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                  value="base"
+                  defaultChecked
+                >
+                  Basic stats
+                </Radio>
+              </Radio.Group>
             </Flex>
-            <Radio.Group
-              onChange={(e) => {
-                const { target: { value } } = e
-                setStatDisplay(value)
-              }}
-              optionType="button"
-              buttonStyle="solid"
-              value={statDisplay}
-              style={{ width: '100%', display: 'flex' }}
-            >
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
-                     defaultChecked>Basic stats</Radio>
-              <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
-                stats</Radio>
-            </Radio.Group>
 
-            <Flex justify="space-between" align="center">
-              <HeaderText>Results</HeaderText>
-              <TooltipImage type={Hint.actions()} />
-            </Flex>
-            <Flex gap={defaultGap} justify="space-around">
-              <Button onClick={filterClicked} style={{ width: '100px' }}>
-                Filter
-              </Button>
-              <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
-                Equip
-              </Button>
+            <Flex vertical gap={5}>
+              <Flex justify="space-between" align="center">
+                <HeaderText>Results</HeaderText>
+                <TooltipImage type={Hint.actions()} />
+              </Flex>
+              <Flex gap={defaultGap} justify="space-around">
+                <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
+                  Equip
+                </Button>
+                <Button onClick={filterClicked} style={{ width: '100px' }}>
+                  Filter
+                </Button>
+              </Flex>
+              <Flex gap={defaultGap} justify="space-around">
+                <Button style={{ width: '100px' }} onClick={addToPinned}>
+                  Pin build
+                </Button>
+                <Button style={{ width: '100px' }} onClick={clearPinned}>
+                  Clear pins
+                </Button>
+              </Flex>
             </Flex>
           </Flex>
         </FormCard>
@@ -288,22 +331,37 @@ function MobileSidebarContent() {
             value={statDisplay}
             style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base"
-                   defaultChecked>Basic stats</Radio>
-            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">Combat
-              stats</Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>
+              Basic stats
+            </Radio>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
+              Combat stats
+            </Radio>
           </Radio.Group>
+          <Flex vertical>
+            <HeaderText>
+              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+            </HeaderText>
+            <Progress
+              strokeColor={token.colorPrimary}
+              steps={17}
+              size={[8, 5]}
+              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+            />
+          </Flex>
         </Flex>
         {/* Controls Column */}
-        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
-          <Flex justify="space-between" align="center">
-            <HeaderText>Controls</HeaderText>
-          </Flex>
+        <Flex vertical gap={5} style={{ minWidth: 211 }}>
+          <HeaderText>Controls</HeaderText>
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
-              <Button icon={<ThunderboltFilled />} type="primary" loading={optimizationInProgress}
-                      onClick={startClicked}
-                      style={{ flex: 1 }}>
+              <Button
+                icon={<ThunderboltFilled />}
+                type="primary"
+                loading={optimizationInProgress}
+                onClick={startClicked}
+                style={{ flex: 1 }}
+              >
                 Start optimizer
               </Button>
             </Flex>
@@ -321,27 +379,26 @@ function MobileSidebarContent() {
         </Flex>
         {/* Progress & Results Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
-          <Flex vertical>
-            <HeaderText>
-              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
-            </HeaderText>
-            <Progress
-              strokeColor={token.colorPrimary}
-              steps={17}
-              size={[8, 5]}
-              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-            />
-          </Flex>
+        </Flex>
+        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
             <TooltipImage type={Hint.actions()} />
           </Flex>
           <Flex gap={defaultGap} justify="space-around">
+            <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
+              Equip
+            </Button>
             <Button onClick={filterClicked} style={{ width: '100px' }}>
               Filter
             </Button>
-            <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
-              Equip
+          </Flex>
+          <Flex gap={defaultGap} justify="space-around">
+            <Button style={{ width: '100px' }} onClick={addToPinned}>
+              Pin build
+            </Button>
+            <Button style={{ width: '100px' }} onClick={clearPinned}>
+              Clear pins
             </Button>
           </Flex>
         </Flex>

@@ -3,7 +3,7 @@ import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { SortOption } from 'lib/optimizer/sortOptions'
 
 const relicSetCount = Object.values(SetsRelics).length

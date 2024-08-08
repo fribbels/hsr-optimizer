@@ -1,6 +1,6 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { ReactElement } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer.js'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { HorizontalDivider } from 'components/Dividers.tsx'
 import { Parts, PartsToReadable } from 'lib/constants.ts'
 import DB, { AppPages } from 'lib/db.js'

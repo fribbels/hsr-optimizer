@@ -1,7 +1,9 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Form } from "types/Form";
+import { Params } from "lib/optimizer/calculateParams";
 
-export function calculateConditionals(request, params) {
+export function calculateConditionals(request: Form, params: Partial<Params>) {
   let characterConditionals = CharacterConditionals.get(request)
   let lightConeConditionals = LightConeConditionals.get(request)
   if (!request.characterConditionals) {

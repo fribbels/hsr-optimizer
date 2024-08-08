@@ -1,6 +1,6 @@
 import { Form } from 'antd'
 import React, { useEffect } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { Constants } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'

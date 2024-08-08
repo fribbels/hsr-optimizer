@@ -3,23 +3,101 @@ import DB from 'lib/db'
 import { CharacterStats } from 'lib/characterStats'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
+import { Form } from "types/Form";
+import { calculateConditionals } from "lib/optimizer/calculateConditionals";
+
+export type CharacterStats = {
+  base: { [key: string]: number }
+  lightCone: { [key: string]: number }
+  traces: { [key: string]: number }
+}
+
+export type Params = {
+  element: string,
+  ELEMENTAL_BREAK_SCALING: number
+  ELEMENTAL_DMG_TYPE: string
+  RES_PEN_TYPE: string
+  brokenMultiplier: number
+  character: CharacterStats
+  resistance: number
+  enabledHunterOfGlacialForest: number
+  enabledFiresmithOfLavaForging: number
+  enabledGeniusOfBrilliantStars: number
+  enabledBandOfSizzlingThunder: number
+  enabledMessengerTraversingHackerspace: number
+  enabledCelestialDifferentiator: number
+  enabledWatchmakerMasterOfDreamMachinations: number
+  enabledIzumoGenseiAndTakamaDivineRealm: number
+  enabledForgeOfTheKalpagniLantern: number
+  enabledTheWindSoaringValorous: number
+  valueChampionOfStreetwiseBoxing: number
+  valueWastelanderOfBanditryDesert: number
+  valueLongevousDisciple: number
+  valueTheAshblazingGrandDuke: number
+  valuePrisonerInDeepConfinement: number
+  valuePioneerDiverOfDeadWaters: number
+  valueSigoniaTheUnclaimedDesolation: number
+  valueDuranDynastyOfRunningWolves: number
+}
 
 /**
  * request - stores input from the user form
  * params - stores some precomputed data for easier use through the optimizer
+ * These are currently somewhat mixed up, could use a cleanup
  */
-export function generateParams(request) {
-  const params = {}
+export function generateParams(request: Form): Params {
+  const params: Partial<Params> = {}
 
   generateCharacterBaseParams(request, params)
   generateSetConditionalParams(request, params)
   generateMultiplierParams(request, params)
   generateElementParams(request, params)
 
-  return params
+  calculateConditionals(request, params)
+
+  return params as Params
 }
 
-function generateSetConditionalParams(request, params) {
+function generateCharacterBaseParams(request: Form, params: Partial<Params>) {
+  const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
+  const lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
+  const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
+
+  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const characterStats = characterMetadata.promotions[80]
+
+  params.element = characterMetadata.element
+
+  const baseStats: CharacterStats = {
+    base: {
+      ...CharacterStats.getZeroes(),
+      ...characterStats,
+    },
+    traces: {
+      ...CharacterStats.getZeroes(),
+      ...characterMetadata.traces,
+    },
+    lightCone: {
+      ...CharacterStats.getZeroes(),
+      ...lightConeStats,
+      ...lightConeSuperimposition,
+    },
+  }
+
+  params.character = baseStats
+
+  const baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
+  const baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)
+  const baseDef = sumCharacterBase(Stats.DEF, baseStats.base, baseStats.lightCone)
+  const baseSpd = sumCharacterBase(Stats.SPD, baseStats.base, baseStats.lightCone)
+
+  request.baseHp = baseHp
+  request.baseAtk = baseAtk
+  request.baseDef = baseDef
+  request.baseSpd = baseSpd
+}
+
+function generateSetConditionalParams(request: Form, params: Partial<Params>) {
   const setConditionals = request.setConditionals
 
   for (const set of Object.values(Constants.Sets)) {
@@ -49,14 +127,16 @@ function generateSetConditionalParams(request, params) {
   params.valueDuranDynastyOfRunningWolves = setConditionals[Constants.Sets.DuranDynastyOfRunningWolves][1] || 0
 }
 
-function generateMultiplierParams(request, params) {
+function generateMultiplierParams(request: Form, params: Partial<Params>) {
   params.brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
   params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED
 }
 
-function generateElementParams(request, params) {
-  params.ELEMENTAL_DMG_TYPE = ElementToDamage[params.element]
-  params.RES_PEN_TYPE = ElementToResPenType[params.element]
+function generateElementParams(request: Form, params: Partial<Params>) {
+  const ELEMENTAL_DMG_TYPE: string = ElementToDamage[params.element!]
+
+  params.ELEMENTAL_DMG_TYPE = ELEMENTAL_DMG_TYPE
+  params.RES_PEN_TYPE = ElementToResPenType[params.element!]
   params.ELEMENTAL_BREAK_SCALING = {
     [Stats.Physical_DMG]: 2.0,
     [Stats.Fire_DMG]: 2.0,
@@ -65,54 +145,12 @@ function generateElementParams(request, params) {
     [Stats.Wind_DMG]: 1.5,
     [Stats.Quantum_DMG]: 0.5,
     [Stats.Imaginary_DMG]: 0.5,
-  }[params.ELEMENTAL_DMG_TYPE]
+  }[ELEMENTAL_DMG_TYPE]
 
   // Band-aid here to fill in the main character's elemental type
-  request.PRIMARY_ELEMENTAL_DMG_TYPE = params.ELEMENTAL_DMG_TYPE
+  request.PRIMARY_ELEMENTAL_DMG_TYPE = ELEMENTAL_DMG_TYPE
 }
 
-function generateCharacterBaseParams(request, params) {
-  const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  const lightConeStats = lightConeMetadata?.promotions[80] || emptyLightCone()
-  const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || 1
-
-  const characterMetadata = DB.getMetadata().characters[request.characterId]
-  const characterStats = characterMetadata.promotions[80]
-
-  params.element = characterMetadata.element
-
-  const baseStats = {
-    base: {
-      ...CharacterStats.getZeroes(),
-      ...characterStats,
-    },
-    traces: {
-      ...CharacterStats.getZeroes(),
-      ...characterMetadata.traces,
-    },
-    lightCone: {
-      ...CharacterStats.getZeroes(),
-      ...lightConeStats,
-      ...lightConeSuperimposition,
-    },
-  }
-
-  params.character = baseStats
-
-  // console.log({ lightConeStats })
-  // console.log({ characterStats })
-
-  const baseHp = sumCharacterBase(Stats.HP, baseStats.base, baseStats.lightCone)
-  const baseAtk = sumCharacterBase(Stats.ATK, baseStats.base, baseStats.lightCone)
-  const baseDef = sumCharacterBase(Stats.DEF, baseStats.base, baseStats.lightCone)
-  const baseSpd = sumCharacterBase(Stats.SPD, baseStats.base, baseStats.lightCone)
-
-  request.baseHp = baseHp
-  request.baseAtk = baseAtk
-  request.baseDef = baseDef
-  request.baseSpd = baseSpd
-}
-
-function sumCharacterBase(stat, base, lc) {
+function sumCharacterBase(stat: string, base: { [key: string]: number }, lc: { [key: string]: number }) {
   return base[stat] + lc[stat]
 }

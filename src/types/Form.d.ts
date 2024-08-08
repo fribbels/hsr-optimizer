@@ -1,6 +1,6 @@
 // import { } from "./Common";
 import { RelicEnhance, RelicGrade } from 'types/Relic'
-import { CharacterId, Eidolon } from 'types/Character'
+import { Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { RelicSet } from 'types/RelicSet'
@@ -20,16 +20,14 @@ export type Teammate = {
 
 export type Form = {
   characterEidolon: Eidolon
-  characterId: CharacterId | undefined
+  characterId: string
   characterLevel: number
-  enemyOptions: {
-    enemyCount: number
-    enemyElementalWeak: number
-    enemyLevel: number
-    enemyMaxToughness: number
-    enemyResistance: number
-    enemyWeaknessBroken: boolean
-  }
+  enemyCount: number
+  enemyElementalWeak: number
+  enemyLevel: number
+  enemyMaxToughness: number
+  enemyResistance: number
+  enemyWeaknessBroken: boolean
   enhance: RelicEnhance | number
   grade: RelicGrade | number
   keepCurrentRelics: boolean
@@ -62,6 +60,8 @@ export type Form = {
   combo: {
     [key: string]: number
   }
+
+  setConditionals: { [key: string]: any[] }
 
   teammate0: Teammate
   teammate1: Teammate

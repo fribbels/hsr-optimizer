@@ -7,14 +7,13 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
 import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/calculateParams'
+import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { experiment } from 'lib/gpu/webgpu'
-import { precomputeConditionals } from 'lib/gpu/precomputeConditionals'
 
 let CANCEL = false
 
@@ -120,7 +119,6 @@ export const Optimizer = {
     window.optimizerGrid.current.api.showLoadingOverlay()
 
     const params = generateParams(request)
-    const precomputedConditionals = precomputeConditionals(request, params)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     calculateCurrentlyEquippedRow(request)

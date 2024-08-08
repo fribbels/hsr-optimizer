@@ -5,6 +5,7 @@ import { defaultSetConditionals } from 'lib/defaultForm'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { Form } from "types/Form";
 import { calculateConditionals } from "lib/optimizer/calculateConditionals.ts";
+import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 
 export type CharacterStats = {
   base: { [key: string]: number }
@@ -38,6 +39,7 @@ export type Params = {
   valuePioneerDiverOfDeadWaters: number
   valueSigoniaTheUnclaimedDesolation: number
   valueDuranDynastyOfRunningWolves: number
+  precomputedX: ComputedStatsObject
 }
 
 /**

@@ -1,6 +1,8 @@
 import { Stats } from 'lib/constants.ts'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { RutilantArenaConditional } from "lib/gpu/newConditionals";
+import { CharacterConditionals } from "lib/characterConditionals";
+import { LightConeConditionals } from "lib/lightConeConditionals";
 
 const statValues = Object.values(Stats)
 
@@ -155,6 +157,8 @@ export function calculateBaseStats(c, request, params) {
 }
 
 export function calculateComputedStats(c, request, params) {
+  params.characterConditionals = CharacterConditionals.get(request)
+  params.lightConeConditionals = LightConeConditionals.get(request)
   params.conditionalMetadata = {
     activationKeys: []
   }

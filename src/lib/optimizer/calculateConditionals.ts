@@ -26,13 +26,11 @@ export function calculateConditionals(request: Form, params: Partial<Params>) {
   }
 
   params.precomputedX = precomputedX
-  params.characterConditionals = characterConditionals
-  params.lightConeConditionals = lightConeConditionals
 }
 
 export function calculatePostPrecomputeConditionals(request, params) {
-  let characterConditionals = params.characterConditionals
-  let lightConeConditionals = params.lightConeConditionals
+  let characterConditionals = CharacterConditionals.get(request)
+  let lightConeConditionals = LightConeConditionals.get(request)
 
   if (characterConditionals.postPreComputeMutualEffects) characterConditionals.postPreComputeMutualEffects(params.precomputedX, request)
 

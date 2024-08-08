@@ -1,5 +1,5 @@
 import { generateParams } from 'lib/optimizer/calculateParams.ts'
-import { calculateConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'

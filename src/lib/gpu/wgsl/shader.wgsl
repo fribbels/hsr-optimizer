@@ -573,6 +573,21 @@ fn main(
   // Aventurine E0S1
 
 
+  x.BASIC_SCALING += 1.00f;
+  x.ULT_SCALING += 2.70f;
+  x.FUA_SCALING += 0.25f * 7;
+
+  x.RES += 0.50f;
+  x.CD += 0.15f;
+
+//  buffStat(&x.CD);
+  buffCd(&x);
+
+  // buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
+  // x[Stats.DEF] > 1600
+
+
+
 
   // Add basic stats to combat stats
 
@@ -674,4 +689,12 @@ fn p4(n: i32) -> f32 {
 
 fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore: f32, additionalPen: f32) -> f32 {
   return (cLevel + 20.0f) / ((eLevel + 20.0f) * max(0.0f, 1.0f - defReduction - defIgnore - additionalPen) + cLevel + 20.0f);
+}
+
+fn buffCd(p_x: ptr<function, ComputedStats>) {
+  (*p_x).CD = 23456.0f;
+}
+
+fn buffStat(p_x_stat: ptr<function,f32>) {
+  *p_x_stat = 1234.0f;
 }

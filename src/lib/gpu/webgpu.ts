@@ -218,7 +218,7 @@ export async function experiment({ params, request, relics, permutations, relicS
     passEncoder.setPipeline(computePipeline)
     passEncoder.setBindGroup(0, bindGroup0)
     passEncoder.setBindGroup(1, bindGroup1)
-    passEncoder.dispatchWorkgroups(256, 256)
+    passEncoder.dispatchWorkgroups(16, 16)
     passEncoder.end()
 
     const gpuReadBuffer = device.createBuffer({

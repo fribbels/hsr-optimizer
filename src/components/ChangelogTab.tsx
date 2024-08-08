@@ -98,6 +98,65 @@ function leaks(str: string) {
   return window.officialOnly ? '' : str
 }
 
+// Issue for the roadmap issues displayed in the "Info" tab
+export const roadmapIssueList: { link: string; title: string; description }[] = [
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/173',
+    title: 'Result orientated optimization target',
+    description:
+      <p>
+        <li>The current optimization and dmg engine is fairly limited</li>
+        <li>Build out a new optimization engine that can calculate dmg more accurately to what will be obtained in game</li>
+      </p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/27',
+    title: 'Desktop client for accelerated searches using GPU',
+    description: <p><li>Accelerate the optimizer by making use of the GPU via a desktop app</li></p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/190',
+    title: 'UI redesign for character/relic scorer preview',
+    description: <p><li>Redesign the relic/character scorer display to make it more visually appealing/less basic</li></p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/375',
+    title: 'Add Support score analogous to DPS score',
+    description:
+      <p>
+        <li>Establishing DPS score allowed for a more accurate way to measure the quality of builds for DPS characters</li>
+        <li>Establish and implement an analogous measure for support characters</li>
+      </p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/420',
+    title: 'Improve score simulation performance',
+    description: <p><li>This is currently a very performance intensive process</li><li>We want to improve on time with minimal sacrifices</li></p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/372',
+    title: 'Rebuild the Character Modal with improvements',
+    description: <p><li>Improve the "edit character" popup to require less clicks</li></p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/247',
+    title: 'Add set effects value to the relic potential options',
+    description:
+      <p>
+        <li>Integrate some notion of set value to relic potential scoring in a new column</li>
+        <li>e.g. a kalpagni planar would score worse than an izumo planar for Acheron even if the main and sub stats are identical</li>
+      </p>,
+  },
+  {
+    link: 'https://github.com/fribbels/hsr-optimizer/issues/29',
+    title: 'Enable i18n/l10n Support',
+    description: <p>Enable language selection across the entire website</p>,
+  },
+]
+/*
+* Roadmap issues to be displayed on the infoTab, placed here for convenience/ as a reminder when writing changelogs
+*/
+
 /*
 NOTES:
  */

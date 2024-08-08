@@ -3,6 +3,7 @@ import {
   BarChartOutlined,
   BarsOutlined,
   BookOutlined,
+  InfoCircleOutlined,
   LineChartOutlined,
   LinkOutlined,
   RadarChartOutlined,
@@ -90,6 +91,15 @@ const MenuDrawer = () => {
           </Flex>
         ),
         AppPages.GETTING_STARTED),
+      getItem(
+        (
+          <Flex>
+            <InfoCircleOutlined style={{ marginRight: 5, width: 16 }} />
+            {' '}
+            Info
+          </Flex>
+        ),
+        AppPages.INFO),
     ]),
     getItem('Tools', 'subTools', <ToolOutlined />, [
       getItem(

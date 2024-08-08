@@ -35,6 +35,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER',
+  INFO: 'INFO',
 }
 
 export const PageToRoute = {
@@ -144,6 +145,11 @@ window.store = create((set) => ({
     [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
   },
 
+  githubAPI: {
+    limited: false,
+    limit_reset: 0,
+  },
+
   settings: DefaultSettingOptions,
 
   setVersion: (x) => set(() => ({ version: x })),
@@ -186,6 +192,7 @@ window.store = create((set) => ({
   setSavedSessionKey: (key, x) => set((state) => ({
     savedSession: { ...state.savedSession, [key]: x },
   })),
+  setGithubAPI: (x) => set(() => ({ githubAPI: x })),
   setColorTheme: (x) => set(() => ({ colorTheme: x })),
 }))
 
@@ -448,6 +455,10 @@ export const DB = {
 
     DB.refreshCharacters()
     DB.refreshRelics()
+    DB.setGithubAPI(x.githubAPI || {
+      limited: false,
+      limit_reset: 0,
+    })
     SaveState.save()
   },
   resetStore: () => {
@@ -860,6 +871,8 @@ export const DB = {
     if (updatedOldRelics.length) Message.success(`Updated stats for ${updatedOldRelics.length} existing relics`, 8)
     if (addedNewRelics.length) Message.success(`Added ${addedNewRelics.length} new relics`, 8)
   },
+  getGithubAPI: () => window.store.getState().githubAPI,
+  setGithubAPI: (x) => window.store.getState().setGithubAPI(x),
 }
 
 export default DB

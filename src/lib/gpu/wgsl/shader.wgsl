@@ -1,6 +1,3 @@
-const RutilantArenaConditionalId = 0;
-const AventurineConversionConditionalId = 1;
-
 // STATS
 const HP_P = 0;
 const ATK_P = 1;
@@ -200,6 +197,7 @@ struct ComputedStats {
   BE: f32,
   ERR: f32,
   OHB: f32,
+
   Physical_DMG: f32,
   Fire_DMG: f32,
   Ice_DMG: f32,
@@ -220,6 +218,7 @@ struct ComputedStats {
   SKILL_CR_BOOST: f32,
   ULT_CR_BOOST: f32,
   FUA_CR_BOOST: f32,
+
   BASIC_CD_BOOST: f32,
   SKILL_CD_BOOST: f32,
   ULT_CD_BOOST: f32,
@@ -237,6 +236,7 @@ struct ComputedStats {
   ULT_VULNERABILITY: f32,
   FUA_VULNERABILITY: f32,
   DOT_VULNERABILITY: f32,
+  BREAK_VULNERABILITY: f32, // 47
 
   DEF_SHRED: f32,
   BASIC_DEF_PEN: f32,
@@ -244,6 +244,8 @@ struct ComputedStats {
   ULT_DEF_PEN: f32,
   FUA_DEF_PEN: f32,
   DOT_DEF_PEN: f32,
+  BREAK_DEF_PEN: f32,
+  SUPER_BREAK_DEF_PEN: f32, // 55
 
   RES_PEN: f32,
   PHYSICAL_RES_PEN: f32,
@@ -252,25 +254,55 @@ struct ComputedStats {
   LIGHTNING_RES_PEN: f32,
   WIND_RES_PEN: f32,
   QUANTUM_RES_PEN: f32,
-  IMAGINARY_RES_PEN: f32,
+  IMAGINARY_RES_PEN: f32, // 63
 
   BASIC_RES_PEN: f32,
   SKILL_RES_PEN: f32,
   ULT_RES_PEN: f32,
   FUA_RES_PEN: f32,
-  DOT_RES_PEN: f32,
+  DOT_RES_PEN: f32, // 68
 
   BASIC_DMG: f32,
   SKILL_DMG: f32,
   ULT_DMG: f32,
   FUA_DMG: f32,
   DOT_DMG: f32,
+  BREAK_DMG: f32,
+  COMBO_DMG: f32, // 75
 
   DMG_RED_MULTI: f32,
-
-  ORIGINAL_DMG_BOOST: f32,
-
   EHP: f32,
+
+  DOT_CHANCE: f32,
+  EFFECT_RES_SHRED: f32,
+
+  DOT_SPLIT: f32,
+  DOT_STACKS: f32,
+
+  ENEMY_WEAKNESS_BROKEN: f32,
+
+  SUPER_BREAK_MODIFIER: f32,
+  SUPER_BREAK_HMC_MODIFIER: f32,
+  BASIC_TOUGHNESS_DMG: f32,
+  SKILL_TOUGHNESS_DMG: f32,
+  ULT_TOUGHNESS_DMG: f32,
+  FUA_TOUGHNESS_DMG: f32,
+
+  BASIC_ORIGINAL_DMG_BOOST: f32,
+  SKILL_ORIGINAL_DMG_BOOST: f32,
+  ULT_ORIGINAL_DMG_BOOST: f32,
+
+  BASIC_BREAK_DMG_MODIFIER: f32,
+
+  ULT_CD_OVERRIDE: f32,
+  ULT_BOOSTS_MULTI: f32,
+
+  RATIO_BASED_ATK_BUFF: f32,
+  RATIO_BASED_ATK_P_BUFF: f32,
+
+  BREAK_EFFICIENCY_BOOST: f32,
+  BASIC_BREAK_EFFICIENCY_BOOST: f32,
+  ULT_BREAK_EFFICIENCY_BOOST: f32,
 }
 
 struct Params {
@@ -453,7 +485,7 @@ fn main(
 
   // Calculate relic stat sums
 
-  let epsilon = 0.00001f + f32(local_invocation_index) / 10000.0f;
+  let epsilon = 0.00001f;
 
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
@@ -610,10 +642,10 @@ fn main(
 
   // Dynamic conditionals
 
-  var conditionalActivations = array<f32, 10>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  var state = ConditionalState();
 
-  evaluateRutilantArenaConditional(&x, &conditionalActivations);
-  evaluateAventurineConversionConditional(&x, &conditionalActivations);
+  evaluateRutilantArenaConditional(&x, &state);
+  evaluateAventurineDefConversionConditional(&x, &state);
 
   // Calculate passive stat conversions
 
@@ -622,6 +654,9 @@ fn main(
   x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
   x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
   x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+
+  // Calculate damage
 
   let cLevel = 80.0f;
   let eLevel = 95.0f;
@@ -666,6 +701,8 @@ fn main(
     * ((ultVulnerability) * min(1.0f, x.CR + x.ULT_CR_BOOST) * (1.0f + x.CD + x.ULT_CD_BOOST) + ultVulnerability * (1.0f - min(1.0f, x.CR + x.ULT_CR_BOOST)))
     * (1.0f - (baseResistance - x.ULT_RES_PEN));
 
+
+
   // Calculate damage
 
   results[index] = x;
@@ -682,44 +719,41 @@ fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore
   return (cLevel + 20.0f) / ((eLevel + 20.0f) * max(0.0f, 1.0f - defReduction - defIgnore - additionalPen) + cLevel + 20.0f);
 }
 
-fn buffCd(p_x: ptr<function, ComputedStats>, conditionalId: i32) {
-  (*p_x).CD += 23456.0f;
+struct ConditionalState {
+  aventurineDefConversion: f32,
+  rutilantArena: f32,
 }
-
-// ======================== HIGHLIGHTING ENDS HERE ========================
-
-alias end_of_highlighting = f32;
 
 // DEF -> CR
 // Repeatable
-fn evaluateAventurineConversionConditional(
+fn evaluateAventurineDefConversionConditional(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 10>>
+  p_state: ptr<function, ConditionalState>
 ) {
   let def = (*p_x).DEF;
-  let conditionalActivationValue: f32 = (*p_conditionalActivations)[AventurineConversionConditionalId];
+  let stateValue: f32 = (*p_state).aventurineDefConversion;
 
   if (def > 1600) {
     let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-    let oldBuffValue: f32 = conditionalActivationValue;
+    let oldBuffValue: f32 = stateValue;
 
-    (*p_conditionalActivations)[AventurineConversionConditionalId] = buffValue;
-    (*p_x).CR += buffValue - oldBuffValue;
+    (*p_state).aventurineDefConversion = buffValue;
+    (*p_x).CR += buffValue - stateValue;
 
-    evaluateCrDependencies(p_x, p_conditionalActivations);
+    evaluateCrDependencies(p_x, p_state);
   }
 }
 
 // CR ->
 fn evaluateRutilantArenaConditional(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 10>>
+  p_state: ptr<function, ConditionalState>
 ) {
   if (
-    (*p_conditionalActivations)[RutilantArenaConditionalId] == 0.0 &&
+    (*p_state).rutilantArena == 0.0 &&
     (*p_x).CR > 0.70
   ) {
-    (*p_conditionalActivations)[RutilantArenaConditionalId] = 1.0;
+    (*p_state).rutilantArena = 1.0;
     (*p_x).BASIC_BOOST += 0.20;
     (*p_x).SKILL_BOOST += 0.20;
   }
@@ -727,15 +761,15 @@ fn evaluateRutilantArenaConditional(
 
 fn evaluateCrDependencies(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 10>>
+  p_state: ptr<function, ConditionalState>
 ) {
-  evaluateRutilantArenaConditional(p_x, p_conditionalActivations);
+  evaluateRutilantArenaConditional(p_x, p_state);
   // Add more CR dependencies here
 }
 
 fn evaluateCdDependencies(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 10>>
+  p_state: ptr<function, ConditionalState>
 ) {
   // Add more CR dependencies here
 }

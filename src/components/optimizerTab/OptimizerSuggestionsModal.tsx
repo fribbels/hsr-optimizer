@@ -116,7 +116,7 @@ function mainStatFixes(part) {
   }
 }
 
-let rootCauses: ZeroPermRootCause[] = []
+let rootCauses: (ZeroPermRootCause | ZeroResultRootCause)[] = []
 
 // Generates the root causes of the issue before opening the modal
 export function activateZeroPermutationsSuggestionsModal(request) {
@@ -301,73 +301,75 @@ const ZeroResultRootCauseFixes: {
     applyFix: () => void
   }
 } = {
-  [ZeroResultRootCause.MAX_HP]: FilterFixes(ZeroResultRootCause.MAX_HP),
-  [ZeroResultRootCause.MIN_HP]: FilterFixes(ZeroResultRootCause.MIN_HP),
-  [ZeroResultRootCause.MAX_ATK]: FilterFixes(ZeroResultRootCause.MAX_ATK),
-  [ZeroResultRootCause.MIN_ATK]: FilterFixes(ZeroResultRootCause.MIN_ATK),
-  [ZeroResultRootCause.MAX_DEF]: FilterFixes(ZeroResultRootCause.MAX_DEF),
-  [ZeroResultRootCause.MIN_DEF]: FilterFixes(ZeroResultRootCause.MIN_DEF),
-  [ZeroResultRootCause.MAX_SPD]: FilterFixes(ZeroResultRootCause.MAX_SPD),
-  [ZeroResultRootCause.MIN_SPD]: FilterFixes(ZeroResultRootCause.MIN_SPD),
-  [ZeroResultRootCause.MAX_CR]: FilterFixes(ZeroResultRootCause.MAX_CR),
-  [ZeroResultRootCause.MIN_CR]: FilterFixes(ZeroResultRootCause.MIN_CR),
-  [ZeroResultRootCause.MAX_CD]: FilterFixes(ZeroResultRootCause.MAX_CD),
-  [ZeroResultRootCause.MIN_CD]: FilterFixes(ZeroResultRootCause.MIN_CD),
-  [ZeroResultRootCause.MAX_EHR]: FilterFixes(ZeroResultRootCause.MAX_EHR),
-  [ZeroResultRootCause.MIN_EHR]: FilterFixes(ZeroResultRootCause.MIN_EHR),
-  [ZeroResultRootCause.MAX_RES]: FilterFixes(ZeroResultRootCause.MAX_RES),
-  [ZeroResultRootCause.MIN_RES]: FilterFixes(ZeroResultRootCause.MIN_RES),
-  [ZeroResultRootCause.MAX_BE]: FilterFixes(ZeroResultRootCause.MAX_BE),
-  [ZeroResultRootCause.MIN_BE]: FilterFixes(ZeroResultRootCause.MIN_BE),
-  [ZeroResultRootCause.MAX_ERR]: FilterFixes(ZeroResultRootCause.MAX_ERR),
-  [ZeroResultRootCause.MIN_ERR]: FilterFixes(ZeroResultRootCause.MIN_ERR),
-  [ZeroResultRootCause.MAX_WEIGHT]: FilterFixes(ZeroResultRootCause.MAX_WEIGHT),
-  [ZeroResultRootCause.MIN_WEIGHT]: FilterFixes(ZeroResultRootCause.MIN_WEIGHT),
-  [ZeroResultRootCause.MAX_EHP]: FilterFixes(ZeroResultRootCause.MAX_EHP),
-  [ZeroResultRootCause.MIN_EHP]: FilterFixes(ZeroResultRootCause.MIN_EHP),
-  [ZeroResultRootCause.MAX_BASIC]: FilterFixes(ZeroResultRootCause.MAX_BASIC),
-  [ZeroResultRootCause.MIN_BASIC]: FilterFixes(ZeroResultRootCause.MIN_BASIC),
-  [ZeroResultRootCause.MAX_SKILL]: FilterFixes(ZeroResultRootCause.MAX_SKILL),
-  [ZeroResultRootCause.MIN_SKILL]: FilterFixes(ZeroResultRootCause.MIN_SKILL),
-  [ZeroResultRootCause.MAX_ULT]: FilterFixes(ZeroResultRootCause.MAX_ULT),
-  [ZeroResultRootCause.MIN_ULT]: FilterFixes(ZeroResultRootCause.MIN_ULT),
-  [ZeroResultRootCause.MAX_FUA]: FilterFixes(ZeroResultRootCause.MAX_FUA),
-  [ZeroResultRootCause.MIN_FUA]: FilterFixes(ZeroResultRootCause.MIN_FUA),
-  [ZeroResultRootCause.MAX_DOT]: FilterFixes(ZeroResultRootCause.MAX_DOT),
-  [ZeroResultRootCause.MIN_DOT]: FilterFixes(ZeroResultRootCause.MIN_DOT),
-  [ZeroResultRootCause.MAX_BREAK]: FilterFixes(ZeroResultRootCause.MAX_BREAK),
-  [ZeroResultRootCause.MIN_BREAK]: FilterFixes(ZeroResultRootCause.MIN_BREAK),
-  [ZeroResultRootCause.MAX_COMBO]: FilterFixes(ZeroResultRootCause.MAX_COMBO),
-  [ZeroResultRootCause.MIN_COMBO]: FilterFixes(ZeroResultRootCause.MIN_COMBO),
+  [ZeroResultRootCause.MAX_HP]: filterFixes(ZeroResultRootCause.MAX_HP),
+  [ZeroResultRootCause.MIN_HP]: filterFixes(ZeroResultRootCause.MIN_HP),
+  [ZeroResultRootCause.MAX_ATK]: filterFixes(ZeroResultRootCause.MAX_ATK),
+  [ZeroResultRootCause.MIN_ATK]: filterFixes(ZeroResultRootCause.MIN_ATK),
+  [ZeroResultRootCause.MAX_DEF]: filterFixes(ZeroResultRootCause.MAX_DEF),
+  [ZeroResultRootCause.MIN_DEF]: filterFixes(ZeroResultRootCause.MIN_DEF),
+  [ZeroResultRootCause.MAX_SPD]: filterFixes(ZeroResultRootCause.MAX_SPD),
+  [ZeroResultRootCause.MIN_SPD]: filterFixes(ZeroResultRootCause.MIN_SPD),
+  [ZeroResultRootCause.MAX_CR]: filterFixes(ZeroResultRootCause.MAX_CR),
+  [ZeroResultRootCause.MIN_CR]: filterFixes(ZeroResultRootCause.MIN_CR),
+  [ZeroResultRootCause.MAX_CD]: filterFixes(ZeroResultRootCause.MAX_CD),
+  [ZeroResultRootCause.MIN_CD]: filterFixes(ZeroResultRootCause.MIN_CD),
+  [ZeroResultRootCause.MAX_EHR]: filterFixes(ZeroResultRootCause.MAX_EHR),
+  [ZeroResultRootCause.MIN_EHR]: filterFixes(ZeroResultRootCause.MIN_EHR),
+  [ZeroResultRootCause.MAX_RES]: filterFixes(ZeroResultRootCause.MAX_RES),
+  [ZeroResultRootCause.MIN_RES]: filterFixes(ZeroResultRootCause.MIN_RES),
+  [ZeroResultRootCause.MAX_BE]: filterFixes(ZeroResultRootCause.MAX_BE),
+  [ZeroResultRootCause.MIN_BE]: filterFixes(ZeroResultRootCause.MIN_BE),
+  [ZeroResultRootCause.MAX_ERR]: filterFixes(ZeroResultRootCause.MAX_ERR),
+  [ZeroResultRootCause.MIN_ERR]: filterFixes(ZeroResultRootCause.MIN_ERR),
+  [ZeroResultRootCause.MAX_WEIGHT]: filterFixes(ZeroResultRootCause.MAX_WEIGHT),
+  [ZeroResultRootCause.MIN_WEIGHT]: filterFixes(ZeroResultRootCause.MIN_WEIGHT),
+  [ZeroResultRootCause.MAX_EHP]: filterFixes(ZeroResultRootCause.MAX_EHP),
+  [ZeroResultRootCause.MIN_EHP]: filterFixes(ZeroResultRootCause.MIN_EHP),
+  [ZeroResultRootCause.MAX_BASIC]: filterFixes(ZeroResultRootCause.MAX_BASIC),
+  [ZeroResultRootCause.MIN_BASIC]: filterFixes(ZeroResultRootCause.MIN_BASIC),
+  [ZeroResultRootCause.MAX_SKILL]: filterFixes(ZeroResultRootCause.MAX_SKILL),
+  [ZeroResultRootCause.MIN_SKILL]: filterFixes(ZeroResultRootCause.MIN_SKILL),
+  [ZeroResultRootCause.MAX_ULT]: filterFixes(ZeroResultRootCause.MAX_ULT),
+  [ZeroResultRootCause.MIN_ULT]: filterFixes(ZeroResultRootCause.MIN_ULT),
+  [ZeroResultRootCause.MAX_FUA]: filterFixes(ZeroResultRootCause.MAX_FUA),
+  [ZeroResultRootCause.MIN_FUA]: filterFixes(ZeroResultRootCause.MIN_FUA),
+  [ZeroResultRootCause.MAX_DOT]: filterFixes(ZeroResultRootCause.MAX_DOT),
+  [ZeroResultRootCause.MIN_DOT]: filterFixes(ZeroResultRootCause.MIN_DOT),
+  [ZeroResultRootCause.MAX_BREAK]: filterFixes(ZeroResultRootCause.MAX_BREAK),
+  [ZeroResultRootCause.MIN_BREAK]: filterFixes(ZeroResultRootCause.MIN_BREAK),
+  [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
+  [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
-    description: 'Your filters may be configured for combat stats',
-    buttonText: 'Switch to combat stats',
+    description: 'Your stat filters are configured for basic stats, which does not include buffs. ' +
+      'The Combat stats view will show buffed stats from abilities / teammates / relics / etc.',
+    buttonText: 'Switch to Combat stats view',
     applyFix: () => {
       const setStatDisplay = window.store.getState().setStatDisplay
       setStatDisplay('combat')
-      Message.success(`switched to combat stats`)
+      Message.success(`Switched to Combat stats view`)
     },
   },
 }
 
-function FilterFixes(filter: string) {
+function filterFixes(filter: string) {
   const isMax = filter.startsWith('MAX')
   const split = filter.split('_')
-  const readable = split.map((x) => x.toLowerCase())
+  const readable = split.map((x) => x)
   const formAddress = split[0].toLowerCase() + split[1][0] + split[1].slice(1).toLowerCase()
   return {
     description: `The ${isMax ? 'maximum' : 'minimum'} ${readable[1]} may be too ${isMax ? 'low' : 'high'}`,
-    buttonText: `Reset ${readable[0]} ${readable[1]} filter`,
+    buttonText: `Reset ${readable[0].toLowerCase()} ${readable[1]} filter`,
     applyFix: () => {
       window.optimizerForm.setFieldValue(formAddress, undefined)
-      Message.success(`Reset ${readable[0]} ${readable[1]} filter`, 2)
+      Message.success(`Reset ${readable[0].toLowerCase()} ${readable[1]} filter`, 2)
     },
   }
 }
 
 export function activateZeroResultSuggestionsModal(request) {
   rootCauses = []
-  if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)// always suggest switching between combat/basic views
+  // always suggest switching between combat/basic views
+  if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)
   if (request.minHp) rootCauses.push(ZeroResultRootCause.MIN_HP)
   if (request.maxHp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HP)
   if (request.minAtk) rootCauses.push(ZeroResultRootCause.MIN_ATK)

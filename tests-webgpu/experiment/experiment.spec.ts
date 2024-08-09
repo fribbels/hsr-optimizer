@@ -21,9 +21,9 @@ test('Math test', async ({ page }) => {
   const setup = `
   `
 
-  const execute = `
+  const execute = /* wgsl */`
     results[0] = select(0, 1, 1 < 2);
-    results[1] = select(0, 1, 1 > 2);
+    results[1] = select(0, 1, 1 > 2)
     results[2] = select(1, 0, 1 == 2);
   `
 

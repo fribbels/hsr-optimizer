@@ -1,5 +1,5 @@
-const RutilantArenaConditional = 0;
-const AventurineConversionConditional = 1;
+const RutilantArenaConditionalId = 0;
+const AventurineConversionConditionalId = 1;
 
 // STATS
 const HP_P = 0;
@@ -575,8 +575,6 @@ fn main(
 
   // Aventurine E0S1
 
-  var conditionalActivations = array<f32, 7>(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-
   x.BASIC_SCALING += 1.00f;
   x.ULT_SCALING += 2.70f;
   x.FUA_SCALING += 0.25f * 7;
@@ -612,8 +610,10 @@ fn main(
 
   // Dynamic conditionals
 
+  var conditionalActivations = array<f32, 10>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
   evaluateRutilantArenaConditional(&x, &conditionalActivations);
-  evaluateAventurineConditional(&x, &conditionalActivations);
+  evaluateAventurineConversionConditional(&x, &conditionalActivations);
 
   // Calculate passive stat conversions
 
@@ -690,31 +690,20 @@ fn buffCd(p_x: ptr<function, ComputedStats>, conditionalId: i32) {
 
 alias end_of_highlighting = f32;
 
-fn evaluateCdDependencies(
-  p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 7>>
-) {
-
-}
-
-fn evaluateCrDependencies(
-  p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 7>>
-) {
-  evaluateRutilantArenaConditional(p_x, p_conditionalActivations);
-}
-
 // DEF -> CR
 // Repeatable
-fn evaluateAventurineConditional(
+fn evaluateAventurineConversionConditional(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 7>>
+  p_conditionalActivations: ptr<function, array<f32, 10>>
 ) {
-  if ((*p_x).DEF > 1600) {
-    let buffValue: f32 = min(0.48, 0.02 * floor(((*p_x).DEF - 1600) / 100));
-    let oldBuffValue: f32 = (*p_conditionalActivations)[AventurineConversionConditional];
+  let def = (*p_x).DEF;
+  let conditionalActivationValue: f32 = (*p_conditionalActivations)[AventurineConversionConditionalId];
 
-    (*p_conditionalActivations)[AventurineConversionConditional] = buffValue;
+  if (def > 1600) {
+    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
+    let oldBuffValue: f32 = conditionalActivationValue;
+
+    (*p_conditionalActivations)[AventurineConversionConditionalId] = buffValue;
     (*p_x).CR += buffValue - oldBuffValue;
 
     evaluateCrDependencies(p_x, p_conditionalActivations);
@@ -724,14 +713,29 @@ fn evaluateAventurineConditional(
 // CR ->
 fn evaluateRutilantArenaConditional(
   p_x: ptr<function, ComputedStats>,
-  p_conditionalActivations: ptr<function, array<f32, 7>>
+  p_conditionalActivations: ptr<function, array<f32, 10>>
 ) {
   if (
-    (*p_conditionalActivations)[RutilantArenaConditional] == 0 &&
+    (*p_conditionalActivations)[RutilantArenaConditionalId] == 0.0 &&
     (*p_x).CR > 0.70
   ) {
-    (*p_conditionalActivations)[RutilantArenaConditional] = 1;
+    (*p_conditionalActivations)[RutilantArenaConditionalId] = 1.0;
     (*p_x).BASIC_BOOST += 0.20;
     (*p_x).SKILL_BOOST += 0.20;
   }
+}
+
+fn evaluateCrDependencies(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 10>>
+) {
+  evaluateRutilantArenaConditional(p_x, p_conditionalActivations);
+  // Add more CR dependencies here
+}
+
+fn evaluateCdDependencies(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 10>>
+) {
+  // Add more CR dependencies here
 }

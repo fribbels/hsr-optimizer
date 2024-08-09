@@ -1,3 +1,6 @@
+const RutilantArenaConditional = 0;
+const AventurineConversionConditional = 1;
+
 // STATS
 const HP_P = 0;
 const ATK_P = 1;
@@ -572,6 +575,7 @@ fn main(
 
   // Aventurine E0S1
 
+  var conditionalActivations = array<f32, 7>(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
   x.BASIC_SCALING += 1.00f;
   x.ULT_SCALING += 2.70f;
@@ -579,15 +583,6 @@ fn main(
 
   x.RES += 0.50f;
   x.CD += 0.15f;
-
-//  buffStat(&x.CD);
-  buffCd(&x);
-
-  // buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
-  // x[Stats.DEF] > 1600
-
-
-
 
   // Add basic stats to combat stats
 
@@ -611,12 +606,14 @@ fn main(
 
   // Add custom combat buffs
 
-  // Add combat stats set conditionals
+  // Set effects
 
+  x.CD += 0.25 * p4(c.sets.HunterOfGlacialForest);
 
+  // Dynamic conditionals
 
-  x.BASIC_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
-  x.SKILL_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
+  evaluateRutilantArenaConditional(&x, &conditionalActivations);
+  evaluateAventurineConditional(&x, &conditionalActivations);
 
   // Calculate passive stat conversions
 
@@ -672,12 +669,6 @@ fn main(
   // Calculate damage
 
   results[index] = x;
-
-//  if (relicSetSolutionsMatrix[relicSetIndex] != 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] != 1) {
-//    // Fail
-//  } else {
-//    // Pass
-//  }
 }
 
 fn p2(n: i32) -> f32 {
@@ -691,10 +682,56 @@ fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore
   return (cLevel + 20.0f) / ((eLevel + 20.0f) * max(0.0f, 1.0f - defReduction - defIgnore - additionalPen) + cLevel + 20.0f);
 }
 
-fn buffCd(p_x: ptr<function, ComputedStats>) {
-  (*p_x).CD = 23456.0f;
+fn buffCd(p_x: ptr<function, ComputedStats>, conditionalId: i32) {
+  (*p_x).CD += 23456.0f;
 }
 
-fn buffStat(p_x_stat: ptr<function,f32>) {
-  *p_x_stat = 1234.0f;
+// ======================== HIGHLIGHTING ENDS HERE ========================
+
+alias end_of_highlighting = f32;
+
+fn evaluateCdDependencies(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 7>>
+) {
+
+}
+
+fn evaluateCrDependencies(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 7>>
+) {
+  evaluateRutilantArenaConditional(p_x, p_conditionalActivations);
+}
+
+// DEF -> CR
+// Repeatable
+fn evaluateAventurineConditional(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 7>>
+) {
+  if ((*p_x).DEF > 1600) {
+    let buffValue: f32 = min(0.48, 0.02 * floor(((*p_x).DEF - 1600) / 100));
+    let oldBuffValue: f32 = (*p_conditionalActivations)[AventurineConversionConditional];
+
+    (*p_conditionalActivations)[AventurineConversionConditional] = buffValue;
+    (*p_x).CR += buffValue - oldBuffValue;
+
+    evaluateCrDependencies(p_x, p_conditionalActivations);
+  }
+}
+
+// CR ->
+fn evaluateRutilantArenaConditional(
+  p_x: ptr<function, ComputedStats>,
+  p_conditionalActivations: ptr<function, array<f32, 7>>
+) {
+  if (
+    (*p_conditionalActivations)[RutilantArenaConditional] == 0 &&
+    (*p_x).CR > 0.70
+  ) {
+    (*p_conditionalActivations)[RutilantArenaConditional] = 1;
+    (*p_x).BASIC_BOOST += 0.20;
+    (*p_x).SKILL_BOOST += 0.20;
+  }
 }

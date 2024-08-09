@@ -1,7 +1,9 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { Form } from "types/Form";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
-export function calculateConditionals(request, params) {
+export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   let characterConditionals = CharacterConditionals.get(request)
   let lightConeConditionals = LightConeConditionals.get(request)
   if (!request.characterConditionals) {
@@ -19,18 +21,16 @@ export function calculateConditionals(request, params) {
   if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
 
   if (lightConeConditionals) {
-    if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request)
+    if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request, params)
     if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
   }
 
   params.precomputedX = precomputedX
-  params.characterConditionals = characterConditionals
-  params.lightConeConditionals = lightConeConditionals
 }
 
 export function calculatePostPrecomputeConditionals(request, params) {
-  let characterConditionals = params.characterConditionals
-  let lightConeConditionals = params.lightConeConditionals
+  let characterConditionals = CharacterConditionals.get(request)
+  let lightConeConditionals = LightConeConditionals.get(request)
 
   if (characterConditionals.postPreComputeMutualEffects) characterConditionals.postPreComputeMutualEffects(params.precomputedX, request)
 

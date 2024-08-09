@@ -49,6 +49,16 @@ export const baseComputedStatsObject = {
   [Stats.ERR]: 0,
   [Stats.OHB]: 0,
 
+  [Stats.Physical_DMG]: 0,
+  [Stats.Fire_DMG]: 0,
+  [Stats.Ice_DMG]: 0,
+  [Stats.Lightning_DMG]: 0,
+  [Stats.Wind_DMG]: 0,
+  [Stats.Quantum_DMG]: 0,
+  [Stats.Imaginary_DMG]: 0,
+
+  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
+
   BASIC_SCALING: 0,
   SKILL_SCALING: 0,
   ULT_SCALING: 0,
@@ -64,10 +74,6 @@ export const baseComputedStatsObject = {
   SKILL_CD_BOOST: 0,
   ULT_CD_BOOST: 0,
   FUA_CD_BOOST: 0,
-
-  // Robin
-  ULT_CD_OVERRIDE: 0,
-  ULT_BOOSTS_MULTI: 1,
 
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,
@@ -109,31 +115,6 @@ export const baseComputedStatsObject = {
   FUA_RES_PEN: 0,
   DOT_RES_PEN: 0,
 
-  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
-
-  [Stats.Physical_DMG]: 0,
-  [Stats.Fire_DMG]: 0,
-  [Stats.Ice_DMG]: 0,
-  [Stats.Lightning_DMG]: 0,
-  [Stats.Wind_DMG]: 0,
-  [Stats.Quantum_DMG]: 0,
-  [Stats.Imaginary_DMG]: 0,
-
-  // e.g. Acheron multiplier
-  BASIC_ORIGINAL_DMG_BOOST: 0,
-  SKILL_ORIGINAL_DMG_BOOST: 0,
-  ULT_ORIGINAL_DMG_BOOST: 0,
-
-  // Boothill
-  BASIC_BREAK_DMG_MODIFIER: 0,
-
-  BREAK_EFFICIENCY_BOOST: 0,
-  BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
-  ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
-
-  RATIO_BASED_ATK_BUFF: 0,
-  RATIO_BASED_ATK_P_BUFF: 0,
-
   BASIC_DMG: 0,
   SKILL_DMG: 0,
   ULT_DMG: 0,
@@ -141,6 +122,8 @@ export const baseComputedStatsObject = {
   DOT_DMG: 0,
   BREAK_DMG: 0,
   COMBO_DMG: 0,
+
+  DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 
   DOT_CHANCE: 0,
   EFFECT_RES_SHRED: 0,
@@ -158,7 +141,26 @@ export const baseComputedStatsObject = {
   ULT_TOUGHNESS_DMG: 0,
   FUA_TOUGHNESS_DMG: 0,
 
-  DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
+
+
+  // e.g. Acheron multiplier
+  BASIC_ORIGINAL_DMG_BOOST: 0,
+  SKILL_ORIGINAL_DMG_BOOST: 0,
+  ULT_ORIGINAL_DMG_BOOST: 0,
+
+  // Boothill
+  BASIC_BREAK_DMG_MODIFIER: 0,
+
+  // Robin
+  ULT_CD_OVERRIDE: 0,
+  ULT_BOOSTS_MULTI: 1,
+
+  RATIO_BASED_ATK_BUFF: 0,
+  RATIO_BASED_ATK_P_BUFF: 0,
+
+  BREAK_EFFICIENCY_BOOST: 0,
+  BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
+  ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 }
 export type ComputedStatsObject = typeof baseComputedStatsObject
 

@@ -17,6 +17,8 @@ export function RelicSetTagRenderer(props) {
    *['2 + Any', 'Knight of Purity Palace']
    */
 
+  if (!value) return
+
   const pieces = value.split('__RC_CASCADER_SPLIT__')
   let inner
 

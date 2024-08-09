@@ -4,7 +4,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 
 export interface CharacterConditional extends Conditional {
   // Character's individual effects
-  precomputeEffects: (request: Form) => ComputedStatsObject
+  precomputeEffects: (request: Form, params?) => ComputedStatsObject
 
   // Shared effects between teammates and main character
   precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void

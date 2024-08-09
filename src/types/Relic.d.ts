@@ -15,6 +15,7 @@ export type Relic = {
     best: number
     potentialAllAll: number
   }
+  weightScore: number
 
   enhance: RelicEnhance
   equippedBy: DataMineId

@@ -7,12 +7,13 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
 import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
-import { generateParams } from 'lib/optimizer/calculateParams'
+import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { experiment } from 'lib/gpu/webgpu'
 
 let CANCEL = false
 
@@ -199,6 +200,15 @@ export const Optimizer = {
 
       WorkerPool.execute(task, callback)
     }
+
+    experiment({
+      params: params,
+      request: request,
+      relics: relics,
+      permutations: permutations,
+      relicSetSolutions: relicSetSolutions,
+      ornamentSetSolutions: ornamentSetSolutions,
+    })
   },
 }
 

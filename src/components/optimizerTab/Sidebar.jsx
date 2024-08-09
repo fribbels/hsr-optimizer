@@ -450,7 +450,8 @@ function ManyPermsModal(props) {
     >
       <Flex justify="space-between" align="center" style={{height: 45, marginBottom: 15}} gap={16}>
         <Text>
-          This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and mainstats.
+          This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
+          or use the Substat weight filter to reduce the number of permutations.
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}

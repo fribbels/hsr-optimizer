@@ -110,7 +110,8 @@ export default function RelicScorerTab() {
 
         console.log('characters', characters)
 
-        const converted = characters.map((x) => CharacterConverter.convert(x))
+        // Filter by unique id
+        const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map(x => x.id).indexOf(value.id) == index)
         for (let i = 0; i < converted.length; i++) {
           converted[i].index = i
         }

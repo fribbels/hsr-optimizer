@@ -25,7 +25,7 @@ enum ZeroPermRootCause {
   MINIMUM_ROLLS = 'MINIMUM_ROLLS',
 }
 
-const RootCauseFixes: {
+const ZeroPermRootCauseFixes: {
   [key in ZeroPermRootCause]: {
     description: string
     buttonText: string
@@ -116,7 +116,7 @@ function mainStatFixes(part) {
   }
 }
 
-let rootCauses: ZeroPermRootCause[] = []
+let rootCauses: (ZeroPermRootCause | ZeroResultRootCause)[] = []
 
 // Generates the root causes of the issue before opening the modal
 export function activateZeroPermutationsSuggestionsModal(request) {
@@ -199,7 +199,7 @@ export function activateZeroPermutationsSuggestionsModal(request) {
 }
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause): ReactElement {
-  const fixes = RootCauseFixes[rootCause]
+  const fixes = ZeroPermRootCauseFixes[rootCause] || ZeroResultRootCauseFixes[rootCause]
   return (
     <Flex justify="space-between" align="center" style={{ height: 45 }} key={Utils.randomId()}>
       <Text style={{ width: 550 }}>
@@ -245,6 +245,212 @@ export function ZeroPermutationsSuggestionsModal() {
         <Text>
           This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.
         </Text>
+        <HorizontalDivider />
+        {rootCauseDisplay}
+      </Flex>
+    </Modal>
+  )
+}
+
+enum ZeroResultRootCause {
+  MIN_HP = 'MIN_HP',
+  MAX_HP = 'MAX_HP',
+  MIN_ATK = 'MIN_ATK',
+  MAX_ATK = 'MAX_ATK',
+  MIN_DEF = 'MIN_DEF',
+  MAX_DEF = 'MAX_DEF',
+  MIN_SPD = 'MIN_SPD',
+  MAX_SPD = 'MAX_SPD',
+  MIN_CR = 'MIN_CR',
+  MAX_CR = 'MAX_CR',
+  MIN_CD = 'MIN_CD',
+  MAX_CD = 'MAX_CD',
+  MIN_EHR = 'MIN_EHR',
+  MAX_EHR = 'MAX_EHR',
+  MIN_RES = 'MIN_RES',
+  MAX_RES = 'MAX_RES',
+  MIN_BE = 'MIN_BE',
+  MAX_BE = 'MAX_BE',
+  MIN_ERR = 'MIN_ERR',
+  MAX_ERR = 'MAX_ERR',
+  MIN_WEIGHT = 'MIN_WEIGHT',
+  MAX_WEIGHT = 'MAX_WEIGHT',
+  MIN_EHP = 'MIN_EHP',
+  MAX_EHP = 'MAX_EHP',
+  MIN_BASIC = 'MIN_BASIC',
+  MAX_BASIC = 'MAX_BASIC',
+  MIN_SKILL = 'MIN_SKILL',
+  MAX_SKILL = 'MAX_SKILL',
+  MIN_ULT = 'MIN_ULT',
+  MAX_ULT = 'MAX_ULT',
+  MIN_FUA = 'MIN_FUA',
+  MAX_FUA = 'MAX_FUA',
+  MIN_DOT = 'MIN_DOT',
+  MAX_DOT = 'MAX_DOT',
+  MIN_BREAK = 'MIN_BREAK',
+  MAX_BREAK = 'MAX_BREAK',
+  MIN_COMBO = 'MIN_COMBO',
+  MAX_COMBO = 'MAX_COMBO',
+  STAT_VIEW = 'STAT_VIEW',
+}
+
+const ZeroResultRootCauseFixes: {
+  [key in ZeroResultRootCause]: {
+    description: string
+    buttonText: string
+    applyFix: () => void
+  }
+} = {
+  [ZeroResultRootCause.MAX_HP]: filterFixes(ZeroResultRootCause.MAX_HP),
+  [ZeroResultRootCause.MIN_HP]: filterFixes(ZeroResultRootCause.MIN_HP),
+  [ZeroResultRootCause.MAX_ATK]: filterFixes(ZeroResultRootCause.MAX_ATK),
+  [ZeroResultRootCause.MIN_ATK]: filterFixes(ZeroResultRootCause.MIN_ATK),
+  [ZeroResultRootCause.MAX_DEF]: filterFixes(ZeroResultRootCause.MAX_DEF),
+  [ZeroResultRootCause.MIN_DEF]: filterFixes(ZeroResultRootCause.MIN_DEF),
+  [ZeroResultRootCause.MAX_SPD]: filterFixes(ZeroResultRootCause.MAX_SPD),
+  [ZeroResultRootCause.MIN_SPD]: filterFixes(ZeroResultRootCause.MIN_SPD),
+  [ZeroResultRootCause.MAX_CR]: filterFixes(ZeroResultRootCause.MAX_CR),
+  [ZeroResultRootCause.MIN_CR]: filterFixes(ZeroResultRootCause.MIN_CR),
+  [ZeroResultRootCause.MAX_CD]: filterFixes(ZeroResultRootCause.MAX_CD),
+  [ZeroResultRootCause.MIN_CD]: filterFixes(ZeroResultRootCause.MIN_CD),
+  [ZeroResultRootCause.MAX_EHR]: filterFixes(ZeroResultRootCause.MAX_EHR),
+  [ZeroResultRootCause.MIN_EHR]: filterFixes(ZeroResultRootCause.MIN_EHR),
+  [ZeroResultRootCause.MAX_RES]: filterFixes(ZeroResultRootCause.MAX_RES),
+  [ZeroResultRootCause.MIN_RES]: filterFixes(ZeroResultRootCause.MIN_RES),
+  [ZeroResultRootCause.MAX_BE]: filterFixes(ZeroResultRootCause.MAX_BE),
+  [ZeroResultRootCause.MIN_BE]: filterFixes(ZeroResultRootCause.MIN_BE),
+  [ZeroResultRootCause.MAX_ERR]: filterFixes(ZeroResultRootCause.MAX_ERR),
+  [ZeroResultRootCause.MIN_ERR]: filterFixes(ZeroResultRootCause.MIN_ERR),
+  [ZeroResultRootCause.MAX_WEIGHT]: filterFixes(ZeroResultRootCause.MAX_WEIGHT),
+  [ZeroResultRootCause.MIN_WEIGHT]: filterFixes(ZeroResultRootCause.MIN_WEIGHT),
+  [ZeroResultRootCause.MAX_EHP]: filterFixes(ZeroResultRootCause.MAX_EHP),
+  [ZeroResultRootCause.MIN_EHP]: filterFixes(ZeroResultRootCause.MIN_EHP),
+  [ZeroResultRootCause.MAX_BASIC]: filterFixes(ZeroResultRootCause.MAX_BASIC),
+  [ZeroResultRootCause.MIN_BASIC]: filterFixes(ZeroResultRootCause.MIN_BASIC),
+  [ZeroResultRootCause.MAX_SKILL]: filterFixes(ZeroResultRootCause.MAX_SKILL),
+  [ZeroResultRootCause.MIN_SKILL]: filterFixes(ZeroResultRootCause.MIN_SKILL),
+  [ZeroResultRootCause.MAX_ULT]: filterFixes(ZeroResultRootCause.MAX_ULT),
+  [ZeroResultRootCause.MIN_ULT]: filterFixes(ZeroResultRootCause.MIN_ULT),
+  [ZeroResultRootCause.MAX_FUA]: filterFixes(ZeroResultRootCause.MAX_FUA),
+  [ZeroResultRootCause.MIN_FUA]: filterFixes(ZeroResultRootCause.MIN_FUA),
+  [ZeroResultRootCause.MAX_DOT]: filterFixes(ZeroResultRootCause.MAX_DOT),
+  [ZeroResultRootCause.MIN_DOT]: filterFixes(ZeroResultRootCause.MIN_DOT),
+  [ZeroResultRootCause.MAX_BREAK]: filterFixes(ZeroResultRootCause.MAX_BREAK),
+  [ZeroResultRootCause.MIN_BREAK]: filterFixes(ZeroResultRootCause.MIN_BREAK),
+  [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
+  [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
+  [ZeroResultRootCause.STAT_VIEW]: {
+    description: 'Your stat filters are configured for basic stats, which does not include buffs. ' +
+      'The Combat stats view will show buffed stats from abilities / teammates / relics / etc.',
+    buttonText: 'Switch to Combat stats view',
+    applyFix: () => {
+      const setStatDisplay = window.store.getState().setStatDisplay
+      setStatDisplay('combat')
+      Message.success(`Switched to Combat stats view`)
+    },
+  },
+}
+
+function filterFixes(filter: string) {
+  const isMax = filter.startsWith('MAX')
+  const split = filter.split('_')
+  const readable = split.map((x) => x)
+  const formAddress = split[0].toLowerCase() + split[1][0] + split[1].slice(1).toLowerCase()
+  return {
+    description: `The ${isMax ? 'maximum' : 'minimum'} ${readable[1]} may be too ${isMax ? 'low' : 'high'}`,
+    buttonText: `Reset ${readable[0].toLowerCase()} ${readable[1]} filter`,
+    applyFix: () => {
+      window.optimizerForm.setFieldValue(formAddress, undefined)
+      Message.success(`Reset ${readable[0].toLowerCase()} ${readable[1]} filter`, 2)
+    },
+  }
+}
+
+export function activateZeroResultSuggestionsModal(request) {
+  rootCauses = []
+  // always suggest switching between combat/basic views
+  if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)
+  if (request.minHp) rootCauses.push(ZeroResultRootCause.MIN_HP)
+  if (request.maxHp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HP)
+  if (request.minAtk) rootCauses.push(ZeroResultRootCause.MIN_ATK)
+  if (request.maxAtk < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ATK)
+  if (request.minDef) rootCauses.push(ZeroResultRootCause.MIN_DEF)
+  if (request.maxDef < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DEF)
+  if (request.minSpd) rootCauses.push(ZeroResultRootCause.MIN_SPD)
+  if (request.maxSpd < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SPD)
+  if (request.minCr) rootCauses.push(ZeroResultRootCause.MIN_CR)
+  if (request.maxCr < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_CR)
+  if (request.minCd) rootCauses.push(ZeroResultRootCause.MIN_CD)
+  if (request.maxCd < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_CD)
+  if (request.minEhr) rootCauses.push(ZeroResultRootCause.MIN_EHR)
+  if (request.maxEhr < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_EHR)
+  if (request.minRes) rootCauses.push(ZeroResultRootCause.MIN_RES)
+  if (request.maxRes < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_RES)
+  if (request.minBe) rootCauses.push(ZeroResultRootCause.MIN_BE)
+  if (request.maxBe < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BE)
+  if (request.minErr) rootCauses.push(ZeroResultRootCause.MIN_ERR)
+  if (request.maxErr < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ERR)
+  if (request.minWeight) rootCauses.push(ZeroResultRootCause.MIN_WEIGHT)
+  if (request.maxWeight < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_WEIGHT)
+  if (request.minEhp) rootCauses.push(ZeroResultRootCause.MIN_EHP)
+  if (request.maxEhp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_EHP)
+  if (request.minBasic) rootCauses.push(ZeroResultRootCause.MIN_BASIC)
+  if (request.maxBasic < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BASIC)
+  if (request.minSkill) rootCauses.push(ZeroResultRootCause.MIN_SKILL)
+  if (request.maxSkill < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SKILL)
+  if (request.minUlt) rootCauses.push(ZeroResultRootCause.MIN_ULT)
+  if (request.maxUlt < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ULT)
+  if (request.minFua) rootCauses.push(ZeroResultRootCause.MIN_FUA)
+  if (request.maxFua < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_FUA)
+  if (request.minDot) rootCauses.push(ZeroResultRootCause.MIN_DOT)
+  if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
+  if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)
+  if (request.maxBreak < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BREAK)
+  if (request.minCombo) rootCauses.push(ZeroResultRootCause.MIN_COMBO)
+  if (request.maxCombo < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_COMBO)
+
+  window.store.getState().setZeroResultModalOpen(true)
+}
+
+export function ZeroResultSuggestionModal() {
+  const zeroResultModalOpen = window.store((s) => s.zeroResultModalOpen)
+  const setZeroResultModalOpen = window.store((s) => s.setZeroResultModalOpen)
+
+  console.log('Suggestions root causes', rootCauses)
+
+  const rootCauseDisplay: ReactElement[] = []
+  for (const rootCause of rootCauses) {
+    rootCauseDisplay.push(convertRootCauseToDisplay(rootCause))
+  }
+  return (
+    <Modal
+      title="Search generated 0 results"
+      open={zeroResultModalOpen}
+      width={900}
+      destroyOnClose
+      centered
+      onOk={() => setZeroResultModalOpen(false)}
+      onCancel={() => setZeroResultModalOpen(false)}
+      footer={null}
+    >
+      <Flex vertical gap={15} style={{ marginBottom: 15 }}>
+        <Flex justify="space-between" align="center" style={{ height: 45 }}>
+          <Text>
+            This means your stat and/or rating filters are too restrictive.
+          </Text>
+          <Button
+            onClick={() => {
+              for (const rootCause of rootCauses) {
+                if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
+                ZeroResultRootCauseFixes[rootCause].applyFix()
+              }
+            }}
+            style={{ width: 250 }}
+            type="primary"
+          >
+            Reset all filters
+          </Button>
+        </Flex>
         <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>

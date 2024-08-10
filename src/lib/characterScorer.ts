@@ -906,24 +906,24 @@ function calculateMaxSubstatRollCounts(
   // Assumes maximum 100 CR is needed ever
   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
   const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
-  maxCounts[Stats.CR] = Math.min(
+  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
     request.simBody == Stats.CR
       ? Math.ceil((missingCrit - 32.4) / critValue)
       : Math.ceil(missingCrit / critValue),
     maxCounts[Stats.CR],
-  )
+  ))
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-  const missingEhr = 120 - baselineSimResult.x[Stats.EHR] * 100
-  maxCounts[Stats.EHR] = Math.min(
+  const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
+  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
     request.simBody == Stats.EHR
       ? Math.ceil((missingEhr - 43.2) / ehrValue)
       : Math.ceil(missingEhr / ehrValue),
     maxCounts[Stats.EHR],
-  )
+  ))
 
   return maxCounts
 }

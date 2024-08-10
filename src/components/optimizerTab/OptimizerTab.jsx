@@ -7,7 +7,7 @@ import OptimizerForm from 'components/optimizerTab/OptimizerForm'
 import OptimizerBuildPreview from 'components/OptimizerBuildPreview'
 import Sidebar from 'components/optimizerTab/Sidebar'
 import { OptimizerGrid } from 'components/optimizerTab/OptimizerGrid'
-import { ZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 
 export default function OptimizerTab() {
   console.log('======================================================================= RENDER OptimizerTab')
@@ -20,6 +20,7 @@ export default function OptimizerTab() {
         <OptimizerBuildPreview />
       </Flex>
       <ZeroPermutationsSuggestionsModal />
+      <ZeroResultSuggestionModal />
       <Sidebar />
     </Flex>
   )

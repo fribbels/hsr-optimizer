@@ -1,5 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.4.4'
+export const CURRENT_OPTIMIZER_VERSION = 'v2.5.2'
 export const BETA_UPDATE = 'All calculations are subject to change. Last updated v1 07-30-2024.'
 
 export const Stats = {

@@ -20,7 +20,7 @@ export const CharacterStatSummary = (props: {
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.RES} />
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.BE} />
       {!props.simScore && <StatRow finalStats={props.finalStats} stat={Constants.Stats.OHB} />}
-      {!props.simScore && <StatRow finalStats={props.finalStats} stat={Constants.Stats.ERR} />}
+      <StatRow finalStats={props.finalStats} stat={Constants.Stats.ERR} />
       <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} />
       {props.simScore != null && <StatRow finalStats={props.finalStats} stat="simScore" value={props.simScore} />}
     </Flex>

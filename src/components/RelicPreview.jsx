@@ -76,6 +76,7 @@ const RelicPreview = ({
               </Flex>
             </Flex>
           </Flex>
+          {relic.restriction && Renderer.renderFilter(relic.restriction.enabled)}
           <img
             style={{ height: 50, width: 50 }}
             src={equippedBySrc}

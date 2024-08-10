@@ -396,10 +396,9 @@ export function scoreCharacterSimulation(
   const baselineSimScore = baselineSimResult.simScore
   const maximumSimScore = maximumSimResult.simScore
 
-  const percent
-    = originalSimScore >= benchmarkSimScore
-      ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-      : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+  const percent = originalSimScore >= benchmarkSimScore
+    ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+    : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
 
   // ===== Calculate upgrades =====
 
@@ -551,6 +550,7 @@ function generateStatImprovements(
 
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
+
   function upgradeMain(part: string) {
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
     for (const upgradeMainStat of metadata.parts[part]) {
@@ -576,6 +576,7 @@ function generateStatImprovements(
       })
     }
   }
+
   upgradeMain(Parts.Body)
   upgradeMain(Parts.Feet)
   upgradeMain(Parts.PlanarSphere)
@@ -904,7 +905,7 @@ function calculateMaxSubstatRollCounts(
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  const missingCrit = 100 - baselineSimResult.x[Stats.CR] * 100
+  const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
   maxCounts[Stats.CR] = Math.min(
     request.simBody == Stats.CR
       ? Math.ceil((missingCrit - 32.4) / critValue)

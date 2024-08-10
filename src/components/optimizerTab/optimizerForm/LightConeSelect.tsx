@@ -11,6 +11,7 @@ interface LightConeSelectProps {
   characterId: string
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
+  initialPath?: string
 }
 
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 112px, #282B31 112px, #282B31 150px)'
@@ -28,17 +29,17 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle }) => {
+const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath }) => {
   // console.log('==================================== LC SELECT')
   const characterMetadata = DB.getMetadata().characters
   const [open, setOpen] = useState(false)
   const defaultFilters = useMemo(() => {
     return {
       rarity: [],
-      path: characterId ? [characterMetadata[characterId].path] : [],
+      path: initialPath ?? (characterId ? [characterMetadata[characterId].path] : []),
       name: '',
     }
-  }, [characterId])
+  }, [characterId, initialPath])
 
   const inputRef = useRef<InputRef>(null)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))

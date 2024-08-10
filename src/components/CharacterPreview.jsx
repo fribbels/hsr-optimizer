@@ -49,7 +49,7 @@ export function CharacterPreview(props) {
 
   const { token } = useToken()
 
-  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter } = props
+  const { source, character, setOriginalCharacterModalOpen, setOriginalCharacterModalInitialCharacter, setCharacterModalAdd } = props
 
   const isScorer = source == 'scorer'
   const isBuilds = source == 'builds'
@@ -63,7 +63,7 @@ export function CharacterPreview(props) {
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
-  const [scoringType, setScoringType] = useState(window.store.getState().savedSession[SavedSessionKeys.scoringType] || SIMULATION_SCORE)
+  const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
@@ -496,6 +496,7 @@ export function CharacterPreview(props) {
                       className="character-build-portrait-button"
                       icon={<EditOutlined />}
                       onClick={() => {
+                        setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}

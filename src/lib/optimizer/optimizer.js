@@ -27,7 +27,7 @@ export function calculateCurrentlyEquippedRow(request) {
 
   const c = calculateBuild(request, relics)
   renameFields(c)
-  OptimizerTabController.setTopRow(c)
+  OptimizerTabController.setTopRow(c, true)
 }
 
 export const Optimizer = {

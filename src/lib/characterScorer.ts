@@ -311,8 +311,11 @@ export function scoreCharacterSimulation(
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
+  // Get the simulation sets
+  const simulationSets = calculateSimSets(metadata, relicsByPart)
+
   // ===== Simulate the original character =====
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, originalScoringParams)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, originalScoringParams)
   const originalFinalSpeed = originalSimResult.xSPD
   const originalBaseSpeed = originalSimResult.SPD
   applyScoringFunction(originalSimResult)
@@ -322,12 +325,13 @@ export function scoreCharacterSimulation(
   const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
     relicsByPart,
     simulationForm,
+    simulationSets,
     benchmarkScoringParams,
   )
   applyScoringFunction(baselineSimResult)
 
   // Generate partials to calculate speed rolls
-  const partialSimulationWrappers = generatePartialSimulations(character, metadata, relicsByPart, originalBaseSpeed)
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalBaseSpeed)
   const candidateBenchmarkSims: Simulation[] = []
 
   // Run sims
@@ -399,22 +403,20 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate upgrades =====
 
-  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
-    = generateStatImprovements(
-      originalSimResult,
-      originalSim, candidateBenchmarkSims[0],
-      simulationForm,
-      metadata,
-      applyScoringFunction,
-      benchmarkScoringParams,
-    )
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+    originalSimResult,
+    originalSim, candidateBenchmarkSims[0],
+    simulationForm,
+    metadata,
+    applyScoringFunction,
+    benchmarkScoringParams,
+  )
 
   for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
     const upgradeSimScore = upgrade.simulationResult.simScore
-    const percent
-      = upgradeSimScore >= benchmarkSimScore
-        ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-        : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    const percent = upgradeSimScore >= benchmarkSimScore
+      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
     upgrade.percent = percent
   }
 
@@ -762,7 +764,8 @@ function computeOptimalSimulation(
       // How many stats the sim's iteration is attempting
       const simStatCount = bestSim.request.stats[stat]
       // How many slots are open for the stat in question
-      const statSlotCount = possibleDistributionTracker.parts
+      const statSlotCount = possibleDistributionTracker
+        .parts
         .map((part) => part.substats[stat])
         .filter((hasSubstat) => hasSubstat)
         .length
@@ -931,17 +934,13 @@ function calculateCharacterSpdStat(character: Character) {
   return baseSpdStat
 }
 
-// Generate all main stat possibilities
-function generatePartialSimulations(
-  character: Character,
-  metadata: SimulationMetadata,
-  relicsByPart: RelicBuild,
-  originalBaseSpeed: number,
-) {
-  const characterSpdStat = calculateCharacterSpdStat(character)
-  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 36 // 3 min spd rolls per piece
-  const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+type SimulationSets = {
+  relicSet1: string,
+  relicSet2: string,
+  ornamentSet: string
+}
 
+function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
   // Allow equivalent sets
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
@@ -976,6 +975,22 @@ function generatePartialSimulations(
       break
     }
   }
+
+  return { relicSet1, relicSet2, ornamentSet }
+}
+
+// Generate all main stat possibilities
+function generatePartialSimulations(
+  character: Character,
+  metadata: SimulationMetadata,
+  simulationSets: SimulationSets,
+  originalBaseSpeed: number,
+) {
+  const characterSpdStat = calculateCharacterSpdStat(character)
+  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 36 // 3 min spd rolls per piece
+  const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
+
+  const { relicSet1, relicSet2, ornamentSet } = simulationSets
 
   const results: PartialSimulationWrapper[] = []
   for (const body of metadata.parts[Parts.Body]) {
@@ -1029,6 +1044,7 @@ function generatePartialSimulations(
 function simulateBaselineCharacter(
   displayRelics: RelicBuild,
   simulationForm: Form,
+  simulationSets: SimulationSets,
   scoringParams: ScoringParams,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
@@ -1050,18 +1066,21 @@ function simulateBaselineCharacter(
     }
   })
 
-  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationForm, scoringParams, 0)
+  const { originalSimResult, originalSim } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, scoringParams, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
   }
 }
 
+// TODO: why is this function used twice
 function simulateOriginalCharacter(
   displayRelics: RelicBuild,
+  simulationSets: SimulationSets,
   simulationForm: Form,
   scoringParams: ScoringParams,
   mainStatMultiplier = 1,
+  overwriteSets = false,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
   Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
@@ -1069,12 +1088,22 @@ function simulateOriginalCharacter(
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
   const originalSimRequest = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, scoringParams.quality, scoringParams.speedRollValue)
+
+  if (overwriteSets) {
+    const { relicSet1, relicSet2, ornamentSet } = simulationSets
+
+    originalSimRequest.simRelicSet1 = relicSet1
+    originalSimRequest.simRelicSet2 = relicSet2
+    originalSimRequest.simOrnamentSet = ornamentSet
+  }
+
   const originalSim: Simulation = {
     name: '',
     key: '',
     simType: StatSimTypes.SubstatRolls,
     request: originalSimRequest,
   }
+
   const originalSimResult = runSimulations(simulationForm, [originalSim], { ...scoringParams, substatRollsModifier: (rolls: number) => rolls, mainStatMultiplier: mainStatMultiplier })[0]
 
   originalSim.result = originalSimResult

@@ -7,13 +7,7 @@ import { Utils } from './utils'
 import { LightConeConditionals } from './lightConeConditionals'
 import { CharacterConditionals } from './characterConditionals'
 import { CharacterStats } from './characterStats'
-import {
-  defaultEnemyOptions,
-  defaultSetConditionals,
-  defaultTeammate,
-  getDefaultForm,
-  getDefaultWeights
-} from 'lib/defaultForm'
+import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultForm, getDefaultWeights } from 'lib/defaultForm'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { applyMetadataPresetToForm } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
@@ -46,9 +40,15 @@ export const OptimizerTabController = {
     rows = x
   },
 
-  setTopRow: (x) => {
-    // delete x.id
-    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+  setTopRow: (x, overwrite = false) => {
+    if (overwrite) {
+      window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [x] })
+      return
+    }
+
+    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    currentPinned[0] = x
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
   },
 
   getRows: () => {
@@ -70,7 +70,7 @@ export const OptimizerTabController = {
     DB.addFromForm(formValues)
 
     const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
-    if (!selectedNodes || selectedNodes.length == 0) {
+    if (!selectedNodes || selectedNodes.length == 0 || selectedNodes[0].data.statSim) {
       return
     }
 
@@ -94,7 +94,28 @@ export const OptimizerTabController = {
       if (event.data && fieldValues.characterId) {
         const character = DB.getCharacterById(fieldValues.characterId)
 
-        if (character) {
+        if (!data.id) {
+          window.optimizerGrid.current.api.deselectAll()
+        }
+
+        if (character && data.id) {
+          const rowId = data.id
+          const build = OptimizerTabController.calculateRelicsFromId(rowId)
+          window.setOptimizerBuild(build)
+
+          // Find the row by its string ID and select it
+          const rowNode = window.optimizerGrid.current.api.getRowNode(String(data.id))
+          if (rowNode) {
+            const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+
+            if (String(currentPinned[0].id) == String(rowNode.data.id)) {
+              // The currently equipped top row shouldn't correspond to an optimizer row, deselect
+              window.optimizerGrid.current.api.deselectAll()
+            } else {
+              rowNode.setSelected(true)
+            }
+          }
+        } else if (character) {
           window.setOptimizerBuild(character.equipped)
         }
       }
@@ -105,6 +126,7 @@ export const OptimizerTabController = {
       const key = data.statSim.key
       window.store.getState().setSelectedStatSimulations([key])
       window.setOptimizerBuild({})
+      window.optimizerGrid.current.api.deselectAll()
       return
     }
 

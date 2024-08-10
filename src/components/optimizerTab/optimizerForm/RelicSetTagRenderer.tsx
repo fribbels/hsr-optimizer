@@ -7,6 +7,9 @@ import PropTypes from "prop-types";
 // NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
 export function RelicSetTagRenderer(props) {
   const { value, closable, onClose } = props
+
+  if (!value) return
+
   /*
    * The value comes in as:
    * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"

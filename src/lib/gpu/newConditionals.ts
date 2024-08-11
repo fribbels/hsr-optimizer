@@ -1,5 +1,6 @@
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
+import { BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
+import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 
 export type NewConditional = {
   id: string
@@ -19,13 +20,32 @@ export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
   activationKey: 1,
   statDependencies: [Stats.CR],
-  evaluate: function(x, params) { evaluator(this, x, params) },
+  evaluate: function (x, params) {
+    evaluator(this, x, params)
+  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
   effect: (x: ComputedStatsObject) => {
-    x.BASIC_BOOST += 0.20
-    x.SKILL_BOOST += 0.20
+    buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
+  },
+  gpu: () => {
+
+  }
+}
+
+export const InertSalsottoConditional: NewConditional = {
+  id: "InertSalsottoConditional",
+  activationKey: 1,
+  statDependencies: [Stats.CR],
+  evaluate: function (x, params) {
+    evaluator(this, x, params)
+  },
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.CR] >= 0.50
+  },
+  effect: (x: ComputedStatsObject) => {
+    buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
   },
   gpu: () => {
 
@@ -50,7 +70,9 @@ export const AventurineConversionConditional: NewConditional = {
   id: "AventurineConversionConditional",
   activationKey: 2,
   statDependencies: [Stats.DEF],
-  evaluate: function(x, params) { evaluator(this, x, params) },
+  evaluate: function (x, params) {
+    evaluator(this, x, params)
+  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.DEF] > 1600
   },

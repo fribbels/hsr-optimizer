@@ -42,6 +42,7 @@ function relicSetToIndex(relic: Relic) {
 
 // set weight main aug
 const RELIC_ARG_SIZE = 24
+
 function convertRelicsToArray(relics: Relic[]) {
   const output: number[] = []
   for (let i = 0; i < relics.length; i++) {
@@ -97,6 +98,7 @@ function createBuffer(device, matrix, usage, mapped = true, int = false) {
 
   return gpuBuffer
 }
+
 export async function experiment({ params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions }) {
   // return
   // ======================================== Init ========================================
@@ -353,6 +355,14 @@ export async function experiment({ params, request, relics, permutations, relicS
       console.log('BREAK_EFFICIENCY_BOOST', array[97])
       console.log('BASIC_BREAK_EFFICIENCY_BOOST', array[98])
       console.log('ULT_BREAK_EFFICIENCY_BOOST', array[99])
+      console.log('BASIC_DMG_TYPE', array[100])
+      console.log('SKILL_DMG_TYPE', array[101])
+      console.log('ULT_DMG_TYPE', array[102])
+      console.log('FUA_DMG_TYPE', array[103])
+      console.log('DOT_DMG_TYPE', array[104])
+      console.log('BREAK_DMG_TYPE', array[105])
+      console.log('SUPER_BREAK_TYPE', array[106])
+
     }
   }
 

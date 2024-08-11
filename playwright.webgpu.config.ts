@@ -23,15 +23,14 @@ export default defineConfig({
 
   use: {
     actionTimeout: 0, // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
-    baseURL: 'http://localhost:3000/hsr-optimizer', // Base URL to use in actions like `await page.goto('/')`.
+    baseURL: 'chrome://gpu', // Base URL to use in actions like `await page.goto('/')`.
     trace: 'on-first-retry', // Collect trace when retrying the failed test.
     video: 'off',// // Record video only when retrying a test for the first time.
     headless: true, // Set to false if you want to see the browser during tests
     browserName: 'chromium',
     channel: 'chrome', // Use Chrome for better WebGPU support
     launchOptions: {
-      args: [
-      ],
+      args: ["--enable-gpu"],
     },
   },
   // Configure projects for major browsers.

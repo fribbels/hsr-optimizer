@@ -23,11 +23,26 @@ test('Math test', async ({ page }) => {
 
   const execute = /* wgsl */`
     results[0] = select(0, 1, 1 < 2);
-    results[1] = select(0, 1, 1 > 2)
+    results[1] = select(0, 1, 1 > 2);
     results[2] = select(1, 0, 1 == 2);
   `
 
   const results = await executeSimpleWgsl(page, setup, execute)
 
   expect(results).toEqual([1, 0, 1])
+})
+
+test('Int test', async ({ page }) => {
+  const setup = `
+  `
+
+  const execute = /* wgsl */`
+    results[0] = 4 | 8;
+    results[1] = 1 | 2 | 4 | 8 | 16 | 32 | 64;
+    results[2] = 7 & 13;
+  `
+
+  const results = await executeSimpleWgsl(page, setup, execute)
+
+  expect(results).toEqual([12, 127, 5])
 })

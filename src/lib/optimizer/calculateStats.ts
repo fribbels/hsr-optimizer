@@ -4,6 +4,7 @@ import { CharacterConditionals } from "lib/characterConditionals";
 import { LightConeConditionals } from "lib/lightConeConditionals";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
+import { InertSalsottoConditional, RutilantArenaConditional } from "lib/gpu/newConditionals";
 
 const statValues = Object.values(Stats)
 
@@ -203,27 +204,6 @@ export function calculateComputedStats(c, request, params) {
   // x[Stats.SPD_P]
   //   += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
 
-  // Dynamic
-
-  // x[Stats.ATK_P]
-  // + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
-  // + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-  // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
-  // x[Stats.DEF_P]
-  //   += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
-  // x[Stats.CD]
-  //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
-  // x[Stats.CR]
-  //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-  // x[Stats.BE]
-  //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-  // x.BREAK_DEF_PEN
-  //   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-  // x.SUPER_BREAK_DEF_PEN
-  //   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-  // x.ELEMENTAL_DMG
-  //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-  //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 
   // SPD
 
@@ -318,10 +298,6 @@ export function calculateComputedStats(c, request, params) {
   // Ult boost
   p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
 
-  // Multiple boost
-  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
-  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
-
   if (p4(sets.GeniusOfBrilliantStars)) {
     x.DEF_SHRED += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
   }
@@ -335,14 +311,31 @@ export function calculateComputedStats(c, request, params) {
   }
 
 
-  //
-  //
+  // Dynamic - still need implementing
+
+  // x[Stats.ATK_P]
+  // + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
+  // + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
+  // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+  // x[Stats.DEF_P]
+  //   += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
   // x[Stats.CD]
-  //   += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
-  //
-  // if (p2(sets.RutilantArena)) {
-  //   RutilantArenaConditional.evaluate(x, params)
-  // }
+  //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+  // x[Stats.CR]
+  //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+  // x[Stats.BE]
+  //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+  // x.BREAK_DEF_PEN
+  //   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.SUPER_BREAK_DEF_PEN
+  //   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.ELEMENTAL_DMG
+  //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+  //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+
+  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && RutilantArenaConditional.evaluate(x, params)
+  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && InertSalsottoConditional.evaluate(x, params)
+
 
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals

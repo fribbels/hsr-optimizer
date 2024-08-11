@@ -203,52 +203,107 @@ export function calculateComputedStats(c, request, params) {
   // x[Stats.SPD_P]
   //   += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
 
+  // Dynamic
+
+  // x[Stats.ATK_P]
+  // + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
+  // + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
+  // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+  // x[Stats.DEF_P]
+  //   += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+  // x[Stats.CD]
+  //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+  // x[Stats.CR]
+  //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+  // x[Stats.BE]
+  //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+  // x.BREAK_DEF_PEN
+  //   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.SUPER_BREAK_DEF_PEN
+  //   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.ELEMENTAL_DMG
+  //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+  //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+
+  // SPD
+
   if (p4(sets.MessengerTraversingHackerspace) && params.enabledMessengerTraversingHackerspace) {
     x[Stats.SPD_P] += 0.12
   }
-
   x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
 
-  x[Stats.ATK_P]
-    += 0.05 * params.valueChampionOfStreetwiseBoxing * p4(sets.ChampionOfStreetwiseBoxing)
-    + 0.20 * params.enabledBandOfSizzlingThunder * p4(sets.BandOfSizzlingThunder)
-    + 0.06 * params.valueTheAshblazingGrandDuke * p4(sets.TheAshblazingGrandDuke)
-    + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
-    + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-    + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
-    + 0.16 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
+  // ATK
 
+  if (p4(sets.ChampionOfStreetwiseBoxing)) {
+    x[Stats.ATK_P] += 0.05 * params.valueChampionOfStreetwiseBoxing
+  }
+  if (p4(sets.BandOfSizzlingThunder) && params.enabledBandOfSizzlingThunder) {
+    x[Stats.ATK_P] += 0.20
+  }
+  if (p4(sets.TheAshblazingGrandDuke)) {
+    x[Stats.ATK_P] += 0.06 * params.valueTheAshblazingGrandDuke
+  }
+  if (p2(sets.LushakaTheSunkenSeas) && params.enabledLushakaTheSunkenSeas) {
+    x[Stats.ATK_P] += 0.16
+  }
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
-  x[Stats.DEF_P]
-    += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+  // DEF
+
   x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
+
+  // HP
 
   x[Stats.HP] += x[Stats.HP_P] * request.baseHp
 
-  calculatePassiveStatConversions(c, request, params)
+  // CD
 
-  x[Stats.CD]
-    += 0.25 * params.enabledHunterOfGlacialForest * p4(sets.HunterOfGlacialForest)
-    + 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
-    + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
-    + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
-    + 0.28 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
+  if (p4(sets.HunterOfGlacialForest) && params.enabledHunterOfGlacialForest) {
+    x[Stats.CD] += 0.25
+  }
+  if (p4(sets.WastelanderOfBanditryDesert)) {
+    x[Stats.CD] += 0.10 * (params.valueWastelanderOfBanditryDesert == 2 ? 1 : 0)
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters)) {
+    x[Stats.CD] += pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters]
+  }
+  if (p2(sets.SigoniaTheUnclaimedDesolation)) {
+    x[Stats.CD] += 0.04 * (params.valueSigoniaTheUnclaimedDesolation)
+  }
+  if (p2(sets.DuranDynastyOfRunningWolves) && params.valueDuranDynastyOfRunningWolves >= 5) {
+    x[Stats.CD] += 0.25
+  }
+  if (p2(sets.TheWondrousBananAmusementPark) && params.enabledTheWondrousBananAmusementPark) {
+    x[Stats.CD] += 0.28
+  }
 
-  x[Stats.CR]
-    += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)
-    + 0.08 * params.valueLongevousDisciple * p4(sets.LongevousDisciple)
-    + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-    + 0.04 * (params.valuePioneerDiverOfDeadWaters > 2 ? 1 : 0) * p4(sets.PioneerDiverOfDeadWaters)
-    + 0.12 * (params.enabledIzumoGenseiAndTakamaDivineRealm) * p2(sets.IzumoGenseiAndTakamaDivineRealm)
+  // CR
 
-  x[Stats.BE]
-    += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-    + 0.30 * params.enabledWatchmakerMasterOfDreamMachinations * p4(sets.WatchmakerMasterOfDreamMachinations)
-    + 0.40 * params.enabledForgeOfTheKalpagniLantern * p2(sets.ForgeOfTheKalpagniLantern)
+  if (p4(sets.WastelanderOfBanditryDesert) && params.valueWastelanderOfBanditryDesert > 0) {
+    x[Stats.CR] += 0.10
+  }
+  if (p4(sets.LongevousDisciple)) {
+    x[Stats.CR] += 0.08 * params.valueLongevousDisciple
+  }
+  if (p4(sets.PioneerDiverOfDeadWaters) && params.valuePioneerDiverOfDeadWaters > 2) {
+    x[Stats.CR] += 0.04
+  }
+  if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && params.enabledIzumoGenseiAndTakamaDivineRealm) {
+    x[Stats.CR] += 0.12
+  }
 
+  // calculatePassiveStatConversions(c, request, params)
+
+  // BE
+
+  if (p4(sets.WatchmakerMasterOfDreamMachinations) && params.enabledWatchmakerMasterOfDreamMachinations) {
+    x[Stats.BE] += 0.30
+  }
+  if (p2(sets.ForgeOfTheKalpagniLantern) && params.enabledForgeOfTheKalpagniLantern) {
+    x[Stats.BE] += 0.40
+  }
+
+  // Buffs
 
   // Basic boost
   p4(sets.MusketeerOfWildWheat) && buffAbilityDmg(x, BASIC_TYPE, 0.10)
@@ -267,22 +322,17 @@ export function calculateComputedStats(c, request, params) {
   p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
   p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
 
-  x.DEF_SHRED
-    += p4(sets.GeniusOfBrilliantStars) ? (params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10) : 0
+  if (p4(sets.GeniusOfBrilliantStars)) {
+    x.DEF_SHRED += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
+  }
 
-  x.DEF_SHRED
-    += 0.06 * params.valuePrisonerInDeepConfinement * p4(sets.PrisonerInDeepConfinement)
+  if (p4(sets.PrisonerInDeepConfinement)) {
+    x.DEF_SHRED += 0.06 * params.valuePrisonerInDeepConfinement
+  }
 
-  x.BREAK_DEF_PEN
-    += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-
-  x.SUPER_BREAK_DEF_PEN
-    += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-
-  x.ELEMENTAL_DMG
-    += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-    + 0.12 * p2(sets.PioneerDiverOfDeadWaters) * (params.valuePioneerDiverOfDeadWaters > -1 ? 1 : 0)
+  if (p2(sets.PioneerDiverOfDeadWaters)) {
+    x.ELEMENTAL_DMG += 0.12
+  }
 
 
   //

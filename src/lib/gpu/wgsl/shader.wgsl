@@ -403,7 +403,7 @@ struct Params {
 
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // Temporarily f32 for testing, should be boolean
+@group(0) @binding(2) var<storage, read_write> results : array<f32>; // Temporarily f32 for testing, should be boolean
 
 @group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(1) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
@@ -824,7 +824,7 @@ fn main(
 //    + request.combo.BREAK * x.BREAK_DMG
   // Calculate damage
 
-  results[index] = x;
+  results[index] = x.FUA_DMG;
 }
 
 fn p2(n: i32) -> f32 {

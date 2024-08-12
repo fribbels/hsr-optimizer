@@ -64,7 +64,7 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.1",
+    "@playwright/test": "^1.46.0",
     "@stylistic/eslint-plugin": "^1.5.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

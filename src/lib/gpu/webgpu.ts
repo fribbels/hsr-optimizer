@@ -284,6 +284,7 @@ export async function experiment({ params, request, relics, permutations, relicS
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
     const arrayBuffer = gpuReadBuffer.getMappedRange()
     const array = new Float32Array(arrayBuffer)
+    let top = queueResults.top()
 
     for (let j = 0; j < BLOCK_SIZE; j++) {
       let permutationNumber = offset + j
@@ -291,11 +292,17 @@ export async function experiment({ params, request, relics, permutations, relicS
         break // ?
       }
 
-      if (array[j] >= 0) {
+      let value = array[j]
+      if (value >= 0) {
+        if (value <= top && queueResults.size() >= resultLimit) {
+          continue
+        }
         queueResults.fixedSizePush({
           index: permutationNumber,
           value: array[j]
         })
+        top = queueResults.top().value
+        // console.log(queueResults.top())
       }
     }
 

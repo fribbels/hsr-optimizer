@@ -423,7 +423,7 @@ fn main(
 
   // global_invocation_index
   let index =
-    i32(workgroup_index * 256 +
+    i32(workgroup_index * 256 + // Should be workgroup_size_x * workgroup_size_y
     local_invocation_index);
 
   // Load params
@@ -451,28 +451,26 @@ fn main(
   let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
   let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
 
-  // ???
-
-  let zl = (l+xl) % lSize;
-  let yl = (l+xl-zl) / lSize;
-  let zp = (p+xp+yl) % pSize;
-  let yp = (p+xp+yl-zp) / pSize;
-  let zf = (f+xf+yp) % fSize;
-  let yf = (f+xf+yp-zf) % fSize;
-  let zb = (b+xb+yf) % bSize;
-  let yb = (b+xb+yf-zb) % bSize;
-  let zg = (g+xg+yb) % gSize;
-  let yg = (g+xg+yb-zg) % gSize;
-  let zh = (h+xh+yg) % hSize;
+  let finalL = (l + xl) % lSize;
+  let carryL = ((l + xl) / lSize);
+  let finalP = (p + xp + carryL) % pSize;
+  let carryP = ((p + xp + carryL) / pSize);
+  let finalF = (f + xf + carryP) % fSize;
+  let carryF = ((f + xf + carryP) / fSize);
+  let finalB = (b + xb + carryF) % bSize;
+  let carryB = ((b + xb + carryF) / bSize);
+  let finalG = (g + xg + carryB) % gSize;
+  let carryG = ((g + xg + carryB) / gSize);
+  let finalH = (h + xh + carryG) % hSize;
 
   // Calculate Relic structs
 
-  let head  : Relic = (relics[zh]);
-  let hands : Relic = (relics[zg + hSize]);
-  let body  : Relic = (relics[zb + hSize + gSize]);
-  let feet  : Relic = (relics[zf + hSize + gSize + bSize]);
-  let planarSphere : Relic = (relics[zp + hSize + gSize + bSize + fSize]);
-  let linkRope     : Relic = (relics[zl + hSize + gSize + bSize + fSize + pSize]);
+  let head  : Relic = (relics[finalH]);
+  let hands : Relic = (relics[finalG + hSize]);
+  let body  : Relic = (relics[finalB + hSize + gSize]);
+  let feet  : Relic = (relics[finalF + hSize + gSize + bSize]);
+  let planarSphere : Relic = (relics[finalP + hSize + gSize + bSize + fSize]);
+  let linkRope     : Relic = (relics[finalL + hSize + gSize + bSize + fSize + pSize]);
 
   // Convert set ID
 
@@ -824,7 +822,7 @@ fn main(
 //    + request.combo.BREAK * x.BREAK_DMG
   // Calculate damage
 
-  results[index] = x.FUA_DMG;
+  results[index] = x.BASIC_DMG;
 }
 
 fn p2(n: i32) -> f32 {

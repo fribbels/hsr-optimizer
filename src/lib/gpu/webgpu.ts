@@ -3,7 +3,6 @@ import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats 
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
-import { SortOption } from "lib/optimizer/sortOptions";
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -141,7 +140,7 @@ export async function experiment({ params, request, relics, permutations, relicS
     },
   })
 
-  const BLOCK_SIZE = Math.pow(2, 24) // 1048576 * 4
+  const BLOCK_SIZE = Math.pow(2, 8) // Math.pow(2, 24)
 
   // ======================================== Input ========================================
 
@@ -210,20 +209,53 @@ export async function experiment({ params, request, relics, permutations, relicS
   })
 
   console.log('Transformed inputs', { paramsArray, mergedRelics, relicSetSolutions })
-  // console.log('Transformed inputs', { paramsMatrix, relicsMatrix, relicSetSolutionsMatrix })
+  console.log('Transformed inputs', { paramsMatrix, relicsMatrix })
 
   const date1 = new Date()
-  const iterations = 1
+  const iterations = Math.ceil(permutations / BLOCK_SIZE)
 
-  const resultLimit = 10
-  const gridSortColumn = SortOption.BASIC.combatGridColumn
-  const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
+  const resultLimit = 10000
+  const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a.value - b.value)
 
   for (let i = 0; i < iterations; i++) {
+    let offset = i * BLOCK_SIZE
+
+    const lSize = relics.LinkRope.length
+    const pSize = relics.PlanarSphere.length
+    const fSize = relics.Feet.length
+    const bSize = relics.Body.length
+    const gSize = relics.Hands.length
+    const hSize = relics.Head.length
+
+    const l = (offset % lSize)
+    const p = (((offset - l) / lSize) % pSize)
+    const f = (((offset - p * lSize - l) / (lSize * pSize)) % fSize)
+    const b = (((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    const g = (((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    const h = (((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+
+    paramsArray[6] = l
+    paramsArray[7] = p
+    paramsArray[8] = f
+    paramsArray[9] = b
+    paramsArray[10] = g
+    paramsArray[11] = h
+
+    const newParamsMatrix = createBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
+
+    const newBindGroup0 = device.createBindGroup({
+      layout: computePipeline.getBindGroupLayout(0),
+      entries: [
+        { binding: 0, resource: { buffer: newParamsMatrix } },
+        { binding: 1, resource: { buffer: relicsMatrix } },
+        { binding: 2, resource: { buffer: resultMatrixBuffer } },
+      ],
+    })
+
     const commandEncoder = device.createCommandEncoder()
     const passEncoder = commandEncoder.beginComputePass()
     passEncoder.setPipeline(computePipeline)
-    passEncoder.setBindGroup(0, bindGroup0)
+    passEncoder.setBindGroup(0, newBindGroup0)
     passEncoder.setBindGroup(1, bindGroup1)
     passEncoder.dispatchWorkgroups(16, 16)
     passEncoder.end()
@@ -249,16 +281,22 @@ export async function experiment({ params, request, relics, permutations, relicS
     const arrayBuffer = gpuReadBuffer.getMappedRange()
     const array = new Float32Array(arrayBuffer)
 
-    for (let i = 0; i < permutations; i++) {
-      if (array[i]) {
+    for (let j = 0; j < BLOCK_SIZE; j++) {
+      let permutationNumber = offset + j
+      if (permutationNumber >= permutations) {
+        break // ?
+      }
+
+      if (array[j] >= 0) {
         queueResults.fixedSizePush({
-          index: i,
-          [gridSortColumn]: array[i]
+          index: permutationNumber,
+          value: array[j]
         })
       }
     }
 
-    console.log(queueResults.toArray())
+    const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+    console.log(resultArray)
     console.log(array)
 
     // printAsObject(arrayBuffer, BLOCK_SIZE, i, date1)

@@ -3,6 +3,9 @@ import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats 
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
+import { calculateBuild } from "lib/optimizer/calculateBuild";
+import { OptimizerTabController } from "lib/optimizerTabController";
+import { renameFields } from "lib/optimizer/optimizer.ts";
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -140,7 +143,8 @@ export async function experiment({ params, request, relics, permutations, relicS
     },
   })
 
-  const BLOCK_SIZE = Math.pow(2, 8) // Math.pow(2, 24)
+  const BLOCK_SIZE = Math.pow(2, 24)
+  // const BLOCK_SIZE = Math.pow(2, 8)
 
   // ======================================== Input ========================================
 
@@ -170,6 +174,13 @@ export async function experiment({ params, request, relics, permutations, relicS
   for (const stat of Object.values(Constants.Stats)) {
     paramsArray[58 + StatsToIndex[stat]] = params.character.traces[stat]
   }
+
+  const lSize = relics.LinkRope.length
+  const pSize = relics.PlanarSphere.length
+  const fSize = relics.Feet.length
+  const bSize = relics.Body.length
+  const gSize = relics.Hands.length
+  const hSize = relics.Head.length
 
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE
   const resultMatrixBuffer = device.createBuffer({
@@ -214,18 +225,11 @@ export async function experiment({ params, request, relics, permutations, relicS
   const date1 = new Date()
   const iterations = Math.ceil(permutations / BLOCK_SIZE)
 
-  const resultLimit = 10000
+  const resultLimit = 100
   const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a.value - b.value)
 
   for (let i = 0; i < iterations; i++) {
     let offset = i * BLOCK_SIZE
-
-    const lSize = relics.LinkRope.length
-    const pSize = relics.PlanarSphere.length
-    const fSize = relics.Feet.length
-    const bSize = relics.Body.length
-    const gSize = relics.Hands.length
-    const hSize = relics.Head.length
 
     const l = (offset % lSize)
     const p = (((offset - l) / lSize) % pSize)
@@ -296,11 +300,46 @@ export async function experiment({ params, request, relics, permutations, relicS
     }
 
     const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-    console.log(resultArray)
-    console.log(array)
+    // console.log(resultArray)
+    // console.log(array)
 
     // printAsObject(arrayBuffer, BLOCK_SIZE, i, date1)
+    const date2 = new Date()
+    console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)
   }
+
+  const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+  const outputs = []
+  for (let i = 0; i < resultArray.length; i++) {
+    const index = resultArray[i].index
+
+    const l = (index % lSize)
+    const p = (((index - l) / lSize) % pSize)
+    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
+    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+
+    const c = calculateBuild(request, {
+      Head: relics.Head[h],
+      Hands: relics.Hands[g],
+      Body: relics.Body[b],
+      Feet: relics.Feet[f],
+      PlanarSphere: relics.PlanarSphere[p],
+      LinkRope: relics.LinkRope[l],
+    })
+
+    c.id = index
+    renameFields(c)
+    outputs.push(c)
+  }
+
+  console.log(outputs)
+  window.store.getState().setPermutationsResults(queueResults.size())
+  window.store.getState().setOptimizationInProgress(false)
+  OptimizerTabController.setRows(outputs)
+  window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
+  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }
 
 function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, date1: Date) {

@@ -1,18 +1,15 @@
-import { Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { Constants, ElementToDamage, Stats } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
 import { WorkerPool } from 'lib/workerPool'
-import { BufferPacker } from 'lib/bufferPacker'
 import { RelicFilters } from 'lib/relicFilters'
-import { Message } from 'lib/message'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimizer/relicSetSolver'
 import { generateParams } from 'lib/optimizer/calculateParams.ts'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
-import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
+import { activateZeroPermutationsSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { experiment } from 'lib/gpu/webgpu'
 
 let CANCEL = false
@@ -147,60 +144,60 @@ export const Optimizer = {
     }
 
     let inProgress = runs.length
-    for (const run of runs) {
-      const task = {
-        input: {
-          params: params,
-          request: request,
-          relics: relics,
-          WIDTH: run.runSize,
-          skip: run.skip,
-          permutations: permutations,
-          relicSetSolutions: relicSetSolutions,
-          ornamentSetSolutions: ornamentSetSolutions,
-        },
-        getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
-      }
-
-      const callback = (result) => {
-        searched += run.runSize
-        inProgress -= 1
-
-        if (CANCEL && resultsShown) {
-          return
-        }
-
-        const resultArr = new Float64Array(result.buffer)
-        // console.log(`Optimizer results`, result, resultArr, run)
-
-        BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
-        // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
-
-        window.store.getState().setPermutationsResults(queueResults.size())
-        window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
-
-        if (inProgress == 0 || CANCEL) {
-          window.store.getState().setOptimizationInProgress(false)
-          results = queueResults.toArray()
-          OptimizerTabController.setRows(results)
-          setSortColumn(gridSortColumn)
-
-          window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', results.length)
-          resultsShown = true
-          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
-          return
-        }
-
-        if ((results.length >= MAX_RESULTS) && !CANCEL) {
-          CANCEL = true
-          Optimizer.cancel(request.optimizationId)
-          Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
-        }
-      }
-
-      WorkerPool.execute(task, callback)
-    }
+    // for (const run of runs) {
+    //   const task = {
+    //     input: {
+    //       params: params,
+    //       request: request,
+    //       relics: relics,
+    //       WIDTH: run.runSize,
+    //       skip: run.skip,
+    //       permutations: permutations,
+    //       relicSetSolutions: relicSetSolutions,
+    //       ornamentSetSolutions: ornamentSetSolutions,
+    //     },
+    //     getMinFilter: () => queueResults.size() ? queueResults.top()[gridSortColumn] : 0,
+    //   }
+    //
+    //   const callback = (result) => {
+    //     searched += run.runSize
+    //     inProgress -= 1
+    //
+    //     if (CANCEL && resultsShown) {
+    //       return
+    //     }
+    //
+    //     const resultArr = new Float64Array(result.buffer)
+    //     // console.log(`Optimizer results`, result, resultArr, run)
+    //
+    //     BufferPacker.extractArrayToResults(resultArr, run.runSize, results, queueResults)
+    //     // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
+    //
+    //     window.store.getState().setPermutationsResults(queueResults.size())
+    //     window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
+    //
+    //     if (inProgress == 0 || CANCEL) {
+    //       window.store.getState().setOptimizationInProgress(false)
+    //       results = queueResults.toArray()
+    //       OptimizerTabController.setRows(results)
+    //       setSortColumn(gridSortColumn)
+    //
+    //       window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+    //       console.log('Done', results.length)
+    //       resultsShown = true
+    //       if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
+    //       return
+    //     }
+    //
+    //     if ((results.length >= MAX_RESULTS) && !CANCEL) {
+    //       CANCEL = true
+    //       Optimizer.cancel(request.optimizationId)
+    //       Message.error('Too many results, stopping at 2,000,000 - please narrow your filters to limit results', 10)
+    //     }
+    //   }
+    //
+    //   WorkerPool.execute(task, callback)
+    // }
 
     experiment({
       params: params,

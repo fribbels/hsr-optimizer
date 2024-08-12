@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "npm@10.8.1",
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=22.0.0",
     "npm": ">=10.0.0",
     "pnpm": ">=999.0.0",
     "yarn": ">=999.0.0"
@@ -70,7 +70,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/eslint": "^8.55.0",
-    "@types/node": "^20.11.6",
+    "@types/node": "^22.2.0",
     "@types/object-hash": "^3.0.6",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.55.0",

@@ -12,7 +12,7 @@ export function ReliquaryDescription(): ReactElement {
           )
           <ul>
             {/*<li><b style={{ color: '#ffaa4f' }}>***** Status: Down for maintenance after 2.4 patch *****</b></li>*/}
-            <li><b style={{ color: '#82e192' }}>***** Status: Updated for patch 2.4, new download required. (March & Trailblazer new paths not supported yet) *****</b></li>
+            <li><b style={{ color: '#82e192' }}>***** Status: Updated for patch 2.4, new download required *****</b></li>
             <li>Accurate speed decimals, instant scan</li>
             <li>Imports full inventory and character roster</li>
           </ul>

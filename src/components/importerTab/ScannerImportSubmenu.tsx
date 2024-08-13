@@ -159,10 +159,10 @@ export function ScannerImportSubmenu() {
           </Text>
           <Text>
             <ul>
-              <ReliquaryDescription />
+              <ReliquaryDescription/>
               <li>
                 Kel-Z HSR Scanner (
-                <ColorizedLink text="Github" url={KelzScannerConfig.releases} />
+                <ColorizedLink text="Github" url={KelzScannerConfig.releases}/>
                 )
                 <ul>
                   <li>Inaccurate speed decimals, 5-10 minutes OCR scan</li>
@@ -172,7 +172,7 @@ export function ScannerImportSubmenu() {
               <li>
                 Relic Scorer Import (
                 <span onClick={() => window.store.getState().setActiveKey(AppPages.RELIC_SCORER)}>
-                  <ColorizedLink text="Relic scorer" />
+                  <ColorizedLink text="Relic scorer"/>
                 </span>
                 )
                 <ul>
@@ -181,7 +181,7 @@ export function ScannerImportSubmenu() {
                 </ul>
               </li>
               <li>HoyoLab Import (
-                <ColorizedLink text="Instructions" url="https://github.com/fribbels/hsr-optimizer/discussions/403" />
+                <ColorizedLink text="Instructions" url="https://github.com/fribbels/hsr-optimizer/discussions/403"/>
                 )
                 <ul>
                   <li>Inaccurate speed decimals, instant scan</li>
@@ -199,7 +199,7 @@ export function ScannerImportSubmenu() {
               >
                 <Button
                   style={{ width: importerTabButtonWidth }}
-                  icon={<UploadOutlined />}
+                  icon={<UploadOutlined/>}
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
                 >

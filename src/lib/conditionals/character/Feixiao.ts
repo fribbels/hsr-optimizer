@@ -138,55 +138,6 @@ export default (e: Eidolon): CharacterConditional => {
         x.FUA_SCALING += 1.40
       }
 
-
-      //
-      // // The two ults currently do the same thing
-      // const ultBaseScalingTotal = r.ultStacks * (ultScaling + ultBrokenScaling)
-      // let ultFinalScalingTotal = r.ultStacks * (ultFinalScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0))
-      // ultFinalScalingTotal += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
-      //
-      // x.ULT_SCALING += ultBaseScalingTotal + ultFinalScalingTotal
-      //
-      //
-      // // The broken enemies ult has a 2 hit 0.30 + 0.70 split per stack, while the unbroken one is 1 hit 1.00 split
-      // // The last hit is separate from that so we need to calculate its percentage contribution to the full ult and distribute it
-      // const lastHitPercentage = ultFinalScalingTotal / (ultBaseScalingTotal + ultFinalScalingTotal)
-      // const mainUltPercentagePerStack = (1 - lastHitPercentage) / r.ultStacks
-      // let atkBoostSum = 0
-      // let ashblazingStacks = 1
-      // if (r.weaknessBrokenUlt) {
-      //   // 2 hits
-      //   for (let i = 0; i < r.ultStacks; i++) {
-      //     atkBoostSum += ashblazingStacks * (0.3 * mainUltPercentagePerStack)
-      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-      //
-      //     atkBoostSum += ashblazingStacks * (0.7 * mainUltPercentagePerStack)
-      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-      //   }
-      //
-      //   atkBoostSum += ashblazingStacks * lastHitPercentage
-      // } else {
-      //   // 1 hit
-      //   for (let i = 0; i < r.ultStacks; i++) {
-      //     atkBoostSum += ashblazingStacks * (mainUltPercentagePerStack)
-      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-      //   }
-      // }
-      //
-      // hitMulti = ASHBLAZING_ATK_STACK * atkBoostSum
-      //
-      //
-      // if (e >= 4 && r.e4DmgTypeChange) {
-      //   x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
-      //   x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
-      // }
-      //
-      // if (e >= 6 && r.e6Buffs) {
-      //   buffAbilityResShred(x, FUA_TYPE, 0.20) // This should technically just be wind res pen
-      //   x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
-      //   x.FUA_SCALING += 3.60
-      // }
-      //
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 15 * 6 + 15
@@ -217,7 +168,6 @@ export default (e: Eidolon): CharacterConditional => {
         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultHitCountMulti)
         x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
-
 
       // // Everything else is single hit
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ASHBLAZING_ATK_STACK * (1 * 1.00))

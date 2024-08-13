@@ -11,15 +11,15 @@ import { buffAbilityCd, buffAbilityVulnerability } from "lib/optimizer/calculate
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
-  const basicScaling = basic(e, 1.00, 1.10) //
-  const skillScaling = skill(e, 2.00, 2.20) //
+  const basicScaling = basic(e, 1.00, 1.10)
+  const skillScaling = skill(e, 2.00, 2.20)
 
-  const ultScaling = ult(e, 0.60, 0.648) //
-  const ultBrokenScaling = ult(e, 0.30, 0.33) //
-  const ultFinalScaling = ult(e, 1.60, 1.728) //
+  const ultScaling = ult(e, 0.60, 0.648)
+  const ultBrokenScaling = ult(e, 0.30, 0.33)
+  const ultFinalScaling = ult(e, 1.60, 1.728)
 
-  const fuaScaling = talent(e, 1.10, 1.21) //
-  const talentDmgBuff = talent(e, 0.60, 0.66) //
+  const fuaScaling = talent(e, 1.10, 1.21)
+  const talentDmgBuff = talent(e, 0.60, 0.66)
 
   const ultHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
   const ultBrokenHitCountMulti = ASHBLAZING_ATK_STACK * (
@@ -111,26 +111,26 @@ export default (e: Eidolon): CharacterConditional => {
       const x = Object.assign({}, baseComputedStatsObject)
 
       // Special case where we force the weakness break on if the ult break option is enabled
-      if (r.weaknessBrokenUlt) { //
+      if (r.weaknessBrokenUlt) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       } else {
         x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
       }
 
-      buffAbilityCd(x, FUA_TYPE, 0.36) //
+      buffAbilityCd(x, FUA_TYPE, 0.36)
 
-      x[Stats.ATK_P] += (r.skillAtkBuff) ? 0.48 : 0 //
-      x.ELEMENTAL_DMG += (r.talentDmgBuff) ? talentDmgBuff : 0 //
-      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE //
+      x[Stats.ATK_P] += (r.skillAtkBuff) ? 0.48 : 0
+      x.ELEMENTAL_DMG += (r.talentDmgBuff) ? talentDmgBuff : 0
+      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
-      x.BASIC_SCALING += basicScaling //
-      x.SKILL_SCALING += skillScaling //
-      x.FUA_SCALING += fuaScaling //
+      x.BASIC_SCALING += basicScaling
+      x.SKILL_SCALING += skillScaling
+      x.FUA_SCALING += fuaScaling
 
       // TODO: Ashblazing
-      x.ULT_SCALING += 6 * (ultScaling + ultBrokenScaling) + ultFinalScaling //
+      x.ULT_SCALING += 6 * (ultScaling + ultBrokenScaling) + ultFinalScaling
 
-      x.ULT_ORIGINAL_DMG_BOOST += (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0 //
+      x.ULT_ORIGINAL_DMG_BOOST += (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0
 
       if (e >= 6 && r.e6Buffs) {
         x.RES_PEN += 0.20
@@ -209,8 +209,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
+      // Ult is multi hit ashblazing
       if (r.weaknessBrokenUlt) {
-        // Ult is multi hit ashblazing
         const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultBrokenHitCountMulti)
         x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       } else {

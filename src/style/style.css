@@ -398,7 +398,7 @@ a {
     flex-grow: 0.5 !important;
 }
 
-.short-segmented > .ant-segmented-item-label{
+.short-segmented > .ant-segmented-item-label {
     padding: 0px !important;
 }
 
@@ -417,6 +417,7 @@ a {
 #relicGrid .ag-paging-page-summary-panel {
     display: none !important;
 }
+
 #relicGrid .ag-paging-row-summary-panel {
     padding-right: 10px !important;
 }
@@ -433,11 +434,17 @@ a {
 #optimizerGridContainer .ag-cell-value {
     font-size: 14px !important;
 }
+
 #optimizerGridContainer .ag-header-cell-text {
     font-size: 11px !important;
     font-weight: 400 !important;
 }
+
 #optimizerGridContainer .ag-header {
     height: 36px !important;
     min-height: 36px !important;
+}
+
+.ag-header-cell-filter-button {
+    display: none;
 }

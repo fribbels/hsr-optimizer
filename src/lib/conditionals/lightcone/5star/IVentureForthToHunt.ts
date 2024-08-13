@@ -8,19 +8,19 @@ import { BETA_UPDATE } from "lib/constants";
 import { buffAbilityDefShred } from "lib/optimizer/calculateBuffs";
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
-  const sValuesDefShred = [0.09, 0.10, 0.11, 0.12, 0.13]
+  const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
 
   const content: ContentItem[] = [
     {
       lc: true,
       formItem: 'slider',
-      id: 'luminfluxStacks',
-      name: 'luminfluxStacks',
+      id: 'luminfluxUltStacks',
+      name: 'luminfluxUltStacks',
       text: 'Luminflux stacks',
       title: 'Luminflux stacks',
       content: BETA_UPDATE,
       min: 0,
-      max: 6,
+      max: 2,
     },
   ]
 
@@ -28,12 +28,12 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     content: () => content,
     teammateContent: () => [],
     defaults: () => ({
-      luminfluxStacks: 6,
+      luminfluxUltStacks: 2,
     }),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      buffAbilityDefShred(x, ULT_TYPE, r.luminfluxStacks * sValuesDefShred[s])
+      buffAbilityDefShred(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s])
     },
     calculatePassives: (/* c, request */) => {
     },

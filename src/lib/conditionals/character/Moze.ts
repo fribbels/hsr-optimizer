@@ -13,10 +13,9 @@ export default (e: Eidolon): CharacterConditional => {
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.50, 1.65)
-  const ultScaling = ult(e, 3.50, 3.78)
-  const ultDmgBuffValue = ult(e, 0.50, 0.54)
+  const ultScaling = ult(e, 2.50, 2.70)
 
-  const fuaScaling = talent(e, 2.00, 2.20)
+  const fuaScaling = talent(e, 1.60, 1.76)
   const additionalDmgScaling = talent(e, 0.30, 0.33)
 
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.08 + 2 * 0.08 + 3 * 0.08 + 4 * 0.08 + 5 * 0.08 + 6 * 0.6)
@@ -32,49 +31,48 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'ultDmgBuff',
-      name: 'ultDmgBuff',
-      text: 'Ult DMG buff',
-      title: 'Ult DMG buff',
+      id: 'e2CdBoost',
+      name: 'e2CdBoost',
+      text: 'E2 CD boost',
+      title: 'E2 CD boost',
       content: BETA_UPDATE,
+      disabled: e < 2
     },
     {
       formItem: 'switch',
-      id: 'e1Buffs',
-      name: 'e1Buffs',
-      text: 'E1 FUA vulnerability',
-      title: 'E1 FUA vulnerability',
-      content: BETA_UPDATE,
-      disabled: e < 1
-    },
-    {
-      formItem: 'switch',
-      id: 'e4CdBoost',
-      name: 'e4CdBoost',
-      text: 'E4 CD boost',
-      title: 'E4 CD boost',
+      id: 'e4DmgBuff',
+      name: 'e4DmgBuff',
+      text: 'E4 DMG buff',
+      title: 'E4 DMG buff',
       content: BETA_UPDATE,
       disabled: e < 4
+    },
+    {
+      formItem: 'switch',
+      id: 'e6MultiplierIncrease',
+      name: 'e6MultiplierIncrease',
+      text: 'E6 FUA multiplier buff',
+      title: 'E6 FUA multiplier buff',
+      content: BETA_UPDATE,
+      disabled: e < 6
     },
   ]
 
   const teammateContent: ContentItem[] = [
     findContentId(content, 'preyMark'),
-    findContentId(content, 'e1Buffs'),
-    findContentId(content, 'e4CdBoost'),
+    findContentId(content, 'e2CdBoost'),
   ]
 
   const defaults = {
     preyMark: true,
-    ultDmgBuff: true,
-    e1Buffs: true,
-    e4CdBoost: true,
+    e2CdBoost: true,
+    e4DmgBuff: true,
+    e6MultiplierIncrease: true
   }
 
   const teammateDefaults = {
     preyMark: true,
-    e1Buffs: true,
-    e4CdBoost: true,
+    e2CdBoost: true,
   }
 
   return {
@@ -86,30 +84,30 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
-      x.ELEMENTAL_DMG += (r.ultDmgBuff) ? ultDmgBuffValue : 0
+      x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
 
-      if (e >= 1) {
-        x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
-      }
+      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
       x.BASIC_SCALING += basicScaling + ((r.preyMark) ? additionalDmgScaling : 0)
       x.SKILL_SCALING += skillScaling + ((r.preyMark) ? additionalDmgScaling : 0)
       x.FUA_SCALING += fuaScaling + ((r.preyMark) ? additionalDmgScaling : 0)
+      x.FUA_SCALING += (e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0
       x.ULT_SCALING += ultScaling + ((r.preyMark) ? additionalDmgScaling : 0)
+
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 90
-      x.FUA_TOUGHNESS_DMG += 60
+      x.FUA_TOUGHNESS_DMG += 30
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      buffAbilityVulnerability(x, FUA_TYPE, 0.25, (e >= 1 && m.e1Buffs && m.preyMark))
-      x[Stats.CD] += (m.preyMark) ? 0.20 : 0
-      x[Stats.CD] += (e >= 4 && m.e4CdBoost && m.preyMark) ? 0.20 : 0
+      buffAbilityVulnerability(x, FUA_TYPE, 0.25, (m.preyMark))
+
+      x[Stats.CD] += (e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },

@@ -13,7 +13,7 @@ export function exportRaw() {
 var _avatar = [
   {
     "_id": 1220,
-    "Ver": "2.5v1",
+    "Ver": "2.5v3",
     "Name": "Feixiao",
     "Desc": "The Xianzhou Yaoqing's Merlin's Claw and one of the Seven Arbiter-Generals. Her personality is unrestrained and frank, dashing and straightforward.<br>She is skilled in all forms of martial arts and has honed herself into a supreme weapon. She is widely adored by Xianzhou soldiers and civilians alike as \"The Vanquishing General.\"<br>However, she bears the burden of the Moon Rage affliction. If she were to hunt down all the abominations in her limited lifetime — Then the only enemy Feixiao has would be herself.",
     "Rarity": 5,
@@ -51,7 +51,7 @@ var _avatar = [
       "HP": 1047.816,
       "ATK": 601.524,
       "DEF": 388.08,
-      "SPD": 125.0,
+      "SPD": 112.0,
       "Aggro": 75.0
     },
     "CV": [
@@ -64,12 +64,14 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
     "_id": 1222,
-    "Ver": "2.5v1",
+    "Ver": "2.5v3",
     "Name": "Lingsha",
     "Desc": "The new Cauldron Master of the Xianzhou Luofu's Alchemy Commission. An intelligent and quick-witted Vidyadhara healer.<br>She has a sharp sense of smell and often uses this to diagnose illnesses, as well as utilizing incense to calm the minds of others.<br>She is adept at dealing with complicated social relationships. Though she might be fuming inside, her expression would remain calm and serene.",
     "Rarity": 5,
@@ -117,18 +119,20 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
     "_id": 1223,
-    "Ver": "2.5v1",
+    "Ver": "2.5v3",
     "Name": "Moze",
     "Desc": "A Shadow Guard of the Yaoqing. He is reticent and silent, always acting on his own.<br>As an expert in intelligence services and other affairs that must remain obscure, Moze rarely shows himself before others. The moment he shows his true capacities is usually the moment for his enemies to face death.<br>He has a wealth of knowledge regarding methods of assassination and seems to have an extraordinary obsession with tidiness and cleanliness.",
     "Rarity": 4,
     "Element": "Elec",
     "Path": "Hunt",
-    "SP": 110.0,
+    "SP": 120.0,
     "Skills": [
       122301,
       122302,
@@ -170,7 +174,9 @@ var _avatar = [
     "ISN": "",
     "ISD": "",
     "V": [
-      "v1"
+      "v1",
+      "v2",
+      "v3"
     ]
   },
   {
@@ -235,7 +241,7 @@ var _avatar = [
     "_id": 1221,
     "Ver": "2.4",
     "Name": "Yunli",
-    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She has learned swordplay and forging from Huaiyan since young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
+    "Desc": "A sword hunter from the Xianzhou Zhuming and \"the Flaming Heart\" General Huaiyan's darling granddaughter. Frank and straightforward.<br>She has learned swordplay and forging from Huaiyan since she was young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.<br>Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to \"hunt down and wipe out all cursed swords.\"",
     "Rarity": 5,
     "Element": "Phys",
     "Path": "Destruction",
@@ -3641,7 +3647,7 @@ var _item = {
     "Icon": "itemicon/110424.png"
   },
   "110425": {
-    "Name": "A glass of the Besotted Era",
+    "Name": "A Glass of the Besotted Era",
     "Icon": "itemicon/110425.png"
   },
   "110426": {
@@ -4440,991 +4446,43 @@ var _search_relic = {
 }
 
 var _changelog_relic = {
-  "v5": [],
-  "Live": [
-    {
-      "Icon": "71035.png",
-      "Name": "Forge of the Kalpagni Lantern",
-      "Changes": [
-        "@2P#Increase the wearer's SPD by <b>6.0%</b>. When the wearer hits enemy targets with Fire Weakness, the wearer's Break Effect increases by <b>40.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's SPD by <b>6.0%</b>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <b>40.0%</b>, lasting for <b>1.0</b> turn(s)."
-      ]
-    },
-    {
-      "Icon": "71034.png",
-      "Name": "Duran, Dynasty of Running Wolves",
-      "Changes": [
-        "@2P#When allies use follow-up attacks, the wearer receives 1 stack of Merit, stacking up to <b>5.0</b> times. Every stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>.<br>@↓↓#When allies use follow-up attacks, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> times. Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
-      ]
-    },
-    {
-      "Icon": "71033.png",
-      "Name": "The Wind-Soaring Valorous",
-      "Changes": [
-        "@2P#ATK increases by <b>12.0%</b>.<br>@↓↓#Increases ATK by <b>12.0%</b>.",
-        "@4P#Increases the wearer's CRIT Rate by <b>6.0%</b>. When the wearer uses a follow-up attack, increase the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's CRIT Rate by <b>6.0%</b>. When the wearer uses a follow-up attack, increases the DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
-      ]
-    },
-    {
-      "Icon": "71032.png",
-      "Name": "Iron Cavalry Against the Scourge",
-      "Changes": [
-        "@4P#If the wearer's Break Effect is <b>150.0%</b> or higher, ignores <b>10.0%</b> of the enemy target's DEF when dealing Break DMG to them. When the wearer's Break Effect is <b>250.0%</b> or higher, the Super Break DMG they deal to enemy targets additionally ignores <b>15.0%</b> of the targets' DEF.<br>@↓↓#If the wearer's Break Effect is <b>150.0%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10.0%</b> of their DEF. If the wearer's Break Effect is <b>250.0%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15.0%</b> of their DEF."
-      ]
-    },
-    {
-      "Icon": "71025.png",
-      "Name": "Prisoner in Deep Confinement",
-      "Changes": [
-        "@2P#ATK increases by <b>12.0%</b>.<br>@↓↓#Increases ATK by <b>12.0%</b>."
-      ]
-    },
-    {
-      "Icon": "71001.png",
-      "Name": "Musketeer of Wild Wheat",
-      "Changes": [
-        "@2P#ATK increases by <b>12.0%</b>.<br>@↓↓#Increases ATK by <b>12.0%</b>."
-      ]
-    }
-  ],
-  "v1": [
-    {
-      "Icon": "71033.png",
-      "Name": "The Wind-Soaring Valorous",
-      "Changes": [
-        "@4P#Increases the wearer's CRIT Rate by <b>6.0%</b>. When the wearer uses a follow-up attack, increases the DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
-      ]
-    }
-  ],
   "v2": [],
   "v3": [
     {
-      "Icon": "71034.png",
-      "Name": "Duran, Dynasty of Running Wolves",
+      "Icon": "71037.png",
+      "Name": "The Wondrous BananAmusement Park",
       "Changes": [
-        "@2P#When allies use follow-up attacks, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> times. Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>.<br>@↓↓#When an ally uses follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+        "@2P#Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>28.0%</b>.<br>@↓↓#Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32.0%</b>."
       ]
     },
     {
-      "Icon": "71022.png",
-      "Name": "Rutilant Arena",
+      "Icon": "71036.png",
+      "Name": "Lushaka, the Sunken Seas",
       "Changes": [
-        "@2P#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, the wearer's Basic ATK and Skill DMG increase by <b>20.0%</b>.<br>@↓↓#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>70.0%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20.0%</b>."
-      ]
-    },
-    {
-      "Icon": "71017.png",
-      "Name": "Inert Salsotto",
-      "Changes": [
-        "@2P#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the wearer's Ultimate and follow-up attack DMG increases by <b>15.0%</b>.<br>@↓↓#Increases the wearer's CRIT Rate by <b>8.0%</b>. When the wearer's current CRIT Rate reaches <b>50.0%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15.0%</b>."
-      ]
-    },
-    {
-      "Icon": "71033.png",
-      "Name": "The Wind-Soaring Valorous",
-      "Changes": [
-        "@4P#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases the DMG dealt by their Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s).<br>@↓↓#Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
-      ]
-    },
-    {
-      "Icon": "71025.png",
-      "Name": "Prisoner in Deep Confinement",
-      "Changes": [
-        "@4P#For every DoT the target enemy is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs.<br>@↓↓#For every DoT the enemy target is afflicted with, the wearer will ignore <b>6.0%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3.0</b> DoTs."
-      ]
-    },
-    {
-      "Icon": "71024.png",
-      "Name": "The Ashblazing Grand Duke",
-      "Changes": [
-        "@2P#Increases the DMG dealt by follow-up attacks by <b>20.0%</b>.<br>@↓↓#Increases the DMG dealt by follow-up attack by <b>20.0%</b>."
-      ]
-    },
-    {
-      "Icon": "71006.png",
-      "Name": "Firesmith of Lava-Forging",
-      "Changes": [
-        "@4P#Increases the wearer's Skill DMG by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack.<br>@↓↓#Increases DMG by the wearer's Skill by <b>12.0%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12.0%</b> for the next attack."
-      ]
-    },
-    {
-      "Icon": "71001.png",
-      "Name": "Musketeer of Wild Wheat",
-      "Changes": [
-        "@4P#The wearer's SPD increases by <b>6.0%</b> and Basic ATK DMG increases by <b>10.0%</b>.<br>@↓↓#The wearer's SPD increases by <b>6.0%</b> and DMG dealt by Basic ATK increases by <b>10.0%</b>."
+        "@2P#Increases the wearer's Effect RES by <b>10.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>16.0%</b>.<br>@↓↓#Increases the wearer's Effect RES by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>15.0%</b>."
       ]
     }
-  ],
-  "v4": []
+  ]
 }
 
 var _changelog_avatar = {
-  "1220": {},
+  "1220": {
+    "v3": [
+      "``Base Stats`- SPD 125.0 → 112.0 ;"
+    ]
+  },
   "1222": {},
-  "1223": {},
+  "1223": {
+    "v3": [
+      "``Base Stats`- Energy 110.0 → 120.0 ;"
+    ]
+  },
   "21047": {},
   "23031": {},
   "23032": {}
 }
 
 var _changelog_veradd = {
-  "v2": [
-    {
-      "Name": "March 7th (In-Depth Mechanics)",
-      "Notes": [
-        "``Master`When Master is unselectable (e.g. Svarog's hand), the effects provided by the Master will still work.<br>In v1, the effects will disappear if Master becomes unselectable."
-      ],
-      "Icon": "avataricon/avatar/1224.png",
-      "Priority": true
-    }
-  ],
-  "v3": [
-    {
-      "HP": [
-        30.0,
-        36.0
-      ],
-      "Name": "Stellaron Hunter: Sam",
-      "_id": 302402202,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_3024020.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 8012146,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214601,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214602,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214603,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214604,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 8012147,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214701,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214702,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214703,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "Stance": [
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214704,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        80.0,
-        85.0
-      ],
-      "Stance": [
-        [
-          0.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "All-Exterminating Star-Annihilation Beast",
-      "_id": 8015012,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        85.0
-      ],
-      "Stance": [
-        [
-          0.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "All-Exterminating Star-Annihilation Beast",
-      "_id": 801501201,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        85.0
-      ],
-      "Stance": [
-        [
-          0.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "All-Exterminating Star-Annihilation Beast",
-      "_id": 801501202,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        85.0
-      ],
-      "Stance": [
-        [
-          0.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "All-Exterminating Star-Annihilation Beast",
-      "_id": 801501203,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        85.0
-      ],
-      "Stance": [
-        [
-          0.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "All-Exterminating Star-Annihilation Beast",
-      "_id": 801501204,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    }
-  ],
-  "v5": [
-    {
-      "HP": [
-        80.0,
-        77.5
-      ],
-      "Name": "Soulhook Sovereign",
-      "_id": 2004014,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        77.5
-      ],
-      "Name": "Soulhook Sovereign",
-      "_id": 200401401,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        77.5
-      ],
-      "Name": "Soulhook Sovereign",
-      "_id": 200401402,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        77.5
-      ],
-      "Name": "Soulhook Sovereign",
-      "_id": 200401403,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
-    },
-    {
-      "HP": [
-        80.0,
-        77.5
-      ],
-      "Name": "Soulhook Sovereign",
-      "_id": 200401404,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_2004010.png"
-    },
-    {
-      "Stance": [
-        [
-          12.0,
-          []
-        ],
-        [
-          10.0,
-          []
-        ]
-      ],
-      "Name": "Blaze Out of Space",
-      "_id": 800302201,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8003020.png"
-    },
-    {
-      "Stance": [
-        [
-          12.0,
-          []
-        ],
-        [
-          10.0,
-          []
-        ]
-      ],
-      "Name": "Blaze Out of Space",
-      "_id": 800302202,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8003020.png"
-    },
-    {
-      "Stance": [
-        [
-          12.0,
-          []
-        ],
-        [
-          10.0,
-          []
-        ]
-      ],
-      "Name": "Blaze Out of Space",
-      "_id": 800302203,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8003020.png"
-    },
-    {
-      "Stance": [
-        [
-          12.0,
-          []
-        ],
-        [
-          10.0,
-          []
-        ]
-      ],
-      "Name": "Blaze Out of Space",
-      "_id": 800302204,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8003020.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 8012146,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214601,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214602,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214603,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Ice"
-          ]
-        ]
-      ],
-      "Name": "Disaster's Right Hand",
-      "_id": 801214604,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012140.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 8012147,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214701,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214702,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214703,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        16.0,
-        15.0
-      ],
-      "Stance": [
-        [
-          11.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ],
-        [
-          10.0,
-          [
-            "Phys",
-            "Fire",
-            "Wind"
-          ]
-        ]
-      ],
-      "Name": "Dawn's Left Hand",
-      "_id": 801214704,
-      "Rank": 0,
-      "Icon": "mostericon/Monster_8012142.png"
-    },
-    {
-      "HP": [
-        85.0,
-        82.5
-      ],
-      "Name": "Starbane Doombringer",
-      "_id": 8015012,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        85.0,
-        82.5
-      ],
-      "Name": "Starbane Doombringer",
-      "_id": 801501201,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        85.0,
-        82.5
-      ],
-      "Name": "Starbane Doombringer",
-      "_id": 801501202,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        85.0,
-        82.5
-      ],
-      "Name": "Starbane Doombringer",
-      "_id": 801501203,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    },
-    {
-      "HP": [
-        85.0,
-        82.5
-      ],
-      "Name": "Starbane Doombringer",
-      "_id": 801501204,
-      "Rank": 1,
-      "Icon": "mostericon/Monster_8015010.png"
-    }
-  ],
   "v1": [
     {
       "HP": [
@@ -5532,10 +4590,736 @@ var _changelog_veradd = {
       "Rank": 0,
       "Icon": "mostericon/Monster_3013010.png"
     }
+  ],
+  "v2": [
+    {
+      "HP": [
+        125.0,
+        92.5
+      ],
+      "Name": "Cloud Knight Lieutenant: Yanqing (Complete)",
+      "_id": 200402101,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2004020.png"
+    },
+    {
+      "SPD": [
+        95.0,
+        86.0
+      ],
+      "Name": "Part 1",
+      "_id": 2032041,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2032040.png"
+    },
+    {
+      "SPD": [
+        130.0,
+        118.0
+      ],
+      "Name": "Part 2",
+      "_id": 2032051,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2032050.png"
+    },
+    {
+      "SPD": [
+        115.0,
+        104.0
+      ],
+      "Name": "Part 3",
+      "_id": 2032061,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2032060.png"
+    },
+    {
+      "HP": [
+        13.0,
+        50.0
+      ],
+      "SPD": [
+        120.0,
+        108.0
+      ],
+      "Name": "Xianzhou Boss",
+      "_id": 2035011,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_2035010.png"
+    },
+    {
+      "HP": [
+        115.0,
+        87.5
+      ],
+      "Name": "Unit-01",
+      "_id": 300205201,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_3002052.png"
+    }
+  ],
+  "v3": [
+    {
+      "HP": [
+        285.0,
+        310.0
+      ],
+      "Name": "Topaz Illusion",
+      "_id": 100401501,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_1004010.png"
+    },
+    {
+      "HP": [
+        0.05001,
+        2.0
+      ],
+      "Name": "Auxiliary Robot Arm Unit",
+      "_id": 101204101,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_1012040.png"
+    },
+    {
+      "HP": [
+        87.5,
+        100.0
+      ],
+      "Name": "Svarog",
+      "_id": 1014014,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_1014010.png"
+    },
+    {
+      "HP": [
+        105.0,
+        150.0
+      ],
+      "Name": "Svarog",
+      "_id": 1014015,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_1014010.png"
+    },
+    {
+      "HP": [
+        19.0,
+        12.0
+      ],
+      "Name": "Aurumaton Spectral Envoy",
+      "_id": 201302010,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2013020.png"
+    },
+    {
+      "HP": [
+        5.0,
+        3.5
+      ],
+      "Name": "Part 1",
+      "_id": 2032040,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2032040.png"
+    },
+    {
+      "HP": [
+        5.0,
+        3.5
+      ],
+      "Name": "Part 1",
+      "_id": 2032041,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2032040.png"
+    },
+    {
+      "HP": [
+        30.0,
+        25.0
+      ],
+      "Name": "Borisin Warhead: Hoolay",
+      "_id": 2034010,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_2034010.png"
+    },
+    {
+      "HP": [
+        85.0,
+        105.0
+      ],
+      "Name": "Memory Zone Meme \"Something Unto Death\"",
+      "_id": 3014023,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_3014020.png"
+    },
+    {
+      "HP": [
+        75.0,
+        80.0
+      ],
+      "Name": "Opportunistic Provocateur",
+      "_id": 8015022,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015020.png"
+    },
+    {
+      "HP": [
+        75.0,
+        80.0
+      ],
+      "Name": "Opportunistic Provocateur",
+      "_id": 801502201,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015020.png"
+    },
+    {
+      "HP": [
+        75.0,
+        80.0
+      ],
+      "Name": "Opportunistic Provocateur",
+      "_id": 801502202,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015020.png"
+    },
+    {
+      "HP": [
+        75.0,
+        80.0
+      ],
+      "Name": "Opportunistic Provocateur",
+      "_id": 801502203,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015020.png"
+    },
+    {
+      "HP": [
+        75.0,
+        80.0
+      ],
+      "Name": "Opportunistic Provocateur",
+      "_id": 801502204,
+      "Rank": 1,
+      "Icon": "mostericon/Monster_8015020.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing\"",
+      "_id": 8032033,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032030.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing\"",
+      "_id": 803203301,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032030.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing\"",
+      "_id": 803203302,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032030.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing\"",
+      "_id": 803203303,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032030.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing\"",
+      "_id": 803203304,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032030.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing: Double Fortune\"",
+      "_id": 8032034,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032034.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing: Double Fortune\"",
+      "_id": 803203401,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032034.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing: Double Fortune\"",
+      "_id": 803203402,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032034.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing: Double Fortune\"",
+      "_id": 803203403,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032034.png"
+    },
+    {
+      "HP": [
+        5.5,
+        2.5
+      ],
+      "Stance": [
+        [
+          3.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          3.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "\"All or Nothing: Double Fortune\"",
+      "_id": 803203404,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8032034.png"
+    },
+    {
+      "HP": [
+        115.0,
+        130.0
+      ],
+      "Name": "Senior Staff: Team Leader",
+      "_id": 803301007,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8033010.png"
+    },
+    {
+      "HP": [
+        75.0,
+        87.5
+      ],
+      "Stance": [
+        [
+          20.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          19.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Daring Diceroller",
+      "_id": 8034012,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8034010.png"
+    },
+    {
+      "HP": [
+        75.0,
+        87.5
+      ],
+      "Stance": [
+        [
+          20.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          19.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Daring Diceroller",
+      "_id": 803401201,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8034010.png"
+    },
+    {
+      "HP": [
+        75.0,
+        87.5
+      ],
+      "Stance": [
+        [
+          20.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          19.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Daring Diceroller",
+      "_id": 803401202,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8034010.png"
+    },
+    {
+      "HP": [
+        75.0,
+        87.5
+      ],
+      "Stance": [
+        [
+          20.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          19.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Daring Diceroller",
+      "_id": 803401203,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8034010.png"
+    },
+    {
+      "HP": [
+        75.0,
+        87.5
+      ],
+      "Stance": [
+        [
+          20.0,
+          [
+            "Phys",
+            "Fire",
+            "Ice",
+            "Wind"
+          ]
+        ],
+        [
+          19.0,
+          [
+            "Phys",
+            "Ice",
+            "Elec",
+            "Wind"
+          ]
+        ]
+      ],
+      "Name": "Daring Diceroller",
+      "_id": 803401204,
+      "Rank": 0,
+      "Icon": "mostericon/Monster_8034010.png"
+    }
   ]
 }
 
 var _hidden = [
+  {
+    "Name": "2.6+ Pure Fiction",
+    "Date": "2024/08/15",
+    "Ver": "2.5v3",
+    "Hidden": true,
+    "Notes": [
+      {
+        "Title": "Main Blessing",
+        "Desc": "• When using Skill, deals fixed extra DMG to every unit hit, and charges Grit according to the number of units hit. Also charges Grit upon defeating an enemy<br>• When Grit is fully charged, enters @Grit Aura#, a countdown appears on the action bar, and all allies' action is advanced.<br>• During Grit Aura, when using Skill, deal higher extra fixed DMG to every unit hit and their adjacent units. (So the central target of an AoE takes 3x DMG)"
+      },
+      {
+        "Title": "Sub Blessing 1",
+        "Hidden": true,
+        "Desc": "• During Grit Aura, using Skill will not consume Skill Points.<br>• For every unit hit by a Skill, increases the character's SPD and DMG dealt by their Skill, stackable, lasts until Grit Aura ends."
+      },
+      {
+        "Title": "Sub Blessing 2",
+        "Hidden": true,
+        "Desc": "• Follow-up attacks can also charge Grit.<br>• During Grit Aura, increases the DMG dealt by follow-up attacks."
+      },
+      {
+        "Title": "Sub Blessing 3",
+        "Hidden": true,
+        "Desc": "• Weakness Breaks can also charge Grit.<br>• During Grit Aura, increases all allies' Break DMG, and advances their action upon triggering Weakness Break."
+      }
+    ]
+  },
+  {
+    "Name": "\"Harmonious Choir\" The Great Septimus (Apocalyptic Shadow)",
+    "Date": "2024/08/15",
+    "Ver": "2.5v3",
+    "Hidden": true,
+    "Notes": [
+      {
+        "Title": "",
+        "Desc": "His abilities are incomplete, but currently does not have the Steadfast Safeguard passive. Maybe it's just not added yet, or maybe they decided to give him another passive."
+      },
+      {
+        "Title": "Phase 1",
+        "Desc": "• Has the abilities of both Phase 1 and 2 of the ordinary Septimus, and shares HP with all summons.<br>• When charging Volteggiando, breaking the Weakness of the summons will grant stackable SPD boosts to all characters.<br>• When charging Tempestoso, summons recover their Toughness after being Weakness Broken, and deals high Toughness DMG to Septimus."
+      },
+      {
+        "Title": "Phase 2",
+        "Desc": "• Ascends into \"Embryo of Philosophy\" Sunday and gains all Weakness types."
+      }
+    ]
+  },
+  {
+    "Name": "Quantum & Imaginary Destruction",
+    "Date": "2024/07/30",
+    "Ver": "2.5v1",
+    "Notes": [
+      {
+        "Title": "Quantum Destruction & Imaginary Destruction",
+        "Desc": "• A pair of future characters. Names unknown. Probably not anyone we already know (e.g. Rappa, Algaea, ...).<br>• Both may consume HP in battle, and both require Max HP stats."
+      }
+    ]
+  },
   {
     "Name": "Algaea & \"Remembrance\"",
     "Date": "2024/07/14",
@@ -5691,10 +5475,15 @@ var _hidden = [
   }
 ]
 
-var cl_select = {}
+var cl_select = {
+  "v2 - v3": 2,
+  "v1 - v2": 1
+}
 
 var cl_vers = [
-  "v1"
+  "v1",
+  "v2",
+  "v3"
 ]
 
 var _diff_avatar = [
@@ -7588,7 +7377,7 @@ var _relic = [
     "Name": "The Wondrous BananAmusement Park",
     "Icon": "71037.png",
     "Skills": [
-      "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>28.0%</b>."
+      "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32.0%</b>."
     ]
   },
   {
@@ -7596,7 +7385,7 @@ var _relic = [
     "Name": "Lushaka, the Sunken Seas",
     "Icon": "71036.png",
     "Skills": [
-      "Increases the wearer's Effect RES by <b>10.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>16.0%</b>."
+      "Increases the wearer's Effect RES by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>15.0%</b>."
     ]
   },
   {
@@ -7955,6 +7744,96 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Normal"
+    },
+    "v2": {
+      "Name": "Boltsunder",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Normal"
+    },
+    "v3": {
+      "Name": "Boltsunder",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Normal"
     }
   },
   "122002": {
@@ -7963,7 +7842,7 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Skill",
       "Tag": "Single Target",
-      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy, then <u>Advances Forward</u> Feixiao's next action by @<b>#2[p]</b>#.<br><br>@<b>Action Advanced</b>#<br>Reduces the target's waiting interval before the next action.",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy, then <u>Advances Forward</u> Feixiao's next action by @<b>#2[p]</b>#.",
       "Params": [
         [
           1.2,
@@ -8035,6 +7914,147 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_BP"
+    },
+    "v2": {
+      "Name": "Waraxe",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single target enemy, then <u>Advances Forward</u> Feixiao's next action by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          1.2,
+          0.05
+        ],
+        [
+          1.32,
+          0.055
+        ],
+        [
+          1.44,
+          0.06
+        ],
+        [
+          1.56,
+          0.065
+        ],
+        [
+          1.68,
+          0.07
+        ],
+        [
+          1.8,
+          0.075
+        ],
+        [
+          1.95,
+          0.08125
+        ],
+        [
+          2.1,
+          0.0875
+        ],
+        [
+          2.25,
+          0.09375
+        ],
+        [
+          2.4,
+          0.1
+        ],
+        [
+          2.52,
+          0.105
+        ],
+        [
+          2.64,
+          0.11
+        ],
+        [
+          2.76,
+          0.115
+        ],
+        [
+          2.88,
+          0.12
+        ],
+        [
+          3.0,
+          0.125
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_BP"
+    },
+    "v3": {
+      "Name": "Waraxe",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to an enemy, and immediately launches Talent's <u>follow-up attack</u> against the target 1 time.",
+      "Params": [
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ],
+        [
+          1.4
+        ],
+        [
+          1.5
+        ],
+        [
+          1.625
+        ],
+        [
+          1.75
+        ],
+        [
+          1.875
+        ],
+        [
+          2.0
+        ],
+        [
+          2.1
+        ],
+        [
+          2.2
+        ],
+        [
+          2.3
+        ],
+        [
+          2.4
+        ],
+        [
+          2.5
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_BP"
     }
   },
   "122003": {
@@ -8043,7 +8063,7 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Ultimate",
       "Tag": "Single Target",
-      "Desc": "Deals Wind DMG equal to @<b>#4[p]</b># – @<b>#5[p]</b># of Feixiao's ATK to a single enemy, reducing its Toughness regardless of Weakness Type. If the target is not <u>Weakness Broken</u>, Feixiao's Weakness Break Efficiency increases by <b>#7[p]</b>.<br>During the attack, Feixiao first launches Boltsunder Blitz or Waraxe Skyward multiple times, until Flying Aureus is depleted.<br>After that, she launches the final hit: For every point of Flying Aureus consumed, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to the target. If the target is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#6[p]</b>#.<br>From hit no. <b>#3[f]</b> onward, if the target's HP is 0, reserves the remaining Flying Aureus and launches the final hit immediately.<br>Hidden Stat: #2[f]<br><br>@<b>Weakness Break State</b>#<br>When enemy targets' Toughness is reduced to 0, they will enter the Weakness Break State, which delays their actions.",
+      "Desc": "Deals Wind DMG equal to @<b>#4[p]</b># – @<b>#5[p]</b># of Feixiao's ATK to a single enemy, reducing its Toughness regardless of Weakness Type. If the target is not <u>Weakness Broken</u>, Feixiao's Weakness Break Efficiency increases by <b>#7[p]</b>.<br>During the attack, Feixiao first launches Boltsunder Blitz or Waraxe Skyward multiple times, until Flying Aureus is depleted.<br>After that, she launches the final hit: For every point of Flying Aureus consumed, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to the target. If the target is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#6[p]</b>#.<br>From hit no. <b>#3[f]</b> onward, if the target's HP is 0, reserves the remaining Flying Aureus and launches the final hit immediately.<br>Hidden Stat: #2[f]",
       "Params": [
         [
           0.06,
@@ -8191,6 +8211,269 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v2": {
+      "Name": "Terrasplit",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#4[p]</b># – @<b>#5[p]</b># of Feixiao's ATK to a single enemy, reducing its Toughness regardless of Weakness Type. If the target is not <u>Weakness Broken</u>, Feixiao's Weakness Break Efficiency increases by <b>#7[p]</b>.<br>During the attack, Feixiao first launches Boltsunder Blitz or Waraxe Skyward multiple times, until Flying Aureus is depleted.<br>After that, she launches the final hit: For every point of Flying Aureus consumed, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to the target. If the target is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#6[p]</b>#.<br>From hit no. <b>#3[f]</b> onward, if the target's HP is 0, reserves the remaining Flying Aureus and launches the final hit immediately.<br>Hidden Stat: #2[f]",
+      "Params": [
+        [
+          0.06,
+          12.0,
+          6.0,
+          5.04,
+          10.08,
+          0.09,
+          1.0
+        ],
+        [
+          0.064,
+          12.0,
+          6.0,
+          5.376,
+          10.752,
+          0.096,
+          1.0
+        ],
+        [
+          0.068,
+          12.0,
+          6.0,
+          5.712,
+          11.424,
+          0.102,
+          1.0
+        ],
+        [
+          0.072,
+          12.0,
+          6.0,
+          6.048,
+          12.096,
+          0.108,
+          1.0
+        ],
+        [
+          0.076,
+          12.0,
+          6.0,
+          6.384,
+          12.768,
+          0.114,
+          1.0
+        ],
+        [
+          0.08,
+          12.0,
+          6.0,
+          6.72,
+          13.44,
+          0.12,
+          1.0
+        ],
+        [
+          0.085,
+          12.0,
+          6.0,
+          7.14,
+          14.28,
+          0.1275,
+          1.0
+        ],
+        [
+          0.09,
+          12.0,
+          6.0,
+          7.56,
+          15.12,
+          0.135,
+          1.0
+        ],
+        [
+          0.095,
+          12.0,
+          6.0,
+          7.98,
+          15.96,
+          0.1425,
+          1.0
+        ],
+        [
+          0.1,
+          12.0,
+          6.0,
+          8.4,
+          16.8,
+          0.15,
+          1.0
+        ],
+        [
+          0.104,
+          12.0,
+          6.0,
+          8.736,
+          17.472,
+          0.156,
+          1.0
+        ],
+        [
+          0.108,
+          12.0,
+          6.0,
+          9.072,
+          18.144,
+          0.162,
+          1.0
+        ],
+        [
+          0.112,
+          12.0,
+          6.0,
+          9.408,
+          18.816,
+          0.168,
+          1.0
+        ],
+        [
+          0.116,
+          12.0,
+          6.0,
+          9.744,
+          19.488,
+          0.174,
+          1.0
+        ],
+        [
+          0.12,
+          12.0,
+          6.0,
+          10.08,
+          20.16,
+          0.18,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "SPNeed": 6.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v3": {
+      "Name": "Terrasplit",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#4[p]</b># of Feixiao's ATK to a single enemy, reducing its Toughness regardless of Weakness Type. If the target is not <u>Weakness Broken</u>, Feixiao's Weakness Break Efficiency increases by <b>#2[p]</b>.<br>During the attack, Feixiao first launches Boltsunder Blitz or Waraxe Skyward, for a total of <b>#3[f]</b> times.<br>Finally, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to the target.",
+      "Params": [
+        [
+          0.96,
+          1.0,
+          6.0,
+          4.02
+        ],
+        [
+          1.024,
+          1.0,
+          6.0,
+          4.318
+        ],
+        [
+          1.088,
+          1.0,
+          6.0,
+          4.616
+        ],
+        [
+          1.152,
+          1.0,
+          6.0,
+          4.914
+        ],
+        [
+          1.216,
+          1.0,
+          6.0,
+          5.212
+        ],
+        [
+          1.28,
+          1.0,
+          6.0,
+          5.51
+        ],
+        [
+          1.36,
+          1.0,
+          6.0,
+          5.8825
+        ],
+        [
+          1.44,
+          1.0,
+          6.0,
+          6.255
+        ],
+        [
+          1.52,
+          1.0,
+          6.0,
+          6.6275
+        ],
+        [
+          1.6,
+          1.0,
+          6.0,
+          7.0
+        ],
+        [
+          1.664,
+          1.0,
+          6.0,
+          7.298
+        ],
+        [
+          1.728,
+          1.0,
+          6.0,
+          7.596
+        ],
+        [
+          1.792,
+          1.0,
+          6.0,
+          7.894
+        ],
+        [
+          1.856,
+          1.0,
+          6.0,
+          8.192
+        ],
+        [
+          1.92,
+          1.0,
+          6.0,
+          8.49
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "SPNeed": 6.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra"
     }
   },
   "122004": {
@@ -8199,7 +8482,7 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Talent",
       "Tag": "Single Target",
-      "Desc": "The Ultimate can be activated when Flying Aureus reaches <b>#3[f]</b> points, up to <b>#4[f]</b> points. Feixiao gains 1 point of Flying Aureus for every <b>#2[f]</b> attacks used by allies. Attacks from Feixiao's Ultimate are not counted.<br>After other teammates use an attack, Feixiao launches <u>follow-up attacks</u> against the primary target, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK. If no primary targets are available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger 1 time per turn and the trigger count is reset at the start of Feixiao's turn.<br>Hidden Stat: #5[f]<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.",
+      "Desc": "The Ultimate can be activated when Flying Aureus reaches <b>#3[f]</b> points, up to <b>#4[f]</b> points. Feixiao gains 1 point of Flying Aureus for every <b>#2[f]</b> attacks used by allies. Attacks from Feixiao's Ultimate are not counted.<br>After other teammates use an attack, Feixiao launches <u>follow-up attacks</u> against the primary target, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK. If no primary targets are available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger 1 time per turn and the trigger count is reset at the start of Feixiao's turn.<br>Hidden Stat: #5[f]",
       "Params": [
         [
           1.0,
@@ -8315,6 +8598,265 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Passive"
+    },
+    "v2": {
+      "Name": "Thunderhunt",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "The Ultimate can be activated when Flying Aureus reaches <b>#3[f]</b> points, up to <b>#4[f]</b> points. Feixiao gains 1 point of Flying Aureus for every <b>#2[f]</b> attacks used by allies. Attacks from Feixiao's Ultimate are not counted.<br>After other teammates use an attack, Feixiao launches <u>follow-up attacks</u> against the primary target, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK. If no primary targets are available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger 1 time per turn and the trigger count is reset at the start of Feixiao's turn.<br>Hidden Stat: #5[f]",
+      "Params": [
+        [
+          1.0,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.1,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.2,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.3,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.4,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.5,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.625,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.75,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          1.875,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.0,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.1,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.2,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.3,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.4,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ],
+        [
+          2.5,
+          2.0,
+          6.0,
+          12.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Passive"
+    },
+    "v3": {
+      "Name": "Thunderhunt",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "The Ultimate can be activated when Flying Aureus reaches <b>#3[f]</b> points, up to <b>#4[f]</b> points. Feixiao gains 1 point of Flying Aureus for every <b>#2[f]</b> attacks used by ally targets. Attacks from Feixiao's Ultimate are not counted.<br>After other teammates use an attack against an enemy, Feixiao immediately launches <u>follow-up attacks</u> against the primary target, deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK. If no primary targets are available to attack, Feixiao attacks a single random enemy instead. This effect can only trigger 1 time per turn and the trigger count is reset at the start of Feixiao's turn. When using this attack, increases DMG dealt by Feixiao by @<b>#5[p]</b>#, lasting for <b>#6[f]</b> turn(s).",
+      "Params": [
+        [
+          0.55,
+          2.0,
+          6.0,
+          12.0,
+          0.3,
+          2.0
+        ],
+        [
+          0.605,
+          2.0,
+          6.0,
+          12.0,
+          0.33,
+          2.0
+        ],
+        [
+          0.66,
+          2.0,
+          6.0,
+          12.0,
+          0.36,
+          2.0
+        ],
+        [
+          0.715,
+          2.0,
+          6.0,
+          12.0,
+          0.39,
+          2.0
+        ],
+        [
+          0.77,
+          2.0,
+          6.0,
+          12.0,
+          0.42,
+          2.0
+        ],
+        [
+          0.825,
+          2.0,
+          6.0,
+          12.0,
+          0.45,
+          2.0
+        ],
+        [
+          0.89375,
+          2.0,
+          6.0,
+          12.0,
+          0.4875,
+          2.0
+        ],
+        [
+          0.9625,
+          2.0,
+          6.0,
+          12.0,
+          0.525,
+          2.0
+        ],
+        [
+          1.03125,
+          2.0,
+          6.0,
+          12.0,
+          0.5625,
+          2.0
+        ],
+        [
+          1.1,
+          2.0,
+          6.0,
+          12.0,
+          0.6,
+          2.0
+        ],
+        [
+          1.155,
+          2.0,
+          6.0,
+          12.0,
+          0.63,
+          2.0
+        ],
+        [
+          1.21,
+          2.0,
+          6.0,
+          12.0,
+          0.66,
+          2.0
+        ],
+        [
+          1.265,
+          2.0,
+          6.0,
+          12.0,
+          0.69,
+          2.0
+        ],
+        [
+          1.32,
+          2.0,
+          6.0,
+          12.0,
+          0.72,
+          2.0
+        ],
+        [
+          1.375,
+          2.0,
+          6.0,
+          12.0,
+          0.75,
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Passive"
     }
   },
   "122006": {
@@ -8336,10 +8878,100 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Normal"
+    },
+    "v3": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Normal"
     }
   },
   "122007": {
     "v1": {
+      "Name": "Stormborn",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using the Technique, this character enters the Onrush state, lasting for <b>#1[f]</b> seconds. While in the Onrush state, this character pulls in enemies within a certain range, increases SPD by <b>#2[p]</b>, and receives <b>#4[f]</b> point(s) of Flying Aureus after entering battle.<br>Active attacks in the Onrush state will strike all pulled enemies and enter combat. After entering battle, deal Wind DMG equal to <b>#3[p]</b> of Feixiao's ATK to all enemies at the start of each wave. This DMG is guaranteed to CRIT. When more than 1 enemy is pulled in, increase the multiplier of this DMG by <b>#5[p]</b> for each additional enemy pulled in, up to an increase of <b>#6[p]</b>.",
+      "Params": [
+        [
+          20.0,
+          0.35,
+          2.0,
+          1.0,
+          1.0,
+          10.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Maze"
+    },
+    "v2": {
+      "Name": "Stormborn",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using the Technique, this character enters the Onrush state, lasting for <b>#1[f]</b> seconds. While in the Onrush state, this character pulls in enemies within a certain range, increases SPD by <b>#2[p]</b>, and receives <b>#4[f]</b> point(s) of Flying Aureus after entering battle.<br>Active attacks in the Onrush state will strike all pulled enemies and enter combat. After entering battle, deal Wind DMG equal to <b>#3[p]</b> of Feixiao's ATK to all enemies at the start of each wave. This DMG is guaranteed to CRIT. When more than 1 enemy is pulled in, increase the multiplier of this DMG by <b>#5[p]</b> for each additional enemy pulled in, up to an increase of <b>#6[p]</b>.",
+      "Params": [
+        [
+          20.0,
+          0.35,
+          2.0,
+          1.0,
+          1.0,
+          10.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Maze"
+    },
+    "v3": {
       "Name": "Stormborn",
       "MaxLevel": 1,
       "Type": "Technique",
@@ -8444,6 +9076,162 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Ultra_on_02"
+    },
+    "v2": {
+      "Name": "Boltsunder Blitz",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.45,
+          0.24
+        ],
+        [
+          0.48,
+          0.256
+        ],
+        [
+          0.51,
+          0.272
+        ],
+        [
+          0.54,
+          0.288
+        ],
+        [
+          0.57,
+          0.304
+        ],
+        [
+          0.6,
+          0.32
+        ],
+        [
+          0.6375,
+          0.34
+        ],
+        [
+          0.675,
+          0.36
+        ],
+        [
+          0.7125,
+          0.38
+        ],
+        [
+          0.75,
+          0.4
+        ],
+        [
+          0.78,
+          0.416
+        ],
+        [
+          0.81,
+          0.432
+        ],
+        [
+          0.84,
+          0.448
+        ],
+        [
+          0.87,
+          0.464
+        ],
+        [
+          0.9,
+          0.48
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_02"
+    },
+    "v3": {
+      "Name": "Boltsunder Blitz",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.36,
+          0.15
+        ],
+        [
+          0.384,
+          0.165
+        ],
+        [
+          0.408,
+          0.18
+        ],
+        [
+          0.432,
+          0.195
+        ],
+        [
+          0.456,
+          0.21
+        ],
+        [
+          0.48,
+          0.225
+        ],
+        [
+          0.51,
+          0.24375
+        ],
+        [
+          0.54,
+          0.2625
+        ],
+        [
+          0.57,
+          0.28125
+        ],
+        [
+          0.6,
+          0.3
+        ],
+        [
+          0.624,
+          0.315
+        ],
+        [
+          0.648,
+          0.33
+        ],
+        [
+          0.672,
+          0.345
+        ],
+        [
+          0.696,
+          0.36
+        ],
+        [
+          0.72,
+          0.375
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_02"
     }
   },
   "122009": {
@@ -8524,6 +9312,162 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1220_Ultra_on_03"
+    },
+    "v2": {
+      "Name": "Waraxe Skyward",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is not <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.45,
+          0.24
+        ],
+        [
+          0.48,
+          0.256
+        ],
+        [
+          0.51,
+          0.272
+        ],
+        [
+          0.54,
+          0.288
+        ],
+        [
+          0.57,
+          0.304
+        ],
+        [
+          0.6,
+          0.32
+        ],
+        [
+          0.6375,
+          0.34
+        ],
+        [
+          0.675,
+          0.36
+        ],
+        [
+          0.7125,
+          0.38
+        ],
+        [
+          0.75,
+          0.4
+        ],
+        [
+          0.78,
+          0.416
+        ],
+        [
+          0.81,
+          0.432
+        ],
+        [
+          0.84,
+          0.448
+        ],
+        [
+          0.87,
+          0.464
+        ],
+        [
+          0.9,
+          0.48
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_03"
+    },
+    "v3": {
+      "Name": "Waraxe Skyward",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Wind DMG equal to @<b>#1[p]</b># of Feixiao's ATK to a single enemy. If the target enemy is not <u>Weakness Broken</u>, the DMG multiplier increases by @<b>#2[p]</b>#.",
+      "Params": [
+        [
+          0.36,
+          0.15
+        ],
+        [
+          0.384,
+          0.165
+        ],
+        [
+          0.408,
+          0.18
+        ],
+        [
+          0.432,
+          0.195
+        ],
+        [
+          0.456,
+          0.21
+        ],
+        [
+          0.48,
+          0.225
+        ],
+        [
+          0.51,
+          0.24375
+        ],
+        [
+          0.54,
+          0.2625
+        ],
+        [
+          0.57,
+          0.28125
+        ],
+        [
+          0.6,
+          0.3
+        ],
+        [
+          0.624,
+          0.315
+        ],
+        [
+          0.648,
+          0.33
+        ],
+        [
+          0.672,
+          0.345
+        ],
+        [
+          0.696,
+          0.36
+        ],
+        [
+          0.72,
+          0.375
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra_on_03"
     }
   },
   "122014": {
@@ -8555,6 +9499,72 @@ var _avatarskill = {
       "AttackType": "Ultra",
       "Stance": [
         0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v2": {
+      "Name": "Terrasplit",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "",
+      "Params": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v3": {
+      "Name": "Terrasplit",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "",
+      "Params": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.0,
         0.0,
         0.0
       ],
@@ -8606,6 +9616,96 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1222_Normal"
+    },
+    "v2": {
+      "Name": "Votive Incense",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to a single target enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
+    },
+    "v3": {
+      "Name": "Votive Incense",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to a single target enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
     }
   },
   "122202": {
@@ -8614,7 +9714,223 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Skill",
       "Tag": "AoE",
-      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies, and <u>Action Advances</u> Fuyuan by <b>#4[p]</b>.<br><br>@<b>Action Advanced</b>#<br>Reduces the target's waiting interval before the next action.",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies, and <u>Action Advances</u> Fuyuan by <b>#4[p]</b>.",
+      "Params": [
+        [
+          0.4,
+          0.1,
+          105.0,
+          0.2
+        ],
+        [
+          0.44,
+          0.105,
+          168.0,
+          0.2
+        ],
+        [
+          0.48,
+          0.11,
+          215.25,
+          0.2
+        ],
+        [
+          0.52,
+          0.115,
+          262.5,
+          0.2
+        ],
+        [
+          0.56,
+          0.12,
+          294.0,
+          0.2
+        ],
+        [
+          0.6,
+          0.124,
+          325.5,
+          0.2
+        ],
+        [
+          0.65,
+          0.128,
+          349.125,
+          0.2
+        ],
+        [
+          0.7,
+          0.132,
+          372.75,
+          0.2
+        ],
+        [
+          0.75,
+          0.136,
+          396.375,
+          0.2
+        ],
+        [
+          0.8,
+          0.14,
+          420.0,
+          0.2
+        ],
+        [
+          0.84,
+          0.144,
+          443.625,
+          0.2
+        ],
+        [
+          0.88,
+          0.148,
+          467.25,
+          0.2
+        ],
+        [
+          0.92,
+          0.152,
+          490.875,
+          0.2
+        ],
+        [
+          0.96,
+          0.156,
+          514.5,
+          0.2
+        ],
+        [
+          1.0,
+          0.16,
+          538.125,
+          0.2
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_BP"
+    },
+    "v2": {
+      "Name": "Smoke and Splendor",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "AoE",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies, and <u>Action Advances</u> Fuyuan by <b>#4[p]</b>.",
+      "Params": [
+        [
+          0.4,
+          0.1,
+          105.0,
+          0.2
+        ],
+        [
+          0.44,
+          0.105,
+          168.0,
+          0.2
+        ],
+        [
+          0.48,
+          0.11,
+          215.25,
+          0.2
+        ],
+        [
+          0.52,
+          0.115,
+          262.5,
+          0.2
+        ],
+        [
+          0.56,
+          0.12,
+          294.0,
+          0.2
+        ],
+        [
+          0.6,
+          0.124,
+          325.5,
+          0.2
+        ],
+        [
+          0.65,
+          0.128,
+          349.125,
+          0.2
+        ],
+        [
+          0.7,
+          0.132,
+          372.75,
+          0.2
+        ],
+        [
+          0.75,
+          0.136,
+          396.375,
+          0.2
+        ],
+        [
+          0.8,
+          0.14,
+          420.0,
+          0.2
+        ],
+        [
+          0.84,
+          0.144,
+          443.625,
+          0.2
+        ],
+        [
+          0.88,
+          0.148,
+          467.25,
+          0.2
+        ],
+        [
+          0.92,
+          0.152,
+          490.875,
+          0.2
+        ],
+        [
+          0.96,
+          0.156,
+          514.5,
+          0.2
+        ],
+        [
+          1.0,
+          0.16,
+          538.125,
+          0.2
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_BP"
+    },
+    "v3": {
+      "Name": "Smoke and Splendor",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "AoE",
+      "Desc": "Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies, and <u>Action Advances</u> Fuyuan by <b>#4[p]</b>.",
       "Params": [
         [
           0.4,
@@ -8724,7 +10040,285 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Ultimate",
       "Tag": "AoE",
-      "Desc": "Inflicts Befog on all enemies. When in the Befog state, <u>Break DMG</u> taken by affected enemies increases by @<b>#4[p]</b>#, lasting for <b>#5[f]</b> turn(s).<br>Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, and at the same time restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies. <u>Action Advances</u> Fuyuan by <b>#6[p]</b>.<br><br>@<b>Break DMG</b>#<br>Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.<br>Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.",
+      "Desc": "Inflicts Befog on all enemies. When in the Befog state, <u>Break DMG</u> taken by affected enemies increases by @<b>#4[p]</b>#, lasting for <b>#5[f]</b> turn(s).<br>Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, and at the same time restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies. <u>Action Advances</u> Fuyuan by <b>#6[p]</b>.",
+      "Params": [
+        [
+          0.75,
+          0.08,
+          90.0,
+          0.15,
+          2.0,
+          1.0
+        ],
+        [
+          0.825,
+          0.085,
+          144.0,
+          0.16,
+          2.0,
+          1.0
+        ],
+        [
+          0.9,
+          0.09,
+          184.5,
+          0.17,
+          2.0,
+          1.0
+        ],
+        [
+          0.975,
+          0.095,
+          225.0,
+          0.18,
+          2.0,
+          1.0
+        ],
+        [
+          1.05,
+          0.1,
+          252.0,
+          0.19,
+          2.0,
+          1.0
+        ],
+        [
+          1.125,
+          0.104,
+          279.0,
+          0.2,
+          2.0,
+          1.0
+        ],
+        [
+          1.21875,
+          0.108,
+          299.25,
+          0.2125,
+          2.0,
+          1.0
+        ],
+        [
+          1.3125,
+          0.112,
+          319.5,
+          0.225,
+          2.0,
+          1.0
+        ],
+        [
+          1.40625,
+          0.116,
+          339.75,
+          0.2375,
+          2.0,
+          1.0
+        ],
+        [
+          1.5,
+          0.12,
+          360.0,
+          0.25,
+          2.0,
+          1.0
+        ],
+        [
+          1.575,
+          0.124,
+          380.25,
+          0.26,
+          2.0,
+          1.0
+        ],
+        [
+          1.65,
+          0.128,
+          400.5,
+          0.27,
+          2.0,
+          1.0
+        ],
+        [
+          1.725,
+          0.132,
+          420.75,
+          0.28,
+          2.0,
+          1.0
+        ],
+        [
+          1.8,
+          0.136,
+          441.0,
+          0.29,
+          2.0,
+          1.0
+        ],
+        [
+          1.875,
+          0.14,
+          461.25,
+          0.3,
+          2.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 110.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Ultra"
+    },
+    "v2": {
+      "Name": "Dripping Mistscape",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "AoE",
+      "Desc": "Inflicts Befog on all enemies. When in the Befog state, <u>Break DMG</u> taken by affected enemies increases by @<b>#4[p]</b>#, lasting for <b>#5[f]</b> turn(s).<br>Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, and at the same time restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies. <u>Action Advances</u> Fuyuan by <b>#6[p]</b>.",
+      "Params": [
+        [
+          0.75,
+          0.08,
+          90.0,
+          0.15,
+          2.0,
+          1.0
+        ],
+        [
+          0.825,
+          0.085,
+          144.0,
+          0.16,
+          2.0,
+          1.0
+        ],
+        [
+          0.9,
+          0.09,
+          184.5,
+          0.17,
+          2.0,
+          1.0
+        ],
+        [
+          0.975,
+          0.095,
+          225.0,
+          0.18,
+          2.0,
+          1.0
+        ],
+        [
+          1.05,
+          0.1,
+          252.0,
+          0.19,
+          2.0,
+          1.0
+        ],
+        [
+          1.125,
+          0.104,
+          279.0,
+          0.2,
+          2.0,
+          1.0
+        ],
+        [
+          1.21875,
+          0.108,
+          299.25,
+          0.2125,
+          2.0,
+          1.0
+        ],
+        [
+          1.3125,
+          0.112,
+          319.5,
+          0.225,
+          2.0,
+          1.0
+        ],
+        [
+          1.40625,
+          0.116,
+          339.75,
+          0.2375,
+          2.0,
+          1.0
+        ],
+        [
+          1.5,
+          0.12,
+          360.0,
+          0.25,
+          2.0,
+          1.0
+        ],
+        [
+          1.575,
+          0.124,
+          380.25,
+          0.26,
+          2.0,
+          1.0
+        ],
+        [
+          1.65,
+          0.128,
+          400.5,
+          0.27,
+          2.0,
+          1.0
+        ],
+        [
+          1.725,
+          0.132,
+          420.75,
+          0.28,
+          2.0,
+          1.0
+        ],
+        [
+          1.8,
+          0.136,
+          441.0,
+          0.29,
+          2.0,
+          1.0
+        ],
+        [
+          1.875,
+          0.14,
+          461.25,
+          0.3,
+          2.0,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 110.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Ultra"
+    },
+    "v3": {
+      "Name": "Dripping Mistscape",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "AoE",
+      "Desc": "Inflicts Befog on all enemies. When in the Befog state, <u>Break DMG</u> taken by affected enemies increases by @<b>#4[p]</b>#, lasting for <b>#5[f]</b> turn(s).<br>Deals Fire DMG equal to @<b>#1[p]</b># of Lingsha's ATK to all enemies, and at the same time restores HP equal to @<b>#2[p]</b># of Lingsha's ATK plus @<b>#3[f]</b># for all allies. <u>Action Advances</u> Fuyuan by <b>#6[p]</b>.",
       "Params": [
         [
           0.75,
@@ -8865,7 +10459,7 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Talent",
       "Tag": "AoE",
-      "Desc": "Summons Fuyuan when using Skill. Fuyuan has an initial SPD of <b>#1[f]</b> and an initial action count of <b>#7[f]</b>. During Fuyuan's action, launch <u>follow-up attack</u> on all enemies, dealing Fire DMG equal to @<b>#2[p]</b># Lingsha's ATK, dispels <b>#6[f]</b> <u>debuff(s)</u> from all allies, and restores HP equal to @<b>#3[p]</b># of Lingsha's ATK plus @<b>#4[f]</b># to all allies.<br>Fuyuan can accumulate a maximum of <b>#5[f]</b> action counts. When the action count reaches 0 or when Lingsha is <u>downed</u>, Fuyuan disappears.<br>While Fuyuan is present on the battlefield, using Lingsha's Skill increases Fuyuan's action count by <b>#7[f]</b>.<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.<br><br>@<b>Debuff</b>#<br>Debuffs are negative status effects that render units weaker. Unless otherwise specified, debuffs can be dispelled.<br><br>@<b>Downed State</b>#<br>An ally will be incapacitated once their HP is reduced to 0.",
+      "Desc": "Summons Fuyuan when using Skill. Fuyuan has an initial SPD of <b>#1[f]</b> and an initial action count of <b>#7[f]</b>. During Fuyuan's action, launch <u>follow-up attack</u> on all enemies, dealing Fire DMG equal to @<b>#2[p]</b># Lingsha's ATK, dispels <b>#6[f]</b> <u>debuff(s)</u> from all allies, and restores HP equal to @<b>#3[p]</b># of Lingsha's ATK plus @<b>#4[f]</b># to all allies.<br>Fuyuan can accumulate a maximum of <b>#5[f]</b> action counts. When the action count reaches 0 or when Lingsha is <u>downed</u>, Fuyuan disappears.<br>While Fuyuan is present on the battlefield, using Lingsha's Skill increases Fuyuan's action count by <b>#7[f]</b>.",
       "Params": [
         [
           80.0,
@@ -9011,10 +10605,352 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1222_Passive"
+    },
+    "v2": {
+      "Name": "Mistdance Manifest",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "AoE",
+      "Desc": "Summons Fuyuan when using Skill. Fuyuan has an initial SPD of <b>#1[f]</b> and an initial action count of <b>#7[f]</b>. During Fuyuan's action, launch <u>follow-up attack</u> on all enemies, dealing Fire DMG equal to @<b>#2[p]</b># Lingsha's ATK, dispels <b>#6[f]</b> <u>debuff(s)</u> from all allies, and restores HP equal to @<b>#3[p]</b># of Lingsha's ATK plus @<b>#4[f]</b># to all allies.<br>Fuyuan can accumulate a maximum of <b>#5[f]</b> action counts. When the action count reaches 0 or when Lingsha is <u>downed</u>, Fuyuan disappears.<br>While Fuyuan is present on the battlefield, using Lingsha's Skill increases Fuyuan's action count by <b>#7[f]</b>.",
+      "Params": [
+        [
+          80.0,
+          0.45,
+          0.08,
+          90.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.495,
+          0.085,
+          144.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.54,
+          0.09,
+          184.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.585,
+          0.095,
+          225.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.63,
+          0.1,
+          252.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.675,
+          0.104,
+          279.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.73125,
+          0.108,
+          299.25,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.7875,
+          0.112,
+          319.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.84375,
+          0.116,
+          339.75,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.9,
+          0.12,
+          360.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.945,
+          0.124,
+          380.25,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          0.99,
+          0.128,
+          400.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          1.035,
+          0.132,
+          420.75,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          1.08,
+          0.136,
+          441.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          80.0,
+          1.125,
+          0.14,
+          461.25,
+          5.0,
+          1.0,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.0,
+        1.5,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Passive"
+    },
+    "v3": {
+      "Name": "Mistdance Manifest",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "AoE",
+      "Desc": "Summons Fuyuan when using Skill. Fuyuan has an initial SPD of <b>#1[f]</b> and an initial action count of <b>#7[f]</b>. During Fuyuan's action, launch <u>follow-up attack</u> on all enemies, dealing Fire DMG equal to @<b>#2[p]</b># Lingsha's ATK, dispels <b>#6[f]</b> <u>debuff(s)</u> from all allies, and restores HP equal to @<b>#3[p]</b># of Lingsha's ATK plus @<b>#4[f]</b># to all allies.<br>Fuyuan can accumulate a maximum of <b>#5[f]</b> action counts. When the action count reaches 0 or when Lingsha is <u>downed</u>, Fuyuan disappears.<br>While Fuyuan is present on the battlefield, using Lingsha's Skill increases Fuyuan's action count by <b>#7[f]</b>.",
+      "Params": [
+        [
+          90.0,
+          0.45,
+          0.08,
+          90.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.495,
+          0.085,
+          144.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.54,
+          0.09,
+          184.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.585,
+          0.095,
+          225.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.63,
+          0.1,
+          252.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.675,
+          0.104,
+          279.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.73125,
+          0.108,
+          299.25,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.7875,
+          0.112,
+          319.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.84375,
+          0.116,
+          339.75,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.9,
+          0.12,
+          360.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.945,
+          0.124,
+          380.25,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          0.99,
+          0.128,
+          400.5,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          1.035,
+          0.132,
+          420.75,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          1.08,
+          0.136,
+          441.0,
+          5.0,
+          1.0,
+          3.0
+        ],
+        [
+          90.0,
+          1.125,
+          0.14,
+          461.25,
+          5.0,
+          1.0,
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "Stance": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Passive"
     }
   },
   "122206": {
     "v1": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "Single Target",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "Single Target",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Normal"
+    },
+    "v3": {
       "Name": "Attack",
       "MaxLevel": 1,
       "Type": "",
@@ -9055,10 +10991,142 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1222_Maze"
+    },
+    "v2": {
+      "Name": "Wisps of Aurora",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Support",
+      "Desc": "After using the Technique, immediately summons Fuyuan at the start of the next battle and inflicts Befog on all enemies, lasting for <b>#1[f]</b> turn(s).",
+      "Params": [
+        [
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Maze"
+    },
+    "v3": {
+      "Name": "Wisps of Aurora",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Support",
+      "Desc": "After using the Technique, immediately summons Fuyuan at the start of the next battle and inflicts Befog on all enemies, lasting for <b>#1[f]</b> turn(s).",
+      "Params": [
+        [
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1222_Maze"
     }
   },
   "122301": {
     "v1": {
+      "Name": "Hurlthorn",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Normal"
+    },
+    "v2": {
+      "Name": "Hurlthorn",
+      "MaxLevel": 9,
+      "Type": "Basic ATK",
+      "Tag": "Single Target",
+      "Desc": "Deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to a single enemy.",
+      "Params": [
+        [
+          0.5
+        ],
+        [
+          0.6
+        ],
+        [
+          0.7
+        ],
+        [
+          0.8
+        ],
+        [
+          0.9
+        ],
+        [
+          1.0
+        ],
+        [
+          1.1
+        ],
+        [
+          1.2
+        ],
+        [
+          1.3
+        ]
+      ],
+      "BP": 1,
+      "SPAdd": 20.0,
+      "AttackType": "Normal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Normal"
+    },
+    "v3": {
       "Name": "Hurlthorn",
       "MaxLevel": 9,
       "Type": "Basic ATK",
@@ -9167,6 +11235,147 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1223_BP"
+    },
+    "v2": {
+      "Name": "Fleetwinged Raid",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Single Target",
+      "Desc": "Marks a designated single enemy target as the Prey and deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to it.<br>When there are no other characters on the field that are capable of combat, Moze cannot use his Skill and dispels the enemy's Prey state.",
+      "Params": [
+        [
+          0.75
+        ],
+        [
+          0.825
+        ],
+        [
+          0.9
+        ],
+        [
+          0.975
+        ],
+        [
+          1.05
+        ],
+        [
+          1.125
+        ],
+        [
+          1.21875
+        ],
+        [
+          1.3125
+        ],
+        [
+          1.40625
+        ],
+        [
+          1.5
+        ],
+        [
+          1.575
+        ],
+        [
+          1.65
+        ],
+        [
+          1.725
+        ],
+        [
+          1.8
+        ],
+        [
+          1.875
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_BP"
+    },
+    "v3": {
+      "Name": "Fleetwinged Raid",
+      "MaxLevel": 15,
+      "Type": "Skill",
+      "Tag": "Single Target",
+      "Desc": "Marks a designated single enemy target as the Prey and deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to it, and gains <b>#2[f]</b> points of Charge.<br>When there are no other characters on the field that are capable of combat, Moze cannot use his Skill and dispels the enemy's Prey state.",
+      "Params": [
+        [
+          0.75,
+          9.0
+        ],
+        [
+          0.825,
+          9.0
+        ],
+        [
+          0.9,
+          9.0
+        ],
+        [
+          0.975,
+          9.0
+        ],
+        [
+          1.05,
+          9.0
+        ],
+        [
+          1.125,
+          9.0
+        ],
+        [
+          1.21875,
+          9.0
+        ],
+        [
+          1.3125,
+          9.0
+        ],
+        [
+          1.40625,
+          9.0
+        ],
+        [
+          1.5,
+          9.0
+        ],
+        [
+          1.575,
+          9.0
+        ],
+        [
+          1.65,
+          9.0
+        ],
+        [
+          1.725,
+          9.0
+        ],
+        [
+          1.8,
+          9.0
+        ],
+        [
+          1.875,
+          9.0
+        ]
+      ],
+      "BP": -1,
+      "SPAdd": 30.0,
+      "AttackType": "BPSkill",
+      "Stance": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_BP"
     }
   },
   "122303": {
@@ -9263,6 +11472,164 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1223_Ultra"
+    },
+    "v2": {
+      "Name": "Dash In, Gash Out",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Increases the DMG dealt by this character by @<b>#2[p]</b>#, lasting for <b>#3[f]</b> turn(s), and deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to a single target enemy.",
+      "Params": [
+        [
+          2.1,
+          0.3,
+          2.0
+        ],
+        [
+          2.24,
+          0.32,
+          2.0
+        ],
+        [
+          2.38,
+          0.34,
+          2.0
+        ],
+        [
+          2.52,
+          0.36,
+          2.0
+        ],
+        [
+          2.66,
+          0.38,
+          2.0
+        ],
+        [
+          2.8,
+          0.4,
+          2.0
+        ],
+        [
+          2.975,
+          0.425,
+          2.0
+        ],
+        [
+          3.15,
+          0.45,
+          2.0
+        ],
+        [
+          3.325,
+          0.475,
+          2.0
+        ],
+        [
+          3.5,
+          0.5,
+          2.0
+        ],
+        [
+          3.64,
+          0.52,
+          2.0
+        ],
+        [
+          3.78,
+          0.54,
+          2.0
+        ],
+        [
+          3.92,
+          0.56,
+          2.0
+        ],
+        [
+          4.06,
+          0.58,
+          2.0
+        ],
+        [
+          4.2,
+          0.6,
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 110.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Ultra"
+    },
+    "v3": {
+      "Name": "Dash In, Gash Out",
+      "MaxLevel": 15,
+      "Type": "Ultimate",
+      "Tag": "Single Target",
+      "Desc": "Deals Lightning DMG equal to @<b>#1[p]</b># of Moze's ATK to an enemy target and launches his Talent's follow-up attack against this target. If the target is defeated before this follow-up attack is used, then activate the follow-up attack against a random single enemy.",
+      "Params": [
+        [
+          1.5
+        ],
+        [
+          1.6
+        ],
+        [
+          1.7
+        ],
+        [
+          1.8
+        ],
+        [
+          1.9
+        ],
+        [
+          2.0
+        ],
+        [
+          2.125
+        ],
+        [
+          2.25
+        ],
+        [
+          2.375
+        ],
+        [
+          2.5
+        ],
+        [
+          2.6
+        ],
+        [
+          2.7
+        ],
+        [
+          2.8
+        ],
+        [
+          2.9
+        ],
+        [
+          3.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 5.0,
+      "SPNeed": 120.0,
+      "AttackType": "Ultra",
+      "Stance": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Ultra"
     }
   },
   "122304": {
@@ -9271,7 +11638,7 @@ var _avatarskill = {
       "MaxLevel": 15,
       "Type": "Talent",
       "Tag": "Single Target",
-      "Desc": "Moze will enter the <u>Departed</u> state while a Prey exists on the field.<br>After allies attack the Prey, Moze will additionally deal 1 instance of <u>Additional Lightning DMG</u> equal to @<b>#1[p]</b># of his ATK and gains 1 Charge. When Moze's Charge reaches <b>#2[f]</b> points, consume all Charges to launch 1 <u>follow-up attack</u> to the Prey, dealing Lightning DMG equal to @<b>#3[p]</b># of Moze's ATK and dispel the target's Prey state.<br><br>@<b>Depart</b>#<br>Departed allies cannot be designated as targets for this ability and will not appear in the Action Order.<br><br>@<b>Additional DMG</b>#<br>Causes the target being hit to take extra DMG, which is not considered an attack.<br><br>@<b>Follow-Up Attack</b>#<br>Unleashes an extra attack on the target. This effect is triggered automatically when requirements are met.",
+      "Desc": "Moze will enter the <u>Departed</u> state while a Prey exists on the field.<br>After allies attack the Prey, Moze will additionally deal 1 instance of <u>Additional Lightning DMG</u> equal to @<b>#1[p]</b># of his ATK and gains 1 Charge. When Moze's Charge reaches <b>#2[f]</b> points, consume all Charges to launch 1 <u>follow-up attack</u> to the Prey, dealing Lightning DMG equal to @<b>#3[p]</b># of Moze's ATK and dispel the target's Prey state.<br><br>@<b>Depart</b>#<br>Departed allies cannot be designated as targets for this ability and will not appear in the Action Order.",
       "Params": [
         [
           0.15,
@@ -9357,10 +11724,232 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1223_Passive"
+    },
+    "v2": {
+      "Name": "Cascading Featherblade",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "Moze will enter the <u>Departed</u> state while a Prey exists on the field.<br>After allies attack the Prey, Moze will additionally deal 1 instance of <u>Additional Lightning DMG</u> equal to @<b>#1[p]</b># of his ATK and gains 1 Charge. When Moze's Charge reaches <b>#2[f]</b> points, consume all Charges to launch 1 <u>follow-up attack</u> to the Prey, dealing Lightning DMG equal to @<b>#3[p]</b># of Moze's ATK and dispel the target's Prey state.<br><br>@<b>Departed</b>#<br>Ally units in the Departed state cannot be designated as ability targets and will not appear in the Action Order.",
+      "Params": [
+        [
+          0.15,
+          7.0,
+          1.0
+        ],
+        [
+          0.165,
+          7.0,
+          1.1
+        ],
+        [
+          0.18,
+          7.0,
+          1.2
+        ],
+        [
+          0.195,
+          7.0,
+          1.3
+        ],
+        [
+          0.21,
+          7.0,
+          1.4
+        ],
+        [
+          0.225,
+          7.0,
+          1.5
+        ],
+        [
+          0.24375,
+          7.0,
+          1.625
+        ],
+        [
+          0.2625,
+          7.0,
+          1.75
+        ],
+        [
+          0.28125,
+          7.0,
+          1.875
+        ],
+        [
+          0.3,
+          7.0,
+          2.0
+        ],
+        [
+          0.315,
+          7.0,
+          2.1
+        ],
+        [
+          0.33,
+          7.0,
+          2.2
+        ],
+        [
+          0.345,
+          7.0,
+          2.3
+        ],
+        [
+          0.36,
+          7.0,
+          2.4
+        ],
+        [
+          0.375,
+          7.0,
+          2.5
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
+      "Stance": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Passive"
+    },
+    "v3": {
+      "Name": "Cascading Featherblade",
+      "MaxLevel": 15,
+      "Type": "Talent",
+      "Tag": "Single Target",
+      "Desc": "Moze will enter the <u>Departed</u> state while a Prey exists on the field.<br>After allies attack the Prey, Moze will additionally deal 1 instance of <u>Additional Lightning DMG</u> equal to @<b>#1[p]</b># of his ATK and consumes 1 Charge. For each <b>#2[f]</b> point(s) of Charge consumed, Moze launches 1 <u>follow-up attack</u> to the Prey, dealing Lightning DMG equal to @<b>#3[p]</b># of Moze's ATK. When Charge reaches 0, dispels the target's Prey state and reset the Charge consumption count. This attack does not consume Moze's Charges.<br><br>@<b>Departed</b>#<br>Ally units in the Departed state cannot be designated as ability targets and will not appear in the Action Order.",
+      "Params": [
+        [
+          0.15,
+          3.0,
+          0.8
+        ],
+        [
+          0.165,
+          3.0,
+          0.88
+        ],
+        [
+          0.18,
+          3.0,
+          0.96
+        ],
+        [
+          0.195,
+          3.0,
+          1.04
+        ],
+        [
+          0.21,
+          3.0,
+          1.12
+        ],
+        [
+          0.225,
+          3.0,
+          1.2
+        ],
+        [
+          0.24375,
+          3.0,
+          1.3
+        ],
+        [
+          0.2625,
+          3.0,
+          1.4
+        ],
+        [
+          0.28125,
+          3.0,
+          1.5
+        ],
+        [
+          0.3,
+          3.0,
+          1.6
+        ],
+        [
+          0.315,
+          3.0,
+          1.68
+        ],
+        [
+          0.33,
+          3.0,
+          1.76
+        ],
+        [
+          0.345,
+          3.0,
+          1.84
+        ],
+        [
+          0.36,
+          3.0,
+          1.92
+        ],
+        [
+          0.375,
+          3.0,
+          2.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 10.0,
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Passive"
     }
   },
   "122306": {
     "v1": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Normal"
+    },
+    "v2": {
+      "Name": "Attack",
+      "MaxLevel": 1,
+      "Type": "",
+      "Tag": "",
+      "Desc": "Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.",
+      "Params": [
+        []
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "MazeNormal",
+      "Stance": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Normal"
+    },
+    "v3": {
       "Name": "Attack",
       "MaxLevel": 1,
       "Type": "",
@@ -9404,6 +11993,53 @@ var _avatarskill = {
         0.0
       ],
       "Icon": "SkillIcon_1223_Maze"
+    },
+    "v2": {
+      "Name": "Bated Wings",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using his Technique, Moze gains Stealth for <b>#1[f]</b> second(s). While Stealth is active, Moze cannot be detected by enemies. Action Advances by <b>#4[p]</b> and increases the DMG Moze deals by <b>#2[p]</b> when he enters combat by attacking enemies while in Stealth mode, lasting for <b>#3[f]</b> turn(s).",
+      "Params": [
+        [
+          20.0,
+          0.3,
+          1.0,
+          0.5
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Maze"
+    },
+    "v3": {
+      "Name": "Bated Wings",
+      "MaxLevel": 1,
+      "Type": "Technique",
+      "Tag": "Enhance",
+      "Desc": "After using his Technique, Moze gains Stealth for <b>#1[f]</b> second(s). While Stealth is active, Moze cannot be detected by enemies. Increases the DMG Moze deals by <b>#2[p]</b> when he enters combat by attacking enemies while in Stealth mode, lasting for <b>#3[f]</b> turn(s).",
+      "Params": [
+        [
+          20.0,
+          0.3,
+          1.0
+        ]
+      ],
+      "BP": 0,
+      "SPAdd": 0,
+      "AttackType": "Maze",
+      "Stance": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Icon": "SkillIcon_1223_Maze"
     }
   }
 }
@@ -9431,6 +12067,50 @@ var _avatarskilltree = {
         "Desc": "Follow-up attack CRIT DMG increases by <b><color style='color:#f29e38'>60.0%</color></b>.",
         "Icon": "SkillIcon_1220_SkillTree3"
       }
+    },
+    "v2": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "CriticalChanceBase": 0.12,
+        "SpeedDelta": 5.0
+      },
+      "Tree1": {
+        "Name": "Heavenpath",
+        "Desc": "Receive <b><color style='color:#f29e38'>4.0</color></b> point(s) of Flying Aureus at the start of the battle. If there are no teammates active in battle on the field at the start of a turn, receive 1 point of Flying Aureus.",
+        "Icon": "SkillIcon_1220_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Formshift",
+        "Desc": "When dealing DMG to enemy targets via launching this unit's Ultimate, it will be considered as launching a follow-up attack.",
+        "Icon": "SkillIcon_1220_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Boltcatch",
+        "Desc": "Follow-up attack CRIT DMG increases by <b><color style='color:#f29e38'>60.0%</color></b>.",
+        "Icon": "SkillIcon_1220_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "AttackAddedRatio": 0.28,
+        "CriticalChanceBase": 0.12,
+        "DefenceAddedRatio": 0.125
+      },
+      "Tree1": {
+        "Name": "Heavenpath",
+        "Desc": "Receive <b><color style='color:#f29e38'>3.0</color></b> point(s) of Flying Aureus at the start of the battle.<br>At the start of the turn, if follow-up attack is not launched via Talent in the turn prior, it counts as gaining 1 point of Flying Aureus toward the required attack count.",
+        "Icon": "SkillIcon_1220_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Formshift",
+        "Desc": "When using Ultimate to deal DMG to an enemy target, it is considered as follow-up attack. Increases CRIT DMG dealt by follow-up attack by <b><color style='color:#f29e38'>36.0%</color></b>.",
+        "Icon": "SkillIcon_1220_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Boltcatch",
+        "Desc": "When using Skill, ATK increases by <b><color style='color:#f29e38'>48.0%</color></b>, lasting for <b><color style='color:#f29e38'>3.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1220_SkillTree3"
+      }
     }
   },
   "1222": {
@@ -9443,6 +12123,50 @@ var _avatarskilltree = {
       "Tree1": {
         "Name": "Vermilion Waft",
         "Desc": "Increases this unit's ATK/Outgoing Healing by an amount equal to <b><color style='color:#f29e38'>20.0%</color></b>/<b><color style='color:#f29e38'>8.0%</color></b> of their Break Effect, up to a maximum ATK/Outgoing Healing increase of <b><color style='color:#f29e38'>50.0%</color></b>/<b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1222_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Sylvan Smoke",
+        "Desc": "When using Basic ATK, additionally regenerates <b><color style='color:#f29e38'>10.0</color></b> Energy.",
+        "Icon": "SkillIcon_1222_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Ember's Echo",
+        "Desc": "When any ally takes DMG or consumes HP, if their current HP percentage is less than or equal to <b><color style='color:#f29e38'>60.0%</color></b>, Fuyuan will immediately trigger the follow-up attack from the Talent. This attack will not consume Fuyuan's action. This effect can be triggered again after <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1222_SkillTree3"
+      }
+    },
+    "v2": {
+      "Add": {
+        "BreakDamageAddedRatioBase": 0.373,
+        "HPAddedRatio": 0.18,
+        "AttackAddedRatio": 0.1
+      },
+      "Tree1": {
+        "Name": "Vermilion Waft",
+        "Desc": "Increases this unit's ATK/Outgoing Healing by an amount equal to <b><color style='color:#f29e38'>20.0%</color></b>/<b><color style='color:#f29e38'>8.0%</color></b> of their Break Effect, up to a maximum ATK/Outgoing Healing increase of <b><color style='color:#f29e38'>50.0%</color></b>/<b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1222_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Sylvan Smoke",
+        "Desc": "When using Basic ATK, additionally regenerates <b><color style='color:#f29e38'>10.0</color></b> Energy.",
+        "Icon": "SkillIcon_1222_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Ember's Echo",
+        "Desc": "When any ally takes DMG or consumes HP, if their current HP percentage is less than or equal to <b><color style='color:#f29e38'>60.0%</color></b>, Fuyuan will immediately trigger the follow-up attack from the Talent. This attack will not consume Fuyuan's action. This effect can be triggered again after <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1222_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "BreakDamageAddedRatioBase": 0.373,
+        "HPAddedRatio": 0.18,
+        "AttackAddedRatio": 0.1
+      },
+      "Tree1": {
+        "Name": "Vermilion Waft",
+        "Desc": "Increases this unit's ATK/Outgoing Healing by an amount equal to <b><color style='color:#f29e38'>25.0%</color></b>/<b><color style='color:#f29e38'>10.0%</color></b> of their Break Effect, up to a maximum ATK/Outgoing Healing increase of <b><color style='color:#f29e38'>50.0%</color></b>/<b><color style='color:#f29e38'>20.0%</color></b>.",
         "Icon": "SkillIcon_1222_SkillTree1"
       },
       "Tree2": {
@@ -9479,6 +12203,50 @@ var _avatarskilltree = {
         "Desc": "When an ally attacks an enemy marked as Prey, increases the CRIT DMG dealt by <b><color style='color:#f29e38'>20.0%</color></b>.",
         "Icon": "SkillIcon_1223_SkillTree3"
       }
+    },
+    "v2": {
+      "Add": {
+        "CriticalDamageBase": 0.373,
+        "AttackAddedRatio": 0.18,
+        "HPAddedRatio": 0.1
+      },
+      "Tree1": {
+        "Name": "Nightfeather",
+        "Desc": "Recover <b><color style='color:#f29e38'>1.0</color></b> Skill Point(s) after using a follow-up attack. This effect can be triggered again after <b><color style='color:#f29e38'>1.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1223_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Daggerhold",
+        "Desc": "Moze's Action is Advanced Forward by <b><color style='color:#f29e38'>30.0%</color></b> when his Departed status is dispelled. If Moze's current Charge equals <b><color style='color:#f29e38'>4.0</color></b> or greater, then his action will instead be Advanced Forward by <b><color style='color:#f29e38'>60.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Vengewise",
+        "Desc": "When an ally attacks an enemy marked as Prey, increases the CRIT DMG dealt by <b><color style='color:#f29e38'>20.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree3"
+      }
+    },
+    "v3": {
+      "Add": {
+        "CriticalDamageBase": 0.373,
+        "AttackAddedRatio": 0.18,
+        "HPAddedRatio": 0.1
+      },
+      "Tree1": {
+        "Name": "Nightfeather",
+        "Desc": "Recover <b><color style='color:#f29e38'>1.0</color></b> Skill Point(s) after using the Talent's follow-up attack. This effect can be triggered again after <b><color style='color:#f29e38'>1.0</color></b> turn(s).",
+        "Icon": "SkillIcon_1223_SkillTree1"
+      },
+      "Tree2": {
+        "Name": "Daggerhold",
+        "Desc": "When Moze dispels his Departed state, his action is Advanced Forward by <b><color style='color:#f29e38'>30.0%</color></b>. At the start of each wave, Moze's action is Advanced Forward by <b><color style='color:#f29e38'>30.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree2"
+      },
+      "Tree3": {
+        "Name": "Vengewise",
+        "Desc": "When this character deals DMG with his Ultimate, it is considered as having launched a follow-up attack. Increases follow-up attack DMG taken by the enemy marked as Prey by <b><color style='color:#f29e38'>25.0%</color></b>.",
+        "Icon": "SkillIcon_1223_SkillTree3"
+      }
     }
   }
 }
@@ -9490,6 +12258,18 @@ var _avatarrank = {
       "Name": "Skyward I Quell",
       "Desc": "When using Ultimate, for each point of Flying Aureus consumed, the final hit additionally deals Wind DMG equal to <b><color style='color:#f29e38'>30.0%</color></b> of Feixiao's ATK to a random enemy.",
       "Icon": "SkillIcon_1220_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "Skyward I Quell",
+      "Desc": "When using Ultimate, for each point of Flying Aureus consumed, the final hit additionally deals Wind DMG equal to <b><color style='color:#f29e38'>30.0%</color></b> of Feixiao's ATK to a random enemy.",
+      "Icon": "SkillIcon_1220_Rank1"
+    },
+    "v3": {
+      "Rank": 1,
+      "Name": "Skyward I Quell",
+      "Desc": "After using Boltsunder Blitz or Waraxe Skyward, Ultimate DMG dealt by Feixiao additionally increases. The value increase is equal to <b><color style='color:#f29e38'>10.0%</color></b> of the original DMG. This effect can stack up to <b><color style='color:#f29e38'>5.0</color></b> time(s) and lasts until the end of the Ultimate action.",
+      "Icon": "SkillIcon_1220_Rank1"
     }
   },
   "122002": {
@@ -9498,10 +12278,34 @@ var _avatarrank = {
       "Name": "Moonward I Wish",
       "Desc": "In Talent's effect, the attack count required to gain Flying Aureus reduces by <b><color style='color:#f29e38'>1.0</color></b> count(s).",
       "Icon": "SkillIcon_1220_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "Moonward I Wish",
+      "Desc": "In Talent's effect, the attack count required to gain Flying Aureus reduces by <b><color style='color:#f29e38'>1.0</color></b> count(s).",
+      "Icon": "SkillIcon_1220_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "Moonward I Wish",
+      "Desc": "After using the follow-up attack from Talent, gains 1 Flying Aureus.<br><br>Hidden Stat: 1.0",
+      "Icon": "SkillIcon_1220_Rank2"
     }
   },
   "122003": {
     "v1": {
+      "Rank": 3,
+      "Name": "Starward I Bode",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Starward I Bode",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1220_Ultra"
+    },
+    "v3": {
       "Rank": 3,
       "Name": "Starward I Bode",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
@@ -9514,10 +12318,34 @@ var _avatarrank = {
       "Name": "Stormward I Hear",
       "Desc": "When Basic ATK or Skill deals DMG to the enemy target, it will be considered as a follow-up attack.",
       "Icon": "SkillIcon_1220_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Stormward I Hear",
+      "Desc": "When Basic ATK or Skill deals DMG to the enemy target, it will be considered as a follow-up attack.",
+      "Icon": "SkillIcon_1220_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Stormward I Hear",
+      "Desc": "When Feixiao is active in battle, increases the follow-up attack DMG enemy targets take by <b><color style='color:#f29e38'>10.0%</color></b>.",
+      "Icon": "SkillIcon_1220_Rank4"
     }
   },
   "122005": {
     "v1": {
+      "Rank": 5,
+      "Name": "Heavenward I Leap",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1220_BP"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Heavenward I Leap",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1220_BP"
+    },
+    "v3": {
       "Rank": 5,
       "Name": "Heavenward I Leap",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.<br>Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
@@ -9530,10 +12358,34 @@ var _avatarrank = {
       "Name": "Homeward I Near",
       "Desc": "Increases follow-up attacks' Wind RES PEN by <b><color style='color:#f29e38'>20.0%</color></b>. Increases the DMG multiplier of the Talent's follow-up attack by <b><color style='color:#f29e38'>360.0%</color></b>, and the DMG dealt is considered as Ultimate DMG.",
       "Icon": "SkillIcon_1220_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Homeward I Near",
+      "Desc": "Increases follow-up attacks' Wind RES PEN by <b><color style='color:#f29e38'>20.0%</color></b>. Increases the DMG multiplier of the Talent's follow-up attack by <b><color style='color:#f29e38'>360.0%</color></b>, and the DMG dealt is considered as Ultimate DMG.",
+      "Icon": "SkillIcon_1220_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Homeward I Near",
+      "Desc": "Increases the All-Type RES PEN of Ultimate DMG dealt by Feixiao by <b><color style='color:#f29e38'>20.0%</color></b>. Talent's follow-up attack DMG is considered to be Ultimate DMG, and increases its DMG multiplier by <b><color style='color:#f29e38'>140.0%</color></b>.",
+      "Icon": "SkillIcon_1220_Rank6"
     }
   },
   "122201": {
     "v1": {
+      "Rank": 1,
+      "Name": "Bloom on Vileward Bouquet",
+      "Desc": "Lingsha's Weakness Break Efficiency increases by <b><color style='color:#f29e38'>50.0%</color></b>. When an enemy's Weakness is Broken, reduces their DEF by <b><color style='color:#f29e38'>20.0%</color></b>.",
+      "Icon": "SkillIcon_1222_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "Bloom on Vileward Bouquet",
+      "Desc": "Lingsha's Weakness Break Efficiency increases by <b><color style='color:#f29e38'>50.0%</color></b>. When an enemy's Weakness is Broken, reduces their DEF by <b><color style='color:#f29e38'>20.0%</color></b>.",
+      "Icon": "SkillIcon_1222_Rank1"
+    },
+    "v3": {
       "Rank": 1,
       "Name": "Bloom on Vileward Bouquet",
       "Desc": "Lingsha's Weakness Break Efficiency increases by <b><color style='color:#f29e38'>50.0%</color></b>. When an enemy's Weakness is Broken, reduces their DEF by <b><color style='color:#f29e38'>20.0%</color></b>.",
@@ -9546,10 +12398,34 @@ var _avatarrank = {
       "Name": "Leisure in Carmine Smokeveil",
       "Desc": "When using Ultimate, all allies' Break Effect increases by <b><color style='color:#f29e38'>40.0%</color></b>, lasting for <b><color style='color:#f29e38'>3.0</color></b> turn(s).",
       "Icon": "SkillIcon_1222_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "Leisure in Carmine Smokeveil",
+      "Desc": "When using Ultimate, all allies' Break Effect increases by <b><color style='color:#f29e38'>40.0%</color></b>, lasting for <b><color style='color:#f29e38'>3.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1222_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "Leisure in Carmine Smokeveil",
+      "Desc": "When using Ultimate, all allies' Break Effect increases by <b><color style='color:#f29e38'>40.0%</color></b>, lasting for <b><color style='color:#f29e38'>3.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1222_Rank2"
     }
   },
   "122203": {
     "v1": {
+      "Rank": 3,
+      "Name": "Shine of Floral Wick",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1222_Ultra"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Shine of Floral Wick",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1222_Ultra"
+    },
+    "v3": {
       "Rank": 3,
       "Name": "Shine of Floral Wick",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
@@ -9562,10 +12438,34 @@ var _avatarrank = {
       "Name": "Redolence from Canopied Banquet",
       "Desc": "During Fuyuan's action, restores HP equal to <b><color style='color:#f29e38'>40.0%</color></b> of Lingsha's ATK for the ally with the currently lowest HP percentage.",
       "Icon": "SkillIcon_1222_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Redolence from Canopied Banquet",
+      "Desc": "During Fuyuan's action, restores HP equal to <b><color style='color:#f29e38'>40.0%</color></b> of Lingsha's ATK for the ally with the currently lowest HP percentage.",
+      "Icon": "SkillIcon_1222_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Redolence from Canopied Banquet",
+      "Desc": "During Fuyuan's action, restores HP equal to <b><color style='color:#f29e38'>40.0%</color></b> of Lingsha's ATK for the ally with the currently lowest HP percentage.",
+      "Icon": "SkillIcon_1222_Rank4"
     }
   },
   "122205": {
     "v1": {
+      "Rank": 5,
+      "Name": "Poise Atop Twists and Turns",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1222_BP"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Poise Atop Twists and Turns",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1222_BP"
+    },
+    "v3": {
       "Rank": 5,
       "Name": "Poise Atop Twists and Turns",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
@@ -9578,6 +12478,18 @@ var _avatarrank = {
       "Name": "Arcadia Under Deep Seclusion",
       "Desc": "While Fuyuan is present on the battlefield, all enemies' All-Type RES reduces by <b><color style='color:#f29e38'>20.0%</color></b>. Fuyuan's attack additionally deals <b><color style='color:#f29e38'>3.0</color></b> hit(s) of DMG, with each hit dealing Fire DMG equal to <b><color style='color:#f29e38'>50.0%</color></b> of Lingsha's ATK and <b><color style='color:#f29e38'>5.0</color></b> Toughness Reduction.",
       "Icon": "SkillIcon_1222_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Arcadia Under Deep Seclusion",
+      "Desc": "While Fuyuan is present on the battlefield, all enemies' All-Type RES reduces by <b><color style='color:#f29e38'>20.0%</color></b>. Fuyuan's attack additionally deals <b><color style='color:#f29e38'>3.0</color></b> hit(s) of DMG, with each hit dealing Fire DMG equal to <b><color style='color:#f29e38'>50.0%</color></b> of Lingsha's ATK and <b><color style='color:#f29e38'>5.0</color></b> Toughness Reduction.",
+      "Icon": "SkillIcon_1222_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Arcadia Under Deep Seclusion",
+      "Desc": "While Fuyuan is present on the battlefield, all enemies' All-Type RES reduces by <b><color style='color:#f29e38'>20.0%</color></b>. Fuyuan's attack additionally deals <b><color style='color:#f29e38'>4.0</color></b> hit(s) of DMG, with each hit dealing Fire DMG equal to <b><color style='color:#f29e38'>50.0%</color></b> of Lingsha's ATK and <b><color style='color:#f29e38'>5.0</color></b> Toughness Reduction.",
+      "Icon": "SkillIcon_1222_Rank6"
     }
   },
   "122301": {
@@ -9585,6 +12497,18 @@ var _avatarrank = {
       "Rank": 1,
       "Name": "Oathkeeper",
       "Desc": "When this character deals DMG with his Ultimate, it is considered as having launched a follow-up attack. Increases follow-up attack DMG taken by the enemy marked as Prey by <b><color style='color:#f29e38'>25.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank1"
+    },
+    "v2": {
+      "Rank": 1,
+      "Name": "Oathkeeper",
+      "Desc": "When this character deals DMG with his Ultimate, it is considered as having launched a follow-up attack. Increases follow-up attack DMG taken by the enemy marked as Prey by <b><color style='color:#f29e38'>25.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank1"
+    },
+    "v3": {
+      "Rank": 1,
+      "Name": "Oathkeeper",
+      "Desc": "After entering battle, Moze regenerates <b><color style='color:#f29e38'>20.0</color></b> point(s) of Energy. For every time the Additional DMG from his Talent is triggered, Moze regenerates <b><color style='color:#f29e38'>2.0</color></b> point(s) of Energy.",
       "Icon": "SkillIcon_1223_Rank1"
     }
   },
@@ -9594,10 +12518,34 @@ var _avatarrank = {
       "Name": "Wrathbearer",
       "Desc": "After entering battle, Moze regenerates <b><color style='color:#f29e38'>20.0</color></b> point(s) of Energy. For every time the Additional DMG from his Talent is triggered, Moze regenerates <b><color style='color:#f29e38'>3.0</color></b> point(s) of Energy.",
       "Icon": "SkillIcon_1223_Rank2"
+    },
+    "v2": {
+      "Rank": 2,
+      "Name": "Wrathbearer",
+      "Desc": "After entering battle, Moze regenerates <b><color style='color:#f29e38'>20.0</color></b> point(s) of Energy. For every time the Additional DMG from his Talent is triggered, Moze regenerates <b><color style='color:#f29e38'>3.0</color></b> point(s) of Energy.",
+      "Icon": "SkillIcon_1223_Rank2"
+    },
+    "v3": {
+      "Rank": 2,
+      "Name": "Wrathbearer",
+      "Desc": "When an ally attacks an enemy marked as Prey, increases the CRIT DMG dealt by <b><color style='color:#f29e38'>40.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank2"
     }
   },
   "122303": {
     "v1": {
+      "Rank": 3,
+      "Name": "Deathchaser",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1223_Ultra"
+    },
+    "v2": {
+      "Rank": 3,
+      "Name": "Deathchaser",
+      "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
+      "Icon": "SkillIcon_1223_Ultra"
+    },
+    "v3": {
       "Rank": 3,
       "Name": "Deathchaser",
       "Desc": "Ultimate Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Talent Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>.",
@@ -9610,10 +12558,34 @@ var _avatarrank = {
       "Name": "Heathprowler",
       "Desc": "The CRIT DMG boost effect of the Vengewise additionally increases by <b><color style='color:#f29e38'>20.0%</color></b>.",
       "Icon": "SkillIcon_1223_Rank4"
+    },
+    "v2": {
+      "Rank": 4,
+      "Name": "Heathprowler",
+      "Desc": "The CRIT DMG boost effect of the Vengewise additionally increases by <b><color style='color:#f29e38'>20.0%</color></b>.",
+      "Icon": "SkillIcon_1223_Rank4"
+    },
+    "v3": {
+      "Rank": 4,
+      "Name": "Heathprowler",
+      "Desc": "When using Ultimate, the DMG dealt by Moze increases by <b><color style='color:#f29e38'>30.0%</color></b> for <b><color style='color:#f29e38'>2.0</color></b> turn(s).",
+      "Icon": "SkillIcon_1223_Rank4"
     }
   },
   "122305": {
     "v1": {
+      "Rank": 5,
+      "Name": "Truthbender",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1223_BP"
+    },
+    "v2": {
+      "Rank": 5,
+      "Name": "Truthbender",
+      "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
+      "Icon": "SkillIcon_1223_BP"
+    },
+    "v3": {
       "Rank": 5,
       "Name": "Truthbender",
       "Desc": "Skill Lv. +2, up to a maximum of Lv. <b><color style='color:#f29e38'>15</color></b>. Basic ATK Lv. +1, up to a maximum of Lv. <b><color style='color:#f29e38'>10</color></b>.",
@@ -9625,6 +12597,18 @@ var _avatarrank = {
       "Rank": 6,
       "Name": "Faithbinder",
       "Desc": "After using the Ultimate to attack an enemy target, Moze immediately launches the follow-up attack from Talent against this target. If the target is defeated before this follow-up attack is used, then activate the follow-up attack against a random single enemy.",
+      "Icon": "SkillIcon_1223_Rank6"
+    },
+    "v2": {
+      "Rank": 6,
+      "Name": "Faithbinder",
+      "Desc": "After using the Ultimate to attack an enemy target, Moze immediately launches the follow-up attack from Talent against this target. If the target is defeated before this follow-up attack is used, then activate the follow-up attack against a random single enemy.",
+      "Icon": "SkillIcon_1223_Rank6"
+    },
+    "v3": {
+      "Rank": 6,
+      "Name": "Faithbinder",
+      "Desc": "Increases the DMG multiplier of the Talent's follow-up attack by <b><color style='color:#f29e38'>25.0%</color></b>.",
       "Icon": "SkillIcon_1223_Rank6"
     }
   }
@@ -9643,17 +12627,31 @@ var _voice = {
 }
 
 var _changelog2 = {
-  "1220": [],
-  "1222": [],
-  "1223": []
+  "1220": [
+    "<b>@Hit Split Ratio#</b> (can be used to compute the Duke Relic Set)<br>• Basic ATK: 0.2+0.2+0.6<br>• Skill: 0.34+0.33+0.33<br>• Ultimate except last hit: 0.1+0.9<br>• Everything else is a single hit."
+  ],
+  "1222": [
+    "@Hit Split Ratio#</b><br>• All single hits."
+  ],
+  "1223": [
+    "<b>@Hit Split Ratio#</b><br>• Basic ATK: 0.15+0.15+0.7<br>• Follow-Up (including E6): 0.08*5+0.6<br>• Everything else is a single hit."
+  ]
 }
 
 var _notes = {}
 
 var _adiff = {
-  "1220": {},
+  "1220": {
+    "v3": [
+      "``Base Stats`- SPD 125.0 → 112.0 ;"
+    ]
+  },
   "1222": {},
-  "1223": {},
+  "1223": {
+    "v3": [
+      "``Base Stats`- Energy 110.0 → 120.0 ;"
+    ]
+  },
   "21047": {},
   "23031": {},
   "23032": {}
@@ -9670,7 +12668,19 @@ var _weaponskill = {
     "v1": {
       "Name": "Contentment",
       "Desc": [
-        "Increases wearer's Break Effect by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After wearer attacks an enemy with an Ultimate, causes them to enter the Woefree state for <b>2.0</b> turn(s). During the Woefree state, increases DMG dealt to enemy targets by <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color>  and if the wearer's current Break Effect is greater or equal to <b>150.0%</b>, additionally increases DMG received effect by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> ."
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After the wearer attacks an enemy target with Ultimate, causes the target to enter the Woefree state, lasting for <b>2.0</b> turn(s). Enemy targets afflicted with Woefree receive <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color>  increased DMG. This effect of receiving increased DMG is additionally boosted by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color>  if the wearer's current Break Effect is <b>150.0%</b> or higher."
+      ]
+    },
+    "v2": {
+      "Name": "Contentment",
+      "Desc": [
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After the wearer uses their Ultimate to attack enemy targets, afflict the target(s) with the Woefree state, lasting for <b>2.0</b> turn(s). Enemy targets in the Woefree state take <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color>  more DMG. The effect of increasing DMG taken is additionally boosted by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color>  if the wearer's current Break Effect is <b>150.0%</b> or higher."
+      ]
+    },
+    "v3": {
+      "Name": "Contentment",
+      "Desc": [
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>60.0%</color> / <color style='color:#f29e38;'>70.0%</color> / <color style='color:#f29e38;'>80.0%</color> / <color style='color:#f29e38;'>90.0%</color> / <color style='color:#f29e38;'>100.0%</color> . After the wearer uses their Ultimate to attack enemy targets, afflict the target(s) with the Woefree state, lasting for <b>2.0</b> turn(s). Enemy targets in the Woefree state take <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color> / <color style='color:#f29e38;'>18.0%</color>  more DMG. The effect of increasing DMG taken is additionally boosted by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>14.0%</color> / <color style='color:#f29e38;'>16.0%</color>  if the wearer's current Break Effect is <b>150.0%</b> or higher."
       ]
     }
   },
@@ -9680,10 +12690,34 @@ var _weaponskill = {
       "Desc": [
         "Increases the wearer's CRIT Rate by <color style='color:#f29e38;'>15.0%</color> / <color style='color:#f29e38;'>17.5%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.5%</color> / <color style='color:#f29e38;'>25.0%</color> . When any single ally uses an attack, the wearer gains 1 stack of Luminflux to a max of <b>6.0</b> stack(s). Each stack of Luminflux enables the Ultimate DMG deal by the wearer to ignore <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>13.0%</color>  of the target's DEF. This effect will be dispelled after the wearer uses their Ultimate."
       ]
+    },
+    "v2": {
+      "Name": "Intimidation",
+      "Desc": [
+        "Increases the wearer's CRIT Rate by <color style='color:#f29e38;'>15.0%</color> / <color style='color:#f29e38;'>17.5%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.5%</color> / <color style='color:#f29e38;'>25.0%</color> . When any single ally uses an attack, the wearer gains 1 stack of Luminflux to a max of <b>6.0</b> stack(s). Each stack of Luminflux enables the Ultimate DMG deal by the wearer to ignore <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> / <color style='color:#f29e38;'>13.0%</color>  of the target's DEF. This effect will be dispelled after the wearer uses their Ultimate."
+      ]
+    },
+    "v3": {
+      "Name": "Intimidation",
+      "Desc": [
+        "Increases the wearer's CRIT Rate by <color style='color:#f29e38;'>15.0%</color> / <color style='color:#f29e38;'>17.5%</color> / <color style='color:#f29e38;'>20.0%</color> / <color style='color:#f29e38;'>22.5%</color> / <color style='color:#f29e38;'>25.0%</color> . When the wearer launches a follow-up attack, they gain 1 stack of Luminflux to a max of <b>2.0</b> stack(s). Each stack of Luminflux enables the Ultimate DMG deal by the wearer to ignore <color style='color:#f29e38;'>27.0%</color> / <color style='color:#f29e38;'>30.0%</color> / <color style='color:#f29e38;'>33.0%</color> / <color style='color:#f29e38;'>36.0%</color> / <color style='color:#f29e38;'>39.0%</color>  of the target's DEF. When the wearer's turn ends, removes 1 stack of Luminflux."
+      ]
     }
   },
   "21047": {
     "v1": {
+      "Name": "Concealment",
+      "Desc": [
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>35.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>49.0%</color> / <color style='color:#f29e38;'>56.0%</color> . Upon entering battle or dealing Break DMG, increases SPD by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> , lasting for <b>2.0</b> turn(s). This effect can only be triggered 1 time per turn."
+      ]
+    },
+    "v2": {
+      "Name": "Concealment",
+      "Desc": [
+        "Increases the wearer's Break Effect by <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>35.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>49.0%</color> / <color style='color:#f29e38;'>56.0%</color> . Upon entering battle or dealing Break DMG, increases SPD by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> , lasting for <b>2.0</b> turn(s). This effect can only be triggered 1 time per turn."
+      ]
+    },
+    "v3": {
       "Name": "Concealment",
       "Desc": [
         "Increases the wearer's Break Effect by <color style='color:#f29e38;'>28.0%</color> / <color style='color:#f29e38;'>35.0%</color> / <color style='color:#f29e38;'>42.0%</color> / <color style='color:#f29e38;'>49.0%</color> / <color style='color:#f29e38;'>56.0%</color> . Upon entering battle or dealing Break DMG, increases SPD by <color style='color:#f29e38;'>8.0%</color> / <color style='color:#f29e38;'>9.0%</color> / <color style='color:#f29e38;'>10.0%</color> / <color style='color:#f29e38;'>11.0%</color> / <color style='color:#f29e38;'>12.0%</color> , lasting for <b>2.0</b> turn(s). This effect can only be triggered 1 time per turn."

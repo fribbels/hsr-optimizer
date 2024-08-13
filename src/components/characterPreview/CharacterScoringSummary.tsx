@@ -679,9 +679,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     const upgradeDmg = setUpgrade.simulationResult.simScore / baseDmg - 1
 
     extraRows.push(
-      <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
+      <Flex gap={2} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 10 }} />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }} />
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
         <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
@@ -691,7 +691,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
   if (extraRows.length) {
     rows.splice(5 - extraRows.length, extraRows.length)
-    extraRows.map((row) => rows.push(row))
+    extraRows.map((row) => rows.unshift(row))
   }
 
   //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%

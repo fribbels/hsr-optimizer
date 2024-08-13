@@ -18,6 +18,10 @@ for (const set of relicSetList) {
   set[2] = set[1]
   set[1] = lowerAlphaNumeric(set[1])
 }
+const relicSetMapping = gameData.relics.reduce((map, relic) => {
+  map[relic.id] = relic;
+  return map;
+}, {});
 
 export class KelzFormatParser { // TODO abstract class
   constructor(config) {
@@ -38,7 +42,18 @@ export class KelzFormatParser { // TODO abstract class
       throw new Error(`Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'`)
     }
 
+    // Temporary while transitioning to v4
     if (json.version != this.config.latestOutputVersion) {
+      Message.warning((
+        <Text>
+          {`Your scanner version is out of date and may result in incorrect imports! Please update to the latest version from Github:`}
+          {' '}
+          <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
+        </Text>
+      ), 15)
+    }
+
+    if (json.version != 3 && json.version != 4) {
       throw new Error(`Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'`)
     }
 
@@ -54,6 +69,18 @@ export class KelzFormatParser { // TODO abstract class
           <a target="_blank" style={{ color: '#3f8eff' }} href={this.config.releases} rel="noreferrer">{this.config.releases}</a>
         </Text>
       ), 15)
+    }
+
+    let readCharacter
+    let readRelic
+    if (json.version == 3) {
+      readRelic = readRelicV3
+      readCharacter = readCharacterV3
+    }
+
+    if (json.version == 4) {
+      readRelic = readRelicV4
+      readCharacter = readCharacterV4
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
@@ -86,12 +113,14 @@ export class KelzFormatParser { // TODO abstract class
   }
 }
 
-function readCharacter(character, lightCones, trailblazer, path) {
+// ================================================== V3 ==================================================
+
+function readCharacterV3(character, lightCones, trailblazer, path) {
   let lightCone = undefined
   if (lightCones) {
     if (character.key.startsWith('Trailblazer')) {
       lightCone = lightCones.find((x) => x.location === character.key)
-      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
+        || lightCones.find((x) => x.location.startsWith('Trailblazer'))
     } else {
       lightCone = lightCones.find((x) => x.location === character.key)
     }
@@ -119,7 +148,7 @@ function readCharacter(character, lightCones, trailblazer, path) {
   }
 }
 
-function readRelic(relic, trailblazer, path, config) {
+function readRelicV3(relic, trailblazer, path, config) {
   const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   const part = partMatches.bestMatch.target
 
@@ -152,6 +181,65 @@ function readRelic(relic, trailblazer, path, config) {
     verified: config.speedVerified,
   }
 }
+
+// ================================================== V4 ==================================================
+
+function readCharacterV4(character, lightCones, trailblazer, path) {
+  let lightCone = undefined
+  if (lightCones) {
+    lightCone = lightCones.find((x) => x.location === character.id)
+  }
+
+  let characterId = character.id
+
+  const lcKey = lightCone?.id
+  const lightConeId = lcKey
+
+  if (!characterId) return null
+
+  return {
+    characterId: characterId,
+    characterLevel: character.level || 80,
+    characterEidolon: character.eidolon || 0,
+    lightCone: lightConeId || null,
+    lightConeLevel: lightCone?.level || 80,
+    lightConeSuperimposition: lightCone?.superimposition || 1,
+  }
+}
+
+function readRelicV4(relic, trailblazer, path, config) {
+  const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
+  const part = partMatches.bestMatch.target
+
+  const setId = relic.set_id
+  const set = relicSetMapping[setId].name
+
+  const enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
+  const grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
+
+  const { main, substats } = readRelicStats(relic, part, grade, enhance)
+
+  let equippedBy = undefined
+  if (relic.location !== '') {
+    const lookup = characterList.find((x) => x.id == relic.location)?.id
+    if (lookup) {
+      equippedBy = lookup
+    }
+  }
+
+  return {
+    part,
+    set,
+    enhance,
+    grade,
+    main,
+    substats,
+    equippedBy,
+    verified: config.speedVerified,
+  }
+}
+
+// ================================================== ==================================================
 
 function readRelicStats(relic, part, grade, enhance) {
   let mainStat

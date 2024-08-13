@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 
 // NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
 export function RelicSetTagRenderer(props) {
-  const { value, closable, onClose } = props
+  const {value, closable, onClose} = props
+
+  if (!value) return
+
   /*
    * The value comes in as:
    * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
@@ -24,8 +27,8 @@ export function RelicSetTagRenderer(props) {
     inner
       = (
       <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
       </React.Fragment>
     )
   }
@@ -34,8 +37,8 @@ export function RelicSetTagRenderer(props) {
     inner
       = (
       <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
-        <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
+        <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
       </React.Fragment>
     )
   }
@@ -44,7 +47,7 @@ export function RelicSetTagRenderer(props) {
     inner
       = (
       <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{ width: 26, height: 26 }}></img>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} style={{width: 26, height: 26}}></img>
       </React.Fragment>
     )
   }
@@ -58,7 +61,7 @@ export function RelicSetTagRenderer(props) {
       onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
+      style={{display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden'}}
     >
       <Flex>
         {inner}
@@ -66,6 +69,7 @@ export function RelicSetTagRenderer(props) {
     </Tag>
   )
 }
+
 RelicSetTagRenderer.propTypes = {
   value: PropTypes.string,
   closable: PropTypes.bool,

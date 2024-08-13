@@ -117,6 +117,8 @@ export const Hint = {
         <Flex vertical gap={10}>
           <p>Equip - Equip the selected relics from the grid onto the character</p>
           <p>Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search</p>
+          <p>Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily</p>
+          <p>Clear pins - Clear all the builds that you pinned to the top of the grid</p>
         </Flex>
       ),
     }

@@ -73,10 +73,18 @@ const cleanedLightcones = lightCones.map(lightCone => {
 })
 const lightConeMap = arrayToMap(cleanedLightcones, 'id')
 
+const cleanedRelics = relics.map(relic => {
+  return {
+    id: '' + relic['_id'],
+    name: '' + relic['Name'],
+    skills: '' + relic['Skills'],
+  }
+})
+
 const merged = {
   characters: characterMap,
   lightCones: lightConeMap,
-  // relics: relics
+  relics: cleanedRelics
 }
 
 fs.writeFile('./src/data/game_data.json', JSON.stringify(merged, null, 2), (err) => {

@@ -24,11 +24,35 @@ const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   })
 }
 
+const displayTextMap = {
+  'simScore': 'Sim Damage',
+  'Fire DMG Boost': 'Fire DMG',
+  'Ice DMG Boost': 'Ice DMG',
+  'Imaginary DMG Boost': 'Imaginary DMG',
+  'Lightning DMG Boost': 'Lightning DMG',
+  'Physical DMG Boost': 'Physical DMG',
+  'Quantum DMG Boost': 'Quantum DMG',
+  'Wind DMG Boost': 'Wind DMG',
+  'Outgoing Healing Boost': 'Healing Boost',
+  'Energy Regeneration Rate': 'Energy Regen',
+  'BASIC': 'Basic Damage',
+  'ULT': 'Ult Damage',
+  'SKILL': 'Skill Damage',
+  'FUA': 'FUA Damage',
+  'DOT': 'DoT Damage',
+}
+
+export const DAMAGE_STATS = {
+  'BASIC': true,
+  'ULT': true,
+  'SKILL': true,
+  'FUA': true,
+  'DOT': true,
+}
+
 const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.Element => {
   const { stat, finalStats } = props
-  const readableStat = stat == 'simScore'
-    ? 'Sim Damage'
-    : stat.replace('DMG Boost', 'DMG').replace('Outgoing Healing Boost', 'Healing Boost').replace('Energy Regeneration Rate', 'Energy Regen')
+  const readableStat = displayTextMap[stat] || stat
   const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay
@@ -37,7 +61,7 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   if (stat == 'CV') {
     valueDisplay = Utils.truncate10ths(props.value).toFixed(1)
     value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
-  } else if (stat == 'simScore') {
+  } else if (stat == 'simScore' || DAMAGE_STATS[stat]) {
     valueDisplay = `${Utils.truncate10ths(Utils.precisionRound(props.value / 1000)).toFixed(1)}K`
     value1000thsPrecision = Utils.truncate1000ths(props.value).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {
@@ -58,10 +82,10 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   }
   return (
     <Flex justify="space-between" align="center" title={value1000thsPrecision}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
       <StatText>{readableStat}</StatText>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
-      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' || DAMAGE_STATS[stat] ? '' : '%'}`}</StatText>
     </Flex>
   )
 }

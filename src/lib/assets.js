@@ -1,5 +1,6 @@
 import { Constants } from './constants.ts'
 import { BASE_PATH } from 'lib/db.js'
+import { DAMAGE_STATS } from 'components/characterPreview/StatRow'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
@@ -39,7 +40,7 @@ export const Assets = {
       }
     }
     if (stat == 'CV') return getImageUrl(`/misc/cv.webp`)
-    if (stat == 'simScore') return getImageUrl(`/misc/battle.webp`)
+    if (stat == 'simScore' || DAMAGE_STATS[stat]) return getImageUrl(`/misc/battle.webp`)
     if (stat == Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
     if (stat == Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)
     if (stat == Constants.Stats.DEF_P && percented) return getImageUrl(`/misc/IconDefencePercent.webp`)

@@ -1434,6 +1434,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
+        damageDisplay: ['SKILL', 'ULT'],
         formula: {
           BASIC: 0,
           SKILL: 3,
@@ -1542,6 +1543,7 @@ function getScoringMetadata() {
           Stats.ATK,
         ],
         breakpoints: {},
+        damageDisplay: ['FUA', 'ULT'],
         formula: {
           BASIC: 0,
           SKILL: 2,
@@ -4411,6 +4413,7 @@ function getScoringMetadata() {
         ],
         breakpoints: {},
         maxBonusRolls: {},
+        damageDisplay: ['FUA', 'ULT'],
         formula: {
           BASIC: 0,
           SKILL: 2,

@@ -691,7 +691,7 @@ export const DB = {
     // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
-        DB.addFromForm(character)
+        DB.addFromForm(character, false)
       }
     }
 

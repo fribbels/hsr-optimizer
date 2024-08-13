@@ -988,7 +988,7 @@ function generatePartialSimulations(
   originalBaseSpeed: number,
 ) {
   const characterSpdStat = calculateCharacterSpdStat(character)
-  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 36 // 3 min spd rolls per piece
+  const forceSpdBoots = originalBaseSpeed - characterSpdStat > 40 // 4 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

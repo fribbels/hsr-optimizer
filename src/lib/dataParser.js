@@ -4413,9 +4413,9 @@ function getScoringMetadata() {
         maxBonusRolls: {},
         formula: {
           BASIC: 0,
-          SKILL: 1,
+          SKILL: 2,
           ULT: 1,
-          FUA: 2,
+          FUA: 4,
           DOT: 0,
           BREAK: 0,
         },

@@ -945,7 +945,7 @@ function getOverrideTraces() {
     1220: { // Feixiao
       [Stats.ATK_P]: 0.28,
       [Stats.CR]: 0.12,
-      [Stats.SPD]: 5,
+      [Stats.DEF_P]: 0.125,
     },
     1221: { // Yunli
       [Stats.ATK_P]: 0.28,
@@ -1981,13 +1981,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ATK_P,
           Stats.ERR,
@@ -2137,8 +2135,7 @@ function getScoringMetadata() {
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
@@ -4250,13 +4247,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
@@ -4339,10 +4334,8 @@ function getScoringMetadata() {
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
         ],
-        [Constants.Parts.PlanarSphere]: [
-        ],
-        [Constants.Parts.LinkRope]: [
-        ],
+        [Constants.Parts.PlanarSphere]: [],
+        [Constants.Parts.LinkRope]: [],
       },
       presets: [],
       sortOption: SortOption.EHR,
@@ -4388,7 +4381,9 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnAshblazingSet(1),
+      ],
       sortOption: SortOption.ULT,
       simulation: {
         parts: {
@@ -4420,7 +4415,7 @@ function getScoringMetadata() {
           BASIC: 0,
           SKILL: 2,
           ULT: 1,
-          FUA: 2,
+          FUA: 4,
           DOT: 0,
           BREAK: 0,
         },
@@ -4609,6 +4604,7 @@ function getScoringMetadata() {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.fnAshblazingSet(3),
       ],
       sortOption: SortOption.BE,
     },
@@ -4653,7 +4649,9 @@ function getScoringMetadata() {
           Constants.Stats.ATK_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.fnAshblazingSet(6),
+      ],
       sortOption: SortOption.FUA,
       simulation: {
         parts: {
@@ -4859,8 +4857,7 @@ function getScoringMetadata() {
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
           Stats.BE,
@@ -5001,13 +4998,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
           Stats.BE,
@@ -5277,8 +5272,7 @@ function getScoringMetadata() {
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
@@ -5890,13 +5884,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.BE,
         ],
@@ -6294,13 +6286,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.BE,
           Stats.ERR,
@@ -6334,13 +6324,11 @@ function getScoringMetadata() {
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [
-        ],
+        [Parts.Body]: [],
         [Parts.Feet]: [
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.BE,
           Stats.ERR,

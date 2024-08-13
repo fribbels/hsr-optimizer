@@ -1,40 +1,37 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityCd, buffAbilityResShred } from "lib/optimizer/calculateBuffs";
+import { buffAbilityCd, buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.40, 2.64)
+  const skillScaling = skill(e, 2.00, 2.20)
 
-  const ultScaling = ult(e, 0.75, 0.81)
-  const ultBrokenScaling = ult(e, 0.40, 0.432)
+  const ultScaling = ult(e, 0.60, 0.648)
+  const ultBrokenScaling = ult(e, 0.30, 0.33)
+  const ultFinalScaling = ult(e, 1.60, 1.728)
 
-  const ultFinalScaling = ult(e, 0.10, 0.108)
-  const ultFinalBrokenScaling = ult(e, 0.15, 0.162)
+  const fuaScaling = talent(e, 1.10, 1.21)
+  const talentDmgBuff = talent(e, 0.60, 0.66)
 
-  const fuaScaling = talent(e, 2.00, 2.20)
-
-  let hitMulti = 0
+  const ultHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
+  const ultBrokenHitCountMulti = ASHBLAZING_ATK_STACK * (
+    1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9 +
+    3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9 +
+    5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9 +
+    7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
+    8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
+    8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
+    8 * 0.2285)
 
   const content: ContentItem[] = [
-    {
-      formItem: 'slider',
-      id: 'ultStacks',
-      name: 'ultStacks',
-      text: 'Flying Aureus stacks',
-      title: 'Flying Aureus stacks',
-      content: BETA_UPDATE,
-      min: 6,
-      max: 12,
-    },
     {
       formItem: 'switch',
       id: 'weaknessBrokenUlt',
@@ -44,22 +41,36 @@ export default (e: Eidolon): CharacterConditional => {
       content: `Overrides weakness break to be enabled. ${BETA_UPDATE}`,
     },
     {
-      formItem: 'slider',
-      id: 'e1UltHitsOnTarget',
-      name: 'e1UltHitsOnTarget',
-      text: 'E1 hits on target',
-      title: 'E1 hits on target',
+      formItem: 'switch',
+      id: 'talentDmgBuff',
+      name: 'talentDmgBuff',
+      text: 'Talent DMG buff',
+      title: 'Talent DMG buff',
       content: BETA_UPDATE,
-      min: 6,
-      max: 12,
+    },
+    {
+      formItem: 'switch',
+      id: 'skillAtkBuff',
+      name: 'skillAtkBuff',
+      text: 'Skill ATK buff',
+      title: 'Skill ATK buff',
+      content: BETA_UPDATE,
+    },
+    {
+      formItem: 'switch',
+      id: 'e1OriginalDmgBoost',
+      name: 'e1OriginalDmgBoost',
+      text: 'E1 original DMG boost',
+      title: 'E1 original DMG boost',
+      content: BETA_UPDATE,
       disabled: e < 1,
     },
     {
       formItem: 'switch',
-      id: 'e4DmgTypeChange',
-      name: 'e4DmgTypeChange',
-      text: 'E4 DMG type change',
-      title: 'E4 DMG type change',
+      id: 'e4FuaVulnerability',
+      name: 'e4FuaVulnerability',
+      text: 'E4 FUA vulnerability',
+      title: 'E4 FUA vulnerability',
       content: BETA_UPDATE,
       disabled: e < 4,
     },
@@ -74,13 +85,17 @@ export default (e: Eidolon): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = []
+  const teammateContent: ContentItem[] = [
+    findContentId(content, 'e4FuaVulnerability'),
+  ]
 
   const defaults = {
-    ultStacks: 12,
+    ultStacks: 6,
     weaknessBrokenUlt: true,
-    e1UltHitsOnTarget: 12,
-    e4DmgTypeChange: true,
+    talentDmgBuff: true,
+    skillAtkBuff: true,
+    e1OriginalDmgBoost: true,
+    e4FuaVulnerability: true,
     e6Buffs: true,
   }
 
@@ -88,7 +103,9 @@ export default (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => defaults,
-    teammateDefaults: () => ({}),
+    teammateDefaults: () => ({
+      e4FuaVulnerability: true,
+    }),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -100,69 +117,87 @@ export default (e: Eidolon): CharacterConditional => {
         x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
       }
 
-      buffAbilityCd(x, FUA_TYPE, 0.60)
+      buffAbilityCd(x, FUA_TYPE, 0.36)
+
+      x[Stats.ATK_P] += (r.skillAtkBuff) ? 0.48 : 0
+      x.ELEMENTAL_DMG += (r.talentDmgBuff) ? talentDmgBuff : 0
+      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
 
-      // The two ults currently do the same thing
-      const ultBaseScalingTotal = r.ultStacks * (ultScaling + ultBrokenScaling)
-      let ultFinalScalingTotal = r.ultStacks * (ultFinalScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0))
-      ultFinalScalingTotal += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
+      // TODO: Ashblazing
+      x.ULT_SCALING += 6 * (ultScaling + ultBrokenScaling) + ultFinalScaling
 
-      x.ULT_SCALING += ultBaseScalingTotal + ultFinalScalingTotal
-
-
-      // The broken enemies ult has a 2 hit 0.30 + 0.70 split per stack, while the unbroken one is 1 hit 1.00 split
-      // The last hit is separate from that so we need to calculate its percentage contribution to the full ult and distribute it
-      const lastHitPercentage = ultFinalScalingTotal / (ultBaseScalingTotal + ultFinalScalingTotal)
-      const mainUltPercentagePerStack = (1 - lastHitPercentage) / r.ultStacks
-      let atkBoostSum = 0
-      let ashblazingStacks = 1
-      if (r.weaknessBrokenUlt) {
-        // 2 hits
-        for (let i = 0; i < r.ultStacks; i++) {
-          atkBoostSum += ashblazingStacks * (0.3 * mainUltPercentagePerStack)
-          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-
-          atkBoostSum += ashblazingStacks * (0.7 * mainUltPercentagePerStack)
-          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-        }
-
-        atkBoostSum += ashblazingStacks * lastHitPercentage
-      } else {
-        // 1 hit
-        for (let i = 0; i < r.ultStacks; i++) {
-          atkBoostSum += ashblazingStacks * (mainUltPercentagePerStack)
-          ashblazingStacks = Math.min(8, ashblazingStacks + 1)
-        }
-      }
-
-      hitMulti = ASHBLAZING_ATK_STACK * atkBoostSum
-
-      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
-
-      if (e >= 4 && r.e4DmgTypeChange) {
-        x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
-        x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
-      }
+      x.ULT_ORIGINAL_DMG_BOOST += (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0
 
       if (e >= 6 && r.e6Buffs) {
-        buffAbilityResShred(x, FUA_TYPE, 0.20) // This should technically just be wind res pen
+        x.RES_PEN += 0.20
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
-        x.FUA_SCALING += 3.60
+        x.FUA_SCALING += 1.40
       }
 
+
+      //
+      // // The two ults currently do the same thing
+      // const ultBaseScalingTotal = r.ultStacks * (ultScaling + ultBrokenScaling)
+      // let ultFinalScalingTotal = r.ultStacks * (ultFinalScaling + (r.weaknessBrokenUlt ? ultFinalBrokenScaling : 0))
+      // ultFinalScalingTotal += (e >= 1) ? 0.30 * Math.min(r.e1UltHitsOnTarget, r.ultStacks) : 0
+      //
+      // x.ULT_SCALING += ultBaseScalingTotal + ultFinalScalingTotal
+      //
+      //
+      // // The broken enemies ult has a 2 hit 0.30 + 0.70 split per stack, while the unbroken one is 1 hit 1.00 split
+      // // The last hit is separate from that so we need to calculate its percentage contribution to the full ult and distribute it
+      // const lastHitPercentage = ultFinalScalingTotal / (ultBaseScalingTotal + ultFinalScalingTotal)
+      // const mainUltPercentagePerStack = (1 - lastHitPercentage) / r.ultStacks
+      // let atkBoostSum = 0
+      // let ashblazingStacks = 1
+      // if (r.weaknessBrokenUlt) {
+      //   // 2 hits
+      //   for (let i = 0; i < r.ultStacks; i++) {
+      //     atkBoostSum += ashblazingStacks * (0.3 * mainUltPercentagePerStack)
+      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+      //
+      //     atkBoostSum += ashblazingStacks * (0.7 * mainUltPercentagePerStack)
+      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+      //   }
+      //
+      //   atkBoostSum += ashblazingStacks * lastHitPercentage
+      // } else {
+      //   // 1 hit
+      //   for (let i = 0; i < r.ultStacks; i++) {
+      //     atkBoostSum += ashblazingStacks * (mainUltPercentagePerStack)
+      //     ashblazingStacks = Math.min(8, ashblazingStacks + 1)
+      //   }
+      // }
+      //
+      // hitMulti = ASHBLAZING_ATK_STACK * atkBoostSum
+      //
+      //
+      // if (e >= 4 && r.e4DmgTypeChange) {
+      //   x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
+      //   x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
+      // }
+      //
+      // if (e >= 6 && r.e6Buffs) {
+      //   buffAbilityResShred(x, FUA_TYPE, 0.20) // This should technically just be wind res pen
+      //   x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
+      //   x.FUA_SCALING += 3.60
+      // }
+      //
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 15 * r.ultStacks
+      x.ULT_TOUGHNESS_DMG += 15 * 6 + 15
       x.FUA_TOUGHNESS_DMG += 15
-
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+      const m = request.characterConditionals
+
+      buffAbilityVulnerability(x, FUA_TYPE, 0.10, (e >= 4 && m.e4FuaVulnerability))
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
@@ -170,23 +205,23 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      {
-        // Ult is multi hit ashblazing
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+
+      // Ult is multi hit ashblazing
+      if (r.weaknessBrokenUlt) {
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultBrokenHitCountMulti)
+        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      } else {
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ultHitCountMulti)
         x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
 
-      // Everything else is single hit
+
+      // // Everything else is single hit
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-
-      if (e >= 4 && r.e4DmgTypeChange) {
-        x.BASIC_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-        x.SKILL_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
-      } else {
-        x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-        x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      }
     },
   }
 }

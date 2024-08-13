@@ -111,7 +111,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30
       x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 45
+      x.FUA_TOUGHNESS_DMG += 30
       x.FUA_TOUGHNESS_DMG += (e >= 6) ? 15 : 0
 
       return x
@@ -144,8 +144,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      x[Stats.ATK] += (r.beConversion) ? Math.min(0.50, 0.20 * x[Stats.BE]) * request.baseAtk : 0
-      x[Stats.OHB] += (r.beConversion) ? Math.min(0.20, 0.08 * x[Stats.BE]) : 0
+      x[Stats.ATK] += (r.beConversion) ? Math.min(0.50, 0.25 * x[Stats.BE]) * request.baseAtk : 0
+      x[Stats.OHB] += (r.beConversion) ? Math.min(0.20, 0.10 * x[Stats.BE]) : 0
     },
   }
 }

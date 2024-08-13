@@ -657,7 +657,7 @@
         "HP": 1047.816,
         "ATK": 601.524,
         "DEF": 388.08,
-        "SPD": 125,
+        "SPD": 112,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -703,7 +703,7 @@
       "rarity": 4,
       "path": "Hunt",
       "element": "Lightning",
-      "max_sp": 110,
+      "max_sp": 120,
       "stats": {
         "HP": 811.44,
         "ATK": 546.84,
@@ -2381,12 +2381,12 @@
     {
       "id": "318",
       "name": "The Wondrous BananAmusement Park",
-      "skills": "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>28.0%</b>."
+      "skills": "Increases the wearer's CRIT DMG by <b>16.0%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32.0%</b>."
     },
     {
       "id": "317",
       "name": "Lushaka, the Sunken Seas",
-      "skills": "Increases the wearer's Effect RES by <b>10.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>16.0%</b>."
+      "skills": "Increases the wearer's Effect RES by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>15.0%</b>."
     },
     {
       "id": "316",

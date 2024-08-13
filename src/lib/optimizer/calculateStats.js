@@ -133,7 +133,7 @@ export function calculateBaseStats(c, request, params) {
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
     0.10 * p2(sets.BrokenKeel)
-    + 0.10 * p2(sets.LushakaTheSunkenSeas),
+    + 0.05 * p2(sets.LushakaTheSunkenSeas),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -197,7 +197,7 @@ export function calculateComputedStats(c, request, params) {
     + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
     + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
     + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
-    + 0.16 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
+    + 0.15 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
 
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
@@ -216,7 +216,7 @@ export function calculateComputedStats(c, request, params) {
     + pioneerSetIndexToCd[params.valuePioneerDiverOfDeadWaters] * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * (params.valueSigoniaTheUnclaimedDesolation) * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.25 * (params.valueDuranDynastyOfRunningWolves >= 5) * p2(sets.DuranDynastyOfRunningWolves)
-    + 0.28 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
+    + 0.32 * params.enabledTheWondrousBananAmusementPark * p2(sets.TheWondrousBananAmusementPark)
 
   x[Stats.CR]
     += 0.10 * (params.valueWastelanderOfBanditryDesert > 0 ? 1 : 0) * p4(sets.WastelanderOfBanditryDesert)

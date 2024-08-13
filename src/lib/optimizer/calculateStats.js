@@ -132,8 +132,7 @@ export function calculateBaseStats(c, request, params) {
   )
 
   c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
-    0.10 * p2(sets.BrokenKeel)
-    + 0.05 * p2(sets.LushakaTheSunkenSeas),
+    0.10 * p2(sets.BrokenKeel),
   )
 
   c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
@@ -146,7 +145,8 @@ export function calculateBaseStats(c, request, params) {
 
   c[Stats.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c,
     0.05 * p2(sets.SprightlyVonwacq)
-    + 0.05 * p2(sets.PenaconyLandOfTheDreams),
+    + 0.05 * p2(sets.PenaconyLandOfTheDreams)
+    + 0.05 * p2(sets.LushakaTheSunkenSeas),
   )
 
   c[Stats.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c,

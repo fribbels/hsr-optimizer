@@ -187,6 +187,7 @@ export default (e: Eidolon): CharacterConditional => {
       //   x.FUA_SCALING += 3.60
       // }
       //
+
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 15 * 6 + 15
@@ -207,7 +208,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
       // Ult is multi hit ashblazing
       if (r.weaknessBrokenUlt) {

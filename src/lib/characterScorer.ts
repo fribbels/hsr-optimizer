@@ -396,10 +396,9 @@ export function scoreCharacterSimulation(
   const baselineSimScore = baselineSimResult.simScore
   const maximumSimScore = maximumSimResult.simScore
 
-  const percent
-    = originalSimScore >= benchmarkSimScore
-      ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-      : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+  const percent = originalSimScore >= benchmarkSimScore
+    ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+    : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
 
   // ===== Calculate upgrades =====
 
@@ -551,6 +550,7 @@ function generateStatImprovements(
 
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
+
   function upgradeMain(part: string) {
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
     for (const upgradeMainStat of metadata.parts[part]) {
@@ -576,6 +576,7 @@ function generateStatImprovements(
       })
     }
   }
+
   upgradeMain(Parts.Body)
   upgradeMain(Parts.Feet)
   upgradeMain(Parts.PlanarSphere)
@@ -904,25 +905,25 @@ function calculateMaxSubstatRollCounts(
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  const missingCrit = 100 - baselineSimResult.x[Stats.CR] * 100
-  maxCounts[Stats.CR] = Math.min(
+  const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
+  maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
     request.simBody == Stats.CR
       ? Math.ceil((missingCrit - 32.4) / critValue)
       : Math.ceil(missingCrit / critValue),
     maxCounts[Stats.CR],
-  )
+  ))
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-  const missingEhr = 120 - baselineSimResult.x[Stats.EHR] * 100
-  maxCounts[Stats.EHR] = Math.min(
+  const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
+  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.min(
     request.simBody == Stats.EHR
       ? Math.ceil((missingEhr - 43.2) / ehrValue)
       : Math.ceil(missingEhr / ehrValue),
     maxCounts[Stats.EHR],
-  )
+  ))
 
   return maxCounts
 }

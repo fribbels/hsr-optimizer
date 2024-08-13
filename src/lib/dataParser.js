@@ -4414,7 +4414,7 @@ function getScoringMetadata() {
         formula: {
           BASIC: 0,
           SKILL: 2,
-          ULT: 1,
+          ULT: 2,
           FUA: 4,
           DOT: 0,
           BREAK: 0,

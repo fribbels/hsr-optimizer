@@ -723,7 +723,7 @@ export const DB = {
           found.augmentedStats = newRelic.augmentedStats
         }
 
-        if (newRelic.equippedBy && newCharacters) {
+        if (newRelic.equippedBy && newCharacters.length) {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy
           newRelic = found
@@ -740,7 +740,7 @@ export const DB = {
       }
 
       // Update the character's equipped inventory
-      if (newRelic.equippedBy && newCharacters) {
+      if (newRelic.equippedBy && newCharacters.length) {
         const character = characters.find((x) => x.id == newRelic.equippedBy)
         if (character) {
           character.equipped[newRelic.part] = stableRelicId

@@ -1,4 +1,4 @@
-import { Divider, Flex } from 'antd'
+import { Divider, Flex, Skeleton } from 'antd'
 import PropTypes from 'prop-types'
 
 import { Assets } from 'lib/assets'
@@ -7,6 +7,7 @@ import { iconSize } from 'lib/constantsUi'
 import { Utils } from 'lib/utils'
 
 import StatText from 'components/characterPreview/StatText'
+import React from "react";
 
 const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   const breakpointPresets = [
@@ -26,9 +27,21 @@ const checkSpeedInBreakpoint = (speedValue: number): boolean => {
 
 const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.Element => {
   const { stat, finalStats } = props
+
   const readableStat = stat == 'simScore'
     ? 'Sim Damage'
     : stat.replace('DMG Boost', 'DMG').replace('Outgoing Healing Boost', 'Healing Boost').replace('Energy Regeneration Rate', 'Energy Regen')
+
+  if (stat == 'simScore' && props.value == null) {
+    return (
+      <Flex justify="space-between" align="center">
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <StatText>{'Sim Damage'}</StatText>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+        <Skeleton title={false} paragraph={{ rows: 1, width: '100%' }} active style={{ marginTop: 'auto', marginBottom: 'auto', paddingBottom: 2, width: '25%' }}/>
+      </Flex>
+    )
+  }
   const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay
@@ -58,9 +71,9 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   }
   return (
     <Flex justify="space-between" align="center" title={value1000thsPrecision}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
       <StatText>{readableStat}</StatText>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
       <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>
   )

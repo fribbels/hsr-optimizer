@@ -448,3 +448,13 @@ a {
 .ag-header-cell-filter-button {
     display: none;
 }
+
+.ant-skeleton-paragraph {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-block: 2px 0em !important;
+}
+
+.ant-skeleton-paragraph > li {
+    margin-inline: 0 !important;
+}

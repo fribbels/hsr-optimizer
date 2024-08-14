@@ -195,11 +195,38 @@ type PartialSimulationWrapper = {
   speedRollsDeduction: number
 }
 
-export function scoreCharacterSimulation(
+export function scoreCharacterSimulationPromise(
+  character: Character,
+  displayRelics: RelicBuild,
+  teamSelection: string,
+  id: string,
+) {
+  return new Promise(async (resolve, reject) => {
+    scoreCharacterSimulation(character, displayRelics, teamSelection).then(result => {
+      if (!result) {
+        // resolve(null)
+        return null
+      } else {
+        setTimeout(() => {
+          result.id = id
+          resolve(result)
+        }, 200)
+        // result.id = id
+        // resolve(result)
+      }
+    })
+  })
+}
+
+export async function scoreCharacterSimulation(
   character: Character,
   displayRelics: RelicBuild,
   teamSelection: string,
 ): SimulationScore | null {
+  if (!character) {
+    return null
+  }
+
   const originalForm = character.form
   const characterId = originalForm.characterId
   const characterEidolon = originalForm.characterEidolon

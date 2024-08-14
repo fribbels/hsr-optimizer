@@ -1,5 +1,5 @@
 import { Button, Flex, Popconfirm, Select, theme } from 'antd'
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
 
@@ -22,106 +22,6 @@ import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
 
 const { useToken } = theme
-const GradeFilter = forwardRef((props, ref) => {
-  const [model, setModel] = useState(null)
-
-  const isFilterActive = useCallback(() => {
-    return model != null && (model.grade.length > 0 || model.verified.length > 0)
-  }, [model])
-
-  // expose AG Grid Filter Lifecycle callbacks
-  useImperativeHandle(ref, () => {
-    return {
-      doesFilterPass(params) {
-        if (model.grade.length > 0) {
-          if (!model.grade.includes(params.data.grade)) {
-            return false
-          }
-        }
-
-        if (model.verified.length > 0) {
-          if (!model.verified.includes(params.data.verified ?? false)) {
-            return false
-          }
-        }
-
-        return true
-      },
-
-      isFilterActive,
-
-      getModel() {
-        return model
-      },
-
-      setModel(model) {
-        setModel(model)
-      },
-    }
-  })
-
-  useEffect(() => {
-    props.filterChangedCallback()
-  }, [model, props])
-
-  let filterMessage = 'No Filters Applied'
-  if (isFilterActive()) {
-    const gradeFilter = model.grade.length > 0 ? `Grade ${model.grade.sort().join(' or ')}` : null
-    const verifiedFilter = model.verified.length > 0 ? `${model.verified.sort().reverse().map((x) => x ? 'Verified' : 'not Verified').join(' or ')}` : null
-
-    const filters = [gradeFilter, verifiedFilter].filter((x) => x)
-    filterMessage = `Filtering by ${filters.join(' and ')}`
-  }
-
-  return (
-    <div style={{ padding: '8px' }}>
-      {filterMessage}
-    </div>
-  )
-})
-
-GradeFilter.displayName = 'GradeFilter'
-GradeFilter.propTypes = {
-  filterChangedCallback: PropTypes.func,
-}
-
-const EquippedFilter = forwardRef((props, ref) => {
-  const [model, setModel] = useState(null)
-
-  const isFilterActive = useCallback(() => {
-    return model != null && (model.equipped.length > 0)
-  }, [model])
-
-  useImperativeHandle(ref, () => {
-    return {
-      doesFilterPass(params) {
-        if ([0, 2].includes(model.equipped.length)) return true
-        if (model.equipped[0] && params.data.equippedBy != undefined) return true
-        if (!model.equipped[0] && params.data.equippedBy == undefined) return true
-        return false
-      },
-
-      isFilterActive,
-
-      getModel() {
-        return model
-      },
-
-      setModel(model) {
-        setModel(model)
-      },
-    }
-  })
-
-  useEffect(() => {
-    props.filterChangedCallback()
-  }, [model, props])
-})
-
-EquippedFilter.displayName = 'EquippedFilter'
-EquippedFilter.propTypes = {
-  filterChangedCallback: PropTypes.func,
-}
 
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
@@ -185,8 +85,40 @@ export default function RelicsTab() {
     }
 
     filterModel.grade = {
-      grade: relicTabFilters.grade,
-      verified: relicTabFilters.verified,
+      conditions: relicTabFilters.grade.map((x) => ({
+        filterType: 'number',
+        type: 'equals',
+        filter: x,
+      })),
+      operator: 'OR',
+    }
+
+    filterModel.verified = {
+      conditions: [
+        relicTabFilters.verified.includes('true') && {
+          filterType: 'text',
+          type: 'true',
+        },
+        relicTabFilters.verified.includes('false') && {
+          filterType: 'text',
+          type: 'false',
+        },
+      ],
+      operator: 'OR',
+    }
+
+    filterModel.equippedBy = {
+      conditions: [
+        relicTabFilters.equippedBy.includes('true') && {
+          filterType: 'text',
+          type: 'notBlank',
+        },
+        relicTabFilters.equippedBy.includes('false') && {
+          filterType: 'text',
+          type: 'blank',
+        },
+      ],
+      operator: 'OR',
     }
 
     filterModel['main.stat'] = {
@@ -227,10 +159,6 @@ export default function RelicsTab() {
         },
       ]),
       operator: 'OR',
-    }
-
-    filterModel.equipped = {
-      equipped: relicTabFilters.equipped,
     }
 
     console.log('FilterModel', filterModel)
@@ -275,25 +203,14 @@ export default function RelicsTab() {
   const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
-    {
-      field: 'equipped',
-      filter: EquippedFilter,
-      hide: true,
-    },
-    { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon },
+    { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
+    { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {
       field: 'grade',
       width: 40,
       cellRenderer: Renderer.renderGradeCell,
-      filter: GradeFilter,
-      comparator: (a, b, nodeA, nodeB) => {
-        if (a === b) {
-          return (nodeA.data.verified ?? false) - (nodeB.data.verified ?? false)
-        } else {
-          return a - b
-        }
-      },
+      filter: 'agNumberColumnFilter',
     },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 55, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },
@@ -345,7 +262,7 @@ export default function RelicsTab() {
     width: 46,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
-    filterParams: { maxNumConditions: 100 },
+    filterParams: { maxNumConditions: 200 },
     wrapHeaderText: true,
     autoHeaderHeight: true,
     suppressHeaderMenuButton: true,
@@ -450,17 +367,17 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
-        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
-            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-            ...getGridTheme(token),
-          }}
+          ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+          ...getGridTheme(token),
+        }}
         >
 
           <AgGridReact
@@ -517,7 +434,7 @@ export default function RelicsTab() {
             style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()} />
+            <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -528,7 +445,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()} />
+            <TooltipImage type={Hint.relics()}/>
           </Flex>
 
           {relicInsight === 'top10' && scores && (
@@ -602,10 +519,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                                fill: x.color,
-                                strokeWidth: 1,
-                                stroke: 'rgb(0,0,0)',
-                              }}
+                              fill: x.color,
+                              strokeWidth: 1,
+                              stroke: 'rgb(0,0,0)',
+                            }}
                             />
                           </svg>
                         )

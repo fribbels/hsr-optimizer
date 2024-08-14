@@ -52,8 +52,8 @@ export const Renderer = {
 
     return (
       <Flex justify="center" style={{ marginTop: -1 }}>
-        <SetDisplay asset={setImages[0]} />
-        <SetDisplay asset={setImages[1]} />
+        <SetDisplay asset={setImages[0]}/>
+        <SetDisplay asset={setImages[1]}/>
       </Flex>
     )
   },
@@ -73,7 +73,7 @@ export const Renderer = {
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
         <Flex justify="center" style={{ marginTop: -1 }}>
-          <SetDisplay asset={setImage} />
+          <SetDisplay asset={setImage}/>
         </Flex>
       )
     } else {
@@ -88,7 +88,7 @@ export const Renderer = {
     const src = Assets.getSetImage(x.data.set, part)
     return (
       <Flex justify="center" title={x.data.set} style={{ marginTop: -1 }}>
-        <SetDisplay asset={src} />
+        <SetDisplay asset={src}/>
       </Flex>
     )
   },
@@ -101,7 +101,7 @@ export const Renderer = {
     const src = Assets.getCharacterAvatarById(equippedBy)
     return (
       <Flex justify="center" style={{ marginTop: -1 }}>
-        <SetDisplay asset={src} />
+        <SetDisplay asset={src}/>
       </Flex>
     )
   },
@@ -120,7 +120,7 @@ export const Renderer = {
     if (x == undefined || x.value == undefined) return ''
     return (
       <Flex justify="center" style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
-        <SetDisplay asset={Assets.getPart(x.value)} />
+        <SetDisplay asset={Assets.getPart(x.value)}/>
       </Flex>
     )
   },
@@ -183,21 +183,21 @@ export const Renderer = {
     const relic = x.data
     return Renderer.renderGrade(relic)
   },
-  renderGrade: (relic) => {
+  renderGrade: (relic, string = false) => {
     const color = gradeToColor[relic.grade] || ''
     return (
-      relic.verified
+      (string ? relic.verified == 'true' : relic.verified)
         ? <Tooltip mouseEnterDelay={0.4}
                    title="Relic substats verified by relic scorer (speed decimals)"><CheckCircleFilled
-          style={{ fontSize: '14px', color: color }} /></Tooltip>
-        : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }} />
+          style={{ fontSize: '14px', color: color }}/></Tooltip>
+        : <div style={{ width: 14, height: 14, borderRadius: '50%', background: color }}/>
     )
   },
-  renderEquipped: ({ equipped }) => {
+  renderEquippedBy: ({ equippedBy }) => {
     return (
-      equipped
-        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }} />
-        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }} />
+      equippedBy == 'true'
+        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
+        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
   },
 }

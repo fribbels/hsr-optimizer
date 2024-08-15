@@ -24,6 +24,16 @@ const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   })
 }
 
+export const damageStats = {
+  'Fire DMG Boost': 'Fire DMG',
+  'Ice DMG Boost': 'Ice DMG',
+  'Imaginary DMG Boost': 'Imaginary DMG',
+  'Lightning DMG Boost': 'Lightning DMG',
+  'Physical DMG Boost': 'Physical DMG',
+  'Quantum DMG Boost': 'Quantum DMG',
+  'Wind DMG Boost': 'Wind DMG',
+}
+
 export const displayTextMap = {
   'simScore': 'Sim Damage',
   'Fire DMG Boost': 'Fire DMG',

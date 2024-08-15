@@ -13,7 +13,7 @@ import { StatTextSm } from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
-import { displayTextMap } from "components/characterPreview/StatRow";
+import { damageStats, displayTextMap } from "components/characterPreview/StatRow";
 
 const { Text } = Typography
 
@@ -647,9 +647,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
   let substats = Utils.clone(simulationMetadata.substats)
   substats = Utils.filterUnique(substats)
-  // if (substats.length < 4) {
   substats.push(Stats.SPD)
-  // }
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
   substats.push(elementalDmgValue)
 
@@ -658,7 +656,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   for (const stat of substats) {
     if (stat == Stats.ATK_P || stat == Stats.DEF_P || stat == Stats.HP_P) continue
 
-    const value = result.originalSimResult.x[stat]
+    const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
     const flat = Utils.isFlat(stat)
 
     let display = Math.floor(value)

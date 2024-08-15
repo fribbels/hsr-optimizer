@@ -859,7 +859,7 @@ export function CharacterPreview(props) {
       {!isBuilds && (
         <Flex vertical>
           <Flex justify="center" gap={25}>
-            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
+            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align="center">
               <Text style={{ width: 150 }}>
                 Scoring algorithm:
               </Text>
@@ -887,7 +887,7 @@ export function CharacterPreview(props) {
               />
             </Flex>
 
-            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }} align="center">
+            <Flex justify="center" style={{ paddingLeft: 20, paddingRight: 5, borderRadius: 7, height: 40, marginTop: 10, backgroundColor: token.colorBgContainer + '85' }} align="center">
               <Text style={{ width: 150 }}>
                 Combat score details:
               </Text>

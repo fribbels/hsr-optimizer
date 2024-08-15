@@ -283,7 +283,7 @@ export const FormSetConditionals = () => {
           )}
         </Flex>
 
-        <VerticalDivider />
+        <VerticalDivider/>
 
         <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align="center" justify="flex-start">
@@ -292,13 +292,13 @@ export const FormSetConditionals = () => {
           </Flex>
           <ConditionalSetOption
             set={Constants.Sets.SpaceSealingStation}
-            description=""
+            description="Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
             conditional={defaultMessage}
             p2Checked
           />
           <ConditionalSetOption
             set={Constants.Sets.FleetOfTheAgeless}
-            description="Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
+            description="Increases the wearer's Max HP by 12%. When the wearer's SPD reaches 120 or higher, all allies' ATK increases by 8%."
             conditional={defaultMessage}
             p2Checked
           />
@@ -385,13 +385,13 @@ export const FormSetConditionals = () => {
           />
           <ConditionalSetOption
             set={Constants.Sets.LushakaTheSunkenSeas}
-            description="Increases the wearer's Effect RES by 10%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 16%."
+            description="Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 15%."
             conditional="The selected buff is applied to damage calculations."
             p2Checked
           />
           <ConditionalSetOption
             set={Constants.Sets.TheWondrousBananAmusementPark}
-            description="Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 28%."
+            description="Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%."
             conditional="The selected buff is applied to damage calculations."
           />
         </Flex>
@@ -421,7 +421,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked} />)
+    let inputType = (<Switch disabled={props.p4Checked}/>)
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -459,7 +459,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked} />)
+    let inputType = (<Switch disabled={props.p2Checked}/>)
     if (props.selectOptions) {
       inputType = (
         <Select

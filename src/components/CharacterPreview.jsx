@@ -505,6 +505,22 @@ export function CharacterPreview(props) {
                       Edit character
                     </Button>
                   )}
+                  {isScorer && (
+                    <Button
+                      style={{
+                        ...buttonStyle,
+                        top: 46,
+                      }}
+                      className="character-build-portrait-button"
+                      icon={<EditOutlined/>}
+                      onClick={() => {
+                        setOriginalCharacterModalOpen(true)
+                      }}
+                      type="primary"
+                    >
+                      Edit character
+                    </Button>
+                  )}
                   <Button
                     style={{
                       ...buttonStyle,

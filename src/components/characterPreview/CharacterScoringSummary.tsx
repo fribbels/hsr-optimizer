@@ -1,7 +1,7 @@
 import { Divider, Flex, Typography } from 'antd'
 import { defaultGap, iconSize } from 'lib/constantsUi'
 import { SimulationScore, SimulationStatUpgrade } from 'lib/characterScorer'
-import { ElementToDamage, Parts, Stats, StatsToReadable, StatsToShort, StatsToShortSpaced } from 'lib/constants'
+import { ElementToDamage, Parts, Stats, StatsToReadable, StatsToShort, StatsToShortSpaced, SubStats } from 'lib/constants'
 import { Utils } from 'lib/utils'
 import { Assets } from 'lib/assets'
 import { CharacterStatSummary } from 'components/characterPreview/CharacterStatSummary'
@@ -9,10 +9,11 @@ import { VerticalDivider } from 'components/Dividers'
 import DB from 'lib/db'
 import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
-import StatText from 'components/characterPreview/StatText'
+import StatText, { StatTextSm } from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
+import { displayTextMap } from "components/characterPreview/StatRow";
 
 const { Text } = Typography
 
@@ -351,7 +352,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
           <h4>Why is a character scoring low?</h4>
           <p>
-            The `Damage improvements` section will give a quick overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll.
+            The `Damage Upgrades` section will give a quick overview of the sets and stats that could be improved. Substat upgrades will show the damage increase for a single max roll.
             For a more detailed explanation, the full simulation is detailed below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main stats.
             Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in builds and see where to improve.
           </p>
@@ -638,6 +639,56 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
   )
 }
 
+export function CharacterCardCombatStats(props: { result: SimulationScore }) {
+  const result = props.result
+  const simulationMetadata = result.simulationMetadata
+  const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
+  let substats = Utils.clone(simulationMetadata.substats)
+  substats = Utils.filterUnique(substats)
+  // if (substats.length < 4) {
+  substats.push(Stats.SPD)
+  // }
+  substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
+  substats.push(elementalDmgValue)
+
+  const rows: ReactElement[] = []
+
+  for (const stat of substats) {
+    if (stat == Stats.ATK_P || stat == Stats.DEF_P || stat == Stats.HP_P) continue
+
+    const value = result.originalSimResult.x[stat]
+    const flat = Utils.isFlat(stat)
+
+    let display = Math.floor(value)
+    if (stat == Stats.SPD) {
+      display = Utils.truncate10ths(value).toFixed(1)
+    } else if (!flat) {
+      display = Utils.truncate10ths(value * 100).toFixed(1)
+    }
+
+    rows.push(
+      <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <StatTextSm>{`${displayTextMap[stat] || stat}`}</StatTextSm>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
+      </Flex>,
+    )
+  }
+
+  return (
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
+      <Flex vertical align="center">
+        <HeaderText style={{ fontSize: 16 }}>
+          Combat Stats
+        </HeaderText>
+      </Flex>
+      {rows}
+    </Flex>
+  )
+}
+
+
 export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
   const result = props.result
   const rows: ReactElement[] = []
@@ -700,8 +751,8 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   return (
     <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
-        <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
-          Damage Improvements
+        <HeaderText style={{ fontSize: 16 }}>
+          Damage Upgrades
         </HeaderText>
       </Flex>
       {rows}

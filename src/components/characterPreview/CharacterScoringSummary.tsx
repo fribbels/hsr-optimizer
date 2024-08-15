@@ -405,6 +405,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     const simResult = TsUtils.clone(props.simulation.result)
     const basicStats = simResult
     const combatStats = basicStats.x
+    const highlight = props.nameText == 'Character'
+    const color = 'rgb(225, 165, 100)'
     basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
     combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
 
@@ -412,7 +414,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       <Flex vertical gap={50}>
         <Flex vertical gap={defaultGap}>
           <Flex justify="space-around">
-            <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+            <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
               <u>{`${props.nameText} build (${Utils.truncate10ths(Utils.precisionRound(props.percent * 100))}%)`}</u>
             </pre>
           </Flex>

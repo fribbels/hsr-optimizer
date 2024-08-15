@@ -278,7 +278,7 @@ export function CharacterPreview(props) {
     }
 
     const textDisplay = (
-      <Flex align="center" vertical style={{ marginBottom: 4 }}>
+      <Flex align="center" vertical style={{ marginBottom: 4, paddingTop: 5, paddingBottom: 5 }}>
         <StatText style={textStyle}>
           Combat Sim
         </StatText>
@@ -498,6 +498,22 @@ export function CharacterPreview(props) {
                       onClick={() => {
                         setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }}
+                      type="primary"
+                    >
+                      Edit character
+                    </Button>
+                  )}
+                  {isScorer && (
+                    <Button
+                      style={{
+                        ...buttonStyle,
+                        top: 46,
+                      }}
+                      className="character-build-portrait-button"
+                      icon={<EditOutlined/>}
+                      onClick={() => {
                         setOriginalCharacterModalOpen(true)
                       }}
                       type="primary"

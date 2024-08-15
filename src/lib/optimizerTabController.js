@@ -710,7 +710,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    window.optimizerGrid.current.api.redrawRows()
+    window.optimizerGrid.current.api.refreshCells({ force: true })
   },
 
   applyRowFilters: () => {

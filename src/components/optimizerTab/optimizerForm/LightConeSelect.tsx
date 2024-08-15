@@ -161,7 +161,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
-                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2} />
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2}/>
                   </Card>
                 ))
             }

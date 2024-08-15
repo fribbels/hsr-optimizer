@@ -72,6 +72,7 @@ export default function CharacterModal(props) {
                 value=""
                 withIcon={true}
                 onChange={(x) => {
+                  setCharacterId(x)
                   const eidolonPreselect = DB.getCharacterById(x)?.form?.characterEidolon || 0
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
                 }}
@@ -100,7 +101,6 @@ export default function CharacterModal(props) {
               <LightConeSelect
                 value=""
                 characterId={characterId}
-                initialPath={initialPath}
                 onChange={() => {
                   characterForm.setFieldValue('lightConeSuperimposition', 1)
                 }}

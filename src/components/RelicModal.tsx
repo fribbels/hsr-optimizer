@@ -250,12 +250,12 @@ export default function RelicModal(props: {
 
               <Form.Item name="part">
                 <Radio.Group buttonStyle="solid">
-                  <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
-                  <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
-                  <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
-                  <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
-                  <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
-                  <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
+                  <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)}/>
+                  <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)}/>
+                  <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)}/>
+                  <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)}/>
+                  <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)}/>
+                  <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)}/>
                 </Radio.Group>
               </Form.Item>
 
@@ -321,12 +321,12 @@ export default function RelicModal(props: {
                 </Form.Item>
 
                 <Form.Item name="mainStatValue">
-                  <InputNumberStyled controls={false} disabled />
+                  <InputNumberStyled controls={false} disabled/>
                 </Form.Item>
               </Flex>
             </Flex>
 
-            <div style={{ display: 'block', minWidth: 12 }} />
+            <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
               <HeaderText>Equipped by</HeaderText>
@@ -357,10 +357,10 @@ export default function RelicModal(props: {
                   <HeaderText>Substat upgrades</HeaderText>
                 </Flex>
               </Flex>
-              <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
+              <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
             </Flex>
           </Flex>
         </Flex>
@@ -380,6 +380,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
+  const field = props.relicForm.getFieldValue(statTypeField)
 
   function upgradeClicked(quality: string) {
     console.log(props, quality)
@@ -429,15 +430,18 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
           <InputNumberStyled
             controls={false}
             onChange={props.resetUpgradeValues}
+            formatter={(value) => {
+              return Utils.isFlat(field) ? value : Utils.precisionRound(parseFloat(value)).toFixed(1)
+            }}
             tabIndex={0}
           />
         </Form.Item>
       </Flex>
-      <CaretRightOutlined style={{ width: 12 }} />
+      <CaretRightOutlined style={{ width: 12 }}/>
       <Flex gap={5} style={{ width: '100%' }}>
-        <UpgradeButton quality="low" />
-        <UpgradeButton quality="mid" />
-        <UpgradeButton quality="high" />
+        <UpgradeButton quality="low"/>
+        <UpgradeButton quality="mid"/>
+        <UpgradeButton quality="high"/>
       </Flex>
     </Flex>
   )

@@ -9,7 +9,7 @@ import { VerticalDivider } from 'components/Dividers'
 import DB from 'lib/db'
 import React, { ReactElement } from 'react'
 import { StatCalculator } from 'lib/statCalculator'
-import StatText, { StatTextSm } from 'components/characterPreview/StatText'
+import { StatTextSm } from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
@@ -702,9 +702,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatText>{`+1x ${StatsToShortSpaced[stat]}`}</StatText>
+        <StatTextSm>{`+1x ${StatsToShortSpaced[stat]}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
+        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -720,9 +720,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
         <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
+        <StatTextSm>{`➔ ${StatsToShortSpaced[stat]}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
+        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -737,7 +737,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }}/>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
+        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
       </Flex>,
     )
   }

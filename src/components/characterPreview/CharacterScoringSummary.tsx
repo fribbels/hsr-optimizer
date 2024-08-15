@@ -647,7 +647,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
   let substats = Utils.clone(simulationMetadata.substats)
   substats = Utils.filterUnique(substats)
-  substats.push(Stats.SPD)
+  if (substats.length < 6) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
   substats.push(elementalDmgValue)
 

@@ -144,8 +144,8 @@ export default function RelicFilterBar(props) {
     characterSelectorChange(currentlySelectedCharacterId)
   }, [])
 
-  function characterSelectorChange(id) {
-    const relics = Object.values(DB.getRelicsById())
+  function characterSelectorChange(id, singleRelic) {
+    const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
     setRelicsTabFocusCharacter(id)
@@ -180,6 +180,8 @@ export default function RelicFilterBar(props) {
         }
       }
     }
+
+    if (singleRelic) return
 
     // Clone the relics to refresh the sort
     DB.setRelics(Utils.clone(relics))
@@ -218,6 +220,12 @@ export default function RelicFilterBar(props) {
   function rescoreClicked() {
     characterSelectorChange(currentlySelectedCharacterId)
   }
+
+  function rescoreSingleRelic(singleRelic) {
+    characterSelectorChange(currentlySelectedCharacterId, singleRelic)
+  }
+
+  window.rescoreSingleRelic = rescoreSingleRelic
 
   return (
     <Flex vertical gap={2}>

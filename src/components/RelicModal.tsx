@@ -431,7 +431,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             controls={false}
             onChange={props.resetUpgradeValues}
             formatter={(value) => {
-              return Utils.isFlat(field) ? value : Utils.precisionRound(parseFloat(value)).toFixed(1)
+              return Utils.isFlat(field) ? value : (value ? Utils.precisionRound(parseFloat(value)).toFixed(1) : '')
             }}
             tabIndex={0}
           />

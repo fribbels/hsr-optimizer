@@ -161,15 +161,15 @@ export function CharacterPreview(props) {
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
         </Flex>
       </Flex>
@@ -310,7 +310,7 @@ export function CharacterPreview(props) {
                   <Flex vertical gap={10}>
                     <HeaderText>Combat sim scoring settings</HeaderText>
                     <Button
-                      icon={<SyncOutlined />}
+                      icon={<SyncOutlined/>}
                       onClick={() => {
                         const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
                         const simulation = characterMetadata.scoringMetadata.simulation
@@ -326,7 +326,7 @@ export function CharacterPreview(props) {
                       Reset custom team to default
                     </Button>
                     <Button
-                      icon={<SwapOutlined />}
+                      icon={<SwapOutlined/>}
                       onClick={() => {
                         const characterMetadata = Utils.clone(DB.getScoringMetadata(character.id))
                         const simulation = characterMetadata.simulation
@@ -365,7 +365,7 @@ export function CharacterPreview(props) {
           DEFAULT_TEAM,
           {
             label: (
-              <SettingOutlined />
+              <SettingOutlined/>
             ),
             value: SETTINGS_TEAM,
             className: 'short-segmented',
@@ -416,9 +416,9 @@ export function CharacterPreview(props) {
               outline: '1px solid rgba(255, 255, 255, 0.3)',
             }}
           />
-          <OverlayText text={`E${teammate.characterEidolon}`} top={-12} />
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }} />
-          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16} />
+          <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }}/>
+          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
         </Flex>
       </Card.Grid>
     )
@@ -494,7 +494,7 @@ export function CharacterPreview(props) {
                         top: 46,
                       }}
                       className="character-build-portrait-button"
-                      icon={<EditOutlined />}
+                      icon={<EditOutlined/>}
                       onClick={() => {
                         setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
@@ -511,7 +511,7 @@ export function CharacterPreview(props) {
                       top: 7,
                     }}
                     className="character-build-portrait-button"
-                    icon={<EditOutlined />}
+                    icon={<EditOutlined/>}
                     onClick={() => setEditPortraitModalOpen(true)}
                     type="primary"
                   >
@@ -638,7 +638,7 @@ export function CharacterPreview(props) {
                       width={36}
                       src={Assets.getElement(characterElement)}
                     />
-                    <Rarity rarity={characterMetadata.rarity} />
+                    <Rarity rarity={characterMetadata.rarity}/>
                     <Image
                       preview={false}
                       width={36}
@@ -662,18 +662,8 @@ export function CharacterPreview(props) {
                   simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
                 />
                 {
-                  !simScoringResult
-                  && (
-                    <Flex vertical>
-                      <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
-                        {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
-                      </StatText>
-                    </Flex>
-                  )
-                }
-                {
                   simScoringResult
-                  && <ScoreHeader result={simScoringResult} />
+                  && <ScoreHeader result={simScoringResult}/>
                 }
                 {
                   simScoringResult
@@ -716,55 +706,66 @@ export function CharacterPreview(props) {
                           />
                         </Flex>
                       </Card>
-                      <ScoreFooter result={simScoringResult} />
+                      <ScoreFooter result={simScoringResult}/>
                     </Flex>
                   )
                 }
                 {
                   simScoringResult && (
                     <Flex vertical gap={defaultGap}>
-                      <CharacterCardScoringStatUpgrades result={simScoringResult} />
+                      <CharacterCardScoringStatUpgrades result={simScoringResult}/>
+                    </Flex>
+                  )
+                }
+
+                {
+                  !simScoringResult
+                  && (
+                    <Flex vertical>
+                      <StatText style={{ fontSize: 17, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
+                        {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
+                      </StatText>
+                    </Flex>
+                  )
+                }
+                {
+                  !simScoringResult
+                  && (
+                    <Flex vertical style={{ width: middleColumnWidth }}>
+
+                      <Flex vertical>
+                        <StatText
+                          style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
+                          ellipsis={true}
+                        >
+                          {`${lightConeName}`}
+                          &nbsp;
+                        </StatText>
+                        <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
+                          {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
+                        </StatText>
+                      </Flex>
+                      <div style={{
+                        width: `${tempLcParentW}px`,
+                        height: `${tempLcParentH}px`,
+                        overflow: 'hidden',
+                        borderRadius: '8px',
+                        outline: outline,
+                        filter: filter,
+                      }}
+                      >
+                        <LoadingBlurredImage
+                          src={lightConeSrc}
+                          style={{
+                            width: tempLcInnerW,
+                            transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
+                          }}
+                        />
+                      </div>
                     </Flex>
                   )
                 }
               </Flex>
-              {
-                !simScoringResult
-                && (
-                  <Flex vertical style={{ width: middleColumnWidth }}>
-
-                    <Flex vertical>
-                      <StatText
-                        style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
-                        ellipsis={true}
-                      >
-                        {`${lightConeName}`}
-                        &nbsp;
-                      </StatText>
-                      <StatText style={{ fontSize: 18, fontWeight: 400, textAlign: 'center' }}>
-                        {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
-                      </StatText>
-                    </Flex>
-                    <div style={{
-                      width: `${tempLcParentW}px`,
-                      height: `${tempLcParentH}px`,
-                      overflow: 'hidden',
-                      borderRadius: '8px',
-                      outline: outline,
-                      filter: filter,
-                    }}
-                    >
-                      <LoadingBlurredImage
-                        src={lightConeSrc}
-                        style={{
-                          width: tempLcInnerW,
-                          transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`, // Magic # 8 to fit certain LCs
-                        }}
-                      />
-                    </div>
-                  </Flex>
-                )
-              }
             </Flex>
 
             <Flex vertical gap={defaultGap}>
@@ -861,7 +862,7 @@ export function CharacterPreview(props) {
               />
             </Flex>
           </Flex>
-          <CharacterScoringSummary simScoringResult={simScoringResult} />
+          <CharacterScoringSummary simScoringResult={simScoringResult}/>
         </Flex>
       )}
     </Flex>

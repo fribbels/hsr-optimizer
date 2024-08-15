@@ -4688,11 +4688,13 @@ function getScoringMetadata() {
           BREAK: 0,
         },
         relicSets: [
-          [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],

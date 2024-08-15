@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relicScorer.ts'
 import { StatCalculator } from 'lib/statCalculator'
 import { DB } from 'lib/db'
 import { Assets } from 'lib/assets'
-import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE } from 'lib/constants.ts'
+import { CHARACTER_SCORE, Constants, CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, SETTINGS_TEAM, SIMULATION_SCORE, Stats } from 'lib/constants.ts'
 import { defaultGap, innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, middleColumnWidth, parentH, parentW } from 'lib/constantsUi'
 
 import Rarity from 'components/characterPreview/Rarity'
@@ -21,7 +21,7 @@ import CharacterCustomPortrait from './CharacterCustomPortrait'
 import { SaveState } from 'lib/saveState'
 import { getSimScoreGrade, scoreCharacterSimulation } from 'lib/characterScorer'
 import { Utils } from 'lib/utils'
-import { CharacterCardScoringStatUpgrades, CharacterScoringSummary } from 'components/characterPreview/CharacterScoringSummary'
+import { CharacterCardScoringStatUpgrades, CharacterScoringSummary, StatTag } from 'components/characterPreview/CharacterScoringSummary'
 import CharacterModal from 'components/CharacterModal'
 import { LoadingBlurredImage } from 'components/LoadingBlurredImage'
 import { SavedSessionKeys } from 'lib/constantsSession'
@@ -161,15 +161,15 @@ export function CharacterPreview(props) {
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
 
           <Flex vertical gap={defaultGap}>
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
-            <RelicPreview setSelectedRelic={setSelectedRelic} />
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
+            <RelicPreview setSelectedRelic={setSelectedRelic}/>
           </Flex>
         </Flex>
       </Flex>
@@ -310,7 +310,7 @@ export function CharacterPreview(props) {
                   <Flex vertical gap={10}>
                     <HeaderText>Combat sim scoring settings</HeaderText>
                     <Button
-                      icon={<SyncOutlined />}
+                      icon={<SyncOutlined/>}
                       onClick={() => {
                         const characterMetadata = Utils.clone(DB.getMetadata().characters[character.id])
                         const simulation = characterMetadata.scoringMetadata.simulation
@@ -326,7 +326,7 @@ export function CharacterPreview(props) {
                       Reset custom team to default
                     </Button>
                     <Button
-                      icon={<SwapOutlined />}
+                      icon={<SwapOutlined/>}
                       onClick={() => {
                         const characterMetadata = Utils.clone(DB.getScoringMetadata(character.id))
                         const simulation = characterMetadata.simulation
@@ -365,7 +365,7 @@ export function CharacterPreview(props) {
           DEFAULT_TEAM,
           {
             label: (
-              <SettingOutlined />
+              <SettingOutlined/>
             ),
             value: SETTINGS_TEAM,
             className: 'short-segmented',
@@ -416,9 +416,9 @@ export function CharacterPreview(props) {
               outline: '1px solid rgba(255, 255, 255, 0.3)',
             }}
           />
-          <OverlayText text={`E${teammate.characterEidolon}`} top={-12} />
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }} />
-          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16} />
+          <OverlayText text={`E${teammate.characterEidolon}`} top={-12}/>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 2 }}/>
+          <OverlayText text={`S${teammate.lightConeSuperimposition}`} top={-16}/>
         </Flex>
       </Card.Grid>
     )
@@ -494,7 +494,7 @@ export function CharacterPreview(props) {
                         top: 46,
                       }}
                       className="character-build-portrait-button"
-                      icon={<EditOutlined />}
+                      icon={<EditOutlined/>}
                       onClick={() => {
                         setCharacterModalAdd(false)
                         setOriginalCharacterModalInitialCharacter(character)
@@ -511,7 +511,7 @@ export function CharacterPreview(props) {
                       top: 7,
                     }}
                     className="character-build-portrait-button"
-                    icon={<EditOutlined />}
+                    icon={<EditOutlined/>}
                     onClick={() => setEditPortraitModalOpen(true)}
                     type="primary"
                   >
@@ -638,7 +638,7 @@ export function CharacterPreview(props) {
                       width={36}
                       src={Assets.getElement(characterElement)}
                     />
-                    <Rarity rarity={characterMetadata.rarity} />
+                    <Rarity rarity={characterMetadata.rarity}/>
                     <Image
                       preview={false}
                       width={36}
@@ -664,16 +664,26 @@ export function CharacterPreview(props) {
                 {
                   !simScoringResult
                   && (
-                    <Flex vertical>
+                    <Flex vertical align='center'>
                       <StatText style={{ fontSize: 17, marginBottom: 10, fontWeight: 600, textAlign: 'center', color: '#e1a564' }}>
                         {`Character Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')'}`}
                       </StatText>
+                      <Flex vertical gap={5} style={{ width: 150, marginTop: 5 }}>
+                        <Flex align='center' gap={5} justify='center'>
+                          <StatTag stat={Stats.SPD} value={'SPD x8'}/>
+                          <StatTag stat={Stats.ATK_P} value={'ATK% x10'}/>
+                        </Flex>
+                        <Flex align='center' gap={5} justify='center'>
+                          <StatTag stat={Stats.CR} value={'CR x3'}/>
+                          <StatTag stat={Stats.CD} value={'CD x4'}/>
+                        </Flex>
+                      </Flex>
                     </Flex>
                   )
                 }
                 {
                   simScoringResult
-                  && <ScoreHeader result={simScoringResult} />
+                  && <ScoreHeader result={simScoringResult}/>
                 }
                 {
                   simScoringResult
@@ -716,14 +726,14 @@ export function CharacterPreview(props) {
                           />
                         </Flex>
                       </Card>
-                      <ScoreFooter result={simScoringResult} />
+                      <ScoreFooter result={simScoringResult}/>
                     </Flex>
                   )
                 }
                 {
                   simScoringResult && (
                     <Flex vertical gap={defaultGap}>
-                      <CharacterCardScoringStatUpgrades result={simScoringResult} />
+                      <CharacterCardScoringStatUpgrades result={simScoringResult}/>
                     </Flex>
                   )
                 }
@@ -861,7 +871,7 @@ export function CharacterPreview(props) {
               />
             </Flex>
           </Flex>
-          <CharacterScoringSummary simScoringResult={simScoringResult} />
+          <CharacterScoringSummary simScoringResult={simScoringResult}/>
         </Flex>
       )}
     </Flex>

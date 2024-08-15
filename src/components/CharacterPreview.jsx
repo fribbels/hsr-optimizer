@@ -278,7 +278,7 @@ export function CharacterPreview(props) {
     }
 
     const textDisplay = (
-      <Flex align="center" vertical style={{ marginBottom: 4 }}>
+      <Flex align="center" vertical style={{ marginBottom: 4, paddingTop: 5, paddingBottom: 5 }}>
         <StatText style={textStyle}>
           Combat Sim
         </StatText>

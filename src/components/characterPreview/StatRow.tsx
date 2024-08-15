@@ -58,9 +58,9 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   }
   return (
     <Flex justify="space-between" align="center" title={value1000thsPrecision}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
       <StatText>{readableStat}</StatText>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
       <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>
   )

@@ -31,7 +31,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   function ScoringSet(props: { set: string }) {
     return (
       <Flex vertical align="center" gap={2}>
-        <img src={Assets.getSetImage(props.set)} style={{ height: 60 }} />
+        <img src={Assets.getSetImage(props.set)} style={{ height: 60 }}/>
       </Flex>
     )
   }
@@ -40,7 +40,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     const display = props.stat?.replace('Boost', '') || ''
     return (
       <Flex align="center" gap={10}>
-        <img src={Assets.getPart(props.part)} style={{ height: 30 }} />
+        <img src={Assets.getPart(props.part)} style={{ height: 30 }}/>
         <pre style={{ margin: 0 }}>{display}</pre>
       </Flex>
     )
@@ -74,7 +74,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
       rows.push(
         <Flex key={Utils.randomId()} align="center" gap={10}>
-          <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }} />
+          <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }}/>
           <pre
             style={{
               margin: 0,
@@ -386,7 +386,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
   const statPreviewWidth = 300
   const divider = (
     <Flex vertical>
-      <Divider type="vertical" style={{ flexGrow: 1, margin: '10px 30px' }} />
+      <Divider type="vertical" style={{ flexGrow: 1, margin: '10px 30px' }}/>
     </Flex>
   )
 
@@ -422,20 +422,20 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex gap={5} justify="space-around">
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
-              <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision} />
-              <ScoringNumber label="ATK:  " number={request.stats[Stats.ATK]} precision={props.precision} />
-              <ScoringNumber label="HP%:  " number={request.stats[Stats.HP_P]} precision={props.precision} />
-              <ScoringNumber label="HP:   " number={request.stats[Stats.HP]} precision={props.precision} />
-              <ScoringNumber label="DEF%: " number={request.stats[Stats.DEF_P]} precision={props.precision} />
-              <ScoringNumber label="DEF:  " number={request.stats[Stats.DEF]} precision={props.precision} />
+              <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision}/>
+              <ScoringNumber label="ATK:  " number={request.stats[Stats.ATK]} precision={props.precision}/>
+              <ScoringNumber label="HP%:  " number={request.stats[Stats.HP_P]} precision={props.precision}/>
+              <ScoringNumber label="HP:   " number={request.stats[Stats.HP]} precision={props.precision}/>
+              <ScoringNumber label="DEF%: " number={request.stats[Stats.DEF_P]} precision={props.precision}/>
+              <ScoringNumber label="DEF:  " number={request.stats[Stats.DEF]} precision={props.precision}/>
             </Flex>
             <Flex vertical gap={defaultGap} style={{ width: 100 }}>
-              <ScoringNumber label="SPD:  " number={request.stats[Stats.SPD]} precision={2} />
-              <ScoringNumber label="CR:   " number={request.stats[Stats.CR]} precision={props.precision} />
-              <ScoringNumber label="CD:   " number={request.stats[Stats.CD]} precision={props.precision} />
-              <ScoringNumber label="EHR:  " number={request.stats[Stats.EHR]} precision={props.precision} />
-              <ScoringNumber label="RES:  " number={request.stats[Stats.RES]} precision={props.precision} />
-              <ScoringNumber label="BE:   " number={request.stats[Stats.BE]} precision={props.precision} />
+              <ScoringNumber label="SPD:  " number={request.stats[Stats.SPD]} precision={2}/>
+              <ScoringNumber label="CR:   " number={request.stats[Stats.CR]} precision={props.precision}/>
+              <ScoringNumber label="CD:   " number={request.stats[Stats.CD]} precision={props.precision}/>
+              <ScoringNumber label="EHR:  " number={request.stats[Stats.EHR]} precision={props.precision}/>
+              <ScoringNumber label="RES:  " number={request.stats[Stats.RES]} precision={props.precision}/>
+              <ScoringNumber label="BE:   " number={request.stats[Stats.BE]} precision={props.precision}/>
             </Flex>
           </Flex>
         </Flex>
@@ -446,10 +446,10 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex gap={defaultGap} justify="space-around">
             <Flex vertical gap={10}>
-              <ScoringStat stat={StatsToReadable[request.simBody]} part={Parts.Body} />
-              <ScoringStat stat={StatsToReadable[request.simFeet]} part={Parts.Feet} />
-              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere} />
-              <ScoringStat stat={StatsToReadable[request.simLinkRope]} part={Parts.LinkRope} />
+              <ScoringStat stat={StatsToReadable[request.simBody]} part={Parts.Body}/>
+              <ScoringStat stat={StatsToReadable[request.simFeet]} part={Parts.Feet}/>
+              <ScoringStat stat={StatsToReadable[request.simPlanarSphere]} part={Parts.PlanarSphere}/>
+              <ScoringStat stat={StatsToReadable[request.simLinkRope]} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
         </Flex>
@@ -482,12 +482,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex gap={defaultGap} justify="space-around">
             <Flex vertical gap={10}>
-              <ScoringNumber label="Basic DMG:           " number={simResult.BASIC} />
-              <ScoringNumber label="Skill DMG:           " number={simResult.SKILL} />
-              <ScoringNumber label="Ult DMG:             " number={simResult.ULT} />
-              <ScoringNumber label="Fua DMG:             " number={simResult.FUA} />
-              <ScoringNumber label="Dot DMG:             " number={simResult.DOT} />
-              <ScoringNumber label="Break DMG:           " number={simResult.BREAK} />
+              <ScoringNumber label="Basic DMG:           " number={simResult.BASIC}/>
+              <ScoringNumber label="Skill DMG:           " number={simResult.SKILL}/>
+              <ScoringNumber label="Ult DMG:             " number={simResult.ULT}/>
+              <ScoringNumber label="Fua DMG:             " number={simResult.FUA}/>
+              <ScoringNumber label="Dot DMG:             " number={simResult.DOT}/>
+              <ScoringNumber label="Break DMG:           " number={simResult.BREAK}/>
             </Flex>
           </Flex>
         </Flex>
@@ -508,13 +508,13 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             Simulation teammates
           </pre>
           <Flex gap={15}>
-            <ScoringTeammate result={result} index={0} />
-            <ScoringTeammate result={result} index={1} />
-            <ScoringTeammate result={result} index={2} />
+            <ScoringTeammate result={result} index={0}/>
+            <ScoringTeammate result={result} index={1}/>
+            <ScoringTeammate result={result} index={2}/>
           </Flex>
         </Flex>
 
-        <VerticalDivider />
+        <VerticalDivider/>
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
@@ -522,41 +522,41 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </pre>
           <Flex vertical gap={defaultGap}>
             <Flex>
-              <ScoringSet set={result.maximumSim.request.simRelicSet1} />
-              <ScoringSet set={result.maximumSim.request.simRelicSet2} />
+              <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
+              <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
             </Flex>
-            <ScoringSet set={result.maximumSim.request.simOrnamentSet} />
+            <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
           </Flex>
         </Flex>
 
-        <VerticalDivider />
+        <VerticalDivider/>
 
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             Formula
           </pre>
           <Flex vertical gap={defaultGap}>
-            <ScoringNumber label="BASIC:     " number={result.simulationMetadata.formula.BASIC} precision={0} />
-            <ScoringNumber label="SKILL:     " number={result.simulationMetadata.formula.SKILL} precision={0} />
-            <ScoringNumber label="ULT:       " number={result.simulationMetadata.formula.ULT} precision={0} />
-            <ScoringNumber label="FUA:       " number={result.simulationMetadata.formula.FUA} precision={0} />
-            <ScoringNumber label="DOT:       " number={result.simulationMetadata.formula.DOT} precision={0} />
-            <ScoringNumber label="BREAK:     " number={result.simulationMetadata.formula.BREAK} precision={0} />
+            <ScoringNumber label="BASIC:     " number={result.simulationMetadata.formula.BASIC} precision={0}/>
+            <ScoringNumber label="SKILL:     " number={result.simulationMetadata.formula.SKILL} precision={0}/>
+            <ScoringNumber label="ULT:       " number={result.simulationMetadata.formula.ULT} precision={0}/>
+            <ScoringNumber label="FUA:       " number={result.simulationMetadata.formula.FUA} precision={0}/>
+            <ScoringNumber label="DOT:       " number={result.simulationMetadata.formula.DOT} precision={0}/>
+            <ScoringNumber label="BREAK:     " number={result.simulationMetadata.formula.BREAK} precision={0}/>
           </Flex>
         </Flex>
 
-        <VerticalDivider />
+        <VerticalDivider/>
 
         <Flex vertical gap={10}>
           <pre style={{ margin: '5px auto' }}>
             Simulation damage results
           </pre>
           <Flex vertical gap={10}>
-            <ScoringNumber label="Character DMG:       " number={result.originalSimScore} />
-            <ScoringNumber label="Baseline DMG:        " number={result.baselineSimScore} />
-            <ScoringNumber label="Benchmark DMG:       " number={result.benchmarkSimScore} />
-            <ScoringNumber label="Maximum DMG:         " number={result.maximumSimScore} />
-            <ScoringNumber label="DPS score %:         " number={result.percent * 100} precision={2} />
+            <ScoringNumber label="Character DMG:       " number={result.originalSimScore}/>
+            <ScoringNumber label="Baseline DMG:        " number={result.baselineSimScore}/>
+            <ScoringNumber label="Benchmark DMG:       " number={result.benchmarkSimScore}/>
+            <ScoringNumber label="Maximum DMG:         " number={result.maximumSimScore}/>
+            <ScoringNumber label="DPS score %:         " number={result.percent * 100} precision={2}/>
           </Flex>
         </Flex>
       </Flex>
@@ -608,12 +608,12 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
             Substat upgrade comparisons
           </pre>
-          <ScoringStatUpgrades />
+          <ScoringStatUpgrades/>
         </Flex>
       </Flex>
 
       <Flex vertical gap={defaultGap}>
-        <ScoringDetails />
+        <ScoringDetails/>
       </Flex>
     </Flex>
   )
@@ -624,11 +624,11 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
   const iconSize = 60
   return (
     <Flex vertical align="center" gap={5}>
-      <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{ height: iconSize }} />
+      <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{ height: iconSize }}/>
       <pre style={{ margin: 0 }}>
         {`E${teammate.characterEidolon}`}
       </pre>
-      <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize }} />
+      <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize }}/>
       <pre style={{ margin: 0 }}>
         {`S${teammate.lightConeSuperimposition}`}
       </pre>
@@ -642,15 +642,15 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
   const baseDmg = result.originalSimResult.simScore
   const basePercent = result.percent
   const statUpgrades = result.substatUpgrades.filter((statUpgrade) => statUpgrade.stat != Stats.SPD)
-  for (const statUpgrade of statUpgrades.slice(0, 5)) {
+  for (const statUpgrade of statUpgrades.slice(0, 4)) {
     const stat = statUpgrade.stat!
     const upgradeDmg = statUpgrade.simulationResult.simScore / baseDmg - 1
 
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatText>{`+1x ${StatsToShortSpaced[stat]}`}</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
@@ -666,9 +666,9 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
     extraRows.push(
       <Flex gap={3} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatText>{`➔ ${StatsToShortSpaced[stat]}`}</StatText>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
@@ -680,17 +680,17 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
 
     extraRows.push(
       <Flex gap={2} key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }} />
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }}/>
+        <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatText>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatText>
       </Flex>,
     )
   }
 
   if (extraRows.length) {
-    rows.splice(5 - extraRows.length, extraRows.length)
+    rows.splice(4 - extraRows.length, extraRows.length)
     extraRows.map((row) => rows.unshift(row))
   }
 
@@ -699,7 +699,7 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16, marginBottom: 1 }}>
-          Damage improvements
+          Damage Improvements
         </HeaderText>
       </Flex>
       {rows}

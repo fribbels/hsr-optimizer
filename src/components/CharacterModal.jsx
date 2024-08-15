@@ -10,7 +10,7 @@ export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const [characterId, setCharacterId] = useState('')
+  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
   const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
   const characterMetadata = useMemo(() => DB.getMetadata().characters, [])

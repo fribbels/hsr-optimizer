@@ -24,11 +24,37 @@ const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   })
 }
 
+export const damageStats = {
+  'Fire DMG Boost': 'Fire DMG',
+  'Ice DMG Boost': 'Ice DMG',
+  'Imaginary DMG Boost': 'Imaginary DMG',
+  'Lightning DMG Boost': 'Lightning DMG',
+  'Physical DMG Boost': 'Physical DMG',
+  'Quantum DMG Boost': 'Quantum DMG',
+  'Wind DMG Boost': 'Wind DMG',
+}
+
+export const displayTextMap = {
+  'simScore': 'Sim Damage',
+  'Fire DMG Boost': 'Fire DMG',
+  'Ice DMG Boost': 'Ice DMG',
+  'Imaginary DMG Boost': 'Imaginary DMG',
+  'Lightning DMG Boost': 'Lightning DMG',
+  'Physical DMG Boost': 'Physical DMG',
+  'Quantum DMG Boost': 'Quantum DMG',
+  'Wind DMG Boost': 'Wind DMG',
+  'Outgoing Healing Boost': 'Healing Boost',
+  'Energy Regeneration Rate': 'Energy Regen',
+  'BASIC': 'Basic Damage',
+  'ULT': 'Ult Damage',
+  'SKILL': 'Skill Damage',
+  'FUA': 'FUA Damage',
+  'DOT': 'DoT Damage',
+}
+
 const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.Element => {
   const { stat, finalStats } = props
-  const readableStat = stat == 'simScore'
-    ? 'Sim Damage'
-    : stat.replace('DMG Boost', 'DMG').replace('Outgoing Healing Boost', 'Healing Boost').replace('Energy Regeneration Rate', 'Energy Regen')
+  const readableStat = displayTextMap[stat] || stat
   const value = Utils.precisionRound(finalStats[stat])
 
   let valueDisplay

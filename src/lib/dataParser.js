@@ -1769,7 +1769,7 @@ function getScoringMetadata() {
           SKILL: 2,
           ULT: 1,
           FUA: 2,
-          DOT: 8,
+          DOT: 16,
           BREAK: 0,
         },
         relicSets: [
@@ -5360,7 +5360,7 @@ function getScoringMetadata() {
           SKILL: 1,
           ULT: 1,
           FUA: 0,
-          DOT: 8,
+          DOT: 16,
           BREAK: 0,
         },
         relicSets: [

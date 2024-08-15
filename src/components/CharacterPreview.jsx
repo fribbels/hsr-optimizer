@@ -904,12 +904,12 @@ export function CharacterPreview(props) {
                   {
                     label: 'Combat Stats',
                     value: COMBAT_STATS,
-                    disabled: characterMetadata.scoringMetadata.simulation == null,
+                    disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },
                   {
                     label: `Damage Upgrades`,
                     value: DAMAGE_UPGRADES,
-                    disabled: characterMetadata.scoringMetadata.simulation == null,
+                    disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },
                 ]}
               />

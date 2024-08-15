@@ -412,17 +412,41 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
 
     return (
-      <Flex vertical gap={50}>
+      <Flex vertical gap={25}>
         <Flex vertical gap={defaultGap}>
           <Flex justify="space-around">
             <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
               <u>{`${props.nameText} build (${Utils.truncate10ths(Utils.precisionRound(props.percent * 100))}%)`}</u>
             </pre>
           </Flex>
+        </Flex>
 
-          <pre style={{ margin: '10px auto' }}>
-            {props.subText}
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+            {props.basicText}
           </pre>
+          <CharacterStatSummary
+            finalStats={basicStats}
+            elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
+          />
+        </Flex>
+
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+            {props.statText} <u>combat stats</u>
+          </pre>
+          <CharacterStatSummary
+            finalStats={combatStats}
+            elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
+          />
+        </Flex>
+
+        <Flex vertical gap={defaultGap}>
+        <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
+          {props.subText}
+        </pre>
           <Flex gap={5} justify="space-around">
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
               <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision}/>
@@ -444,7 +468,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
+          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {props.mainText}
           </pre>
           <Flex gap={defaultGap} justify="space-around">
@@ -457,30 +481,8 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
           </Flex>
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            {props.basicText}
-          </pre>
-          <CharacterStatSummary
-            finalStats={basicStats}
-            elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
-          />
-        </Flex>
-
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
-          <pre style={{ margin: 'auto' }}>
-            {props.statText} <u>combat stats</u>
-          </pre>
-          <CharacterStatSummary
-            finalStats={combatStats}
-            elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
-          />
-        </Flex>
-
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ margin: '0 auto' }}>
+        <Flex vertical gap={20}>
+          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {props.damageText}
           </pre>
           <Flex gap={defaultGap} justify="space-around">

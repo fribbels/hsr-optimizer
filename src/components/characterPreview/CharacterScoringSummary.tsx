@@ -554,7 +554,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
 
         <Flex vertical gap={10}>
           <pre style={{ margin: '5px auto' }}>
-            Simulation damage results
+            Combat damage results
           </pre>
           <Flex vertical gap={10}>
             <ScoringNumber label="Character DMG:       " number={result.originalSimScore}/>

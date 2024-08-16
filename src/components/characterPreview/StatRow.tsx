@@ -35,7 +35,7 @@ export const damageStats = {
 }
 
 export const displayTextMap = {
-  'simScore': 'Sim Damage',
+  'simScore': 'Combo DMG',
   'Fire DMG Boost': 'Fire DMG',
   'Ice DMG Boost': 'Ice DMG',
   'Imaginary DMG Boost': 'Imaginary DMG',

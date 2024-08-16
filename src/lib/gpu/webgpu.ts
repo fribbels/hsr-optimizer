@@ -1,4 +1,3 @@
-import shader from 'lib/gpu/wgsl/shader.wgsl?raw'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from '../constants.ts'
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
@@ -6,6 +5,7 @@ import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
 import { calculateBuild } from "lib/optimizer/calculateBuild";
 import { OptimizerTabController } from "lib/optimizerTabController";
 import { renameFields } from "lib/optimizer/optimizer.ts";
+import { generateWgsl } from "lib/gpu/wgsl/generateWgsl";
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -114,11 +114,14 @@ export async function experiment({ params, request, relics, permutations, relicS
   }
   const device = await adapter.requestDevice()
 
+  const wgsl = generateWgsl(params)
+
+  console.log('SHADER', wgsl)
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 
   const shaderModule = device.createShaderModule({
-    code: shader,
+    code: wgsl,
   })
   const bindGroupLayout0 = device.createBindGroupLayout({
     entries: [

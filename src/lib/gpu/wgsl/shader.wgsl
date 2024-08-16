@@ -1,405 +1,7 @@
-// STATS
-const HP_P = 0;
-const ATK_P = 1;
-const DEF_P = 2;
-const SPD_P = 3;
-const HP = 4;
-const ATK = 5;
-const DEF = 6;
-const SPD = 7;
-const CR = 8;
-const CD = 9;
-const EHR = 10;
-const RES = 11;
-const BE = 12;
-const ERR = 13;
-const OHB = 14;
-const Physical_DMG = 15;
-const Fire_DMG = 16;
-const Ice_DMG = 17;
-const Lightning_DMG = 18;
-const Wind_DMG = 19;
-const Quantum_DMG = 20;
-const Imaginary_DMG = 21;
+// <import structs>
+// <import constants>
 
-// Continuing stats with computedStatsObject
-const ELEMENTAL_DMG = 22;
-
-const BASIC_SCALING = 23;
-const SKILL_SCALING = 24;
-const ULT_SCALING = 25;
-const FUA_SCALING = 26;
-const DOT_SCALING = 27;
-
-const BASIC_CR_BOOST = 28;
-const SKILL_CR_BOOST = 29;
-const ULT_CR_BOOST = 30;
-const FUA_CR_BOOST = 31;
-const BASIC_CD_BOOST = 32;
-const SKILL_CD_BOOST = 33;
-const ULT_CD_BOOST = 34;
-const FUA_CD_BOOST = 35;
-
-const BASIC_BOOST = 36;
-const SKILL_BOOST = 37;
-const ULT_BOOST = 38;
-const FUA_BOOST = 39;
-const DOT_BOOST = 40;
-
-const DMG_TAKEN_MULTI = 41;
-const BASIC_VULNERABILITY = 42;
-const SKILL_VULNERABILITY = 43;
-const ULT_VULNERABILITY = 44;
-const FUA_VULNERABILITY = 45;
-const DOT_VULNERABILITY = 46;
-
-const DEF_SHRED = 47;
-const BASIC_DEF_PEN = 48;
-const SKILL_DEF_PEN = 49;
-const ULT_DEF_PEN = 50;
-const FUA_DEF_PEN = 51;
-const DOT_DEF_PEN = 52;
-
-const RES_PEN = 53;
-const PHYSICAL_RES_PEN = 54;
-const FIRE_RES_PEN = 55;
-const ICE_RES_PEN = 56;
-const LIGHTNING_RES_PEN = 57;
-const WIND_RES_PEN = 58;
-const QUANTUM_RES_PEN = 59;
-const IMAGINARY_RES_PEN = 60;
-
-const BASIC_RES_PEN = 61;
-const SKILL_RES_PEN = 62;
-const ULT_RES_PEN = 63;
-const FUA_RES_PEN = 64;
-const DOT_RES_PEN = 65;
-
-const BASIC_DMG = 66;
-const SKILL_DMG = 67;
-const ULT_DMG = 68;
-const FUA_DMG = 69;
-const DOT_DMG = 70;
-
-const DMG_RED_MULTI = 71;
-
-const ORIGINAL_DMG_BOOST= 72;
-
-const VAR_SIZE = 73;
-// End 73 size
-
-struct Relic {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
-  relicSet: f32,
-  weightScore: f32, // 23
-}
-
-struct BasicStats {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
-  weightScore: f32,
-  sets: Sets,
-}
-
-struct Sets {
-  PasserbyOfWanderingCloud: i32,
-  MusketeerOfWildWheat: i32,
-  KnightOfPurityPalace: i32,
-  HunterOfGlacialForest: i32,
-  ChampionOfStreetwiseBoxing: i32,
-  GuardOfWutheringSnow: i32,
-  FiresmithOfLavaForging: i32,
-  GeniusOfBrilliantStars: i32,
-  BandOfSizzlingThunder: i32,
-  EagleOfTwilightLine: i32,
-  ThiefOfShootingMeteor: i32,
-  WastelanderOfBanditryDesert: i32,
-  LongevousDisciple: i32,
-  MessengerTraversingHackerspace: i32,
-  TheAshblazingGrandDuke: i32,
-  PrisonerInDeepConfinement: i32,
-  PioneerDiverOfDeadWaters: i32,
-  WatchmakerMasterOfDreamMachinations: i32,
-  IronCavalryAgainstTheScourge: i32,
-  TheWindSoaringValorous: i32,
-  SpaceSealingStation: i32,
-  FleetOfTheAgeless: i32,
-  PanCosmicCommercialEnterprise: i32,
-  BelobogOfTheArchitects: i32,
-  CelestialDifferentiator: i32,
-  InertSalsotto: i32,
-  TaliaKingdomOfBanditry: i32,
-  SprightlyVonwacq: i32,
-  RutilantArena: i32,
-  BrokenKeel: i32,
-  FirmamentFrontlineGlamoth: i32,
-  PenaconyLandOfTheDreams: i32,
-  SigoniaTheUnclaimedDesolation: i32,
-  IzumoGenseiAndTakamaDivineRealm: i32,
-  DuranDynastyOfRunningWolves: i32,
-  ForgeOfTheKalpagniLantern: i32,
-}
-
-struct ComputedStats {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
-
-  ELEMENTAL_DMG: f32,
-
-  BASIC_SCALING: f32,
-  SKILL_SCALING: f32,
-  ULT_SCALING: f32,
-  FUA_SCALING: f32,
-  DOT_SCALING: f32,
-
-  BASIC_CR_BOOST: f32,
-  SKILL_CR_BOOST: f32,
-  ULT_CR_BOOST: f32,
-  FUA_CR_BOOST: f32,
-
-  BASIC_CD_BOOST: f32,
-  SKILL_CD_BOOST: f32,
-  ULT_CD_BOOST: f32,
-  FUA_CD_BOOST: f32,
-
-  BASIC_BOOST: f32,
-  SKILL_BOOST: f32,
-  ULT_BOOST: f32,
-  FUA_BOOST: f32,
-  DOT_BOOST: f32,
-
-  DMG_TAKEN_MULTI: f32,
-  BASIC_VULNERABILITY: f32,
-  SKILL_VULNERABILITY: f32,
-  ULT_VULNERABILITY: f32,
-  FUA_VULNERABILITY: f32,
-  DOT_VULNERABILITY: f32,
-  BREAK_VULNERABILITY: f32, // 47
-
-  DEF_SHRED: f32,
-  BASIC_DEF_PEN: f32,
-  SKILL_DEF_PEN: f32,
-  ULT_DEF_PEN: f32,
-  FUA_DEF_PEN: f32,
-  DOT_DEF_PEN: f32,
-  BREAK_DEF_PEN: f32,
-  SUPER_BREAK_DEF_PEN: f32, // 55
-
-  RES_PEN: f32,
-  PHYSICAL_RES_PEN: f32,
-  FIRE_RES_PEN: f32,
-  ICE_RES_PEN: f32,
-  LIGHTNING_RES_PEN: f32,
-  WIND_RES_PEN: f32,
-  QUANTUM_RES_PEN: f32,
-  IMAGINARY_RES_PEN: f32, // 63
-
-  BASIC_RES_PEN: f32,
-  SKILL_RES_PEN: f32,
-  ULT_RES_PEN: f32,
-  FUA_RES_PEN: f32,
-  DOT_RES_PEN: f32, // 68
-
-  BASIC_DMG: f32,
-  SKILL_DMG: f32,
-  ULT_DMG: f32,
-  FUA_DMG: f32,
-  DOT_DMG: f32,
-  BREAK_DMG: f32,
-  COMBO_DMG: f32, // 75
-
-  DMG_RED_MULTI: f32,
-  EHP: f32,
-
-  DOT_CHANCE: f32,
-  EFFECT_RES_SHRED: f32,
-
-  DOT_SPLIT: f32,
-  DOT_STACKS: f32,
-
-  ENEMY_WEAKNESS_BROKEN: f32,
-
-  SUPER_BREAK_MODIFIER: f32,
-  SUPER_BREAK_HMC_MODIFIER: f32,
-  BASIC_TOUGHNESS_DMG: f32,
-  SKILL_TOUGHNESS_DMG: f32,
-  ULT_TOUGHNESS_DMG: f32,
-  FUA_TOUGHNESS_DMG: f32,
-
-  BASIC_ORIGINAL_DMG_BOOST: f32,
-  SKILL_ORIGINAL_DMG_BOOST: f32,
-  ULT_ORIGINAL_DMG_BOOST: f32,
-
-  BASIC_BREAK_DMG_MODIFIER: f32,
-
-  ULT_CD_OVERRIDE: f32,
-  ULT_BOOSTS_MULTI: f32,
-
-  RATIO_BASED_ATK_BUFF: f32,
-  RATIO_BASED_ATK_P_BUFF: f32,
-
-  BREAK_EFFICIENCY_BOOST: f32,
-  BASIC_BREAK_EFFICIENCY_BOOST: f32,
-  ULT_BREAK_EFFICIENCY_BOOST: f32,
-
-  BASIC_DMG_TYPE: f32,
-  SKILL_DMG_TYPE: f32,
-  ULT_DMG_TYPE: f32,
-  FUA_DMG_TYPE: f32,
-  DOT_DMG_TYPE: f32,
-  BREAK_DMG_TYPE: f32,
-  SUPER_BREAK_TYPE: f32,
-}
-
-struct Params {
-  lSize: f32,
-  pSize: f32,
-  fSize: f32,
-  bSize: f32,
-  gSize: f32,
-  hSize: f32,
-
-  xl: f32,
-  xp: f32,
-  xf: f32,
-  xb: f32,
-  xg: f32,
-  xh: f32,
-
-  relicSetCount: f32,
-  ornamentSetCount: f32,
-
-  baseHP_P: f32,
-  baseATK_P: f32,
-  baseDEF_P: f32,
-  baseSPD_P: f32,
-  baseHP: f32,
-  baseATK: f32,
-  baseDEF: f32,
-  baseSPD: f32,
-  baseCR: f32,
-  baseCD: f32,
-  baseEHR: f32,
-  baseRES: f32,
-  baseBE: f32,
-  baseERR: f32,
-  baseOHB: f32,
-  basePhysical_DMG: f32,
-  baseFire_DMG: f32,
-  baseIce_DMG: f32,
-  baseLightning_DMG: f32,
-  baseWind_DMG: f32,
-  baseQuantum_DMG: f32,
-  baseImaginary_DMG: f32,
-
-  lcHP_P: f32,
-  lcATK_P: f32,
-  lcDEF_P: f32,
-  lcSPD_P: f32,
-  lcHP: f32,
-  lcATK: f32,
-  lcDEF: f32,
-  lcSPD: f32,
-  lcCR: f32,
-  lcCD: f32,
-  lcEHR: f32,
-  lcRES: f32,
-  lcBE: f32,
-  lcERR: f32,
-  lcOHB: f32,
-  lcPhysical_DMG: f32,
-  lcFire_DMG: f32,
-  lcIce_DMG: f32,
-  lcLightning_DMG: f32,
-  lcWind_DMG: f32,
-  lcQuantum_DMG: f32,
-  lcImaginary_DMG: f32,
-
-  traceHP_P: f32,
-  traceATK_P: f32,
-  traceDEF_P: f32,
-  traceSPD_P: f32,
-  traceHP: f32,
-  traceATK: f32,
-  traceDEF: f32,
-  traceSPD: f32,
-  traceCR: f32,
-  traceCD: f32,
-  traceEHR: f32,
-  traceRES: f32,
-  traceBE: f32,
-  traceERR: f32,
-  traceOHB: f32,
-  tracePhysical_DMG: f32,
-  traceFire_DMG: f32,
-  traceIce_DMG: f32,
-  traceLightning_DMG: f32,
-  traceWind_DMG: f32,
-  traceQuantum_DMG: f32,
-  traceImaginary_DMG: f32,
-}
+const WORKGROUP_SIZE = 16;
 
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
@@ -407,7 +9,7 @@ struct Params {
 
 @group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(1) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
-@compute @workgroup_size(16, 16)
+@compute @workgroup_size(WORKGROUP_SIZE, WORKGROUP_SIZE)
 fn main(
   @builtin(workgroup_id) workgroup_id : vec3<u32>,
   @builtin(local_invocation_id) local_invocation_id : vec3<u32>,
@@ -415,16 +17,13 @@ fn main(
   @builtin(local_invocation_index) local_invocation_index: u32,
   @builtin(num_workgroups) num_workgroups: vec3<u32>
 ) {
-  // Calculate invocation indices
   let workgroup_index =
     workgroup_id.x +
     workgroup_id.y * num_workgroups.x +
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
 
-  // global_invocation_index
-  let index =
-    i32(workgroup_index * 256 + // Should be workgroup_size_x * workgroup_size_y
-    local_invocation_index);
+  // Calculate global_invocation_index
+  let index = i32(workgroup_index * WORKGROUP_SIZE * WORKGROUP_SIZE + local_invocation_index);
 
   // Load params
   let lSize = i32(params.lSize);
@@ -489,7 +88,6 @@ fn main(
   var c : BasicStats = BasicStats();
   var x : ComputedStats = ComputedStats();
 
-
   x.BASIC_DMG_TYPE = 1;
   x.SKILL_DMG_TYPE = 2;
   x.ULT_DMG_TYPE = 4;
@@ -524,6 +122,7 @@ fn main(
   c.Wind_DMG = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
   c.Quantum_DMG = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
   c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
+  c.weightScore = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
   // Calculate relic set counts
 
@@ -566,13 +165,15 @@ fn main(
   c.sets.IzumoGenseiAndTakamaDivineRealm     = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
   c.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
   c.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+  c.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+  c.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
   // Base stats, this should probably be passed in from params
 
-  let baseHP = params.baseHP + params.lcHP;
-  let baseATK = params.baseATK + params.lcATK;
-  let baseDEF = params.baseDEF + params.lcDEF;
-  let baseSPD = params.baseSPD + params.lcSPD;
+  let baseHP = characterHP + lcHP;
+  let baseATK = characterATK + lcATK;
+  let baseDEF = characterDEF + lcDEF;
+  let baseSPD = characterSPD + lcSPD;
 
   // Calculate set effects
 
@@ -582,32 +183,100 @@ fn main(
 
   // Calculate basic stats
 
-  c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;
-  c.DEF = (baseDEF) * (1 + setEffects + c.DEF_P + params.traceDEF_P + params.lcDEF_P) + c.DEF + params.traceDEF;
-  c.ATK = (baseATK) * (1 + setEffects + c.ATK_P + params.traceATK_P + params.lcATK_P) + c.ATK + params.traceATK;
-  c.SPD = (baseSPD) * (1 + spdSetEffects + c.SPD_P + params.traceSPD_P + params.lcSPD_P) + c.SPD + params.traceSPD;
-  c.CR  += params.baseCR + params.lcCR + params.traceCR + crSetEffects;
-  c.CD  += params.baseCD + params.lcCD + params.traceCD + setEffects;
-  c.EHR += params.baseEHR + params.lcEHR + params.traceEHR + setEffects;
-  c.RES += params.baseRES + params.lcRES + params.traceRES + setEffects;
-  c.BE  += params.baseBE + params.lcBE + params.traceBE + setEffects;
-  c.ERR += params.baseERR + params.lcERR + params.traceERR + setEffects;
-  c.OHB += params.baseOHB + params.lcOHB + params.traceOHB + setEffects;
-  c.Physical_DMG += params.tracePhysical_DMG;
-  c.Fire_DMG += params.traceFire_DMG;
-  c.Ice_DMG += params.traceIce_DMG;
-  c.Lightning_DMG += params.traceLightning_DMG;
-  c.Wind_DMG += params.traceWind_DMG;
-  c.Quantum_DMG += params.traceQuantum_DMG;
-  c.Imaginary_DMG += params.traceImaginary_DMG;
+  c.HP  = (baseHP) * (1 + setEffects + c.HP_P + traceHP_P + lcHP_P) + c.HP + traceHP;
+  c.DEF = (baseDEF) * (1 + setEffects + c.DEF_P + traceDEF_P + lcDEF_P) + c.DEF + traceDEF;
+  c.ATK = (baseATK) * (1 + setEffects + c.ATK_P + traceATK_P + lcATK_P) + c.ATK + traceATK;
+  c.SPD = (baseSPD) * (1 + spdSetEffects + c.SPD_P + traceSPD_P + lcSPD_P) + c.SPD + traceSPD;
+  c.CR  += characterCR + lcCR + traceCR + crSetEffects;
+  c.CD  += characterCD + lcCD + traceCD + setEffects;
+  c.EHR += characterEHR + lcEHR + traceEHR + setEffects;
+  c.RES += characterRES + lcRES + traceRES + setEffects;
+  c.BE  += characterBE + lcBE + traceBE + setEffects;
+  c.ERR += characterERR + lcERR + traceERR + setEffects;
+  c.OHB += characterOHB + lcOHB + traceOHB + setEffects;
+  c.Physical_DMG += tracePhysical_DMG;
+  c.Fire_DMG += traceFire_DMG;
+  c.Ice_DMG += traceIce_DMG;
+  c.Lightning_DMG += traceLightning_DMG;
+  c.Wind_DMG += traceWind_DMG;
+  c.Quantum_DMG += traceQuantum_DMG;
+  c.Imaginary_DMG += traceImaginary_DMG;
 
   // Calculate elemental stats
 
+  c.Physical_DMG += 0.10 * p2(c.sets.ChampionOfStreetwiseBoxing);
+  c.Fire_DMG += 0.10 * p2(c.sets.FiresmithOfLavaForging);
   c.Ice_DMG += 0.10 * p2(c.sets.HunterOfGlacialForest);
+  c.Lightning_DMG += 0.10 * p2(c.sets.BandOfSizzlingThunder);
+  c.Wind_DMG += 0.10 * p2(c.sets.EagleOfTwilightLine);
+  c.Quantum_DMG += 0.10 * p2(c.sets.GeniusOfBrilliantStars);
+  c.Imaginary_DMG += 0.10 * p2(c.sets.WastelanderOfBanditryDesert);
 
+  c.SPD += (baseSPD) * (
+    0.06 * p2(c.sets.MessengerTraversingHackerspace) +
+    0.06 * p2(c.sets.ForgeOfTheKalpagniLantern) +
+    0.06 * p4(c.sets.MusketeerOfWildWheat)
+  );
 
+  c.HP += (baseHP) * (
+    0.12 * p2(c.sets.FleetOfTheAgeless) +
+    0.12 * p2(c.sets.LongevousDisciple)
+  );
 
+  c.ATK += (baseATK) * (
+    0.12 * p2(c.sets.SpaceSealingStation) +
+    0.12 * p2(c.sets.FirmamentFrontlineGlamoth) +
+    0.12 * p2(c.sets.MusketeerOfWildWheat) +
+    0.12 * p2(c.sets.PrisonerInDeepConfinement) +
+    0.12 * p2(c.sets.IzumoGenseiAndTakamaDivineRealm) +
+    0.12 * p2(c.sets.TheWindSoaringValorous)
+  );
 
+  c.DEF += (baseDEF) * (
+    0.15 * p2(c.sets.BelobogOfTheArchitects) +
+    0.15 * p2(c.sets.KnightOfPurityPalace)
+  );
+
+  c.CR += (
+    0.08 * p2(c.sets.InertSalsotto) +
+    0.08 * p2(c.sets.RutilantArena) +
+    0.04 * p4(c.sets.PioneerDiverOfDeadWaters) +
+    0.04 * p2(c.sets.SigoniaTheUnclaimedDesolation) +
+    0.06 * p4(c.sets.TheWindSoaringValorous)
+  );
+
+  c.CD += (
+    0.16 * p2(c.sets.CelestialDifferentiator) +
+    0.16 * p2(c.sets.TheWondrousBananAmusementPark)
+  );
+
+  c.EHR += (
+    0.10 * p2(c.sets.PanCosmicCommercialEnterprise)
+  );
+
+  c.RES += (
+    0.10 * p2(c.sets.BrokenKeel) +
+    0.10 * p2(c.sets.LushakaTheSunkenSeas)
+  );
+
+  c.BE += (
+    0.16 * p2(c.sets.TaliaKingdomOfBanditry) +
+    0.16 * p2(c.sets.ThiefOfShootingMeteor) +
+    0.16 * p4(c.sets.ThiefOfShootingMeteor) +
+    0.16 * p2(c.sets.WatchmakerMasterOfDreamMachinations) +
+    0.16 * p2(c.sets.IronCavalryAgainstTheScourge)
+  );
+
+  c.ERR += (
+    0.05 * p2(c.sets.SprightlyVonwacq) +
+    0.05 * p2(c.sets.PenaconyLandOfTheDreams)
+  );
+
+  c.OHB += (
+    0.10 * p2(c.sets.PasserbyOfWanderingCloud)
+  );
+
+  // TODO: Fire set is x condition
 
 
 

@@ -1,11 +1,15 @@
-import { generateWgslConstants } from "lib/gpu/wgsl/wgslConstants";
-import { generateWgslTypes } from "lib/gpu/wgsl/wgslTypes";
-import { generateWgslUtils } from "lib/gpu/wgsl/wgslUtils";
+import structs from 'lib/gpu/wgsl/structs/structs.wgsl?raw'
+import structComputedStats from 'lib/gpu/wgsl/structs/structComputedStats.wgsl?raw'
+import shader from 'lib/gpu/wgsl/shader.wgsl?raw'
+import { generateSettings } from "lib/gpu/wgsl/generateSettings";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
-export function generateWgsl() {
+export function generateWgsl(params: OptimizerParams) {
+  const settings = generateSettings(params)
   return `
-${generateWgslConstants()}
-${generateWgslTypes()}
-${generateWgslUtils()}  
+${structComputedStats}
+${settings}
+${structs}
+${shader}
   `
 }

@@ -189,7 +189,7 @@ export const gridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams) => params.data.id || Utils.randomId()
+  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId())
 }
 
 export const defaultColDef = {

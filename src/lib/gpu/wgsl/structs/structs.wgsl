@@ -1,6 +1,3 @@
-export function generateWgslTypes() {
-  return `
-
 struct Relic {
   HP_P: f32,
   ATK_P: f32,
@@ -92,95 +89,8 @@ struct Sets {
   IzumoGenseiAndTakamaDivineRealm: i32,
   DuranDynastyOfRunningWolves: i32,
   ForgeOfTheKalpagniLantern: i32,
-}
-
-struct ComputedStats {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
-
-  ELEMENTAL_DMG: f32,
-
-  BASIC_SCALING: f32,
-  SKILL_SCALING: f32,
-  ULT_SCALING: f32,
-  FUA_SCALING: f32,
-  DOT_SCALING: f32,
-
-  BASIC_CR_BOOST: f32,
-  SKILL_CR_BOOST: f32,
-  ULT_CR_BOOST: f32,
-  FUA_CR_BOOST: f32,
-  BASIC_CD_BOOST: f32,
-  SKILL_CD_BOOST: f32,
-  ULT_CD_BOOST: f32,
-  FUA_CD_BOOST: f32,
-
-  BASIC_BOOST: f32,
-  SKILL_BOOST: f32,
-  ULT_BOOST: f32,
-  FUA_BOOST: f32,
-  DOT_BOOST: f32,
-
-  DMG_TAKEN_MULTI: f32,
-  BASIC_VULNERABILITY: f32,
-  SKILL_VULNERABILITY: f32,
-  ULT_VULNERABILITY: f32,
-  FUA_VULNERABILITY: f32,
-  DOT_VULNERABILITY: f32,
-
-  DEF_SHRED: f32,
-  BASIC_DEF_PEN: f32,
-  SKILL_DEF_PEN: f32,
-  ULT_DEF_PEN: f32,
-  FUA_DEF_PEN: f32,
-  DOT_DEF_PEN: f32,
-
-  RES_PEN: f32,
-  PHYSICAL_RES_PEN: f32,
-  FIRE_RES_PEN: f32,
-  ICE_RES_PEN: f32,
-  LIGHTNING_RES_PEN: f32,
-  WIND_RES_PEN: f32,
-  QUANTUM_RES_PEN: f32,
-  IMAGINARY_RES_PEN: f32,
-
-  BASIC_RES_PEN: f32,
-  SKILL_RES_PEN: f32,
-  ULT_RES_PEN: f32,
-  FUA_RES_PEN: f32,
-  DOT_RES_PEN: f32,
-
-  BASIC_DMG: f32,
-  SKILL_DMG: f32,
-  ULT_DMG: f32,
-  FUA_DMG: f32,
-  DOT_DMG: f32,
-
-  DMG_RED_MULTI: f32,
-
-  ORIGINAL_DMG_BOOST: f32,
-
-  EHP: f32,
+  LushakaTheSunkenSeas: i32,
+  TheWondrousBananAmusementPark: i32,
 }
 
 struct Params {
@@ -201,28 +111,28 @@ struct Params {
   relicSetCount: f32,
   ornamentSetCount: f32,
 
-  baseHP_P: f32,
-  baseATK_P: f32,
-  baseDEF_P: f32,
-  baseSPD_P: f32,
-  baseHP: f32,
-  baseATK: f32,
-  baseDEF: f32,
-  baseSPD: f32,
-  baseCR: f32,
-  baseCD: f32,
-  baseEHR: f32,
-  baseRES: f32,
-  baseBE: f32,
-  baseERR: f32,
-  baseOHB: f32,
-  basePhysical_DMG: f32,
-  baseFire_DMG: f32,
-  baseIce_DMG: f32,
-  baseLightning_DMG: f32,
-  baseWind_DMG: f32,
-  baseQuantum_DMG: f32,
-  baseImaginary_DMG: f32,
+  characterHP_P: f32,
+  characterATK_P: f32,
+  characterDEF_P: f32,
+  characterSPD_P: f32,
+  characterHP: f32,
+  characterATK: f32,
+  characterDEF: f32,
+  characterSPD: f32,
+  characterCR: f32,
+  characterCD: f32,
+  characterEHR: f32,
+  characterRES: f32,
+  characterBE: f32,
+  characterERR: f32,
+  characterOHB: f32,
+  characterPhysical_DMG: f32,
+  characterFire_DMG: f32,
+  characterIce_DMG: f32,
+  characterLightning_DMG: f32,
+  characterWind_DMG: f32,
+  characterQuantum_DMG: f32,
+  characterImaginary_DMG: f32,
 
   lcHP_P: f32,
   lcATK_P: f32,
@@ -269,7 +179,4 @@ struct Params {
   traceWind_DMG: f32,
   traceQuantum_DMG: f32,
   traceImaginary_DMG: f32,
-}
-
-  `
 }

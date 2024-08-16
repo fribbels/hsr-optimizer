@@ -14,6 +14,7 @@ import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
 import { damageStats, displayTextMap } from 'components/characterPreview/StatRow'
+import { ArrowUpOutlined } from "@ant-design/icons";
 
 const { Text } = Typography
 
@@ -675,9 +676,10 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm><Flex gap={8} align="center">
-          {`${displayTextMap[stat] || stat}`}{upgraded && <Arrow/>}
-        </Flex>
+        <StatTextSm>
+          <Flex gap={4} align="center">
+            {`${displayTextMap[stat] || stat}`}{upgraded && <Arrow/>}
+          </Flex>
         </StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
@@ -699,8 +701,8 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
 
 function Arrow() {
   return (
-    <Flex style={{ fontSize: 10 }} align="center">
-      ⬆
+    <Flex style={{ fontSize: 10, paddingTop: 2 }} align="center">
+      <ArrowUpOutlined/>
     </Flex>
   )
 }

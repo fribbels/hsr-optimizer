@@ -14,6 +14,7 @@ export const RelicModalController = {
 
     const updatedRelic = { ...selectedRelic, ...relic }
 
+    window.rescoreSingleRelic(updatedRelic)
     DB.setRelic(updatedRelic)
     window.setRelicRows(DB.getRelics())
     SaveState.save()

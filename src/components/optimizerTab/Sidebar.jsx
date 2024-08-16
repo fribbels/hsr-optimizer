@@ -13,10 +13,10 @@ import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
 import { Utils } from 'lib/utils'
 
-const {useToken} = theme
-const {useBreakpoint} = Grid
+const { useToken } = theme
+const { useBreakpoint } = Grid
 
-const {Text} = Typography
+const { Text } = Typography
 
 function PermutationDisplay(props) {
   const rightText = props.total
@@ -25,11 +25,11 @@ function PermutationDisplay(props) {
 
   return (
     <Flex justify="space-between">
-      <Text style={{lineHeight: '24px'}}>
+      <Text style={{ lineHeight: '24px' }}>
         {props.left}
       </Text>
-      <Divider style={{margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset'}} dashed/>
-      <Text style={{lineHeight: '24px'}}>
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+      <Text style={{ lineHeight: '24px' }}>
         {rightText}
       </Text>
     </Flex>
@@ -45,7 +45,7 @@ PermutationDisplay.propTypes = {
 const defaultGap = 5
 
 export default function Sidebar() {
-  const {lg, xl, xxl} = useBreakpoint()
+  const { lg, xl, xxl } = useBreakpoint()
 
   const breakpointNoShow = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.NoShow
   const breakpointShowXL = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXL
@@ -65,7 +65,7 @@ export default function Sidebar() {
 }
 
 function addToPinned() {
-  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length == 0) {
     Message.warning('No row selected')
@@ -76,19 +76,19 @@ function addToPinned() {
   } else {
     const selectedRow = selectedNodes[0].data
     currentPinned.push(selectedRow)
-    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: currentPinned})
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
   }
 }
 
 function clearPinned() {
-  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   if (currentPinned.length) {
-    window.optimizerGrid.current.api.updateGridOptions({pinnedTopRowData: [currentPinned[0]]})
+    window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
   }
 }
 
 function SidebarContent() {
-  const {token} = useToken()
+  const { token } = useToken()
 
   const statDisplay = window.store((s) => s.statDisplay)
   const setStatDisplay = window.store((s) => s.setStatDisplay)
@@ -137,8 +137,8 @@ function SidebarContent() {
   return (
     <Flex>
       <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
-      <Flex vertical style={{overflow: 'clip'}}>
-        <Flex style={{position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10}}>
+      <Flex vertical style={{ overflow: 'clip' }}>
+        <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
           <FormCard height={600}>
             <Flex vertical gap={10}>
               <Flex justify="space-between" align="center">
@@ -176,22 +176,22 @@ function SidebarContent() {
 
             <Flex vertical gap={5}>
               <HeaderText>Controls</HeaderText>
-              <Flex gap={defaultGap} style={{marginBottom: 2}} vertical>
+              <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
                 <Flex gap={defaultGap}>
                   <Button
                     icon={<ThunderboltFilled/>}
                     type="primary"
                     loading={optimizationInProgress}
-                    onClick={startClicked} style={{flex: 1}}
+                    onClick={startClicked} style={{ flex: 1 }}
                   >
                     Start optimizer
                   </Button>
                 </Flex>
                 <Flex gap={defaultGap}>
-                  <Button onClick={cancelClicked} style={{flex: 1}}>
+                  <Button onClick={cancelClicked} style={{ flex: 1 }}>
                     Cancel
                   </Button>
-                  <Button onClick={resetClicked} style={{flex: 1}}>
+                  <Button onClick={resetClicked} style={{ flex: 1 }}>
                     Reset
                   </Button>
                 </Flex>
@@ -207,19 +207,19 @@ function SidebarContent() {
               </Flex>
               <Radio.Group
                 onChange={(e) => {
-                  const {target: {value}} = e
+                  const { target: { value } } = e
                   setStatDisplay(value)
                 }}
                 optionType="button"
                 buttonStyle="solid"
                 value={statDisplay}
-                style={{width: '100%', display: 'flex'}}
+                style={{ width: '100%', display: 'flex' }}
               >
-                <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value="combat">
+                <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
                   Combat stats
                 </Radio>
                 <Radio
-                  style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}}
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
                   value="base"
                   defaultChecked
                 >
@@ -234,18 +234,18 @@ function SidebarContent() {
                 <TooltipImage type={Hint.actions()}/>
               </Flex>
               <Flex gap={defaultGap} justify="space-around">
-                <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{width: '100px'}}>
+                <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
                   Equip
                 </Button>
-                <Button onClick={filterClicked} style={{width: '100px'}}>
+                <Button onClick={filterClicked} style={{ width: '100px' }}>
                   Filter
                 </Button>
               </Flex>
               <Flex gap={defaultGap} justify="space-around">
-                <Button style={{width: '100px'}} onClick={addToPinned}>
+                <Button style={{ width: '100px' }} onClick={addToPinned}>
                   Pin build
                 </Button>
-                <Button style={{width: '100px'}} onClick={clearPinned}>
+                <Button style={{ width: '100px' }} onClick={clearPinned}>
                   Clear pins
                 </Button>
               </Flex>
@@ -258,7 +258,7 @@ function SidebarContent() {
 }
 
 function MobileSidebarContent() {
-  const {token} = useToken()
+  const { token } = useToken()
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
   const statDisplay = window.store((s) => s.statDisplay)
@@ -325,7 +325,7 @@ function MobileSidebarContent() {
       <Flex gap={20} justify="space-evenly">
         {/* Permutations Column */}
         <Flex vertical gap={defaultGap}>
-          <Flex justify="space-between" align="center" style={{minWidth: 211}}>
+          <Flex justify="space-between" align="center" style={{ minWidth: 211 }}>
             <HeaderText>Permutations</HeaderText>
             <TooltipImage type={Hint.optimizationDetails()}/>
           </Flex>
@@ -336,25 +336,25 @@ function MobileSidebarContent() {
           </Flex>
         </Flex>
         {/* Stats & Filters View Column */}
-        <Flex vertical gap={defaultGap} style={{minWidth: 211}}>
+        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Stat and filter view</HeaderText>
             <TooltipImage type={Hint.statDisplay()}/>
           </Flex>
           <Radio.Group
             onChange={(e) => {
-              const {target: {value}} = e
+              const { target: { value } } = e
               setStatDisplay(value)
             }}
             optionType="button"
             buttonStyle="solid"
             value={statDisplay}
-            style={{width: '100%', display: 'flex'}}
+            style={{ width: '100%', display: 'flex' }}
           >
-            <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value="base" defaultChecked>
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="base" defaultChecked>
               Basic stats
             </Radio>
-            <Radio style={{display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0}} value="combat">
+            <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value="combat">
               Combat stats
             </Radio>
           </Radio.Group>
@@ -371,16 +371,16 @@ function MobileSidebarContent() {
           </Flex>
         </Flex>
         {/* Controls Column */}
-        <Flex vertical gap={5} style={{minWidth: 211}}>
+        <Flex vertical gap={5} style={{ minWidth: 211 }}>
           <HeaderText>Controls</HeaderText>
-          <Flex vertical gap={defaultGap} style={{marginBottom: 2}}>
+          <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
               <Button
                 icon={<ThunderboltFilled/>}
                 type="primary"
                 loading={optimizationInProgress}
                 onClick={startClicked}
-                style={{flex: 1}}
+                style={{ flex: 1 }}
               >
                 Start optimizer
               </Button>
@@ -393,26 +393,26 @@ function MobileSidebarContent() {
           </Flex>
         </Flex>
         {/* Progress & Results Column */}
-        <Flex vertical gap={defaultGap} style={{minWidth: 211}}>
+        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
         </Flex>
-        <Flex vertical gap={defaultGap} style={{minWidth: 211}}>
+        <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
             <TooltipImage type={Hint.actions()}/>
           </Flex>
           <Flex gap={defaultGap} justify="space-around">
-            <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{width: '100px'}}>
+            <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
               Equip
             </Button>
-            <Button onClick={filterClicked} style={{width: '100px'}}>
+            <Button onClick={filterClicked} style={{ width: '100px' }}>
               Filter
             </Button>
           </Flex>
           <Flex gap={defaultGap} justify="space-around">
-            <Button style={{width: '100px'}} onClick={addToPinned}>
+            <Button style={{ width: '100px' }} onClick={addToPinned}>
               Pin build
             </Button>
-            <Button style={{width: '100px'}} onClick={clearPinned}>
+            <Button style={{ width: '100px' }} onClick={clearPinned}>
               Clear pins
             </Button>
           </Flex>
@@ -448,14 +448,14 @@ function ManyPermsModal(props) {
       onCancel={() => props.setManyPermsModalOpen(false)}
       footer={null}
     >
-      <Flex justify="space-between" align="center" style={{height: 45, marginBottom: 15}} gap={16}>
+      <Flex justify="space-between" align="center" style={{ height: 45, marginBottom: 15 }} gap={16}>
         <Text>
           This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
           or use the Substat weight filter to reduce the number of permutations.
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}
-          style={{width: 250}}
+          style={{ width: 250 }}
           type="primary"
         >
           Cancel search
@@ -465,7 +465,7 @@ function ManyPermsModal(props) {
             props.setManyPermsModalOpen(false)
             props.startSearch()
           }}
-          style={{width: 250}}
+          style={{ width: 250 }}
           type="primary"
         >
           Proceed with search

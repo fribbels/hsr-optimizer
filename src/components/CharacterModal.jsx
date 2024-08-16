@@ -10,7 +10,7 @@ export default function CharacterModal(props) {
   const [characterForm] = Form.useForm()
   window.characterForm = characterForm
 
-  const [characterId, setCharacterId] = useState('')
+  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
   const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
   const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
@@ -42,8 +42,6 @@ export default function CharacterModal(props) {
     props.setOpen(false)
   }
 
-  const panelWidth = 400 - 47
-
   return (
     <Modal
       open={props.open}
@@ -72,16 +70,19 @@ export default function CharacterModal(props) {
             <Form.Item size="default" name="characterId">
               <CharacterSelect
                 value=""
-                onChange={setCharacterId}
                 withIcon={true}
+                onChange={(x) => {
+                  setCharacterId(x)
+                  const eidolonPreselect = DB.getCharacterById(x)?.form?.characterEidolon || 0
+                  characterForm.setFieldValue('characterEidolon', eidolonPreselect)
+                }}
               />
             </Form.Item>
             <Form.Item size="default" name="characterEidolon">
               <Radio.Group
                 value={eidolon}
-                onChange={(e) => setEidolon(e.target.value)}
                 buttonStyle='solid'
-                style={{width: '100%', display: 'flex'}}
+                style={{ width: '100%', display: 'flex' }}
               >
                 <RadioButton text='E0' value={0}/>
                 <RadioButton text='E1' value={1}/>
@@ -100,7 +101,9 @@ export default function CharacterModal(props) {
               <LightConeSelect
                 value=""
                 characterId={characterId}
-                initialPath={initialPath}
+                onChange={() => {
+                  characterForm.setFieldValue('lightConeSuperimposition', 1)
+                }}
               />
             </Form.Item>
             <Form.Item size="default" name="lightConeSuperimposition">
@@ -108,7 +111,7 @@ export default function CharacterModal(props) {
                 value={superimposition}
                 onChange={(e) => setSuperimposition(e.target.value)}
                 buttonStyle='solid'
-                style={{width: '100%', display: 'flex'}}
+                style={{ width: '100%', display: 'flex' }}
               >
                 <RadioButton text='S1' value={1}/>
                 <RadioButton text='S2' value={2}/>
@@ -134,6 +137,6 @@ CharacterModal.propTypes = {
 // Full width radio buttons
 function RadioButton(props) {
   return (
-    <Radio.Button value={props.value} style={{flex: 1, textAlign: 'center'}}>{props.text}</Radio.Button>
+    <Radio.Button value={props.value} style={{ flex: 1, textAlign: 'center' }}>{props.text}</Radio.Button>
   )
 }

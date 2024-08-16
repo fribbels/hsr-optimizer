@@ -54,11 +54,11 @@ export default function RelicFilterBar(props) {
       return tooltip
         ? (
           <Tooltip title={key} mouseEnterDelay={0.2}>
-            <img style={{ width: width }} src={src} />
+            <img style={{ width: width }} src={src}/>
           </Tooltip>
         )
         : (
-          <img style={{ width: width }} src={src} />
+          <img style={{ width: width }} src={src}/>
         )
     }
 
@@ -98,29 +98,29 @@ export default function RelicFilterBar(props) {
     return arr.map((x) => {
       return {
         key: x,
-        display: Renderer.renderGrade({ grade: -1, verified: x }),
+        display: Renderer.renderGrade({ grade: -1, verified: x }, true),
       }
     })
   }
 
-  function generateEquippedTags(arr) {
+  function generateEquippedByTags(arr) {
     return arr.map((x) => {
       return {
         key: x,
-        display: Renderer.renderEquipped({ equipped: x }),
+        display: Renderer.renderEquippedBy({ equippedBy: x }),
       }
     })
   }
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
-  const verifiedData = generateVerifiedTags([true, false])
+  const verifiedData = generateVerifiedTags(['true', 'false'])
   const setsData = generateImageTags(Object.values(Constants.SetsRelics).concat(Object.values(Constants.SetsOrnaments)).filter((x) => !UnreleasedSets[x]),
     (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
-  const equippedData = generateEquippedTags([true, false])
+  const equippedByData = generateEquippedByTags(['true', 'false'])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -144,8 +144,8 @@ export default function RelicFilterBar(props) {
     characterSelectorChange(currentlySelectedCharacterId)
   }, [])
 
-  function characterSelectorChange(id) {
-    const relics = Object.values(DB.getRelicsById())
+  function characterSelectorChange(id, singleRelic) {
+    const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', id)
 
     setRelicsTabFocusCharacter(id)
@@ -181,6 +181,8 @@ export default function RelicFilterBar(props) {
       }
     }
 
+    if (singleRelic) return
+
     // Clone the relics to refresh the sort
     DB.setRelics(Utils.clone(relics))
 
@@ -207,7 +209,7 @@ export default function RelicFilterBar(props) {
       subStats: [],
       grade: [],
       verified: [],
-      equipped: [],
+      equippedBy: [],
     })
   }
 
@@ -219,32 +221,38 @@ export default function RelicFilterBar(props) {
     characterSelectorChange(currentlySelectedCharacterId)
   }
 
+  function rescoreSingleRelic(singleRelic) {
+    characterSelectorChange(currentlySelectedCharacterId, singleRelic)
+  }
+
+  window.rescoreSingleRelic = rescoreSingleRelic
+
   return (
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%" />
+          <FilterRow name="part" tags={partsData} flexBasis="15%"/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Equipped</HeaderText>
-          <FilterRow name="equipped" tags={equippedData} flexBasis="15%" />
+          <FilterRow name="equippedBy" tags={equippedByData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>Clear</HeaderText>
-          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+          <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
             Clear all filters
           </Button>
         </Flex>
@@ -252,17 +260,17 @@ export default function RelicFilterBar(props) {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`} />
+        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData} />
+        <FilterRow name="mainStats" tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData} />
+        <FilterRow name="subStats" tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
@@ -297,7 +305,7 @@ export default function RelicFilterBar(props) {
           <Flex vertical>
             <Flex justify="space-between" align="center">
               <HeaderText>Relic ratings</HeaderText>
-              <TooltipImage type={Hint.valueColumns()} />
+              <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
               <Select
@@ -321,8 +329,8 @@ export default function RelicFilterBar(props) {
             selectStyle={{ flex: 1 }}
             onChange={(x) => {
               const excludedCharacterIds = Array.from(x || new Map())
-              .filter((entry) => entry[1] == true)
-              .map((entry) => entry[0])
+                .filter((entry) => entry[1] == true)
+                .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.save()
               setTimeout(() => rescoreClicked(), 100)

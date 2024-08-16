@@ -46,7 +46,7 @@ export const OptimizerTabController = {
       return
     }
 
-    const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+    const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
     currentPinned[0] = x
     window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
   },
@@ -106,7 +106,7 @@ export const OptimizerTabController = {
           // Find the row by its string ID and select it
           const rowNode = window.optimizerGrid.current.api.getRowNode(String(data.id))
           if (rowNode) {
-            const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+            const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
 
             if (String(currentPinned[0].id) == String(rowNode.data.id)) {
               // The currently equipped top row shouldn't correspond to an optimizer row, deselect
@@ -710,7 +710,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    window.optimizerGrid.current.api.redrawRows()
+    window.optimizerGrid.current.api.refreshCells({ force: true })
   },
 
   applyRowFilters: () => {

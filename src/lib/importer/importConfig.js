@@ -7,8 +7,8 @@ export const KelzScannerConfig = {
   releases: 'https://github.com/kel-z/HSR-Scanner/releases/latest',
   defaultFileName: 'HSRScanData.json',
   sourceString: 'HSR-Scanner',
-  latestBuildVersion: 'v1.1.0',
-  latestOutputVersion: 3,
+  latestBuildVersion: 'v1.2.0',
+  latestOutputVersion: 4,
   speedVerified: false,
 }
 
@@ -19,7 +19,7 @@ export const ReliquaryArchiverConfig = {
   releases: 'https://github.com/IceDynamix/reliquary-archiver/releases/latest',
   defaultFileName: 'archiver_output.json',
   sourceString: 'reliquary_archiver',
-  latestBuildVersion: 'v0.1.7',
+  latestBuildVersion: 'v0.1.8',
   latestOutputVersion: 3,
   speedVerified: true,
 }

@@ -25,7 +25,7 @@ type RelicTabFilters = {
   subStats: unknown[]
   grade: unknown[]
   verified: unknown[]
-  equipped: unknown[]
+  equippedBy: unknown[]
 }
 
 export type HsrOptimizerStore = {

@@ -87,7 +87,7 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[2],
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
-          ]
+          ].filter(x => !!x)
         } else {
           if (!data.detailInfo) {
             setLoading(false)

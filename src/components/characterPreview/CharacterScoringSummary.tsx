@@ -642,10 +642,14 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
 }
 
 export function CharacterCardCombatStats(props: { result: SimulationScore }) {
+  // const characterMetadata = DB,get
   const result = props.result
+  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
   const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  let substats = Utils.clone(simulationMetadata.substats)
+  const nonDisplayStats = simulationMetadata.nonDisplayStats || []
+  let substats = Utils.clone(originalSimulationMetadata.substats)
+  substats = substats.filter(x => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats)
   if (substats.length < 6) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))

@@ -6,8 +6,8 @@ import { LayoutSider } from 'components/LayoutSider.tsx'
 import { SettingsDrawer } from 'components/SettingsDrawer'
 import { checkForUpdatesNotification } from 'lib/notifications'
 
-const {useToken, getDesignToken} = theme
-const {Content} = Layout
+const { useToken, getDesignToken } = theme
+const { Content } = Layout
 
 const App = () => {
   const [messageApi, messageContextHolder] = message.useMessage()
@@ -60,6 +60,7 @@ const App = () => {
           Menu: {
             margin: 2,
             itemPaddingInline: 0,
+            subMenuItemBg: 'rgba(255, 255, 255, 0.05)'
           },
 
           Table: {
@@ -100,7 +101,7 @@ const App = () => {
       {messageContextHolder}
       {notificationContextHolder}
       {modalContextHolder}
-      <Layout style={{minHeight: '100%'}}>
+      <Layout style={{ minHeight: '100%' }}>
         <LayoutHeader/>
         <Layout hasSider>
           <LayoutSider/>

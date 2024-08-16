@@ -13,7 +13,7 @@ import { StatTextSm } from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
-import { damageStats, displayTextMap } from "components/characterPreview/StatRow";
+import { damageStats, displayTextMap } from 'components/characterPreview/StatRow'
 
 const { Text } = Typography
 
@@ -444,9 +444,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-        <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
-          {props.subText}
-        </pre>
+          <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
+            {props.subText}
+          </pre>
           <Flex gap={5} justify="space-around">
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
               <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision}/>
@@ -641,15 +641,15 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
   )
 }
 
+
 export function CharacterCardCombatStats(props: { result: SimulationScore }) {
-  // const characterMetadata = DB,get
   const result = props.result
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
   const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
   const nonDisplayStats = simulationMetadata.nonDisplayStats || []
   let substats = Utils.clone(originalSimulationMetadata.substats)
-  substats = substats.filter(x => !nonDisplayStats.includes(x))
+  substats = substats.filter((x) => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats)
   if (substats.length < 6) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
@@ -670,14 +670,17 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
     } else if (!flat) {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
-    // Best arrows 🠙 🠡 🡑 🠙
 
+    // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm>{`${displayTextMap[stat] || stat}`}</StatTextSm>
+        <StatTextSm><Flex gap={8} align="center">
+          {`${displayTextMap[stat] || stat}`}{upgraded && <Arrow/>}
+        </Flex>
+        </StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`${upgraded ? '🡑 ' : ''}${display}${flat ? '' : '%'}`}</StatTextSm>
+        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,
     )
   }
@@ -694,6 +697,13 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   )
 }
 
+function Arrow() {
+  return (
+    <Flex style={{ fontSize: 10 }} align="center">
+      ⬆
+    </Flex>
+  )
+}
 
 export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
   const result = props.result

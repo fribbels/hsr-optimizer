@@ -663,7 +663,9 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
 
     const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
     const flat = Utils.isFlat(stat)
-    const upgraded = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG != result.originalSimResult.ELEMENTAL_DMG : result.originalSimResult.x[stat] != result.originalSimResult[stat]
+    const upgraded = damageStats[stat]
+      ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
+      : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
 
     let display = Math.floor(value)
     if (stat == Stats.SPD) {

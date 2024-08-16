@@ -289,14 +289,150 @@ fn main(
   x.BE += c.BE;
   x.ERR += c.ERR;
   x.OHB += c.OHB;
-  
-//  x.SPD += x.SPD_P * request.baseSpd;
-//  x.ATK += x.ATK_P * request.baseAtk;
-//  x.DEF += x.DEF_P * request.baseDef;
-//  x.HP += x.HP_P * request.baseHp;
 
+  addElementalStats(&c, &x);
+
+  // ATK
+
+  if (p4(c.sets.MessengerTraversingHackerspace) >= 1 && enabledMessengerTraversingHackerspace == 1) {
+    x.SPD_P += 0.12;
+  }
+  x.SPD += x.SPD_P * baseSPD;
+
+  // DEF
+
+  if (p4(c.sets.ChampionOfStreetwiseBoxing) >= 1) {
+    x.ATK_P += 0.05 * f32(valueChampionOfStreetwiseBoxing);
+  }
+  if (p4(c.sets.BandOfSizzlingThunder) >= 1 && enabledBandOfSizzlingThunder == 1) {
+    x.ATK_P += 0.20;
+  }
+  if (p4(c.sets.TheAshblazingGrandDuke) >= 1) {
+    x.ATK_P += 0.06 * f32(valueTheAshblazingGrandDuke);
+  }
+  x.ATK += x.ATK_P * baseATK;
+
+  // DEF
+
+  x.DEF += x.DEF_P * baseDEF;
+
+  // HP
+
+  x.HP += x.HP_P * baseHP;
+
+  // CD
+
+  if (p4(c.sets.HunterOfGlacialForest) >= 1 && enabledHunterOfGlacialForest == 1) {
+    x.CD += 0.25;
+  }
+  if (p4(c.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert == 2) {
+    x.CD += 0.10;
+  }
+  if (p4(c.sets.PioneerDiverOfDeadWaters) >= 1) {
+    x.CD += getPioneerSetCd(valuePioneerDiverOfDeadWaters);
+  }
+  if (p2(c.sets.SigoniaTheUnclaimedDesolation) >= 1) {
+    x.CD += 0.04 * f32(valueSigoniaTheUnclaimedDesolation);
+  }
+  if (p2(c.sets.DuranDynastyOfRunningWolves) >= 1 && valueDuranDynastyOfRunningWolves >= 5) {
+    x.CD += 0.25;
+  }
+  if (p2(c.sets.TheWondrousBananAmusementPark) >= 1 && enabledTheWondrousBananAmusementPark == 1) {
+    x.CD += 0.32;
+  }
+
+  // CR
+
+  if (p4(c.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert > 0) {
+    x.CR += 0.10;
+  }
+  if (p4(c.sets.LongevousDisciple) >= 1) {
+    x.CR += 0.08 * f32(valueLongevousDisciple);
+  }
+  if (p4(c.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters > 2) {
+    x.CR += 0.04;
+  }
+  if (p2(c.sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+    x.CR += 0.12;
+  }
+
+  // BE
+
+  if (p4(c.sets.WatchmakerMasterOfDreamMachinations) >= 1 && enabledWatchmakerMasterOfDreamMachinations == 1) {
+    x.BE += 0.30;
+  }
+  if (p2(c.sets.ForgeOfTheKalpagniLantern) >= 1 && enabledForgeOfTheKalpagniLantern == 1) {
+    x.BE += 0.40;
+  }
+
+  // Buffs
+
+  // Basic boost
+  if (p4(c.sets.MusketeerOfWildWheat) >= 1) {
+    buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
+  }
+
+  // Skill boost
+  if (p4(c.sets.FiresmithOfLavaForging) >= 1) {
+    buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
+  }
+
+  // Fua boost
+  if (p2(c.sets.TheAshblazingGrandDuke) >= 1) {
+    buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
+  }
+  if(p2(c.sets.DuranDynastyOfRunningWolves) >= 1) {
+    buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(valueDuranDynastyOfRunningWolves), 1);
+  }
+
+  // Ult boost
+  if (p4(c.sets.TheWindSoaringValorous) >= 1) {
+    buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(enabledTheWindSoaringValorous), 1);
+  }
+
+  //
+
+  if (p4(c.sets.GeniusOfBrilliantStars) >= 1) {
+    if (enabledGeniusOfBrilliantStars == 1) {
+      x.DEF_SHRED += 0.20;
+    } else {
+      x.DEF_SHRED += 0.10;
+    }
+  }
+
+  if (p4(c.sets.PrisonerInDeepConfinement) >= 1) {
+    x.DEF_SHRED += 0.06 * f32(valuePrisonerInDeepConfinement);
+  }
+
+  if (p2(c.sets.PioneerDiverOfDeadWaters) >= 1) {
+    x.ELEMENTAL_DMG += 0.12;
+  }
+
+  // Dynamic - still need implementing
+
+  // x[Stats.ATK_P]
+  // + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
+  // + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
+  // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+  // x[Stats.DEF_P]
+  //   += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
+  // x[Stats.CD]
+  //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+  // x[Stats.CR]
+  //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+  // x[Stats.BE]
+  //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+  // x.BREAK_DEF_PEN
+  //   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.SUPER_BREAK_DEF_PEN
+  //   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+  // x.ELEMENTAL_DMG
+  //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+  //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+
+
+  const semicolonTest = 0;
   // TODO: Combat buffs
-
   // TODO: Fire set is x condition
 
 
@@ -338,32 +474,7 @@ fn main(
   x.RES += 0.50f;
   x.CD += 0.15f;
 
-  // Add basic stats to combat stats
-
-  x.HP += c.HP;
-  x.DEF += c.DEF;
-  x.ATK += c.ATK;
-  x.SPD += c.SPD;
-  x.CR += c.CR;
-  x.CD += c.CD;
-  x.EHR += c.EHR;
-  x.RES += c.RES;
-  x.BE += c.BE;
-  x.ERR += c.ERR;
-  x.OHB += c.OHB;
-  x.Ice_DMG += c.Ice_DMG;
-  x.Imaginary_DMG += c.Imaginary_DMG;
-
-  x.SPD += x.SPD_P * baseSPD;
-  x.ATK += x.ATK_P * baseATK;
-  x.DEF += x.DEF_P * baseDEF;
-  x.HP += x.HP_P * baseHP;
-
-  // Add custom combat buffs
-
   // Set effects
-
-  x.CD += 0.25 * p4(c.sets.HunterOfGlacialForest);
 
   // Dynamic conditionals
 
@@ -601,6 +712,60 @@ fn buffAbilityDmg(
   }
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
     (*p_x).DOT_BOOST += value;
+  }
+}
+
+fn addElementalStats(
+  c_x: ptr<function, BasicStats>,
+  p_x: ptr<function, ComputedStats>,
+) {
+  switch (ELEMENT_INDEX) {
+    case 0: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Physical_DMG;
+    }
+    case 1: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Fire_DMG;
+    }
+    case 2: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Ice_DMG;
+    }
+    case 3: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Lightning_DMG;
+    }
+    case 4: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Wind_DMG;
+    }
+    case 5: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Quantum_DMG;
+    }
+    case 6: {
+      (*p_x).ELEMENTAL_DMG += (*c_x).Imaginary_DMG;
+    }
+    default: {
+
+    }
+  }
+}
+
+fn getPioneerSetCd(
+  index: i32,
+) -> f32 {
+  switch (index) {
+    case 4: {
+      return 0.24;
+    }
+    case 3: {
+      return 0.16;
+    }
+    case 2: {
+      return 0.12;
+    }
+    case 1: {
+      return 0.08;
+    }
+    default: {
+      return 0.0;
+    }
   }
 }
 

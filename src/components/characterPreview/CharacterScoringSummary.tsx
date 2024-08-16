@@ -662,6 +662,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
 
     const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
     const flat = Utils.isFlat(stat)
+    const upgraded = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG != result.originalSimResult.ELEMENTAL_DMG : result.originalSimResult.x[stat] != result.originalSimResult[stat]
 
     let display = Math.floor(value)
     if (stat == Stats.SPD) {
@@ -669,19 +670,20 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
     } else if (!flat) {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
+    // Best arrows 🠙 🠡 🡑 🠙
 
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatTextSm>{`${displayTextMap[stat] || stat}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
+        <StatTextSm>{`${upgraded ? '🡑 ' : ''}${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,
     )
   }
 
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16 }}>
           Combat Stats
@@ -751,9 +753,8 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     extraRows.map((row) => rows.unshift(row))
   }
 
-  //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16 }}>
           Damage Upgrades

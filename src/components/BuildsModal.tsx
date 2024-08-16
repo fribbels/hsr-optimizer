@@ -9,7 +9,7 @@ import { SaveState } from 'lib/saveState'
 import { Message } from 'lib/message'
 import { Character, SavedBuild } from 'types/Character'
 import { CharacterPreview } from 'components/CharacterPreview.jsx'
-import { RelicScorer } from 'lib/relicScorer'
+import { RelicScorer } from 'lib/relicScorerPotential'
 
 interface BuildsModalProps {
   open: boolean
@@ -200,11 +200,10 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                           textAlign: 'center',
                         }}
                       >
-                        {`Score: ${build.score.score} ${
-                          build.score.score == 0
+                        {`Score: ${build.score.score} ${build.score.score == 0
                             ? ''
                             : '(' + build.score.rating + ')'
-                        }`}
+                          }`}
                       </StatText>
                     </Flex>
                     <Flex gap={5}>

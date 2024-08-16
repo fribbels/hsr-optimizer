@@ -13,7 +13,8 @@ import { StatTextSm } from 'components/characterPreview/StatText'
 import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
-import { damageStats, displayTextMap } from "components/characterPreview/StatRow";
+import { damageStats, displayTextMap } from 'components/characterPreview/StatRow'
+import { ArrowUpOutlined } from "@ant-design/icons";
 
 const { Text } = Typography
 
@@ -444,9 +445,9 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
         </Flex>
 
         <Flex vertical gap={defaultGap}>
-        <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
-          {props.subText}
-        </pre>
+          <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
+            {props.subText}
+          </pre>
           <Flex gap={5} justify="space-around">
             <Flex vertical gap={defaultGap} style={{ width: 120 }}>
               <ScoringNumber label="ATK%: " number={request.stats[Stats.ATK_P]} precision={props.precision}/>
@@ -641,11 +642,15 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
   )
 }
 
+
 export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   const result = props.result
+  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
   const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  let substats = Utils.clone(simulationMetadata.substats)
+  const nonDisplayStats = simulationMetadata.nonDisplayStats || []
+  let substats = Utils.clone(originalSimulationMetadata.substats)
+  substats = substats.filter((x) => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats)
   if (substats.length < 6) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
@@ -658,6 +663,9 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
 
     const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
     const flat = Utils.isFlat(stat)
+    const upgraded = damageStats[stat]
+      ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
+      : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
 
     let display = Math.floor(value)
     if (stat == Stats.SPD) {
@@ -666,10 +674,15 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
+    // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify="space-between" align="center" style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm>{`${displayTextMap[stat] || stat}`}</StatTextSm>
+        <StatTextSm>
+          <Flex gap={4} align="center">
+            {`${displayTextMap[stat] || stat}`}{upgraded && <Arrow/>}
+          </Flex>
+        </StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,
@@ -677,7 +690,7 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   }
 
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16 }}>
           Combat Stats
@@ -688,6 +701,13 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   )
 }
 
+function Arrow() {
+  return (
+    <Flex style={{ fontSize: 10, paddingTop: 2 }} align="center">
+      <ArrowUpOutlined/>
+    </Flex>
+  )
+}
 
 export function CharacterCardScoringStatUpgrades(props: { result: SimulationScore }) {
   const result = props.result
@@ -747,9 +767,8 @@ export function CharacterCardScoringStatUpgrades(props: { result: SimulationScor
     extraRows.map((row) => rows.unshift(row))
   }
 
-  //  =>  ${(statUpgrade.percent! * 100).toFixed(2)}%
   return (
-    <Flex vertical gap={1} align="center" style={{ paddingLeft: 6, paddingRight: 8, marginBottom: 0 }}>
+    <Flex vertical gap={1} align="center" style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
       <Flex vertical align="center">
         <HeaderText style={{ fontSize: 16 }}>
           Damage Upgrades

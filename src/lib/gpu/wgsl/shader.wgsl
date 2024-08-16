@@ -255,8 +255,7 @@ fn main(
   );
 
   c.RES += (
-    0.10 * p2(c.sets.BrokenKeel) +
-    0.10 * p2(c.sets.LushakaTheSunkenSeas)
+    0.10 * p2(c.sets.BrokenKeel)
   );
 
   c.BE += (
@@ -269,7 +268,8 @@ fn main(
 
   c.ERR += (
     0.05 * p2(c.sets.SprightlyVonwacq) +
-    0.05 * p2(c.sets.PenaconyLandOfTheDreams)
+    0.05 * p2(c.sets.PenaconyLandOfTheDreams) +
+    0.05 * p2(c.sets.LushakaTheSunkenSeas)
   );
 
   c.OHB += (

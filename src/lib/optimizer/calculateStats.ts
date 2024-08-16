@@ -223,9 +223,6 @@ export function calculateComputedStats(c, request, params) {
   if (p4(sets.TheAshblazingGrandDuke)) {
     x[Stats.ATK_P] += 0.06 * params.valueTheAshblazingGrandDuke
   }
-  if (p2(sets.LushakaTheSunkenSeas) && params.enabledLushakaTheSunkenSeas) {
-    x[Stats.ATK_P] += 0.16
-  }
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 
   // DEF
@@ -254,7 +251,7 @@ export function calculateComputedStats(c, request, params) {
     x[Stats.CD] += 0.25
   }
   if (p2(sets.TheWondrousBananAmusementPark) && params.enabledTheWondrousBananAmusementPark) {
-    x[Stats.CD] += 0.28
+    x[Stats.CD] += 0.32
   }
 
   // CR

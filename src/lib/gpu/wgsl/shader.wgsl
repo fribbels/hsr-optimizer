@@ -276,6 +276,27 @@ fn main(
     0.10 * p2(c.sets.PasserbyOfWanderingCloud)
   );
 
+  // Add base to computed
+
+  x.ATK += c.ATK;
+  x.DEF += c.DEF;
+  x.HP += c.HP;
+  x.SPD += c.SPD;
+  x.CD += c.CD;
+  x.CR += c.CR;
+  x.EHR += c.EHR;
+  x.RES += c.RES;
+  x.BE += c.BE;
+  x.ERR += c.ERR;
+  x.OHB += c.OHB;
+  
+//  x.SPD += x.SPD_P * request.baseSpd;
+//  x.ATK += x.ATK_P * request.baseAtk;
+//  x.DEF += x.DEF_P * request.baseDef;
+//  x.HP += x.HP_P * request.baseHp;
+
+  // TODO: Combat buffs
+
   // TODO: Fire set is x condition
 
 

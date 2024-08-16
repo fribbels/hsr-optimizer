@@ -114,7 +114,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   }
   const device = await adapter.requestDevice()
 
-  const wgsl = generateWgsl(params)
+  const wgsl = generateWgsl(params, request)
 
   console.log('SHADER', wgsl)
   console.log('Webgpu device', device)

@@ -1,30 +1,53 @@
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
+import { Form } from "types/Form";
 
-export function generateSettings(params: OptimizerParams) {
+export function generateSettings(params: OptimizerParams, request: Form) {
   let wgsl = `\n`
 
   wgsl += generateSetConditionals(params)
-
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.base, 'lc')
   wgsl += generateCharacterStats(params.character.base, 'trace')
-
   wgsl += generateElement(params)
+  wgsl += generateRequest(request)
 
   wgsl += '\n'
 
   return wgsl
 }
 
-const paramElementToIndex = {
-  [Stats.Physical_DMG]: 0,
-  [Stats.Fire_DMG]: 1,
-  [Stats.Ice_DMG]: 2,
-  [Stats.Lightning_DMG]: 3,
-  [Stats.Wind_DMG]: 4,
-  [Stats.Quantum_DMG]: 5,
-  [Stats.Imaginary_DMG]: 6,
+function generateRequest(request: Form) {
+  let wgsl = '\n'
+
+  // "combat" == 0 / "base" == 1
+  wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};`
+
+  // Combo
+  wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};`
+  wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};`
+  wgsl += `const ULT_COMBO: f32 = ${request.combo.ULT};`
+  wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};`
+  wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};`
+  wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};`
+
+  // Enemy
+  wgsl += `const enemyCount: i32 = ${request.enemyCount};`
+  wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak};`
+  wgsl += `const enemyLevel: i32 = ${request.enemyLevel};`
+  wgsl += `const enemyMaxToughness: f32 = ${request.enemyMaxToughness};`
+  wgsl += `const enemyResistance: f32 = ${request.enemyResistance};`
+  wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};`
+  wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken};`
+
+  // Filters
+  for (const [key, value] of Object.entries(request)) {
+    if (key.startsWith('min') || key.startsWith('max')) {
+      wgsl += `const ${key}: f32 = ${value};\n`
+    }
+  }
+
+  return wgsl
 }
 
 function generateElement(params: OptimizerParams) {
@@ -85,4 +108,14 @@ const paramStatNames = {
   Wind_DMG: Stats.Wind_DMG,
   Quantum_DMG: Stats.Quantum_DMG,
   Imaginary_DMG: Stats.Imaginary_DMG,
+}
+
+const paramElementToIndex = {
+  [Stats.Physical_DMG]: 0,
+  [Stats.Fire_DMG]: 1,
+  [Stats.Ice_DMG]: 2,
+  [Stats.Lightning_DMG]: 3,
+  [Stats.Wind_DMG]: 4,
+  [Stats.Quantum_DMG]: 5,
+  [Stats.Imaginary_DMG]: 6,
 }

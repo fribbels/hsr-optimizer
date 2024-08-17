@@ -106,7 +106,7 @@ export function buffStat(x: ComputedStatsObject, params, stat: string, value: nu
   }
 }
 
-const RegisteredConditionals = {
+export const RegisteredConditionals = {
   [Stats.CR]: [
     RutilantArenaConditional
   ]

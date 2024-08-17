@@ -680,13 +680,13 @@ fn evaluateRutilantArenaConditional(
   }
 }
 
-fn evaluateCrDependencies(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
-  evaluateRutilantArenaConditional(p_x, p_state);
-  // Add more CR dependencies here
-}
+//fn evaluateCrDependencies(
+//  p_x: ptr<function, ComputedStats>,
+//  p_state: ptr<function, ConditionalState>
+//) {
+//  evaluateRutilantArenaConditional(p_x, p_state);
+//  // Add more CR dependencies here
+//}
 
 fn evaluateCdDependencies(
   p_x: ptr<function, ComputedStats>,

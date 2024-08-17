@@ -1,11 +1,13 @@
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
 import { Form } from "types/Form";
+import { RegisteredConditionals } from "lib/gpu/newConditionals";
 
 export function generateSettings(params: OptimizerParams, request: Form) {
   let wgsl = `\n`
 
   wgsl += generateSetConditionals(params)
+  wgsl += generateDynamicSetConditionals(params)
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.lightCone, 'lc')
   wgsl += generateCharacterStats(params.character.traces, 'trace')
@@ -13,6 +15,42 @@ export function generateSettings(params: OptimizerParams, request: Form) {
   wgsl += generateRequest(request)
 
   wgsl += '\n'
+
+  return wgsl
+}
+
+function indent(wgsl: string, indents: number) {
+  const indentSpaces = ' '.repeat(indents)
+  return wgsl
+    .split('\n')
+    .map(line => indentSpaces + line)
+    .join('\n');
+}
+
+function generateDynamicSetConditionals(params: OptimizerParams) {
+  let wgsl = '\n'
+
+  function generateEvaluatorFnCode(name: string, dependentConditionals: string) {
+    return `
+fn ${name}(
+  p_x: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  ${indent(dependentConditionals, 2)}
+}
+    `
+  }
+
+  function generateDependentConditional(conditionalName: string) {
+    return `evaluate${conditionalName}(p_x, p_state);\n`
+  }
+
+  let dependentConditionalsCR = ''
+  for (const conditional of RegisteredConditionals[Stats.CR]) {
+    dependentConditionalsCR += generateDependentConditional(conditional.id)
+  }
+  let evaluatorCodeCR = generateEvaluatorFnCode('evaluateCrDependencies', dependentConditionalsCR)
+  wgsl += evaluatorCodeCR
 
   return wgsl
 }

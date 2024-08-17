@@ -195,11 +195,6 @@ export function calculateComputedStats(c, request, params) {
   x.DMG_TAKEN_MULTI += request.combatBuffs.VULNERABILITY
   x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
 
-  x[Stats.SPD] += x[Stats.SPD_P] * request.baseSpd
-  x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
-  x[Stats.DEF] += x[Stats.DEF_P] * request.baseDef
-  x[Stats.HP] += x[Stats.HP_P] * request.baseHp
-
   // Set effects
   // x[Stats.SPD_P]
   //   += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)

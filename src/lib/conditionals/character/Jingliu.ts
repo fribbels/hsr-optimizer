@@ -116,7 +116,11 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpu: () => {
-
+      return `
+  x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
+  x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+  x.ULT_DMG += x.ULT_SCALING * x.DEF;
+      `
     }
   }
 }

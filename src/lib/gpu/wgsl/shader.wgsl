@@ -90,6 +90,10 @@ fn main(
 
   /* INJECT COMPUTED STATS */
 
+  // Dynamic conditionals
+
+  var state = ConditionalState();
+
   x.BASIC_DMG_TYPE = 1;
   x.SKILL_DMG_TYPE = 2;
   x.ULT_DMG_TYPE = 4;
@@ -300,7 +304,6 @@ fn main(
   if (p4(c.sets.MessengerTraversingHackerspace) >= 1 && enabledMessengerTraversingHackerspace == 1) {
     x.SPD_P += 0.12;
   }
-  x.SPD += x.SPD_P * baseSPD;
 
   // DEF
 
@@ -313,15 +316,12 @@ fn main(
   if (p4(c.sets.TheAshblazingGrandDuke) >= 1) {
     x.ATK_P += 0.06 * f32(valueTheAshblazingGrandDuke);
   }
-  x.ATK += x.ATK_P * baseATK;
 
   // DEF
 
-  x.DEF += x.DEF_P * baseDEF;
 
   // HP
 
-  x.HP += x.HP_P * baseHP;
 
   // CD
 
@@ -438,52 +438,14 @@ fn main(
   // TODO: Combat buffs
   // TODO: Fire set is x condition
 
-
-
-
-
-
-
-
-
-
-  // Precompute combat conditional stats
-  // This should ideally all happen outside the GPU, and passed through in params
-  // Assumptions: Jingliu E1S1, default conditionals
-
-//  x.CR += 0.50f;
-//  x.ATK_P += 1.80f;
-//  x.RES += 0.35f;
-//
-//  x.ULT_BOOST += 0.20f;
-//  x.CD += 0.24f;
-//
-//  x.BASIC_SCALING += 1.00f;
-//  x.SKILL_SCALING += 2.50f;
-//  x.SKILL_SCALING += 1.00f;
-//
-//  x.ULT_SCALING += 3.00f;
-//  x.ULT_SCALING += 1.00f;
-//
-//  x.ELEMENTAL_DMG += 0.14f * 3.0f;
-//  x.DEF_SHRED += 0.12f;
-
-  // Aventurine E0S1
-
-//  x.BASIC_SCALING += 1.00f;
-//  x.ULT_SCALING += 2.70f;
-//  x.FUA_SCALING += 0.25f * 7;
-//
-//  x.RES += 0.50f;
-//  x.CD += 0.15f;
-
   // Set effects
 
-  // Dynamic conditionals
-
-  var state = ConditionalState();
-
   // Dynamic stat conditionals
+
+  x.ATK += x.ATK_P * baseATK;
+  x.DEF += x.DEF_P * baseDEF;
+  x.HP += x.HP_P * baseHP;
+  x.SPD += x.SPD_P * baseSPD;
 
   evaluateDependenciesHP(&x, &state);
   evaluateDependenciesATK(&x, &state);
@@ -497,11 +459,11 @@ fn main(
   evaluateDependenciesOHB(&x, &state);
   evaluateDependenciesERR(&x, &state);
 
-  // Conditional injections
-
   /* INJECT LIGHT CONE CONDITIONALS */
 
   /* INJECT CHARACTER CONDITIONALS */
+
+  // Conditional injections
 
   // Calculate damage
   let cLevel: f32 = 80;

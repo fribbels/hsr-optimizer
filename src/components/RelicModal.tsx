@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { Constants, Stats } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
@@ -389,10 +389,17 @@ RelicModal.propTypes = {
 }
 
 function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
+  const inputRef = useRef(null);
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
   const field = props.relicForm.getFieldValue(statTypeField)
+
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.select() // Select the entire text when focused
+    }
+  }
 
   function upgradeClicked(quality: string) {
     console.log(props, quality)
@@ -440,6 +447,8 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
 
         <Form.Item name={`substatValue${props.index}`}>
           <Input
+            ref={inputRef}
+            onFocus={handleFocus}
             style={{ width: 60 }}
             onChange={props.resetUpgradeValues}
             tabIndex={0}

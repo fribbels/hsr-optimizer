@@ -22,6 +22,8 @@ function generateRequest(request: Form) {
 
   // "combat" == 0 / "base" == 1
   wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
+  wgsl += '\n'
+
 
   // Combo
   wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};\n`
@@ -30,6 +32,8 @@ function generateRequest(request: Form) {
   wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};\n`
   wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};\n`
   wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};\n`
+  wgsl += '\n'
+
 
   // Enemy
   wgsl += `const enemyCount: i32 = ${request.enemyCount};\n`
@@ -39,6 +43,7 @@ function generateRequest(request: Form) {
   wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
   wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
   wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
+  wgsl += '\n'
 
   // Filters
   for (const [key, value] of Object.entries(request)) {
@@ -46,6 +51,13 @@ function generateRequest(request: Form) {
       wgsl += `const ${key}: f32 = ${value};\n`
     }
   }
+  wgsl += '\n'
+
+  // Buffs
+  for (const [key, value] of Object.entries(request.combatBuffs)) {
+    wgsl += `const combatBuffs${key}: f32 = ${value};\n`
+  }
+  wgsl += '\n'
 
   return wgsl
 }

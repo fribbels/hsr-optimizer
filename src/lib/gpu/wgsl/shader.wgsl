@@ -275,19 +275,24 @@ fn main(
 
   // Add base to computed
 
-  x.ATK += c.ATK;
-  x.DEF += c.DEF;
-  x.HP += c.HP;
-  x.SPD += c.SPD;
-  x.CD += c.CD;
-  x.CR += c.CR;
+  addElementalStats(&c, &x);
+
+  x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
+  x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
+  x.HP += c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
+  x.SPD += c.SPD + combatBuffsSPD + combatBuffsSPD_P * baseSPD;
+  x.CD += c.CD   + combatBuffsCD;
+  x.CR += c.CR   + combatBuffsCR;
   x.EHR += c.EHR;
   x.RES += c.RES;
-  x.BE += c.BE;
+  x.BE += c.BE   + combatBuffsBE;
   x.ERR += c.ERR;
   x.OHB += c.OHB;
 
-  addElementalStats(&c, &x);
+  x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+  x.EFFECT_RES_SHRED += combatBuffsEFFECT_RES_SHRED;
+  x.DMG_TAKEN_MULTI += combatBuffsVULNERABILITY;
+  x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
 
   // ATK
 
@@ -671,7 +676,7 @@ fn evaluateRutilantArenaConditional(
   ) {
     (*p_state).rutilantArena = 1.0;
 
-    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, 0.20, 1);
+    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
   }
 }
 

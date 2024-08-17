@@ -30,7 +30,21 @@ export const RutilantArenaConditional: NewConditional = {
     buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
   },
   gpu: () => {
+    return `
+fn evaluateRutilantArenaConditional(
+  p_x: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (
+    (*p_state).rutilantArena == 0.0 &&
+    (*p_x).CR > 0.70
+  ) {
+    (*p_state).rutilantArena = 1.0;
 
+    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
+  }
+}
+    `
   }
 }
 

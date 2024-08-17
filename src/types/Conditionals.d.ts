@@ -24,6 +24,8 @@ export interface Conditional {
   calculatePassives?: (c: ComputedStatsObject, request: Form) => void
   //
   calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params) => void
+
+  gpu?: () => string
 }
 
 export type ContentComponentMap = {

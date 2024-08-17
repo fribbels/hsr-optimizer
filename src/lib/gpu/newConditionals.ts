@@ -77,14 +77,6 @@ function evaluator(self: NewConditional, x: ComputedStatsObject, params) {
   }
 }
 
-function registerConditional(stats: string[], self: NewConditional) {
-  for (const stat of stats) {
-    RegisteredConditionals[stat]
-  }
-
-  return stats
-}
-
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   activationKey: 2,

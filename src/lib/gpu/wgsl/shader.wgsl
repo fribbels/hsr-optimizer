@@ -482,6 +482,8 @@ fn main(
 
   var state = ConditionalState();
 
+  // Dynamic stat conditionals
+
   evaluateDependenciesHP(&x, &state);
   evaluateDependenciesATK(&x, &state);
   evaluateDependenciesDEF(&x, &state);
@@ -494,20 +496,11 @@ fn main(
   evaluateDependenciesOHB(&x, &state);
   evaluateDependenciesERR(&x, &state);
 
-  // Calculate passive stat conversions
+  // Conditional injections
 
-  // Calculate base multis
+  /* INJECT LIGHT CONE CONDITIONALS */
 
-// JINGLIU
-//  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-//  x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-//  x.ULT_DMG += x.ULT_SCALING * x.ATK;
-
-// AVENTURINE
-  x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
-  x.SKILL_DMG += x.SKILL_SCALING * x.DEF;
-  x.ULT_DMG += x.ULT_SCALING * x.DEF;
-  x.FUA_DMG += x.FUA_SCALING * x.DEF;
+  /* INJECT CHARACTER CONDITIONALS */
 
   // Calculate damage
   let cLevel: f32 = 80;
@@ -625,14 +618,13 @@ fn main(
     * (1.0 - (baseResistance - x.DOT_RES_PEN))
     * dotEhrMultiplier;
 
-//  x.COMBO_DMG
-//    = request.combo.BASIC * x.BASIC_DMG
-//    + request.combo.SKILL * x.SKILL_DMG
-//    + request.combo.ULT * x.ULT_DMG
-//    + request.combo.FUA * x.FUA_DMG
-//    + request.combo.DOT * x.DOT_DMG
-//    + request.combo.BREAK * x.BREAK_DMG
-  // Calculate damage
+  x.COMBO_DMG
+    = BASIC_COMBO * x.BASIC_DMG
+    + SKILL_COMBO * x.SKILL_DMG
+    + ULT_COMBO * x.ULT_DMG
+    + FUA_COMBO * x.FUA_DMG
+    + DOT_COMBO * x.DOT_DMG
+    + BREAK_COMBO * x.BREAK_DMG;
 
 //  results[index] = x.BASIC_DMG;
   results[index] = x;
@@ -652,56 +644,6 @@ fn calculateDefMultiplier(cLevel: f32, eLevel: f32, defReduction: f32, defIgnore
 struct ConditionalState {
   aventurineDefConversion: f32,
   rutilantArena: f32,
-}
-
-// DEF -> CR
-// Repeatable
-//fn evaluateAventurineDefConversionConditional(
-//  p_x: ptr<function, ComputedStats>,
-//  p_state: ptr<function, ConditionalState>
-//) {
-//  let def = (*p_x).DEF;
-//  let stateValue: f32 = (*p_state).aventurineDefConversion;
-//
-//  if (def > 1600) {
-//    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-//    let oldBuffValue: f32 = stateValue;
-//
-//    (*p_state).aventurineDefConversion = buffValue;
-//    (*p_x).CR += buffValue - stateValue;
-//
-//    evaluateDependenciesCR(p_x, p_state);
-//  }
-//}
-
-// CR ->
-//fn evaluateRutilantArenaConditional(
-//  p_x: ptr<function, ComputedStats>,
-//  p_state: ptr<function, ConditionalState>
-//) {
-//  if (
-//    (*p_state).rutilantArena == 0.0 &&
-//    (*p_x).CR > 0.70
-//  ) {
-//    (*p_state).rutilantArena = 1.0;
-//
-//    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
-//  }
-//}
-
-//fn evaluateCrDependencies(
-//  p_x: ptr<function, ComputedStats>,
-//  p_state: ptr<function, ConditionalState>
-//) {
-//  evaluateRutilantArenaConditional(p_x, p_state);
-//  // Add more CR dependencies here
-//}
-
-fn evaluateCdDependencies(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
-  // Add more CR dependencies here
 }
 
 fn buffAbilityDmg(

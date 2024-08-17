@@ -7,8 +7,8 @@ export function generateSettings(params: OptimizerParams, request: Form) {
 
   wgsl += generateSetConditionals(params)
   wgsl += generateCharacterStats(params.character.base, 'character')
-  wgsl += generateCharacterStats(params.character.base, 'lc')
-  wgsl += generateCharacterStats(params.character.base, 'trace')
+  wgsl += generateCharacterStats(params.character.lightCone, 'lc')
+  wgsl += generateCharacterStats(params.character.traces, 'trace')
   wgsl += generateElement(params)
   wgsl += generateRequest(request)
 
@@ -21,24 +21,24 @@ function generateRequest(request: Form) {
   let wgsl = '\n'
 
   // "combat" == 0 / "base" == 1
-  wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};`
+  wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
 
   // Combo
-  wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};`
-  wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};`
-  wgsl += `const ULT_COMBO: f32 = ${request.combo.ULT};`
-  wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};`
-  wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};`
-  wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};`
+  wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};\n`
+  wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};\n`
+  wgsl += `const ULT_COMBO: f32 = ${request.combo.ULT};\n`
+  wgsl += `const FUA_COMBO: f32 = ${request.combo.FUA};\n`
+  wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};\n`
+  wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};\n`
 
   // Enemy
-  wgsl += `const enemyCount: i32 = ${request.enemyCount};`
-  wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak};`
-  wgsl += `const enemyLevel: i32 = ${request.enemyLevel};`
-  wgsl += `const enemyMaxToughness: f32 = ${request.enemyMaxToughness};`
-  wgsl += `const enemyResistance: f32 = ${request.enemyResistance};`
-  wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};`
-  wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken};`
+  wgsl += `const enemyCount: i32 = ${request.enemyCount};\n`
+  wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak ? 1 : 0};\n`
+  wgsl += `const enemyLevel: i32 = ${request.enemyLevel};\n`
+  wgsl += `const enemyMaxToughness: f32 = ${request.enemyMaxToughness};\n`
+  wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
+  wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
+  wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
 
   // Filters
   for (const [key, value] of Object.entries(request)) {

@@ -5,7 +5,8 @@ const WORKGROUP_SIZE = 16;
 
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<f32>; // Temporarily f32 for testing, should be boolean
+@group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // For testing calculated stat numbers
+//@group(0) @binding(2) var<storage, read_write> results : array<f32>; // For generating results
 
 @group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(1) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
@@ -98,7 +99,7 @@ fn main(
 
   // Calculate relic stat sums
 
-  let epsilon = 0.00001f;
+  let epsilon = 0.000001f;
 
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
@@ -177,23 +178,19 @@ fn main(
 
   // Calculate set effects
 
-  let setEffects = 0.0f;
-  let spdSetEffects = 0.06f * p2(c.sets.MessengerTraversingHackerspace);
-  let crSetEffects = 0.08f * p2(c.sets.RutilantArena);
-
   // Calculate basic stats
 
-  c.HP  = (baseHP) * (1 + setEffects + c.HP_P + traceHP_P + lcHP_P) + c.HP + traceHP;
-  c.DEF = (baseDEF) * (1 + setEffects + c.DEF_P + traceDEF_P + lcDEF_P) + c.DEF + traceDEF;
-  c.ATK = (baseATK) * (1 + setEffects + c.ATK_P + traceATK_P + lcATK_P) + c.ATK + traceATK;
-  c.SPD = (baseSPD) * (1 + spdSetEffects + c.SPD_P + traceSPD_P + lcSPD_P) + c.SPD + traceSPD;
-  c.CR  += characterCR + lcCR + traceCR + crSetEffects;
-  c.CD  += characterCD + lcCD + traceCD + setEffects;
-  c.EHR += characterEHR + lcEHR + traceEHR + setEffects;
-  c.RES += characterRES + lcRES + traceRES + setEffects;
-  c.BE  += characterBE + lcBE + traceBE + setEffects;
-  c.ERR += characterERR + lcERR + traceERR + setEffects;
-  c.OHB += characterOHB + lcOHB + traceOHB + setEffects;
+  c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + lcHP_P) + traceHP;
+  c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + lcDEF_P) + traceDEF;
+  c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + lcATK_P) + traceATK;
+  c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + lcSPD_P) + traceSPD;
+  c.CR  += characterCR + lcCR + traceCR;
+  c.CD  += characterCD + lcCD + traceCD;
+  c.EHR += characterEHR + lcEHR + traceEHR;
+  c.RES += characterRES + lcRES + traceRES;
+  c.BE  += characterBE + lcBE + traceBE;
+  c.ERR += characterERR + lcERR + traceERR;
+  c.OHB += characterOHB + lcOHB + traceOHB;
   c.Physical_DMG += tracePhysical_DMG;
   c.Fire_DMG += traceFire_DMG;
   c.Ice_DMG += traceIce_DMG;
@@ -623,7 +620,8 @@ fn main(
 //    + request.combo.BREAK * x.BREAK_DMG
   // Calculate damage
 
-  results[index] = x.BASIC_DMG;
+//  results[index] = x.BASIC_DMG;
+  results[index] = x;
 }
 
 fn p2(n: i32) -> f32 {

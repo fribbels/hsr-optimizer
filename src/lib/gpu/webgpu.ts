@@ -2,10 +2,8 @@ import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats 
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
-import { calculateBuild } from "lib/optimizer/calculateBuild";
-import { OptimizerTabController } from "lib/optimizerTabController";
-import { renameFields } from "lib/optimizer/optimizer.ts";
 import { generateWgsl } from "lib/gpu/wgsl/generateWgsl";
+import { Utils } from "lib/utils";
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -313,43 +311,43 @@ export async function experiment({ params, request, relics, permutations, relicS
     // console.log(resultArray)
     // console.log(array)
 
-    // printAsObject(arrayBuffer, BLOCK_SIZE, i, date1)
+    printAsObject(arrayBuffer, BLOCK_SIZE, i, date1)
     const date2 = new Date()
     console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)
   }
 
-  const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-  const outputs = []
-  for (let i = 0; i < resultArray.length; i++) {
-    const index = resultArray[i].index
-
-    const l = (index % lSize)
-    const p = (((index - l) / lSize) % pSize)
-    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
-    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
-
-    const c = calculateBuild(request, {
-      Head: relics.Head[h],
-      Hands: relics.Hands[g],
-      Body: relics.Body[b],
-      Feet: relics.Feet[f],
-      PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l],
-    })
-
-    c.id = index
-    renameFields(c)
-    outputs.push(c)
-  }
-
-  console.log(outputs)
-  window.store.getState().setPermutationsResults(queueResults.size())
-  window.store.getState().setOptimizationInProgress(false)
-  OptimizerTabController.setRows(outputs)
-  window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
-  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+  // const outputs = []
+  // for (let i = 0; i < resultArray.length; i++) {
+  //   const index = resultArray[i].index
+  //
+  //   const l = (index % lSize)
+  //   const p = (((index - l) / lSize) % pSize)
+  //   const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
+  //   const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+  //   const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+  //   const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+  //
+  //   const c = calculateBuild(request, {
+  //     Head: relics.Head[h],
+  //     Hands: relics.Hands[g],
+  //     Body: relics.Body[b],
+  //     Feet: relics.Feet[f],
+  //     PlanarSphere: relics.PlanarSphere[p],
+  //     LinkRope: relics.LinkRope[l],
+  //   })
+  //
+  //   c.id = index
+  //   renameFields(c)
+  //   outputs.push(c)
+  // }
+  //
+  // console.log(outputs)
+  // window.store.getState().setPermutationsResults(queueResults.size())
+  // window.store.getState().setOptimizationInProgress(false)
+  // OptimizerTabController.setRows(outputs)
+  // window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
+  // window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }
 
 function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, date1: Date) {
@@ -359,120 +357,153 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
   const date2 = new Date()
   console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)
 
+  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
+
+  const x = {
+    ED: array[22],
+    BASIC: array[69],
+    SKILL: array[70],
+    ULT: array[71],
+    FUA: array[72],
+    DOT: array[73],
+    BREAK: array[74],
+    COMBO: array[75],
+    WEIGHT: 0,
+    EHP: array[77],
+    xHP: array[4],
+    xATK: array[5],
+    xDEF: array[6],
+    xSPD: array[7],
+    xCR: array[8],
+    xCD: array[9],
+    xEHR: array[10],
+    xRES: array[11],
+    xBE: array[12],
+    xERR: array[13],
+    xOHB: array[14],
+    xELEMENTAL_DMG: array[22],
+  }
+  currentPinned[1] = x
+  window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+
   let printed = false
   if (!printed) {
     printed = true
 
-    console.log('HP_P', array[0])
-    console.log('ATK_P', array[1])
-    console.log('DEF_P', array[2])
-    console.log('SPD_P', array[3])
-    console.log('HP', array[4])
-    console.log('ATK', array[5])
-    console.log('DEF', array[6])
-    console.log('SPD', array[7])
-    console.log('CR', array[8])
-    console.log('CD', array[9])
-    console.log('EHR', array[10])
-    console.log('RES', array[11])
-    console.log('BE', array[12])
-    console.log('ERR', array[13])
-    console.log('OHB', array[14])
+    function fixed(n) {
+      return Utils.precisionRound(n, 5) || ''
+    }
 
-    console.log('Physical_DMG', array[15])
-    console.log('Fire_DMG', array[16])
-    console.log('Ice_DMG', array[17])
-    console.log('Lightning_DMG', array[18])
-    console.log('Wind_DMG', array[19])
-    console.log('Quantum_DMG', array[20])
-    console.log('Imaginary_DMG', array[21])
-    console.log('ELEMENTAL_DMG', array[22])
-    console.log('BASIC_SCALING', array[23])
-    console.log('SKILL_SCALING', array[24])
-    console.log('ULT_SCALING', array[25])
-    console.log('FUA_SCALING', array[26])
-    console.log('DOT_SCALING', array[27])
-    console.log('BASIC_CR_BOOST', array[28])
-    console.log('SKILL_CR_BOOST', array[29])
-    console.log('ULT_CR_BOOST', array[30])
-    console.log('FUA_CR_BOOST', array[31])
-    console.log('BASIC_CD_BOOST', array[32])
-    console.log('SKILL_CD_BOOST', array[33])
-    console.log('ULT_CD_BOOST', array[34])
-    console.log('FUA_CD_BOOST', array[35])
-    console.log('BASIC_BOOST', array[36])
-    console.log('SKILL_BOOST', array[37])
-    console.log('ULT_BOOST', array[38])
-    console.log('FUA_BOOST', array[39])
-    console.log('DOT_BOOST', array[40])
-    console.log('DMG_TAKEN_MULTI', array[41])
-    console.log('BASIC_VULNERABILITY', array[42])
-    console.log('SKILL_VULNERABILITY', array[43])
-    console.log('ULT_VULNERABILITY', array[44])
-    console.log('FUA_VULNERABILITY', array[45])
-    console.log('DOT_VULNERABILITY', array[46])
+    console.log('HP_P', fixed(array[0]))
+    console.log('ATK_P', fixed(array[1]))
+    console.log('DEF_P', fixed(array[2]))
+    console.log('SPD_P', fixed(array[3]))
+    console.log('HP', fixed(array[4]))
+    console.log('ATK', fixed(array[5]))
+    console.log('DEF', fixed(array[6]))
+    console.log('SPD', fixed(array[7]))
+    console.log('CR', fixed(array[8]))
+    console.log('CD', fixed(array[9]))
+    console.log('EHR', fixed(array[10]))
+    console.log('RES', fixed(array[11]))
+    console.log('BE', fixed(array[12]))
+    console.log('ERR', fixed(array[13]))
+    console.log('OHB', fixed(array[14]))
 
-    console.log('BREAK_VULNERABILITY', array[47])
-    console.log('DEF_SHRED', array[48])
-    console.log('BASIC_DEF_PEN', array[49])
-    console.log('SKILL_DEF_PEN', array[50])
-    console.log('ULT_DEF_PEN', array[51])
-    console.log('FUA_DEF_PEN', array[52])
-    console.log('DOT_DEF_PEN', array[53])
-    console.log('BREAK_DEF_PEN', array[54])
-    console.log('SUPER_BREAK_DEF_PEN', array[55])
-    console.log('RES_PEN', array[56])
-    console.log('PHYSICAL_RES_PEN', array[57])
-    console.log('FIRE_RES_PEN', array[58])
-    console.log('ICE_RES_PEN', array[59])
-    console.log('LIGHTNING_RES_PEN', array[60])
-    console.log('WIND_RES_PEN', array[61])
-    console.log('QUANTUM_RES_PEN', array[62])
-    console.log('IMAGINARY_RES_PEN', array[63])
-    console.log('BASIC_RES_PEN', array[64])
-    console.log('SKILL_RES_PEN', array[65])
-    console.log('ULT_RES_PEN', array[66])
-    console.log('FUA_RES_PEN', array[67])
-    console.log('DOT_RES_PEN', array[68])
-    console.log('BASIC_DMG', array[69])
-    console.log('SKILL_DMG', array[70])
-    console.log('ULT_DMG', array[71])
-    console.log('FUA_DMG', array[72])
-    console.log('DOT_DMG', array[73])
-    console.log('BREAK_DMG', array[74])
-    console.log('COMBO_DMG', array[75])
-    console.log('DMG_RED_MULTI', array[76])
-    console.log('EHP', array[77])
+    console.log('Physical_DMG', fixed(array[15]))
+    console.log('Fire_DMG', fixed(array[16]))
+    console.log('Ice_DMG', fixed(array[17]))
+    console.log('Lightning_DMG', fixed(array[18]))
+    console.log('Wind_DMG', fixed(array[19]))
+    console.log('Quantum_DMG', fixed(array[20]))
+    console.log('Imaginary_DMG', fixed(array[21]))
+    console.log('ELEMENTAL_DMG', fixed(array[22]))
+    console.log('BASIC_SCALING', fixed(array[23]))
+    console.log('SKILL_SCALING', fixed(array[24]))
+    console.log('ULT_SCALING', fixed(array[25]))
+    console.log('FUA_SCALING', fixed(array[26]))
+    console.log('DOT_SCALING', fixed(array[27]))
+    console.log('BASIC_CR_BOOST', fixed(array[28]))
+    console.log('SKILL_CR_BOOST', fixed(array[29]))
+    console.log('ULT_CR_BOOST', fixed(array[30]))
+    console.log('FUA_CR_BOOST', fixed(array[31]))
+    console.log('BASIC_CD_BOOST', fixed(array[32]))
+    console.log('SKILL_CD_BOOST', fixed(array[33]))
+    console.log('ULT_CD_BOOST', fixed(array[34]))
+    console.log('FUA_CD_BOOST', fixed(array[35]))
+    console.log('BASIC_BOOST', fixed(array[36]))
+    console.log('SKILL_BOOST', fixed(array[37]))
+    console.log('ULT_BOOST', fixed(array[38]))
+    console.log('FUA_BOOST', fixed(array[39]))
+    console.log('DOT_BOOST', fixed(array[40]))
+    console.log('DMG_TAKEN_MULTI', fixed(array[41]))
+    console.log('BASIC_VULNERABILITY', fixed(array[42]))
+    console.log('SKILL_VULNERABILITY', fixed(array[43]))
+    console.log('ULT_VULNERABILITY', fixed(array[44]))
+    console.log('FUA_VULNERABILITY', fixed(array[45]))
+    console.log('DOT_VULNERABILITY', fixed(array[46]))
 
-    console.log('DOT_CHANCE', array[78])
-    console.log('EFFECT_RES_SHRED', array[79])
-    console.log('DOT_SPLIT', array[80])
-    console.log('DOT_STACKS', array[81])
-    console.log('ENEMY_WEAKNESS_BROKEN', array[82])
-    console.log('SUPER_BREAK_MODIFIER', array[83])
-    console.log('SUPER_BREAK_HMC_MODIFIER', array[84])
-    console.log('BASIC_TOUGHNESS_DMG', array[85])
-    console.log('SKILL_TOUGHNESS_DMG', array[86])
-    console.log('ULT_TOUGHNESS_DMG', array[87])
-    console.log('FUA_TOUGHNESS_DMG', array[88])
-    console.log('BASIC_ORIGINAL_DMG_BOOST', array[89])
-    console.log('SKILL_ORIGINAL_DMG_BOOST', array[90])
-    console.log('ULT_ORIGINAL_DMG_BOOST', array[91])
-    console.log('BASIC_BREAK_DMG_MODIFIER', array[92])
-    console.log('ULT_CD_OVERRIDE', array[93])
-    console.log('ULT_BOOSTS_MULTI', array[94])
-    console.log('RATIO_BASED_ATK_BUFF', array[95])
-    console.log('RATIO_BASED_ATK_P_BUFF', array[96])
-    console.log('BREAK_EFFICIENCY_BOOST', array[97])
-    console.log('BASIC_BREAK_EFFICIENCY_BOOST', array[98])
-    console.log('ULT_BREAK_EFFICIENCY_BOOST', array[99])
-    console.log('BASIC_DMG_TYPE', array[100])
-    console.log('SKILL_DMG_TYPE', array[101])
-    console.log('ULT_DMG_TYPE', array[102])
-    console.log('FUA_DMG_TYPE', array[103])
-    console.log('DOT_DMG_TYPE', array[104])
-    console.log('BREAK_DMG_TYPE', array[105])
-    console.log('SUPER_BREAK_TYPE', array[106])
+    console.log('BREAK_VULNERABILITY', fixed(array[47]))
+    console.log('DEF_SHRED', fixed(array[48]))
+    console.log('BASIC_DEF_PEN', fixed(array[49]))
+    console.log('SKILL_DEF_PEN', fixed(array[50]))
+    console.log('ULT_DEF_PEN', fixed(array[51]))
+    console.log('FUA_DEF_PEN', fixed(array[52]))
+    console.log('DOT_DEF_PEN', fixed(array[53]))
+    console.log('BREAK_DEF_PEN', fixed(array[54]))
+    console.log('SUPER_BREAK_DEF_PEN', fixed(array[55]))
+    console.log('RES_PEN', fixed(array[56]))
+    console.log('PHYSICAL_RES_PEN', fixed(array[57]))
+    console.log('FIRE_RES_PEN', fixed(array[58]))
+    console.log('ICE_RES_PEN', fixed(array[59]))
+    console.log('LIGHTNING_RES_PEN', fixed(array[60]))
+    console.log('WIND_RES_PEN', fixed(array[61]))
+    console.log('QUANTUM_RES_PEN', fixed(array[62]))
+    console.log('IMAGINARY_RES_PEN', fixed(array[63]))
+    console.log('BASIC_RES_PEN', fixed(array[64]))
+    console.log('SKILL_RES_PEN', fixed(array[65]))
+    console.log('ULT_RES_PEN', fixed(array[66]))
+    console.log('FUA_RES_PEN', fixed(array[67]))
+    console.log('DOT_RES_PEN', fixed(array[68]))
+    console.log('BASIC_DMG', fixed(array[69]))
+    console.log('SKILL_DMG', fixed(array[70]))
+    console.log('ULT_DMG', fixed(array[71]))
+    console.log('FUA_DMG', fixed(array[72]))
+    console.log('DOT_DMG', fixed(array[73]))
+    console.log('BREAK_DMG', fixed(array[74]))
+    console.log('COMBO_DMG', fixed(array[75]))
+    console.log('DMG_RED_MULTI', fixed(array[76]))
+    console.log('EHP', fixed(array[77]))
+
+    console.log('DOT_CHANCE', fixed(array[78]))
+    console.log('EFFECT_RES_SHRED', fixed(array[79]))
+    console.log('DOT_SPLIT', fixed(array[80]))
+    console.log('DOT_STACKS', fixed(array[81]))
+    console.log('ENEMY_WEAKNESS_BROKEN', fixed(array[82]))
+    console.log('SUPER_BREAK_MODIFIER', fixed(array[83]))
+    console.log('SUPER_BREAK_HMC_MODIFIER', fixed(array[84]))
+    console.log('BASIC_TOUGHNESS_DMG', fixed(array[85]))
+    console.log('SKILL_TOUGHNESS_DMG', fixed(array[86]))
+    console.log('ULT_TOUGHNESS_DMG', fixed(array[87]))
+    console.log('FUA_TOUGHNESS_DMG', fixed(array[88]))
+    console.log('BASIC_ORIGINAL_DMG_BOOST', fixed(array[89]))
+    console.log('SKILL_ORIGINAL_DMG_BOOST', fixed(array[90]))
+    console.log('ULT_ORIGINAL_DMG_BOOST', fixed(array[91]))
+    console.log('BASIC_BREAK_DMG_MODIFIER', fixed(array[92]))
+    console.log('ULT_CD_OVERRIDE', fixed(array[93]))
+    console.log('ULT_BOOSTS_MULTI', fixed(array[94]))
+    console.log('RATIO_BASED_ATK_BUFF', fixed(array[95]))
+    console.log('RATIO_BASED_ATK_P_BUFF', fixed(array[96]))
+    console.log('BREAK_EFFICIENCY_BOOST', fixed(array[97]))
+    console.log('BASIC_BREAK_EFFICIENCY_BOOST', fixed(array[98]))
+    console.log('ULT_BREAK_EFFICIENCY_BOOST', fixed(array[99]))
+    console.log('BASIC_DMG_TYPE', fixed(array[100]))
+    console.log('SKILL_DMG_TYPE', fixed(array[101]))
+    console.log('ULT_DMG_TYPE', fixed(array[102]))
+    console.log('FUA_DMG_TYPE', fixed(array[103]))
+    console.log('DOT_DMG_TYPE', fixed(array[104]))
+    console.log('BREAK_DMG_TYPE', fixed(array[105]))
+    console.log('SUPER_BREAK_TYPE', fixed(array[106]))
   }
 }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
@@ -55,11 +55,23 @@ function renderSubstat(relic: Relic, index: number): Stat {
   const stat = substat.stat
   const value = substat.value
 
-  return renderStat(stat, value)
+  return renderStat(stat, value, relic)
 }
 
-function renderStat(stat: string, value: number): Stat {
-  if (Utils.isFlat(stat) && stat != Constants.Stats.SPD) {
+function renderStat(stat: string, value: number, relic?: Relic): Stat {
+  if (stat == Stats.SPD) {
+    if (relic?.verified) {
+      return {
+        stat: stat,
+        value: value.toFixed(1),
+      }
+    } else {
+      return {
+        stat: stat,
+        value: value % 1 !== 0 ? value.toFixed(1) : Math.floor(value),
+      }
+    }
+  } else if (Utils.isFlat(stat)) {
     return {
       stat: stat,
       value: Math.floor(value),
@@ -67,7 +79,7 @@ function renderStat(stat: string, value: number): Stat {
   } else {
     return {
       stat: stat,
-      value: Utils.precisionRound(Math.floor(value * 10) / 10),
+      value: Utils.precisionRound(Math.floor(value * 10) / 10).toFixed(1),
     }
   }
 }
@@ -427,12 +439,9 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
         </Form.Item>
 
         <Form.Item name={`substatValue${props.index}`}>
-          <InputNumberStyled
-            controls={false}
+          <Input
+            style={{ width: 60 }}
             onChange={props.resetUpgradeValues}
-            formatter={(value) => {
-              return Utils.isFlat(field) ? value : (value ? Utils.precisionRound(parseFloat(value)).toFixed(1) : '')
-            }}
             tabIndex={0}
           />
         </Form.Item>

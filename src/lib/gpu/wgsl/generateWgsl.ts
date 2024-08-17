@@ -8,9 +8,9 @@ import { Form } from "types/Form";
 export function generateWgsl(params: OptimizerParams, request: Form) {
   const settings = generateSettings(params, request)
   return `
-${structComputedStats}
 ${settings}
-${structs}
 ${shader}
+${structs}
+${structComputedStats}
   `
 }

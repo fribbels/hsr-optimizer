@@ -114,7 +114,7 @@ export async function experiment({ params, request, relics, permutations, relicS
 
   const wgsl = generateWgsl(params, request)
 
-  console.log('SHADER', wgsl)
+  console.log(wgsl)
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 

@@ -7,7 +7,7 @@ export function generateSettings(params: OptimizerParams, request: Form) {
   let wgsl = `\n`
 
   wgsl += generateSetConditionals(params)
-  wgsl += generateDynamicSetConditionals(params)
+  wgsl += generateDynamicSetConditionals()
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.lightCone, 'lc')
   wgsl += generateCharacterStats(params.character.traces, 'trace')
@@ -27,30 +27,60 @@ function indent(wgsl: string, indents: number) {
     .join('\n');
 }
 
-function generateDynamicSetConditionals(params: OptimizerParams) {
-  let wgsl = '\n'
-
-  function generateEvaluatorFnCode(name: string, dependentConditionals: string) {
-    return `
-fn ${name}(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
-  ${indent(dependentConditionals, 2)}
+function generateDependencyCall(conditionalName: string) {
+  return `evaluate${conditionalName}(p_x, p_state);`
 }
-    `
+
+function generateConditionalEvaluator(stat: string, statName: string, conditionalCallsWgsl: string) {
+  return `
+fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+${indent(conditionalCallsWgsl, 2)}
+}
+  `
+}
+
+function generateDependencyEvaluator(stat: string, statName: string) {
+  let conditionalEvaluators = ''
+  let conditionalDefinitionsWgsl = ''
+  let conditionalCallsWgsl = ''
+
+  conditionalCallsWgsl += RegisteredConditionals[stat].map(conditional => generateDependencyCall(conditional.id)).join('\n')
+  conditionalDefinitionsWgsl += RegisteredConditionals[stat].map(conditional => conditional.gpu()).join('\n')
+  conditionalEvaluators += generateConditionalEvaluator(stat, statName, conditionalCallsWgsl)
+
+  return {
+    conditionalEvaluators,
+    conditionalDefinitionsWgsl,
+    conditionalCallsWgsl,
+  }
+}
+
+function generateDynamicSetConditionals() {
+  let wgsl = '\n'
+  let conditionalEvaluators = '\n'
+  let conditionalDefinitionsWgsl = '\n'
+  let conditionalCallsWgsl = '\n'
+
+  function inject(conditionalWgsl: { conditionalEvaluators: string, conditionalDefinitionsWgsl: string, conditionalCallsWgsl: string }) {
+    conditionalEvaluators += conditionalWgsl.conditionalEvaluators
+    conditionalDefinitionsWgsl += conditionalWgsl.conditionalDefinitionsWgsl
+    conditionalCallsWgsl += conditionalWgsl.conditionalCallsWgsl
   }
 
-  function generateDependentConditional(conditionalName: string) {
-    return `evaluate${conditionalName}(p_x, p_state);\n`
-  }
+  inject(generateDependencyEvaluator(Stats.HP, 'HP'))
+  inject(generateDependencyEvaluator(Stats.ATK, 'ATK'))
+  inject(generateDependencyEvaluator(Stats.DEF, 'DEF'))
+  inject(generateDependencyEvaluator(Stats.SPD, 'SPD'))
+  inject(generateDependencyEvaluator(Stats.CR, 'CR'))
+  inject(generateDependencyEvaluator(Stats.CD, 'CD'))
+  inject(generateDependencyEvaluator(Stats.EHR, 'EHR'))
+  inject(generateDependencyEvaluator(Stats.RES, 'RES'))
+  inject(generateDependencyEvaluator(Stats.BE, 'BE'))
+  inject(generateDependencyEvaluator(Stats.OHB, 'OHB'))
+  inject(generateDependencyEvaluator(Stats.ERR, 'ERR'))
 
-  let dependentConditionalsCR = ''
-  for (const conditional of RegisteredConditionals[Stats.CR]) {
-    dependentConditionalsCR += generateDependentConditional(conditional.id)
-  }
-  let evaluatorCodeCR = generateEvaluatorFnCode('evaluateCrDependencies', dependentConditionalsCR)
-  wgsl += evaluatorCodeCR
+  wgsl += conditionalDefinitionsWgsl
+  wgsl += conditionalEvaluators
 
   return wgsl
 }

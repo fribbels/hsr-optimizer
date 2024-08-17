@@ -9,7 +9,7 @@ export type NewConditional = {
   evaluate: (x: ComputedStatsObject, params) => void
   condition: (x: ComputedStatsObject) => boolean
   effect: (x: ComputedStatsObject, params) => void
-  gpu: (x: ComputedStatsObject, params) => void
+  gpu: () => string
 }
 
 export type ConditionalMetadata = {
@@ -31,10 +31,7 @@ export const RutilantArenaConditional: NewConditional = {
   },
   gpu: () => {
     return `
-fn evaluateRutilantArenaConditional(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
+fn evaluateRutilantArenaConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
   if (
     (*p_state).rutilantArena == 0.0 &&
     (*p_x).CR > 0.70
@@ -80,8 +77,16 @@ function evaluator(self: NewConditional, x: ComputedStatsObject, params) {
   }
 }
 
+function registerConditional(stats: string[], self: NewConditional) {
+  for (const stat of stats) {
+    RegisteredConditionals[stat]
+  }
+
+  return stats
+}
+
 export const AventurineConversionConditional: NewConditional = {
-  id: "AventurineConversionConditional",
+  id: 'AventurineConversionConditional',
   activationKey: 2,
   statDependencies: [Stats.DEF],
   evaluate: function (x, params) {
@@ -94,7 +99,22 @@ export const AventurineConversionConditional: NewConditional = {
     buffStat(x, params, Stats.CR, Math.min(0.48, 0.02 * Math.floor((x[Stats.DEF] - 1600) / 100)))
   },
   gpu: () => {
+    return `
+fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+  let def = (*p_x).DEF;
+  let stateValue: f32 = (*p_state).aventurineDefConversion;
 
+  if (def > 1600) {
+    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
+    let oldBuffValue: f32 = stateValue;
+
+    (*p_state).aventurineDefConversion = buffValue;
+    (*p_x).CR += buffValue - stateValue;
+
+    evaluateDependenciesCR(p_x, p_state);
+  }
+}
+    `
   }
 }
 
@@ -107,9 +127,17 @@ export function buffStat(x: ComputedStatsObject, params, stat: string, value: nu
 }
 
 export const RegisteredConditionals = {
-  [Stats.CR]: [
-    RutilantArenaConditional
-  ]
+  [Stats.HP]: [],
+  [Stats.ATK]: [],
+  [Stats.DEF]: [AventurineConversionConditional,],
+  [Stats.SPD]: [],
+  [Stats.CR]: [RutilantArenaConditional,],
+  [Stats.CD]: [],
+  [Stats.EHR]: [],
+  [Stats.RES]: [],
+  [Stats.BE]: [],
+  [Stats.OHB]: [],
+  [Stats.ERR]: [],
 }
 
 // export const LanternConditional = {

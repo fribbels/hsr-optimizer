@@ -482,8 +482,17 @@ fn main(
 
   var state = ConditionalState();
 
-  evaluateRutilantArenaConditional(&x, &state);
-  evaluateAventurineDefConversionConditional(&x, &state);
+  evaluateDependenciesHP(&x, &state);
+  evaluateDependenciesATK(&x, &state);
+  evaluateDependenciesDEF(&x, &state);
+  evaluateDependenciesSPD(&x, &state);
+  evaluateDependenciesCR(&x, &state);
+  evaluateDependenciesCD(&x, &state);
+  evaluateDependenciesEHR(&x, &state);
+  evaluateDependenciesRES(&x, &state);
+  evaluateDependenciesBE(&x, &state);
+  evaluateDependenciesOHB(&x, &state);
+  evaluateDependenciesERR(&x, &state);
 
   // Calculate passive stat conversions
 
@@ -647,38 +656,38 @@ struct ConditionalState {
 
 // DEF -> CR
 // Repeatable
-fn evaluateAventurineDefConversionConditional(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
-  let def = (*p_x).DEF;
-  let stateValue: f32 = (*p_state).aventurineDefConversion;
-
-  if (def > 1600) {
-    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-    let oldBuffValue: f32 = stateValue;
-
-    (*p_state).aventurineDefConversion = buffValue;
-    (*p_x).CR += buffValue - stateValue;
-
-    evaluateCrDependencies(p_x, p_state);
-  }
-}
+//fn evaluateAventurineDefConversionConditional(
+//  p_x: ptr<function, ComputedStats>,
+//  p_state: ptr<function, ConditionalState>
+//) {
+//  let def = (*p_x).DEF;
+//  let stateValue: f32 = (*p_state).aventurineDefConversion;
+//
+//  if (def > 1600) {
+//    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
+//    let oldBuffValue: f32 = stateValue;
+//
+//    (*p_state).aventurineDefConversion = buffValue;
+//    (*p_x).CR += buffValue - stateValue;
+//
+//    evaluateDependenciesCR(p_x, p_state);
+//  }
+//}
 
 // CR ->
-fn evaluateRutilantArenaConditional(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>
-) {
-  if (
-    (*p_state).rutilantArena == 0.0 &&
-    (*p_x).CR > 0.70
-  ) {
-    (*p_state).rutilantArena = 1.0;
-
-    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
-  }
-}
+//fn evaluateRutilantArenaConditional(
+//  p_x: ptr<function, ComputedStats>,
+//  p_state: ptr<function, ConditionalState>
+//) {
+//  if (
+//    (*p_state).rutilantArena == 0.0 &&
+//    (*p_x).CR > 0.70
+//  ) {
+//    (*p_state).rutilantArena = 1.0;
+//
+//    buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
+//  }
+//}
 
 //fn evaluateCrDependencies(
 //  p_x: ptr<function, ComputedStats>,

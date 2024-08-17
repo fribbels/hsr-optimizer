@@ -6,6 +6,7 @@ import { RegisteredConditionals } from "lib/gpu/newConditionals";
 export function generateSettings(params: OptimizerParams, request: Form) {
   let wgsl = `\n`
 
+  wgsl += generateComputedStats(params)
   wgsl += generateSetConditionals(params)
   wgsl += generateDynamicSetConditionals()
   wgsl += generateCharacterStats(params.character.base, 'character')
@@ -15,6 +16,13 @@ export function generateSettings(params: OptimizerParams, request: Form) {
   wgsl += generateRequest(request)
 
   wgsl += '\n'
+
+  return wgsl
+}
+
+function generateComputedStats(params: OptimizerParams) {
+  let wgsl = `\n`
+
 
   return wgsl
 }

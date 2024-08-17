@@ -87,7 +87,8 @@ fn main(
   let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
   var c : BasicStats = BasicStats();
-  var x : ComputedStats = ComputedStats();
+
+  /* INJECT COMPUTED STATS */
 
   x.BASIC_DMG_TYPE = 1;
   x.SKILL_DMG_TYPE = 2;
@@ -469,12 +470,12 @@ fn main(
 
   // Aventurine E0S1
 
-  x.BASIC_SCALING += 1.00f;
-  x.ULT_SCALING += 2.70f;
-  x.FUA_SCALING += 0.25f * 7;
-
-  x.RES += 0.50f;
-  x.CD += 0.15f;
+//  x.BASIC_SCALING += 1.00f;
+//  x.ULT_SCALING += 2.70f;
+//  x.FUA_SCALING += 0.25f * 7;
+//
+//  x.RES += 0.50f;
+//  x.CD += 0.15f;
 
   // Set effects
 

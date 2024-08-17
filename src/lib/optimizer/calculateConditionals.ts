@@ -26,6 +26,8 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
   }
 
   params.precomputedX = precomputedX
+
+  return precomputedX
 }
 
 export function calculatePostPrecomputeConditionals(request, params) {

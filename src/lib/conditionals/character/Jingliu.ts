@@ -1,18 +1,9 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
-import {
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import {
-  CharacterConditional,
-  CharacterConditionalMap,
-  PrecomputedCharacterConditional
-} from 'types/CharacterConditional'
+import { CharacterConditional, CharacterConditionalMap, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
@@ -78,8 +69,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       e1CdBuff: true,
       e2SkillDmgBuff: true,
     }),
-    teammateDefaults: () => ({
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r: CharacterConditionalMap = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -124,8 +114,10 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += 0
     },
+    gpu: () => {
+
+    }
   }
 }
 Jingliu.label = 'Jingliu'

@@ -1,3 +1,5 @@
+// Don't change this without updating the variable order mapping
+
 struct ComputedStats {
   HP_P: f32,
   ATK_P: f32,

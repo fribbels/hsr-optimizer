@@ -74,8 +74,8 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
     valueDisplay = Math.floor(value)
     value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else {
-    valueDisplay = Utils.truncate10ths(value * 100).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(value * 100).toFixed(3)
+    valueDisplay = Utils.truncate10ths(Utils.precisionRound(value * 100)).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(value * 100)).toFixed(3)
   }
 
   if (!finalStats) {

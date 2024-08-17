@@ -48,8 +48,8 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
     valueDisplay = Math.floor(value)
     value1000thsPrecision = Utils.truncate1000ths(value).toFixed(3)
   } else {
-    valueDisplay = Utils.truncate10ths(value * 100).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(value * 100).toFixed(3)
+    valueDisplay = Utils.truncate10ths(Utils.precisionRound(value * 100)).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(value * 100)).toFixed(3)
   }
 
   if (!finalStats) {
@@ -58,9 +58,9 @@ const StatRow = (props: { stat: string; finalStats: any; value?: number }): JSX.
   }
   return (
     <Flex justify="space-between" align="center" title={value1000thsPrecision}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
       <StatText>{readableStat}</StatText>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
       <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>
   )

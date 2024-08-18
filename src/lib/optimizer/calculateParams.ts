@@ -4,7 +4,7 @@ import { CharacterStats } from 'lib/characterStats'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
 import { Form } from "types/Form";
-import { calculateConditionals } from "lib/optimizer/calculateConditionals.ts";
+import { calculateConditionals, ConditionalRegistry } from "lib/optimizer/calculateConditionals.ts";
 import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { LightConeConditional } from "types/LightConeConditionals";
 import { CharacterConditional } from "types/CharacterConditional";
@@ -45,6 +45,7 @@ export type OptimizerParams = {
   precomputedX: ComputedStatsObject
   characterConditionals: CharacterConditional
   lightConeConditionals: LightConeConditional
+  conditionalRegistry: ConditionalRegistry
 }
 
 /**

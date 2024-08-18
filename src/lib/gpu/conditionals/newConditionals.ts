@@ -4,6 +4,7 @@ import { RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gp
 
 export type NewConditional = {
   id: string
+  type: number,
   activationKey: number
   statDependencies: string[]
   evaluate: (x: ComputedStatsObject, params) => void
@@ -66,7 +67,7 @@ fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_
 export function buffStat(x: ComputedStatsObject, params, stat: string, value: number) {
   x[stat] += value
 
-  for (const conditional of RegisteredConditionals[stat] || []) {
+  for (const conditional of params.conditionalRegistry[stat] || []) {
     conditional.evaluate(x, params)
   }
 }

@@ -2,9 +2,8 @@
 import { RelicEnhance, RelicGrade } from 'types/Relic'
 import { Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { CharacterConditionalMap } from 'types/CharacterConditional'
 import { RelicSet } from 'types/RelicSet'
-import { ConditionalLightConeMap } from './LightConeConditionals'
+import { Conditional } from "types/Conditionals";
 
 type MIN_INT = 0 | number
 type MAX_INT = 2147483647 | number
@@ -33,7 +32,7 @@ export type Form = {
   grade: RelicGrade | number
   keepCurrentRelics: boolean
   lightCone: string
-  lightConeConditionals: ConditionalLightConeMap
+  lightConeConditionals: Conditional
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
   mainBody: any[]
@@ -54,7 +53,7 @@ export type Form = {
   weights: {
     [key: string]: number
   }
-  characterConditionals: CharacterConditionalMap
+  characterConditionals: Conditional
 
   combatBuffs: {
     [key: string]: number

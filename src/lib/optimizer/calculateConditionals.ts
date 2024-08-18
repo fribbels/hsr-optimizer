@@ -2,6 +2,9 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { Form } from "types/Form";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { Stats } from "lib/constants";
+import { NewConditional, SetConditionals } from "lib/gpu/conditionals/newConditionals";
+import { Conditional } from "types/Conditionals";
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   let characterConditionals = CharacterConditionals.get(request)
@@ -30,7 +33,48 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
   return precomputedX
 }
 
-export function calculatePostPrecomputeConditionals(request, params) {
+export function calculateConditionalRegistry(request: Form, params: Partial<OptimizerParams>) {
+  const characterConditionals: Conditional = request.characterConditionals
+  const lightConeConditionals: Conditional = request.lightConeConditionals
+
+  const conditionalRegistry: ConditionalRegistry = emptyRegistry()
+
+  registerConditionals(conditionalRegistry, lightConeConditionals.gpuConditionals || [])
+  registerConditionals(conditionalRegistry, characterConditionals.gpuConditionals || [])
+  registerConditionals(conditionalRegistry, SetConditionals || [])
+
+  params.conditionalRegistry = conditionalRegistry
+}
+
+export type ConditionalRegistry = {
+  [key: string]: NewConditional[]
+}
+
+function emptyRegistry() {
+  return {
+    [Stats.HP]: [],
+    [Stats.ATK]: [],
+    [Stats.DEF]: [],
+    [Stats.SPD]: [],
+    [Stats.CR]: [],
+    [Stats.CD]: [],
+    [Stats.EHR]: [],
+    [Stats.RES]: [],
+    [Stats.BE]: [],
+    [Stats.OHB]: [],
+    [Stats.ERR]: [],
+  }
+}
+
+function registerConditionals(registeredConditionals: { [key: string]: NewConditional[] }, conditionals: NewConditional[]) {
+  for (const conditional of conditionals) {
+    for (const stat of conditional.statDependencies) {
+      registeredConditionals[stat].push(conditional)
+    }
+  }
+}
+
+export function calculatePostPrecomputeConditionals(request: Form, params: OptimizerParams) {
   let characterConditionals = CharacterConditionals.get(request)
   let lightConeConditionals = LightConeConditionals.get(request)
 

@@ -1,5 +1,5 @@
 import { generateParams } from 'lib/optimizer/calculateParams.ts'
-import { calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculateConditionalRegistry, calculateConditionals, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { OrnamentSetCount, OrnamentSetToIndex, RelicSetCount, RelicSetToIndex } from 'lib/constants'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
@@ -32,12 +32,14 @@ function generateUnusedSets(relics) {
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
+
 export function calculateBuild(request, relics) {
   request = Utils.clone(request)
 
   const params = generateParams(request)
 
   // Precompute
+  calculateConditionalRegistry(request, params)
   calculateConditionals(request, params)
   calculateTeammates(request, params)
 

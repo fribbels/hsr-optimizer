@@ -7,12 +7,22 @@ export function injectSettings(wgsl: string, params: OptimizerParams, request: F
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.lightCone, 'lc')
   wgsl += generateCharacterStats(params.character.traces, 'trace')
+  wgsl += generateAggregateStats()
   wgsl += generateElement(params)
   wgsl += generateRequest(request)
 
   wgsl += '\n'
 
   return wgsl
+}
+
+function generateAggregateStats() {
+  return `
+const baseHP = characterHP + lcHP;
+const baseATK = characterATK + lcATK;
+const baseDEF = characterDEF + lcDEF;
+const baseSPD = characterSPD + lcSPD;
+  `
 }
 
 function generateSetConditionals(params: OptimizerParams) {

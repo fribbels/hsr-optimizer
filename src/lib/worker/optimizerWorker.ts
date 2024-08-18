@@ -3,7 +3,7 @@ import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculateConditionalRegistry, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from "types/Form";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
@@ -38,7 +38,7 @@ type BasicStatsObject = {
   x: ComputedStatsObject
 }
 
-self.onmessage = function(e: MessageEvent) {
+self.onmessage = function (e: MessageEvent) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
@@ -72,6 +72,7 @@ self.onmessage = function(e: MessageEvent) {
   params.lightConeConditionals = LightConeConditionals.get(request)
 
   // TODO: Can move teammates into precompute step as well
+  calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
 
   // PostPrecompute

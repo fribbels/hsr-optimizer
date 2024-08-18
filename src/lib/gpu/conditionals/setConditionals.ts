@@ -5,8 +5,14 @@ import { buffStat, evaluator, NewConditional } from "lib/gpu/conditionals/newCon
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 
+export const ConditionalType = {
+  SET: 0,
+  ABILITY: 1,
+}
+
 export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
+  type: ConditionalType.SET,
   activationKey: 1,
   statDependencies: [Stats.CR],
   evaluate: function (x, params) {
@@ -36,6 +42,7 @@ fn evaluateRutilantArenaConditional(p_x: ptr<function, ComputedStats>, p_state: 
 
 export const SpaceSealingStationConditional: NewConditional = {
   id: "SpaceSealingStationConditional",
+  type: ConditionalType.SET,
   activationKey: 1,
   statDependencies: [Stats.SPD],
   evaluate: function (x, params) {
@@ -66,6 +73,7 @@ fn evaluateSpaceSealingStationConditional(p_x: ptr<function, ComputedStats>, p_s
 
 export const InertSalsottoConditional: NewConditional = {
   id: "InertSalsottoConditional",
+  type: ConditionalType.SET,
   activationKey: 1,
   statDependencies: [Stats.CR],
   evaluate: function (x, params) {

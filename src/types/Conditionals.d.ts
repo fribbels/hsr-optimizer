@@ -3,6 +3,7 @@ import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
+import { NewConditional } from "lib/gpu/conditionals/newConditionals";
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -27,7 +28,7 @@ export interface Conditional {
 
   gpu?: () => string
 
-  gpuConditionals?: []
+  gpuConditionals?: NewConditional[]
 }
 
 export type ContentComponentMap = {

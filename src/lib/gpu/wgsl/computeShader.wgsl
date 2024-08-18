@@ -690,8 +690,20 @@ fn getPioneerSetCd(
   }
 }
 
-fn calculateAshblazingSet(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
+fn calculateAshblazingSet(
+  p_x: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>,
+  p_sets: ptr<function, Sets>,
+  hitMulti: f32,
+) -> f32 {
+  if (p4((*p_sets).TheAshblazingGrandDuke) >= 1) {
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
+    let ashblazingMulti = hitMulti * baseATK;
 
+    return ashblazingMulti - ashblazingAtk;
+  }
+
+  return 0;
 }
 
 //export const calculateAshblazingSet = (c, request, hitMulti): {

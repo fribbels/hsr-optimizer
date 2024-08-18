@@ -4,6 +4,7 @@ import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
 import { NewConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -24,9 +25,9 @@ export interface Conditional {
   // Stat conversions
   calculatePassives?: (c: ComputedStatsObject, request: Form) => void
   //
-  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params) => void
+  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
 
-  gpu?: () => string
+  gpu?: (request: Form, params: OptimizerParams) => string
 
   gpuConditionals?: NewConditional[]
 }

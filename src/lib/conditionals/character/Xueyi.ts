@@ -9,6 +9,7 @@ import { Form } from 'types/Form'
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { XueyiConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -134,14 +135,16 @@ export default (e: Eidolon): CharacterConditional => {
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
-    gpu: () => {
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+      const hitMulti = hitMultiByFuaHits[r.fuaHits]
+
       return `
   x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
   x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
   x.ULT_DMG += x.ULT_SCALING * x.ATK;
   
-  
-  x.FUA_DMG += x.FUA_SCALING * (x.ATK - ashblazingAtk + ashblazingMulti)
+  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, p_sets, ${hitMulti}));
       `
     },
     gpuConditionals: [XueyiConversionConditional]

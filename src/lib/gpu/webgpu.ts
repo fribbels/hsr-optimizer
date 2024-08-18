@@ -2,7 +2,7 @@ import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats 
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
-import { generateWgsl } from "lib/gpu/wgsl/generateWgsl";
+import { generateWgsl } from "lib/gpu/injection/generateWgsl";
 import { Utils } from "lib/utils";
 
 export const StatsToIndex = {

@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
-import { RutilantArenaConditional } from "lib/gpu/conditionals/setConditionals";
+import { RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
 
 export type NewConditional = {
   id: string
@@ -71,19 +71,24 @@ export function buffStat(x: ComputedStatsObject, params, stat: string, value: nu
   }
 }
 
-export const RegisteredConditionals = {
-  [Stats.HP]: [],
-  [Stats.ATK]: [],
-  [Stats.DEF]: [AventurineConversionConditional,],
-  [Stats.SPD]: [],
-  [Stats.CR]: [RutilantArenaConditional,],
-  [Stats.CD]: [],
-  [Stats.EHR]: [],
-  [Stats.RES]: [],
-  [Stats.BE]: [],
-  [Stats.OHB]: [],
-  [Stats.ERR]: [],
-}
+// export const RegisteredConditionals = {
+//   [Stats.HP]: [],
+//   [Stats.ATK]: [],
+//   [Stats.DEF]: [AventurineConversionConditional,],
+//   [Stats.SPD]: [SpaceSealingStationConditional,],
+//   [Stats.CR]: [RutilantArenaConditional,],
+//   [Stats.CD]: [],
+//   [Stats.EHR]: [],
+//   [Stats.RES]: [],
+//   [Stats.BE]: [],
+//   [Stats.OHB]: [],
+//   [Stats.ERR]: [],
+// }
+
+export const SetConditionals = [
+  SpaceSealingStationConditional,
+  RutilantArenaConditional,
+]
 
 // export const LanternConditional = {
 //   id: "Lantern",

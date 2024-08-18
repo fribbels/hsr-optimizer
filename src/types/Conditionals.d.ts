@@ -16,7 +16,7 @@ export interface Conditional {
   defaults: () => ConditionalMap
   teammateDefaults?: () => ConditionalMap
   /*
-   * TODO: purify this implmeentation
+   * TODO: purify this implmentation
    * ComputedStatsObject arg is mutated by ref
    */
   calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
@@ -26,6 +26,8 @@ export interface Conditional {
   calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params) => void
 
   gpu?: () => string
+
+  gpuConditionals?: []
 }
 
 export type ContentComponentMap = {

@@ -1,14 +1,9 @@
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
 import { Form } from "types/Form";
-import { RegisteredConditionals } from "lib/gpu/conditionals/newConditionals";
 
-export function generateSettings(params: OptimizerParams, request: Form) {
-  let wgsl = `\n`
-
-  wgsl += generateComputedStats(params)
+export function injectSettings(wgsl: string, params: OptimizerParams, request: Form) {
   wgsl += generateSetConditionals(params)
-  wgsl += generateDynamicSetConditionals()
   wgsl += generateCharacterStats(params.character.base, 'character')
   wgsl += generateCharacterStats(params.character.lightCone, 'lc')
   wgsl += generateCharacterStats(params.character.traces, 'trace')
@@ -20,75 +15,19 @@ export function generateSettings(params: OptimizerParams, request: Form) {
   return wgsl
 }
 
-function generateComputedStats(params: OptimizerParams) {
-  let wgsl = `\n`
-
-
-  return wgsl
-}
-
-function indent(wgsl: string, indents: number) {
-  const indentSpaces = ' '.repeat(indents)
-  return wgsl
-    .split('\n')
-    .map(line => indentSpaces + line)
-    .join('\n');
-}
-
-function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_state);`
-}
-
-function generateConditionalEvaluator(stat: string, statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 2)}
-}
-  `
-}
-
-function generateDependencyEvaluator(stat: string, statName: string) {
-  let conditionalEvaluators = ''
-  let conditionalDefinitionsWgsl = ''
-  let conditionalCallsWgsl = ''
-
-  conditionalCallsWgsl += RegisteredConditionals[stat].map(conditional => generateDependencyCall(conditional.id)).join('\n')
-  conditionalDefinitionsWgsl += RegisteredConditionals[stat].map(conditional => conditional.gpu()).join('\n')
-  conditionalEvaluators += generateConditionalEvaluator(stat, statName, conditionalCallsWgsl)
-
-  return {
-    conditionalEvaluators,
-    conditionalDefinitionsWgsl,
-    conditionalCallsWgsl,
-  }
-}
-
-function generateDynamicSetConditionals() {
+function generateSetConditionals(params: OptimizerParams) {
   let wgsl = '\n'
-  let conditionalEvaluators = '\n'
-  let conditionalDefinitionsWgsl = '\n'
-  let conditionalCallsWgsl = '\n'
 
-  function inject(conditionalWgsl: { conditionalEvaluators: string, conditionalDefinitionsWgsl: string, conditionalCallsWgsl: string }) {
-    conditionalEvaluators += conditionalWgsl.conditionalEvaluators
-    conditionalDefinitionsWgsl += conditionalWgsl.conditionalDefinitionsWgsl
-    conditionalCallsWgsl += conditionalWgsl.conditionalCallsWgsl
+  // Define the set conditional params
+  for (const [key, value] of Object.entries(params)) {
+    if (key.startsWith('enabled')) {
+      wgsl += `const ${key}: i32 = ${value ? 1 : 0};\n`
+    }
+
+    if (key.startsWith('value')) {
+      wgsl += `const ${key}: i32 = ${value};\n`
+    }
   }
-
-  inject(generateDependencyEvaluator(Stats.HP, 'HP'))
-  inject(generateDependencyEvaluator(Stats.ATK, 'ATK'))
-  inject(generateDependencyEvaluator(Stats.DEF, 'DEF'))
-  inject(generateDependencyEvaluator(Stats.SPD, 'SPD'))
-  inject(generateDependencyEvaluator(Stats.CR, 'CR'))
-  inject(generateDependencyEvaluator(Stats.CD, 'CD'))
-  inject(generateDependencyEvaluator(Stats.EHR, 'EHR'))
-  inject(generateDependencyEvaluator(Stats.RES, 'RES'))
-  inject(generateDependencyEvaluator(Stats.BE, 'BE'))
-  inject(generateDependencyEvaluator(Stats.OHB, 'OHB'))
-  inject(generateDependencyEvaluator(Stats.ERR, 'ERR'))
-
-  wgsl += conditionalDefinitionsWgsl
-  wgsl += conditionalEvaluators
 
   return wgsl
 }
@@ -142,23 +81,6 @@ function generateElement(params: OptimizerParams) {
   let wgsl = '\n'
 
   wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[params.ELEMENTAL_DMG_TYPE]};`
-
-  return wgsl
-}
-
-function generateSetConditionals(params: OptimizerParams) {
-  let wgsl = '\n'
-
-  // Define the set conditional params
-  for (const [key, value] of Object.entries(params)) {
-    if (key.startsWith('enabled')) {
-      wgsl += `const ${key}: i32 = ${value ? 1 : 0};\n`
-    }
-
-    if (key.startsWith('value')) {
-      wgsl += `const ${key}: i32 = ${value};\n`
-    }
-  }
 
   return wgsl
 }

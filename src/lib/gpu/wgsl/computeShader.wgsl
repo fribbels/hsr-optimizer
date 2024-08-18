@@ -1,6 +1,3 @@
-// <import structs>
-// <import constants>
-
 const WORKGROUP_SIZE = 16;
 
 @group(0) @binding(0) var<storage, read_write> params : Params;

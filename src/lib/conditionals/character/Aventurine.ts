@@ -160,7 +160,10 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
   x.ULT_DMG += x.ULT_SCALING * x.DEF;
   x.FUA_DMG += x.FUA_SCALING * x.DEF;
       `
-    }
+    },
+    gpuConditionals: () => [
+      AventurineConversionConditional
+    ]
   }
 }
 Aventurine.label = 'Aventurine'

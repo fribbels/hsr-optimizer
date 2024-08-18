@@ -6,7 +6,6 @@ import { OptimizerParams } from "lib/optimizer/calculateParams";
 export type NewConditional = {
   id: string
   type: number,
-  activationKey: number
   statDependencies: string[]
   evaluate: (x: ComputedStatsObject, params) => void
   condition: (x: ComputedStatsObject) => boolean
@@ -14,28 +13,15 @@ export type NewConditional = {
   gpu: () => string
 }
 
-export type ConditionalMetadata = {
-  activationKeys: number[]
-}
-
 export function evaluator(self: NewConditional, x: ComputedStatsObject, params) {
-  const metadata = params.conditionalMetadata
-  if (metadata && metadata.activationKeys[self.activationKey]) {
-    return
-  }
-
   if (self.condition(x)) {
     self.effect(x, params)
-    if (metadata) {
-      metadata.activationKeys[self.activationKey] = 1
-    }
   }
 }
 
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
-  activationKey: 2,
   statDependencies: [Stats.DEF],
   evaluate: function (x, params) {
     evaluator(this, x, params)
@@ -72,7 +58,6 @@ fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_
 export const XueyiConversionConditional: NewConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,
-  activationKey: 2,
   statDependencies: [Stats.BE],
   evaluate: function (x, params) {
     evaluator(this, x, params)

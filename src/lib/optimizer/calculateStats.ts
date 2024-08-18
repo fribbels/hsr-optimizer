@@ -161,9 +161,6 @@ export function calculateBaseStats(c, request, params) {
 export function calculateComputedStats(c, request, params) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
-  params.conditionalMetadata = {
-    activationKeys: []
-  }
 
   const sets = c.sets
   const x = c.x

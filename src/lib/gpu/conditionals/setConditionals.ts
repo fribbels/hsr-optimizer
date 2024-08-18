@@ -12,7 +12,6 @@ export const ConditionalType = {
 export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
   type: ConditionalType.SET,
-  activationKey: 1,
   statDependencies: [Stats.CR],
   evaluate: function (x, params) {
     evaluator(this, x, params)
@@ -43,7 +42,6 @@ fn evaluateRutilantArenaConditional(p_x: ptr<function, ComputedStats>, p_state: 
 export const SpaceSealingStationConditional: NewConditional = {
   id: "SpaceSealingStationConditional",
   type: ConditionalType.SET,
-  activationKey: 1,
   statDependencies: [Stats.SPD],
   evaluate: function (x, params) {
     evaluator(this, x, params)
@@ -75,7 +73,6 @@ fn evaluateSpaceSealingStationConditional(p_x: ptr<function, ComputedStats>, p_s
 export const InertSalsottoConditional: NewConditional = {
   id: "InertSalsottoConditional",
   type: ConditionalType.SET,
-  activationKey: 1,
   statDependencies: [Stats.CR],
   evaluate: function (x, params) {
     evaluator(this, x, params)
@@ -93,7 +90,6 @@ export const InertSalsottoConditional: NewConditional = {
 
 // export const LanternConditional = {
 //   id: "Lantern",
-//   activationKey: 1,
 //   statDependencies: [],
 //   execute: function() {
 //     if (this.condition) {
@@ -101,11 +97,6 @@ export const InertSalsottoConditional: NewConditional = {
 //     }
 //   },
 //   condition: function(x: ComputedStatsObject) {
-//     if (!this.activationKey) {
-//       // Check if the conditional is already activated
-//       return
-//     }
-//
 //     return true
 //   },
 //   cpu: (x: ComputedStatsObject) => {

@@ -49,7 +49,6 @@ function generateRequest(request: Form) {
   wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
   wgsl += '\n'
 
-
   // Combo
   wgsl += `const BASIC_COMBO: f32 = ${request.combo.BASIC};\n`
   wgsl += `const SKILL_COMBO: f32 = ${request.combo.SKILL};\n`
@@ -58,7 +57,6 @@ function generateRequest(request: Form) {
   wgsl += `const DOT_COMBO: f32 = ${request.combo.DOT};\n`
   wgsl += `const BREAK_COMBO: f32 = ${request.combo.BREAK};\n`
   wgsl += '\n'
-
 
   // Enemy
   wgsl += `const enemyCount: i32 = ${request.enemyCount};\n`

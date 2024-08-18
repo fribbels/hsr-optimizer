@@ -9,7 +9,7 @@ export const CharacterStatSummary = (props: {
   simScore?: number
 }) => {
   return (
-    <Flex vertical style={{ paddingLeft: 6, paddingRight: 8 }} gap={3}>
+    <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={3}>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.HP}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.ATK}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.DEF}/>

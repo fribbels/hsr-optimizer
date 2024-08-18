@@ -7,13 +7,12 @@ export type NewConditional = {
   id: string
   type: number,
   statDependencies: string[]
-  evaluate: (x: ComputedStatsObject, params) => void
   condition: (x: ComputedStatsObject) => boolean
   effect: (x: ComputedStatsObject, params) => void
   gpu: () => string
 }
 
-export function evaluator(self: NewConditional, x: ComputedStatsObject, params) {
+export function evaluateConditional(self: NewConditional, x: ComputedStatsObject, params) {
   if (self.condition(x)) {
     self.effect(x, params)
   }
@@ -23,9 +22,6 @@ export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
   statDependencies: [Stats.DEF],
-  evaluate: function (x, params) {
-    evaluator(this, x, params)
-  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.DEF] > 1600
   },
@@ -59,9 +55,6 @@ export const XueyiConversionConditional: NewConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,
   statDependencies: [Stats.BE],
-  evaluate: function (x, params) {
-    evaluator(this, x, params)
-  },
   condition: function (x: ComputedStatsObject) {
     return true
   },

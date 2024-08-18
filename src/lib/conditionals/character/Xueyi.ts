@@ -8,7 +8,7 @@ import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { XueyiConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { evaluateConditional, XueyiConversionConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
@@ -120,7 +120,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = c.x
 
       if (r.beToDmgBoost) {
-        XueyiConversionConditional.evaluate(x, params)
+        evaluateConditional(XueyiConversionConditional, x, params)
       }
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

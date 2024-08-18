@@ -1,7 +1,7 @@
 import { Stats } from "lib/constants";
 import { BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
-import { buffStat, evaluator, NewConditional } from "lib/gpu/conditionals/newConditionals";
+import { buffStat, NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export const ConditionalType = {
@@ -9,13 +9,14 @@ export const ConditionalType = {
   ABILITY: 1,
 }
 
+export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, params: OptimizerParams) {
+
+}
+
 export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
   type: ConditionalType.SET,
   statDependencies: [Stats.CR],
-  evaluate: function (x, params) {
-    evaluator(this, x, params)
-  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
@@ -43,9 +44,6 @@ export const SpaceSealingStationConditional: NewConditional = {
   id: "SpaceSealingStationConditional",
   type: ConditionalType.SET,
   statDependencies: [Stats.SPD],
-  evaluate: function (x, params) {
-    evaluator(this, x, params)
-  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
   },
@@ -74,9 +72,6 @@ export const InertSalsottoConditional: NewConditional = {
   id: "InertSalsottoConditional",
   type: ConditionalType.SET,
   statDependencies: [Stats.CR],
-  evaluate: function (x, params) {
-    evaluator(this, x, params)
-  },
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.50
   },

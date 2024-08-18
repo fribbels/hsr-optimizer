@@ -5,6 +5,7 @@ import { LightConeConditionals } from "lib/lightConeConditionals";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
 import { InertSalsottoConditional, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
+import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 
 const statValues = Object.values(Stats)
 
@@ -322,9 +323,9 @@ export function calculateComputedStats(c, request, params) {
   //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
   //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 
-  p2(sets.SpaceSealingStation) && (x[Stats.SPD] >= 120) && SpaceSealingStationConditional.evaluate(x, params)
-  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && RutilantArenaConditional.evaluate(x, params)
-  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && InertSalsottoConditional.evaluate(x, params)
+  p2(sets.SpaceSealingStation) && (x[Stats.SPD] >= 120) && evaluateConditional(SpaceSealingStationConditional, x, params)
+  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && evaluateConditional(RutilantArenaConditional, x, params)
+  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && evaluateConditional(InertSalsottoConditional, x, params)
 
 
   const characterConditionals = params.characterConditionals

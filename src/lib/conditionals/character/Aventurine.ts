@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { AventurineConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { AventurineConversionConditional, evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -143,7 +143,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = c.x
 
       if (r.defToCrBoost) {
-        AventurineConversionConditional.evaluate(x, params)
+        evaluateConditional(AventurineConversionConditional, x, params)
       }
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

@@ -1,5 +1,13 @@
 const WORKGROUP_SIZE = 16;
 
+const BASIC_TYPE = 1;
+const SKILL_TYPE = 2;
+const ULT_TYPE = 4;
+const FUA_TYPE = 8;
+const DOT_TYPE = 16;
+const BREAK_TYPE = 32;
+const SUPER_BREAK_TYPE = 64;
+
 @group(0) @binding(0) var<storage, read_write> params : Params;
 @group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
 @group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // For testing calculated stat numbers
@@ -682,11 +690,22 @@ fn getPioneerSetCd(
   }
 }
 
+fn calculateAshblazingSet(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
 
-const BASIC_TYPE = 1;
-const SKILL_TYPE = 2;
-const ULT_TYPE = 4;
-const FUA_TYPE = 8;
-const DOT_TYPE = 16;
-const BREAK_TYPE = 32;
-const SUPER_BREAK_TYPE = 64;
+}
+
+//export const calculateAshblazingSet = (c, request, hitMulti): {
+//  ashblazingMulti: number
+//  ashblazingAtk: number
+//} => {
+//  const enabled = p4(c.sets.TheAshblazingGrandDuke)
+//  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+//  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * request.baseAtk * enabled
+//  const ashblazingMulti = hitMulti * enabled * request.baseAtk
+//
+//  return {
+//    ashblazingMulti,
+//    ashblazingAtk,
+//  }
+//}
+//

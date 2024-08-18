@@ -50,6 +50,7 @@ export type OptimizerParams = {
   characterConditionals: CharacterConditional
   lightConeConditionals: LightConeConditional
   conditionalRegistry: ConditionalRegistry
+  conditionalState: { [key: string]: number }
 }
 
 /**

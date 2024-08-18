@@ -43,6 +43,7 @@ export function calculateConditionalRegistry(request: Form, params: Partial<Opti
   registerConditionals(conditionalRegistry, SetConditionals || [])
 
   params.conditionalRegistry = conditionalRegistry
+  params.conditionalState = {}
 }
 
 export type ConditionalRegistry = {

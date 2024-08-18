@@ -100,6 +100,7 @@ export default function CharacterModal(props) {
             <Form.Item size="default" name="lightCone">
               <LightConeSelect
                 value=""
+                withIcon={true}
                 characterId={characterId}
                 onChange={() => {
                   characterForm.setFieldValue('lightConeSuperimposition', 1)

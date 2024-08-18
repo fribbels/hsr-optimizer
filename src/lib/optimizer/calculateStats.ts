@@ -4,7 +4,7 @@ import { CharacterConditionals } from "lib/characterConditionals";
 import { LightConeConditionals } from "lib/lightConeConditionals";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { InertSalsottoConditional, RutilantArenaConditional } from "lib/gpu/newConditionals";
+import { InertSalsottoConditional, RutilantArenaConditional } from "lib/gpu/conditionals/setConditionals";
 
 const statValues = Object.values(Stats)
 

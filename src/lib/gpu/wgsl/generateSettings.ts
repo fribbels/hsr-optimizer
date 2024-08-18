@@ -1,7 +1,7 @@
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
 import { Form } from "types/Form";
-import { RegisteredConditionals } from "lib/gpu/newConditionals";
+import { RegisteredConditionals } from "lib/gpu/conditionals/newConditionals";
 
 export function generateSettings(params: OptimizerParams, request: Form) {
   let wgsl = `\n`

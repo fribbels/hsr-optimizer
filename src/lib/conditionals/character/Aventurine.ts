@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { AventurineConversionConditional } from "lib/gpu/newConditionals";
+import { AventurineConversionConditional } from "lib/gpu/conditionals/newConditionals";
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

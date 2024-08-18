@@ -22,6 +22,10 @@ export type OptimizerParams = {
   RES_PEN_TYPE: string
   brokenMultiplier: number
   character: CharacterStats
+  baseHP: number
+  baseATK: number
+  baseDEF: number
+  baseSPD: number
   resistance: number
   enabledHunterOfGlacialForest: number
   enabledFiresmithOfLavaForging: number
@@ -103,6 +107,11 @@ function generateCharacterBaseParams(request: Form, params: Partial<OptimizerPar
   request.baseAtk = baseAtk
   request.baseDef = baseDef
   request.baseSpd = baseSpd
+
+  params.baseHP = baseHp
+  params.baseATK = baseAtk
+  params.baseDEF = baseDef
+  params.baseSPD = baseSpd
 }
 
 function generateSetConditionalParams(request: Form, params: Partial<OptimizerParams>) {

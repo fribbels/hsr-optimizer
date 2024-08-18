@@ -1,6 +1,6 @@
 import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
-import { RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
+import { ConditionalType, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
 
 export type NewConditional = {
   id: string
@@ -33,6 +33,7 @@ export function evaluator(self: NewConditional, x: ComputedStatsObject, params) 
 
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
+  type: ConditionalType.ABILITY,
   activationKey: 2,
   statDependencies: [Stats.DEF],
   evaluate: function (x, params) {
@@ -72,46 +73,7 @@ export function buffStat(x: ComputedStatsObject, params, stat: string, value: nu
   }
 }
 
-// export const RegisteredConditionals = {
-//   [Stats.HP]: [],
-//   [Stats.ATK]: [],
-//   [Stats.DEF]: [AventurineConversionConditional,],
-//   [Stats.SPD]: [SpaceSealingStationConditional,],
-//   [Stats.CR]: [RutilantArenaConditional,],
-//   [Stats.CD]: [],
-//   [Stats.EHR]: [],
-//   [Stats.RES]: [],
-//   [Stats.BE]: [],
-//   [Stats.OHB]: [],
-//   [Stats.ERR]: [],
-// }
-
 export const SetConditionals = [
   SpaceSealingStationConditional,
   RutilantArenaConditional,
 ]
-
-// export const LanternConditional = {
-//   id: "Lantern",
-//   activationKey: 1,
-//   statDependencies: [],
-//   execute: function() {
-//     if (this.condition) {
-//
-//     }
-//   },
-//   condition: function(x: ComputedStatsObject) {
-//     if (!this.activationKey) {
-//       // Check if the conditional is already activated
-//       return
-//     }
-//
-//     return true
-//   },
-//   cpu: (x: ComputedStatsObject) => {
-//     x[Stats.BE] += 0.40
-//   },
-//   gpu: () => {
-//
-//   }
-// }

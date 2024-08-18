@@ -4,7 +4,6 @@ import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { buffStat, evaluator, NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 
-
 export const ConditionalType = {
   SET: 0,
   ABILITY: 1,
@@ -53,7 +52,7 @@ export const SpaceSealingStationConditional: NewConditional = {
     return x[Stats.SPD] >= 120
   },
   effect: (x: ComputedStatsObject, params: OptimizerParams) => {
-    buffStat(x, params, Stats.ATK_P, 0.12)
+    buffStat(x, params, Stats.ATK, 0.12 * params.baseATK)
   },
   gpu: () => {
     return `
@@ -91,3 +90,28 @@ export const InertSalsottoConditional: NewConditional = {
     return ``
   }
 }
+
+// export const LanternConditional = {
+//   id: "Lantern",
+//   activationKey: 1,
+//   statDependencies: [],
+//   execute: function() {
+//     if (this.condition) {
+//
+//     }
+//   },
+//   condition: function(x: ComputedStatsObject) {
+//     if (!this.activationKey) {
+//       // Check if the conditional is already activated
+//       return
+//     }
+//
+//     return true
+//   },
+//   cpu: (x: ComputedStatsObject) => {
+//     x[Stats.BE] += 0.40
+//   },
+//   gpu: () => {
+//
+//   }
+// }

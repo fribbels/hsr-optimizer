@@ -13,18 +13,21 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
 
   const conditionalRegistry = params.conditionalRegistry
 
+  if (lightConeConditionals.gpu) wgsl = wgsl.replace('/* INJECT LIGHT CONE CONDITIONALS */', lightConeConditionals.gpu())
+  if (characterConditionals.gpu) wgsl = wgsl.replace('/* INJECT CHARACTER CONDITIONALS */', characterConditionals.gpu())
+
   wgsl += generateDynamicSetConditionals(conditionalRegistry)
 
   return wgsl
 }
 
 function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_state);`
+  return `evaluate${conditionalName}(p_x, p_state, p_sets);`
 }
 
 function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
   return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
 ${indent(conditionalCallsWgsl, 1)}
 }
   `

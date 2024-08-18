@@ -46,18 +46,18 @@ export const AventurineConversionConditional: NewConditional = {
   },
   gpu: () => {
     return `
-fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
   let def = (*p_x).DEF;
-  let stateValue: f32 = (*p_state).aventurineDefConversion;
+  let stateValue: f32 = (*p_state).AventurineConversionConditional;
 
   if (def > 1600) {
     let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
     let oldBuffValue: f32 = stateValue;
 
-    (*p_state).aventurineDefConversion = buffValue;
+    (*p_state).AventurineConversionConditional = buffValue;
     (*p_x).CR += buffValue - stateValue;
 
-    evaluateDependenciesCR(p_x, p_state);
+    evaluateDependenciesCR(p_x, p_state, p_sets);
   }
 }
     `

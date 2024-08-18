@@ -4,7 +4,6 @@ import { Form } from "types/Form";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
 import { NewConditional, SetConditionals } from "lib/gpu/conditionals/newConditionals";
-import { Conditional } from "types/Conditionals";
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   let characterConditionals = CharacterConditionals.get(request)
@@ -34,8 +33,8 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
 }
 
 export function calculateConditionalRegistry(request: Form, params: Partial<OptimizerParams>) {
-  const characterConditionals: Conditional = request.characterConditionals
-  const lightConeConditionals: Conditional = request.lightConeConditionals
+  const characterConditionals = CharacterConditionals.get(request)
+  const lightConeConditionals = LightConeConditionals.get(request)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 

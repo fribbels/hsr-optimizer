@@ -26,8 +26,9 @@ export const RutilantArenaConditional: NewConditional = {
   },
   gpu: () => {
     return `
-fn evaluateRutilantArenaConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateRutilantArenaConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
   if (
+    p2((*p_sets).RutilantArena) >= 1 &&
     (*p_state).RutilantArenaConditional == 0.0 &&
     (*p_x).CR > 0.70
   ) {
@@ -56,15 +57,16 @@ export const SpaceSealingStationConditional: NewConditional = {
   },
   gpu: () => {
     return `
-fn evaluateSpaceSealingStationConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateSpaceSealingStationConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
   if (
+    p2((*p_sets).SpaceSealingStation) >= 1 &&
     (*p_state).SpaceSealingStationConditional == 0.0 &&
     (*p_x).SPD >= 120
   ) {
     (*p_state).SpaceSealingStationConditional = 1.0;
     (*p_x).ATK += 0.12 * baseATK;
 
-    evaluateDependenciesATK(p_x, p_state);
+    evaluateDependenciesATK(p_x, p_state, p_sets);
   }
 }
     `

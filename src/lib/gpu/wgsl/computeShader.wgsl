@@ -444,17 +444,21 @@ fn main(
   x.HP += x.HP_P * baseHP;
   x.SPD += x.SPD_P * baseSPD;
 
-  evaluateDependenciesHP(&x, &state);
-  evaluateDependenciesATK(&x, &state);
-  evaluateDependenciesDEF(&x, &state);
-  evaluateDependenciesSPD(&x, &state);
-  evaluateDependenciesCR(&x, &state);
-  evaluateDependenciesCD(&x, &state);
-  evaluateDependenciesEHR(&x, &state);
-  evaluateDependenciesRES(&x, &state);
-  evaluateDependenciesBE(&x, &state);
-  evaluateDependenciesOHB(&x, &state);
-  evaluateDependenciesERR(&x, &state);
+  let p_x = &x;
+  let p_state = &state;
+  let p_sets = &(c.sets);
+
+  evaluateDependenciesHP(p_x, p_state, p_sets);
+  evaluateDependenciesATK(p_x, p_state, p_sets);
+  evaluateDependenciesDEF(p_x, p_state, p_sets);
+  evaluateDependenciesSPD(p_x, p_state, p_sets);
+  evaluateDependenciesCR(p_x, p_state, p_sets);
+  evaluateDependenciesCD(p_x, p_state, p_sets);
+  evaluateDependenciesEHR(p_x, p_state, p_sets);
+  evaluateDependenciesRES(p_x, p_state, p_sets);
+  evaluateDependenciesBE(p_x, p_state, p_sets);
+  evaluateDependenciesOHB(p_x, p_state, p_sets);
+  evaluateDependenciesERR(p_x, p_state, p_sets);
 
   /* INJECT LIGHT CONE CONDITIONALS */
 

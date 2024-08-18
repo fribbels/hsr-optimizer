@@ -35,9 +35,12 @@ type substat = {
   addedRolls: number
 }
 
-const percentToScore = 1// TODO: establish a good conversion number
+type rating = '' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
+const ratings: rating[] = ['', '', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
+
+const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, BALANCING/TODO: find a better conversion number?
 const minRollValue = 5.184
-const mainStatBonuses = { // TODO: Establish new mainstat bonuses
+const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
   [Constants.Parts.Body]: {
     [Constants.Stats.HP_P]: 1.32,
     [Constants.Stats.ATK_P]: 1.284,
@@ -96,7 +99,7 @@ export class RelicScorer {
   getBaseStats(id: CharacterId) {
     let baseStats = this.characterBaseStats.get(id)
     if (!baseStats) {
-      const stats = Utils.clone(DB.getMetadata().characters[id].stats)
+      const stats = DB.getMetadata().characters[id].stats
       baseStats = {
         HP: stats[Constants.Stats.HP],
         ATK: stats[Constants.Stats.ATK],
@@ -204,7 +207,7 @@ export class RelicScorer {
    * returns the substat score for the ideal relic\
    * handles special cases scoring for when only 1 stat has been weighted by the user
    */
-  scoreOptimalRelic(part: Parts, id: CharacterId) { // TODO: insert special case handling into this instead of scoreRelicPotential
+  scoreOptimalRelic(part: Parts, id: CharacterId) {
     const cachedScore = this.optimalPartCharacterScore.get(part)?.get(id)
     if (cachedScore != null) {
       return cachedScore
@@ -259,11 +262,6 @@ export class RelicScorer {
           * - looking at all stats with this exact multiplier and biasing towards
           *   a) ideal mainstats and
           *   b) mainstats that can't be substats in that order
-          *
-          * NOTE: we deliberately ignore 'ideal' mainstats here as they can have varying weights
-          * which causes unintuitive optimal relic creation effects (i.e. it's best to choose the
-          * lowest weighted one so the higher weighted one ends up as a substat and be scored
-          * normally) TODO: Go over this in the discord, implementation does not align with note
           */
           // First candidate (i.e. has highest weight)
           const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => PartsMainStats[part].includes(name))
@@ -850,9 +848,9 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
   }
 }
 
-function scoreToRating(score: number) {
-  // TODO: implement this
-  return score.toFixed(1)
+function scoreToRating(score: number): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+  const index = Math.min(Math.floor(score / (5.184 / 2)), ratings.length - 1)
+  return ratings[index]
 }
 
 // Hands/Head have no weight. Optimal main stats are 1.0 weight, and anything else inherits the substat weight.

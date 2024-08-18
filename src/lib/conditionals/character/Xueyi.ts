@@ -140,11 +140,11 @@ export default (e: Eidolon): CharacterConditional => {
       const hitMulti = hitMultiByFuaHits[r.fuaHits]
 
       return `
-  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-  x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-  x.ULT_DMG += x.ULT_SCALING * x.ATK;
-  
-  x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, p_sets, ${hitMulti}));
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, p_sets, ${hitMulti}));
       `
     },
     gpuConditionals: [XueyiConversionConditional]

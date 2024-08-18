@@ -156,9 +156,9 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
     },
     gpu: () => {
       return `
-  x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
-  x.ULT_DMG += x.ULT_SCALING * x.DEF;
-  x.FUA_DMG += x.FUA_SCALING * x.DEF;
+x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
+x.ULT_DMG += x.ULT_SCALING * x.DEF;
+x.FUA_DMG += x.FUA_SCALING * x.DEF;
       `
     },
     gpuConditionals: [AventurineConversionConditional]

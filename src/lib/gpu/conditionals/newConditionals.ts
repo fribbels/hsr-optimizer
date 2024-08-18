@@ -2,6 +2,7 @@ import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
 import { ConditionalType, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { indent } from "lib/gpu/injection/wgslUtils";
 
 export type NewConditional = {
   id: string
@@ -18,6 +19,14 @@ export function evaluateConditional(self: NewConditional, x: ComputedStatsObject
   }
 }
 
+export function conditionalWgslWrapper(conditional: NewConditional, wgsl: string) {
+  return `
+fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
+${indent(wgsl.trim(), 1)}
+}
+  `
+}
+
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
@@ -32,22 +41,20 @@ export const AventurineConversionConditional: NewConditional = {
     params.conditionalState[this.id] = buffValue
     buffStat(x, params, Stats.CR, buffValue - stateValue)
   },
-  gpu: () => {
-    return `
-fn evaluateAventurineConversionConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
-  let def = (*p_x).DEF;
-  let stateValue: f32 = (*p_state).AventurineConversionConditional;
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+let def = (*p_x).DEF;
+let stateValue: f32 = (*p_state).AventurineConversionConditional;
 
-  if (def > 1600) {
-    let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
+if (def > 1600) {
+  let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
 
-    (*p_state).AventurineConversionConditional = buffValue;
-    (*p_x).CR += buffValue - stateValue;
+  (*p_state).AventurineConversionConditional = buffValue;
+  (*p_x).CR += buffValue - stateValue;
 
-    evaluateDependenciesCR(p_x, p_state, p_sets);
-  }
+  evaluateDependenciesCR(p_x, p_state, p_sets);
 }
-    `
+    `)
   }
 }
 
@@ -65,19 +72,17 @@ export const XueyiConversionConditional: NewConditional = {
     x.ELEMENTAL_DMG += buffValue - stateValue
     params.conditionalState[this.id] = buffValue
   },
-  gpu: () => {
-    return `
-fn evaluateXueyiConversionConditional(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
-  let be = (*p_x).BE;
-  let stateValue: f32 = (*p_state).XueyiConversionConditional;
-  let buffValue: f32 = min(2.40, be);
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+let be = (*p_x).BE;
+let stateValue: f32 = (*p_state).XueyiConversionConditional;
+let buffValue: f32 = min(2.40, be);
 
-  (*p_state).XueyiConversionConditional = buffValue;
-  (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
+(*p_state).XueyiConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
 
-  evaluateDependenciesCR(p_x, p_state, p_sets);
-}
-    `
+evaluateDependenciesCR(p_x, p_state, p_sets);
+    `)
   }
 }
 

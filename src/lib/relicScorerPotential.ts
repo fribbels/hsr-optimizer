@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, StatsValues, SubStatValues } from 'lib/constants'
 import { Character, CharacterId } from 'types/Character'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/Relic'
@@ -38,9 +33,11 @@ type substat = {
 type rating = '' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
 const ratings: rating[] = ['', '', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
-const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, BALANCING/TODO: find a better conversion number?
-const minRollValue = 5.184
-const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
+export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
+// BALANCING/TODO: find a better conversion number?
+export const minRollValue = 5.184
+export const dmgOrbMainstatBonus = 1.763
+export const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
   [Constants.Parts.Body]: {
     [Constants.Stats.HP_P]: 1.32,
     [Constants.Stats.ATK_P]: 1.284,
@@ -60,13 +57,13 @@ const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
     [Constants.Stats.HP_P]: 1.583,
     [Constants.Stats.ATK_P]: 1.559,
     [Constants.Stats.DEF_P]: 1.587,
-    [Constants.Stats.Physical_DMG]: 1.763,
-    [Constants.Stats.Fire_DMG]: 1.763,
-    [Constants.Stats.Ice_DMG]: 1.763,
-    [Constants.Stats.Lightning_DMG]: 1.763,
-    [Constants.Stats.Wind_DMG]: 1.763,
-    [Constants.Stats.Quantum_DMG]: 1.763,
-    [Constants.Stats.Imaginary_DMG]: 1.763,
+    [Constants.Stats.Physical_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Fire_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Ice_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Lightning_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Wind_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Quantum_DMG]: dmgOrbMainstatBonus,
+    [Constants.Stats.Imaginary_DMG]: dmgOrbMainstatBonus,
   },
   [Constants.Parts.LinkRope]: {
     [Constants.Stats.HP_P]: 1.073,
@@ -678,7 +675,7 @@ function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: Scorin
   const stats = scoringMetadata.stats
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
-    const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]// TODO: add scaling of mainstatBonus to explainer text
+    const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
     return mainStatBonuses[part][mainStat] * minRollValue * multiplier
   }
   return 0

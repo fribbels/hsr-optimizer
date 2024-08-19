@@ -1,21 +1,29 @@
 import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
-import { ConditionalType, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
+import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { indent } from "lib/gpu/injection/wgslUtils";
 
 export type NewConditional = {
   id: string
   type: number,
+  activation: number,
   statDependencies: string[]
-  condition: (x: ComputedStatsObject) => boolean
-  effect: (x: ComputedStatsObject, params) => void
+  condition: (x: ComputedStatsObject, params: OptimizerParams) => boolean
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => void
   gpu: () => string
 }
 
-export function evaluateConditional(self: NewConditional, x: ComputedStatsObject, params) {
-  if (self.condition(x)) {
-    self.effect(x, params)
+export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, params: OptimizerParams) {
+  if (conditional.activation == ConditionalActivation.SINGLE) {
+    if (conditional.condition(x, params)) {
+      conditional.effect(x, params)
+      params.conditionalState[conditional.id] = 1
+    }
+  } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
+    conditional.effect(x, params)
+  } else {
+
   }
 }
 
@@ -30,6 +38,7 @@ ${indent(wgsl.trim(), 1)}
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
   statDependencies: [Stats.DEF],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.DEF] > 1600
@@ -40,6 +49,8 @@ export const AventurineConversionConditional: NewConditional = {
 
     params.conditionalState[this.id] = buffValue
     buffStat(x, params, Stats.CR, buffValue - stateValue)
+
+    return buffValue;
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -61,6 +72,7 @@ if (def > 1600) {
 export const XueyiConversionConditional: NewConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
   statDependencies: [Stats.BE],
   condition: function (x: ComputedStatsObject) {
     return true
@@ -90,11 +102,6 @@ export function buffStat(x: ComputedStatsObject, params, stat: string, value: nu
   x[stat] += value
 
   for (const conditional of params.conditionalRegistry[stat] || []) {
-    conditional.evaluate(x, params)
+    evaluateConditional(conditional, x, params)
   }
 }
-
-export const SetConditionals = [
-  SpaceSealingStationConditional,
-  RutilantArenaConditional,
-]

@@ -9,14 +9,20 @@ export const ConditionalType = {
   ABILITY: 1,
 }
 
+export const ConditionalActivation = {
+  SINGLE: 0,
+  CONTINUOUS: 1,
+}
+
 export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
   type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
   statDependencies: [Stats.CR],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
-  effect: (x: ComputedStatsObject) => {
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
     buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
   },
   gpu: function () {
@@ -34,9 +40,36 @@ if (
   }
 }
 
+export const InertSalsottoConditional: NewConditional = {
+  id: "InertSalsottoConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.CR],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.CR] >= 0.50
+  },
+  effect: (x: ComputedStatsObject) => {
+    buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).InertSalsotto) >= 1 &&
+  (*p_state).InertSalsottoConditional == 0.0 &&
+  (*p_x).CR > 0.50
+) {
+  (*p_state).InertSalsottoConditional = 1.0;
+
+  buffAbilityDmg(p_x, ULT_TYPE | FUA_TYPE, 0.15, 1);
+}
+    `)
+  }
+}
+
 export const SpaceSealingStationConditional: NewConditional = {
   id: "SpaceSealingStationConditional",
   type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
   statDependencies: [Stats.SPD],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
@@ -60,17 +93,82 @@ if (
   }
 }
 
-export const InertSalsottoConditional: NewConditional = {
-  id: "InertSalsottoConditional",
+export const FleetOfTheAgelessConditional: NewConditional = {
+  id: "FleetOfTheAgelessConditional",
   type: ConditionalType.SET,
-  statDependencies: [Stats.CR],
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.SPD],
   condition: function (x: ComputedStatsObject) {
-    return x[Stats.CR] >= 0.50
+    return x[Stats.SPD] >= 120
   },
-  effect: (x: ComputedStatsObject) => {
-    buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15)
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+    buffStat(x, params, Stats.ATK, 0.08 * params.baseATK)
   },
   gpu: function () {
-    return conditionalWgslWrapper(this, ``)
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).FleetOfTheAgeless) >= 1 &&
+  (*p_state).FleetOfTheAgelessConditional == 0.0 &&
+  (*p_x).SPD >= 120
+) {
+  (*p_state).FleetOfTheAgelessConditional = 1.0;
+  (*p_x).ATK += 0.08 * baseATK;
+
+  evaluateDependenciesATK(p_x, p_state, p_sets);
+}
+    `)
   }
 }
+
+export const BelobogOfTheArchitectsConditional: NewConditional = {
+  id: "BelobogOfTheArchitectsConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.EHR],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.EHR] >= 0.50
+  },
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+    buffStat(x, params, Stats.DEF, 0.15 * params.baseDEF)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).BelobogOfTheArchitects) >= 1 &&
+  (*p_state).BelobogOfTheArchitectsConditional == 0.0 &&
+  (*p_x).EHR >= 0.50
+) {
+  (*p_state).BelobogOfTheArchitectsConditional = 1.0;
+  (*p_x).DEF += 0.15 * baseDEF;
+
+  evaluateDependenciesDEF(p_x, p_state, p_sets);
+}
+    `)
+  }
+}
+
+
+// x[Stats.ATK_P]
+// + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+// x[Stats.CD]
+//   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+// x[Stats.CR]
+//   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+// x[Stats.BE]
+//   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+// x.BREAK_DEF_PEN
+//   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+// x.SUPER_BREAK_DEF_PEN
+//   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
+// x.ELEMENTAL_DMG
+//   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+//   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
+// Fire set
+
+export const ConditionalSets = [
+  SpaceSealingStationConditional,
+  RutilantArenaConditional,
+  InertSalsottoConditional,
+  FleetOfTheAgelessConditional,
+  BelobogOfTheArchitectsConditional,
+]

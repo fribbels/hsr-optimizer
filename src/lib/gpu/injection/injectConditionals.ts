@@ -42,7 +42,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   conditionalCallsWgsl += registeredConditionals[stat].map(conditional => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat].map(conditional => conditional.gpu()).join('\n')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
-  conditionalStateDefinition += registeredConditionals[stat].map(x => x.id + ': f32,\n')
+  conditionalStateDefinition += registeredConditionals[stat].map(x => x.id + ': f32,\n').join('')
 
   return {
     conditionalEvaluators,

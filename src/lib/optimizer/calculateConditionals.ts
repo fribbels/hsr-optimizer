@@ -3,7 +3,8 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { Form } from "types/Form";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { Stats } from "lib/constants";
-import { NewConditional, SetConditionals } from "lib/gpu/conditionals/newConditionals";
+import { NewConditional } from "lib/gpu/conditionals/newConditionals";
+import { ConditionalSets } from "lib/gpu/conditionals/setConditionals";
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
   let characterConditionals = CharacterConditionals.get(request)
@@ -40,7 +41,7 @@ export function calculateConditionalRegistry(request: Form, params: Partial<Opti
 
   registerConditionals(conditionalRegistry, lightConeConditionals.gpuConditionals || [])
   registerConditionals(conditionalRegistry, characterConditionals.gpuConditionals || [])
-  registerConditionals(conditionalRegistry, SetConditionals || [])
+  registerConditionals(conditionalRegistry, ConditionalSets || [])
 
   params.conditionalRegistry = conditionalRegistry
   params.conditionalState = {}

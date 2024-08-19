@@ -14,7 +14,6 @@ export default function CharacterModal(props) {
   const [eidolon, setEidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
   const characterMetadata = useMemo(() => DB.getMetadata().characters, [])
-  const initialPath = !props.addCharacter && props.initialCharacter ? characterMetadata[props.initialCharacter.form.characterId].path : undefined
 
   useEffect(() => {
     if (!props.open) return
@@ -28,8 +27,10 @@ export default function CharacterModal(props) {
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition || 1,
     }
 
+    setCharacterId(props.initialCharacter?.form.characterId)
+
     characterForm.setFieldsValue(defaultValues)
-  }, [characterForm, props.initialCharacter, props.open])
+  }, [props.open])
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue()

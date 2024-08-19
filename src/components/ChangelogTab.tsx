@@ -106,6 +106,24 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '08-19-2024',
+      content: [
+        `Added a new panel to suggest filter changes when optimizer searches produce zero results`,
+        `popup.webp`,
+        `Updated Kel-Z and Reliquary imports to support the new v4 format`,
+        `Updated database to 2.5v4`,
+        `Updated scoring card with better rules for showing relevant stats`,
+        `Renamed Sim Damage to Combo DMG to reduce confusion`,
+        `stats.webp`,
+        `Updated Edit Character menu to auto-populate the light cone path, added path icons`,
+        `modal.webp`,
+        `Fix: Importing relics no longer overwrites the optimizer's equipped owner`,
+        `Balance: Moze's default sim updated to to 4p Pioneer, allow Ashblazing and Izumo`,
+        `Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`
+      ],
+    },
+    {
+      title: '',
       date: '08-10-2024',
       content: [
         leaks(`Added Healing Boost and Energy Regen on the character score card`),

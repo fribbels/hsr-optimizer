@@ -377,7 +377,7 @@ export default function CharacterTab() {
 
   async function sortByScoreClicked() {
     if (!await confirm(<>
-      Are you sure you want to sort all characters? <br />
+      Are you sure you want to sort all characters? <br/>
       You will lose any custom rankings you have set.
     </>)) {
       return
@@ -487,7 +487,7 @@ export default function CharacterTab() {
   async function confirm(content) {
     return confirmationModal.confirm({
       title: 'Confirm',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: content,
       okText: 'Confirm',
       cancelText: 'Cancel',
@@ -543,9 +543,9 @@ export default function CharacterTab() {
           <Flex vertical gap={10} style={{ marginRight: 8 }}>
             <div
               id="characterGrid" className="ag-theme-balham-dark" style={{
-                ...{ display: 'block', width: 230, height: parentH - 80 },
-                ...getGridTheme(token),
-              }}
+              ...{ display: 'block', width: 230, height: parentH - 80 },
+              ...getGridTheme(token),
+            }}
             >
               <AgGridReact
                 ref={characterGrid}
@@ -576,22 +576,22 @@ export default function CharacterTab() {
                   menu={actionsMenuProps}
                   trigger={['hover']}
                 >
-                  <Button style={{ width: '100%' }} icon={<UserOutlined />}>
+                  <Button style={{ width: '100%' }} icon={<UserOutlined/>}>
                     Character actions
-                    <DownOutlined />
+                    <DownOutlined/>
                   </Button>
                 </Dropdown>
               </Flex>
               <Flex gap={8}>
                 <Button
-                  style={{ flex: 'auto' }} icon={<CameraOutlined />} onClick={clipboardClicked}
+                  style={{ flex: 'auto' }} icon={<CameraOutlined/>} onClick={clipboardClicked}
                   type="primary"
                   loading={screenshotLoading}
                 >
                   Copy screenshot
                 </Button>
                 <Button
-                  style={{ width: 40 }} type="primary" icon={<DownloadOutlined />}
+                  style={{ width: 40 }} type="primary" icon={<DownloadOutlined/>}
                   onClick={downloadClicked}
                   loading={downloadLoading}
                 />
@@ -610,8 +610,11 @@ export default function CharacterTab() {
         </Flex>
       </Flex>
       <CharacterModal
-        onOk={onCharacterModalOk} open={isCharacterModalOpen} setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter} addCharacter={characterModalAdd}
+        onOk={onCharacterModalOk}
+        open={isCharacterModalOpen}
+        setOpen={setCharacterModalOpen}
+        initialCharacter={characterModalInitialCharacter}
+        addCharacter={characterModalAdd}
       />
       <SwitchRelicsModal
         onOk={onSwitchRelicsModalOk}
@@ -619,7 +622,7 @@ export default function CharacterTab() {
         setOpen={setSwitchRelicsModalOpen}
         currentCharacter={selectedCharacter}
       />
-      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
+      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild}/>
       <BuildsModal
         open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
         imgRenderer={cellImageRenderer}

@@ -188,6 +188,7 @@ function CharacterPreviewSelection(props) {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(props.selectedCharacter)
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
@@ -422,7 +423,7 @@ function CharacterPreviewSelection(props) {
             source="scorer"
             id="relicScorerPreview"
             setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={props.selectedCharacter}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
         </Flex>
 
@@ -430,7 +431,7 @@ function CharacterPreviewSelection(props) {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
-          initialCharacter={props.selectedCharacter}
+          initialCharacter={characterModalInitialCharacter}
         />
       </Flex>
     </Flex>

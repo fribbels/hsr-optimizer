@@ -143,7 +143,7 @@ export class RelicScorer {
    * returns the substat score of the given relic, does not include mainstat bonus
    */
   substatScore(relic: Relic, id: CharacterId) {
-    const scoringMetadata = this.getRelicScoreMeta(id)
+    const scoringMetadata = this.getRelicScoreMeta(id)// NOTE: for old handling of flat stat scoring, replace with: DB.getScoringMetadata(id)
     if (!scoringMetadata || !id || !relic) {
       console.warn('substatScore() called but missing 1 or more arguments. relic:', relic, 'meta:', scoringMetadata, 'id:', id)
       return {
@@ -308,8 +308,8 @@ export class RelicScorer {
    * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
    * meta field includes the ideal added and/or upgraded substats for the relic
    */
-  static scoreFutureRelic(relic: Relic, characterId: CharacterId) {
-    return new RelicScorer().scoreFutureRelic(relic, characterId)
+  static scoreFutureRelic(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
+    return new RelicScorer().scoreFutureRelic(relic, characterId, withMeta)
   }
 
   /**
@@ -846,7 +846,7 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
 }
 
 function scoreToRating(score: number): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
-  const index = Math.min(Math.floor(score / (5.184 / 2)), ratings.length - 1)
+  const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
   return ratings[index]
 }
 

@@ -15,6 +15,7 @@ import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
 import { damageStats, displayTextMap } from 'components/characterPreview/StatRow'
 import { UpArrow } from "icons/UpArrow";
+import { SortOption } from "lib/optimizer/sortOptions";
 
 const { Text } = Typography
 
@@ -56,6 +57,16 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
       <Flex align="center" gap={15}>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0 }}>{show && value.toFixed(precision)}</pre>
+      </Flex>
+    )
+  }
+
+  function ScoringText(props: { label: string; text: string; }) {
+    const value = props.text ?? ''
+    return (
+      <Flex align="center" gap={15}>
+        <pre style={{ margin: 0 }}>{props.label}</pre>
+        <pre style={{ margin: 0 }}>{value}</pre>
       </Flex>
     )
   }
@@ -558,6 +569,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
             Combat damage results
           </pre>
           <Flex vertical gap={10}>
+            <ScoringText label="Primary ability:     " text={`${result.characterMetadata.scoringMetadata.sortOption.key} DMG`}/>
             <ScoringNumber label="Character DMG:       " number={result.originalSimScore}/>
             <ScoringNumber label="Baseline DMG:        " number={result.baselineSimScore}/>
             <ScoringNumber label="Benchmark DMG:       " number={result.benchmarkSimScore}/>
@@ -642,14 +654,28 @@ export function ScoringTeammate(props: { result: SimulationScore; index: number 
   )
 }
 
+function addOnHitStats(simulationScore: SimulationScore) {
+  const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
+  const ability = sortOption.key
+  const x = simulationScore.originalSimResult.x
+
+  x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
+  if (ability != SortOption.DOT.key) {
+    x[Stats.CR] += x[`${ability}_CR_BOOST`]
+    x[Stats.CD] += x[`${ability}_CD_BOOST`]
+  }
+}
+
 
 export function CharacterCardCombatStats(props: { result: SimulationScore }) {
-  const result = props.result
+  const result = TsUtils.clone(props.result)
+  addOnHitStats(result)
+
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
   const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
   const nonDisplayStats = simulationMetadata.nonDisplayStats || []
-  let substats = Utils.clone(originalSimulationMetadata.substats)
+  let substats = originalSimulationMetadata.substats
   substats = substats.filter((x) => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats)
   if (substats.length < 6) substats.push(Stats.SPD)

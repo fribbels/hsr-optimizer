@@ -14,7 +14,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -145,7 +145,10 @@ export default function RelicScorerTab() {
         {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
         {/*</Flex>*/}
         <Flex gap={10} vertical align="center">
-          <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
+          <Text>
+            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+          </Text>
         </Flex>
         <Form
           form={scorerForm}
@@ -188,6 +191,7 @@ function CharacterPreviewSelection(props) {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(props.selectedCharacter)
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
@@ -422,7 +426,7 @@ function CharacterPreviewSelection(props) {
             source="scorer"
             id="relicScorerPreview"
             setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={props.selectedCharacter}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
         </Flex>
 
@@ -430,7 +434,7 @@ function CharacterPreviewSelection(props) {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
-          initialCharacter={props.selectedCharacter}
+          initialCharacter={characterModalInitialCharacter}
         />
       </Flex>
     </Flex>

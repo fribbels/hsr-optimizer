@@ -1,6 +1,8 @@
-// Represents the version of the latest info, which should be the beta leaks version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.5.2'
-export const BETA_UPDATE = 'All calculations are subject to change. Last updated v3 08-12-2024.'
+// Represents the version of the latest info, which should be the beta leaks version at the time of the major update
+export const CURRENT_OPTIMIZER_VERSION = 'v2.5.4'
+// Represents the data content version, used for display but not for update notifications
+export const CURRENT_DATA_VERSION = '2.5v4'
+export const BETA_UPDATE = `Current version: ${CURRENT_DATA_VERSION} - Calculations are subject to change.`
 
 export const Stats = {
   ATK_P: 'ATK%',

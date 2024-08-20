@@ -106,6 +106,36 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '08-19-2024',
+      content: [
+        `Added a new Combat Stats view for the score card, showing the character's fully buffed in-combat details`,
+        `combat.webp`,
+        `Added a new toggle to switch between Combat Stats and Damage Upgrades card view`,
+        `upgrades.webp`,
+        `Added a new panel to suggest filter changes when optimizer searches produce zero results`,
+        `popup.webp`,
+        `Updated scoring card with better rules for showing relevant stats`,
+        `Renamed Sim Damage to Combo DMG for clarity`,
+        `stats.webp`,
+        `Updated Edit Character menu to auto-populate the light cone path, added path icons`,
+        `Switching light cones will now reset its superimposition to S1`,
+        `modal.webp`,
+        leaks(`Relic scorer card now has an Edit character button`),
+        leaks(`edit.webp`),
+        `Moved Relic Scorer tab to a new Showcase menu at the top of the sidebar for visibility`,
+        `showcase.webp`,
+        `Updated content to version 2.5v4`,
+        `Editing a relic now re-scores it automatically and updates the Relics tab grid`,
+        `Updated Kel-Z and Reliquary Archiver imports to support the new v4 format`,
+        `Fix: Some relic set text descriptions were out of date`,
+        `Fix: Importing relics no longer overwrites the optimizer's equipped owner`,
+        `Balance: Kafka / Black Swan's sim scoring updated to lean more towards DoT`,
+        `Balance: Moze's default sim updated to to 4p Pioneer, allow Ashblazing and Izumo`,
+        `Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`
+      ],
+    },
+    {
+      title: '',
       date: '08-10-2024',
       content: [
         leaks(`Added Healing Boost and Energy Regen on the character score card`),

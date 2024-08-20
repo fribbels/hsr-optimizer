@@ -110,6 +110,8 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
 
+      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
+
       // Special case where we force the weakness break on if the ult break option is enabled
       if (r.weaknessBrokenUlt) {
         x.ENEMY_WEAKNESS_BROKEN = 1
@@ -121,13 +123,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.ATK_P] += (r.skillAtkBuff) ? 0.48 : 0
       x.ELEMENTAL_DMG += (r.talentDmgBuff) ? talentDmgBuff : 0
-      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
       x.FUA_SCALING += fuaScaling
 
-      // TODO: Ashblazing
       x.ULT_SCALING += 6 * (ultScaling + ultBrokenScaling) + ultFinalScaling
 
       x.ULT_ORIGINAL_DMG_BOOST += (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0
@@ -140,7 +140,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
-      x.ULT_TOUGHNESS_DMG += 15 * 6 + 15
+      x.ULT_TOUGHNESS_DMG += 90
       x.FUA_TOUGHNESS_DMG += 15
 
       return x

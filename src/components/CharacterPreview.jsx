@@ -515,6 +515,7 @@ export function CharacterPreview(props) {
                       className="character-build-portrait-button"
                       icon={<EditOutlined/>}
                       onClick={() => {
+                        setOriginalCharacterModalInitialCharacter(character)
                         setOriginalCharacterModalOpen(true)
                       }}
                       type="primary"

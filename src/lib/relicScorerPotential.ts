@@ -30,8 +30,8 @@ type substat = {
   addedRolls: number
 }
 
-type rating = '' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
-const ratings: rating[] = ['', '', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
+type rating = 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
+const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
 export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
 // BALANCING/TODO: find a better conversion number?
@@ -641,9 +641,9 @@ export class RelicScorer {
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const futureScore = this.scoreFutureRelic(relic, id, withMeta)
     if (Utils.hasMainStat(relic.part)) {
-      futureScore.best -= mainstatBonus
-      futureScore.average -= mainstatBonus
-      futureScore.worst -= mainstatBonus
+      futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futurescores may be 0 due to mainstatDeduction
+      futureScore.average = Math.max(0, futureScore.average - mainstatBonus)
+      futureScore.worst = Math.max(0, futureScore.worst - mainstatBonus)
     }
     return {
       bestPct: futureScore.best / percentToScore,

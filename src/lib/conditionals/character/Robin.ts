@@ -82,9 +82,12 @@ export default (e: Eidolon): CharacterConditional => {
       name: 'teammateATKValue',
       text: `Robin's Combat ATK`,
       title: 'Robin\'s Combat ATK',
-      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}`,
+      content: `While in the Concerto state, increases all allies' ATK by ${precisionRound(ultAtkBuffScalingValue * 100)}% of Robin's ATK plus ${ultAtkBuffFlatValue}
+      ::BR::
+      Set this to the Robin's self ATK stat that she uses to buff teammates. 
+      `,
       min: 0,
-      max: 8000,
+      max: 7000,
     },
     findContentId(content, 'talentCdBuff'),
     {

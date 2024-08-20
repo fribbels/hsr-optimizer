@@ -14,6 +14,7 @@ export const RelicModalController = {
 
     const updatedRelic = { ...selectedRelic, ...relic }
 
+    window.rescoreSingleRelic(updatedRelic)
     DB.setRelic(updatedRelic)
     window.setRelicRows(DB.getRelics())
     SaveState.save()
@@ -190,16 +191,23 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 
   const upgradeValues: RelicUpgradeValues[] = []
 
-  for (const { stat, value } of statPairs) {
+  for (let { stat, value } of statPairs) {
     if (stat != undefined && value != undefined) {
+      if (value == '') {
+        value = 0
+      } else if (isNaN(parseFloat(value))) {
+        upgradeValues.push({ low: undefined, mid: undefined, high: undefined })
+        continue
+      }
+
       if (stat == Stats.SPD) {
-        const lowSpdValue = value + (relicForm.grade == 5 ? 2 : 1)
+        const lowSpdValue = parseFloat(value) + (relicForm.grade == 5 ? 2 : 1)
         upgradeValues.push({ low: Math.floor(lowSpdValue), mid: undefined, high: Math.floor(lowSpdValue + 1) })
 
         continue
       }
 
-      const value10ths = Utils.truncate10ths(Utils.precisionRound(value))
+      const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
       const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat][relicForm.grade])

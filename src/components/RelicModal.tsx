@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Button, Flex, Form, Image, InputNumber, Modal, Radio, Select, theme } from 'antd'
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { Constants } from 'lib/constants'
+import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { Constants, Stats } from 'lib/constants'
 import { HeaderText } from './HeaderText'
 import { Message } from 'lib/message'
 import PropTypes from 'prop-types'
@@ -55,11 +55,23 @@ function renderSubstat(relic: Relic, index: number): Stat {
   const stat = substat.stat
   const value = substat.value
 
-  return renderStat(stat, value)
+  return renderStat(stat, value, relic)
 }
 
-function renderStat(stat: string, value: number): Stat {
-  if (Utils.isFlat(stat) && stat != Constants.Stats.SPD) {
+function renderStat(stat: string, value: number, relic?: Relic): Stat {
+  if (stat == Stats.SPD) {
+    if (relic?.verified) {
+      return {
+        stat: stat,
+        value: value.toFixed(1),
+      }
+    } else {
+      return {
+        stat: stat,
+        value: value % 1 !== 0 ? value.toFixed(1) : Math.floor(value),
+      }
+    }
+  } else if (Utils.isFlat(stat)) {
     return {
       stat: stat,
       value: Math.floor(value),
@@ -67,7 +79,7 @@ function renderStat(stat: string, value: number): Stat {
   } else {
     return {
       stat: stat,
-      value: Utils.precisionRound(Math.floor(value * 10) / 10),
+      value: Utils.precisionRound(Math.floor(value * 10) / 10).toFixed(1),
     }
   }
 }
@@ -250,12 +262,12 @@ export default function RelicModal(props: {
 
               <Form.Item name="part">
                 <Radio.Group buttonStyle="solid">
-                  <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
-                  <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
-                  <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
-                  <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
-                  <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
-                  <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
+                  <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)}/>
+                  <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)}/>
+                  <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)}/>
+                  <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)}/>
+                  <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)}/>
+                  <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)}/>
                 </Radio.Group>
               </Form.Item>
 
@@ -321,12 +333,12 @@ export default function RelicModal(props: {
                 </Form.Item>
 
                 <Form.Item name="mainStatValue">
-                  <InputNumberStyled controls={false} disabled />
+                  <InputNumberStyled controls={false} disabled/>
                 </Form.Item>
               </Flex>
             </Flex>
 
-            <div style={{ display: 'block', minWidth: 12 }} />
+            <div style={{ display: 'block', minWidth: 12 }}/>
 
             <Flex vertical gap={5} style={{}}>
               <HeaderText>Equipped by</HeaderText>
@@ -357,10 +369,10 @@ export default function RelicModal(props: {
                   <HeaderText>Substat upgrades</HeaderText>
                 </Flex>
               </Flex>
-              <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
-              <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree} />
+              <SubstatInput index={0} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={1} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={2} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
+              <SubstatInput index={3} upgrades={upgradeValues} relicForm={relicForm} resetUpgradeValues={resetUpgradeValues} plusThree={plusThree}/>
             </Flex>
           </Flex>
         </Flex>
@@ -377,9 +389,17 @@ RelicModal.propTypes = {
 }
 
 function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
+  const inputRef = useRef(null);
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
+  const field = props.relicForm.getFieldValue(statTypeField)
+
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.select() // Select the entire text when focused
+    }
+  }
 
   function upgradeClicked(quality: string) {
     console.log(props, quality)
@@ -426,18 +446,20 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
         </Form.Item>
 
         <Form.Item name={`substatValue${props.index}`}>
-          <InputNumberStyled
-            controls={false}
+          <Input
+            ref={inputRef}
+            onFocus={handleFocus}
+            style={{ width: 60 }}
             onChange={props.resetUpgradeValues}
             tabIndex={0}
           />
         </Form.Item>
       </Flex>
-      <CaretRightOutlined style={{ width: 12 }} />
+      <CaretRightOutlined style={{ width: 12 }}/>
       <Flex gap={5} style={{ width: '100%' }}>
-        <UpgradeButton quality="low" />
-        <UpgradeButton quality="mid" />
-        <UpgradeButton quality="high" />
+        <UpgradeButton quality="low"/>
+        <UpgradeButton quality="mid"/>
+        <UpgradeButton quality="high"/>
       </Flex>
     </Flex>
   )

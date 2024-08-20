@@ -14,7 +14,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -87,7 +87,7 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[2],
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
-          ]
+          ].filter(x => !!x)
         } else {
           if (!data.detailInfo) {
             setLoading(false)
@@ -141,11 +141,14 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-         {/*<Flex gap={10} vertical align="center">*/}
-         {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
-         {/*</Flex>*/}
+        {/*<Flex gap={10} vertical align="center">*/}
+        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
+        {/*</Flex>*/}
         <Flex gap={10} vertical align="center">
-          <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
+          <Text>
+            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+          </Text>
         </Flex>
         <Form
           form={scorerForm}
@@ -154,7 +157,7 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
             <Form.Item size="default" name="scorerId">
-              <Input style={{ width: 150 }} placeholder="Account UID" />
+              <Input style={{ width: 150 }} placeholder="Account UID"/>
             </Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} onClick={() => setLoading(true)} style={{ width: 100 }}>
               Submit
@@ -188,16 +191,17 @@ function CharacterPreviewSelection(props) {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(props.selectedCharacter)
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined />Import all characters & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>Import all characters & all relics into optimizer</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined />Import selected character & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>Import selected character & all relics into optimizer</Flex>,
       key: 'import single character',
     },
   ]
@@ -391,36 +395,38 @@ function CharacterPreviewSelection(props) {
     <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
       <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey} />
+          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
+            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading}>
               Copy screenshot
             </Button>
-            <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
+            <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
               onClick={importClicked}
               style={{ width: 250 }}
               menu={menuProps}
             >
-              <ImportOutlined />
+              <ImportOutlined/>
               Import relics into optimizer
             </Dropdown.Button>
-            <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+            <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>
-            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 228 }}>
+            <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
               Optimize character stats
             </Button>
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
+        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
         <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class="relicScorerCharacterPreview"
             character={props.selectedCharacter}
             source="scorer"
             id="relicScorerPreview"
+            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
         </Flex>
 
@@ -428,11 +434,13 @@ function CharacterPreviewSelection(props) {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
+          initialCharacter={characterModalInitialCharacter}
         />
       </Flex>
     </Flex>
   )
 }
+
 CharacterPreviewSelection.propTypes = {
   availableCharacters: PropTypes.array,
   setAvailableCharacters: PropTypes.func,
@@ -462,7 +470,7 @@ function Sidebar(props) {
                   style={{ height: 100, width: 100 }}
                 />
               )
-              : <Icon component={EditOutlined} style={{ fontSize: 85 }} />
+              : <Icon component={EditOutlined} style={{ fontSize: 85 }}/>
             return (
               <Button
                 key={key++}
@@ -498,16 +506,6 @@ function Sidebar(props) {
       }}
       gap={5}
     >
-
-      <Button
-        type="primary"
-        shape="round"
-        style={{ minHeight: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
-        onClick={props.optimizeClicked}
-      >
-        <Icon component={LineChartOutlined} style={{ fontSize: 65 }} />
-      </Button>
-
       <Dropdown
         dropdownRender={() => (dropdownDisplay)}
         open={open}
@@ -523,7 +521,7 @@ function Sidebar(props) {
             shape="round"
             style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
           >
-            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }} />
+            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }}/>
           </Button>
         </a>
       </Dropdown>

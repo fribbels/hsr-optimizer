@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Grid, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Flex, Grid, Modal, Progress, Radio, theme, Typography } from 'antd'
 import React, { useState } from 'react'
 import FormCard from 'components/optimizerTab/FormCard'
 import { HeaderText } from '../HeaderText'
@@ -28,7 +28,7 @@ function PermutationDisplay(props) {
       <Text style={{ lineHeight: '24px' }}>
         {props.left}
       </Text>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
       <Text style={{ lineHeight: '24px' }}>
         {rightText}
       </Text>
@@ -53,11 +53,11 @@ export default function Sidebar() {
 
   function renderSidebarAtBreakpoint() {
     if (breakpointNoShow) {
-      return <SidebarContent />
+      return <SidebarContent/>
     } else if ((lg && breakpointShowXL && !xl) || (lg && breakpointShowXXL && !xxl)) {
-      return <MobileSidebarContent />
+      return <MobileSidebarContent/>
     } else {
-      return <SidebarContent />
+      return <SidebarContent/>
     }
   }
 
@@ -65,7 +65,7 @@ export default function Sidebar() {
 }
 
 function addToPinned() {
-  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length == 0) {
     Message.warning('No row selected')
@@ -81,7 +81,7 @@ function addToPinned() {
 }
 
 function clearPinned() {
-  const currentPinned = window.optimizerGrid.current.api.pinnedRowModel.pinnedTopRows.map((x) => x.data)
+  const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   if (currentPinned.length) {
     window.optimizerGrid.current.api.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
   }
@@ -103,6 +103,8 @@ function SidebarContent() {
 
   const [startTime, setStartTime] = useState(undefined)
 
+  const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -122,45 +124,54 @@ function SidebarContent() {
   }
 
   function startClicked() {
+    if (permutations < 1000000000) {
+      startOptimizer()
+    } else setManyPermsModalOpen(true)
+  }
+
+  function startOptimizer() {
     setStartTime(Date.now())
     window.optimizerStartClicked()
   }
 
   return (
-    <Flex vertical style={{ overflow: 'clip' }}>
-      <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
-        <FormCard height={615}>
-          <Flex vertical gap={10}>
-            <Flex justify="space-between" align="center">
-              <HeaderText>Permutations</HeaderText>
-              <TooltipImage type={Hint.optimizationDetails()} />
-            </Flex>
+    <Flex>
+      <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
+      <Flex vertical style={{ overflow: 'clip' }}>
+        <Flex style={{ position: 'sticky', top: '50%', transform: 'translateY(-50%)', paddingLeft: 10 }}>
+          <FormCard height={600}>
+            <Flex vertical gap={10}>
+              <Flex justify="space-between" align="center">
+                <HeaderText>Permutations</HeaderText>
+                <TooltipImage type={Hint.optimizationDetails()}/>
+              </Flex>
 
-            <Flex vertical>
-              <PermutationDisplay left="Head" right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
-              <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
-              <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
-              <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-              <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
-              <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
-            </Flex>
+              <Flex vertical>
+                <PermutationDisplay left="Head" right={permutationDetails.Head} total={permutationDetails.HeadTotal}/>
+                <PermutationDisplay left="Hands" right={permutationDetails.Hands} total={permutationDetails.HandsTotal}/>
+                <PermutationDisplay left="Body" right={permutationDetails.Body} total={permutationDetails.BodyTotal}/>
+                <PermutationDisplay left="Feet" right={permutationDetails.Feet} total={permutationDetails.FeetTotal}/>
+                <PermutationDisplay left="Sphere" right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal}/>
+                <PermutationDisplay left="Rope" right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal}/>
+              </Flex>
 
-            <Flex vertical>
-              <PermutationDisplay left="Perms" right={permutations} />
-              <PermutationDisplay left="Searched" right={permutationsSearched} />
-              <PermutationDisplay left="Results" right={permutationsResults} />
-            </Flex>
+              <Flex vertical>
+                <PermutationDisplay left="Perms" right={permutations}/>
+                <PermutationDisplay left="Searched" right={permutationsSearched}/>
+                <PermutationDisplay left="Results" right={permutationsResults}/>
+              </Flex>
 
-            <Flex vertical>
-              <HeaderText>
-                {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
-              </HeaderText>
-              <Progress
-                strokeColor={token.colorPrimary}
-                steps={17}
-                size={[8, 5]}
-                percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-              />
+              <Flex vertical>
+                <HeaderText>
+                  {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+                </HeaderText>
+                <Progress
+                  strokeColor={token.colorPrimary}
+                  steps={17}
+                  size={[8, 5]}
+                  percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+                />
+              </Flex>
             </Flex>
 
             <Flex vertical gap={5}>
@@ -168,7 +179,7 @@ function SidebarContent() {
               <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
                 <Flex gap={defaultGap}>
                   <Button
-                    icon={<ThunderboltFilled />}
+                    icon={<ThunderboltFilled/>}
                     type="primary"
                     loading={optimizationInProgress}
                     onClick={startClicked} style={{ flex: 1 }}
@@ -192,7 +203,7 @@ function SidebarContent() {
             <Flex vertical gap={5}>
               <Flex justify="space-between" align="center">
                 <HeaderText>Stat and filter view</HeaderText>
-                <TooltipImage type={Hint.statDisplay()} />
+                <TooltipImage type={Hint.statDisplay()}/>
               </Flex>
               <Radio.Group
                 onChange={(e) => {
@@ -220,7 +231,7 @@ function SidebarContent() {
             <Flex vertical gap={5}>
               <Flex justify="space-between" align="center">
                 <HeaderText>Results</HeaderText>
-                <TooltipImage type={Hint.actions()} />
+                <TooltipImage type={Hint.actions()}/>
               </Flex>
               <Flex gap={defaultGap} justify="space-around">
                 <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
@@ -239,8 +250,8 @@ function SidebarContent() {
                 </Button>
               </Flex>
             </Flex>
-          </Flex>
-        </FormCard>
+          </FormCard>
+        </Flex>
       </Flex>
     </Flex>
   )
@@ -262,6 +273,8 @@ function MobileSidebarContent() {
 
   const [startTime, setStartTime] = useState(undefined)
 
+  const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -281,6 +294,12 @@ function MobileSidebarContent() {
   }
 
   function startClicked() {
+    if (permutations < 1000000000) {
+      startOptimizer()
+    } else setManyPermsModalOpen(true)
+  }
+
+  function startOptimizer() {
     setStartTime(Date.now())
     window.optimizerStartClicked()
   }
@@ -302,24 +321,25 @@ function MobileSidebarContent() {
         zIndex: 3, // prevent overlap with optimizer grid - ag-grid pinned top row has z-index 2
       }}
     >
+      <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
       <Flex gap={20} justify="space-evenly">
         {/* Permutations Column */}
         <Flex vertical gap={defaultGap}>
           <Flex justify="space-between" align="center" style={{ minWidth: 211 }}>
             <HeaderText>Permutations</HeaderText>
-            <TooltipImage type={Hint.optimizationDetails()} />
+            <TooltipImage type={Hint.optimizationDetails()}/>
           </Flex>
           <Flex vertical>
-            <PermutationDisplay left="Perms" right={permutations} />
-            <PermutationDisplay left="Searched" right={permutationsSearched} />
-            <PermutationDisplay left="Results" right={permutationsResults} />
+            <PermutationDisplay left="Perms" right={permutations}/>
+            <PermutationDisplay left="Searched" right={permutationsSearched}/>
+            <PermutationDisplay left="Results" right={permutationsResults}/>
           </Flex>
         </Flex>
         {/* Stats & Filters View Column */}
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Stat and filter view</HeaderText>
-            <TooltipImage type={Hint.statDisplay()} />
+            <TooltipImage type={Hint.statDisplay()}/>
           </Flex>
           <Radio.Group
             onChange={(e) => {
@@ -356,7 +376,7 @@ function MobileSidebarContent() {
           <Flex vertical gap={defaultGap} style={{ marginBottom: 2 }}>
             <Flex gap={defaultGap}>
               <Button
-                icon={<ThunderboltFilled />}
+                icon={<ThunderboltFilled/>}
                 type="primary"
                 loading={optimizationInProgress}
                 onClick={startClicked}
@@ -365,15 +385,10 @@ function MobileSidebarContent() {
                 Start optimizer
               </Button>
             </Flex>
-            <Flex gap={defaultGap}>
-              <Button onClick={cancelClicked} style={{ flex: 1 }}>
-                Cancel
-              </Button>
-              <Button onClick={resetClicked} style={{ flex: 1 }}>
-                Reset
-              </Button>
-            </Flex>
-            <Flex gap={defaultGap}>
+            <Flex vertical>
+              <PermutationDisplay left="Perms" right={permutations}/>
+              <PermutationDisplay left="Searched" right={permutationsSearched}/>
+              <PermutationDisplay left="Results" right={permutationsResults}/>
             </Flex>
           </Flex>
         </Flex>
@@ -383,7 +398,7 @@ function MobileSidebarContent() {
         <Flex vertical gap={defaultGap} style={{ minWidth: 211 }}>
           <Flex justify="space-between" align="center">
             <HeaderText>Results</HeaderText>
-            <TooltipImage type={Hint.actions()} />
+            <TooltipImage type={Hint.actions()}/>
           </Flex>
           <Flex gap={defaultGap} justify="space-around">
             <Button type="primary" onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
@@ -419,4 +434,43 @@ function calculateProgressText(startTime, permutations, permutationsSearched, op
 
   const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
   return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
+}
+
+function ManyPermsModal(props) {
+  return (
+    <Modal
+      title="Very large search requested"
+      open={props.manyPermsModalOpen}
+      width={900}
+      destroyOnClose
+      centered
+      onOk={() => props.setManyPermsModalOpen(false)}
+      onCancel={() => props.setManyPermsModalOpen(false)}
+      footer={null}
+    >
+      <Flex justify="space-between" align="center" style={{ height: 45, marginBottom: 15 }} gap={16}>
+        <Text>
+          This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
+          or use the Substat weight filter to reduce the number of permutations.
+        </Text>
+        <Button
+          onClick={() => props.setManyPermsModalOpen(false)}
+          style={{ width: 250 }}
+          type="primary"
+        >
+          Cancel search
+        </Button>
+        <Button
+          onClick={() => {
+            props.setManyPermsModalOpen(false)
+            props.startSearch()
+          }}
+          style={{ width: 250 }}
+          type="primary"
+        >
+          Proceed with search
+        </Button>
+      </Flex>
+    </Modal>
+  )
 }

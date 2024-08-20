@@ -328,4 +328,8 @@ export const Utils = {
 
     return `${minutesS}:${secondsS}`
   },
+
+  filterUnique: (arr) => {
+    return arr.filter((value, index, array) => array.indexOf(value) === index)
+  }
 }

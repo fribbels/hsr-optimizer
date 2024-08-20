@@ -29,14 +29,14 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath }) => {
+const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath, withIcon }) => {
   // console.log('==================================== LC SELECT')
-  const characterMetadata = DB.getMetadata().characters
+  const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
   const defaultFilters = useMemo(() => {
     return {
       rarity: [],
-      path: initialPath ?? (characterId ? [characterMetadata[characterId].path] : []),
+      path: initialPath ?? (characterId ? [metadata.characters[characterId].path] : []),
       name: '',
     }
   }, [characterId, initialPath])
@@ -44,6 +44,22 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const inputRef = useRef<InputRef>(null)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => Utils.generateLightConeOptions(), [])
+
+  const labelledOptions: { value: string; label }[] = []
+  for (const option of lightConeOptions) {
+    labelledOptions.push({
+      value: option.value,
+      label: (
+        <Flex gap={5} align="center">
+          <img
+            src={Assets.getPath(metadata.lightCones[option.value].path)}
+            style={{ height: 22, marginRight: 4 }}
+          />
+          {option.label}
+        </Flex>
+      ),
+    })
+  }
 
   useEffect(() => {
     if (open) {
@@ -75,7 +91,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
       <Select
         style={selectStyle}
         value={value}
-        options={lightConeOptions}
+        options={withIcon ? labelledOptions : lightConeOptions}
         placeholder="Light cone"
         allowClear
         onClear={() => {
@@ -161,7 +177,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                     onMouseDown={() => handleClick(option.id)}
                     styles={{ body: { padding: 1 } }}
                   >
-                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2} />
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.displayName} innerW={innerW} innerH={innerH} rows={2}/>
                   </Card>
                 ))
             }

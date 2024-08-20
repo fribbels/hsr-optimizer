@@ -64,7 +64,7 @@ export function CharacterPreview(props) {
   const [customPortrait, setCustomPortrait] = useState(null) // <null | CustomImageConfig>
   const [teamSelection, setTeamSelection] = useState(CUSTOM_TEAM)
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
-  const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
+  const [combatScoreDetails, setCombatScoreDetails] = useState(DAMAGE_UPGRADES)
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState()
@@ -903,7 +903,7 @@ export function CharacterPreview(props) {
                 block
                 options={[
                   {
-                    label: 'Combat Stats',
+                    label: 'Combat Stats (beta)',
                     value: COMBAT_STATS,
                     disabled: characterMetadata.scoringMetadata.simulation == null || scoringType == CHARACTER_SCORE,
                   },

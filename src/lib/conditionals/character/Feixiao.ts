@@ -6,7 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityDmg, buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
+import { buffAbilityCd, buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -119,7 +119,7 @@ export default (e: Eidolon): CharacterConditional => {
         x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
       }
 
-      buffAbilityDmg(x, FUA_TYPE, 0.36)
+      buffAbilityCd(x, FUA_TYPE, 0.36)
 
       x[Stats.ATK_P] += (r.skillAtkBuff) ? 0.48 : 0
       x.ELEMENTAL_DMG += (r.talentDmgBuff) ? talentDmgBuff : 0

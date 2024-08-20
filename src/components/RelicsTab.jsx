@@ -326,7 +326,7 @@ export default function RelicsTab() {
 
   const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
-  if (focusCharacter) {
+  if (focusCharacter && selectedRelic) {
     score = RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter)
   }
 

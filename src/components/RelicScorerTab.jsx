@@ -88,6 +88,24 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
           ].filter(x => !!x)
+        } else if (data.source == 'mihomo') {
+          characters = data.characters.filter(x => !!x)
+          for (const character of characters) {
+            character.relicList = character.relics || []
+            character.equipment = character.light_cone
+            character.avatarId = character.id
+
+            if (character.equipment) {
+              character.equipment.tid = character.equipment.id
+            }
+
+            for (const relic of character.relicList) {
+              relic.tid = relic.id
+              relic.mainAffixId = mainAffixTypeToId[relic.main_affix.type]
+              relic.subAffixList = relic.sub_affix
+            }
+          }
+
         } else {
           if (!data.detailInfo) {
             setLoading(false)

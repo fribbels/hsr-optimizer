@@ -1,6 +1,5 @@
 import * as AWS from 'aws-sdk'
 import { APIGatewayEvent } from 'aws-lambda'
-import { v4 as uuidv4 } from 'uuid'
 import fetch from 'node-fetch'
 
 type ProfileResponse = object
@@ -76,28 +75,27 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   // Cache value
 
   // Store in db
-  const params = {
-    TableName: TABLE_NAME,
-    Item: {
-      [PRIMARY_KEY]: accountId,
-      [SORT_KEY]: uuidv4(),
-      data: dataString,
-      createdDate: new Date().toISOString(),
-    },
-  }
-  try {
-    await db.put(params).promise()
-  } catch (error) {
-    console.log(params)
-    console.error('DB put error', error)
-  }
+  // const params = {
+  //   TableName: TABLE_NAME,
+  //   Item: {
+  //     [PRIMARY_KEY]: accountId,
+  //     [SORT_KEY]: uuidv4(),
+  //     data: dataString,
+  //     createdDate: new Date().toISOString(),
+  //   },
+  // }
+  // try {
+  //   await db.put(params).promise()
+  // } catch (error) {
+  //   console.log(params)
+  //   console.error('DB put error', error)
+  // }
 
   return generate200Response(dataString)
 }
 
 const enkaEndpoint = 'https://enka.network/api/hsr/uid/'
 const manaEndpoint = 'https://starrail-showcase.mana.wiki/api/showcase/'
-const mihomoEndpoint = 'https://starrail-showcase.mana.wiki/api/showcase/'
 
 function getMihomoEndpoint(id: string) {
   return `https://api.mihomo.me/sr_info_parsed/${id}?lang=en`
@@ -106,13 +104,19 @@ function getMihomoEndpoint(id: string) {
 async function getProfile(endpoint: string): Promise<ProfileResponse> {
   console.log('GET ' + endpoint)
 
-  const response = await fetch(endpoint, {
+  const fetchPromise = fetch(endpoint, {
     method: 'GET',
     headers: {
       'content-type': 'application/json;charset=UTF-8',
       'User-Agent': 'Fribbels-HSR-Optimizer',
     },
   })
+
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error('Timing out request after 5s, changing to fallback')), 5000)
+  )
+
+  const response = await Promise.race([fetchPromise, timeoutPromise])
 
   if (!response.ok) {
     console.error(response)

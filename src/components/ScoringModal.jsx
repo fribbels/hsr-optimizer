@@ -203,10 +203,18 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Flat ATK/HP/DEF have a separate calculation:
         {' '}
-        <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>
+        Their weights are automatically calculated based on the weights given to their respective % counterparts
+        <code> % stat weight * flat stat low roll / (baseStats.HP * 2 * % stat low roll)</code>
+        the weight calculation for flat atk for Seele for example would be:
+        <code> 0.75 * 19 / (baseStats.HP * 2 * 0.03888)</code>
         .
-        This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
-        Double the character base is used instead of character + light cone base due to the variable nature of light cone stats.
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The normalization is calculated based on the normalization for the respective % counterparts:
+        <li>
+          <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
+          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts
+        </li>
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
@@ -243,6 +251,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
+        <li style={{ fontWeight: 'bolder' }}>TODO: figure out new mainstat bonuses and add explainer here for how we figured it out</li>
         These rolls are first multiplied by the min roll value of
         {' '}
         <code>{minRollValue}</code>

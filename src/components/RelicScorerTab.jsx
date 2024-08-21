@@ -55,7 +55,7 @@ export default function RelicScorerTab() {
 
   function onFinish(x) {
     if (latestRefreshDate.current) {
-      Message.warning(`Please wait ${Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)} seconds before retrying`)
+      Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
       if (loading) {
         setLoading(false)
       }
@@ -137,6 +137,7 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
+        Message.success('Successfully loaded profile')
         console.log(converted)
       })
       .catch((error) => {

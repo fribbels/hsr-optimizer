@@ -255,6 +255,32 @@ if (
   }
 }
 
+export const CelestialDifferentiatorConditional: NewConditional = {
+  id: "CelestialDifferentiatorConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.CD],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.CD] >= 1.20
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    buffStat(x, params, Stats.CR, 0.60)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).CelestialDifferentiator) >= 1 &&
+  (*p_x).CD >= 1.20
+) {
+  (*p_state).CelestialDifferentiatorConditional = 1.0;
+  (*p_x).CR += 0.60;
+
+  evaluateDependenciesCR(p_x, p_state, p_sets);
+}
+    `)
+  }
+}
+
 // x[Stats.CR]
 //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
 // x[Stats.BE]
@@ -274,4 +300,5 @@ export const ConditionalSets = [
   IronCavalryAgainstTheScourge250Conditional,
   PanCosmicCommercialEnterpriseConditional,
   BrokenKeelConditional,
+  CelestialDifferentiatorConditional,
 ]

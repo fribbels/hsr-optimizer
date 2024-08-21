@@ -4,7 +4,7 @@ import { CharacterConditionals } from "lib/characterConditionals";
 import { LightConeConditionals } from "lib/lightConeConditionals";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { BrokenKeelConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
+import { BrokenKeelConditional, CelestialDifferentiatorConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
 import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 
 const statValues = Object.values(Stats)
@@ -319,14 +319,14 @@ export function calculateComputedStats(c, request, params) {
   //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
   //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 
-  p2(sets.SpaceSealingStation) && (x[Stats.SPD] >= 120) && evaluateConditional(SpaceSealingStationConditional, x, params)
-  p2(sets.RutilantArena) && (x[Stats.CR] >= 0.70) && evaluateConditional(RutilantArenaConditional, x, params)
-  p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && evaluateConditional(InertSalsottoConditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && (x[Stats.BE] >= 1.50) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && (x[Stats.BE] >= 2.50) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params)
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, params)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params)
   p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, params)
   p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, params)
-
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, params)
 
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals

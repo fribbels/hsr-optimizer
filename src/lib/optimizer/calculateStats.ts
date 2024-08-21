@@ -300,24 +300,7 @@ export function calculateComputedStats(c, request, params) {
     x.ELEMENTAL_DMG += 0.12
   }
 
-
   // Dynamic - still need implementing
-
-  // x[Stats.ATK_P]
-  // + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
-  // + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
-  // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
-  // x[Stats.DEF_P]
-  //   += 0.15 * (x[Stats.EHR] >= 0.50 ? 1 : 0) * p2(sets.BelobogOfTheArchitects)
-  // x[Stats.CD]
-  //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
-  // x[Stats.CR]
-  //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
-  // x[Stats.BE]
-  //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
-  // x.ELEMENTAL_DMG
-  //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
-  //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 
   p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params)
   p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, params)

@@ -731,6 +731,7 @@ fn getElementalResPen(
   }
 }
 
+// This shouldnt be necessary?
 fn buffElementalResPen(
   p_x: ptr<function, ComputedStats>,
   value: f32,

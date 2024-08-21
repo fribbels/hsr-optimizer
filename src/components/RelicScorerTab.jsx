@@ -37,14 +37,15 @@ function presetCharacters() {
 
 const { Text } = Typography
 
+const throttleSeconds = 10
+
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
-  const [submitDisabled, setSubmitDisabled] = useState(false)
-  const sendWarning = useRef(false)
+  const latestRefreshDate = useRef(null)
 
   const scorerId = window.store((s) => s.scorerId)
   const setScorerId = window.store((s) => s.setScorerId)
@@ -53,17 +54,20 @@ export default function RelicScorerTab() {
   window.scorerForm = scorerForm
 
   function onFinish(x) {
-    setSubmitDisabled(true)
-    setTimeout(() => {
-      setSubmitDisabled(false)
-    }, 10000)
-    if (sendWarning.current) {
-      Message.warning('please wait 30 seconds before retrying')
+    if (latestRefreshDate.current) {
+      Message.warning(`Please wait ${Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)} seconds before retrying`)
+      if (loading) {
+        setLoading(false)
+      }
+      return
+    } else {
+      setLoading(true)
+      latestRefreshDate.current = new Date()
+      setTimeout(() => {
+        latestRefreshDate.current = null
+      }, throttleSeconds * 1000)
     }
-    sendWarning.current = true
-    setTimeout(() => {
-      sendWarning.current = false
-    }, 15000)
+
     console.log('finish', x)
 
     const id = x?.scorerId?.toString().trim() || ''
@@ -136,8 +140,11 @@ export default function RelicScorerTab() {
         console.log(converted)
       })
       .catch((error) => {
-        console.error('Fetch error:', error)
-        setLoading(false)
+        setTimeout(() => {
+          Message.warning('Error during lookup, please try again in a bit')
+          console.error('Fetch error:', error)
+          setLoading(false)
+        }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
       })
   }
 
@@ -167,9 +174,14 @@ export default function RelicScorerTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
             <Form.Item size="default" name="scorerId">
-              <Input style={{ width: 150 }} placeholder="Account UID" />
+              <Input style={{ width: 150 }} placeholder="Account UID"/>
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} onClick={() => setLoading(true)} style={{ width: 100 }} disabled={submitDisabled}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{ width: 150 }}
+            >
               Submit
             </Button>
             <Button
@@ -206,11 +218,11 @@ function CharacterPreviewSelection(props) {
 
   const items = [
     {
-      label: <Flex gap={10}><ImportOutlined />Import all characters & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>Import all characters & all relics into optimizer</Flex>,
       key: 'import characters',
     },
     {
-      label: <Flex gap={10}><ImportOutlined />Import selected character & all relics into optimizer</Flex>,
+      label: <Flex gap={10}><ImportOutlined/>Import selected character & all relics into optimizer</Flex>,
       key: 'import single character',
     },
   ]
@@ -404,30 +416,30 @@ function CharacterPreviewSelection(props) {
     <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
       <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey} />
+          <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
-            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined />} loading={screenshotLoading}>
+            <Button onClick={clipboardClicked} style={{ width: 230 }} icon={<CameraOutlined/>} loading={screenshotLoading}>
               Copy screenshot
             </Button>
-            <Button style={{ width: 40 }} icon={<DownloadOutlined />} onClick={downloadClicked} loading={downloadLoading} />
+            <Button style={{ width: 40 }} icon={<DownloadOutlined/>} onClick={downloadClicked} loading={downloadLoading}/>
             <Dropdown.Button
               onClick={importClicked}
               style={{ width: 250 }}
               menu={menuProps}
             >
-              <ImportOutlined />
+              <ImportOutlined/>
               Import relics into optimizer
             </Dropdown.Button>
-            <Button icon={<ExperimentOutlined />} onClick={simulateClicked} style={{ width: 280 }}>
+            <Button icon={<ExperimentOutlined/>} onClick={simulateClicked} style={{ width: 280 }}>
               Simulate relics on another character
             </Button>
-            <Button icon={<LineChartOutlined />} onClick={optimizeClicked} style={{ width: 228 }}>
+            <Button icon={<LineChartOutlined/>} onClick={optimizeClicked} style={{ width: 228 }}>
               Optimize character stats
             </Button>
           </Flex>
         </Flex>
 
-        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id} />
+        <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
         <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
             class="relicScorerCharacterPreview"
@@ -479,7 +491,7 @@ function Sidebar(props) {
                   style={{ height: 100, width: 100 }}
                 />
               )
-              : <Icon component={EditOutlined} style={{ fontSize: 85 }} />
+              : <Icon component={EditOutlined} style={{ fontSize: 85 }}/>
             return (
               <Button
                 key={key++}
@@ -530,7 +542,7 @@ function Sidebar(props) {
             shape="round"
             style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
           >
-            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }} />
+            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }}/>
           </Button>
         </a>
       </Dropdown>

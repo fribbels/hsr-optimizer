@@ -66,6 +66,10 @@ function generateRequest(request: Form) {
   wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
   wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
   wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
+
+  // TODO: Refactor this to not duplicate res
+  wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED};\n`;
+
   wgsl += '\n'
 
   // Filters
@@ -88,7 +92,8 @@ function generateRequest(request: Form) {
 function generateElement(params: OptimizerParams) {
   let wgsl = '\n'
 
-  wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[params.ELEMENTAL_DMG_TYPE]};`
+  wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[params.ELEMENTAL_DMG_TYPE]};\n`
+  wgsl += `const ELEMENTAL_BREAK_SCALING: f32 = ${params.ELEMENTAL_BREAK_SCALING};\n`;
 
   return wgsl
 }

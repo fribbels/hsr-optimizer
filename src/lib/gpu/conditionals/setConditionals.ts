@@ -146,7 +146,7 @@ if (
 }
 
 export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
-  id: "IronCavalryAgainstTheScourge250Conditional",
+  id: "IronCavalryAgainstTheScourge150Conditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   statDependencies: [Stats.BE],
@@ -160,18 +160,18 @@ export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
     return conditionalWgslWrapper(this, `
 if (
   p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
-  (*p_state).IronCavalryAgainstTheScourge250Conditional == 0.0 &&
-  (*p_x).BE >= 2.50
+  (*p_state).IronCavalryAgainstTheScourge150Conditional == 0.0 &&
+  (*p_x).BE >= 1.50
 ) {
-  (*p_state).IronCavalryAgainstTheScourge250Conditional = 1.0;
-  buffAbilityDefShred(p_x, BREAK_TYPE, 0.15, 1);
+  (*p_state).IronCavalryAgainstTheScourge150Conditional = 1.0;
+  buffAbilityDefShred(p_x, BREAK_TYPE, 0.10, 1);
 }
     `)
   }
 }
 
 export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
-  id: "IronCavalryAgainstTheScourge150Conditional",
+  id: "IronCavalryAgainstTheScourge250Conditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   statDependencies: [Stats.BE],
@@ -185,13 +185,11 @@ export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
     return conditionalWgslWrapper(this, `
 if (
   p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
-  (*p_state).IronCavalryAgainstTheScourge150Conditional == 0.0 &&
-  (*p_x).BE >= 1.50
+  (*p_state).IronCavalryAgainstTheScourge250Conditional == 0.0 &&
+  (*p_x).BE >= 2.50
 ) {
-  (*p_state).IronCavalryAgainstTheScourge150Conditional = 1.0;
-  buffAbilityDefShred(p_x, SUPER_BREAK_TYPE, 0.10, 1);
-
-  evaluateDependenciesDEF(p_x, p_state, p_sets);
+  (*p_state).IronCavalryAgainstTheScourge250Conditional = 1.0;
+  buffAbilityDefShred(p_x, SUPER_BREAK_TYPE, 0.15, 1);
 }
     `)
   }

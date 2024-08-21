@@ -285,7 +285,7 @@ fn main(
 
   // Add base to computed
 
-  addElementalStats(&c, &x);
+  addElementalDmg(&c, &x);
 
   x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
   x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
@@ -453,48 +453,42 @@ fn main(
 
   // Calculate damage
   let cLevel: f32 = 80;
-  let eLevel: f32 = 95;
-  let defReduction: f32 = x.DEF_SHRED;
+  let eLevel: f32 = f32(enemyLevel);
+  let defReduction: f32 = x.DEF_SHRED + combatBuffsDEF_SHRED;
   let defIgnore: f32 = 0.0;
 
   x.ELEMENTAL_DMG += x.Imaginary_DMG;
   let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
   let dmgReductionMultiplier: f32 = 1;
 
-  let ehp = (x.HP / (1 - x.DEF / (x.DEF + 200 + 10 + 95))) * (1.0f / (x.DMG_RED_MULTI));
-  // Guard
+  let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(c.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
   x.EHP = ehp;
 
-  let brokenMultiplier = 0.9;
-  let universalMulti = dmgReductionMultiplier * brokenMultiplier;
-  let baseResistance = 0.0 - x.RES_PEN - x.IMAGINARY_RES_PEN;
+  let brokenMultiplier = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
 
-  //  let ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST) // Robin overrides ULT CD
-  let ULT_CD = x.CD + x.ULT_CD_BOOST;
-  let ULT_BOOSTS_MULTI = 1.0;
+  let universalMulti = dmgReductionMultiplier * brokenMultiplier;
+  let baseResistance = resistance - x.RES_PEN - getElementalResPen(&x);
+
+//  let ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST); // Robin overrides ULT CD
+  let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
 
   let breakVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY;
   let basicVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY;
   let skillVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY;
-  let ultVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY;
+  let ultVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
   let fuaVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY;
   let dotVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY;
 
-  let ENEMY_EFFECT_RES = 0.20;
+  let ENEMY_EFFECT_RES = enemyEffectResistance;
   // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
 
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
   let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_SHRED));
-  var dotEhrMultiplier = effectiveDotChance;
-  if (x.DOT_SPLIT != 0) {
-    dotEhrMultiplier = (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1));
-  }
+  let dotEhrMultiplier = select(effectiveDotChance, (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)), x.DOT_SPLIT > 0);
 
   // BREAK
-  let maxToughness = 360.0;
-
-  let ELEMENTAL_BREAK_SCALING = 0.5;
+  let maxToughness = enemyMaxToughness;
 
   x.BREAK_DMG
     = universalMulti
@@ -542,10 +536,10 @@ fn main(
   x.ULT_DMG
     = x.ULT_DMG
     * universalMulti
-    * (dmgBoostMultiplier + x.ULT_BOOST * ULT_BOOSTS_MULTI)
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * ULT_BOOSTS_MULTI)
+    * (dmgBoostMultiplier + x.ULT_BOOST * x.ULT_BOOSTS_MULTI)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.ULT_DEF_PEN * x.ULT_BOOSTS_MULTI)
     * ((ultVulnerability) * min(1.0, x.CR + x.ULT_CR_BOOST) * (1.0 + ULT_CD) + ultVulnerability * (1.0 - min(1, x.CR + x.ULT_CR_BOOST)))
-    * (1 - (baseResistance - x.ULT_RES_PEN * ULT_BOOSTS_MULTI))
+    * (1 - (baseResistance - x.ULT_RES_PEN * x.ULT_BOOSTS_MULTI))
     * (1 + x.ULT_ORIGINAL_DMG_BOOST)
     + (SUPER_BREAK_DMG * x.ULT_TOUGHNESS_DMG * (1.0 + x.ULT_BREAK_EFFICIENCY_BOOST));
 
@@ -641,7 +635,8 @@ fn buffAbilityDefShred(
     (*p_x).SUPER_BREAK_DEF_PEN += value;
   }
 }
-fn addElementalStats(
+
+fn addElementalDmg(
   c_x: ptr<function, BasicStats>,
   p_x: ptr<function, ComputedStats>,
 ) {
@@ -666,6 +661,69 @@ fn addElementalStats(
     }
     case 6: {
       (*p_x).ELEMENTAL_DMG += (*c_x).Imaginary_DMG;
+    }
+    default: {
+
+    }
+  }
+}
+
+fn getElementalResPen(
+  p_x: ptr<function, ComputedStats>,
+) -> f32 {
+  switch (ELEMENT_INDEX) {
+    case 0: {
+      return (*p_x).PHYSICAL_RES_PEN;
+    }
+    case 1: {
+      return (*p_x).FIRE_RES_PEN;
+    }
+    case 2: {
+      return (*p_x).ICE_RES_PEN;
+    }
+    case 3: {
+      return (*p_x).LIGHTNING_RES_PEN;
+    }
+    case 4: {
+      return (*p_x).WIND_RES_PEN;
+    }
+    case 5: {
+      return (*p_x).QUANTUM_RES_PEN;
+    }
+    case 6: {
+      return (*p_x).IMAGINARY_RES_PEN;
+    }
+    default: {
+      return 0;
+    }
+  }
+}
+
+fn addElementalResPen(
+  p_x: ptr<function, ComputedStats>,
+  value: f32,
+) {
+  switch (ELEMENT_INDEX) {
+    case 0: {
+      (*p_x).PHYSICAL_RES_PEN += value;
+    }
+    case 1: {
+      (*p_x).FIRE_RES_PEN += value;
+    }
+    case 2: {
+      (*p_x).ICE_RES_PEN += value;
+    }
+    case 3: {
+      (*p_x).LIGHTNING_RES_PEN += value;
+    }
+    case 4: {
+      (*p_x).WIND_RES_PEN += value;
+    }
+    case 5: {
+      (*p_x).QUANTUM_RES_PEN += value;
+    }
+    case 6: {
+      (*p_x).IMAGINARY_RES_PEN += value;
     }
     default: {
 

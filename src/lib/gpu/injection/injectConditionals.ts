@@ -16,7 +16,7 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
   if (lightConeConditionals.gpu) wgsl = wgsl.replace('/* INJECT LIGHT CONE CONDITIONALS */', indent(lightConeConditionals.gpu(request, params), 1))
   if (characterConditionals.gpu) wgsl = wgsl.replace('/* INJECT CHARACTER CONDITIONALS */', indent(characterConditionals.gpu(request, params), 1))
 
-  wgsl += generateDynamicSetConditionals(conditionalRegistry)
+  wgsl += generateDynamicSetConditionals(conditionalRegistry, request, params)
 
   return wgsl
 }
@@ -33,14 +33,14 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string) {
+function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, params: OptimizerParams) {
   let conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalCallsWgsl = ''
   let conditionalStateDefinition = ''
 
   conditionalCallsWgsl += registeredConditionals[stat].map(conditional => generateDependencyCall(conditional.id)).join('\n')
-  conditionalDefinitionsWgsl += registeredConditionals[stat].map(conditional => conditional.gpu()).join('\n')
+  conditionalDefinitionsWgsl += registeredConditionals[stat].map(conditional => conditional.gpu(request, params)).join('\n')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
   conditionalStateDefinition += registeredConditionals[stat].map(x => x.id + ': f32,\n').join('')
 
@@ -52,7 +52,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   }
 }
 
-function generateDynamicSetConditionals(registeredConditionals: ConditionalRegistry) {
+function generateDynamicSetConditionals(registeredConditionals: ConditionalRegistry, request: Form, params: OptimizerParams) {
   let wgsl = ''
 
   let conditionalEvaluators = '\n'
@@ -74,17 +74,17 @@ function generateDynamicSetConditionals(registeredConditionals: ConditionalRegis
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
 
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB'))
-  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR'))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.DEF, 'DEF', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.SPD, 'SPD', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CR, 'CR', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.CD, 'CD', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.EHR, 'EHR', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.RES, 'RES', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, params))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, params))
 
   wgsl += conditionalDefinitionsWgsl
   wgsl += conditionalEvaluators

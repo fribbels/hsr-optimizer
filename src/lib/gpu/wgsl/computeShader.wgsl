@@ -613,6 +613,9 @@ fn buffAbilityDefShred(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_DEF_PEN += value;
   }
@@ -642,6 +645,9 @@ fn buffAbilityVulnerability(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_VULNERABILITY += value;
   }

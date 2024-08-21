@@ -9,6 +9,7 @@ import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { evaluateConditional, FireflyConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { wgslIsTrue } from "lib/gpu/injection/wgslUtils";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -174,20 +175,18 @@ export default (e: Eidolon): CharacterConditional => {
     },
     gpu: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
-      const superBreakEnabled = bool(r.superBreakDmg && r.enhancedStateActive)
-      const enhancedStateActive = bool(r.enhancedStateActive)
 
       return `
-buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${enhancedStateActive} >= 1 && x.ENEMY_WEAKNESS_BROKEN >= 1));
+buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslIsTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
 
-if (x.BE >= 2.00 && ${superBreakEnabled} >= 1) {
+if (x.BE >= 2.00 && ${wgslIsTrue(r.superBreakDmg && r.enhancedStateActive)}) {
   x.SUPER_BREAK_MODIFIER += 0.35;
 }
-if (x.BE >= 3.60 && ${superBreakEnabled} >= 1) {
+if (x.BE >= 3.60 && ${wgslIsTrue(r.superBreakDmg && r.enhancedStateActive)}) {
   x.SUPER_BREAK_MODIFIER += 0.15;
 }
 
-if (${enhancedStateActive} >= 1) {
+if (${wgslIsTrue(r.enhancedStateActive)}) {
   x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
 } else {
   x.SKILL_SCALING += ${skillScaling};

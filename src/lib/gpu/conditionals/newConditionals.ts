@@ -2,7 +2,8 @@ import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
 import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { indent } from "lib/gpu/injection/wgslUtils";
+import { indent, wgslIsFalse } from "lib/gpu/injection/wgslUtils";
+import { Form } from "types/Form";
 
 export type NewConditional = {
   id: string
@@ -11,7 +12,7 @@ export type NewConditional = {
   statDependencies: string[]
   condition: (x: ComputedStatsObject, params: OptimizerParams) => boolean
   effect: (x: ComputedStatsObject, params: OptimizerParams) => void
-  gpu: () => string
+  gpu: (request: Form, params: OptimizerParams) => string
 }
 
 export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, params: OptimizerParams) {
@@ -116,8 +117,13 @@ export const FireflyConversionConditional: NewConditional = {
 
     return buffValue;
   },
-  gpu: function () {
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
     return conditionalWgslWrapper(this, `
+if (${wgslIsFalse(r.atkToBeConversion)}) {
+  return;
+}
 let atk = (*p_x).ATK;
 let stateValue = (*p_state).FireflyConversionConditional;
 let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;

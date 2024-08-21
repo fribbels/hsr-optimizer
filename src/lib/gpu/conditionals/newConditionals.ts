@@ -16,7 +16,7 @@ export type NewConditional = {
 
 export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, params: OptimizerParams) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (conditional.condition(x, params)) {
+    if (conditional.condition(x, params) && !params.conditionalState[conditional.id]) {
       conditional.effect(x, params)
       params.conditionalState[conditional.id] = 1
     }
@@ -94,6 +94,42 @@ let buffValue: f32 = min(2.40, be);
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
 
 evaluateDependenciesCR(p_x, p_state, p_sets);
+    `)
+  }
+}
+
+export const FireflyConversionConditional: NewConditional = {
+  id: 'FireflyConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  statDependencies: [Stats.ATK],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.ATK] > 1800
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    const stateValue = params.conditionalState[this.id] || 0
+    const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * params.baseATK;
+    const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
+
+    params.conditionalState[this.id] = buffValue
+    buffStat(x, params, Stats.BE, buffValue - stateValue)
+
+    return buffValue;
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+let atk = (*p_x).ATK;
+let stateValue = (*p_state).FireflyConversionConditional;
+let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;
+
+if (trueAtk > 1800) {
+  let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
+
+  (*p_state).FireflyConversionConditional = buffValue;
+  (*p_x).BE += buffValue - stateValue;
+
+  evaluateDependenciesBE(p_x, p_state, p_sets);
+}
     `)
   }
 }

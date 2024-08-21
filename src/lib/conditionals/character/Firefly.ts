@@ -7,6 +7,8 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { evaluateConditional, FireflyConversionConditional } from "lib/gpu/conditionals/newConditionals";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -148,14 +150,19 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
+      const r = request.characterConditionals
+      const x = c.x
+
+      if (r.atkToBeConversion) {
+        evaluateConditional(FireflyConversionConditional, x, params)
+      }
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
-
-      const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - (x.RATIO_BASED_ATK_P_BUFF * request.baseAtk)
-      x[Stats.BE] += (r.atkToBeConversion && (trueAtk > 1800)) ? 0.008 * Math.floor((trueAtk - 1800) / 10) : 0
 
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 2.00) ? 0.35 : 0
       x.SUPER_BREAK_MODIFIER += (r.superBreakDmg && r.enhancedStateActive && x[Stats.BE] >= 3.60) ? 0.15 : 0
@@ -165,5 +172,35 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+      const superBreakEnabled = bool(r.superBreakDmg && r.enhancedStateActive)
+      const enhancedStateActive = bool(r.enhancedStateActive)
+
+      return `
+buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${enhancedStateActive} >= 1 && x.ENEMY_WEAKNESS_BROKEN >= 1));
+
+if (x.BE >= 2.00 && ${superBreakEnabled} >= 1) {
+  x.SUPER_BREAK_MODIFIER += 0.35;
+}
+if (x.BE >= 3.60 && ${superBreakEnabled} >= 1) {
+  x.SUPER_BREAK_MODIFIER += 0.15;
+}
+
+if (${enhancedStateActive} >= 1) {
+  x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
+} else {
+  x.SKILL_SCALING += ${skillScaling};
+}
+
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [FireflyConversionConditional]
   }
+}
+
+function bool(condition: boolean | number) {
+  return condition ? 1 : 0
 }

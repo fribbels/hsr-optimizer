@@ -494,7 +494,7 @@ fn main(
     = universalMulti
     * 3767.5533
     * ELEMENTAL_BREAK_SCALING
-    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BASIC_DEF_PEN)
+    * calculateDefMultiplier(cLevel, eLevel, defReduction, defIgnore, x.BREAK_DEF_PEN)
     * (0.5 + maxToughness / 120)
     * breakVulnerability
     * (1.0 - baseResistance)
@@ -636,6 +636,32 @@ fn buffAbilityDefShred(
   }
 }
 
+fn buffAbilityVulnerability(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+    (*p_x).DOT_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_VULNERABILITY += value;
+  }
+}
+
 fn addElementalDmg(
   c_x: ptr<function, BasicStats>,
   p_x: ptr<function, ComputedStats>,
@@ -699,7 +725,7 @@ fn getElementalResPen(
   }
 }
 
-fn addElementalResPen(
+fn buffElementalResPen(
   p_x: ptr<function, ComputedStats>,
   value: f32,
 ) {

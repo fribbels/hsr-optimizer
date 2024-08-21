@@ -153,14 +153,14 @@ export class RelicScorer {
         part: relic?.part,
       }
     }
-    const baseStats = this.getBaseStats(id)
     const normalization = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 1 / (baseStats.HP * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.ATK]: 1 / (baseStats.ATK * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.DEF]: 1 / (baseStats.DEF * 2 * 0.01) * (64.8 / 54),
+      // custom weights in scoring metadata already fully adjust for value difference, adjust normalization to counteract the effect of the different values
+      [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
+      [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
+      [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5606,
@@ -420,14 +420,14 @@ export class RelicScorer {
     * value = average score of 1 midroll * rolls / (weight * scaling)
     */
     let averageScore = 0
-    const baseStats = this.getBaseStats(id)
     const normalization = {
       [Constants.Stats.HP_P]: 64.8 / 43.2,
       [Constants.Stats.ATK_P]: 64.8 / 43.2,
       [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: 1 / (baseStats.HP * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.ATK]: 1 / (baseStats.ATK * 2 * 0.01) * (64.8 / 43.2),
-      [Constants.Stats.DEF]: 1 / (baseStats.DEF * 2 * 0.01) * (64.8 / 54),
+      // custom weights in scoring metadata already fully adjust for value difference, adjust normalization to counteract the effect of the different values
+      [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
+      [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
+      [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
       [Constants.Stats.CR]: 64.8 / 32.4,
       [Constants.Stats.CD]: 64.8 / 64.8,
       [Constants.Stats.OHB]: 64.8 / 34.5606,

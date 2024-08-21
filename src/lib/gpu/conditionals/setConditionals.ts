@@ -1,6 +1,6 @@
 import { Stats } from "lib/constants";
-import { BASIC_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
+import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
+import { buffAbilityDefShred, buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { buffStat, conditionalWgslWrapper, NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 
@@ -140,13 +140,62 @@ if (
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
   (*p_x).DEF += 0.15 * baseDEF;
+}
+    `)
+  }
+}
+
+export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
+  id: "IronCavalryAgainstTheScourge250Conditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.BE],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.BE] >= 1.50
+  },
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+    buffAbilityDefShred(x, BREAK_TYPE, 0.10)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
+  (*p_state).IronCavalryAgainstTheScourge250Conditional == 0.0 &&
+  (*p_x).BE >= 2.50
+) {
+  (*p_state).IronCavalryAgainstTheScourge250Conditional = 1.0;
+  buffAbilityDefShred(p_x, BREAK_TYPE, 0.15, 1);
+}
+    `)
+  }
+}
+
+export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
+  id: "IronCavalryAgainstTheScourge150Conditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.BE],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.BE] >= 2.50
+  },
+  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+    buffAbilityDefShred(x, SUPER_BREAK_TYPE, 0.15)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
+  (*p_state).IronCavalryAgainstTheScourge150Conditional == 0.0 &&
+  (*p_x).BE >= 1.50
+) {
+  (*p_state).IronCavalryAgainstTheScourge150Conditional = 1.0;
+  buffAbilityDefShred(p_x, SUPER_BREAK_TYPE, 0.10, 1);
 
   evaluateDependenciesDEF(p_x, p_state, p_sets);
 }
     `)
   }
 }
-
 
 // x[Stats.ATK_P]
 // + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
@@ -171,4 +220,6 @@ export const ConditionalSets = [
   InertSalsottoConditional,
   FleetOfTheAgelessConditional,
   BelobogOfTheArchitectsConditional,
+  IronCavalryAgainstTheScourge150Conditional,
+  IronCavalryAgainstTheScourge250Conditional,
 ]

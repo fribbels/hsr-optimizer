@@ -613,6 +613,34 @@ fn buffAbilityDmg(
   }
 }
 
+fn buffAbilityDefShred(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+    (*p_x).DOT_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_TYPE)) != 0) {
+    (*p_x).SUPER_BREAK_DEF_PEN += value;
+  }
+}
 fn addElementalStats(
   c_x: ptr<function, BasicStats>,
   p_x: ptr<function, ComputedStats>,

@@ -18,7 +18,7 @@ export const RutilantArenaConditional: NewConditional = {
   id: "RutilantArenaConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.CR],
+  dependsOn: [Stats.CR],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
@@ -44,7 +44,7 @@ export const InertSalsottoConditional: NewConditional = {
   id: "InertSalsottoConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.CR],
+  dependsOn: [Stats.CR],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.50
   },
@@ -70,7 +70,7 @@ export const SpaceSealingStationConditional: NewConditional = {
   id: "SpaceSealingStationConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.SPD],
+  dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
   },
@@ -97,7 +97,7 @@ export const FleetOfTheAgelessConditional: NewConditional = {
   id: "FleetOfTheAgelessConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.SPD],
+  dependsOn: [Stats.SPD],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
   },
@@ -124,7 +124,7 @@ export const BelobogOfTheArchitectsConditional: NewConditional = {
   id: "BelobogOfTheArchitectsConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.EHR],
+  dependsOn: [Stats.EHR],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.EHR] >= 0.50
   },
@@ -149,7 +149,7 @@ export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
   id: "IronCavalryAgainstTheScourge150Conditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.BE],
+  dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.BE] >= 1.50
   },
@@ -174,7 +174,7 @@ export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
   id: "IronCavalryAgainstTheScourge250Conditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.BE],
+  dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.BE] >= 2.50
   },
@@ -199,7 +199,7 @@ export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
   id: "PanCosmicCommercialEnterpriseConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
-  statDependencies: [Stats.EHR],
+  dependsOn: [Stats.EHR],
   condition: function (x: ComputedStatsObject) {
     return true
   },
@@ -233,7 +233,7 @@ export const BrokenKeelConditional: NewConditional = {
   id: "BrokenKeelConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.EHR],
+  dependsOn: [Stats.EHR],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.RES] >= 0.30
   },
@@ -259,7 +259,7 @@ export const CelestialDifferentiatorConditional: NewConditional = {
   id: "CelestialDifferentiatorConditional",
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  statDependencies: [Stats.CD],
+  dependsOn: [Stats.CD],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CD] >= 1.20
   },
@@ -281,8 +281,32 @@ if (
   }
 }
 
-// x[Stats.CR]
-//   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
+export const TaliaKingdomOfBanditryConditional: NewConditional = {
+  id: "TaliaKingdomOfBanditryConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  dependsOn: [Stats.SPD],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.SPD] >= 145
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    buffStat(x, params, Stats.BE, 0.20)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).TaliaKingdomOfBanditry) >= 1 &&
+  (*p_x).SPD >= 145
+) {
+  (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
+  (*p_x).BE += 0.20;
+
+  evaluateDependenciesBE(p_x, p_state, p_sets);
+}
+    `)
+  }
+}
+
 // x[Stats.BE]
 //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
 // x.BREAK_DEF_PEN
@@ -301,4 +325,5 @@ export const ConditionalSets = [
   PanCosmicCommercialEnterpriseConditional,
   BrokenKeelConditional,
   CelestialDifferentiatorConditional,
+  TaliaKingdomOfBanditryConditional,
 ]

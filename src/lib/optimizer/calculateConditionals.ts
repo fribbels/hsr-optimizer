@@ -69,7 +69,7 @@ function emptyRegistry() {
 
 function registerConditionals(registeredConditionals: { [key: string]: NewConditional[] }, conditionals: NewConditional[]) {
   for (const conditional of conditionals) {
-    for (const stat of conditional.statDependencies) {
+    for (const stat of conditional.dependsOn) {
       registeredConditionals[stat].push(conditional)
     }
   }

@@ -9,7 +9,7 @@ export type NewConditional = {
   id: string
   type: number,
   activation: number,
-  statDependencies: string[]
+  dependsOn: string[]
   condition: (x: ComputedStatsObject, params: OptimizerParams) => boolean
   effect: (x: ComputedStatsObject, params: OptimizerParams) => void
   gpu: (request: Form, params: OptimizerParams) => string
@@ -40,7 +40,7 @@ export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
-  statDependencies: [Stats.DEF],
+  dependsOn: [Stats.DEF],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.DEF] > 1600
   },
@@ -74,7 +74,7 @@ export const XueyiConversionConditional: NewConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
-  statDependencies: [Stats.BE],
+  dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsObject) {
     return true
   },
@@ -103,7 +103,7 @@ export const FireflyConversionConditional: NewConditional = {
   id: 'FireflyConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
-  statDependencies: [Stats.ATK],
+  dependsOn: [Stats.ATK],
   condition: function (x: ComputedStatsObject) {
     return x[Stats.ATK] > 1800
   },

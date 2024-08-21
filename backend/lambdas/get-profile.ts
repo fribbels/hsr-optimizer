@@ -34,7 +34,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   let data
   let dataString
   try {
-    data = await getProfile(accountId, enkaEndpoint)
+    data = await getProfile(`${enkaEndpoint}${accountId}`)
     data.source = 'enka'
     dataString = JSON.stringify(data)
     console.log(data)
@@ -44,8 +44,8 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
     }
   } catch (e) {
     try {
-      data = await getProfile(accountId, manaEndpoint)
-      data.source = 'mana'
+      data = await getProfile(getMihomoEndpoint(accountId))
+      data.source = 'mihomo'
       dataString = JSON.stringify(data)
       console.log(data)
       idCache[accountId] = {
@@ -53,12 +53,23 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
         data: dataString,
       }
     } catch (e) {
-      console.error(e)
-      idCache[accountId] = {
-        date: new Date(),
-        data: '',
+      try {
+        data = await getProfile(`${manaEndpoint}${accountId}`)
+        data.source = 'mana'
+        dataString = JSON.stringify(data)
+        console.log(data)
+        idCache[accountId] = {
+          date: new Date(),
+          data: dataString,
+        }
+      } catch (e) {
+        console.error(e)
+        idCache[accountId] = {
+          date: new Date(),
+          data: '',
+        }
+        return { statusCode: 500, body: 'Error' }
       }
-      return { statusCode: 500, body: 'Error' }
     }
   }
 
@@ -86,9 +97,13 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
 
 const enkaEndpoint = 'https://enka.network/api/hsr/uid/'
 const manaEndpoint = 'https://starrail-showcase.mana.wiki/api/showcase/'
+const mihomoEndpoint = 'https://starrail-showcase.mana.wiki/api/showcase/'
 
-async function getProfile(accountId: string, url: string): Promise<ProfileResponse> {
-  const endpoint = `${url}${accountId}`
+function getMihomoEndpoint(id: string) {
+  return `https://api.mihomo.me/sr_info_parsed/${id}?lang=en`
+}
+
+async function getProfile(endpoint: string): Promise<ProfileResponse> {
   console.log('GET ' + endpoint)
 
   const response = await fetch(endpoint, {

@@ -34,8 +34,7 @@ type rating = 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | '
 const ratings: rating[] = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+']
 
 export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
-// BALANCING/TODO: find a better conversion number?
-export const minRollValue = 5.184
+export const minRollValue = 5.1 // Using the legacy value from OCR days without decimals, real value is 5.184
 export const dmgOrbMainstatBonus = 1.763
 export const mainStatBonuses = { // BALANCING/TODO: new mainstat bonuses
   [Constants.Parts.Body]: {
@@ -764,6 +763,7 @@ enum relicPotentialCases {
   NORMAL,
   NONE,
 }
+
 /**
  * Analyses the scoringMetadata to determine in which way it should be handled
  * @param scoringMetadata The scoring metadata for the character

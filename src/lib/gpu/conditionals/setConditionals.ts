@@ -307,8 +307,54 @@ if (
   }
 }
 
-// x[Stats.BE]
-//   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
+export const FirmamentFrontlineGlamoth135Conditional: NewConditional = {
+  id: "FirmamentFrontlineGlamoth135Conditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  dependsOn: [Stats.SPD],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.SPD] >= 135
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    x.ELEMENTAL_DMG += 0.12
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).FirmamentFrontlineGlamoth) >= 1 &&
+  (*p_x).SPD >= 135
+) {
+  (*p_state).FirmamentFrontlineGlamoth135Conditional = 1.0;
+  (*p_x).ELEMENTAL_DMG += 0.12;
+}
+    `)
+  }
+}
+
+export const FirmamentFrontlineGlamoth160Conditional: NewConditional = {
+  id: "FirmamentFrontlineGlamoth160Conditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  dependsOn: [Stats.SPD],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.SPD] >= 160
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    x.ELEMENTAL_DMG += 0.06
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).FirmamentFrontlineGlamoth) >= 1 &&
+  (*p_x).SPD >= 160
+) {
+  (*p_state).FirmamentFrontlineGlamoth160Conditional = 1.0;
+  (*p_x).ELEMENTAL_DMG += 0.06;
+}
+    `)
+  }
+}
+
 // x.BREAK_DEF_PEN
 //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
@@ -326,4 +372,6 @@ export const ConditionalSets = [
   BrokenKeelConditional,
   CelestialDifferentiatorConditional,
   TaliaKingdomOfBanditryConditional,
+  FirmamentFrontlineGlamoth135Conditional,
+  FirmamentFrontlineGlamoth160Conditional,
 ]

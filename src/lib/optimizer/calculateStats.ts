@@ -4,7 +4,7 @@ import { CharacterConditionals } from "lib/characterConditionals";
 import { LightConeConditionals } from "lib/lightConeConditionals";
 import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
+import { InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional } from "lib/gpu/conditionals/setConditionals";
 import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 
 const statValues = Object.values(Stats)
@@ -324,6 +324,7 @@ export function calculateComputedStats(c, request, params) {
   p2(sets.InertSalsotto) && (x[Stats.CR] >= 0.50) && evaluateConditional(InertSalsottoConditional, x, params)
   p4(sets.IronCavalryAgainstTheScourge) && (x[Stats.BE] >= 1.50) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params)
   p4(sets.IronCavalryAgainstTheScourge) && (x[Stats.BE] >= 2.50) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, params)
 
 
   const characterConditionals = params.characterConditionals

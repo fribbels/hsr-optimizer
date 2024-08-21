@@ -109,7 +109,7 @@ fn main(
 
   // Calculate relic stat sums
 
-  let epsilon = 0.000001f;
+  let epsilon = 0.00000001f;
 
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;

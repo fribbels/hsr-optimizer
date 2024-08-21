@@ -199,7 +199,3 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
     gpuConditionals: [FireflyConversionConditional]
   }
 }
-
-function bool(condition: boolean | number) {
-  return condition ? 1 : 0
-}

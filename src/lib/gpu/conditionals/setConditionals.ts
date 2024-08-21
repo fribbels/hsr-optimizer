@@ -195,8 +195,40 @@ if (
   }
 }
 
-// x[Stats.ATK_P]
-// + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
+export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
+  id: "PanCosmicCommercialEnterpriseConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.CONTINUOUS,
+  statDependencies: [Stats.EHR],
+  condition: function (x: ComputedStatsObject) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValue = Math.min(0.25, 0.25 * x[Stats.EHR]) * params.baseATK
+
+    params.conditionalState[this.id] = buffValue
+    buffStat(x, params, Stats.ATK, buffValue - stateValue)
+
+    return buffValue;
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).PanCosmicCommercialEnterprise) >= 1
+) {
+  let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional;
+  let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
+
+  (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
+  (*p_x).ATK += buffValue - stateValue;
+
+  evaluateDependenciesATK(p_x, p_state, p_sets);
+}
+    `)
+  }
+}
+
 // x[Stats.CD]
 //   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
 // x[Stats.CR]
@@ -204,10 +236,6 @@ if (
 // x[Stats.BE]
 //   += 0.20 * (x[Stats.SPD] >= 145 ? 1 : 0) * p2(sets.TaliaKingdomOfBanditry)
 // x.BREAK_DEF_PEN
-//   += 0.10 * (x[Stats.BE] >= 1.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-// x.SUPER_BREAK_DEF_PEN
-//   += 0.15 * (x[Stats.BE] >= 2.50 ? 1 : 0) * p4(sets.IronCavalryAgainstTheScourge)
-// x.ELEMENTAL_DMG
 //   += 0.12 * (x[Stats.SPD] >= 135 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 //   + 0.06 * (x[Stats.SPD] >= 160 ? 1 : 0) * p2(sets.FirmamentFrontlineGlamoth)
 // Fire set
@@ -220,4 +248,5 @@ export const ConditionalSets = [
   BelobogOfTheArchitectsConditional,
   IronCavalryAgainstTheScourge150Conditional,
   IronCavalryAgainstTheScourge250Conditional,
+  PanCosmicCommercialEnterpriseConditional,
 ]

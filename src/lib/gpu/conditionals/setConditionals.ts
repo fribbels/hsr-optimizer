@@ -229,8 +229,32 @@ if (
   }
 }
 
-// x[Stats.CD]
-//   + 0.10 * (x[Stats.RES] >= 0.30 ? 1 : 0) * p2(sets.BrokenKeel)
+export const BrokenKeelConditional: NewConditional = {
+  id: "BrokenKeelConditional",
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  statDependencies: [Stats.EHR],
+  condition: function (x: ComputedStatsObject) {
+    return x[Stats.RES] >= 0.30
+  },
+  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+    buffStat(x, params, Stats.CD, 0.10)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_sets).BrokenKeel) >= 1 &&
+  (*p_x).RES >= 0.30
+) {
+  (*p_state).BrokenKeelConditional = 1.0;
+  (*p_x).CD += 0.10;
+
+  evaluateDependenciesCD(p_x, p_state, p_sets);
+}
+    `)
+  }
+}
+
 // x[Stats.CR]
 //   + 0.60 * params.enabledCelestialDifferentiator * (x[Stats.CD] >= 1.20 ? 1 : 0) * p2(sets.CelestialDifferentiator)
 // x[Stats.BE]
@@ -249,4 +273,5 @@ export const ConditionalSets = [
   IronCavalryAgainstTheScourge150Conditional,
   IronCavalryAgainstTheScourge250Conditional,
   PanCosmicCommercialEnterpriseConditional,
+  BrokenKeelConditional,
 ]

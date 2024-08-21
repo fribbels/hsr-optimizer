@@ -6,7 +6,7 @@ import Plot from 'react-plotly.js'
 import RelicPreview from './RelicPreview'
 import { Constants, Stats } from 'lib/constants'
 import RelicModal from './RelicModal.tsx'
-import { RelicScorer } from 'lib/relicScorer'
+import { RelicScorer } from 'lib/relicScorerPotential'
 import { Gradient } from 'lib/gradient'
 import { Message } from 'lib/message'
 import { TooltipImage } from './TooltipImage'
@@ -326,8 +326,8 @@ export default function RelicsTab() {
 
   const focusCharacter = window.store.getState().relicsTabFocusCharacter
   let score
-  if (focusCharacter) {
-    score = RelicScorer.score(selectedRelic, focusCharacter)
+  if (focusCharacter && selectedRelic) {
+    score = RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter)
   }
 
   const numScores = 10
@@ -342,7 +342,7 @@ export default function RelicsTab() {
         .map((id) => ({
           cid: id,
           name: chars[id].displayName,
-          score: RelicScorer.scoreRelicPct(selectedRelic, id, true),
+          score: RelicScorer.scoreRelicPotential(selectedRelic, id, true),
           color: '#000',
           owned: !!DB.getCharacterById(id),
         }))
@@ -367,17 +367,17 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
       <Flex vertical gap={10}>
 
-        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
 
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
-          ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
-          ...getGridTheme(token),
-        }}
+            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...getGridTheme(token),
+          }}
         >
 
           <AgGridReact
@@ -434,7 +434,7 @@ export default function RelicsTab() {
             style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()}/>
+            <TooltipImage type={Hint.relicInsight()} />
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -445,7 +445,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()}/>
+            <TooltipImage type={Hint.relics()} />
           </Flex>
 
           {relicInsight === 'top10' && scores && (
@@ -519,10 +519,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
                             />
                           </svg>
                         )
@@ -572,12 +572,12 @@ export default function RelicsTab() {
                     hovertext: scoreBuckets.flatMap((bucket, _bucketIdx) =>
                       bucket.map((score, _idx) => [
                         score.name,
-                        (score.score.meta.bestNewSubstats.length === 0
+                        (score.score.meta.bestAddedStats.length === 0
                           ? ''
-                          : 'New stats: ' + score.score.meta.bestNewSubstats.join(' / ')),
-                        (score.score.meta.bestRolledSubstats == null
+                          : 'New stats: ' + score.score.meta.bestAddedStats.join(' / ')),
+                        (score.score.meta.bestUpgradedStats == null
                           ? ''
-                          : 'Upgraded stats: ' + score.score.meta.bestRolledSubstats.join(' / ')),
+                          : 'Upgraded stats: ' + score.score.meta.bestUpgradedStats.join(' / ')),
                       ].filter((t) => t !== '').join('<br>')),
                     ),
                     marker: {

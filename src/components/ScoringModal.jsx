@@ -9,6 +9,8 @@ import DB from 'lib/db'
 import { Constants } from 'lib/constants.ts'
 import { usePublish } from 'hooks/usePublish'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect'
+import { dmgOrbMainstatBonus, mainStatBonuses, minRollValue, percentToScore } from 'lib/relicScorerPotential'
+// ^ can be hardcoded later, this makes initial balance adjustments less of a hassle
 
 const { Text } = Typography
 
@@ -163,10 +165,20 @@ export default function ScoringModal() {
 
   const methodologyCollapse = (
     <Text>
-      <PStyled>
-        Substat scoring is calculated by
+      <PStyled style={{ margin: '7px 0px' }}>
+        Relic scores are calculated by
         {' '}
-        <code>Score = weight * normalization * value</code>
+        <code>Score = substatScore / idealScore * {percentToScore}</code>
+        .
+        This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The idealScore is the substatScore for a theoretical perfect relic
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The substatScore is calculated by
+        {' '}
+        <code>SubstatScore = weight * normalization * value</code>
         .
         The weight of each stat is defined above, on a scale of 0 to 1.
         The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
@@ -191,24 +203,27 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Flat ATK/HP/DEF have a separate calculation:
         {' '}
-        <code>1 / (2 * character base * 0.01) * (64.8 / (% main stat value))</code>
+        Their weights are automatically calculated based on the weights given to their respective % counterparts
+        <code> % stat weight * flat stat low roll / (baseStats.HP * 2 * % stat low roll)</code>
+        the weight calculation for flat atk for Seele for example would be:
+        <code> 0.75 * 19 / (baseStats.HP * 2 * 0.03888)</code>
         .
-        This converts the flat stat value to a percent equivalent by base stats, then normalizes it.
-        Double the character base is used instead of character + light cone base due to the variable nature of light cone stats.
+      </PStyled>
+      <PStyled style={{ margin: '7px 0px' }}>
+        The normalization is calculated based on the normalization for the respective % counterparts:
+        <li>
+          <code>64.8 / % main stat value * % stat high roll value / flat stat high roll value</code>
+          . in combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against their % counterparts
+        </li>
       </PStyled>
 
       <PStyled style={{ margin: '7px 0px' }}>
         A letter grade is assigned based on the number of normalized min rolls of each substat.
-        The score for each min roll in theory should be equivalent to
+        The score for each min roll is equivalent to
         {' '}
-        <code>5.184</code>
-        , but is rounded down to
-        {' '}
-        <code>5.1</code>
-        {' '}
-        due to the game not displaying extra decimals.
+        <code>{minRollValue}</code>
+        {'\n'}
         The general scale for grade by rolls is
-        {' '}
         <code>F=1, D=2, C=3, B=4, A=5, S=6, SS=7, SSS=8, WTF=9</code>
         {' '}
         with a
@@ -221,7 +236,7 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Character scores are calculated by
         {' '}
-        <code>Score = sum(relic substat scores) + sum(main stat scores)</code>
+        <code>Score = sum(relic scores) + sum(main stat scores)</code>
         .
         Only the feet/body/sphere/rope relics have main stat scores.
         The main stat score for a 5 star maxed relic is
@@ -236,41 +251,42 @@ export default function ScoringModal() {
       <PStyled style={{ margin: '7px 0px' }}>
         Body/feet/sphere/rope relics are granted extra rolls to compensate for the difficulty of obtaining optimal main stats with desired substats.
         These numbers were calculated by a simulation of relic rolls accounting for main stat drop rate and expected substat value.
-        These rolls are multiplied by the min roll value of
+        <li style={{ fontWeight: 'bolder' }}>TODO: figure out new mainstat bonuses and add explainer here for how we figured it out</li>
+        These rolls are first multiplied by the min roll value of
         {' '}
-        <code>5.1</code>
+        <code>{minRollValue}</code>
         {' '}
-        for the bonus score value.
+        and then, if the main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
       </PStyled>
 
       <Flex justify="space-between" style={{ marginRight: 30 }}>
         <ul>
-          <li><code>Body HP_P 1.320</code></li>
-          <li><code>Body ATK_P 1.284</code></li>
-          <li><code>Body DEF_P 1.305</code></li>
-          <li><code>Body CR 1.644</code></li>
-          <li><code>Body CD 1.658</code></li>
+          <li><code>Body HP_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.HP_P]).toFixed(3)}</code></li>
+          <li><code>Body ATK_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
+          <li><code>Body DEF_P {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
+          <li><code>Body CR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CR]).toFixed(3)}</code></li>
+          <li><code>Body CD {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.CD]).toFixed(3)}</code></li>
         </ul>
         <ul>
-          <li><code>Body OHB 1.712</code></li>
-          <li><code>Body EHR 1.668</code></li>
-          <li><code>Feet HP_P 1.058</code></li>
-          <li><code>Feet ATK_P 1.019</code></li>
-          <li><code>Feet DEF_P 1.000</code></li>
+          <li><code>Body OHB {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.OHB]).toFixed(3)}</code></li>
+          <li><code>Body EHR {(mainStatBonuses[Constants.Parts.Body][Constants.Stats.EHR]).toFixed(3)}</code></li>
+          <li><code>Feet HP_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.HP_P]).toFixed(3)}</code></li>
+          <li><code>Feet ATK_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
+          <li><code>Feet DEF_P {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
         </ul>
         <ul>
-          <li><code>Feet SPD 1.567</code></li>
-          <li><code>PlanarSphere HP_P 1.583</code></li>
-          <li><code>PlanarSphere ATK_P 1.559</code></li>
-          <li><code>PlanarSphere DEF_P 1.587</code></li>
-          <li><code>PlanarSphere ELEM 1.763</code></li>
+          <li><code>Feet SPD {(mainStatBonuses[Constants.Parts.Feet][Constants.Stats.SPD]).toFixed(3)}</code></li>
+          <li><code>PlanarSphere HP_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.HP_P]).toFixed(3)}</code></li>
+          <li><code>PlanarSphere ATK_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
+          <li><code>PlanarSphere DEF_P {(mainStatBonuses[Constants.Parts.PlanarSphere][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
+          <li><code>PlanarSphere ELEM {(dmgOrbMainstatBonus).toFixed(3)}</code></li>
         </ul>
         <ul>
-          <li><code>LinkRope HP_P 1.073</code></li>
-          <li><code>LinkRope ATK_P 1.076</code></li>
-          <li><code>LinkRope DEF_P 1.172</code></li>
-          <li><code>LinkRope BE 1.416</code></li>
-          <li><code>LinkRope ERR 2.000</code></li>
+          <li><code>LinkRope HP_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.HP_P]).toFixed(3)}</code></li>
+          <li><code>LinkRope ATK_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ATK_P]).toFixed(3)}</code></li>
+          <li><code>LinkRope DEF_P {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.DEF_P]).toFixed(3)}</code></li>
+          <li><code>LinkRope BE {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.BE]).toFixed(3)}</code></li>
+          <li><code>LinkRope ERR {(mainStatBonuses[Constants.Parts.LinkRope][Constants.Stats.ERR]).toFixed(3)}</code></li>
         </ul>
       </Flex>
 

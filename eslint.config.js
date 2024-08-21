@@ -247,7 +247,7 @@ function styleRules(level) {
       {
         afterOpening: 'never',
         beforeClosing: 'never',
-        beforeSelfClosing: 'always',
+        beforeSelfClosing: 'never',
         closingSlash: 'never',
       },
     ],

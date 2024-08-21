@@ -101,7 +101,6 @@ export default function RelicScorerTab() {
 
             for (const relic of character.relicList) {
               relic.tid = relic.id
-              relic.mainAffixId = mainAffixTypeToId[relic.main_affix.type]
               relic.subAffixList = relic.sub_affix
             }
           }

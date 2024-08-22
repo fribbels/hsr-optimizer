@@ -7,6 +7,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { wgslIsTrue } from "lib/gpu/injection/wgslUtils";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -175,5 +177,24 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+      return `
+if (${wgslIsTrue(r.concertoActive)}) {
+  buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);
+}
+
+buffAbilityCr(p_x, ULT_TYPE, 1.00, 1);
+
+if (${wgslIsTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
+  x.ULT_CD_OVERRIDE = 6.00;
+} else {
+  x.ULT_CD_OVERRIDE = 1.50;
+}
+
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+      `
+    }
   }
 }

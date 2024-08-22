@@ -6,6 +6,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, CharacterConditionalMap, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -115,7 +116,8 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpu: () => {
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

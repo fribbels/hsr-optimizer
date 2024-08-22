@@ -109,7 +109,7 @@ fn main(
 
   // Calculate relic stat sums
 
-  let epsilon = 0.00000001f;
+  let epsilon = 0.000001f;
 
   c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
@@ -596,6 +596,27 @@ fn buffAbilityDmg(
   }
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
     (*p_x).DOT_BOOST += value;
+  }
+}
+
+
+fn buffAbilityCr(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_CR_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_CR_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_CR_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_CR_BOOST += value;
   }
 }
 

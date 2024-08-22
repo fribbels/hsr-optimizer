@@ -12,12 +12,9 @@ import { wgslFalse, wgslTrue } from "lib/gpu/injection/wgslUtils";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
-  //
-  // const skillHpPercentBuff = skill(e, 0.075, 0.08)
-  // const skillHpFlatBuff = skill(e, 200, 223)
 
-  const skillHpPercentBuff = skill(e, 0.075, 0.071875)
-  const skillHpFlatBuff = skill(e, 200, 188.75)
+  const skillHpPercentBuff = skill(e, 0.075, 0.08)
+  const skillHpFlatBuff = skill(e, 200, 223)
 
   const basicScaling = basic(e, 0.50, 0.55)
   const skillScaling = skill(e, 0, 0)

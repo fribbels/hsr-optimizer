@@ -227,49 +227,38 @@ buffDynamicATK(buffValue - stateValue, p_x, p_state);
   }
 }
 
-// export const LynxConversionConditional: NewConditional = {
-//   id: 'LynxConversionConditional',
-//   type: ConditionalType.ABILITY,
-//   activation: ConditionalActivation.CONTINUOUS,
-//   dependsOn: [Stats.HP],
-//   condition: function () {
-//     return true
-//   },
-//   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-//     const r = request.characterConditionals
-//     const e = request.characterEidolon
-//     const stateValue = params.conditionalState[this.id] || 0
-//
-//     if (r.skillBuff) {
-//       // const statBuffHP = (r.skillBuff) ? skillHpPercentBuff * stateValue : 0
-//
-//       if (e >= 6) {
-//
-//       }
-//
-//       if (e >= 4) {
-//
-//       }
-//     }
-//     //
-//     // const statBuffHP = (r.skillBuff) ? skillHpPercentBuff * stateValue : 0
-//     // x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
-//     //
-//     //
-//     // const stateValue = params.conditionalState[this.id] || 0
-//     // const buffValue = 0.35 * x[Stats.DEF]
-//     //
-//     // params.conditionalState[this.id] = buffValue
-//     // buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
-//   },
-//   gpu: function (request: Form, params: OptimizerParams) {
-//     return conditionalWgslWrapper(this, `
-// // let def = (*p_x).DEF;
-// // let stateValue: f32 = (*p_state).LynxConversionConditional;
-// // let buffValue: f32 = 0.35 * def;
-// //
-// // (*p_state).LynxConversionConditional = buffValue;
-// // buffDynamicATK(buffValue - stateValue, p_x, p_state);
-//     `)
-//   }
-// }
+export const BlackSwanConversionConditional: NewConditional = {
+  id: 'BlackSwanConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.EHR],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    if (!r.ehrToDmgBoost) {
+      return
+    }
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValue = Math.min(0.72, x[Stats.EHR])
+
+    params.conditionalState[this.id] = buffValue
+    x.ELEMENTAL_DMG += buffValue - stateValue
+  },
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.ehrToDmgBoost)}) {
+  return;
+}
+let ehr = (*p_x).EHR;
+let stateValue: f32 = (*p_state).BlackSwanConversionConditional;
+let buffValue: f32 = min(0.72, ehr);
+
+(*p_state).BlackSwanConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
+    `)
+  }
+}

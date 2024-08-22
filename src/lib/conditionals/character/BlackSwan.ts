@@ -7,9 +7,11 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { BlackSwanConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
@@ -132,12 +134,21 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       const r = request.characterConditionals
       const x = c.x
 
-      x.ELEMENTAL_DMG += (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * x[Stats.EHR]) : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [BlackSwanConversionConditional]
   }
 }

@@ -33,16 +33,32 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
+function generateConditionalNonRatioEvaluator(statName: string, conditionalCallsWgsl: string) {
+  return `
+fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+${indent(conditionalCallsWgsl, 1)}
+}
+  `
+}
+
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, params: OptimizerParams) {
   let conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalCallsWgsl = ''
+  let conditionalNonRatioCallsWgsl = ''
   let conditionalStateDefinition = ''
 
-  conditionalCallsWgsl += registeredConditionals[stat].map(conditional => generateDependencyCall(conditional.id)).join('\n')
-  conditionalDefinitionsWgsl += registeredConditionals[stat].map(conditional => conditional.gpu(request, params)).join('\n')
+  conditionalCallsWgsl += registeredConditionals[stat]
+    .map(conditional => generateDependencyCall(conditional.id)).join('\n')
+  conditionalNonRatioCallsWgsl += registeredConditionals[stat]
+    .filter(x => !x.ratioConversion)
+    .map(conditional => generateDependencyCall(conditional.id)).join('\n')
+  conditionalDefinitionsWgsl += registeredConditionals[stat]
+    .map(conditional => conditional.gpu(request, params)).join('\n')
+  conditionalStateDefinition += registeredConditionals[stat]
+    .map(x => x.id + ': f32,\n').join('')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
-  conditionalStateDefinition += registeredConditionals[stat].map(x => x.id + ': f32,\n').join('')
+  conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
 
   return {
     conditionalEvaluators,

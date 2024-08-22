@@ -13,6 +13,7 @@ export type NewConditional = {
   condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => boolean
   effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
   gpu: (request: Form, params: OptimizerParams) => string
+  ratioConversion?: boolean
 }
 
 export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams) {

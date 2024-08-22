@@ -105,7 +105,7 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
 
       return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       `
     },
     gpuConditionals: [{
@@ -113,6 +113,7 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.HP],
+      ratioConversion: true,
       condition: function () {
         return true
       },
@@ -160,13 +161,13 @@ if (${wgslFalse(r.skillBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).LynxConversionConditional;
-let convertibleHpValue = x.HP - x.RATIO_BASED_HP_BUFF;
+let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
 
-var buffATK = 0;
-var stateBuffATK = 0;
+var buffATK: f32 = 0;
+var stateBuffATK: f32 = 0;
 
-var buffHP = ${skillHpPercentBuff} * convertibleHpValue + ${skillHpFlatBuff};
-var stateBuffHP = ${skillHpPercentBuff} * stateValue + ${skillHpFlatBuff};
+var buffHP: f32 = ${skillHpPercentBuff} * convertibleHpValue + ${skillHpFlatBuff};
+var stateBuffHP: f32 = ${skillHpPercentBuff} * stateValue + ${skillHpFlatBuff};
 
 if (${wgslTrue(e >= 4)}) {
   buffATK += 0.03 * convertibleHpValue;
@@ -178,13 +179,13 @@ if (${wgslTrue(e >= 6)}) {
   stateBuffHP += 0.06 * stateValue;
 }
 
-(*p_state).LynxConversionConditional = x[Stats.HP];
+(*p_state).LynxConversionConditional = (*p_x).HP;
 
-let finalBuffHp = buffHP - select(0, stateBuffHp, stateValue > 0);
-let finalBuffAtk = buffATK - select(0, stateBuffHp, stateValue > 0);
-x.RATIO_BASED_HP_BUFF += finalBuffHp;
+let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
+let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
+(*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
-buffDynamicHP(finalBuffHp, p_x, p_state);
+buffNonRatioDynamicHP(finalBuffHp, p_x, p_state);
 buffDynamicATK(finalBuffAtk, p_x, p_state);
     `)
       }

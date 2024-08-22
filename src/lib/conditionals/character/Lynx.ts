@@ -6,14 +6,17 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
 import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
+import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  //
+  // const skillHpPercentBuff = skill(e, 0.075, 0.08)
+  // const skillHpFlatBuff = skill(e, 200, 223)
 
-  const skillHpPercentBuff = skill(e, 0.075, 0.08)
-  const skillHpFlatBuff = skill(e, 200, 223)
+  const skillHpPercentBuff = skill(e, 0.075, 0.071875)
+  const skillHpFlatBuff = skill(e, 200, 188.75)
 
   const basicScaling = basic(e, 0.50, 0.55)
   const skillScaling = skill(e, 0, 0)
@@ -95,10 +98,11 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = c.x
 
-      // x[Stats.HP] += (r.skillBuff) ? skillHpPercentBuff * x[Stats.HP] : 0
+      // const storedHp = x[Stats.HP]
       // x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
-      // x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * x[Stats.HP] : 0
-      // x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * x[Stats.HP] : 0
+      // x[Stats.HP] += (r.skillBuff) ? skillHpPercentBuff * storedHp : 0
+      // x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * storedHp : 0
+      // x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * storedHp : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
@@ -142,10 +146,20 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
         }
 
         params.conditionalState[this.id] = x[Stats.HP]
-        buffStat(x, request, params, Stats.HP, buffHP - stateBuffHP)
-        buffStat(x, request, params, Stats.ATK, buffATK - stateBuffATK)
+        if (stateValue == 0) {
+          x.RATIO_BASED_HP_BUFF += buffHP
+          buffStat(x, request, params, Stats.HP, buffHP)
+          buffStat(x, request, params, Stats.ATK, buffATK)
+        } else {
+          const cached_RATIO_BASED_HP_BUFF = x.RATIO_BASED_HP_BUFF
+          x.RATIO_BASED_HP_BUFF += buffHP - stateBuffHP
+          buffStat(x, request, params, Stats.HP, buffHP - stateBuffHP - cached_RATIO_BASED_HP_BUFF)
+          buffStat(x, request, params, Stats.ATK, buffATK - stateBuffATK - cached_RATIO_BASED_HP_BUFF)
+        }
       },
-      gpu: function (request: Form, params: OptimizerParams) {
+      gpu: function (request: Form, _params: OptimizerParams) {
+        const r = request.characterConditionals
+
         return conditionalWgslWrapper(this, `
 // let def = (*p_x).DEF;
 // let stateValue: f32 = (*p_state).LynxConversionConditional;

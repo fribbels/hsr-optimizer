@@ -326,6 +326,13 @@ export function calculateComputedStats(c, request, params) {
   if (characterConditionals.calculateStatConditionals) characterConditionals.calculateStatConditionals(c, request, params)
   if (lightConeConditionals.calculateStatConditionals) lightConeConditionals.calculateStatConditionals(c, request, params)
 
+  for (const conditional of characterConditionals.gpuConditionals || []) {
+    evaluateConditional(conditional, x, request, params)
+  }
+  for (const conditional of lightConeConditionals.gpuConditionals || []) {
+    evaluateConditional(conditional, x, request, params)
+  }
+
   return x
 }
 

@@ -37,6 +37,11 @@ ${indent(wgsl.trim(), 1)}
 }
 
 export function buffStat(x: ComputedStatsObject, request: Form, params: OptimizerParams, stat: string, value: number) {
+  // Self buffing stats will asymptotically reach 0
+  if (value < 0.0001) {
+    return
+  }
+
   x[stat] += value
 
   for (const conditional of params.conditionalRegistry[stat] || []) {
@@ -221,29 +226,49 @@ buffDynamicATK(buffValue - stateValue, p_x, p_state);
   }
 }
 
-export const LynxConversionConditional: NewConditional = {
-  id: 'LynxConversionConditional',
-  type: ConditionalType.ABILITY,
-  activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.DEF],
-  condition: function () {
-    return true
-  },
-  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    const stateValue = params.conditionalState[this.id] || 0
-    const buffValue = 0.35 * x[Stats.DEF]
-
-    params.conditionalState[this.id] = buffValue
-    buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
-  },
-  gpu: function () {
-    return conditionalWgslWrapper(this, `
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).LynxConversionConditional;
-let buffValue: f32 = 0.35 * def;
-
-(*p_state).LynxConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_state);
-    `)
-  }
-}
+// export const LynxConversionConditional: NewConditional = {
+//   id: 'LynxConversionConditional',
+//   type: ConditionalType.ABILITY,
+//   activation: ConditionalActivation.CONTINUOUS,
+//   dependsOn: [Stats.HP],
+//   condition: function () {
+//     return true
+//   },
+//   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+//     const r = request.characterConditionals
+//     const e = request.characterEidolon
+//     const stateValue = params.conditionalState[this.id] || 0
+//
+//     if (r.skillBuff) {
+//       // const statBuffHP = (r.skillBuff) ? skillHpPercentBuff * stateValue : 0
+//
+//       if (e >= 6) {
+//
+//       }
+//
+//       if (e >= 4) {
+//
+//       }
+//     }
+//     //
+//     // const statBuffHP = (r.skillBuff) ? skillHpPercentBuff * stateValue : 0
+//     // x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
+//     //
+//     //
+//     // const stateValue = params.conditionalState[this.id] || 0
+//     // const buffValue = 0.35 * x[Stats.DEF]
+//     //
+//     // params.conditionalState[this.id] = buffValue
+//     // buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
+//   },
+//   gpu: function (request: Form, params: OptimizerParams) {
+//     return conditionalWgslWrapper(this, `
+// // let def = (*p_x).DEF;
+// // let stateValue: f32 = (*p_state).LynxConversionConditional;
+// // let buffValue: f32 = 0.35 * def;
+// //
+// // (*p_state).LynxConversionConditional = buffValue;
+// // buffDynamicATK(buffValue - stateValue, p_x, p_state);
+//     `)
+//   }
+// }

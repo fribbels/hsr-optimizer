@@ -1,11 +1,13 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
+import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -93,20 +95,66 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = c.x
 
-      x[Stats.HP] += (r.skillBuff) ? skillHpPercentBuff * x[Stats.HP] : 0
-      x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * x[Stats.HP] : 0
-      x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
-      x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * x[Stats.HP] : 0
+      // x[Stats.HP] += (r.skillBuff) ? skillHpPercentBuff * x[Stats.HP] : 0
+      // x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
+      // x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * x[Stats.HP] : 0
+      // x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * x[Stats.HP] : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
-//     gpu: (request: Form, params: OptimizerParams) => {
-//       const r = request.characterConditionals
+    gpu: (request: Form, _params: OptimizerParams) => {
+      const r = request.characterConditionals
+
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [{
+      id: 'LynxConversionConditional',
+      type: ConditionalType.ABILITY,
+      activation: ConditionalActivation.CONTINUOUS,
+      dependsOn: [Stats.HP],
+      condition: function () {
+        return true
+      },
+      effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+        const r = request.characterConditionals
+        if (!r.skillBuff) {
+          return;
+        }
+
+        const stateValue = params.conditionalState[this.id] || 0
+        let buffHP = 0
+        let buffATK = 0
+        let stateBuffHP = 0
+        let stateBuffATK = 0
+
+        buffHP += skillHpPercentBuff * x[Stats.HP] + skillHpFlatBuff
+        stateBuffHP += skillHpPercentBuff * stateValue + skillHpFlatBuff
+        if (e >= 6) {
+          buffHP += 0.06 * x[Stats.HP]
+          stateBuffHP += 0.06 * stateValue
+        }
+
+        if (e >= 4) {
+          buffATK += 0.03 * x[Stats.HP]
+          stateBuffATK += 0.03 * stateValue
+        }
+
+        params.conditionalState[this.id] = x[Stats.HP]
+        buffStat(x, request, params, Stats.HP, buffHP - stateBuffHP)
+        buffStat(x, request, params, Stats.ATK, buffATK - stateBuffATK)
+      },
+      gpu: function (request: Form, params: OptimizerParams) {
+        return conditionalWgslWrapper(this, `
+// let def = (*p_x).DEF;
+// let stateValue: f32 = (*p_state).LynxConversionConditional;
+// let buffValue: f32 = 0.35 * def;
 //
-//       return `
-// x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-//       `
-//     },
-//     gpuConditionals: [LynxConversionConditional]
+// (*p_state).LynxConversionConditional = buffValue;
+// buffDynamicATK(buffValue - stateValue, p_x, p_state);
+    `)
+      }
+    }]
   }
 }

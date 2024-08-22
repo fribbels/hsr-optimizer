@@ -43,6 +43,9 @@ fn buffDynamic${stat}_P(
   p_x: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
+  if (value < 0.0001) {
+    return;
+  }
   (*p_x).${stat} += value * base${stat};
   evaluateDependencies${stat}(p_x, p_state);
 }
@@ -55,6 +58,9 @@ fn buffDynamic${stat}(
   p_x: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
+  if (value < 0.0001) {
+    return;
+  }
   (*p_x).${stat} += value;
   evaluateDependencies${stat}(p_x, p_state);
 }

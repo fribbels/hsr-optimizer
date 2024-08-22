@@ -300,6 +300,12 @@ export function calculateComputedStats(c, request, params) {
     x.ELEMENTAL_DMG += 0.12
   }
 
+  // Elemental DMG
+
+  if (p2(sets.FiresmithOfLavaForging) && params.enabledFiresmithOfLavaForging) {
+    x.Fire_DMG += 0.12
+  }
+
   // Dynamic - still need implementing
 
   p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params)

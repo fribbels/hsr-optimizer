@@ -53,8 +53,13 @@ export const AventurineConversionConditional: NewConditional = {
 
     return buffValue;
   },
-  gpu: function () {
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
     return conditionalWgslWrapper(this, `
+if (${wgslIsFalse(r.defToCrBoost)}) {
+  return;
+}
 let def = (*p_x).DEF;
 let stateValue: f32 = (*p_state).AventurineConversionConditional;
 
@@ -62,9 +67,7 @@ if (def > 1600) {
   let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
 
   (*p_state).AventurineConversionConditional = buffValue;
-  (*p_x).CR += buffValue - stateValue;
-
-  evaluateDependenciesCR(p_x, p_state, p_sets);
+  buffDynamicCR(buffValue - stateValue, p_x, p_state, p_sets);
 }
     `)
   }
@@ -93,8 +96,6 @@ let buffValue: f32 = min(2.40, be);
 
 (*p_state).XueyiConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-
-evaluateDependenciesCR(p_x, p_state, p_sets);
     `)
   }
 }
@@ -132,9 +133,7 @@ if (trueAtk > 1800) {
   let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
 
   (*p_state).FireflyConversionConditional = buffValue;
-  (*p_x).BE += buffValue - stateValue;
-
-  evaluateDependenciesBE(p_x, p_state, p_sets);
+  buffDynamicBE(buffValue - stateValue, p_x, p_state, p_sets);
 }
     `)
   }

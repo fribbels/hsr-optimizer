@@ -19,7 +19,7 @@ export function generateWgsl(params: OptimizerParams, request: Form) {
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, params)
   wgsl = injectPrecomputedStats(wgsl, params)
-  wgsl = injectUtils(wgsl, params)
+  wgsl = injectUtils(wgsl)
 
   return wgsl
 }

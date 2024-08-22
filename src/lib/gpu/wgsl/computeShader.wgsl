@@ -179,13 +179,6 @@ fn main(
   c.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
   c.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
-  // Base stats, this should probably be passed in from params
-
-//  let baseHP = characterHP + lcHP;
-//  let baseATK = characterATK + lcATK;
-//  let baseDEF = characterDEF + lcDEF;
-//  let baseSPD = characterSPD + lcSPD;
-
   // Calculate set effects
 
   // Calculate basic stats
@@ -416,6 +409,10 @@ fn main(
     x.ELEMENTAL_DMG += 0.12;
   }
 
+  if (p2(c.sets.FiresmithOfLavaForging) >= 1 && enabledFiresmithOfLavaForging == 1) {
+    x.Fire_DMG += 0.12;
+  }
+
   // Dynamic - still need implementing
 
   const semicolonTest = 0;
@@ -469,7 +466,6 @@ fn main(
   let universalMulti = dmgReductionMultiplier * brokenMultiplier;
   let baseResistance = resistance - x.RES_PEN - getElementalResPen(&x);
 
-//  let ULT_CD = x.ULT_CD_OVERRIDE || (x[Stats.CD] + x.ULT_CD_BOOST); // Robin overrides ULT CD
   let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
 
   let breakVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY;

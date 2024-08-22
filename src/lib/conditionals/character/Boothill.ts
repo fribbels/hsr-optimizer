@@ -7,6 +7,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { BoothillConversionConditional, evaluateConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -140,6 +141,14 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       x.BASIC_TOUGHNESS_DMG += (r.standoffActive) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 90
 
+      // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
+      const newMaxToughness = Math.min(16.00 * 30, request.enemyMaxToughness)
+      const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
+      const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
+      let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
+      talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
+      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
+
       return x
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
@@ -158,24 +167,13 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
-      const newMaxToughness = Math.min(16.00 * 30, request.enemyMaxToughness)
-      const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
-      const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
-      let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
-      talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
-      x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
-
-      // x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
-      // x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpu: () => {
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+
       return `
-      
-      
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `

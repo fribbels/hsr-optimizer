@@ -17,7 +17,7 @@ export type NewConditional = {
 
 export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, params: OptimizerParams) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (conditional.condition(x, params, sets) && !params.conditionalState[conditional.id]) {
+    if (conditional.condition(x, params) && !params.conditionalState[conditional.id]) {
       conditional.effect(x, params)
       params.conditionalState[conditional.id] = 1
     }
@@ -158,6 +158,7 @@ export const BoothillConversionConditional: NewConditional = {
     const cdBuffValue = Math.min(1.50, 0.50 * x[Stats.BE])
 
     params.conditionalState[this.id] = x[Stats.BE]
+
     buffStat(x, params, Stats.CR, crBuffValue - stateCrBuffValue)
     buffStat(x, params, Stats.CD, cdBuffValue - stateCdBuffValue)
   },
@@ -168,16 +169,20 @@ export const BoothillConversionConditional: NewConditional = {
 if (${wgslIsFalse(r.beToCritBoost)}) {
   return;
 }
-// let atk = (*p_x).ATK;
-// let stateValue = (*p_state).BoothillConversionConditional;
-// let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;
-//
-// if (trueAtk > 1800) {
-//   let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
-//
-//   (*p_state).BoothillConversionConditional = buffValue;
-//   buffDynamicBE(buffValue - stateValue, p_x, p_state);
-// }
+
+let be = (*p_x).BE;
+let stateValue = (*p_state).BoothillConversionConditional;
+
+let stateCrBuffValue = min(0.30, 0.10 * stateValue);
+let stateCdBuffValue = min(1.50, 0.50 * stateValue);
+
+let crBuffValue = min(0.30, 0.10 * be);
+let cdBuffValue = min(1.50, 0.50 * be);
+
+(*p_state).BoothillConversionConditional = be;
+
+buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_state);
+buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_state);
     `)
   }
 }

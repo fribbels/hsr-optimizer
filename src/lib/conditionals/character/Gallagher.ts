@@ -117,7 +117,6 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      // x[Stats.OHB] += Math.min(0.75, x[Stats.BE] * 0.50)
     },
     gpu: (request: Form, _params: OptimizerParams) => {
       const r = request.characterConditionals

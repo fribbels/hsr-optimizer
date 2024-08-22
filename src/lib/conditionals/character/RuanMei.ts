@@ -7,6 +7,8 @@ import { AbilityEidolon, findContentId, precisionRound } from '../utils'
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { RuanMeiConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -146,10 +148,14 @@ export default (e: Eidolon): CharacterConditional => {
     calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
-      const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
-      x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, _params: OptimizerParams) => {
+      const r = request.characterConditionals
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [RuanMeiConversionConditional]
   }
 }

@@ -4,6 +4,7 @@ import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/set
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { indent, wgslFalse } from "lib/gpu/injection/wgslUtils";
 import { Form } from "types/Form";
+import { precisionRound } from "lib/conditionals/utils";
 
 export type NewConditional = {
   id: string
@@ -290,6 +291,39 @@ let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
 
 (*p_state).GallagherConversionConditional = buffValue;
 buffDynamicOHB(buffValue - stateValue, p_x, p_state);
+    `)
+  }
+}
+
+export const RuanMeiConversionConditional: NewConditional = {
+  id: 'RuanMeiConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.BE],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    const stateValue = params.conditionalState[this.id] || 0
+    const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
+    const buffValue = Math.floor(Math.max(0, beOver)) * 0.06
+
+    params.conditionalState[this.id] = buffValue
+    x.ELEMENTAL_DMG += buffValue - stateValue
+  },
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+let be = (*p_x).BE;
+let stateValue: f32 = (*p_state).RuanMeiConversionConditional;
+let beOver = ((*p_x).BE * 100 - 120) / 10;
+let buffValue: f32 = floor(max(0, beOver)) * 0.06;
+
+(*p_state).RuanMeiConversionConditional = buffValue;
+(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
     `)
   }
 }

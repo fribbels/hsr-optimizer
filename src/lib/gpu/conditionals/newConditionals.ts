@@ -327,3 +327,37 @@ let buffValue: f32 = floor(max(0, beOver)) * 0.06;
     `)
   }
 }
+
+export const JiaoqiuConversionConditional: NewConditional = {
+  id: 'JiaoqiuConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.EHR],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    if (!r.ehrToAtkBoost || x[Stats.EHR] <= 0.80) {
+      return
+    }
+
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValue = Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * request.baseAtk
+
+    params.conditionalState[this.id] = buffValue
+    buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
+  },
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+let ehr = (*p_x).EHR;
+let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;
+let buffValue: f32 = min(2.40, 0.60 * floor(((*p_x).EHR - 0.80) / 0.15));
+
+(*p_state).JiaoqiuConversionConditional = buffValue;
+buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
+    `)
+  }
+}

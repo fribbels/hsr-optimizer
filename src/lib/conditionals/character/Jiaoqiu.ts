@@ -7,6 +7,8 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { JiaoqiuConversionConditional } from "lib/gpu/conditionals/newConditionals";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -143,14 +145,20 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
-      x[Stats.ATK] += (r.ehrToAtkBoost && x[Stats.EHR] > 0.80)
-        ? Math.min(2.40, 0.60 * Math.floor((x[Stats.EHR] - 0.80) / 0.15)) * request.baseAtk
-        : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, _params: OptimizerParams) => {
+      const r = request.characterConditionals
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [JiaoqiuConversionConditional]
   }
 }

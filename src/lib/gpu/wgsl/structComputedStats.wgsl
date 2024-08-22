@@ -130,4 +130,6 @@ struct ComputedStats {
   DOT_DMG_TYPE: f32,
   BREAK_DMG_TYPE: f32,
   SUPER_BREAK_TYPE: f32,
+
+  sets: Sets,
 }

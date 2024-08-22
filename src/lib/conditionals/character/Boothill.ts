@@ -6,6 +6,7 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
+import { BoothillConversionConditional, evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -145,6 +146,14 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
+      const r = request.characterConditionals
+      const x = c.x
+
+      if (r.beToCritBoost) {
+        evaluateConditional(BoothillConversionConditional, x, params)
+      }
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
@@ -157,11 +166,20 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
       x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
 
-      x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
-      x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0
+      // x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
+      // x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
+    gpu: () => {
+      return `
+      
+      
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [BoothillConversionConditional]
   }
 }

@@ -10,7 +10,7 @@ import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
 const statValues = Object.values(Stats)
 
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
-  c.sets = {
+  c.x.sets = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),
     MusketeerOfWildWheat: (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)),
     KnightOfPurityPalace: (1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)),
@@ -51,14 +51,14 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
     LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
     TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
   }
-  return c.sets
+  return c.x.sets
 }
 
 export function calculateElementalStats(c, request, params) {
   const base = params.character.base
   const trace = params.character.traces
   const lc = params.character.lightCone
-  const sets = c.sets
+  const sets = c.x.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isnt a need to split out damage types while we're calculating display stats.
@@ -93,7 +93,7 @@ export function calculateBaseStats(c, request, params) {
   const lc = params.character.lightCone
   const trace = params.character.traces
 
-  const sets = c.sets
+  const sets = c.x.sets
   c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, request.baseSpd, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
@@ -163,8 +163,8 @@ export function calculateComputedStats(c, request, params) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 
-  const sets = c.sets
   const x = c.x
+  const sets = x.sets
 
   // Add base to computed
   x[Stats.ATK] += c[Stats.ATK]
@@ -308,17 +308,17 @@ export function calculateComputedStats(c, request, params) {
 
   // Dynamic - still need implementing
 
-  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params)
-  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, params)
-  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params)
-  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, params)
-  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, params)
-  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, params)
-  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, params)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, params)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, params)
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params, sets)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, params, sets)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, params, sets)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params, sets)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params, sets)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, params, sets)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, params, sets)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, params, sets)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, params, sets)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, params, sets)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, params, sets)
 
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals

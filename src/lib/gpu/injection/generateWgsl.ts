@@ -41,11 +41,10 @@ function injectUtils(wgsl: string) {
 fn buffDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>,
-  p_sets: ptr<function, Sets>
+  p_state: ptr<function, ConditionalState>
 ) {
   (*p_x).${stat} += value * base${stat};
-  evaluateDependencies${stat}(p_x, p_state, p_sets);
+  evaluateDependencies${stat}(p_x, p_state);
 }
       `
     }
@@ -54,11 +53,10 @@ fn buffDynamic${stat}_P(
 fn buffDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>,
-  p_sets: ptr<function, Sets>
+  p_state: ptr<function, ConditionalState>
 ) {
   (*p_x).${stat} += value;
-  evaluateDependencies${stat}(p_x, p_state, p_sets);
+  evaluateDependencies${stat}(p_x, p_state);
 }
     `
   }

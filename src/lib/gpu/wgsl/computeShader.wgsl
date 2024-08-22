@@ -137,47 +137,47 @@ fn main(
 
   // Calculate relic set counts
 
-  c.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
-  c.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
-  c.sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
-  c.sets.HunterOfGlacialForest               = i32((1 >> (setH ^ 3)) + (1 >> (setG ^ 3)) + (1 >> (setB ^ 3)) + (1 >> (setF ^ 3)));
-  c.sets.ChampionOfStreetwiseBoxing          = i32((1 >> (setH ^ 4)) + (1 >> (setG ^ 4)) + (1 >> (setB ^ 4)) + (1 >> (setF ^ 4)));
-  c.sets.GuardOfWutheringSnow                = i32((1 >> (setH ^ 5)) + (1 >> (setG ^ 5)) + (1 >> (setB ^ 5)) + (1 >> (setF ^ 5)));
-  c.sets.FiresmithOfLavaForging              = i32((1 >> (setH ^ 6)) + (1 >> (setG ^ 6)) + (1 >> (setB ^ 6)) + (1 >> (setF ^ 6)));
-  c.sets.GeniusOfBrilliantStars              = i32((1 >> (setH ^ 7)) + (1 >> (setG ^ 7)) + (1 >> (setB ^ 7)) + (1 >> (setF ^ 7)));
-  c.sets.BandOfSizzlingThunder               = i32((1 >> (setH ^ 8)) + (1 >> (setG ^ 8)) + (1 >> (setB ^ 8)) + (1 >> (setF ^ 8)));
-  c.sets.EagleOfTwilightLine                 = i32((1 >> (setH ^ 9)) + (1 >> (setG ^ 9)) + (1 >> (setB ^ 9)) + (1 >> (setF ^ 9)));
-  c.sets.ThiefOfShootingMeteor               = i32((1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)));
-  c.sets.WastelanderOfBanditryDesert         = i32((1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)));
-  c.sets.LongevousDisciple                   = i32((1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)));
-  c.sets.MessengerTraversingHackerspace      = i32((1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)));
-  c.sets.TheAshblazingGrandDuke              = i32((1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)));
-  c.sets.PrisonerInDeepConfinement           = i32((1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)));
-  c.sets.PioneerDiverOfDeadWaters            = i32((1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)));
-  c.sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
-  c.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
-  c.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
+  x.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
+  x.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
+  x.sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
+  x.sets.HunterOfGlacialForest               = i32((1 >> (setH ^ 3)) + (1 >> (setG ^ 3)) + (1 >> (setB ^ 3)) + (1 >> (setF ^ 3)));
+  x.sets.ChampionOfStreetwiseBoxing          = i32((1 >> (setH ^ 4)) + (1 >> (setG ^ 4)) + (1 >> (setB ^ 4)) + (1 >> (setF ^ 4)));
+  x.sets.GuardOfWutheringSnow                = i32((1 >> (setH ^ 5)) + (1 >> (setG ^ 5)) + (1 >> (setB ^ 5)) + (1 >> (setF ^ 5)));
+  x.sets.FiresmithOfLavaForging              = i32((1 >> (setH ^ 6)) + (1 >> (setG ^ 6)) + (1 >> (setB ^ 6)) + (1 >> (setF ^ 6)));
+  x.sets.GeniusOfBrilliantStars              = i32((1 >> (setH ^ 7)) + (1 >> (setG ^ 7)) + (1 >> (setB ^ 7)) + (1 >> (setF ^ 7)));
+  x.sets.BandOfSizzlingThunder               = i32((1 >> (setH ^ 8)) + (1 >> (setG ^ 8)) + (1 >> (setB ^ 8)) + (1 >> (setF ^ 8)));
+  x.sets.EagleOfTwilightLine                 = i32((1 >> (setH ^ 9)) + (1 >> (setG ^ 9)) + (1 >> (setB ^ 9)) + (1 >> (setF ^ 9)));
+  x.sets.ThiefOfShootingMeteor               = i32((1 >> (setH ^ 10)) + (1 >> (setG ^ 10)) + (1 >> (setB ^ 10)) + (1 >> (setF ^ 10)));
+  x.sets.WastelanderOfBanditryDesert         = i32((1 >> (setH ^ 11)) + (1 >> (setG ^ 11)) + (1 >> (setB ^ 11)) + (1 >> (setF ^ 11)));
+  x.sets.LongevousDisciple                   = i32((1 >> (setH ^ 12)) + (1 >> (setG ^ 12)) + (1 >> (setB ^ 12)) + (1 >> (setF ^ 12)));
+  x.sets.MessengerTraversingHackerspace      = i32((1 >> (setH ^ 13)) + (1 >> (setG ^ 13)) + (1 >> (setB ^ 13)) + (1 >> (setF ^ 13)));
+  x.sets.TheAshblazingGrandDuke              = i32((1 >> (setH ^ 14)) + (1 >> (setG ^ 14)) + (1 >> (setB ^ 14)) + (1 >> (setF ^ 14)));
+  x.sets.PrisonerInDeepConfinement           = i32((1 >> (setH ^ 15)) + (1 >> (setG ^ 15)) + (1 >> (setB ^ 15)) + (1 >> (setF ^ 15)));
+  x.sets.PioneerDiverOfDeadWaters            = i32((1 >> (setH ^ 16)) + (1 >> (setG ^ 16)) + (1 >> (setB ^ 16)) + (1 >> (setF ^ 16)));
+  x.sets.WatchmakerMasterOfDreamMachinations = i32((1 >> (setH ^ 17)) + (1 >> (setG ^ 17)) + (1 >> (setB ^ 17)) + (1 >> (setF ^ 17)));
+  x.sets.IronCavalryAgainstTheScourge        = i32((1 >> (setH ^ 18)) + (1 >> (setG ^ 18)) + (1 >> (setB ^ 18)) + (1 >> (setF ^ 18)));
+  x.sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
 
   // Calculate ornament set counts
 
-  c.sets.SpaceSealingStation                 = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
-  c.sets.FleetOfTheAgeless                   = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
-  c.sets.PanCosmicCommercialEnterprise       = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
-  c.sets.BelobogOfTheArchitects              = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
-  c.sets.CelestialDifferentiator             = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
-  c.sets.InertSalsotto                       = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
-  c.sets.TaliaKingdomOfBanditry              = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
-  c.sets.SprightlyVonwacq                    = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
-  c.sets.RutilantArena                       = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
-  c.sets.BrokenKeel                          = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
-  c.sets.FirmamentFrontlineGlamoth           = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
-  c.sets.PenaconyLandOfTheDreams             = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
-  c.sets.SigoniaTheUnclaimedDesolation       = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
-  c.sets.IzumoGenseiAndTakamaDivineRealm     = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
-  c.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
-  c.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
-  c.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
-  c.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+  x.sets.SpaceSealingStation                 = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
+  x.sets.FleetOfTheAgeless                   = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
+  x.sets.PanCosmicCommercialEnterprise       = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
+  x.sets.BelobogOfTheArchitects              = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
+  x.sets.CelestialDifferentiator             = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
+  x.sets.InertSalsotto                       = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
+  x.sets.TaliaKingdomOfBanditry              = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
+  x.sets.SprightlyVonwacq                    = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
+  x.sets.RutilantArena                       = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
+  x.sets.BrokenKeel                          = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
+  x.sets.FirmamentFrontlineGlamoth           = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
+  x.sets.PenaconyLandOfTheDreams             = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+  x.sets.SigoniaTheUnclaimedDesolation       = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+  x.sets.IzumoGenseiAndTakamaDivineRealm     = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+  x.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+  x.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+  x.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+  x.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
   // Calculate set effects
 
@@ -204,76 +204,76 @@ fn main(
 
   // Calculate elemental stats
 
-  c.Physical_DMG += 0.10 * p2(c.sets.ChampionOfStreetwiseBoxing);
-  c.Fire_DMG += 0.10 * p2(c.sets.FiresmithOfLavaForging);
-  c.Ice_DMG += 0.10 * p2(c.sets.HunterOfGlacialForest);
-  c.Lightning_DMG += 0.10 * p2(c.sets.BandOfSizzlingThunder);
-  c.Wind_DMG += 0.10 * p2(c.sets.EagleOfTwilightLine);
-  c.Quantum_DMG += 0.10 * p2(c.sets.GeniusOfBrilliantStars);
-  c.Imaginary_DMG += 0.10 * p2(c.sets.WastelanderOfBanditryDesert);
+  c.Physical_DMG += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
+  c.Fire_DMG += 0.10 * p2(x.sets.FiresmithOfLavaForging);
+  c.Ice_DMG += 0.10 * p2(x.sets.HunterOfGlacialForest);
+  c.Lightning_DMG += 0.10 * p2(x.sets.BandOfSizzlingThunder);
+  c.Wind_DMG += 0.10 * p2(x.sets.EagleOfTwilightLine);
+  c.Quantum_DMG += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
+  c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
 
   c.SPD += (baseSPD) * (
-    0.06 * p2(c.sets.MessengerTraversingHackerspace) +
-    0.06 * p2(c.sets.ForgeOfTheKalpagniLantern) +
-    0.06 * p4(c.sets.MusketeerOfWildWheat)
+    0.06 * p2(x.sets.MessengerTraversingHackerspace) +
+    0.06 * p2(x.sets.ForgeOfTheKalpagniLantern) +
+    0.06 * p4(x.sets.MusketeerOfWildWheat)
   );
 
   c.HP += (baseHP) * (
-    0.12 * p2(c.sets.FleetOfTheAgeless) +
-    0.12 * p2(c.sets.LongevousDisciple)
+    0.12 * p2(x.sets.FleetOfTheAgeless) +
+    0.12 * p2(x.sets.LongevousDisciple)
   );
 
   c.ATK += (baseATK) * (
-    0.12 * p2(c.sets.SpaceSealingStation) +
-    0.12 * p2(c.sets.FirmamentFrontlineGlamoth) +
-    0.12 * p2(c.sets.MusketeerOfWildWheat) +
-    0.12 * p2(c.sets.PrisonerInDeepConfinement) +
-    0.12 * p2(c.sets.IzumoGenseiAndTakamaDivineRealm) +
-    0.12 * p2(c.sets.TheWindSoaringValorous)
+    0.12 * p2(x.sets.SpaceSealingStation) +
+    0.12 * p2(x.sets.FirmamentFrontlineGlamoth) +
+    0.12 * p2(x.sets.MusketeerOfWildWheat) +
+    0.12 * p2(x.sets.PrisonerInDeepConfinement) +
+    0.12 * p2(x.sets.IzumoGenseiAndTakamaDivineRealm) +
+    0.12 * p2(x.sets.TheWindSoaringValorous)
   );
 
   c.DEF += (baseDEF) * (
-    0.15 * p2(c.sets.BelobogOfTheArchitects) +
-    0.15 * p2(c.sets.KnightOfPurityPalace)
+    0.15 * p2(x.sets.BelobogOfTheArchitects) +
+    0.15 * p2(x.sets.KnightOfPurityPalace)
   );
 
   c.CR += (
-    0.08 * p2(c.sets.InertSalsotto) +
-    0.08 * p2(c.sets.RutilantArena) +
-    0.04 * p4(c.sets.PioneerDiverOfDeadWaters) +
-    0.04 * p2(c.sets.SigoniaTheUnclaimedDesolation) +
-    0.06 * p4(c.sets.TheWindSoaringValorous)
+    0.08 * p2(x.sets.InertSalsotto) +
+    0.08 * p2(x.sets.RutilantArena) +
+    0.04 * p4(x.sets.PioneerDiverOfDeadWaters) +
+    0.04 * p2(x.sets.SigoniaTheUnclaimedDesolation) +
+    0.06 * p4(x.sets.TheWindSoaringValorous)
   );
 
   c.CD += (
-    0.16 * p2(c.sets.CelestialDifferentiator) +
-    0.16 * p2(c.sets.TheWondrousBananAmusementPark)
+    0.16 * p2(x.sets.CelestialDifferentiator) +
+    0.16 * p2(x.sets.TheWondrousBananAmusementPark)
   );
 
   c.EHR += (
-    0.10 * p2(c.sets.PanCosmicCommercialEnterprise)
+    0.10 * p2(x.sets.PanCosmicCommercialEnterprise)
   );
 
   c.RES += (
-    0.10 * p2(c.sets.BrokenKeel)
+    0.10 * p2(x.sets.BrokenKeel)
   );
 
   c.BE += (
-    0.16 * p2(c.sets.TaliaKingdomOfBanditry) +
-    0.16 * p2(c.sets.ThiefOfShootingMeteor) +
-    0.16 * p4(c.sets.ThiefOfShootingMeteor) +
-    0.16 * p2(c.sets.WatchmakerMasterOfDreamMachinations) +
-    0.16 * p2(c.sets.IronCavalryAgainstTheScourge)
+    0.16 * p2(x.sets.TaliaKingdomOfBanditry) +
+    0.16 * p2(x.sets.ThiefOfShootingMeteor) +
+    0.16 * p4(x.sets.ThiefOfShootingMeteor) +
+    0.16 * p2(x.sets.WatchmakerMasterOfDreamMachinations) +
+    0.16 * p2(x.sets.IronCavalryAgainstTheScourge)
   );
 
   c.ERR += (
-    0.05 * p2(c.sets.SprightlyVonwacq) +
-    0.05 * p2(c.sets.PenaconyLandOfTheDreams) +
-    0.05 * p2(c.sets.LushakaTheSunkenSeas)
+    0.05 * p2(x.sets.SprightlyVonwacq) +
+    0.05 * p2(x.sets.PenaconyLandOfTheDreams) +
+    0.05 * p2(x.sets.LushakaTheSunkenSeas)
   );
 
   c.OHB += (
-    0.10 * p2(c.sets.PasserbyOfWanderingCloud)
+    0.10 * p2(x.sets.PasserbyOfWanderingCloud)
   );
 
   // Add base to computed
@@ -299,19 +299,19 @@ fn main(
 
   // ATK
 
-  if (p4(c.sets.MessengerTraversingHackerspace) >= 1 && enabledMessengerTraversingHackerspace == 1) {
+  if (p4(x.sets.MessengerTraversingHackerspace) >= 1 && enabledMessengerTraversingHackerspace == 1) {
     x.SPD_P += 0.12;
   }
 
   // DEF
 
-  if (p4(c.sets.ChampionOfStreetwiseBoxing) >= 1) {
+  if (p4(x.sets.ChampionOfStreetwiseBoxing) >= 1) {
     x.ATK_P += 0.05 * f32(valueChampionOfStreetwiseBoxing);
   }
-  if (p4(c.sets.BandOfSizzlingThunder) >= 1 && enabledBandOfSizzlingThunder == 1) {
+  if (p4(x.sets.BandOfSizzlingThunder) >= 1 && enabledBandOfSizzlingThunder == 1) {
     x.ATK_P += 0.20;
   }
-  if (p4(c.sets.TheAshblazingGrandDuke) >= 1) {
+  if (p4(x.sets.TheAshblazingGrandDuke) >= 1) {
     x.ATK_P += 0.06 * f32(valueTheAshblazingGrandDuke);
   }
 
@@ -323,77 +323,77 @@ fn main(
 
   // CD
 
-  if (p4(c.sets.HunterOfGlacialForest) >= 1 && enabledHunterOfGlacialForest == 1) {
+  if (p4(x.sets.HunterOfGlacialForest) >= 1 && enabledHunterOfGlacialForest == 1) {
     x.CD += 0.25;
   }
-  if (p4(c.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert == 2) {
+  if (p4(x.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert == 2) {
     x.CD += 0.10;
   }
-  if (p4(c.sets.PioneerDiverOfDeadWaters) >= 1) {
+  if (p4(x.sets.PioneerDiverOfDeadWaters) >= 1) {
     x.CD += getPioneerSetCd(valuePioneerDiverOfDeadWaters);
   }
-  if (p2(c.sets.SigoniaTheUnclaimedDesolation) >= 1) {
+  if (p2(x.sets.SigoniaTheUnclaimedDesolation) >= 1) {
     x.CD += 0.04 * f32(valueSigoniaTheUnclaimedDesolation);
   }
-  if (p2(c.sets.DuranDynastyOfRunningWolves) >= 1 && valueDuranDynastyOfRunningWolves >= 5) {
+  if (p2(x.sets.DuranDynastyOfRunningWolves) >= 1 && valueDuranDynastyOfRunningWolves >= 5) {
     x.CD += 0.25;
   }
-  if (p2(c.sets.TheWondrousBananAmusementPark) >= 1 && enabledTheWondrousBananAmusementPark == 1) {
+  if (p2(x.sets.TheWondrousBananAmusementPark) >= 1 && enabledTheWondrousBananAmusementPark == 1) {
     x.CD += 0.32;
   }
 
   // CR
 
-  if (p4(c.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert > 0) {
+  if (p4(x.sets.WastelanderOfBanditryDesert) >= 1 && valueWastelanderOfBanditryDesert > 0) {
     x.CR += 0.10;
   }
-  if (p4(c.sets.LongevousDisciple) >= 1) {
+  if (p4(x.sets.LongevousDisciple) >= 1) {
     x.CR += 0.08 * f32(valueLongevousDisciple);
   }
-  if (p4(c.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters > 2) {
+  if (p4(x.sets.PioneerDiverOfDeadWaters) >= 1 && valuePioneerDiverOfDeadWaters > 2) {
     x.CR += 0.04;
   }
-  if (p2(c.sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+  if (p2(x.sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && enabledIzumoGenseiAndTakamaDivineRealm == 1) {
     x.CR += 0.12;
   }
 
   // BE
 
-  if (p4(c.sets.WatchmakerMasterOfDreamMachinations) >= 1 && enabledWatchmakerMasterOfDreamMachinations == 1) {
+  if (p4(x.sets.WatchmakerMasterOfDreamMachinations) >= 1 && enabledWatchmakerMasterOfDreamMachinations == 1) {
     x.BE += 0.30;
   }
-  if (p2(c.sets.ForgeOfTheKalpagniLantern) >= 1 && enabledForgeOfTheKalpagniLantern == 1) {
+  if (p2(x.sets.ForgeOfTheKalpagniLantern) >= 1 && enabledForgeOfTheKalpagniLantern == 1) {
     x.BE += 0.40;
   }
 
   // Buffs
 
   // Basic boost
-  if (p4(c.sets.MusketeerOfWildWheat) >= 1) {
+  if (p4(x.sets.MusketeerOfWildWheat) >= 1) {
     buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
   }
 
   // Skill boost
-  if (p4(c.sets.FiresmithOfLavaForging) >= 1) {
+  if (p4(x.sets.FiresmithOfLavaForging) >= 1) {
     buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
   }
 
   // Fua boost
-  if (p2(c.sets.TheAshblazingGrandDuke) >= 1) {
+  if (p2(x.sets.TheAshblazingGrandDuke) >= 1) {
     buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
   }
-  if(p2(c.sets.DuranDynastyOfRunningWolves) >= 1) {
+  if(p2(x.sets.DuranDynastyOfRunningWolves) >= 1) {
     buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(valueDuranDynastyOfRunningWolves), 1);
   }
 
   // Ult boost
-  if (p4(c.sets.TheWindSoaringValorous) >= 1) {
+  if (p4(x.sets.TheWindSoaringValorous) >= 1) {
     buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(enabledTheWindSoaringValorous), 1);
   }
 
   //
 
-  if (p4(c.sets.GeniusOfBrilliantStars) >= 1) {
+  if (p4(x.sets.GeniusOfBrilliantStars) >= 1) {
     if (enabledGeniusOfBrilliantStars == 1) {
       x.DEF_SHRED += 0.20;
     } else {
@@ -401,23 +401,21 @@ fn main(
     }
   }
 
-  if (p4(c.sets.PrisonerInDeepConfinement) >= 1) {
+  if (p4(x.sets.PrisonerInDeepConfinement) >= 1) {
     x.DEF_SHRED += 0.06 * f32(valuePrisonerInDeepConfinement);
   }
 
-  if (p2(c.sets.PioneerDiverOfDeadWaters) >= 1) {
+  if (p2(x.sets.PioneerDiverOfDeadWaters) >= 1) {
     x.ELEMENTAL_DMG += 0.12;
   }
 
-  if (p2(c.sets.FiresmithOfLavaForging) >= 1 && enabledFiresmithOfLavaForging == 1) {
+  if (p2(x.sets.FiresmithOfLavaForging) >= 1 && enabledFiresmithOfLavaForging == 1) {
     x.Fire_DMG += 0.12;
   }
 
   // Dynamic - still need implementing
 
   const semicolonTest = 0;
-  // TODO: Combat buffs
-  // TODO: Fire set is x condition
 
   // Set effects
 
@@ -430,19 +428,18 @@ fn main(
 
   let p_x = &x;
   let p_state = &state;
-  let p_sets = &(c.sets);
 
-  evaluateDependenciesHP(p_x, p_state, p_sets);
-  evaluateDependenciesATK(p_x, p_state, p_sets);
-  evaluateDependenciesDEF(p_x, p_state, p_sets);
-  evaluateDependenciesSPD(p_x, p_state, p_sets);
-  evaluateDependenciesCR(p_x, p_state, p_sets);
-  evaluateDependenciesCD(p_x, p_state, p_sets);
-  evaluateDependenciesEHR(p_x, p_state, p_sets);
-  evaluateDependenciesRES(p_x, p_state, p_sets);
-  evaluateDependenciesBE(p_x, p_state, p_sets);
-  evaluateDependenciesOHB(p_x, p_state, p_sets);
-  evaluateDependenciesERR(p_x, p_state, p_sets);
+  evaluateDependenciesHP(p_x, p_state);
+  evaluateDependenciesATK(p_x, p_state);
+  evaluateDependenciesDEF(p_x, p_state);
+  evaluateDependenciesSPD(p_x, p_state);
+  evaluateDependenciesCR(p_x, p_state);
+  evaluateDependenciesCD(p_x, p_state);
+  evaluateDependenciesEHR(p_x, p_state);
+  evaluateDependenciesRES(p_x, p_state);
+  evaluateDependenciesBE(p_x, p_state);
+  evaluateDependenciesOHB(p_x, p_state);
+  evaluateDependenciesERR(p_x, p_state);
 
   /* INJECT LIGHT CONE CONDITIONALS */
 
@@ -458,7 +455,7 @@ fn main(
   let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
   let dmgReductionMultiplier: f32 = 1;
 
-  let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(c.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+  let ehp: f32 = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
   x.EHP = ehp;
 
   let brokenMultiplier = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -476,7 +473,6 @@ fn main(
   let dotVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY;
 
   let ENEMY_EFFECT_RES = enemyEffectResistance;
-  // const ENEMY_DEBUFF_RES = 0 // Ignored debuff res for now
 
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
@@ -785,10 +781,9 @@ fn getPioneerSetCd(
 fn calculateAshblazingSet(
   p_x: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>,
-  p_sets: ptr<function, Sets>,
   hitMulti: f32,
 ) -> f32 {
-  if (p4((*p_sets).TheAshblazingGrandDuke) >= 1) {
+  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
     let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 

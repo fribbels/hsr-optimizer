@@ -49,7 +49,6 @@ struct BasicStats {
   Quantum_DMG: f32,
   Imaginary_DMG: f32,
   weightScore: f32,
-  sets: Sets,
 }
 
 struct Sets {

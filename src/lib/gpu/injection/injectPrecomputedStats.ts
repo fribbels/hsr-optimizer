@@ -114,6 +114,7 @@ export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
     ${x.DOT_DMG_TYPE}, // DOT_DMG_TYPE
     ${x.BREAK_DMG_TYPE}, // BREAK_DMG_TYPE
     ${x.SUPER_BREAK_TYPE}, // SUPER_BREAK_TYPE
+    Sets(),
   );
   `
 

@@ -22,12 +22,12 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
 }
 
 function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_state, p_sets);`
+  return `evaluate${conditionalName}(p_x, p_state);`
 }
 
 function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
   return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>, p_sets: ptr<function, Sets>) {
+fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
 ${indent(conditionalCallsWgsl, 1)}
 }
   `

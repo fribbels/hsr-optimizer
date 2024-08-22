@@ -3,6 +3,7 @@ import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPE
 import { buffAbilityDefShred, buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { buffStat, conditionalWgslWrapper, NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { p2 } from "lib/optimizer/optimizerUtils";
 
 export const ConditionalType = {
   SET: 0,
@@ -28,7 +29,7 @@ export const RutilantArenaConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).RutilantArena) >= 1 &&
+  p2((*p_x).sets.RutilantArena) >= 1 &&
   (*p_state).RutilantArenaConditional == 0.0 &&
   (*p_x).CR > 0.70
 ) {
@@ -54,7 +55,7 @@ export const InertSalsottoConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).InertSalsotto) >= 1 &&
+  p2((*p_x).sets.InertSalsotto) >= 1 &&
   (*p_state).InertSalsottoConditional == 0.0 &&
   (*p_x).CR > 0.50
 ) {
@@ -80,12 +81,12 @@ export const SpaceSealingStationConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).SpaceSealingStation) >= 1 &&
+  p2((*p_x).sets.SpaceSealingStation) >= 1 &&
   (*p_state).SpaceSealingStationConditional == 0.0 &&
   (*p_x).SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
-  buffDynamicATK_P(0.12, p_x, p_state, p_sets);
+  buffDynamicATK_P(0.12, p_x, p_state);
 }
     `)
   }
@@ -105,12 +106,12 @@ export const FleetOfTheAgelessConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).FleetOfTheAgeless) >= 1 &&
+  p2((*p_x).sets.FleetOfTheAgeless) >= 1 &&
   (*p_state).FleetOfTheAgelessConditional == 0.0 &&
   (*p_x).SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
-  buffDynamicATK_P(0.08, p_x, p_state, p_sets);
+  buffDynamicATK_P(0.08, p_x, p_state);
 }
     `)
   }
@@ -130,12 +131,12 @@ export const BelobogOfTheArchitectsConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).BelobogOfTheArchitects) >= 1 &&
+  p2((*p_x).sets.BelobogOfTheArchitects) >= 1 &&
   (*p_state).BelobogOfTheArchitectsConditional == 0.0 &&
   (*p_x).EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  buffDynamicDEF_P(0.15, p_x, p_state, p_sets);
+  buffDynamicDEF_P(0.15, p_x, p_state);
 }
     `)
   }
@@ -155,7 +156,7 @@ export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
+  p4((*p_x).sets.IronCavalryAgainstTheScourge) >= 1 &&
   (*p_state).IronCavalryAgainstTheScourge150Conditional == 0.0 &&
   (*p_x).BE >= 1.50
 ) {
@@ -180,7 +181,7 @@ export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p4((*p_sets).IronCavalryAgainstTheScourge) >= 1 &&
+  p4((*p_x).sets.IronCavalryAgainstTheScourge) >= 1 &&
   (*p_state).IronCavalryAgainstTheScourge250Conditional == 0.0 &&
   (*p_x).BE >= 2.50
 ) {
@@ -211,13 +212,13 @@ export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).PanCosmicCommercialEnterprise) >= 1
+  p2((*p_x).sets.PanCosmicCommercialEnterprise) >= 1
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional;
   let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
 
   (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
-  buffDynamicATK(buffValue - stateValue, p_x, p_state, p_sets);
+  buffDynamicATK(buffValue - stateValue, p_x, p_state);
 }
     `)
   }
@@ -237,11 +238,11 @@ export const BrokenKeelConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).BrokenKeel) >= 1 &&
+  p2((*p_x).sets.BrokenKeel) >= 1 &&
   (*p_x).RES >= 0.30
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
-  buffDynamicCD(0.10, p_x, p_state, p_sets);
+  buffDynamicCD(0.10, p_x, p_state);
 }
     `)
   }
@@ -252,8 +253,8 @@ export const CelestialDifferentiatorConditional: NewConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
-  condition: function (x: ComputedStatsObject) {
-    return x[Stats.CD] >= 1.20
+  condition: function (x: ComputedStatsObject, params: OptimizerParams) {
+    return p2(x.sets.CelestialDifferentiator) >= 1 && x[Stats.CD] >= 1.20
   },
   effect: function (x: ComputedStatsObject, params: OptimizerParams) {
     buffStat(x, params, Stats.CR, 0.60)
@@ -261,11 +262,11 @@ export const CelestialDifferentiatorConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).CelestialDifferentiator) >= 1 &&
+  p2((*p_x).sets.CelestialDifferentiator) >= 1 &&
   (*p_x).CD >= 1.20
 ) {
   (*p_state).CelestialDifferentiatorConditional = 1.0;
-  buffDynamicCR(0.60, p_x, p_state, p_sets);
+  buffDynamicCR(0.60, p_x, p_state);
 }
     `)
   }
@@ -285,11 +286,11 @@ export const TaliaKingdomOfBanditryConditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).TaliaKingdomOfBanditry) >= 1 &&
+  p2((*p_x).sets.TaliaKingdomOfBanditry) >= 1 &&
   (*p_x).SPD >= 145
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
-  buffDynamicBE(0.20, p_x, p_state, p_sets);
+  buffDynamicBE(0.20, p_x, p_state);
 }
     `)
   }
@@ -309,7 +310,7 @@ export const FirmamentFrontlineGlamoth135Conditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).FirmamentFrontlineGlamoth) >= 1 &&
+  p2((*p_x).sets.FirmamentFrontlineGlamoth) >= 1 &&
   (*p_x).SPD >= 135
 ) {
   (*p_state).FirmamentFrontlineGlamoth135Conditional = 1.0;
@@ -333,7 +334,7 @@ export const FirmamentFrontlineGlamoth160Conditional: NewConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_sets).FirmamentFrontlineGlamoth) >= 1 &&
+  p2((*p_x).sets.FirmamentFrontlineGlamoth) >= 1 &&
   (*p_x).SPD >= 160
 ) {
   (*p_state).FirmamentFrontlineGlamoth160Conditional = 1.0;

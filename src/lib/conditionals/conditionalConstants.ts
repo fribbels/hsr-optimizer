@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants, Sets } from 'lib/constants'
 
 const Stats = Constants.Stats
 
@@ -33,29 +33,29 @@ export const baseComputedStatsObject = {
   BREAK_DMG_TYPE: BREAK_TYPE,
   SUPER_BREAK_TYPE: SUPER_BREAK_TYPE,
 
-  [Stats.HP_P]: 0,
-  [Stats.ATK_P]: 0,
-  [Stats.DEF_P]: 0,
-  [Stats.SPD_P]: 0,
-  [Stats.HP]: 0,
-  [Stats.ATK]: 0,
-  [Stats.DEF]: 0,
-  [Stats.SPD]: 0.0001,
-  [Stats.CD]: 0,
-  [Stats.CR]: 0,
-  [Stats.EHR]: 0,
-  [Stats.RES]: 0,
-  [Stats.BE]: 0,
-  [Stats.ERR]: 0,
-  [Stats.OHB]: 0,
+  ['HP%']: 0,
+  ['ATK%']: 0,
+  ['DEF%']: 0,
+  ['SPD%']: 0,
+  ['HP']: 0,
+  ['ATK']: 0,
+  ['DEF']: 0,
+  ['SPD']: 0.0001,
+  ['CRIT DMG']: 0,
+  ['CRIT Rate']: 0,
+  ['Effect Hit Rate']: 0,
+  ['Effect RES']: 0,
+  ['Break Effect']: 0,
+  ['Energy Regeneration Rate']: 0,
+  ['Outgoing Healing Boost']: 0,
 
-  [Stats.Physical_DMG]: 0,
-  [Stats.Fire_DMG]: 0,
-  [Stats.Ice_DMG]: 0,
-  [Stats.Lightning_DMG]: 0,
-  [Stats.Wind_DMG]: 0,
-  [Stats.Quantum_DMG]: 0,
-  [Stats.Imaginary_DMG]: 0,
+  ['Physical DMG Boost']: 0,
+  ['Fire DMG Boost']: 0,
+  ['Ice DMG Boost']: 0,
+  ['Lightning DMG Boost']: 0,
+  ['Wind DMG Boost']: 0,
+  ['Quantum DMG Boost']: 0,
+  ['Imaginary DMG Boost']: 0,
 
   ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
 
@@ -142,7 +142,6 @@ export const baseComputedStatsObject = {
   FUA_TOUGHNESS_DMG: 0,
 
 
-
   // e.g. Acheron multiplier
   BASIC_ORIGINAL_DMG_BOOST: 0,
   SKILL_ORIGINAL_DMG_BOOST: 0,
@@ -161,6 +160,13 @@ export const baseComputedStatsObject = {
   BREAK_EFFICIENCY_BOOST: 0,
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
+
+  sets: {} as SetsType,
 }
+
+type SetsType = {
+  [K in keyof typeof Sets]: number;
+};
+
 export type ComputedStatsObject = typeof baseComputedStatsObject
 

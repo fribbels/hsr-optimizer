@@ -120,7 +120,7 @@ export default (e: Eidolon): CharacterConditional => {
       const x = c.x
 
       if (r.beToDmgBoost) {
-        evaluateConditional(XueyiConversionConditional, x, params)
+        evaluateConditional(XueyiConversionConditional, x, request, params)
       }
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

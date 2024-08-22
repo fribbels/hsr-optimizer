@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
 import { CharacterConditionals } from "lib/characterConditionals";
 import { LightConeConditionals } from "lib/lightConeConditionals";
@@ -6,8 +6,8 @@ import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
 import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
 import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from "lib/gpu/conditionals/setConditionals";
 import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
-
-const statValues = Object.values(Stats)
+import { Form } from "types/Form";
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   c.x.sets = {
@@ -54,7 +54,7 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   return c.x.sets
 }
 
-export function calculateElementalStats(c, request, params) {
+export function calculateElementalStats(c, _request: Form, params: OptimizerParams) {
   const base = params.character.base
   const trace = params.character.traces
   const lc = params.character.lightCone
@@ -308,17 +308,17 @@ export function calculateComputedStats(c, request, params) {
 
   // Dynamic - still need implementing
 
-  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, params)
-  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, params)
-  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, params)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, params)
-  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, params)
-  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, params)
-  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, params)
-  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, params)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, params)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, params)
+  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, request, params)
+  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, request, params)
+  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, request, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, request, params)
+  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, request, params)
+  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, request, params)
+  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, request, params)
+  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, request, params)
+  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, request, params)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, request, params)
+  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, request, params)
 
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals

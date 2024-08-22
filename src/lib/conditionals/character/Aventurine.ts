@@ -143,7 +143,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       const x = c.x
 
       if (r.defToCrBoost) {
-        evaluateConditional(AventurineConversionConditional, x, params)
+        evaluateConditional(AventurineConversionConditional, x, request, params)
       }
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

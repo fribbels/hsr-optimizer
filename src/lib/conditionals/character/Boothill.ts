@@ -155,12 +155,12 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
       const x = c.x
 
       if (r.beToCritBoost) {
-        evaluateConditional(BoothillConversionConditional, x, params)
+        evaluateConditional(BoothillConversionConditional, x, request, params)
       }
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {

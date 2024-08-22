@@ -34,7 +34,7 @@ export function calculateTeammates(request, params) {
         break
       case Sets.PenaconyLandOfTheDreams:
         if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
-        precomputedX[params.ELEMENTAL_DMG_TYPE] += 0.10
+        precomputedX.ELEMENTAL_DMG += 0.10
         break
       case Sets.LushakaTheSunkenSeas:
         precomputedX[Stats.ATK_P] += 0.16

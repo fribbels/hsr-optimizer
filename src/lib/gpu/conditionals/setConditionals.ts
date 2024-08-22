@@ -4,6 +4,7 @@ import { buffAbilityDefShred, buffAbilityDmg } from "lib/optimizer/calculateBuff
 import { buffStat, conditionalWgslWrapper, NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { p2 } from "lib/optimizer/optimizerUtils";
+import { Form } from "types/Form";
 
 export const ConditionalType = {
   SET: 0,
@@ -23,7 +24,7 @@ export const RutilantArenaConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.CR] >= 0.70
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+  effect: (x: ComputedStatsObject) => {
     buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20)
   },
   gpu: function () {
@@ -75,8 +76,8 @@ export const SpaceSealingStationConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
-    buffStat(x, params, Stats.ATK, 0.12 * params.baseATK)
+  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+    buffStat(x, request, params, Stats.ATK, 0.12 * params.baseATK)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -100,8 +101,8 @@ export const FleetOfTheAgelessConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 120
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
-    buffStat(x, params, Stats.ATK, 0.08 * params.baseATK)
+  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+    buffStat(x, request, params, Stats.ATK, 0.08 * params.baseATK)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -125,8 +126,8 @@ export const BelobogOfTheArchitectsConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.EHR] >= 0.50
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
-    buffStat(x, params, Stats.DEF, 0.15 * params.baseDEF)
+  effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+    buffStat(x, request, params, Stats.DEF, 0.15 * params.baseDEF)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -150,7 +151,7 @@ export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.BE] >= 1.50
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+  effect: (x: ComputedStatsObject) => {
     buffAbilityDefShred(x, BREAK_TYPE, 0.10)
   },
   gpu: function () {
@@ -175,7 +176,7 @@ export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.BE] >= 2.50
   },
-  effect: (x: ComputedStatsObject, params: OptimizerParams) => {
+  effect: (x: ComputedStatsObject) => {
     buffAbilityDefShred(x, SUPER_BREAK_TYPE, 0.15)
   },
   gpu: function () {
@@ -197,15 +198,15 @@ export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
-  condition: function (x: ComputedStatsObject) {
+  condition: function () {
     return true
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     const stateValue = params.conditionalState[this.id] || 0
     const buffValue = Math.min(0.25, 0.25 * x[Stats.EHR]) * params.baseATK
 
     params.conditionalState[this.id] = buffValue
-    buffStat(x, params, Stats.ATK, buffValue - stateValue)
+    buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
 
     return buffValue;
   },
@@ -232,8 +233,8 @@ export const BrokenKeelConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.RES] >= 0.30
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
-    buffStat(x, params, Stats.CD, 0.10)
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    buffStat(x, request, params, Stats.CD, 0.10)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -253,11 +254,11 @@ export const CelestialDifferentiatorConditional: NewConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
-  condition: function (x: ComputedStatsObject, params: OptimizerParams) {
+  condition: function (x: ComputedStatsObject) {
     return p2(x.sets.CelestialDifferentiator) >= 1 && x[Stats.CD] >= 1.20
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
-    buffStat(x, params, Stats.CR, 0.60)
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    buffStat(x, request, params, Stats.CR, 0.60)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -280,8 +281,8 @@ export const TaliaKingdomOfBanditryConditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 145
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
-    buffStat(x, params, Stats.BE, 0.20)
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    buffStat(x, request, params, Stats.BE, 0.20)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -304,7 +305,7 @@ export const FirmamentFrontlineGlamoth135Conditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 135
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+  effect: function (x: ComputedStatsObject) {
     x.ELEMENTAL_DMG += 0.12
   },
   gpu: function () {
@@ -328,7 +329,7 @@ export const FirmamentFrontlineGlamoth160Conditional: NewConditional = {
   condition: function (x: ComputedStatsObject) {
     return x[Stats.SPD] >= 160
   },
-  effect: function (x: ComputedStatsObject, params: OptimizerParams) {
+  effect: function (x: ComputedStatsObject) {
     x.ELEMENTAL_DMG += 0.06
   },
   gpu: function () {

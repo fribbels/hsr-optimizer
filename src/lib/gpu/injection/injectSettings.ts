@@ -66,10 +66,10 @@ function generateRequest(request: Form) {
   wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
   wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
   wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
+  wgsl += '\n'
 
   // TODO: Refactor this to not duplicate res
   wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED};\n`;
-
   wgsl += '\n'
 
   // Filters
@@ -84,6 +84,10 @@ function generateRequest(request: Form) {
   for (const [key, value] of Object.entries(request.combatBuffs)) {
     wgsl += `const combatBuffs${key}: f32 = ${value};\n`
   }
+  wgsl += '\n'
+
+  // Eidolon
+  wgsl += `const e: i32 = ${request.characterEidolon};\n`
   wgsl += '\n'
 
   return wgsl

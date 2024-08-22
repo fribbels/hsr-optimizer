@@ -5,6 +5,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import { OptimizerParams } from "lib/optimizer/calculateParams";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -82,6 +83,12 @@ export default (e: Eidolon): CharacterConditional => {
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
       x[Stats.ATK] += atkBuffValue
     },
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+      const x = c.x
+
+      // evaluateConditional(LynxConversionConditional, x, request, params)
+    },
     calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
@@ -93,5 +100,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
+//     gpu: (request: Form, params: OptimizerParams) => {
+//       const r = request.characterConditionals
+//
+//       return `
+// x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+//       `
+//     },
+//     gpuConditionals: [LynxConversionConditional]
   }
 }

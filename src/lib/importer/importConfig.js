@@ -20,7 +20,7 @@ export const ReliquaryArchiverConfig = {
   defaultFileName: 'archiver_output.json',
   sourceString: 'reliquary_archiver',
   latestBuildVersion: 'v0.1.8',
-  latestOutputVersion: 3,
+  latestOutputVersion: 4,
   speedVerified: true,
 }
 

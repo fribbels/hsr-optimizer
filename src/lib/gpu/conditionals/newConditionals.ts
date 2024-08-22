@@ -2,7 +2,7 @@ import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
 import { Stats } from "lib/constants";
 import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { indent, wgslIsFalse } from "lib/gpu/injection/wgslUtils";
+import { indent, wgslFalse } from "lib/gpu/injection/wgslUtils";
 import { Form } from "types/Form";
 
 export type NewConditional = {
@@ -70,7 +70,7 @@ export const AventurineConversionConditional: NewConditional = {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslIsFalse(r.defToCrBoost)}) {
+if (${wgslFalse(r.defToCrBoost)}) {
   return;
 }
 let def = (*p_x).DEF;
@@ -135,7 +135,7 @@ export const FireflyConversionConditional: NewConditional = {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslIsFalse(r.atkToBeConversion)}) {
+if (${wgslFalse(r.atkToBeConversion)}) {
   return;
 }
 let atk = (*p_x).ATK;
@@ -178,7 +178,7 @@ export const BoothillConversionConditional: NewConditional = {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
-if (${wgslIsFalse(r.beToCritBoost)}) {
+if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
 

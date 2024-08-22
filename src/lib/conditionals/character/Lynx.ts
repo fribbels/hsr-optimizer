@@ -8,6 +8,7 @@ import { Form } from 'types/Form'
 import { OptimizerParams } from "lib/optimizer/calculateParams";
 import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
 import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
+import { wgslFalse, wgslTrue } from "lib/gpu/injection/wgslUtils";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -98,12 +99,6 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       const x = c.x
 
-      // const storedHp = x[Stats.HP]
-      // x[Stats.HP] += (r.skillBuff) ? skillHpFlatBuff : 0
-      // x[Stats.HP] += (r.skillBuff) ? skillHpPercentBuff * storedHp : 0
-      // x[Stats.HP] += (e >= 6 && r.skillBuff) ? 0.06 * storedHp : 0
-      // x[Stats.ATK] += (e >= 4 && r.skillBuff) ? 0.03 * storedHp : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
     gpu: (request: Form, _params: OptimizerParams) => {
@@ -133,40 +128,64 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
         let stateBuffHP = 0
         let stateBuffATK = 0
 
-        buffHP += skillHpPercentBuff * x[Stats.HP] + skillHpFlatBuff
+        const convertibleHpValue = x[Stats.HP] - x.RATIO_BASED_HP_BUFF
+        buffHP += skillHpPercentBuff * convertibleHpValue + skillHpFlatBuff
         stateBuffHP += skillHpPercentBuff * stateValue + skillHpFlatBuff
-        if (e >= 6) {
-          buffHP += 0.06 * x[Stats.HP]
-          stateBuffHP += 0.06 * stateValue
-        }
 
         if (e >= 4) {
-          buffATK += 0.03 * x[Stats.HP]
+          buffATK += 0.03 * convertibleHpValue
           stateBuffATK += 0.03 * stateValue
         }
 
-        params.conditionalState[this.id] = x[Stats.HP]
-        if (stateValue == 0) {
-          x.RATIO_BASED_HP_BUFF += buffHP
-          buffStat(x, request, params, Stats.HP, buffHP)
-          buffStat(x, request, params, Stats.ATK, buffATK)
-        } else {
-          const cached_RATIO_BASED_HP_BUFF = x.RATIO_BASED_HP_BUFF
-          x.RATIO_BASED_HP_BUFF += buffHP - stateBuffHP
-          buffStat(x, request, params, Stats.HP, buffHP - stateBuffHP - cached_RATIO_BASED_HP_BUFF)
-          buffStat(x, request, params, Stats.ATK, buffATK - stateBuffATK - cached_RATIO_BASED_HP_BUFF)
+        if (e >= 6) {
+          buffHP += 0.06 * convertibleHpValue
+          stateBuffHP += 0.06 * stateValue
         }
+
+        params.conditionalState[this.id] = x[Stats.HP]
+
+        const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
+        const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
+        x.RATIO_BASED_HP_BUFF += finalBuffHp
+
+        buffStat(x, request, params, Stats.HP, finalBuffHp)
+        buffStat(x, request, params, Stats.ATK, finalBuffAtk)
       },
       gpu: function (request: Form, _params: OptimizerParams) {
         const r = request.characterConditionals
 
         return conditionalWgslWrapper(this, `
-// let def = (*p_x).DEF;
-// let stateValue: f32 = (*p_state).LynxConversionConditional;
-// let buffValue: f32 = 0.35 * def;
-//
-// (*p_state).LynxConversionConditional = buffValue;
-// buffDynamicATK(buffValue - stateValue, p_x, p_state);
+if (${wgslFalse(r.skillBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).LynxConversionConditional;
+let convertibleHpValue = x.HP - x.RATIO_BASED_HP_BUFF;
+
+var buffATK = 0;
+var stateBuffATK = 0;
+
+var buffHP = ${skillHpPercentBuff} * convertibleHpValue + ${skillHpFlatBuff};
+var stateBuffHP = ${skillHpPercentBuff} * stateValue + ${skillHpFlatBuff};
+
+if (${wgslTrue(e >= 4)}) {
+  buffATK += 0.03 * convertibleHpValue;
+  stateBuffATK += 0.03 * stateValue;
+}
+
+if (${wgslTrue(e >= 6)}) {
+  buffHP += 0.06 * convertibleHpValue;
+  stateBuffHP += 0.06 * stateValue;
+}
+
+(*p_state).LynxConversionConditional = x[Stats.HP];
+
+let finalBuffHp = buffHP - select(0, stateBuffHp, stateValue > 0);
+let finalBuffAtk = buffATK - select(0, stateBuffHp, stateValue > 0);
+x.RATIO_BASED_HP_BUFF += finalBuffHp;
+
+buffDynamicHP(finalBuffHp, p_x, p_state);
+buffDynamicATK(finalBuffAtk, p_x, p_state);
     `)
       }
     }]

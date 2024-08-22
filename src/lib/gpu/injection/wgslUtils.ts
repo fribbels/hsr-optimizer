@@ -6,10 +6,10 @@ export function indent(wgsl: string, levels: number) {
     .join('\n');
 }
 
-export function wgslIsTrue(condition: number | boolean) {
+export function wgslTrue(condition: number | boolean) {
   return condition ? 'true' : 'false'
 }
 
-export function wgslIsFalse(condition: number | boolean) {
+export function wgslFalse(condition: number | boolean) {
   return condition ? 'false' : 'true'
 }

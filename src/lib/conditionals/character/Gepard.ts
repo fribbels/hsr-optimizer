@@ -5,6 +5,8 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
+import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { evaluateConditional, GepardConversionConditional } from "lib/gpu/conditionals/newConditionals";
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -48,13 +50,26 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
+      const r = request.characterConditionals
       const x = c.x
 
-      x[Stats.ATK] += 0.35 * x[Stats.DEF]
+      evaluateConditional(GepardConversionConditional, x, params)
+    },
+    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
+    gpu: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+      `
+    },
+    gpuConditionals: [GepardConversionConditional]
   }
 }

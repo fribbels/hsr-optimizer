@@ -36,6 +36,14 @@ ${indent(wgsl.trim(), 1)}
   `
 }
 
+export function buffStat(x: ComputedStatsObject, params, stat: string, value: number) {
+  x[stat] += value
+
+  for (const conditional of params.conditionalRegistry[stat] || []) {
+    evaluateConditional(conditional, x, params)
+  }
+}
+
 export const AventurineConversionConditional: NewConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
@@ -85,8 +93,8 @@ export const XueyiConversionConditional: NewConditional = {
     const stateValue = params.conditionalState[this.id] || 0
     const buffValue = Math.min(2.40, x[Stats.BE])
 
-    x.ELEMENTAL_DMG += buffValue - stateValue
     params.conditionalState[this.id] = buffValue
+    x.ELEMENTAL_DMG += buffValue - stateValue
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -187,10 +195,29 @@ buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_state);
   }
 }
 
-export function buffStat(x: ComputedStatsObject, params, stat: string, value: number) {
-  x[stat] += value
+export const GepardConversionConditional: NewConditional = {
+  id: 'GepardConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.DEF],
+  condition: function (x: ComputedStatsObject) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, params) {
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValue = 0.35 * x[Stats.DEF]
 
-  for (const conditional of params.conditionalRegistry[stat] || []) {
-    evaluateConditional(conditional, x, params)
+    params.conditionalState[this.id] = buffValue
+    buffStat(x, params, Stats.ATK, buffValue - stateValue)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+let def = (*p_x).DEF;
+let stateValue: f32 = (*p_state).GepardConversionConditional;
+let buffValue: f32 = 0.35 * def;
+
+(*p_state).GepardConversionConditional = buffValue;
+buffDynamicATK(buffValue - stateValue, p_x, p_state);
+    `)
   }
 }

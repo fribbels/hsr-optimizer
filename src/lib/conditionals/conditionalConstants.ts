@@ -141,7 +141,6 @@ export const baseComputedStatsObject = {
   ULT_TOUGHNESS_DMG: 0,
   FUA_TOUGHNESS_DMG: 0,
 
-
   // e.g. Acheron multiplier
   BASIC_ORIGINAL_DMG_BOOST: 0,
   SKILL_ORIGINAL_DMG_BOOST: 0,
@@ -166,11 +165,43 @@ export const baseComputedStatsObject = {
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
   sets: {} as SetsType,
+  EHP: 0, // This doesnt exist yet
+  WEIGHT: 0, // This doesnt exist yet
 }
 
 type SetsType = {
   [K in keyof typeof Sets]: number;
-};
+}
 
 export type ComputedStatsObject = typeof baseComputedStatsObject
+export type BasicStatsObject = {
+  ['HP%']: number
+  ['ATK%']: number
+  ['DEF%']: number
+  ['SPD%']: number
+  ['HP']: number
+  ['ATK']: number
+  ['DEF']: number
+  ['SPD']: number
+  ['CRIT DMG']: number
+  ['CRIT Rate']: number
+  ['Effect Hit Rate']: number
+  ['Effect RES']: number
+  ['Break Effect']: number
+  ['Energy Regeneration Rate']: number
+  ['Outgoing Healing Boost']: number
 
+  ['Physical DMG Boost']: number
+  ['Fire DMG Boost']: number
+  ['Ice DMG Boost']: number
+  ['Lightning DMG Boost']: number
+  ['Wind DMG Boost']: number
+  ['Quantum DMG Boost']: number
+  ['Imaginary DMG Boost']: number
+
+  relicSetIndex: number
+  ornamentSetIndex: number
+  id: number
+
+  x: ComputedStatsObject
+}

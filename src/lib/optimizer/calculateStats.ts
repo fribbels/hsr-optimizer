@@ -1,13 +1,14 @@
 import { Stats } from 'lib/constants'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
-import { CharacterConditionals } from "lib/characterConditionals";
-import { LightConeConditionals } from "lib/lightConeConditionals";
-import { buffAbilityDmg } from "lib/optimizer/calculateBuffs";
-import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from "lib/gpu/conditionals/setConditionals";
-import { evaluateConditional } from "lib/gpu/conditionals/newConditionals";
-import { Form } from "types/Form";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
+import { evaluateConditional } from 'lib/gpu/conditionals/newConditionals'
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   c.x.sets = {
@@ -54,7 +55,7 @@ export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
   return c.x.sets
 }
 
-export function calculateElementalStats(c, _request: Form, params: OptimizerParams) {
+export function calculateElementalStats(c: PrecomputedCharacterConditional, _request: Form, params: OptimizerParams) {
   const base = params.character.base
   const trace = params.character.traces
   const lc = params.character.lightCone
@@ -88,7 +89,7 @@ export function calculateElementalStats(c, _request: Form, params: OptimizerPara
   }
 }
 
-export function calculateBaseStats(c, request, params) {
+export function calculateBaseStats(c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) {
   const base = params.character.base
   const lc = params.character.lightCone
   const trace = params.character.traces
@@ -159,7 +160,7 @@ export function calculateBaseStats(c, request, params) {
   )
 }
 
-export function calculateComputedStats(c, request, params) {
+export function calculateComputedStats(c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 
@@ -196,7 +197,6 @@ export function calculateComputedStats(c, request, params) {
   // Set effects
   // x[Stats.SPD_P]
   //   += 0.12 * params.enabledMessengerTraversingHackerspace * p4(sets.MessengerTraversingHackerspace)
-
 
   // SPD
 
@@ -303,7 +303,7 @@ export function calculateComputedStats(c, request, params) {
   // Elemental DMG
 
   if (p2(sets.FiresmithOfLavaForging) && params.enabledFiresmithOfLavaForging) {
-    x.Fire_DMG += 0.12
+    x[Stats.Fire_DMG] += 0.12
   }
 
   // Dynamic - still need implementing
@@ -336,7 +336,7 @@ export function calculateComputedStats(c, request, params) {
   return x
 }
 
-export function calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope) {
+export function calculateRelicStats(c: PrecomputedCharacterConditional, head, hands, body, feet, planarSphere, linkRope) {
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
     if (!relic.part) continue
 
@@ -354,11 +354,11 @@ export function calculateRelicStats(c, head, hands, body, feet, planarSphere, li
     + linkRope.weightScore
 }
 
-function sumPercentStat(stat, base, lc, trace, relicSum, setEffects) {
+function sumPercentStat(stat, base, lc, trace, relicSum, setEffects): number {
   return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
 }
 
-function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects) {
+function sumFlatStat(stat, statP, baseValue, lc, trace, relicSum, setEffects): number {
   return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
 }
 
@@ -371,7 +371,7 @@ const pioneerSetIndexToCd = {
   4: 0.24,
 }
 
-export const baseCharacterStats = {
+export const baseCharacterStats: BasicStatsObject = {
   [Stats.HP_P]: 0,
   [Stats.ATK_P]: 0,
   [Stats.DEF_P]: 0,

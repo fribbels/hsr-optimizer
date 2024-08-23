@@ -1,15 +1,15 @@
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
-import { Stats } from "lib/constants";
-import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { indent, wgslFalse } from "lib/gpu/injection/wgslUtils";
-import { Form } from "types/Form";
-import { precisionRound } from "lib/conditionals/utils";
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { Form } from 'types/Form'
+import { precisionRound } from 'lib/conditionals/utils'
 
 export type NewConditional = {
   id: string
-  type: number,
-  activation: number,
+  type: number
+  activation: number
   dependsOn: string[]
   condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => boolean
   effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
@@ -24,7 +24,9 @@ export function evaluateConditional(conditional: NewConditional, x: ComputedStat
       params.conditionalState[conditional.id] = 1
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    conditional.effect(x, request, params)
+    if (conditional.condition(x, request, params)) {
+      conditional.effect(x, request, params)
+    }
   } else {
 
   }
@@ -33,6 +35,7 @@ export function evaluateConditional(conditional: NewConditional, x: ComputedStat
 export function conditionalWgslWrapper(conditional: NewConditional, wgsl: string) {
   return `
 fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+  let x = *p_x;
 ${indent(wgsl.trim(), 1)}
 }
   `
@@ -66,7 +69,7 @@ export const AventurineConversionConditional: NewConditional = {
     params.conditionalState[this.id] = buffValue
     buffStat(x, request, params, Stats.CR, buffValue - stateValue)
 
-    return buffValue;
+    return buffValue
   },
   gpu: function (request: Form, _params: OptimizerParams) {
     const r = request.characterConditionals
@@ -85,7 +88,7 @@ if (def > 1600) {
   buffDynamicCR(buffValue - stateValue, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const XueyiConversionConditional: NewConditional = {
@@ -112,7 +115,7 @@ let buffValue: f32 = min(2.40, be);
 (*p_state).XueyiConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
     `)
-  }
+  },
 }
 
 export const FireflyConversionConditional: NewConditional = {
@@ -125,13 +128,13 @@ export const FireflyConversionConditional: NewConditional = {
   },
   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     const stateValue = params.conditionalState[this.id] || 0
-    const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * params.baseATK;
+    const trueAtk = x[Stats.ATK] - x.RATIO_BASED_ATK_BUFF - x.RATIO_BASED_ATK_P_BUFF * params.baseATK
     const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
 
     params.conditionalState[this.id] = buffValue
     buffStat(x, request, params, Stats.BE, buffValue - stateValue)
 
-    return buffValue;
+    return buffValue
   },
   gpu: function (request: Form, _params: OptimizerParams) {
     const r = request.characterConditionals
@@ -151,7 +154,7 @@ if (trueAtk > 1800) {
   buffDynamicBE(buffValue - stateValue, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const BoothillConversionConditional: NewConditional = {
@@ -198,7 +201,7 @@ let cdBuffValue = min(1.50, 0.50 * be);
 buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_state);
 buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_state);
     `)
-  }
+  },
 }
 
 export const GepardConversionConditional: NewConditional = {
@@ -225,7 +228,7 @@ let buffValue: f32 = 0.35 * def;
 (*p_state).GepardConversionConditional = buffValue;
 buffDynamicATK(buffValue - stateValue, p_x, p_state);
     `)
-  }
+  },
 }
 
 export const BlackSwanConversionConditional: NewConditional = {
@@ -261,7 +264,7 @@ let buffValue: f32 = min(0.72, ehr);
 (*p_state).BlackSwanConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
     `)
-  }
+  },
 }
 
 export const GallagherConversionConditional: NewConditional = {
@@ -292,7 +295,7 @@ let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
 (*p_state).GallagherConversionConditional = buffValue;
 buffDynamicOHB(buffValue - stateValue, p_x, p_state);
     `)
-  }
+  },
 }
 
 export const RuanMeiConversionConditional: NewConditional = {
@@ -325,7 +328,7 @@ let buffValue: f32 = floor(max(0, beOver)) * 0.06;
 (*p_state).RuanMeiConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
     `)
-  }
+  },
 }
 
 export const JiaoqiuConversionConditional: NewConditional = {
@@ -359,5 +362,5 @@ let buffValue: f32 = min(2.40, 0.60 * floor(((*p_x).EHR - 0.80) / 0.15));
 (*p_state).JiaoqiuConversionConditional = buffValue;
 buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
     `)
-  }
+  },
 }

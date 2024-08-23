@@ -1,10 +1,10 @@
-import { Stats } from "lib/constants";
-import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from "lib/conditionals/conditionalConstants";
-import { buffAbilityDefShred, buffAbilityDmg } from "lib/optimizer/calculateBuffs";
-import { buffStat, conditionalWgslWrapper, NewConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { p2 } from "lib/optimizer/optimizerUtils";
-import { Form } from "types/Form";
+import { Stats } from 'lib/constants'
+import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { buffAbilityDefShred, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffStat, conditionalWgslWrapper, NewConditional } from 'lib/gpu/conditionals/newConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { p2 } from 'lib/optimizer/optimizerUtils'
+import { Form } from 'types/Form'
 
 export const ConditionalType = {
   SET: 0,
@@ -17,7 +17,7 @@ export const ConditionalActivation = {
 }
 
 export const RutilantArenaConditional: NewConditional = {
-  id: "RutilantArenaConditional",
+  id: 'RutilantArenaConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
@@ -39,11 +39,11 @@ if (
   buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
 }
     `)
-  }
+  },
 }
 
 export const InertSalsottoConditional: NewConditional = {
-  id: "InertSalsottoConditional",
+  id: 'InertSalsottoConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
@@ -65,11 +65,11 @@ if (
   buffAbilityDmg(p_x, ULT_TYPE | FUA_TYPE, 0.15, 1);
 }
     `)
-  }
+  },
 }
 
 export const SpaceSealingStationConditional: NewConditional = {
-  id: "SpaceSealingStationConditional",
+  id: 'SpaceSealingStationConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
@@ -90,11 +90,11 @@ if (
   buffDynamicATK_P(0.12, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const FleetOfTheAgelessConditional: NewConditional = {
-  id: "FleetOfTheAgelessConditional",
+  id: 'FleetOfTheAgelessConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
@@ -115,11 +115,11 @@ if (
   buffDynamicATK_P(0.08, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const BelobogOfTheArchitectsConditional: NewConditional = {
-  id: "BelobogOfTheArchitectsConditional",
+  id: 'BelobogOfTheArchitectsConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
@@ -140,11 +140,11 @@ if (
   buffDynamicDEF_P(0.15, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
-  id: "IronCavalryAgainstTheScourge150Conditional",
+  id: 'IronCavalryAgainstTheScourge150Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
@@ -165,11 +165,11 @@ if (
   buffAbilityDefShred(p_x, BREAK_TYPE, 0.10, 1);
 }
     `)
-  }
+  },
 }
 
 export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
-  id: "IronCavalryAgainstTheScourge250Conditional",
+  id: 'IronCavalryAgainstTheScourge250Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
@@ -190,11 +190,11 @@ if (
   buffAbilityDefShred(p_x, SUPER_BREAK_TYPE, 0.15, 1);
 }
     `)
-  }
+  },
 }
 
 export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
-  id: "PanCosmicCommercialEnterpriseConditional",
+  id: 'PanCosmicCommercialEnterpriseConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
@@ -208,7 +208,7 @@ export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
     params.conditionalState[this.id] = buffValue
     buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
 
-    return buffValue;
+    return buffValue
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -222,11 +222,11 @@ if (
   buffDynamicATK(buffValue - stateValue, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const BrokenKeelConditional: NewConditional = {
-  id: "BrokenKeelConditional",
+  id: 'BrokenKeelConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
@@ -246,11 +246,11 @@ if (
   buffDynamicCD(0.10, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const CelestialDifferentiatorConditional: NewConditional = {
-  id: "CelestialDifferentiatorConditional",
+  id: 'CelestialDifferentiatorConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
@@ -270,11 +270,11 @@ if (
   buffDynamicCR(0.60, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const TaliaKingdomOfBanditryConditional: NewConditional = {
-  id: "TaliaKingdomOfBanditryConditional",
+  id: 'TaliaKingdomOfBanditryConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
@@ -294,11 +294,11 @@ if (
   buffDynamicBE(0.20, p_x, p_state);
 }
     `)
-  }
+  },
 }
 
 export const FirmamentFrontlineGlamoth135Conditional: NewConditional = {
-  id: "FirmamentFrontlineGlamoth135Conditional",
+  id: 'FirmamentFrontlineGlamoth135Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
@@ -318,11 +318,11 @@ if (
   (*p_x).ELEMENTAL_DMG += 0.12;
 }
     `)
-  }
+  },
 }
 
 export const FirmamentFrontlineGlamoth160Conditional: NewConditional = {
-  id: "FirmamentFrontlineGlamoth160Conditional",
+  id: 'FirmamentFrontlineGlamoth160Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
@@ -342,7 +342,7 @@ if (
   (*p_x).ELEMENTAL_DMG += 0.06;
 }
     `)
-  }
+  },
 }
 
 // Fire set

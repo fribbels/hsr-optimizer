@@ -1,15 +1,15 @@
-import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants.ts'
+import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from '../constants'
 import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
 import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionalRegistry, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals.ts'
+import { calculateConditionalRegistry, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { Form } from "types/Form";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { CharacterConditionals } from "lib/characterConditionals";
-import { LightConeConditionals } from "lib/lightConeConditionals";
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -22,7 +22,7 @@ type OptimizerEventData = {
     Body: any[]
     Hands: any[]
     Head: any[]
-  },
+  }
   request: Form
   params: OptimizerParams
   buffer: ArrayBuffer
@@ -31,11 +31,6 @@ type OptimizerEventData = {
   permutations: number
   WIDTH: number
   skip: number
-}
-
-type BasicStatsObject = {
-  [key: string]: number
-  x: ComputedStatsObject
 }
 
 self.onmessage = function (e: MessageEvent) {
@@ -65,7 +60,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const {
     failsBasicFilter,
-    failsCombatFilter
+    failsCombatFilter,
   } = generateResultMinFilter(request, combatDisplay)
 
   params.characterConditionals = CharacterConditionals.get(request)
@@ -204,7 +199,7 @@ self.onmessage = function (e: MessageEvent) {
   }, [data.buffer])
 }
 
-function generateResultMinFilter(request, combatDisplay) {
+function generateResultMinFilter(request: Form, combatDisplay: string) {
   const filter = request.resultMinFilter
   const sortOption = SortOption[request.resultSort]
   const isComputedRating = sortOption.isComputedRating

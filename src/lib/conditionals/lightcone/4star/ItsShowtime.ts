@@ -63,13 +63,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.DEF],
         condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          return true
+          return x[Stats.EHR] >= 0.80
         },
         effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          if (x[Stats.EHR] < 0.80) {
-            return
-          }
-
           const r = request.characterConditionals
 
           const stateValue = params.conditionalState[this.id] || 0
@@ -82,7 +78,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
           const r = request.characterConditionals
 
           return conditionalWgslWrapper(this, `
-let x = *p_x;
 if (x.EHR < 0.80) {
   return;
 }

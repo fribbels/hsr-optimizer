@@ -65,9 +65,10 @@ export function calculateBuild(request, relics) {
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
+  const x = Object.assign({}, params.precomputedX)
   const c = {
     ...baseCharacterStats,
-    x: Object.assign({}, params.precomputedX),
+    x: x,
     relicSetIndex: relicSetIndex,
     ornamentSetIndex: ornamentSetIndex,
   }
@@ -77,8 +78,8 @@ export function calculateBuild(request, relics) {
   calculateBaseStats(c, request, params)
   calculateElementalStats(c, request, params)
   calculateComputedStats(c, request, params)
-  calculateBaseMultis(c, request, params)
-  calculateDamage(c, request, params)
+  calculateBaseMultis(x, request, params)
+  calculateDamage(x, request, params)
 
   return c
 }

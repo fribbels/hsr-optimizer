@@ -147,8 +147,8 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     calculateComputedStats(c, request, params)
-    calculateBaseMultis(c, request, params)
-    calculateDamage(c, request, params)
+    calculateBaseMultis(x, request, params)
+    calculateDamage(x, request, params)
 
     if (failsCombatFilter(x)) {
       continue

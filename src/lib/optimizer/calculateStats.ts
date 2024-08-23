@@ -8,7 +8,6 @@ import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFro
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
   c.x.sets = {
@@ -55,7 +54,7 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
   return c.x.sets
 }
 
-export function calculateElementalStats(c: PrecomputedCharacterConditional, _request: Form, params: OptimizerParams) {
+export function calculateElementalStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
   const base = params.character.base
   const trace = params.character.traces
   const lc = params.character.lightCone
@@ -89,7 +88,7 @@ export function calculateElementalStats(c: PrecomputedCharacterConditional, _req
   }
 }
 
-export function calculateBaseStats(c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) {
+export function calculateBaseStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
   const base = params.character.base
   const lc = params.character.lightCone
   const trace = params.character.traces
@@ -160,7 +159,7 @@ export function calculateBaseStats(c: PrecomputedCharacterConditional, request: 
   )
 }
 
-export function calculateComputedStats(c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) {
+export function calculateComputedStats(c: BasicStatsObject, request: Form, params: OptimizerParams) {
   params.characterConditionals = CharacterConditionals.get(request)
   params.lightConeConditionals = LightConeConditionals.get(request)
 

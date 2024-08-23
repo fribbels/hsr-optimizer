@@ -1,5 +1,19 @@
 import React, { useMemo } from 'react'
-import { BarChartOutlined, BarsOutlined, BookOutlined, LineChartOutlined, LinkOutlined, RadarChartOutlined, SettingOutlined, StarFilled, ToolOutlined, UnorderedListOutlined, UploadOutlined, UserOutlined, } from '@ant-design/icons'
+import {
+  BarChartOutlined,
+  BarsOutlined,
+  BookOutlined,
+  InfoCircleOutlined,
+  LineChartOutlined,
+  LinkOutlined,
+  RadarChartOutlined,
+  SettingOutlined,
+  StarFilled,
+  ToolOutlined,
+  UnorderedListOutlined,
+  UploadOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Flex, Menu, Typography } from 'antd'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -88,6 +102,15 @@ const MenuDrawer = () => {
           </Flex>
         ),
         AppPages.GETTING_STARTED),
+      getItem(
+        (
+          <Flex>
+            <InfoCircleOutlined style={{ marginRight: 5, width: 16 }} />
+            {' '}
+            Info
+          </Flex>
+        ),
+        AppPages.INFO),
     ]),
     getItem('Links', 'subLinks', <BarsOutlined/>, [
       getItem(

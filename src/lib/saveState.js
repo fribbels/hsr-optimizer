@@ -13,6 +13,7 @@ export const SaveState = {
       savedSession: window.store.getState().savedSession,
       settings: window.store.getState().settings,
       version: CURRENT_OPTIMIZER_VERSION,
+      githubAPI: DB.getGithubAPI(),
     }
 
     console.log('Saved state')

@@ -14,6 +14,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@js-sdsl/priority-queue": "^4.4.0",
+    "@octokit/core": "^6.1.2",
+    "@octokit/plugin-rest-endpoint-methods": "^13.2.4",
     "ag-grid-community": "^32.1.0",
     "ag-grid-react": "^32.1.0",
     "antd": "^5.20.1",

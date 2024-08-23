@@ -214,6 +214,8 @@ export default function RelicFilterBar(props) {
   }
 
   function scoringClicked() {
+    const relicsTabFocusCharacter = store.getState().relicsTabFocusCharacter
+    if (relicsTabFocusCharacter) store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
     window.setIsScoringModalOpen(true)
   }
 

@@ -367,11 +367,11 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
-        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
@@ -434,7 +434,7 @@ export default function RelicsTab() {
             style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()} />
+            <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -445,13 +445,17 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()} />
+            <TooltipImage type={Hint.relics()}/>
           </Flex>
 
           {relicInsight === 'top10' && scores && (
             <Flex gap={10}>
               <Flex style={{ borderRadius: 8, overflow: 'hidden', border: `1px solid ${token.colorBorderSecondary}` }}>
                 <Plot
+                  onClick={(e) => {
+                    store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid)
+                    window.setIsScoringModalOpen(true)
+                  }}
                   data={
                     scores.map((s) => ({
                       x: [s.score.averagePct],
@@ -467,6 +471,7 @@ export default function RelicsTab() {
                       },
                       marker: { color: s.color },
                       name: s.name,
+                      cid: s.cid,
                     })).reverse()
                   }
                   layout={{
@@ -530,9 +535,23 @@ export default function RelicsTab() {
                         const bestPct = Math.floor(x.score.bestPct)
                         const pctText = worstPct === bestPct ? `${worstPct}%` : `${worstPct}% - ${bestPct}%`
                         return (
-                          <li key={x.cid} style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                            {rect} {x.name}: {pctText}
-                          </li>
+                          <Flex key={x.cid} gap={4}>
+                            <li style={x.owned ? { fontWeight: 'bold' } : undefined}>
+                              <Flex align="center" gap={8}>
+                                {rect}
+                                <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
+                                  <img
+                                    src={Assets.getCharacterAvatarById(x.cid)}
+                                    style={{ height: '19px' }}
+                                    onClick={(e) => {
+                                      store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
+                                    }}
+                                  />
+                                </a>
+                                {x.name}: {pctText}
+                              </Flex>
+                            </li>
+                          </Flex>
                         )
                       })
                   }
@@ -546,6 +565,10 @@ export default function RelicsTab() {
               // by adding invisible points for each character (to get 'name on hover' behavior),
               // then adding an image on top of each point
               <Plot
+                onClick={(e) => {
+                  store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid[e.points[0].pointIndex])
+                  window.setIsScoringModalOpen(true)
+                }}
                 data={[
                   // Add fake data in each category to make sure we don't elide any categories - that would
                   // mess up our image placement
@@ -580,6 +603,8 @@ export default function RelicsTab() {
                           : 'Upgraded stats: ' + score.score.meta.bestUpgradedStats.join(' / ')),
                       ].filter((t) => t !== '').join('<br>')),
                     ),
+                    cid: scoreBuckets.flatMap((bucket, _bucketIdx) =>
+                      bucket.map((score, idx) => score.cid)),
                     marker: {
                       color: 'rgba(0, 0, 0, 0)', // change to 1 to see backing points
                       symbol: 'circle',

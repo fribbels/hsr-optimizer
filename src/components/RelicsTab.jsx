@@ -367,11 +367,11 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
-        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
@@ -434,7 +434,7 @@ export default function RelicsTab() {
             style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()} />
+            <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -445,7 +445,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()} />
+            <TooltipImage type={Hint.relics()}/>
           </Flex>
 
           {relicInsight === 'top10' && scores && (

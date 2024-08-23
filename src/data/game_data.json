@@ -706,9 +706,9 @@
       "max_sp": 120,
       "stats": {
         "HP": 811.44,
-        "ATK": 546.84,
+        "ATK": 599.76,
         "DEF": 352.8,
-        "SPD": 114,
+        "SPD": 111,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -2386,7 +2386,7 @@
     {
       "id": "317",
       "name": "Lushaka, the Sunken Seas",
-      "skills": "Increases the wearer's Effect RES by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>15.0%</b>."
+      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5.0%</b>. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by <b>12.0%</b>."
     },
     {
       "id": "316",
@@ -2396,7 +2396,7 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally uses follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
+      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5.0</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5.0%</b>. When there are <b>5.0</b> stacks, additionally increases the wearer's CRIT DMG by <b>25.0%</b>."
     },
     {
       "id": "314",
@@ -2471,7 +2471,7 @@
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12.0%</b>.,Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
+      "skills": "Increases ATK by <b>12.0%</b>.,Increases the wearer's CRIT Rate by <b>6.0%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36.0%</b>, lasting for <b>1.0</b> turn(s)."
     },
     {
       "id": "119",
@@ -2496,7 +2496,7 @@
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by follow-up attack by <b>20.0%</b>.,When the wearer uses follow-up attacks, increases the wearer's ATK by <b>6.0%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8.0</b> time(s) and lasts for <b>3.0</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+      "skills": "Increases the DMG dealt by follow-up attack by <b>20.0%</b>.,When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6.0%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8.0</b> time(s) and lasts for <b>3.0</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
     },
     {
       "id": "114",
@@ -2541,7 +2541,7 @@
     {
       "id": "106",
       "name": "Guard of Wuthering Snow",
-      "skills": "Reduces DMG taken by <b>8.0%</b>.,At the beginning of the turn, if the wearer's HP is equal to or less than <b>50.0%</b>, restores HP equal to <b>8.0%</b> of their Max HP and regenerates <b>5.0</b> Energy."
+      "skills": "Reduces DMG taken by <b>8.0%</b>.,At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50.0%</b>, restores HP equal to <b>8.0%</b> of their Max HP and regenerates <b>5.0</b> Energy."
     },
     {
       "id": "105",

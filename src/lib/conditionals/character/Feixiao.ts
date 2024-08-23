@@ -1,12 +1,12 @@
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityCd, buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
+import { buffAbilityCd } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -23,13 +23,13 @@ export default (e: Eidolon): CharacterConditional => {
 
   const ultHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
   const ultBrokenHitCountMulti = ASHBLAZING_ATK_STACK * (
-    1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9 +
-    3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9 +
-    5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9 +
-    7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
-    8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
-    8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9 +
-    8 * 0.2285)
+    1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
+    + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
+    + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
+    + 7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
+    + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
+    + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
+    + 8 * 0.2285)
 
   const content: ContentItem[] = [
     {
@@ -67,10 +67,10 @@ export default (e: Eidolon): CharacterConditional => {
     },
     {
       formItem: 'switch',
-      id: 'e4FuaVulnerability',
-      name: 'e4FuaVulnerability',
-      text: 'E4 FUA vulnerability',
-      title: 'E4 FUA vulnerability',
+      id: 'e4Buffs',
+      name: 'e4Buffs',
+      text: 'E4 buffs',
+      title: 'E4 buffs',
       content: BETA_UPDATE,
       disabled: e < 4,
     },
@@ -85,9 +85,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
   ]
 
-  const teammateContent: ContentItem[] = [
-    findContentId(content, 'e4FuaVulnerability'),
-  ]
+  const teammateContent: ContentItem[] = []
 
   const defaults = {
     ultStacks: 6,
@@ -95,7 +93,7 @@ export default (e: Eidolon): CharacterConditional => {
     talentDmgBuff: true,
     skillAtkBuff: true,
     e1OriginalDmgBoost: true,
-    e4FuaVulnerability: true,
+    e4Buffs: true,
     e6Buffs: true,
   }
 
@@ -103,9 +101,7 @@ export default (e: Eidolon): CharacterConditional => {
     content: () => content,
     teammateContent: () => teammateContent,
     defaults: () => defaults,
-    teammateDefaults: () => ({
-      e4FuaVulnerability: true,
-    }),
+    teammateDefaults: () => ({}),
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -132,6 +128,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.ULT_ORIGINAL_DMG_BOOST += (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0
 
+      if (e >= 4) {
+        x[Stats.SPD_P] += 0.08
+        x.FUA_TOUGHNESS_DMG += 15
+      }
+
       if (e >= 6 && r.e6Buffs) {
         x.RES_PEN += 0.20
         x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
@@ -146,9 +147,6 @@ export default (e: Eidolon): CharacterConditional => {
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
-      const m = request.characterConditionals
-
-      buffAbilityVulnerability(x, FUA_TYPE, 0.10, (e >= 4 && m.e4FuaVulnerability))
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },

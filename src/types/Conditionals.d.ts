@@ -398,3 +398,4 @@ export type ConditionalBuff =
   | 'e2CdBoost'
   | 'e6MultiplierIncrease'
   | 'luminfluxUltStacks'
+  | 'e4Buffs'

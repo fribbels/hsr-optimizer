@@ -13,9 +13,11 @@ export interface CharacterConditional extends Conditional {
   // Effects unique to teammate calculation
   precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
 }
+
 export type CharacterConditionalMap = {
   [key in ConditionalBuff]: number;
 }
+
 export interface PrecomputedCharacterConditional {
   BASIC_BOOST: number
   BASIC_SCALING: number
@@ -29,4 +31,5 @@ export interface PrecomputedCharacterConditional {
   SKILL_BOOST: number
   SKILL_SCALING: number
   ULT_BOOST: number
+  x: ComputedStatsObject,
 }

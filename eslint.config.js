@@ -180,7 +180,7 @@ function styleRules(level) {
     '@stylistic/space-before-function-paren': [
       level,
       {
-        anonymous: 'never',
+        anonymous: 'always',
         asyncArrow: 'always',
         named: 'never',
       },

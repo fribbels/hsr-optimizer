@@ -11,9 +11,9 @@ import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestions
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { experiment } from 'lib/gpu/webgpu'
-import { BufferPacker } from "lib/bufferPacker";
-import { setSortColumn } from "components/optimizerTab/optimizerForm/RecommendedPresetsButton";
-import { Message } from "lib/message";
+import { BufferPacker } from 'lib/bufferPacker'
+import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { Message } from 'lib/message'
 
 let CANCEL = false
 

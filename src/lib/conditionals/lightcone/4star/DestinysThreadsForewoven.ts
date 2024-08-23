@@ -1,12 +1,12 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
-import { Form } from "types/Form";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/newConditionals'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
@@ -23,7 +23,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculateBaseMultis: (c: PrecomputedCharacterConditional/* , request: Form */) => {
       // const r = request.lightConeConditionals;
-      const x = c['x']
+      const x = c.x
     },
     gpuConditionals: [
       {
@@ -54,8 +54,8 @@ let buffValue: f32 = min(${sValuesMax[s]}, floor(def / 100) * ${sValues[s]});
 (*p_state).DestinysThreadsForewovenConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;
     `)
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 }

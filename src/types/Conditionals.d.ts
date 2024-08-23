@@ -5,6 +5,7 @@ import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals
 import { ComponentProps, ComponentType } from 'react'
 import { NewConditional } from "lib/gpu/conditionals/newConditionals";
 import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { PrecomputedCharacterConditional } from "types/CharacterConditional";
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -21,9 +22,9 @@ export interface Conditional {
    * TODO: purify this implmentation
    * ComputedStatsObject arg is mutated by ref
    */
-  calculateBaseMultis: (c: ComputedStatsObject, request: Form) => void
+  calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => void
   // Stat conversions
-  calculatePassives?: (c: ComputedStatsObject, request: Form) => void
+  calculatePassives?: (c: PrecomputedCharacterConditional, request: Form) => void
   //
   calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
 

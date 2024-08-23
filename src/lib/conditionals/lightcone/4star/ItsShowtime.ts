@@ -1,14 +1,13 @@
 import { ContentItem } from 'types/Conditionals'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
-import { Stats } from 'lib/constants.ts'
-import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
+import { Stats } from 'lib/constants'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/newConditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesDmg = [0.06, 0.07, 0.08, 0.09, 0.10]
@@ -47,7 +46,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({
       trickStacks: 3,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
@@ -55,7 +54,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     calculatePassives: (/* c, request */) => {
     },
     calculateBaseMultis: (c, request) => {
-      const x = c['x']
+      const x = c.x
     },
     gpuConditionals: [
       {
@@ -83,19 +82,19 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
           const r = request.characterConditionals
 
           return conditionalWgslWrapper(this, `
-if ((*p_x).EHR < 0.80) {
+let x = *p_x;
+if (x.EHR < 0.80) {
   return;
 }
 
-let ehr = (*p_x).EHR;
 let stateValue: f32 = (*p_state).ItsShowtimeConversionConditional;
 let buffValue: f32 = ${sValuesAtkBuff[s]};
 
 (*p_state).ItsShowtimeConversionConditional = buffValue;
 buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
     `)
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 }

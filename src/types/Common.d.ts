@@ -54,3 +54,11 @@ export type Promotion = {
 export type Promotions = {
   [level: number]: Promotion
 }
+
+export type NumberToNumberMap = {
+  [key: number]: number
+}
+
+export type StringToNumberMap = {
+  [key: string]: number
+}

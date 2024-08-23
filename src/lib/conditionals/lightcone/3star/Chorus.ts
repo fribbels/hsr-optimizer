@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       inBattleAtkBuff: true,
     }),
-    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals

@@ -20,7 +20,7 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.50, 2.70)
   const fuaScaling = talent(e, 0.90, 0.99)
 
-  const hitMultiByFuaHits = {
+  const hitMultiByFuaHits: { [key: number]: number } = {
     0: 0,
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09

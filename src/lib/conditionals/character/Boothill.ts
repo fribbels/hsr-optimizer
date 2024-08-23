@@ -1,4 +1,4 @@
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -8,6 +8,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { BoothillConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -18,7 +19,7 @@ export default (e: Eidolon): CharacterConditional => {
   const basicEnhancedScaling = basic(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.00, 4.32)
 
-  const pocketTrickshotsToTalentBreakDmg = {
+  const pocketTrickshotsToTalentBreakDmg: NumberToNumberMap = {
     0: 0,
     1: talent(e, 0.70, 0.77),
     2: talent(e, 1.20, 1.32),
@@ -151,9 +152,9 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
     calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.characterConditionals
@@ -163,8 +164,6 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpu: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
-
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;

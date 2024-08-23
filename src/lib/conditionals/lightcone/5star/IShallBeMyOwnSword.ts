@@ -57,7 +57,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       eclipseStacks: 3,
       maxStackDefPen: true,
@@ -67,7 +66,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

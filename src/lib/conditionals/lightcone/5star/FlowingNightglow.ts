@@ -57,7 +57,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ERR] += r.cantillationStacks * sValuesErr[s]
       x[Stats.ATK_P] += (r.cadenzaActive) ? sValuesAtkBuff[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

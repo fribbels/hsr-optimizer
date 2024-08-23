@@ -40,7 +40,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       missedCritCrBuff: false,
     }),
@@ -49,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.missedCritCrBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

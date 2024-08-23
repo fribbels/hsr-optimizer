@@ -60,7 +60,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       spdStacks: 3,
       dotEffect: false,
@@ -71,7 +70,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.SPD_P] += r.spdStacks * sValuesSpd[s]
       x.ELEMENTAL_DMG += sValuesDmg[s]
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

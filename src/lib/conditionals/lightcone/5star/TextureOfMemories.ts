@@ -40,7 +40,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       activeShieldDmgDecrease: true,
     }),
@@ -49,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

@@ -23,7 +23,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       routedVulnerability: true,
     }),
@@ -31,8 +30,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
 
       x.DMG_TAKEN_MULTI += (r.routedVulnerability) ? sValuesVulnerability[s] : 0
-    },
-    calculatePassives: (/* c, request */) => {
     },
     finalizeCalculations: () => {
     },

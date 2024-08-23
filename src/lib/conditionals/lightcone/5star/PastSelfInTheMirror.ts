@@ -47,14 +47,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       postUltDmgBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
       x.ELEMENTAL_DMG += (m.postUltDmgBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

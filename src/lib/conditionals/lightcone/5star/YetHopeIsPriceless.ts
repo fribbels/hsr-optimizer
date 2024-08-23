@@ -2,7 +2,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { BasicStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/utils'
 import { buffAbilityDefShred, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
@@ -36,7 +36,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       fuaDmgBoost: true,
       ultFuaDefShred: true,
@@ -46,11 +45,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDefShred(x, ULT_TYPE | FUA_TYPE, sValuesUltFuaDefShred[s], (r.ultFuaDefShred))
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
-      const x: ComputedStatsObject = c.x
 
       // TODO: Dynamic conditional
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))

@@ -54,7 +54,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyHp50CrBoost: false,
       enemyDefeatedAtkBuff: true,
@@ -65,7 +64,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CR] += (r.enemyHp50CrBoost) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

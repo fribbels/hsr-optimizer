@@ -36,7 +36,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       atkBuffStacks: 5,
       spdBuff: false,
@@ -46,8 +45,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.ATK_P] += r.atkBuffStacks * sValuesAtkBuff[s]
       x[Stats.SPD_P] += (r.spdBuff) ? sValuesSpdBuff[s] : 0
-    },
-    calculatePassives: (/* c, request */) => {
     },
     finalizeCalculations: () => {
     },

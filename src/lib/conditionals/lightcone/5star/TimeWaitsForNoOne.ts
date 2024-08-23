@@ -35,13 +35,12 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       healingBasedDmgProc: false,
     }),
-    precomputeEffects: (/* x, request */) => {
+    precomputeEffects: () => {
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

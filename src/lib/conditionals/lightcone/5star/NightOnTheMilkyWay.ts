@@ -50,7 +50,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyCountAtkBuff: true,
       enemyWeaknessBreakDmgBuff: true,
@@ -61,7 +60,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += (r.enemyCountAtkBuff) ? request.enemyCount * sValuesAtk[s] : 0
       x.ELEMENTAL_DMG += (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

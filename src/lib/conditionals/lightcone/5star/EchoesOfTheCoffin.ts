@@ -48,14 +48,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       postUltSpdBuff: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
       x[Stats.SPD] += (m.postUltSpdBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

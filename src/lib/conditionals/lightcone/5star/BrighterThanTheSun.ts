@@ -43,7 +43,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       dragonsCallStacks: 2,
     }),
@@ -53,7 +52,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += r.dragonsCallStacks * sValuesAtk[s]
       x[Stats.ERR] += r.dragonsCallStacks * sValuesErr[s]
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

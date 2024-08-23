@@ -62,9 +62,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += m.targetTameStacks * sValuesCd[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

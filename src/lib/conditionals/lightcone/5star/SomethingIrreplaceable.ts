@@ -40,7 +40,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       dmgBuff: true,
     }),
@@ -49,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += (r.dmgBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

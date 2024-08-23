@@ -25,7 +25,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       fuaDmgStacks: 2,
     }),
@@ -33,8 +32,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, r.fuaDmgStacks * sValuesFuaDmg[s])
-    },
-    calculatePassives: (/* c, request */) => {
     },
     finalizeCalculations: () => {
     },

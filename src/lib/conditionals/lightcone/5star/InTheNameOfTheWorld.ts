@@ -46,7 +46,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemyDebuffedDmgBoost: true,
       skillAtkBoost: false,
@@ -56,7 +55,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

@@ -25,7 +25,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       luminfluxUltStacks: 2,
     }),
@@ -33,8 +32,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
 
       buffAbilityDefShred(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s])
-    },
-    calculatePassives: (/* c, request */) => {
     },
     finalizeCalculations: () => {
     },

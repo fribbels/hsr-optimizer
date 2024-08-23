@@ -2,7 +2,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 import { findContentId } from 'lib/conditionals/utils'
 
@@ -57,11 +57,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.DMG_TAKEN_MULTI += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
-      const x: ComputedStatsObject = c.x
 
       // TODO: Dynamic conditional
       x.DMG_TAKEN_MULTI += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0

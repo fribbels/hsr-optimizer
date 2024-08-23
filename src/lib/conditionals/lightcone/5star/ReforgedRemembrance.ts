@@ -43,7 +43,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       prophetStacks: 4,
     }),
@@ -54,7 +53,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDefShred(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s])
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

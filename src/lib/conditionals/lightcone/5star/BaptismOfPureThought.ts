@@ -58,7 +58,6 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       debuffCdStacks: 3,
       postUltBuff: true,
@@ -71,7 +70,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
 
       buffAbilityDefShred(x, FUA_TYPE, sValuesFuaPen[s], (r.postUltBuff))
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

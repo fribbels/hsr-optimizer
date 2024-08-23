@@ -41,13 +41,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
   return {
     content: () => content,
     teammateContent: () => content,
-    defaults: () => ({}),
+    defaults: () => ({
+      maskActive: false,
+    }),
     teammateDefaults: () => ({
       maskActive: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.lightConeConditionals
@@ -55,7 +55,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0
       x[Stats.CD] += (t.maskActive) ? sValuesCd[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

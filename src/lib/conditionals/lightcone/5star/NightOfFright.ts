@@ -50,14 +50,14 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       atkBuffStacks: 5,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
       x[Stats.ATK_P] += m.atkBuffStacks * sValues[s]
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

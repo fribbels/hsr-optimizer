@@ -367,11 +367,11 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen} />
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
-        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions} />
+        <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
           id="relicGrid" className="ag-theme-balham-dark" style={{
@@ -434,7 +434,7 @@ export default function RelicsTab() {
             style={{ width: 210 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()} />
+            <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -445,7 +445,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()} />
+            <TooltipImage type={Hint.relics()}/>
           </Flex>
 
           {relicInsight === 'top10' && scores && (
@@ -537,18 +537,20 @@ export default function RelicsTab() {
                         return (
                           <Flex key={x.cid} gap={4}>
                             <li style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                              {rect} {x.name}: {pctText}
+                              <Flex align="center" gap={8}>
+                                {rect}
+                                <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
+                                  <img
+                                    src={Assets.getCharacterAvatarById(x.cid)}
+                                    style={{ height: '19px' }}
+                                    onClick={(e) => {
+                                      store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
+                                    }}
+                                  />
+                                </a>
+                                {x.name}: {pctText}
+                              </Flex>
                             </li>
-                            <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
-                              <img
-                                src={Assets.getCharacterAvatarById(x.cid)}
-                                style={{ height: '19px' }}
-                                onClick={(e) => {
-                                  store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
-                                  window.setIsScoringModalOpen(true)
-                                }}
-                              />
-                            </a>
                           </Flex>
                         )
                       })

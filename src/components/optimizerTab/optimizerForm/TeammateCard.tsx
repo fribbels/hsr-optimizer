@@ -85,8 +85,8 @@ const teammateOrnamentSetOptions = (() => {
     },
     {
       value: Sets.LushakaTheSunkenSeas,
-      desc: `${Sets.LushakaTheSunkenSeas} (+16% ATK)`,
-      label: labelRender(Sets.LushakaTheSunkenSeas, '16% ATK'),
+      desc: `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
+      label: labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
     },
   ]
 })()

@@ -197,7 +197,6 @@ export function calculateComputedStats(c, request, params) {
     + 0.12 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.SpaceSealingStation)
     + 0.08 * (x[Stats.SPD] >= 120 ? 1 : 0) * p2(sets.FleetOfTheAgeless)
     + Math.min(0.25, 0.25 * x[Stats.EHR]) * p2(sets.PanCosmicCommercialEnterprise)
-    + 0.15 * params.enabledLushakaTheSunkenSeas * p2(sets.LushakaTheSunkenSeas)
 
   x[Stats.ATK] += x[Stats.ATK_P] * request.baseAtk
 

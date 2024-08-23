@@ -545,6 +545,7 @@ export default function RelicsTab() {
                                     style={{ height: '19px' }}
                                     onClick={(e) => {
                                       store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
+                                      window.setIsScoringModalOpen(true)
                                     }}
                                   />
                                 </a>

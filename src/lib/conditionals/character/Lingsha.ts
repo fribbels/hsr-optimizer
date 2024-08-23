@@ -15,12 +15,12 @@ export default (e: Eidolon): CharacterConditional => {
   const skillScaling = skill(e, 0.80, 0.88)
   const ultScaling = ult(e, 1.50, 1.65)
   const ultBreakVulnerability = ult(e, 0.25, 0.27)
-  const fuaScaling = talent(e, 0.90, 0.99)
+  const fuaScaling = talent(e, 0.75, 0.825)
 
   const hitMultiByTargets = {
-    1: ASHBLAZING_ATK_STACK * (1 * 1 / 1),
-    3: ASHBLAZING_ATK_STACK * (2 * 1 / 1),
-    5: ASHBLAZING_ATK_STACK * (3 * 1 / 1),
+    1: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2),
+    3: ASHBLAZING_ATK_STACK * (2 * 1 / 2 + 3 * 1 / 2),
+    5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
   }
 
   const content: ContentItem[] = [
@@ -102,7 +102,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
-      x.FUA_SCALING += fuaScaling
+      x.FUA_SCALING += fuaScaling * 2
       x.ULT_SCALING += ultScaling
 
       x.BREAK_EFFICIENCY_BOOST += (e >= 1) ? 0.50 : 0
@@ -111,7 +111,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30
       x.ULT_TOUGHNESS_DMG += 60
-      x.FUA_TOUGHNESS_DMG += 30
+      x.FUA_TOUGHNESS_DMG += 30 * 2
       x.FUA_TOUGHNESS_DMG += (e >= 6) ? 15 : 0
 
       return x

@@ -337,9 +337,8 @@ export default function RelicsTab() {
   useEffect(() => {
     if (selectedRelic) {
       const chars = DB.getMetadata().characters
-      const excluded = excludedRelicPotentialCharacters
       const allScores = Object.keys(chars)
-        .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
+        .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excludedRelicPotentialCharacters.includes(id)))
         .map((id) => ({
           cid: id,
           name: chars[id].displayName,

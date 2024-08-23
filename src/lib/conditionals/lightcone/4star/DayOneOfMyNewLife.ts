@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateDefaults: () => ({
       dmgResBuff: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
@@ -52,7 +52,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff
       x.DMG_RED_MULTI *= (m.dmgResBuff) ? (1 - sValues[s]) : 1
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

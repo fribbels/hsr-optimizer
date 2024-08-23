@@ -42,7 +42,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       trickStacks: 3,
     }),
@@ -51,7 +50,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
     },
-    finalizeCalculations: (c, request) => {
+    finalizeCalculations: () => {
     },
     dynamicConditionals: [
       {
@@ -72,8 +71,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
           buffStat(x, request, params, Stats.ATK, buffValue - stateValue)
         },
         gpu: function (request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
-
           return conditionalWgslWrapper(this, `
 if (x.EHR < 0.80) {
   return;

@@ -67,7 +67,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       cdBuffActive: false,
       errBuffActive: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
@@ -76,7 +76,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
       x[Stats.ERR] += (m.errBuffActive) ? sValuesErr[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

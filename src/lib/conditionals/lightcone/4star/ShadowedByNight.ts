@@ -22,21 +22,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       spdBuff: false,
     }),
-    teammateDefaults: () => ({}),
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
       x[Stats.SPD_P] += (r.spdBuff) ? sValuesSpdBuff[s] : 0
-    },
-    precomputeMutualEffects: () => {
-    },
-    precomputeTeammateEffects: () => {
-    },
-    calculatePassives: () => {
     },
     finalizeCalculations: () => {
     },

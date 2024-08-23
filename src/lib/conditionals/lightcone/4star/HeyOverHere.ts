@@ -39,7 +39,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       postSkillHealBuff: true,
     }),
@@ -48,7 +47,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.OHB] += (r.postSkillHealBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

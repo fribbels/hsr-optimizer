@@ -3,6 +3,7 @@ import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
@@ -38,16 +39,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       resToHealingBoost: true,
     }),
-    precomputeEffects: (/* x, request */) => {
-      //  const r = request.lightConeConditionals
+    precomputeEffects: () => {
     },
-    finalizeCalculations: (c, request) => {
+    finalizeCalculations: (x: ComputedStatsObject, request) => {
       const r = request.lightConeConditionals
-      const x = c.x
 
       // TODO: Dynamic conditional
       const boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])

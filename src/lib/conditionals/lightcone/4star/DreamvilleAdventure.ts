@@ -65,7 +65,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       skillDmgBuff: false,
       basicDmgBuff: false,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
@@ -74,7 +74,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       buffAbilityDmg(x, SKILL_TYPE, sValues[s], (m.skillDmgBuff))
       buffAbilityDmg(x, ULT_TYPE, sValues[s], (m.ultDmgBuff))
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

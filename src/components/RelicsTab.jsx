@@ -333,10 +333,11 @@ export default function RelicsTab() {
   const numScores = 10
   const [scores, setScores] = useState(null)
   const [scoreBuckets, setScoreBuckets] = useState(null)
+  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
   useEffect(() => {
     if (selectedRelic) {
       const chars = DB.getMetadata().characters
-      const excluded = window.store.getState().excludedRelicPotentialCharacters
+      const excluded = excludedRelicPotentialCharacters
       const allScores = Object.keys(chars)
         .filter((id) => !(plottedCharacterType === PLOT_CUSTOM && excluded.includes(id)))
         .map((id) => ({
@@ -363,7 +364,7 @@ export default function RelicsTab() {
       sb.forEach((bucket) => bucket.sort((s1, s2) => s1.name.localeCompare(s2.name)))
       setScoreBuckets(sb)
     }
-  }, [plottedCharacterType, selectedRelic])
+  }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters])
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>

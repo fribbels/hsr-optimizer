@@ -1,15 +1,16 @@
-import { Stats } from "lib/constants";
-import { indent } from "lib/gpu/injection/wgslUtils";
-import { Form } from "types/Form";
-import { CharacterConditionals } from "lib/characterConditionals";
-import { LightConeConditionals } from "lib/lightConeConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { ConditionalRegistry } from "lib/optimizer/calculateConditionals";
-
+import { Stats } from 'lib/constants'
+import { indent } from 'lib/gpu/injection/wgslUtils'
+import { Form } from 'types/Form'
+import { CharacterConditionals } from 'lib/characterConditionals'
+import { LightConeConditionals } from 'lib/lightConeConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { ConditionalRegistry } from 'lib/optimizer/calculateConditionals'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
 
 export function injectConditionals(wgsl: string, request: Form, params: OptimizerParams) {
-  const characterConditionals = CharacterConditionals.get(request)
-  const lightConeConditionals = LightConeConditionals.get(request)
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(request) as CharacterConditional
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request) as LightConeConditional
 
   const conditionalRegistry = params.conditionalRegistry
 
@@ -49,21 +50,20 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   let conditionalStateDefinition = ''
 
   conditionalCallsWgsl += registeredConditionals[stat]
-    .map(conditional => generateDependencyCall(conditional.id)).join('\n')
+    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalNonRatioCallsWgsl += registeredConditionals[stat]
-    .filter(x => !x.ratioConversion)
-    .map(conditional => generateDependencyCall(conditional.id)).join('\n')
+    .filter((x) => !x.ratioConversion)
+    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
-    .map(conditional => conditional.gpu(request, params)).join('\n')
+    .map((conditional) => conditional.gpu(request, params)).join('\n')
   conditionalStateDefinition += registeredConditionals[stat]
-    .map(x => x.id + ': f32,\n').join('')
+    .map((x) => x.id + ': f32,\n').join('')
   conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
   conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
 
   return {
     conditionalEvaluators,
     conditionalDefinitionsWgsl,
-    conditionalCallsWgsl,
     conditionalStateDefinition,
   }
 }
@@ -73,20 +73,17 @@ function generateDynamicSetConditionals(registeredConditionals: ConditionalRegis
 
   let conditionalEvaluators = '\n'
   let conditionalDefinitionsWgsl = '\n'
-  let conditionalCallsWgsl = '\n'
   let conditionalStateDefinition = '\n'
 
   function inject(
     conditionalWgsl: {
-      conditionalEvaluators: string,
-      conditionalDefinitionsWgsl: string,
-      conditionalCallsWgsl: string,
+      conditionalEvaluators: string
+      conditionalDefinitionsWgsl: string
       conditionalStateDefinition: string
-    }
+    },
   ) {
     conditionalEvaluators += conditionalWgsl.conditionalEvaluators
     conditionalDefinitionsWgsl += conditionalWgsl.conditionalDefinitionsWgsl
-    conditionalCallsWgsl += conditionalWgsl.conditionalCallsWgsl
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
 

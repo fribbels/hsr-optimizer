@@ -1,7 +1,7 @@
 import { Stats } from 'lib/constants'
 import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDefShred, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { buffStat, conditionalWgslWrapper, NewConditional } from 'lib/gpu/conditionals/newConditionals'
+import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { p2 } from 'lib/optimizer/optimizerUtils'
 import { Form } from 'types/Form'
@@ -16,7 +16,7 @@ export const ConditionalActivation = {
   CONTINUOUS: 1,
 }
 
-export const RutilantArenaConditional: NewConditional = {
+export const RutilantArenaConditional: DynamicConditional = {
   id: 'RutilantArenaConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -42,7 +42,7 @@ if (
   },
 }
 
-export const InertSalsottoConditional: NewConditional = {
+export const InertSalsottoConditional: DynamicConditional = {
   id: 'InertSalsottoConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -68,7 +68,7 @@ if (
   },
 }
 
-export const SpaceSealingStationConditional: NewConditional = {
+export const SpaceSealingStationConditional: DynamicConditional = {
   id: 'SpaceSealingStationConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -93,7 +93,7 @@ if (
   },
 }
 
-export const FleetOfTheAgelessConditional: NewConditional = {
+export const FleetOfTheAgelessConditional: DynamicConditional = {
   id: 'FleetOfTheAgelessConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -118,7 +118,7 @@ if (
   },
 }
 
-export const BelobogOfTheArchitectsConditional: NewConditional = {
+export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   id: 'BelobogOfTheArchitectsConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -143,7 +143,7 @@ if (
   },
 }
 
-export const IronCavalryAgainstTheScourge150Conditional: NewConditional = {
+export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
   id: 'IronCavalryAgainstTheScourge150Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -168,7 +168,7 @@ if (
   },
 }
 
-export const IronCavalryAgainstTheScourge250Conditional: NewConditional = {
+export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
   id: 'IronCavalryAgainstTheScourge250Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -193,7 +193,7 @@ if (
   },
 }
 
-export const PanCosmicCommercialEnterpriseConditional: NewConditional = {
+export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   id: 'PanCosmicCommercialEnterpriseConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
@@ -225,7 +225,7 @@ if (
   },
 }
 
-export const BrokenKeelConditional: NewConditional = {
+export const BrokenKeelConditional: DynamicConditional = {
   id: 'BrokenKeelConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -249,7 +249,7 @@ if (
   },
 }
 
-export const CelestialDifferentiatorConditional: NewConditional = {
+export const CelestialDifferentiatorConditional: DynamicConditional = {
   id: 'CelestialDifferentiatorConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -273,7 +273,7 @@ if (
   },
 }
 
-export const TaliaKingdomOfBanditryConditional: NewConditional = {
+export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   id: 'TaliaKingdomOfBanditryConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -297,7 +297,7 @@ if (
   },
 }
 
-export const FirmamentFrontlineGlamoth135Conditional: NewConditional = {
+export const FirmamentFrontlineGlamoth135Conditional: DynamicConditional = {
   id: 'FirmamentFrontlineGlamoth135Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -321,7 +321,7 @@ if (
   },
 }
 
-export const FirmamentFrontlineGlamoth160Conditional: NewConditional = {
+export const FirmamentFrontlineGlamoth160Conditional: DynamicConditional = {
   id: 'FirmamentFrontlineGlamoth160Conditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
@@ -344,8 +344,6 @@ if (
     `)
   },
 }
-
-// Fire set
 
 export const ConditionalSets = [
   SpaceSealingStationConditional,

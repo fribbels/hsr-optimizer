@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { AventurineConversionConditional, evaluateConditional } from "lib/gpu/conditionals/newConditionals";
+import { AventurineConversionConditional, evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -161,7 +161,7 @@ x.ULT_DMG += x.ULT_SCALING * x.DEF;
 x.FUA_DMG += x.FUA_SCALING * x.DEF;
       `
     },
-    gpuConditionals: [AventurineConversionConditional]
+    gpuConditionals: [AventurineConversionConditional],
   }
 }
 Aventurine.label = 'Aventurine'

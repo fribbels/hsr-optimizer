@@ -6,8 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { GallagherConversionConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { GallagherConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 const Gallagher = (e: Eidolon): CharacterConditional => {
   const { basic, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -125,7 +125,7 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [GallagherConversionConditional]
+    gpuConditionals: [GallagherConversionConditional],
   }
 }
 Gallagher.label = 'Gallagher'

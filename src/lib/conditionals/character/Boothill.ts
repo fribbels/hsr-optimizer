@@ -6,8 +6,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
-import { BoothillConversionConditional, evaluateConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { BoothillConversionConditional, evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -178,6 +178,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [BoothillConversionConditional]
+    gpuConditionals: [BoothillConversionConditional],
   }
 }

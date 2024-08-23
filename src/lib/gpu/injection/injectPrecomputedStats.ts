@@ -1,5 +1,5 @@
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { Stats } from "lib/constants";
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { Stats } from 'lib/constants'
 
 export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
   const x = params.precomputedX

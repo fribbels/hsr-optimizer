@@ -7,8 +7,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { BlackSwanConversionConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -72,7 +72,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       title: 'E1 RES reduction',
       content: `E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%.`,
       disabled: e < 1,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -149,6 +149,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [BlackSwanConversionConditional]
+    gpuConditionals: [BlackSwanConversionConditional],
   }
 }

@@ -5,10 +5,10 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { ConditionalActivation, ConditionalType } from "lib/gpu/conditionals/setConditionals";
-import { buffStat, conditionalWgslWrapper } from "lib/gpu/conditionals/newConditionals";
-import { wgslFalse, wgslTrue } from "lib/gpu/injection/wgslUtils";
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -117,7 +117,7 @@ x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
         const r = request.characterConditionals
         if (!r.skillBuff) {
-          return;
+          return
         }
 
         const stateValue = params.conditionalState[this.id] || 0
@@ -185,7 +185,7 @@ let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
 buffNonRatioDynamicHP(finalBuffHp, p_x, p_state);
 buffDynamicATK(finalBuffAtk, p_x, p_state);
     `)
-      }
-    }]
+      },
+    }],
   }
 }

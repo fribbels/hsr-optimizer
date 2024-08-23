@@ -5,7 +5,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { Stats } from 'lib/constants'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
-import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/newConditionals'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 

@@ -1,11 +1,10 @@
 import { Form } from 'types/Form'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
-import { NewConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { PrecomputedCharacterConditional } from "types/CharacterConditional";
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export type ConditionalMap = {
   [key: string]: number | boolean | string | undefined
@@ -22,15 +21,15 @@ export interface Conditional {
    * TODO: purify this implmentation
    * ComputedStatsObject arg is mutated by ref
    */
-  calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => void
+  calculateBaseMultis: (c: BasicStatsObject, request: Form) => void
   // Stat conversions
-  calculatePassives?: (c: PrecomputedCharacterConditional, request: Form) => void
+  calculatePassives?: (c: BasicStatsObject, request: Form) => void
   //
   calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
 
   gpu?: (request: Form, params: OptimizerParams) => string
 
-  gpuConditionals?: NewConditional[]
+  gpuConditionals?: DynamicConditional[]
 }
 
 export type ContentComponentMap = {
@@ -41,11 +40,11 @@ export type ContentComponentMap = {
 // extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
   [K in keyof ContentComponentMap]: {
-  formItem: K
-  id: string
-  content: string
-  teammateIndex?: number
-} & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
+    formItem: K
+    id: string
+    content: string
+    teammateIndex?: number
+  } & Omit<ComponentProps<ContentComponentMap[K]>, 'content'>
 }[keyof ContentComponentMap]
 
 export type ConditionalBuff =
@@ -392,7 +391,7 @@ export type ConditionalBuff =
   | 'woefreeState'
   | 'additionalVulnerability'
   | 'e1UltHitsOnTarget'
-  | 'talentDmgBuff'
+
   | 'skillAtkBuff'
   | 'e1OriginalDmgBoost'
   | 'e4FuaVulnerability'

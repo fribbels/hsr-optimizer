@@ -6,7 +6,7 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/newConditionals'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]

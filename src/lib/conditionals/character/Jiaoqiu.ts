@@ -7,8 +7,8 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { JiaoqiuConversionConditional } from "lib/gpu/conditionals/newConditionals";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
+import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -159,6 +159,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [JiaoqiuConversionConditional]
+    gpuConditionals: [JiaoqiuConversionConditional],
   }
 }

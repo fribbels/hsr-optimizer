@@ -7,9 +7,9 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { evaluateConditional, FireflyConversionConditional } from "lib/gpu/conditionals/newConditionals";
-import { wgslTrue } from "lib/gpu/injection/wgslUtils";
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { evaluateConditional, FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -196,6 +196,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [FireflyConversionConditional]
+    gpuConditionals: [FireflyConversionConditional],
   }
 }

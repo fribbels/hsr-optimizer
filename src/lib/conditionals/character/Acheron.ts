@@ -1,16 +1,10 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import {
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
@@ -167,7 +161,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 105
-      
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {

@@ -5,12 +5,12 @@ import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
-import { evaluateConditional } from 'lib/gpu/conditionals/newConditionals'
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
-export function calculateSetCounts(c, setH, setG, setB, setF, setP, setL) {
+export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
   c.x.sets = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),
     MusketeerOfWildWheat: (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)),
@@ -336,7 +336,7 @@ export function calculateComputedStats(c: PrecomputedCharacterConditional, reque
   return x
 }
 
-export function calculateRelicStats(c: PrecomputedCharacterConditional, head, hands, body, feet, planarSphere, linkRope) {
+export function calculateRelicStats(c: BasicStatsObject, head, hands, body, feet, planarSphere, linkRope) {
   for (const relic of [head, hands, body, feet, planarSphere, linkRope]) {
     if (!relic.part) continue
 

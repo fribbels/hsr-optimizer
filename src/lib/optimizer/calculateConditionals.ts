@@ -1,14 +1,14 @@
 import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
-import { Form } from "types/Form";
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { Stats } from "lib/constants";
-import { NewConditional } from "lib/gpu/conditionals/newConditionals";
-import { ConditionalSets } from "lib/gpu/conditionals/setConditionals";
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { Stats } from 'lib/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
-  let characterConditionals = CharacterConditionals.get(request)
-  let lightConeConditionals = LightConeConditionals.get(request)
+  const characterConditionals = CharacterConditionals.get(request)
+  const lightConeConditionals = LightConeConditionals.get(request)
   if (!request.characterConditionals) {
     request.characterConditionals = characterConditionals.defaults()
   }
@@ -16,7 +16,7 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
     request.lightConeConditionals = lightConeConditionals.defaults()
   }
 
-  let precomputedX = characterConditionals.precomputeEffects(request)
+  const precomputedX = characterConditionals.precomputeEffects(request)
 
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
   precomputedX.ENEMY_WEAKNESS_BROKEN = precomputedX.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0)
@@ -48,7 +48,7 @@ export function calculateConditionalRegistry(request: Form, params: Partial<Opti
 }
 
 export type ConditionalRegistry = {
-  [key: string]: NewConditional[]
+  [key: string]: DynamicConditional[]
 }
 
 function emptyRegistry() {
@@ -67,7 +67,7 @@ function emptyRegistry() {
   }
 }
 
-function registerConditionals(registeredConditionals: { [key: string]: NewConditional[] }, conditionals: NewConditional[]) {
+function registerConditionals(registeredConditionals: { [key: string]: DynamicConditional[] }, conditionals: DynamicConditional[]) {
   for (const conditional of conditionals) {
     for (const stat of conditional.dependsOn) {
       registeredConditionals[stat].push(conditional)
@@ -76,8 +76,8 @@ function registerConditionals(registeredConditionals: { [key: string]: NewCondit
 }
 
 export function calculatePostPrecomputeConditionals(request: Form, params: OptimizerParams) {
-  let characterConditionals = CharacterConditionals.get(request)
-  let lightConeConditionals = LightConeConditionals.get(request)
+  const characterConditionals = CharacterConditionals.get(request)
+  const lightConeConditionals = LightConeConditionals.get(request)
 
   if (characterConditionals.postPreComputeMutualEffects) characterConditionals.postPreComputeMutualEffects(params.precomputedX, request)
 

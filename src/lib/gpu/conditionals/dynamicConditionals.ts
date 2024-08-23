@@ -6,7 +6,7 @@ import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Form } from 'types/Form'
 import { precisionRound } from 'lib/conditionals/utils'
 
-export type NewConditional = {
+export type DynamicConditional = {
   id: string
   type: number
   activation: number
@@ -17,9 +17,9 @@ export type NewConditional = {
   ratioConversion?: boolean
 }
 
-export function evaluateConditional(conditional: NewConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (conditional.condition(x, request, params) && !params.conditionalState[conditional.id]) {
+    if (!params.conditionalState[conditional.id] && conditional.condition(x, request, params)) {
       conditional.effect(x, request, params)
       params.conditionalState[conditional.id] = 1
     }
@@ -32,7 +32,7 @@ export function evaluateConditional(conditional: NewConditional, x: ComputedStat
   }
 }
 
-export function conditionalWgslWrapper(conditional: NewConditional, wgsl: string) {
+export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
   return `
 fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
@@ -54,7 +54,7 @@ export function buffStat(x: ComputedStatsObject, request: Form, params: Optimize
   }
 }
 
-export const AventurineConversionConditional: NewConditional = {
+export const AventurineConversionConditional: DynamicConditional = {
   id: 'AventurineConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -91,7 +91,7 @@ if (def > 1600) {
   },
 }
 
-export const XueyiConversionConditional: NewConditional = {
+export const XueyiConversionConditional: DynamicConditional = {
   id: 'XueyiConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -118,7 +118,7 @@ let buffValue: f32 = min(2.40, be);
   },
 }
 
-export const FireflyConversionConditional: NewConditional = {
+export const FireflyConversionConditional: DynamicConditional = {
   id: 'FireflyConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -157,7 +157,7 @@ if (trueAtk > 1800) {
   },
 }
 
-export const BoothillConversionConditional: NewConditional = {
+export const BoothillConversionConditional: DynamicConditional = {
   id: 'BoothillConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -204,7 +204,7 @@ buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_state);
   },
 }
 
-export const GepardConversionConditional: NewConditional = {
+export const GepardConversionConditional: DynamicConditional = {
   id: 'GepardConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -231,7 +231,7 @@ buffDynamicATK(buffValue - stateValue, p_x, p_state);
   },
 }
 
-export const BlackSwanConversionConditional: NewConditional = {
+export const BlackSwanConversionConditional: DynamicConditional = {
   id: 'BlackSwanConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -267,7 +267,7 @@ let buffValue: f32 = min(0.72, ehr);
   },
 }
 
-export const GallagherConversionConditional: NewConditional = {
+export const GallagherConversionConditional: DynamicConditional = {
   id: 'GallagherConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -298,7 +298,7 @@ buffDynamicOHB(buffValue - stateValue, p_x, p_state);
   },
 }
 
-export const RuanMeiConversionConditional: NewConditional = {
+export const RuanMeiConversionConditional: DynamicConditional = {
   id: 'RuanMeiConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
@@ -331,7 +331,7 @@ let buffValue: f32 = floor(max(0, beOver)) * 0.06;
   },
 }
 
-export const JiaoqiuConversionConditional: NewConditional = {
+export const JiaoqiuConversionConditional: DynamicConditional = {
   id: 'JiaoqiuConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,

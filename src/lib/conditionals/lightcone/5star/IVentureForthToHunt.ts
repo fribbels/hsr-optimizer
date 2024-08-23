@@ -3,9 +3,8 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
-import { BETA_UPDATE } from "lib/constants";
-import { buffAbilityDefShred } from "lib/optimizer/calculateBuffs";
+import { BETA_UPDATE } from 'lib/constants'
+import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
@@ -37,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    calculateBaseMultis: () => {
     },
   }
 }

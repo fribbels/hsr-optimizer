@@ -50,7 +50,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDmg(x, DOT_TYPE, sValues[s], (r.postUltDotDmgBuff))
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (/* c, request */) => {
+    },
   }
 }

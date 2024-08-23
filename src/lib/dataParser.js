@@ -417,7 +417,13 @@ function getSuperimpositions() {
       4: { [Stats.ATK_P]: 0.36 },
       5: { [Stats.ATK_P]: 0.40 },
     },
-    23003: {},
+    23003: {
+      1: { [Stats.ERR]: 0.10 },
+      2: { [Stats.ERR]: 0.12 },
+      3: { [Stats.ERR]: 0.14 },
+      4: { [Stats.ERR]: 0.16 },
+      5: { [Stats.ERR]: 0.18 },
+    },
     23004: {},
     23005: {
       1: { [Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24 },

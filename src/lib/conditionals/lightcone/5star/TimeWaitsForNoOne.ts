@@ -40,9 +40,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       healingBasedDmgProc: false,
     }),
     precomputeEffects: (/* x, request */) => {
-      // let r = request.lightConeConditionals
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (/* c, request */) => {
+    },
   }
 }

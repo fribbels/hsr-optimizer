@@ -3,7 +3,7 @@ import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
-import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
 import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 
@@ -71,8 +71,10 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
 
       buffAbilityDefShred(x, FUA_TYPE, sValuesFuaPen[s], (r.postUltBuff))
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (/* c, request */) => {
+    },
   }
 }
 

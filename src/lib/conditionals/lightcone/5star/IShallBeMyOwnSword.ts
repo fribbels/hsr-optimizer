@@ -1,9 +1,9 @@
 import { ContentItem } from 'types/Conditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import getContentFromLCRanks from '../getContentFromLCRank'
 import { SuperImpositionLevel } from 'types/LightCone'
-import { ConditionalLightConeMap, LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { LightConeConditional, LightConeRawRank } from 'types/LightConeConditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesStackDmg = [0.14, 0.165, 0.19, 0.215, 0.24]
@@ -62,8 +62,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       eclipseStacks: 3,
       maxStackDefPen: true,
     }),
-    precomputeEffects: (x: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.lightConeConditionals as ConditionalLightConeMap
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.lightConeConditionals
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },

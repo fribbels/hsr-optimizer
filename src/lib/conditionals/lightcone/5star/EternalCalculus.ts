@@ -3,7 +3,6 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/utils'
 
@@ -50,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    calculateBaseMultis: () => {
     },
   }
 }

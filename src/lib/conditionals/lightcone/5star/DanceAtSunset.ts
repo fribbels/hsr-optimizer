@@ -2,7 +2,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { BasicStatsObject, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (_c: BasicStatsObject, _request: Form) => {
+    calculateBaseMultis: () => {
     },
   }
 }

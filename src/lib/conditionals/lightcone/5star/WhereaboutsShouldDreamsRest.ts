@@ -3,7 +3,6 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.24, 0.28, 0.32, 0.36, 0.40]
@@ -35,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    calculateBaseMultis: () => {
     },
   }
 }

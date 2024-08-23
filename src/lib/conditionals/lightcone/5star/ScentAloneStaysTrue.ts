@@ -2,10 +2,9 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
-import { BETA_UPDATE, Stats } from "lib/constants";
-import { findContentId } from "lib/conditionals/utils";
+import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { BETA_UPDATE, Stats } from 'lib/constants'
+import { findContentId } from 'lib/conditionals/utils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
@@ -46,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       woefreeState: true,
       additionalVulnerability: true,
     }),
-    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
@@ -60,10 +59,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 
+      // TODO: Dynamic conditional
       x.DMG_TAKEN_MULTI += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0
     },
   }

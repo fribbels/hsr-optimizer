@@ -2230,7 +2230,7 @@ function getScoringMetadata() {
         ],
         teammates: [
           {
-            characterId: '1006', // SW
+            characterId: '1006', // Silver Wolf
             lightCone: '23007', // Rain
             characterEidolon: 0,
             lightConeSuperimposition: 1,

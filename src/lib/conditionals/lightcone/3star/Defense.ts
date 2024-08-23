@@ -7,8 +7,6 @@ export default (): LightConeConditional => {
     defaults: () => ({}),
     precomputeEffects: () => {
     },
-    calculatePassives: () => {
-    },
     calculateBaseMultis: () => {
     },
   }

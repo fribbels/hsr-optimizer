@@ -5,10 +5,13 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Stats } from 'lib/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { LightConeConditional } from 'types/LightConeConditionals'
 
 export function calculateConditionals(request: Form, params: Partial<OptimizerParams>) {
-  const characterConditionals = CharacterConditionals.get(request)
-  const lightConeConditionals = LightConeConditionals.get(request)
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(request)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request)
   if (!request.characterConditionals) {
     request.characterConditionals = characterConditionals.defaults()
   }
@@ -16,21 +19,26 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
     request.lightConeConditionals = lightConeConditionals.defaults()
   }
 
-  const precomputedX = characterConditionals.precomputeEffects(request)
+  const x: ComputedStatsObject = Object.assign({}, baseComputedStatsObject)
+
+  // Configuration stage
+  lightConeConditionals.initializeConfigurations?.(x, request)
+  characterConditionals.initializeConfigurations?.(x, request)
+
+  // Precompute stage
+  lightConeConditionals.precomputeEffects?.(x, request)
+  characterConditionals.precomputeEffects?.(x, request)
+
+  // Precompute mutual stage
+  lightConeConditionals.precomputeMutualEffects?.(x, request)
+  characterConditionals.precomputeMutualEffects?.(x, request)
 
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  precomputedX.ENEMY_WEAKNESS_BROKEN = precomputedX.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0)
+  x.ENEMY_WEAKNESS_BROKEN = x.ENEMY_WEAKNESS_BROKEN || (request.enemyWeaknessBroken ? 1 : 0)
 
-  if (characterConditionals.precomputeMutualEffects) characterConditionals.precomputeMutualEffects(precomputedX, request)
+  params.precomputedX = x
 
-  if (lightConeConditionals) {
-    if (lightConeConditionals.precomputeEffects) lightConeConditionals.precomputeEffects(precomputedX, request, params)
-    if (lightConeConditionals.precomputeMutualEffects) lightConeConditionals.precomputeMutualEffects(precomputedX, request)
-  }
-
-  params.precomputedX = precomputedX
-
-  return precomputedX
+  return x
 }
 
 export function calculateConditionalRegistry(request: Form, params: Partial<OptimizerParams>) {

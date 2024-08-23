@@ -50,8 +50,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (/* x, request */) => {
       // const r = request.lightConeConditionals;
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.lightConeConditionals
       const x = c.x

@@ -47,8 +47,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += r.maxEnergyStacks * sValues[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

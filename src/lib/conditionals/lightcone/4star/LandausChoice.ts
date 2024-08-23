@@ -11,8 +11,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x/* , request */) => {
       x.DMG_RED_MULTI *= (1 - sValues[s])
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

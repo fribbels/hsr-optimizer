@@ -45,8 +45,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += r.debuffStacksDmgIncrease * sValues[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -43,8 +43,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (/* x, request */) => {
       //  let r = request.lightConeConditionals
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c: PrecomputedCharacterConditional, request: Form */) => {
       /*
        * console.warn('not implemented', c, request);

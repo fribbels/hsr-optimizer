@@ -52,8 +52,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDmg(x, ULT_TYPE, r.maxEnergyUltDmgStacks * sValues[s])
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -36,8 +36,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.ATK_P] += (r.postUltAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

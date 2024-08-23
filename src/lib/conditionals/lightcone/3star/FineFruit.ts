@@ -7,8 +7,6 @@ export default (/* s: SuperImpositionLevel */): LightConeConditional => {
     defaults: () => ({}),
     precomputeEffects: (/* x: PrecomputedCharacterConditional, request: Form */) => {
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

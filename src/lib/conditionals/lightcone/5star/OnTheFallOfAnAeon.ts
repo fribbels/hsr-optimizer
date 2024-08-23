@@ -62,8 +62,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += r.atkBoostStacks * sValuesAtkStacks[s]
       x.ELEMENTAL_DMG += (r.weaknessBreakDmgBuff) ? sValuesDmgBuff[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

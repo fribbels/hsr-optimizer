@@ -54,8 +54,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       buffAbilityDefShred(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s])
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -44,8 +44,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.selfHp80CrBuff) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

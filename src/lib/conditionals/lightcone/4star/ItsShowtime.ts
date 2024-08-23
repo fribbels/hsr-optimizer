@@ -51,8 +51,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (c, request) => {
     },
     gpuConditionals: [

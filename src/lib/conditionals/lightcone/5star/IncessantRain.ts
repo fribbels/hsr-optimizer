@@ -77,8 +77,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.DMG_TAKEN_MULTI += (m.targetCodeDebuff) ? sValuesDmg[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -45,8 +45,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.BASIC_SCALING += (r.extraDmgProc) ? sValues[s] : 0
       x.SKILL_SCALING += (r.extraDmgProc) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

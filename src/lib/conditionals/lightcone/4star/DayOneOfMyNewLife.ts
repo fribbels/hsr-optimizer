@@ -52,8 +52,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff
       x.DMG_RED_MULTI *= (m.dmgResBuff) ? (1 - sValues[s]) : 1
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

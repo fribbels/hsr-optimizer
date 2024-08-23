@@ -50,8 +50,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += r.goodFortuneStacks * sValues[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

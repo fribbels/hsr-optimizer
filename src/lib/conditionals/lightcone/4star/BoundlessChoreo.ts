@@ -32,8 +32,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += (r.enemyDefReducedSlowed) ? sValuesCd[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

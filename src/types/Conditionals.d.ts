@@ -1,5 +1,5 @@
 import { Form } from 'types/Form'
-import { BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { FormSwitchWithPopoverProps } from 'components/optimizerTab/conditionals/FormSwitch'
 import { FormSliderWithPopoverProps } from 'components/optimizerTab/conditionals/FormSlider'
 import { ComponentProps, ComponentType } from 'react'
@@ -17,15 +17,22 @@ export interface Conditional {
   teammateContent?: (teammateIndex: number) => ContentItem[]
   defaults: () => ConditionalMap
   teammateDefaults?: () => ConditionalMap
-  /*
-   * ComputedStatsObject arg is mutated by ref
-   */
-  calculateBaseMultis: (c: BasicStatsObject, request: Form) => void
-  // Stat conversions
-  calculatePassives?: (c: BasicStatsObject, request: Form) => void
-  //
-  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
 
+  initializeConfigurations?: (x: ComputedStatsObject, request: Form) => void
+
+  // Character's individual effects
+  precomputeEffects: (x: ComputedStatsObject, request: Form) => void
+
+  // Shared effects between teammates and main character
+  precomputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+
+  postPreComputeMutualEffects?: (x: ComputedStatsObject, request: Form) => void
+
+  // Effects unique to teammate calculation
+  precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
+
+  calculateBaseMultis: (x: ComputedStatsObject, request: Form) => void
+  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
   gpu?: (request: Form, params: OptimizerParams) => string
 
   gpuConditionals?: DynamicConditional[]

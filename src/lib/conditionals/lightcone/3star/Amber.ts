@@ -47,8 +47,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.DEF_P] += (r.hp50DefBuff) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -1,12 +1,12 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -96,9 +96,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -133,7 +132,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (c: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

@@ -55,8 +55,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.SPD] += (m.postUltSpdBuff) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

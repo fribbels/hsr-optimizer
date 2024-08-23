@@ -53,8 +53,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += r.dragonsCallStacks * sValuesAtk[s]
       x[Stats.ERR] += r.dragonsCallStacks * sValuesErr[s]
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

@@ -35,8 +35,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.BASIC_SCALING += (r.basicAtkBuff) ? sValues[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

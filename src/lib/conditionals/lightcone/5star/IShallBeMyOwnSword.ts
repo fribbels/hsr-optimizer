@@ -67,8 +67,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += r.eclipseStacks * sValuesStackDmg[s]
       x.DEF_SHRED += (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
     calculateBaseMultis: (/* c, request */) => {
     },
   }

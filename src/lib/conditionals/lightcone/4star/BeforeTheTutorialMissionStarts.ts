@@ -1,14 +1,12 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
 
-export default (/* s: SuperImpositionLevel */): LightConeConditional => {
+export default (): LightConeConditional => {
   return {
     content: () => [],
-    teammateContent: () => [],
     defaults: () => ({}),
-    precomputeEffects: (/* x, request */) => {
-      // let r = request.lightConeConditionals
+    precomputeEffects: () => {
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

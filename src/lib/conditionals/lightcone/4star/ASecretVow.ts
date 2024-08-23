@@ -47,7 +47,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += sValues[s]
       x.ELEMENTAL_DMG += (r.enemyHpHigherDmgBoost) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

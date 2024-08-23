@@ -22,7 +22,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       spdBuff: true,
     }),
@@ -30,8 +29,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
 
       x[Stats.SPD_P] += (r.spdBuff) ? sValuesSpd[s] : 0
-    },
-    calculatePassives: (/* c, request */) => {
     },
     finalizeCalculations: () => {
     },

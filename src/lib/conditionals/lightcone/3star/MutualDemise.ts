@@ -35,7 +35,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       selfHp80CrBuff: true,
     }),
@@ -44,7 +43,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.selfHp80CrBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

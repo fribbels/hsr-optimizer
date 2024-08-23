@@ -26,7 +26,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       basicAtkBuff: true,
     }),
@@ -35,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.BASIC_SCALING += (r.basicAtkBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

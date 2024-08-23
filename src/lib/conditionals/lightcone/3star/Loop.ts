@@ -34,7 +34,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       enemySlowedDmgBuff: true,
     }),
@@ -43,7 +42,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += (r.enemySlowedDmgBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

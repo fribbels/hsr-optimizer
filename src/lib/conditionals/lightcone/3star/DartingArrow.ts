@@ -35,7 +35,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       defeatedEnemyAtkBuff: true,
     }),
@@ -44,7 +43,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.ATK_P] += (r.defeatedEnemyAtkBuff) ? sValues[s] : 0
     },
-    finalizeCalculations: (/* c, request */) => {
+    finalizeCalculations: () => {
     },
   }
 }

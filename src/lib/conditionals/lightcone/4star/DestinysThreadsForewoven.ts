@@ -1,5 +1,4 @@
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
@@ -17,13 +16,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     teammateContent: () => [],
     defaults: () => ({}),
     precomputeEffects: (/* x, request */) => {
-      // let r = request.lightConeConditionals
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional/* , request: Form */) => {
-      // const r = request.lightConeConditionals;
-      const x = c.x
+    calculateBaseMultis: () => {
     },
     gpuConditionals: [
       {
@@ -35,8 +31,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
           return true
         },
         effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
-
           const stateValue = params.conditionalState[this.id] || 0
           const buffValue = Math.min(sValuesMax[s], Math.floor(x[Stats.DEF] / 100) * sValues[s])
 
@@ -44,8 +38,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
           x.ELEMENTAL_DMG += buffValue - stateValue
         },
         gpu: function (request: Form, params: OptimizerParams) {
-          const r = request.characterConditionals
-
           return conditionalWgslWrapper(this, `
 let def = (*p_x).DEF;
 let stateValue: f32 = (*p_state).DestinysThreadsForewovenConversionConditional;

@@ -45,11 +45,13 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (/* x, request */) => {
       //  const r = request.lightConeConditionals
     },
-    calculatePassives: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
     calculateBaseMultis: (c, request) => {
       const r = request.lightConeConditionals
       const x = c.x
 
+      // TODO: Dynamic conditional
       const boost = Math.min(sMaxValues[s], sValues[s] * x[Stats.RES])
       x[Stats.OHB] += (r.resToHealingBoost) ? boost : 0
     },

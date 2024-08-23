@@ -46,7 +46,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       buffAbilityDmg(x, FUA_TYPE, sValues[s])
       buffAbilityDmg(x, FUA_TYPE, sValues[s], (r.enemyHp50FuaBuff))
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (/* c, request */) => {
+    },
   }
 }

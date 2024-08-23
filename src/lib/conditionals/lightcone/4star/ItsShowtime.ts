@@ -54,7 +54,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     calculatePassives: (/* c, request */) => {
     },
     calculateBaseMultis: (c, request) => {
-      const x = c.x
     },
     gpuConditionals: [
       {

@@ -385,7 +385,7 @@ export const FormSetConditionals = () => {
           />
           <ConditionalSetOption
             set={Constants.Sets.LushakaTheSunkenSeas}
-            description="Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 15%."
+            description="Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 12%."
             conditional="The selected buff is applied to damage calculations."
             p2Checked
           />

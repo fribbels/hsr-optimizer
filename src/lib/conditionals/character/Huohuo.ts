@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
@@ -57,9 +57,7 @@ export default (e: Eidolon): CharacterConditional => {
       skillBuff: true,
       e6DmgBuff: true,
     }),
-    precomputeEffects: (_request) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
 
@@ -75,9 +73,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.ELEMENTAL_DMG += (e >= 6 && m.e6DmgBuff) ? 0.50 : 0
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
   }

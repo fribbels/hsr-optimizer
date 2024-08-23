@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -68,9 +68,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       skillActive: true,
     }),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -94,9 +93,8 @@ export default (e: Eidolon): CharacterConditional => {
       // This EHR buff applies to all
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]

@@ -1,10 +1,10 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { Stats } from 'lib/constants.ts'
+import { Stats } from 'lib/constants'
 import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
@@ -112,9 +112,8 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.DEF_P] += (e >= 4 && r.e4DefBuff) ? 0.40 : 0
       x.ELEMENTAL_DMG += (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0
@@ -132,15 +131,12 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
       x[Stats.RES] += (m.fortifiedWagerBuff) ? talentResScaling : 0
-      x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
       x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
+      x[Stats.CD] += (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0
+      x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
     },
-    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
-      const r = request.characterConditionals
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.DEF]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]

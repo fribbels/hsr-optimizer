@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
@@ -68,9 +68,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentDmgReductionBuff: true,
       e4SkillHealingDmgBuffStacks: 3,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.OHB] += (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0
@@ -92,9 +91,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.ELEMENTAL_DMG += (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0
       x.DMG_RED_MULTI *= (m.talentDmgReductionBuff) ? (1 - 0.10) : 1
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += 0
       x.ULT_DMG += 0

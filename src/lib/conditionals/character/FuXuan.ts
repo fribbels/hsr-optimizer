@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
@@ -75,9 +75,7 @@ export default (e: Eidolon): CharacterConditional => {
       talentActive: true,
       teammateHPValue: 8000,
     }),
-    precomputeEffects: (_request: Form) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -105,9 +103,8 @@ export default (e: Eidolon): CharacterConditional => {
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       x[Stats.HP] += (r.skillActive) ? skillHpBuffValue * x[Stats.HP] : 0
 

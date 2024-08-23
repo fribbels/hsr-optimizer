@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDefShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
@@ -96,10 +96,9 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       defDecreaseDebuff: true,
       e1ResReduction: true,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -130,9 +129,8 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.PHYSICAL_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
       x.LIGHTNING_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
@@ -140,8 +138,6 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
-
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
@@ -94,9 +94,8 @@ export default (e: Eidolon): CharacterConditional => {
       superBreakDmg: true,
       teammateBeValue: 2.00,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ERR] += (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0
@@ -127,9 +126,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, _request: Form) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },

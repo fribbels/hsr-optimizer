@@ -1,13 +1,9 @@
 import { Stats } from 'lib/constants'
 
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from '../utils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 
@@ -81,11 +77,9 @@ export default (e: Eidolon): CharacterConditional => {
       e1TargetFrozen: true,
       e4CurrentHp80: true,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (r.ultBuffActive) ? 0.60 : 0
@@ -122,16 +116,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }

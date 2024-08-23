@@ -1,17 +1,13 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  FUA_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 const DrRatio = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -31,7 +27,7 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
   }
 
   const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-  const fuaMultiByDebuffs = {
+  const fuaMultiByDebuffs: NumberToNumberMap = {
     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
     1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
@@ -81,11 +77,9 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       enemyDebuffStacks: debuffStacksMax,
       summationStacks: summationStacksMax,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += r.summationStacks * 0.025
@@ -108,21 +102,20 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       if (e >= 2) {
         const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, baseHitMulti)
+        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, baseHitMulti)
         x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
       }
     },

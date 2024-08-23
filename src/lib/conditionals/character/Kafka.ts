@@ -1,20 +1,15 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  DOT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -43,7 +38,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'E2 Team DoT DMG boost',
       content: `E2: While Kafka is on the field, DoT dealt by all allies increases by 25%.`,
       disabled: e < 2,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -90,10 +85,8 @@ export default (e: Eidolon): CharacterConditional => {
       buffAbilityVulnerability(x, DOT_TYPE, 0.30, (e >= 1 && m.e1DotDmgReceivedDebuff))
       buffAbilityDmg(x, DOT_TYPE, 0.25, (e >= 2 && m.e2TeamDotBoost))
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const x = c.x
-
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

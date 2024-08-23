@@ -1,8 +1,8 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -13,29 +13,18 @@ export default (e: Eidolon): CharacterConditional => {
   return {
     content: () => [],
     teammateContent: () => [],
-    defaults: () => ({
-    }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: () => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
-      // Stats
-
-      // Scaling
+    defaults: () => ({}),
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_SCALING += basicScaling
-
-      // Boost
 
       x.BASIC_TOUGHNESS_DMG += 30
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.HP] : 0
     },

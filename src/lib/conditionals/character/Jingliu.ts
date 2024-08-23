@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, CharacterConditionalMap, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
@@ -71,9 +71,8 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       e2SkillDmgBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r: CharacterConditionalMap = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
       x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
@@ -109,15 +108,12 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
-      const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

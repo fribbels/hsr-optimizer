@@ -1,14 +1,14 @@
 import { Stats } from 'lib/constants'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { evaluateConditional, XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -88,9 +88,8 @@ export default (e: Eidolon): CharacterConditional => {
       e4BeBuff: true,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.BE] += (e >= 4 && r.e4BeBuff) ? 0.40 : 0
@@ -113,31 +112,27 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-
-      if (r.beToDmgBoost) {
-        evaluateConditional(XueyiConversionConditional, x, request, params)
-      }
-    },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
       const hitMulti = hitMultiByFuaHits[r.fuaHits]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
       const hitMulti = hitMultiByFuaHits[r.fuaHits]
 
+      // TODO
+      // if (r.beToDmgBoost) {
+      //   evaluateConditional(XueyiConversionConditional, x, request, params)
+      // }
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

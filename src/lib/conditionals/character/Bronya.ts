@@ -1,20 +1,15 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCr } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult} = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
   const ultAtkBoostValue = ult(e, 0.55, 0.594)
@@ -110,9 +105,7 @@ export default (e: Eidolon): CharacterConditional => {
         teammateCDValue: 2.50,
       },
     }),
-    precomputeEffects: (_request: Form) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Stats
       buffAbilityCr(x, BASIC_TYPE, 1.00)
 
@@ -122,8 +115,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.FUA_TOUGHNESS_DMG += (e >= 4) ? 30 : 0
-
-      return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
@@ -142,15 +133,14 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       // Order matters?
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
-      const {ashblazingMulti, ashblazingAtk} = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)

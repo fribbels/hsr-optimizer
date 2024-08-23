@@ -1,17 +1,13 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  FUA_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -24,13 +20,13 @@ export default (e: Eidolon): CharacterConditional => {
   const fuaScaling = talent(e, 1.20, 1.32)
   const pawnedAssetCdScaling = talent(e, 0.024, 0.0264)
 
-  const unenhancedHitMultiByTargets = {
+  const unenhancedHitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25), // 0.15
     3: ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.345
     5: ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.405
   }
 
-  const enhancedHitMultiByTargets = {
+  const enhancedHitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.10 + 2 * 0.10 + 3 * 0.10 + 4 * 0.10 + 5 * 0.60), // 0.24
     3: ASHBLAZING_ATK_STACK * (2 * 0.10 + 5 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.426
     5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
@@ -131,9 +127,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => (teammateDefaults),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x[Stats.CD] += r.pawnedAssetStacks * pawnedAssetCdScaling
       x[Stats.ATK_P] += r.pawnedAssetStacks * 0.005
@@ -162,16 +157,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      // x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK] // Removing since its not on her action
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
       const hitMulti = r.enhancedFollowUp ? enhancedHitMultiByTargets[request.enemyCount] : unenhancedHitMultiByTargets[request.enemyCount]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
   }

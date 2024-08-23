@@ -1,4 +1,4 @@
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
@@ -119,9 +119,8 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Special case where we force the weakness break on if the talent break option is enabled
       if (r.talentBreakDmgScaling) {
@@ -156,9 +155,8 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

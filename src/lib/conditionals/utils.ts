@@ -1,5 +1,7 @@
 import { Constants } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Form } from 'types/Form'
 
 export const precisionRound = (number: number, precision: number = 8): number => {
   const factor = Math.pow(10, precision)
@@ -7,11 +9,11 @@ export const precisionRound = (number: number, precision: number = 8): number =>
 }
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
-export const calculateAshblazingSet = (c, request, hitMulti): {
+export const calculateAshblazingSet = (x: ComputedStatsObject, request: Form, hitMulti: number): {
   ashblazingMulti: number
   ashblazingAtk: number
 } => {
-  const enabled = p4(c.x.sets.TheAshblazingGrandDuke)
+  const enabled = p4(x.sets.TheAshblazingGrandDuke)
   const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * request.baseAtk * enabled
   const ashblazingMulti = hitMulti * enabled * request.baseAtk

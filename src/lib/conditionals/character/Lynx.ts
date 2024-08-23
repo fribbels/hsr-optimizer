@@ -1,8 +1,8 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
@@ -59,9 +59,7 @@ export default (e: Eidolon): CharacterConditional => {
       skillBuff: true,
       teammateHPValue: 6000,
     }),
-    precomputeEffects: (_request: Form) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -86,14 +84,7 @@ export default (e: Eidolon): CharacterConditional => {
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
       x[Stats.ATK] += atkBuffValue
     },
-    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
-      // evaluateConditional(LynxConversionConditional, x, request, params)
-    },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
     gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {

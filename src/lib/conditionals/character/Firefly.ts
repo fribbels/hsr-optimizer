@@ -1,14 +1,14 @@
-import { baseComputedStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { evaluateConditional, FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { FireflyConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -120,9 +120,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Special case where we force the weakness break on if the option is enabled
       if (r.superBreakDmg) {
@@ -147,20 +146,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-
-      if (r.atkToBeConversion) {
-        evaluateConditional(FireflyConversionConditional, x, request, params)
-      }
-    },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultWeaknessBrokenBreakVulnerability, (r.enhancedStateActive && x.ENEMY_WEAKNESS_BROKEN))
 
@@ -174,7 +165,10 @@ export default (e: Eidolon): CharacterConditional => {
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
-
+      // TODO:
+      // if (r.atkToBeConversion) {
+      //   evaluateConditional(FireflyConversionConditional, x, request, params)
+      // }
       return `
 buffAbilityVulnerability(p_x, BREAK_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
 

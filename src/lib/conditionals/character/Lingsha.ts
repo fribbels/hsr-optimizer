@@ -7,6 +7,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -17,7 +18,7 @@ export default (e: Eidolon): CharacterConditional => {
   const ultBreakVulnerability = ult(e, 0.25, 0.27)
   const fuaScaling = talent(e, 0.75, 0.825)
 
-  const hitMultiByTargets = {
+  const hitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 2 + 3 * 1 / 2),
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
@@ -130,13 +131,12 @@ export default (e: Eidolon): CharacterConditional => {
         x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
       }
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMultiByTargets[request.enemyCount])
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMultiByTargets[request.enemyCount])
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

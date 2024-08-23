@@ -1,12 +1,12 @@
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityVulnerability } from "lib/optimizer/calculateBuffs";
+import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -36,7 +36,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E2 CD boost',
       title: 'E2 CD boost',
       content: BETA_UPDATE,
-      disabled: e < 2
+      disabled: e < 2,
     },
     {
       formItem: 'switch',
@@ -45,7 +45,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E4 DMG buff',
       title: 'E4 DMG buff',
       content: BETA_UPDATE,
-      disabled: e < 4
+      disabled: e < 4,
     },
     {
       formItem: 'switch',
@@ -54,7 +54,7 @@ export default (e: Eidolon): CharacterConditional => {
       text: 'E6 FUA multiplier buff',
       title: 'E6 FUA multiplier buff',
       content: BETA_UPDATE,
-      disabled: e < 6
+      disabled: e < 6,
     },
   ]
 
@@ -67,7 +67,7 @@ export default (e: Eidolon): CharacterConditional => {
     preyMark: true,
     e2CdBoost: true,
     e4DmgBuff: true,
-    e6MultiplierIncrease: true
+    e6MultiplierIncrease: true,
   }
 
   const teammateDefaults = {
@@ -80,9 +80,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
 
@@ -93,7 +92,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.FUA_SCALING += fuaScaling + ((r.preyMark) ? additionalDmgScaling : 0)
       x.FUA_SCALING += (e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0
       x.ULT_SCALING += ultScaling + ((r.preyMark) ? additionalDmgScaling : 0)
-
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
@@ -109,13 +107,12 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.CD] += (e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, fuaHitCountMulti)
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, fuaHitCountMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

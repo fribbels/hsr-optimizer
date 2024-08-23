@@ -1,24 +1,13 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  FUA_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import {
-  buffAbilityCd,
-  buffAbilityCr,
-  buffAbilityDefShred,
-  buffAbilityDmg,
-  buffAbilityResShred
-} from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityCr, buffAbilityDefShred, buffAbilityDmg, buffAbilityResShred } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -36,13 +25,13 @@ export default (e: Eidolon): CharacterConditional => {
   const maxCullHits = (e >= 1) ? 9 : 6
 
   // Slash is the same, 1 hit
-  const fuaHitCountMultiByTargets = {
+  const fuaHitCountMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 1), // 0.18
   }
 
-  const cullHitCountMultiByTargets = {
+  const cullHitCountMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.12 + 2 * 0.12 + 3 * 0.12 + 4 * 0.12 + 5 * 0.12 + 6 * 0.12 + 7 * 0.12 + 8 * 0.16), // 0.2784
     3: ASHBLAZING_ATK_STACK * (2 * 0.12 + 5 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.4152
     5: ASHBLAZING_ATK_STACK * (3 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.444
@@ -139,9 +128,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       if (r.blockActive) {
         if (r.ultCull) {
@@ -159,7 +147,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DMG_RED_MULTI *= (r.blockActive) ? 1 - 0.20 : 1
 
-
       buffAbilityDmg(x, FUA_TYPE, 0.20, (e >= 1 && r.e1UltBuff && r.blockActive))
       buffAbilityDefShred(x, FUA_TYPE, 0.20, (e >= 2 && r.e2DefShred))
       x[Stats.RES] += (e >= 4 && r.e4ResBuff) ? 0.50 : 0
@@ -176,15 +163,14 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request,
+      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request,
         (r.blockActive && r.ultCull)
           ? cullHitCountMultiByTargets[request.enemyCount]
           : fuaHitCountMultiByTargets[request.enemyCount])

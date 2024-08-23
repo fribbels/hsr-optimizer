@@ -1,19 +1,14 @@
 import { Stats } from 'lib/constants'
-import {
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -50,9 +45,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentStacks: 2,
     }),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
@@ -73,11 +67,9 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

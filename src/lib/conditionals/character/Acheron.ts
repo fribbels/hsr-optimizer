@@ -1,11 +1,12 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
 const Acheron = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -22,7 +23,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
   const maxCrimsonKnotStacks = 9
   const maxNihilityTeammates = (e >= 2) ? 1 : 2
 
-  const nihilityTeammateScaling = {
+  const nihilityTeammateScaling: NumberToNumberMap = {
     0: 0,
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
@@ -128,11 +129,10 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e4UltVulnerability: true,
     }),
-
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = Object.assign({}, baseComputedStatsObject)
 
+      // TODO: CONFIG
       if (e >= 6 && r.e6UltBuffs) {
         x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
         x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
@@ -169,10 +169,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
-    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

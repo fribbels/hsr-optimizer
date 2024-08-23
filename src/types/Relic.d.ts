@@ -26,7 +26,7 @@ export type Relic = {
     stat: MainStats
     value: number
   }
-  augmentedStats: {
+  augmentedStats?: {
     mainStat: string
     [key: string]: number
   }

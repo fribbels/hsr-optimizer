@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'components/CharacterPreview'
 import { SaveState } from 'lib/saveState'
@@ -14,7 +14,7 @@ import { SavedSessionKeys } from 'lib/constantsSession'
 import { applySpdPreset } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { Constants } from 'lib/constants'
+import { Constants, CURRENT_DATA_VERSION } from 'lib/constants'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -37,12 +37,15 @@ function presetCharacters() {
 
 const { Text } = Typography
 
+const throttleSeconds = 10
+
 export default function RelicScorerTab() {
   console.log('RelicScorerTab')
 
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
   const [selectedCharacter, setSelectedCharacter] = useState()
+  const latestRefreshDate = useRef(null)
 
   const scorerId = window.store((s) => s.scorerId)
   const setScorerId = window.store((s) => s.setScorerId)
@@ -51,6 +54,20 @@ export default function RelicScorerTab() {
   window.scorerForm = scorerForm
 
   function onFinish(x) {
+    if (latestRefreshDate.current) {
+      Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
+      if (loading) {
+        setLoading(false)
+      }
+      return
+    } else {
+      setLoading(true)
+      latestRefreshDate.current = new Date()
+      setTimeout(() => {
+        latestRefreshDate.current = null
+      }, throttleSeconds * 1000)
+    }
+
     console.log('finish', x)
 
     const id = x?.scorerId?.toString().trim() || ''
@@ -88,6 +105,23 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
           ].filter(x => !!x)
+        } else if (data.source == 'mihomo') {
+          characters = data.characters.filter(x => !!x)
+          for (const character of characters) {
+            character.relicList = character.relics || []
+            character.equipment = character.light_cone
+            character.avatarId = character.id
+
+            if (character.equipment) {
+              character.equipment.tid = character.equipment.id
+            }
+
+            for (const relic of character.relicList) {
+              relic.tid = relic.id
+              relic.subAffixList = relic.sub_affix
+            }
+          }
+
         } else {
           if (!data.detailInfo) {
             setLoading(false)
@@ -120,11 +154,15 @@ export default function RelicScorerTab() {
           setSelectedCharacter(converted[0])
         }
         setLoading(false)
+        Message.success('Successfully loaded profile')
         console.log(converted)
       })
       .catch((error) => {
-        console.error('Fetch error:', error)
-        setLoading(false)
+        setTimeout(() => {
+          Message.warning('Error during lookup, please try again in a bit')
+          console.error('Fetch error:', error)
+          setLoading(false)
+        }, Math.max(0, throttleSeconds * 1000 - (new Date() - latestRefreshDate.current)))
       })
   }
 
@@ -141,11 +179,14 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align="center">
-        {/*<Flex gap={10} vertical align="center">*/}
-        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text>*/}
-        {/*</Flex>*/}
+        {/* <Flex gap={10} vertical align="center"> */}
+        {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text> */}
+        {/* </Flex> */}
         <Flex gap={10} vertical align="center">
-          <Text>Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.</Text>
+          <Text>
+            Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
+            {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
+          </Text>
         </Flex>
         <Form
           form={scorerForm}
@@ -156,7 +197,12 @@ export default function RelicScorerTab() {
             <Form.Item size="default" name="scorerId">
               <Input style={{ width: 150 }} placeholder="Account UID"/>
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} onClick={() => setLoading(true)} style={{ width: 100 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{ width: 150 }}
+            >
               Submit
             </Button>
             <Button
@@ -188,6 +234,7 @@ function CharacterPreviewSelection(props) {
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
+  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(props.selectedCharacter)
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
@@ -422,7 +469,7 @@ function CharacterPreviewSelection(props) {
             source="scorer"
             id="relicScorerPreview"
             setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={props.selectedCharacter}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
         </Flex>
 
@@ -430,7 +477,7 @@ function CharacterPreviewSelection(props) {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
-          initialCharacter={props.selectedCharacter}
+          initialCharacter={characterModalInitialCharacter}
         />
       </Flex>
     </Flex>

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { COMBAT_STATS, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
+import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { getDefaultForm } from 'lib/defaultForm'
 import { Utils } from 'lib/utils'
@@ -143,7 +143,7 @@ window.store = create((set) => ({
     [SavedSessionKeys.optimizerCharacterId]: null,
     [SavedSessionKeys.relicScorerSidebarOpen]: true,
     [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-    [SavedSessionKeys.combatScoreDetails]: COMBAT_STATS,
+    [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
   },
 
   settings: DefaultSettingOptions,

@@ -37,7 +37,7 @@ export function calculateTeammates(request, params) {
         precomputedX[params.ELEMENTAL_DMG_TYPE] += 0.10
         break
       case Sets.LushakaTheSunkenSeas:
-        precomputedX[Stats.ATK_P] += 0.16
+        precomputedX[Stats.ATK_P] += 0.12
         break
       default:
     }

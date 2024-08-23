@@ -112,7 +112,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_TAKEN_MULTI += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
       x.EFFECT_RES_SHRED += m.e1EffectResShred ? 0.10 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

@@ -48,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.enemies2CrBuff && request.enemyCount <= 2) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

@@ -49,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.missedCritCrBuff) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

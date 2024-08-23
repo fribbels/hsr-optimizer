@@ -90,20 +90,20 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
       // evaluateConditional(LynxConversionConditional, x, request, params)
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
     },
-    gpu: (request: Form, _params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
       const r = request.characterConditionals
 
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
       `
     },
-    gpuConditionals: [{
+    dynamicConditionals: [{
       id: 'LynxConversionConditional',
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,

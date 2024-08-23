@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.OHB] += (r.healingBuff) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

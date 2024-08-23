@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.OHB] += (r.postUltHealingBoost) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

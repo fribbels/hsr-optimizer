@@ -142,7 +142,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0
       x[Stats.CD] += (t.ultBuff) ? ultCdBoostBaseValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 

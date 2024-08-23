@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x.ELEMENTAL_DMG += (r.emptyBubblesDebuff) ? sValuesDmgBoost[s] : 0
       buffAbilityDmg(x, ULT_TYPE, sValuesUltDmgBoost[s], (r.emptyBubblesDebuff))
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

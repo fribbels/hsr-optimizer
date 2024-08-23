@@ -75,7 +75,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.ELEMENTAL_DMG += (e >= 6 && m.e6DmgBuff) ? 0.50 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]

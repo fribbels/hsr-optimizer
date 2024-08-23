@@ -48,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += (r.cdBuffActive) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

@@ -45,7 +45,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, sValues[s])
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, sValues[s], (r.maxEnergyDmgBoost))
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

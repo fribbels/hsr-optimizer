@@ -17,9 +17,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     defaults: () => ({}),
     precomputeEffects: (/* x, request */) => {
     },
-    calculateBaseMultis: () => {
+    finalizeCalculations: () => {
     },
-    gpuConditionals: [
+    dynamicConditionals: [
       {
         id: 'DestinysThreadsForewovenConversionConditional',
         type: ConditionalType.ABILITY,

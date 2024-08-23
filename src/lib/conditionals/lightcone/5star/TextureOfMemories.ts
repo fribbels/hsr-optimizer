@@ -49,7 +49,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.DMG_RED_MULTI *= (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

@@ -145,17 +145,17 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
       x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, _params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
       const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [RuanMeiConversionConditional],
+    dynamicConditionals: [RuanMeiConversionConditional],
   }
 }

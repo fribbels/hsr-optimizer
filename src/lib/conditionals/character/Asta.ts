@@ -112,7 +112,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.Fire_DMG] += (m.fireDmgBoost) ? 0.18 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

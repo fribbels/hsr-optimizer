@@ -132,7 +132,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
       // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 

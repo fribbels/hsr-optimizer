@@ -48,7 +48,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.DEF_SHRED += (m.targetEnsnared) ? sValues[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

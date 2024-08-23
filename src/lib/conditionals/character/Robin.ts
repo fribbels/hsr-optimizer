@@ -7,8 +7,8 @@ import { CharacterConditional, PrecomputedCharacterConditional } from 'types/Cha
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { wgslTrue } from "lib/gpu/injection/wgslUtils";
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -165,7 +165,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
       buffAbilityCd(x, FUA_TYPE, 0.25, (t.traceFuaCdBoost && t.concertoActive))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 
@@ -177,7 +177,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
       return `
 if (${wgslTrue(r.concertoActive)}) {
@@ -195,6 +195,6 @@ if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `
-    }
+    },
   }
 }

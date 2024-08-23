@@ -69,7 +69,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.RES_PEN += (e >= 6 && m.e6ResReduction) ? 0.20 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

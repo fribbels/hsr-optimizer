@@ -51,9 +51,9 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x.ELEMENTAL_DMG += r.trickStacks * sValuesDmg[s]
     },
-    calculateBaseMultis: (c, request) => {
+    finalizeCalculations: (c, request) => {
     },
-    gpuConditionals: [
+    dynamicConditionals: [
       {
         id: 'ItsShowtimeConversionConditional',
         type: ConditionalType.ABILITY,

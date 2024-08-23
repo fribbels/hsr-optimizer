@@ -115,7 +115,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DMG_TAKEN_MULTI += (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

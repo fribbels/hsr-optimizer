@@ -55,7 +55,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CR] += (t.maskActive) ? sValuesCr[s] : 0
       x[Stats.CD] += (t.maskActive) ? sValuesCd[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

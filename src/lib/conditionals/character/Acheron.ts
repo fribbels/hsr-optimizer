@@ -169,7 +169,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

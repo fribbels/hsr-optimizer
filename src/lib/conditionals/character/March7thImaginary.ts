@@ -160,7 +160,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0
       x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

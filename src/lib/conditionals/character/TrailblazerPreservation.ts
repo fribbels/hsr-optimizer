@@ -94,7 +94,7 @@ export default (e: Eidolon): CharacterConditional => {
       // This EHR buff applies to all
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 

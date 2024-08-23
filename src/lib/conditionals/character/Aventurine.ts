@@ -137,7 +137,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
       x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
     },
-    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 
@@ -145,14 +145,14 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.DEF]
       x.FUA_DMG += x.FUA_SCALING * x[Stats.DEF]
     },
-    gpu: () => {
+    gpuFinalizeCalculations: () => {
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.DEF;
 x.ULT_DMG += x.ULT_SCALING * x.DEF;
 x.FUA_DMG += x.FUA_SCALING * x.DEF;
       `
     },
-    gpuConditionals: [AventurineConversionConditional],
+    dynamicConditionals: [AventurineConversionConditional],
   }
 }
 Aventurine.label = 'Aventurine'

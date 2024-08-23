@@ -132,7 +132,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateBaseMultis: (c: ComputedStatsObject, request: Form) => {
+    finalizeCalculations: (c: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

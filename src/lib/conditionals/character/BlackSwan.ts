@@ -130,7 +130,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.PHYSICAL_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
       x.LIGHTNING_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 
@@ -139,7 +139,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
 
       return `
@@ -149,6 +149,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [BlackSwanConversionConditional],
+    dynamicConditionals: [BlackSwanConversionConditional],
   }
 }

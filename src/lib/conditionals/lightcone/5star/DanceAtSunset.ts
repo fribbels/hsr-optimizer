@@ -36,7 +36,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     },
     calculatePassives: (/* c, request */) => {
     },
-    calculateBaseMultis: () => {
+    finalizeCalculations: () => {
     },
   }
 }

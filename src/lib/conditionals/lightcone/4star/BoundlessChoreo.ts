@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CD] += (r.enemyDefReducedSlowed) ? sValuesCd[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

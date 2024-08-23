@@ -65,7 +65,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CR] += (r.enemyHp50CrBoost) ? sValuesCr[s] : 0
       x[Stats.ATK_P] += (r.enemyDefeatedAtkBuff) ? sValuesAtk[s] : 0
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

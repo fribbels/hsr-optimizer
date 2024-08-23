@@ -156,19 +156,19 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [BoothillConversionConditional],
+    dynamicConditionals: [BoothillConversionConditional],
   }
 }

@@ -43,7 +43,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.characterConditionals
       buffAbilityDefShred(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
-    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
+    finalizeCalculations: (c: BasicStatsObject, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 

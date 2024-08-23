@@ -112,20 +112,20 @@ const Gallagher = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, BREAK_TYPE, talentBesottedScaling, (m.targetBesotted))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, _params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
       const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [GallagherConversionConditional],
+    dynamicConditionals: [GallagherConversionConditional],
   }
 }
 Gallagher.label = 'Gallagher'

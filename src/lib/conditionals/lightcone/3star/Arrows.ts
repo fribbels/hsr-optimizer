@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
       x[Stats.CR] += (r.critBuff) ? sValues[s] : 0
     },
-    calculateBaseMultis: () => {
+    finalizeCalculations: () => {
     },
   }
 }

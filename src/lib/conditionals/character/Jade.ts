@@ -162,7 +162,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.SPD] += (t.debtCollectorSpdBuff) ? 30 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

@@ -88,7 +88,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DEF_SHRED += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

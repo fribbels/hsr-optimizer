@@ -113,7 +113,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.DEF_SHRED += (m.ultDefPenDebuff) ? ultDefPenValue : 0
       x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

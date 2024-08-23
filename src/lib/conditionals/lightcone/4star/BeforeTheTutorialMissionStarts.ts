@@ -8,7 +8,7 @@ export default (/* s: SuperImpositionLevel */): LightConeConditional => {
     precomputeEffects: (/* x, request */) => {
       // let r = request.lightConeConditionals
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

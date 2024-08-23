@@ -5,8 +5,8 @@ export function calculateBaseMultis(c, request, params) {
   const lightConeConditionals = params.lightConeConditionals
   const characterConditionals = params.characterConditionals
 
-  if (lightConeConditionals.calculateBaseMultis) lightConeConditionals.calculateBaseMultis(c, request, params)
-  if (characterConditionals.calculateBaseMultis) characterConditionals.calculateBaseMultis(c, request, params)
+  if (lightConeConditionals.finalizeCalculations) lightConeConditionals.finalizeCalculations(c, request, params)
+  if (characterConditionals.finalizeCalculations) characterConditionals.finalizeCalculations(c, request, params)
 }
 
 export function calculateDamage(c, request, params) {

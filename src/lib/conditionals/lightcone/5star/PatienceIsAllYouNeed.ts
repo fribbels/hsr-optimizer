@@ -71,7 +71,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.SPD_P] += r.spdStacks * sValuesSpd[s]
       x.ELEMENTAL_DMG += sValuesDmg[s]
     },
-    calculateBaseMultis: (/* c, request */) => {
+    finalizeCalculations: (/* c, request */) => {
     },
   }
 }

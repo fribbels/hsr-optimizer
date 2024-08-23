@@ -122,7 +122,7 @@ export default (e: Eidolon): CharacterConditional => {
         evaluateConditional(XueyiConversionConditional, x, request, params)
       }
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 
@@ -134,7 +134,7 @@ export default (e: Eidolon): CharacterConditional => {
       const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
       const hitMulti = hitMultiByFuaHits[r.fuaHits]
 
@@ -146,6 +146,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
       `
     },
-    gpuConditionals: [XueyiConversionConditional],
+    dynamicConditionals: [XueyiConversionConditional],
   }
 }

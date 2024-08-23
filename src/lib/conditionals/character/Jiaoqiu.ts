@@ -141,7 +141,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
@@ -150,7 +150,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, _params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
       const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
@@ -159,6 +159,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [JiaoqiuConversionConditional],
+    dynamicConditionals: [JiaoqiuConversionConditional],
   }
 }

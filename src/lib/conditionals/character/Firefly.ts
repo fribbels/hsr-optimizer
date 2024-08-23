@@ -158,7 +158,7 @@ export default (e: Eidolon): CharacterConditional => {
         evaluateConditional(FireflyConversionConditional, x, request, params)
       }
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 
@@ -172,7 +172,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
 
       return `
@@ -195,6 +195,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [FireflyConversionConditional],
+    dynamicConditionals: [FireflyConversionConditional],
   }
 }

@@ -75,7 +75,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0

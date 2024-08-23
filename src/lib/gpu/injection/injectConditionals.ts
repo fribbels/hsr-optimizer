@@ -14,8 +14,8 @@ export function injectConditionals(wgsl: string, request: Form, params: Optimize
 
   const conditionalRegistry = params.conditionalRegistry
 
-  if (lightConeConditionals.gpu) wgsl = wgsl.replace('/* INJECT LIGHT CONE CONDITIONALS */', indent(lightConeConditionals.gpu(request, params), 1))
-  if (characterConditionals.gpu) wgsl = wgsl.replace('/* INJECT CHARACTER CONDITIONALS */', indent(characterConditionals.gpu(request, params), 1))
+  if (lightConeConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace('/* INJECT LIGHT CONE CONDITIONALS */', indent(lightConeConditionals.gpuFinalizeCalculations(request, params), 1))
+  if (characterConditionals.gpuFinalizeCalculations) wgsl = wgsl.replace('/* INJECT CHARACTER CONDITIONALS */', indent(characterConditionals.gpuFinalizeCalculations(request, params), 1))
 
   wgsl += generateDynamicSetConditionals(conditionalRegistry, request, params)
 

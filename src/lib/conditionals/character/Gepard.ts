@@ -55,13 +55,13 @@ export default (e: Eidolon): CharacterConditional => {
 
       evaluateConditional(GepardConversionConditional, x, request, params)
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
     },
-    gpu: (request: Form, params: OptimizerParams) => {
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
 
       return `
@@ -69,6 +69,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
-    gpuConditionals: [GepardConversionConditional],
+    dynamicConditionals: [GepardConversionConditional],
   }
 }

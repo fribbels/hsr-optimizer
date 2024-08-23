@@ -97,7 +97,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DMG_TAKEN_MULTI += (m.enemyDmgTakenDebuff) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional) => {
       const x = c.x
 
       // Boost

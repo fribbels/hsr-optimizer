@@ -31,11 +31,10 @@ export interface Conditional {
   // Effects unique to teammate calculation
   precomputeTeammateEffects?: (x: ComputedStatsObject, request: Form) => void
 
-  calculateBaseMultis: (x: ComputedStatsObject, request: Form) => void
-  calculateStatConditionals?: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
-  gpu?: (request: Form, params: OptimizerParams) => string
+  finalizeCalculations: (x: ComputedStatsObject, request: Form) => void
 
-  gpuConditionals?: DynamicConditional[]
+  gpuFinalizeCalculations?: (request: Form, params: OptimizerParams) => string
+  dynamicConditionals?: DynamicConditional[]
 }
 
 export type ContentComponentMap = {

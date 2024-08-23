@@ -105,7 +105,7 @@ export default (e: Eidolon): CharacterConditional => {
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI *= (t.skillActive) ? (1 - 0.65) : 1
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 

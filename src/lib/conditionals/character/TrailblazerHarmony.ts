@@ -127,7 +127,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.BE] += (e >= 4) ? 0.15 * t.teammateBeValue : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, _request: Form) => {
+    finalizeCalculations: (c: PrecomputedCharacterConditional, _request: Form) => {
       const x = c.x
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]

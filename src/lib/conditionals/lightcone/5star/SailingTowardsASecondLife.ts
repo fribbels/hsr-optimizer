@@ -2,11 +2,11 @@ import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
-import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { Stats } from 'lib/constants.ts'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { BasicStatsObject, BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/utils'
 import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -42,14 +42,20 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     }),
     precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculatePassives: (/* c, request */) => {
+    },
+    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.lightConeConditionals
       const x: ComputedStatsObject = c.x
 
       x[Stats.SPD] += (r.spdBuffConditional && x[Stats.BE] >= 1.50) ? sValuesSpdBuff[s] * request.baseSpd : 0
 
       buffAbilityDefShred(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
+    },
+    gpu: function (request: Form, params: OptimizerParams) {
+      return `
+buffAbilityDefShred(p_x, BREAK_TYPE, ${sValuesDefShred[s]}, 1);
+    `
     },
   }
 }

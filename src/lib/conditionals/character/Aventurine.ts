@@ -1,11 +1,11 @@
 import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants.ts'
-import { AventurineConversionConditional, evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 const Aventurine = (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -112,7 +112,6 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       enemyUnnervedDebuff: true,
       e2ResShred: true,
     }),
-
     precomputeEffects: (request: Form) => {
       const r = request.characterConditionals
       const x = Object.assign({}, baseComputedStatsObject)
@@ -138,15 +137,7 @@ const Aventurine = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (e >= 2 && m.e2ResShred) ? 0.12 : 0
       x[Stats.CD] += (m.enemyUnnervedDebuff) ? ultCdBoost : 0
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
-      const r = request.characterConditionals
-      const x = c.x
-
-      if (r.defToCrBoost) {
-        evaluateConditional(AventurineConversionConditional, x, request, params)
-      }
-    },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x = c.x
 

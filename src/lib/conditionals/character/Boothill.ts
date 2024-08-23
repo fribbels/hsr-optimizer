@@ -1,12 +1,12 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
-import { BoothillConversionConditional, evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { BoothillConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -155,15 +155,7 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
-      const x = c.x
-
-      if (r.beToCritBoost) {
-        evaluateConditional(BoothillConversionConditional, x, request, params)
-      }
-    },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    calculateBaseMultis: (c: BasicStatsObject, request: Form) => {
       const r = request.characterConditionals
       const x: ComputedStatsObject = c.x
 

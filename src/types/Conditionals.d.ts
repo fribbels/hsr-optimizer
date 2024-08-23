@@ -18,7 +18,6 @@ export interface Conditional {
   defaults: () => ConditionalMap
   teammateDefaults?: () => ConditionalMap
   /*
-   * TODO: purify this implmentation
    * ComputedStatsObject arg is mutated by ref
    */
   calculateBaseMultis: (c: BasicStatsObject, request: Form) => void

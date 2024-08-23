@@ -115,9 +115,8 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params) => {
+    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
-      const x = c.x
 
       if (r.beToDmgBoost) {
         evaluateConditional(XueyiConversionConditional, x, request, params)

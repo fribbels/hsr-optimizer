@@ -151,9 +151,8 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) => {
+    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
-      const x = c.x
 
       if (r.atkToBeConversion) {
         evaluateConditional(FireflyConversionConditional, x, request, params)

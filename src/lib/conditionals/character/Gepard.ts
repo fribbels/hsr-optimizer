@@ -50,9 +50,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
     },
-    calculateStatConditionals: (c: PrecomputedCharacterConditional, request: Form, params: OptimizerParams) => {
+    calculateStatConditionals: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
       const r = request.characterConditionals
-      const x = c.x
 
       evaluateConditional(GepardConversionConditional, x, request, params)
     },

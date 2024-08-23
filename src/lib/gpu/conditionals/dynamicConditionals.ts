@@ -11,7 +11,7 @@ export type DynamicConditional = {
   type: number
   activation: number
   dependsOn: string[]
-  condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => boolean
+  condition: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => boolean | number
   effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => void
   gpu: (request: Form, params: OptimizerParams) => string
   ratioConversion?: boolean
@@ -59,8 +59,9 @@ export const AventurineConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.DEF],
-  condition: function (x: ComputedStatsObject) {
-    return x[Stats.DEF] > 1600
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    return r.defToCrBoost && x[Stats.DEF] > 1600
   },
   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     const stateValue = params.conditionalState[this.id] || 0
@@ -162,8 +163,10 @@ export const BoothillConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function () {
-    return true
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return r.beToCritBoost
   },
   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     const stateValue = params.conditionalState[this.id] || 0

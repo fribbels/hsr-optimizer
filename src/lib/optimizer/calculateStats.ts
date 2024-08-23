@@ -323,8 +323,8 @@ export function calculateComputedStats(c: PrecomputedCharacterConditional, reque
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals
 
-  if (characterConditionals.calculateStatConditionals) characterConditionals.calculateStatConditionals(c, request, params)
-  if (lightConeConditionals.calculateStatConditionals) lightConeConditionals.calculateStatConditionals(c, request, params)
+  if (characterConditionals.calculateStatConditionals) characterConditionals.calculateStatConditionals(x, request, params)
+  if (lightConeConditionals.calculateStatConditionals) lightConeConditionals.calculateStatConditionals(x, request, params)
 
   for (const conditional of characterConditionals.gpuConditionals || []) {
     evaluateConditional(conditional, x, request, params)

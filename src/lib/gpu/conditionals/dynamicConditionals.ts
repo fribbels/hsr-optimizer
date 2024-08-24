@@ -97,8 +97,10 @@ export const XueyiConversionConditional: DynamicConditional = {
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.BE],
-  condition: function () {
-    return true
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return r.beToDmgBoost
   },
   effect: function (x: ComputedStatsObject, _request: Form, params: OptimizerParams) {
     const stateValue = params.conditionalState[this.id] || 0
@@ -107,8 +109,12 @@ export const XueyiConversionConditional: DynamicConditional = {
     params.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
   },
-  gpu: function () {
+  gpu: function (request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
     return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.beToDmgBoost)}) {
+  return;
+}
 let be = (*p_x).BE;
 let stateValue: f32 = (*p_state).XueyiConversionConditional;
 let buffValue: f32 = min(2.40, be);

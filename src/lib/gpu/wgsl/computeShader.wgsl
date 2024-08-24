@@ -382,7 +382,7 @@ fn main(
   if (p2(x.sets.TheAshblazingGrandDuke) >= 1) {
     buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
   }
-  if(p2(x.sets.DuranDynastyOfRunningWolves) >= 1) {
+  if (p2(x.sets.DuranDynastyOfRunningWolves) >= 1) {
     buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(valueDuranDynastyOfRunningWolves), 1);
   }
 

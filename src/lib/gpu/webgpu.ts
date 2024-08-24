@@ -1,9 +1,9 @@
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from '../constants.ts'
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
-import { FixedSizePriorityQueue } from "lib/fixedSizePriorityQueue";
-import { generateWgsl } from "lib/gpu/injection/generateWgsl";
-import { Utils } from "lib/utils";
+import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
+import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
+import { Utils } from 'lib/utils'
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -52,32 +52,34 @@ function convertRelicsToArray(relics: Relic[]) {
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
     RelicAugmenter.augment(relic)
-    output[startIndex + j++] = relic.augmentedStats[Stats.HP_P]
-    output[startIndex + j++] = relic.augmentedStats[Stats.ATK_P]
-    output[startIndex + j++] = relic.augmentedStats[Stats.DEF_P]
-    output[startIndex + j++] = relic.augmentedStats[Stats.SPD_P]
-    output[startIndex + j++] = relic.augmentedStats[Stats.HP]
-    output[startIndex + j++] = relic.augmentedStats[Stats.ATK]
-    output[startIndex + j++] = relic.augmentedStats[Stats.DEF]
-    output[startIndex + j++] = relic.augmentedStats[Stats.SPD]
-    output[startIndex + j++] = relic.augmentedStats[Stats.CR]
-    output[startIndex + j++] = relic.augmentedStats[Stats.CD]
-    output[startIndex + j++] = relic.augmentedStats[Stats.EHR] // 10
-    output[startIndex + j++] = relic.augmentedStats[Stats.RES]
-    output[startIndex + j++] = relic.augmentedStats[Stats.BE]
-    output[startIndex + j++] = relic.augmentedStats[Stats.ERR]
-    output[startIndex + j++] = relic.augmentedStats[Stats.OHB]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Physical_DMG]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Fire_DMG]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Ice_DMG]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Lightning_DMG]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Wind_DMG]
-    output[startIndex + j++] = relic.augmentedStats[Stats.Quantum_DMG] // 20
-    output[startIndex + j++] = relic.augmentedStats[Stats.Imaginary_DMG]
+    const uncondensedStats = {}
+    for (const condensedStat of relic.condensedStats) {
+      uncondensedStats[condensedStat[0]] = condensedStat[1]
+    }
+    output[startIndex + j++] = uncondensedStats[Stats.HP_P] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.ATK_P] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.DEF_P] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.SPD_P] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.HP] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.ATK] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.DEF] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.SPD] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.CR] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.CD] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.EHR] || 0 // 10
+    output[startIndex + j++] = uncondensedStats[Stats.RES] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.BE] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.ERR] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.OHB] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Physical_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Fire_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Ice_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Lightning_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Wind_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Stats.Quantum_DMG] || 0 // 20
+    output[startIndex + j++] = uncondensedStats[Stats.Imaginary_DMG] || 0
     output[startIndex + j++] = relicSetToIndex(relic)
     output[startIndex + j++] = relic.weightScore // 23
-
-    output[startIndex + StatsToIndex[relic.augmentedStats.mainStat]] += relic.augmentedStats.mainValue
   }
 
   return output
@@ -230,7 +232,7 @@ export async function experiment({ params, request, relics, permutations, relicS
   const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a.value - b.value)
 
   for (let i = 0; i < iterations; i++) {
-    let offset = i * BLOCK_SIZE
+    const offset = i * BLOCK_SIZE
 
     const l = (offset % lSize)
     const p = (((offset - l) / lSize) % pSize)
@@ -288,19 +290,19 @@ export async function experiment({ params, request, relics, permutations, relicS
     let top = queueResults.top()
 
     for (let j = 0; j < BLOCK_SIZE; j++) {
-      let permutationNumber = offset + j
+      const permutationNumber = offset + j
       if (permutationNumber >= permutations) {
         break // ?
       }
 
-      let value = array[j]
+      const value = array[j]
       if (value >= 0) {
         if (value <= top && queueResults.size() >= resultLimit) {
           continue
         }
         queueResults.fixedSizePush({
           index: permutationNumber,
-          value: array[j]
+          value: array[j],
         })
         top = queueResults.top().value
         // console.log(queueResults.top())
@@ -510,7 +512,6 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('SUPER_BREAK_TYPE', fixed(array[110]))
   }
 }
-
 
 // --------------------
 /*

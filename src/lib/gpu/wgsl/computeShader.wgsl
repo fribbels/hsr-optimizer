@@ -79,21 +79,26 @@ fn main(
 
   // Convert set ID
 
-  let setH : u32 = u32(head.relicSet);
-  let setG : u32 = u32(hands.relicSet);
-  let setB : u32 = u32(body.relicSet);
-  let setF : u32 = u32(feet.relicSet);
-  let setP : u32 = u32(planarSphere.relicSet);
-  let setL : u32 = u32(linkRope.relicSet);
+  let setH: u32 = u32(head.relicSet);
+  let setG: u32 = u32(hands.relicSet);
+  let setB: u32 = u32(body.relicSet);
+  let setF: u32 = u32(feet.relicSet);
+  let setP: u32 = u32(planarSphere.relicSet);
+  let setL: u32 = u32(linkRope.relicSet);
 
   // Get the index for set permutation lookup
 
-  let relicSetIndex : u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
+  let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
   let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
-  var c : BasicStats = BasicStats();
+  var c: BasicStats = BasicStats();
 
+
+  // START COMPUTED STATS
+  // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
   /* INJECT COMPUTED STATS */
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+  // END COMPUTED STATS
 
   // Dynamic conditionals
 
@@ -111,29 +116,29 @@ fn main(
 
   let epsilon = 0.000001f;
 
-  c.HP_P = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
+  c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
   c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
   c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
   c.SPD_P = head.SPD_P + hands.SPD_P + body.SPD_P + feet.SPD_P + planarSphere.SPD_P + linkRope.SPD_P;
-  c.HP = epsilon + head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
+  c.HP  = epsilon + head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
   c.ATK = epsilon + head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
   c.DEF = epsilon + head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
   c.SPD = epsilon + head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
-  c.CR = epsilon + head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
-  c.CD = epsilon + head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
+  c.CR  = epsilon + head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
+  c.CD  = epsilon + head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
   c.EHR = epsilon + head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
   c.RES = epsilon + head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
-  c.BE = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
+  c.BE  = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
   c.ERR = epsilon + head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
   c.OHB = epsilon + head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-  c.Physical_DMG = epsilon + head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
-  c.Fire_DMG = epsilon + head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
-  c.Ice_DMG = epsilon + head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
+  c.Physical_DMG  = epsilon + head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
+  c.Fire_DMG      = epsilon + head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
+  c.Ice_DMG       = epsilon + head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
   c.Lightning_DMG = epsilon + head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
-  c.Wind_DMG = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
-  c.Quantum_DMG = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
+  c.Wind_DMG      = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
+  c.Quantum_DMG   = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
   c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
-  c.weightScore = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
+  c.weightScore   = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
   // Calculate basic stats
 
@@ -148,12 +153,12 @@ fn main(
   c.BE  += characterBE + lcBE + traceBE;
   c.ERR += characterERR + lcERR + traceERR;
   c.OHB += characterOHB + lcOHB + traceOHB;
-  c.Physical_DMG += tracePhysical_DMG;
-  c.Fire_DMG += traceFire_DMG;
-  c.Ice_DMG += traceIce_DMG;
+  c.Physical_DMG  += tracePhysical_DMG;
+  c.Fire_DMG      += traceFire_DMG;
+  c.Ice_DMG       += traceIce_DMG;
   c.Lightning_DMG += traceLightning_DMG;
-  c.Wind_DMG += traceWind_DMG;
-  c.Quantum_DMG += traceQuantum_DMG;
+  c.Wind_DMG      += traceWind_DMG;
+  c.Quantum_DMG   += traceQuantum_DMG;
   c.Imaginary_DMG += traceImaginary_DMG;
 
   // Calculate relic set counts
@@ -181,33 +186,33 @@ fn main(
 
   // Calculate ornament set counts
 
-  x.sets.SpaceSealingStation                 = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
-  x.sets.FleetOfTheAgeless                   = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
-  x.sets.PanCosmicCommercialEnterprise       = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
-  x.sets.BelobogOfTheArchitects              = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
-  x.sets.CelestialDifferentiator             = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
-  x.sets.InertSalsotto                       = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
-  x.sets.TaliaKingdomOfBanditry              = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
-  x.sets.SprightlyVonwacq                    = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
-  x.sets.RutilantArena                       = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
-  x.sets.BrokenKeel                          = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
-  x.sets.FirmamentFrontlineGlamoth           = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
-  x.sets.PenaconyLandOfTheDreams             = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
-  x.sets.SigoniaTheUnclaimedDesolation       = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
-  x.sets.IzumoGenseiAndTakamaDivineRealm     = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
-  x.sets.DuranDynastyOfRunningWolves         = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
-  x.sets.ForgeOfTheKalpagniLantern           = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
-  x.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
-  x.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+  x.sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
+  x.sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
+  x.sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
+  x.sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
+  x.sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
+  x.sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
+  x.sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
+  x.sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
+  x.sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
+  x.sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
+  x.sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
+  x.sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+  x.sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+  x.sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+  x.sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+  x.sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+  x.sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+  x.sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
   // Calculate elemental stats after set counts
 
-  c.Physical_DMG += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
-  c.Fire_DMG += 0.10 * p2(x.sets.FiresmithOfLavaForging);
-  c.Ice_DMG += 0.10 * p2(x.sets.HunterOfGlacialForest);
+  c.Physical_DMG  += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
+  c.Fire_DMG      += 0.10 * p2(x.sets.FiresmithOfLavaForging);
+  c.Ice_DMG       += 0.10 * p2(x.sets.HunterOfGlacialForest);
   c.Lightning_DMG += 0.10 * p2(x.sets.BandOfSizzlingThunder);
-  c.Wind_DMG += 0.10 * p2(x.sets.EagleOfTwilightLine);
-  c.Quantum_DMG += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
+  c.Wind_DMG      += 0.10 * p2(x.sets.EagleOfTwilightLine);
+  c.Quantum_DMG   += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
   c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
 
   addElementalDmg(&c, &x);
@@ -282,13 +287,13 @@ fn main(
 
   x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
   x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
-  x.HP += c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
+  x.HP  += c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
   x.SPD += c.SPD + combatBuffsSPD + combatBuffsSPD_P * baseSPD;
-  x.CD += c.CD   + combatBuffsCD;
-  x.CR += c.CR   + combatBuffsCR;
+  x.CD  += c.CD   + combatBuffsCD;
+  x.CR  += c.CR   + combatBuffsCR;
   x.EHR += c.EHR;
   x.RES += c.RES;
-  x.BE += c.BE   + combatBuffsBE;
+  x.BE  += c.BE   + combatBuffsBE;
   x.ERR += c.ERR;
   x.OHB += c.OHB;
 
@@ -413,10 +418,6 @@ fn main(
     x.Fire_DMG += 0.12;
   }
 
-  // Dynamic - still need implementing
-
-  const semicolonTest = 0;
-
   // Set effects
 
   // Dynamic stat conditionals
@@ -441,9 +442,17 @@ fn main(
   evaluateDependenciesOHB(p_x, p_state);
   evaluateDependenciesERR(p_x, p_state);
 
+  // START LIGHT CONE CONDITIONALS
+  // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
   /* INJECT LIGHT CONE CONDITIONALS */
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+  // END INJECTED LIGHT CONE CONDITIONALS
 
+  // START INJECTED CHARACTER CONDITIONALS
+  // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
   /* INJECT CHARACTER CONDITIONALS */
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+  // END CHARACTER CONDITIONALS
 
   // Calculate damage
   let cLevel: f32 = 80;
@@ -772,39 +781,6 @@ fn getElementalResPen(
     }
     default: {
       return 0;
-    }
-  }
-}
-
-// This shouldnt be necessary?
-fn buffElementalResPen(
-  p_x: ptr<function, ComputedStats>,
-  value: f32,
-) {
-  switch (ELEMENT_INDEX) {
-    case 0: {
-      (*p_x).PHYSICAL_RES_PEN += value;
-    }
-    case 1: {
-      (*p_x).FIRE_RES_PEN += value;
-    }
-    case 2: {
-      (*p_x).ICE_RES_PEN += value;
-    }
-    case 3: {
-      (*p_x).LIGHTNING_RES_PEN += value;
-    }
-    case 4: {
-      (*p_x).WIND_RES_PEN += value;
-    }
-    case 5: {
-      (*p_x).QUANTUM_RES_PEN += value;
-    }
-    case 6: {
-      (*p_x).IMAGINARY_RES_PEN += value;
-    }
-    default: {
-
     }
   }
 }

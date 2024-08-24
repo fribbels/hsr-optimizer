@@ -11,7 +11,6 @@ export const DOT_TYPE = 16
 export const BREAK_TYPE = 32
 export const SUPER_BREAK_TYPE = 64
 
-// TODO profile & convert to array for performance?
 export const baseComputedStatsObject = {
   BASIC_DMG_TYPE: BASIC_TYPE,
   SKILL_DMG_TYPE: SKILL_TYPE,
@@ -45,7 +44,7 @@ export const baseComputedStatsObject = {
   ['Quantum DMG Boost']: 0,
   ['Imaginary DMG Boost']: 0,
 
-  ELEMENTAL_DMG: 0, // TODO: Rename to ALL_TYPE_DMG_BOOST
+  ELEMENTAL_DMG: 0,
 
   BASIC_SCALING: 0,
   SKILL_SCALING: 0,

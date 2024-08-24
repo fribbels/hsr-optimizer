@@ -112,11 +112,11 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       if (e >= 2) {
         const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, baseHitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, baseHitMulti)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       }
     },
   }

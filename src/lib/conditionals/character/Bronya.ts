@@ -140,10 +140,10 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostValue * x[Stats.CD] : 0
       x[Stats.CD] += (r.ultBuff) ? ultCdBoostBaseValue : 0
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
     },
   }
 }

@@ -149,7 +149,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
     },
     gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;

@@ -123,8 +123,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
     },
   }
 }

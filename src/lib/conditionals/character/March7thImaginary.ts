@@ -155,12 +155,12 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, fuaHitCountMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, fuaHitCountMulti)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
     },
   }
 }

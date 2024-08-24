@@ -42,13 +42,13 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
 }
 
 export function calculateConditionalRegistry(request: Form, params: Partial<OptimizerParams>) {
-  const characterConditionals = CharacterConditionals.get(request)
-  const lightConeConditionals = LightConeConditionals.get(request)
+  const characterConditionals: CharacterConditional = CharacterConditionals.get(request)
+  const lightConeConditionals: LightConeConditional = LightConeConditionals.get(request)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 
-  registerConditionals(conditionalRegistry, lightConeConditionals.gpuConditionals || [])
-  registerConditionals(conditionalRegistry, characterConditionals.gpuConditionals || [])
+  registerConditionals(conditionalRegistry, lightConeConditionals.dynamicConditionals ?? [])
+  registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, ConditionalSets || [])
 
   params.conditionalRegistry = conditionalRegistry

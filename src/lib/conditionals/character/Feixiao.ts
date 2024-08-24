@@ -157,16 +157,16 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Ult is multi hit ashblazing
       if (r.weaknessBrokenUlt) {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, ultBrokenHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, ultBrokenHitCountMulti)
+        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + ashblazingAtk)
       } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, ultHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, ultHitCountMulti)
+        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + ashblazingAtk)
       }
 
       // // Everything else is single hit
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
     },
   }
 }

@@ -110,10 +110,8 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, fuaHitCountMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, fuaHitCountMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

@@ -113,11 +113,10 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const ashblazingFuaData = calculateAshblazingSet(x, request, hitMulti)
-      const ashblazingBasicData = calculateAshblazingSet(x, request, basicHitCountMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] - ashblazingBasicData.ashblazingAtk + ashblazingBasicData.ashblazingMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingFuaData.ashblazingAtk + ashblazingFuaData.ashblazingMulti)
+      const basicAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      const fuaAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
+      x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
       x.SKILL_DMG = x.FUA_DMG
     },
   }

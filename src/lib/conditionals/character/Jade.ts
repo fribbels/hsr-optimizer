@@ -164,8 +164,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
 
       const hitMulti = r.enhancedFollowUp ? enhancedHitMultiByTargets[request.enemyCount] : unenhancedHitMultiByTargets[request.enemyCount]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
     },
   }
 }

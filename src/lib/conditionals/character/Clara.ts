@@ -105,11 +105,11 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Calc ashblazing: ult buff -> blast, unbuffed -> single
       if (r.ultBuff) {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMultiByTargetsBlast[request.enemyCount])
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, hitMultiByTargetsBlast[request.enemyCount])
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       } else {
-        const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMultiSingle)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+        const ashblazingAtk = calculateAshblazingSet(x, request, hitMultiSingle)
+        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       }
     },
   }

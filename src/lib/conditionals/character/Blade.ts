@@ -112,8 +112,8 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
       const hitMulti = hitMultiByTargets[request.enemyCount]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(x, request, hitMulti)
-      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] + ashblazingAtk)
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0

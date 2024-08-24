@@ -147,11 +147,12 @@ export const Optimizer = {
     }
 
     let inProgress = runs.length
+    const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
     if (true) {
       for (const run of runs) {
         const task = {
           input: {
-            params: params,
+            params: clonedParams,
             request: request,
             relics: relics,
             WIDTH: run.runSize,

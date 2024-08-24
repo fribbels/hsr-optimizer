@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, findContentId } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
@@ -57,9 +57,7 @@ export default (e: Eidolon): CharacterConditional => {
       e1DotDmgReceivedDebuff: true,
       e2TeamDotBoost: true,
     }),
-    precomputeEffects: (_request) => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling

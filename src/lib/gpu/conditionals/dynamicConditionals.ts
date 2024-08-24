@@ -188,7 +188,7 @@ export const BoothillConversionConditional: DynamicConditional = {
     buffStat(x, request, params, Stats.CR, crBuffValue - stateCrBuffValue)
     buffStat(x, request, params, Stats.CD, cdBuffValue - stateCdBuffValue)
   },
-  gpu: function (request: Form, _params: OptimizerParams) {
+  gpu: function (request: Form, params: OptimizerParams) {
     const r = request.characterConditionals
 
     return conditionalWgslWrapper(this, `
@@ -254,7 +254,7 @@ export const BlackSwanConversionConditional: DynamicConditional = {
       return
     }
     const stateValue = params.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.72, x[Stats.EHR])
+    const buffValue = Math.min(0.72, 0.60 * x[Stats.EHR])
 
     params.conditionalState[this.id] = buffValue
     x.ELEMENTAL_DMG += buffValue - stateValue
@@ -268,7 +268,7 @@ if (${wgslFalse(r.ehrToDmgBoost)}) {
 }
 let ehr = (*p_x).EHR;
 let stateValue: f32 = (*p_state).BlackSwanConversionConditional;
-let buffValue: f32 = min(0.72, ehr);
+let buffValue: f32 = min(0.72, 0.60 * ehr);
 
 (*p_state).BlackSwanConversionConditional = buffValue;
 (*p_x).ELEMENTAL_DMG += buffValue - stateValue;

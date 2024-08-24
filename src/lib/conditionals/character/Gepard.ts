@@ -1,11 +1,10 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { GepardConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -33,9 +32,7 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e4TeamResBuff: true,
     }),
-    precomputeEffects: () => {
-      const x = Object.assign({}, baseComputedStatsObject)
-
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       // Scaling
       x.BASIC_SCALING += basicScaling
       x.SKILL_SCALING += skillScaling
@@ -50,16 +47,8 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.RES] += (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-    },
-    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-      `
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [GepardConversionConditional],
   }
 }

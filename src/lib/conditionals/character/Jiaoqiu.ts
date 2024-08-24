@@ -1,5 +1,5 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, gpuStandardAtkScalingCalculations, standardAtkScalingCalculations } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -139,8 +139,8 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: standardAtkScalingCalculations,
-    gpuFinalizeCalculations: gpuStandardAtkScalingCalculations,
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [JiaoqiuConversionConditional],
   }
 }

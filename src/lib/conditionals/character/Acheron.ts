@@ -1,4 +1,4 @@
-import { AbilityEidolon, findContentId, gpuStandardAtkScalingCalculations, precisionRound, standardAtkScalingCalculations } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -171,8 +171,8 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
-    finalizeCalculations: standardAtkScalingCalculations,
-    gpuFinalizeCalculations: gpuStandardAtkScalingCalculations,
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
 Acheron.label = 'Acheron'

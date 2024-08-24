@@ -65,7 +65,7 @@ export const AbilityEidolon = {
   },
 }
 
-export function standardAtkScalingCalculations(x: ComputedStatsObject) {
+export function standardAtkFinalizer(x: ComputedStatsObject) {
   x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
   x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
   x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
@@ -73,12 +73,30 @@ export function standardAtkScalingCalculations(x: ComputedStatsObject) {
   x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
 }
 
-export function gpuStandardAtkScalingCalculations() {
+export function gpuStandardAtkFinalizer() {
   return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
-      `
+    `
+}
+
+export function standardFuaAtkFinalizer(x: ComputedStatsObject, request: Form, hitMulti: number) {
+  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+  x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, hitMulti))
+  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+}
+
+export function gpuStandardFuaAtkFinalizer(hitMulti: number) {
+  return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+    `
 }

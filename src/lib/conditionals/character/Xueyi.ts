@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { ContentItem } from 'types/Conditionals'
@@ -9,7 +9,6 @@ import { Form } from 'types/Form'
 import { Eidolon } from 'types/Character'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { XueyiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -116,33 +115,9 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      const hitMulti = hitMultiByFuaHits[r.fuaHits]
-      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
+      standardFuaAtkFinalizer(x, request, hitMultiByFuaHits[request.characterConditionals.fuaHits])
     },
-    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      const r = request.characterConditionals
-      const hitMulti = hitMultiByFuaHits[r.fuaHits]
-
-      // TODO
-      // if (r.beToDmgBoost) {
-      //   evaluateConditional(XueyiConversionConditional, x, request, params)
-      // }
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
-x.DOT_BOOST += 10 + calculateAshblazingSet(p_x, p_state, ${hitMulti});
-      `
-    },
+    gpuFinalizeCalculations: (request: Form) => gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[request.characterConditionals.fuaHits]),
     dynamicConditionals: [XueyiConversionConditional],
   }
 }

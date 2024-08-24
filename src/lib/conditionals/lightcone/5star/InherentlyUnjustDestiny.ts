@@ -4,7 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { findContentId, precisionRound } from 'lib/conditionals/utils'
+import { findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesCd = [0.40, 0.46, 0.52, 0.58, 0.64]

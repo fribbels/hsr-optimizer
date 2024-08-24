@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'

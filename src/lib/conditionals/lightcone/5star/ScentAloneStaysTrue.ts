@@ -4,7 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { findContentId } from 'lib/conditionals/utils'
+import { findContentId } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]

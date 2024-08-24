@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'

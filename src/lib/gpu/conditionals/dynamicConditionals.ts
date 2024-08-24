@@ -4,7 +4,7 @@ import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/set
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { indent, wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Form } from 'types/Form'
-import { precisionRound } from 'lib/conditionals/utils'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 
 export type DynamicConditional = {
   id: string

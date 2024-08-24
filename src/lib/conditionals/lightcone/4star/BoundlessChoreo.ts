@@ -3,7 +3,7 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { Stats } from 'lib/constants'
-import { precisionRound } from 'lib/conditionals/utils'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {

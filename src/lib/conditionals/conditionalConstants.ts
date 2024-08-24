@@ -1,6 +1,4 @@
-import { Constants, Sets } from 'lib/constants'
-
-const Stats = Constants.Stats
+import { Sets } from 'lib/constants'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
@@ -12,16 +10,6 @@ export const FUA_TYPE = 8
 export const DOT_TYPE = 16
 export const BREAK_TYPE = 32
 export const SUPER_BREAK_TYPE = 64
-
-export const ABILITY_TYPE_TO_DMG_TYPE_VARIABLE = {
-  [BASIC_TYPE]: 'BASIC_DMG_TYPE',
-  [SKILL_TYPE]: 'SKILL_DMG_TYPE',
-  [ULT_TYPE]: 'ULT_DMG_TYPE',
-  [FUA_TYPE]: 'FUA_DMG_TYPE',
-  [DOT_TYPE]: 'DOT_DMG_TYPE',
-  [BREAK_TYPE]: 'BREAK_DMG_TYPE',
-  [SUPER_BREAK_TYPE]: 'SUPER_BREAK_TYPE',
-}
 
 // TODO profile & convert to array for performance?
 export const baseComputedStatsObject = {

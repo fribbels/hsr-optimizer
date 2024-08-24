@@ -4,7 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { precisionRound } from 'lib/conditionals/utils'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {

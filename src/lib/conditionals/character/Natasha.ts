@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon } from 'lib/conditionals/utils'
+import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'

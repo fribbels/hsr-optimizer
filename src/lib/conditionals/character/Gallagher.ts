@@ -1,4 +1,4 @@
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'

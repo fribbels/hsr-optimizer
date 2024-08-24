@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { ContentItem } from 'types/Conditionals'

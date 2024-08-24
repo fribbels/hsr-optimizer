@@ -30,11 +30,6 @@ export const StatsToIndex = {
   [Stats.Imaginary_DMG]: 21,
 }
 
-/*
-== Notes ==
-We might have to limit filter values to 2 decimals bc float32 of 25.032 comes out to 25.03199..
-Faster to export boolean from gpu and reconvert to object?
- */
 function relicSetToIndex(relic: Relic) {
   if (SetsRelicsNames.includes(relic.set)) {
     return RelicSetToIndex[relic.set]

@@ -11,7 +11,7 @@ export const precisionRound = (number: number, precision: number = 8): number =>
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
 export const calculateAshblazingSet = (x: ComputedStatsObject, request: Form, hitMulti: number): number => {
   const enabled = p4(x.sets.TheAshblazingGrandDuke)
-  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1]
+  const valueTheAshblazingGrandDuke = request.setConditionals[Constants.Sets.TheAshblazingGrandDuke][1] as number
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * request.baseAtk * enabled
   const ashblazingMulti = hitMulti * enabled * request.baseAtk
 

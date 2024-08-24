@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
 
-import { AbilityEidolon, findContentId, precisionRound } from '../utils'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'

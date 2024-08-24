@@ -1,6 +1,5 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -72,13 +71,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
-    },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

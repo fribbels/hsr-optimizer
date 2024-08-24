@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
@@ -67,10 +67,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.RES_PEN += (e >= 6 && m.e6ResReduction) ? 0.20 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

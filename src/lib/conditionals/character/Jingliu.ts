@@ -1,12 +1,11 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 const Jingliu = (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -108,18 +107,8 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
-    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-      `
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
 Jingliu.label = 'Jingliu'

@@ -110,6 +110,7 @@ export const baseComputedStatsObject = {
   COMBO_DMG: 0,
 
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
+  EHP: 0,
 
   DOT_CHANCE: 0,
   EFFECT_RES_PEN: 0,
@@ -151,8 +152,7 @@ export const baseComputedStatsObject = {
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
   sets: {} as SetsType,
-  EHP: 0, // This doesnt exist yet
-  WEIGHT: 0, // This doesnt exist yet
+  WEIGHT: 0,
 }
 
 type SetsType = {

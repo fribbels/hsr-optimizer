@@ -102,12 +102,12 @@ export async function experiment({ params, request, relics, permutations, relicS
   // return
   // ======================================== Init ========================================
 
-  const adapter = await navigator.gpu.requestAdapter()
-  if (!adapter) {
+  const adapter: GPUAdapter | null = await (navigator).gpu.requestAdapter()
+  if (adapter == null) {
     console.error('Not supported')
     return
   }
-  const device = await adapter.requestDevice()
+  const device = await adapter.requestDevice() as GPUDevice
 
   const wgsl = generateWgsl(params, request)
 
@@ -365,7 +365,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     DOT: array[73],
     BREAK: array[74],
     COMBO: array[75],
-    WEIGHT: 0,
+    WEIGHT: array[111],
     EHP: array[77],
     xHP: array[4],
     xATK: array[5],
@@ -505,6 +505,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('DOT_DMG_TYPE', fixed(array[108]))
     console.log('BREAK_DMG_TYPE', fixed(array[109]))
     console.log('SUPER_BREAK_DMG_TYPE', fixed(array[110]))
+    console.log('WEIGHT', fixed(array[111]))
   }
 }
 

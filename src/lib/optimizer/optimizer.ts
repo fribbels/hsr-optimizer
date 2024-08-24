@@ -148,7 +148,9 @@ export const Optimizer = {
 
     let inProgress = runs.length
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
-    if (true) {
+
+    const gpuAccelerationEnabled = true
+    if (gpuAccelerationEnabled) {
       for (const run of runs) {
         const task = {
           input: {
@@ -204,7 +206,6 @@ export const Optimizer = {
         WorkerPool.execute(task, callback)
       }
     }
-
     experiment({
       params: params,
       request: request,

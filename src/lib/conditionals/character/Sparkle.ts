@@ -118,7 +118,7 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK_P] += (e >= 1 && m.cipherBuff) ? 0.40 : 0
 
       x.ELEMENTAL_DMG += (m.cipherBuff) ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost) : m.talentStacks * talentBaseStackBoost
-      x.DEF_SHRED += (e >= 2) ? 0.08 * m.talentStacks : 0
+      x.DEF_PEN += (e >= 2) ? 0.08 * m.talentStacks : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals

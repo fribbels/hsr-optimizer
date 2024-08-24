@@ -5,7 +5,7 @@ import getContentFromLCRanks from '../getContentFromLCRank'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants'
-import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 
 const lcRank = {
   id: '23020',
@@ -68,7 +68,7 @@ const BaptismOfPureThought = (s: SuperImpositionLevel): LightConeConditional => 
       x[Stats.CD] += r.debuffCdStacks * sValuesCd[s]
       x.ELEMENTAL_DMG += r.postUltBuff ? sValuesDmg[s] : 0
 
-      buffAbilityDefShred(x, FUA_TYPE, sValuesFuaPen[s], (r.postUltBuff))
+      buffAbilityDefPen(x, FUA_TYPE, sValuesFuaPen[s], (r.postUltBuff))
     },
     finalizeCalculations: () => {
     },

@@ -103,7 +103,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
 
-      x.DEF_SHRED += (m.ultDefPenDebuff) ? ultDefPenValue : 0
+      x.DEF_PEN += (m.ultDefPenDebuff) ? ultDefPenValue : 0
       x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {

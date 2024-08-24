@@ -105,7 +105,7 @@ fn main(
   x.FUA_DMG_TYPE = 8;
   x.DOT_DMG_TYPE = 16;
   x.BREAK_DMG_TYPE = 32;
-  x.SUPER_BREAK_TYPE = 64;
+  x.SUPER_BREAK_DMG_TYPE = 64;
 
   // Calculate relic stat sums
 
@@ -293,8 +293,8 @@ fn main(
   x.OHB += c.OHB;
 
   x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
-  x.EFFECT_RES_SHRED += combatBuffsEFFECT_RES_SHRED;
-  x.DMG_TAKEN_MULTI += combatBuffsVULNERABILITY;
+  x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+  x.VULNERABILITY += combatBuffsVULNERABILITY;
   x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
 
   // ATK
@@ -395,14 +395,14 @@ fn main(
 
   if (p4(x.sets.GeniusOfBrilliantStars) >= 1) {
     if (enabledGeniusOfBrilliantStars == 1) {
-      x.DEF_SHRED += 0.20;
+      x.DEF_PEN += 0.20;
     } else {
-      x.DEF_SHRED += 0.10;
+      x.DEF_PEN += 0.10;
     }
   }
 
   if (p4(x.sets.PrisonerInDeepConfinement) >= 1) {
-    x.DEF_SHRED += 0.06 * f32(valuePrisonerInDeepConfinement);
+    x.DEF_PEN += 0.06 * f32(valuePrisonerInDeepConfinement);
   }
 
   if (p2(x.sets.PioneerDiverOfDeadWaters) >= 1) {
@@ -448,7 +448,7 @@ fn main(
   // Calculate damage
   let cLevel: f32 = 80;
   let eLevel: f32 = f32(enemyLevel);
-  let defReduction: f32 = x.DEF_SHRED + combatBuffsDEF_SHRED;
+  let defReduction: f32 = x.DEF_PEN + combatBuffsDEF_PEN;
   let defIgnore: f32 = 0.0;
 
   addComputedElementalDmg(&x);
@@ -466,18 +466,18 @@ fn main(
 
   let ULT_CD = select(x.CD + x.ULT_CD_BOOST, x.ULT_CD_OVERRIDE, x.ULT_CD_OVERRIDE > 0);
 
-  let breakVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.BREAK_VULNERABILITY;
-  let basicVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.BASIC_VULNERABILITY;
-  let skillVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.SKILL_VULNERABILITY;
-  let ultVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
-  let fuaVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.FUA_VULNERABILITY;
-  let dotVulnerability = 1.0 + x.DMG_TAKEN_MULTI + x.DOT_VULNERABILITY;
+  let breakVulnerability = 1.0 + x.VULNERABILITY + x.BREAK_VULNERABILITY;
+  let basicVulnerability = 1.0 + x.VULNERABILITY + x.BASIC_VULNERABILITY;
+  let skillVulnerability = 1.0 + x.VULNERABILITY + x.SKILL_VULNERABILITY;
+  let ultVulnerability = 1.0 + x.VULNERABILITY + x.ULT_VULNERABILITY * x.ULT_BOOSTS_MULTI;
+  let fuaVulnerability = 1.0 + x.VULNERABILITY + x.FUA_VULNERABILITY;
+  let dotVulnerability = 1.0 + x.VULNERABILITY + x.DOT_VULNERABILITY;
 
   let ENEMY_EFFECT_RES = enemyEffectResistance;
 
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_SHRED));
+  let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - ENEMY_EFFECT_RES + x.EFFECT_RES_PEN));
   let dotEhrMultiplier = select(effectiveDotChance, (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)), x.DOT_SPLIT > 0);
 
   // BREAK
@@ -648,7 +648,7 @@ fn buffAbilityDefShred(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_DEF_PEN += value;
   }
-  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_TYPE)) != 0) {
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
     (*p_x).SUPER_BREAK_DEF_PEN += value;
   }
 }

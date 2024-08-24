@@ -29,7 +29,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += (r.routedVulnerability) ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY += (r.routedVulnerability) ? sValuesVulnerability[s] : 0
     },
     finalizeCalculations: () => {
     },

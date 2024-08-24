@@ -6,7 +6,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityCd, buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -82,11 +82,11 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResShred(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
+      buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))
 
       // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
       buffAbilityCd(x, BASIC_TYPE, -enhancedStateFuaCdBoost, (r.numbyEnhancedState))
-      buffAbilityResShred(x, BASIC_TYPE, -0.10, (e >= 6))
+      buffAbilityResPen(x, BASIC_TYPE, -0.10, (e >= 6))
 
       // Scaling
       x.BASIC_SCALING += basicScaling

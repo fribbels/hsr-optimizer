@@ -1,6 +1,6 @@
-import { OptimizerParams } from "lib/optimizer/calculateParams";
-import { Stats } from "lib/constants";
-import { Form } from "types/Form";
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { Stats } from 'lib/constants'
+import { Form } from 'types/Form'
 
 export function injectSettings(wgsl: string, params: OptimizerParams, request: Form) {
   wgsl += generateSetConditionals(params)
@@ -69,7 +69,7 @@ function generateRequest(request: Form) {
   wgsl += '\n'
 
   // TODO: Refactor this to not duplicate res
-  wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED};\n`;
+  wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
   wgsl += '\n'
 
   // Filters
@@ -97,7 +97,7 @@ function generateElement(params: OptimizerParams) {
   let wgsl = '\n'
 
   wgsl += `const ELEMENT_INDEX: i32 = ${paramElementToIndex[params.ELEMENTAL_DMG_TYPE]};\n`
-  wgsl += `const ELEMENTAL_BREAK_SCALING: f32 = ${params.ELEMENTAL_BREAK_SCALING};\n`;
+  wgsl += `const ELEMENTAL_BREAK_SCALING: f32 = ${params.ELEMENTAL_BREAK_SCALING};\n`
 
   return wgsl
 }

@@ -5,7 +5,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDefShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { BlackSwanConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -103,7 +103,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       x.ULT_SCALING += ultScaling
       x.DOT_SCALING += dotScaling + arcanaStackMultiplier * r.arcanaStacks
 
-      buffAbilityDefShred(x, DOT_TYPE, 0.20, (r.arcanaStacks >= 7))
+      buffAbilityDefPen(x, DOT_TYPE, 0.20, (r.arcanaStacks >= 7))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
@@ -121,7 +121,7 @@ When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       buffAbilityVulnerability(x, DOT_TYPE, epiphanyDmgTakenBoost, (m.epiphanyDebuff))
 
-      x.DEF_SHRED += (m.defDecreaseDebuff) ? defShredValue : 0
+      x.DEF_PEN += (m.defDecreaseDebuff) ? defShredValue : 0
       x.WIND_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
       x.FIRE_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0
       x.PHYSICAL_RES_PEN += (e >= 1 && m.e1ResReduction) ? 0.25 : 0

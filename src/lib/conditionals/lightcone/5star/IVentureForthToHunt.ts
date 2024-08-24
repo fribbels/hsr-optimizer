@@ -4,7 +4,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE } from 'lib/constants'
-import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
@@ -31,7 +31,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      buffAbilityDefShred(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s])
+      buffAbilityDefPen(x, ULT_TYPE, r.luminfluxUltStacks * sValuesDefShred[s])
     },
     finalizeCalculations: () => {
     },

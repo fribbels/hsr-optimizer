@@ -19,7 +19,7 @@ export const baseComputedStatsObject = {
   FUA_DMG_TYPE: FUA_TYPE,
   DOT_DMG_TYPE: DOT_TYPE,
   BREAK_DMG_TYPE: BREAK_TYPE,
-  SUPER_BREAK_TYPE: SUPER_BREAK_TYPE,
+  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
 
   ['HP%']: 0,
   ['ATK%']: 0,
@@ -69,7 +69,7 @@ export const baseComputedStatsObject = {
   FUA_BOOST: 0,
   DOT_BOOST: 0,
 
-  DMG_TAKEN_MULTI: 0, // TODO: Rename to VULNERABILITY
+  VULNERABILITY: 0,
   BASIC_VULNERABILITY: 0,
   SKILL_VULNERABILITY: 0,
   ULT_VULNERABILITY: 0,
@@ -77,8 +77,7 @@ export const baseComputedStatsObject = {
   DOT_VULNERABILITY: 0,
   BREAK_VULNERABILITY: 0,
 
-  // TODO: Consolidate wording as DEF_SHRED
-  DEF_SHRED: 0,
+  DEF_PEN: 0,
   BASIC_DEF_PEN: 0,
   SKILL_DEF_PEN: 0,
   ULT_DEF_PEN: 0,
@@ -87,7 +86,7 @@ export const baseComputedStatsObject = {
   BREAK_DEF_PEN: 0,
   SUPER_BREAK_DEF_PEN: 0,
 
-  RES_PEN: 0, // TODO: Rename to ALL_TYPE_RES_PEN
+  RES_PEN: 0,
   PHYSICAL_RES_PEN: 0,
   FIRE_RES_PEN: 0,
   ICE_RES_PEN: 0,
@@ -114,7 +113,7 @@ export const baseComputedStatsObject = {
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
 
   DOT_CHANCE: 0,
-  EFFECT_RES_SHRED: 0,
+  EFFECT_RES_PEN: 0,
 
   // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
   DOT_SPLIT: 0,

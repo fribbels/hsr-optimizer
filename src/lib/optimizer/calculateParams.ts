@@ -3,11 +3,11 @@ import DB from 'lib/db'
 import { CharacterStats } from 'lib/characterStats'
 import { defaultSetConditionals } from 'lib/defaultForm'
 import { emptyLightCone } from 'lib/optimizer/optimizerUtils'
-import { Form } from "types/Form";
-import { calculateConditionals, ConditionalRegistry } from "lib/optimizer/calculateConditionals.ts";
-import { ComputedStatsObject } from "lib/conditionals/conditionalConstants";
-import { LightConeConditional } from "types/LightConeConditionals";
-import { CharacterConditional } from "types/CharacterConditional";
+import { Form } from 'types/Form'
+import { calculateConditionals, ConditionalRegistry } from 'lib/optimizer/calculateConditionals.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { LightConeConditional } from 'types/LightConeConditionals'
+import { CharacterConditional } from 'types/CharacterConditional'
 
 export type CharacterStats = {
   base: { [key: string]: number }
@@ -16,7 +16,7 @@ export type CharacterStats = {
 }
 
 export type OptimizerParams = {
-  element: string,
+  element: string
   ELEMENTAL_BREAK_SCALING: number
   ELEMENTAL_DMG_TYPE: string
   RES_PEN_TYPE: string
@@ -148,7 +148,7 @@ function generateSetConditionalParams(request: Form, params: Partial<OptimizerPa
 
 function generateMultiplierParams(request: Form, params: Partial<OptimizerParams>) {
   params.brokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9
-  params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_SHRED
+  params.resistance = (request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN
 }
 
 function generateElementParams(request: Form, params: Partial<OptimizerParams>) {

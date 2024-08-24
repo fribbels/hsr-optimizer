@@ -115,8 +115,8 @@ const SilverWolf = (e: Eidolon): CharacterConditional => {
       x.RES_PEN += (m.skillWeaknessResShredDebuff) ? 0.20 : 0
       x.RES_PEN += (m.skillResShredDebuff) ? skillResShredValue : 0
       x.RES_PEN += (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0
-      x.DEF_SHRED += (m.ultDefShredDebuff) ? ultDefShredValue : 0
-      x.DEF_SHRED += (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0
+      x.DEF_PEN += (m.ultDefShredDebuff) ? ultDefShredValue : 0
+      x.DEF_PEN += (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

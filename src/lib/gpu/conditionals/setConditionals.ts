@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { BASIC_TYPE, BREAK_TYPE, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { buffAbilityDefShred, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { buffStat, conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { p2, p4 } from 'lib/optimizer/optimizerUtils'
@@ -152,7 +152,7 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
     return p4(x.sets.IronCavalryAgainstTheScourge) && x[Stats.BE] >= 1.50
   },
   effect: (x: ComputedStatsObject) => {
-    buffAbilityDefShred(x, BREAK_TYPE, 0.10)
+    buffAbilityDefPen(x, BREAK_TYPE, 0.10)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -177,7 +177,7 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
     return p4(x.sets.IronCavalryAgainstTheScourge) && x[Stats.BE] >= 2.50
   },
   effect: (x: ComputedStatsObject) => {
-    buffAbilityDefShred(x, SUPER_BREAK_TYPE, 0.15)
+    buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `

@@ -46,8 +46,8 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
-      x.DMG_TAKEN_MULTI += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
+      x.VULNERABILITY += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
     },
     finalizeCalculations: () => {
     },

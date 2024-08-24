@@ -49,7 +49,7 @@ struct ComputedStats {
   FUA_BOOST: f32,
   DOT_BOOST: f32,
 
-  DMG_TAKEN_MULTI: f32,
+  VULNERABILITY: f32,
   BASIC_VULNERABILITY: f32,
   SKILL_VULNERABILITY: f32,
   ULT_VULNERABILITY: f32,
@@ -57,7 +57,7 @@ struct ComputedStats {
   DOT_VULNERABILITY: f32,
   BREAK_VULNERABILITY: f32, // 47
 
-  DEF_SHRED: f32,
+  DEF_PEN: f32,
   BASIC_DEF_PEN: f32,
   SKILL_DEF_PEN: f32,
   ULT_DEF_PEN: f32,
@@ -93,7 +93,7 @@ struct ComputedStats {
   EHP: f32,
 
   DOT_CHANCE: f32,
-  EFFECT_RES_SHRED: f32,
+  EFFECT_RES_PEN: f32,
 
   DOT_SPLIT: f32,
   DOT_STACKS: f32,
@@ -133,7 +133,7 @@ struct ComputedStats {
   FUA_DMG_TYPE: f32,
   DOT_DMG_TYPE: f32,
   BREAK_DMG_TYPE: f32,
-  SUPER_BREAK_TYPE: f32,
+  SUPER_BREAK_DMG_TYPE: f32,
 
   sets: Sets,
 }

@@ -48,14 +48,14 @@ export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
     ${x.ULT_BOOST}, // ULT_BOOST
     ${x.FUA_BOOST}, // FUA_BOOST
     ${x.DOT_BOOST}, // DOT_BOOST
-    ${x.DMG_TAKEN_MULTI}, // DMG_TAKEN_MULTI
+    ${x.VULNERABILITY}, // VULNERABILITY
     ${x.BASIC_VULNERABILITY}, // BASIC_VULNERABILITY
     ${x.SKILL_VULNERABILITY}, // SKILL_VULNERABILITY
     ${x.ULT_VULNERABILITY}, // ULT_VULNERABILITY
     ${x.FUA_VULNERABILITY}, // FUA_VULNERABILITY
     ${x.DOT_VULNERABILITY}, // DOT_VULNERABILITY
     ${x.BREAK_VULNERABILITY}, // BREAK_VULNERABILITY
-    ${x.DEF_SHRED}, // DEF_SHRED
+    ${x.DEF_PEN}, // DEF_PEN
     ${x.BASIC_DEF_PEN}, // BASIC_DEF_PEN
     ${x.SKILL_DEF_PEN}, // SKILL_DEF_PEN
     ${x.ULT_DEF_PEN}, // ULT_DEF_PEN
@@ -86,7 +86,7 @@ export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
     ${x.DMG_RED_MULTI}, // DMG_RED_MULTI
     ${x.EHP}, // EHP
     ${x.DOT_CHANCE}, // DOT_CHANCE
-    ${x.EFFECT_RES_SHRED}, // EFFECT_RES_SHRED
+    ${x.EFFECT_RES_PEN}, // EFFECT_RES_PEN
     ${x.DOT_SPLIT}, // DOT_SPLIT
     ${x.DOT_STACKS}, // DOT_STACKS
     ${x.ENEMY_WEAKNESS_BROKEN}, // ENEMY_WEAKNESS_BROKEN
@@ -117,7 +117,7 @@ export function injectPrecomputedStats(wgsl: string, params: OptimizerParams) {
     ${x.FUA_DMG_TYPE}, // FUA_DMG_TYPE
     ${x.DOT_DMG_TYPE}, // DOT_DMG_TYPE
     ${x.BREAK_DMG_TYPE}, // BREAK_DMG_TYPE
-    ${x.SUPER_BREAK_TYPE}, // SUPER_BREAK_TYPE
+    ${x.SUPER_BREAK_DMG_TYPE}, // SUPER_BREAK_DMG_TYPE
     Sets(),
   );
   `

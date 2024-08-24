@@ -85,7 +85,7 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DEF_SHRED += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
+      x.DEF_PEN += (e >= 2 && m.e2DefReduction) ? 0.16 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

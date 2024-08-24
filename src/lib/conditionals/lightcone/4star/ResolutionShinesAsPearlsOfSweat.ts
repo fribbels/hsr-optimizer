@@ -46,7 +46,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DEF_SHRED += (m.targetEnsnared) ? sValues[s] : 0
+      x.DEF_PEN += (m.targetEnsnared) ? sValues[s] : 0
     },
     finalizeCalculations: () => {
     },

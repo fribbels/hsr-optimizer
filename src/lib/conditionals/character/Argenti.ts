@@ -6,7 +6,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { buffAbilityDefShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -101,7 +101,7 @@ export default (e: Eidolon): CharacterConditional => {
       // BOOST
       x.ELEMENTAL_DMG += (r.enemyHp50) ? 0.15 : 0
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefShred(x, ULT_TYPE, 0.30, (e >= 6))
+      buffAbilityDefPen(x, ULT_TYPE, 0.30, (e >= 6))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 30

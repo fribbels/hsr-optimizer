@@ -433,7 +433,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('ULT_BOOST', fixed(array[38]))
     console.log('FUA_BOOST', fixed(array[39]))
     console.log('DOT_BOOST', fixed(array[40]))
-    console.log('DMG_TAKEN_MULTI', fixed(array[41]))
+    console.log('VULNERABILITY', fixed(array[41]))
     console.log('BASIC_VULNERABILITY', fixed(array[42]))
     console.log('SKILL_VULNERABILITY', fixed(array[43]))
     console.log('ULT_VULNERABILITY', fixed(array[44]))
@@ -441,7 +441,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('DOT_VULNERABILITY', fixed(array[46]))
 
     console.log('BREAK_VULNERABILITY', fixed(array[47]))
-    console.log('DEF_SHRED', fixed(array[48]))
+    console.log('DEF_PEN', fixed(array[48]))
     console.log('BASIC_DEF_PEN', fixed(array[49]))
     console.log('SKILL_DEF_PEN', fixed(array[50]))
     console.log('ULT_DEF_PEN', fixed(array[51]))
@@ -473,7 +473,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('EHP', fixed(array[77]))
 
     console.log('DOT_CHANCE', fixed(array[78]))
-    console.log('EFFECT_RES_SHRED', fixed(array[79]))
+    console.log('EFFECT_RES_PEN', fixed(array[79]))
     console.log('DOT_SPLIT', fixed(array[80]))
     console.log('DOT_STACKS', fixed(array[81]))
     console.log('ENEMY_WEAKNESS_BROKEN', fixed(array[82]))
@@ -504,7 +504,7 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('FUA_DMG_TYPE', fixed(array[107]))
     console.log('DOT_DMG_TYPE', fixed(array[108]))
     console.log('BREAK_DMG_TYPE', fixed(array[109]))
-    console.log('SUPER_BREAK_TYPE', fixed(array[110]))
+    console.log('SUPER_BREAK_DMG_TYPE', fixed(array[110]))
   }
 }
 

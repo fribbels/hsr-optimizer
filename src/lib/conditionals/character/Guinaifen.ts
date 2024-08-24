@@ -107,8 +107,8 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DMG_TAKEN_MULTI += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
-      x.EFFECT_RES_SHRED += m.e1EffectResShred ? 0.10 : 0
+      x.VULNERABILITY += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
+      x.EFFECT_RES_PEN += m.e1EffectResShred ? 0.10 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

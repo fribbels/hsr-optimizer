@@ -5,7 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
-import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -143,8 +143,8 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
       x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
-      buffAbilityResShred(x, ULT_TYPE, talentResPen)
-      buffAbilityResShred(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
+      buffAbilityResPen(x, ULT_TYPE, talentResPen)
+      buffAbilityResPen(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost

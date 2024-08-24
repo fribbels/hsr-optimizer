@@ -6,7 +6,7 @@ import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { BETA_UPDATE, Stats } from 'lib/constants'
-import { buffAbilityCd, buffAbilityCr, buffAbilityDefShred, buffAbilityDmg, buffAbilityResShred } from 'lib/optimizer/calculateBuffs'
+import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -153,10 +153,10 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_RED_MULTI *= (r.blockActive) ? 1 - 0.20 : 1
 
       buffAbilityDmg(x, FUA_TYPE, 0.20, (e >= 1 && r.e1UltBuff && r.blockActive))
-      buffAbilityDefShred(x, FUA_TYPE, 0.20, (e >= 2 && r.e2DefShred))
+      buffAbilityDefPen(x, FUA_TYPE, 0.20, (e >= 2 && r.e2DefShred))
       x[Stats.RES] += (e >= 4 && r.e4ResBuff) ? 0.50 : 0
       buffAbilityCr(x, FUA_TYPE, 0.15, (e >= 6 && r.e6Buffs && r.blockActive))
-      buffAbilityResShred(x, FUA_TYPE, 0.20, (e >= 6 && r.e6Buffs && r.blockActive))
+      buffAbilityResPen(x, FUA_TYPE, 0.20, (e >= 6 && r.e6Buffs && r.blockActive))
 
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60

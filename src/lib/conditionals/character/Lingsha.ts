@@ -120,7 +120,7 @@ export default (e: Eidolon): CharacterConditional => {
       const m = request.characterConditionals
 
       if (x.ENEMY_WEAKNESS_BROKEN) {
-        x.DEF_SHRED += (e >= 1 && m.e1DefShred) ? 0.20 : 0
+        x.DEF_PEN += (e >= 1 && m.e1DefShred) ? 0.20 : 0
       }
 
       buffAbilityVulnerability(x, BREAK_TYPE, ultBreakVulnerability, (m.befogState))

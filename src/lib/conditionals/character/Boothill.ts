@@ -129,10 +129,10 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       const r = request.characterConditionals
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
-      x.DMG_TAKEN_MULTI += (r.standoffActive) ? standoffVulnerabilityBoost : 0
+      x.VULNERABILITY += (r.standoffActive) ? standoffVulnerabilityBoost : 0
 
-      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
-      x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+      x.DEF_PEN += (e >= 1 && r.e1DefShred) ? 0.16 : 0
+      x.VULNERABILITY += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
 
       x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling : basicScaling
       x.BASIC_BREAK_EFFICIENCY_BOOST += (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0

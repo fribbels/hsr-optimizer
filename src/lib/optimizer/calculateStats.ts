@@ -189,8 +189,8 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   x[Stats.SPD] += request.combatBuffs.SPD_P * request.baseSpd + request.combatBuffs.SPD
   x[Stats.BE] += request.combatBuffs.BE
   x.ELEMENTAL_DMG += request.combatBuffs.DMG_BOOST
-  x.EFFECT_RES_SHRED += request.combatBuffs.EFFECT_RES_SHRED
-  x.DMG_TAKEN_MULTI += request.combatBuffs.VULNERABILITY
+  x.EFFECT_RES_PEN += request.combatBuffs.EFFECT_RES_PEN
+  x.VULNERABILITY += request.combatBuffs.VULNERABILITY
   x.BREAK_EFFICIENCY_BOOST += request.combatBuffs.BREAK_EFFICIENCY
 
   // Set effects
@@ -288,11 +288,11 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   p4(sets.TheWindSoaringValorous) && buffAbilityDmg(x, ULT_TYPE, 0.36 * params.enabledTheWindSoaringValorous)
 
   if (p4(sets.GeniusOfBrilliantStars)) {
-    x.DEF_SHRED += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
+    x.DEF_PEN += params.enabledGeniusOfBrilliantStars ? 0.20 : 0.10
   }
 
   if (p4(sets.PrisonerInDeepConfinement)) {
-    x.DEF_SHRED += 0.06 * params.valuePrisonerInDeepConfinement
+    x.DEF_PEN += 0.06 * params.valuePrisonerInDeepConfinement
   }
 
   if (p2(sets.PioneerDiverOfDeadWaters)) {

@@ -131,7 +131,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BREAK_EFFICIENCY_BOOST += (m.skillOvertoneBuff) ? 0.50 : 0
 
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
-      x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
+      x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals

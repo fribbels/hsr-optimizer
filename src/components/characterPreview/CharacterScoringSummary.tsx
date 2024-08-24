@@ -666,6 +666,11 @@ function addOnHitStats(simulationScore: SimulationScore) {
   }
 }
 
+const percentFlatStats = {
+  [Stats.ATK_P]: true,
+  [Stats.DEF_P]: true,
+  [Stats.HP_P]: true,
+}
 
 export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   const result = TsUtils.clone(props.result)
@@ -677,15 +682,15 @@ export function CharacterCardCombatStats(props: { result: SimulationScore }) {
   const nonDisplayStats = simulationMetadata.nonDisplayStats || []
   let substats = originalSimulationMetadata.substats
   substats = substats.filter((x) => !nonDisplayStats.includes(x))
-  substats = Utils.filterUnique(substats)
-  if (substats.length < 6) substats.push(Stats.SPD)
+  substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
+  if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
   substats.push(elementalDmgValue)
 
   const rows: ReactElement[] = []
 
   for (const stat of substats) {
-    if (stat == Stats.ATK_P || stat == Stats.DEF_P || stat == Stats.HP_P) continue
+    if (percentFlatStats[stat]) continue
 
     const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
     const flat = Utils.isFlat(stat)

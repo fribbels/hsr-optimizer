@@ -20,7 +20,7 @@ export const CharacterStatSummary = (props: {
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.RES}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.BE}/>
       {!props.simScore && !!props.finalStats[Stats.OHB] && <StatRow finalStats={props.finalStats} stat={Stats.OHB}/>}
-      <StatRow finalStats={props.finalStats} stat={Constants.Stats.ERR}/>
+      {(props.simScore == null || props.cv <= 64.8) && <StatRow finalStats={props.finalStats} stat={Constants.Stats.ERR}/>}
       <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue}/>
       {props.cv != null && props.cv > 64.8 && <StatRow finalStats={props.finalStats} stat="CV" value={props.cv}/>}
       {props.simScore != null && <StatRow finalStats={props.finalStats} stat="simScore" value={props.simScore}/>}

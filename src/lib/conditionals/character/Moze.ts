@@ -80,12 +80,13 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
+    },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
       x.ELEMENTAL_DMG += (e >= 4 && r.e4DmgBuff) ? 0.30 : 0
-
-      x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
       x.BASIC_SCALING += basicScaling + ((r.preyMark) ? additionalDmgScaling : 0)
       x.SKILL_SCALING += skillScaling + ((r.preyMark) ? additionalDmgScaling : 0)

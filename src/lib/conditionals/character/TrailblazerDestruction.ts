@@ -51,6 +51,7 @@ export default (e: Eidolon): CharacterConditional => {
       // Stats
       x[Stats.ATK_P] += r.talentStacks * talentAtkScalingValue
       x[Stats.DEF_P] += r.talentStacks * 0.10
+      x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -70,8 +71,6 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x[Stats.CR] += (x.ENEMY_WEAKNESS_BROKEN) ? 0.25 : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

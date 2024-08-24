@@ -119,13 +119,15 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
-      // Special case where we force the weakness break on if the talent break option is enabled
       if (r.talentBreakDmgScaling) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
       x.DMG_TAKEN_MULTI += (r.standoffActive) ? standoffVulnerabilityBoost : 0

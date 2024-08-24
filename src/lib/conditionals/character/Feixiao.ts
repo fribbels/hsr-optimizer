@@ -102,15 +102,24 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => defaults,
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
       x.ULT_DMG_TYPE = ULT_TYPE | FUA_TYPE
 
-      // Special case where we force the weakness break on if the ult break option is enabled
       if (r.weaknessBrokenUlt) {
         x.ENEMY_WEAKNESS_BROKEN = 1
-      } else {
+      }
+
+      if (e >= 6 && r.e6Buffs) {
+        x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
+      }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+
+      // Special case where we force the weakness break on if the ult break option is enabled
+      if (!r.weaknessBrokenUlt) {
         x.ULT_BREAK_EFFICIENCY_BOOST += 1.00
       }
 
@@ -134,7 +143,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       if (e >= 6 && r.e6Buffs) {
         x.RES_PEN += 0.20
-        x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
         x.FUA_SCALING += 1.40
       }
 

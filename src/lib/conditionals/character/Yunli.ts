@@ -128,12 +128,17 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+      if (r.blockActive && r.ultCull) {
+        x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
+      }
+    },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
       if (r.blockActive) {
         if (r.ultCull) {
-          x.FUA_DMG_TYPE = ULT_TYPE | FUA_TYPE
           x.FUA_SCALING += ultCullScaling + r.ultCullHits * ultCullHitsScaling
         } else {
           x.FUA_SCALING += ultSlashScaling

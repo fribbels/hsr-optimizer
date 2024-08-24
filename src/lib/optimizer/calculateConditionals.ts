@@ -25,6 +25,21 @@ export function calculateConditionals(request: Form, params: Partial<OptimizerPa
   lightConeConditionals.initializeConfigurations?.(x, request)
   characterConditionals.initializeConfigurations?.(x, request)
 
+  const teammates = [
+    request.teammate0,
+    request.teammate1,
+    request.teammate2,
+  ].filter((x) => !!x && !!x.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    const teammateRequest = Object.assign({}, request, teammates[i])
+
+    const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest) as CharacterConditional
+    const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest) as LightConeConditional
+
+    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateRequest)
+    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateRequest)
+  }
+
   // Precompute stage
   lightConeConditionals.precomputeEffects?.(x, request)
   characterConditionals.precomputeEffects?.(x, request)

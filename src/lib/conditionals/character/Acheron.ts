@@ -1,4 +1,4 @@
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkScalingCalculations, precisionRound, standardAtkScalingCalculations } from 'lib/conditionals/conditionalUtils'
 import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
@@ -129,14 +129,16 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e4UltVulnerability: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
-      // TODO: CONFIG
       if (e >= 6 && r.e6UltBuffs) {
         x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
         x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
       }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
@@ -169,11 +171,8 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: standardAtkScalingCalculations,
+    gpuFinalizeCalculations: gpuStandardAtkScalingCalculations,
   }
 }
 Acheron.label = 'Acheron'

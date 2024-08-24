@@ -120,13 +120,15 @@ export default (e: Eidolon): CharacterConditional => {
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
-      // Special case where we force the weakness break on if the option is enabled
       if (r.superBreakDmg) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       x[Stats.RES] += (r.enhancedStateActive) ? talentResBuff : 0
       x[Stats.SPD] += (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0

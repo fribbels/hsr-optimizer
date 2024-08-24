@@ -22,6 +22,7 @@ export interface Conditional {
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
   initializeConfigurations?: (x: ComputedStatsObject, request: Form) => void
+  initializeTeammateConfigurations?: (x: ComputedStatsObject, request: Form) => void
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs

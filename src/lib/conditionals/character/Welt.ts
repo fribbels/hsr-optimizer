@@ -70,6 +70,7 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
 
       // Stats
+      x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -97,9 +98,6 @@ export default (e: Eidolon): CharacterConditional => {
       x.DMG_TAKEN_MULTI += (m.enemyDmgTakenDebuff) ? 0.12 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      // Boost
-      x.ELEMENTAL_DMG += (x.ENEMY_WEAKNESS_BROKEN) ? 0.20 : 0
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]

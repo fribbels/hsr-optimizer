@@ -1,14 +1,13 @@
 import { ComputedStatsObject, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkScalingCalculations, standardAtkScalingCalculations } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
-import { BETA_UPDATE, Stats } from 'lib/constants'
+import { BETA_UPDATE } from 'lib/constants'
 import { buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { JiaoqiuConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -140,22 +139,8 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
-    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
-      `
-    },
+    finalizeCalculations: standardAtkScalingCalculations,
+    gpuFinalizeCalculations: gpuStandardAtkScalingCalculations,
     dynamicConditionals: [JiaoqiuConversionConditional],
   }
 }

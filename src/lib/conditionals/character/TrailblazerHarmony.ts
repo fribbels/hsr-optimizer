@@ -94,6 +94,18 @@ export default (e: Eidolon): CharacterConditional => {
       superBreakDmg: true,
       teammateBeValue: 2.00,
     }),
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+      if (r.superBreakDmg) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      }
+    },
+    initializeTeammateConfigurations: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
+      if (r.superBreakDmg) {
+        x.ENEMY_WEAKNESS_BROKEN = 1
+      }
+    },
     precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
 
@@ -112,11 +124,6 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
-
-      // Special case where we force the weakness break on if the option is enabled
-      if (m.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN = 1
-      }
 
       x[Stats.BE] += (m.backupDancer) ? ultBeScaling : 0
       x.SUPER_BREAK_HMC_MODIFIER += (m.backupDancer && m.superBreakDmg) ? targetsToSuperBreakMulti[request.enemyCount] : 0

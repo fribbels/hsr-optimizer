@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants'
+import { Constants, Stats } from 'lib/constants'
 import { ContentItem } from 'types/Conditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Form } from 'types/Form'
@@ -63,4 +63,22 @@ export const AbilityEidolon = {
     ult: ability(3),
     talent: ability(5),
   },
+}
+
+export function standardAtkScalingCalculations(x: ComputedStatsObject) {
+  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
+  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+  x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+  x.FUA_DMG += x.FUA_SCALING * x[Stats.ATK]
+  x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+}
+
+export function gpuStandardAtkScalingCalculations() {
+  return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.FUA_DMG += x.FUA_SCALING * x.ATK;
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+      `
 }

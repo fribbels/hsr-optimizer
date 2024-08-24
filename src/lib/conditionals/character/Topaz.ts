@@ -74,11 +74,12 @@ export default (e: Eidolon): CharacterConditional => {
       enemyProofOfDebtDebuff: true,
       e1DebtorStacks: 2,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
       x.SKILL_DMG_TYPE = SKILL_TYPE | FUA_TYPE
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, enhancedStateFuaCdBoost, (r.numbyEnhancedState))
       buffAbilityResShred(x, SKILL_TYPE | FUA_TYPE, 0.10, (e >= 6))

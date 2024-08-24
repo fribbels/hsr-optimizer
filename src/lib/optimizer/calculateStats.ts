@@ -322,9 +322,6 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   const characterConditionals = params.characterConditionals
   const lightConeConditionals = params.lightConeConditionals
 
-  if (characterConditionals.calculateStatConditionals) characterConditionals.calculateStatConditionals(x, request, params)
-  if (lightConeConditionals.calculateStatConditionals) lightConeConditionals.calculateStatConditionals(x, request, params)
-
   for (const conditional of characterConditionals.dynamicConditionals || []) {
     evaluateConditional(conditional, x, request, params)
   }

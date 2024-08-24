@@ -231,7 +231,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
   condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
-    return p4(x.sets.BrokenKeel) && x[Stats.RES] >= 0.30
+    return p2(x.sets.BrokenKeel) && x[Stats.RES] >= 0.30
   },
   effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     buffStat(x, request, params, Stats.CD, 0.10)

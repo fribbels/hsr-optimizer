@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -99,18 +99,13 @@ export default (e: Eidolon): CharacterConditional => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-
-      // Calc ashblazing: ult buff -> blast, unbuffed -> single
-      if (r.ultBuff) {
-        const ashblazingAtk = calculateAshblazingSet(x, request, hitMultiByTargetsBlast[request.enemyCount])
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      } else {
-        const ashblazingAtk = calculateAshblazingSet(x, request, hitMultiSingle)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      }
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+      standardFuaAtkFinalizer(x, request, hitMulti)
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[request.enemyCount] : hitMultiSingle
+      return gpuStandardFuaAtkFinalizer(hitMulti)
     },
   }
 }

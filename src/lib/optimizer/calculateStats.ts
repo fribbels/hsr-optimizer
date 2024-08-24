@@ -4,7 +4,7 @@ import { CharacterConditionals } from 'lib/characterConditionals'
 import { LightConeConditionals } from 'lib/lightConeConditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
+import { BelobogOfTheArchitectsConditional, BrokenKeelConditional, CelestialDifferentiatorConditional, FirmamentFrontlineGlamoth135Conditional, FirmamentFrontlineGlamoth160Conditional, FleetOfTheAgelessConditional, InertSalsottoConditional, IronCavalryAgainstTheScourge150Conditional, IronCavalryAgainstTheScourge250Conditional, PanCosmicCommercialEnterpriseConditional, RutilantArenaConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
@@ -310,6 +310,8 @@ export function calculateComputedStats(c: BasicStatsObject, request: Form, param
   p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, request, params)
   p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, request, params)
   p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, request, params)
+  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, request, params)
+  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, request, params)
   p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, request, params)
   p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, request, params)
   p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, request, params)

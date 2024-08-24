@@ -135,6 +135,29 @@ fn main(
   c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
   c.weightScore = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
+  // Calculate basic stats
+
+  c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + lcHP_P) + traceHP;
+  c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + lcDEF_P) + traceDEF;
+  c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + lcATK_P) + traceATK;
+  c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + lcSPD_P) + traceSPD;
+  c.CR  += characterCR + lcCR + traceCR;
+  c.CD  += characterCD + lcCD + traceCD;
+  c.EHR += characterEHR + lcEHR + traceEHR;
+  c.RES += characterRES + lcRES + traceRES;
+  c.BE  += characterBE + lcBE + traceBE;
+  c.ERR += characterERR + lcERR + traceERR;
+  c.OHB += characterOHB + lcOHB + traceOHB;
+  c.Physical_DMG += tracePhysical_DMG;
+  c.Fire_DMG += traceFire_DMG;
+  c.Ice_DMG += traceIce_DMG;
+  c.Lightning_DMG += traceLightning_DMG;
+  c.Wind_DMG += traceWind_DMG;
+  c.Quantum_DMG += traceQuantum_DMG;
+  c.Imaginary_DMG += traceImaginary_DMG;
+
+  addElementalDmg(&c, &x);
+
   // Calculate relic set counts
 
   x.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
@@ -180,27 +203,6 @@ fn main(
   x.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
   // Calculate set effects
-
-  // Calculate basic stats
-
-  c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + lcHP_P) + traceHP;
-  c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + lcDEF_P) + traceDEF;
-  c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + lcATK_P) + traceATK;
-  c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + lcSPD_P) + traceSPD;
-  c.CR  += characterCR + lcCR + traceCR;
-  c.CD  += characterCD + lcCD + traceCD;
-  c.EHR += characterEHR + lcEHR + traceEHR;
-  c.RES += characterRES + lcRES + traceRES;
-  c.BE  += characterBE + lcBE + traceBE;
-  c.ERR += characterERR + lcERR + traceERR;
-  c.OHB += characterOHB + lcOHB + traceOHB;
-  c.Physical_DMG += tracePhysical_DMG;
-  c.Fire_DMG += traceFire_DMG;
-  c.Ice_DMG += traceIce_DMG;
-  c.Lightning_DMG += traceLightning_DMG;
-  c.Wind_DMG += traceWind_DMG;
-  c.Quantum_DMG += traceQuantum_DMG;
-  c.Imaginary_DMG += traceImaginary_DMG;
 
   // Calculate elemental stats
 
@@ -277,8 +279,6 @@ fn main(
   );
 
   // Add base to computed
-
-  addElementalDmg(&c, &x);
 
   x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
   x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
@@ -451,7 +451,8 @@ fn main(
   let defReduction: f32 = x.DEF_SHRED + combatBuffsDEF_SHRED;
   let defIgnore: f32 = 0.0;
 
-  x.ELEMENTAL_DMG += x.Imaginary_DMG;
+  addComputedElementalDmg(&x);
+
   let dmgBoostMultiplier: f32 = 1 + x.ELEMENTAL_DMG;
   let dmgReductionMultiplier: f32 = 1;
 
@@ -706,6 +707,37 @@ fn addElementalDmg(
     }
     case 6: {
       (*p_x).ELEMENTAL_DMG += (*c_x).Imaginary_DMG;
+    }
+    default: {
+
+    }
+  }
+}
+
+fn addComputedElementalDmg(
+  p_x: ptr<function, ComputedStats>,
+) {
+  switch (ELEMENT_INDEX) {
+    case 0: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Physical_DMG;
+    }
+    case 1: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Fire_DMG;
+    }
+    case 2: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Ice_DMG;
+    }
+    case 3: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Lightning_DMG;
+    }
+    case 4: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Wind_DMG;
+    }
+    case 5: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Quantum_DMG;
+    }
+    case 6: {
+      (*p_x).ELEMENTAL_DMG += (*p_x).Imaginary_DMG;
     }
     default: {
 

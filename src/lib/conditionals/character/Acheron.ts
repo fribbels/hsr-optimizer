@@ -8,7 +8,7 @@ import { Stats } from 'lib/constants'
 import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
 
-const Acheron = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -175,6 +175,3 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-Acheron.label = 'Acheron'
-
-export default Acheron

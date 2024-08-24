@@ -1,5 +1,4 @@
-import { Stats } from 'lib/constants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
@@ -97,10 +96,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.DMG_TAKEN_MULTI += (m.enemyDmgTakenDebuff) ? 0.12 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

@@ -1,6 +1,5 @@
-import { Stats } from 'lib/constants'
 import { ComputedStatsObject, DOT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -93,11 +92,7 @@ export default (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, DOT_TYPE, dotVulnerabilityValue, (m.targetDotTakenDebuff))
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

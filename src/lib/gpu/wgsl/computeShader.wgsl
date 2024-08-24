@@ -156,8 +156,6 @@ fn main(
   c.Quantum_DMG += traceQuantum_DMG;
   c.Imaginary_DMG += traceImaginary_DMG;
 
-  addElementalDmg(&c, &x);
-
   // Calculate relic set counts
 
   x.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
@@ -202,9 +200,7 @@ fn main(
   x.sets.LushakaTheSunkenSeas                = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
   x.sets.TheWondrousBananAmusementPark       = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
 
-  // Calculate set effects
-
-  // Calculate elemental stats
+  // Calculate elemental stats after set counts
 
   c.Physical_DMG += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
   c.Fire_DMG += 0.10 * p2(x.sets.FiresmithOfLavaForging);
@@ -213,6 +209,10 @@ fn main(
   c.Wind_DMG += 0.10 * p2(x.sets.EagleOfTwilightLine);
   c.Quantum_DMG += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
   c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
+
+  addElementalDmg(&c, &x);
+
+  // Calculate set effects
 
   c.SPD += (baseSPD) * (
     0.06 * p2(x.sets.MessengerTraversingHackerspace) +

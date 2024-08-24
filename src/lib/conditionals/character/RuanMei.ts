@@ -2,12 +2,11 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
 
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { ContentItem } from 'types/Conditionals'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (e: Eidolon): CharacterConditional => {
@@ -118,7 +117,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
 
       x.BASIC_TOUGHNESS_DMG += 30
 
@@ -144,15 +142,8 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
       x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-    },
-    gpuFinalizeCalculations: (request: Form, _params: OptimizerParams) => {
-      const r = request.characterConditionals
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-      `
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [RuanMeiConversionConditional],
   }
 }

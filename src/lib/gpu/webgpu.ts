@@ -1,11 +1,10 @@
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from '../constants.ts'
-import { Relic } from 'types/Relic'
-import { RelicAugmenter } from 'lib/relicAugmenter'
+import { Stats } from '../constants.ts'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Utils } from 'lib/utils'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
 import { generatePipeline, getDevice } from 'lib/gpu/webgpuInternals'
+import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray, RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -32,56 +31,6 @@ export const StatsToIndex = {
   [Stats.Imaginary_DMG]: 21,
 }
 
-function relicSetToIndex(relic: Relic) {
-  if (SetsRelicsNames.includes(relic.set)) {
-    return RelicSetToIndex[relic.set]
-  }
-  return OrnamentSetToIndex[relic.set]
-}
-
-// set weight main aug
-const RELIC_ARG_SIZE = 24
-
-function convertRelicsToArray(relics: Relic[]) {
-  const output: number[] = []
-  for (let i = 0; i < relics.length; i++) {
-    const relic = relics[i]
-    const startIndex = RELIC_ARG_SIZE * i
-    let j = 0
-    RelicAugmenter.augment(relic)
-    const uncondensedStats = {}
-    for (const condensedStat of relic.condensedStats) {
-      uncondensedStats[condensedStat[0]] = condensedStat[1]
-    }
-    output[startIndex + j++] = uncondensedStats[Stats.HP_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ATK_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.DEF_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.SPD_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.HP] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ATK] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.DEF] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.SPD] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.CR] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.CD] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.EHR] || 0 // 10
-    output[startIndex + j++] = uncondensedStats[Stats.RES] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.BE] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ERR] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.OHB] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Physical_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Fire_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Ice_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Lightning_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Wind_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Quantum_DMG] || 0 // 20
-    output[startIndex + j++] = uncondensedStats[Stats.Imaginary_DMG] || 0
-    output[startIndex + j++] = relicSetToIndex(relic)
-    output[startIndex + j++] = relic.weightScore // 23
-  }
-
-  return output
-}
-
 function createBuffer(device, matrix, usage, mapped = true, int = false) {
   const gpuBuffer = device.createBuffer({
     mappedAtCreation: mapped,
@@ -103,7 +52,7 @@ function createBuffer(device, matrix, usage, mapped = true, int = false) {
 export async function experiment(props: {
   params: OptimizerParams
   request: Form
-  relics: Relic[]
+  relics: RelicsByPart
   permutations: number
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
@@ -128,39 +77,7 @@ export async function experiment(props: {
 
   // ======================================== Input ========================================
 
-  const paramsArray = [
-    relics.LinkRope.length,
-    relics.PlanarSphere.length,
-    relics.Feet.length,
-    relics.Body.length,
-    relics.Hands.length,
-    relics.Head.length,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    Object.keys(Constants.SetsRelics).length,
-    Object.keys(Constants.SetsOrnaments).length, // 13
-  ]
-
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[14 + StatsToIndex[stat]] = params.character.base[stat]
-  }
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[36 + StatsToIndex[stat]] = params.character.lightCone[stat]
-  }
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[58 + StatsToIndex[stat]] = params.character.traces[stat]
-  }
-
-  const lSize = relics.LinkRope.length
-  const pSize = relics.PlanarSphere.length
-  const fSize = relics.Feet.length
-  const bSize = relics.Body.length
-  const gSize = relics.Hands.length
-  const hSize = relics.Head.length
+  const paramsArray: number[] = generateBaseParamsArray(relics, params)
 
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE
   const resultMatrixBuffer = device.createBuffer({
@@ -168,14 +85,7 @@ export async function experiment(props: {
     usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
   })
 
-  const mergedRelics = convertRelicsToArray([
-    ...relics.Head,
-    ...relics.Hands,
-    ...relics.Body,
-    ...relics.Feet,
-    ...relics.PlanarSphere,
-    ...relics.LinkRope,
-  ])
+  const mergedRelics = mergeRelicsIntoArray(relics)
 
   const relicsMatrix = createBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
@@ -210,21 +120,7 @@ export async function experiment(props: {
   for (let i = 0; i < iterations; i++) {
     const offset = i * BLOCK_SIZE
 
-    const l = (offset % lSize)
-    const p = (((offset - l) / lSize) % pSize)
-    const f = (((offset - p * lSize - l) / (lSize * pSize)) % fSize)
-    const b = (((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    const g = (((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    const h = (((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
-
-    paramsArray[6] = l
-    paramsArray[7] = p
-    paramsArray[8] = f
-    paramsArray[9] = b
-    paramsArray[10] = g
-    paramsArray[11] = h
-
-    const newParamsMatrix = createBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
+    const newParamsMatrix = generateParamsMatrix(device, offset, relics, paramsArray)
 
     const newBindGroup0 = device.createBindGroup({
       layout: computePipeline.getBindGroupLayout(0),

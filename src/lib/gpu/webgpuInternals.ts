@@ -53,3 +53,27 @@ function generateLayouts(device: GPUDevice) {
     }),
   ]
 }
+
+export function createGpuBuffer(
+  device: GPUDevice,
+  matrix: Int32Array | Float32Array,
+  usage: GPUBufferUsageFlags,
+  mapped = true,
+  int = false,
+) {
+  const gpuBuffer = device.createBuffer({
+    mappedAtCreation: mapped,
+    size: matrix.byteLength,
+    usage: usage,
+  })
+
+  const arrayBuffer = gpuBuffer.getMappedRange()
+  if (int) {
+    new Int32Array(arrayBuffer).set(matrix)
+  } else {
+    new Float32Array(arrayBuffer).set(matrix)
+  }
+  gpuBuffer.unmap()
+
+  return gpuBuffer
+}

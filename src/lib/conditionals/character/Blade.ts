@@ -8,6 +8,7 @@ import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 import { NumberToNumberMap } from 'types/Common'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -117,6 +118,33 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+
+      return `
+if (${wgslTrue(r.enhancedStateActive)}) {
+  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicEnhancedHpScaling} * x.HP;
+} else {
+  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+}
+
+x.ULT_DMG += ${ultAtkScaling} * x.ATK;
+x.ULT_DMG += ${ultHpScaling} * x.HP;
+x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
+
+if (${wgslTrue(e >= 1 && request.enemyCount == 1)}) {
+  x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
+}
+
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[request.enemyCount]}));
+x.FUA_DMG += ${fuaHpScaling} * x.HP;
+
+if (e >= 6) {
+  x.FUA_DMG += 0.50 * x.HP;
+}
+    `
     },
   }
 }

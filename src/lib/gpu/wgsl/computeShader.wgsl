@@ -97,6 +97,7 @@ fn main(
   let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
   var c: BasicStats = BasicStats();
+  var state: ConditionalState = ConditionalState();
 
 
   // START COMPUTED STATS
@@ -107,7 +108,6 @@ fn main(
 
   // Dynamic conditionals
 
-  var state = ConditionalState();
 
   x.BASIC_DMG_TYPE = 1;
   x.SKILL_DMG_TYPE = 2;

@@ -28,7 +28,7 @@ export async function experiment(props: {
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 
-  const BLOCK_SIZE = Math.pow(2, 24)
+  const BLOCK_SIZE = Math.pow(2, 16)
 
   const wgsl = generateWgsl(params, request, DEBUG)
   const computePipeline = generatePipeline(device, wgsl)
@@ -90,7 +90,7 @@ export async function experiment(props: {
     passEncoder.setBindGroup(0, newBindGroup0)
     passEncoder.setBindGroup(1, bindGroup1)
     passEncoder.setBindGroup(2, bindGroup2)
-    passEncoder.dispatchWorkgroups(16, 16)
+    passEncoder.dispatchWorkgroups(16, 16, 1)
     passEncoder.end()
 
     const gpuReadBuffer = device.createBuffer({
@@ -135,9 +135,9 @@ export async function experiment(props: {
       }
     }
 
-    const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-    console.log(resultArray)
-    console.log(array)
+    // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+    // console.log(resultArray)
+    // console.log(array)
 
     const date2 = new Date()
     console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)

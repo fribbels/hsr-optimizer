@@ -4,9 +4,6 @@ export function debugWebgpuOutput(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, 
   const array = new Float32Array(arrayBuffer)
   console.log(array)
 
-  const date2 = new Date()
-  console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)
-
   debugPrintWebgpuArray(array)
   debugPinOptimizerWebgpuArray(array)
 }

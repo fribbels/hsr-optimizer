@@ -7,6 +7,7 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
+import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 
 export type GpuParams = {
   WORKGROUP_SIZE: number
@@ -39,7 +40,7 @@ export async function experiment(props: {
     WORKGROUP_SIZE: 256, // MAX 256
     BLOCK_SIZE: 65536, // MAX 65536
     CYCLES_PER_INVOCATION: 512, // MAX 512
-    DEBUG: false,
+    DEBUG: true,
   }
 
   const wgsl = generateWgsl(params, request, gpuParams)
@@ -148,6 +149,11 @@ export async function experiment(props: {
           // console.log(queueResults.top())
         }
       }
+
+      if (gpuParams.DEBUG) {
+        debugWebgpuOutput(arrayBuffer, gpuParams.BLOCK_SIZE, i, date1)
+      }
+
       gpuReadBuffer.unmap()
       gpuReadBuffer.destroy()
     }
@@ -160,8 +166,6 @@ export async function experiment(props: {
 
     const date2 = new Date()
     console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION}, perms per sec: ${Math.floor(i * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION / ((date2 - date1) / 1000)).toLocaleString()}`)
-
-    // debugWebgpuOutput(arrayBuffer, BLOCK_SIZE, i, date1)
   }
 
   const lSize = relics.LinkRope.length

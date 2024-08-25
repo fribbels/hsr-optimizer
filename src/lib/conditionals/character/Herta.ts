@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -17,7 +17,7 @@ export default (e: Eidolon): CharacterConditional => {
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.40, 0.43)
 
-  function getHitMultiByTargetsAndHits(hits, request) {
+  function getHitMultiByTargetsAndHits(hits: number, request: Form) {
     const div = 1 / hits
 
     if (request.enemyCount == 1) {
@@ -51,6 +51,19 @@ export default (e: Eidolon): CharacterConditional => {
     }
 
     return 1
+  }
+
+  function getHitMulti(request: Form) {
+    const r = request.characterConditionals
+
+    const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, request)
+    const hitMultiByTargets: NumberToNumberMap = {
+      1: ASHBLAZING_ATK_STACK * hitMultiStacks,
+      3: ASHBLAZING_ATK_STACK * hitMultiStacks,
+      5: ASHBLAZING_ATK_STACK * hitMultiStacks,
+    }
+
+    return hitMultiByTargets[request.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -145,7 +158,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_SCALING += (e >= 1 && r.enemyHpLte50) ? 0.40 : 0
       x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
-      x.FUA_SCALING += fuaScaling
+      x.FUA_SCALING += fuaScaling * r.fuaStacks
 
       buffAbilityDmg(x, SKILL_TYPE, 0.20, (r.enemyHpGte50))
 
@@ -162,23 +175,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-
-      const hitMultiStacks = getHitMultiByTargetsAndHits(r.fuaStacks, request)
-      const hitMultiByTargets: NumberToNumberMap = {
-        1: ASHBLAZING_ATK_STACK * hitMultiStacks,
-        3: ASHBLAZING_ATK_STACK * hitMultiStacks,
-        5: ASHBLAZING_ATK_STACK * hitMultiStacks,
-      }
-
-      const hitMulti = hitMultiByTargets[request.enemyCount]
-      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
-      x.FUA_DMG += x.FUA_SCALING * r.fuaStacks * (x[Stats.ATK] + ashblazingAtk)
-    },
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => standardFuaAtkFinalizer(x, request, getHitMulti(request)),
+    gpuFinalizeCalculations: (request: Form) => gpuStandardFuaAtkFinalizer(getHitMulti(request)),
   }
 }

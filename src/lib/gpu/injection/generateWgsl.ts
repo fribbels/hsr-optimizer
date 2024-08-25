@@ -41,10 +41,12 @@ ${structComputedStats}
 }
 
 function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuParams) {
+  const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
+
   wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
-const CYCLES_PER_INVOCATION = ${gpuParams.CYCLES_PER_INVOCATION};
+const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
   `)
 
   if (gpuParams.DEBUG) {

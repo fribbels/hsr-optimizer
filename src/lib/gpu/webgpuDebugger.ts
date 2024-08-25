@@ -20,7 +20,7 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
     DOT: array[73],
     BREAK: array[74],
     COMBO: array[75],
-    WEIGHT: array[112],
+    WEIGHT: array[113],
     EHP: array[77],
     xHP: array[4],
     xATK: array[5],
@@ -144,18 +144,19 @@ export function debugPrintWebgpuArray(array: Float32Array) {
   console.log('RATIO_BASED_ATK_P_BUFF', fixed(array[98]))
   console.log('RATIO_BASED_DEF_BUFF', fixed(array[99]))
   console.log('RATIO_BASED_DEF_P_BUFF', fixed(array[100]))
-  console.log('RATIO_BASED_CD_BUFF', fixed(array[101]))
-  console.log('BREAK_EFFICIENCY_BOOST', fixed(array[102]))
-  console.log('BASIC_BREAK_EFFICIENCY_BOOST', fixed(array[103]))
-  console.log('ULT_BREAK_EFFICIENCY_BOOST', fixed(array[104]))
-  console.log('BASIC_DMG_TYPE', fixed(array[105]))
-  console.log('SKILL_DMG_TYPE', fixed(array[106]))
-  console.log('ULT_DMG_TYPE', fixed(array[107]))
-  console.log('FUA_DMG_TYPE', fixed(array[108]))
-  console.log('DOT_DMG_TYPE', fixed(array[109]))
-  console.log('BREAK_DMG_TYPE', fixed(array[110]))
-  console.log('SUPER_BREAK_DMG_TYPE', fixed(array[111]))
-  console.log('WEIGHT', fixed(array[112]))
+  console.log('RATIO_BASED_SPD_BUFF', fixed(array[101]))
+  console.log('RATIO_BASED_CD_BUFF', fixed(array[102]))
+  console.log('BREAK_EFFICIENCY_BOOST', fixed(array[103]))
+  console.log('BASIC_BREAK_EFFICIENCY_BOOST', fixed(array[104]))
+  console.log('ULT_BREAK_EFFICIENCY_BOOST', fixed(array[105]))
+  console.log('BASIC_DMG_TYPE', fixed(array[106]))
+  console.log('SKILL_DMG_TYPE', fixed(array[107]))
+  console.log('ULT_DMG_TYPE', fixed(array[108]))
+  console.log('FUA_DMG_TYPE', fixed(array[109]))
+  console.log('DOT_DMG_TYPE', fixed(array[110]))
+  console.log('BREAK_DMG_TYPE', fixed(array[111]))
+  console.log('SUPER_BREAK_DMG_TYPE', fixed(array[112]))
+  console.log('WEIGHT', fixed(array[113]))
 }
 
 function fixed(n: number) {

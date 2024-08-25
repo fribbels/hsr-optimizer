@@ -6,6 +6,7 @@ import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -101,6 +102,20 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.SKILL_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
       x.ULT_DMG += (e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.ULT_DMG : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+if (${wgslTrue(e >= 6 && r.e6UltTargetDebuff)}) {
+  x.BASIC_DMG += 0.15 * x.ULT_DMG;
+  x.SKILL_DMG += 0.15 * x.ULT_DMG;
+  x.ULT_DMG += 0.15 * x.ULT_DMG;
+}
+    `
     },
   }
 }

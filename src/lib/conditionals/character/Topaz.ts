@@ -114,11 +114,21 @@ export default (e: Eidolon): CharacterConditional => {
       const r = request.characterConditionals
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const basicAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
-      const fuaAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
+      const basicAshblazingAtk = calculateAshblazingSet(x, request, basicHitCountMulti)
+      const fuaAshblazingAtk = calculateAshblazingSet(x, request, hitMulti)
       x.BASIC_DMG += x.BASIC_SCALING * (x[Stats.ATK] + basicAshblazingAtk)
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + fuaAshblazingAtk)
       x.SKILL_DMG = x.FUA_DMG
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${basicHitCountMulti}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.SKILL_DMG = x.FUA_DMG;
+    `
     },
   }
 }

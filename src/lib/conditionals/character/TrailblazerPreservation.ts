@@ -5,6 +5,7 @@ import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -105,8 +106,27 @@ export default (e: Eidolon): CharacterConditional => {
       }
 
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+
+      return `
+if (${wgslTrue(r.enhancedBasic)}) {
+  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicEnhancedDefScaling} * x.DEF;
+} else {
+  x.BASIC_DMG += ${basicAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicDefScaling} * x.DEF;
+}      
+
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+
+x.ULT_DMG += ${ultAtkScaling} * x.ATK;
+x.ULT_DMG += ${ultDefScaling} * x.DEF;
+    `
     },
   }
 }

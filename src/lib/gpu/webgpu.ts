@@ -121,6 +121,7 @@ export async function experiment(props: {
     device.queue.submit([commandEncoder.finish()])
 
     // Read buffer.
+
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
     const arrayBuffer = gpuReadBuffer.getMappedRange()
     const array = new Float32Array(arrayBuffer)

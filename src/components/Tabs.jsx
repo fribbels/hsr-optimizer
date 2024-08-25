@@ -34,10 +34,8 @@ const Tabs = () => {
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
     if (activeKey == AppPages.RELIC_SCORER) {
-      const url = window.location.search
-      if (url) {
-        const params = new URLSearchParams(url)
-        const id = params.get('id')
+      const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
+      if (id) {
         route += `?id=${id}`
       }
     }

@@ -40,9 +40,9 @@ export const AppPages = {
 export const PageToRoute = {
   [AppPages.OPTIMIZER]: BASE_PATH,
 
-  [AppPages.RELIC_SCORER]: BASE_PATH + '/scorer',
-  [AppPages.CHANGELOG]: BASE_PATH + '/changelog',
-  [AppPages.GETTING_STARTED]: BASE_PATH + '/getting-started',
+  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
+  [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 }
 
 export const RouteToPage = {
@@ -70,7 +70,9 @@ window.store = create((set) => ({
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
 
-  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname).split('?')[0]] ?? AppPages.OPTIMIZER,
+  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
+    ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+    : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,

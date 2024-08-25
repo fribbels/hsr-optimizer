@@ -1,11 +1,15 @@
 import { Stats } from 'lib/constants'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -125,14 +129,63 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.CD] += (t.skillCdBuff) ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue : 0
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    dynamicConditionals: [
+      {
+        id: 'SparkleCdConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CD],
+        ratioConversion: true,
+        condition: function () {
+          return true
+        },
+        effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+          const r = request.characterConditionals
+          if (!r.skillCdBuff) {
+            return
+          }
 
-      x[Stats.CD] += (r.skillCdBuff) ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * x[Stats.CD] : 0
+          const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
 
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+          const stateValue = params.conditionalState[this.id] || 0
+          const convertibleCdValue = x[Stats.CD] - x.RATIO_BASED_CD_BUFF
+
+          const buffCD = buffScalingValue * convertibleCdValue + skillCdBuffBase
+          const stateBuffCD = buffScalingValue * stateValue + skillCdBuffBase
+
+          params.conditionalState[this.id] = x[Stats.CD]
+
+          const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
+          x.RATIO_BASED_CD_BUFF += finalBuffCd
+
+          buffStat(x, request, params, Stats.CD, finalBuffCd)
+        },
+        gpu: function (request: Form, _params: OptimizerParams) {
+          const r = request.characterConditionals
+          const buffScalingValue = (skillCdBuffScaling + (e >= 6 ? 0.30 : 0))
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.skillCdBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).SparkleCdConditional;
+let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
+
+var buffCD: f32 = ${buffScalingValue} * convertibleCdValue + ${skillCdBuffBase};
+var stateBuffCD: f32 = ${buffScalingValue} * stateValue + ${skillCdBuffBase};
+
+(*p_state).SparkleCdConditional = (*p_x).CD;
+
+let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
+(*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
+
+buffNonRatioDynamicCD(finalBuffCd, p_x, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

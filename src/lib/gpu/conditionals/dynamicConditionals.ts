@@ -373,3 +373,59 @@ buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
     `)
   },
 }
+
+export const LingshaConversionConditional: DynamicConditional = {
+  id: 'LingshaConversionConditional',
+  type: ConditionalType.ABILITY,
+  activation: ConditionalActivation.CONTINUOUS,
+  dependsOn: [Stats.DEF],
+  condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    return true
+  },
+  effect: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+    const r = request.characterConditionals
+    if (!r.beConversion) {
+      return
+    }
+
+    const stateValue = params.conditionalState[this.id] || 0
+    const buffValueAtk = Math.min(0.50, 0.25 * x[Stats.BE]) * request.baseAtk
+    const buffValueOhb = Math.min(0.20, 0.10 * x[Stats.BE])
+
+    const stateBuffValueAtk = Math.min(0.50, 0.25 * stateValue) * request.baseAtk
+    const stateBuffValueOhb = Math.min(0.20, 0.10 * stateValue)
+
+    params.conditionalState[this.id] = x[Stats.BE]
+
+    const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
+    const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
+
+    buffStat(x, request, params, Stats.ATK, finalBuffAtk)
+    buffStat(x, request, params, Stats.OHB, finalBuffOhb)
+  },
+  gpu: function (request: Form, _params: OptimizerParams) {
+    const r = request.characterConditionals
+
+    return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.beConversion)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).LingshaConversionConditional;
+
+let buffValueAtk = min(0.50, 0.25 * x.BE) * baseATK;
+let buffValueOhb = min(0.20, 0.10 * x.BE);
+
+let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
+let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
+
+(*p_state).LingshaConversionConditional = (*p_x).BE;
+
+let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
+let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
+
+buffDynamicATK(finalBuffAtk, p_x, p_state);
+buffDynamicOHB(finalBuffOhb, p_x, p_state);
+    `)
+  },
+}

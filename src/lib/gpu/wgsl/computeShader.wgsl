@@ -116,18 +116,6 @@ fn main(
     // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     // END COMPUTED STATS
 
-
-    // Dynamic conditionals
-
-
-    x.BASIC_DMG_TYPE = 1;
-    x.SKILL_DMG_TYPE = 2;
-    x.ULT_DMG_TYPE = 4;
-    x.FUA_DMG_TYPE = 8;
-    x.DOT_DMG_TYPE = 16;
-    x.BREAK_DMG_TYPE = 32;
-    x.SUPER_BREAK_DMG_TYPE = 64;
-
     // Calculate relic stat sums
 
     let epsilon = 0.000001f;

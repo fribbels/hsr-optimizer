@@ -4,6 +4,7 @@ import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditi
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -43,6 +44,17 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
       x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
       x.FUA_DMG += (e >= 4) ? 0.30 * x[Stats.DEF] : 0
+    },
+    gpuFinalizeCalculations: () => {
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+if (${wgslTrue(e >= 4)}) {
+  x.FUA_DMG += 0.30 * x.DEF;
+}
+    `
     },
   }
 }

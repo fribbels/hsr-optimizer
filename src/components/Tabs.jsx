@@ -20,7 +20,7 @@ const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {err
 let optimizerInitialized = false
 
 const Tabs = () => {
-  const activeKey = window.store((s) => s.activeKey).split('/?')[0]
+  const activeKey = window.store((s) => s.activeKey).split('?')[0]
 
   const optimizerTab = React.useMemo(() => <OptimizerTab/>, [])
   const characterTab = React.useMemo(() => <CharacterTab/>, [])
@@ -37,8 +37,8 @@ const Tabs = () => {
       const url = window.location.search
       if (url) {
         const params = new URLSearchParams(url)
-        const id = params.get('uid')
-        route += `/?uid=${id}`
+        const id = params.get('id')
+        route += `?id=${id}`
       }
     }
     console.log('Navigating activekey to route', activeKey, route)

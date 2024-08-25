@@ -54,17 +54,16 @@ export default function RelicScorerTab() {
   window.scorerForm = scorerForm
 
   useEffect(() => {
-    const url = window.location.search
-    if (url) {
-      const params = new URLSearchParams(url)
-      const id = params.get('uid')
-      onFinish({ scorerId: id, source: 'page loaded with id in url' })
+    const params = window.location.href.split('?')[1]
+    if (params) {
+      const id = params.split('id=')[1].split('&')[0]
+      onFinish({ scorerId: id })
     }
   }, [])
   const activeKey = window.store((s) => s.activeKey)
   useEffect(() => {
     if (availableCharacters.length && scorerId && activeKey == AppPages.RELIC_SCORER) {
-      window.history.pushState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `/?uid=${scorerId}`)
+      window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)
     }
   }, [activeKey])
   function onFinish(x) {
@@ -95,7 +94,7 @@ export default function RelicScorerTab() {
     setScorerId(id)
     SaveState.save()
 
-    window.history.pushState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `/?uid=${id}`)
+    window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
 
     fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {

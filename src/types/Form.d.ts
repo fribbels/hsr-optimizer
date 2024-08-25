@@ -3,8 +3,8 @@ import { RelicEnhance, RelicGrade } from 'types/Relic'
 import { Eidolon } from 'types/Character'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { RelicSet } from 'types/RelicSet'
-import { ConditionalLightConeMap } from "types/LightConeConditionals";
-import { CharacterConditionalMap } from "types/CharacterConditional";
+import { ConditionalLightConeMap } from 'types/LightConeConditionals'
+import { CharacterConditionalMap } from 'types/CharacterConditional'
 
 type MIN_INT = 0 | number
 type MAX_INT = 2147483647 | number
@@ -49,6 +49,7 @@ export type Form = {
   statDisplay: string
   PRIMARY_ELEMENTAL_DMG_TYPE: string
   statSim?: any
+  resultSort?: string
   path?: string
 
   weights: {

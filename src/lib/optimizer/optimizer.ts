@@ -10,10 +10,10 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'components/optimizerTab/OptimizerSuggestionsModal'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { SortOption } from 'lib/optimizer/sortOptions'
-import { experiment } from 'lib/gpu/webgpu'
 import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
+import { experiment } from 'lib/gpu/webgpu'
 
 let CANCEL = false
 
@@ -149,7 +149,7 @@ export const Optimizer = {
     let inProgress = runs.length
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
-    const gpuAccelerationEnabled = true
+    const gpuAccelerationEnabled = false
     if (gpuAccelerationEnabled) {
       for (const run of runs) {
         const task = {

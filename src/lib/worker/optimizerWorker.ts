@@ -2,8 +2,8 @@ import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats }
 import { BufferPacker } from '../bufferPacker.js'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimizer/calculateStats.ts'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimizer/calculateDamage'
-import { calculatePostPrecomputeTeammates, calculateTeammates } from 'lib/optimizer/calculateTeammates'
-import { calculateConditionalRegistry, calculatePostPrecomputeConditionals } from 'lib/optimizer/calculateConditionals'
+import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
+import { calculateConditionalRegistry, calculateConditionals } from 'lib/optimizer/calculateConditionals'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { Form } from 'types/Form'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
@@ -67,12 +67,8 @@ self.onmessage = function (e: MessageEvent) {
   params.lightConeConditionals = LightConeConditionals.get(request)
 
   // TODO: Can move teammates into precompute step as well
-  calculateConditionalRegistry(request, params)
+  calculateConditionals(request, params)
   calculateTeammates(request, params)
-
-  // PostPrecompute
-  calculatePostPrecomputeConditionals(request, params)
-  calculatePostPrecomputeTeammates(request, params)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
@@ -82,6 +78,8 @@ self.onmessage = function (e: MessageEvent) {
     if (index >= data.permutations) {
       break
     }
+
+    calculateConditionalRegistry(request, params)
 
     const l = (index % lSize)
     const p = (((index - l) / lSize) % pSize)

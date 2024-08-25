@@ -1,7 +1,3 @@
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { Form } from 'types/Form'
-import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-
 export async function getDevice() {
   const adapter: GPUAdapter | null = await navigator.gpu.requestAdapter()
   if (adapter == null) {
@@ -10,8 +6,7 @@ export async function getDevice() {
   return await adapter.requestDevice()
 }
 
-export function generatePipeline(device: GPUDevice, request: Form, params: OptimizerParams) {
-  const wgsl = generateWgsl(params, request)
+export function generatePipeline(device: GPUDevice, wgsl: string) {
   const bindGroupLayouts = generateLayouts(device)
   const shaderModule = device.createShaderModule({
     code: wgsl,

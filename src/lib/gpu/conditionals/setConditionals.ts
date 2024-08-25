@@ -32,7 +32,7 @@ export const RutilantArenaConditional: DynamicConditional = {
 if (
   p2((*p_x).sets.RutilantArena) >= 1 &&
   (*p_state).RutilantArenaConditional == 0.0 &&
-  (*p_x).CR > 0.70
+  (*p_x).CR >= 0.70
 ) {
   (*p_state).RutilantArenaConditional = 1.0;
 
@@ -58,7 +58,7 @@ export const InertSalsottoConditional: DynamicConditional = {
 if (
   p2((*p_x).sets.InertSalsotto) >= 1 &&
   (*p_state).InertSalsottoConditional == 0.0 &&
-  (*p_x).CR > 0.50
+  (*p_x).CR >= 0.50
 ) {
   (*p_state).InertSalsottoConditional = 1.0;
 

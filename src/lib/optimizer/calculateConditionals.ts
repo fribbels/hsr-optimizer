@@ -97,14 +97,3 @@ function registerConditionals(registeredConditionals: { [key: string]: DynamicCo
     }
   }
 }
-
-export function calculatePostPrecomputeConditionals(request: Form, params: OptimizerParams) {
-  const characterConditionals = CharacterConditionals.get(request)
-  const lightConeConditionals = LightConeConditionals.get(request)
-
-  if (characterConditionals.postPreComputeMutualEffects) characterConditionals.postPreComputeMutualEffects(params.precomputedX, request)
-
-  if (lightConeConditionals) {
-    if (lightConeConditionals.postPreComputeMutualEffects) lightConeConditionals.postPreComputeMutualEffects(params.precomputedX, request)
-  }
-}

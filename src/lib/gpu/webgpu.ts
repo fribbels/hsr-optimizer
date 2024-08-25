@@ -3,7 +3,10 @@ import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
 import { createGpuBuffer, generatePipeline, getDevice } from 'lib/gpu/webgpuInternals'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray, RelicsByPart } from 'lib/gpu/webgpuDataTransform'
-import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { renameFields } from 'lib/optimizer/optimizer'
+import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 
 export async function experiment(props: {
   params: OptimizerParams
@@ -13,6 +16,7 @@ export async function experiment(props: {
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
+  const DEBUG = false
   const { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions } = props
 
   const device = await getDevice()
@@ -21,18 +25,13 @@ export async function experiment(props: {
     return
   }
 
-  // Init device ============================================
-
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 
-  const computePipeline = generatePipeline(device, request, params)
-
   const BLOCK_SIZE = Math.pow(2, 24)
-  // const BLOCK_SIZE = Math.pow(2, 8)
 
-  // ======================================== Input ========================================
-
+  const wgsl = generateWgsl(params, request, DEBUG)
+  const computePipeline = generatePipeline(device, wgsl)
   const paramsArray: number[] = generateBaseParamsArray(relics, params)
 
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE
@@ -137,44 +136,52 @@ export async function experiment(props: {
     }
 
     const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-    // console.log(resultArray)
-    // console.log(array)
+    console.log(resultArray)
+    console.log(array)
 
-    debugWebgpuOutput(arrayBuffer, BLOCK_SIZE, i, date1)
     const date2 = new Date()
     console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * BLOCK_SIZE}, perms per sec: ${Math.floor(i * BLOCK_SIZE / ((date2 - date1) / 1000)).toLocaleString()}`)
+
+    // debugWebgpuOutput(arrayBuffer, BLOCK_SIZE, i, date1)
   }
 
-  // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-  // const outputs = []
-  // for (let i = 0; i < resultArray.length; i++) {
-  //   const index = resultArray[i].index
-  //
-  //   const l = (index % lSize)
-  //   const p = (((index - l) / lSize) % pSize)
-  //   const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
-  //   const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-  //   const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-  //   const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
-  //
-  //   const c = calculateBuild(request, {
-  //     Head: relics.Head[h],
-  //     Hands: relics.Hands[g],
-  //     Body: relics.Body[b],
-  //     Feet: relics.Feet[f],
-  //     PlanarSphere: relics.PlanarSphere[p],
-  //     LinkRope: relics.LinkRope[l],
-  //   })
-  //
-  //   c.id = index
-  //   renameFields(c)
-  //   outputs.push(c)
-  // }
-  //
-  // console.log(outputs)
-  // window.store.getState().setPermutationsResults(queueResults.size())
-  // window.store.getState().setOptimizationInProgress(false)
-  // OptimizerTabController.setRows(outputs)
-  // window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
-  // window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  const lSize = relics.LinkRope.length
+  const pSize = relics.PlanarSphere.length
+  const fSize = relics.Feet.length
+  const bSize = relics.Body.length
+  const gSize = relics.Hands.length
+  const hSize = relics.Head.length
+
+  const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+  const outputs = []
+  for (let i = 0; i < resultArray.length; i++) {
+    const index = resultArray[i].index
+
+    const l = (index % lSize)
+    const p = (((index - l) / lSize) % pSize)
+    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
+    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
+    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
+    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+
+    const c = calculateBuild(request, {
+      Head: relics.Head[h],
+      Hands: relics.Hands[g],
+      Body: relics.Body[b],
+      Feet: relics.Feet[f],
+      PlanarSphere: relics.PlanarSphere[p],
+      LinkRope: relics.LinkRope[l],
+    })
+
+    c.id = index
+    renameFields(c)
+    outputs.push(c)
+  }
+
+  console.log(outputs)
+  window.store.getState().setPermutationsResults(queueResults.size())
+  window.store.getState().setOptimizationInProgress(false)
+  OptimizerTabController.setRows(outputs)
+  window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
+  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

@@ -59,24 +59,3 @@ export function calculateTeammates(request, params) {
     teammateSetEffects[teammateRequest.teamRelicSet] = true
   }
 }
-
-export function calculatePostPrecomputeTeammates(request, params) {
-  // Postcompute teammate effects
-  const precomputedX = params.precomputedX
-  const teammates = [
-    request.teammate0,
-    request.teammate1,
-    request.teammate2,
-  ].filter((x) => !!x && !!x.characterId)
-  for (let i = 0; i < teammates.length; i++) {
-    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
-    teammates[i].lightCone = teammates[i].lightCone || null
-    const teammateRequest = Object.assign({}, request, teammates[i])
-
-    const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
-
-    if (teammateCharacterConditionals.postPreComputeMutualEffects) teammateCharacterConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
-    if (teammateLightConeConditionals.postPreComputeMutualEffects) teammateLightConeConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
-  }
-}

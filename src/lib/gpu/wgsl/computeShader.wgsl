@@ -14,8 +14,11 @@ const SUPER_BREAK_TYPE = 64;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;
 
-@group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // For testing calculated stat numbers
-//@group(2) @binding(0) var<storage, read_write> results : array<f32>; // For generating results
+// START RESULTS BUFFER
+// ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+/* INJECT RESULTS BUFFER */
+// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+// END RESULTS BUFFER
 
 @compute @workgroup_size(WORKGROUP_SIZE, WORKGROUP_SIZE)
 fn main(
@@ -573,8 +576,16 @@ fn main(
     + DOT_COMBO * x.DOT_DMG
     + BREAK_COMBO * x.BREAK_DMG;
 
-//  results[index] = x.BASIC_DMG;
-  results[index] = x;
+  // START RETURN VALUE
+  // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+  /* INJECT RETURN VALUE */
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+  // END RETURN VALUE
+
+
+//  results[index] = x.SKILL_DMG;
+////  results[index] = x;
+
 }
 
 fn p2(n: i32) -> f32 {

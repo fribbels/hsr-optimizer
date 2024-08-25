@@ -9,8 +9,10 @@ import { calculateTeammates } from 'lib/optimizer/calculateTeammates'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { indent } from 'lib/gpu/injection/wgslUtils'
 
-export function generateWgsl(params: OptimizerParams, request: Form) {
+export function generateWgsl(params: OptimizerParams, request: Form, debug: boolean) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
@@ -21,6 +23,7 @@ export function generateWgsl(params: OptimizerParams, request: Form) {
   wgsl = injectConditionals(wgsl, request, params)
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
+  wgsl = injectResults(wgsl, request, debug)
 
   return wgsl
 }
@@ -33,5 +36,32 @@ ${structs}
 
 ${structComputedStats}
   `
+  return wgsl
+}
+
+function injectResults(wgsl: string, request: Form, debug: boolean) {
+  if (debug) {
+    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+@group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // DEBUG
+    `)
+  } else {
+    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+@group(2) @binding(0) var<storage, read_write> results : array<f32>;
+    `)
+  }
+
+  // eslint-disable-next-line
+  const sortOption: string = SortOption[request.resultSort!].combatProperty
+
+  if (debug) {
+    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+results[index] = x; // DEBUG
+    `, 1))
+  } else {
+    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+results[index] = x.${sortOption};
+    `, 1))
+  }
+
   return wgsl
 }

@@ -11,8 +11,9 @@ import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
+import { GpuParams } from 'lib/gpu/webgpu'
 
-export function generateWgsl(params: OptimizerParams, request: Form, debug: boolean) {
+export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuParams) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
@@ -23,7 +24,7 @@ export function generateWgsl(params: OptimizerParams, request: Form, debug: bool
   wgsl = injectConditionals(wgsl, request, params)
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
-  wgsl = injectResults(wgsl, request, debug)
+  wgsl = injectGpuParams(wgsl, request, gpuParams)
 
   return wgsl
 }
@@ -39,8 +40,14 @@ ${structComputedStats}
   return wgsl
 }
 
-function injectResults(wgsl: string, request: Form, debug: boolean) {
-  if (debug) {
+function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuParams) {
+  wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
+const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
+const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
+const CYCLES_PER_INVOCATION = ${gpuParams.CYCLES_PER_INVOCATION};
+  `)
+
+  if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
 @group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // DEBUG
     `)
@@ -53,7 +60,7 @@ function injectResults(wgsl: string, request: Form, debug: boolean) {
   // eslint-disable-next-line
   const sortOption: string = SortOption[request.resultSort!].combatProperty
 
-  if (debug) {
+  if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 results[index] = x; // DEBUG
     `, 1))

@@ -49,6 +49,7 @@ export default function RelicsTab() {
   const [selectedRelic, setSelectedRelic] = useState()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
 
@@ -303,6 +304,7 @@ export default function RelicsTab() {
 
   function editClicked() {
     console.log('edit clicked')
+    if (!selectedRelic) return Message.error('No relic selected')
     setEditModalOpen(true)
   }
 
@@ -311,9 +313,18 @@ export default function RelicsTab() {
     setAddModalOpen(true)
   }
 
-  function deleteClicked() {
+  function deleteClicked(isOpen) {
     console.log('delete clicked')
 
+    if (!selectedRelic) {
+      setDeleteConfirmOpen(false)
+      return Message.error('No relic selected')
+    }
+
+    setDeleteConfirmOpen(isOpen)
+  }
+
+  function deletePerform() {
     if (!selectedRelic) return Message.error('No relic selected')
 
     DB.deleteRelic(selectedRelic.id)
@@ -412,7 +423,9 @@ export default function RelicsTab() {
           <Popconfirm
             title="Confirm"
             description="Delete this relic?"
-            onConfirm={deleteClicked}
+            open={deleteConfirmOpen}
+            onOpenChange={deleteClicked}
+            onConfirm={deletePerform}
             placement="bottom"
             okText="Yes"
             cancelText="Cancel"

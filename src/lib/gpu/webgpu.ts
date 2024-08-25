@@ -2,8 +2,10 @@ import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats 
 import { Relic } from 'types/Relic'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
-import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { Utils } from 'lib/utils'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { Form } from 'types/Form'
+import { generatePipeline, getDevice } from 'lib/gpu/webgpuInternals'
 
 export const StatsToIndex = {
   [Stats.HP_P]: 0,
@@ -98,48 +100,28 @@ function createBuffer(device, matrix, usage, mapped = true, int = false) {
   return gpuBuffer
 }
 
-export async function experiment({ params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions }) {
-  // return
-  // ======================================== Init ========================================
+export async function experiment(props: {
+  params: OptimizerParams
+  request: Form
+  relics: Relic[]
+  permutations: number
+  relicSetSolutions: number[]
+  ornamentSetSolutions: number[]
+}) {
+  const { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions } = props
 
-  const adapter: GPUAdapter | null = await (navigator).gpu.requestAdapter()
-  if (adapter == null) {
+  const device = await getDevice()
+  if (device == null) {
     console.error('Not supported')
     return
   }
-  const device = await adapter.requestDevice() as GPUDevice
 
-  const wgsl = generateWgsl(params, request)
+  // Init device ============================================
 
-  console.log(wgsl)
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 
-  const shaderModule = device.createShaderModule({
-    code: wgsl,
-  })
-  const bindGroupLayout0 = device.createBindGroupLayout({
-    entries: [
-      { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-    ],
-  })
-  const bindGroupLayout1 = device.createBindGroupLayout({
-    entries: [
-      { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-      // { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-    ],
-  })
-  const computePipeline = device.createComputePipeline({
-    layout: device.createPipelineLayout({
-      bindGroupLayouts: [bindGroupLayout0, bindGroupLayout1],
-    }),
-    compute: {
-      module: shaderModule,
-      entryPoint: 'main',
-    },
-  })
+  const computePipeline = generatePipeline(device, request, params)
 
   const BLOCK_SIZE = Math.pow(2, 24)
   // const BLOCK_SIZE = Math.pow(2, 8)
@@ -196,24 +178,23 @@ export async function experiment({ params, request, relics, permutations, relicS
   ])
 
   const relicsMatrix = createBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
-  // const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const relicSetSolutionsMatrix = createBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrix = createBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const paramsMatrix = createBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
-
-  const bindGroup0 = device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(0),
-    entries: [
-      { binding: 0, resource: { buffer: paramsMatrix } },
-      { binding: 1, resource: { buffer: relicsMatrix } },
-      { binding: 2, resource: { buffer: resultMatrixBuffer } },
-    ],
-  })
 
   const bindGroup1 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(1),
     entries: [
-      { binding: 0, resource: { buffer: ornamentSetSolutionsMatrix } },
-      // { binding: 1, resource: { buffer: relicSetSolutionsMatrix } },
+      { binding: 0, resource: { buffer: relicsMatrix } },
+      { binding: 1, resource: { buffer: ornamentSetSolutionsMatrix } },
+      { binding: 2, resource: { buffer: relicSetSolutionsMatrix } },
+    ],
+  })
+
+  const bindGroup2 = device.createBindGroup({
+    layout: computePipeline.getBindGroupLayout(2),
+    entries: [
+      { binding: 0, resource: { buffer: resultMatrixBuffer } },
     ],
   })
 
@@ -249,8 +230,6 @@ export async function experiment({ params, request, relics, permutations, relicS
       layout: computePipeline.getBindGroupLayout(0),
       entries: [
         { binding: 0, resource: { buffer: newParamsMatrix } },
-        { binding: 1, resource: { buffer: relicsMatrix } },
-        { binding: 2, resource: { buffer: resultMatrixBuffer } },
       ],
     })
 
@@ -259,6 +238,7 @@ export async function experiment({ params, request, relics, permutations, relicS
     passEncoder.setPipeline(computePipeline)
     passEncoder.setBindGroup(0, newBindGroup0)
     passEncoder.setBindGroup(1, bindGroup1)
+    passEncoder.setBindGroup(2, bindGroup2)
     passEncoder.dispatchWorkgroups(16, 16)
     passEncoder.end()
 
@@ -508,122 +488,3 @@ function printAsObject(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, 
     console.log('WEIGHT', fixed(array[111]))
   }
 }
-
-// --------------------
-/*
-Results:
-no sets: 35,091,362
-with sets: 32,373,297
-with print: 32,147,103
-without set compare: 34,431,567
-without writing to results: 350,040,966
-no logic: 362,572,447
-16x16x256x256: 354,751,043
-with output: 294,493,685
- */
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// --------------------
-// await Promise.all([
-//   headRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   handsRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   bodyRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   feetRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   planarSphereRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   linkRopeRelicsMatrix.mapAsync(GPUMapMode.READ),
-//   // relicSetSolutionsMatrix.mapAsync(GPUMapMode.READ),
-//   // ornamentSetSolutionsMatrix.mapAsync(GPUMapMode.READ),
-//   paramsMatrix.mapAsync(GPUMapMode.READ),
-//   resultMatrixBuffer.mapAsync(GPUMapMode.READ),
-// ])
-
-// }
-//
-// for (let i = 0; i < permutations / BLOCK_SIZE + 1; i++) {
-//   let index = BLOCK_SIZE * i
-// }
-//
-// const firstMatrix = new Float32Array([
-//   2 /* rows */, 4 /* columns */,
-//   1, 2, 3, 4,
-//   5, 6, 7, 8,
-// ])
-//
-// const gpuBufferFirstMatrix = device.createBuffer({
-//   mappedAtCreation: true,
-//   size: firstMatrix.byteLength,
-//   usage: GPUBufferUsage.STORAGE,
-// })
-// const arrayBufferFirstMatrix = gpuBufferFirstMatrix.getMappedRange()
-// new Float32Array(arrayBufferFirstMatrix).set(firstMatrix)
-// gpuBufferFirstMatrix.unmap()
-//
-// const secondMatrix = new Float32Array([
-//   4 /* rows */, 2 /* columns */,
-//   1, 2,
-//   3, 4,
-//   5, 6,
-//   7, 8,
-// ])
-// const gpuBufferSecondMatrix = device.createBuffer({
-//   mappedAtCreation: true,
-//   size: secondMatrix.byteLength,
-//   usage: GPUBufferUsage.STORAGE,
-// })
-// const arrayBufferSecondMatrix = gpuBufferSecondMatrix.getMappedRange()
-// new Float32Array(arrayBufferSecondMatrix).set(secondMatrix)
-// gpuBufferSecondMatrix.unmap()
-//
-// const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE
-// const resultMatrixBuffer = device.createBuffer({
-//   size: resultMatrixBufferSize,
-//   usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-// })
-//
-// // ======================================== Pipeline ========================================
-//
-// const commandEncoder = device.createCommandEncoder()
-// const passEncoder = commandEncoder.beginComputePass()
-// passEncoder.setPipeline(computePipeline)
-// passEncoder.setBindGroup(0, bindGroup)
-// const workgroupCountX = Math.ceil(1)
-// const workgroupCountY = Math.ceil(1)
-// passEncoder.dispatchWorkgroups(workgroupCountX, workgroupCountY)
-// passEncoder.end()
-//
-// // Get a GPU buffer for reading in an unmapped state.
-// const gpuReadBuffer = device.createBuffer({
-//   size: resultMatrixBufferSize,
-//   usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-// })
-//
-// // Encode commands for copying buffer to buffer.
-// commandEncoder.copyBufferToBuffer(
-//   resultMatrixBuffer /* source buffer */,
-//   0 /* source offset */,
-//   gpuReadBuffer /* destination buffer */,
-//   0 /* destination offset */,
-//   resultMatrixBufferSize, /* size */
-// )
-//
-// // Submit GPU commands.
-// const gpuCommands = commandEncoder.finish()
-// device.queue.submit([gpuCommands])
-//
-// // ======================================== Output ========================================
-//
-// // Read buffer.
-// await gpuReadBuffer.mapAsync(GPUMapMode.READ)
-// const arrayBuffer = gpuReadBuffer.getMappedRange()
-// console.log('Result', new Float32Array(arrayBuffer))
-// End

@@ -8,13 +8,15 @@ const DOT_TYPE = 16;
 const BREAK_TYPE = 32;
 const SUPER_BREAK_TYPE = 64;
 
-@group(0) @binding(0) var<storage, read_write> params : Params;
-@group(0) @binding(1) var<storage, read_write> relics : array<Relic>;
-@group(0) @binding(2) var<storage, read_write> results : array<ComputedStats>; // For testing calculated stat numbers
-//@group(0) @binding(2) var<storage, read_write> results : array<f32>; // For generating results
+@group(0) @binding(0) var<storage> params : Params;
 
-@group(1) @binding(0) var<storage, read_write> ornamentSetSolutionsMatrix : array<i32>;
-@group(1) @binding(1) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
+@group(1) @binding(0) var<storage> relics : array<Relic>;
+@group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
+@group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;
+
+@group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // For testing calculated stat numbers
+//@group(2) @binding(0) var<storage, read_write> results : array<f32>; // For generating results
+
 @compute @workgroup_size(WORKGROUP_SIZE, WORKGROUP_SIZE)
 fn main(
   @builtin(workgroup_id) workgroup_id : vec3<u32>,

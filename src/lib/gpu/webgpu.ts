@@ -123,31 +123,36 @@ export async function experiment(props: {
     // Read buffer.
 
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
-    const arrayBuffer = gpuReadBuffer.getMappedRange()
-    const array = new Float32Array(arrayBuffer)
 
-    let top = queueResults.top()
-    for (let j = 0; j < gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION; j++) {
-      const permutationNumber = offset + j
-      if (permutationNumber >= permutations) {
-        break // ?
-      }
-
-      const value = array[j]
-      if (value >= 0) {
-        if (value <= top && queueResults.size() >= resultLimit) {
-          continue
+    // eslint-disable-next-line
+    async function readBuffer() {
+      const arrayBuffer = gpuReadBuffer.getMappedRange()
+      const array = new Float32Array(arrayBuffer)
+      let top = queueResults.top()
+      for (let j = 0; j < gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION; j++) {
+        const permutationNumber = offset + j
+        if (permutationNumber >= permutations) {
+          break // ?
         }
-        queueResults.fixedSizePush({
-          index: permutationNumber,
-          value: array[j],
-        })
-        top = queueResults.top().value
-        // console.log(queueResults.top())
+
+        const value = array[j]
+        if (value >= 0) {
+          if (value <= top && queueResults.size() >= resultLimit) {
+            continue
+          }
+          queueResults.fixedSizePush({
+            index: permutationNumber,
+            value: array[j],
+          })
+          top = queueResults.top().value
+          // console.log(queueResults.top())
+        }
       }
+      gpuReadBuffer.unmap()
+      gpuReadBuffer.destroy()
     }
-    gpuReadBuffer.unmap()
-    gpuReadBuffer.destroy()
+
+    void readBuffer()
 
     // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
     // console.log(resultArray)

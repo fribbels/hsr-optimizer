@@ -117,7 +117,9 @@ export default (e: Eidolon): CharacterConditional => {
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       standardFuaAtkFinalizer(x, request, hitMultiByFuaHits[request.characterConditionals.fuaHits])
     },
-    gpuFinalizeCalculations: (request: Form) => gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[request.characterConditionals.fuaHits]),
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[request.characterConditionals.fuaHits])
+    },
     dynamicConditionals: [XueyiConversionConditional],
   }
 }

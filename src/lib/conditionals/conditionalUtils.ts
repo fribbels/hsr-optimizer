@@ -83,6 +83,24 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
     `
 }
 
+export function standardHpFinalizer(x: ComputedStatsObject) {
+  x.BASIC_DMG += x.BASIC_SCALING * x[Stats.HP]
+  x.SKILL_DMG += x.SKILL_SCALING * x[Stats.HP]
+  x.ULT_DMG += x.ULT_SCALING * x[Stats.HP]
+  x.FUA_DMG += x.FUA_SCALING * x[Stats.HP]
+  x.DOT_DMG += x.DOT_SCALING * x[Stats.HP]
+}
+
+export function gpuStandardHpFinalizer() {
+  return `
+x.BASIC_DMG += x.BASIC_SCALING * x.HP;
+x.SKILL_DMG += x.SKILL_SCALING * x.HP;
+x.ULT_DMG += x.ULT_SCALING * x.HP;
+x.FUA_DMG += x.FUA_SCALING * x.HP;
+x.DOT_DMG += x.DOT_SCALING * x.HP;
+    `
+}
+
 export function standardFuaAtkFinalizer(x: ComputedStatsObject, request: Form, hitMulti: number) {
   x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
   x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]

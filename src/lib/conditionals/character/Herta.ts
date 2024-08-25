@@ -175,7 +175,11 @@ export default (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    finalizeCalculations: (x: ComputedStatsObject, request: Form) => standardFuaAtkFinalizer(x, request, getHitMulti(request)),
-    gpuFinalizeCalculations: (request: Form) => gpuStandardFuaAtkFinalizer(getHitMulti(request)),
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
+      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
+    },
   }
 }

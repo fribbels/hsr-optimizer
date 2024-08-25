@@ -145,6 +145,8 @@ export async function experiment(props: {
         // console.log(queueResults.top())
       }
     }
+    gpuReadBuffer.unmap()
+    gpuReadBuffer.destroy()
 
     // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
     // console.log(resultArray)

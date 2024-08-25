@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -35,6 +35,13 @@ export default (e: Eidolon): CharacterConditional => {
     1: ASHBLAZING_ATK_STACK * (1 * 0.12 + 2 * 0.12 + 3 * 0.12 + 4 * 0.12 + 5 * 0.12 + 6 * 0.12 + 7 * 0.12 + 8 * 0.16), // 0.2784
     3: ASHBLAZING_ATK_STACK * (2 * 0.12 + 5 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.4152
     5: ASHBLAZING_ATK_STACK * (3 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.12 + 8 * 0.16), // 0.444
+  }
+
+  function getHitMulti(request: Form) {
+    const r = request.characterConditionals
+    return (r.blockActive && r.ultCull)
+      ? cullHitCountMultiByTargets[request.enemyCount]
+      : fuaHitCountMultiByTargets[request.enemyCount]
   }
 
   const content: ContentItem[] = [
@@ -173,15 +180,10 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      const ashblazingAtk = calculateAshblazingSet(x, request, (r.blockActive && r.ultCull)
-        ? cullHitCountMultiByTargets[request.enemyCount]
-        : fuaHitCountMultiByTargets[request.enemyCount])
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
+      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
     },
   }
 }

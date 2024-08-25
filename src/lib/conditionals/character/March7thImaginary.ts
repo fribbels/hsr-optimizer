@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, BASIC_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
 import { CharacterConditional } from 'types/CharacterConditional'
@@ -155,12 +155,10 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.BE] += (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const ashblazingAtk = calculateAshblazingSet(x, request, fuaHitCountMulti)
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
+      standardFuaAtkFinalizer(x, request, fuaHitCountMulti)
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
     },
   }
 }

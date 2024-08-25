@@ -303,6 +303,7 @@ export default function RelicsTab() {
 
   function editClicked() {
     console.log('edit clicked')
+    if (!selectedRelic) return Message.error('No relic selected')
     setEditModalOpen(true)
   }
 

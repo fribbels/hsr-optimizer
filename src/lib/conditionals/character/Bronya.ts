@@ -145,7 +145,7 @@ export default (e: Eidolon): CharacterConditional => {
     },
     dynamicConditionals: [
       {
-        id: 'BronyaUltConditional',
+        id: 'BronyaCdConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
@@ -180,13 +180,13 @@ if (${wgslFalse(r.ultBuff)}) {
   return;
 }
 
-let stateValue: f32 = (*p_state).BronyaUltConditional;
+let stateValue: f32 = (*p_state).BronyaCdConditional;
 let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
 
 var buffCD: f32 = ${ultCdBoostValue} * convertibleCdValue + ${ultCdBoostBaseValue};
 var stateBuffCD: f32 = ${ultCdBoostValue} * stateValue + ${ultCdBoostBaseValue};
 
-(*p_state).BronyaUltConditional = (*p_x).CD;
+(*p_state).BronyaCdConditional = (*p_x).CD;
 
 let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
 (*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;

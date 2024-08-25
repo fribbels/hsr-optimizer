@@ -1,5 +1,5 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, gpuStandardFuaAtkFinalizer, precisionRound, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
 
 import { Eidolon } from 'types/Character'
@@ -33,6 +33,13 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
     3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
     4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
+  }
+
+  function getHitMulti(request: Form) {
+    const r = request.characterConditionals
+    return e >= 2
+      ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
+      : baseHitMulti
   }
 
   // TODO: Make consistent with the other code
@@ -105,19 +112,10 @@ const DrRatio = (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      if (e >= 2) {
-        const hitMulti = fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-        const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      } else {
-        const ashblazingAtk = calculateAshblazingSet(x, request, baseHitMulti)
-        x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      }
+      standardFuaAtkFinalizer(x, request, getHitMulti(request))
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return gpuStandardFuaAtkFinalizer(getHitMulti(request))
     },
   }
 }

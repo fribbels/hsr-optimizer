@@ -21,8 +21,8 @@ export default (e: Eidolon): CharacterConditional => {
   const fuaScaling = talent(e, 1.10, 1.21)
   const talentDmgBuff = talent(e, 0.60, 0.66)
 
-  const ultHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
-  const ultBrokenHitCountMulti = ASHBLAZING_ATK_STACK * (
+  const ultHitCountMulti = (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
+  const ultBrokenHitCountMulti = (
     1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
     + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
     + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
@@ -30,6 +30,14 @@ export default (e: Eidolon): CharacterConditional => {
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.2285)
+
+  function getUltHitMulti(request: Form) {
+    const r = request.characterConditionals
+
+    return r.weaknessBrokenUlt
+      ? ASHBLAZING_ATK_STACK * ultBrokenHitCountMulti
+      : ASHBLAZING_ATK_STACK * ultHitCountMulti
+  }
 
   const content: ContentItem[] = [
     {
@@ -158,23 +166,20 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.characterConditionals
-
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-
-      // Ult is multi hit ashblazing
-      if (r.weaknessBrokenUlt) {
-        const ashblazingAtk = calculateAshblazingSet(x, request, ultBrokenHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      } else {
-        const ashblazingAtk = calculateAshblazingSet(x, request, ultHitCountMulti)
-        x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + ashblazingAtk)
-      }
-
-      // // Everything else is single hit
-      const ashblazingAtk = calculateAshblazingSet(x, request, ASHBLAZING_ATK_STACK * (1 * 1.00))
-      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + ashblazingAtk)
+      x.ULT_DMG += x.ULT_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, getUltHitMulti(request)))
+      x.FUA_DMG += x.FUA_SCALING * (x[Stats.ATK] + calculateAshblazingSet(x, request, ASHBLAZING_ATK_STACK * (1 * 1.00)))
+      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(request)}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+    `
     },
   }
 }

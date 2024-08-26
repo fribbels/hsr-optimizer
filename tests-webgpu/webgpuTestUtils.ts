@@ -1,4 +1,7 @@
 import { Page } from '@playwright/test'
+import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { Form } from 'types/Form'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 async function setupPage(page: Page) {
   page.on('console', (msg) => console.log(msg.text()))
@@ -56,10 +59,8 @@ export async function executeWgsl(page: Page, wgsl: string) {
     })
 
     // Encode commands to do the computation
-    const encoder = device.createCommandEncoder({
-    })
-    const pass = encoder.beginComputePass({
-    })
+    const encoder = device.createCommandEncoder({})
+    const pass = encoder.beginComputePass({})
     pass.setPipeline(pipeline)
     pass.setBindGroup(0, bindGroup)
     pass.dispatchWorkgroups(input.length)
@@ -97,4 +98,16 @@ export async function executeSimpleWgsl(page: Page, setup: string, execute: stri
 
 ${setup}
   `)
+}
+
+export async function executeGpuTest(
+  page: Page,
+  relics: RelicsByPart,
+  request: Form,
+  params: OptimizerParams,
+  permutations: number,
+  relicSetSolutions: number[],
+  ornamentSetSolutions: number[],
+) {
+  console.log('execute')
 }

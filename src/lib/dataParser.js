@@ -1,7 +1,7 @@
-import gameData from 'data/game_data.json'
-import relicMainAffixes from 'data/relic_main_affixes.json'
-import relicSubAffixes from 'data/relic_sub_affixes.json'
-import relicSets from 'data/relic_sets.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
+import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
+import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
+import relicSets from 'data/relic_sets.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'

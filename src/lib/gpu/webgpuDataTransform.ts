@@ -2,7 +2,6 @@ import { Relic } from 'types/Relic'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
-import { RelicAugmenter } from 'lib/relicAugmenter'
 import { StringToNumberMap } from 'types/Common'
 
 export const StatsToWebgpuIndex = {
@@ -119,7 +118,6 @@ function relicsToArray(relics: Relic[]) {
     const relic = relics[i]
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
-    RelicAugmenter.augment(relic)
     const uncondensedStats: StringToNumberMap = {}
 
     // @ts-expect-error This is a custom relic type with modified stats

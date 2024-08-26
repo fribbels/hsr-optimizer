@@ -132,12 +132,13 @@ export function initializeGpuPipeline(
   permutations: number,
   relicSetSolutions: number[],
   ornamentSetSolutions: number[],
+  debug = false,
 ): GpuExecutionContext {
   const WORKGROUP_SIZE = 256
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 128
   const RESULTS_LIMIT = 16
-  const DEBUG = false
+  const DEBUG = debug
 
   const wgsl = generateWgsl(params, request, {
     WORKGROUP_SIZE,

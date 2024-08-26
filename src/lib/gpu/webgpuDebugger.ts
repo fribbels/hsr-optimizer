@@ -17,10 +17,8 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
   debugPinOptimizerWebgpuArray(array)
 }
 
-export function debugPinOptimizerWebgpuArray(array: Float32Array) {
-  const currentPinned = window.optimizerGrid.current!.api.getGridOption('pinnedTopRowData') ?? []
-
-  const x = {
+export function debugExportWebgpuResult(array: Float32Array) {
+  return {
     ED: array[22],
     BASIC: array[69],
     SKILL: array[70],
@@ -44,6 +42,12 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
     xOHB: array[14],
     xELEMENTAL_DMG: array[22],
   }
+}
+
+export function debugPinOptimizerWebgpuArray(array: Float32Array) {
+  const currentPinned = window.optimizerGrid.current!.api.getGridOption('pinnedTopRowData') ?? []
+  const x = debugExportWebgpuResult(array)
+
   currentPinned[1] = x
   window.optimizerGrid.current!.api.updateGridOptions({ pinnedTopRowData: currentPinned })
 }

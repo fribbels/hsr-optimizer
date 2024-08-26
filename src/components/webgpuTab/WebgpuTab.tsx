@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { Flex } from 'antd'
 import { AppPages } from 'lib/db.js'
 import { getDevice } from 'lib/gpu/webgpuInternals'
+import { runTests } from 'lib/gpu/tests/webgpuTester'
 
 export default function WebgpuTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
@@ -16,8 +17,16 @@ export default function WebgpuTab(): React.JSX.Element {
     return (<></>)
   }
 
-  getDevice().then((x) => {
-    setData(x?.limits.maxComputeWorkgroupsPerDimension || 'WebGPU not supported')
+  getDevice().then(async (device) => {
+    if (!device) {
+      return setData('WebGPU not supported')
+    }
+
+    const x = await runTests(device)
+
+    console.log('!!!', x)
+
+    setData(JSON.stringify(x, null, 2))
   })
   //
   // const request = getDefaultForm({
@@ -41,7 +50,9 @@ export default function WebgpuTab(): React.JSX.Element {
 
   return (
     <Flex>
-      {data}
+      <pre>
+        {data}
+      </pre>
     </Flex>
   )
 }

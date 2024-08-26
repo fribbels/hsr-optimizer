@@ -1,6 +1,15 @@
 import { Utils } from 'lib/utils'
+import { GpuExecutionContext } from 'lib/gpu/webgpuInternals'
 
-export function debugWebgpuOutput(arrayBuffer: ArrayBuffer, BLOCK_SIZE: number, i: number, date1: Date) {
+export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
+  const endTime = new Date().getTime()
+  const timeTaken = (endTime - gpuContext.startTime) / 1000
+  const permsCompleted = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const perSec = Math.floor(permsCompleted / (timeTaken))
+  console.log(`Iteration: ${i}, Time: ${timeTaken}s, Completed: ${permsCompleted}, Per sec: ${perSec.toLocaleString()}`)
+}
+
+export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)
   console.log(array)
 

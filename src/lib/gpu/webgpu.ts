@@ -1,11 +1,11 @@
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { getDevice, initializeGpuExecutionContext } from 'lib/gpu/webgpuInternals'
+import { destroyPipeline, generateExecutionPass, getDevice, GpuExecutionContext, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
-import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
+import { debugWebgpuOutput, logIterationTimer } from 'lib/gpu/webgpuDebugger'
 
 export async function experiment(props: {
   params: OptimizerParams
@@ -23,10 +23,7 @@ export async function experiment(props: {
     return
   }
 
-  console.log('Webgpu device', device)
-  console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
-
-  const gpuContext = initializeGpuExecutionContext(
+  const gpuContext = initializeGpuPipeline(
     device,
     relics,
     request,
@@ -36,84 +33,63 @@ export async function experiment(props: {
     ornamentSetSolutions,
   )
 
+  console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
+  // console.log('GPU execution context', gpuContext)
+
   for (let i = 0; i < gpuContext.iterations; i++) {
     const offset = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-
-    const commandEncoder = device.createCommandEncoder()
-    const passEncoder = commandEncoder.beginComputePass()
-    passEncoder.setPipeline(computePipeline)
-    passEncoder.setBindGroup(0, newBindGroup0)
-    passEncoder.setBindGroup(1, bindGroup1)
-    passEncoder.setBindGroup(2, bindGroup2)
-    passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE, 1, 1)
-    passEncoder.end()
-
-    const gpuReadBuffer = device.createBuffer({
-      size: resultMatrixBufferSize,
-      usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-    })
-
-    // Encode commands for copying buffer to buffer.
-    commandEncoder.copyBufferToBuffer(
-      resultMatrixBuffer /* source buffer */,
-      0 /* source offset */,
-      gpuReadBuffer /* destination buffer */,
-      0 /* destination offset */,
-      resultMatrixBufferSize, /* size */
-    )
-
-    device.queue.submit([commandEncoder.finish()])
-
-    // Read buffer.
-
+    const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
-    // eslint-disable-next-line
-    async function readBuffer() {
-      const arrayBuffer = gpuReadBuffer.getMappedRange()
-      const array = new Float32Array(arrayBuffer)
-      let top = queueResults.top()
-      for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
-        const permutationNumber = offset + j
-        if (permutationNumber >= permutations) {
-          break // ?
-        }
+    void readBuffer(offset, gpuReadBuffer, gpuContext)
 
-        const value = array[j]
-        if (value >= 0) {
-          if (value <= top && queueResults.size() >= resultLimit) {
-            continue
-          }
-          queueResults.fixedSizePush({
-            index: permutationNumber,
-            value: array[j],
-          })
-          top = queueResults.top().value
-          // console.log(queueResults.top())
-        }
-      }
+    logIterationTimer(i, gpuContext)
+  }
 
-      window.store.getState().setPermutationsResults(queueResults.size())
-      window.store.getState().setPermutationsSearched(Math.min(permutations, offset))
+  outputResults(gpuContext)
+  destroyPipeline(gpuContext)
+}
 
-      if (gpuContext.DEBUG) {
-        debugWebgpuOutput(arrayBuffer, gpuContext.BLOCK_SIZE, i, date1)
-      }
+// Does the last iteration get read before results are executed?
+// eslint-disable-next-line
+async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
+  const arrayBuffer = gpuReadBuffer.getMappedRange()
+  const resultsQueue = gpuContext.resultsQueue
+  const array = new Float32Array(arrayBuffer)
+  let top = resultsQueue.top()
 
-      gpuReadBuffer.unmap()
-      gpuReadBuffer.destroy()
+  for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
+    const permutationNumber = offset + j
+    if (permutationNumber >= gpuContext.permutations) {
+      break // ?
     }
 
-    // Does the last iteration get read before results are executed?
-    void readBuffer()
-
-    // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
-    // console.log(resultArray)
-    // console.log(array)
-
-    const date2 = new Date()
-    console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION}, perms per sec: ${Math.floor(i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION / ((date2 - date1) / 1000)).toLocaleString()}`)
+    const value = array[j]
+    if (value >= 0) {
+      if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+        continue
+      }
+      resultsQueue.fixedSizePush({
+        index: permutationNumber,
+        value: array[j],
+      })
+      top = resultsQueue.top().value
+    }
   }
+
+  window.store.getState().setPermutationsResults(resultsQueue.size())
+  window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, offset))
+
+  if (gpuContext.DEBUG) {
+    debugWebgpuOutput(gpuContext, arrayBuffer)
+  }
+
+  gpuReadBuffer.unmap()
+  gpuReadBuffer.destroy()
+}
+
+function outputResults(gpuContext: GpuExecutionContext) {
+  const relics = gpuContext.relics
 
   const lSize = relics.LinkRope.length
   const pSize = relics.PlanarSphere.length
@@ -122,7 +98,7 @@ export async function experiment(props: {
   const gSize = relics.Hands.length
   const hSize = relics.Head.length
 
-  const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
+  const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs = []
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
@@ -134,7 +110,7 @@ export async function experiment(props: {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const c = calculateBuild(request, {
+    const c = calculateBuild(gpuContext.request, {
       Head: relics.Head[h],
       Hands: relics.Hands[g],
       Body: relics.Body[b],
@@ -148,22 +124,10 @@ export async function experiment(props: {
     outputs.push(c)
   }
 
-  resultMatrixBuffer.unmap()
-  resultMatrixBuffer.destroy()
-
-  relicsMatrix.unmap()
-  relicsMatrix.destroy()
-
-  relicSetSolutionsMatrix.unmap()
-  relicSetSolutionsMatrix.destroy()
-
-  ornamentSetSolutionsMatrix.unmap()
-  ornamentSetSolutionsMatrix.destroy()
-
   console.log(outputs)
-  window.store.getState().setPermutationsResults(queueResults.size())
+  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+  window.store.getState().setPermutationsSearched(gpuContext.permutations)
   window.store.getState().setOptimizationInProgress(false)
   OptimizerTabController.setRows(outputs)
-  window.store.getState().setPermutationsSearched(Math.min(permutations, permutations))
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

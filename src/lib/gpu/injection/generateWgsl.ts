@@ -11,9 +11,9 @@ import { injectPrecomputedStats } from 'lib/gpu/injection/injectPrecomputedStats
 import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuExecutionContext } from 'lib/gpu/webgpuInternals'
+import { GpuConstants } from 'lib/gpu/webgpuInternals'
 
-export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuExecutionContext) {
+export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)
   calculateConditionalRegistry(request, params)
   calculateTeammates(request, params)
@@ -40,7 +40,7 @@ ${structComputedStats}
   return wgsl
 }
 
-function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuExecutionContext) {
+function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
   wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `

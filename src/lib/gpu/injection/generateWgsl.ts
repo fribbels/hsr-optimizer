@@ -12,6 +12,7 @@ import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuInternals'
+import { Constants } from 'lib/constants'
 
 export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: GpuConstants) {
   calculateConditionals(request, params)
@@ -25,6 +26,7 @@ export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: 
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, gpuParams)
+  wgsl = injectFilters(wgsl, request)
 
   return wgsl
 }
@@ -37,6 +39,108 @@ ${structs}
 
 ${structComputedStats}
   `
+  return wgsl
+}
+
+function injectFilters(wgsl: string, request: Form) {
+  const statVariable = request.statDisplay == 'combat' ? 'x' : 'c'
+
+  function filter(text: string) {
+    const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
+    const compare = text.includes('<') ? '<' : '>'
+    const min = threshold.includes('min')
+    const max = threshold.includes('max')
+
+    if (max && request[threshold] == Constants.MAX_INT) return ''
+    if (min && request[threshold] == 0) return ''
+
+    return text
+  }
+
+  const combatFilters = [
+    filter('x.SPD < minSpd'),
+    filter('x.SPD > maxSpd'),
+    filter('x.HP  < minHp'),
+    filter('x.HP  > maxHp'),
+    filter('x.ATK < minAtk'),
+    filter('x.ATK > maxAtk'),
+    filter('x.DEF < minDef'),
+    filter('x.DEF > maxDef'),
+    filter('x.CR  < minCr'),
+    filter('x.CR  > maxCr'),
+    filter('x.CD  < minCd'),
+    filter('x.CD  > maxCd'),
+    filter('x.EHR < minEhr'),
+    filter('x.EHR > maxEhr'),
+    filter('x.RES < minRes'),
+    filter('x.RES > maxRes'),
+    filter('x.BE  < minBe'),
+    filter('x.BE  > maxBe'),
+    filter('x.ERR < minErr'),
+    filter('x.ERR > maxErr'),
+    filter('x.EHP < minEhp'),
+    filter('x.EHP > maxEhp'),
+    filter('x.WEIGHT < minWeight'),
+    filter('x.WEIGHT > maxWeight'),
+    filter('x.BASIC_DMG < minBasic'),
+    filter('x.BASIC_DMG > maxBasic'),
+    filter('x.SKILL_DMG < minSkill'),
+    filter('x.SKILL_DMG > maxSkill'),
+    filter('x.ULT_DMG < minUlt'),
+    filter('x.ULT_DMG > maxUlt'),
+    filter('x.FUA_DMG < minFua'),
+    filter('x.FUA_DMG > maxFua'),
+    filter('x.DOT_DMG < minDot'),
+    filter('x.DOT_DMG > maxDot'),
+    filter('x.BREAK_DMG < minBreak'),
+    filter('x.BREAK_DMG > maxBreak'),
+    filter('x.COMBO_DMG < minCombo'),
+    filter('x.COMBO_DMG > maxCombo'),
+  ].filter((str) => str.length > 0).join(' ||\n')
+
+  const basicFilters = [
+    filter('c.SPD < minSpd'),
+    filter('c.SPD > maxSpd'),
+    filter('c.HP  < minHp'),
+    filter('c.HP  > maxHp'),
+    filter('c.ATK < minAtk'),
+    filter('c.ATK > maxAtk'),
+    filter('c.DEF < minDef'),
+    filter('c.DEF > maxDef'),
+    filter('c.CR  < minCr'),
+    filter('c.CR  > maxCr'),
+    filter('c.CD  < minCd'),
+    filter('c.CD  > maxCd'),
+    filter('c.EHR < minEhr'),
+    filter('c.EHR > maxEhr'),
+    filter('c.RES < minRes'),
+    filter('c.RES > maxRes'),
+    filter('c.BE  < minBe'),
+    filter('c.BE  > maxBe'),
+    filter('c.ERR < minErr'),
+    filter('c.ERR > maxErr'),
+  ].filter((str) => str.length > 0).join(' ||\n')
+
+  wgsl = wgsl.replace('/* INJECT STAT FILTERS */', `
+var fail = 0;
+
+if (statDisplay == 0) {
+  if (
+    false ||
+${indent(combatFilters, 2)}
+  ) {
+    fail = 1;
+  }
+} else {
+  if (
+    false ||
+${indent(basicFilters, 2)}
+  ) {
+    fail = 1;
+  }
+}
+  `)
+
   return wgsl
 }
 
@@ -68,7 +172,7 @@ results[index] = x; // DEBUG
     `, 1))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-results[index] = x.${sortOption};
+results[index] = select(x.${sortOption}, -1, fail > 0);
     `, 1))
   }
 

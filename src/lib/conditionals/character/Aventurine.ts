@@ -7,7 +7,7 @@ import { Form } from 'types/Form'
 import { Stats } from 'lib/constants'
 import { AventurineConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 
-const Aventurine = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon): CharacterConditional => {
   const { basic, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -151,6 +151,3 @@ x.FUA_DMG += x.FUA_SCALING * x.DEF;
     dynamicConditionals: [AventurineConversionConditional],
   }
 }
-Aventurine.label = 'Aventurine'
-
-export default Aventurine

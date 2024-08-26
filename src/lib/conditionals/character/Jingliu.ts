@@ -7,7 +7,7 @@ import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterCo
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
-const Jingliu = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
@@ -111,6 +111,3 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-Jingliu.label = 'Jingliu'
-
-export default Jingliu

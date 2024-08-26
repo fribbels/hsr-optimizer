@@ -60,7 +60,7 @@ const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
   }
 
   // eslint-disable-next-line
-  const sortOption: string = SortOption[request.resultSort!].combatProperty
+  const sortOption: string = SortOption[request.resultSort!].gpuProperty
 
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`

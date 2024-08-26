@@ -40,7 +40,7 @@ export async function experiment(props: {
     WORKGROUP_SIZE: 256, // MAX 256
     BLOCK_SIZE: 65536, // MAX 65536
     CYCLES_PER_INVOCATION: 512, // MAX 512
-    DEBUG: true,
+    DEBUG: false,
   }
 
   const wgsl = generateWgsl(params, request, gpuParams)

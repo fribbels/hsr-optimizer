@@ -39,7 +39,7 @@ export async function experiment(props: {
   const gpuParams: GpuParams = {
     WORKGROUP_SIZE: 256, // MAX 256
     BLOCK_SIZE: 65536, // MAX 65536
-    CYCLES_PER_INVOCATION: 512, // MAX 512
+    CYCLES_PER_INVOCATION: 128, // MAX 512
     DEBUG: false,
   }
 
@@ -150,6 +150,9 @@ export async function experiment(props: {
         }
       }
 
+      window.store.getState().setPermutationsResults(queueResults.size())
+      window.store.getState().setPermutationsSearched(Math.min(permutations, offset))
+
       if (gpuParams.DEBUG) {
         debugWebgpuOutput(arrayBuffer, gpuParams.BLOCK_SIZE, i, date1)
       }
@@ -200,6 +203,21 @@ export async function experiment(props: {
     renameFields(c)
     outputs.push(c)
   }
+
+  resultMatrixBuffer.unmap()
+  resultMatrixBuffer.destroy()
+
+  relicsMatrix.unmap()
+  relicsMatrix.destroy()
+
+  relicSetSolutionsMatrix.unmap()
+  relicSetSolutionsMatrix.destroy()
+
+  ornamentSetSolutionsMatrix.unmap()
+  ornamentSetSolutionsMatrix.destroy()
+
+  paramsMatrix.unmap()
+  paramsMatrix.destroy()
 
   console.log(outputs)
   window.store.getState().setPermutationsResults(queueResults.size())

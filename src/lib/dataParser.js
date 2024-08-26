@@ -40,19 +40,19 @@ export const DataParser = {
     if (officialOnly) {
       // UnreleasedSets[Constants.SetsRelics.TheWindSoaringValorous] = true
       // UnreleasedSets[Constants.SetsRelics.IronCavalryAgainstTheScourge] = true
-      // UnreleasedSets[Constants.SetsOrnaments.ForgeOfTheKalpagniLantern] = true
-      // UnreleasedSets[Constants.SetsOrnaments.DuranDynastyOfRunningWolves] = true
+      UnreleasedSets[Constants.SetsOrnaments.LushakaTheSunkenSeas] = true
+      UnreleasedSets[Constants.SetsOrnaments.TheWondrousBananAmusementPark] = true
 
       // Delete unreleased sets
       // delete Constants.SetsRelics.TheWindSoaringValorous
       // delete Constants.SetsRelics.IronCavalryAgainstScourge
-      // delete Constants.SetsOrnaments.ForgeOfTheKalpagniLantern
-      // delete Constants.SetsOrnaments.DuranDynastyOfRunningWolves
+      delete Constants.SetsOrnaments.LushakaTheSunkenSeas
+      delete Constants.SetsOrnaments.TheWondrousBananAmusementPark
       //
       // delete Constants.SetsRelicsNames.TheWindSoaringValorous
       // delete Constants.SetsRelicsNames.IronCavalryAgainstScourge
-      // delete Constants.SetsOrnamentsNames.ForgeOfTheKalpagniLantern
-      // delete Constants.SetsOrnamentsNames.DuranDynastyOfRunningWolves
+      delete Constants.SetsOrnamentsNames.LushakaTheSunkenSeas
+      delete Constants.SetsOrnamentsNames.TheWondrousBananAmusementPark
 
       // Delete unreleased characters
       for (const character of Object.values(characters)) {

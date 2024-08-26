@@ -36,14 +36,14 @@ export async function experiment(props: {
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
   // console.log('GPU execution context', gpuContext)
 
-  for (let i = 0; i < gpuContext.iterations; i++) {
-    const offset = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
+    const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
     void readBuffer(offset, gpuReadBuffer, gpuContext)
 
-    logIterationTimer(i, gpuContext)
+    logIterationTimer(iteration, gpuContext)
   }
 
   outputResults(gpuContext)
@@ -56,7 +56,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   const arrayBuffer = gpuReadBuffer.getMappedRange()
   const resultsQueue = gpuContext.resultsQueue
   const array = new Float32Array(arrayBuffer)
-  let top = resultsQueue.top()
+  let top = resultsQueue.top()?.value ?? 0
 
   for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
     const permutationNumber = offset + j
@@ -73,7 +73,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
         index: permutationNumber,
         value: array[j],
       })
-      top = resultsQueue.top().value
+      top = resultsQueue.top()!.value
     }
   }
 

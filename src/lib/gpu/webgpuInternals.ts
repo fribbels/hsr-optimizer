@@ -136,7 +136,7 @@ export function initializeGpuPipeline(
   const WORKGROUP_SIZE = 256
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 128
-  const RESULTS_LIMIT = 128
+  const RESULTS_LIMIT = 16
   const DEBUG = false
 
   const wgsl = generateWgsl(params, request, {

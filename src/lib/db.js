@@ -35,6 +35,8 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   SETTINGS: 'SETTINGS',
   RELIC_SCORER: 'RELIC_SCORER',
+
+  WEBGPU_TEST: 'WEBGPU_TEST',
 }
 
 export const PageToRoute = {
@@ -43,6 +45,8 @@ export const PageToRoute = {
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
+
+  [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
 }
 
 export const RouteToPage = {
@@ -50,6 +54,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.RELIC_SCORER,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
+  [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
 }
 
 // React usage

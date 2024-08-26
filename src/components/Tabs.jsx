@@ -14,6 +14,7 @@ import { AppPages, PageToRoute } from 'lib/db'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import ImportTab from 'components/importerTab/ImportTab'
 import SettingsTab from 'components/settingsTab/settingsTab'
+import WebgpuTab from 'components/webgpuTab/WebgpuTab'
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 
@@ -30,6 +31,7 @@ const Tabs = () => {
   const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const settingsTab = React.useMemo(() => <SettingsTab/>, [])
+  const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -65,6 +67,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELIC_SCORER} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SETTINGS} content={settingsTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal/>

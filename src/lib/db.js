@@ -70,7 +70,9 @@ window.store = create((set) => ({
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
 
-  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)] ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash] : AppPages.OPTIMIZER,
+  activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
+    ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
+    : AppPages.OPTIMIZER,
   characters: [],
   charactersById: {},
   conditionalSetEffectsDrawerOpen: false,

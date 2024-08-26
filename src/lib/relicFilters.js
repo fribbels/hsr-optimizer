@@ -263,8 +263,8 @@ export const RelicFilters = {
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
-          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance)
-          return x.augmentedStats.mainValue = newValue / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance) / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          return x.augmentedStats.mainValue = newValue
         }
       })
     }

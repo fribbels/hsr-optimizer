@@ -41,6 +41,10 @@ export interface Conditional {
 
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
+  finalizeStatEffects: (x: ComputedStatsObject, request: Form) => void
+
+  // Multipliers that can be evaluated after all stat modifications are complete
+  // No changes to stats should occur at this stage
   finalizeCalculations: (x: ComputedStatsObject, request: Form) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU

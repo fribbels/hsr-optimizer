@@ -5,6 +5,7 @@ import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BETA_UPDATE, Stats } from 'lib/constants'
 import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
@@ -60,8 +61,16 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      // TODO: Dynamic conditional
       x.VULNERABILITY += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.lightConeConditionals
+
+      return `
+if (${wgslTrue(r.woefreeState)} && x.BE >= 1.50) {
+  x.VULNERABILITY += ${sValuesVulnerabilityAdditional[s]};
+}
+      `
     },
   }
 }

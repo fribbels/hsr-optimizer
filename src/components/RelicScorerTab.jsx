@@ -5,7 +5,7 @@ import { SaveState } from 'lib/saveState'
 import { CharacterConverter } from 'lib/characterConverter'
 import { Assets } from 'lib/assets'
 import PropTypes from 'prop-types'
-import DB, { AppPages } from 'lib/db'
+import DB, { AppPages, PageToRoute } from 'lib/db'
 import { Utils } from 'lib/utils'
 import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, LineChartOutlined } from '@ant-design/icons'
 import { Message } from 'lib/message'
@@ -53,6 +53,19 @@ export default function RelicScorerTab() {
   const [scorerForm] = Form.useForm()
   window.scorerForm = scorerForm
 
+  useEffect(() => {
+    const params = window.location.href.split('?')[1]
+    if (params) {
+      const id = params.split('id=')[1].split('&')[0]
+      onFinish({ scorerId: id })
+    }
+  }, [])
+  const activeKey = window.store((s) => s.activeKey)
+  useEffect(() => {
+    if (availableCharacters.length && scorerId && activeKey == AppPages.RELIC_SCORER) {
+      window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)
+    }
+  }, [activeKey])
   function onFinish(x) {
     if (latestRefreshDate.current) {
       Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)
@@ -81,6 +94,8 @@ export default function RelicScorerTab() {
     setScorerId(id)
     SaveState.save()
 
+    window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${id}`)
+
     fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
       .then((response) => {
         if (!response.ok && !response.source) {
@@ -104,9 +119,9 @@ export default function RelicScorerTab() {
             data.detailInfo.avatarDetailList[2],
             data.detailInfo.avatarDetailList[3],
             data.detailInfo.avatarDetailList[4],
-          ].filter(x => !!x)
+          ].filter((x) => !!x)
         } else if (data.source == 'mihomo') {
-          characters = data.characters.filter(x => !!x)
+          characters = data.characters.filter((x) => !!x)
           for (const character of characters) {
             character.relicList = character.relics || []
             character.equipment = character.light_cone
@@ -121,7 +136,6 @@ export default function RelicScorerTab() {
               relic.subAffixList = relic.sub_affix
             }
           }
-
         } else {
           if (!data.detailInfo) {
             setLoading(false)
@@ -145,7 +159,7 @@ export default function RelicScorerTab() {
         console.log('characters', characters)
 
         // Filter by unique id
-        const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map(x => x.id).indexOf(value.id) == index)
+        const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map((x) => x.id).indexOf(value.id) == index)
         for (let i = 0; i < converted.length; i++) {
           converted[i].index = i
         }
@@ -156,6 +170,7 @@ export default function RelicScorerTab() {
         setLoading(false)
         Message.success('Successfully loaded profile')
         console.log(converted)
+        scorerForm.setFieldValue('scorerId', id)
       })
       .catch((error) => {
         setTimeout(() => {

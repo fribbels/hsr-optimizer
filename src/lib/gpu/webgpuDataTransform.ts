@@ -121,6 +121,8 @@ function relicsToArray(relics: Relic[]) {
     let j = 0
     RelicAugmenter.augment(relic)
     const uncondensedStats: StringToNumberMap = {}
+
+    // @ts-expect-error This is a custom relic type with modified stats
     const condensedStats: StringToNumberMap[] = relic.condensedStats
 
     for (const condensedStat of condensedStats) {

@@ -7,7 +7,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { debugWebgpuOutput, logIterationTimer } from 'lib/gpu/webgpuDebugger'
 
-export async function experiment(props: {
+export async function gpuOptimize(props: {
   params: OptimizerParams
   request: Form
   relics: RelicsByPart
@@ -99,7 +99,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const hSize = relics.Head.length
 
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
-  const outputs = []
+  const outputs: any[] = []
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
 
@@ -129,5 +129,5 @@ function outputResults(gpuContext: GpuExecutionContext) {
   window.store.getState().setPermutationsSearched(gpuContext.permutations)
   window.store.getState().setOptimizationInProgress(false)
   OptimizerTabController.setRows(outputs)
-  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

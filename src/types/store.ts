@@ -62,6 +62,8 @@ export type HsrOptimizerStore = {
   optimizerFormCharacterEidolon: number
   optimizerFormSelectedLightCone: null | LightCone
   optimizerFormSelectedLightConeSuperimposition: number
+  setPermutationsResults: (n: number) => void
+  setPermutationsSearched: (n: number) => void
 
   permutationDetails: PermutationDetails
 

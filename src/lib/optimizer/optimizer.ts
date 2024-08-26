@@ -13,7 +13,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
-import { experiment } from 'lib/gpu/webgpu'
+import { gpuOptimize } from 'lib/gpu/webgpu'
 
 let CANCEL = false
 
@@ -206,7 +206,8 @@ export const Optimizer = {
         WorkerPool.execute(task, callback)
       }
     }
-    experiment({
+
+    gpuOptimize({
       params: params,
       request: request,
       relics: relics,

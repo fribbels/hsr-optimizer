@@ -1,20 +1,11 @@
-import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { Form } from 'types/Form'
-import { createGpuBuffer, generatePipeline, getDevice } from 'lib/gpu/webgpuInternals'
-import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray, RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { getDevice, initializeGpuExecutionContext } from 'lib/gpu/webgpuInternals'
+import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
-import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-
-export type GpuParams = {
-  WORKGROUP_SIZE: number
-  BLOCK_SIZE: number
-  CYCLES_PER_INVOCATION: number
-  DEBUG: boolean
-}
 
 export async function experiment(props: {
   params: OptimizerParams
@@ -35,66 +26,18 @@ export async function experiment(props: {
   console.log('Webgpu device', device)
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
 
-  const resultLimit = 100
-  const gpuParams: GpuParams = {
-    WORKGROUP_SIZE: 256, // MAX 256
-    BLOCK_SIZE: 65536, // MAX 65536
-    CYCLES_PER_INVOCATION: 128, // MAX 512
-    DEBUG: false,
-  }
+  const gpuContext = initializeGpuExecutionContext(
+    device,
+    relics,
+    request,
+    params,
+    permutations,
+    relicSetSolutions,
+    ornamentSetSolutions,
+  )
 
-  const wgsl = generateWgsl(params, request, gpuParams)
-  const computePipeline = generatePipeline(device, wgsl)
-  const paramsArray: number[] = generateBaseParamsArray(relics, params)
-
-  const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION
-  const resultMatrixBuffer = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-  })
-
-  const mergedRelics = mergeRelicsIntoArray(relics)
-
-  const relicsMatrix = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
-  const relicSetSolutionsMatrix = createGpuBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
-  const ornamentSetSolutionsMatrix = createGpuBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
-  const paramsMatrix = createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
-
-  const bindGroup1 = device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(1),
-    entries: [
-      { binding: 0, resource: { buffer: relicsMatrix } },
-      { binding: 1, resource: { buffer: ornamentSetSolutionsMatrix } },
-      { binding: 2, resource: { buffer: relicSetSolutionsMatrix } },
-    ],
-  })
-
-  const bindGroup2 = device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(2),
-    entries: [
-      { binding: 0, resource: { buffer: resultMatrixBuffer } },
-    ],
-  })
-
-  console.log('Transformed inputs', { paramsArray, mergedRelics, relicSetSolutions })
-  console.log('Transformed inputs', { paramsMatrix, relicsMatrix })
-
-  const date1 = new Date()
-  const iterations = Math.ceil(permutations / gpuParams.BLOCK_SIZE / gpuParams.CYCLES_PER_INVOCATION)
-
-  const queueResults = new FixedSizePriorityQueue(resultLimit, (a, b) => a.value - b.value)
-
-  for (let i = 0; i < iterations; i++) {
-    const offset = i * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION
-
-    const newParamsMatrix = generateParamsMatrix(device, offset, relics, paramsArray)
-
-    const newBindGroup0 = device.createBindGroup({
-      layout: computePipeline.getBindGroupLayout(0),
-      entries: [
-        { binding: 0, resource: { buffer: newParamsMatrix } },
-      ],
-    })
+  for (let i = 0; i < gpuContext.iterations; i++) {
+    const offset = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
 
     const commandEncoder = device.createCommandEncoder()
     const passEncoder = commandEncoder.beginComputePass()
@@ -102,7 +45,7 @@ export async function experiment(props: {
     passEncoder.setBindGroup(0, newBindGroup0)
     passEncoder.setBindGroup(1, bindGroup1)
     passEncoder.setBindGroup(2, bindGroup2)
-    passEncoder.dispatchWorkgroups(gpuParams.WORKGROUP_SIZE, 1, 1)
+    passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE, 1, 1)
     passEncoder.end()
 
     const gpuReadBuffer = device.createBuffer({
@@ -130,7 +73,7 @@ export async function experiment(props: {
       const arrayBuffer = gpuReadBuffer.getMappedRange()
       const array = new Float32Array(arrayBuffer)
       let top = queueResults.top()
-      for (let j = 0; j < gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION; j++) {
+      for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
         const permutationNumber = offset + j
         if (permutationNumber >= permutations) {
           break // ?
@@ -153,14 +96,15 @@ export async function experiment(props: {
       window.store.getState().setPermutationsResults(queueResults.size())
       window.store.getState().setPermutationsSearched(Math.min(permutations, offset))
 
-      if (gpuParams.DEBUG) {
-        debugWebgpuOutput(arrayBuffer, gpuParams.BLOCK_SIZE, i, date1)
+      if (gpuContext.DEBUG) {
+        debugWebgpuOutput(arrayBuffer, gpuContext.BLOCK_SIZE, i, date1)
       }
 
       gpuReadBuffer.unmap()
       gpuReadBuffer.destroy()
     }
 
+    // Does the last iteration get read before results are executed?
     void readBuffer()
 
     // const resultArray = queueResults.toArray().sort((a, b) => b.value - a.value)
@@ -168,7 +112,7 @@ export async function experiment(props: {
     // console.log(array)
 
     const date2 = new Date()
-    console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION}, perms per sec: ${Math.floor(i * gpuParams.BLOCK_SIZE * gpuParams.CYCLES_PER_INVOCATION / ((date2 - date1) / 1000)).toLocaleString()}`)
+    console.log(`iteration: ${i}, time: ${(date2 - date1) / 1000}s, perms completed: ${i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION}, perms per sec: ${Math.floor(i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION / ((date2 - date1) / 1000)).toLocaleString()}`)
   }
 
   const lSize = relics.LinkRope.length
@@ -215,9 +159,6 @@ export async function experiment(props: {
 
   ornamentSetSolutionsMatrix.unmap()
   ornamentSetSolutionsMatrix.destroy()
-
-  paramsMatrix.unmap()
-  paramsMatrix.destroy()
 
   console.log(outputs)
   window.store.getState().setPermutationsResults(queueResults.size())

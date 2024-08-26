@@ -1,5 +1,5 @@
-import { BufferPacker } from './bufferPacker'
-import { Constants } from './constants'
+import { BufferPacker } from 'lib/bufferPacker'
+import { Constants } from 'lib/constants'
 import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
 
 // let poolSize = Math.max(1, (navigator.hardwareConcurrency || 4) - 1)

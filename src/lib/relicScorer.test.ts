@@ -2,7 +2,7 @@ import { expect, test } from 'vitest'
 
 import { DataParser } from './dataParser'
 import { Constants, PartsMainStats } from 'lib/constants'
-import { RelicScorer } from './relicScorer'
+import { RelicScorer } from './relicScorerPotential'
 import { Relic } from 'types/Relic'
 import DB from './db.js'
 

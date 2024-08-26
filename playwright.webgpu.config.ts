@@ -11,7 +11,7 @@ export const STORAGE_STATE = path.join(
 
 export default defineConfig({
   timeout: 45000,
-  testDir: 'tests-webgpu',
+  testDir: './',
   fullyParallel: true, // Run all tests in parallel.
   forbidOnly: !!process.env.CI, // Fail the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 2 : 0, // Retry on CI only.
@@ -25,12 +25,12 @@ export default defineConfig({
     actionTimeout: 0, // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
     baseURL: 'chrome://gpu', // Base URL to use in actions like `await page.goto('/')`.
     trace: 'on-first-retry', // Collect trace when retrying the failed test.
-    video: 'off',// // Record video only when retrying a test for the first time.
+    video: 'off', // // Record video only when retrying a test for the first time.
     headless: true, // Set to false if you want to see the browser during tests
     browserName: 'chromium',
     channel: 'chrome', // Use Chrome for better WebGPU support
     launchOptions: {
-      args: ["--enable-gpu"],
+      args: ['--enable-gpu'],
     },
   },
   // Configure projects for major browsers.
@@ -46,7 +46,7 @@ export default defineConfig({
         storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
-    }
+    },
   ],
   reporter: [['html', { open: 'never' }]],
 })

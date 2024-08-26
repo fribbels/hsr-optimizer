@@ -1,7 +1,4 @@
 import { Page } from '@playwright/test'
-import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
-import { Form } from 'types/Form'
-import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 async function setupPage(page: Page) {
   page.on('console', (msg) => console.log(msg.text()))
@@ -100,14 +97,14 @@ ${setup}
   `)
 }
 
-export async function executeGpuTest(
-  page: Page,
-  relics: RelicsByPart,
-  request: Form,
-  params: OptimizerParams,
-  permutations: number,
-  relicSetSolutions: number[],
-  ornamentSetSolutions: number[],
-) {
-  console.log('execute')
-}
+// export async function executeGpuTest(
+//   page: Page,
+//   relics: RelicsByPart,
+//   request: Form,
+//   params: OptimizerParams,
+//   permutations: number,
+//   relicSetSolutions: number[],
+//   ornamentSetSolutions: number[],
+// ) {
+//   console.log('execute')
+// }

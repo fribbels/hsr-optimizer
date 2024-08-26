@@ -26,9 +26,6 @@
     "paths": {
       "src/*": [
         "src/*"
-      ],
-      "tests-webgpu/*": [
-        "tests-webgpu/*"
       ]
     },
     "esModuleInterop": true,

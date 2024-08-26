@@ -283,7 +283,7 @@ export const FormSetConditionals = () => {
           )}
         </Flex>
 
-        <VerticalDivider/>
+        <VerticalDivider />
 
         <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align="center" justify="flex-start">
@@ -383,17 +383,22 @@ export const FormSetConditionals = () => {
             description="Increases the wearer's SPD by 6%. When the wearer hits an enemy with Fire Weakness, Break Effect increases by 40%, lasting for 1 turn(s)."
             conditional="When enabled, applies the Break Effect buff to combat stat calculations."
           />
-          <ConditionalSetOption
-            set={Constants.Sets.LushakaTheSunkenSeas}
-            description="Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 12%."
-            conditional="The selected buff is applied to damage calculations."
-            p2Checked
-          />
-          <ConditionalSetOption
-            set={Constants.Sets.TheWondrousBananAmusementPark}
-            description="Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%."
-            conditional="The selected buff is applied to damage calculations."
-          />
+          {!UnreleasedSets[Constants.Sets.LushakaTheSunkenSeas] && (
+            <ConditionalSetOption
+              set={Constants.Sets.LushakaTheSunkenSeas}
+              description="Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increase the ATK of the first character in the team lineup by 12%."
+              conditional="The selected buff is applied to damage calculations."
+              p2Checked
+            />
+          )}
+
+          {!UnreleasedSets[Constants.Sets.TheWondrousBananAmusementPark] && (
+            <ConditionalSetOption
+              set={Constants.Sets.TheWondrousBananAmusementPark}
+              description="Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%."
+              conditional="The selected buff is applied to damage calculations."
+            />
+          )}
         </Flex>
       </Flex>
     </Drawer>
@@ -421,7 +426,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked}/>)
+    let inputType = (<Switch disabled={props.p4Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -459,7 +464,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked}/>)
+    let inputType = (<Switch disabled={props.p2Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select

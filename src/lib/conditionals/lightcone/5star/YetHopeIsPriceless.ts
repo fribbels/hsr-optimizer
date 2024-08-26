@@ -48,7 +48,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      // TODO: Dynamic conditional
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
     },
   }

@@ -51,7 +51,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
 
-      // TODO: Dynamic conditional
       const stacks = Math.max(0, Math.min(6, Math.floor((x[Stats.SPD] - 100) / 10)))
 
       buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, stacks * sValuesDmg[s], (r.spdScalingBuffs))

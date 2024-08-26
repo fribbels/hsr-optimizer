@@ -6,6 +6,9 @@ import { BREAK_TYPE, ComputedStatsObject } from 'lib/conditionals/conditionalCon
 import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { buffStat, conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ConditionalActivation, ConditionalType } from 'lib/gpu/conditionals/setConditionals'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -43,10 +46,33 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       buffAbilityDefPen(x, BREAK_TYPE, sValuesDefShred[s], (r.breakDmgDefShred))
     },
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
-      const r = request.lightConeConditionals
-
-      // TODO: Dynamic conditional
-      x[Stats.SPD] += (r.spdBuffConditional && x[Stats.BE] >= 1.50) ? sValuesSpdBuff[s] * request.baseSpd : 0
     },
+    dynamicConditionals: [
+      {
+        id: 'SailingTowardsASecondLifeConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.SINGLE,
+        dependsOn: [Stats.BE],
+        condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
+          const r = request.lightConeConditionals
+
+          return r.spdBuffConditional && x[Stats.BE] >= 1.50
+        },
+        effect: (x: ComputedStatsObject, request: Form, params: OptimizerParams) => {
+          buffStat(x, request, params, Stats.SPD, (sValuesSpdBuff[s]) * request.baseSpd)
+        },
+        gpu: function () {
+          return conditionalWgslWrapper(this, `
+if (
+  (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&
+  (*p_x).BE >= 1.50
+) {
+  (*p_state).SailingTowardsASecondLifeConditional = 1.0;
+  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_state);
+}
+    `)
+        },
+      },
+    ],
   }
 }

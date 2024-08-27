@@ -42,12 +42,13 @@ ${structComputedStats}
   return wgsl
 }
 
-function injectFilters(wgsl: string, request: Form) {
-  const statVariable = request.statDisplay == 'combat' ? 'x' : 'c'
+function injectSetFilters() {
 
+}
+
+function injectFilters(wgsl: string, request: Form) {
   function filter(text: string) {
     const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
-    const compare = text.includes('<') ? '<' : '>'
     const min = threshold.includes('min')
     const max = threshold.includes('max')
 
@@ -121,20 +122,22 @@ function injectFilters(wgsl: string, request: Form) {
     filter('c.ERR > maxErr'),
   ].filter((str) => str.length > 0).join(' ||\n')
 
+  function format(text: string) {
+    return indent((text.length > 0 ? text : 'false'), 2)
+  }
+
   wgsl = wgsl.replace('/* INJECT STAT FILTERS */', `
 var fail = 0;
 
 if (statDisplay == 0) {
   if (
-    false ||
-${indent(combatFilters, 2)}
+${format(combatFilters)}
   ) {
     fail = 1;
   }
 } else {
   if (
-    false ||
-${indent(basicFilters, 2)}
+${format(basicFilters)}
   ) {
     fail = 1;
   }

@@ -26,7 +26,8 @@ export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: 
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, gpuParams)
-  wgsl = injectFilters(wgsl, request)
+  wgsl = injectBasicFilters(wgsl, request)
+  wgsl = injectCombatFilters(wgsl, request)
 
   return wgsl
 }
@@ -42,12 +43,8 @@ ${structComputedStats}
   return wgsl
 }
 
-function injectSetFilters() {
-
-}
-
-function injectFilters(wgsl: string, request: Form) {
-  function filter(text: string) {
+function filterFn(request: Form) {
+  return (text: string) => {
     const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
     const min = threshold.includes('min')
     const max = threshold.includes('max')
@@ -57,6 +54,54 @@ function injectFilters(wgsl: string, request: Form) {
 
     return text
   }
+}
+
+function format(text: string) {
+  return indent((text.length > 0 ? text : 'false'), 2)
+}
+
+function injectBasicFilters(wgsl: string, request: Form) {
+  const filter = filterFn(request)
+
+  const basicFilters = [
+    filter('c.SPD < minSpd'),
+    filter('c.SPD > maxSpd'),
+    filter('c.HP  < minHp'),
+    filter('c.HP  > maxHp'),
+    filter('c.ATK < minAtk'),
+    filter('c.ATK > maxAtk'),
+    filter('c.DEF < minDef'),
+    filter('c.DEF > maxDef'),
+    filter('c.CR  < minCr'),
+    filter('c.CR  > maxCr'),
+    filter('c.CD  < minCd'),
+    filter('c.CD  > maxCd'),
+    filter('c.EHR < minEhr'),
+    filter('c.EHR > maxEhr'),
+    filter('c.RES < minRes'),
+    filter('c.RES > maxRes'),
+    filter('c.BE  < minBe'),
+    filter('c.BE  > maxBe'),
+    filter('c.ERR < minErr'),
+    filter('c.ERR > maxErr'),
+  ].filter((str) => str.length > 0).join(' ||\n')
+
+  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', `
+if (statDisplay == 1) {
+  if (
+${format(basicFilters)}
+  ) {
+    results[index] = -1;
+    continue;
+  }
+}
+  `)
+
+  return wgsl
+}
+
+function injectCombatFilters(wgsl: string, request: Form) {
+  const filter = filterFn(request)
 
   const combatFilters = [
     filter('x.SPD < minSpd'),
@@ -99,47 +144,13 @@ function injectFilters(wgsl: string, request: Form) {
     filter('x.COMBO_DMG > maxCombo'),
   ].filter((str) => str.length > 0).join(' ||\n')
 
-  const basicFilters = [
-    filter('c.SPD < minSpd'),
-    filter('c.SPD > maxSpd'),
-    filter('c.HP  < minHp'),
-    filter('c.HP  > maxHp'),
-    filter('c.ATK < minAtk'),
-    filter('c.ATK > maxAtk'),
-    filter('c.DEF < minDef'),
-    filter('c.DEF > maxDef'),
-    filter('c.CR  < minCr'),
-    filter('c.CR  > maxCr'),
-    filter('c.CD  < minCd'),
-    filter('c.CD  > maxCd'),
-    filter('c.EHR < minEhr'),
-    filter('c.EHR > maxEhr'),
-    filter('c.RES < minRes'),
-    filter('c.RES > maxRes'),
-    filter('c.BE  < minBe'),
-    filter('c.BE  > maxBe'),
-    filter('c.ERR < minErr'),
-    filter('c.ERR > maxErr'),
-  ].filter((str) => str.length > 0).join(' ||\n')
-
-  function format(text: string) {
-    return indent((text.length > 0 ? text : 'false'), 2)
-  }
-
-  wgsl = wgsl.replace('/* INJECT STAT FILTERS */', `
-var fail = 0;
-
+  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', `
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
   ) {
-    fail = 1;
-  }
-} else {
-  if (
-${format(basicFilters)}
-  ) {
-    fail = 1;
+    results[index] = -1;
+    continue;
   }
 }
   `)
@@ -175,7 +186,7 @@ results[index] = x; // DEBUG
     `, 1))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-results[index] = select(x.${sortOption}, -1, fail > 0);
+results[index] = x.${sortOption};
     `, 1))
   }
 

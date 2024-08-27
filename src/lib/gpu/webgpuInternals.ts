@@ -112,6 +112,7 @@ export type GpuExecutionContext = {
   relics: RelicsByPart
   resultsQueue: FixedSizePriorityQueue<GpuResult>
   baseParamsArray: number[]
+  cancelled: boolean
 
   // Webgpu internal objects
   device: GPUDevice
@@ -137,7 +138,7 @@ export function initializeGpuPipeline(
   const WORKGROUP_SIZE = 256
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 128
-  const RESULTS_LIMIT = 128
+  const RESULTS_LIMIT = 1024
   const DEBUG = debug
 
   const wgsl = generateWgsl(params, request, {
@@ -199,6 +200,7 @@ export function initializeGpuPipeline(
     relics,
     resultsQueue,
     baseParamsArray,
+    cancelled: false,
 
     device,
     computePipeline,

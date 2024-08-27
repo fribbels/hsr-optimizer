@@ -46,6 +46,11 @@ export async function gpuOptimize(props: {
     void readBuffer(offset, gpuReadBuffer, gpuContext)
 
     logIterationTimer(iteration, gpuContext)
+
+    if (window.store.getState().optimizationInProgress == false) {
+      gpuContext.cancelled = true
+      break
+    }
   }
 
   outputResults(gpuContext)
@@ -133,7 +138,11 @@ function outputResults(gpuContext: GpuExecutionContext) {
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
   window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+
   window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-  window.store.getState().setPermutationsSearched(gpuContext.permutations)
   window.store.getState().setOptimizationInProgress(false)
+
+  if (!gpuContext.cancelled) {
+    window.store.getState().setPermutationsSearched(gpuContext.permutations)
+  }
 }

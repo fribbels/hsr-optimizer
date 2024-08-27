@@ -433,7 +433,9 @@ function calculateProgressText(startTime, permutations, permutationsSearched, op
   }
 
   const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
-  return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
+  const persecond = permutationsSearched / (msDiff / 1000)
+  return `${Math.floor(persecond).toLocaleString()} / sec — (${Utils.msToReadable(msRemaining)} left)`
+  // return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
 }
 
 function ManyPermsModal(props) {

@@ -67,9 +67,6 @@ export const Optimizer = {
   optimize: async function (request) {
     CANCEL = false
 
-    window.store.getState().setPermutationsSearched(0)
-    window.store.getState().setPermutationsResults(0)
-
     const teammates = [
       request.teammate0,
       request.teammate1,

@@ -378,6 +378,10 @@ export const OptimizerTabController = {
       newForm.enemyMaxToughness = enemyOptions.enemyMaxToughness
     }
 
+    if (form.gpuAcceleration == null) {
+      newForm.gpuAcceleration = true
+    }
+
     if (newForm.characterId) {
       const defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) {
@@ -521,7 +525,7 @@ export const OptimizerTabController = {
       newForm.combo = {}
     }
 
-    if (Object.values(newForm.combo).every(value => !value)) {
+    if (Object.values(newForm.combo).every((value) => !value)) {
       const formula = scoringMetadata?.simulation?.formula
       if (formula) {
         for (const key of DamageKeys) {

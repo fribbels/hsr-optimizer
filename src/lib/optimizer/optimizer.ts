@@ -14,6 +14,7 @@ import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
 import { gpuOptimize } from 'lib/gpu/webgpu'
+import { getDevice } from 'lib/gpu/webgpuInternals'
 
 let CANCEL = false
 
@@ -63,7 +64,7 @@ export const Optimizer = {
     return [relics, preFilteredRelicsByPart]
   },
 
-  optimize: function (request) {
+  optimize: async function (request) {
     CANCEL = false
 
     window.store.getState().setPermutationsSearched(0)
@@ -149,8 +150,16 @@ export const Optimizer = {
     let inProgress = runs.length
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
-    const gpuAccelerationEnabled = false
-    if (gpuAccelerationEnabled) {
+    const gpuDevice = await getDevice()
+    if (gpuDevice == null && request.gpuAcceleration == true) {
+      if (window.store.getState().gpuAccelerationWarned == false) {
+        Message.warning(`GPU acceleration is not available on this browser - only Chrome and Opera are supported. If you're on a supported browser, report a bug to the Discord server`, 15)
+        window.store.getState().setGpuAccelerationWarned(true)
+      }
+    }
+    const gpuAccelerationEnabled = request.gpuAcceleration && gpuDevice != null
+
+    if (!gpuAccelerationEnabled) {
       for (const run of runs) {
         const task = {
           input: {
@@ -205,16 +214,16 @@ export const Optimizer = {
 
         WorkerPool.execute(task, callback)
       }
+    } else {
+      gpuOptimize({
+        params: params,
+        request: request,
+        relics: relics,
+        permutations: permutations,
+        relicSetSolutions: relicSetSolutions,
+        ornamentSetSolutions: ornamentSetSolutions,
+      })
     }
-
-    gpuOptimize({
-      params: params,
-      request: request,
-      relics: relics,
-      permutations: permutations,
-      relicSetSolutions: relicSetSolutions,
-      ornamentSetSolutions: ornamentSetSolutions,
-    })
   },
 }
 

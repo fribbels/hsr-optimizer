@@ -5,7 +5,7 @@ import { FixedSizePriorityQueue } from 'lib/fixedSizePriorityQueue'
 import { Form } from 'types/Form'
 
 export async function getDevice() {
-  const adapter: GPUAdapter | null = await navigator.gpu.requestAdapter()
+  const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
   if (adapter == null) {
     return null
   }

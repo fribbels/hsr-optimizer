@@ -71,7 +71,7 @@ function addToPinned() {
     Message.warning('No row selected')
   } else if (selectedNodes[0].data.statSim) {
     Message.warning('Custom simulation rows are not pinnable')
-  } else if (currentPinned.find(x => String(x.id) == String(selectedNodes[0].data.id))) {
+  } else if (currentPinned.find((x) => String(x.id) == String(selectedNodes[0].data.id))) {
     Message.warning('This build is already pinned')
   } else {
     const selectedRow = selectedNodes[0].data

@@ -135,17 +135,6 @@ export const Optimizer = {
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
-    // Generate runs
-    const runs = []
-    for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
-      runSize = Math.min(maxSize, runSize + increment)
-      runs.push({
-        skip: currentSkip,
-        runSize: runSize,
-      })
-    }
-
-    let inProgress = runs.length
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     const gpuDevice = await getDevice()
@@ -158,6 +147,18 @@ export const Optimizer = {
     const gpuAccelerationEnabled = request.gpuAcceleration && gpuDevice != null
 
     if (!gpuAccelerationEnabled) {
+      // Generate runs
+      const runs = []
+      for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
+        runSize = Math.min(maxSize, runSize + increment)
+        runs.push({
+          skip: currentSkip,
+          runSize: runSize,
+        })
+      }
+
+      let inProgress = runs.length
+
       window.store.getState().setOptimizerStartTime(new Date())
       for (const run of runs) {
         const task = {

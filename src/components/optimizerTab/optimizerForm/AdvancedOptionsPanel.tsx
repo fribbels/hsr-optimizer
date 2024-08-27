@@ -21,13 +21,13 @@ export const AdvancedOptionsPanel = () => {
       <HeaderText style={{ marginTop: 25 }}>Advanced options</HeaderText>
       <Button
         onClick={() => setCombatBuffsDrawerOpen(true)}
-        icon={<SettingOutlined />}
+        icon={<SettingOutlined/>}
       >
         {`Extra combat buffs${buffsActive ? ` (${buffsActive})` : ''}`}
       </Button>
       <Button
         onClick={() => setEnemyConfigurationsDrawerOpen(true)}
-        icon={<SettingOutlined />}
+        icon={<SettingOutlined/>}
       >
         Enemy configurations
       </Button>

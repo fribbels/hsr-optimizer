@@ -1,8 +1,8 @@
-import { Flex, Tag } from "antd";
-import { Assets } from "lib/assets";
-import { Constants } from "lib/constants";
-import PropTypes from "prop-types";
-import React from "react";
+import { Flex, Tag } from 'antd'
+import { Assets } from 'lib/assets'
+import { Constants } from 'lib/constants'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 // NOTE: Be careful hot-reloading with this file, can cause DB to wipe. Unsure why yet
 export function OrnamentSetTagRenderer(props) {
@@ -24,6 +24,7 @@ export function OrnamentSetTagRenderer(props) {
     </Tag>
   )
 }
+
 OrnamentSetTagRenderer.propTypes = {
   value: PropTypes.string,
   closable: PropTypes.bool,

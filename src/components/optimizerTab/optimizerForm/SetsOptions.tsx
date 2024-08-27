@@ -30,7 +30,7 @@ const GenerateSetsOptions = () => {
   ]
 
   const tier2Children = Object.entries(Constants.SetsRelics)
-    .filter(x => !UnreleasedSets[x[1]])
+    .filter((x) => !UnreleasedSets[x[1]])
     .map((set) => ({ value: set[1], label: set[1] }))
 
   const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
@@ -45,7 +45,7 @@ const GenerateSetsOptions = () => {
     )
   }
 
-  for (const set of Object.entries(Constants.SetsRelics).filter(x => !UnreleasedSets[x[1]])) {
+  for (const set of Object.entries(Constants.SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
     result[0].children.push({
       value: set[1],
       label: GenerateLabel(set[1], '(4) ', set[1]),
@@ -74,17 +74,17 @@ const GenerateSetsOptions = () => {
 
 export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
   return Object.values(Constants.SetsRelics)
-    .filter(x => !UnreleasedSets[x])
+    .filter((x) => !UnreleasedSets[x])
     .map((x) => {
       return {
         value: x,
         label:
-          <Flex gap={5} align="center">
-            <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
-            <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-              {x}
-            </div>
-          </Flex>,
+  <Flex gap={5} align="center">
+    <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
+    <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
+      {x}
+    </div>
+  </Flex>,
       }
     })
 }

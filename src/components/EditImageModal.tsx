@@ -201,21 +201,21 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   /************************************************
-  IMPORTANT:
-    When testing this on localhost, you WILL run into a 429 / 403 issue.
-    This is because Imgur API hates localhost for some reason.
-    https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
-  WORKAROUND:
-    1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
-    2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
-  HOWEVER:
-    You will not be able to access i.imgur.com/... links using 127.0.0.1,
-    So the immediate next step of cropping will not work as expected.
-    https://stackoverflow.com/questions/43895390/imgur-images-returning-403
-  SUMMARY:
-    These Imgur restrictions are incredibly annoying to test with in development,
-    however it should have no impact in production.
-  *************************************************/
+   IMPORTANT:
+   When testing this on localhost, you WILL run into a 429 / 403 issue.
+   This is because Imgur API hates localhost for some reason.
+   https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
+   WORKAROUND:
+   1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
+   2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
+   HOWEVER:
+   You will not be able to access i.imgur.com/... links using 127.0.0.1,
+   So the immediate next step of cropping will not work as expected.
+   https://stackoverflow.com/questions/43895390/imgur-images-returning-403
+   SUMMARY:
+   These Imgur restrictions are incredibly annoying to test with in development,
+   however it should have no impact in production.
+   *************************************************/
   const uploadToImgurByUrl = async (imageUrl: string) => {
     const formData = new FormData()
     formData.append('image', imageUrl)
@@ -422,13 +422,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {isVerificationLoading
                   ? (
                     <Flex style={{ height: '300px' }} justify="center" align="center">
-                      <Spin size="large" />
+                      <Spin size="large"/>
                     </Flex>
                   )
                   : (
                     <Flex style={{ height: '300px' }} justify="center" align="center" vertical>
                       <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
+                        <InboxOutlined/>
                       </p>
                       <p className="ant-upload-text">Click or drag image file to this area to upload</p>
                       <p className="ant-upload-hint">
@@ -447,13 +447,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               style={{ margin: '0 20px' }}
               rules={[{ required: true, message: 'Please input a valid image URL' }]}
             >
-              <Input autoComplete="off" />
+              <Input autoComplete="off"/>
             </Form.Item>
           )}
 
           {radio === 'default' && (
             <Flex justify="center" style={{ height: '400px' }}>
-              <img src={defaultImageUrl} />
+              <img src={defaultImageUrl}/>
             </Flex>
           )}
         </>
@@ -513,11 +513,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           <Flex style={{ marginTop: 0 }}>
             <Flex vertical style={{ flex: 1 }}>
               <div>
-                <DragOutlined style={{ marginRight: 8 }} />
+                <DragOutlined style={{ marginRight: 8 }}/>
                 Drag to move
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
-                <ZoomInOutlined style={{ marginRight: 8 }} />
+                <ZoomInOutlined style={{ marginRight: 8 }}/>
                 Pinch or scroll to zoom
               </div>
             </Flex>
@@ -555,7 +555,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         footer={[
           <Flex key={1} justify="flex-end">
             <Flex style={{ marginTop: 16 }} justify="center" align="center" gap={8}>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large" />}
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size="large"/>}
               <Button onClick={() => setOpen(false)}>
                 Cancel
               </Button>
@@ -589,7 +589,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           && (
             <Steps current={current} style={{ marginBottom: 12 }}>
               {steps.map((item) => (
-                <Steps.Step key={item.title} title={item.title} />
+                <Steps.Step key={item.title} title={item.title}/>
               ))}
             </Steps>
           )}

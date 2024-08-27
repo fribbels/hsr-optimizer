@@ -389,7 +389,7 @@ RelicModal.propTypes = {
 }
 
 function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; relicForm: FormInstance; resetUpgradeValues: () => void; plusThree: () => void }) {
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`

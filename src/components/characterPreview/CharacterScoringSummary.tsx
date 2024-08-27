@@ -14,8 +14,8 @@ import { HeaderText } from 'components/HeaderText'
 import { TsUtils } from 'lib/TsUtils'
 import { Simulation } from 'lib/statSimulationController'
 import { damageStats, displayTextMap } from 'components/characterPreview/StatRow'
-import { UpArrow } from "icons/UpArrow";
-import { SortOption } from "lib/optimizer/sortOptions";
+import { UpArrow } from 'icons/UpArrow'
+import { SortOption } from 'lib/optimizer/sortOptions'
 
 const { Text } = Typography
 
@@ -61,7 +61,7 @@ export const CharacterScoringSummary = (props: { simScoringResult: SimulationSco
     )
   }
 
-  function ScoringText(props: { label: string; text: string; }) {
+  function ScoringText(props: { label: string; text: string }) {
     const value = props.text ?? ''
     return (
       <Flex align="center" gap={15}>

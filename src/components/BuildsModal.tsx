@@ -37,7 +37,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   // Reuse the character preview for the saved build
   const statDisplay = useMemo(() => {
-    if (selectedBuild != null && selectedCharacter && selectedCharacter.builds && selectedCharacter.builds[selectedBuild].build) {
+    if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].build) {
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
 
@@ -48,7 +48,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       previewCharacter.equipped = relicObject
 
       console.log('Previewing builds character:', previewCharacter)
-      return <CharacterPreview character={previewCharacter} source="builds" id="relicScorerPreview" />
+      return <CharacterPreview character={previewCharacter} source="builds" id="relicScorerPreview"/>
     }
 
     return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
@@ -73,7 +73,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   async function confirm(content) {
     return confirmationModal.confirm({
       title: 'Confirm',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: content,
       okText: 'Confirm',
       cancelText: 'Cancel',
@@ -83,10 +83,10 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   // Updates all saved builds with the latest scoring algorithm
   function updateBuildsScoringAlgo(builds: SavedBuild[]) {
-    for (let b of builds) {
+    for (const b of builds) {
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(b.build).map((x) => relicsById[x])
-      let score = RelicScorer.scoreCharacterWithRelics(selectedCharacter, relics)
+      const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter, relics)
       b.score = { score: Math.round(score.totalScore ?? 0), rating: score.totalRating ?? 'N/A' }
     }
   }
@@ -201,9 +201,9 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                         }}
                       >
                         {`Score: ${build.score.score} ${build.score.score == 0
-                            ? ''
-                            : '(' + build.score.rating + ')'
-                          }`}
+                          ? ''
+                          : '(' + build.score.rating + ')'
+                        }`}
                       </StatText>
                     </Flex>
                     <Flex gap={5}>
@@ -217,7 +217,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                       <Button
                         style={{ width: 35 }}
                         type="primary"
-                        icon={<DeleteOutlined />}
+                        icon={<DeleteOutlined/>}
                         onClick={() => {
                           handleDeleteSingleBuild(build.name)
                         }}

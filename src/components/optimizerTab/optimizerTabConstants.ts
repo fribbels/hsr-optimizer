@@ -1,8 +1,8 @@
 import { Constants } from 'lib/constants'
 import { Gradient } from 'lib/gradient'
 import { Renderer } from 'lib/renderer.jsx'
-import { GetRowIdParams } from "ag-grid-community";
-import { Utils } from "lib/utils";
+import { GetRowIdParams } from 'ag-grid-community'
+import { Utils } from 'lib/utils'
 
 export const DIGITS_3 = 46
 export const DIGITS_4 = 50
@@ -189,7 +189,7 @@ export const gridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId())
+  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
 }
 
 export const defaultColDef = {

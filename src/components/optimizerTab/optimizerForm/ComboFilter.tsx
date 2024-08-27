@@ -11,12 +11,12 @@ export const ComboFilters = () => {
     <Flex vertical gap={optimizerTabDefaultGap}>
       <HeaderText>Rotation COMBO formula</HeaderText>
       <Flex vertical gap={optimizerTabDefaultGap}>
-        <ComboRow title="Basic DMG" name="BASIC" />
-        <ComboRow title="Skill DMG" name="SKILL" />
-        <ComboRow title="Ult DMG" name="ULT" />
-        <ComboRow title="Fua DMG" name="FUA" />
-        <ComboRow title="Dot DMG" name="DOT" />
-        <ComboRow title="Break DMG" name="BREAK" />
+        <ComboRow title="Basic DMG" name="BASIC"/>
+        <ComboRow title="Skill DMG" name="SKILL"/>
+        <ComboRow title="Ult DMG" name="ULT"/>
+        <ComboRow title="Fua DMG" name="FUA"/>
+        <ComboRow title="Dot DMG" name="DOT"/>
+        <ComboRow title="Break DMG" name="BREAK"/>
       </Flex>
     </Flex>
   )

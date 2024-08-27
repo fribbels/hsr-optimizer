@@ -128,7 +128,7 @@ export function setSortColumn(columnId) {
 const RecommendedPresetsButton = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const items = useMemo(function() {
+  const items = useMemo(function () {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
@@ -157,7 +157,7 @@ const RecommendedPresetsButton = () => {
       <a onClick={(e) => e.preventDefault()}>
         <Button type="primary" style={{ width: '100%' }}>
           Recommended presets
-          <DownOutlined />
+          <DownOutlined/>
         </Button>
       </a>
     </Dropdown>

@@ -753,4 +753,3 @@ export const CHARACTER_SCORE = 'Character Score'
 
 export const DAMAGE_UPGRADES = 'Damage Upgrades'
 export const COMBAT_STATS = 'Combat Stats'
-

@@ -112,17 +112,17 @@ const teammateOrnamentSets = [
   Sets.BrokenKeel,
   Sets.FleetOfTheAgeless,
   Sets.PenaconyLandOfTheDreams,
-  Sets.LushakaTheSunkenSeas
+  Sets.LushakaTheSunkenSeas,
 ]
 
 // Find 4 piece relic sets and 2 piece ornament sets
 function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(x => x)
+  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
   const activeTeammateSets: { teamRelicSet?: string; teamOrnamentSet?: string } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
       activeTeammateSets.teamRelicSet = set
-    } 
+    }
   }
 
   for (const set of teammateOrnamentSets) {
@@ -213,12 +213,12 @@ const TeammateCard = (props: { index: number }) => {
           <Form.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
               value=""
-              selectStyle={{ }}
+              selectStyle={{}}
             />
           </Form.Item>
 
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {
@@ -286,7 +286,7 @@ const TeammateCard = (props: { index: number }) => {
           </Flex>
         </Flex>
 
-        <div style={{ height: 1 }} />
+        <div style={{ height: 1 }}/>
 
         <Flex gap={5}>
           <Form.Item name={[teammateProperty, `lightCone`]}>

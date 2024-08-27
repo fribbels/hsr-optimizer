@@ -224,11 +224,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                         height: `${parentH}px`,
                       },
                       ...(selected.get(option.id)
-                          ? {
-                            opacity: 0.25,
-                            background: 'grey',
-                          }
-                          : {}
+                        ? {
+                          opacity: 0.25,
+                          background: 'grey',
+                        }
+                        : {}
                       ),
                     }}
                     styles={{ body: { padding: 1 } }}

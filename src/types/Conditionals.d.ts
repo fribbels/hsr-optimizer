@@ -411,7 +411,6 @@ export type ConditionalBuff =
   | 'woefreeState'
   | 'additionalVulnerability'
   | 'e1UltHitsOnTarget'
-
   | 'skillAtkBuff'
   | 'e1OriginalDmgBoost'
   | 'e4FuaVulnerability'

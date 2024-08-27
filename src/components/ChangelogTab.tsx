@@ -131,7 +131,7 @@ function getChangelogContent() {
         `Fix: Importing relics no longer overwrites the optimizer's equipped owner`,
         `Balance: Kafka / Black Swan's sim scoring updated to lean more towards DoT`,
         `Balance: Moze's default sim updated to to 4p Pioneer, allow Ashblazing and Izumo`,
-        `Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`
+        `Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`,
       ],
     },
     {

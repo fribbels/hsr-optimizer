@@ -81,7 +81,7 @@ export function LoadDataSubmenu() {
           >
             <Button
               style={{ width: importerTabButtonWidth }}
-              icon={<UploadOutlined />}
+              icon={<UploadOutlined/>}
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
             >
@@ -109,7 +109,7 @@ export function LoadDataSubmenu() {
           <Text>
             {`File contains ${currentSave.relics.length} relics and ${currentSave.characters.length} characters. Replace your current data with the uploaded data?`}
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined />} type="primary" onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined/>} type="primary" onClick={loadConfirmed} loading={loading2}>
             Use uploaded data
           </Button>
         </Flex>

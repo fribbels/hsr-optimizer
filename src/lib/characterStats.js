@@ -1,7 +1,7 @@
 import { Constants } from './constants.ts'
 
 export const CharacterStats = {
-  getZeroes: function() {
+  getZeroes: function () {
     return {
       [Constants.Stats.ATK]: 0,
       [Constants.Stats.DEF]: 0,

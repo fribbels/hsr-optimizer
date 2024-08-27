@@ -34,7 +34,7 @@ export function ClearDataSubmenu() {
         okText="Yes"
         cancelText="Cancel"
       >
-        <Button type="primary" icon={<DeleteOutlined />} loading={loading} style={{ width: importerTabButtonWidth }}>
+        <Button type="primary" icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
           Clear data
         </Button>
       </Popconfirm>

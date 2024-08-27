@@ -23,7 +23,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
     return (
       <Flex justify="space-between" align="center">
         <HeaderText>Character passives</HeaderText>
-        <TooltipImage type={Hint.characterPassives()} />
+        <TooltipImage type={Hint.characterPassives()}/>
       </Flex>
     )
   }
@@ -32,7 +32,7 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
 
   const character = characterFn(eidolon)
   const content = teammateIndex != null
-    ? (character.teammateContent ? character.teammateContent(teammateIndex) : undefined)
+    ? (character.teammateContent ? character.teammateContent() : undefined)
     : character.content()
 
   return (
@@ -41,10 +41,10 @@ export const CharacterConditionalDisplay = memo(({ id, eidolon, teammateIndex }:
       && (
         <Flex justify="space-between" align="center">
           <HeaderText>Character passives</HeaderText>
-          <TooltipImage type={Hint.characterPassives()} />
+          <TooltipImage type={Hint.characterPassives()}/>
         </Flex>
       )}
-      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
+      <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )
 })

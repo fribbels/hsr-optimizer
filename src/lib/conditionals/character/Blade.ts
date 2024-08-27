@@ -1,17 +1,14 @@
 import { Stats } from 'lib/constants'
-import {
-  ASHBLAZING_ATK_STACK,
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  FUA_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/utils'
+import { ASHBLAZING_ATK_STACK, ComputedStatsObject, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSet, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -28,7 +25,7 @@ export default (e: Eidolon): CharacterConditional => {
   const fuaAtkScaling = talent(e, 0.44, 0.484)
   const fuaHpScaling = talent(e, 1.10, 1.21)
 
-  const hitMultiByTargets = {
+  const hitMultiByTargets: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
     3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
     5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
@@ -76,11 +73,9 @@ export default (e: Eidolon): CharacterConditional => {
       hpPercentLostTotal: hpPercentLostTotalMax,
       e4MaxHpIncreaseStacks: 2,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.CR] += (e >= 2 && r.enhancedStateActive) ? 0.15 : 0
@@ -100,11 +95,10 @@ export default (e: Eidolon): CharacterConditional => {
 
       return x
     },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       if (r.enhancedStateActive) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -119,11 +113,38 @@ export default (e: Eidolon): CharacterConditional => {
       x.ULT_DMG += (e >= 1 && request.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * x[Stats.HP] : 0
 
       const hitMulti = hitMultiByTargets[request.enemyCount]
-      const { ashblazingMulti, ashblazingAtk } = calculateAshblazingSet(c, request, hitMulti)
-      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] - ashblazingAtk + ashblazingMulti)
+      const ashblazingAtk = calculateAshblazingSet(x, request, hitMulti)
+      x.FUA_DMG += fuaAtkScaling * (x[Stats.ATK] + ashblazingAtk)
 
       x.FUA_DMG += fuaHpScaling * x[Stats.HP]
       x.FUA_DMG += (e >= 6) ? 0.50 * x[Stats.HP] : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+
+      return `
+if (${wgslTrue(r.enhancedStateActive)}) {
+  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicEnhancedHpScaling} * x.HP;
+} else {
+  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+}
+
+x.ULT_DMG += ${ultAtkScaling} * x.ATK;
+x.ULT_DMG += ${ultHpScaling} * x.HP;
+x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
+
+if (${wgslTrue(e >= 1 && request.enemyCount == 1)}) {
+  x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
+}
+
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[request.enemyCount]}));
+x.FUA_DMG += ${fuaHpScaling} * x.HP;
+
+if (e >= 6) {
+  x.FUA_DMG += 0.50 * x.HP;
+}
+    `
     },
   }
 }

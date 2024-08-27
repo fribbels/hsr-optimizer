@@ -1,22 +1,13 @@
 import { Stats } from 'lib/constants'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
-import {
-  baseComputedStatsObject,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import {
-  CharacterConditional,
-  CharacterConditionalMap,
-  PrecomputedCharacterConditional
-} from 'types/CharacterConditional'
+import { CharacterConditional, CharacterConditionalMap } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
 
-const Jingliu = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
@@ -78,15 +69,13 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
       e1CdBuff: true,
       e2SkillDmgBuff: true,
     }),
-    teammateDefaults: () => ({
-    }),
-    precomputeEffects: (request: Form) => {
+    teammateDefaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r: CharacterConditionalMap = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Skills
       x[Stats.CR] += (r.talentEnhancedState) ? talentCrBuff : 0
-      x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0) as number
+      x[Stats.ATK_P] += ((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0)
 
       // Traces
       x[Stats.RES] += (r.talentEnhancedState) ? 0.35 : 0
@@ -118,16 +107,7 @@ const Jingliu = (e: Eidolon): CharacterConditional => {
     },
     precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.FUA_DMG += 0
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-Jingliu.label = 'Jingliu'
-
-export default Jingliu

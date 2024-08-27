@@ -1,18 +1,24 @@
-import { Flex, Form, Select } from 'antd'
+import { Flex, Form, Select, Switch, Typography } from 'antd'
 import { HeaderText } from 'components/HeaderText.jsx'
 import { TooltipImage } from 'components/TooltipImage.jsx'
 import { Hint } from 'lib/hint.jsx'
 import { eidolonOptions, Stats, StatsToReadable, superimpositionOptions } from 'lib/constants.ts'
 import RecommendedPresetsButton from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
 import { optimizerTabDefaultGap, panelWidth } from 'components/optimizerTab/optimizerTabConstants.ts'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { OptimizerTabController } from 'lib/optimizerTabController.js'
 import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSelect.tsx'
 import LightConeSelect from 'components/optimizerTab/optimizerForm/LightConeSelect.tsx'
 import { SortOption } from 'lib/optimizer/sortOptions.ts'
 import { Utils } from 'lib/utils.js'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
 
 type CharacterSelectorDisplayProps = {}
+
+const Text = styled(Typography)`
+    white-space: pre-line;
+`
 
 const resultLimitString = (limit: number) => `Find top ${limit.toLocaleString()} results`
 const resultLimitOptions = (() => {
@@ -78,7 +84,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify="space-between" align="center">
         <HeaderText>Character</HeaderText>
-        <TooltipImage type={Hint.character()} />
+        <TooltipImage type={Hint.character()}/>
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
         <Form.Item name="characterId">
@@ -102,7 +108,7 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
       </Flex>
       <Flex justify="space-between" align="center">
         <HeaderText>Light cone</HeaderText>
-        <TooltipImage type={Hint.lightCone()} />
+        <TooltipImage type={Hint.lightCone()}/>
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
@@ -128,13 +134,13 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
         </Flex>
       </Flex>
 
-      <Flex justify="space-between" align="center" style={{ marginTop: 10 }}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 3 }}>
         <HeaderText>Presets</HeaderText>
       </Flex>
 
-      <RecommendedPresetsButton />
+      <RecommendedPresetsButton/>
 
-      <Flex justify="space-between" align="center" style={{ marginTop: 15 }}>
+      <Flex justify="space-between" align="center" style={{ marginTop: 3 }}>
         <HeaderText>Optimization target</HeaderText>
       </Flex>
 
@@ -158,6 +164,18 @@ export default function CharacterSelectorDisplay(_props: CharacterSelectorDispla
           filterOption={Utils.labelFilterOption}
         />
       </Form.Item>
+
+      <Flex align="center">
+        <Form.Item name="gpuAcceleration">
+          <Switch
+            checkedChildren={<CheckOutlined/>}
+            unCheckedChildren={<CloseOutlined/>}
+            defaultChecked={true}
+            style={{ width: 45, marginRight: 5 }}
+          />
+        </Form.Item>
+        <Text>GPU acceleration (BETA)</Text>
+      </Flex>
     </Flex>
   )
 }

@@ -322,14 +322,16 @@ export const Utils = {
   msToReadable: (duration) => {
     const seconds = Math.floor((duration / 1000) % 60)
     const minutes = Math.floor((duration / (1000 * 60)) % 60)
+    const hours = Math.floor((duration / (1000 * 60 * 60)))
 
+    const hoursS = hours > 0 ? `${hours}:` : ''
     const minutesS = (minutes < 10) ? `0${minutes}` : `${minutes}`
     const secondsS = (seconds < 10) ? `0${seconds}` : `${seconds}`
 
-    return `${minutesS}:${secondsS}`
+    return `${hoursS}${minutesS}:${secondsS}`
   },
 
   filterUnique: (arr) => {
     return arr.filter((value, index, array) => array.indexOf(value) === index)
-  }
+  },
 }

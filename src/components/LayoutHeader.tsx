@@ -28,7 +28,7 @@ export function LayoutHeader() {
         <Flex>
           <Button
             type="text"
-            icon={menuSidebarOpen ? <CloseOutlined /> : <MenuOutlined />}
+            icon={menuSidebarOpen ? <CloseOutlined/> : <MenuOutlined/>}
             onClick={() => setMenuSidebarOpen(!menuSidebarOpen)}
             style={{
               fontSize: '16px',
@@ -43,7 +43,7 @@ export function LayoutHeader() {
                 style={{ fontWeight: 600, fontSize: 22 }}
                 color="inherit"
               >
-                {'Fribbels Honkai Star Rail Optimizer'}
+                Fribbels Honkai Star Rail Optimizer
               </Typography>
             </Flex>
           </a>

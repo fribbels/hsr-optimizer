@@ -1,11 +1,13 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { Stats } from 'lib/constants'
+import { BoothillConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { NumberToNumberMap } from 'types/Common'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -16,7 +18,7 @@ export default (e: Eidolon): CharacterConditional => {
   const basicEnhancedScaling = basic(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.00, 4.32)
 
-  const pocketTrickshotsToTalentBreakDmg = {
+  const pocketTrickshotsToTalentBreakDmg: NumberToNumberMap = {
     0: 0,
     1: talent(e, 0.70, 0.77),
     2: talent(e, 1.20, 1.32),
@@ -116,20 +118,21 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
     teammateContent: () => teammateContent,
     defaults: () => (defaults),
     teammateDefaults: () => ({}),
-    precomputeEffects: (request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
-      // Special case where we force the weakness break on if the talent break option is enabled
       if (r.talentBreakDmgScaling) {
         x.ENEMY_WEAKNESS_BROKEN = 1
       }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       x[Stats.BE] += (e >= 2 && r.e2BeBuff) ? 0.30 : 0
-      x.DMG_TAKEN_MULTI += (r.standoffActive) ? standoffVulnerabilityBoost : 0
+      x.VULNERABILITY += (r.standoffActive) ? standoffVulnerabilityBoost : 0
 
-      x.DEF_SHRED += (e >= 1 && r.e1DefShred) ? 0.16 : 0
-      x.DMG_TAKEN_MULTI += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
+      x.DEF_PEN += (e >= 1 && r.e1DefShred) ? 0.16 : 0
+      x.VULNERABILITY += (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0
 
       x.BASIC_SCALING += (r.standoffActive) ? basicEnhancedScaling : basicScaling
       x.BASIC_BREAK_EFFICIENCY_BOOST += (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0
@@ -139,16 +142,6 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       x.BASIC_TOUGHNESS_DMG += (r.standoffActive) ? 60 : 30
       x.ULT_TOUGHNESS_DMG += 90
 
-      return x
-    },
-    precomputeMutualEffects: (_x: ComputedStatsObject, _request: Form) => {
-    },
-    precomputeTeammateEffects: (_x: ComputedStatsObject, _request: Form) => {
-    },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
       // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
       const newMaxToughness = Math.min(16.00 * 30, request.enemyMaxToughness)
       const inverseBreakToughnessMultiplier = 1 / (0.5 + request.enemyMaxToughness / 120)
@@ -157,11 +150,14 @@ If the target is Weakness Broken while the Enhanced Basic ATK is being used, bas
       talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
       x.BASIC_BREAK_DMG_MODIFIER += (r.talentBreakDmgScaling && r.standoffActive) ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling : 0
 
-      x[Stats.CR] += (r.beToCritBoost) ? Math.min(0.30, 0.10 * x[Stats.BE]) : 0
-      x[Stats.CD] += (r.beToCritBoost) ? Math.min(1.50, 0.50 * x[Stats.BE]) : 0
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+      return x
     },
+    precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
+    },
+    precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
+    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    dynamicConditionals: [BoothillConversionConditional],
   }
 }

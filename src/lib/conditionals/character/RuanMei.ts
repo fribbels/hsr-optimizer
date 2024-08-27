@@ -2,11 +2,12 @@ import { Stats } from 'lib/constants'
 import { Eidolon } from 'types/Character'
 import { Form } from 'types/Form'
 
-import { AbilityEidolon, findContentId, precisionRound } from '../utils'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
+import { RuanMeiConversionConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
@@ -107,9 +108,8 @@ export default (e: Eidolon): CharacterConditional => {
       e2AtkBoost: false,
       teamDmgBuff: 0.36,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.ATK_P] += (e >= 2 && r.e2AtkBoost) ? 0.40 : 0
@@ -117,7 +117,6 @@ export default (e: Eidolon): CharacterConditional => {
 
       // Scaling
       x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
 
       x.BASIC_TOUGHNESS_DMG += 30
 
@@ -132,7 +131,7 @@ export default (e: Eidolon): CharacterConditional => {
       x.BREAK_EFFICIENCY_BOOST += (m.skillOvertoneBuff) ? 0.50 : 0
 
       x.RES_PEN += (m.ultFieldActive) ? fieldResPenValue : 0
-      x.DEF_SHRED += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
+      x.DEF_PEN += (e >= 1 && m.ultFieldActive) ? 0.20 : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.characterConditionals
@@ -143,13 +142,8 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.ATK_P] += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
       x.RATIO_BASED_ATK_P_BUFF += (e >= 2 && t.e2AtkBoost) ? 0.40 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      const beOver = precisionRound((x[Stats.BE] * 100 - 120) / 10)
-      x.ELEMENTAL_DMG += Math.floor(Math.max(0, beOver)) * 0.06
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    dynamicConditionals: [RuanMeiConversionConditional],
   }
 }

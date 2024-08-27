@@ -82,16 +82,16 @@ export default function CharacterModal(props) {
             <Form.Item size="default" name="characterEidolon">
               <Radio.Group
                 value={eidolon}
-                buttonStyle='solid'
+                buttonStyle="solid"
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text='E0' value={0}/>
-                <RadioButton text='E1' value={1}/>
-                <RadioButton text='E2' value={2}/>
-                <RadioButton text='E3' value={3}/>
-                <RadioButton text='E4' value={4}/>
-                <RadioButton text='E5' value={5}/>
-                <RadioButton text='E6' value={6}/>
+                <RadioButton text="E0" value={0}/>
+                <RadioButton text="E1" value={1}/>
+                <RadioButton text="E2" value={2}/>
+                <RadioButton text="E3" value={3}/>
+                <RadioButton text="E4" value={4}/>
+                <RadioButton text="E5" value={5}/>
+                <RadioButton text="E6" value={6}/>
               </Radio.Group>
             </Form.Item>
           </Flex>
@@ -112,14 +112,14 @@ export default function CharacterModal(props) {
               <Radio.Group
                 value={superimposition}
                 onChange={(e) => setSuperimposition(e.target.value)}
-                buttonStyle='solid'
+                buttonStyle="solid"
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text='S1' value={1}/>
-                <RadioButton text='S2' value={2}/>
-                <RadioButton text='S3' value={3}/>
-                <RadioButton text='S4' value={4}/>
-                <RadioButton text='S5' value={5}/>
+                <RadioButton text="S1" value={1}/>
+                <RadioButton text="S2" value={2}/>
+                <RadioButton text="S3" value={3}/>
+                <RadioButton text="S4" value={4}/>
+                <RadioButton text="S5" value={5}/>
               </Radio.Group>
             </Form.Item>
           </Flex>

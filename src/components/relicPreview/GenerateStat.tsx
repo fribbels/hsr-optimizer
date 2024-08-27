@@ -17,7 +17,7 @@ type Substat = {
 }
 
 export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
-  if (!stat || !stat.stat || stat.value == null) {
+  if (!stat?.stat || stat.value == null) {
     return (
       <Flex justify="space-between">
         <Flex>
@@ -71,7 +71,7 @@ export const GenerateStat = (stat: Substat, main: boolean, relic: Relic) => {
 function generateRolls(stat) {
   const result: ReactElement[] = []
   for (let i = 0; i < stat.addedRolls; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
+    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }}/>)
   }
   if (stat.addedRolls == 0) {
     result.push(<div key={0}></div>)

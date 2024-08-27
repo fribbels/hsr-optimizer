@@ -10,13 +10,12 @@ import { SettingOutlined } from '@ant-design/icons'
 import { Assets } from 'lib/assets.js'
 
 import React from 'react'
-import { RelicSetTagRenderer } from "components/optimizerTab/optimizerForm/RelicSetTagRenderer";
-import { OrnamentSetTagRenderer } from "components/optimizerTab/optimizerForm/OrnamentSetTagRenderer";
+import { RelicSetTagRenderer } from 'components/optimizerTab/optimizerForm/RelicSetTagRenderer'
+import { OrnamentSetTagRenderer } from 'components/optimizerTab/optimizerForm/OrnamentSetTagRenderer'
 
 const { SHOW_CHILD } = Cascader
 
-type RelicMainSetFiltersProps = {
-}
+type RelicMainSetFiltersProps = {}
 export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
   const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
@@ -25,7 +24,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify="space-between" align="center">
           <HeaderText>Main stats</HeaderText>
-          <TooltipImage type={Hint.mainStats()} />
+          <TooltipImage type={Hint.mainStats()}/>
         </Flex>
         <Form.Item name="mainBody">
           <Select
@@ -37,7 +36,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Body"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)} />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)}/>}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -59,7 +58,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Feet"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)}/>}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -79,7 +78,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             optionLabelProp="label"
             listHeight={400}
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)}/>}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -104,7 +103,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
             placeholder="Link Rope"
             optionLabelProp="label"
             maxTagCount="responsive"
-            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
+            suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)}/>}
           >
             <Select.Option value={Constants.Stats.HP_P} label="HP%">HP%</Select.Option>
             <Select.Option value={Constants.Stats.ATK_P} label="ATK%">ATK%</Select.Option>
@@ -116,9 +115,9 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
       </Flex>
 
       <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify="space-between" align="center" style={{marginTop: 12}}>
+        <Flex justify="space-between" align="center" style={{ marginTop: 12 }}>
           <HeaderText>Sets</HeaderText>
-          <TooltipImage type={Hint.sets()} />
+          <TooltipImage type={Hint.sets()}/>
         </Flex>
         <Form.Item name="relicSets">
           <Cascader
@@ -155,7 +154,7 @@ export default function RelicMainSetFilters(_props: RelicMainSetFiltersProps) {
 
       <Button
         onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-        icon={<SettingOutlined />}
+        icon={<SettingOutlined/>}
       >
         Conditional set effects
       </Button>

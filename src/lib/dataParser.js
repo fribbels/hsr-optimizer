@@ -1,7 +1,7 @@
-import gameData from 'data/game_data.json'
-import relicMainAffixes from 'data/relic_main_affixes.json'
-import relicSubAffixes from 'data/relic_sub_affixes.json'
-import relicSets from 'data/relic_sets.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
+import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
+import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
+import relicSets from 'data/relic_sets.json' with { type: 'json' }
 import { Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants.ts'
 import DB from 'lib/db'
 import { PresetEffects } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton.tsx'
@@ -417,7 +417,13 @@ function getSuperimpositions() {
       4: { [Stats.ATK_P]: 0.36 },
       5: { [Stats.ATK_P]: 0.40 },
     },
-    23003: {},
+    23003: {
+      1: { [Stats.ERR]: 0.10 },
+      2: { [Stats.ERR]: 0.12 },
+      3: { [Stats.ERR]: 0.14 },
+      4: { [Stats.ERR]: 0.16 },
+      5: { [Stats.ERR]: 0.18 },
+    },
     23004: {},
     23005: {
       1: { [Stats.DEF_P]: 0.24, [Stats.EHR]: 0.24 },

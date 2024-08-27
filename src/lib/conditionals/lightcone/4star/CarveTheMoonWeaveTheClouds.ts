@@ -5,7 +5,7 @@ import { SuperImpositionLevel } from 'types/LightCone'
 import { Form } from 'types/Form'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import getContentFromLCRanks from '../getContentFromLCRank'
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtk = [0.10, 0.125, 0.15, 0.175, 0.20]
@@ -67,7 +67,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       cdBuffActive: false,
       errBuffActive: false,
     }),
-    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
@@ -76,7 +76,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.CD] += (m.cdBuffActive) ? sValuesCd[s] : 0
       x[Stats.ERR] += (m.errBuffActive) ? sValuesErr[s] : 0
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

@@ -1,19 +1,14 @@
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
-import {
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
+import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Eidolon } from 'types/Character'
 import { ContentItem } from 'types/Conditionals'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
-import { Stats } from 'lib/constants.ts'
-import { buffAbilityResShred, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { Stats } from 'lib/constants'
+import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimizer/calculateBuffs'
+import { NumberToNumberMap } from 'types/Common'
 
-const Acheron = (e: Eidolon): CharacterConditional => {
+export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -28,7 +23,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
   const maxCrimsonKnotStacks = 9
   const maxNihilityTeammates = (e >= 2) ? 1 : 2
 
-  const nihilityTeammateScaling = {
+  const nihilityTeammateScaling: NumberToNumberMap = {
     0: 0,
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
@@ -134,21 +129,22 @@ const Acheron = (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       e4UltVulnerability: true,
     }),
-
-    precomputeEffects: (request: Form) => {
+    initializeConfigurations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x: ComputedStatsObject = Object.assign({}, baseComputedStatsObject)
 
       if (e >= 6 && r.e6UltBuffs) {
         x.BASIC_DMG_TYPE = ULT_TYPE | BASIC_TYPE
         x.SKILL_DMG_TYPE = ULT_TYPE | SKILL_TYPE
       }
+    },
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+      const r = request.characterConditionals
 
       x[Stats.CR] += (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0
 
       x.ELEMENTAL_DMG += (r.thunderCoreStacks) * 0.30
-      buffAbilityResShred(x, ULT_TYPE, talentResPen)
-      buffAbilityResShred(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
+      buffAbilityResPen(x, ULT_TYPE, talentResPen)
+      buffAbilityResPen(x, ULT_TYPE, 0.20, (e >= 6 && r.e6UltBuffs))
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST += originalDmgBoost
@@ -167,7 +163,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
       x.BASIC_TOUGHNESS_DMG += 30
       x.SKILL_TOUGHNESS_DMG += 60
       x.ULT_TOUGHNESS_DMG += 105
-      
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
@@ -175,16 +171,7 @@ const Acheron = (e: Eidolon): CharacterConditional => {
 
       buffAbilityVulnerability(x, ULT_TYPE, 0.08, (e >= 4 && m.e4UltVulnerability))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
-      const r = request.characterConditionals
-      const x: ComputedStatsObject = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }
-Acheron.label = 'Acheron'
-
-export default Acheron

@@ -1,6 +1,6 @@
 import { Flex, Form } from 'antd'
 import React, { useEffect } from 'react'
-import { Optimizer } from 'lib/optimizer/optimizer'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { Constants } from 'lib/constants.ts'
 import { SavedSessionKeys } from 'lib/constantsSession'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'components/optimizerTab/FormRow.tsx'
@@ -111,6 +111,8 @@ export default function OptimizerForm() {
       return
     }
 
+    window.store.getState().setPermutationsSearched(0)
+    window.store.getState().setPermutationsResults(0)
     window.store.getState().setOptimizationInProgress(true)
 
     DB.addFromForm(form)
@@ -135,30 +137,30 @@ export default function OptimizerForm() {
         layout="vertical"
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals />
+        <FormSetConditionals/>
 
         {/* Row 1 */}
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden' }}>
-              <OptimizerTabCharacterPanel />
+              <OptimizerTabCharacterPanel/>
             </FormCard>
 
             <FormCard>
-              <CharacterSelectorDisplay />
+              <CharacterSelectorDisplay/>
             </FormCard>
 
             <FormCard>
-              <CharacterConditionalDisplayWrapper />
+              <CharacterConditionalDisplayWrapper/>
             </FormCard>
 
             <FormCard justify="space-between">
-              <LightConeConditionalDisplayWrapper />
+              <LightConeConditionalDisplayWrapper/>
             </FormCard>
 
             <FormCard>
-              <OptimizerOptionsDisplay />
+              <OptimizerOptionsDisplay/>
             </FormCard>
           </FormRow>
 
@@ -166,40 +168,40 @@ export default function OptimizerForm() {
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
-              <RelicMainSetFilters />
+              <RelicMainSetFilters/>
             </FormCard>
 
             <FormCard>
-              <SubstatWeightFilters />
+              <SubstatWeightFilters/>
             </FormCard>
 
             <FormCard>
-              <MinMaxStatFilters />
+              <MinMaxStatFilters/>
             </FormCard>
 
             <FormCard>
-              <MinMaxRatingFilters />
+              <MinMaxRatingFilters/>
             </FormCard>
 
             <FormCard>
-              <ComboFilters />
-              <CombatBuffsDrawer />
-              <EnemyConfigurationsDrawer />
+              <ComboFilters/>
+              <CombatBuffsDrawer/>
+              <EnemyConfigurationsDrawer/>
             </FormCard>
           </FormRow>
 
           {/* Row 3 */}
 
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0} />
-            <TeammateCard index={1} />
-            <TeammateCard index={2} />
+            <TeammateCard index={0}/>
+            <TeammateCard index={1}/>
+            <TeammateCard index={2}/>
           </TeammateFormRow>
 
           {/* Row 4 */}
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay />
+            <StatSimulationDisplay/>
           </FormRow>
         </FilterContainer>
       </Form>
@@ -247,7 +249,7 @@ function LightConeConditionalDisplayWrapper() {
         id={optimizerFormSelectedLightCone}
         superImposition={optimizerFormSelectedLightConeSuperimposition}
       />
-      <AdvancedOptionsPanel />
+      <AdvancedOptionsPanel/>
     </Flex>
   )
 }

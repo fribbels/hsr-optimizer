@@ -715,19 +715,19 @@ export const CombatBuffs = {
     key: 'DMG_BOOST',
     percent: true,
   },
-  DEF_SHRED: {
-    title: 'Def Shred %',
-    key: 'DEF_SHRED',
+  DEF_PEN: {
+    title: 'Def Pen %',
+    key: 'DEF_PEN',
     percent: true,
   },
-  RES_SHRED: {
-    title: 'Dmg RES Shred %',
-    key: 'RES_SHRED',
+  RES_PEN: {
+    title: 'Dmg RES PEN %',
+    key: 'RES_PEN',
     percent: true,
   },
-  EFFECT_RES_SHRED: {
-    title: 'Effect RES Shred %',
-    key: 'EFFECT_RES_SHRED',
+  EFFECT_RES_PEN: {
+    title: 'Effect RES PEN %',
+    key: 'EFFECT_RES_PEN',
     percent: true,
   },
   VULNERABILITY: {
@@ -753,4 +753,3 @@ export const CHARACTER_SCORE = 'Character Score'
 
 export const DAMAGE_UPGRADES = 'Damage Upgrades'
 export const COMBAT_STATS = 'Combat Stats'
-

@@ -3,9 +3,9 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
-import { BETA_UPDATE, Stats } from "lib/constants";
-import { findContentId } from "lib/conditionals/utils";
+import { BETA_UPDATE, Stats } from 'lib/constants'
+import { findContentId } from 'lib/conditionals/conditionalUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
@@ -46,25 +46,31 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       woefreeState: true,
       additionalVulnerability: true,
     }),
-    precomputeEffects: (_x: ComputedStatsObject, _request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += (m.woefreeState) ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY += (m.woefreeState) ? sValuesVulnerability[s] : 0
     },
     precomputeTeammateEffects: (x: ComputedStatsObject, request: Form) => {
       const t = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
+      x.VULNERABILITY += (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.lightConeConditionals
-      const x: ComputedStatsObject = c.x
 
-      x.DMG_TAKEN_MULTI += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0
+      x.VULNERABILITY += (r.woefreeState && x[Stats.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.lightConeConditionals
+
+      return `
+if (${wgslTrue(r.woefreeState)} && x.BE >= 1.50) {
+  x.VULNERABILITY += ${sValuesVulnerabilityAdditional[s]};
+}
+      `
     },
   }
 }

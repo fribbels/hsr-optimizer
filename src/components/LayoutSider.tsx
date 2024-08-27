@@ -26,7 +26,7 @@ export function LayoutSider() {
           top: 0,
         }}
       >
-        <MenuDrawer />
+        <MenuDrawer/>
       </div>
     </Sider>
   )

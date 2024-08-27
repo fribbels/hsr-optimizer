@@ -3,7 +3,6 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { BETA_UPDATE } from 'lib/constants'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
@@ -42,17 +41,15 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       unarmoredVulnerability: true,
       corneredVulnerability: true,
     }),
-    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
+    precomputeEffects: () => {
     },
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.lightConeConditionals
 
-      x.DMG_TAKEN_MULTI += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
-      x.DMG_TAKEN_MULTI += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
+      x.VULNERABILITY += m.unarmoredVulnerability || m.corneredVulnerability ? sValuesVulnerability[s] : 0
+      x.VULNERABILITY += m.corneredVulnerability ? sValuesVulnerabilityEnhanced[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    finalizeCalculations: () => {
     },
   }
 }

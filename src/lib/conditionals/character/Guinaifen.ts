@@ -1,14 +1,13 @@
-import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, gpuStandardAtkFinalizer, precisionRound, standardAtkFinalizer } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 
 export default (e: Eidolon): CharacterConditional => {
-  const {basic, skill, ult, talent} = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
   const talentDebuffMax = (e >= 6) ? 4 : 3
@@ -62,7 +61,7 @@ export default (e: Eidolon): CharacterConditional => {
       title: 'E2 burn multi boost',
       content: `E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%.`,
       disabled: e < 2,
-    }
+    },
   ]
 
   const teammateContent: ContentItem[] = [
@@ -84,9 +83,8 @@ export default (e: Eidolon): CharacterConditional => {
       talentDebuffStacks: talentDebuffMax,
       e1EffectResShred: true,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Scaling
       x.BASIC_SCALING += basicScaling
@@ -109,16 +107,10 @@ export default (e: Eidolon): CharacterConditional => {
     precomputeMutualEffects: (x: ComputedStatsObject, request: Form) => {
       const m = request.characterConditionals
 
-      x.DMG_TAKEN_MULTI += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
-      x.EFFECT_RES_SHRED += m.e1EffectResShred ? 0.10 : 0
+      x.VULNERABILITY += m.talentDebuffStacks * talentDebuffDmgIncreaseValue
+      x.EFFECT_RES_PEN += m.e1EffectResShred ? 0.10 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
-      x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
-      x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
-      x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
-      x.DOT_DMG += x.DOT_SCALING * x[Stats.ATK]
-    },
+    finalizeCalculations: (x: ComputedStatsObject) => standardAtkFinalizer(x),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

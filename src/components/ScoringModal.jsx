@@ -15,11 +15,11 @@ import { dmgOrbMainstatBonus, mainStatBonuses, minRollValue, percentToScore } fr
 const { Text } = Typography
 
 const TitleDivider = styled(Divider)`
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
 `
 const InputNumberStyled = styled(InputNumber)`
-  width: 62px
+    width: 62px
 `
 const PStyled = styled.p`
 `
@@ -71,7 +71,7 @@ export default function ScoringModal() {
     return (
       <Flex justify="flex-start" style={{ width: panelWidth }} align="center" gap={5}>
         <Form.Item size="default" name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size="small" />
+          <InputNumberStyled controls={false} size="small"/>
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -80,6 +80,7 @@ export default function ScoringModal() {
       </Flex>
     )
   }
+
   StatValueRow.propTypes = {
     stat: PropTypes.string,
   }
@@ -312,7 +313,7 @@ export default function ScoringModal() {
         <Button key="default" onClick={handleResetDefault}>
           Reset to default
         </Button>,
-        <ResetAllCharactersButton key="resetAll" />,
+        <ResetAllCharactersButton key="resetAll"/>,
         <Button key="submit" type="primary" onClick={onModalOk}>
           Save changes
         </Button>,
@@ -338,30 +339,30 @@ export default function ScoringModal() {
                 />
               </Form.Item>
               <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
-                <img src={previewSrc} style={{ width: panelWidth }} />
+                <img src={previewSrc} style={{ width: panelWidth }}/>
               </div>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ATK} />
-              <StatValueRow stat={Constants.Stats.HP} />
-              <StatValueRow stat={Constants.Stats.DEF} />
-              <StatValueRow stat={Constants.Stats.SPD} />
-              <StatValueRow stat={Constants.Stats.CR} />
-              <StatValueRow stat={Constants.Stats.CD} />
-              <StatValueRow stat={Constants.Stats.EHR} />
-              <StatValueRow stat={Constants.Stats.RES} />
-              <StatValueRow stat={Constants.Stats.BE} />
+              <StatValueRow stat={Constants.Stats.ATK}/>
+              <StatValueRow stat={Constants.Stats.HP}/>
+              <StatValueRow stat={Constants.Stats.DEF}/>
+              <StatValueRow stat={Constants.Stats.SPD}/>
+              <StatValueRow stat={Constants.Stats.CR}/>
+              <StatValueRow stat={Constants.Stats.CD}/>
+              <StatValueRow stat={Constants.Stats.EHR}/>
+              <StatValueRow stat={Constants.Stats.RES}/>
+              <StatValueRow stat={Constants.Stats.BE}/>
             </Flex>
             <Flex vertical gap={3}>
-              <StatValueRow stat={Constants.Stats.ERR} />
-              <StatValueRow stat={Constants.Stats.OHB} />
-              <StatValueRow stat={Constants.Stats.Physical_DMG} />
-              <StatValueRow stat={Constants.Stats.Fire_DMG} />
-              <StatValueRow stat={Constants.Stats.Ice_DMG} />
-              <StatValueRow stat={Constants.Stats.Lightning_DMG} />
-              <StatValueRow stat={Constants.Stats.Wind_DMG} />
-              <StatValueRow stat={Constants.Stats.Quantum_DMG} />
-              <StatValueRow stat={Constants.Stats.Imaginary_DMG} />
+              <StatValueRow stat={Constants.Stats.ERR}/>
+              <StatValueRow stat={Constants.Stats.OHB}/>
+              <StatValueRow stat={Constants.Stats.Physical_DMG}/>
+              <StatValueRow stat={Constants.Stats.Fire_DMG}/>
+              <StatValueRow stat={Constants.Stats.Ice_DMG}/>
+              <StatValueRow stat={Constants.Stats.Lightning_DMG}/>
+              <StatValueRow stat={Constants.Stats.Wind_DMG}/>
+              <StatValueRow stat={Constants.Stats.Quantum_DMG}/>
+              <StatValueRow stat={Constants.Stats.Imaginary_DMG}/>
             </Flex>
           </Flex>
         </Flex>

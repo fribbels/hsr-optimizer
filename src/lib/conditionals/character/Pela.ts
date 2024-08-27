@@ -1,18 +1,13 @@
 import { Stats } from 'lib/constants'
-import {
-  baseComputedStatsObject,
-  BASIC_TYPE,
-  ComputedStatsObject,
-  SKILL_TYPE,
-  ULT_TYPE
-} from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { BASIC_TYPE, ComputedStatsObject, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { ContentItem } from 'types/Conditionals'
 import { Form } from 'types/Form'
 import { buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -84,9 +79,8 @@ export default (e: Eidolon): CharacterConditional => {
       ultDefPenDebuff: true,
       e4SkillResShred: true,
     }),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.SPD_P] += (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0
@@ -110,12 +104,10 @@ export default (e: Eidolon): CharacterConditional => {
 
       x[Stats.EHR] += (m.teamEhrBuff) ? 0.10 : 0
 
-      x.DEF_SHRED += (m.ultDefPenDebuff) ? ultDefPenValue : 0
+      x.DEF_PEN += (m.ultDefPenDebuff) ? ultDefPenValue : 0
       x.ICE_RES_PEN += (e >= 4 && m.e4SkillResShred) ? 0.12 : 0
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional) => {
-      const x = c.x
-
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
@@ -123,6 +115,19 @@ export default (e: Eidolon): CharacterConditional => {
       x.BASIC_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
       x.SKILL_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
       x.ULT_DMG += (e >= 6) ? 0.40 * x[Stats.ATK] : 0
+    },
+    gpuFinalizeCalculations: () => {
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+
+if (${wgslTrue(e >= 6)}) {
+  x.BASIC_DMG += 0.40 * x.ATK;
+  x.SKILL_DMG += 0.40 * x.ATK;
+  x.ULT_DMG += 0.40 * x.ATK;
+}
+    `
     },
   }
 }

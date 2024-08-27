@@ -13,7 +13,7 @@ export const CombatBuffsDrawer = () => {
 
   const combatBuffsList = useMemo(() => {
     return Object.values(CombatBuffs).map((x) => (
-      <CombatBuff title={x.title} name={x.key} key={x.key} />
+      <CombatBuff title={x.title} name={x.key} key={x.key}/>
     ))
   }, [])
 
@@ -42,7 +42,7 @@ function CombatBuff(props: { title: string; name: string }) {
         {props.title}
       </Text>
       <Form.Item name={['combatBuffs', props.name]}>
-        <InputNumberStyled size="small" controls={false} />
+        <InputNumberStyled size="small" controls={false}/>
       </Form.Item>
     </Flex>
   )

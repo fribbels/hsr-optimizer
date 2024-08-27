@@ -34,7 +34,7 @@ export function calculateTeammates(request, params) {
         break
       case Sets.PenaconyLandOfTheDreams:
         if (teammateRequest.ELEMENTAL_DMG_TYPE != params.ELEMENTAL_DMG_TYPE) break
-        precomputedX[params.ELEMENTAL_DMG_TYPE] += 0.10
+        precomputedX.ELEMENTAL_DMG += 0.10
         break
       case Sets.LushakaTheSunkenSeas:
         precomputedX[Stats.ATK_P] += 0.12
@@ -57,26 +57,5 @@ export function calculateTeammates(request, params) {
     // Track unique buffs
     teammateSetEffects[teammateRequest.teamOrnamentSet] = true
     teammateSetEffects[teammateRequest.teamRelicSet] = true
-  }
-}
-
-export function calculatePostPrecomputeTeammates(request, params) {
-  // Postcompute teammate effects
-  const precomputedX = params.precomputedX
-  const teammates = [
-    request.teammate0,
-    request.teammate1,
-    request.teammate2,
-  ].filter((x) => !!x && !!x.characterId)
-  for (let i = 0; i < teammates.length; i++) {
-    // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
-    teammates[i].lightCone = teammates[i].lightCone || null
-    const teammateRequest = Object.assign({}, request, teammates[i])
-
-    const teammateCharacterConditionals = CharacterConditionals.get(teammateRequest)
-    const teammateLightConeConditionals = LightConeConditionals.get(teammateRequest)
-
-    if (teammateCharacterConditionals.postPreComputeMutualEffects) teammateCharacterConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
-    if (teammateLightConeConditionals.postPreComputeMutualEffects) teammateLightConeConditionals.postPreComputeMutualEffects(precomputedX, teammateRequest)
   }
 }

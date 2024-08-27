@@ -118,7 +118,7 @@ function convertRelic(preRelic) {
 
     let mainId = preRelic.mainAffixId
     if (!mainId) {
-      mainId = Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes).find(x => x.property == preRelic.main_affix.type).affix_id
+      mainId = Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes).find((x) => x.property == preRelic.main_affix.type).affix_id
     }
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
     if (tidOverrides[tid]) {
@@ -139,7 +139,7 @@ function convertRelic(preRelic) {
     for (const sub of preRelic.subAffixList) {
       let subId = sub.affixId
       if (!subId) {
-        subId = Object.values(metadata.relicSubAffixes[`${grade}`].affixes).find(x => x.property == sub.type).affix_id
+        subId = Object.values(metadata.relicSubAffixes[`${grade}`].affixes).find((x) => x.property == sub.type).affix_id
       }
       const count = sub.cnt ?? sub.count
       const step = sub.step || 0

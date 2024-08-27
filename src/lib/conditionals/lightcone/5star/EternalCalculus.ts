@@ -3,9 +3,8 @@ import { Form } from 'types/Form'
 import { SuperImpositionLevel } from 'types/LightCone'
 import { LightConeConditional } from 'types/LightConeConditionals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { PrecomputedCharacterConditional } from 'types/CharacterConditional'
 import { Stats } from 'lib/constants'
-import { precisionRound } from 'lib/conditionals/utils'
+import { precisionRound } from 'lib/conditionals/conditionalUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesAtkBuff = [0.04, 0.05, 0.06, 0.07, 0.08]
@@ -37,7 +36,6 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => content,
-    teammateContent: () => [],
     defaults: () => ({
       atkBuffStacks: 5,
       spdBuff: false,
@@ -48,9 +46,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       x[Stats.ATK_P] += r.atkBuffStacks * sValuesAtkBuff[s]
       x[Stats.SPD_P] += (r.spdBuff) ? sValuesSpdBuff[s] : 0
     },
-    calculatePassives: (/* c, request */) => {
-    },
-    calculateBaseMultis: (_c: PrecomputedCharacterConditional, _request: Form) => {
+    finalizeCalculations: () => {
     },
   }
 }

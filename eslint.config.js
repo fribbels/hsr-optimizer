@@ -19,7 +19,7 @@ const config = tseslint.config(
   // Typescript files written without sufficient type information. Turn it off
   // altogether by commenting it out if you don't like it.
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['{src,tests-webgpu}/**/*.{ts,tsx}'],
     extends: [
       ...tseslint.configs.recommendedTypeCheckedOnly,
       ...tseslint.configs.stylisticTypeCheckedOnly,
@@ -31,7 +31,7 @@ const config = tseslint.config(
     // plugin:@typescript-eslint/recommended, eslint:recommended and applying
     // plugin @stylistic
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended],
-    files: ['src/**/*.{js,ts,jsx,tsx}'],
+    files: ['{src,tests-webgpu}/**/*.{js,ts,jsx,tsx}'],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -45,11 +45,11 @@ const config = tseslint.config(
     // These files are React specific. Applying this is similar to extends
     // 'plugin:react/recommended' and apply plugin 'react'
     ...reactRecommended,
-    files: ['src/**/*.{jsx,tsx}'],
+    files: ['{src,tests-webgpu}/**/*.{jsx,tsx}'],
   },
   {
     // Also apply plugin 'react-hooks'
-    files: ['src/**/*.{jsx,tsx}'],
+    files: ['{src,tests-webgpu}/**/*.{jsx,tsx}'],
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
@@ -180,7 +180,7 @@ function styleRules(level) {
     '@stylistic/space-before-function-paren': [
       level,
       {
-        anonymous: 'never',
+        anonymous: 'always',
         asyncArrow: 'always',
         named: 'never',
       },

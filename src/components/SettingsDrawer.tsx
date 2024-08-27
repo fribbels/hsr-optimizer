@@ -9,8 +9,8 @@ const { Text } = Typography
 const defaultGap = 5
 
 const SelectOptionWordWrap = styled.span`
-  white-space: wrap !important;
-  word-break: break-word !important;`
+    white-space: wrap !important;
+    word-break: break-word !important;`
 
 export const SettingOptions = {
   RelicEquippingBehavior: {
@@ -98,7 +98,7 @@ export const SettingsDrawer = () => {
               Equipping relics from another character
             </Text>
             <Form.Item name={SettingOptions.RelicEquippingBehavior.name}>
-              <Select style={{ width: 300 }} options={optionsRelicEquippingBehavior} />
+              <Select style={{ width: 300 }} options={optionsRelicEquippingBehavior}/>
             </Form.Item>
           </Flex>
           <Flex justify="space-between" align="center">

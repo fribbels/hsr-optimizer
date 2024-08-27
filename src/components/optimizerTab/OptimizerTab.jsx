@@ -15,13 +15,13 @@ export default function OptimizerTab() {
   return (
     <Flex>
       <Flex vertical gap={10} style={{ marginBottom: 100 }}>
-        <OptimizerForm />
-        <OptimizerGrid />
-        <OptimizerBuildPreview />
+        <OptimizerForm/>
+        <OptimizerGrid/>
+        <OptimizerBuildPreview/>
       </Flex>
-      <ZeroPermutationsSuggestionsModal />
-      <ZeroResultSuggestionModal />
-      <Sidebar />
+      <ZeroPermutationsSuggestionsModal/>
+      <ZeroResultSuggestionModal/>
+      <Sidebar/>
     </Flex>
   )
 }

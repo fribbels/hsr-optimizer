@@ -1,10 +1,11 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants.ts'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 import { ContentItem } from 'types/Conditionals'
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -68,9 +69,8 @@ export default (e: Eidolon): CharacterConditional => {
     teammateDefaults: () => ({
       skillActive: true,
     }),
-    precomputeEffects: (request) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       // Stats
       x[Stats.DEF_P] += (e >= 6) ? r.e6DefStacks * 0.10 : 0
@@ -94,9 +94,8 @@ export default (e: Eidolon): CharacterConditional => {
       // This EHR buff applies to all
       x.DMG_RED_MULTI *= (m.skillActive) ? (1 - 0.15) : 1
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       if (r.enhancedBasic) {
         x.BASIC_DMG += basicEnhancedAtkScaling * x[Stats.ATK]
@@ -107,8 +106,27 @@ export default (e: Eidolon): CharacterConditional => {
       }
 
       x.SKILL_DMG += x.SKILL_SCALING * x[Stats.ATK]
+
       x.ULT_DMG += ultAtkScaling * x[Stats.ATK]
       x.ULT_DMG += ultDefScaling * x[Stats.DEF]
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.characterConditionals
+
+      return `
+if (${wgslTrue(r.enhancedBasic)}) {
+  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicEnhancedDefScaling} * x.DEF;
+} else {
+  x.BASIC_DMG += ${basicAtkScaling} * x.ATK;
+  x.BASIC_DMG += ${basicDefScaling} * x.DEF;
+}      
+
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+
+x.ULT_DMG += ${ultAtkScaling} * x.ATK;
+x.ULT_DMG += ${ultDefScaling} * x.DEF;
+    `
     },
   }
 }

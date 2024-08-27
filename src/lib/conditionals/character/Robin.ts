@@ -1,12 +1,14 @@
 import { Stats } from 'lib/constants'
-import { baseComputedStatsObject, ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/utils'
+import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, findContentId, precisionRound } from 'lib/conditionals/conditionalUtils'
 
 import { Eidolon } from 'types/Character'
-import { CharacterConditional, PrecomputedCharacterConditional } from 'types/CharacterConditional'
+import { CharacterConditional } from 'types/CharacterConditional'
 import { Form } from 'types/Form'
 import { ContentItem } from 'types/Conditionals'
 import { buffAbilityCd, buffAbilityCr } from 'lib/optimizer/calculateBuffs'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (e: Eidolon): CharacterConditional => {
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -133,9 +135,8 @@ export default (e: Eidolon): CharacterConditional => {
       e2UltSpdBuff: false,
       e4TeamResBuff: true,
     }),
-    precomputeEffects: (request: Form) => {
+    precomputeEffects: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = Object.assign({}, baseComputedStatsObject)
 
       x.BASIC_SCALING += basicScaling
       x.ULT_SCALING += (r.concertoActive) ? ultScaling : 0
@@ -163,9 +164,8 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.SPD_P] += (e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0
       buffAbilityCd(x, FUA_TYPE, 0.25, (t.traceFuaCdBoost && t.concertoActive))
     },
-    calculateBaseMultis: (c: PrecomputedCharacterConditional, request: Form) => {
+    finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       const r = request.characterConditionals
-      const x = c.x
 
       x[Stats.ATK] += (r.concertoActive) ? x[Stats.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
 
@@ -174,6 +174,25 @@ export default (e: Eidolon): CharacterConditional => {
 
       x.BASIC_DMG += x.BASIC_SCALING * x[Stats.ATK]
       x.ULT_DMG += x.ULT_SCALING * x[Stats.ATK]
+    },
+    gpuFinalizeCalculations: (request: Form, params: OptimizerParams) => {
+      const r = request.characterConditionals
+      return `
+if (${wgslTrue(r.concertoActive)}) {
+  buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);
+}
+
+buffAbilityCr(p_x, ULT_TYPE, 1.00, 1);
+
+if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
+  x.ULT_CD_OVERRIDE = 6.00;
+} else {
+  x.ULT_CD_OVERRIDE = 1.50;
+}
+
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+      `
     },
   }
 }

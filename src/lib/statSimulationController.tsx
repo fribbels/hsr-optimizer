@@ -7,7 +7,7 @@ import { Relic, Stat } from 'types/Relic'
 import { RelicFilters } from 'lib/relicFilters'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimizer/optimizer.ts'
 import { Assets } from 'lib/assets'
 import { Flex, Tag } from 'antd'
 import { Message } from 'lib/message'
@@ -126,11 +126,11 @@ function validateRequest(request: SimulationRequest) {
 export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim} />
+      <SimSetsDisplay sim={sim}/>
 
       |
 
-      <SimMainsDisplay sim={sim} />
+      <SimMainsDisplay sim={sim}/>
 
       |
 
@@ -142,7 +142,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
         {sim.name ? `|` : null}
       </Flex>
 
-      <SimSubstatsDisplay sim={sim} />
+      <SimSubstatsDisplay sim={sim}/>
     </Flex>
   )
 }
@@ -156,11 +156,11 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   return (
     <Flex gap={5}>
       <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage} />
+      <img style={{ width: imgSize }} src={ornamentImage}/>
     </Flex>
   )
 }
@@ -170,10 +170,10 @@ function SimMainsDisplay(props: { sim: Simulation }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
     </Flex>
   )
 }

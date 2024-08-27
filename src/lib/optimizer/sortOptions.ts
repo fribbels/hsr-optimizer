@@ -3,13 +3,16 @@
 export const SortOption = {
   ATK: {
     key: 'ATK',
+    gpuProperty: 'ATK',
     basicProperty: 'ATK',
     combatProperty: 'ATK',
     basicGridColumn: 'ATK',
     combatGridColumn: 'xATK',
+    gpuProperty: 'ATK',
   },
   DEF: {
     key: 'DEF',
+    gpuProperty: 'DEF',
     basicProperty: 'DEF',
     combatProperty: 'DEF',
     basicGridColumn: 'DEF',
@@ -17,6 +20,7 @@ export const SortOption = {
   },
   HP: {
     key: 'HP',
+    gpuProperty: 'HP',
     basicProperty: 'HP',
     combatProperty: 'HP',
     basicGridColumn: 'HP',
@@ -24,6 +28,7 @@ export const SortOption = {
   },
   SPD: {
     key: 'SPD',
+    gpuProperty: 'SPD',
     basicProperty: 'SPD',
     combatProperty: 'SPD',
     basicGridColumn: 'SPD',
@@ -31,6 +36,7 @@ export const SortOption = {
   },
   CR: {
     key: 'CR',
+    gpuProperty: 'CR',
     basicProperty: 'CRIT Rate',
     combatProperty: 'CRIT Rate',
     basicGridColumn: 'CRIT Rate',
@@ -38,6 +44,7 @@ export const SortOption = {
   },
   CD: {
     key: 'CD',
+    gpuProperty: 'CD',
     basicProperty: 'CRIT DMG',
     combatProperty: 'CRIT DMG',
     basicGridColumn: 'CRIT DMG',
@@ -45,6 +52,7 @@ export const SortOption = {
   },
   EHR: {
     key: 'EHR',
+    gpuProperty: 'EHR',
     basicProperty: 'Effect Hit Rate',
     combatProperty: 'Effect Hit Rate',
     basicGridColumn: 'Effect Hit Rate',
@@ -52,6 +60,7 @@ export const SortOption = {
   },
   RES: {
     key: 'RES',
+    gpuProperty: 'RES',
     basicProperty: 'Effect RES',
     combatProperty: 'Effect RES',
     basicGridColumn: 'Effect RES',
@@ -59,6 +68,7 @@ export const SortOption = {
   },
   BE: {
     key: 'BE',
+    gpuProperty: 'BE',
     basicProperty: 'Break Effect',
     combatProperty: 'Break Effect',
     basicGridColumn: 'Break Effect',
@@ -66,6 +76,7 @@ export const SortOption = {
   },
   OHB: {
     key: 'OHB',
+    gpuProperty: 'OHB',
     basicProperty: 'Outgoing Healing Boost',
     combatProperty: 'Outgoing Healing Boost',
     basicGridColumn: 'Outgoing Healing Boost',
@@ -73,6 +84,7 @@ export const SortOption = {
   },
   ERR: {
     key: 'ERR',
+    gpuProperty: 'ERR',
     basicProperty: 'Energy Regeneration Rate',
     combatProperty: 'Energy Regeneration Rate',
     basicGridColumn: 'Energy Regeneration Rate',
@@ -80,6 +92,7 @@ export const SortOption = {
   },
   ELEMENTAL_DMG: {
     key: 'ELEMENTAL_DMG',
+    gpuProperty: 'ELEMENTAL_DMG',
     basicProperty: 'ELEMENTAL_DMG',
     combatProperty: 'ELEMENTAL_DMG',
     basicGridColumn: 'ED',
@@ -88,6 +101,7 @@ export const SortOption = {
   },
   WEIGHT: {
     key: 'WEIGHT',
+    gpuProperty: 'WEIGHT',
     basicProperty: 'WEIGHT',
     combatProperty: 'WEIGHT',
     basicGridColumn: 'WEIGHT',
@@ -96,6 +110,7 @@ export const SortOption = {
   },
   EHP: {
     key: 'EHP',
+    gpuProperty: 'EHP',
     basicProperty: 'EHP',
     combatProperty: 'EHP',
     basicGridColumn: 'EHP',
@@ -104,6 +119,7 @@ export const SortOption = {
   },
   BASIC: {
     key: 'BASIC',
+    gpuProperty: 'BASIC_DMG',
     basicProperty: 'BASIC_DMG',
     combatProperty: 'BASIC_DMG',
     basicGridColumn: 'BASIC',
@@ -112,6 +128,7 @@ export const SortOption = {
   },
   SKILL: {
     key: 'SKILL',
+    gpuProperty: 'SKILL_DMG',
     basicProperty: 'SKILL_DMG',
     combatProperty: 'SKILL_DMG',
     basicGridColumn: 'SKILL',
@@ -120,6 +137,7 @@ export const SortOption = {
   },
   ULT: {
     key: 'ULT',
+    gpuProperty: 'ULT_DMG',
     basicProperty: 'ULT_DMG',
     combatProperty: 'ULT_DMG',
     basicGridColumn: 'ULT',
@@ -128,6 +146,7 @@ export const SortOption = {
   },
   FUA: {
     key: 'FUA',
+    gpuProperty: 'FUA_DMG',
     basicProperty: 'FUA_DMG',
     combatProperty: 'FUA_DMG',
     basicGridColumn: 'FUA',
@@ -136,6 +155,7 @@ export const SortOption = {
   },
   DOT: {
     key: 'DOT',
+    gpuProperty: 'DOT_DMG',
     basicProperty: 'DOT_DMG',
     combatProperty: 'DOT_DMG',
     basicGridColumn: 'DOT',
@@ -144,6 +164,7 @@ export const SortOption = {
   },
   BREAK: {
     key: 'BREAK',
+    gpuProperty: 'BREAK_DMG',
     basicProperty: 'BREAK_DMG',
     combatProperty: 'BREAK_DMG',
     basicGridColumn: 'BREAK',
@@ -152,6 +173,7 @@ export const SortOption = {
   },
   COMBO: {
     key: 'COMBO',
+    gpuProperty: 'COMBO_DMG',
     basicProperty: 'COMBO_DMG',
     combatProperty: 'COMBO_DMG',
     basicGridColumn: 'COMBO',

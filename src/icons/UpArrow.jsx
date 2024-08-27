@@ -7,5 +7,5 @@ const IconSVG = () => (
 )
 
 export const UpArrow = (props) => {
-  return <Icon component={IconSVG} {...props} />
+  return <Icon component={IconSVG} {...props}/>
 }

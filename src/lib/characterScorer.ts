@@ -936,8 +936,8 @@ function calculateCharacterSpdStat(character: Character) {
 }
 
 type SimulationSets = {
-  relicSet1: string,
-  relicSet2: string,
+  relicSet1: string
+  relicSet2: string
   ornamentSet: string
 }
 

@@ -8,13 +8,11 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
 
   return {
     content: () => [],
-    teammateContent: () => [],
-    defaults: () => ({
-    }),
-    precomputeEffects: (x: ComputedStatsObject/* , request: Form */) => {
+    defaults: () => ({}),
+    precomputeEffects: (x: ComputedStatsObject) => {
       buffAbilityDmg(x, DOT_TYPE, sValues[s])
     },
-    calculatePassives: (/* c, request */) => { },
-    calculateBaseMultis: (/* c, request */) => { },
+    finalizeCalculations: () => {
+    },
   }
 }

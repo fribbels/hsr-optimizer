@@ -7,7 +7,7 @@ import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { ThunderboltFilled } from '@ant-design/icons'
-import { Optimizer } from 'lib/optimizer/optimizer'
+import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
@@ -71,7 +71,7 @@ function addToPinned() {
     Message.warning('No row selected')
   } else if (selectedNodes[0].data.statSim) {
     Message.warning('Custom simulation rows are not pinnable')
-  } else if (currentPinned.find(x => String(x.id) == String(selectedNodes[0].data.id))) {
+  } else if (currentPinned.find((x) => String(x.id) == String(selectedNodes[0].data.id))) {
     Message.warning('This build is already pinned')
   } else {
     const selectedRow = selectedNodes[0].data
@@ -101,6 +101,8 @@ function SidebarContent() {
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
 
+  const optimizerStartTime = window.store((s) => s.optimizerStartTime)
+
   const [startTime, setStartTime] = useState(undefined)
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
@@ -124,9 +126,11 @@ function SidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000) {
+    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
       startOptimizer()
-    } else setManyPermsModalOpen(true)
+    } else {
+      setManyPermsModalOpen(true)
+    }
   }
 
   function startOptimizer() {
@@ -163,7 +167,7 @@ function SidebarContent() {
 
               <Flex vertical>
                 <HeaderText>
-                  {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+                  {calculateProgressText(optimizerStartTime, permutations, permutationsSearched, optimizationInProgress)}
                 </HeaderText>
                 <Progress
                   strokeColor={token.colorPrimary}
@@ -273,6 +277,8 @@ function MobileSidebarContent() {
 
   const [startTime, setStartTime] = useState(undefined)
 
+  const optimizerStartTime = window.store((s) => s.optimizerStartTime)
+
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
 
   function cancelClicked() {
@@ -294,9 +300,11 @@ function MobileSidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000) {
+    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
       startOptimizer()
-    } else setManyPermsModalOpen(true)
+    } else {
+      setManyPermsModalOpen(true)
+    }
   }
 
   function startOptimizer() {
@@ -360,7 +368,7 @@ function MobileSidebarContent() {
           </Radio.Group>
           <Flex vertical>
             <HeaderText>
-              {calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress)}
+              {calculateProgressText(optimizerStartTime, permutations, permutationsSearched, optimizationInProgress)}
             </HeaderText>
             <Progress
               strokeColor={token.colorPrimary}
@@ -385,10 +393,14 @@ function MobileSidebarContent() {
                 Start optimizer
               </Button>
             </Flex>
-            <Flex vertical>
-              <PermutationDisplay left="Perms" right={permutations}/>
-              <PermutationDisplay left="Searched" right={permutationsSearched}/>
-              <PermutationDisplay left="Results" right={permutationsResults}/>
+
+            <Flex gap={defaultGap}>
+              <Button onClick={cancelClicked} style={{ flex: 1 }}>
+                Cancel
+              </Button>
+              <Button onClick={resetClicked} style={{ flex: 1 }}>
+                Reset
+              </Button>
             </Flex>
           </Flex>
         </Flex>
@@ -423,7 +435,7 @@ function MobileSidebarContent() {
 }
 
 function calculateProgressText(startTime, permutations, permutationsSearched, optimizationInProgress) {
-  if (!optimizationInProgress) {
+  if (!optimizationInProgress || !startTime) {
     return 'Progress'
   }
 
@@ -433,7 +445,8 @@ function calculateProgressText(startTime, permutations, permutationsSearched, op
   }
 
   const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
-  return `Progress  (${Utils.msToReadable(msRemaining)} remaining)`
+  const persecond = permutationsSearched / (msDiff / 1000)
+  return `${Math.floor(persecond).toLocaleString()} / sec — (${Utils.msToReadable(msRemaining)} left)`
 }
 
 function ManyPermsModal(props) {
@@ -451,7 +464,7 @@ function ManyPermsModal(props) {
       <Flex justify="space-between" align="center" style={{ height: 45, marginBottom: 15 }} gap={16}>
         <Text>
           This search will take a substantial amount of time. You may want to consider limiting the search to only certain sets and main stats,
-          or use the Substat weight filter to reduce the number of permutations.
+          or use the Substat weight filter to reduce the number of permutations, or enable GPU acceleration on supported browsers.
         </Text>
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}

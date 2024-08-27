@@ -65,7 +65,7 @@ const saveFile = async (blob, suggestedName) => {
 function SaveDataSubmenu() {
   async function saveClicked() {
     try {
-      let stateString = SaveState.save()
+      const stateString = SaveState.save()
 
       const blob = new Blob(
         [stateString],
@@ -84,7 +84,7 @@ function SaveDataSubmenu() {
       <Text>
         Save your optimizer data to a file.
       </Text>
-      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: buttonWidth }}>
+      <Button type="primary" onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
         Save data
       </Button>
     </Flex>
@@ -92,7 +92,7 @@ function SaveDataSubmenu() {
 }
 
 export default function ImportTab() {
-  let tabSize = 'large'
+  const tabSize = 'large'
 
   return (
     <div>
@@ -107,22 +107,22 @@ export default function ImportTab() {
             {
               label: 'Relic scanner importer',
               key: 0,
-              children: <ScannerImportSubmenu />,
+              children: <ScannerImportSubmenu/>,
             },
             {
               label: 'Load optimizer data',
               key: 1,
-              children: <LoadDataSubmenu />,
+              children: <LoadDataSubmenu/>,
             },
             {
               label: 'Save optimizer data',
               key: 2,
-              children: <SaveDataSubmenu />,
+              children: <SaveDataSubmenu/>,
             },
             {
               label: 'Clear optimizer data',
               key: 3,
-              children: <ClearDataSubmenu />,
+              children: <ClearDataSubmenu/>,
             },
           ]}
         />

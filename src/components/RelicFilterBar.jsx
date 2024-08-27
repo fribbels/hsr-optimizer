@@ -54,11 +54,11 @@ export default function RelicFilterBar(props) {
       return tooltip
         ? (
           <Tooltip title={key} mouseEnterDelay={0.2}>
-            <img style={{ width: width }} src={src} />
+            <img style={{ width: width }} src={src}/>
           </Tooltip>
         )
         : (
-          <img style={{ width: width }} src={src} />
+          <img style={{ width: width }} src={src}/>
         )
     }
 
@@ -234,27 +234,27 @@ export default function RelicFilterBar(props) {
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>Part</HeaderText>
-          <FilterRow name="part" tags={partsData} flexBasis="15%" />
+          <FilterRow name="part" tags={partsData} flexBasis="15%"/>
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>Enhance</HeaderText>
-          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%" />
+          <FilterRow name="enhance" tags={enhanceData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>Grade</HeaderText>
-          <FilterRow name="grade" tags={gradeData} flexBasis="15%" />
+          <FilterRow name="grade" tags={gradeData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Verified</HeaderText>
-          <FilterRow name="verified" tags={verifiedData} flexBasis="15%" />
+          <FilterRow name="verified" tags={verifiedData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>Equipped</HeaderText>
-          <FilterRow name="equippedBy" tags={equippedByData} flexBasis="15%" />
+          <FilterRow name="equippedBy" tags={equippedByData} flexBasis="15%"/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>Clear</HeaderText>
-          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+          <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
             Clear all filters
           </Button>
         </Flex>
@@ -262,17 +262,17 @@ export default function RelicFilterBar(props) {
 
       <Flex vertical>
         <HeaderText>Set</HeaderText>
-        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`} />
+        <FilterRow name="set" tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Main stats</HeaderText>
-        <FilterRow name="mainStats" tags={mainStatsData} />
+        <FilterRow name="mainStats" tags={mainStatsData}/>
       </Flex>
 
       <Flex vertical>
         <HeaderText>Substats</HeaderText>
-        <FilterRow name="subStats" tags={subStatsData} />
+        <FilterRow name="subStats" tags={subStatsData}/>
       </Flex>
 
       <Flex gap={10}>
@@ -307,7 +307,7 @@ export default function RelicFilterBar(props) {
           <Flex vertical>
             <Flex justify="space-between" align="center">
               <HeaderText>Relic ratings</HeaderText>
-              <TooltipImage type={Hint.valueColumns()} />
+              <TooltipImage type={Hint.valueColumns()}/>
             </Flex>
             <Flex gap={10}>
               <Select

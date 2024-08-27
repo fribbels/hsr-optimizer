@@ -41,14 +41,14 @@ export default function OptimizerBuildPreview(props) {
   return (
     <div>
       <Flex gap={5} id="optimizerBuildPreviewContainer">
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Head]} score={headScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Hands]} score={handsScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Body]} score={bodyScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Feet]} score={feetScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.PlanarSphere]} score={planarSphereScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.LinkRope]} score={linkRopeScore} />
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Head]} score={headScore}/>
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Hands]} score={handsScore}/>
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Body]} score={bodyScore}/>
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.Feet]} score={feetScore}/>
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.PlanarSphere]} score={planarSphereScore}/>
+        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={relicsById[optimizerBuild?.LinkRope]} score={linkRopeScore}/>
       </Flex>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
     </div>
   )
 }

@@ -66,6 +66,7 @@ export default function RelicScorerTab() {
       window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.RELIC_SCORER] + `?id=${scorerId}`)
     }
   }, [activeKey])
+
   function onFinish(x) {
     if (latestRefreshDate.current) {
       Message.warning(`Please wait ${Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000))} seconds before retrying`)

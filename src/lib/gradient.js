@@ -40,7 +40,9 @@ export const Gradient = {
           backgroundColor: color,
         }
       }
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      console.error(e)
+    }
   },
 
   setTheme(colorTheme) {

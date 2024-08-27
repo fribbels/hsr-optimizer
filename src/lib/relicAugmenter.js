@@ -5,26 +5,26 @@ import { Utils } from './utils'
 import { RelicRollGrader } from 'lib/relicRollGrader'
 
 export const RelicAugmenter = {
-  augment: function(relic) {
+  augment: function (relic) {
     // console.log('Augmenting relic', relic)
-    let augmentedStats = {}
+    const augmentedStats = {}
 
     // Temporarily skip broken imports
     if (relic.grade && !relic.main) {
       return null
     }
 
-    let mainStat = relic.main.stat
+    const mainStat = relic.main.stat
     relic.main.value = RelicRollFixer.fixMainStatvalue(relic)
-    let mainMaxValue = relic.main.value
+    const mainMaxValue = relic.main.value
 
     augmentedStats.mainStat = mainStat
     augmentedStats.mainValue = mainMaxValue
 
     sortSubstats(relic)
 
-    for (let substat of relic.substats) {
-      let stat = substat.stat
+    for (const substat of relic.substats) {
+      const stat = substat.stat
       substat.value = Utils.precisionRound(substat.value)
       substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
       augmentedStats[stat] = substat.value
@@ -68,7 +68,7 @@ function sortSubstats(relic) {
 // Changes the augmented stats percents to decimals
 function fixAugmentedStats(relics) {
   return relics.map((x) => {
-    for (let stat of Object.values(Constants.Stats)) {
+    for (const stat of Object.values(Constants.Stats)) {
       x.augmentedStats[stat] = x.augmentedStats[stat] || 0
       if (!Utils.isFlat(stat)) {
         if (x.augmentedStats.mainStat == stat) {

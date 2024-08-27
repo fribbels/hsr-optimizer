@@ -6,6 +6,8 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
 import { debugWebgpuOutput, logIterationTimer } from 'lib/gpu/webgpuDebugger'
+import { SortOption } from 'lib/optimizer/sortOptions'
+import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams
@@ -125,9 +127,13 @@ function outputResults(gpuContext: GpuExecutionContext) {
   }
 
   console.log(outputs)
+
+  const sortOption = SortOption[gpuContext.request.resultSort]
+  const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+  setSortColumn(gridSortColumn)
+  OptimizerTabController.setRows(outputs)
+  window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
   window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
   window.store.getState().setPermutationsSearched(gpuContext.permutations)
   window.store.getState().setOptimizationInProgress(false)
-  OptimizerTabController.setRows(outputs)
-  window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

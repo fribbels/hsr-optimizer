@@ -36,6 +36,7 @@ export const Optimizer = {
   cancel: (id) => {
     CANCEL = true
     WorkerPool.cancel(id)
+    window.store.getState().setOptimizerStartTime(null)
   },
 
   getFilteredRelics: (request) => {
@@ -157,6 +158,7 @@ export const Optimizer = {
     const gpuAccelerationEnabled = request.gpuAcceleration && gpuDevice != null
 
     if (!gpuAccelerationEnabled) {
+      window.store.getState().setOptimizerStartTime(new Date())
       for (const run of runs) {
         const task = {
           input: {

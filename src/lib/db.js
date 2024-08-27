@@ -102,6 +102,7 @@ window.store = create((set) => ({
   menuSidebarOpen: true,
   relicScorerSidebarOpen: true,
   gpuAccelerationWarned: false,
+  optimizerStartTime: null,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -185,6 +186,7 @@ window.store = create((set) => ({
   setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setGpuAccelerationWarned: (x) => set(() => ({ gpuAccelerationWarned: x })),
+  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),

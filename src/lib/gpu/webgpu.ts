@@ -25,6 +25,8 @@ export async function gpuOptimize(props: {
     return
   }
 
+  window.store.getState().setOptimizerStartTime(new Date())
+
   const gpuContext = initializeGpuPipeline(
     device,
     relics,
@@ -141,6 +143,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
 
   window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
   window.store.getState().setOptimizationInProgress(false)
+  window.store.getState().setOptimizerStartTime(null)
 
   if (!gpuContext.cancelled) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)

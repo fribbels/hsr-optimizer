@@ -8,6 +8,7 @@ import { renameFields } from 'lib/optimizer/optimizer'
 import { debugWebgpuOutput, logIterationTimer } from 'lib/gpu/webgpuDebugger'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
+import { Message } from 'lib/message'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams
@@ -23,6 +24,13 @@ export async function gpuOptimize(props: {
   if (device == null) {
     console.error('Not supported')
     return
+  }
+
+  device.onuncapturederror = (event) => {
+    if (window.store.getState().optimizationInProgress == true) {
+      window.store.getState().setOptimizationInProgress(false)
+      Message.error('The GPU acceleration process has crashed - results may be invalid. Please report a bug to the Discord server', 15)
+    }
   }
 
   window.store.getState().setOptimizerStartTime(new Date())

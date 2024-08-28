@@ -57,7 +57,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
         id: 'ItsShowtimeConversionConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.EHR],
+        dependsOn: [Stats.DEF],
         condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
           return x[Stats.EHR] >= 0.80
         },

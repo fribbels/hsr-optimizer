@@ -223,7 +223,7 @@ export function ZeroPermutationsSuggestionsModal() {
   const zeroPermutationModalOpen = window.store((s) => s.zeroPermutationModalOpen)
   const setZeroPermutationsModalOpen = window.store((s) => s.setZeroPermutationsModalOpen)
 
-  console.log('Suggestions root causes', rootCauses)
+  // console.log('Suggestions root causes', rootCauses)
 
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {
@@ -416,7 +416,7 @@ export function ZeroResultSuggestionModal() {
   const zeroResultModalOpen = window.store((s) => s.zeroResultModalOpen)
   const setZeroResultModalOpen = window.store((s) => s.setZeroResultModalOpen)
 
-  console.log('Suggestions root causes', rootCauses)
+  // console.log('Suggestions root causes', rootCauses)
 
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {

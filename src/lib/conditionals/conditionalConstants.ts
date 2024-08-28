@@ -171,8 +171,8 @@ export type BasicStatsObject = {
   ['ATK']: number
   ['DEF']: number
   ['SPD']: number
-  ['CRIT DMG']: number
   ['CRIT Rate']: number
+  ['CRIT DMG']: number
   ['Effect Hit Rate']: number
   ['Effect RES']: number
   ['Break Effect']: number

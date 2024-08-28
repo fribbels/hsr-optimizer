@@ -130,8 +130,8 @@ function getChangelogContent() {
         `Fix: Some relic set text descriptions were out of date`,
         `Fix: Importing relics no longer overwrites the optimizer's equipped owner`,
         `Balance: Kafka / Black Swan's sim scoring updated to lean more towards DoT`,
-        `Balance: Moze's default sim updated to to 4p Pioneer, allow Ashblazing and Izumo`,
-        `Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`,
+        leaks(`Balance: Moze's default sim updated to to 4p Pioneer, allow Ashblazing and Izumo`),
+        leaks(`Balance: Feixiao's damage combo updated to remove Break, updated combo with her ult changes`),
       ],
     },
     {

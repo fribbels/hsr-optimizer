@@ -43,6 +43,7 @@ export async function gpuOptimize(props: {
     permutations,
     relicSetSolutions,
     ornamentSetSolutions,
+    true,
   )
 
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })

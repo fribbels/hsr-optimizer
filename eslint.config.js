@@ -76,6 +76,7 @@ const config = tseslint.config(
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   {

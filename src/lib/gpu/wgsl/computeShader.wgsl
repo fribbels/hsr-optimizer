@@ -661,7 +661,6 @@ fn buffAbilityDmg(
   }
 }
 
-
 fn buffAbilityCr(
   p_x: ptr<function, ComputedStats>,
   abilityTypeFlags: i32,
@@ -679,6 +678,26 @@ fn buffAbilityCr(
   }
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_CR_BOOST += value;
+  }
+}
+
+fn buffAbilityCd(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_CD_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_CD_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_CD_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_CD_BOOST += value;
   }
 }
 

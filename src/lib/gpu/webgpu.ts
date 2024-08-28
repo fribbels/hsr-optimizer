@@ -43,8 +43,11 @@ export async function gpuOptimize(props: {
     permutations,
     relicSetSolutions,
     ornamentSetSolutions,
-    true,
   )
+
+  if (gpuContext.DEBUG) {
+    Message.warning('Debug mode is ON', 5)
+  }
 
   console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
   // console.log('GPU execution context', gpuContext)

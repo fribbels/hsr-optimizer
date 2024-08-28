@@ -79,7 +79,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
 
   function analyze(stat: string, precision: number) {
     const delta = cpu[stat] - gpu[stat]
-    const pass = Math.abs(delta) < precision
+    const pass = Math.abs(delta) <= precision
     if (!pass) {
       allPass = false
     }
@@ -168,13 +168,13 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('ULT_RES_PEN', P_2)
   analyze('FUA_RES_PEN', P_2)
   analyze('DOT_RES_PEN', P_2)
-  analyze('BASIC_DMG', P_2)
-  analyze('SKILL_DMG', P_2)
-  analyze('ULT_DMG', P_2)
-  analyze('FUA_DMG', P_2)
-  analyze('DOT_DMG', P_2)
-  analyze('BREAK_DMG', P_2)
-  analyze('COMBO_DMG', P_2)
+  analyze('BASIC_DMG', P_1)
+  analyze('SKILL_DMG', P_1)
+  analyze('ULT_DMG', P_1)
+  analyze('FUA_DMG', P_1)
+  analyze('DOT_DMG', P_1)
+  analyze('BREAK_DMG', P_1)
+  analyze('COMBO_DMG', P_1)
   analyze('DMG_RED_MULTI', P_2)
   analyze('EHP', P_2)
   analyze('DOT_CHANCE', P_2)
@@ -209,13 +209,13 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('ATK%', P_2)
   analyze('DEF%', P_2)
   analyze('SPD%', P_2)
-  analyze('BASIC_DMG_TYPE', P_2)
-  analyze('SKILL_DMG_TYPE', P_2)
-  analyze('ULT_DMG_TYPE', P_2)
-  analyze('FUA_DMG_TYPE', P_2)
-  analyze('DOT_DMG_TYPE', P_2)
-  analyze('BREAK_DMG_TYPE', P_2)
-  analyze('SUPER_BREAK_DMG_TYPE', P_2)
+  analyze('BASIC_DMG_TYPE', P_0)
+  analyze('SKILL_DMG_TYPE', P_0)
+  analyze('ULT_DMG_TYPE', P_0)
+  analyze('FUA_DMG_TYPE', P_0)
+  analyze('DOT_DMG_TYPE', P_0)
+  analyze('BREAK_DMG_TYPE', P_0)
+  analyze('SUPER_BREAK_DMG_TYPE', P_0)
 
   return {
     allPass,

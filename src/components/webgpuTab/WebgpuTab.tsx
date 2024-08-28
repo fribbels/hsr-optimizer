@@ -20,9 +20,14 @@ export default function WebgpuTab(): React.JSX.Element {
 
 function WebgpuDashboard() {
   const [tests, setTests] = useState<WebgpuTest[]>([])
+  const [done, setDone] = useState(false)
 
   async function startTests() {
+    setDone(false)
+
     const runs = await generateAllTests()
+    const allRunsCount = runs.length
+    let completed = 0
     setTests(runs)
 
     runs.forEach((run, index) => {
@@ -42,6 +47,12 @@ function WebgpuDashboard() {
           return 0
         })
         setTests(newRuns)
+
+        completed++
+
+        if (completed == allRunsCount) {
+          setDone(true)
+        }
       }).catch((error) => {
         console.error(`Promise at index ${index} failed:`, error)
       })
@@ -53,9 +64,10 @@ function WebgpuDashboard() {
       <Button
         type='primary'
         onClick={startTests}
-        style={{ height: 50 }}
+        style={{ height: 50, background: done ? '#248453' : undefined }}
+        disabled={!done && tests.length > 0}
       >
-        Run all unit tests
+        {done ? 'Tests complete' : 'Run all unit tests'}
       </Button>
 
       <Collapse
@@ -94,7 +106,7 @@ const columns: TableProps<StatDeltas>['columns'] = [
     title: 'Stat',
     dataIndex: 'key',
     render: (text) => <RenderText text={text}/>,
-    width: 120,
+    width: 80,
   },
   {
     title: 'CPU',

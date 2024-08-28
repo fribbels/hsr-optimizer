@@ -14,6 +14,19 @@ fn buffDynamic${stat}_P(
   evaluateDependencies${stat}(p_x, p_state);
 }
       `
+
+      wgsl += `
+fn buffNonDynamic${stat}_P(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_x).${stat} += value * base${stat};
+}
+      `
     }
 
     wgsl += `
@@ -27,6 +40,19 @@ fn buffDynamic${stat}(
   }
   (*p_x).${stat} += value;
   evaluateDependencies${stat}(p_x, p_state);
+}
+    `
+
+    wgsl += `
+fn buffNonDynamic${stat}(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_x).${stat} += value;
 }
     `
 

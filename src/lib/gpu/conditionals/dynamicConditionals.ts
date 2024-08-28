@@ -20,8 +20,8 @@ export type DynamicConditional = {
 export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsObject, request: Form, params: OptimizerParams) {
   if (conditional.activation == ConditionalActivation.SINGLE) {
     if (!params.conditionalState[conditional.id] && conditional.condition(x, request, params)) {
-      conditional.effect(x, request, params)
       params.conditionalState[conditional.id] = 1
+      conditional.effect(x, request, params)
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
     if (conditional.condition(x, request, params)) {
@@ -378,7 +378,7 @@ export const LingshaConversionConditional: DynamicConditional = {
   id: 'LingshaConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.DEF],
+  dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     return true
   },

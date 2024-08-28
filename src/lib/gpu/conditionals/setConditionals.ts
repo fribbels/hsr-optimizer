@@ -87,7 +87,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
-  buffDynamicATK_P(0.12, p_x, p_state);
+  buffNonDynamicATK_P(0.12, p_x, p_state);
 }
     `)
   },
@@ -112,7 +112,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
-  buffDynamicATK_P(0.08, p_x, p_state);
+  buffNonDynamicATK_P(0.08, p_x, p_state);
 }
     `)
   },
@@ -137,7 +137,7 @@ if (
   (*p_x).EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  buffDynamicDEF_P(0.15, p_x, p_state);
+  buffNonDynamicDEF_P(0.15, p_x, p_state);
 }
     `)
   },
@@ -219,7 +219,7 @@ if (
   let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
 
   (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
-  buffDynamicATK(buffValue - stateValue, p_x, p_state);
+  buffNonDynamicATK(buffValue - stateValue, p_x, p_state);
 }
     `)
   },
@@ -229,7 +229,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   id: 'BrokenKeelConditional',
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
-  dependsOn: [Stats.EHR],
+  dependsOn: [Stats.RES],
   condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     return p2(x.sets.BrokenKeel) && x[Stats.RES] >= 0.30
   },
@@ -244,7 +244,7 @@ if (
   (*p_x).RES >= 0.30
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
-  buffDynamicCD(0.10, p_x, p_state);
+  buffNonDynamicCD(0.10, p_x, p_state);
 }
     `)
   },
@@ -269,7 +269,7 @@ if (
   (*p_x).CD >= 1.20
 ) {
   (*p_state).CelestialDifferentiatorConditional = 1.0;
-  buffDynamicCR(0.60, p_x, p_state);
+  buffNonDynamicCR(0.60, p_x, p_state);
 }
     `)
   },
@@ -294,7 +294,7 @@ if (
   (*p_x).SPD >= 145
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
-  buffDynamicBE(0.20, p_x, p_state);
+  buffNonDynamicBE(0.20, p_x, p_state);
 }
     `)
   },

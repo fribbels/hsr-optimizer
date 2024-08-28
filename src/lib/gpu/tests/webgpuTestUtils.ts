@@ -8,14 +8,12 @@ import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 
-export async function runTestRequest(request: Form, device: GPUDevice) {
+export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   const params = generateParams(request)
-  const relics = generateTestRelics()
 
   const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)
   const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
   const permutations = 1
-  uncondenseRelics(relics)
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -224,13 +222,15 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   }
 }
 
-export function testWrapper(name: string, request: Form, device: GPUDevice) {
+export function testWrapper(name: string, request: Form, relics: RelicsByPart, device: GPUDevice) {
   const test: Partial<WebgpuTest> = {
     name: name,
+    request: request,
+    relics: relics,
     done: false,
   }
   test.execute = () => {
-    const promise = runTestRequest(request, device)
+    const promise = runTestRequest(request, relics, device)
     void promise.then((result) => {
       test.done = true
       test.result = result
@@ -242,7 +242,7 @@ export function testWrapper(name: string, request: Form, device: GPUDevice) {
   return test as WebgpuTest
 }
 
-function uncondenseRelics(relicsByPart: RelicsByPart) {
+export function uncondenseRelics(relicsByPart: RelicsByPart) {
   for (const [key, relics] of Object.entries(relicsByPart)) {
     relics.map((relic) => {
       const condensedStats = relic.condensedStats!
@@ -255,10 +255,12 @@ function uncondenseRelics(relicsByPart: RelicsByPart) {
       })
     })
   }
+  return relicsByPart
 }
 
-function generateTestRelics() {
-  return {
+// Jingliu base build +25% CR for crit sets
+export function generateTestRelics() {
+  const condensedRelics = {
     Head: [
       {
         part: 'Head',
@@ -273,7 +275,7 @@ function generateTestRelics() {
         equippedBy: '1212',
         weightScore: 42.767999999999994,
         condensedStats: [
-          ['CRIT Rate', 0.11016],
+          ['CRIT Rate', 0.11016 + 0.25],
           ['CRIT DMG', 0.10368],
           ['Effect RES', 0.03456],
           ['Break Effect', 0.05184],
@@ -392,4 +394,6 @@ function generateTestRelics() {
       },
     ],
   } as RelicsByPart
+
+  return uncondenseRelics(condensedRelics)
 }

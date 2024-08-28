@@ -45,7 +45,7 @@ function WebgpuDashboard() {
   }
 
   return (
-    <Flex vertical style={{ width: 1200 }}>
+    <Flex vertical style={{ width: 1200, height: 2000 }}>
       <Button
         type='primary'
         onClick={startTests}

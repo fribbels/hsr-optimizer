@@ -1,12 +1,16 @@
 import { getDefaultForm } from 'lib/defaultForm'
 import { Form } from 'types/Form'
 import { OptimizerTabController } from 'lib/optimizerTabController'
-import { StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
+import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
 import { getDevice } from 'lib/gpu/webgpuInternals'
 import DB from 'lib/db'
+import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants'
 
 export type WebgpuTest = {
   name: string
+  relics: RelicsByPart
+  request: Form
   execute: () => Promise<StatDeltaAnalysis>
   result: StatDeltaAnalysis
   passed: boolean
@@ -90,6 +94,8 @@ export async function generateAllTests() {
   cache.metadata = DB.getMetadata()
 
   return [
+    ...generateOrnamentSetTests(device),
+    ...generateRelicSetTests(device),
     ...generateE0E1Tests(device),
     ...generateE6E5Tests(device),
   ]
@@ -107,14 +113,53 @@ export function generateE6E5Tests(device: GPUDevice) {
   })
 }
 
+export function generateOrnamentSetTests(device: GPUDevice) {
+  // Use Kafka since she has DOT and FUA
+  // return baseCharacterLightConeMappings.map((pair) => {
+  const characterId = '1005'
+  const lightConeId = basicLc
+  const tests: WebgpuTest[] = []
+
+  for (const set of SetsOrnamentsNames) {
+    const test = generateE6S5CharacterTest(characterId, lightConeId, device)
+    test.name += ` — Ornament Sets  — ${set}`
+    test.relics.LinkRope[0].set = set
+    test.relics.PlanarSphere[0].set = set
+    tests.push(test)
+  }
+
+  return tests
+}
+
+export function generateRelicSetTests(device: GPUDevice) {
+  // Use Kafka since she has DOT and FUA
+  // return baseCharacterLightConeMappings.map((pair) => {
+  const characterId = '1005'
+  const lightConeId = basicLc
+  const tests: WebgpuTest[] = []
+
+  for (const set of SetsRelicsNames) {
+    const test = generateE6S5CharacterTest(characterId, lightConeId, device)
+    test.name += ` — Relic Sets  — ${set}`
+    test.relics.Head[0].set = set
+    test.relics.Hands[0].set = set
+    test.relics.Body[0].set = set
+    test.relics.Feet[0].set = set
+    tests.push(test)
+  }
+
+  return tests
+}
+
 export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
   const request = OptimizerTabController.fixForm(getDefaultForm({
     id: characterId,
   })) as Form
   request.lightCone = lightConeId
+  const relics = generateTestRelics()
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, device)
+  return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }
 
 export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
@@ -124,7 +169,8 @@ export function generateE6S5CharacterTest(characterId: string, lightConeId: stri
   request.characterEidolon = 6
   request.lightCone = lightConeId
   request.lightConeSuperimposition = 5
+  const relics = generateTestRelics()
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, device)
+  return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }

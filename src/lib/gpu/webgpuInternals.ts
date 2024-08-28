@@ -28,7 +28,7 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     },
   })
 
-  console.log(wgsl)
+  // console.log(wgsl)
 
   return computePipeline
 }
@@ -148,6 +148,10 @@ export function initializeGpuPipeline(
     RESULTS_LIMIT,
     DEBUG,
   })
+
+  if (DEBUG) {
+    console.log(wgsl)
+  }
 
   const computePipeline = generatePipeline(device, wgsl)
   const baseParamsArray = generateBaseParamsArray(relics, params)

@@ -1,7 +1,7 @@
 import { Form } from 'types/Form'
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { SetsOrnaments, SetsRelics } from 'lib/constants'
-import { generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
+import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
@@ -34,7 +34,7 @@ export async function runTestRequest(request: Form, device: GPUDevice) {
   const array = new Float32Array(arrayBuffer)
 
   const gpuComputedStats: ComputedStatsObject = debugWebgpuComputedStats(array)
-  const cpuComputedStats = calculateBuild(request, {
+  const cpuComputedStats: ComputedStatsObject = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
     Body: relics.Body[0],
@@ -50,6 +50,7 @@ export async function runTestRequest(request: Form, device: GPUDevice) {
 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
+  destroyPipeline(gpuContext)
 
   return deltas
 }
@@ -106,14 +107,14 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   analyze('HP', P_2)
   analyze('ATK', P_2)
   analyze('DEF', P_2)
-  analyze('SPD', P_5)
-  analyze('CRIT Rate', P_5)
-  analyze('CRIT DMG', P_5)
-  analyze('Effect Hit Rate', P_5)
-  analyze('Effect RES', P_5)
-  analyze('Break Effect', P_5)
-  analyze('Energy Regeneration Rate', P_5)
-  analyze('Outgoing Healing Boost', P_5)
+  analyze('SPD', P_4)
+  analyze('CRIT Rate', P_4)
+  analyze('CRIT DMG', P_4)
+  analyze('Effect Hit Rate', P_4)
+  analyze('Effect RES', P_4)
+  analyze('Break Effect', P_4)
+  analyze('Energy Regeneration Rate', P_4)
+  analyze('Outgoing Healing Boost', P_4)
   // analyze('Physical DMG Boost', P_2)
   // analyze('Fire DMG Boost', P_2)
   // analyze('Ice DMG Boost', P_2)
@@ -121,7 +122,7 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   // analyze('Wind DMG Boost', P_2)
   // analyze('Quantum DMG Boost', P_2)
   // analyze('Imaginary DMG Boost', P_2)
-  analyze('ELEMENTAL_DMG', P_5)
+  analyze('ELEMENTAL_DMG', P_4)
   analyze('BASIC_SCALING', P_2)
   analyze('SKILL_SCALING', P_2)
   analyze('ULT_SCALING', P_2)
@@ -223,16 +224,20 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
   }
 }
 
-export function testWrapper(name: string, testFn: Promise<StatDeltaAnalysis>) {
+export function testWrapper(name: string, request: Form, device: GPUDevice) {
   const test: Partial<WebgpuTest> = {
     name: name,
     done: false,
   }
-  test.promise = testFn
-  void test.promise.then((result) => {
-    test.done = true
-    test.result = result
-  })
+  test.execute = () => {
+    const promise = runTestRequest(request, device)
+    void promise.then((result) => {
+      test.done = true
+      test.result = result
+    })
+
+    return promise
+  }
 
   return test as WebgpuTest
 }

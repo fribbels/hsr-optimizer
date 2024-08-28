@@ -30,33 +30,18 @@ function WebgpuDashboard() {
     let completed = 0
     setTests(runs)
 
-    runs.forEach((run, index) => {
-      run.promise.then(() => {
-        const newRuns = [...runs].sort((a, b) => {
-          // Sort by 'done' first: true goes above false
-          if (a.done !== b.done) {
-            return a.done ? -1 : 1
-          }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    for (const run of runs) {
+      await run.execute()
+      const newRuns = [...runs].sort(testSorter)
+      setTests(newRuns)
 
-          // If both are done, sort by 'result.allPass': false should go first
-          if (a.done && b.done) {
-            return a.result.allPass === b.result.allPass ? 0 : a.result.allPass ? 1 : -1
-          }
+      completed++
 
-          // If both are not done or have the same 'done' value and same 'allPass', keep their order
-          return 0
-        })
-        setTests(newRuns)
-
-        completed++
-
-        if (completed == allRunsCount) {
-          setDone(true)
-        }
-      }).catch((error) => {
-        console.error(`Promise at index ${index} failed:`, error)
-      })
-    })
+      if (completed == allRunsCount) {
+        setDone(true)
+      }
+    }
   }
 
   return (
@@ -67,7 +52,7 @@ function WebgpuDashboard() {
         style={{ height: 50, background: done ? '#248453' : undefined }}
         disabled={!done && tests.length > 0}
       >
-        {done ? 'Tests complete' : 'Run all unit tests'}
+        {done ? 'Tests complete' : 'Run all WebGPU tests'}
       </Button>
 
       <Collapse
@@ -77,6 +62,21 @@ function WebgpuDashboard() {
       />
     </Flex>
   )
+}
+
+function testSorter(a: WebgpuTest, b: WebgpuTest) {
+  // Sort by 'done' first: true goes above false
+  if (a.done !== b.done) {
+    return a.done ? -1 : 1
+  }
+
+  // If both are done, sort by 'result.allPass': false should go first
+  if (a.done && b.done) {
+    return a.result.allPass === b.result.allPass ? 0 : a.result.allPass ? 1 : -1
+  }
+
+  // If both are not done or have the same 'done' value and same 'allPass', keep their order
+  return 0
 }
 
 function RenderTest(test: WebgpuTest) {

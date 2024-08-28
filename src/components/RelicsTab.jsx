@@ -255,6 +255,7 @@ export default function RelicsTab() {
     suppressScrollOnNewData: true,
     enableRangeSelection: false,
     suppressMultiSort: true,
+    getRowId: (params) => String(params.data.id),
   }), [])
 
   // headerTooltip

@@ -378,7 +378,7 @@ export const LingshaConversionConditional: DynamicConditional = {
   id: 'LingshaConversionConditional',
   type: ConditionalType.ABILITY,
   activation: ConditionalActivation.CONTINUOUS,
-  dependsOn: [Stats.DEF],
+  dependsOn: [Stats.BE],
   condition: function (x: ComputedStatsObject, request: Form, params: OptimizerParams) {
     return true
   },

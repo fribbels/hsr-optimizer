@@ -54,6 +54,16 @@ export default function RelicsTab() {
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
+  useEffect(() => { // re-select relic row in grid after editing relic, doing this exact code inside of onEditOk doesn't work
+    if (!gridRef?.current?.api) return
+    if (!selectedRelic?.id) return
+    gridRef.current.api.forEachNode((node) => {
+      if (node.data.id == selectedRelic.id) {
+        gridRef.current.api.setNodesSelected({ nodes: [node], newValue: true })
+      }
+    })
+  }, [selectedRelic])
+
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
     console.log('RelicTabFilters', relicTabFilters)

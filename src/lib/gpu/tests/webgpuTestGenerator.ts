@@ -96,6 +96,8 @@ export async function generateAllTests() {
   return [
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
+    ...generateStarLcTests(device, 4),
+    ...generateStarLcTests(device, 3),
     ...generateE0E1Tests(device),
     ...generateE6E5Tests(device),
   ]
@@ -113,9 +115,22 @@ export function generateE6E5Tests(device: GPUDevice) {
   })
 }
 
+export function generateStarLcTests(device: GPUDevice, star: number) {
+  // Use Kafka since she has DOT and FUA
+  const characterId = '1005'
+  const lightCones = Object.values(cache.metadata.lightCones).filter((lc) => lc.rarity == star)
+  const tests: WebgpuTest[] = []
+
+  for (const lc of lightCones) {
+    const test = generateE6S5CharacterTest(characterId, lc.id, device)
+    tests.push(test)
+  }
+
+  return tests
+}
+
 export function generateOrnamentSetTests(device: GPUDevice) {
   // Use Kafka since she has DOT and FUA
-  // return baseCharacterLightConeMappings.map((pair) => {
   const characterId = '1005'
   const lightConeId = basicLc
   const tests: WebgpuTest[] = []
@@ -133,7 +148,6 @@ export function generateOrnamentSetTests(device: GPUDevice) {
 
 export function generateRelicSetTests(device: GPUDevice) {
   // Use Kafka since she has DOT and FUA
-  // return baseCharacterLightConeMappings.map((pair) => {
   const characterId = '1005'
   const lightConeId = basicLc
   const tests: WebgpuTest[] = []

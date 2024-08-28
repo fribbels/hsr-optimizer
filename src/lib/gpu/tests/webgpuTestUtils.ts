@@ -85,8 +85,8 @@ function deltaComputedStats(cpu: ComputedStatsObject, gpu: ComputedStatsObject):
 
     statDeltas[stat] = {
       key: stat,
-      cpu: cpu[stat],
-      gpu: gpu[stat],
+      cpu: cpu[stat].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
+      gpu: gpu[stat].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       deltaValue: delta,
       deltaString: delta.toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       precision: precision,

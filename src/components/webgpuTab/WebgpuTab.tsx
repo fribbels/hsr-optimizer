@@ -27,8 +27,11 @@ function WebgpuDashboard() {
 
     const runs = await generateAllTests()
     const allRunsCount = runs.length
+    let index = 0
     let completed = 0
     setTests(runs)
+
+    runs.map((run) => run.name = `#${++index} — ${run.name}`)
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     for (const run of runs) {
@@ -45,7 +48,7 @@ function WebgpuDashboard() {
   }
 
   return (
-    <Flex vertical style={{ width: 1200, height: 2000 }}>
+    <Flex vertical style={{ width: 1200, minHeight: 2000 }}>
       <Button
         type='primary'
         onClick={startTests}

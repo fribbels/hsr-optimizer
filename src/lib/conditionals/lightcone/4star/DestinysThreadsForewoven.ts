@@ -16,5 +16,10 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
     finalizeCalculations: (x: ComputedStatsObject, request: Form) => {
       x.ELEMENTAL_DMG += Math.min(sValuesMax[s], Math.floor(x[Stats.DEF] / 100) * sValues[s])
     },
+    gpuFinalizeCalculations: () => {
+      return `
+x.ELEMENTAL_DMG += min(${sValuesMax[s]}, floor(x.DEF / 100) * ${sValues[s]});
+      `
+    },
   }
 }

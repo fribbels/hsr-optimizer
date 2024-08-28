@@ -2,19 +2,35 @@ import { getDefaultForm } from 'lib/defaultForm'
 import { Form } from 'types/Form'
 import { generateParams } from 'lib/optimizer/calculateParams'
 import { SetsOrnaments, SetsRelics } from 'lib/constants'
-import { generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { debugExportWebgpuResult } from 'lib/gpu/webgpuDebugger'
+import { generateExecutionPass, getDevice, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
+import { debugWebgpuComputedStats, WebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
+import { OptimizerTabController } from 'lib/optimizerTabController'
+import { calculateBuild } from 'lib/optimizer/calculateBuild'
+import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+
+export type WebgpuTest = {
+  name: string
+  promise: Promise<WebgpuComputedStats>
+  result: WebgpuComputedStats
+  expected: WebgpuComputedStats
+  passed: boolean
+  waiting: boolean
+}
 
 export async function runTests(device: GPUDevice) {
-  const request = getDefaultForm({
+  const request = OptimizerTabController.fixForm(getDefaultForm({
     id: '1212',
-  }) as Form
+  })) as Form
+
+  console.debug(request)
+
   const params = generateParams(request)
   const relics = generateTestRelics()
   const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)
   const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
   const permutations = 1
+  uncondenseRelics(relics)
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -31,9 +47,86 @@ export async function runTests(device: GPUDevice) {
   await gpuReadBuffer.mapAsync(GPUMapMode.READ)
   const arrayBuffer = gpuReadBuffer.getMappedRange()
   const array = new Float32Array(arrayBuffer)
-  const x = debugExportWebgpuResult(array)
 
-  return x
+  const cpuComputedStats = calculateBuild(request, {
+    Head: relics.Head[0],
+    Hands: relics.Hands[0],
+    Body: relics.Body[0],
+    Feet: relics.Feet[0],
+    PlanarSphere: relics.PlanarSphere[0],
+    LinkRope: relics.LinkRope[0],
+  }).x
+
+  const gpuComputedStats: WebgpuComputedStats = debugWebgpuComputedStats(array)
+
+  console.log('CPU', cpuComputedStats)
+  console.log('GPU', gpuComputedStats)
+
+  return gpuComputedStats
+}
+
+function deltaComputedStats(c1: ComputedStatsObject, c2: ComputedStatsObject) {
+  const deltas = {}
+  for (const [key, value] of Object.entries(c1)) {
+    if (typeof value === 'number') {
+      deltas[key] = Math.abs(c1[key] - c2[key])
+    }
+  }
+
+  return deltas as ComputedStatsObject
+}
+
+export async function generateTests() {
+  const device = await getDevice()
+  if (!device) return []
+
+  return [
+    test1(device),
+    test2(device),
+  ]
+}
+
+function test1(device: GPUDevice): WebgpuTest {
+  const test: Partial<WebgpuTest> = {
+    name: '1',
+    waiting: true,
+  }
+  test.promise = runTests(device)
+  test.promise.then((x) => {
+    test.waiting = false
+    test.result = x
+  })
+
+  return test as WebgpuTest
+}
+
+function test2(device: GPUDevice): WebgpuTest {
+  const test: Partial<WebgpuTest> = {
+    name: '2',
+    waiting: true,
+  }
+  test.promise = runTests(device)
+  test.promise.then((x) => {
+    test.waiting = false
+    test.result = x
+  })
+
+  return test as WebgpuTest
+}
+
+function uncondenseRelics(relicsByPart: RelicsByPart) {
+  for (const [key, relics] of Object.entries(relicsByPart)) {
+    relics.map((relic) => {
+      const condensedStats = relic.condensedStats!
+      relic.substats = []
+      condensedStats.map(([stat, value]) => {
+        relic.substats.push({
+          stat,
+          value,
+        })
+      })
+    })
+  }
 }
 
 function generateTestRelics() {

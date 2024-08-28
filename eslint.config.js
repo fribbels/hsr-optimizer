@@ -74,6 +74,8 @@ const config = tseslint.config(
       'react-hooks/exhaustive-deps': 'warn',
       'react/prop-types': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
     },
   },
   {
@@ -241,7 +243,7 @@ function styleRules(level) {
         when: 'multiline',
       },
     ],
-    '@stylistic/jsx-quotes': level,
+    '@stylistic/jsx-quotes': [level, 'prefer-single'],
     '@stylistic/jsx-tag-spacing': [
       level,
       {

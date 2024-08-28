@@ -26,8 +26,9 @@ export function generateWgsl(params: OptimizerParams, request: Form, gpuParams: 
   wgsl = injectPrecomputedStats(wgsl, params)
   wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, gpuParams)
-  wgsl = injectBasicFilters(wgsl, request)
-  wgsl = injectCombatFilters(wgsl, request)
+  wgsl = injectBasicFilters(wgsl, request, gpuParams)
+  wgsl = injectCombatFilters(wgsl, request, gpuParams)
+  wgsl = injectSetFilters(wgsl, gpuParams)
 
   return wgsl
 }
@@ -60,7 +61,16 @@ function format(text: string) {
   return indent((text.length > 0 ? text : 'false'), 2)
 }
 
-function injectBasicFilters(wgsl: string, request: Form) {
+function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
+  return wgsl.replace('/* INJECT SET FILTERS */', indent(`
+if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
+  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
+  continue;
+}
+  `, 2))
+}
+
+function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
   const filter = filterFn(request)
 
   const basicFilters = [
@@ -91,7 +101,7 @@ if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    results[index] = -1;
+    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
     continue;
   }
 }
@@ -100,7 +110,7 @@ ${format(basicFilters)}
   return wgsl
 }
 
-function injectCombatFilters(wgsl: string, request: Form) {
+function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
   const filter = filterFn(request)
 
   const combatFilters = [
@@ -149,7 +159,7 @@ if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
   ) {
-    results[index] = -1;
+    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
     continue;
   }
 }

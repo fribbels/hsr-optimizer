@@ -6,6 +6,7 @@ import { ComputedStatsObject, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/condit
 import { Stats } from 'lib/constants'
 import { precisionRound } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimizer/calculateBuffs'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 
 export default (s: SuperImpositionLevel): LightConeConditional => {
   const sValuesFuaDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -49,6 +50,15 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       const r = request.lightConeConditionals
 
       buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s] * Math.min(4, Math.floor(x[Stats.CD] - 1.20) / 0.20), (r.fuaDmgBoost))
+    },
+    gpuFinalizeCalculations: (request: Form) => {
+      const r = request.lightConeConditionals
+
+      return `
+if (${wgslTrue(r.fuaDmgBoost)}) {
+  buffAbilityDmg(p_x, FUA_TYPE, ${sValuesFuaDmg[s]} * min(4, floor(x.CD - 1.20) / 0.20), 1);
+}
+    `
     },
   }
 }

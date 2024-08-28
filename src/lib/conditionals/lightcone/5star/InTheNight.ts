@@ -62,7 +62,7 @@ export default (s: SuperImpositionLevel): LightConeConditional => {
       return `
 if (${wgslTrue(r.spdScalingBuffs)}) {
   let stacks = max(0, min(6, floor((x.SPD - 100) / 10)));
-      
+
   buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, stacks * ${sValuesDmg[s]}, 1);
   buffAbilityCd(p_x, ULT_TYPE, stacks * ${sValuesCd[s]}, 1);
 }

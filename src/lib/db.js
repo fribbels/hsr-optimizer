@@ -461,6 +461,7 @@ export const DB = {
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(x.version)
+    window.store.getState().setInventoryWidth(x.inventoryWidth)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)

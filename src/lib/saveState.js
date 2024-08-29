@@ -13,6 +13,7 @@ export const SaveState = {
       savedSession: window.store.getState().savedSession,
       settings: window.store.getState().settings,
       version: CURRENT_OPTIMIZER_VERSION,
+      inventoryWidth: window.store.getState().inventoryWidth,
     }
 
     console.log('Saved state')

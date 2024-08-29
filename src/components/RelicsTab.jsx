@@ -1,5 +1,5 @@
-import { Button, Flex, Popconfirm, Select, theme } from 'antd'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Button, Flex, Popconfirm, Select, theme, Typography } from 'antd'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import Plot from 'react-plotly.js'
 
@@ -37,6 +37,10 @@ const characterPlotOptions = [
 
 export default function RelicsTab() {
   const { token } = useToken()
+
+  const timeFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' })
+
+  const inventoryWidth = store((s) => s.inventoryWidth)
 
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
@@ -205,14 +209,16 @@ export default function RelicsTab() {
 
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
-    { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
-    { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     {
-      field: 'grade',
-      width: 40,
-      cellRenderer: Renderer.renderGradeCell,
+      field: 'timeCreated',
+      headerName: 'Date\nObtained',
+      width: 60,
+      cellRenderer: (x) => <p style={{ fontSize: 12 }}>{timeFormatter.format(x.data.timeCreated)}</p>,
       filter: 'agNumberColumnFilter',
     },
+    { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
+    { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
+    { field: 'grade', width: 40, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter' },
     { field: 'part', valueFormatter: Renderer.readablePart, width: 55, filter: 'agTextColumnFilter' },
     { field: 'enhance', width: 55, filter: 'agNumberColumnFilter' },
     { field: 'main.stat', valueFormatter: Renderer.readableStat, headerName: 'Main\nStat', width: 70, filter: 'agTextColumnFilter' },
@@ -379,14 +385,14 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
-          id="relicGrid" className="ag-theme-balham-dark" style={{
+          id='relicGrid' className='ag-theme-balham-dark' style={{
             ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
             ...getGridTheme(token),
           }}
@@ -403,7 +409,7 @@ export default function RelicsTab() {
 
             animateRows={true}
             headerHeight={24}
-            rowSelection="single"
+            rowSelection='single'
 
             pagination={true}
             paginationPageSizeSelector={false}
@@ -415,23 +421,23 @@ export default function RelicsTab() {
           />
         </div>
         <Flex gap={10}>
-          <Button type="primary" onClick={editClicked} style={{ width: '150px' }}>
+          <Button type='primary' onClick={editClicked} style={{ width: '150px' }}>
             Edit Relic
           </Button>
-          <Button type="primary" onClick={addClicked} style={{ width: '150px' }}>
+          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
             Add New Relic
           </Button>
           <Popconfirm
-            title="Confirm"
-            description="Delete this relic?"
+            title='Confirm'
+            description='Delete this relic?'
             open={deleteConfirmOpen}
             onOpenChange={deleteClicked}
             onConfirm={deletePerform}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
+            placement='bottom'
+            okText='Yes'
+            cancelText='Cancel'
           >
-            <Button type="primary" style={{ width: '150px' }}>
+            <Button type='primary' style={{ width: '150px' }}>
               Delete Relic
             </Button>
           </Popconfirm>
@@ -449,6 +455,25 @@ export default function RelicsTab() {
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()}/>
+          </Flex>
+          <Flex style={{
+            marginTop: 1,
+            borderRadius: 5,
+            width: 220,
+            height: 30,
+            background: 'rgba(36, 51, 86)',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+            outline: '1px solid rgba(63, 90, 150)',
+          }}
+          >
+            <Typography style={{ margin: 'auto' }}>
+              Relic Location:
+              {selectedRelic ? ` Row ${Math.ceil((selectedRelic.ageIndex + 1) / inventoryWidth)}` : ''}
+              {selectedRelic ? ` Column ${selectedRelic.ageIndex % inventoryWidth + 1}` : ''}
+            </Typography>
+          </Flex>
+          <Flex style={{ display: 'block' }}>
+            <TooltipImage type={Hint.relicLocation()}/>
           </Flex>
         </Flex>
         <Flex gap={10}>
@@ -551,7 +576,7 @@ export default function RelicsTab() {
                         return (
                           <Flex key={x.cid} gap={4}>
                             <li style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                              <Flex align="center" gap={8}>
+                              <Flex align='center' gap={8}>
                                 {rect}
                                 <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
                                   <img

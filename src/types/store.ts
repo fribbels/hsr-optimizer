@@ -38,6 +38,8 @@ export type HsrOptimizerStore = {
   scoringAlgorithmFocusCharacter?: CharacterId
 
   activeKey: unknown
+  inventoryWidth: number
+  setInventoryWidth: (width: number) => void
   characters: Character[]
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean

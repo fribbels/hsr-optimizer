@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex } from 'antd'
 
 export const Hint = {
@@ -272,6 +271,30 @@ export const Hint = {
             ⚠️ Relics with missing substats may have misleadlingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
           </p>
           <p>'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in.</p>
+        </Flex>
+      ),
+    }
+  },
+
+  relicLocation: () => {
+    return {
+      title: 'Relic Location',
+      content: (
+        <Flex vertical gap={10}>
+          <p>When a relic is selected in the table above, it's position in your Inventory in game is displayed here</p>
+          <p>Simply sort your inventory in game by date obtained (newest first) and navigate to the row and column indicated here</p>
+          <p>⚠️This only works properly if you imported your relics using the reliquary archiver and your inventory on the website is up to date with your inventory in game</p>
+        </Flex>
+      ),
+    }
+  },
+
+  inventoryWidth: () => {
+    return {
+      title: 'Inventory Width',
+      content: (
+        <Flex>
+          <p>Select how many columns your inventory has in game so that the relic locator can find your relic accurately</p>
         </Flex>
       ),
     }

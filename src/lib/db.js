@@ -74,6 +74,7 @@ window.store = create((set) => ({
   characterTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
+  inventoryWidth: 7,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
     ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
@@ -161,6 +162,7 @@ window.store = create((set) => ({
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
+  setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
   setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
   setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
@@ -409,15 +411,19 @@ export const DB = {
       }
     }
 
+    const currentTime = Date.now()
+    let i = 0
     for (const relic of x.relics) {
       RelicAugmenter.augment(relic)
       const char = charactersById[relic.equippedBy]
+      if (!relic.timeCreated) relic.timeCreated = currentTime - x.relics.length + i++
       if (char && !char.equipped[relic.part]) {
         char.equipped[relic.part] = relic.id
       } else {
         relic.equippedBy = undefined
       }
     }
+    x.relics = sortAndIndexRelics(x.relics)
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
@@ -723,13 +729,17 @@ export const DB = {
     if (newRelics.length == 0) {
       replacementRelics = oldRelics
     }
+    const currentTime = Date.now()
+    let i = 0
     for (let newRelic of newRelics) {
+      i++
       const hash = hashRelic(newRelic)
 
       // Compare new relic hashes to old relic hashes
       const found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
+        if (!found.timeCreated) found.timeCreated = currentTime - newRelics.length + i
         if (newRelic.verified) {
           // Inherit the new verified speed stats
           found.verified = true
@@ -750,6 +760,7 @@ export const DB = {
       } else {
         // No match found - save the new relic
         stableRelicId = newRelic.id
+        newRelic.timeCreated = currentTime - newRelics.length + i
         replacementRelics.push(newRelic)
       }
 
@@ -763,6 +774,8 @@ export const DB = {
         }
       }
     }
+
+    replacementRelics = sortAndIndexRelics(replacementRelics)
 
     console.log('Replacement relics', replacementRelics)
 
@@ -822,6 +835,7 @@ export const DB = {
   /*
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+   * New relics have their creation date assigned to current time as in game creation date is unknown
    */
   mergePartialRelicsWithState: (newRelics, sourceCharacters = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
@@ -832,7 +846,10 @@ export const DB = {
     const addedNewRelics = []
     const equipUpdates = []
 
+    const currentTime = Date.now()
+    let i = 0
     for (const newRelic of newRelics) {
+      i++
       const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
@@ -849,6 +866,7 @@ export const DB = {
 
         equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
         newRelic.equippedBy = undefined
+        newRelic.timeCreated = currentTime - newRelics.length + i
       }
     }
 
@@ -856,6 +874,7 @@ export const DB = {
     console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
+    oldRelics = sortAndIndexRelics(oldRelics)
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
@@ -1018,4 +1037,13 @@ function deduplicateArray(arr) {
   if (arr == null) return arr
 
   return [...new Set(arr)]
+}
+
+function sortAndIndexRelics(arr) {
+  arr.sort((a, b) => b.timeCreated - a.timeCreated)
+  let i = 0
+  for (const relic of arr) {
+    relic.ageIndex = i++
+  }
+  return arr
 }

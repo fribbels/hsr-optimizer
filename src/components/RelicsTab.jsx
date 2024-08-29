@@ -38,7 +38,7 @@ const characterPlotOptions = [
 export default function RelicsTab() {
   const { token } = useToken()
 
-  const timeFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' })
+  const dateTimeFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' }).format
 
   const inventoryWidth = store((s) => s.inventoryWidth)
 
@@ -213,8 +213,7 @@ export default function RelicsTab() {
       field: 'timeCreated',
       headerName: 'Date\nObtained',
       width: 60,
-      cellRenderer: (x) => <p style={{ fontSize: 12 }}>{timeFormatter.format(x.data.timeCreated)}</p>,
-      filter: 'agNumberColumnFilter',
+      cellRenderer: (x) => <p style={{ fontSize: 12 }}>{dateTimeFormatter(x.data.timeCreated)}</p>,
     },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },

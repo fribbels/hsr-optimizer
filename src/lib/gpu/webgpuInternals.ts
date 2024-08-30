@@ -18,7 +18,9 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     code: wgsl,
   })
 
-  const computePipeline = device.createComputePipeline({
+  // console.log(wgsl)
+
+  return device.createComputePipeline({
     layout: device.createPipelineLayout({
       bindGroupLayouts: bindGroupLayouts,
     }),
@@ -27,10 +29,6 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
       entryPoint: 'main',
     },
   })
-
-  // console.log(wgsl)
-
-  return computePipeline
 }
 
 function generateLayouts(device: GPUDevice) {

@@ -24,4 +24,11 @@ export class FixedSizePriorityQueue<T> extends PriorityQueue<T> {
       this.push(item)
     }
   }
+
+  fixedSizePushOvercapped(item: T): void {
+    if (this.compare(item, this.top()!) >= 0) {
+      this.pop()
+      this.push(item)
+    }
+  }
 }

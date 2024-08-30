@@ -71,7 +71,7 @@ export async function gpuOptimize(props: {
   destroyPipeline(gpuContext)
 }
 
-// MODIFIED
+// MODIFIED 266
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
   const arrayBuffer = gpuReadBuffer.getMappedRange()

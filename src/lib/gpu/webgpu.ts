@@ -71,7 +71,6 @@ export async function gpuOptimize(props: {
   destroyPipeline(gpuContext)
 }
 
-// MODIFIED 266
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
   const arrayBuffer = gpuReadBuffer.getMappedRange()
@@ -89,16 +88,10 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let j = 0; j < limit; j++) {
       const value = array[j]
-      if (value < 0) continue
-
-      const permutationNumber = offset + j
-
-      if (value <= top) {
-        continue
-      }
+      if (value <= top) continue
 
       top = resultsQueue.fixedSizePushOvercapped({
-        index: permutationNumber,
+        index: offset + j,
         value: value,
       }).value
     }
@@ -131,43 +124,6 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
 }
-
-// ORIGINAL
-// async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
-//   const arrayBuffer = gpuReadBuffer.getMappedRange()
-//   const resultsQueue = gpuContext.resultsQueue
-//   const array = new Float32Array(arrayBuffer)
-//   let top = resultsQueue.top()?.value ?? 0
-//
-//   for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
-//     const permutationNumber = offset + j
-//     if (permutationNumber >= gpuContext.permutations) {
-//       break // ?
-//     }
-//
-//     const value = array[j]
-//     if (value >= 0) {
-//       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-//         continue
-//       }
-//       resultsQueue.fixedSizePush({
-//         index: permutationNumber,
-//         value: array[j],
-//       })
-//       top = resultsQueue.top()!.value
-//     }
-//   }
-//
-//   window.store.getState().setPermutationsResults(resultsQueue.size())
-//   window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, offset))
-//
-//   if (gpuContext.DEBUG) {
-//     debugWebgpuOutput(gpuContext, arrayBuffer)
-//   }
-//
-//   gpuReadBuffer.unmap()
-//   gpuReadBuffer.destroy()
-// }
 
 function outputResults(gpuContext: GpuExecutionContext) {
   const relics = gpuContext.relics

@@ -211,7 +211,7 @@ export default function RelicsTab() {
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
     {
       field: 'timeCreated',
-      headerName: 'Date\nObtained',
+      headerName: 'Date\nImported',
       width: 60,
       cellRenderer: (x) => <p style={{ fontSize: 12 }}>{dateTimeFormatter(x.data.timeCreated)}</p>,
     },

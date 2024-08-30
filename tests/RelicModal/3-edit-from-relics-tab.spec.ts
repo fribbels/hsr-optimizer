@@ -10,8 +10,8 @@ test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page
 
   // got relics tab
   await page.getByRole('menuitem', { name: 'Relics' }).click()
-  await page.getByRole('columnheader', {name: 'Date Obtained'}).click()// oldest relics to top
-  await page.getByRole('columnheader', {name: 'Date Obtained'}).click()
+  await page.getByRole('columnheader', {name: 'Date Imported'}).click()// oldest relics to top
+  await page.getByRole('columnheader', {name: 'Date Imported'}).click()
   await page.getByRole('row', { name: 'Head 15 HP 705 11.0 10.3 3.4' }).click()
   await page.getByText('+15HP705CRIT Rate11.0%CRIT').click()
 

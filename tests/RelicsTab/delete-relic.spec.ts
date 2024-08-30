@@ -9,8 +9,8 @@ test('Delete relic from RelicsTab', async ({ page }) => {
 
   // nav to RelicsTab
   await page.getByRole('menuitem', { name: 'Relics' }).click()
-  await page.getByRole('columnheader', {name: 'Date Obtained'}).click()// oldest relics to top
-  await page.getByRole('columnheader', {name: 'Date Obtained'}).click()
+  await page.getByRole('columnheader', {name: 'Date Imported'}).click()// oldest relics to top
+  await page.getByRole('columnheader', {name: 'Date Imported'}).click()
   await page.getByRole('row', { name: 'Head 15 HP 705 11.0 10.3 3.4' }).click()
   await page.getByRole('button', { name: 'Delete Relic' }).click()
   await page.getByRole('button', { name: 'Yes' }).click()

@@ -734,13 +734,13 @@ export const DB = {
     let i = 0
     for (let newRelic of newRelics) {
       i++
+      newRelic.timeCreated = currentTime - newRelics.length + i
       const hash = hashRelic(newRelic)
 
       // Compare new relic hashes to old relic hashes
       const found = oldRelicHashes[hash]
       let stableRelicId
       if (found) {
-        if (!found.timeCreated) found.timeCreated = currentTime - newRelics.length + i
         if (newRelic.verified) {
           // Inherit the new verified speed stats
           found.verified = true
@@ -761,7 +761,6 @@ export const DB = {
       } else {
         // No match found - save the new relic
         stableRelicId = newRelic.id
-        newRelic.timeCreated = currentTime - newRelics.length + i
         replacementRelics.push(newRelic)
       }
 

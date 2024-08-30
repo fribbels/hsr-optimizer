@@ -66,6 +66,7 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setRelicsById: (relicsById: Record<number, Relic>) => void
 
   permutationDetails: PermutationDetails
 

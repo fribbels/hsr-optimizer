@@ -38,8 +38,6 @@ const characterPlotOptions = [
 export default function RelicsTab() {
   const { token } = useToken()
 
-  const dateTimeFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' }).format
-
   const inventoryWidth = store((s) => s.inventoryWidth)
 
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
@@ -209,12 +207,6 @@ export default function RelicsTab() {
 
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
-    {
-      field: 'timeCreated',
-      headerName: 'Date\nImported',
-      width: 60,
-      cellRenderer: (x) => <p style={{ fontSize: 12 }}>{dateTimeFormatter(x.data.timeCreated)}</p>,
-    },
     { field: 'equippedBy', headerName: 'Owner', width: 40, cellRenderer: Renderer.characterIcon, filter: 'agTextColumnFilter' },
     { field: 'set', cellRenderer: Renderer.anySet, width: 40, headerName: 'Set', filter: 'agTextColumnFilter' },
     { field: 'grade', width: 40, cellRenderer: Renderer.renderGradeCell, filter: 'agNumberColumnFilter' },

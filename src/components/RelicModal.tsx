@@ -172,9 +172,6 @@ export default function RelicModal(props: {
     if (relicsAreDifferent(props.selectedRelic, relic)) {
       relic.verified = false
     }
-    if (props.type == 'add') {
-      relic.timeCreated = Date.now()
-    }
 
     console.log('Completed relic', relic)
 

@@ -283,6 +283,7 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
+      relic.ageIndex = DB.getRelics().length
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -411,19 +412,16 @@ export const DB = {
       }
     }
 
-    const currentTime = Date.now()
-    let i = 0
     for (const relic of x.relics) {
       RelicAugmenter.augment(relic)
       const char = charactersById[relic.equippedBy]
-      if (!relic.timeCreated) relic.timeCreated = currentTime - x.relics.length + i++
       if (char && !char.equipped[relic.part]) {
         char.equipped[relic.part] = relic.id
       } else {
         relic.equippedBy = undefined
       }
     }
-    x.relics = sortAndIndexRelics(x.relics)
+    x.relics = IndexRelics(x.relics)
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
@@ -691,8 +689,12 @@ export const DB = {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
+    const ageIndex = relicsById[id].ageIndex
     delete relicsById[id]
     window.store.getState().setRelicsById(relicsById)
+    DB.getRelics()// update assuming the delete operation is matched in game
+      .filter((x) => x.ageIndex > ageIndex)
+      .forEach((x) => x.ageIndex--)
 
     // This refreshes the grid for the character equipped relics color coding
     if (window.characterGrid?.current?.api) {
@@ -730,7 +732,6 @@ export const DB = {
     if (newRelics.length == 0) {
       replacementRelics = oldRelics
     }
-    const currentTime = Date.now()
     for (let newRelic of newRelics) {
       const hash = hashRelic(newRelic)
 
@@ -772,12 +773,7 @@ export const DB = {
       }
     }
 
-    let i = 0
-    for (const relic of replacementRelics) {
-      relic.timeCreated = currentTime - replacementRelics.length + i++ // need to overwrite date obtained because of strict matching
-    }
-
-    replacementRelics = sortAndIndexRelics(replacementRelics)
+    replacementRelics = IndexRelics(replacementRelics)
 
     console.log('Replacement relics', replacementRelics)
 
@@ -837,7 +833,6 @@ export const DB = {
   /*
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
-   * New relics have their creation date assigned to current time as in game creation date is unknown
    */
   mergePartialRelicsWithState: (newRelics, sourceCharacters = []) => {
     const oldRelics = Utils.clone(DB.getRelics()) || []
@@ -848,10 +843,7 @@ export const DB = {
     const addedNewRelics = []
     const equipUpdates = []
 
-    const currentTime = Date.now()
-    let i = 0
     for (const newRelic of newRelics) {
-      i++
       const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
@@ -868,7 +860,6 @@ export const DB = {
 
         equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
         newRelic.equippedBy = undefined
-        newRelic.timeCreated = currentTime - newRelics.length + i
       }
     }
 
@@ -876,7 +867,7 @@ export const DB = {
     console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
-    oldRelics = sortAndIndexRelics(oldRelics)
+    oldRelics = IndexRelics(oldRelics)
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
@@ -1041,11 +1032,9 @@ function deduplicateArray(arr) {
   return [...new Set(arr)]
 }
 
-function sortAndIndexRelics(arr) {
-  arr.sort((a, b) => b.timeCreated - a.timeCreated)
-  let i = 0
-  for (const relic of arr) {
-    relic.ageIndex = i++
+function IndexRelics(arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    arr[i].ageIndex = i
   }
   return arr
 }

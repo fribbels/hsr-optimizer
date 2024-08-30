@@ -22,7 +22,6 @@ export type Relic = {
   grade: RelicGrade
   id: GUID
   verified?: boolean
-  timeCreated?: number
   ageIndex?: number
 
   main: {

@@ -731,10 +731,7 @@ export const DB = {
       replacementRelics = oldRelics
     }
     const currentTime = Date.now()
-    let i = 0
     for (let newRelic of newRelics) {
-      i++
-      newRelic.timeCreated = currentTime - newRelics.length + i
       const hash = hashRelic(newRelic)
 
       // Compare new relic hashes to old relic hashes
@@ -773,6 +770,11 @@ export const DB = {
           console.log('No character to equip relic to', newRelic)
         }
       }
+    }
+
+    let i = 0
+    for (const relic of replacementRelics) {
+      relic.timeCreated = currentTime - replacementRelics.length + i++ // need to overwrite date obtained because of strict matching
     }
 
     replacementRelics = sortAndIndexRelics(replacementRelics)

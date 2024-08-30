@@ -25,8 +25,9 @@ export class FixedSizePriorityQueue<T> extends PriorityQueue<T> {
     }
   }
 
-  fixedSizePushOvercapped(item: T): void {
-    this.pop()
+  // If we already know the queue is full, skip the checks
+  fixedSizePushOvercapped(item: T): T {
     this.push(item)
+    return this.pop()!
   }
 }

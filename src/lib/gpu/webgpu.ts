@@ -97,11 +97,10 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
         continue
       }
 
-      resultsQueue.fixedSizePushOvercapped({
+      top = resultsQueue.fixedSizePushOvercapped({
         index: permutationNumber,
-        value: array[j],
-      })
-      top = resultsQueue.top()!.value
+        value: value,
+      }).value
     }
   } else {
     for (let j = 0; j < limit; j++) {
@@ -116,7 +115,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 
       resultsQueue.fixedSizePush({
         index: permutationNumber,
-        value: array[j],
+        value: value,
       })
       top = resultsQueue.top()!.value
     }

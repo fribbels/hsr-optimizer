@@ -18,7 +18,6 @@ import { SaveState } from 'lib/saveState'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
 import { RelicModalController } from 'lib/relicModalController'
-import { arrowKeyGridNavigation } from 'lib/arrowKeyGridNavigation'
 import { getGridTheme } from 'lib/theme'
 
 const { useToken } = theme
@@ -47,6 +46,7 @@ export default function RelicsTab() {
   window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState()
+  const [selectedRelics, setselectedRelics] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
@@ -270,6 +270,10 @@ export default function RelicsTab() {
     suppressHeaderMenuButton: true,
   }), [])
 
+  const onSelectionChanged = useCallback((event) => {
+    setselectedRelics(event.api.getSelectedRows())
+  }, [])
+
   const rowClickedListener = useCallback((event) => {
     console.log('rowClicked', event)
     setSelectedRelic(event.data)
@@ -279,10 +283,6 @@ export default function RelicsTab() {
     console.log('rowDblClicked', e)
     setSelectedRelic(e.data)
     setEditModalOpen(true)
-  }, [])
-
-  const navigateToNextCell = useCallback((params) => {
-    return arrowKeyGridNavigation(params, gridRef, (selectedNode) => rowClickedListener(selectedNode))
   }, [])
 
   function onAddOk(relic) {
@@ -317,7 +317,7 @@ export default function RelicsTab() {
   function deleteClicked(isOpen) {
     console.log('delete clicked')
 
-    if (!selectedRelic) {
+    if (selectedRelics.length === 0) {
       setDeleteConfirmOpen(false)
       return Message.error('No relic selected')
     }
@@ -326,9 +326,12 @@ export default function RelicsTab() {
   }
 
   function deletePerform() {
-    if (!selectedRelic) return Message.error('No relic selected')
+    if (selectedRelics.length === 0) return Message.error('No relic selected')
 
-    DB.deleteRelic(selectedRelic.id)
+    selectedRelics.forEach((relic) => {
+      DB.deleteRelic(relic.id)
+    })
+
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
     SaveState.save()
@@ -403,19 +406,24 @@ export default function RelicsTab() {
 
             animateRows={true}
             headerHeight={24}
-            rowSelection="single"
+            rowSelection="multiple"
 
             pagination={true}
             paginationPageSizeSelector={false}
             paginationPageSize={2000}
 
+            onSelectionChanged={onSelectionChanged}
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
-            navigateToNextCell={navigateToNextCell}
           />
         </div>
         <Flex gap={10}>
-          <Button type="primary" onClick={editClicked} style={{ width: '150px' }}>
+          <Button
+            type="primary"
+            onClick={editClicked}
+            style={{ width: '150px' }}
+            disabled={selectedRelics.length === 0 || selectedRelics.length > 1}
+          >
             Edit Relic
           </Button>
           <Button type="primary" onClick={addClicked} style={{ width: '150px' }}>
@@ -423,7 +431,7 @@ export default function RelicsTab() {
           </Button>
           <Popconfirm
             title="Confirm"
-            description="Delete this relic?"
+            description={selectedRelics.length > 1 ? `Delete the selected ${selectedRelics.length} relics?` : 'Delete the selected relic?'}
             open={deleteConfirmOpen}
             onOpenChange={deleteClicked}
             onConfirm={deletePerform}
@@ -431,7 +439,7 @@ export default function RelicsTab() {
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button type="primary" style={{ width: '150px' }}>
+            <Button type="primary" style={{ width: '150px' }} disabled={selectedRelics.length === 0}>
               Delete Relic
             </Button>
           </Popconfirm>

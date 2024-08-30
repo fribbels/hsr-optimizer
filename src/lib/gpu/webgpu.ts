@@ -57,12 +57,14 @@ export async function gpuOptimize(props: {
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
-    readBuffer(offset, gpuReadBuffer, gpuContext)
+    void readBuffer(offset, gpuReadBuffer, gpuContext)
 
     // logIterationTimer(iteration, gpuContext)
 
     if (window.store.getState().optimizationInProgress == false) {
       gpuContext.cancelled = true
+      outputResults(gpuContext)
+      destroyPipeline(gpuContext)
       break
     }
   }

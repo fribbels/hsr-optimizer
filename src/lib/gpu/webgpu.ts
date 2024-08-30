@@ -57,7 +57,7 @@ export async function gpuOptimize(props: {
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
-    void readBuffer(offset, gpuReadBuffer, gpuContext)
+    readBuffer(offset, gpuReadBuffer, gpuContext)
 
     // logIterationTimer(iteration, gpuContext)
 
@@ -66,9 +66,6 @@ export async function gpuOptimize(props: {
       break
     }
   }
-
-  outputResults(gpuContext)
-  destroyPipeline(gpuContext)
 }
 
 // eslint-disable-next-line
@@ -123,6 +120,11 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
+
+  if (gpuContext.permutations <= maxPermNumber) {
+    outputResults(gpuContext)
+    destroyPipeline(gpuContext)
+  }
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {

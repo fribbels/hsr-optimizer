@@ -200,7 +200,7 @@ export default function RelicsTab() {
     const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
     setRelicPositionIndex(filteredIndex)
     setLocatorFilters({ set: selectedRelic.set, part: selectedRelic.part })
-  }, [relicTabFilters, selectedRelic, inventoryWidth])
+  }, [selectedRelic, inventoryWidth, rowLimit])
 
   const valueColumnOptions = useMemo(() => [
     {
@@ -509,7 +509,7 @@ export default function RelicsTab() {
             }}
           >
             {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ margin: 'auto', height: 30 }}/>}
-            {locatorFilters.set && <img src={Assets.getSetImage(locatorFilters.set)} style={{ margin: 'auto', height: 30 }}/>}
+            {locatorFilters.set && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ margin: 'auto', height: 30 }}/>}
             <Typography style={locatorFilters.part || locatorFilters.set
               ? { margin: 'auto', marginRight: 15, marginLeft: 5 }
               : { margin: 'auto', marginLeft: 'auto', marginRight: 'auto' }}

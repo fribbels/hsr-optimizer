@@ -138,7 +138,7 @@ export const Assets = {
     return getImageUrl(`/misc/changelog/${path}`)
   },
 
-  getSetImage: (set, part) => {
+  getSetImage: (set, part, actualIcon = false) => {
     if (!part) {
       part = Constants.Parts.PlanarSphere
     }
@@ -192,6 +192,9 @@ export const Assets = {
       [Constants.Parts.Feet]: '_3',
       [Constants.Parts.PlanarSphere]: '_0',
       [Constants.Parts.LinkRope]: '_1',
+    }
+    if (actualIcon) {
+      return getImageUrl(`/icon/relic/${setToId[set]}.webp`)
     }
     return getImageUrl(`/icon/relic/${setToId[set]}${partToId[part]}.webp`)
   },

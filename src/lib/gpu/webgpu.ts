@@ -5,7 +5,7 @@ import { RelicsByPart } from 'lib/gpu/webgpuDataTransform'
 import { calculateBuild } from 'lib/optimizer/calculateBuild'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { renameFields } from 'lib/optimizer/optimizer'
-import { debugWebgpuOutput, logIterationTimer } from 'lib/gpu/webgpuDebugger'
+import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
@@ -59,19 +59,17 @@ export async function gpuOptimize(props: {
 
     void readBuffer(offset, gpuReadBuffer, gpuContext)
 
-    logIterationTimer(iteration, gpuContext)
+    // logIterationTimer(iteration, gpuContext)
 
     if (window.store.getState().optimizationInProgress == false) {
       gpuContext.cancelled = true
+      outputResults(gpuContext)
+      destroyPipeline(gpuContext)
       break
     }
   }
-
-  outputResults(gpuContext)
-  destroyPipeline(gpuContext)
 }
 
-// Does the last iteration get read before results are executed?
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
   const arrayBuffer = gpuReadBuffer.getMappedRange()
@@ -79,20 +77,37 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   const array = new Float32Array(arrayBuffer)
   let top = resultsQueue.top()?.value ?? 0
 
-  for (let j = 0; j < gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION; j++) {
-    const permutationNumber = offset + j
-    if (permutationNumber >= gpuContext.permutations) {
-      break // ?
-    }
+  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const diff = gpuContext.permutations - maxPermNumber
+  if (diff < 0) {
+    limit += diff
+  }
 
-    const value = array[j]
-    if (value >= 0) {
+  if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+    for (let j = 0; j < limit; j++) {
+      const value = array[j]
+      if (value <= top) continue
+
+      top = resultsQueue.fixedSizePushOvercapped({
+        index: offset + j,
+        value: value,
+      }).value
+    }
+  } else {
+    for (let j = 0; j < limit; j++) {
+      const value = array[j]
+      if (value < 0) continue
+
+      const permutationNumber = offset + j
+
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
         continue
       }
+
       resultsQueue.fixedSizePush({
         index: permutationNumber,
-        value: array[j],
+        value: value,
       })
       top = resultsQueue.top()!.value
     }
@@ -107,6 +122,11 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
+
+  if (gpuContext.permutations <= maxPermNumber) {
+    outputResults(gpuContext)
+    destroyPipeline(gpuContext)
+  }
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {

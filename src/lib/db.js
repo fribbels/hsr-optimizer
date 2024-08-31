@@ -75,6 +75,7 @@ window.store = create((set) => ({
   scoringAlgorithmFocusCharacter: undefined,
   relicsTabFocusCharacter: undefined,
   inventoryWidth: 7,
+  rowLimit: 10,
 
   activeKey: RouteToPage[Utils.stripTrailingSlashes(window.location.pathname)]
     ? RouteToPage[Utils.stripTrailingSlashes(window.location.pathname) + window.location.hash.split('?')[0]]
@@ -163,6 +164,7 @@ window.store = create((set) => ({
   setCharacters: (x) => set(() => ({ characters: x })),
   setCharactersById: (x) => set(() => ({ charactersById: x })),
   setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
+  setRowLimit: (x) => set(() => ({ rowLimit: x })),
   setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
   setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
   setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
@@ -459,7 +461,8 @@ export const DB = {
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(x.version)
-    window.store.getState().setInventoryWidth(x.inventoryWidth ?? 7)
+    window.store.getState().setInventoryWidth(x.relicLocator.inventoryWidth ?? 7)
+    window.store.getState().setRowLimit(x.relicLocator.rowLimit ?? 10)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -689,7 +692,6 @@ export const DB = {
     if (!id) return Message.error('Unable to delete relic')
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
-    const ageIndex = relicsById[id].ageIndex
     delete relicsById[id]
     window.store.getState().setRelicsById(relicsById)
 

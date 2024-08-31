@@ -40,6 +40,8 @@ export type HsrOptimizerStore = {
   activeKey: unknown
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
+  rowLimit: number
+  setRowLimit: (rowLimit: number) => void
   characters: Character[]
   charactersById: Record<CharacterId, Character>
   characterTabBlur: boolean

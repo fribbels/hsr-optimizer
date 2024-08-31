@@ -172,16 +172,33 @@ export default function RelicsTab() {
   }, [relicTabFilters])
 
   const [relicPositionIndex, setRelicPositionIndex] = useState(0)
+  const [locatorFilters, setLocatorFilters] = useState({ set: undefined, part: undefined })
 
   useEffect(() => {
     if (!selectedRelic) return
-    const filteredIndex = DB.getRelics()
-      .filter((x) => x.ageIndex < selectedRelic.ageIndex)
-      .filter((x) => relicTabFilters.part.includes(x.part) || !relicTabFilters.part.length)
-      .filter((x) => relicTabFilters.set.includes(x.set) || !relicTabFilters.set.length)
-      .length
+    const IndexLimit = 10 * inventoryWidth
+    if (selectedRelic.ageIndex < IndexLimit) {
+      setRelicPositionIndex(selectedRelic.ageIndex)
+      setLocatorFilters({ set: undefined, part: undefined })
+      return
+    }
+    const newerRelics = DB.getRelics().filter((x) => x.ageIndex <= selectedRelic.ageIndex)
+    const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
+    if (setFilteredIndex < IndexLimit) {
+      setRelicPositionIndex(setFilteredIndex)
+      setLocatorFilters({ set: selectedRelic.set, part: undefined })
+      return
+    }
+    const partFilteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part).length - 1
+    if (partFilteredIndex < IndexLimit) {
+      setRelicPositionIndex(partFilteredIndex)
+      setLocatorFilters({ set: undefined, part: selectedRelic.part })
+      return
+    }
+    const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
     setRelicPositionIndex(filteredIndex)
-  }, [relicTabFilters, selectedRelic])
+    setLocatorFilters({ set: selectedRelic.set, part: selectedRelic.part })
+  }, [relicTabFilters, selectedRelic, inventoryWidth])
 
   const valueColumnOptions = useMemo(() => [
     {
@@ -478,17 +495,23 @@ export default function RelicsTab() {
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
-          <Flex style={{
-            marginTop: 1,
-            borderRadius: 5,
-            width: 220,
-            height: 30,
-            background: 'rgba(36, 51, 86)',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-            outline: '1px solid rgba(63, 90, 150)',
-          }}
+          <Flex
+            style={{
+              width: 220 + (locatorFilters.part ? 30 : 0) + (locatorFilters.set ? 30 : 0),
+              marginTop: 1,
+              borderRadius: 5,
+              height: 30,
+              background: 'rgba(36, 51, 86)',
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+              outline: '1px solid rgba(63, 90, 150)',
+            }}
           >
-            <Typography style={{ margin: 'auto' }}>
+            {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ margin: 'auto', height: 30 }}/>}
+            {locatorFilters.set && <img src={Assets.getSetImage(locatorFilters.set)} style={{ margin: 'auto', height: 30 }}/>}
+            <Typography style={locatorFilters.part || locatorFilters.set
+              ? { margin: 'auto', marginRight: 15, marginLeft: 5 }
+              : { margin: 'auto', marginLeft: 'auto', marginRight: 'auto' }}
+            >
               Relic Location:
               {selectedRelic ? ` Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)}` : ''}
               {selectedRelic ? ` Column ${relicPositionIndex % inventoryWidth + 1}` : ''}

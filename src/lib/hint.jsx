@@ -282,11 +282,11 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>When a relic is selected in the table above, it's position in your Inventory in game is displayed here</p>
-          <p>If you have any set or part filters active, apply those same filters in game, then sort by dateObtained (newest first) and navigate to the row and column indicated here</p>
+          <p>If the set and/or part filters are active, apply those same filters in game, then sort by dateObtained (newest first) and navigate to the row and column indicated here</p>
           <p>
             ⚠️The position may not be accurate if:
             <li>  • you used an import method other than the reliquary archiver</li>
-            <li>  • you deleted a relic on the website since you last imported your relics</li>
+            <li>  • you deleted a relic in game since you last imported your relics</li>
             <li>  • you have obtained new relics in game but have not yet imported them into the website</li>
           </p>
         </Flex>
@@ -294,12 +294,21 @@ export const Hint = {
     }
   },
 
-  inventoryWidth: () => {
+  locatorParams: () => {
     return {
-      title: 'Inventory Width',
+      title: 'Relic Locator Options',
       content: (
-        <Flex>
-          <p>Select how many columns your inventory has in game so that the relic locator can find your relic accurately</p>
+        <Flex vertical gap={8}>
+          <p>
+            <strong>Inventory Width</strong>
+            {' - '}
+            Select how many columns your inventory has in game so that the relic locator can find your relic accurately
+          </p>
+          <p>
+            <strong>Auto Filter</strong>
+            {' - '}
+            Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory
+          </p>
         </Flex>
       ),
     }

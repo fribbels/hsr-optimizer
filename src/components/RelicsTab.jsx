@@ -40,6 +40,8 @@ export default function RelicsTab() {
 
   const inventoryWidth = store((s) => s.inventoryWidth)
 
+  const rowLimit = store((s) => s.rowLimit)
+
   // TODO: This is currently rerendering the whole tab on every relic click, revisit
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
@@ -176,7 +178,7 @@ export default function RelicsTab() {
 
   useEffect(() => {
     if (!selectedRelic) return
-    const IndexLimit = 10 * inventoryWidth
+    const IndexLimit = rowLimit * inventoryWidth
     if (selectedRelic.ageIndex < IndexLimit) {
       setRelicPositionIndex(selectedRelic.ageIndex)
       setLocatorFilters({ set: undefined, part: undefined })

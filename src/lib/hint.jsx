@@ -282,8 +282,10 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>When a relic is selected in the table above, it's position in your Inventory in game is displayed here</p>
-          <p>Simply sort your inventory in game by date obtained (newest first) and navigate to the row and column indicated here</p>
-          <p>⚠️This only works properly if you imported your relics using the reliquary archiver and your inventory on the website is up to date with your inventory in game</p>
+          <p>
+            If you have any set or part filters active, apply those same filters in game, then sort by dateObtained (newest first) and navigate to the row and column indicated here
+          </p>
+          <p>⚠️The position may not be accurate if your in game inventory doesn't match the one on the website and/or you used an import method other than the reliquary archiver</p>
         </Flex>
       ),
     }

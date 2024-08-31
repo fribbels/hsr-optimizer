@@ -170,6 +170,18 @@ export default function RelicsTab() {
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
 
+  const [relicPositionIndex, setRelicPositionIndex] = useState(0)
+
+  useEffect(() => {
+    if (!selectedRelic) return
+    const filteredIndex = DB.getRelics()
+      .filter((x) => x.ageIndex < selectedRelic.ageIndex)
+      .filter((x) => relicTabFilters.part.includes(x.part) || !relicTabFilters.part.length)
+      .filter((x) => relicTabFilters.set.includes(x.set) || !relicTabFilters.set.length)
+      .length
+    setRelicPositionIndex(filteredIndex)
+  }, [relicTabFilters, selectedRelic])
+
   const valueColumnOptions = useMemo(() => [
     {
       label: 'Selected character',
@@ -459,8 +471,8 @@ export default function RelicsTab() {
           >
             <Typography style={{ margin: 'auto' }}>
               Relic Location:
-              {selectedRelic ? ` Row ${Math.ceil((selectedRelic.ageIndex + 1) / inventoryWidth)}` : ''}
-              {selectedRelic ? ` Column ${selectedRelic.ageIndex % inventoryWidth + 1}` : ''}
+              {selectedRelic ? ` Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)}` : ''}
+              {selectedRelic ? ` Column ${relicPositionIndex % inventoryWidth + 1}` : ''}
             </Typography>
           </Flex>
           <Flex style={{ display: 'block' }}>

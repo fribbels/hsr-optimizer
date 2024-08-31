@@ -423,7 +423,7 @@ export const DB = {
         relic.equippedBy = undefined
       }
     }
-    x.relics = IndexRelics(x.relics)
+    IndexRelics(x.relics)
 
     if (x.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(x.scoringMetadataOverrides)) {
@@ -461,8 +461,8 @@ export const DB = {
 
     window.store.getState().setExcludedRelicPotentialCharacters(x.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(x.version)
-    window.store.getState().setInventoryWidth(x.relicLocator.inventoryWidth ?? 7)
-    window.store.getState().setRowLimit(x.relicLocator.rowLimit ?? 10)
+    window.store.getState().setInventoryWidth(x.relicLocator?.inventoryWidth ?? 7)
+    window.store.getState().setRowLimit(x.relicLocator?.rowLimit ?? 10)
 
     assignRanks(x.characters)
     DB.setRelics(x.relics)
@@ -772,7 +772,7 @@ export const DB = {
       }
     }
 
-    replacementRelics = IndexRelics(replacementRelics)
+    IndexRelics(replacementRelics)
 
     console.log('Replacement relics', replacementRelics)
 
@@ -866,7 +866,7 @@ export const DB = {
     console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
-    oldRelics = IndexRelics(oldRelics)
+    IndexRelics(oldRelics)
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
@@ -1035,5 +1035,4 @@ function IndexRelics(arr) {
   for (let i = arr.length - 1; i >= 0; i--) {
     arr[i].ageIndex = i
   }
-  return arr
 }

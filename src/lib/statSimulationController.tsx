@@ -17,6 +17,7 @@ import { SaveState } from 'lib/saveState'
 import DB from 'lib/db'
 import { Form } from 'types/Form'
 import { SimulationResult } from 'lib/characterScorer'
+import { OptimizerParams } from 'lib/optimizer/calculateParams'
 
 export type Simulation = {
   name?: string
@@ -155,7 +156,7 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{ width: imgSize * 2 + 5 }} justify="center">
+      <Flex style={{ width: imgSize * 2 + 5 }} justify='center'>
         <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
         <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
       </Flex>
@@ -264,6 +265,7 @@ export type RunSimulationsParams = {
 
 export function runSimulations(
   form: Form,
+  cachedOptimizerParams: OptimizerParams,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -368,7 +370,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const c = calculateBuild(form, relics)
+    const c = calculateBuild(form, relics, cachedOptimizerParams)
 
     renameFields(c)
     // For optimizer grid syncing with sim table

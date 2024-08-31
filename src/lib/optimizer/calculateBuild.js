@@ -33,15 +33,17 @@ function generateUnusedSets(relics) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-export function calculateBuild(request, relics) {
+export function calculateBuild(request, relics, cachedParams) {
   request = Utils.clone(request)
 
-  const params = generateParams(request)
+  const params = cachedParams ?? generateParams(request)
 
-  // Precompute
+  // The conditional registry gets used during each sim and needs to be regenerated
   calculateConditionalRegistry(request, params)
-  calculateConditionals(request, params)
-  calculateTeammates(request, params)
+  if (!cachedParams) {
+    calculateConditionals(request, params)
+    calculateTeammates(request, params)
+  }
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)

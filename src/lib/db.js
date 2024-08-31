@@ -1032,9 +1032,8 @@ function deduplicateArray(arr) {
 }
 
 function IndexRelics(arr) {
-  arr.reverse()
-  for (let i = arr.length - 1; i >= 0; i--) {
-    arr[i].ageIndex = i
+  const length = arr.length
+  for (let i = 0; i < length; i++) {
+    arr[i].ageIndex = length - i - 1
   }
-  arr.reverse()
 }

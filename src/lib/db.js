@@ -692,9 +692,6 @@ export const DB = {
     const ageIndex = relicsById[id].ageIndex
     delete relicsById[id]
     window.store.getState().setRelicsById(relicsById)
-    DB.getRelics()// update assuming the delete operation is matched in game
-      .filter((x) => x.ageIndex > ageIndex)
-      .forEach((x) => x.ageIndex--)
 
     // This refreshes the grid for the character equipped relics color coding
     if (window.characterGrid?.current?.api) {

@@ -90,11 +90,11 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
       continue
     }
 
-    const subLimit = i + gpuContext.CYCLES_PER_INVOCATION >= limit ? limit : i + gpuContext.CYCLES_PER_INVOCATION
+    const cycleLimit = i + gpuContext.CYCLES_PER_INVOCATION >= limit ? limit : i + gpuContext.CYCLES_PER_INVOCATION
 
     if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
       // Use a more optimized loop for when the results heap is overcapped already
-      for (let j = i; j < subLimit; j++) {
+      for (let j = i; j < cycleLimit; j++) {
         const value = array[j]
         if (value <= top) continue
 
@@ -104,7 +104,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
         }).value
       }
     } else {
-      for (let j = i; j < subLimit; j++) {
+      for (let j = i; j < cycleLimit; j++) {
         const value = array[j]
         if (value < 0) continue
         if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {

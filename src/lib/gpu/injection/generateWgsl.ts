@@ -96,7 +96,7 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
     filter('c.ERR > maxErr'),
   ].filter((str) => str.length > 0).join(' ||\n')
 
-  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', `
+  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', indent(`
 if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
@@ -105,7 +105,7 @@ ${format(basicFilters)}
     continue;
   }
 }
-  `)
+  `, 2))
 
   return wgsl
 }
@@ -154,7 +154,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.COMBO_DMG > maxCombo'),
   ].filter((str) => str.length > 0).join(' ||\n')
 
-  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', `
+  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', indent(`
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
@@ -163,7 +163,7 @@ ${format(combatFilters)}
     continue;
   }
 }
-  `)
+  `, 2))
 
   return wgsl
 }
@@ -175,6 +175,7 @@ function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
+const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
   `)
 
   if (gpuParams.DEBUG) {
@@ -193,12 +194,23 @@ const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 results[index] = x; // DEBUG
-    `, 1))
+    `, 2))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 results[index] = x.${sortOption};
 hasResult = 1;
-    `, 1))
+    `, 2))
+  }
+
+  if (gpuParams.DEBUG) {
+    wgsl = wgsl.replace('/* INJECT CYCLE SKIP */', indent(`
+    `, 2))
+  } else {
+    wgsl = wgsl.replace('/* INJECT CYCLE SKIP */', indent(`
+  if (hasResult == 0) {
+    results[indexGlobal * CYCLES_PER_INVOCATION] = -10;
+  }
+    `, 2))
   }
 
   return wgsl

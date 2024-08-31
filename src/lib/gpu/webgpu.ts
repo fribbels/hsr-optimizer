@@ -84,9 +84,15 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
     limit += diff
   }
 
+  // The -10 flag signifies that an entire thread generated 0 results, skip all the thread's cycles
+
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let j = 0; j < limit; j++) {
       const value = array[j]
+      if (value == -10) {
+        j += gpuContext.CYCLES_PER_INVOCATION - 1
+        continue
+      }
       if (value <= top) continue
 
       top = resultsQueue.fixedSizePushOvercapped({
@@ -97,16 +103,17 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   } else {
     for (let j = 0; j < limit; j++) {
       const value = array[j]
+      if (value == -10) {
+        j += gpuContext.CYCLES_PER_INVOCATION - 1
+        continue
+      }
       if (value < 0) continue
-
-      const permutationNumber = offset + j
-
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
         continue
       }
 
       resultsQueue.fixedSizePush({
-        index: permutationNumber,
+        index: offset + j,
         value: value,
       })
       top = resultsQueue.top()!.value

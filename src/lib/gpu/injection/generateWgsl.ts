@@ -197,6 +197,7 @@ results[index] = x; // DEBUG
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 results[index] = x.${sortOption};
+hasResult = 1;
     `, 1))
   }
 

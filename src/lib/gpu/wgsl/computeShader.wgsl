@@ -40,6 +40,8 @@ fn main(
     workgroup_id.y * num_workgroups.x +
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
 
+  var hasResult = 0;
+
   // Calculate global_invocation_index
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
@@ -624,6 +626,10 @@ fn main(
   /* INJECT RETURN VALUE */
   // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
   // END RETURN VALUE
+  }
+
+  if (hasResult == 0) {
+    results[indexGlobal * CYCLES_PER_INVOCATION] = -10;
   }
 }
 

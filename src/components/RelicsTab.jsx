@@ -47,6 +47,7 @@ export default function RelicsTab() {
   window.setRelicRows = setRelicRows
 
   const [selectedRelic, setSelectedRelic] = useState()
+  const [selectedRelics, setselectedRelics] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
@@ -270,8 +271,17 @@ export default function RelicsTab() {
     suppressHeaderMenuButton: true,
   }), [])
 
+  const onSelectionChanged = useCallback((event) => {
+    console.log('selectionChanged', event)
+    setselectedRelics(event.api.getSelectedRows())
+  }, [])
+
   const rowClickedListener = useCallback((event) => {
     console.log('rowClicked', event)
+    if (!event.type) {
+      const node = gridRef.current.api.getRowNode(event.id)
+      node.setSelected(true, true)
+    }
     setSelectedRelic(event.data)
   }, [])
 
@@ -317,7 +327,7 @@ export default function RelicsTab() {
   function deleteClicked(isOpen) {
     console.log('delete clicked')
 
-    if (!selectedRelic) {
+    if (selectedRelics.length === 0) {
       setDeleteConfirmOpen(false)
       return Message.error('No relic selected')
     }
@@ -326,9 +336,12 @@ export default function RelicsTab() {
   }
 
   function deletePerform() {
-    if (!selectedRelic) return Message.error('No relic selected')
+    if (selectedRelics.length === 0) return Message.error('No relic selected')
 
-    DB.deleteRelic(selectedRelic.id)
+    selectedRelics.forEach((relic) => {
+      DB.deleteRelic(relic.id)
+    })
+
     setRelicRows(DB.getRelics())
     setSelectedRelic(undefined)
     SaveState.save()
@@ -379,14 +392,14 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>
-      <RelicModal selectedRelic={selectedRelic} type="add" onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
-      <RelicModal selectedRelic={selectedRelic} type="edit" onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='add' onOk={onAddOk} setOpen={setAddModalOpen} open={addModalOpen}/>
+      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
       <Flex vertical gap={10}>
 
         <RelicFilterBar setValueColumns={setValueColumns} valueColumns={valueColumns} valueColumnOptions={valueColumnOptions}/>
 
         <div
-          id="relicGrid" className="ag-theme-balham-dark" style={{
+          id='relicGrid' className='ag-theme-balham-dark' style={{
             ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
             ...getGridTheme(token),
           }}
@@ -403,35 +416,41 @@ export default function RelicsTab() {
 
             animateRows={true}
             headerHeight={24}
-            rowSelection="single"
+            rowSelection='multiple'
 
             pagination={true}
             paginationPageSizeSelector={false}
             paginationPageSize={2000}
 
+            onSelectionChanged={onSelectionChanged}
             onRowClicked={rowClickedListener}
             onRowDoubleClicked={onRowDoubleClickedListener}
             navigateToNextCell={navigateToNextCell}
           />
         </div>
         <Flex gap={10}>
-          <Button type="primary" onClick={editClicked} style={{ width: '150px' }}>
+          <Button
+            type='primary'
+            onClick={editClicked}
+            style={{ width: '150px' }}
+            disabled={selectedRelics.length === 0 || selectedRelics.length > 1}
+          >
             Edit Relic
           </Button>
-          <Button type="primary" onClick={addClicked} style={{ width: '150px' }}>
+          <Button type='primary' onClick={addClicked} style={{ width: '150px' }}>
             Add New Relic
           </Button>
           <Popconfirm
-            title="Confirm"
-            description="Delete this relic?"
+            title='Confirm'
+            description={selectedRelics.length > 1 ? `Delete the selected ${selectedRelics.length} relics?` : 'Delete the selected relic?'}
             open={deleteConfirmOpen}
             onOpenChange={deleteClicked}
             onConfirm={deletePerform}
-            placement="bottom"
-            okText="Yes"
-            cancelText="Cancel"
+            placement='bottom'
+            okText='Yes'
+            cancelText='Cancel'
           >
-            <Button type="primary" style={{ width: '150px' }}>
+            <Button type='primary' style={{ width: '150px' }} disabled={selectedRelics.length === 0}>
               Delete Relic
             </Button>
           </Popconfirm>
@@ -551,7 +570,7 @@ export default function RelicsTab() {
                         return (
                           <Flex key={x.cid} gap={4}>
                             <li style={x.owned ? { fontWeight: 'bold' } : undefined}>
-                              <Flex align="center" gap={8}>
+                              <Flex align='center' gap={8}>
                                 {rect}
                                 <a style={{ height: '19px' }}> {/* 20 px is too big and pushes the characters below the lower edge of the plot */}
                                   <img

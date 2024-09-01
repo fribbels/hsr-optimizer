@@ -40,7 +40,7 @@ const { Text } = Typography
 const throttleSeconds = 10
 
 export default function RelicScorerTab() {
-  console.log('RelicScorerTab')
+  console.log('======================================================================= RENDER RelicScorerTab')
 
   const [loading, setLoading] = useState(false)
   const [availableCharacters, setAvailableCharacters] = useState([])
@@ -194,11 +194,11 @@ export default function RelicScorerTab() {
 
   return (
     <div>
-      <Flex vertical gap={0} align="center">
+      <Flex vertical gap={0} align='center'>
         {/* <Flex gap={10} vertical align="center"> */}
         {/* <Text><h3 style={{color: '#ffaa4f'}}>The relic scorer may be down for maintenance after the patch, please try again later</h3></Text> */}
         {/* </Flex> */}
-        <Flex gap={10} vertical align="center">
+        <Flex gap={10} vertical align='center'>
           <Text>
             Enter your account UID to score your profile characters at level 80 with maxed traces. Log out of the game to refresh instantly.
             {window.officialOnly ? '' : ` (Current version ${CURRENT_DATA_VERSION})`}
@@ -209,13 +209,13 @@ export default function RelicScorerTab() {
           onFinish={onFinish}
           initialValues={{ scorerId: initialId }}
         >
-          <Flex style={{ margin: 10, width: 1100 }} justify="center" align="center" gap={10}>
-            <Form.Item size="default" name="scorerId">
-              <Input style={{ width: 150 }} placeholder="Account UID"/>
+          <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
+            <Form.Item size='default' name='scorerId'>
+              <Input style={{ width: 150 }} placeholder='Account UID'/>
             </Form.Item>
             <Button
-              type="primary"
-              htmlType="submit"
+              type='primary'
+              htmlType='submit'
               loading={loading}
               style={{ width: 150 }}
             >
@@ -286,7 +286,7 @@ function CharacterPreviewSelection(props) {
     onClick: handleMenuClicked,
   }
 
-  console.log('CharacterPreviewSelection', props)
+  // console.log('CharacterPreviewSelection', props)
 
   useEffect(() => {
     setScoringAlgorithmFocusCharacter(props.selectedCharacter?.id)
@@ -297,7 +297,7 @@ function CharacterPreviewSelection(props) {
     const availableCharacter = props.availableCharacters[i]
     options.push({
       label: (
-        <Flex align="center" justify="space-around">
+        <Flex align='center' justify='space-around'>
           <img style={{ width: 100, height: 100, objectFit: 'contain' }} src={Assets.getCharacterAvatarById(availableCharacter.id)}></img>
         </Flex>
       ),
@@ -451,8 +451,8 @@ function CharacterPreviewSelection(props) {
   }
 
   return (
-    <Flex style={{ width: 1300, marginLeft: 25 }} justify="space-around">
-      <Flex vertical align="center" gap={5} style={{ marginBottom: 100, width: 1068 }}>
+    <Flex style={{ width: 1300, marginLeft: 25 }} justify='space-around'>
+      <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
           <Sidebar presetClicked={presetClicked} optimizeClicked={optimizeClicked} activeKey={activeKey}/>
           <Flex gap={10} style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}>
@@ -478,12 +478,12 @@ function CharacterPreviewSelection(props) {
         </Flex>
 
         <Segmented style={{ width: '100%', overflow: 'hidden' }} options={options} block onChange={selectionChange} value={props.selectedCharacter?.id}/>
-        <Flex id="previewWrapper" style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
+        <Flex id='previewWrapper' style={{ padding: '5px', backgroundColor: token.colorBgBase }}>
           <CharacterPreview
-            class="relicScorerCharacterPreview"
+            class='relicScorerCharacterPreview'
             character={props.selectedCharacter}
-            source="scorer"
-            id="relicScorerPreview"
+            source='scorer'
+            id='relicScorerPreview'
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
@@ -533,7 +533,7 @@ function Sidebar(props) {
             return (
               <Button
                 key={key++}
-                type="text"
+                type='text'
                 style={{
                   width: 107,
                   height: 107,
@@ -576,8 +576,8 @@ function Sidebar(props) {
           }}
         >
           <Button
-            type="primary"
-            shape="round"
+            type='primary'
+            shape='round'
             style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
           >
             <Icon component={ExperimentOutlined} style={{ fontSize: 65 }}/>

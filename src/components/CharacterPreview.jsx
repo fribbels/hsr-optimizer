@@ -45,7 +45,7 @@ const buttonStyle = {
 
 // This is hardcoded for the screenshot-to-clipboard util. Probably want a better way to do this if we ever change background colors
 export function CharacterPreview(props) {
-  console.log('@CharacterPreview')
+  console.log('======================================================================= RENDER CharacterPreview')
 
   const { token } = useToken()
 

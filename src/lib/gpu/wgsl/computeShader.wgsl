@@ -178,6 +178,8 @@ fn main(
 
     let epsilon = 0.000001f;
 
+    // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
+
     c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
     c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
     c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
@@ -200,7 +202,6 @@ fn main(
     c.Wind_DMG      = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
     c.Quantum_DMG   = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
     c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
-    x.WEIGHT        = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     // Calculate basic stats
 
@@ -233,8 +234,6 @@ fn main(
     c.Wind_DMG      += 0.10 * p2(x.sets.EagleOfTwilightLine);
     c.Quantum_DMG   += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
     c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
-
-    addElementalDmg(&c, &x);
 
     // Calculate set effects
 
@@ -303,6 +302,9 @@ fn main(
     );
 
     // Add base to computed
+
+    addElementalDmg(&c, &x);
+    x.WEIGHT = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
     x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;

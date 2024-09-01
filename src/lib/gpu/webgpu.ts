@@ -54,6 +54,7 @@ export async function gpuOptimize(props: {
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
     await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 

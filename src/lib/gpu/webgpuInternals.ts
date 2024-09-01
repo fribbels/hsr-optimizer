@@ -9,7 +9,13 @@ export async function getDevice() {
   if (adapter == null) {
     return null
   }
-  return await adapter.requestDevice()
+  return await adapter.requestDevice({
+    requiredLimits: {
+      // maxComputeInvocationsPerWorkgroup: 512,
+      // maxComputeWorkgroupSizeX: 512,
+      // maxStorageBufferBindingSize: 268435456,
+    },
+  })
 }
 
 export function generatePipeline(device: GPUDevice, wgsl: string) {
@@ -18,7 +24,7 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     code: wgsl,
   })
 
-  // console.log(wgsl)
+  console.log(wgsl)
 
   return device.createComputePipeline({
     layout: device.createPipelineLayout({
@@ -135,7 +141,7 @@ export function initializeGpuPipeline(
 ): GpuExecutionContext {
   const WORKGROUP_SIZE = 256
   const BLOCK_SIZE = 65536
-  const CYCLES_PER_INVOCATION = 128
+  const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = 1024
   const DEBUG = debug
 

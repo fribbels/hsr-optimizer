@@ -58,6 +58,8 @@ fn main(
   let relicSetCount = u32(params.relicSetCount);
   let ornamentSetCount = u32(params.ornamentSetCount);
 
+  let epsilon = 0.000001f;
+
   var failures: f32 = 1;
 
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
@@ -176,8 +178,6 @@ fn main(
 
     // Calculate relic stat sums
 
-    let epsilon = 0.000001f;
-
     // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
 
     c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
@@ -216,24 +216,13 @@ fn main(
     c.BE  += characterBE + lcBE + traceBE;
     c.ERR += characterERR + lcERR + traceERR;
     c.OHB += characterOHB + lcOHB + traceOHB;
-    c.Physical_DMG  += tracePhysical_DMG;
-    c.Fire_DMG      += traceFire_DMG;
-    c.Ice_DMG       += traceIce_DMG;
-    c.Lightning_DMG += traceLightning_DMG;
-    c.Wind_DMG      += traceWind_DMG;
-    c.Quantum_DMG   += traceQuantum_DMG;
-    c.Imaginary_DMG += traceImaginary_DMG;
-
-
-    // Calculate elemental stats after set counts
-
-    c.Physical_DMG  += 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
-    c.Fire_DMG      += 0.10 * p2(x.sets.FiresmithOfLavaForging);
-    c.Ice_DMG       += 0.10 * p2(x.sets.HunterOfGlacialForest);
-    c.Lightning_DMG += 0.10 * p2(x.sets.BandOfSizzlingThunder);
-    c.Wind_DMG      += 0.10 * p2(x.sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += 0.10 * p2(x.sets.GeniusOfBrilliantStars);
-    c.Imaginary_DMG += 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
+    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(x.sets.ChampionOfStreetwiseBoxing);
+    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(x.sets.FiresmithOfLavaForging);
+    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(x.sets.HunterOfGlacialForest);
+    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(x.sets.BandOfSizzlingThunder);
+    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(x.sets.EagleOfTwilightLine);
+    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(x.sets.GeniusOfBrilliantStars);
+    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(x.sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
 
@@ -303,9 +292,6 @@ fn main(
 
     // Add base to computed
 
-    addElementalDmg(&c, &x);
-    x.WEIGHT = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
-
     x.ATK += c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
     x.DEF += c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
     x.HP  += c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
@@ -317,6 +303,9 @@ fn main(
     x.BE  += c.BE   + combatBuffsBE;
     x.ERR += c.ERR;
     x.OHB += c.OHB;
+
+    addElementalDmg(&c, &x);
+    x.WEIGHT = epsilon + head.weightScore + hands.weightScore + body.weightScore + feet.weightScore + planarSphere.weightScore + linkRope.weightScore;
 
     x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
     x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;

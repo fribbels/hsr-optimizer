@@ -1,5 +1,5 @@
 import { Relic } from 'types/Relic'
-import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
+import { createGpuBuffer, GpuExecutionContext } from 'lib/gpu/webgpuInternals'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants'
 import { OptimizerParams } from 'lib/optimizer/calculateParams'
 import { StringToNumberMap } from 'types/Common'
@@ -34,6 +34,7 @@ export function generateParamsMatrix(
   offset: number,
   relics: RelicsByPart,
   paramsArray: number[],
+  gpuContext: GpuExecutionContext,
 ) {
   const lSize = relics.LinkRope.length
   const pSize = relics.PlanarSphere.length
@@ -55,6 +56,7 @@ export function generateParamsMatrix(
   paramsArray[9] = b
   paramsArray[10] = g
   paramsArray[11] = h
+  paramsArray[12] = gpuContext.resultsQueue.top()?.value ?? 0
 
   return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
@@ -82,18 +84,19 @@ export function generateBaseParamsArray(relics: RelicsByPart, params: OptimizerP
     0,
     0,
     0,
+    0,
     Object.keys(Constants.SetsRelics).length,
     Object.keys(Constants.SetsOrnaments).length, // 13
   ]
 
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[14 + StatsToWebgpuIndex[stat]] = params.character.base[stat]
+    paramsArray[15 + StatsToWebgpuIndex[stat]] = params.character.base[stat]
   }
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[36 + StatsToWebgpuIndex[stat]] = params.character.lightCone[stat]
+    paramsArray[37 + StatsToWebgpuIndex[stat]] = params.character.lightCone[stat]
   }
   for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[58 + StatsToWebgpuIndex[stat]] = params.character.traces[stat]
+    paramsArray[59 + StatsToWebgpuIndex[stat]] = params.character.traces[stat]
   }
 
   return paramsArray

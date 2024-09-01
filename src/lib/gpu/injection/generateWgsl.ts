@@ -62,16 +62,21 @@ function format(text: string) {
 }
 
 function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
+  // CTRL+ F: RESULTS ASSIGNMENT
   return wgsl.replace('/* INJECT SET FILTERS */', indent(`
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
-  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
+  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   continue;
 }
   `, 2))
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+  const sortOption: string = SortOption[request.resultSort!].gpuProperty
+  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
   const filter = filterFn(request)
+
+  const sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
 
   const basicFilters = [
     filter('c.SPD < minSpd'),
@@ -94,23 +99,26 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
     filter('c.BE  > maxBe'),
     filter('c.ERR < minErr'),
     filter('c.ERR > maxErr'),
+    filter(sortString),
   ].filter((str) => str.length > 0).join(' ||\n')
 
-  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', `
+  // CTRL+ F: RESULTS ASSIGNMENT
+  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', indent(`
 if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
+    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
     continue;
   }
 }
-  `)
+  `, 2))
 
   return wgsl
 }
 
 function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+  const sortOption: string = SortOption[request.resultSort!].gpuProperty
   const filter = filterFn(request)
 
   const combatFilters = [
@@ -152,18 +160,20 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.BREAK_DMG > maxBreak'),
     filter('x.COMBO_DMG < minCombo'),
     filter('x.COMBO_DMG > maxCombo'),
+    filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
-  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', `
+  // CTRL+ F: RESULTS ASSIGNMENT
+  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', indent(`
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
   ) {
-    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-1'};
+    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
     continue;
   }
 }
-  `)
+  `, 2))
 
   return wgsl
 }
@@ -175,6 +185,7 @@ function injectGpuParams(wgsl: string, request: Form, gpuParams: GpuConstants) {
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
+const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
   `)
 
   if (gpuParams.DEBUG) {
@@ -189,15 +200,25 @@ const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 
   // eslint-disable-next-line
   const sortOption: string = SortOption[request.resultSort!].gpuProperty
+  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
 
+  const valueString = sortOptionComputed ? `x.${sortOption}` : `c.${sortOption}`
+
+  // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 results[index] = x; // DEBUG
-    `, 1))
+    `, 2))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-results[index] = x.${sortOption};
-    `, 1))
+if (statDisplay == 0) {
+  results[index] = x.${sortOption};
+  failures = 1;
+} else {
+  results[index] = ${valueString};
+  failures = 1;
+}
+    `, 2))
   }
 
   return wgsl

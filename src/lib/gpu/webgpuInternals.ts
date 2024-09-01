@@ -216,7 +216,7 @@ export function initializeGpuPipeline(
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number) {
-  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext.baseParamsArray)
+  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext.baseParamsArray, gpuContext)
 
   const device = gpuContext.device
   const computePipeline = gpuContext.computePipeline

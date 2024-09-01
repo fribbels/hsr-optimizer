@@ -26,7 +26,7 @@ export const SaveState = {
       const state = localStorage.state
       if (state) {
         const parsed = JSON.parse(state)
-        console.log('Loaded SaveState', parsed)
+        console.log('Loaded SaveState')
 
         DB.setStore(parsed, autosave)
         return true

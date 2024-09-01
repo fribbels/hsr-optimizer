@@ -27,13 +27,13 @@ export async function gpuOptimize(props: {
   }
 
   device.onuncapturederror = (event) => {
-    if (window.store.getState().optimizationInProgress == true) {
+    if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
       Message.error('The GPU acceleration process has crashed - results may be invalid. Please report a bug to the Discord server', 15)
     }
   }
 
-  window.store.getState().setOptimizerStartTime(new Date())
+  window.store.getState().setOptimizerStartTime(Date.now())
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -49,7 +49,7 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions })
+  console.log('Raw inputs', { params, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
@@ -62,7 +62,7 @@ export async function gpuOptimize(props: {
 
     // logIterationTimer(iteration, gpuContext)
 
-    if (window.store.getState().optimizationInProgress == false) {
+    if (!window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
       outputResults(gpuContext)
       destroyPipeline(gpuContext)
@@ -182,7 +182,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
 
   // console.log(outputs)
 
-  const sortOption = SortOption[gpuContext.request.resultSort]
+  const sortOption = SortOption[gpuContext.request.resultSort!]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)

@@ -82,7 +82,7 @@ export const Optimizer = {
     RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
     console.log('Optimize request', request)
-    console.log('Optimize relics', relics)
+    // console.log('Optimize relics', relics)
 
     const relicSetSolutions = generateRelicSetSolutions(request)
     const ornamentSetSolutions = generateOrnamentSetSolutions(request)

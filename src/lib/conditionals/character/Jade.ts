@@ -141,7 +141,6 @@ export default (e: Eidolon): CharacterConditional => {
       x[Stats.CR] += (e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0
 
       x.BASIC_SCALING += basicScaling
-      x.SKILL_SCALING += skillScaling
       x.ULT_SCALING += ultScaling
       x.FUA_SCALING += fuaScaling
       x.FUA_SCALING += (r.enhancedFollowUp) ? ultFuaScalingBuff : 0

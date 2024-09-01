@@ -200,6 +200,9 @@ const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 
   // eslint-disable-next-line
   const sortOption: string = SortOption[request.resultSort!].gpuProperty
+  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
+
+  const valueString = sortOptionComputed ? `x.${sortOption}` : `c.${sortOption}`
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
@@ -208,8 +211,13 @@ results[index] = x; // DEBUG
     `, 2))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-results[index] = x.${sortOption};
-failures = 1;
+if (statDisplay == 0) {
+  results[index] = x.${sortOption};
+  failures = 1;
+} else {
+  results[index] = ${valueString};
+  failures = 1;
+}
     `, 2))
   }
 

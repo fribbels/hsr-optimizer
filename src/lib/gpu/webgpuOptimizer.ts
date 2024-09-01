@@ -54,11 +54,34 @@ export async function gpuOptimize(props: {
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
-    await gpuReadBuffer.mapAsync(GPUMapMode.READ)
 
-    void readBuffer(offset, gpuReadBuffer, gpuContext)
+    /////////////////////////////////////////////////////////////////////////////////
+    await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+    const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
+    console.log(firstElement)
+    gpuReadBuffer.unmap()
+
+    if (firstElement == -2048) {
+      const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+
+      window.store.getState().setOptimizerEndTime(Date.now())
+      window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+      window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+
+      gpuReadBuffer.unmap()
+      gpuReadBuffer.destroy()
+
+      if (gpuContext.permutations <= maxPermNumber) {
+        outputResults(gpuContext)
+        destroyPipeline(gpuContext)
+      }
+      /////////////////////////////////////////////////////////////////////////////////
+    } else {
+      await gpuReadBuffer.mapAsync(GPUMapMode.READ)
+
+      void readBuffer(offset, gpuReadBuffer, gpuContext)
+    }
 
     // logIterationTimer(iteration, gpuContext)
 

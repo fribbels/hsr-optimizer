@@ -18,7 +18,7 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     code: wgsl,
   })
 
-  // console.log(wgsl)
+  console.log(wgsl)
 
   return device.createComputePipeline({
     layout: device.createPipelineLayout({
@@ -216,7 +216,7 @@ export function initializeGpuPipeline(
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number) {
-  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext.baseParamsArray)
+  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext.baseParamsArray, gpuContext)
 
   const device = gpuContext.device
   const computePipeline = gpuContext.computePipeline

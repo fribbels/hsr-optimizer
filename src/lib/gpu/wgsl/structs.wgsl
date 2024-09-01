@@ -107,6 +107,8 @@ struct Params {
   xg: f32,
   xh: f32,
 
+  threshold: f32,
+
   relicSetCount: f32,
   ornamentSetCount: f32,
 

@@ -84,39 +84,39 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
     limit += diff
   }
 
-  for (let i = 0; i < limit; i += gpuContext.CYCLES_PER_INVOCATION) {
-    // The -10 flag signifies that an entire thread's cycles generated 0 results, skip all the thread's cycles
-    if (array[i] == -10) {
-      continue
+  if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+    for (let j = limit - 1; j >= 0; j--) {
+      const value = array[j]
+      if (value < 0) {
+        j += value + 1
+        continue
+      }
+      if (value <= top) continue
+
+      top = resultsQueue.fixedSizePushOvercapped({
+        index: offset + j,
+        value: value,
+      }).value
     }
-
-    const cycleLimit = i + gpuContext.CYCLES_PER_INVOCATION >= limit ? limit : i + gpuContext.CYCLES_PER_INVOCATION
-
-    if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-      // Use a more optimized loop for when the results heap is overcapped already
-      for (let j = i; j < cycleLimit; j++) {
-        const value = array[j]
-        if (value <= top) continue
-
-        top = resultsQueue.fixedSizePushOvercapped({
-          index: offset + j,
-          value: value,
-        }).value
+  } else {
+    for (let j = limit - 1; j >= 0; j--) {
+      const value = array[j]
+      if (value < 0) {
+        j += value + 1
+        continue
       }
-    } else {
-      for (let j = i; j < cycleLimit; j++) {
-        const value = array[j]
-        if (value < 0) continue
-        if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-          continue
-        }
 
-        resultsQueue.fixedSizePush({
-          index: offset + j,
-          value: value,
-        })
-        top = resultsQueue.top()!.value
+      const permutationNumber = offset + j
+
+      if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+        continue
       }
+
+      resultsQueue.fixedSizePush({
+        index: permutationNumber,
+        value: value,
+      })
+      top = resultsQueue.top()!.value
     }
   }
 

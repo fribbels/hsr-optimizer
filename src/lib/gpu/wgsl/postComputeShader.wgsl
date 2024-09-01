@@ -30,16 +30,16 @@ fn main(
     return;
   }
 
-  var hasTotalResult = 0;
+  var workgroupsSkipped: u32 = 256;
   for (var i: u32 = 0; i < 256; i += 1) {
     let index = i * 512 * 256;
     if (results[index] != -1024) {
-      hasTotalResult = 1;
+      workgroupsSkipped = i;
       break;
     }
   }
 
-  if (hasTotalResult == 0) {
-    results[0] = -2048;
+  if (workgroupsSkipped > 0) {
+    results[0] = -2048 - f32(workgroupsSkipped);
   }
 }

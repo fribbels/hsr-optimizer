@@ -54,28 +54,25 @@ export async function gpuOptimize(props: {
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+    const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     /////////////////////////////////////////////////////////////////////////////////
     await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
     const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
-    console.log(firstElement)
+    // console.log(firstElement)
     gpuReadBuffer.unmap()
-
-    if (firstElement == -2048) {
-      const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-
-      window.store.getState().setOptimizerEndTime(Date.now())
-      window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-      window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
-
+    if (firstElement == -2304) {
+      // no-op
+    } else if (firstElement <= -2048) {
       gpuReadBuffer.unmap()
-      gpuReadBuffer.destroy()
 
-      if (gpuContext.permutations <= maxPermNumber) {
-        outputResults(gpuContext)
-        destroyPipeline(gpuContext)
-      }
+      const workgroupsSkipped = -(firstElement + 2048)
+      const elementOffset = workgroupsSkipped * 512 * 256
+
+      await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset * 4)
+
+      void readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
       /////////////////////////////////////////////////////////////////////////////////
     } else {
       await gpuReadBuffer.mapAsync(GPUMapMode.READ)
@@ -83,9 +80,16 @@ export async function gpuOptimize(props: {
       void readBuffer(offset, gpuReadBuffer, gpuContext)
     }
 
+    window.store.getState().setOptimizerEndTime(Date.now())
+    window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+    window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+
     // logIterationTimer(iteration, gpuContext)
 
-    if (!window.store.getState().optimizationInProgress) {
+    gpuReadBuffer.unmap()
+    gpuReadBuffer.destroy()
+
+    if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
       outputResults(gpuContext)
       destroyPipeline(gpuContext)
@@ -95,19 +99,21 @@ export async function gpuOptimize(props: {
 }
 
 // eslint-disable-next-line
-async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext) {
-  const arrayBuffer = gpuReadBuffer.getMappedRange()
+async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
+  const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
+
   const resultsQueue = gpuContext.resultsQueue
   const array = new Float32Array(arrayBuffer)
   let top = resultsQueue.top()?.value ?? 0
 
-  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
+  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
   const diff = gpuContext.permutations - maxPermNumber
   if (diff < 0) {
     limit += diff
   }
 
+  const indexOffset = offset + elementOffset
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let j = limit - 1; j >= 0; j--) {
       const value = array[j]
@@ -118,7 +124,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
       if (value <= top) continue
 
       top = resultsQueue.fixedSizePushOvercapped({
-        index: offset + j,
+        index: indexOffset + j,
         value: value,
       }).value
     }
@@ -130,34 +136,20 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
         continue
       }
 
-      const permutationNumber = offset + j
-
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
         continue
       }
 
       resultsQueue.fixedSizePush({
-        index: permutationNumber,
+        index: indexOffset + j,
         value: value,
       })
       top = resultsQueue.top()!.value
     }
   }
 
-  window.store.getState().setOptimizerEndTime(Date.now())
-  window.store.getState().setPermutationsResults(resultsQueue.size())
-  window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
-
   if (gpuContext.DEBUG) {
     debugWebgpuOutput(gpuContext, arrayBuffer)
-  }
-
-  gpuReadBuffer.unmap()
-  gpuReadBuffer.destroy()
-
-  if (gpuContext.permutations <= maxPermNumber) {
-    outputResults(gpuContext)
-    destroyPipeline(gpuContext)
   }
 }
 

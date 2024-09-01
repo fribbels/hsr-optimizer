@@ -13,7 +13,7 @@ import { SortOption } from 'lib/optimizer/sortOptions'
 import { BufferPacker } from 'lib/bufferPacker'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
-import { gpuOptimize } from 'lib/gpu/webgpu'
+import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { getDevice } from 'lib/gpu/webgpuInternals'
 
 let CANCEL = false

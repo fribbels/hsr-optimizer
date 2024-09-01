@@ -120,8 +120,9 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
     }
   }
 
+  window.store.getState().setOptimizerEndTime(Date.now())
   window.store.getState().setPermutationsResults(resultsQueue.size())
-  window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, offset))
+  window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
 
   if (gpuContext.DEBUG) {
     debugWebgpuOutput(gpuContext, arrayBuffer)
@@ -145,6 +146,12 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const bSize = relics.Body.length
   const gSize = relics.Hands.length
   const hSize = relics.Head.length
+
+  if (!gpuContext.cancelled) {
+    window.store.getState().setPermutationsSearched(gpuContext.permutations)
+  }
+  window.store.getState().setOptimizationInProgress(false)
+  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: any[] = []
@@ -172,19 +179,11 @@ function outputResults(gpuContext: GpuExecutionContext) {
     outputs.push(c)
   }
 
-  console.log(outputs)
+  // console.log(outputs)
 
   const sortOption = SortOption[gpuContext.request.resultSort]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
   window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-
-  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-  window.store.getState().setOptimizationInProgress(false)
-  window.store.getState().setOptimizerStartTime(null)
-
-  if (!gpuContext.cancelled) {
-    window.store.getState().setPermutationsSearched(gpuContext.permutations)
-  }
 }

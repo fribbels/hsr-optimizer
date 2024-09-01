@@ -36,7 +36,6 @@ export const Optimizer = {
   cancel: (id) => {
     CANCEL = true
     WorkerPool.cancel(id)
-    window.store.getState().setOptimizerStartTime(null)
   },
 
   getFilteredRelics: (request) => {
@@ -191,6 +190,7 @@ export const Optimizer = {
 
           window.store.getState().setPermutationsResults(queueResults.size())
           window.store.getState().setPermutationsSearched(Math.min(permutations, searched))
+          window.store.getState().setOptimizerEndTime(Date.now())
 
           if (inProgress == 0 || CANCEL) {
             window.store.getState().setOptimizationInProgress(false)

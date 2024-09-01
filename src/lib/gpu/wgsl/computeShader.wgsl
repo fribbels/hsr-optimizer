@@ -39,31 +39,31 @@ fn main(
     workgroup_id.x +
     workgroup_id.y * num_workgroups.x +
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
+  let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
+
+  // Load params
+  let lSize = i32(params.lSize);
+  let pSize = i32(params.pSize);
+  let fSize = i32(params.fSize);
+  let bSize = i32(params.bSize);
+  let gSize = i32(params.gSize);
+  let hSize = i32(params.hSize);
+  let xl = i32(params.xl);
+  let xp = i32(params.xp);
+  let xf = i32(params.xf);
+  let xb = i32(params.xb);
+  let xg = i32(params.xg);
+  let xh = i32(params.xh);
+  let threshold = f32(params.threshold);
+  let relicSetCount = u32(params.relicSetCount);
+  let ornamentSetCount = u32(params.ornamentSetCount);
 
   var failures: f32 = 1;
 
-  // Calculate global_invocation_index
-  let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
-
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
-    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
+    // Calculate global_invocation_index
 
-    // Load params
-    let lSize = i32(params.lSize);
-    let pSize = i32(params.pSize);
-    let fSize = i32(params.fSize);
-    let bSize = i32(params.bSize);
-    let gSize = i32(params.gSize);
-    let hSize = i32(params.hSize);
-    let xl = i32(params.xl);
-    let xp = i32(params.xp);
-    let xf = i32(params.xf);
-    let xb = i32(params.xb);
-    let xg = i32(params.xg);
-    let xh = i32(params.xh);
-    let threshold = f32(params.threshold);
-    let relicSetCount = u32(params.relicSetCount);
-    let ornamentSetCount = u32(params.ornamentSetCount);
+    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
 
     // Calculate relic index per slot
 
@@ -110,11 +110,21 @@ fn main(
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
 
+
+    // START SET FILTERS
+    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    /* INJECT SET FILTERS */
+    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+    // END SET FILTERS
+
+
+
     // START COMPUTED STATS
     // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
     /* INJECT COMPUTED STATS */
     // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     // END COMPUTED STATS
+
 
 
     // Calculate relic set counts
@@ -160,12 +170,6 @@ fn main(
     x.sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
     x.sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
     x.sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
-
-    // START SET FILTERS
-    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    /* INJECT SET FILTERS */
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    // END SET FILTERS
 
     var c: BasicStats = BasicStats();
     var state: ConditionalState = ConditionalState();

@@ -76,7 +76,7 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
   const filter = filterFn(request)
 
-  const sortString = sortOptionComputed ? `x.${sortOption} + epsilon < threshold` : `c.${sortOption} + epsilon < threshold`
+  const sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
 
   const basicFilters = [
     filter('c.SPD < minSpd'),
@@ -160,7 +160,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.BREAK_DMG > maxBreak'),
     filter('x.COMBO_DMG < minCombo'),
     filter('x.COMBO_DMG > maxCombo'),
-    filter(`x.${sortOption} + epsilon < threshold`),
+    filter(`x.${sortOption} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT

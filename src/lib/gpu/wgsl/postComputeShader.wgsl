@@ -31,8 +31,9 @@ fn main(
   }
 
   var hasTotalResult = 0;
-  for (var i: u32 = 0; i < 256 * 256 * 512; i += 256 * 512) {
-    if (results[i] != -1024) {
+  for (var i: u32 = 0; i < 256; i += 1) {
+    let index = i * 512 * 256;
+    if (results[index] != -1024) {
       hasTotalResult = 1;
       break;
     }

@@ -9,16 +9,18 @@ import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { SortOption } from 'lib/optimizer/sortOptions'
 import { setSortColumn } from 'components/optimizerTab/optimizerForm/RecommendedPresetsButton'
 import { Message } from 'lib/message'
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants'
 
 export async function gpuOptimize(props: {
   params: OptimizerParams
   request: Form
   relics: RelicsByPart
   permutations: number
+  computeEngine: string
   relicSetSolutions: number[]
   ornamentSetSolutions: number[]
 }) {
-  const { params, request, relics, permutations, relicSetSolutions, ornamentSetSolutions } = props
+  const { params, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
   const device = await getDevice()
   if (device == null) {
@@ -41,6 +43,7 @@ export async function gpuOptimize(props: {
     request,
     params,
     permutations,
+    computeEngine,
     relicSetSolutions,
     ornamentSetSolutions,
   )
@@ -57,17 +60,21 @@ export async function gpuOptimize(props: {
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
-    await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
-    const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
-    gpuReadBuffer.unmap()
+    if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
+      await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+      const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
+      gpuReadBuffer.unmap()
 
-    if (firstElement == -2304) {
-      // Skip
-    } else if (firstElement <= -2048) {
-      const workgroupsSkipped = -(firstElement + 2048)
-      const elementOffset = workgroupsSkipped * 512 * 256
+      if (firstElement == -2304) {
+        // Skip
+      } else if (firstElement <= -2048) {
+        const workgroupsSkipped = -(firstElement + 2048)
+        const elementOffset = workgroupsSkipped * 512 * 256
 
-      await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+        await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
+      } else {
+        await readBuffer(offset, gpuReadBuffer, gpuContext)
+      }
     } else {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }

@@ -1,4 +1,4 @@
-import { Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, MAX_RESULTS, Stats } from 'lib/constants.ts'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Utils } from 'lib/utils'
 import DB from 'lib/db'
@@ -15,6 +15,7 @@ import { setSortColumn } from 'components/optimizerTab/optimizerForm/Recommended
 import { Message } from 'lib/message'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { getDevice } from 'lib/gpu/webgpuInternals'
+import { SavedSessionKeys } from 'lib/constantsSession'
 
 let CANCEL = false
 
@@ -136,18 +137,18 @@ export const Optimizer = {
 
     const clonedParams = Utils.clone(params) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
-    const gpuDevice = await getDevice()
-    if (gpuDevice == null && request.gpuAcceleration == true) {
-      if (window.store.getState().gpuAccelerationWarned == false) {
-        Message.warning(`GPU acceleration is not available on this browser - only Chrome and Opera are supported. If you're on a supported browser, report a bug to the Discord server`, 15)
-        window.store.getState().setGpuAccelerationWarned(true)
-      }
-    }
-    const gpuAccelerationEnabled = request.gpuAcceleration && gpuDevice != null
+    let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
-    if (!gpuAccelerationEnabled) {
+    const gpuDevice = await getDevice()
+    if (gpuDevice == null && computeEngine != COMPUTE_ENGINE_CPU) {
+      Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`, 15)
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      computeEngine = COMPUTE_ENGINE_CPU
+    }
+
+    if (computeEngine == COMPUTE_ENGINE_CPU) {
       // Generate runs
-      const runs = []
+      const runs: { skip: number; runSize: number }[] = []
       for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
         runSize = Math.min(maxSize, runSize + increment)
         runs.push({
@@ -220,6 +221,7 @@ export const Optimizer = {
         request: request,
         relics: relics,
         permutations: permutations,
+        computeEngine: computeEngine,
         relicSetSolutions: relicSetSolutions,
         ornamentSetSolutions: ornamentSetSolutions,
       })

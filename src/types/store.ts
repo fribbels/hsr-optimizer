@@ -1,6 +1,7 @@
 import { Character, CharacterId } from './Character'
 import { Relic } from './Relic'
 import { LightCone } from './LightCone'
+import { StringToStringMap } from 'types/Common'
 
 type PermutationDetails = {
   Head: number
@@ -66,6 +67,7 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
+  setSavedSessionKey: (key: string, value: string) => void
 
   permutationDetails: PermutationDetails
 
@@ -74,5 +76,5 @@ export type HsrOptimizerStore = {
 
   optimizerMenuState: Record<string, boolean>
 
-  savedSession: unknown
+  savedSession: StringToStringMap
 }

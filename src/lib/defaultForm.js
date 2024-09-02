@@ -57,7 +57,6 @@ export function getDefaultForm(initialCharacter) {
     rankFilter: true,
     includeEquippedRelics: true,
     keepCurrentRelics: false,
-    gpuAcceleration: true,
     enhance: 9,
     grade: 5,
     mainHead: [],

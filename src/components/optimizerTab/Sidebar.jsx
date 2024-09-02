@@ -6,27 +6,59 @@ import { TooltipImage } from '../TooltipImage'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { Hint } from 'lib/hint'
 import PropTypes from 'prop-types'
-import { ThunderboltFilled } from '@ant-design/icons'
+import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Optimizer } from 'lib/optimizer/optimizer.ts'
 import { defaultPadding } from 'components/optimizerTab/optimizerTabConstants'
 import { SettingOptions } from 'components/SettingsDrawer'
 import DB from 'lib/db'
 import { Utils } from 'lib/utils'
+import { SavedSessionKeys } from 'lib/constantsSession'
+import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE } from 'lib/constants'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
+const computeEngineToDisplay = {
+  [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+  [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+  [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+}
+
 const gpuOptions = [
   {
     label: (
       <div style={{ width: '100%' }}>
-        GPU acceleration: ON
+        Default: GPU acceleration enabled (experimental)
       </div>
     ),
-    key: '1',
+    key: COMPUTE_ENGINE_GPU_EXPERIMENTAL,
   },
+  {
+    label: (
+      <div style={{ width: '100%' }}>
+        GPU acceleration enabled (stable)
+      </div>
+    ),
+    key: COMPUTE_ENGINE_GPU_STABLE,
+  },
+  {
+    label: (
+      <div style={{ width: '100%' }}>
+        CPU only
+      </div>
+    ),
+    key: COMPUTE_ENGINE_CPU,
+  },
+  // {
+  //   label: (
+  //     <div style={{ width: '100%' }}>
+  //       More information
+  //     </div>
+  //   ),
+  //   key: MORE_INFO,
+  // },
 ]
 
 function PermutationDisplay(props) {
@@ -75,6 +107,33 @@ export default function Sidebar() {
   return renderSidebarAtBreakpoint()
 }
 
+function ComputeEngineSelect() {
+  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  return (
+    <Dropdown
+      menu={{
+        items: gpuOptions,
+        onClick: (e) => {
+          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
+          Message.success(`Set compute engine to [${e.key}]`)
+        },
+      }}
+      style={{ width: '100%', flex: 1 }}
+      className='custom-dropdown-button'
+    >
+      <Button style={{ padding: 3 }}>
+        <Flex justify='space-around' align='center' style={{ width: '100%' }}>
+          <div style={{ width: 1 }}/>
+          <Text>
+            {computeEngineToDisplay[computeEngine]}
+          </Text>
+          <DownOutlined/>
+        </Flex>
+      </Button>
+    </Dropdown>
+  )
+}
+
 function addToPinned() {
   const currentPinned = window.optimizerGrid.current.api.getGridOption('pinnedTopRowData')
   const selectedNodes = window.optimizerGrid.current.api.getSelectedNodes()
@@ -115,6 +174,8 @@ function SidebarContent() {
   const optimizerStartTime = window.store((s) => s.optimizerStartTime)
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
 
+  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+
   const [startTime, setStartTime] = useState(undefined)
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
@@ -138,7 +199,10 @@ function SidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
+    const computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+    if (permutations < 1000000000
+      || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
+      || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
       startOptimizer()
     } else {
       setManyPermsModalOpen(true)
@@ -204,13 +268,7 @@ function SidebarContent() {
                   </Button>
                 </Flex>
 
-                <Dropdown.Button
-                  menu={{ items: gpuOptions }}
-                  style={{ width: '100%', flex: 1 }}
-                  className='custom-dropdown-button'
-                >
-                  GPU acceleration: ON
-                </Dropdown.Button>
+                <ComputeEngineSelect/>
 
                 <Flex gap={defaultGap}>
                   <Button onClick={cancelClicked} style={{ flex: 1 }}>
@@ -322,7 +380,10 @@ function MobileSidebarContent() {
   }
 
   function startClicked() {
-    if (permutations < 1000000000 || window.optimizerForm.getFieldValue('gpuAcceleration')) {
+    const computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+    if (permutations < 1000000000
+      || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
+      || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
       startOptimizer()
     } else {
       setManyPermsModalOpen(true)
@@ -389,15 +450,7 @@ function MobileSidebarContent() {
             </Radio>
           </Radio.Group>
           <Flex vertical>
-            <HeaderText>
-              {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress)}
-            </HeaderText>
-            <Progress
-              strokeColor={token.colorPrimary}
-              steps={17}
-              size={[8, 5]}
-              percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-            />
+            <ComputeEngineSelect/>
           </Flex>
         </Flex>
         {/* Controls Column */}

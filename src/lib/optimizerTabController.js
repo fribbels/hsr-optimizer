@@ -378,10 +378,6 @@ export const OptimizerTabController = {
       newForm.enemyMaxToughness = enemyOptions.enemyMaxToughness
     }
 
-    if (form.gpuAcceleration == null) {
-      newForm.gpuAcceleration = true
-    }
-
     if (newForm.characterId) {
       const defaultOptions = CharacterConditionals.get(newForm).defaults()
       if (!newForm.characterConditionals) {

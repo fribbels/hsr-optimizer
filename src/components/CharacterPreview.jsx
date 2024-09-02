@@ -658,6 +658,16 @@ export function CharacterPreview(props) {
                       filter: filter,
                       position: 'relative',
                     }}
+                    onClick={() => {
+                      if (isScorer) {
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      } else {
+                        setCharacterModalAdd(false)
+                        setOriginalCharacterModalInitialCharacter(character)
+                        setOriginalCharacterModalOpen(true)
+                      }
+                    }}
                   >
                     <LoadingBlurredImage
                       src={lightConeSrc}
@@ -802,14 +812,25 @@ export function CharacterPreview(props) {
                           {`Lv${lightConeLevel} S${lightConeSuperimposition}`}
                         </StatText>
                       </Flex>
-                      <div style={{
-                        width: `${tempLcParentW}px`,
-                        height: `${tempLcParentH}px`,
-                        overflow: 'hidden',
-                        borderRadius: '8px',
-                        outline: outline,
-                        filter: filter,
-                      }}
+                      <div
+                        style={{
+                          width: `${tempLcParentW}px`,
+                          height: `${tempLcParentH}px`,
+                          overflow: 'hidden',
+                          borderRadius: '8px',
+                          outline: outline,
+                          filter: filter,
+                        }}
+                        onClick={() => {
+                          if (isScorer) {
+                            setOriginalCharacterModalInitialCharacter(character)
+                            setOriginalCharacterModalOpen(true)
+                          } else {
+                            setCharacterModalAdd(false)
+                            setOriginalCharacterModalInitialCharacter(character)
+                            setOriginalCharacterModalOpen(true)
+                          }
+                        }}
                       >
                         <LoadingBlurredImage
                           src={lightConeSrc}

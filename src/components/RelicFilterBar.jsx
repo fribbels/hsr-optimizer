@@ -16,6 +16,7 @@ import CharacterSelect from 'components/optimizerTab/optimizerForm/CharacterSele
 import { ClearOutlined } from '@ant-design/icons'
 import { UnreleasedSets } from 'lib/dataParser'
 import { SaveState } from 'lib/saveState'
+import { SettingOptions } from 'components/SettingsDrawer'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -146,7 +147,9 @@ export default function RelicFilterBar(props) {
   // are warned about, we genuinely only want to do this on first component render (updates
   // will correctly re-trigger it)
   useEffect(() => {
-    characterSelectorChange(currentlySelectedCharacterId)
+    if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
+      characterSelectorChange(currentlySelectedCharacterId)
+    }
   }, [])
 
   function characterSelectorChange(id, singleRelic) {

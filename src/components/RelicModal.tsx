@@ -414,7 +414,12 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
 
     return (
       <Flex style={{ width: '100%' }}>
-        <Button type={hovered ? 'default' : 'dashed'} style={{ width: '100%', padding: 0 }} onClick={() => upgradeClicked(subProps.quality)} disabled={value == undefined} tabIndex={-1}>
+        <Button
+          type={hovered ? 'default' : 'dashed'}
+          style={{ width: '100%', padding: 0 }}
+          onClick={() => upgradeClicked(subProps.quality)}
+          disabled={value == undefined} tabIndex={-1}
+        >
           {value || ''}
         </Button>
       </Flex>
@@ -429,7 +434,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
             showSearch
             allowClear
             style={{
-              width: 200,
+              width: 210,
             }}
             placeholder='Substat'
             maxTagCount='responsive'
@@ -449,7 +454,7 @@ function SubstatInput(props: { index: number; upgrades: RelicUpgradeValues[]; re
           <Input
             ref={inputRef}
             onFocus={handleFocus}
-            style={{ width: 60 }}
+            style={{ width: 80 }}
             onChange={props.resetUpgradeValues}
             tabIndex={0}
           />

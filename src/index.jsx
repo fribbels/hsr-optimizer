@@ -1,29 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
-import './style/style.css'
-import './style/hsro.css'
+import 'style/style.css'
+import 'style/hsro.css'
 import App from './App'
 
-import { WorkerPool } from './lib/workerPool'
-import { Constants } from './lib/constants.ts'
-import { DataParser } from './lib/dataParser'
-import { DB } from './lib/db'
-import { CharacterStats } from './lib/characterStats'
-import { Assets } from './lib/assets'
-import { RelicAugmenter } from './lib/relicAugmenter'
-import { StatCalculator } from './lib/statCalculator'
-import { Gradient } from './lib/gradient'
-import { SaveState } from './lib/saveState'
-import { RelicFilters } from './lib/relicFilters'
-import { Renderer } from './lib/renderer'
-import { Message } from './lib/message'
-import { Hint } from './lib/hint'
-import { CharacterConverter } from './lib/characterConverter'
-import { RelicScorer } from './lib/relicScorerPotential'
-import { BufferPacker } from './lib/bufferPacker'
+import { WorkerPool } from 'lib/workerPool'
+import { Constants } from 'lib/constants'
+import { DataParser } from 'lib/dataParser'
+import { DB } from 'lib/db'
+import { CharacterStats } from 'lib/characterStats'
+import { Assets } from 'lib/assets'
+import { RelicAugmenter } from 'lib/relicAugmenter'
+import { StatCalculator } from 'lib/statCalculator'
+import { Gradient } from 'lib/gradient'
+import { SaveState } from 'lib/saveState'
+import { RelicFilters } from 'lib/relicFilters'
+import { Renderer } from 'lib/renderer'
+import { Message } from 'lib/message'
+import { Hint } from 'lib/hint'
+import { CharacterConverter } from 'lib/characterConverter'
+import { RelicScorer } from 'lib/relicScorerPotential'
+import { BufferPacker } from 'lib/bufferPacker'
 import { Typography } from 'antd'
-import { RelicRollFixer } from './lib/relicRollFixer'
+import { RelicRollFixer } from 'lib/relicRollFixer'
 import { Themes } from 'lib/theme'
 
 window.WorkerPool = WorkerPool
@@ -49,7 +49,7 @@ window.officialOnly = false
 window.colorTheme = Themes.BLUE
 
 DataParser.parse(window.officialOnly)
-SaveState.load()
+SaveState.load(false)
 
 const defaultErrorRender = ({ error }) => <Typography>Something went wrong: {error.message}</Typography>
 

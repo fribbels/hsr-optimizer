@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import objectHash from 'object-hash'
 import { OptimizerTabController } from 'lib/optimizerTabController'
 import { RelicAugmenter } from 'lib/relicAugmenter'
 import { Constants, CURRENT_OPTIMIZER_VERSION, DAMAGE_UPGRADES, DEFAULT_STAT_DISPLAY, RelicSetFilterOptions, Sets, SIMULATION_SCORE } from 'lib/constants.ts'
@@ -105,6 +104,7 @@ window.store = create((set) => ({
   relicScorerSidebarOpen: true,
   gpuAccelerationWarned: false,
   optimizerStartTime: null,
+  optimizerEndTime: null,
 
   optimizerFormCharacterEidolon: 0,
   optimizerFormSelectedLightCone: null,
@@ -191,6 +191,7 @@ window.store = create((set) => ({
   setOptimizationId: (x) => set(() => ({ optimizationId: x })),
   setGpuAccelerationWarned: (x) => set(() => ({ gpuAccelerationWarned: x })),
   setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
   setTeammateCount: (x) => set(() => ({ teammateCount: x })),
   setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
@@ -357,7 +358,7 @@ export const DB = {
     }, 2000)
   },
 
-  setStore: (x) => {
+  setStore: (x, autosave = true) => {
     const charactersById = {}
     const dbCharacters = DB.getMetadata().characters
     const dbLightCones = DB.getMetadata().lightCones
@@ -470,7 +471,10 @@ export const DB = {
 
     DB.refreshCharacters()
     DB.refreshRelics()
-    SaveState.save()
+
+    if (autosave) {
+      SaveState.save()
+    }
   },
   resetStore: () => {
     DB.setStore({
@@ -981,7 +985,8 @@ function hashRelic(relic) {
     substatValues: substatValues, // Match to 1 decimal point
     substatStats: substatStats,
   }
-  return objectHash(hashObject)
+
+  return Utils.objectHash(hashObject)
 }
 
 // -1: old > new, 0: old == new, 1, new > old
@@ -1011,7 +1016,7 @@ function partialHashRelic(relic) {
     mainstat: relic.main.stat,
   }
 
-  return objectHash(hashObject)
+  return Utils.objectHash(hashObject)
 }
 
 /**

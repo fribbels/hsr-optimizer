@@ -57,26 +57,18 @@ export async function gpuOptimize(props: {
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
-    /////////////////////////////////////////////////////////////////////////////////
     await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
     const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
-    // console.log(firstElement)
     gpuReadBuffer.unmap()
-    if (firstElement == -2304) {
-      // no-op
-    } else if (firstElement <= -2048) {
-      gpuReadBuffer.unmap()
 
+    if (firstElement == -2304) {
+      // Skip
+    } else if (firstElement <= -2048) {
       const workgroupsSkipped = -(firstElement + 2048)
       const elementOffset = workgroupsSkipped * 512 * 256
 
-      await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset * 4)
-
       void readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
-      /////////////////////////////////////////////////////////////////////////////////
     } else {
-      await gpuReadBuffer.mapAsync(GPUMapMode.READ)
-
       void readBuffer(offset, gpuReadBuffer, gpuContext)
     }
 
@@ -100,10 +92,12 @@ export async function gpuOptimize(props: {
 
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
+  await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset * 4)
+
   const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
+  const array = new Float32Array(arrayBuffer)
 
   const resultsQueue = gpuContext.resultsQueue
-  const array = new Float32Array(arrayBuffer)
   let top = resultsQueue.top()?.value ?? 0
 
   let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
